@@ -1,17 +1,21 @@
-﻿using Microsoft.UI.Xaml;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao;
+
 /// <summary>
-/// An empty window that can be used on its own or navigated to within a Frame.
+/// 主窗体
 /// </summary>
 public sealed partial class MainWindow : Window
 {
+    /// <summary>
+    /// 构造一个新的主窗体
+    /// </summary>
     public MainWindow()
     {
-        this.InitializeComponent();
+        InitializeComponent();
         ExtendsContentIntoTitleBar = true;
     }
 }
