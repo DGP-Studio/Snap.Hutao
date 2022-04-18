@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Snap.Hutao (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Snap.Hutao (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

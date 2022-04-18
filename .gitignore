@@ -1,0 +1,8 @@
+
+*.csproj.user
+*.pubxml
+
+.vs/
+
+src/Snap.Hutao/Snap.Hutao/bin/
+src/Snap.Hutao/Snap.Hutao/obj/
