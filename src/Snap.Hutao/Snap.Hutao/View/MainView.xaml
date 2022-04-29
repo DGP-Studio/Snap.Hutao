@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <NavigationView>
+        <NavigationView OpenPaneLength="240" IsTitleBarAutoPaddingEnabled="False" Margin="0,32,0,0">
             
         </NavigationView>
     </Grid>
