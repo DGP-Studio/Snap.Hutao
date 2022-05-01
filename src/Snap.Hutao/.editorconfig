@@ -79,6 +79,18 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 dotnet_diagnostic.SA1629.severity = silent
 dotnet_diagnostic.SA1642.severity = silent
 
+# SA1208: System using directives should be placed before other using directives
+dotnet_diagnostic.SA1208.severity = none
+
+# SA1404: Code analysis suppression should have justification
+dotnet_diagnostic.SA1404.severity = none
+
+# SA1623: Property summary documentation should match accessors
+dotnet_diagnostic.SA1623.severity = none
+
+# SA1636: File header copyright text should match
+dotnet_diagnostic.SA1636.severity = none
+
 [*.vb]
 #### 命名样式 ####
 

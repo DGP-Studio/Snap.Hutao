@@ -7,5 +7,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:view="using:Snap.Hutao.View"
     mc:Ignorable="d">
-    <view:MainView/>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="28"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid
+            x:Name="TitleBarGrid"
+            Background="Transparent"/>
+
+        <view:MainView
+            Grid.Row="1"/>
+    </Grid>
 </Window>

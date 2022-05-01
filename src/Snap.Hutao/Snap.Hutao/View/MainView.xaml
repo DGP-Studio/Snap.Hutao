@@ -6,10 +6,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
     <Grid>
-        <NavigationView OpenPaneLength="240" IsTitleBarAutoPaddingEnabled="False" Margin="0,32,0,0">
-            
+        <NavigationView
+            x:Name="NavView"
+            OpenPaneLength="172"
+            Margin="0,0,0,0"
+            CompactModeThresholdWidth="360"
+            ExpandedModeThresholdWidth="720">
+            <Frame
+                x:Name="ContentFrame">
+                <Frame.ContentTransitions>
+                    <NavigationThemeTransition>
+                        <DrillInNavigationTransitionInfo/>
+                    </NavigationThemeTransition>
+                </Frame.ContentTransitions>
+            </Frame>
         </NavigationView>
     </Grid>
 </UserControl>

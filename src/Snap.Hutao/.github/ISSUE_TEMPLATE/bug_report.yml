@@ -1,0 +1,62 @@
+name: 问题反馈
+description: 告诉我们你的问题
+title: "[Bug]: 取一个合适的标题"
+labels: ["BUG"]
+assignees:
+  - Lightczx
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请按下方的要求填写完整的问题表单，以便我们更快的定位问题。
+
+  - type: input
+    id: winver
+    attributes:
+      label: Windows 版本
+      description: | 
+        `Win+R` 输入 `winver` 回车后在打开的窗口第二行可以找到
+      placeholder: 例：22000.556
+    validations:
+      required: true
+   
+  - type: input
+    id: shver
+    attributes:
+      label: Snap Hutao 版本
+      description: 在应用程序的设置界面中靠下的位置可以找到
+      placeholder: 例：2022.3.23.1
+    validations:
+      required: true   
+     
+  - type: input
+    id: shuuid
+    attributes:
+      label: Snap Hutao 用户设备ID
+      description: 在应用程序的设置界面中靠下的位置可以找到，并可以通过右侧按钮复制
+      placeholder: 此ID不包含敏感信息，可以放心填写
+    validations:
+      required: true   
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么？
+      description: 详细的描述问题发生前后的行为，以便我们解决问题
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-expected
+    attributes:
+      label: 你期望发生的行为？
+      description: 详细的描述你期望发生的行为，突出与目前（可能不正确的）行为的不同
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 相关的崩溃日志
+      description: 如果应用程序崩溃了，可以将崩溃日志复制后粘贴在此处
+      render: shell

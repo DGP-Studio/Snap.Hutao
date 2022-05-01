@@ -1,0 +1,43 @@
+﻿<Page
+    x:Class="Snap.Hutao.View.Page.SettingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Snap.Hutao.View.Page"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:SettingsUI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style TargetType="Expander">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+    </Page.Resources>
+    <ScrollViewer>
+        <StackPanel
+            Margin="32,0,24,0">
+            
+            <controls:SettingsGroup
+                Header="关于 胡桃">
+                <controls:SettingExpander>
+                    <controls:SettingExpander.Header>
+                        <controls:Setting
+                            Icon="&#xE117;"
+                            Header="检查更新"
+                            Description="根本没有检查更新选项">
+
+                        </controls:Setting>
+                    </controls:SettingExpander.Header>
+                    <InfoBar
+                        IsClosable="False"
+                        Severity="Informational"
+                        Message="都说了没有了"
+                        IsOpen="True"
+                        CornerRadius="0,0,4,4"/>
+                </controls:SettingExpander>
+            </controls:SettingsGroup>
+            
+        </StackPanel>
+    </ScrollViewer>
+</Page>

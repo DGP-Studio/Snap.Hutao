@@ -1,15 +1,19 @@
 ﻿<Application
     x:Class="Snap.Hutao.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Snap.Hutao">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <!-- Other merged dictionaries here -->
+                <ResourceDictionary Source="ms-appx:///SettingsUI/Themes/SettingsUI.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
             <!-- Other app resources here -->
+            <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="WindowCaptionForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
+            <StaticResource x:Key="WindowCaptionForegroundDisabled" ResourceKey="SystemControlForegroundBaseHighBrush" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

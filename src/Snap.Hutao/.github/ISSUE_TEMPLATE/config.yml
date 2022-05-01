@@ -1,0 +1,9 @@
+
+blank_issues_enabled: false
+contact_links:
+  - name: 问题与操作指南文档
+    url: https://www.snapgenshin.com/documents/
+    about: 在发起 Issue 前 请查阅此文档确认文档中尚未包含你的问题的解决方案
+  - name: 功能建议
+    url: https://github.com/DGP-Studio/Snap.Genshin/discussions
+    about: Issues 仅用于反馈与追踪 Bug

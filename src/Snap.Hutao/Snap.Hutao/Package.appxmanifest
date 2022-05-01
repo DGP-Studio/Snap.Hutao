@@ -8,7 +8,7 @@
 
   <Identity
     Name="7f0db578-026f-4e0b-a75b-d5d06bb0a74d"
-    Publisher="CN=16861"
+    Publisher="CN=DGP Studio"
     Version="1.0.0.0" />
 
   <Properties>
@@ -25,7 +25,7 @@
   <Resources>
     <Resource Language="x-generate"/>
   </Resources>
-
+  
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"

@@ -8,6 +8,7 @@ namespace Snap.Hutao;
 /// <summary>
 /// 主窗体
 /// </summary>
+[Injection(InjectAs.Transient)]
 public sealed partial class MainWindow : Window
 {
     /// <summary>
@@ -17,5 +18,6 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
+        SetTitleBar(TitleBarGrid);
     }
 }
