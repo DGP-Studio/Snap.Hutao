@@ -12,15 +12,19 @@ namespace Snap.Hutao.View;
 public sealed partial class MainView : UserControl
 {
     private readonly INavigationService navigationService;
+    private readonly IInfoBarService infoBarService;
 
     /// <summary>
     /// 构造一个新的主视图
     /// </summary>
     public MainView()
     {
-        this.InitializeComponent();
+        InitializeComponent();
 
         navigationService = Ioc.Default.GetRequiredService<INavigationService>();
         navigationService.Initialize(NavView, ContentFrame);
+
+        infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        infoBarService.Initialize(InfoBarStack);
     }
 }

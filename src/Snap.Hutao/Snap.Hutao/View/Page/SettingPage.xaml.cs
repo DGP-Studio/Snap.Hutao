@@ -13,6 +13,6 @@ public sealed partial class SettingPage : Microsoft.UI.Xaml.Controls.Page
     /// </summary>
     public SettingPage()
     {
-        this.InitializeComponent();
+        InitializeComponent();
     }
 }

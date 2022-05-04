@@ -1,0 +1,229 @@
+﻿<shcc:CancellablePage
+    x:Class="Snap.Hutao.View.Page.AnnouncementPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cwui="using:CommunityToolkit.WinUI.UI"
+    xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:cwub="using:CommunityToolkit.WinUI.UI.Behaviors"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shcc="using:Snap.Hutao.Control.Cancellable"
+    xmlns:shvc="using:Snap.Hutao.View.Converter"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <mxi:Interaction.Behaviors>
+        <mxic:EventTriggerBehavior EventName="Loaded">
+            <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
+        </mxic:EventTriggerBehavior>
+    </mxi:Interaction.Behaviors>
+    <shcc:CancellablePage.Resources>
+        <shvc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+    </shcc:CancellablePage.Resources>
+    <Grid>
+        <ScrollViewer 
+            Padding="0,0,4,0"
+            Visibility="{Binding OpeningUI.IsWorking,Converter={StaticResource BoolToVisibilityRevertConverter}}">
+            <StackPanel>
+                <ItemsControl
+                    HorizontalAlignment="Stretch"
+                    ItemsSource="{Binding Announcement.List}" 
+                    Padding="0"
+                    Margin="12,12,0,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock
+                                    Text="{Binding TypeLabel}"
+                                    Margin="0,0,0,12"
+                                    Style="{StaticResource TitleTextBlockStyle}"/>
+                                <cwuc:AdaptiveGridView
+                                    cwua:ItemsReorderAnimation.Duration="0:0:0.06"
+                                    SelectionMode="None"
+                                    DesiredWidth="320"
+                                    HorizontalAlignment="Stretch"
+                                    ItemsSource="{Binding List}" 
+                                    Margin="0,0,0,0">
+                                    <cwuc:AdaptiveGridView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                            <Setter Property="Margin" Value="0,0,12,12"/>
+                                        </Style>
+                                    </cwuc:AdaptiveGridView.ItemContainerStyle>
+                                    <cwuc:AdaptiveGridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border
+                                                CornerRadius="{StaticResource CompatCornerRadius}" 
+                                                Background="{StaticResource SystemControlPageBackgroundAltHighBrush}"
+                                                cwui:UIElementExtensions.ClipToBounds="True">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <!--Image Layer-->
+                                                    <Border
+                                                        cwui:UIElementExtensions.ClipToBounds="True">
+                                                        <Border
+                                                            VerticalAlignment="Top"
+                                                            cwui:VisualExtensions.NormalizedCenterPoint="0.5">
+                                                            <mxi:Interaction.Behaviors>
+                                                                <shcb:AutoHeightBehavior TargetWidth="1080" TargetHeight="390"/>
+                                                            </mxi:Interaction.Behaviors>
+                                                            <Border.Background>
+                                                                <ImageBrush
+                                                                    ImageSource="{Binding Banner}"
+                                                                    Stretch="UniformToFill"/>
+                                                            </Border.Background>
+                                                            <cwua:Explicit.Animations>
+                                                                <cwua:AnimationSet x:Name="ImageZoomInAnimation">
+                                                                    <cwua:ScaleAnimation
+                                                                        EasingMode="EaseOut"
+                                                                        EasingType="Circle"
+                                                                        To="1.1"
+                                                                        Duration="0:0:0.5"/>
+                                                                </cwua:AnimationSet>
+                                                                <cwua:AnimationSet x:Name="ImageZoomOutAnimation">
+                                                                    <cwua:ScaleAnimation
+                                                                        EasingMode="EaseOut"
+                                                                        EasingType="Circle"
+                                                                        To="1"
+                                                                        Duration="0:0:0.5"/>
+                                                                </cwua:AnimationSet>
+                                                            </cwua:Explicit.Animations>
+                                                        </Border>
+                                                    </Border>
+                                                    <!--Time Description-->
+                                                    <Grid Grid.Row="0">
+                                                        <Border
+                                                            Height="24"
+                                                            HorizontalAlignment="Stretch"
+                                                            VerticalAlignment="Bottom"
+                                                            Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                            <Border.Background>
+                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                    <GradientStop Color="#00000000"/>
+                                                                    <GradientStop Offset="1" Color="#A0000000"/>
+                                                                </LinearGradientBrush>
+                                                            </Border.Background>
+                                                            <ProgressBar
+                                                                Height="1"
+                                                                MinHeight="1"
+                                                                Value="{Binding TimePercent,Mode=OneWay}"
+                                                                CornerRadius="0"
+                                                                Maximum="1"
+                                                                VerticalAlignment="Bottom"
+                                                                Background="Transparent"/>
+                                                        </Border>
+                                                        <Border
+                                                            Padding="8,4" 
+                                                            Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                            <TextBlock
+                                                                Opacity="0.6"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Bottom"
+                                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                                Text="{Binding TimeDescription}" />
+                                                        </Border>
+                                                    </Grid>
+                                                    <!--General Description-->
+                                                    <Border
+                                                        Grid.Row="1"
+                                                        CornerRadius="{StaticResource CompatCornerRadiusBottom}">
+                                                        <StackPanel Margin="4" VerticalAlignment="Bottom">
+                                                            <Grid Margin="4,6,0,0" HorizontalAlignment="Stretch">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+
+                                                                <TextBlock
+                                                                    Text="{Binding Subtitle}"
+                                                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                                                    TextWrapping="NoWrap"
+                                                                    TextTrimming="WordEllipsis"/>
+                                                                
+                                                                <Button
+                                                                    x:Name="OpenAnnouncementButton"
+                                                                    Content="&#xE8A7;" 
+                                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                                    HorizontalAlignment="Right"
+                                                                    VerticalAlignment="Stretch" 
+                                                                    Grid.Column="1"
+                                                                    Background="Transparent"
+                                                                    BorderThickness="0"
+                                                                    BorderBrush="{x:Null}"
+                                                                    Visibility="Collapsed"
+                                                                    Command="{Binding OpenAnnouncementUICommand}"
+                                                                    CommandParameter="{Binding Content}"/>
+                                                            </Grid>
+                                                            
+                                                            <TextBlock
+                                                                Text="{Binding Title}"
+                                                                Style="{StaticResource BodyTextBlockStyle}" 
+                                                                TextWrapping="NoWrap"
+                                                                TextTrimming="WordEllipsis"
+                                                                Margin="4,6,0,0"
+                                                                Opacity="0.6"/>
+                                                            
+                                                            <TextBlock
+                                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                                FontSize="10"
+                                                                Opacity="0.4"
+                                                                Margin="4,4,0,4"
+                                                                Text="{Binding TimeFormatted}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Grid>
+                                                <Border.Resources>
+                                                    <Storyboard x:Name="OpenAnnouncementButtonVisibleStoryboard">
+                                                        <ObjectAnimationUsingKeyFrames
+                                                            Storyboard.TargetName="OpenAnnouncementButton"
+                                                            Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                <DiscreteObjectKeyFrame.Value>
+                                                                    <Visibility>Visible</Visibility>
+                                                                </DiscreteObjectKeyFrame.Value>
+                                                            </DiscreteObjectKeyFrame>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+
+                                                    <Storyboard x:Name="OpenAnnouncementButtonCollapsedStoryboard">
+                                                        <ObjectAnimationUsingKeyFrames
+                                                            Storyboard.TargetName="OpenAnnouncementButton"
+                                                            Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                <DiscreteObjectKeyFrame.Value>
+                                                                    <Visibility>Collapsed</Visibility>
+                                                                </DiscreteObjectKeyFrame.Value>
+                                                            </DiscreteObjectKeyFrame>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </Border.Resources>
+                                                <mxi:Interaction.Behaviors>
+                                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                        <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}" />
+                                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource OpenAnnouncementButtonVisibleStoryboard}"/>
+                                                    </mxic:EventTriggerBehavior>
+                                                    <mxic:EventTriggerBehavior EventName="PointerExited">
+                                                        <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}" />
+                                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource OpenAnnouncementButtonCollapsedStoryboard}"/>
+                                                    </mxic:EventTriggerBehavior>
+                                                </mxi:Interaction.Behaviors>
+                                            </Border>
+                                        </DataTemplate>
+                                    </cwuc:AdaptiveGridView.ItemTemplate>
+                                </cwuc:AdaptiveGridView>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</shcc:CancellablePage>

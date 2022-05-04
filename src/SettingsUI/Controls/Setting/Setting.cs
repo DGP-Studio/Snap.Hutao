@@ -17,9 +17,9 @@ public class Setting : ContentControl
 {
     private const string PartIconPresenter = "IconPresenter";
     private const string PartDescriptionPresenter = "DescriptionPresenter";
-    private ContentPresenter _iconPresenter;
-    private ContentPresenter _descriptionPresenter;
-    private Setting _setting;
+    private ContentPresenter? _iconPresenter;
+    private ContentPresenter? _descriptionPresenter;
+    private Setting? _setting;
 
     public Setting()
     {
@@ -146,11 +146,11 @@ public class Setting : ContentControl
 
         if (_setting.Description == null)
         {
-            _setting._descriptionPresenter.Visibility = Visibility.Collapsed;
+            _setting._descriptionPresenter!.Visibility = Visibility.Collapsed;
         }
         else
         {
-            _setting._descriptionPresenter.Visibility = Visibility.Visible;
+            _setting._descriptionPresenter!.Visibility = Visibility.Visible;
         }
     }
 }

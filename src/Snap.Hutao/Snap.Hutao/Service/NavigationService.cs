@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.AppCenter.Analytics;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
@@ -16,7 +15,7 @@ namespace Snap.Hutao.Service;
 /// <summary>
 /// 导航服务
 /// </summary>
-[Injection(InjectAs.Transient, typeof(INavigationService))]
+[Injection(InjectAs.Singleton, typeof(INavigationService))]
 internal class NavigationService : INavigationService
 {
     private readonly ILogger<INavigationService> logger;
@@ -120,7 +119,7 @@ internal class NavigationService : INavigationService
         }
 
         // 首次导航失败时使属性持续保存为false
-        HasEverNavigated |= result;
+        HasEverNavigated = HasEverNavigated || result;
         return result;
     }
 
