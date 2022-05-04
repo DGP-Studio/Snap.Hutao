@@ -19,7 +19,7 @@ internal static class Property<TOwner>
     /// <returns>注册的依赖属性</returns>
     public static DependencyProperty Depend<TProperty>(string name)
     {
-        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(default(TProperty)));
+        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(null));
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ internal static class Property<TOwner>
     /// <returns>注册的附加属性</returns>
     public static DependencyProperty Attach<TProperty>(string name)
     {
-        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(default(TProperty)));
+        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(null));
     }
 
     /// <summary>

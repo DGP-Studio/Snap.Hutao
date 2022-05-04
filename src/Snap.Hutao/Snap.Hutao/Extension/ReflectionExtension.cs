@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using System.Reflection;
 
 namespace Snap.Hutao.Extension;
 

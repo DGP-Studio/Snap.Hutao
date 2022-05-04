@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core;
+using Snap.Hutao.Web.Request;
 
 namespace Snap.Hutao;
 
@@ -23,12 +24,7 @@ public partial class App : Application
         // load app resource
         InitializeComponent();
 
-        // prepare DI
-        Ioc.Default.ConfigureServices(new ServiceCollection()
-            .AddLogging(builder => builder.AddDebug())
-            .AddHttpClient()
-            .AddInjections(typeof(App))
-            .BuildServiceProvider());
+        InitializeDependencyInjection();
     }
 
     /// <summary>
@@ -40,5 +36,33 @@ public partial class App : Application
     {
         mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
         mainWindow.Activate();
+    }
+
+    private static void InitializeDependencyInjection()
+    {
+        // prepare DI
+        IServiceProvider services = new ServiceCollection()
+            .AddLogging(builder => builder.AddDebug())
+
+            // http json
+            .AddHttpClient<HttpJson>()
+            .ConfigureHttpClient(client =>
+            {
+                client.Timeout = Timeout.InfiniteTimeSpan;
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Snap Hutao");
+            })
+            .Services
+
+            // requester & auth reuqester
+            .AddHttpClient<Requester>(nameof(Requester))
+            .AddTypedClient<AuthRequester>()
+            .ConfigureHttpClient(client => client.Timeout = Timeout.InfiniteTimeSpan)
+            .Services
+
+            // inject app wide services
+            .AddInjections(typeof(App))
+            .BuildServiceProvider();
+
+        Ioc.Default.ConfigureServices(services);
     }
 }

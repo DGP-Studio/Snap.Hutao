@@ -18,8 +18,8 @@ namespace SettingsUI.Controls;
 public partial class SettingsGroup : ItemsControl
 {
     private const string PartDescriptionPresenter = "DescriptionPresenter";
-    private ContentPresenter _descriptionPresenter;
-    private SettingsGroup _settingsGroup;
+    private ContentPresenter? _descriptionPresenter;
+    private SettingsGroup? _settingsGroup;
 
     public SettingsGroup()
     {
@@ -86,11 +86,11 @@ public partial class SettingsGroup : ItemsControl
 
         if (_settingsGroup.Description == null)
         {
-            _settingsGroup._descriptionPresenter.Visibility = Visibility.Collapsed;
+            _settingsGroup._descriptionPresenter!.Visibility = Visibility.Collapsed;
         }
         else
         {
-            _settingsGroup._descriptionPresenter.Visibility = Visibility.Visible;
+            _settingsGroup._descriptionPresenter!.Visibility = Visibility.Visible;
         }
     }
 

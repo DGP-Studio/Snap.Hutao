@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Core.DependencyInjection.Annotation;
-using Snap.Hutao.Core.Validation;
 using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Core.DependencyInjection;

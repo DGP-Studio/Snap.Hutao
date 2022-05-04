@@ -1,19 +1,27 @@
 ﻿<Application
     x:Class="Snap.Hutao.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <muxc:XamlControlsResources/>
                 <ResourceDictionary Source="ms-appx:///SettingsUI/Themes/SettingsUI.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Other app resources here -->
+            <!--Modify Window title bar color-->
             <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush" />
             <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
             <StaticResource x:Key="WindowCaptionForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
             <StaticResource x:Key="WindowCaptionForegroundDisabled" ResourceKey="SystemControlForegroundBaseHighBrush" />
+
+            <CornerRadius x:Key="WindowCornerRadius">8</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadius">4</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusTop">4,4,0,0</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusRight">0,4,4,0</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,4,4</CornerRadius>
+            <CornerRadius x:Key="SmallCompatCornerRadius">2,2,2,2</CornerRadius>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
