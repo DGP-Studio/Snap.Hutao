@@ -1,10 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Newtonsoft.Json;
 using System.IO;
+using System.Text.Json;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Core.Json;
 
 /// <summary>
 /// Json操作
@@ -12,20 +12,17 @@ namespace Snap.Hutao.Core;
 [Injection(InjectAs.Transient)]
 public class Json
 {
+    private readonly JsonSerializerOptions jsonSerializerOptions;
     private readonly ILogger logger;
-
-    private readonly JsonSerializerSettings jsonSerializerSettings = new()
-    {
-        DateFormatString = "yyyy'-'MM'-'dd' 'HH':'mm':'ss.FFFFFFFK",
-        Formatting = Formatting.Indented,
-    };
 
     /// <summary>
     /// 初始化一个新的 Json操作 实例
     /// </summary>
+    /// <param name="jsonSerializerOptions">配置</param>
     /// <param name="logger">日志器</param>
-    public Json(ILogger<Json> logger)
+    public Json(JsonSerializerOptions jsonSerializerOptions, ILogger<Json> logger)
     {
+        this.jsonSerializerOptions = jsonSerializerOptions;
         this.logger = logger;
     }
 
@@ -34,19 +31,20 @@ public class Json
     /// </summary>
     /// <typeparam name="T">要反序列化的对象的类型</typeparam>
     /// <param name="value">要反序列化的JSON</param>
-    /// <returns>Json字符串中的反序列化对象, 如果反序列化失败会抛出异常</returns>
+    /// <returns>Json字符串中的反序列化对象, 如果反序列化失败会返回 <see langword="default"/></returns>
     public T? ToObject<T>(string value)
     {
         try
         {
-            return JsonConvert.DeserializeObject<T>(value);
+            T? result = JsonSerializer.Deserialize<T>(value);
+            return result;
         }
         catch (Exception ex)
         {
-            logger.LogError("反序列化Json时遇到问题:{ex}", ex);
+            logger.LogError("反序列化Json时遇到问题\n{ex}", ex);
         }
 
-        return default;
+        return default(T);
     }
 
     /// <summary>
@@ -69,7 +67,7 @@ public class Json
     /// <returns>对象的JSON字符串表示形式</returns>
     public string Stringify(object? value)
     {
-        return JsonConvert.SerializeObject(value, jsonSerializerSettings);
+        return JsonSerializer.Serialize(value, jsonSerializerOptions);
     }
 
     /// <summary>

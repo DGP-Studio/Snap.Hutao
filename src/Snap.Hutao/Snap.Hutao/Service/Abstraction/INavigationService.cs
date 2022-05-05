@@ -61,5 +61,5 @@ public interface INavigationService
     /// </summary>
     /// <param name="pageType">同步的页面类型</param>
     /// <returns>是否同步成功</returns>
-    bool SyncTabWith(Type pageType);
+    bool SyncSelectedNavigationViewItemWith(Type pageType);
 }

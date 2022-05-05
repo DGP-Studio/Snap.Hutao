@@ -66,9 +66,9 @@ internal class NavigationService : INavigationService
     public bool HasEverNavigated { get; set; }
 
     /// <inheritdoc/>
-    public bool SyncTabWith(Type pageType)
+    public bool SyncSelectedNavigationViewItemWith(Type? pageType)
     {
-        if (NavigationView is null)
+        if (NavigationView is null || pageType is null)
         {
             return false;
         }
@@ -98,7 +98,7 @@ internal class NavigationService : INavigationService
             return false;
         }
 
-        _ = isSyncTabRequested && SyncTabWith(pageType);
+        _ = isSyncTabRequested && SyncSelectedNavigationViewItemWith(pageType);
 
         bool result = false;
         try
@@ -151,6 +151,7 @@ internal class NavigationService : INavigationService
         if (Frame != null && Frame.CanGoBack)
         {
             Frame.GoBack();
+            SyncSelectedNavigationViewItemWith(Frame.Content.GetType());
         }
     }
 }

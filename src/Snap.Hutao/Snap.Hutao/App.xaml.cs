@@ -3,8 +3,6 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core;
-using Snap.Hutao.Web.Request;
 
 namespace Snap.Hutao;
 
@@ -40,26 +38,10 @@ public partial class App : Application
 
     private static void InitializeDependencyInjection()
     {
-        // prepare DI
         IServiceProvider services = new ServiceCollection()
             .AddLogging(builder => builder.AddDebug())
-
-            // http json
-            .AddHttpClient<HttpJson>()
-            .ConfigureHttpClient(client =>
-            {
-                client.Timeout = Timeout.InfiniteTimeSpan;
-                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Snap Hutao");
-            })
-            .Services
-
-            // requester & auth reuqester
-            .AddHttpClient<Requester>(nameof(Requester))
-            .AddTypedClient<AuthRequester>()
-            .ConfigureHttpClient(client => client.Timeout = Timeout.InfiniteTimeSpan)
-            .Services
-
-            // inject app wide services
+            .AddHttpClients()
+            .AddDefaultJsonSerializerOptions()
             .AddInjections(typeof(App))
             .BuildServiceProvider();
 

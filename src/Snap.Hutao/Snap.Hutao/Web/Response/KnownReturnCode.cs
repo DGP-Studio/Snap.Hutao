@@ -9,9 +9,14 @@ namespace Snap.Hutao.Web.Response;
 public enum KnownReturnCode
 {
     /// <summary>
+    /// Url为 空
+    /// </summary>
+    UrlIsEmpty = -2000000001,
+
+    /// <summary>
     /// 内部错误
     /// </summary>
-    InternalFailure = int.MinValue,
+    InternalFailure = -2000000000,
 
     /// <summary>
     /// 已经签到过了

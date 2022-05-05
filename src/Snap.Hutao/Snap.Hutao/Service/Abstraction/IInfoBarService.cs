@@ -62,13 +62,6 @@ public interface IInfoBarService
     void Initialize(StackPanel container);
 
     /// <summary>
-    /// 显示特定的信息条
-    /// </summary>
-    /// <param name="infoBar">信息条</param>
-    /// <param name="delay">关闭延迟</param>
-    void Show(InfoBar infoBar, int delay = 0);
-
-    /// <summary>
     /// 显示成功信息
     /// </summary>
     /// <param name="message">消息</param>

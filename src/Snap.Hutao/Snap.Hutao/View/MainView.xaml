@@ -10,26 +10,28 @@
     <Grid>
         <NavigationView
             x:Name="NavView"
+            CompactPaneLength="48"
             OpenPaneLength="172"
-            CompactModeThresholdWidth="360"
+            CompactModeThresholdWidth="128"
             ExpandedModeThresholdWidth="720"
-            IsBackEnabled="{x:Bind ContentFrame.CanGoBack}">
+            IsPaneOpen="True"
+            IsBackEnabled="{Binding ElementName=ContentFrame,Path=CanGoBack}">
+            <!-- x:Bind can't get property update here seems like a WinUI 3 bug-->
             <NavigationView.MenuItems>
-                <NavigationViewItem
-                    Content="活动"
-                    helper:NavHelper.NavigateTo="page:AnnouncementPage">
+                
+                <NavigationViewItem Content="活动" helper:NavHelper.NavigateTo="page:AnnouncementPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7C4;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
+                
             </NavigationView.MenuItems>
+            
             <Frame x:Name="ContentFrame">
                 <Frame.ContentTransitions>
-                    <TransitionCollection>
-                        <NavigationThemeTransition>
-                            <DrillInNavigationTransitionInfo/>
-                        </NavigationThemeTransition>
-                    </TransitionCollection>
+                    <NavigationThemeTransition>
+                        <DrillInNavigationTransitionInfo/>
+                    </NavigationThemeTransition>
                 </Frame.ContentTransitions>
             </Frame>
         </NavigationView>
@@ -61,9 +63,6 @@
                     TintColor="#34424d"
                     FallbackColor="#34424d"/>
             </StackPanel.Resources>
-            <StackPanel.OpacityTransition>
-                <ScalarTransition/>
-            </StackPanel.OpacityTransition>
             <StackPanel.Transitions>
                 <TransitionCollection>
                     <AddDeleteThemeTransition/>

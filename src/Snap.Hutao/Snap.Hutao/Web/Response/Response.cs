@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Response;
 
@@ -13,13 +13,13 @@ public class Response
     /// <summary>
     /// 返回代码
     /// </summary>
-    [JsonProperty("retcode")]
+    [JsonPropertyName("retcode")]
     public int ReturnCode { get; set; }
 
     /// <summary>
     /// 消息
     /// </summary>
-    [JsonProperty("message")]
+    [JsonPropertyName("message")]
     public string? Message { get; set; }
 
     /// <summary>
@@ -37,7 +37,7 @@ public class Response
     /// </summary>
     /// <param name="message">消息</param>
     /// <returns>响应</returns>
-    public static Response CreateFail(string message)
+    public static Response CreateForException(string message)
     {
         return new Response()
         {

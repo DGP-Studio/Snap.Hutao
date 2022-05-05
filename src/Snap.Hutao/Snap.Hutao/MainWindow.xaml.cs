@@ -8,7 +8,7 @@ namespace Snap.Hutao;
 /// <summary>
 /// 主窗体
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Singleton)]
 public sealed partial class MainWindow : Window
 {
     /// <summary>

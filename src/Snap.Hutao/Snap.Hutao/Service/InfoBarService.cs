@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.VisualStudio.Threading;
 using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service;
@@ -79,25 +78,25 @@ internal class InfoBarService : IInfoBarService
         PrepareInfoBarAndShow(InfoBarSeverity.Error, ex.GetType().Name, $"{title}\n{ex.Message}", delay);
     }
 
-    /// <inheritdoc/>
-    public void Show(InfoBar infoBar, int delay = 0)
-    {
-        Must.NotNull(infoBarStack!).DispatcherQueue.TryEnqueue(ShowInfoBarOnUIThreadAsync(infoBarStack, infoBar, delay).Forget);
-    }
-
-    private async Task ShowInfoBarOnUIThreadAsync(StackPanel stack, InfoBar infoBar, int delay)
-    {
-        infoBar.Closed += OnInfoBarClosed;
-        stack.Children.Add(infoBar);
-
-        if (delay > 0)
-        {
-            await Task.Delay(delay);
-            infoBar.IsOpen = false;
-        }
-    }
-
     private void PrepareInfoBarAndShow(InfoBarSeverity severity, string? title, string? message, int delay)
+    {
+        if (infoBarStack is null)
+        {
+            return;
+        }
+
+        infoBarStack.DispatcherQueue.TryEnqueue(() => PrepareInfoBarAndShowInternal(severity, title, message, delay));
+    }
+
+    /// <summary>
+    /// 此方法应在主线程上运行
+    /// </summary>
+    /// <param name="severity">严重程度</param>
+    /// <param name="title">标题</param>
+    /// <param name="message">消息</param>
+    /// <param name="delay">关闭延迟</param>
+    [SuppressMessage("", "VSTHRD100", Justification ="只能通过 async void 方法使控件在主线程创建")]
+    private async void PrepareInfoBarAndShowInternal(InfoBarSeverity severity, string? title, string? message, int delay)
     {
         InfoBar infoBar = new()
         {
@@ -107,7 +106,14 @@ internal class InfoBarService : IInfoBarService
             IsOpen = true,
         };
 
-        Show(infoBar, delay);
+        infoBar.Closed += OnInfoBarClosed;
+        Must.NotNull(infoBarStack!)!.Children.Add(infoBar);
+
+        if (delay > 0)
+        {
+            await Task.Delay(delay);
+            infoBar.IsOpen = false;
+        }
     }
 
     private void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)

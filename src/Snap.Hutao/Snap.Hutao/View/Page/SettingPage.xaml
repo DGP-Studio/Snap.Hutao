@@ -17,9 +17,8 @@
     <ScrollViewer>
         <StackPanel
             Margin="32,0,24,0">
-            
-            <controls:SettingsGroup
-                Header="关于 胡桃">
+
+            <controls:SettingsGroup Header="关于 胡桃">
                 <controls:SettingExpander>
                     <controls:SettingExpander.Header>
                         <controls:Setting

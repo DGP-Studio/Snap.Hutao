@@ -4,7 +4,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Model;
 
 /// <summary>
 /// 简单的实现了 <see cref="INotifyPropertyChanged"/> 接口

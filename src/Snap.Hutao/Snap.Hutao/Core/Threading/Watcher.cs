@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft;
+using Snap.Hutao.Model;
 
 namespace Snap.Hutao.Core.Threading;
 
@@ -13,6 +14,7 @@ namespace Snap.Hutao.Core.Threading;
 public class Watcher : Observable
 {
     private readonly bool isReusable;
+
     private bool hasUsed;
     private bool isWorking;
     private bool isCompleted;
@@ -48,33 +50,33 @@ public class Watcher : Observable
 
     /// <summary>
     /// 对某个操作进行监视，
-    /// 无法防止代码重入
     /// </summary>
     /// <returns>一个可释放的对象，用于在操作完成时自动提示监视器工作已经完成</returns>
     /// <exception cref="InvalidOperationException">重用了一个不可重用的监视器</exception>
     public IDisposable Watch()
     {
+        Verify.Operation(!IsWorking, $"此 {nameof(Watcher)} 已经处于检查状态");
         Verify.Operation(isReusable || !hasUsed, $"此 {nameof(Watcher)} 不允许多次使用");
 
         hasUsed = true;
         IsWorking = true;
 
-        return new WorkDisposable(this);
+        return new WatchDisposable(this);
     }
 
-    private struct WorkDisposable : IDisposable
+    private struct WatchDisposable : IDisposable
     {
-        private readonly Watcher work;
+        private readonly Watcher watcher;
 
-        public WorkDisposable(Watcher work)
+        public WatchDisposable(Watcher watcher)
         {
-            this.work = work;
+            this.watcher = watcher;
         }
 
         public void Dispose()
         {
-            work.IsWorking = false;
-            work.IsCompleted = true;
+            watcher.IsWorking = false;
+            watcher.IsCompleted = true;
         }
     }
 }

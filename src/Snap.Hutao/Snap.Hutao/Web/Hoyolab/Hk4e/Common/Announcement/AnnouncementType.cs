@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
@@ -13,18 +13,18 @@ public class AnnouncementType
     /// <summary>
     /// Id
     /// </summary>
-    [JsonProperty("id")]
+    [JsonPropertyName("id")]
     public int Id { get; set; }
 
     /// <summary>
     /// 名称
     /// </summary>
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
     /// <summary>
     /// 国际化名称
     /// </summary>
-    [JsonProperty("mi18n_name")]
+    [JsonPropertyName("mi18n_name")]
     public string? MI18NName { get; set; }
 }

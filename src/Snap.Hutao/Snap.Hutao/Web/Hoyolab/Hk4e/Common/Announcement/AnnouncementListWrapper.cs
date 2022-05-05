@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Newtonsoft.Json;
 using Snap.Hutao.Web.Response;
+using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
@@ -14,12 +14,12 @@ public class AnnouncementListWrapper : ListWrapper<Announcement>
     /// <summary>
     /// 类型Id
     /// </summary>
-    [JsonProperty("type_id")]
+    [JsonPropertyName("type_id")]
     public int TypeId { get; set; }
 
     /// <summary>
     /// 类型标签
     /// </summary>
-    [JsonProperty("type_label")]
+    [JsonPropertyName("type_label")]
     public string? TypeLabel { get; set; }
 }

@@ -1,7 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core;
+using Snap.Hutao.Core.Json;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 using System.Text;
@@ -16,6 +17,7 @@ public class Requester
 {
     private readonly HttpClient httpClient;
     private readonly Json json;
+    private readonly IInfoBarService infoBarService;
     private readonly ILogger<Requester> logger;
 
     /// <summary>
@@ -23,11 +25,13 @@ public class Requester
     /// </summary>
     /// <param name="httpClient">Http 客户端</param>
     /// <param name="json">Json 处理器</param>
+    /// <param name="infoBarService">信息条服务</param>
     /// <param name="logger">消息器</param>
-    public Requester(HttpClient httpClient, Json json, ILogger<Requester> logger)
+    public Requester(HttpClient httpClient, Json json, IInfoBarService infoBarService, ILogger<Requester> logger)
     {
         this.httpClient = httpClient;
         this.json = json;
+        this.infoBarService = infoBarService;
         this.logger = logger;
     }
 
@@ -37,7 +41,7 @@ public class Requester
     public RequestOptions Headers { get; set; } = new RequestOptions();
 
     /// <summary>
-    /// 内部使用的 <see cref="HttpClient"/>
+    /// 内部使用的 <see cref="System.Net.Http.HttpClient"/>
     /// </summary>
     protected HttpClient HttpClient { get => httpClient; }
 
@@ -50,32 +54,15 @@ public class Requester
     /// <returns>响应</returns>
     public async Task<Response<TResult>?> GetAsync<TResult>(string? url, CancellationToken cancellationToken = default)
     {
-        logger.LogInformation("GET {urlbase}", url?.Split('?')[0]);
-        return url is null
-            ? null
-            : await RequestAsync<TResult>(
-                client => new RequestInfo(url, () => client.GetAsync(url, cancellationToken)),
-                cancellationToken)
-                .ConfigureAwait(false);
-    }
+        if (url is null)
+        {
+            return Response<TResult>.CreateForEmptyUrl();
+        }
 
-    /// <summary>
-    /// GET 操作
-    /// </summary>
-    /// <typeparam name="TResult">返回的类类型</typeparam>
-    /// <param name="url">地址</param>
-    /// <param name="encoding">编码</param>
-    /// <param name="cancellationToken">取消令牌</param>
-    /// <returns>响应</returns>
-    public async Task<Response<TResult>?> GetAsync<TResult>(string? url, Encoding encoding, CancellationToken cancellationToken = default)
-    {
-        logger.LogInformation("GET {urlbase}", url?.Split('?')[0]);
-        return url is null
-            ? null
-            : await RequestAsync<TResult>(
-                client => new RequestInfo(url, () => client.GetAsync(url, cancellationToken), encoding),
-                cancellationToken)
-                .ConfigureAwait(false);
+        Task<HttpResponseMessage> GetMethod(HttpClient client, CancellationToken token) => client.GetAsync(url, token);
+
+        return await RequestAsync<TResult>(GetMethod, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -88,13 +75,17 @@ public class Requester
     /// <returns>响应</returns>
     public async Task<Response<TResult>?> PostAsync<TResult>(string? url, object data, CancellationToken cancellationToken = default)
     {
+        if (url is null)
+        {
+            return Response<TResult>.CreateForEmptyUrl();
+        }
+
         string dataString = json.Stringify(data);
-        logger.LogInformation("POST {urlbase} with\n{dataString}", url?.Split('?')[0], dataString);
-        return url is null
-            ? null
-            : await RequestAsync<TResult>(
-                client => new RequestInfo(url, () => client.PostAsync(url, new StringContent(dataString), cancellationToken)),
-                cancellationToken)
+        HttpContent content = new StringContent(dataString);
+
+        Task<HttpResponseMessage> PostMethod(HttpClient client, CancellationToken token) => client.PostAsync(url, content, token);
+
+        return await RequestAsync<TResult>(PostMethod, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -109,13 +100,17 @@ public class Requester
     /// <returns>响应</returns>
     public async Task<Response<TResult>?> PostAsync<TResult>(string? url, object data, string contentType, CancellationToken cancellationToken = default)
     {
+        if (url is null)
+        {
+            return Response<TResult>.CreateForEmptyUrl();
+        }
+
         string dataString = json.Stringify(data);
-        logger.LogInformation("POST {urlbase} with\n{dataString}", url?.Split('?')[0], dataString);
-        return url is null
-            ? null
-            : await RequestAsync<TResult>(
-                client => new RequestInfo(url, () => client.PostAsync(url, new StringContent(dataString, Encoding.UTF8, contentType), cancellationToken)),
-                cancellationToken)
+        HttpContent content = new StringContent(dataString, Encoding.UTF8, contentType);
+
+        Task<HttpResponseMessage> PostMethod(HttpClient client, CancellationToken token) => client.PostAsync(url, content, token);
+
+        return await RequestAsync<TResult>(PostMethod, cancellationToken)
             .ConfigureAwait(false);
     }
 
@@ -155,53 +150,38 @@ public class Requester
         }
     }
 
-    private async Task<Response<TResult>?> RequestAsync<TResult>(Func<HttpClient, RequestInfo> requestFunc, CancellationToken cancellationToken = default)
+    private async Task<Response<TResult>?> RequestAsync<TResult>(
+        Func<HttpClient, CancellationToken, Task<HttpResponseMessage>> requestFunc,
+        CancellationToken cancellationToken = default)
     {
         PrepareHttpClient();
-        RequestInfo? info = requestFunc(HttpClient);
 
         try
         {
-            HttpResponseMessage response = await info.RequestAsyncFunc.Invoke()
+            HttpResponseMessage response = await requestFunc
+                .Invoke(HttpClient, cancellationToken)
                 .ConfigureAwait(false);
 
-            string contentString = await response.Content.ReadAsStringAsync(cancellationToken)
+            string contentString = await response.Content
+                .ReadAsStringAsync(cancellationToken)
                 .ConfigureAwait(false);
 
-            if (info.Encoding is not null)
+            Response<TResult>? resp = json.ToObject<Response<TResult>>(contentString);
+            if (resp?.ToString() is string representable)
             {
-                byte[] bytes = Encoding.UTF8.GetBytes(contentString);
-                info.Encoding.GetString(bytes);
+                infoBarService.Information(representable);
             }
 
-            logger.LogInformation("Response String :{contentString}", contentString);
-
-            return json.ToObject<Response<TResult>>(contentString);
+            return resp;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "请求时遇到问题");
-            return Response<TResult>.CreateFail($"{ex.Message}");
+            return Response<TResult>.CreateForException($"{ex.Message}");
         }
         finally
         {
             logger.LogInformation("Request Completed");
         }
-    }
-
-    private record RequestInfo
-    {
-        public RequestInfo(string url, Func<Task<HttpResponseMessage>> httpResponseMessage, Encoding? encoding = null)
-        {
-            Url = url;
-            RequestAsyncFunc = httpResponseMessage;
-            Encoding = encoding;
-        }
-
-        public string Url { get; set; }
-
-        public Func<Task<HttpResponseMessage>> RequestAsyncFunc { get; set; }
-
-        public Encoding? Encoding { get; set; }
     }
 }

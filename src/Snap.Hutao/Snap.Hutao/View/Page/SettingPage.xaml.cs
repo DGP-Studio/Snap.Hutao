@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.ViewModel;
+
 namespace Snap.Hutao.View.Page;
 
 /// <summary>
@@ -13,6 +15,7 @@ public sealed partial class SettingPage : Microsoft.UI.Xaml.Controls.Page
     /// </summary>
     public SettingPage()
     {
+        DataContext = Ioc.Default.GetRequiredService<SettingViewModel>();
         InitializeComponent();
     }
 }

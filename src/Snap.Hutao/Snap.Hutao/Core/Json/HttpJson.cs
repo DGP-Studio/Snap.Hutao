@@ -3,7 +3,7 @@
 
 using System.Net.Http;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Core.Json;
 
 /// <summary>
 /// Http Json 处理

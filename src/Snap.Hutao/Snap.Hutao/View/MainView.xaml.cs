@@ -21,10 +21,12 @@ public sealed partial class MainView : UserControl
     {
         InitializeComponent();
 
+        infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        infoBarService.Initialize(InfoBarStack);
+
         navigationService = Ioc.Default.GetRequiredService<INavigationService>();
         navigationService.Initialize(NavView, ContentFrame);
 
-        infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
-        infoBarService.Initialize(InfoBarStack);
+        navigationService.Navigate<Page.AnnouncementPage>();
     }
 }

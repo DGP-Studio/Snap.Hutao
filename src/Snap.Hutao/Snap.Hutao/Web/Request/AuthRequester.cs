@@ -1,7 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core;
+using Snap.Hutao.Core.Json;
+using Snap.Hutao.Service.Abstraction;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Request;
@@ -16,9 +17,10 @@ public class AuthRequester : Requester
     /// </summary>
     /// <param name="httpClient">Http 客户端</param>
     /// <param name="json">Json 处理器</param>
+    /// <param name="infoBarService">信息条服务</param>
     /// <param name="logger">消息器</param>
-    public AuthRequester(HttpClient httpClient, Json json, ILogger<Requester> logger)
-        : base(httpClient, json, logger)
+    public AuthRequester(HttpClient httpClient, Json json, IInfoBarService infoBarService, ILogger<Requester> logger)
+        : base(httpClient, json, infoBarService, logger)
     {
     }
 
