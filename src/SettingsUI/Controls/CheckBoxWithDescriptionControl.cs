@@ -2,21 +2,21 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
+using System.ComponentModel;
 
 namespace SettingsUI.Controls;
 
 public class CheckBoxWithDescriptionControl : CheckBox
 {
-    private CheckBoxWithDescriptionControl _checkBoxSubTextControl;
+    private readonly CheckBoxWithDescriptionControl _checkBoxSubTextControl;
 
     public CheckBoxWithDescriptionControl()
     {
-        _checkBoxSubTextControl = (CheckBoxWithDescriptionControl) this;
-        this.Loaded += CheckBoxSubTextControl_Loaded;
+        _checkBoxSubTextControl = this;
+        Loaded += CheckBoxSubTextControl_Loaded;
     }
 
     protected override void OnApplyTemplate()
@@ -41,7 +41,7 @@ public class CheckBoxWithDescriptionControl : CheckBox
         if (!string.IsNullOrWhiteSpace(Description))
         {
             panel.Children.Add(new TextBlock() { Margin = new Thickness(0, 10, 0, 0), Text = Header });
-            panel.Children.Add(new IsEnabledTextBlock() { Style = (Style) Application.Current.Resources["SecondaryIsEnabledTextBlockStyle"], Text = Description });
+            panel.Children.Add(new IsEnabledTextBlock() { Style = (Style)Application.Current.Resources["SecondaryIsEnabledTextBlockStyle"], Text = Description });
         }
         else
         {
@@ -66,14 +66,14 @@ public class CheckBoxWithDescriptionControl : CheckBox
     [Localizable(true)]
     public string Header
     {
-        get => (string) GetValue(HeaderProperty);
+        get => (string)GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
     }
 
     [Localizable(true)]
     public string Description
     {
-        get => (string) GetValue(DescriptionProperty);
+        get => (string)GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
     }
 }

@@ -2,10 +2,10 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
+using System.ComponentModel;
 
 namespace SettingsUI.Controls;
 
@@ -23,7 +23,7 @@ public class Setting : ContentControl
 
     public Setting()
     {
-        this.DefaultStyleKey = typeof(Setting);
+        DefaultStyleKey = typeof(Setting);
     }
 
     public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(
@@ -53,35 +53,35 @@ public class Setting : ContentControl
     [Localizable(true)]
     public string Header
     {
-        get => (string) GetValue(HeaderProperty);
+        get => (string)GetValue(HeaderProperty);
         set => SetValue(HeaderProperty, value);
     }
 
     [Localizable(true)]
     public object Description
     {
-        get => (object) GetValue(DescriptionProperty);
+        get => GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
     }
 
     public object Icon
     {
-        get => (object) GetValue(IconProperty);
+        get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     public object ActionContent
     {
-        get => (object) GetValue(ActionContentProperty);
+        get => GetValue(ActionContentProperty);
         set => SetValue(ActionContentProperty, value);
     }
 
     protected override void OnApplyTemplate()
     {
         IsEnabledChanged -= Setting_IsEnabledChanged;
-        _setting = (Setting) this;
-        _iconPresenter = (ContentPresenter) _setting.GetTemplateChild(PartIconPresenter);
-        _descriptionPresenter = (ContentPresenter) _setting.GetTemplateChild(PartDescriptionPresenter);
+        _setting = this;
+        _iconPresenter = (ContentPresenter)_setting.GetTemplateChild(PartIconPresenter);
+        _descriptionPresenter = (ContentPresenter)_setting.GetTemplateChild(PartDescriptionPresenter);
         Update();
         SetEnabledState();
         IsEnabledChanged += Setting_IsEnabledChanged;
@@ -90,17 +90,17 @@ public class Setting : ContentControl
 
     private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((Setting) d).Update();
+        ((Setting)d).Update();
     }
 
     private static void OnIconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((Setting) d).Update();
+        ((Setting)d).Update();
     }
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        ((Setting) d).Update();
+        ((Setting)d).Update();
     }
 
     private void Setting_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -127,7 +127,7 @@ public class Setting : ContentControl
                 // We do not want to override the default AutomationProperties.Name of a button. Its Content property already describes what it does.
                 if (!string.IsNullOrEmpty(_setting.Header))
                 {
-                    AutomationProperties.SetName((UIElement) _setting.ActionContent, _setting.Header);
+                    AutomationProperties.SetName((UIElement)_setting.ActionContent, _setting.Header);
                 }
             }
         }

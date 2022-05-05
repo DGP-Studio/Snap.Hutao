@@ -2,9 +2,9 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.ComponentModel;
 
 namespace SettingsUI.Controls;
 
@@ -14,7 +14,7 @@ public class IsEnabledTextBlock : Control
 {
     public IsEnabledTextBlock()
     {
-        this.DefaultStyleKey = typeof(IsEnabledTextBlock);
+        DefaultStyleKey = typeof(IsEnabledTextBlock);
     }
 
     protected override void OnApplyTemplate()
@@ -34,7 +34,7 @@ public class IsEnabledTextBlock : Control
     [Localizable(true)]
     public string Text
     {
-        get => (string) GetValue(TextProperty);
+        get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
 
