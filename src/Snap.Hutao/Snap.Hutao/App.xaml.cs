@@ -3,6 +3,8 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core;
+using Snap.Hutao.Web.Request;
 
 namespace Snap.Hutao;
 

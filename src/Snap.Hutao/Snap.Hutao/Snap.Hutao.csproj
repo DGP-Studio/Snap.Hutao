@@ -96,6 +96,16 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="View\Page\AnnouncementContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\AnnouncementPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="View\Page\SettingPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

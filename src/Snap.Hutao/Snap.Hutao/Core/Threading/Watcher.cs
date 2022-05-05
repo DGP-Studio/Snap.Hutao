@@ -14,7 +14,6 @@ namespace Snap.Hutao.Core.Threading;
 public class Watcher : Observable
 {
     private readonly bool isReusable;
-
     private bool hasUsed;
     private bool isWorking;
     private bool isCompleted;

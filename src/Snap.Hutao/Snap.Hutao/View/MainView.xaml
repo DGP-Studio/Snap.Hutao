@@ -29,9 +29,11 @@
             
             <Frame x:Name="ContentFrame">
                 <Frame.ContentTransitions>
-                    <NavigationThemeTransition>
-                        <DrillInNavigationTransitionInfo/>
-                    </NavigationThemeTransition>
+                    <TransitionCollection>
+                        <NavigationThemeTransition>
+                            <DrillInNavigationTransitionInfo/>
+                        </NavigationThemeTransition>
+                    </TransitionCollection>
                 </Frame.ContentTransitions>
             </Frame>
         </NavigationView>
