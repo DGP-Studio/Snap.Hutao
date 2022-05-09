@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.UI.Behaviors;
 using Microsoft.UI.Xaml;
 using Microsoft.Xaml.Interactivity;
 using Snap.Hutao.Core;
@@ -10,7 +11,7 @@ namespace Snap.Hutao.Control.Behavior;
 /// <summary>
 /// 按给定比例自动调整高度的行为
 /// </summary>
-internal class AutoHeightBehavior : Behavior<FrameworkElement>
+internal class AutoHeightBehavior : BehaviorBase<FrameworkElement>
 {
     private static readonly DependencyProperty TargetWidthProperty = Property<AutoHeightBehavior>.Depend(nameof(TargetWidth), 1080D);
     private static readonly DependencyProperty TargetHeightProperty = Property<AutoHeightBehavior>.Depend(nameof(TargetHeight), 390D);
@@ -36,16 +37,14 @@ internal class AutoHeightBehavior : Behavior<FrameworkElement>
     }
 
     /// <inheritdoc/>
-    protected override void OnAttached()
+    protected override void OnAssociatedObjectLoaded()
     {
-        base.OnAttached();
         AssociatedObject.SizeChanged += OnSizeChanged;
     }
 
     /// <inheritdoc/>
-    protected override void OnDetaching()
+    protected override void OnAssociatedObjectUnloaded()
     {
-        base.OnDetaching();
         AssociatedObject.SizeChanged -= OnSizeChanged;
     }
 
