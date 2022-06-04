@@ -76,11 +76,7 @@ internal static class IocConfiguration
 
         bool shouldMigrate = false;
 
-        if (!myDocument.FileExists(dbFile))
-        {
-            shouldMigrate = true;
-        }
-        else
+        if (myDocument.FileExists(dbFile))
         {
             string? versionString = LocalSetting.Get<string>(SettingKeys.LastAppVersion);
             if (Version.TryParse(versionString, out Version? lastVersion))
@@ -90,6 +86,10 @@ internal static class IocConfiguration
                     shouldMigrate = true;
                 }
             }
+        }
+        else
+        {
+            shouldMigrate = true;
         }
 
         if (shouldMigrate)
@@ -104,6 +104,6 @@ internal static class IocConfiguration
         LocalSetting.Set(SettingKeys.LastAppVersion, CoreEnvironment.Version.ToString());
 
         return services
-            .AddPooledDbContextFactory<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
+            .AddDbContextPool<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
     }
 }

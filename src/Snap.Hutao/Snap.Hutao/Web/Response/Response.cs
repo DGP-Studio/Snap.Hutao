@@ -20,7 +20,7 @@ public class Response
     /// 消息
     /// </summary>
     [JsonPropertyName("message")]
-    public string? Message { get; set; }
+    public string Message { get; set; } = default!;
 
     /// <summary>
     /// 响应是否正常

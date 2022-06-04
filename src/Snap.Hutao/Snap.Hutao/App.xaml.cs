@@ -42,6 +42,7 @@ public partial class App : Application
     {
         IServiceProvider services = new ServiceCollection()
             .AddLogging(builder => builder.AddDebug())
+            .AddDatebase()
             .AddHttpClients()
             .AddDefaultJsonSerializerOptions()
             .AddInjections(typeof(App))

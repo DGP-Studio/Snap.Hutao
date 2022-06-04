@@ -22,7 +22,7 @@ public class AnnouncementWrapper : ListWrapper<AnnouncementListWrapper>
     /// 类型列表
     /// </summary>
     [JsonPropertyName("type_list")]
-    public List<AnnouncementType>? TypeList { get; set; }
+    public List<AnnouncementType> TypeList { get; set; } = default!;
 
     /// <summary>
     /// 提醒
@@ -46,5 +46,5 @@ public class AnnouncementWrapper : ListWrapper<AnnouncementListWrapper>
     /// 时间戳
     /// </summary>
     [JsonPropertyName("t")]
-    public string? TimeStamp { get; set; }
+    public string TimeStamp { get; set; } = default!;
 }

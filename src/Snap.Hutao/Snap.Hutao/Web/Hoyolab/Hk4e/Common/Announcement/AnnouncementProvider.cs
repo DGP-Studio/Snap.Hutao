@@ -20,7 +20,6 @@ internal class AnnouncementProvider
     /// 构造一个新的公告提供器
     /// </summary>
     /// <param name="requester">请求器</param>
-    /// <param name="gZipRequester">GZip 请求器</param>
     public AnnouncementProvider(Requester requester)
     {
         this.requester = requester;
@@ -31,12 +30,13 @@ internal class AnnouncementProvider
     /// </summary>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>公告列表</returns>
-    public async Task<AnnouncementWrapper?> GetAnnouncementWrapperAsync(CancellationToken cancellationToken = default)
+    public async Task<AnnouncementWrapper?> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
     {
         Response<AnnouncementWrapper>? resp = await requester
             .Reset()
             .GetAsync<AnnouncementWrapper>(ApiEndpoints.AnnList, cancellationToken)
             .ConfigureAwait(false);
+
         return resp?.Data;
     }
 
@@ -51,9 +51,10 @@ internal class AnnouncementProvider
 
         Response<ListWrapper<AnnouncementContent>>? resp = await requester
             .Reset()
-            .AddHeader("Accept", RequestOptions.Json)
+            .AddHeader(RequestHeaders.Accept, RequestOptions.Json)
             .GetAsync<ListWrapper<AnnouncementContent>>(ApiEndpoints.AnnContent, cancellationToken)
             .ConfigureAwait(false);
+
         return resp?.Data?.List ?? new();
     }
 }

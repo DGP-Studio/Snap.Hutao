@@ -100,19 +100,19 @@ public class Announcement : AnnouncementContent
     /// 类型标签
     /// </summary>
     [JsonPropertyName("type_label")]
-    public string? TypeLabel { get; set; }
+    public string TypeLabel { get; set; } = default!;
 
     /// <summary>
     /// 标签文本
     /// </summary>
     [JsonPropertyName("tag_label")]
-    public string? TagLabel { get; set; }
+    public string TagLabel { get; set; } = default!;
 
     /// <summary>
     /// 标签图标
     /// </summary>
     [JsonPropertyName("tag_icon")]
-    public string? TagIcon { get; set; }
+    public string TagIcon { get; set; } = default!;
 
     /// <summary>
     /// 登录提醒
@@ -156,13 +156,13 @@ public class Announcement : AnnouncementContent
     /// 标签开始时间
     /// </summary>
     [JsonPropertyName("tag_start_time")]
-    public string? TagStartTime { get; set; }
+    public string TagStartTime { get; set; } = default!;
 
     /// <summary>
     /// 标签结束时间
     /// </summary>
     [JsonPropertyName("tag_end_time")]
-    public string? TagEndTime { get; set; }
+    public string TagEndTime { get; set; } = default!;
 
     /// <summary>
     /// 提醒版本

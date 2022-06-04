@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Json;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
@@ -19,6 +20,8 @@ public class Requester
     private readonly Json json;
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<Requester> logger;
+
+    private bool isRequesting = false;
 
     /// <summary>
     /// 构造一个新的 <see cref="Requester"/> 对象
@@ -41,6 +44,11 @@ public class Requester
     public RequestOptions Headers { get; set; } = new RequestOptions();
 
     /// <summary>
+    /// 此请求器使用的Json解析器
+    /// </summary>
+    public Json Json { get => json; }
+
+    /// <summary>
     /// 内部使用的 <see cref="System.Net.Http.HttpClient"/>
     /// </summary>
     protected HttpClient HttpClient { get => httpClient; }
@@ -52,7 +60,7 @@ public class Requester
     /// <param name="url">地址</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>响应</returns>
-    public async Task<Response<TResult>?> GetAsync<TResult>(string? url, CancellationToken cancellationToken = default)
+    public async Task<Response<TResult>?> GetAsync<TResult>(string url, CancellationToken cancellationToken = default)
     {
         if (url is null)
         {
@@ -73,14 +81,14 @@ public class Requester
     /// <param name="data">要发送的.NET（匿名）对象</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>响应</returns>
-    public async Task<Response<TResult>?> PostAsync<TResult>(string? url, object data, CancellationToken cancellationToken = default)
+    public async Task<Response<TResult>?> PostAsync<TResult>(string url, object data, CancellationToken cancellationToken = default)
     {
         if (url is null)
         {
             return Response<TResult>.CreateForEmptyUrl();
         }
 
-        string dataString = json.Stringify(data);
+        string dataString = Json.Stringify(data);
         HttpContent content = new StringContent(dataString);
 
         Task<HttpResponseMessage> PostMethod(HttpClient client, CancellationToken token) => client.PostAsync(url, content, token);
@@ -98,14 +106,14 @@ public class Requester
     /// <param name="contentType">内容类型</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>响应</returns>
-    public async Task<Response<TResult>?> PostAsync<TResult>(string? url, object data, string contentType, CancellationToken cancellationToken = default)
+    public async Task<Response<TResult>?> PostAsync<TResult>(string url, object data, string contentType, CancellationToken cancellationToken = default)
     {
         if (url is null)
         {
             return Response<TResult>.CreateForEmptyUrl();
         }
 
-        string dataString = json.Stringify(data);
+        string dataString = Json.Stringify(data);
         HttpContent content = new StringContent(dataString, Encoding.UTF8, contentType);
 
         Task<HttpResponseMessage> PostMethod(HttpClient client, CancellationToken token) => client.PostAsync(url, content, token);
@@ -121,6 +129,7 @@ public class Requester
     /// <returns>链式调用需要的实例</returns>
     public Requester Reset()
     {
+        Verify.Operation(!isRequesting, "无法在请求发生时重置请求器");
         Headers.Clear();
         return this;
     }
@@ -133,8 +142,46 @@ public class Requester
     /// <returns>链式调用需要的实例</returns>
     public Requester AddHeader(string key, string value)
     {
+        Verify.Operation(!isRequesting, "无法在请求发生时修改请求头");
         Headers.Add(key, value);
         return this;
+    }
+
+    /// <summary>
+    /// 接受Json
+    /// </summary>
+    /// <returns>链式调用需要的实例</returns>
+    public Requester SetAcceptJson()
+    {
+        return AddHeader(RequestHeaders.Accept, RequestOptions.Json);
+    }
+
+    /// <summary>
+    /// 设置常规UA
+    /// </summary>
+    /// <returns>链式调用需要的实例</returns>
+    public Requester SetCommonUA()
+    {
+        return AddHeader(RequestHeaders.UserAgent, RequestOptions.CommonUA);
+    }
+
+    /// <summary>
+    /// 设置为由米游社请求
+    /// </summary>
+    /// <returns>链式调用需要的实例</returns>
+    public Requester SetRequestWithHyperion()
+    {
+        return AddHeader(RequestHeaders.RequestWith, RequestOptions.Hyperion);
+    }
+
+    /// <summary>
+    /// 添加Cookie请求头
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <returns>链式调用需要的实例</returns>
+    public Requester SetUser(User user)
+    {
+        return AddHeader(RequestHeaders.Cookie, user.Cookie ?? string.Empty);
     }
 
     /// <summary>
@@ -151,14 +198,15 @@ public class Requester
     }
 
     private async Task<Response<TResult>?> RequestAsync<TResult>(
-        Func<HttpClient, CancellationToken, Task<HttpResponseMessage>> requestFunc,
+        Func<HttpClient, CancellationToken, Task<HttpResponseMessage>> requestAsyncFunc,
         CancellationToken cancellationToken = default)
     {
+        isRequesting = true;
         PrepareHttpClient();
 
         try
         {
-            HttpResponseMessage response = await requestFunc
+            HttpResponseMessage response = await requestAsyncFunc
                 .Invoke(HttpClient, cancellationToken)
                 .ConfigureAwait(false);
 
@@ -166,11 +214,14 @@ public class Requester
                 .ReadAsStringAsync(cancellationToken)
                 .ConfigureAwait(false);
 
-            Response<TResult>? resp = json.ToObject<Response<TResult>>(contentString);
-            if (resp?.ToString() is string representable)
+            Response<TResult>? resp = Json.ToObject<Response<TResult>>(contentString);
+
+            if (resp is null)
             {
-                infoBarService.Information(representable);
+                return Response<TResult>.CreateForJsonException(contentString);
             }
+
+            ValidateResponse(resp);
 
             return resp;
         }
@@ -181,7 +232,17 @@ public class Requester
         }
         finally
         {
+            isRequesting = false;
             logger.LogInformation("Request Completed");
+        }
+    }
+
+    private void ValidateResponse<TResult>(Response<TResult> resp)
+    {
+        // 未知的返回代码
+        if (!Enum.IsDefined(typeof(KnownReturnCode), resp.ReturnCode))
+        {
+            infoBarService.Information(resp.ToString());
         }
     }
 }

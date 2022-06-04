@@ -32,6 +32,20 @@ public class Response<TData> : Response
     }
 
     /// <summary>
+    /// 构造一个失败的响应
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <returns>响应</returns>
+    public static Response<TData> CreateForJsonException(string message)
+    {
+        return new Response<TData>()
+        {
+            ReturnCode = (int)KnownReturnCode.InternalFailure,
+            Message = message,
+        };
+    }
+
+    /// <summary>
     /// 构造一个空Url的响应
     /// </summary>
     /// <returns>响应</returns>

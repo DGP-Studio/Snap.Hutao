@@ -11,6 +11,11 @@ public enum KnownReturnCode
     /// <summary>
     /// Url为 空
     /// </summary>
+    JsonParseIssue = -2000000002,
+
+    /// <summary>
+    /// Url为 空
+    /// </summary>
     UrlIsEmpty = -2000000001,
 
     /// <summary>

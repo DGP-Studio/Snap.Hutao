@@ -20,11 +20,11 @@ public class AnnouncementType
     /// 名称
     /// </summary>
     [JsonPropertyName("name")]
-    public string? Name { get; set; }
+    public string Name { get; set; } = default!;
 
     /// <summary>
     /// 国际化名称
     /// </summary>
     [JsonPropertyName("mi18n_name")]
-    public string? MI18NName { get; set; }
+    public string MI18NName { get; set; } = default!;
 }

@@ -40,16 +40,22 @@ internal class AutoHeightBehavior : BehaviorBase<FrameworkElement>
     protected override void OnAssociatedObjectLoaded()
     {
         AssociatedObject.SizeChanged += OnSizeChanged;
+        UpdateElementHeight();
     }
 
     /// <inheritdoc/>
-    protected override void OnAssociatedObjectUnloaded()
+    protected override void OnDetaching()
     {
         AssociatedObject.SizeChanged -= OnSizeChanged;
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        AssociatedObject.Height = (double)((FrameworkElement)sender).ActualWidth * (TargetHeight / TargetWidth);
+        UpdateElementHeight();
+    }
+
+    private void UpdateElementHeight()
+    {
+        AssociatedObject.Height = (double)AssociatedObject.ActualWidth * (TargetHeight / TargetWidth);
     }
 }

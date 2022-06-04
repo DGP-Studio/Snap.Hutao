@@ -13,8 +13,7 @@
     <Nullable>enable</Nullable>
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
     <NeutralLanguage>zh-CN</NeutralLanguage>
-    <DefaultLanguage>zh-cn</DefaultLanguage>
-    
+    <DefaultLanguage>zh-CN</DefaultLanguage>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <PackageCertificateThumbprint>F8C2255969BEA4A681CED102771BF807856AEC02</PackageCertificateThumbprint>
@@ -53,15 +52,11 @@
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.1.46" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.1.46">
+    <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.2.32" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.2.32">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

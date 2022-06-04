@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Model.Entity;
 
 namespace Snap.Hutao.Context.Database;
 
@@ -18,4 +19,9 @@ internal class AppDbContext : DbContext
         : base(options)
     {
     }
+
+    /// <summary>
+    /// 设置项
+    /// </summary>
+    public DbSet<SettingEntry> Settings { get; set; } = default!;
 }

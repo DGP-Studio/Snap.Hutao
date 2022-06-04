@@ -91,6 +91,9 @@ dotnet_diagnostic.SA1623.severity = none
 # SA1636: File header copyright text should match
 dotnet_diagnostic.SA1636.severity = none
 
+# SA1414: Tuple types in signatures should have element names
+dotnet_diagnostic.SA1414.severity = none
+
 [*.vb]
 #### 命名样式 ####
 

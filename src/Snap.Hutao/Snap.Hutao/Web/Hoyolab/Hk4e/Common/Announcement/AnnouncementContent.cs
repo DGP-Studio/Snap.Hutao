@@ -20,30 +20,30 @@ public class AnnouncementContent
     /// 公告标题
     /// </summary>
     [JsonPropertyName("title")]
-    public string? Title { get; set; }
+    public string Title { get; set; } = default!;
 
     /// <summary>
     /// 副标题
     /// </summary>
     [JsonPropertyName("subtitle")]
-    public string? Subtitle { get; set; }
+    public string Subtitle { get; set; } = default!;
 
     /// <summary>
     /// 横幅Url
     /// </summary>
     [JsonPropertyName("banner")]
-    public string? Banner { get; set; }
+    public string Banner { get; set; } = default!;
 
     /// <summary>
     /// 内容字符串
     /// 可能包含了一些html格式
     /// </summary>
     [JsonPropertyName("content")]
-    public string? Content { get; set; }
+    public string Content { get; set; } = default!;
 
     /// <summary>
     /// 语言
     /// </summary>
     [JsonPropertyName("lang")]
-    public string? Lang { get; set; }
+    public string Lang { get; set; } = default!;
 }

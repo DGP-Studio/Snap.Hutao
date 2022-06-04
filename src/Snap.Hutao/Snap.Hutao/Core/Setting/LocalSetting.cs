@@ -68,7 +68,7 @@ internal static class LocalSetting
         }
         else
         {
-            Set(key, defaultValue);
+            SetValueType(key, defaultValue);
             return defaultValue;
         }
     }

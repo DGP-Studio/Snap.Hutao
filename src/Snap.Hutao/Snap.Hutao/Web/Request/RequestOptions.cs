@@ -9,21 +9,9 @@ namespace Snap.Hutao.Web.Request
     public class RequestOptions : Dictionary<string, string>
     {
         /// <summary>
-        /// 不再使用
-        /// </summary>
-        [Obsolete("不再使用")]
-        public const string CommonUA2101 = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBS/2.10.1";
-
-        /// <summary>
-        /// 不再使用
-        /// </summary>
-        [Obsolete("不再使用")]
-        public const string CommonUA2111 = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBS/2.11.1";
-
-        /// <summary>
         /// 支持更新的DS2算法
         /// </summary>
-        public const string CommonUA2161 = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBS/2.16.1";
+        public const string CommonUA = @"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBS/2.16.1";
 
         /// <summary>
         /// 应用程序/Json
@@ -34,6 +22,11 @@ namespace Snap.Hutao.Web.Request
         /// 指示请求由米游社发起
         /// </summary>
         public const string Hyperion = "com.mihoyo.hyperion";
+
+        /// <summary>
+        /// 默认的客户端类型
+        /// </summary>
+        public const string DefaultClientType = "5";
 
         /// <summary>
         /// 设备Id

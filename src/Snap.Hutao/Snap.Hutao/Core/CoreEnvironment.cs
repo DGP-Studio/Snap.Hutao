@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32;
+using Snap.Hutao.Core.Converting;
 using Snap.Hutao.Extension;
-using System.Security.Cryptography;
-using System.Text;
 using Windows.ApplicationModel;
 
 namespace Snap.Hutao.Core;
@@ -41,8 +40,6 @@ internal static class CoreEnvironment
     {
         string userName = Environment.UserName;
         object? machineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, userName);
-        byte[] bytes = Encoding.UTF8.GetBytes($"{userName}{machineGuid}");
-        byte[] hash = MD5.HashData(bytes);
-        return Convert.ToHexString(hash);
+        return Md5Convert.ToHexString($"{userName}{machineGuid}");
     }
 }

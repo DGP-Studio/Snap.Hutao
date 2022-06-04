@@ -13,7 +13,7 @@ namespace Snap.Hutao.Core.Validation;
 public static class Must
 {
     /// <summary>
-    /// Throws an exception if the specified parameter's value is null.
+    /// Throws an <see cref="ArgumentNullException"/> if the specified parameter's value is null.
     /// </summary>
     /// <typeparam name="T">The type of the parameter.</typeparam>
     /// <param name="value">The value of the argument.</param>

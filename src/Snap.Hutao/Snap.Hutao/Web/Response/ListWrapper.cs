@@ -16,5 +16,5 @@ public class ListWrapper<T>
     /// 列表
     /// </summary>
     [JsonPropertyName("list")]
-    public List<T>? List { get; set; }
+    public List<T> List { get; set; } = default!;
 }

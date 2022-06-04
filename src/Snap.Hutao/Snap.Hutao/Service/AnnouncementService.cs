@@ -28,7 +28,7 @@ internal class AnnouncementService : IAnnouncementService
     /// <inheritdoc/>
     public async Task<AnnouncementWrapper> GetAnnouncementsAsync(ICommand openAnnouncementUICommand, CancellationToken cancellationToken = default)
     {
-        AnnouncementWrapper? wrapper = await announcementProvider.GetAnnouncementWrapperAsync(cancellationToken);
+        AnnouncementWrapper? wrapper = await announcementProvider.GetAnnouncementsAsync(cancellationToken);
         List<AnnouncementContent> contents = await announcementProvider.GetAnnouncementContentsAsync(cancellationToken);
 
         Dictionary<int, string?> contentMap = contents
@@ -41,12 +41,6 @@ internal class AnnouncementService : IAnnouncementService
 
             // 将公告内容联入公告列表
             JoinAnnouncements(openAnnouncementUICommand, contentMap, announcementListWrappers);
-
-            // we only cares about activities
-            if (announcementListWrappers[0].List is List<Announcement> activities)
-            {
-                AdjustActivitiesTime(ref activities);
-            }
 
             return wrapper;
         }
@@ -64,7 +58,6 @@ internal class AnnouncementService : IAnnouncementService
         {
             listWrapper.List?.ForEach(item =>
             {
-                // fix key issue
                 if (contentMap.TryGetValue(item.AnnId, out string? rawContent))
                 {
                     // remove <t/> tag
@@ -75,27 +68,5 @@ internal class AnnouncementService : IAnnouncementService
                 item.OpenAnnouncementUICommand = openAnnouncementUICommand;
             });
         });
-    }
-
-    private void AdjustActivitiesTime(ref List<Announcement> activities)
-    {
-        // Match yyyy/MM/dd HH:mm:ss time format
-        Regex dateTimeRegex = new(@"(\d+\/\d+\/\d+\s\d+:\d+:\d+)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
-        activities.ForEach(item =>
-        {
-            Match matched = dateTimeRegex.Match(item.Content ?? string.Empty);
-            if (matched.Success && DateTime.TryParse(matched.Value, out DateTime time))
-            {
-                if (time > item.StartTime && time < item.EndTime)
-                {
-                    item.StartTime = time;
-                }
-            }
-        });
-
-        activities = activities
-            .OrderBy(i => i.StartTime)
-            .ThenBy(i => i.EndTime)
-            .ToList();
     }
 }

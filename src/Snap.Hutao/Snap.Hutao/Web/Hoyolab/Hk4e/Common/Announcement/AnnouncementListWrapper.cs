@@ -21,5 +21,5 @@ public class AnnouncementListWrapper : ListWrapper<Announcement>
     /// 类型标签
     /// </summary>
     [JsonPropertyName("type_label")]
-    public string? TypeLabel { get; set; }
+    public string TypeLabel { get; set; } = default!;
 }

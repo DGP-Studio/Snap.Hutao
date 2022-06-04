@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 global using CommunityToolkit.Mvvm.DependencyInjection;
+global using Microsoft;
 global using Microsoft.Extensions.Logging;
 global using Snap.Hutao.Core.DependencyInjection;
 global using Snap.Hutao.Core.DependencyInjection.Annotation;

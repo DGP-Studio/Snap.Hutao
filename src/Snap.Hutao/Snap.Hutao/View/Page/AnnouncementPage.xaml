@@ -13,7 +13,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcc="using:Snap.Hutao.Control.Cancellable"
-    xmlns:shvc="using:Snap.Hutao.View.Converter"
+    xmlns:shvc="using:Snap.Hutao.View.Converter" xmlns:shca="using:Snap.Hutao.Control.Animation"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     
@@ -82,18 +82,10 @@
                                                             </Border.Background>
                                                             <cwua:Explicit.Animations>
                                                                 <cwua:AnimationSet x:Name="ImageZoomInAnimation">
-                                                                    <cwua:ScaleAnimation
-                                                                        EasingMode="EaseOut"
-                                                                        EasingType="Circle"
-                                                                        To="1.1"
-                                                                        Duration="0:0:0.5"/>
+                                                                    <shca:ImageZoomInAnimation/>
                                                                 </cwua:AnimationSet>
                                                                 <cwua:AnimationSet x:Name="ImageZoomOutAnimation">
-                                                                    <cwua:ScaleAnimation
-                                                                        EasingMode="EaseOut"
-                                                                        EasingType="Circle"
-                                                                        To="1"
-                                                                        Duration="0:0:0.5"/>
+                                                                    <shca:ImageZoomOutAnimation/>
                                                                 </cwua:AnimationSet>
                                                             </cwua:Explicit.Animations>
                                                         </Border>
@@ -105,12 +97,6 @@
                                                             HorizontalAlignment="Stretch"
                                                             VerticalAlignment="Bottom"
                                                             Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BoolToVisibilityConverter}}">
-                                                            <!--<Border.Background>
-                                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                                    <GradientStop Color="#00000000"/>
-                                                                    <GradientStop Offset="1" Color="#A0000000"/>
-                                                                </LinearGradientBrush>
-                                                            </Border.Background>-->
                                                             <ProgressBar
                                                                 MinHeight="2"
                                                                 Value="{Binding TimePercent,Mode=OneWay}"
