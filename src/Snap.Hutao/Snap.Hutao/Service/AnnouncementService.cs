@@ -14,44 +14,46 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
 internal class AnnouncementService : IAnnouncementService
 {
-    private readonly AnnouncementClient announcementProvider;
+    private readonly AnnouncementClient announcementClient;
 
     /// <summary>
     /// 构造一个新的公告服务
     /// </summary>
-    /// <param name="announcementProvider">公告提供器</param>
-    public AnnouncementService(AnnouncementClient announcementProvider)
+    /// <param name="announcementClient">公告提供器</param>
+    public AnnouncementService(AnnouncementClient announcementClient)
     {
-        this.announcementProvider = announcementProvider;
+        this.announcementClient = announcementClient;
     }
 
     /// <inheritdoc/>
     public async Task<AnnouncementWrapper> GetAnnouncementsAsync(ICommand openAnnouncementUICommand, CancellationToken cancellationToken = default)
     {
-        AnnouncementWrapper? wrapper = await announcementProvider.GetAnnouncementsAsync(cancellationToken);
-        List<AnnouncementContent> contents = await announcementProvider.GetAnnouncementContentsAsync(cancellationToken);
+        AnnouncementWrapper? wrapper = await announcementClient
+            .GetAnnouncementsAsync(cancellationToken)
+            .ConfigureAwait(false);
+        List<AnnouncementContent> contents = await announcementClient
+            .GetAnnouncementContentsAsync(cancellationToken)
+            .ConfigureAwait(false);
 
-        Dictionary<int, string?> contentMap = contents
+        Dictionary<int, string> contentMap = contents
             .ToDictionary(id => id.AnnId, content => content.Content);
 
-        if (wrapper?.List is List<AnnouncementListWrapper> announcementListWrappers)
-        {
-            // 将活动公告置于上方
-            announcementListWrappers.Reverse();
+        Must.NotNull(wrapper!);
 
-            // 将公告内容联入公告列表
-            JoinAnnouncements(openAnnouncementUICommand, contentMap, announcementListWrappers);
+        // 将活动公告置于上方
+        wrapper.List.Reverse();
 
-            return wrapper;
-        }
+        // 将公告内容联入公告列表
+        JoinAnnouncements(openAnnouncementUICommand, contentMap, wrapper.List);
 
-        return new();
+        return wrapper;
     }
 
-    private void JoinAnnouncements(ICommand openAnnouncementUICommand, Dictionary<int, string?> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
+    private static void JoinAnnouncements(ICommand openAnnouncementUICommand, Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
     {
         // 匹配特殊的时间格式: <t>(.*?)</t>
         Regex timeTagRegrex = new("&lt;t.*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline);
+
         Regex timeTagInnerRegex = new("(?<=&lt;t.*?&gt;)(.*?)(?=&lt;/t&gt;)");
 
         announcementListWrappers.ForEach(listWrapper =>
@@ -64,7 +66,7 @@ internal class AnnouncementService : IAnnouncementService
                     rawContent = timeTagRegrex.Replace(rawContent!, x => timeTagInnerRegex.Match(x.Value).Value);
                 }
 
-                item.Content = rawContent;
+                item.Content = rawContent ?? string.Empty;
                 item.OpenAnnouncementUICommand = openAnnouncementUICommand;
             });
         });

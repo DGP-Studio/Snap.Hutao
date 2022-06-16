@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Abstraction.Navigation;
 
 namespace Snap.Hutao.View;
 

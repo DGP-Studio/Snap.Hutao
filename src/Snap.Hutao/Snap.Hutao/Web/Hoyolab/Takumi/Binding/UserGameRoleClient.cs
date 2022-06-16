@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -39,7 +38,7 @@ internal class UserGameRoleClient
     public async Task<List<UserGameRole>> GetUserGameRolesAsync(CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(userService.CurrentUser)
+            .SetUser(userService.Current)
             .GetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRoles, token)
             .ConfigureAwait(false);
 

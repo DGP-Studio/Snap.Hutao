@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Core;
 
 namespace Snap.Hutao.View.Converter;
 
@@ -15,14 +16,12 @@ public class BoolToObjectConverter : DependencyObject, IValueConverter
     /// <summary>
     /// Identifies the <see cref="TrueValue"/> property.
     /// </summary>
-    public static readonly DependencyProperty TrueValueProperty =
-        DependencyProperty.Register(nameof(TrueValue), typeof(object), typeof(BoolToObjectConverter), new PropertyMetadata(null));
+    public static readonly DependencyProperty TrueValueProperty = Property<BoolToObjectConverter>.Depend<object>(nameof(TrueValue));
 
     /// <summary>
     /// Identifies the <see cref="FalseValue"/> property.
     /// </summary>
-    public static readonly DependencyProperty FalseValueProperty =
-        DependencyProperty.Register(nameof(FalseValue), typeof(object), typeof(BoolToObjectConverter), new PropertyMetadata(null));
+    public static readonly DependencyProperty FalseValueProperty = Property<BoolToObjectConverter>.Depend<object>(nameof(FalseValue));
 
     /// <summary>
     /// Gets or sets the value to be returned when the boolean is true

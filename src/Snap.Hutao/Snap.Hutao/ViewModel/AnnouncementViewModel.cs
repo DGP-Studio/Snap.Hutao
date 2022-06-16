@@ -8,6 +8,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Abstraction.Navigation;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Windows.Input;
 

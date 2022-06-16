@@ -1,11 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.AppCenter.Analytics;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Extension;
-using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Abstraction.Navigation;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
 using System.Linq;
@@ -82,6 +80,7 @@ internal class NavigationService : INavigationService
             NavigationViewItem? target = NavigationView.MenuItems
                 .OfType<NavigationViewItem>()
                 .SingleOrDefault(menuItem => NavHelper.GetNavigateTo(menuItem) == pageType);
+
             NavigationView.SelectedItem = target;
         }
 
@@ -90,44 +89,59 @@ internal class NavigationService : INavigationService
     }
 
     /// <inheritdoc/>
-    public bool Navigate(Type? pageType, bool isSyncTabRequested = false, object? data = null)
+    public NavigationResult Navigate(Type pageType, bool syncNavigationViewItem = false, NavigationExtra? data = null)
     {
         Type? currentType = Frame?.Content?.GetType();
-        if (pageType is null || (currentType == pageType))
+
+        if (currentType == pageType)
         {
-            return false;
+            return NavigationResult.AlreadyNavigatedTo;
         }
 
-        _ = isSyncTabRequested && SyncSelectedNavigationViewItemWith(pageType);
+        _ = syncNavigationViewItem && SyncSelectedNavigationViewItemWith(pageType);
 
-        bool result = false;
+        bool navigated = false;
         try
         {
-            result = Frame?.Navigate(pageType, data) ?? false;
+            if (data != null && data.GetType() != typeof(NavigationExtra))
+            {
+                data = new NavigationExtra(data);
+            }
+
+            navigated = Frame?.Navigate(pageType, data) ?? false;
         }
         catch (Exception ex)
         {
             logger.LogError(EventIds.NavigationFailed, ex, "导航到指定页面时发生了错误");
         }
 
-        logger.LogInformation("Navigate to {pageType}:{result}", pageType, result ? "succeed" : "failed");
-
-        // 分析页面统计数据时不应加入启动时导航的首个页面
-        if (HasEverNavigated)
-        {
-            Analytics.TrackEvent("General", ("OpenUI", pageType.ToString()).AsDictionary());
-        }
+        logger.LogInformation("Navigate to {pageType}:{result}", pageType, navigated ? "succeed" : "failed");
 
         // 首次导航失败时使属性持续保存为false
-        HasEverNavigated = HasEverNavigated || result;
-        return result;
+        HasEverNavigated = HasEverNavigated || navigated;
+        return navigated ? NavigationResult.Succeed : NavigationResult.Failed;
     }
 
     /// <inheritdoc/>
-    public bool Navigate<T>(bool isSyncTabRequested = false, object? data = null)
-        where T : Page
+    public NavigationResult Navigate<TPage>(bool syncNavigationViewItem = false, NavigationExtra? data = null)
+        where TPage : Page
     {
-        return Navigate(typeof(T), isSyncTabRequested, data);
+        return Navigate(typeof(TPage), syncNavigationViewItem, data);
+    }
+
+    /// <inheritdoc/>
+    public async Task<NavigationResult> NavigateAsync<TPage>(bool syncNavigationViewItem = false, NavigationExtra? data = null)
+        where TPage : Page
+    {
+        data ??= new NavigationExtra();
+        NavigationResult result = Navigate<TPage>(syncNavigationViewItem, data);
+
+        if (result is NavigationResult.Succeed)
+        {
+            await data.NavigationCompletedTaskCompletionSource.Task;
+        }
+
+        return result;
     }
 
     /// <inheritdoc/>
@@ -143,7 +157,8 @@ internal class NavigationService : INavigationService
         Type? targetType = args.IsSettingsInvoked
             ? typeof(SettingPage)
             : NavHelper.GetNavigateTo(Selected);
-        Navigate(targetType, false, NavHelper.GetExtraData(Selected));
+
+        Navigate(Must.NotNull(targetType!), false, new(NavHelper.GetExtraData(Selected)));
     }
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)

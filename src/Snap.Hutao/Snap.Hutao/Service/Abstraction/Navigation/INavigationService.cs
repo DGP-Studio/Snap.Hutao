@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.Service.Abstraction;
+namespace Snap.Hutao.Service.Abstraction.Navigation;
 
 /// <summary>
 /// 导航服务
@@ -44,7 +44,7 @@ public interface INavigationService
     /// <param name="isSyncTabRequested">是否同步标签，当在代码中调用时应设为 true</param>
     /// <param name="data">要传递的数据</param>
     /// <returns>是否导航成功</returns>
-    bool Navigate(Type? pageType, bool isSyncTabRequested = false, object? data = null);
+    NavigationResult Navigate(Type pageType, bool isSyncTabRequested = false, NavigationExtra? data = null);
 
     /// <summary>
     /// 导航到指定类型的页面
@@ -53,8 +53,18 @@ public interface INavigationService
     /// <param name="isSyncTabRequested">是否同步标签，当在代码中调用时应设为 true</param>
     /// <param name="data">要传递的数据</param>
     /// <returns>是否导航成功</returns>
-    bool Navigate<T>(bool isSyncTabRequested = false, object? data = null)
+    NavigationResult Navigate<T>(bool isSyncTabRequested = false, NavigationExtra? data = null)
         where T : Page;
+
+    /// <summary>
+    /// 异步的导航到指定类型的页面
+    /// </summary>
+    /// <typeparam name="TPage">指定的页面类型</typeparam>
+    /// <param name="syncNavigationViewItem">是否同步标签，当在代码中调用时应设为 true</param>
+    /// <param name="data">要传递的数据</param>
+    /// <returns>是否导航成功</returns>
+    Task<NavigationResult> NavigateAsync<TPage>(bool syncNavigationViewItem = false, NavigationExtra? data = null)
+        where TPage : Page;
 
     /// <summary>
     /// 同步导航标签

@@ -26,7 +26,7 @@ internal class UserClient
     /// <param name="userService">用户服务</param>
     /// <param name="httpClient">http客户端</param>
     /// <param name="jsonSerializerOptions">Json序列化选项</param>
-    public UserClient(IUserService userService,HttpClient httpClient, JsonSerializerOptions jsonSerializerOptions)
+    public UserClient(IUserService userService, HttpClient httpClient, JsonSerializerOptions jsonSerializerOptions)
     {
         this.userService = userService;
         this.httpClient = httpClient;
@@ -42,7 +42,7 @@ internal class UserClient
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .UsingDynamicSecret()
-            .SetUser(userService.CurrentUser)
+            .SetUser(userService.Current)
             .GetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, jsonSerializerOptions, token)
             .ConfigureAwait(false);
 
@@ -59,7 +59,7 @@ internal class UserClient
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .UsingDynamicSecret()
-            .SetUser(userService.CurrentUser)
+            .SetUser(userService.Current)
             .GetFromJsonAsync<Response<UserFullInfoWrapper>>(string.Format(ApiEndpoints.UserFullInfoQuery, uid), jsonSerializerOptions, token)
             .ConfigureAwait(false);
 

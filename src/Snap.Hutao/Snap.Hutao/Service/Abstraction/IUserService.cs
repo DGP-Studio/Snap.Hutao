@@ -13,5 +13,5 @@ public interface IUserService
     /// <summary>
     /// 获取当前用户信息
     /// </summary>
-    User CurrentUser { get; }
+    User Current { get; }
 }

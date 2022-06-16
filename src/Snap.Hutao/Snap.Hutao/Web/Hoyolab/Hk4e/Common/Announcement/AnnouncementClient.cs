@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Extension;
-using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
 using System.Net.Http;
