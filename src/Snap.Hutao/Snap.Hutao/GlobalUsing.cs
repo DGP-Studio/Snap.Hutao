@@ -8,6 +8,7 @@ global using Snap.Hutao.Core.DependencyInjection;
 global using Snap.Hutao.Core.DependencyInjection.Annotation;
 global using Snap.Hutao.Core.Validation;
 global using System;
+global using System.ComponentModel;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Threading;
 global using System.Threading.Tasks;

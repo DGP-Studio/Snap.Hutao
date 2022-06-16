@@ -9,7 +9,7 @@ namespace Snap.Hutao.Web.Response;
 public enum KnownReturnCode
 {
     /// <summary>
-    /// Url为 空
+    /// Json 异常
     /// </summary>
     JsonParseIssue = -2000000002,
 

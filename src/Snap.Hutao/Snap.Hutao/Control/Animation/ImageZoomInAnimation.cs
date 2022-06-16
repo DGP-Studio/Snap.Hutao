@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Composition;
-using Microsoft.UI.Xaml.Media.Animation;
 using System.Numerics;
 
 namespace Snap.Hutao.Control.Animation;
@@ -23,7 +22,10 @@ internal class ImageZoomInAnimation : ImplicitAnimation<string, Vector3>
     }
 
     /// <inheritdoc/>
-    protected override string ExplicitTarget => nameof(Visual.Scale);
+    protected override string ExplicitTarget
+    {
+        get => nameof(Visual.Scale);
+    }
 
     /// <inheritdoc/>
     protected override (Vector3?, Vector3?) GetParsedValues()

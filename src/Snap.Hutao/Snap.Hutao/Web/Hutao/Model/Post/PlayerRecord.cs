@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
+using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 
 /// <summary>
 /// 玩家记录
-/// 使用 <see cref="Create(string, List{Character}, SpiralAbyss)"/> 来构建一个实例
+/// 使用 <see cref="CreateAsync(string, List{Character}, SpiralAbyss)"/> 来构建一个实例
 /// </summary>
 public class PlayerRecord
 {
@@ -42,6 +43,8 @@ public class PlayerRecord
     /// </summary>
     public IEnumerable<PlayerSpiralAbyssLevel> PlayerSpiralAbyssesLevels { get; }
 
+    private List<Character> CachedAvatars { get; set; } = default!;
+
     /// <summary>
     /// 建造玩家记录
     /// </summary>
@@ -58,7 +61,35 @@ public class PlayerRecord
             .SelectMany(f => f.Levels, (f, level) => new IndexedLevel(f.Index, level))
             .Select(indexedLevel => new PlayerSpiralAbyssLevel(indexedLevel));
 
-        PlayerRecord playerRecord = new(uid, playerAvatars, playerSpiralAbyssLevels);
-        return playerRecord;
+        return new PlayerRecord(uid, playerAvatars, playerSpiralAbyssLevels)
+        {
+            CachedAvatars = detailAvatars,
+        };
+    }
+
+    /// <summary>
+    /// 代替胡桃客户端上传物品数据
+    /// </summary>
+    /// <param name="hutaoClient">使用的客户端</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>是否上传成功</returns>
+    internal async Task<bool> UploadItemsAsync(HutaoClient hutaoClient, CancellationToken token)
+    {
+        Response<string>? resp = await hutaoClient
+            .UploadItemsAsync(CachedAvatars, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.IsOk(resp);
+    }
+
+    /// <summary>
+    /// 上传记录
+    /// </summary>
+    /// <param name="hutaoClient">使用的客户端</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>上传结果</returns>
+    internal Task<Response<string>?> UploadRecordAsync(HutaoClient hutaoClient, CancellationToken token = default)
+    {
+        return hutaoClient.UploadRecordAsync(this, token);
     }
 }

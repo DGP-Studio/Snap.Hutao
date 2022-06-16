@@ -8,7 +8,7 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 命座比例
 /// </summary>
-public class AvatarConstellationNum
+public class AvatarConstellation
 {
     /// <summary>
     /// 角色ID

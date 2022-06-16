@@ -34,9 +34,6 @@ public class Battle
     /// </summary>
     public DateTime Time
     {
-        get
-        {
-            return DateTimeOffset.FromUnixTimeSeconds(int.Parse(Timestamp)).LocalDateTime;
-        }
+        get => DateTimeOffset.FromUnixTimeSeconds(int.Parse(Timestamp)).LocalDateTime;
     }
 }

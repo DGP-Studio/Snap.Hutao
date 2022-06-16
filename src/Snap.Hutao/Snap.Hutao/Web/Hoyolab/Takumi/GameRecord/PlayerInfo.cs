@@ -1,14 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Web.Request;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 

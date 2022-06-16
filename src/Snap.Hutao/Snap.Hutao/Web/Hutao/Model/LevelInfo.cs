@@ -4,12 +4,12 @@
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 层
+/// 带有层的间编号
 /// </summary>
 public class LevelInfo
 {
     /// <summary>
-    /// 间
+    /// 层
     /// </summary>
     public int Floor { get; set; }
 

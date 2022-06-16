@@ -1,28 +1,35 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
 /// <summary>
-/// 公告提供器
+/// 公告客户端
 /// </summary>
 [Injection(InjectAs.Transient)]
-internal class AnnouncementProvider
+internal class AnnouncementClient
 {
-    private readonly Requester requester;
+    private readonly HttpClient httpClient;
+    private readonly JsonSerializerOptions jsonSerializerOptions;
 
     /// <summary>
-    /// 构造一个新的公告提供器
+    /// 构造一个新的公告客户端
     /// </summary>
-    /// <param name="requester">请求器</param>
-    public AnnouncementProvider(Requester requester)
+    /// <param name="httpClient">客户端</param>
+    /// <param name="jsonSerializerOptions">json序列化选项</param>
+    public AnnouncementClient(HttpClient httpClient, JsonSerializerOptions jsonSerializerOptions)
     {
-        this.requester = requester;
+        this.httpClient = httpClient;
+        this.jsonSerializerOptions = jsonSerializerOptions;
     }
 
     /// <summary>
@@ -32,9 +39,8 @@ internal class AnnouncementProvider
     /// <returns>公告列表</returns>
     public async Task<AnnouncementWrapper?> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
     {
-        Response<AnnouncementWrapper>? resp = await requester
-            .Reset()
-            .GetAsync<AnnouncementWrapper>(ApiEndpoints.AnnList, cancellationToken)
+        Response<AnnouncementWrapper>? resp = await httpClient
+            .GetFromJsonAsync<Response<AnnouncementWrapper>>(ApiEndpoints.AnnList, jsonSerializerOptions, cancellationToken)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -49,12 +55,10 @@ internal class AnnouncementProvider
     {
         Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-        Response<ListWrapper<AnnouncementContent>>? resp = await requester
-            .Reset()
-            .AddHeader(RequestHeaders.Accept, RequestOptions.Json)
-            .GetAsync<ListWrapper<AnnouncementContent>>(ApiEndpoints.AnnContent, cancellationToken)
+        Response<ListWrapper<AnnouncementContent>>? resp = await httpClient
+            .GetFromJsonAsync<Response<ListWrapper<AnnouncementContent>>>(ApiEndpoints.AnnContent, jsonSerializerOptions, cancellationToken)
             .ConfigureAwait(false);
 
-        return resp?.Data?.List ?? new();
+        return EnumerableExtensions.EmptyIfNull(resp?.Data?.List);
     }
 }

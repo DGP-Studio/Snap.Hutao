@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft;
 using Snap.Hutao.Model;
 
 namespace Snap.Hutao.Core.Threading;

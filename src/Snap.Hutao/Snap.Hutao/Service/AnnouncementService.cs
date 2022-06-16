@@ -14,13 +14,13 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
 internal class AnnouncementService : IAnnouncementService
 {
-    private readonly AnnouncementProvider announcementProvider;
+    private readonly AnnouncementClient announcementProvider;
 
     /// <summary>
     /// 构造一个新的公告服务
     /// </summary>
     /// <param name="announcementProvider">公告提供器</param>
-    public AnnouncementService(AnnouncementProvider announcementProvider)
+    public AnnouncementService(AnnouncementClient announcementProvider)
     {
         this.announcementProvider = announcementProvider;
     }

@@ -1,13 +1,16 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
-using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -16,20 +19,22 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// 游戏记录提供器
 /// </summary>
 [Injection(InjectAs.Transient)]
-internal class GameRecordProvider
+internal class GameRecordClient
 {
     private readonly IUserService userService;
-    private readonly Requester requester;
+    private readonly HttpClient httpClient;
+    private readonly JsonSerializerOptions jsonSerializerOptions;
 
     /// <summary>
     /// 构造一个新的游戏记录提供器
     /// </summary>
     /// <param name="userService">用户服务</param>
-    /// <param name="requester">请求器</param>
-    public GameRecordProvider(IUserService userService, Requester requester)
+    /// <param name="httpClient">请求器</param>
+    public GameRecordClient(IUserService userService, HttpClient httpClient, JsonSerializerOptions jsonSerializerOptions)
     {
         this.userService = userService;
-        this.requester = requester;
+        this.httpClient = httpClient;
+        this.jsonSerializerOptions = jsonSerializerOptions;
     }
 
     /// <summary>
@@ -42,8 +47,10 @@ internal class GameRecordProvider
     {
         string url = string.Format(ApiEndpoints.GameRecordIndex, uid.Value, uid.Region);
 
-        Response<PlayerInfo>? resp = await PrepareRequester()
-            .GetUsingDS2Async<PlayerInfo>(url, token)
+        Response<PlayerInfo>? resp = await httpClient
+            .SetUser(userService.CurrentUser)
+            .UsingDynamicSecret2(jsonSerializerOptions, url)
+            .GetFromJsonAsync<Response<PlayerInfo>>(url, jsonSerializerOptions, token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -60,8 +67,10 @@ internal class GameRecordProvider
     {
         string url = string.Format(ApiEndpoints.SpiralAbyss, (int)schedule, uid.Value, uid.Region);
 
-        Response<SpiralAbyss.SpiralAbyss>? resp = await PrepareRequester()
-            .GetUsingDS2Async<SpiralAbyss.SpiralAbyss>(url, token)
+        Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
+            .SetUser(userService.CurrentUser)
+            .UsingDynamicSecret2(jsonSerializerOptions, url)
+            .GetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(url, jsonSerializerOptions, token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -72,29 +81,21 @@ internal class GameRecordProvider
     /// </summary>
     /// <param name="uid">uid</param>
     /// <param name="playerInfo">玩家的基础信息</param>
-    /// <param name="cancellationToken">取消令牌</param>
+    /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public async Task<List<Character>> GetCharactersAsync(PlayerUid uid, PlayerInfo playerInfo, CancellationToken cancellationToken = default)
+    public async Task<List<Character>> GetCharactersAsync(PlayerUid uid, PlayerInfo playerInfo, CancellationToken token = default)
     {
         CharacterData data = new(uid, playerInfo.Avatars.Select(x => x.Id));
 
-        Response<CharacterWrapper>? resp = await PrepareRequester()
-            .PostUsingDS2Async<CharacterWrapper>(ApiEndpoints.Character, data, cancellationToken)
+        HttpResponseMessage? response = await httpClient
+            .SetUser(userService.CurrentUser)
+            .UsingDynamicSecret2(jsonSerializerOptions, ApiEndpoints.Character, data)
+            .PostAsJsonAsync(ApiEndpoints.Character, data, token)
             .ConfigureAwait(false);
 
-        return resp?.Data?.Avatars ?? new();
-    }
+        Response<CharacterWrapper>? resp = await response.Content.ReadFromJsonAsync<Response<CharacterWrapper>>(jsonSerializerOptions, token);
 
-    private Requester PrepareRequester()
-    {
-        return requester
-            .Reset()
-            .SetAcceptJson()
-            .AddHeader(RequestHeaders.AppVersion, DynamicSecretProvider2.AppVersion)
-            .SetCommonUA()
-            .AddHeader(RequestHeaders.ClientType, RequestOptions.DefaultClientType)
-            .SetRequestWithHyperion()
-            .SetUser(userService.CurrentUser);
+        return EnumerableExtensions.EmptyIfNull(resp?.Data?.Avatars);
     }
 
     private class CharacterData

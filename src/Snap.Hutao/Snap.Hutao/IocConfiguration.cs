@@ -8,7 +8,6 @@ using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Web.Request;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -19,31 +18,6 @@ namespace Snap.Hutao;
 /// </summary>
 internal static class IocConfiguration
 {
-    /// <summary>
-    /// 添加 <see cref="System.Net.Http.HttpClient"/>
-    /// </summary>
-    /// <param name="services">集合</param>
-    /// <returns>可继续操作的集合</returns>
-    public static IServiceCollection AddHttpClients(this IServiceCollection services)
-    {
-        // http json
-        services
-            .AddHttpClient<HttpJson>()
-            .ConfigureHttpClient(client =>
-            {
-                client.Timeout = Timeout.InfiniteTimeSpan;
-                client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) Snap Hutao");
-            });
-
-        // requester & auth reuqester
-        services
-            .AddHttpClient<Requester>(nameof(Requester))
-            .AddTypedClient<AuthRequester>()
-            .ConfigureHttpClient(client => client.Timeout = Timeout.InfiniteTimeSpan);
-
-        return services;
-    }
-
     /// <summary>
     /// 添加默认的 <see cref="JsonSerializer"/> 配置
     /// </summary>
@@ -74,11 +48,31 @@ internal static class IocConfiguration
         string dbFile = myDocument.Locate("Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";
 
+        if (ShouldMigrate(myDocument, dbFile))
+        {
+            // temporarily create a context
+            using (AppDbContext context = AppDbContext.CreateFrom(sqlConnectionString))
+            {
+                context.Database.Migrate();
+            }
+        }
+
+        LocalSetting.Set(SettingKeys.LastAppVersion, CoreEnvironment.Version.ToString());
+
+        return services
+            .AddDbContextPool<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
+    }
+
+    private static bool ShouldMigrate(MyDocumentContext myDocument, string dbFile)
+    {
         bool shouldMigrate = false;
 
+        // 数据库文件存在
         if (myDocument.FileExists(dbFile))
         {
             string? versionString = LocalSetting.Get<string>(SettingKeys.LastAppVersion);
+
+            // 版本更新后
             if (Version.TryParse(versionString, out Version? lastVersion))
             {
                 if (lastVersion < CoreEnvironment.Version)
@@ -92,18 +86,6 @@ internal static class IocConfiguration
             shouldMigrate = true;
         }
 
-        if (shouldMigrate)
-        {
-            // temporarily create a context
-            using (AppDbContext context = new(new DbContextOptionsBuilder<AppDbContext>().UseSqlite(sqlConnectionString).Options))
-            {
-                context.Database.Migrate();
-            }
-        }
-
-        LocalSetting.Set(SettingKeys.LastAppVersion, CoreEnvironment.Version.ToString());
-
-        return services
-            .AddDbContextPool<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
+        return shouldMigrate;
     }
 }

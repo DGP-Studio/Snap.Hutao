@@ -3,7 +3,6 @@
 
 using CommunityToolkit.WinUI.UI.Behaviors;
 using Microsoft.UI.Xaml;
-using Microsoft.Xaml.Interactivity;
 using Snap.Hutao.Core;
 
 namespace Snap.Hutao.Control.Behavior;

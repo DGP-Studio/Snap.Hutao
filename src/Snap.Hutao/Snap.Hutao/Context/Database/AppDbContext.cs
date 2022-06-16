@@ -24,4 +24,14 @@ internal class AppDbContext : DbContext
     /// 设置项
     /// </summary>
     public DbSet<SettingEntry> Settings { get; set; } = default!;
+
+    /// <summary>
+    /// 构造一个临时的应用程序数据库上下文
+    /// </summary>
+    /// <param name="sqlConnectionString">连接字符串</param>
+    /// <returns>应用程序数据库上下文</returns>
+    public static AppDbContext CreateFrom(string sqlConnectionString)
+    {
+        return new(new DbContextOptionsBuilder<AppDbContext>().UseSqlite(sqlConnectionString).Options);
+    }
 }

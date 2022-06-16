@@ -30,7 +30,7 @@ public static class EnumerableExtensions
     /// <param name="source">源</param>
     /// <param name="keySelector">键选择器</param>
     /// <returns>计数表</returns>
-    public static IEnumerable<KeyValuePair<TKey, int>> CountBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource,TKey> keySelector)
+    public static IEnumerable<KeyValuePair<TKey, int>> CountBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         where TKey : notnull, IEquatable<TKey>
     {
         CounterInt32<TKey> counter = new();
@@ -40,6 +40,30 @@ public static class EnumerableExtensions
         }
 
         return counter;
+    }
+
+    /// <summary>
+    /// 如果传入集合不为空则原路返回，
+    /// 如果传入集合为空返回一个集合的空集
+    /// </summary>
+    /// <typeparam name="TSource">源类型</typeparam>
+    /// <param name="source">源</param>
+    /// <returns>源集合或空集</returns>
+    public static IEnumerable<TSource> EmptyIfNull<TSource>(this IEnumerable<TSource>? source)
+    {
+        return source ?? Enumerable.Empty<TSource>();
+    }
+
+    /// <summary>
+    /// 如果传入列表不为空则原路返回，
+    /// 如果传入列表为空返回一个空的列表
+    /// </summary>
+    /// <typeparam name="TSource">源类型</typeparam>
+    /// <param name="source">源</param>
+    /// <returns>源列表或空列表</returns>
+    public static List<TSource> EmptyIfNull<TSource>(this List<TSource>? source)
+    {
+        return source ?? new();
     }
 
     /// <summary>

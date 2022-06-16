@@ -58,6 +58,11 @@ public record UserGameRole
     [JsonPropertyName("is_official")]
     public string IsOfficial { get; set; } = default!;
 
+    public static explicit operator PlayerUid(UserGameRole userGameRole)
+    {
+        return userGameRole.AsPlayerUid();
+    }
+
     /// <summary>
     /// 转化为 <see cref="PlayerUid"/>
     /// </summary>

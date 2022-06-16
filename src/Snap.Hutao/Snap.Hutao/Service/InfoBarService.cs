@@ -95,7 +95,7 @@ internal class InfoBarService : IInfoBarService
     /// <param name="title">标题</param>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    [SuppressMessage("", "VSTHRD100", Justification ="只能通过 async void 方法使控件在主线程创建")]
+    [SuppressMessage("", "VSTHRD100", Justification = "只能通过 async void 方法使控件在主线程创建")]
     private async void PrepareInfoBarAndShowInternal(InfoBarSeverity severity, string? title, string? message, int delay)
     {
         InfoBar infoBar = new()

@@ -3,8 +3,9 @@
 
 using Snap.Hutao.Core.Converting;
 using Snap.Hutao.Core.Json;
-using Snap.Hutao.Web.Response;
 using System.Linq;
+using System.Text;
+using System.Text.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 
@@ -22,17 +23,17 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
     /// 米游社的盐
     /// 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
     /// </summary>
-    private static readonly string APISalt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
+    private static readonly string Salt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
     private static readonly Random Random = new();
 
     /// <summary>
     /// 创建动态密钥
     /// </summary>
-    /// <param name="json">json格式化器</param>
+    /// <param name="options">json格式化器</param>
     /// <param name="queryUrl">查询url</param>
     /// <param name="postBody">请求体</param>
     /// <returns>密钥</returns>
-    public static string Create(Json json, string queryUrl, object? postBody = null)
+    public static string Create(JsonSerializerOptions options, string queryUrl, object? postBody = null)
     {
         // unix timestamp
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -41,7 +42,7 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         string r = GetRandomString();
 
         // body
-        string b = postBody is null ? string.Empty : json.Stringify(postBody);
+        string b = postBody is null ? string.Empty : JsonSerializer.Serialize(postBody, options);
 
         // query
         string q = string.Empty;
@@ -52,7 +53,7 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         }
 
         // check
-        string check = ToHexString($"salt={APISalt}&t={t}&r={r}&b={b}&q={q}");
+        string check = ToHexString($"salt={Salt}&t={t}&r={r}&b={b}&q={q}");
 
         return $"{t},{r},{check}";
     }

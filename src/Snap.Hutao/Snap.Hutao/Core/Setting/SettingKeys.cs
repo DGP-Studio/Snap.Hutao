@@ -11,5 +11,5 @@ internal static class SettingKeys
     /// <summary>
     /// 上次打开时App的版本
     /// </summary>
-    public static readonly string LastAppVersion = "LastAppVersion";
+    public const string LastAppVersion = "LastAppVersion";
 }
