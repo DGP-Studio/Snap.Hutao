@@ -12,49 +12,20 @@ namespace Snap.Hutao.Web.Response;
 public class Response<TData> : Response
 {
     /// <summary>
+    /// 构造一个新的 Mihoyo 标准API响应
+    /// </summary>
+    /// <param name="returnCode">返回代码</param>
+    /// <param name="message">消息</param>
+    /// <param name="data">数据</param>
+    public Response(int returnCode, string message, TData? data)
+        : base(returnCode, message)
+    {
+        Data = data;
+    }
+
+    /// <summary>
     /// 数据
     /// </summary>
     [JsonPropertyName("data")]
     public TData? Data { get; set; }
-
-    /// <summary>
-    /// 构造一个失败的响应
-    /// </summary>
-    /// <param name="message">消息</param>
-    /// <returns>响应</returns>
-    public static new Response<TData> CreateForException(string message)
-    {
-        return new Response<TData>()
-        {
-            ReturnCode = (int)KnownReturnCode.InternalFailure,
-            Message = message,
-        };
-    }
-
-    /// <summary>
-    /// 构造一个失败的响应
-    /// </summary>
-    /// <param name="message">消息</param>
-    /// <returns>响应</returns>
-    public static Response<TData> CreateForJsonException(string message)
-    {
-        return new Response<TData>()
-        {
-            ReturnCode = (int)KnownReturnCode.InternalFailure,
-            Message = message,
-        };
-    }
-
-    /// <summary>
-    /// 构造一个空Url的响应
-    /// </summary>
-    /// <returns>响应</returns>
-    public static Response<TData> CreateForEmptyUrl()
-    {
-        return new Response<TData>()
-        {
-            ReturnCode = (int)KnownReturnCode.UrlIsEmpty,
-            Message = "请求的 Url 不应为空",
-        };
-    }
 }

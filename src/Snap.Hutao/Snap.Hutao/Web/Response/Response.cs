@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Service.Abstraction;
 using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Response;
@@ -8,8 +10,27 @@ namespace Snap.Hutao.Web.Response;
 /// <summary>
 /// 提供 <see cref="Response{T}"/> 的非泛型基类
 /// </summary>
-public class Response
+public class Response : ISupportValidation
 {
+    /// <summary>
+    /// 构造一个新的响应
+    /// </summary>
+    /// <param name="returnCode">返回代码</param>
+    /// <param name="message">消息</param>
+    [JsonConstructor]
+    public Response(int returnCode, string message)
+    {
+        ReturnCode = returnCode;
+        Message = message;
+
+        if (!Validate())
+        {
+            Ioc.Default
+                .GetRequiredService<IInfoBarService>()
+                .Information(ToString());
+        }
+    }
+
     /// <summary>
     /// 返回代码
     /// </summary>
@@ -32,18 +53,10 @@ public class Response
         return response is not null && response.ReturnCode == 0;
     }
 
-    /// <summary>
-    /// 构造一个失败的响应
-    /// </summary>
-    /// <param name="message">消息</param>
-    /// <returns>响应</returns>
-    public static Response CreateForException(string message)
+    /// <inheritdoc/>
+    public bool Validate()
     {
-        return new Response()
-        {
-            ReturnCode = (int)KnownReturnCode.InternalFailure,
-            Message = message,
-        };
+        return Enum.IsDefined(typeof(KnownReturnCode), ReturnCode);
     }
 
     /// <inheritdoc/>

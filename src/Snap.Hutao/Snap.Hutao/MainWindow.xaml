@@ -9,13 +9,14 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="28"/>
+            <RowDefinition Height="48.8"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid
-            x:Name="TitleBarGrid"
-            Background="Transparent"/>
+        <view:TitleView
+            x:Name="TitleBarView">
+            
+        </view:TitleView>
 
         <view:MainView Grid.Row="1"/>
     </Grid>

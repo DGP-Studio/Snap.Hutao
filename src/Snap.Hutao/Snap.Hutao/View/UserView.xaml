@@ -1,0 +1,74 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.View.UserView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Snap.Hutao.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Grid Height="48">
+        <Grid Height="48">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <PersonPicture
+                ProfilePicture="https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Hutao.png"
+                HorizontalAlignment="Left"
+                Margin="4,0,4,0"
+                Height="40"
+                Initials="LB"/>
+            <TextBlock
+                VerticalAlignment="Center"
+                Margin="0,0,0,2"
+                Grid.Column="1"
+                Text="胡桃胡桃胡桃胡桃胡桃胡桃"
+                TextTrimming="CharacterEllipsis"/>
+            <Button
+                Background="Transparent"
+                BorderBrush="{x:Null}"
+                Height="38.4"
+                Content="&#xE712;"
+                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                Grid.Column="2"
+                Margin="4">
+                <Button.Flyout>
+                    <Flyout
+                        Placement="BottomEdgeAlignedRight"
+                        LightDismissOverlayMode="On">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style
+                                TargetType="FlyoutPresenter"
+                                BasedOn="{StaticResource DefaultFlyoutPresenterStyle}">
+                                <Setter Property="Padding" Value="0,2,0,2"/>
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <StackPanel Width="192">
+                            <CommandBar DefaultLabelPosition="Right">
+                                <AppBarButton Icon="Add" Label="添加新用户"/>
+                            </CommandBar>
+                            <ListView
+                                Grid.Row="1"
+                                Margin="4"
+                                CanReorderItems="True">
+                                <ListViewItem Content="角色1"/>
+                                <ListViewItem Content="角色2"/>
+                            </ListView>
+                            <MenuFlyoutSeparator/>
+                            <ListView
+                                Grid.Row="1"
+                                Margin="4"
+                                CanReorderItems="True">
+                                <ListViewItem Content="用户1"/>
+                                <ListViewItem Content="用户2"/>
+                                <ListViewItem Content="用户3"/>
+                                <ListViewItem Content="用户4"/>
+                            </ListView>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+    </Grid>
+</UserControl>

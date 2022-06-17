@@ -2,7 +2,8 @@
     x:Class="Snap.Hutao.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:system="using:System">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,7 +17,6 @@
             <StaticResource x:Key="WindowCaptionForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
             <StaticResource x:Key="WindowCaptionForegroundDisabled" ResourceKey="SystemControlForegroundBaseHighBrush" />
 
-            <CornerRadius x:Key="WindowCornerRadius">8</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadius">4</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusTop">4,4,0,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusRight">0,4,4,0</CornerRadius>

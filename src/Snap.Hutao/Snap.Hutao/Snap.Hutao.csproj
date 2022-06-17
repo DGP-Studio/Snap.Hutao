@@ -32,6 +32,8 @@
     <None Remove="View\Page\AnnouncementContentPage.xaml" />
     <None Remove="View\Page\AnnouncementPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
+    <None Remove="View\TitleView.xaml" />
+    <None Remove="View\UserView.xaml" />
   </ItemGroup>
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
@@ -55,6 +57,7 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Threading" Version="17.2.32" />
@@ -81,6 +84,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SettingsUI\SettingsUI.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\UserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\TitleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\AnnouncementContentPage.xaml">

@@ -4,16 +4,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:cwui="using:CommunityToolkit.WinUI.UI"
+    xmlns:cwu="using:CommunityToolkit.WinUI.UI"
     xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
     xmlns:cwub="using:CommunityToolkit.WinUI.UI.Behaviors"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
+    xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:shca="using:Snap.Hutao.Control.Animation"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcc="using:Snap.Hutao.Control.Cancellable"
-    xmlns:shvc="using:Snap.Hutao.View.Converter" xmlns:shca="using:Snap.Hutao.Control.Animation"
+    xmlns:shvc="using:Snap.Hutao.View.Converter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     
@@ -23,7 +24,7 @@
         </mxic:EventTriggerBehavior>
     </mxi:Interaction.Behaviors>
     <shcc:CancellablePage.Resources>
-        <shvc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
     </shcc:CancellablePage.Resources>
     <Grid>
@@ -35,7 +36,7 @@
                     HorizontalAlignment="Stretch"
                     ItemsSource="{Binding Announcement.List}" 
                     Padding="0"
-                    Margin="12,12,0,0">
+                    Margin="12,12,0,-12">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <StackPanel>
@@ -43,24 +44,24 @@
                                     Text="{Binding TypeLabel}"
                                     Margin="0,0,0,12"
                                     Style="{StaticResource TitleTextBlockStyle}"/>
-                                <cwuc:AdaptiveGridView
+                                <cwucont:AdaptiveGridView
                                     cwua:ItemsReorderAnimation.Duration="0:0:0.06"
                                     SelectionMode="None"
                                     DesiredWidth="320"
                                     HorizontalAlignment="Stretch"
                                     ItemsSource="{Binding List}" 
                                     Margin="0,0,0,0">
-                                    <cwuc:AdaptiveGridView.ItemContainerStyle>
+                                    <cwucont:AdaptiveGridView.ItemContainerStyle>
                                         <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
                                             <Setter Property="Margin" Value="0,0,12,12"/>
                                         </Style>
-                                    </cwuc:AdaptiveGridView.ItemContainerStyle>
-                                    <cwuc:AdaptiveGridView.ItemTemplate>
+                                    </cwucont:AdaptiveGridView.ItemContainerStyle>
+                                    <cwucont:AdaptiveGridView.ItemTemplate>
                                         <DataTemplate>
                                             <Border
                                                 CornerRadius="{StaticResource CompatCornerRadius}" 
                                                 Background="{ThemeResource SystemControlPageBackgroundAltHighBrush}"
-                                                cwui:UIElementExtensions.ClipToBounds="True">
+                                                cwu:UIElementExtensions.ClipToBounds="True">
                                                 <Grid>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition/>
@@ -68,10 +69,10 @@
                                                     </Grid.RowDefinitions>
                                                     <!--Image Layer-->
                                                     <Border
-                                                        cwui:UIElementExtensions.ClipToBounds="True">
+                                                        cwu:UIElementExtensions.ClipToBounds="True">
                                                         <Border
                                                             VerticalAlignment="Top"
-                                                            cwui:VisualExtensions.NormalizedCenterPoint="0.5">
+                                                            cwu:VisualExtensions.NormalizedCenterPoint="0.5">
                                                             <mxi:Interaction.Behaviors>
                                                                 <shcb:AutoHeightBehavior TargetWidth="1080" TargetHeight="390"/>
                                                             </mxi:Interaction.Behaviors>
@@ -111,33 +112,14 @@
                                                         Grid.Row="1"
                                                         CornerRadius="{StaticResource CompatCornerRadiusBottom}">
                                                         <StackPanel Margin="4" VerticalAlignment="Bottom">
-                                                            <Grid Margin="4,6,0,0" HorizontalAlignment="Stretch">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition/>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                </Grid.ColumnDefinitions>
+                                                            <TextBlock
+                                                                Margin="4,6,0,0"
+                                                                HorizontalAlignment="Stretch"
+                                                                Text="{Binding Subtitle}"
+                                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                                TextWrapping="NoWrap"
+                                                                TextTrimming="WordEllipsis"/>
 
-                                                                <TextBlock
-                                                                    Text="{Binding Subtitle}"
-                                                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                    TextWrapping="NoWrap"
-                                                                    TextTrimming="WordEllipsis"/>
-                                                                
-                                                                <Button
-                                                                    x:Name="OpenAnnouncementButton"
-                                                                    Content="&#xE8A7;" 
-                                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                                    HorizontalAlignment="Right"
-                                                                    VerticalAlignment="Stretch" 
-                                                                    Grid.Column="1"
-                                                                    Background="Transparent"
-                                                                    BorderThickness="0"
-                                                                    BorderBrush="{x:Null}"
-                                                                    Visibility="Collapsed"
-                                                                    Command="{Binding OpenAnnouncementUICommand}"
-                                                                    CommandParameter="{Binding Content}"/>
-                                                            </Grid>
-                                                            
                                                             <TextBlock
                                                                 Text="{Binding Title}"
                                                                 Style="{StaticResource BodyTextBlockStyle}" 
@@ -145,6 +127,7 @@
                                                                 TextTrimming="WordEllipsis"
                                                                 Margin="4,6,0,0"
                                                                 Opacity="0.6"/>
+
                                                             <Grid>
                                                                 <Grid.ColumnDefinitions>
                                                                     <ColumnDefinition/>
@@ -167,49 +150,26 @@
                                                                     Style="{StaticResource CaptionTextBlockStyle}"
                                                                     Text="{Binding TimeDescription}" />
                                                             </Grid>
-                                                            
                                                         </StackPanel>
                                                     </Border>
                                                 </Grid>
-                                                <Border.Resources>
-                                                    <Storyboard x:Name="OpenAnnouncementButtonVisibleStoryboard">
-                                                        <ObjectAnimationUsingKeyFrames
-                                                            Storyboard.TargetName="OpenAnnouncementButton"
-                                                            Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                <DiscreteObjectKeyFrame.Value>
-                                                                    <Visibility>Visible</Visibility>
-                                                                </DiscreteObjectKeyFrame.Value>
-                                                            </DiscreteObjectKeyFrame>
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-
-                                                    <Storyboard x:Name="OpenAnnouncementButtonCollapsedStoryboard">
-                                                        <ObjectAnimationUsingKeyFrames
-                                                            Storyboard.TargetName="OpenAnnouncementButton"
-                                                            Storyboard.TargetProperty="Visibility">
-                                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                                <DiscreteObjectKeyFrame.Value>
-                                                                    <Visibility>Collapsed</Visibility>
-                                                                </DiscreteObjectKeyFrame.Value>
-                                                            </DiscreteObjectKeyFrame>
-                                                        </ObjectAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </Border.Resources>
                                                 <mxi:Interaction.Behaviors>
+                                                    <mxic:EventTriggerBehavior EventName="Tapped">
+                                                        <mxic:InvokeCommandAction
+                                                            Command="{Binding OpenAnnouncementUICommand}"
+                                                            CommandParameter="{Binding Content}"/>
+                                                    </mxic:EventTriggerBehavior>
                                                     <mxic:EventTriggerBehavior EventName="PointerEntered">
                                                         <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}" />
-                                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource OpenAnnouncementButtonVisibleStoryboard}"/>
                                                     </mxic:EventTriggerBehavior>
                                                     <mxic:EventTriggerBehavior EventName="PointerExited">
                                                         <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}" />
-                                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource OpenAnnouncementButtonCollapsedStoryboard}"/>
                                                     </mxic:EventTriggerBehavior>
                                                 </mxi:Interaction.Behaviors>
                                             </Border>
                                         </DataTemplate>
-                                    </cwuc:AdaptiveGridView.ItemTemplate>
-                                </cwuc:AdaptiveGridView>
+                                    </cwucont:AdaptiveGridView.ItemTemplate>
+                                </cwucont:AdaptiveGridView>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

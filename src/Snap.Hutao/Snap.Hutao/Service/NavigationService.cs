@@ -103,11 +103,6 @@ internal class NavigationService : INavigationService
         bool navigated = false;
         try
         {
-            if (data != null && data.GetType() != typeof(NavigationExtra))
-            {
-                data = new NavigationExtra(data);
-            }
-
             navigated = Frame?.Navigate(pageType, data) ?? false;
         }
         catch (Exception ex)

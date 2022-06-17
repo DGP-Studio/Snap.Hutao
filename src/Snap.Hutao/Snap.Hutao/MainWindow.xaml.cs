@@ -18,6 +18,6 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
-        SetTitleBar(TitleBarGrid);
+        SetTitleBar(TitleBarView.DragableArea);
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.Generic;
@@ -14,20 +15,31 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
 internal class AnnouncementService : IAnnouncementService
 {
+    private const string CacheKey = $"{nameof(IAnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
+
     private readonly AnnouncementClient announcementClient;
+    private readonly IMemoryCache memoryCache;
 
     /// <summary>
     /// 构造一个新的公告服务
     /// </summary>
     /// <param name="announcementClient">公告提供器</param>
-    public AnnouncementService(AnnouncementClient announcementClient)
+    /// <param name="memoryCache">缓存</param>
+    public AnnouncementService(AnnouncementClient announcementClient, IMemoryCache memoryCache)
     {
         this.announcementClient = announcementClient;
+        this.memoryCache = memoryCache;
     }
 
     /// <inheritdoc/>
-    public async Task<AnnouncementWrapper> GetAnnouncementsAsync(ICommand openAnnouncementUICommand, CancellationToken cancellationToken = default)
+    public async ValueTask<AnnouncementWrapper> GetAnnouncementsAsync(ICommand openAnnouncementUICommand, CancellationToken cancellationToken = default)
     {
+        // 缓存中存在记录，直接返回
+        if (memoryCache.TryGetValue(CacheKey, out object? cache))
+        {
+            return Must.NotNull((cache as AnnouncementWrapper)!);
+        }
+
         AnnouncementWrapper? wrapper = await announcementClient
             .GetAnnouncementsAsync(cancellationToken)
             .ConfigureAwait(false);
@@ -46,7 +58,7 @@ internal class AnnouncementService : IAnnouncementService
         // 将公告内容联入公告列表
         JoinAnnouncements(openAnnouncementUICommand, contentMap, wrapper.List);
 
-        return wrapper;
+        return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
     }
 
     private static void JoinAnnouncements(ICommand openAnnouncementUICommand, Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)

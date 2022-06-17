@@ -89,18 +89,18 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
             }
             catch (TaskCanceledException)
             {
-                logger.LogInformation("Open UI cancelled");
+                logger.LogInformation($"{nameof(OpenUIAsync)} cancelled");
             }
         }
     }
 
     private void OpenAnnouncementUI(string? content)
     {
-        logger.LogInformation("Open Announcement Command Triggered");
+        logger.LogInformation($"{nameof(OpenAnnouncementUICommand)} Triggered");
 
         if (WebView2Helper.IsSupported)
         {
-            navigationService.Navigate<View.Page.AnnouncementContentPage>(data: content);
+            navigationService.Navigate<View.Page.AnnouncementContentPage>(data: new(content));
         }
         else
         {

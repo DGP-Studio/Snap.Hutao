@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.VisualStudio.Threading;
 using Snap.Hutao.Core;
+using Snap.Hutao.Service.Abstraction.Navigation;
 
 namespace Snap.Hutao.View.Page;
 
@@ -33,11 +34,15 @@ openInWebview: function(url){ location.href = url }}";
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
-        targetContent = e.Parameter as string;
-        LoadAnnouncementAsync().Forget();
+
+        if (e.Parameter is NavigationExtra extra)
+        {
+            targetContent = extra.Data as string;
+            LoadAnnouncementAsync(extra).Forget();
+        }
     }
 
-    private async Task LoadAnnouncementAsync()
+    private async Task LoadAnnouncementAsync(NavigationExtra extra)
     {
         try
         {
@@ -52,5 +57,6 @@ openInWebview: function(url){ location.href = url }}";
         }
 
         WebView.NavigateToString(targetContent);
+        extra.NavigationCompletedTaskCompletionSource.TrySetResult();
     }
 }

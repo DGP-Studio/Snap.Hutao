@@ -1,0 +1,18 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.View.TitleView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Snap.Hutao.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Height="48.8">
+    <Grid x:Name="DragableGrid">
+        <TextBlock
+            Text="胡桃"
+            TextWrapping="NoWrap"
+            Style="{StaticResource CaptionTextBlockStyle}" 
+            VerticalAlignment="Center"
+            Margin="12,0,0,0"/>
+    </Grid>
+</UserControl>

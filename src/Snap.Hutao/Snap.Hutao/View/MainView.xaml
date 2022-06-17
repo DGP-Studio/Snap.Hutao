@@ -6,17 +6,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:helper="using:Snap.Hutao.View.Helper"
     xmlns:page="using:Snap.Hutao.View.Page"
+    xmlns:view="using:Snap.Hutao.View"
     mc:Ignorable="d">
+
     <Grid>
+        <!-- x:Bind can't get property update here seems like a WinUI 3 bug-->
         <NavigationView
             x:Name="NavView"
             CompactPaneLength="48"
-            OpenPaneLength="172"
+            OpenPaneLength="200"
             CompactModeThresholdWidth="128"
             ExpandedModeThresholdWidth="720"
             IsPaneOpen="True"
             IsBackEnabled="{Binding ElementName=ContentFrame,Path=CanGoBack}">
-            <!-- x:Bind can't get property update here seems like a WinUI 3 bug-->
+
+            <NavigationView.PaneCustomContent>
+                <view:UserView IsExpanded="{Binding ElementName=NavView,Path=IsPaneOpen}"/>
+            </NavigationView.PaneCustomContent>
+            
             <NavigationView.MenuItems>
                 
                 <NavigationViewItem Content="活动" helper:NavHelper.NavigateTo="page:AnnouncementPage">

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Converter;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
 
@@ -124,15 +123,15 @@ public class Announcement : AnnouncementContent
     /// 开始时间
     /// </summary>
     [JsonPropertyName("start_time")]
-    [JsonConverter(typeof(DateTimeConverter))]
-    public DateTime StartTime { get; set; }
+    [JsonConverter(typeof(Core.Json.Converter.DateTimeOffsetConverter))]
+    public DateTimeOffset StartTime { get; set; }
 
     /// <summary>
     /// 结束时间
     /// </summary>
     [JsonPropertyName("end_time")]
-    [JsonConverter(typeof(DateTimeConverter))]
-    public DateTime EndTime { get; set; }
+    [JsonConverter(typeof(Core.Json.Converter.DateTimeOffsetConverter))]
+    public DateTimeOffset EndTime { get; set; }
 
     /// <summary>
     /// 类型

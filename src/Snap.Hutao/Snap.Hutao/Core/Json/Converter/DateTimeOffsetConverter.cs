@@ -9,21 +9,21 @@ namespace Snap.Hutao.Core.Json.Converter;
 /// <summary>
 /// 实现日期的转换
 /// </summary>
-internal class DateTimeConverter : JsonConverter<DateTime>
+internal class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
 {
     /// <inheritdoc/>
-    public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.GetString() is string dataTimeString)
         {
-            return DateTime.Parse(dataTimeString);
+            return DateTimeOffset.Parse(dataTimeString);
         }
 
-        return default(DateTime);
+        return default;
     }
 
     /// <inheritdoc/>
-    public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, DateTimeOffset value, JsonSerializerOptions options)
     {
         writer.WriteStringValue(value.ToString("yyyy-MM-dd HH:mm:ss"));
     }

@@ -9,10 +9,14 @@ namespace Snap.Hutao.Core;
 /// 检测 WebView2运行时 是否存在
 /// 不再使用注册表检查方式
 /// </summary>
-internal static class WebView2Helper
+internal class WebView2Helper
 {
     private static bool hasEverDetected = false;
     private static bool isSupported = false;
+
+    private WebView2Helper()
+    {
+    }
 
     /// <summary>
     /// 检测 WebView2 是否存在

@@ -6,7 +6,7 @@ namespace Snap.Hutao.Core.Abstraction;
 /// <summary>
 /// 可异步初始化
 /// </summary>
-internal interface IAsyncInitializable
+internal interface ISupportAsyncInitialization
 {
     /// <summary>
     /// 是否已经初始化完成

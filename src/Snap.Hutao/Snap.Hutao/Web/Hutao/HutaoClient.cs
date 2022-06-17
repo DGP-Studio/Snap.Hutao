@@ -23,7 +23,7 @@ namespace Snap.Hutao.Web.Hutao;
 /// 胡桃API客户端
 /// </summary>
 [Injection(InjectAs.Transient)]
-internal class HutaoClient : IAsyncInitializable
+internal class HutaoClient : ISupportAsyncInitialization
 {
     private const string AuthAPIHost = "https://auth.snapgenshin.com";
     private const string HutaoAPI = "https://hutao-api.snapgenshin.com";
@@ -342,7 +342,7 @@ internal class HutaoClient : IAsyncInitializable
                     await playerRecord.UploadRecordAsync(this, token);
                 }
 
-                await resultAsyncFunc(resp ?? Response.Response.CreateForException($"{role.GameUid}-记录提交失败。"));
+                // await resultAsyncFunc(resp ?? Response.Response.CreateForException($"{role.GameUid}-记录提交失败。"));
             }
         }
     }
