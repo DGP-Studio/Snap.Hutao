@@ -45,9 +45,6 @@
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
                         <StackPanel Width="192">
-                            <CommandBar DefaultLabelPosition="Right">
-                                <AppBarButton Icon="Add" Label="添加新用户"/>
-                            </CommandBar>
                             <ListView
                                 Grid.Row="1"
                                 Margin="4"
@@ -56,6 +53,9 @@
                                 <ListViewItem Content="角色2"/>
                             </ListView>
                             <MenuFlyoutSeparator/>
+                            <CommandBar DefaultLabelPosition="Right">
+                                <AppBarButton Icon="Add" Label="添加新用户"/>
+                            </CommandBar>
                             <ListView
                                 Grid.Row="1"
                                 Margin="4"
@@ -64,6 +64,8 @@
                                 <ListViewItem Content="用户2"/>
                                 <ListViewItem Content="用户3"/>
                                 <ListViewItem Content="用户4"/>
+                                <ListViewItem Content="用户1"/>
+                                <ListViewItem Content="用户1"/>
                             </ListView>
                         </StackPanel>
                     </Flyout>

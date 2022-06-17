@@ -67,6 +67,20 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
+    /// 对集合中的每个物品执行指定的操作
+    /// </summary>
+    /// <typeparam name="TSource">集合类型</typeparam>
+    /// <param name="source">集合</param>
+    /// <param name="action">指定的操作</param>
+    public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
+    {
+        foreach (TSource item in source)
+        {
+            action(item);
+        }
+    }
+
+    /// <summary>
     /// 表示一个对 <see cref="TItem"/> 类型的计数器
     /// </summary>
     /// <typeparam name="TItem">待计数的类型</typeparam>

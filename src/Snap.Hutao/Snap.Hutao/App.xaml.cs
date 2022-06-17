@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 
@@ -39,6 +40,7 @@ public partial class App : Application
     {
         IServiceProvider services = new ServiceCollection()
             .AddLogging(builder => builder.AddDebug())
+            .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
             .AddMemoryCache()
             .AddDatebase()
             .AddHttpClients()
