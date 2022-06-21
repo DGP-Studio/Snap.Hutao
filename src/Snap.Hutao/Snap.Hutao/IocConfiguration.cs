@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem;
-using Snap.Hutao.Core;
-using Snap.Hutao.Core.Setting;
+using System.Diagnostics;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -47,44 +47,20 @@ internal static class IocConfiguration
         string dbFile = myDocument.Locate("Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";
 
-        if (ShouldMigrate(myDocument, dbFile))
+        // temporarily create a context
+        using (AppDbContext context = AppDbContext.CreateFrom(sqlConnectionString))
         {
-            // temporarily create a context
-            using (AppDbContext context = AppDbContext.CreateFrom(sqlConnectionString))
+            Debug.WriteLine("Migrate started");
+            if (context.Database.GetPendingMigrations().Any())
             {
                 context.Database.Migrate();
             }
+
+            Debug.WriteLine("Migrate completed");
         }
 
-        LocalSetting.Set(SettingKeys.LastAppVersion, CoreEnvironment.Version.ToString());
-
+        // LocalSetting.Set(SettingKeys.LastAppVersion, CoreEnvironment.Version.ToString());
         return services
             .AddDbContextPool<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
-    }
-
-    private static bool ShouldMigrate(MyDocumentContext myDocument, string dbFile)
-    {
-        bool shouldMigrate = false;
-
-        // 数据库文件存在
-        if (myDocument.FileExists(dbFile))
-        {
-            string? versionString = LocalSetting.Get<string>(SettingKeys.LastAppVersion);
-
-            // 版本更新后
-            if (Version.TryParse(versionString, out Version? lastVersion))
-            {
-                if (lastVersion < CoreEnvironment.Version)
-                {
-                    shouldMigrate = true;
-                }
-            }
-        }
-        else
-        {
-            shouldMigrate = true;
-        }
-
-        return shouldMigrate;
     }
 }

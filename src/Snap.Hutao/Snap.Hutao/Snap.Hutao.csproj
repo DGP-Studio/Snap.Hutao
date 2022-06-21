@@ -26,8 +26,10 @@
     <StartupObject>Snap.Hutao.Program</StartupObject>
     <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
   </PropertyGroup>
+  
   <ItemGroup>
     <None Remove="stylecop.json" />
+    <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\MainView.xaml" />
     <None Remove="View\Page\AnnouncementContentPage.xaml" />
     <None Remove="View\Page\AnnouncementPage.xaml" />
@@ -35,6 +37,7 @@
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
   </ItemGroup>
+  
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
@@ -57,6 +60,7 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.1" />
     <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.5.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
@@ -81,9 +85,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SettingsUI\SettingsUI.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\UserView.xaml">
@@ -122,6 +123,15 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SettingsUI\SettingsUI.csproj" />
+    <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\UserDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

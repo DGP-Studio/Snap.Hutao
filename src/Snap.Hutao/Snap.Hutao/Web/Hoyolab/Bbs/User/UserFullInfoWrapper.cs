@@ -57,6 +57,6 @@ public class UserFullInfoWrapper
     /// <summary>
     /// 审核信息
     /// </summary>
-    [JsonPropertyName("customer_service")]
+    [JsonPropertyName("audit_info")]
     public AuditInfo AuditInfo { get; set; } = default!;
 }

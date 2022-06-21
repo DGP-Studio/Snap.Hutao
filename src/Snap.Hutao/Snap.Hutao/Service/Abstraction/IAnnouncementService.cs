@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
-using System.Windows.Input;
 
 namespace Snap.Hutao.Service.Abstraction;
 

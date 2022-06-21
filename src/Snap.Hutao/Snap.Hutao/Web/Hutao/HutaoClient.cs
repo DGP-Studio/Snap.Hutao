@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Takumi;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -291,60 +292,26 @@ internal class HutaoClient : ISupportAsyncInitialization
     /// <summary>
     /// 异步获取角色的深渊记录
     /// </summary>
-    /// <param name="role">角色</param>
+    /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>玩家记录</returns>
-    public async Task<PlayerRecord> GetPlayerRecordAsync(UserGameRole role, CancellationToken token = default)
+    public async Task<PlayerRecord> GetPlayerRecordAsync(User user, CancellationToken token = default)
     {
         PlayerInfo? playerInfo = await gameRecordClient
-            .GetPlayerInfoAsync((PlayerUid)role, token)
+            .GetPlayerInfoAsync(user, token)
             .ConfigureAwait(false);
         Must.NotNull(playerInfo!);
 
         List<Character> characters = await gameRecordClient
-            .GetCharactersAsync((PlayerUid)role, playerInfo, token)
+            .GetCharactersAsync(user, playerInfo, token)
             .ConfigureAwait(false);
 
         SpiralAbyss? spiralAbyssInfo = await gameRecordClient
-            .GetSpiralAbyssAsync((PlayerUid)role, SpiralAbyssSchedule.Current, token)
+            .GetSpiralAbyssAsync(user, SpiralAbyssSchedule.Current, token)
             .ConfigureAwait(false);
         Must.NotNull(spiralAbyssInfo!);
 
-        return PlayerRecord.Create(role.GameUid, characters, spiralAbyssInfo);
-    }
-
-    /// <summary>
-    /// 异步获取所有记录并上传到数据库
-    /// </summary>
-    /// <param name="confirmAsyncFunc">异步确认委托</param>
-    /// <param name="resultAsyncFunc">结果确认委托</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>任务</returns>
-    [Obsolete("上传任务应交由视图模型完成")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public async Task GetAllRecordsAndUploadAsync(Func<PlayerRecord, Task<bool>> confirmAsyncFunc, Func<Response.Response, Task> resultAsyncFunc, CancellationToken token = default)
-    {
-        // 由于此方法需要直接与UI线程交互
-        // 内部的异步方法均不使用 .ConfigureAwait(false);
-        List<UserGameRole> userGameRoles = await userGameRoleClient
-            .GetUserGameRolesAsync(token);
-
-        foreach (UserGameRole role in userGameRoles)
-        {
-            PlayerRecord playerRecord = await GetPlayerRecordAsync(role, token);
-
-            if (await confirmAsyncFunc(playerRecord))
-            {
-                Response<string>? resp = null;
-
-                if (await playerRecord.UploadItemsAsync(this, token))
-                {
-                    await playerRecord.UploadRecordAsync(this, token);
-                }
-
-                // await resultAsyncFunc(resp ?? Response.Response.CreateForException($"{role.GameUid}-记录提交失败。"));
-            }
-        }
+        return PlayerRecord.Create(Must.NotNull(user.SelectedUserGameRole!).GameUid, characters, spiralAbyssInfo);
     }
 
     /// <summary>

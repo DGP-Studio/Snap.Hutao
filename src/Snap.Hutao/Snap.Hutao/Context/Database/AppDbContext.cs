@@ -9,7 +9,7 @@ namespace Snap.Hutao.Context.Database;
 /// <summary>
 /// 应用程序数据库上下文
 /// </summary>
-internal class AppDbContext : DbContext
+public class AppDbContext : DbContext
 {
     /// <summary>
     /// 构造一个新的应用程序数据库上下文
@@ -24,6 +24,11 @@ internal class AppDbContext : DbContext
     /// 设置项
     /// </summary>
     public DbSet<SettingEntry> Settings { get; set; } = default!;
+
+    /// <summary>
+    /// 用户表
+    /// </summary>
+    public DbSet<User> Users { get; set; } = default!;
 
     /// <summary>
     /// 构造一个临时的应用程序数据库上下文

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32;
-using Snap.Hutao.Core.Converting;
+using Snap.Hutao.Core.Convertion;
 using Snap.Hutao.Extension;
 using Windows.ApplicationModel;
 

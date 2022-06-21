@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Extension;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -16,7 +15,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 [Injection(InjectAs.Transient)]
 internal class UserGameRoleClient
 {
-    private readonly IUserService userService;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -24,21 +22,21 @@ internal class UserGameRoleClient
     /// </summary>
     /// <param name="userService">用户服务</param>
     /// <param name="httpClient">请求器</param>
-    public UserGameRoleClient(IUserService userService, HttpClient httpClient)
+    public UserGameRoleClient(HttpClient httpClient)
     {
-        this.userService = userService;
         this.httpClient = httpClient;
     }
 
     /// <summary>
     /// 获取用户角色信息
     /// </summary>
+    /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    public async Task<List<UserGameRole>> GetUserGameRolesAsync(CancellationToken token = default)
+    public async Task<List<UserGameRole>> GetUserGameRolesAsync(Model.Entity.User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(userService.Current)
+            .SetUser(user)
             .GetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRoles, token)
             .ConfigureAwait(false);
 

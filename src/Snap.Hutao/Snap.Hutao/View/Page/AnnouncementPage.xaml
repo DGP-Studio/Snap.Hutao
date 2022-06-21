@@ -31,150 +31,149 @@
         <ScrollViewer 
             Padding="0,0,4,0"
             Visibility="{Binding OpeningUI.IsWorking,Converter={StaticResource BoolToVisibilityRevertConverter}}">
-            <StackPanel>
-                <ItemsControl
-                    HorizontalAlignment="Stretch"
-                    ItemsSource="{Binding Announcement.List}" 
-                    Padding="0"
-                    Margin="12,12,0,-12">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock
-                                    Text="{Binding TypeLabel}"
-                                    Margin="0,0,0,12"
-                                    Style="{StaticResource TitleTextBlockStyle}"/>
-                                <cwucont:AdaptiveGridView
-                                    cwua:ItemsReorderAnimation.Duration="0:0:0.06"
-                                    SelectionMode="None"
-                                    DesiredWidth="320"
-                                    HorizontalAlignment="Stretch"
-                                    ItemsSource="{Binding List}" 
-                                    Margin="0,0,0,0">
-                                    <cwucont:AdaptiveGridView.ItemContainerStyle>
-                                        <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
-                                            <Setter Property="Margin" Value="0,0,12,12"/>
-                                        </Style>
-                                    </cwucont:AdaptiveGridView.ItemContainerStyle>
-                                    <cwucont:AdaptiveGridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border
-                                                CornerRadius="{StaticResource CompatCornerRadius}" 
-                                                Background="{ThemeResource SystemControlPageBackgroundAltHighBrush}"
-                                                cwu:UIElementExtensions.ClipToBounds="True">
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition/>
-                                                        <RowDefinition Height="auto"/>
-                                                    </Grid.RowDefinitions>
-                                                    <!--Image Layer-->
+            <ItemsControl
+                HorizontalAlignment="Stretch"
+                ItemsSource="{Binding Announcement.List}" 
+                Padding="0"
+                Margin="12,12,0,-12">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock
+                                Text="{Binding TypeLabel}"
+                                Margin="0,0,0,12"
+                                Style="{StaticResource TitleTextBlockStyle}"/>
+                            <cwucont:AdaptiveGridView
+                                cwua:ItemsReorderAnimation.Duration="0:0:0.06"
+                                SelectionMode="None"
+                                DesiredWidth="320"
+                                HorizontalAlignment="Stretch"
+                                ItemsSource="{Binding List}" 
+                                Margin="0,0,2,0">
+                                <cwucont:AdaptiveGridView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                        <Setter Property="Margin" Value="0,0,12,12"/>
+                                    </Style>
+                                </cwucont:AdaptiveGridView.ItemContainerStyle>
+                                <cwucont:AdaptiveGridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            CornerRadius="{StaticResource CompatCornerRadius}" 
+                                            Background="{ThemeResource SystemControlPageBackgroundAltHighBrush}"
+                                            cwu:UIElementExtensions.ClipToBounds="True">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
+                                                <!--Image Layer-->
+                                                <Border
+                                                    cwu:UIElementExtensions.ClipToBounds="True">
                                                     <Border
-                                                        cwu:UIElementExtensions.ClipToBounds="True">
-                                                        <Border
-                                                            VerticalAlignment="Top"
-                                                            cwu:VisualExtensions.NormalizedCenterPoint="0.5">
-                                                            <mxi:Interaction.Behaviors>
-                                                                <shcb:AutoHeightBehavior TargetWidth="1080" TargetHeight="390"/>
-                                                            </mxi:Interaction.Behaviors>
-                                                            <Border.Background>
-                                                                <ImageBrush
-                                                                    ImageSource="{Binding Banner}"
-                                                                    Stretch="UniformToFill"/>
-                                                            </Border.Background>
-                                                            <cwua:Explicit.Animations>
-                                                                <cwua:AnimationSet x:Name="ImageZoomInAnimation">
-                                                                    <shca:ImageZoomInAnimation/>
-                                                                </cwua:AnimationSet>
-                                                                <cwua:AnimationSet x:Name="ImageZoomOutAnimation">
-                                                                    <shca:ImageZoomOutAnimation/>
-                                                                </cwua:AnimationSet>
-                                                            </cwua:Explicit.Animations>
-                                                        </Border>
+                                                        CompositeMode="SourceOver"
+                                                        VerticalAlignment="Top"
+                                                        cwu:VisualExtensions.NormalizedCenterPoint="0.5">
+                                                        <mxi:Interaction.Behaviors>
+                                                            <shcb:AutoHeightBehavior TargetWidth="1080" TargetHeight="390"/>
+                                                        </mxi:Interaction.Behaviors>
+                                                        <Border.Background>
+                                                            <ImageBrush
+                                                                ImageSource="{Binding Banner}"
+                                                                Stretch="UniformToFill"/>
+                                                        </Border.Background>
+                                                        <cwua:Explicit.Animations>
+                                                            <cwua:AnimationSet x:Name="ImageZoomInAnimation">
+                                                                <shca:ImageZoomInAnimation/>
+                                                            </cwua:AnimationSet>
+                                                            <cwua:AnimationSet x:Name="ImageZoomOutAnimation">
+                                                                <shca:ImageZoomOutAnimation/>
+                                                            </cwua:AnimationSet>
+                                                        </cwua:Explicit.Animations>
                                                     </Border>
-                                                    <!--Time Description-->
-                                                    <Grid Grid.Row="0">
-                                                        <Border
-                                                            Height="24"
-                                                            HorizontalAlignment="Stretch"
-                                                            VerticalAlignment="Bottom"
-                                                            Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BoolToVisibilityConverter}}">
-                                                            <ProgressBar
-                                                                MinHeight="2"
-                                                                Value="{Binding TimePercent,Mode=OneWay}"
-                                                                CornerRadius="0"
-                                                                Maximum="1"
-                                                                VerticalAlignment="Bottom"
-                                                                Background="Transparent"/>
-                                                        </Border>
-                                                    </Grid>
-                                                    <!--General Description-->
+                                                </Border>
+                                                <!--Time Description-->
+                                                <Grid Grid.Row="0">
                                                     <Border
-                                                        Grid.Row="1"
-                                                        CornerRadius="{StaticResource CompatCornerRadiusBottom}">
-                                                        <StackPanel Margin="4" VerticalAlignment="Bottom">
-                                                            <TextBlock
-                                                                Margin="4,6,0,0"
-                                                                HorizontalAlignment="Stretch"
-                                                                Text="{Binding Subtitle}"
-                                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                                TextWrapping="NoWrap"
-                                                                TextTrimming="WordEllipsis"/>
-
-                                                            <TextBlock
-                                                                Text="{Binding Title}"
-                                                                Style="{StaticResource BodyTextBlockStyle}" 
-                                                                TextWrapping="NoWrap"
-                                                                TextTrimming="WordEllipsis"
-                                                                Margin="4,6,0,0"
-                                                                Opacity="0.6"/>
-
-                                                            <Grid>
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition/>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <TextBlock
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    FontSize="10"
-                                                                    Opacity="0.4"
-                                                                    Margin="4,4,0,4"
-                                                                    Text="{Binding TimeFormatted}"
-                                                                    TextWrapping="NoWrap"/>
-                                                                <TextBlock
-                                                                    Grid.Column="1"
-                                                                    HorizontalAlignment="Right"
-                                                                    VerticalAlignment="Bottom"
-                                                                    FontSize="10"
-                                                                    Opacity="0.8"
-                                                                    Margin="4,4,4,4"
-                                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                                    Text="{Binding TimeDescription}" />
-                                                            </Grid>
-                                                        </StackPanel>
+                                                        Height="24"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Bottom"
+                                                        Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                        <ProgressBar
+                                                            MinHeight="2"
+                                                            Value="{Binding TimePercent,Mode=OneWay}"
+                                                            CornerRadius="0"
+                                                            Maximum="1"
+                                                            VerticalAlignment="Bottom"
+                                                            Background="Transparent"/>
                                                     </Border>
                                                 </Grid>
-                                                <mxi:Interaction.Behaviors>
-                                                    <mxic:EventTriggerBehavior EventName="Tapped">
-                                                        <mxic:InvokeCommandAction
-                                                            Command="{Binding OpenAnnouncementUICommand}"
-                                                            CommandParameter="{Binding Content}"/>
-                                                    </mxic:EventTriggerBehavior>
-                                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                                        <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}" />
-                                                    </mxic:EventTriggerBehavior>
-                                                    <mxic:EventTriggerBehavior EventName="PointerExited">
-                                                        <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}" />
-                                                    </mxic:EventTriggerBehavior>
-                                                </mxi:Interaction.Behaviors>
-                                            </Border>
-                                        </DataTemplate>
-                                    </cwucont:AdaptiveGridView.ItemTemplate>
-                                </cwucont:AdaptiveGridView>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+                                                <!--General Description-->
+                                                <Border
+                                                    Grid.Row="1"
+                                                    CornerRadius="{StaticResource CompatCornerRadiusBottom}">
+                                                    <StackPanel Margin="4" VerticalAlignment="Bottom">
+                                                        <TextBlock
+                                                            Margin="4,6,0,0"
+                                                            HorizontalAlignment="Stretch"
+                                                            Text="{Binding Subtitle}"
+                                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                                            TextWrapping="NoWrap"
+                                                            TextTrimming="WordEllipsis"/>
+
+                                                        <TextBlock
+                                                            Text="{Binding Title}"
+                                                            Style="{StaticResource BodyTextBlockStyle}" 
+                                                            TextWrapping="NoWrap"
+                                                            TextTrimming="WordEllipsis"
+                                                            Margin="4,6,0,0"
+                                                            Opacity="0.6"/>
+
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition/>
+                                                                <ColumnDefinition Width="auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock
+                                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                                FontSize="10"
+                                                                Opacity="0.4"
+                                                                Margin="4,4,0,4"
+                                                                Text="{Binding TimeFormatted}"
+                                                                TextWrapping="NoWrap"/>
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Bottom"
+                                                                FontSize="10"
+                                                                Opacity="0.8"
+                                                                Margin="4,4,4,4"
+                                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                                Text="{Binding TimeDescription}" />
+                                                        </Grid>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                            <mxi:Interaction.Behaviors>
+                                                <mxic:EventTriggerBehavior EventName="Tapped">
+                                                    <mxic:InvokeCommandAction
+                                                        Command="{Binding OpenAnnouncementUICommand}"
+                                                        CommandParameter="{Binding Content}"/>
+                                                </mxic:EventTriggerBehavior>
+                                                <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                    <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}" />
+                                                </mxic:EventTriggerBehavior>
+                                                <mxic:EventTriggerBehavior EventName="PointerExited">
+                                                    <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}" />
+                                                </mxic:EventTriggerBehavior>
+                                            </mxi:Interaction.Behaviors>
+                                        </Border>
+                                    </DataTemplate>
+                                </cwucont:AdaptiveGridView.ItemTemplate>
+                            </cwucont:AdaptiveGridView>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
     </Grid>
 </shcc:CancellablePage>

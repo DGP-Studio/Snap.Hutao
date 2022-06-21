@@ -4,7 +4,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Snap.Hutao.Core.Converting;
+namespace Snap.Hutao.Core.Convertion;
 
 /// <summary>
 /// 支持Md5转换

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Context.Database;
 
 namespace Snap.Hutao;
 
@@ -19,5 +20,13 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBarView.DragableArea);
+
+        Closed += MainWindowClosed;
+    }
+
+    private void MainWindowClosed(object sender, WindowEventArgs args)
+    {
+        // save datebase
+        Ioc.Default.GetRequiredService<AppDbContext>().SaveChanges();
     }
 }

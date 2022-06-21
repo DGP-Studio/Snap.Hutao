@@ -12,7 +12,7 @@ namespace Snap.Hutao;
 /// </summary>
 public partial class App : Application
 {
-    private Window? mainWindow;
+    private static Window? window;
 
     /// <summary>
     /// Initializes the singleton application object.
@@ -26,14 +26,19 @@ public partial class App : Application
     }
 
     /// <summary>
+    /// 当前窗口
+    /// </summary>
+    public static Window? Window { get => window; set => window = value; }
+
+    /// <summary>
     /// Invoked when the application is launched normally by the end user.
     /// Other entry points will be used such as when the application is launched to open a specific file.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        mainWindow.Activate();
+        Window = Ioc.Default.GetRequiredService<MainWindow>();
+        Window.Activate();
     }
 
     private static void InitializeDependencyInjection()
@@ -45,7 +50,7 @@ public partial class App : Application
             .AddDatebase()
             .AddHttpClients()
             .AddDefaultJsonSerializerOptions()
-            .AddInjections(typeof(App))
+            .AddInjections()
             .BuildServiceProvider();
 
         Ioc.Default.ConfigureServices(services);

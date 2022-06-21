@@ -12,17 +12,6 @@ namespace Snap.Hutao.Extension;
 public static class EnumerableExtensions
 {
     /// <summary>
-    /// 将二维可枚举对象一维化
-    /// </summary>
-    /// <typeparam name="TSource">源类型</typeparam>
-    /// <param name="source">源</param>
-    /// <returns>扁平的对象</returns>
-    public static IEnumerable<TSource> Flatten<TSource>(this IEnumerable<IEnumerable<TSource>> source)
-    {
-        return source.SelectMany(x => x);
-    }
-
-    /// <summary>
     /// 计数
     /// </summary>
     /// <typeparam name="TSource">源类型</typeparam>
@@ -67,17 +56,74 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
+    /// 寻找枚举中唯一的值,找不到时
+    /// 回退到首个或默认值
+    /// </summary>
+    /// <typeparam name="TSource">源类型</typeparam>
+    /// <param name="source">源</param>
+    /// <param name="predicate">谓语</param>
+    /// <returns>目标项</returns>
+    public static TSource? FirstOrFirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+    {
+        return source.FirstOrDefault(predicate) ?? source.FirstOrDefault();
+    }
+
+    /// <summary>
+    /// 将二维可枚举对象一维化
+    /// </summary>
+    /// <typeparam name="TSource">源类型</typeparam>
+    /// <param name="source">源</param>
+    /// <returns>扁平的对象</returns>
+    public static IEnumerable<TSource> Flatten<TSource>(this IEnumerable<IEnumerable<TSource>> source)
+    {
+        return source.SelectMany(x => x);
+    }
+
+    /// <summary>
     /// 对集合中的每个物品执行指定的操作
     /// </summary>
     /// <typeparam name="TSource">集合类型</typeparam>
     /// <param name="source">集合</param>
     /// <param name="action">指定的操作</param>
-    public static void ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
+    /// <returns>修改后的集合</returns>
+    public static IEnumerable<TSource> ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
     {
         foreach (TSource item in source)
         {
             action(item);
         }
+
+        return source;
+    }
+
+    /// <summary>
+    /// 对集合中的每个物品执行指定的操作
+    /// </summary>
+    /// <typeparam name="TSource">集合类型</typeparam>
+    /// <param name="source">集合</param>
+    /// <param name="func">指定的操作</param>
+    /// <returns>修改后的集合</returns>
+    public static async Task<IEnumerable<TSource>> ForEachAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> func)
+    {
+        foreach (TSource item in source)
+        {
+            await func(item);
+        }
+
+        return source;
+    }
+
+    /// <summary>
+    /// 寻找枚举中唯一的值,找不到时
+    /// 回退到首个或默认值
+    /// </summary>
+    /// <typeparam name="TSource">源类型</typeparam>
+    /// <param name="source">源</param>
+    /// <param name="predicate">谓语</param>
+    /// <returns>目标项</returns>
+    public static TSource? SingleOrFirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
+    {
+        return source.SingleOrDefault(predicate) ?? source.FirstOrDefault();
     }
 
     /// <summary>

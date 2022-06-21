@@ -20,19 +20,19 @@
             IsPaneOpen="True"
             IsBackEnabled="{Binding ElementName=ContentFrame,Path=CanGoBack}">
 
-            <NavigationView.PaneCustomContent>
-                <view:UserView IsExpanded="{Binding ElementName=NavView,Path=IsPaneOpen}"/>
-            </NavigationView.PaneCustomContent>
-            
             <NavigationView.MenuItems>
-                
+
                 <NavigationViewItem Content="活动" helper:NavHelper.NavigateTo="page:AnnouncementPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7C4;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                
+
             </NavigationView.MenuItems>
+            
+            <NavigationView.PaneFooter>
+                <view:UserView IsExpanded="{Binding ElementName=NavView,Path=IsPaneOpen}"/>
+            </NavigationView.PaneFooter>
             
             <Frame x:Name="ContentFrame">
                 <Frame.ContentTransitions>

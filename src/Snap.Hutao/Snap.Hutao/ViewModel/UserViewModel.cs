@@ -1,12 +1,16 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Extension;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.View.Dialog;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Input;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -17,26 +21,24 @@ namespace Snap.Hutao.ViewModel;
 internal class UserViewModel : ObservableObject
 {
     private readonly IUserService userService;
-    private readonly UserGameRoleClient userGameRoleClient;
-    private readonly ILogger<UserViewModel> logger;
+    private readonly IInfoBarService infoBarService;
 
-    private User? selectedUserInfo;
+    private User? selectedUser;
     private ObservableCollection<User>? userInfos;
-    private UserGameRole? selectedUserGameRole;
-    private ObservableCollection<UserGameRole>? userGameRoles;
 
     /// <summary>
     /// 构造一个新的用户视图模型
     /// </summary>
     /// <param name="userService">用户服务</param>
-    /// <param name="userGameRoleClient">用户角色信息客户端</param>
+    /// <param name="infoBarService">信息条服务</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public UserViewModel(IUserService userService, UserGameRoleClient userGameRoleClient, IAsyncRelayCommandFactory asyncRelayCommandFactory, ILogger<UserViewModel> logger)
+    public UserViewModel(IUserService userService, IInfoBarService infoBarService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
         this.userService = userService;
-        this.userGameRoleClient = userGameRoleClient;
-        this.logger = logger;
+        this.infoBarService = infoBarService;
+
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+        AddUserCommand = asyncRelayCommandFactory.Create<Flyout>(AddUserAsync);
     }
 
     /// <summary>
@@ -44,12 +46,12 @@ internal class UserViewModel : ObservableObject
     /// </summary>
     public User? SelectedUser
     {
-        get => selectedUserInfo;
+        get => selectedUser;
         set
         {
-            if (SetProperty(ref selectedUserInfo, value) && value != null)
+            if (SetProperty(ref selectedUser, value))
             {
-                UpdateUserGameRolesAsync().SafeForget(logger);
+                userService.CurrentUser = value;
             }
         }
     }
@@ -60,45 +62,80 @@ internal class UserViewModel : ObservableObject
     public ObservableCollection<User>? Users { get => userInfos; set => SetProperty(ref userInfos, value); }
 
     /// <summary>
-    /// 选择的角色信息
-    /// </summary>
-    public UserGameRole? SelectedUserGameRole { get => selectedUserGameRole; set => SetProperty(ref selectedUserGameRole, value); }
-
-    /// <summary>
-    /// 角色信息集合
-    /// </summary>
-    public ObservableCollection<UserGameRole>? UserGameRoles
-    {
-        get => userGameRoles;
-        set
-        {
-            if (SetProperty(ref userGameRoles, value))
-            {
-                if (value != null)
-                {
-                    SelectedUserGameRole = value.FirstOrDefault(role => role.IsChosen) ?? value.FirstOrDefault();
-                }
-                else
-                {
-                    SelectedUserGameRole = null;
-                }
-            }
-        }
-    }
-
-    /// <summary>
     /// 打开界面命令
     /// </summary>
     public ICommand OpenUICommand { get; }
 
+    /// <summary>
+    /// 添加用户命令
+    /// </summary>
+    public ICommand AddUserCommand { get; }
+
+    private static bool TryValidateCookie(IDictionary<string, string> map, [NotNullWhen(true)] out SortedDictionary<string, string>? filteredCookie)
+    {
+        int validFlag = 4;
+
+        filteredCookie = new();
+
+        // O(1) to validate cookie
+        foreach ((string key, string value) in map)
+        {
+            if (key == "account_id")
+            {
+                validFlag--;
+                filteredCookie[key] = value;
+            }
+
+            if (key == "cookie_token")
+            {
+                validFlag--;
+                filteredCookie[key] = value;
+            }
+
+            if (key == "ltoken")
+            {
+                validFlag--;
+                filteredCookie[key] = value;
+            }
+
+            if (key == "ltuid")
+            {
+                validFlag--;
+                filteredCookie[key] = value;
+            }
+        }
+
+        return validFlag == 0;
+    }
+
     private async Task OpenUIAsync()
     {
-        Users = new(await userService.GetInitializedUsersAsync());
+        Users = await userService.GetInitializedUsersAsync();
         SelectedUser = Users.FirstOrDefault();
     }
 
-    private async Task UpdateUserGameRolesAsync()
+    private async Task AddUserAsync(Flyout? flyout)
     {
-        UserGameRoles = new(await userGameRoleClient.GetUserGameRolesAsync());
+        // hide the flyout, otherwise dialog can't open.
+        flyout?.Hide();
+
+        Result<bool, string> result = await new UserDialog().GetInputCookieAsync();
+
+        // user confirms the input
+        if (result.IsOk)
+        {
+            IDictionary<string, string> map = userService.ParseCookie(result.Value);
+
+            if (TryValidateCookie(map, out SortedDictionary<string, string>? filteredCookie))
+            {
+                string simplifiedCookie = string.Join(';', filteredCookie.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+                User user = new() { Cookie = simplifiedCookie };
+
+                if (!await userService.TryAddUserAsync(user))
+                {
+                    infoBarService.Warning("提供的Cookie无效！");
+                }
+            }
+        }
     }
 }

@@ -56,7 +56,15 @@ public record UserGameRole
     /// 是否为官服
     /// </summary>
     [JsonPropertyName("is_official")]
-    public string IsOfficial { get; set; } = default!;
+    public bool IsOfficial { get; set; } = default!;
+
+    /// <summary>
+    /// 玩家服务器与等级简述
+    /// </summary>
+    public string Description
+    {
+        get => $"{RegionName} | Lv.{Level}";
+    }
 
     public static explicit operator PlayerUid(UserGameRole userGameRole)
     {

@@ -4,9 +4,12 @@
 
 .vs/
 
-src/SettingsUI/bin
-src/SettingsUI/obj
+src/Snap.Hutao/SettingsUI/bin
+src/Snap.Hutao/SettingsUI/obj
 
 src/Snap.Hutao/Snap.Hutao/bin/
 src/Snap.Hutao/Snap.Hutao/obj/
 src/Snap.Hutao/Snap.Hutao/Snap.Hutao_TemporaryKey.pfx
+
+src/Snap.Hutao/Snap.Hutao.SourceGeneration/bin/
+src/Snap.Hutao/Snap.Hutao.SourceGeneration/obj/

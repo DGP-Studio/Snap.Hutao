@@ -87,7 +87,7 @@ public class UserInfo
     /// 头像框
     /// </summary>
     [JsonPropertyName("pendant")]
-    public Uri Pendant { get; set; } = default!;
+    public Uri? Pendant { get; set; }
 
     /// <summary>
     /// 是否登出

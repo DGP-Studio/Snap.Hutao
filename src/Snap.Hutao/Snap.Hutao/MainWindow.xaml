@@ -8,9 +8,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="https://i.loli.net/2020/07/07/2wSuTsFci3ZKNMl.jpg"/>
-        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="48.8"/>
             <RowDefinition/>

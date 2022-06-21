@@ -94,6 +94,9 @@ dotnet_diagnostic.SA1636.severity = none
 # SA1414: Tuple types in signatures should have element names
 dotnet_diagnostic.SA1414.severity = none
 
+# SA0001: XML comment analysis disabled
+dotnet_diagnostic.SA0001.severity = none
+
 [*.vb]
 #### 命名样式 ####
 

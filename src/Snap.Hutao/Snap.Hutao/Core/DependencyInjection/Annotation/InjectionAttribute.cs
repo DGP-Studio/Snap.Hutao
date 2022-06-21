@@ -32,10 +32,10 @@ public class InjectionAttribute : Attribute
     /// <summary>
     /// 注入类型
     /// </summary>
-    public InjectAs InjectAs { get; set; }
+    public InjectAs InjectAs { get; }
 
     /// <summary>
     /// 该类实现的接口类型
     /// </summary>
-    public Type? InterfaceType { get; set; }
+    public Type? InterfaceType { get; }
 }

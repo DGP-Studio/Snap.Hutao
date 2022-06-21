@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using System.Text.Json.Serialization;
-using System.Windows.Input;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 

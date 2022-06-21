@@ -16,7 +16,7 @@ public sealed partial class TitleView : UserControl
     /// </summary>
     public TitleView()
     {
-        this.InitializeComponent();
+        InitializeComponent();
     }
 
     /// <summary>

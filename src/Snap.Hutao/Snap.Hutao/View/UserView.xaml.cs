@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
+using Snap.Hutao.ViewModel;
 
 namespace Snap.Hutao.View;
 
@@ -20,6 +21,7 @@ public sealed partial class UserView : UserControl
     public UserView()
     {
         InitializeComponent();
+        DataContext = Ioc.Default.GetRequiredService<UserViewModel>();
     }
 
     /// <summary>

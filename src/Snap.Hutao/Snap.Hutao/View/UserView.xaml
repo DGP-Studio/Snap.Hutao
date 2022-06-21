@@ -5,7 +5,14 @@
     xmlns:local="using:Snap.Hutao.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
+    <mxi:Interaction.Behaviors>
+        <mxic:EventTriggerBehavior EventName="Loaded">
+            <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
+        </mxic:EventTriggerBehavior>
+    </mxi:Interaction.Behaviors>
     <Grid Height="48">
         <Grid Height="48">
             <Grid.ColumnDefinitions>
@@ -14,18 +21,23 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <PersonPicture
-                ProfilePicture="https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/UI_AvatarIcon_Hutao.png"
+                ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl,Mode=OneWay}"
                 HorizontalAlignment="Left"
                 Margin="4,0,4,0"
-                Height="40"
-                Initials="LB"/>
+                Height="40"/>
+            <!--<PersonPicture
+                ProfilePicture="{Binding SelectedUser.UserInfo.Pendant,FallbackValue={x:Null},Mode=OneWay}"
+                HorizontalAlignment="Left"
+                Margin="4,0,4,0"
+                Height="40"/>-->
             <TextBlock
                 VerticalAlignment="Center"
                 Margin="0,0,0,2"
                 Grid.Column="1"
-                Text="胡桃胡桃胡桃胡桃胡桃胡桃"
+                Text="{Binding SelectedUser.UserInfo.Nickname,Mode=OneWay}"
                 TextTrimming="CharacterEllipsis"/>
             <Button
+                x:Name="UsersFlyoutButton"
                 Background="Transparent"
                 BorderBrush="{x:Null}"
                 Height="38.4"
@@ -35,7 +47,7 @@
                 Margin="4">
                 <Button.Flyout>
                     <Flyout
-                        Placement="BottomEdgeAlignedRight"
+                        Placement="TopEdgeAlignedRight"
                         LightDismissOverlayMode="On">
                         <Flyout.FlyoutPresenterStyle>
                             <Style
@@ -48,25 +60,60 @@
                             <ListView
                                 Grid.Row="1"
                                 Margin="4"
-                                CanReorderItems="True">
-                                <ListViewItem Content="角色1"/>
-                                <ListViewItem Content="角色2"/>
+                                SelectionMode="Single"
+                                CanReorderItems="True"
+                                ItemsSource="{Binding SelectedUser.UserGameRoles}"
+                                SelectedItem="{Binding SelectedUser.SelectedUserGameRole,Mode=TwoWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Padding="0,6">
+                                            <TextBlock Text="{Binding Nickname}"/>
+                                            <TextBlock
+                                                Margin="0,2,0,0"
+                                                Opacity="0.6"
+                                                Text="{Binding Description}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                             <MenuFlyoutSeparator/>
-                            <CommandBar DefaultLabelPosition="Right">
-                                <AppBarButton Icon="Add" Label="添加新用户"/>
-                            </CommandBar>
                             <ListView
+                                MaxHeight="224"
                                 Grid.Row="1"
                                 Margin="4"
-                                CanReorderItems="True">
-                                <ListViewItem Content="用户1"/>
-                                <ListViewItem Content="用户2"/>
-                                <ListViewItem Content="用户3"/>
-                                <ListViewItem Content="用户4"/>
-                                <ListViewItem Content="用户1"/>
-                                <ListViewItem Content="用户1"/>
+                                SelectionMode="Single"
+                                ItemsSource="{Binding Users}"
+                                SelectedItem="{Binding SelectedUser,Mode=TwoWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Padding="0,12">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <PersonPicture
+                                                ProfilePicture="{Binding UserInfo.AvatarUrl,Mode=OneWay}"
+                                                HorizontalAlignment="Left"
+                                                Margin="4,0"
+                                                Height="32"/>
+                                            <TextBlock
+                                                Margin="12,0,0,0"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding UserInfo.Nickname}"/>
+                                        </Grid>
+                                        
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
+                            <CommandBar DefaultLabelPosition="Right">
+                                <AppBarButton
+                                    Icon="Add"
+                                    Label="添加新用户"
+                                    Command="{Binding AddUserCommand}"
+                                    CommandParameter="{x:Bind UsersFlyoutButton.Flyout}"/>
+                            </CommandBar>
                         </StackPanel>
                     </Flyout>
                 </Button.Flyout>
