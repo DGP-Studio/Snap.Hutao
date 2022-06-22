@@ -63,6 +63,12 @@ public class User : Observable
     }
 
     /// <summary>
+    /// 移除命令
+    /// </summary>
+    [NotMapped]
+    public ICommand? RemoveCommand { get; set; }
+
+    /// <summary>
     /// 判断用户是否为空用户
     /// </summary>
     /// <param name="user">待检测的用户</param>
@@ -91,6 +97,7 @@ public class User : Observable
 
     /// <summary>
     /// 初始化此用户
+    /// 初始化前必须设置 <see cref="RemoveCommand"/> 属性
     /// </summary>
     /// <param name="userClient">用户客户端</param>
     /// <param name="userGameRoleClient">角色客户端</param>
@@ -103,6 +110,8 @@ public class User : Observable
             return false;
         }
 
+        Must.NotNull(RemoveCommand!);
+
         UserInfo = await userClient
             .GetUserFullInfoAsync(this, token)
             .ConfigureAwait(false);
@@ -111,9 +120,9 @@ public class User : Observable
             .GetUserGameRolesAsync(this, token)
             .ConfigureAwait(false);
 
-        SelectedUserGameRole = UserGameRoles.FirstOrDefault(role => role.IsChosen) ?? UserGameRoles.FirstOrDefault();
+        SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
 
-        return UserInfo != null && UserGameRoles != null;
+        return UserInfo != null && UserGameRoles.Any();
     }
 
     /// <summary>

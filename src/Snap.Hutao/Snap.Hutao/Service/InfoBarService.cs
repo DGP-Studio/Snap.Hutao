@@ -107,7 +107,7 @@ internal class InfoBarService : IInfoBarService
         };
 
         infoBar.Closed += OnInfoBarClosed;
-        Must.NotNull(infoBarStack!)!.Children.Add(infoBar);
+        Must.NotNull(infoBarStack!).Children.Add(infoBar);
 
         if (delay > 0)
         {

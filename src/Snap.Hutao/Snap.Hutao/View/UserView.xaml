@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
         <mxic:EventTriggerBehavior EventName="Loaded">
@@ -25,11 +26,6 @@
                 HorizontalAlignment="Left"
                 Margin="4,0,4,0"
                 Height="40"/>
-            <!--<PersonPicture
-                ProfilePicture="{Binding SelectedUser.UserInfo.Pendant,FallbackValue={x:Null},Mode=OneWay}"
-                HorizontalAlignment="Left"
-                Margin="4,0,4,0"
-                Height="40"/>-->
             <TextBlock
                 VerticalAlignment="Center"
                 Margin="0,0,0,2"
@@ -87,21 +83,72 @@
                                 SelectedItem="{Binding SelectedUser,Mode=TwoWay}">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Padding="0,12">
+                                        <Grid Padding="0,12" Background="Transparent">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>
                                                 <ColumnDefinition/>
+                                                <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
                                             <PersonPicture
                                                 ProfilePicture="{Binding UserInfo.AvatarUrl,Mode=OneWay}"
                                                 HorizontalAlignment="Left"
-                                                Margin="4,0"
+                                                Margin="0,0"
                                                 Height="32"/>
+                                            
                                             <TextBlock
                                                 Margin="12,0,0,0"
                                                 Grid.Column="1"
                                                 VerticalAlignment="Center"
                                                 Text="{Binding UserInfo.Nickname}"/>
+                                            
+                                            <Button
+                                                x:Name="RemoveUserButton"
+                                                Content="&#xE74D;" 
+                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Stretch" 
+                                                Grid.Column="2"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                BorderBrush="{x:Null}"
+                                                Margin="12,0,0,0"
+                                                Visibility="Collapsed"
+                                                Command="{Binding RemoveCommand}"
+                                                CommandParameter="{Binding}"/>
+                                            
+                                            <Grid.Resources>
+                                                <Storyboard x:Name="RemoveUserButtonVisibleStoryboard">
+                                                    <ObjectAnimationUsingKeyFrames
+                                                            Storyboard.TargetName="RemoveUserButton"
+                                                            Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+
+                                                <Storyboard x:Name="RemoveUserButtonCollapsedStoryboard">
+                                                    <ObjectAnimationUsingKeyFrames
+                                                            Storyboard.TargetName="RemoveUserButton"
+                                                            Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Collapsed</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </Grid.Resources>
+                                            <mxi:Interaction.Behaviors>
+                                                <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource RemoveUserButtonVisibleStoryboard}"/>
+                                                </mxic:EventTriggerBehavior>
+                                                <mxic:EventTriggerBehavior EventName="PointerExited">
+                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource RemoveUserButtonCollapsedStoryboard}"/>
+                                                </mxic:EventTriggerBehavior>
+                                            </mxi:Interaction.Behaviors>
                                         </Grid>
                                         
                                     </DataTemplate>

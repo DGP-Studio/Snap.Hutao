@@ -4,8 +4,6 @@
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Hoyolab.Takumi;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
@@ -31,7 +29,6 @@ internal class HutaoClient : ISupportAsyncInitialization
 
     private readonly HttpClient httpClient;
     private readonly GameRecordClient gameRecordClient;
-    private readonly UserGameRoleClient userGameRoleClient;
     private readonly JsonSerializerOptions jsonSerializerOptions;
 
     private bool isInitialized = false;
@@ -41,17 +38,14 @@ internal class HutaoClient : ISupportAsyncInitialization
     /// </summary>
     /// <param name="httpClient">http客户端</param>
     /// <param name="gameRecordClient">游戏记录客户端</param>
-    /// <param name="userGameRoleClient">用户游戏角色客户端</param>
     /// <param name="jsonSerializerOptions">json序列化选项</param>
     public HutaoClient(
         HttpClient httpClient,
         GameRecordClient gameRecordClient,
-        UserGameRoleClient userGameRoleClient,
         JsonSerializerOptions jsonSerializerOptions)
     {
         this.httpClient = httpClient;
         this.gameRecordClient = gameRecordClient;
-        this.userGameRoleClient = userGameRoleClient;
         this.jsonSerializerOptions = jsonSerializerOptions;
     }
 
@@ -64,13 +58,12 @@ internal class HutaoClient : ISupportAsyncInitialization
         Auth auth = new(
             "08d9e212-0cb3-4d71-8ed7-003606da7b20",
             "7ueWgZGn53dDhrm8L5ZRw+YWfOeSWtgQmJWquRgaygw=");
-        JsonSerializerOptions? option = Ioc.Default.GetService<JsonSerializerOptions>();
 
         HttpResponseMessage response = await httpClient
-            .PostAsJsonAsync($"{AuthAPIHost}/Auth/Login", auth, option, token)
+            .PostAsJsonAsync($"{AuthAPIHost}/Auth/Login", auth, jsonSerializerOptions, token)
             .ConfigureAwait(false);
         Response<Token>? resp = await response.Content
-            .ReadFromJsonAsync<Response<Token>>(option, token)
+            .ReadFromJsonAsync<Response<Token>>(jsonSerializerOptions, token)
             .ConfigureAwait(false);
 
         httpClient.DefaultRequestHeaders.Authorization = new("Bearer", Must.NotNull(resp?.Data?.AccessToken!));

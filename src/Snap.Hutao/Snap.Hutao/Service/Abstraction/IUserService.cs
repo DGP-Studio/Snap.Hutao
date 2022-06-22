@@ -22,9 +22,9 @@ public interface IUserService
     /// 每个用户信息都应准备完成
     /// 此操作不能取消
     /// </summary>
-    /// <param name="token">取消令牌</param>
+    /// <param name="removeCommand">移除用户命令</param>
     /// <returns>准备完成的用户信息枚举</returns>
-    Task<ObservableCollection<User>> GetInitializedUsersAsync();
+    Task<ObservableCollection<User>> GetInitializedUsersAsync(ICommand removeCommand);
 
     /// <summary>
     /// 异步添加用户

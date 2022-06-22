@@ -50,14 +50,13 @@ internal static partial class ServiceCollectionExtensions
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""Snap.Hutao.SourceGeneration.DedendencyInjection.InjectionGenerator"","" 1.0.0.0"")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     public static partial IServiceCollection AddInjections(this IServiceCollection services)
-    {");
+    {
+        return services");
 
-        sourceCodeBuilder.Append("\r\n");
         FillWithInjectionServices(receiver, sourceCodeBuilder);
-        sourceCodeBuilder.Append(@"        return services;
+        sourceCodeBuilder.Append(@";
     }
 }");
-        sourceCodeBuilder.Append("\r\n");
 
         context.AddSource("ServiceCollectionExtensions.g.cs", SourceText.From(sourceCodeBuilder.ToString(), Encoding.UTF8));
     }
@@ -66,6 +65,8 @@ internal static partial class ServiceCollectionExtensions
     {
         foreach (INamedTypeSymbol classSymbol in receiver.Classes.OrderByDescending(symbol => symbol.ToDisplayString()))
         {
+            sourceCodeBuilder.Append("\r\n");
+
             AttributeData injectionInfo = classSymbol
                 .GetAttributes()
                 .Single(attr => attr.AttributeClass!.ToDisplayString() == InjectionSyntaxContextReceiver.AttributeName);
@@ -77,10 +78,10 @@ internal static partial class ServiceCollectionExtensions
             switch (injectAsName)
             {
                 case "Snap.Hutao.Core.DependencyInjection.InjectAs.Singleton":
-                    sourceCodeBuilder.Append(@"        services.AddSingleton(");
+                    sourceCodeBuilder.Append(@"            .AddSingleton(");
                     break;
                 case "Snap.Hutao.Core.DependencyInjection.InjectAs.Transient":
-                    sourceCodeBuilder.Append(@"        services.AddTransient(");
+                    sourceCodeBuilder.Append(@"            .AddTransient(");
                     break;
                 default:
                     throw new InvalidOperationException($"非法的InjectAs值: [{injectAsName}]。");
@@ -92,7 +93,7 @@ internal static partial class ServiceCollectionExtensions
                 sourceCodeBuilder.Append($"{interfaceType.ToCSharpString()}, ");
             }
 
-            sourceCodeBuilder.Append($"typeof({classSymbol.ToDisplayString()}));\r\n");
+            sourceCodeBuilder.Append($"typeof({classSymbol.ToDisplayString()}))");
         }
     }
 }

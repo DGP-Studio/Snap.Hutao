@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
@@ -23,6 +24,8 @@ internal class UserViewModel : ObservableObject
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
 
+    private ICommand removeUserCommand;
+
     private User? selectedUser;
     private ObservableCollection<User>? userInfos;
 
@@ -39,6 +42,8 @@ internal class UserViewModel : ObservableObject
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         AddUserCommand = asyncRelayCommandFactory.Create<Flyout>(AddUserAsync);
+
+        removeUserCommand = new RelayCommand<User>(RemoveUser);
     }
 
     /// <summary>
@@ -110,8 +115,8 @@ internal class UserViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        Users = await userService.GetInitializedUsersAsync();
-        SelectedUser = Users.FirstOrDefault();
+        Users = await userService.GetInitializedUsersAsync(removeUserCommand);
+        SelectedUser = userService.CurrentUser;
     }
 
     private async Task AddUserAsync(Flyout? flyout)
@@ -129,13 +134,25 @@ internal class UserViewModel : ObservableObject
             if (TryValidateCookie(map, out SortedDictionary<string, string>? filteredCookie))
             {
                 string simplifiedCookie = string.Join(';', filteredCookie.Select(kvp => $"{kvp.Key}={kvp.Value}"));
-                User user = new() { Cookie = simplifiedCookie };
+                User user = new()
+                {
+                    Cookie = simplifiedCookie,
+                    RemoveCommand = removeUserCommand,
+                };
 
                 if (!await userService.TryAddUserAsync(user))
                 {
                     infoBarService.Warning("提供的Cookie无效！");
                 }
             }
+        }
+    }
+
+    private void RemoveUser(User? user)
+    {
+        if (!User.IsNone(user))
+        {
+            userService.RemoveUser(user);
         }
     }
 }

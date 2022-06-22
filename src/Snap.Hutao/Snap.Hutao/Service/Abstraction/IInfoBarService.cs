@@ -28,17 +28,17 @@ public interface IInfoBarService
     /// <summary>
     /// 显示错误消息
     /// </summary>
-    /// <param name="ex">异常</param>
+    /// <param name="exception">异常</param>
     /// <param name="delay">关闭延迟</param>
-    void Error(Exception ex, int delay = 0);
+    void Error(Exception exception, int delay = 0);
 
     /// <summary>
     /// 显示错误消息
     /// </summary>
-    /// <param name="ex">异常</param>
+    /// <param name="exception">异常</param>
     /// <param name="title">标题</param>
     /// <param name="delay">关闭延迟</param>
-    void Error(Exception ex, string title, int delay = 0);
+    void Error(Exception exception, string title, int delay = 0);
 
     /// <summary>
     /// 显示提示信息

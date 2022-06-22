@@ -45,15 +45,21 @@ internal class UserService : IUserService
         get => currentUser;
         set
         {
-            if (!User.IsNone(currentUser))
-            {
-                User.SetSelectionState(currentUser, false);
-                appDbContext.Users.Update(currentUser);
-            }
-
+            // only update when not processing a deletion
             if (!User.IsNone(value))
             {
-                currentUser = value;
+                if (!User.IsNone(currentUser))
+                {
+                    User.SetSelectionState(currentUser, false);
+                    appDbContext.Users.Update(currentUser);
+                }
+            }
+
+            // 当删除到无用户时也能正常反应状态
+            currentUser = value;
+
+            if (!User.IsNone(currentUser))
+            {
                 User.SetSelectionState(currentUser, true);
                 appDbContext.Users.Update(currentUser);
             }
@@ -79,7 +85,7 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<User>> GetInitializedUsersAsync()
+    public async Task<ObservableCollection<User>> GetInitializedUsersAsync(ICommand removeCommand)
     {
         if (cachedUser == null)
         {
@@ -88,6 +94,7 @@ internal class UserService : IUserService
 
             foreach (User user in cachedUser)
             {
+                user.RemoveCommand = removeCommand;
                 await user.InitializeAsync(userClient, userGameRoleClient);
             }
 

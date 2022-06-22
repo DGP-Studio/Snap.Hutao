@@ -1,9 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Snap.Hutao.Migrations
 {
+    [SuppressMessage("", "SA1413")]
+    [SuppressMessage("", "SA1600")]
+    [SuppressMessage("", "SA1601")]
     public partial class SettingAndUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

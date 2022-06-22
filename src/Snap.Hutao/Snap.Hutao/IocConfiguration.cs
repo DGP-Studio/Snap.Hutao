@@ -50,16 +50,14 @@ internal static class IocConfiguration
         // temporarily create a context
         using (AppDbContext context = AppDbContext.CreateFrom(sqlConnectionString))
         {
-            Debug.WriteLine("Migrate started");
             if (context.Database.GetPendingMigrations().Any())
             {
+                Debug.WriteLine("Migrate started");
                 context.Database.Migrate();
+                Debug.WriteLine("Migrate completed");
             }
-
-            Debug.WriteLine("Migrate completed");
         }
 
-        // LocalSetting.Set(SettingKeys.LastAppVersion, CoreEnvironment.Version.ToString());
         return services
             .AddDbContextPool<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
     }

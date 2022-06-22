@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Logging;
 
 namespace Snap.Hutao;
 
@@ -23,6 +24,8 @@ public partial class App : Application
         // load app resource
         InitializeComponent();
         InitializeDependencyInjection();
+
+        UnhandledException += AppUnhandledException;
     }
 
     /// <summary>
@@ -44,15 +47,28 @@ public partial class App : Application
     private static void InitializeDependencyInjection()
     {
         IServiceProvider services = new ServiceCollection()
+
+            // Microsoft extension
             .AddLogging(builder => builder.AddDebug())
-            .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
             .AddMemoryCache()
+
+            // Hutao extensions
+            .AddInjections()
             .AddDatebase()
             .AddHttpClients()
             .AddDefaultJsonSerializerOptions()
-            .AddInjections()
+
+            // Discrete services
+            .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
+
             .BuildServiceProvider();
 
         Ioc.Default.ConfigureServices(services);
+    }
+
+    private void AppUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        ILogger<App> logger = Ioc.Default.GetRequiredService<ILogger<App>>();
+        logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
     }
 }

@@ -25,12 +25,12 @@ internal static class IocHttpClientConfiguration
     /// <returns>可继续操作的集合</returns>
     public static IServiceCollection AddHttpClients(this IServiceCollection services)
     {
-        services.AddHttpClient<HutaoClient>().ConfigureHttpClient(DefaultConfiguration);
-        services.AddHttpClient<AnnouncementClient>().ConfigureHttpClient(DefaultConfiguration);
-        services.AddHttpClient<UserGameRoleClient>().ConfigureHttpClient(DefaultConfiguration);
+        services.AddHttpClient<HutaoClient>(DefaultConfiguration);
+        services.AddHttpClient<AnnouncementClient>(DefaultConfiguration);
+        services.AddHttpClient<UserGameRoleClient>(DefaultConfiguration);
 
-        services.AddHttpClient<GameRecordClient>().ConfigureHttpClient(XRpcConfiguration);
-        services.AddHttpClient<UserClient>().ConfigureHttpClient(XRpcConfiguration);
+        services.AddHttpClient<GameRecordClient>(XRpcConfiguration);
+        services.AddHttpClient<UserClient>(XRpcConfiguration);
 
         return services;
     }

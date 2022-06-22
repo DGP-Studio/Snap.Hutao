@@ -22,7 +22,7 @@ public static class Program
         XamlCheckProcessRequirements();
 
         ComWrappersSupport.InitializeComWrappers();
-        Application.Start((p) =>
+        Application.Start(p =>
         {
             DispatcherQueueSynchronizationContext context = new(DispatcherQueue.GetForCurrentThread());
             SynchronizationContext.SetSynchronizationContext(context);

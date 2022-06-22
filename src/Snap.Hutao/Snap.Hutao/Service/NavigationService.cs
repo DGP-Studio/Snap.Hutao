@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Abstraction.Navigation;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
@@ -16,6 +17,7 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton, typeof(INavigationService))]
 internal class NavigationService : INavigationService
 {
+    private readonly IInfoBarService infoBarService;
     private readonly ILogger<INavigationService> logger;
 
     private NavigationView? navigationView;
@@ -23,9 +25,11 @@ internal class NavigationService : INavigationService
     /// <summary>
     /// 构造一个新的导航服务
     /// </summary>
+    /// <param name="infobarService">信息条服务</param>
     /// <param name="logger">日志器</param>
-    public NavigationService(ILogger<INavigationService> logger)
+    public NavigationService(IInfoBarService infobarService, ILogger<INavigationService> logger)
     {
+        this.infoBarService = infobarService;
         this.logger = logger;
     }
 
@@ -108,6 +112,7 @@ internal class NavigationService : INavigationService
         catch (Exception ex)
         {
             logger.LogError(EventIds.NavigationFailed, ex, "导航到指定页面时发生了错误");
+            infoBarService.Error(ex);
         }
 
         logger.LogInformation("Navigate to {pageType}:{result}", pageType, navigated ? "succeed" : "failed");
