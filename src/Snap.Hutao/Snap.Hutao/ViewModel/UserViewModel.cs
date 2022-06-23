@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
@@ -23,8 +22,7 @@ internal class UserViewModel : ObservableObject
 {
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
-
-    private ICommand removeUserCommand;
+    private readonly ICommand removeUserCommandCache;
 
     private User? selectedUser;
     private ObservableCollection<User>? userInfos;
@@ -43,7 +41,7 @@ internal class UserViewModel : ObservableObject
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         AddUserCommand = asyncRelayCommandFactory.Create<Flyout>(AddUserAsync);
 
-        removeUserCommand = new RelayCommand<User>(RemoveUser);
+        removeUserCommandCache = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
     }
 
     /// <summary>
@@ -76,46 +74,36 @@ internal class UserViewModel : ObservableObject
     /// </summary>
     public ICommand AddUserCommand { get; }
 
-    private static bool TryValidateCookie(IDictionary<string, string> map, [NotNullWhen(true)] out SortedDictionary<string, string>? filteredCookie)
+    private static bool TryValidateCookie(IDictionary<string, string> map, [NotNullWhen(true)] out IDictionary<string, string>? filteredCookie)
     {
         int validFlag = 4;
 
-        filteredCookie = new();
+        filteredCookie = new SortedDictionary<string, string>();
 
         // O(1) to validate cookie
         foreach ((string key, string value) in map)
         {
-            if (key == "account_id")
-            {
-                validFlag--;
-                filteredCookie[key] = value;
-            }
-
-            if (key == "cookie_token")
-            {
-                validFlag--;
-                filteredCookie[key] = value;
-            }
-
-            if (key == "ltoken")
-            {
-                validFlag--;
-                filteredCookie[key] = value;
-            }
-
-            if (key == "ltuid")
+            if (key == "account_id" || key == "cookie_token" || key == "ltoken" || key == "ltuid")
             {
                 validFlag--;
                 filteredCookie[key] = value;
             }
         }
 
-        return validFlag == 0;
+        if (validFlag == 0)
+        {
+            return true;
+        }
+        else
+        {
+            filteredCookie = null;
+            return false;
+        }
     }
 
     private async Task OpenUIAsync()
     {
-        Users = await userService.GetInitializedUsersAsync(removeUserCommand);
+        Users = await userService.GetInitializedUsersAsync(removeUserCommandCache);
         SelectedUser = userService.CurrentUser;
     }
 
@@ -131,28 +119,37 @@ internal class UserViewModel : ObservableObject
         {
             IDictionary<string, string> map = userService.ParseCookie(result.Value);
 
-            if (TryValidateCookie(map, out SortedDictionary<string, string>? filteredCookie))
+            if (TryValidateCookie(map, out IDictionary<string, string>? filteredCookie))
             {
                 string simplifiedCookie = string.Join(';', filteredCookie.Select(kvp => $"{kvp.Key}={kvp.Value}"));
                 User user = new()
                 {
                     Cookie = simplifiedCookie,
-                    RemoveCommand = removeUserCommand,
+                    RemoveCommand = removeUserCommandCache,
                 };
 
                 if (!await userService.TryAddUserAsync(user))
                 {
-                    infoBarService.Warning("提供的Cookie无效！");
+                    infoBarService.Warning("此Cookie无法获取用户信息，请重新输入");
                 }
+                else
+                {
+                    infoBarService.Success($"成功添加用户 [{user.UserInfo!.Nickname}]");
+                }
+            }
+            else
+            {
+                infoBarService.Warning("提供的字符串并不是有效的Cookie，请重新输入");
             }
         }
     }
 
-    private void RemoveUser(User? user)
+    private async Task RemoveUserAsync(User? user)
     {
         if (!User.IsNone(user))
         {
-            userService.RemoveUser(user);
+            await userService.RemoveUserAsync(user);
+            infoBarService.Success($"成功移除用户 [{user.UserInfo!.Nickname}]");
         }
     }
 }

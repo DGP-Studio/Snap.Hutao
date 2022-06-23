@@ -27,6 +27,9 @@ public sealed partial class MainWindow : Window
     private void MainWindowClosed(object sender, WindowEventArgs args)
     {
         // save datebase
-        Ioc.Default.GetRequiredService<AppDbContext>().SaveChanges();
+        AppDbContext appDbContext = Ioc.Default.GetRequiredService<AppDbContext>();
+        int changes = appDbContext.SaveChanges();
+
+        Verify.Operation(changes == 0, "存在可避免的未经处理的数据库更改");
     }
 }

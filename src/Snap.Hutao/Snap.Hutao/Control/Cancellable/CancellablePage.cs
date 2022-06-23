@@ -27,7 +27,7 @@ public class CancellablePage : Page
     /// <inheritdoc/>
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
-        viewLoadingConcellationTokenSource.Cancel();
         base.OnNavigatingFrom(e);
+        viewLoadingConcellationTokenSource.Cancel();
     }
 }

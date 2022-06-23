@@ -17,6 +17,7 @@ public class Response<TData> : Response
     /// <param name="returnCode">返回代码</param>
     /// <param name="message">消息</param>
     /// <param name="data">数据</param>
+    [JsonConstructor]
     public Response(int returnCode, string message, TData? data)
         : base(returnCode, message)
     {

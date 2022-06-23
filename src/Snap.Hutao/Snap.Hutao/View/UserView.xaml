@@ -2,7 +2,6 @@
     x:Class="Snap.Hutao.View.UserView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Snap.Hutao.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -14,157 +13,188 @@
             <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
         </mxic:EventTriggerBehavior>
     </mxi:Interaction.Behaviors>
-    <Grid Height="48">
-        <Grid Height="48">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <PersonPicture
-                ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl,Mode=OneWay}"
-                HorizontalAlignment="Left"
-                Margin="4,0,4,0"
-                Height="40"/>
-            <TextBlock
-                VerticalAlignment="Center"
-                Margin="0,0,0,2"
-                Grid.Column="1"
-                Text="{Binding SelectedUser.UserInfo.Nickname,Mode=OneWay}"
-                TextTrimming="CharacterEllipsis"/>
-            <Button
-                x:Name="UsersFlyoutButton"
-                Background="Transparent"
-                BorderBrush="{x:Null}"
-                Height="38.4"
-                Content="&#xE712;"
-                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                Grid.Column="2"
-                Margin="4">
-                <Button.Flyout>
-                    <Flyout
-                        Placement="TopEdgeAlignedRight"
-                        LightDismissOverlayMode="On">
-                        <Flyout.FlyoutPresenterStyle>
-                            <Style
-                                TargetType="FlyoutPresenter"
-                                BasedOn="{StaticResource DefaultFlyoutPresenterStyle}">
-                                <Setter Property="Padding" Value="0,2,0,2"/>
-                            </Style>
-                        </Flyout.FlyoutPresenterStyle>
-                        <StackPanel Width="192">
-                            <ListView
-                                Grid.Row="1"
-                                Margin="4"
-                                SelectionMode="Single"
-                                CanReorderItems="True"
-                                ItemsSource="{Binding SelectedUser.UserGameRoles}"
-                                SelectedItem="{Binding SelectedUser.SelectedUserGameRole,Mode=TwoWay}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Padding="0,6">
-                                            <TextBlock Text="{Binding Nickname}"/>
-                                            <TextBlock
-                                                Margin="0,2,0,0"
-                                                Opacity="0.6"
-                                                Text="{Binding Description}"
-                                                Style="{StaticResource CaptionTextBlockStyle}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <MenuFlyoutSeparator/>
-                            <ListView
-                                MaxHeight="224"
-                                Grid.Row="1"
-                                Margin="4"
-                                SelectionMode="Single"
-                                ItemsSource="{Binding Users}"
-                                SelectedItem="{Binding SelectedUser,Mode=TwoWay}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Padding="0,12" Background="Transparent">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <PersonPicture
-                                                ProfilePicture="{Binding UserInfo.AvatarUrl,Mode=OneWay}"
-                                                HorizontalAlignment="Left"
-                                                Margin="0,0"
-                                                Height="32"/>
-                                            
-                                            <TextBlock
-                                                Margin="12,0,0,0"
-                                                Grid.Column="1"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding UserInfo.Nickname}"/>
-                                            
+    <Grid Height="58">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <PersonPicture
+            ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl,Mode=OneWay}"
+            HorizontalAlignment="Left"
+            Margin="4,0,4,0"
+            Height="40"/>
+        <TextBlock
+            VerticalAlignment="Center"
+            Margin="0,0,0,2"
+            Grid.Column="1"
+            Text="{Binding SelectedUser.UserInfo.Nickname,Mode=OneWay}"
+            TextTrimming="CharacterEllipsis"/>
+        <Button
+            x:Name="UsersFlyoutButton"
+            Background="Transparent"
+            BorderBrush="{x:Null}"
+            Height="38.4"
+            Content="&#xE712;"
+            FontFamily="{StaticResource SymbolThemeFontFamily}"
+            Grid.Column="2"
+            Margin="4">
+            <Button.Flyout>
+                <Flyout
+                    Placement="TopEdgeAlignedRight"
+                    LightDismissOverlayMode="On">
+                    <Flyout.FlyoutPresenterStyle>
+                        <Style
+                            TargetType="FlyoutPresenter"
+                            BasedOn="{StaticResource DefaultFlyoutPresenterStyle}">
+                            <Setter Property="Padding" Value="0,2,0,2"/>
+                        </Style>
+                    </Flyout.FlyoutPresenterStyle>
+                    <StackPanel>
+                        <TextBlock
+                            Margin="10,6,0,6"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="角色"/>
+                        <ListView
+                            Grid.Row="1"
+                            Margin="4"
+                            SelectionMode="Single"
+                            CanReorderItems="True"
+                            ItemsSource="{Binding SelectedUser.UserGameRoles}"
+                            SelectedItem="{Binding SelectedUser.SelectedUserGameRole,Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Padding="0,6">
+                                        <TextBlock Text="{Binding Nickname}"/>
+                                        <TextBlock
+                                            Margin="0,2,0,0"
+                                            Opacity="0.6"
+                                            Text="{Binding Description}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <MenuFlyoutSeparator/>
+                        <TextBlock
+                            Margin="10,6,0,6"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="账号"/>
+                        <ListView
+                            MaxHeight="224"
+                            Grid.Row="1"
+                            Margin="4"
+                            SelectionMode="Single"
+                            ItemsSource="{Binding Users}"
+                            SelectedItem="{Binding SelectedUser,Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid
+                                        Width="200"
+                                        Padding="0,12"
+                                        Background="Transparent">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <PersonPicture
+                                            ProfilePicture="{Binding UserInfo.AvatarUrl,Mode=OneWay}"
+                                            HorizontalAlignment="Left"
+                                            Margin="0,0"
+                                            Height="32"/>
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            Grid.Column="1"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding UserInfo.Nickname}"/>
+                                        <StackPanel
+                                            x:Name="ButtonPanel"
+                                            Orientation="Horizontal"
+                                            Grid.Column="2"
+                                            Visibility="Collapsed">
                                             <Button
-                                                x:Name="RemoveUserButton"
-                                                Content="&#xE74D;" 
+                                                Content="&#xE8C8;" 
                                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Stretch" 
-                                                Grid.Column="2"
+                                                VerticalAlignment="Stretch"
                                                 Background="Transparent"
                                                 BorderThickness="0"
                                                 BorderBrush="{x:Null}"
                                                 Margin="12,0,0,0"
-                                                Visibility="Collapsed"
+                                                Command="{Binding CopyCookieCommand}"
+                                                ToolTipService.ToolTip="复制 Cookie"/>
+                                            <Button
+                                                Content="&#xE74D;"
+                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Stretch"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                BorderBrush="{x:Null}"
+                                                Margin="6,0,0,0"
                                                 Command="{Binding RemoveCommand}"
-                                                CommandParameter="{Binding}"/>
-                                            
-                                            <Grid.Resources>
-                                                <Storyboard x:Name="RemoveUserButtonVisibleStoryboard">
-                                                    <ObjectAnimationUsingKeyFrames
-                                                            Storyboard.TargetName="RemoveUserButton"
-                                                            Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                            <DiscreteObjectKeyFrame.Value>
-                                                                <Visibility>Visible</Visibility>
-                                                            </DiscreteObjectKeyFrame.Value>
-                                                        </DiscreteObjectKeyFrame>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
+                                                CommandParameter="{Binding}"
+                                                ToolTipService.ToolTip="移除用户"/>
+                                        </StackPanel>
 
-                                                <Storyboard x:Name="RemoveUserButtonCollapsedStoryboard">
-                                                    <ObjectAnimationUsingKeyFrames
-                                                            Storyboard.TargetName="RemoveUserButton"
-                                                            Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                            <DiscreteObjectKeyFrame.Value>
-                                                                <Visibility>Collapsed</Visibility>
-                                                            </DiscreteObjectKeyFrame.Value>
-                                                        </DiscreteObjectKeyFrame>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </Grid.Resources>
-                                            <mxi:Interaction.Behaviors>
-                                                <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource RemoveUserButtonVisibleStoryboard}"/>
-                                                </mxic:EventTriggerBehavior>
-                                                <mxic:EventTriggerBehavior EventName="PointerExited">
-                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource RemoveUserButtonCollapsedStoryboard}"/>
-                                                </mxic:EventTriggerBehavior>
-                                            </mxi:Interaction.Behaviors>
-                                        </Grid>
+                                        <Grid.Resources>
+                                            <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                                                <ObjectAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="ButtonPanel"
+                                                        Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Visible</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+
+                                            <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                                                <ObjectAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="ButtonPanel"
+                                                        Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0">
+                                                        <DiscreteObjectKeyFrame.Value>
+                                                            <Visibility>Collapsed</Visibility>
+                                                        </DiscreteObjectKeyFrame.Value>
+                                                    </DiscreteObjectKeyFrame>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </Grid.Resources>
                                         
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <CommandBar DefaultLabelPosition="Right">
-                                <AppBarButton
-                                    Icon="Add"
-                                    Label="添加新用户"
-                                    Command="{Binding AddUserCommand}"
-                                    CommandParameter="{x:Bind UsersFlyoutButton.Flyout}"/>
-                            </CommandBar>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-        </Grid>
+                                        <mxi:Interaction.Behaviors>
+                                            <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                                            </mxic:EventTriggerBehavior>
+                                            <mxic:EventTriggerBehavior EventName="PointerExited">
+                                                <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                                            </mxic:EventTriggerBehavior>
+                                        </mxi:Interaction.Behaviors>
+                                    </Grid>
+                                    
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <CommandBar DefaultLabelPosition="Right">
+                            <AppBarButton
+                                Icon="Add"
+                                Label="添加新用户"
+                                Command="{Binding AddUserCommand}"
+                                CommandParameter="{x:Bind UsersFlyoutButton.Flyout}"/>
+                        </CommandBar>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+        <NavigationViewItemSeparator
+            Margin="0,4,0,0"
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            VerticalAlignment="Bottom"/>
     </Grid>
 </UserControl>

@@ -24,7 +24,7 @@ internal class UserService : IUserService
     private readonly UserGameRoleClient userGameRoleClient;
 
     private User? currentUser;
-    private ObservableCollection<User>? cachedUser = null;
+    private ObservableCollection<User>? cachedUsers = null;
 
     /// <summary>
     /// 构造一个新的用户服务
@@ -52,6 +52,7 @@ internal class UserService : IUserService
                 {
                     User.SetSelectionState(currentUser, false);
                     appDbContext.Users.Update(currentUser);
+                    appDbContext.SaveChanges();
                 }
             }
 
@@ -62,6 +63,7 @@ internal class UserService : IUserService
             {
                 User.SetSelectionState(currentUser, true);
                 appDbContext.Users.Update(currentUser);
+                appDbContext.SaveChanges();
             }
         }
     }
@@ -72,6 +74,7 @@ internal class UserService : IUserService
         if (await user.InitializeAsync(userClient, userGameRoleClient))
         {
             appDbContext.Users.Add(user);
+            await appDbContext.SaveChangesAsync();
             return true;
         }
 
@@ -79,20 +82,21 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public void RemoveUser(User user)
+    public async Task RemoveUserAsync(User user)
     {
         appDbContext.Users.Remove(user);
+        await appDbContext.SaveChangesAsync();
     }
 
     /// <inheritdoc/>
     public async Task<ObservableCollection<User>> GetInitializedUsersAsync(ICommand removeCommand)
     {
-        if (cachedUser == null)
+        if (cachedUsers == null)
         {
             appDbContext.Users.Load();
-            cachedUser = appDbContext.Users.Local.ToObservableCollection();
+            cachedUsers = appDbContext.Users.Local.ToObservableCollection();
 
-            foreach (User user in cachedUser)
+            foreach (User user in cachedUsers)
             {
                 user.RemoveCommand = removeCommand;
                 await user.InitializeAsync(userClient, userGameRoleClient);
@@ -101,7 +105,7 @@ internal class UserService : IUserService
             CurrentUser = await appDbContext.Users.SingleOrDefaultAsync(user => user.IsSelected);
         }
 
-        return cachedUser;
+        return cachedUsers;
     }
 
     /// <inheritdoc/>

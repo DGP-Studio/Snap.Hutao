@@ -25,11 +25,11 @@ internal class NavigationService : INavigationService
     /// <summary>
     /// 构造一个新的导航服务
     /// </summary>
-    /// <param name="infobarService">信息条服务</param>
+    /// <param name="infoBarService">信息条服务</param>
     /// <param name="logger">日志器</param>
-    public NavigationService(IInfoBarService infobarService, ILogger<INavigationService> logger)
+    public NavigationService(IInfoBarService infoBarService, ILogger<INavigationService> logger)
     {
-        this.infoBarService = infobarService;
+        this.infoBarService = infoBarService;
         this.logger = logger;
     }
 
@@ -93,7 +93,7 @@ internal class NavigationService : INavigationService
     }
 
     /// <inheritdoc/>
-    public NavigationResult Navigate(Type pageType, bool syncNavigationViewItem = false, NavigationExtra? data = null)
+    public NavigationResult Navigate(Type pageType, INavigationAwaiter data, bool syncNavigationViewItem = false)
     {
         Type? currentType = Frame?.Content?.GetType();
 
@@ -123,22 +123,28 @@ internal class NavigationService : INavigationService
     }
 
     /// <inheritdoc/>
-    public NavigationResult Navigate<TPage>(bool syncNavigationViewItem = false, NavigationExtra? data = null)
+    public NavigationResult Navigate<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
-        return Navigate(typeof(TPage), syncNavigationViewItem, data);
+        return Navigate(typeof(TPage), data, syncNavigationViewItem);
     }
 
     /// <inheritdoc/>
-    public async Task<NavigationResult> NavigateAsync<TPage>(bool syncNavigationViewItem = false, NavigationExtra? data = null)
+    public async Task<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
-        data ??= new NavigationExtra();
-        NavigationResult result = Navigate<TPage>(syncNavigationViewItem, data);
+        NavigationResult result = Navigate<TPage>(data, syncNavigationViewItem);
 
         if (result is NavigationResult.Succeed)
         {
-            await data.NavigationCompletedTaskCompletionSource.Task;
+            try
+            {
+                await data.WaitForCompletionAsync();
+            }
+            catch (AggregateException)
+            {
+                return NavigationResult.Failed;
+            }
         }
 
         return result;
@@ -158,7 +164,8 @@ internal class NavigationService : INavigationService
             ? typeof(SettingPage)
             : NavHelper.GetNavigateTo(Selected);
 
-        Navigate(Must.NotNull(targetType!), false, new(NavHelper.GetExtraData(Selected)));
+        INavigationAwaiter navigationAwaiter = new NavigationExtra(NavHelper.GetExtraData(Selected));
+        Navigate(Must.NotNull(targetType!), navigationAwaiter, false);
     }
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)

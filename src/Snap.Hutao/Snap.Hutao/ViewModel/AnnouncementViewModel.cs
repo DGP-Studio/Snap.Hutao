@@ -99,7 +99,7 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
 
         if (WebView2Helper.IsSupported)
         {
-            navigationService.Navigate<View.Page.AnnouncementContentPage>(data: new(content));
+            navigationService.Navigate<View.Page.AnnouncementContentPage>(data: new NavigationExtra(content));
         }
         else
         {

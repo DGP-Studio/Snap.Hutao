@@ -17,7 +17,6 @@
     xmlns:shvc="using:Snap.Hutao.View.Converter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
     <mxi:Interaction.Behaviors>
         <mxic:EventTriggerBehavior EventName="Loaded">
             <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
@@ -46,7 +45,7 @@
                             <cwucont:AdaptiveGridView
                                 cwua:ItemsReorderAnimation.Duration="0:0:0.06"
                                 SelectionMode="None"
-                                DesiredWidth="320"
+                                DesiredWidth="280"
                                 HorizontalAlignment="Stretch"
                                 ItemsSource="{Binding List}" 
                                 Margin="0,0,2,0">
@@ -70,7 +69,6 @@
                                                 <Border
                                                     cwu:UIElementExtensions.ClipToBounds="True">
                                                     <Border
-                                                        CompositeMode="SourceOver"
                                                         VerticalAlignment="Top"
                                                         cwu:VisualExtensions.NormalizedCenterPoint="0.5">
                                                         <mxi:Interaction.Behaviors>

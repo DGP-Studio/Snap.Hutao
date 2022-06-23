@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Text;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,9 @@ namespace Snap.Hutao.SourceGeneration.DedendencyInjection;
 [Generator]
 public class InjectionGenerator : ISourceGenerator
 {
+    private const string InjectAsSingletonName = "Snap.Hutao.Core.DependencyInjection.InjectAs.Singleton";
+    private const string InjectAsTransientName = "Snap.Hutao.Core.DependencyInjection.InjectAs.Transient";
+
     /// <inheritdoc/>
     public void Initialize(GeneratorInitializationContext context)
     {
@@ -63,9 +67,14 @@ internal static partial class ServiceCollectionExtensions
 
     private static void FillWithInjectionServices(InjectionSyntaxContextReceiver receiver, StringBuilder sourceCodeBuilder)
     {
-        foreach (INamedTypeSymbol classSymbol in receiver.Classes.OrderByDescending(symbol => symbol.ToDisplayString()))
+        List<string> lines = new();
+        StringBuilder lineBuilder = new();
+
+        foreach (INamedTypeSymbol classSymbol in receiver.Classes)
         {
-            sourceCodeBuilder.Append("\r\n");
+            lineBuilder
+                .Clear()
+                .Append("\r\n");
 
             AttributeData injectionInfo = classSymbol
                 .GetAttributes()
@@ -77,11 +86,11 @@ internal static partial class ServiceCollectionExtensions
             string injectAsName = injectAs.ToCSharpString();
             switch (injectAsName)
             {
-                case "Snap.Hutao.Core.DependencyInjection.InjectAs.Singleton":
-                    sourceCodeBuilder.Append(@"            .AddSingleton(");
+                case InjectAsSingletonName:
+                    lineBuilder.Append(@"            .AddSingleton(");
                     break;
-                case "Snap.Hutao.Core.DependencyInjection.InjectAs.Transient":
-                    sourceCodeBuilder.Append(@"            .AddTransient(");
+                case InjectAsTransientName:
+                    lineBuilder.Append(@"            .AddTransient(");
                     break;
                 default:
                     throw new InvalidOperationException($"非法的InjectAs值: [{injectAsName}]。");
@@ -90,10 +99,17 @@ internal static partial class ServiceCollectionExtensions
             if (arguments.Length == 2)
             {
                 TypedConstant interfaceType = arguments[1];
-                sourceCodeBuilder.Append($"{interfaceType.ToCSharpString()}, ");
+                lineBuilder.Append($"{interfaceType.ToCSharpString()}, ");
             }
 
-            sourceCodeBuilder.Append($"typeof({classSymbol.ToDisplayString()}))");
+            lineBuilder.Append($"typeof({classSymbol.ToDisplayString()}))");
+
+            lines.Add(lineBuilder.ToString());
+        }
+
+        foreach (string line in lines.OrderByDescending(x => x))
+        {
+            sourceCodeBuilder.Append(line);
         }
     }
 }

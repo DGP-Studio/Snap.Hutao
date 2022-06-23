@@ -55,6 +55,11 @@ internal class HutaoClient : ISupportAsyncInitialization
     /// <inheritdoc/>
     public async Task<bool> InitializeAsync(CancellationToken token = default)
     {
+        if (isInitialized)
+        {
+            return true;
+        }
+
         Auth auth = new(
             "08d9e212-0cb3-4d71-8ed7-003606da7b20",
             "7ueWgZGn53dDhrm8L5ZRw+YWfOeSWtgQmJWquRgaygw=");
@@ -185,7 +190,7 @@ internal class HutaoClient : ISupportAsyncInitialization
     }
 
     /// <summary>
-    /// 异步获取队伍出场次数
+    /// 异步获取队伍出场次数 层间
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>队伍出场列表</returns>
@@ -201,7 +206,7 @@ internal class HutaoClient : ISupportAsyncInitialization
     }
 
     /// <summary>
-    /// 异步获取队伍出场次数
+    /// 异步获取队伍出场次数 层
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>队伍出场列表</returns>
@@ -217,7 +222,7 @@ internal class HutaoClient : ISupportAsyncInitialization
     }
 
     /// <summary>
-    /// 异步获取队伍出场次数
+    /// 按角色列表异步获取推荐队伍
     /// </summary>
     /// <param name="floor">楼层</param>
     /// <param name="avatarIds">期望的角色，按期望出现顺序排序</param>

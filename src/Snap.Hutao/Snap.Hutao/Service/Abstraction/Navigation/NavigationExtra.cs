@@ -6,8 +6,13 @@ namespace Snap.Hutao.Service.Abstraction.Navigation;
 /// <summary>
 /// 导航额外信息
 /// </summary>
-public class NavigationExtra
+public class NavigationExtra : INavigationExtra, INavigationAwaiter
 {
+    /// <summary>
+    /// 任务完成源
+    /// </summary>
+    private readonly TaskCompletionSource navigationCompletedTaskCompletionSource = new();
+
     /// <summary>
     /// 构造一个新的导航额外信息
     /// </summary>
@@ -17,13 +22,24 @@ public class NavigationExtra
         Data = data;
     }
 
-    /// <summary>
-    /// 数据
-    /// </summary>
+    /// <inheritdoc/>
     public object? Data { get; set; }
 
-    /// <summary>
-    /// 任务完成源
-    /// </summary>
-    public TaskCompletionSource NavigationCompletedTaskCompletionSource { get; } = new();
+    /// <inheritdoc/>
+    public Task WaitForCompletionAsync()
+    {
+        return navigationCompletedTaskCompletionSource.Task;
+    }
+
+    /// <inheritdoc/>
+    public void NotifyNavigationCompleted()
+    {
+        navigationCompletedTaskCompletionSource.TrySetResult();
+    }
+
+    /// <inheritdoc/>
+    public void NotifyNavigationException(Exception exception)
+    {
+        navigationCompletedTaskCompletionSource.TrySetException(exception);
+    }
 }

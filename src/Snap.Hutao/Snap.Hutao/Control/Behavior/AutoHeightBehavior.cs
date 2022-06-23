@@ -21,7 +21,6 @@ internal class AutoHeightBehavior : BehaviorBase<FrameworkElement>
     public double TargetWidth
     {
         get => (double)GetValue(TargetWidthProperty);
-
         set => SetValue(TargetWidthProperty, value);
     }
 
@@ -31,15 +30,14 @@ internal class AutoHeightBehavior : BehaviorBase<FrameworkElement>
     public double TargetHeight
     {
         get => (double)GetValue(TargetHeightProperty);
-
         set => SetValue(TargetHeightProperty, value);
     }
 
     /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()
     {
-        AssociatedObject.SizeChanged += OnSizeChanged;
         UpdateElementHeight();
+        AssociatedObject.SizeChanged += OnSizeChanged;
     }
 
     /// <inheritdoc/>

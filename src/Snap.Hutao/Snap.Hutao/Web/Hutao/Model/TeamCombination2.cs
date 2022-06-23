@@ -6,15 +6,15 @@ using System.Collections.Generic;
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 队伍上场率
-/// 层间上场率
+/// 队伍上场率2
+/// 层上场率
 /// </summary>
-public record TeamCombination
+public record TeamCombination2
 {
     /// <summary>
     /// 带有层的间
     /// </summary>
-    public LevelInfo Level { get; set; } = null!;
+    public int Floor { get; set; }
 
     /// <summary>
     /// 队伍

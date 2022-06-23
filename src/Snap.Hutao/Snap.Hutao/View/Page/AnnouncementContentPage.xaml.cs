@@ -35,14 +35,14 @@ openInWebview: function(url){ location.href = url }}";
     {
         base.OnNavigatedTo(e);
 
-        if (e.Parameter is NavigationExtra extra)
+        if (e.Parameter is INavigationExtra extra)
         {
             targetContent = extra.Data as string;
             LoadAnnouncementAsync(extra).Forget();
         }
     }
 
-    private async Task LoadAnnouncementAsync(NavigationExtra extra)
+    private async Task LoadAnnouncementAsync(INavigationExtra extra)
     {
         try
         {
@@ -51,12 +51,13 @@ openInWebview: function(url){ location.href = url }}";
             await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
             WebView.CoreWebView2.WebMessageReceived += (_, e) => Browser.Open(e.TryGetWebMessageAsString);
         }
-        catch
+        catch (Exception ex)
         {
+            extra.NotifyNavigationException(ex);
             return;
         }
 
         WebView.NavigateToString(targetContent);
-        extra.NavigationCompletedTaskCompletionSource.TrySetResult();
+        extra.NotifyNavigationCompleted();
     }
 }

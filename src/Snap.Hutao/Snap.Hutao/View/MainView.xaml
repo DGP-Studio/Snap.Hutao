@@ -14,7 +14,7 @@
         <NavigationView
             x:Name="NavView"
             CompactPaneLength="48"
-            OpenPaneLength="200"
+            OpenPaneLength="244"
             CompactModeThresholdWidth="128"
             ExpandedModeThresholdWidth="720"
             IsPaneOpen="True"

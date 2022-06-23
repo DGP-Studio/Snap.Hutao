@@ -17,6 +17,9 @@
             <StaticResource x:Key="WindowCaptionForeground" ResourceKey="SystemControlForegroundBaseHighBrush" />
             <StaticResource x:Key="WindowCaptionForegroundDisabled" ResourceKey="SystemControlForegroundBaseHighBrush" />
 
+            <Thickness x:Key="InfoBarIconMargin">6,16,16,16</Thickness>
+            <Thickness x:Key="InfoBarContentRootPadding">16,0,0,0</Thickness>
+
             <CornerRadius x:Key="CompatCornerRadius">4</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusTop">4,4,0,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusRight">0,4,4,0</CornerRadius>

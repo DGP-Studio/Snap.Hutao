@@ -41,29 +41,29 @@ public interface INavigationService
     /// 导航到指定类型的页面
     /// </summary>
     /// <param name="pageType">指定的页面类型</param>
-    /// <param name="isSyncTabRequested">是否同步标签，当在代码中调用时应设为 true</param>
     /// <param name="data">要传递的数据</param>
+    /// <param name="isSyncTabRequested">是否同步标签，当在代码中调用时应设为 true</param>
     /// <returns>是否导航成功</returns>
-    NavigationResult Navigate(Type pageType, bool isSyncTabRequested = false, NavigationExtra? data = null);
+    NavigationResult Navigate(Type pageType, INavigationAwaiter data, bool isSyncTabRequested = false);
 
     /// <summary>
     /// 导航到指定类型的页面
     /// </summary>
     /// <typeparam name="T">指定的页面类型</typeparam>
-    /// <param name="isSyncTabRequested">是否同步标签，当在代码中调用时应设为 true</param>
     /// <param name="data">要传递的数据</param>
+    /// <param name="isSyncTabRequested">是否同步标签，当在代码中调用时应设为 true</param>
     /// <returns>是否导航成功</returns>
-    NavigationResult Navigate<T>(bool isSyncTabRequested = false, NavigationExtra? data = null)
+    NavigationResult Navigate<T>(INavigationAwaiter data, bool isSyncTabRequested = false)
         where T : Page;
 
     /// <summary>
     /// 异步的导航到指定类型的页面
     /// </summary>
     /// <typeparam name="TPage">指定的页面类型</typeparam>
-    /// <param name="syncNavigationViewItem">是否同步标签，当在代码中调用时应设为 true</param>
     /// <param name="data">要传递的数据</param>
+    /// <param name="syncNavigationViewItem">是否同步标签，当在代码中调用时应设为 true</param>
     /// <returns>是否导航成功</returns>
-    Task<NavigationResult> NavigateAsync<TPage>(bool syncNavigationViewItem = false, NavigationExtra? data = null)
+    Task<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
         where TPage : Page;
 
     /// <summary>

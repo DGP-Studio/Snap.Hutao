@@ -28,6 +28,7 @@ public interface IUserService
 
     /// <summary>
     /// 异步添加用户
+    /// 通常用户是未初始化的
     /// </summary>
     /// <param name="user">待添加的用户</param>
     /// <returns>用户初始化是否成功</returns>
@@ -37,7 +38,8 @@ public interface IUserService
     /// 异步移除用户
     /// </summary>
     /// <param name="user">待移除的用户</param>
-    void RemoveUser(User user);
+    /// <returns>任务</returns>
+    Task RemoveUserAsync(User user);
 
     /// <summary>
     /// 将cookie的字符串形式转换为字典
