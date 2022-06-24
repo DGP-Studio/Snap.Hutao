@@ -12,6 +12,17 @@ namespace Snap.Hutao.Extension;
 public static class EnumerableExtensions
 {
     /// <summary>
+    /// 将源转换为仅包含单个元素的集合
+    /// </summary>
+    /// <typeparam name="TSource">源的类型</typeparam>
+    /// <param name="source">源</param>
+    /// <returns>集合</returns>
+    public static IEnumerable<TSource> AsEnumerable<TSource>(this TSource source)
+    {
+        yield return source;
+    }
+
+    /// <summary>
     /// 计数
     /// </summary>
     /// <typeparam name="TSource">源类型</typeparam>

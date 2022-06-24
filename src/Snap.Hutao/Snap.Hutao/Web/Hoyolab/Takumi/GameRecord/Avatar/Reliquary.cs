@@ -38,7 +38,7 @@ public class Reliquary
     /// 稀有度
     /// </summary>
     [JsonPropertyName("rarity")]
-    public Rarity Rarity { get; set; }
+    public ItemQuality Rarity { get; set; }
 
     /// <summary>
     /// 等级
