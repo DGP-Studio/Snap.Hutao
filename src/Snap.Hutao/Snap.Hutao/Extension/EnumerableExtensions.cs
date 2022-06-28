@@ -17,7 +17,7 @@ public static class EnumerableExtensions
     /// <typeparam name="TSource">源的类型</typeparam>
     /// <param name="source">源</param>
     /// <returns>集合</returns>
-    public static IEnumerable<TSource> AsEnumerable<TSource>(this TSource source)
+    public static IEnumerable<TSource> Enumerate<TSource>(this TSource source)
     {
         yield return source;
     }
@@ -122,19 +122,6 @@ public static class EnumerableExtensions
         }
 
         return source;
-    }
-
-    /// <summary>
-    /// 寻找枚举中唯一的值,找不到时
-    /// 回退到首个或默认值
-    /// </summary>
-    /// <typeparam name="TSource">源类型</typeparam>
-    /// <param name="source">源</param>
-    /// <param name="predicate">谓语</param>
-    /// <returns>目标项</returns>
-    public static TSource? SingleOrFirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
-    {
-        return source.SingleOrDefault(predicate) ?? source.FirstOrDefault();
     }
 
     /// <summary>
