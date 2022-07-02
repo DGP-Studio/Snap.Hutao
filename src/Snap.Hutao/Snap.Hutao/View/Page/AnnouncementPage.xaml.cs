@@ -16,7 +16,7 @@ public sealed partial class AnnouncementPage : CancellablePage
     /// </summary>
     public AnnouncementPage()
     {
-        Initialize(Ioc.Default.GetRequiredService<AnnouncementViewModel>());
+        InitializeWith<AnnouncementViewModel>();
         InitializeComponent();
     }
 }

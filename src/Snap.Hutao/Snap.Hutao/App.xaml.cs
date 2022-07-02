@@ -4,7 +4,11 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Service.Abstraction;
+using System.Diagnostics;
+using Windows.ApplicationModel.Activation;
 
 namespace Snap.Hutao;
 
@@ -14,10 +18,10 @@ namespace Snap.Hutao;
 public partial class App : Application
 {
     private static Window? window;
+    private readonly ILogger<App> logger;
 
     /// <summary>
     /// Initializes the singleton application object.
-    /// This is the first line of authored code executed, and as such is the logical equivalent of main() or WinMain().
     /// </summary>
     public App()
     {
@@ -25,6 +29,7 @@ public partial class App : Application
         InitializeComponent();
         InitializeDependencyInjection();
 
+        logger = Ioc.Default.GetRequiredService<ILogger<App>>();
         UnhandledException += AppUnhandledException;
     }
 
@@ -34,14 +39,38 @@ public partial class App : Application
     public static Window? Window { get => window; set => window = value; }
 
     /// <summary>
-    /// Invoked when the application is launched normally by the end user.
-    /// Other entry points will be used such as when the application is launched to open a specific file.
+    /// Invoked when the application is launched.
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    [SuppressMessage("", "VSTHRD100")]
+    protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
-        Window = Ioc.Default.GetRequiredService<MainWindow>();
-        Window.Activate();
+        AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+        AppInstance mainInstance = AppInstance.FindOrRegisterForKey("main");
+
+        if (!mainInstance.IsCurrent)
+        {
+            // Redirect the activation (and args) to the "main" instance, and exit.
+            await mainInstance.RedirectActivationToAsync(activatedEventArgs);
+            Process.GetCurrentProcess().Kill();
+        }
+        else
+        {
+            Uri? uri = null;
+            if (activatedEventArgs.Kind == ExtendedActivationKind.Protocol)
+            {
+                IProtocolActivatedEventArgs protocolArgs = (activatedEventArgs.Data as IProtocolActivatedEventArgs)!;
+                uri = protocolArgs.Uri;
+            }
+
+            Window = Ioc.Default.GetRequiredService<MainWindow>();
+            Window.Activate();
+
+            if (uri != null)
+            {
+                Ioc.Default.GetRequiredService<IInfoBarService>().Information(uri.ToString());
+            }
+        }
     }
 
     private static void InitializeDependencyInjection()
@@ -56,7 +85,7 @@ public partial class App : Application
             .AddInjections()
             .AddDatebase()
             .AddHttpClients()
-            .AddDefaultJsonSerializerOptions()
+            .AddJsonSerializerOptions()
 
             // Discrete services
             .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
@@ -68,7 +97,6 @@ public partial class App : Application
 
     private void AppUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        ILogger<App> logger = Ioc.Default.GetRequiredService<ILogger<App>>();
         logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
     }
 }

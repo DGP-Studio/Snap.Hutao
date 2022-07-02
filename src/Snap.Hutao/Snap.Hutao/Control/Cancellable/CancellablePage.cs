@@ -17,9 +17,11 @@ public class CancellablePage : Page
     /// <summary>
     /// 初始化
     /// </summary>
-    /// <param name="viewModel">视图模型</param>
-    public void Initialize(ISupportCancellation viewModel)
+    /// <typeparam name="TViewModel">视图模型类型</typeparam>
+    public void InitializeWith<TViewModel>()
+        where TViewModel : class, ISupportCancellation
     {
+        ISupportCancellation viewModel = Ioc.Default.GetRequiredService<TViewModel>();
         viewModel.CancellationToken = viewLoadingConcellationTokenSource.Token;
         DataContext = viewModel;
     }

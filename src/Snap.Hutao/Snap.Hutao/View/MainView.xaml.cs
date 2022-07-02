@@ -3,7 +3,8 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Abstraction.Navigation;
+using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.View.Page;
 
 namespace Snap.Hutao.View;
 
@@ -27,6 +28,6 @@ public sealed partial class MainView : UserControl
 
         navigationService = Ioc.Default.GetRequiredService<INavigationService>();
         navigationService.Initialize(NavView, ContentFrame);
-        navigationService.Navigate<Page.AnnouncementPage>(INavigationAwaiter.Default, true);
+        navigationService.Navigate<WelcomePage>(INavigationAwaiter.Default, false);
     }
 }

@@ -4,12 +4,11 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Abstraction.Navigation;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
 using System.Linq;
 
-namespace Snap.Hutao.Service;
+namespace Snap.Hutao.Service.Navigation;
 
 /// <summary>
 /// 导航服务

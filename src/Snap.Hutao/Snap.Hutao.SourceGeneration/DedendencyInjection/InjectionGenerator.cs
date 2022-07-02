@@ -107,7 +107,7 @@ internal static partial class ServiceCollectionExtensions
             lines.Add(lineBuilder.ToString());
         }
 
-        foreach (string line in lines.OrderByDescending(x => x))
+        foreach (string line in lines.OrderBy(x => x))
         {
             sourceCodeBuilder.Append(line);
         }

@@ -43,9 +43,9 @@
                                 Margin="0,0,0,12"
                                 Style="{StaticResource TitleTextBlockStyle}"/>
                             <cwucont:AdaptiveGridView
-                                cwua:ItemsReorderAnimation.Duration="0:0:0.06"
+                                cwua:ItemsReorderAnimation.Duration="0:0:0.1"
                                 SelectionMode="None"
-                                DesiredWidth="280"
+                                DesiredWidth="300"
                                 HorizontalAlignment="Stretch"
                                 ItemsSource="{Binding List}" 
                                 Margin="0,0,2,0">

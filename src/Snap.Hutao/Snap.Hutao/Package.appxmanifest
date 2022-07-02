@@ -9,7 +9,7 @@
   <Identity
     Name="7f0db578-026f-4e0b-a75b-d5d06bb0a74d"
     Publisher="CN=DGP Studio"
-    Version="1.0.4.0" />
+    Version="1.0.6.0" />
 
   <Properties>
     <DisplayName>胡桃</DisplayName>
@@ -32,13 +32,20 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="胡桃"
-        Description="Snap Genshin 但是 WinUI3"
+        Description="A Snap Hutao Software"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="hutao">
+            <uap:DisplayName>胡桃</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+      </Extensions>
     </Application>
   </Applications>
 

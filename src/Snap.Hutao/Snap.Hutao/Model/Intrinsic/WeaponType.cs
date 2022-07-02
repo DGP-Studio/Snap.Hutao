@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 武器类型

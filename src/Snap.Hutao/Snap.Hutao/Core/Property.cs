@@ -19,7 +19,7 @@ internal static class Property<TOwner>
     /// <returns>注册的依赖属性</returns>
     public static DependencyProperty Depend<TProperty>(string name)
     {
-        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(null));
+        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new(default(TProperty)));
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ internal static class Property<TOwner>
     /// <returns>注册的依赖属性</returns>
     public static DependencyProperty Depend<TProperty>(string name, TProperty defaultValue)
     {
-        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(defaultValue));
+        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new(defaultValue));
     }
 
     /// <summary>
@@ -44,7 +44,7 @@ internal static class Property<TOwner>
     /// <returns>注册的依赖属性</returns>
     public static DependencyProperty Depend<TProperty>(string name, TProperty defaultValue, PropertyChangedCallback callback)
     {
-        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(defaultValue, callback));
+        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new(defaultValue, callback));
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ internal static class Property<TOwner>
     /// <returns>注册的附加属性</returns>
     public static DependencyProperty Attach<TProperty>(string name)
     {
-        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(null));
+        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new(default(TProperty)));
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ internal static class Property<TOwner>
     /// <returns>注册的附加属性</returns>
     public static DependencyProperty Attach<TProperty>(string name, TProperty defaultValue)
     {
-        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(defaultValue));
+        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new(defaultValue));
     }
 
     /// <summary>
@@ -79,6 +79,6 @@ internal static class Property<TOwner>
     /// <returns>注册的附加属性</returns>
     public static DependencyProperty Attach<TProperty>(string name, PropertyChangedCallback callback)
     {
-        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new PropertyMetadata(callback));
+        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new(callback));
     }
 }

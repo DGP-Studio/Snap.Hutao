@@ -4,7 +4,8 @@
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.VisualStudio.Threading;
 using Snap.Hutao.Core;
-using Snap.Hutao.Service.Abstraction.Navigation;
+using Snap.Hutao.Extension;
+using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.View.Page;
 
@@ -38,7 +39,7 @@ openInWebview: function(url){ location.href = url }}";
         if (e.Parameter is INavigationExtra extra)
         {
             targetContent = extra.Data as string;
-            LoadAnnouncementAsync(extra).Forget();
+            LoadAnnouncementAsync(extra).SafeForget();
         }
     }
 

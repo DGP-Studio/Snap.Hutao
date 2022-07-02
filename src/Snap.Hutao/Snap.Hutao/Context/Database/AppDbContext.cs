@@ -35,7 +35,7 @@ public class AppDbContext : DbContext
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>
     /// <returns>应用程序数据库上下文</returns>
-    public static AppDbContext CreateFrom(string sqlConnectionString)
+    public static AppDbContext Create(string sqlConnectionString)
     {
         return new(new DbContextOptionsBuilder<AppDbContext>().UseSqlite(sqlConnectionString).Options);
     }

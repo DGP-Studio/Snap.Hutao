@@ -19,25 +19,25 @@ internal class InfoBarService : IInfoBarService
     }
 
     /// <inheritdoc/>
-    public void Information(string message, int delay = 3000)
+    public void Information(string message, int delay = 5000)
     {
         PrepareInfoBarAndShow(InfoBarSeverity.Informational, null, message, delay);
     }
 
     /// <inheritdoc/>
-    public void Information(string title, string message, int delay = 3000)
+    public void Information(string title, string message, int delay = 5000)
     {
         PrepareInfoBarAndShow(InfoBarSeverity.Informational, title, message, delay);
     }
 
     /// <inheritdoc/>
-    public void Success(string message, int delay = 3000)
+    public void Success(string message, int delay = 5000)
     {
         PrepareInfoBarAndShow(InfoBarSeverity.Success, null, message, delay);
     }
 
     /// <inheritdoc/>
-    public void Success(string title, string message, int delay = 3000)
+    public void Success(string title, string message, int delay = 5000)
     {
         PrepareInfoBarAndShow(InfoBarSeverity.Success, title, message, delay);
     }

@@ -24,6 +24,45 @@ internal abstract class FileSystemContext
     }
 
     /// <summary>
+    /// 创建文件，若已存在文件，则不会创建
+    /// </summary>
+    /// <param name="file">文件</param>
+    public void CreateFileOrIgnore(string file)
+    {
+        file = Locate(file);
+        if (!File.Exists(file))
+        {
+            File.Create(file).Dispose();
+        }
+    }
+
+    /// <summary>
+    /// 创建文件夹，若已存在文件，则不会创建
+    /// </summary>
+    /// <param name="folder">文件夹</param>
+    public void CreateFolderOrIgnore(string folder)
+    {
+        folder = Locate(folder);
+        if (!Directory.Exists(folder))
+        {
+            Directory.CreateDirectory(folder);
+        }
+    }
+
+    /// <summary>
+    /// 尝试删除文件夹
+    /// </summary>
+    /// <param name="folder">文件夹</param>
+    public void DeleteFolderOrIgnore(string folder)
+    {
+        folder = Locate(folder);
+        if (Directory.Exists(folder))
+        {
+            Directory.Delete(folder, true);
+        }
+    }
+
+    /// <summary>
     /// 检查根目录
     /// </summary>
     /// <returns>是否创建了路径</returns>
@@ -113,41 +152,22 @@ internal abstract class FileSystemContext
     }
 
     /// <summary>
-    /// 创建文件，若已存在文件，则不会创建
+    /// 等效于 <see cref="File.OpenRead(string)"/> ，但路径经过解析
     /// </summary>
-    /// <param name="file">文件</param>
-    public void CreateFileOrIgnore(string file)
+    /// <param name="file">文件名</param>
+    /// <returns>文件流</returns>
+    public FileStream OpenRead(string file)
     {
-        file = Locate(file);
-        if (!File.Exists(file))
-        {
-            File.Create(file).Dispose();
-        }
+        return File.OpenRead(Locate(file));
     }
 
     /// <summary>
-    /// 创建文件夹，若已存在文件，则不会创建
+    /// 等效于 <see cref="File.Create(string)"/> ，但路径经过解析
     /// </summary>
-    /// <param name="folder">文件夹</param>
-    public void CreateFolderOrIgnore(string folder)
+    /// <param name="file">文件名</param>
+    /// <returns>文件流</returns>
+    public FileStream Create(string file)
     {
-        folder = Locate(folder);
-        if (!Directory.Exists(folder))
-        {
-            Directory.CreateDirectory(folder);
-        }
-    }
-
-    /// <summary>
-    /// 尝试删除文件夹
-    /// </summary>
-    /// <param name="folder">文件夹</param>
-    public void DeleteFolderOrIgnore(string folder)
-    {
-        folder = Locate(folder);
-        if (Directory.Exists(folder))
-        {
-            Directory.Delete(folder, true);
-        }
+        return File.Create(Locate(file));
     }
 }

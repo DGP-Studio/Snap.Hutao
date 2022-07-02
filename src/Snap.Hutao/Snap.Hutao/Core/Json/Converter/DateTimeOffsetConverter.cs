@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Core.Json.Converter;

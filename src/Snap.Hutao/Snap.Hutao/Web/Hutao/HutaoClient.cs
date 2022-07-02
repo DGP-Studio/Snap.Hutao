@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text.Json;
 
 namespace Snap.Hutao.Web.Hutao;
 
@@ -50,29 +49,28 @@ internal class HutaoClient : ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
-    public bool IsInitialized { get => isInitialized; }
+    public bool IsInitialized { get => isInitialized; private set => isInitialized = value; }
 
     /// <inheritdoc/>
-    public async Task<bool> InitializeAsync(CancellationToken token = default)
+    public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
     {
-        if (isInitialized)
+        if (!IsInitialized)
         {
-            return true;
+            Auth auth = new(
+                "08d9e212-0cb3-4d71-8ed7-003606da7b20",
+                "7ueWgZGn53dDhrm8L5ZRw+YWfOeSWtgQmJWquRgaygw=");
+
+            HttpResponseMessage response = await httpClient
+                .PostAsJsonAsync($"{AuthAPIHost}/Auth/Login", auth, jsonSerializerOptions, token)
+                .ConfigureAwait(false);
+            Response<Token>? resp = await response.Content
+                .ReadFromJsonAsync<Response<Token>>(jsonSerializerOptions, token)
+                .ConfigureAwait(false);
+
+            httpClient.DefaultRequestHeaders.Authorization = new("Bearer", Must.NotNull(resp?.Data?.AccessToken!));
+            IsInitialized = true;
         }
 
-        Auth auth = new(
-            "08d9e212-0cb3-4d71-8ed7-003606da7b20",
-            "7ueWgZGn53dDhrm8L5ZRw+YWfOeSWtgQmJWquRgaygw=");
-
-        HttpResponseMessage response = await httpClient
-            .PostAsJsonAsync($"{AuthAPIHost}/Auth/Login", auth, jsonSerializerOptions, token)
-            .ConfigureAwait(false);
-        Response<Token>? resp = await response.Content
-            .ReadFromJsonAsync<Response<Token>>(jsonSerializerOptions, token)
-            .ConfigureAwait(false);
-
-        httpClient.DefaultRequestHeaders.Authorization = new("Bearer", Must.NotNull(resp?.Data?.AccessToken!));
-        isInitialized = true;
         return true;
     }
 
@@ -333,6 +331,7 @@ internal class HutaoClient : ISupportAsyncInitialization
     /// <param name="characters">角色详细信息</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
+    [Obsolete("不再强制要求上传物品")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     internal async Task<Response<string>?> UploadItemsAsync(List<Character> characters, CancellationToken token = default)
     {

@@ -45,7 +45,7 @@ public interface IInfoBarService
     /// </summary>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    void Information(string message, int delay = 3000);
+    void Information(string message, int delay = 5000);
 
     /// <summary>
     /// 显示提示信息
@@ -53,7 +53,7 @@ public interface IInfoBarService
     /// <param name="title">标题</param>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    void Information(string title, string message, int delay = 3000);
+    void Information(string title, string message, int delay = 5000);
 
     /// <summary>
     /// 使用指定的 <see cref="StackPanel"/> 初始化服务
@@ -66,7 +66,7 @@ public interface IInfoBarService
     /// </summary>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    void Success(string message, int delay = 3000);
+    void Success(string message, int delay = 5000);
 
     /// <summary>
     /// 显示成功信息
@@ -74,7 +74,7 @@ public interface IInfoBarService
     /// <param name="title">标题</param>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    void Success(string title, string message, int delay = 3000);
+    void Success(string title, string message, int delay = 5000);
 
     /// <summary>
     /// 显示警告信息

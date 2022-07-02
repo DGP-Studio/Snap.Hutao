@@ -7,7 +7,7 @@ using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem;
 using System.Diagnostics;
 using System.Linq;
-using System.Text.Json;
+using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 
 namespace Snap.Hutao;
@@ -22,20 +22,20 @@ internal static class IocConfiguration
     /// </summary>
     /// <param name="services">集合</param>
     /// <returns>可继续操作的集合</returns>
-    public static IServiceCollection AddDefaultJsonSerializerOptions(this IServiceCollection services)
+    public static IServiceCollection AddJsonSerializerOptions(this IServiceCollection services)
     {
-        // default json options, global configuration
         return services
             .AddSingleton(new JsonSerializerOptions()
             {
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
                 PropertyNameCaseInsensitive = true,
                 WriteIndented = true,
             });
     }
 
     /// <summary>
-    /// 添加数据库
+    /// 添加专用数据库
     /// </summary>
     /// <param name="services">集合</param>
     /// <returns>可继续操作的集合</returns>
@@ -48,13 +48,12 @@ internal static class IocConfiguration
         string sqlConnectionString = $"Data Source={dbFile}";
 
         // temporarily create a context
-        using (AppDbContext context = AppDbContext.CreateFrom(sqlConnectionString))
+        using (AppDbContext context = AppDbContext.Create(sqlConnectionString))
         {
             if (context.Database.GetPendingMigrations().Any())
             {
-                Debug.WriteLine("Migrate started");
+                Debug.WriteLine("Performing Migrations");
                 context.Database.Migrate();
-                Debug.WriteLine("Migrate completed");
             }
         }
 

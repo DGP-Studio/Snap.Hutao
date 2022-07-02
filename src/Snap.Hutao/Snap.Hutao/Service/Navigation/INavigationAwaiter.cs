@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Service.Abstraction.Navigation;
+namespace Snap.Hutao.Service.Navigation;
 
 /// <summary>
 /// 表示导航等待器

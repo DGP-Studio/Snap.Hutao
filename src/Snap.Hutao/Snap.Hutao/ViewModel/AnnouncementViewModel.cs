@@ -8,7 +8,8 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Abstraction.Navigation;
+using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
 namespace Snap.Hutao.ViewModel;
@@ -99,7 +100,7 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
 
         if (WebView2Helper.IsSupported)
         {
-            navigationService.Navigate<View.Page.AnnouncementContentPage>(data: new NavigationExtra(content));
+            navigationService.Navigate<AnnouncementContentPage>(data: new NavigationExtra(content));
         }
         else
         {

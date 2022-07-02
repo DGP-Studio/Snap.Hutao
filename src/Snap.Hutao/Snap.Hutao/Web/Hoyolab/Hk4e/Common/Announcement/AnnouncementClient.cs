@@ -6,8 +6,6 @@ using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
@@ -52,8 +50,7 @@ internal class AnnouncementClient
     /// <returns>公告内容列表</returns>
     public async Task<List<AnnouncementContent>> GetAnnouncementContentsAsync(CancellationToken cancellationToken = default)
     {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
+        // Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         Response<ListWrapper<AnnouncementContent>>? resp = await httpClient
             .GetFromJsonAsync<Response<ListWrapper<AnnouncementContent>>>(ApiEndpoints.AnnContent, jsonSerializerOptions, cancellationToken)
             .ConfigureAwait(false);

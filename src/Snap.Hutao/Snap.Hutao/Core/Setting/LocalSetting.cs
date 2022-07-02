@@ -12,7 +12,7 @@ namespace Snap.Hutao.Core.Setting;
 internal static class LocalSetting
 {
     /// <summary>
-    /// 由于 <see cref="Windows.Foundation.Collections.IPropertySet"/> 没有启用 nullable,
+    /// 由于 <see cref="Windows.Foundation.Collections.IPropertySet"/> 没有 nullable context,
     /// 在处理引用类型时需要格外小心
     /// 将值类型的操作与引用类型区分开，可以提升一定的性能
     /// </summary>

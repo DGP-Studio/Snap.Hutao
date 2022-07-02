@@ -28,6 +28,12 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
+                <NavigationViewItem Content="成就" helper:NavHelper.NavigateTo="page:AchievementPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7C4;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
             </NavigationView.MenuItems>
             
             <NavigationView.PaneFooter>

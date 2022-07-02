@@ -14,7 +14,7 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
 internal class AnnouncementService : IAnnouncementService
 {
-    private const string CacheKey = $"{nameof(IAnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
+    private const string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 
     private readonly AnnouncementClient announcementClient;
     private readonly IMemoryCache memoryCache;

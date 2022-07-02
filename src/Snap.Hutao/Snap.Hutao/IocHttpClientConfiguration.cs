@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Web.Enka;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
@@ -25,10 +27,16 @@ internal static class IocHttpClientConfiguration
     /// <returns>可继续操作的集合</returns>
     public static IServiceCollection AddHttpClients(this IServiceCollection services)
     {
+        // services
+        services.AddHttpClient<MetadataService>(DefaultConfiguration);
+
+        // normal clients
         services.AddHttpClient<HutaoClient>(DefaultConfiguration);
         services.AddHttpClient<AnnouncementClient>(DefaultConfiguration);
         services.AddHttpClient<UserGameRoleClient>(DefaultConfiguration);
+        services.AddHttpClient<EnkaClient>(DefaultConfiguration);
 
+        // x-rpc clients
         services.AddHttpClient<GameRecordClient>(XRpcConfiguration);
         services.AddHttpClient<UserClient>(XRpcConfiguration);
 

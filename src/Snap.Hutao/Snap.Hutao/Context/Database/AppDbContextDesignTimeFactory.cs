@@ -22,6 +22,6 @@ public class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbCo
         string dbFile = myDocument.Locate("Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";
 
-        return AppDbContext.CreateFrom(sqlConnectionString);
+        return AppDbContext.Create(sqlConnectionString);
     }
 }

@@ -1,8 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Service.Abstraction.Navigation;
+namespace Snap.Hutao.Service.Navigation;
 
+/// <summary>
+/// 为 <see cref="NavigationExtra"/> 提供抽象接口
+/// </summary>
 public interface INavigationExtra
 {
     /// <summary>

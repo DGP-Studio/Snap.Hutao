@@ -43,8 +43,6 @@ public class PlayerRecord
     /// </summary>
     public IEnumerable<PlayerSpiralAbyssLevel> PlayerSpiralAbyssesLevels { get; }
 
-    private List<Character> CachedAvatars { get; set; } = default!;
-
     /// <summary>
     /// 建造玩家记录
     /// </summary>
@@ -61,25 +59,7 @@ public class PlayerRecord
             .SelectMany(f => f.Levels, (f, level) => new IndexedLevel(f.Index, level))
             .Select(indexedLevel => new PlayerSpiralAbyssLevel(indexedLevel));
 
-        return new PlayerRecord(uid, playerAvatars, playerSpiralAbyssLevels)
-        {
-            CachedAvatars = detailAvatars,
-        };
-    }
-
-    /// <summary>
-    /// 代替胡桃客户端上传物品数据
-    /// </summary>
-    /// <param name="hutaoClient">使用的客户端</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>是否上传成功</returns>
-    internal async Task<bool> UploadItemsAsync(HutaoClient hutaoClient, CancellationToken token)
-    {
-        Response<string>? resp = await hutaoClient
-            .UploadItemsAsync(CachedAvatars, token)
-            .ConfigureAwait(false);
-
-        return Response.Response.IsOk(resp);
+        return new PlayerRecord(uid, playerAvatars, playerSpiralAbyssLevels);
     }
 
     /// <summary>

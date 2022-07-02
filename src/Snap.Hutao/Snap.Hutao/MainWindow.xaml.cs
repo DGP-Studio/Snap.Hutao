@@ -12,24 +12,25 @@ namespace Snap.Hutao;
 [Injection(InjectAs.Singleton)]
 public sealed partial class MainWindow : Window
 {
+    private readonly AppDbContext appDbContext;
+
     /// <summary>
     /// 构造一个新的主窗体
     /// </summary>
-    public MainWindow()
+    /// <param name="appDbContext">数据库上下文</param>
+    public MainWindow(AppDbContext appDbContext)
     {
+        this.appDbContext = appDbContext;
+
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBarView.DragableArea);
-
-        Closed += MainWindowClosed;
     }
 
     private void MainWindowClosed(object sender, WindowEventArgs args)
     {
         // save datebase
-        AppDbContext appDbContext = Ioc.Default.GetRequiredService<AppDbContext>();
         int changes = appDbContext.SaveChanges();
-
         Verify.Operation(changes == 0, "存在可避免的未经处理的数据库更改");
     }
 }
