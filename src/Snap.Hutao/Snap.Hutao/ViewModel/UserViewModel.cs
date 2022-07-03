@@ -117,9 +117,9 @@ internal class UserViewModel : ObservableObject
         // user confirms the input
         if (result.IsOk)
         {
-            IDictionary<string, string> map = userService.ParseCookie(result.Value);
+            IDictionary<string, string> cookieMap = userService.ParseCookie(result.Value);
 
-            if (TryValidateCookie(map, out IDictionary<string, string>? filteredCookie))
+            if (TryValidateCookie(cookieMap, out IDictionary<string, string>? filteredCookie))
             {
                 string simplifiedCookie = string.Join(';', filteredCookie.Select(kvp => $"{kvp.Key}={kvp.Value}"));
                 User user = new()
@@ -128,13 +128,17 @@ internal class UserViewModel : ObservableObject
                     RemoveCommand = removeUserCommandCache,
                 };
 
-                if (!await userService.TryAddUserAsync(user))
+                switch (await userService.TryAddUserAsync(user))
                 {
-                    infoBarService.Warning("此Cookie无法获取用户信息，请重新输入");
-                }
-                else
-                {
-                    infoBarService.Success($"成功添加用户 [{user.UserInfo!.Nickname}]");
+                    case UserAddResult.Ok:
+                        infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 添加成功");
+                        break;
+                    case UserAddResult.AlreadyExists:
+                        infoBarService.Information($"用户 [{user.UserInfo!.Nickname}] 已经存在");
+                        break;
+                    case UserAddResult.InitializeFailed:
+                        infoBarService.Warning("此Cookie无法获取用户信息，请重新输入");
+                        break;
                 }
             }
             else
@@ -149,7 +153,7 @@ internal class UserViewModel : ObservableObject
         if (!User.IsNone(user))
         {
             await userService.RemoveUserAsync(user);
-            infoBarService.Success($"成功移除用户 [{user.UserInfo!.Nickname}]");
+            infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 成功移除");
         }
     }
 }

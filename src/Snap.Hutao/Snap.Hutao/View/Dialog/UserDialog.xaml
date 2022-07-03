@@ -11,7 +11,7 @@
     Title="设置米游社Cookie"
     DefaultButton="Primary"
     PrimaryButtonText="请输入Cookie"
-    SecondaryButtonText="取消"
+    CloseButtonText="取消"
     Style="{StaticResource DefaultContentDialogStyle}">
 
     <StackPanel>

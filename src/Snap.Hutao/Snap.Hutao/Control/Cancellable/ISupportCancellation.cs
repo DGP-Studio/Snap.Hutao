@@ -9,7 +9,7 @@ namespace Snap.Hutao.Control.Cancellable;
 public interface ISupportCancellation
 {
     /// <summary>
-    /// 用于通知取消的取消回执
+    /// 用于通知事件取消的取消令牌
     /// </summary>
     CancellationToken CancellationToken { get; set; }
 }

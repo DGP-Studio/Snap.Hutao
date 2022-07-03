@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
+using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.View.Helper;
 
@@ -13,7 +14,7 @@ namespace Snap.Hutao.View.Helper;
 public sealed class NavHelper
 {
     private static readonly DependencyProperty NavigateToProperty = Property<NavHelper>.Attach<Type>("NavigateTo");
-    private static readonly DependencyProperty ExtraDataProperty = Property<NavHelper>.Attach<object>("ExtraData");
+    private static readonly DependencyProperty ExtraDataProperty = Property<NavHelper>.Attach<INavigationExtra>("ExtraData");
 
     /// <summary>
     /// 获取导航项的目标页面类型
@@ -40,9 +41,9 @@ public sealed class NavHelper
     /// </summary>
     /// <param name="item">待获取的导航项</param>
     /// <returns>目标页面类型的额外数据</returns>
-    public static object? GetExtraData(NavigationViewItem? item)
+    public static INavigationExtra? GetExtraData(NavigationViewItem? item)
     {
-        return item?.GetValue(ExtraDataProperty);
+        return item?.GetValue(ExtraDataProperty) as INavigationExtra;
     }
 
     /// <summary>
@@ -50,7 +51,7 @@ public sealed class NavHelper
     /// </summary>
     /// <param name="item">待设置的导航项</param>
     /// <param name="value">新的目标页面类型</param>
-    public static void SetExtraData(NavigationViewItem item, object value)
+    public static void SetExtraData(NavigationViewItem item, INavigationExtra value)
     {
         item.SetValue(ExtraDataProperty, value);
     }

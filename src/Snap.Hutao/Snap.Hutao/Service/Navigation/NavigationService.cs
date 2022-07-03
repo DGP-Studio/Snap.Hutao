@@ -49,7 +49,7 @@ internal class NavigationService : INavigationService
                 navigationView.BackRequested -= OnBackRequested;
             }
 
-            navigationView = Must.NotNull(value!, "NavigationView");
+            navigationView = Must.NotNull(value!);
 
             // add new listener
             if (navigationView != null)
@@ -138,7 +138,7 @@ internal class NavigationService : INavigationService
         {
             try
             {
-                await data.WaitForCompletionAsync();
+                await data.WaitForCompletionAsync().ConfigureAwait(false);
             }
             catch (AggregateException)
             {

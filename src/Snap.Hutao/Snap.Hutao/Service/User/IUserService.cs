@@ -32,7 +32,7 @@ public interface IUserService
     /// </summary>
     /// <param name="user">待添加的用户</param>
     /// <returns>用户初始化是否成功</returns>
-    Task<bool> TryAddUserAsync(User user);
+    Task<UserAddResult> TryAddUserAsync(User user);
 
     /// <summary>
     /// 异步移除用户

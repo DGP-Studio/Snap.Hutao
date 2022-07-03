@@ -34,9 +34,7 @@ public sealed partial class UserDialog : ContentDialog
 
     private void InputTextChanged(object sender, TextChangedEventArgs e)
     {
-        string text = InputText.Text;
-
-        bool inputEmpty = string.IsNullOrEmpty(text);
+        bool inputEmpty = string.IsNullOrEmpty(InputText.Text);
 
         (PrimaryButtonText, IsPrimaryButtonEnabled) = inputEmpty switch
         {

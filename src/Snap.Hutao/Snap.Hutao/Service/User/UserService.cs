@@ -69,23 +69,41 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> TryAddUserAsync(User user)
+    public async Task<UserAddResult> TryAddUserAsync(User user)
     {
-        if (await user.InitializeAsync(userClient, userGameRoleClient))
+        string? newUsersCookie = user.Cookie;
+
+        // Prevent users add same account.
+        bool userAlreadyExists = await appDbContext.Users
+            .AnyAsync(u => u.Cookie == newUsersCookie)
+            .ConfigureAwait(false);
+
+        if (userAlreadyExists)
         {
-            appDbContext.Users.Add(user);
-            await appDbContext.SaveChangesAsync();
-            return true;
+            return UserAddResult.AlreadyExists;
         }
 
-        return false;
+        bool userInitialized = await user
+            .InitializeAsync(userClient, userGameRoleClient)
+            .ConfigureAwait(false);
+
+        if (userInitialized)
+        {
+            appDbContext.Users.Add(user);
+            await appDbContext
+                .SaveChangesAsync()
+                .ConfigureAwait(false);
+            return UserAddResult.Ok;
+        }
+
+        return UserAddResult.InitializeFailed;
     }
 
     /// <inheritdoc/>
-    public async Task RemoveUserAsync(User user)
+    public Task RemoveUserAsync(User user)
     {
         appDbContext.Users.Remove(user);
-        await appDbContext.SaveChangesAsync();
+        return appDbContext.SaveChangesAsync();
     }
 
     /// <inheritdoc/>
