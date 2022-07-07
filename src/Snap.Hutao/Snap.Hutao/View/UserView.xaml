@@ -35,7 +35,6 @@
             Text="{Binding SelectedUser.UserInfo.Nickname,Mode=OneWay}"
             TextTrimming="CharacterEllipsis"/>
         <Button
-            x:Name="UsersFlyoutButton"
             Background="Transparent"
             BorderBrush="{x:Null}"
             Height="38.4"
@@ -184,8 +183,7 @@
                             <AppBarButton
                                 Icon="Add"
                                 Label="添加新用户"
-                                Command="{Binding AddUserCommand}"
-                                CommandParameter="{x:Bind UsersFlyoutButton.Flyout}"/>
+                                Command="{Binding AddUserCommand}"/>
                         </CommandBar>
                     </StackPanel>
                 </Flyout>

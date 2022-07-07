@@ -69,31 +69,45 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<UserAddResult> TryAddUserAsync(User user)
+    public async Task<UserAddResult> TryAddUserAsync(User newUser, string uid)
     {
-        string? newUsersCookie = user.Cookie;
+        Must.NotNull(cachedUsers!);
 
-        // Prevent users add same account.
-        bool userAlreadyExists = await appDbContext.Users
-            .AnyAsync(u => u.Cookie == newUsersCookie)
-            .ConfigureAwait(false);
+        // 查找是否有相同的uid
+        User? userWithSameUid = cachedUsers
+            .SingleOrDefault(u => u.UserInfo!.Uid == uid);
 
-        if (userAlreadyExists)
+        if (userWithSameUid != null)
         {
-            return UserAddResult.AlreadyExists;
+            // Prevent users from adding same cookie.
+            if (userWithSameUid.Cookie == newUser.Cookie)
+            {
+                return UserAddResult.AlreadyExists;
+            }
+            else
+            {
+                // Try update user here.
+                userWithSameUid.Cookie = newUser.Cookie;
+                appDbContext.Users.Update(userWithSameUid);
+
+                await appDbContext
+                    .SaveChangesAsync()
+                    .ConfigureAwait(false);
+
+                return UserAddResult.Updated;
+            }
         }
 
-        bool userInitialized = await user
-            .InitializeAsync(userClient, userGameRoleClient)
-            .ConfigureAwait(false);
-
-        if (userInitialized)
+        // must continue on the caller thread.
+        if (await newUser.InitializeAsync(userClient, userGameRoleClient))
         {
-            appDbContext.Users.Add(user);
+            appDbContext.Users.Add(newUser);
+
             await appDbContext
                 .SaveChangesAsync()
                 .ConfigureAwait(false);
-            return UserAddResult.Ok;
+
+            return UserAddResult.Added;
         }
 
         return UserAddResult.InitializeFailed;
@@ -111,16 +125,23 @@ internal class UserService : IUserService
     {
         if (cachedUsers == null)
         {
-            appDbContext.Users.Load();
+            await appDbContext.Users
+                .LoadAsync()
+                .ConfigureAwait(false);
+
             cachedUsers = appDbContext.Users.Local.ToObservableCollection();
 
             foreach (User user in cachedUsers)
             {
                 user.RemoveCommand = removeCommand;
-                await user.InitializeAsync(userClient, userGameRoleClient);
+                await user
+                    .InitializeAsync(userClient, userGameRoleClient)
+                    .ConfigureAwait(false);
             }
 
-            CurrentUser = await appDbContext.Users.SingleOrDefaultAsync(user => user.IsSelected);
+            CurrentUser = await appDbContext.Users
+                .SingleOrDefaultAsync(user => user.IsSelected)
+                .ConfigureAwait(false);
         }
 
         return cachedUsers;
@@ -129,15 +150,15 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public IDictionary<string, string> ParseCookie(string cookie)
     {
-        Dictionary<string, string> cookieDictionary = new();
+        SortedDictionary<string, string> cookieDictionary = new();
 
         string[] values = cookie.TrimEnd(';').Split(';');
-        foreach (string[] parts in values.Select(c => c.Split(new[] { '=' }, 2)))
+        foreach (string[] parts in values.Select(c => c.Split('=', 2)))
         {
             string cookieName = parts[0].Trim();
             string cookieValue = parts.Length == 1 ? string.Empty : parts[1].Trim();
 
-            cookieDictionary[cookieName] = cookieValue;
+            cookieDictionary.Add(cookieName, cookieValue);
         }
 
         return cookieDictionary;

@@ -34,6 +34,12 @@
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
+                <NavigationViewItem Content="角色" helper:NavHelper.NavigateTo="page:WikiAvatarPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7C4;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                
             </NavigationView.MenuItems>
             
             <NavigationView.PaneFooter>

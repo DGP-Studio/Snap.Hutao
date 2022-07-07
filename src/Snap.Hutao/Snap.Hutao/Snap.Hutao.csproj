@@ -36,6 +36,7 @@
     <None Remove="View\Page\AnnouncementPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\WelcomePage.xaml" />
+    <None Remove="View\Page\WikiAvatarPage.xaml" />
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
   </ItemGroup>
@@ -131,6 +132,11 @@
   <ItemGroup>
     <ProjectReference Include="..\SettingsUI\SettingsUI.csproj" />
     <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\WikiAvatarPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\AchievementPage.xaml">

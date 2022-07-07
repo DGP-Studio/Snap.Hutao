@@ -14,10 +14,11 @@ public sealed partial class UserDialog : ContentDialog
     /// <summary>
     /// 构造一个新的添加用户对话框
     /// </summary>
-    public UserDialog()
+    /// <param name="window">呈现的父窗口</param>
+    public UserDialog(Microsoft.UI.Xaml.Window window)
     {
         InitializeComponent();
-        XamlRoot = App.Window!.Content.XamlRoot;
+        XamlRoot = window.Content.XamlRoot;
     }
 
     /// <summary>
@@ -29,7 +30,7 @@ public sealed partial class UserDialog : ContentDialog
         ContentDialogResult result = await ShowAsync();
         string cookie = InputText.Text;
 
-        return new(result != ContentDialogResult.Secondary, cookie);
+        return new(result == ContentDialogResult.Primary, cookie);
     }
 
     private void InputTextChanged(object sender, TextChangedEventArgs e)

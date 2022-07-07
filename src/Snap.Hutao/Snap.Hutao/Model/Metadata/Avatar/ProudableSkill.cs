@@ -8,7 +8,6 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// </summary>
 public class ProudableSkill : SkillBase
 {
-
     /// <summary>
     /// 组Id
     /// </summary>

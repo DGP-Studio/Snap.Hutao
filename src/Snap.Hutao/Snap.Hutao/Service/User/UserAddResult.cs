@@ -11,7 +11,12 @@ public enum UserAddResult
     /// <summary>
     /// 添加成功
     /// </summary>
-    Ok,
+    Added,
+
+    /// <summary>
+    /// 用户的Cookie成功更新
+    /// </summary>
+    Updated,
 
     /// <summary>
     /// 已经存在该用户

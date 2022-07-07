@@ -31,8 +31,9 @@ public interface IUserService
     /// 通常用户是未初始化的
     /// </summary>
     /// <param name="user">待添加的用户</param>
+    /// <param name="uid">用户的米游社UID</param>
     /// <returns>用户初始化是否成功</returns>
-    Task<UserAddResult> TryAddUserAsync(User user);
+    Task<UserAddResult> TryAddUserAsync(User user, string uid);
 
     /// <summary>
     /// 异步移除用户

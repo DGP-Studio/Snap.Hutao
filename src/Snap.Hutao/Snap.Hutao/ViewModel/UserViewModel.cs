@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
@@ -20,6 +19,8 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Transient)]
 internal class UserViewModel : ObservableObject
 {
+    private const string AccountIdKey = "account_id";
+
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
     private readonly ICommand removeUserCommandCache;
@@ -39,7 +40,7 @@ internal class UserViewModel : ObservableObject
         this.infoBarService = infoBarService;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        AddUserCommand = asyncRelayCommandFactory.Create<Flyout>(AddUserAsync);
+        AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
 
         removeUserCommandCache = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
     }
@@ -83,10 +84,10 @@ internal class UserViewModel : ObservableObject
         // O(1) to validate cookie
         foreach ((string key, string value) in map)
         {
-            if (key == "account_id" || key == "cookie_token" || key == "ltoken" || key == "ltuid")
+            if (key == AccountIdKey || key == "cookie_token" || key == "ltoken" || key == "ltuid")
             {
                 validFlag--;
-                filteredCookie[key] = value;
+                filteredCookie.Add(key, value);
             }
         }
 
@@ -107,12 +108,10 @@ internal class UserViewModel : ObservableObject
         SelectedUser = userService.CurrentUser;
     }
 
-    private async Task AddUserAsync(Flyout? flyout)
+    private async Task AddUserAsync()
     {
-        // hide the flyout, otherwise dialog can't open.
-        flyout?.Hide();
-
-        Result<bool, string> result = await new UserDialog().GetInputCookieAsync();
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        Result<bool, string> result = await new UserDialog(mainWindow).GetInputCookieAsync();
 
         // user confirms the input
         if (result.IsOk)
@@ -128,22 +127,27 @@ internal class UserViewModel : ObservableObject
                     RemoveCommand = removeUserCommandCache,
                 };
 
-                switch (await userService.TryAddUserAsync(user))
+                switch (await userService.TryAddUserAsync(user, filteredCookie[AccountIdKey]))
                 {
-                    case UserAddResult.Ok:
+                    case UserAddResult.Added:
                         infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 添加成功");
+                        break;
+                    case UserAddResult.Updated:
+                        infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 更新成功");
                         break;
                     case UserAddResult.AlreadyExists:
                         infoBarService.Information($"用户 [{user.UserInfo!.Nickname}] 已经存在");
                         break;
                     case UserAddResult.InitializeFailed:
-                        infoBarService.Warning("此Cookie无法获取用户信息，请重新输入");
+                        infoBarService.Warning("此 Cookie 无法获取用户信息，请重新输入");
                         break;
+                    default:
+                        throw Must.NeverHappen();
                 }
             }
             else
             {
-                infoBarService.Warning("提供的字符串并不是有效的Cookie，请重新输入");
+                infoBarService.Warning("提供的文本不是正确的 Cookie ，请重新输入");
             }
         }
     }

@@ -17,7 +17,7 @@ public struct PlayerUid
     /// <param name="region">服务器，当提供该参数时会无条件信任</param>
     public PlayerUid(string value, string? region = default)
     {
-        Requires.Argument(value.Length == 9, nameof(value), "uid应为9位数字");
+        Requires.Argument(value.Length == 9, nameof(value), "uid 应为9位数字");
         Value = value;
 
         if (region != null)

@@ -32,7 +32,7 @@ public class Announcement : AnnouncementContent
     {
         get
         {
-            DateTime now = DateTime.UtcNow + TimeSpan.FromHours(8);
+            DateTimeOffset now = DateTimeOffset.UtcNow;
 
             // 尚未开始
             if (StartTime > now)
@@ -76,7 +76,7 @@ public class Announcement : AnnouncementContent
             if (timePercent == 0)
             {
                 // UTC+8
-                DateTime currentTime = DateTime.UtcNow.AddHours(8);
+                DateTimeOffset currentTime = DateTimeOffset.UtcNow;
                 TimeSpan current = currentTime - StartTime;
                 TimeSpan total = EndTime - StartTime;
                 timePercent = current / total;
