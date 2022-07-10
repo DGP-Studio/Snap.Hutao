@@ -32,4 +32,9 @@ internal static class SettingKeys
     /// 窗体底部
     /// </summary>
     public const string WindowBottom = "WindowBottom";
+
+    /// <summary>
+    /// 导航侧栏是否展开
+    /// </summary>
+    public const string IsNavPaneOpen = "IsNavPaneOpen";
 }

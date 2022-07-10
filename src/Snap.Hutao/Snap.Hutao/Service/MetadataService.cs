@@ -21,7 +21,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// 元数据服务
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
-internal class MetadataService : IMetadataService, ISupportAsyncInitialization
+internal class MetadataService : IMetadataService, IMetadataInitializer, ISupportAsyncInitialization
 {
     private const string MetaAPIHost = "http://hutao-metadata.snapgenshin.com";
     private const string MetaFileName = "Meta.json";
@@ -31,6 +31,11 @@ internal class MetadataService : IMetadataService, ISupportAsyncInitialization
     private readonly JsonSerializerOptions options;
     private readonly ILogger<MetadataService> logger;
     private readonly IMemoryCache memoryCache;
+
+    /// <summary>
+    /// 用于指示初始化是否完成
+    /// </summary>
+    private readonly TaskCompletionSource initializeCompletionSource = new();
 
     private bool isInitialized = false;
 
@@ -65,34 +70,21 @@ internal class MetadataService : IMetadataService, ISupportAsyncInitialization
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
     {
-        if (IsInitialized)
-        {
-            return true;
-        }
-
-        metadataContext.EnsureDirectory();
-        if (metadataContext.FileExists(MetaFileName))
-        {
-            IDictionary<string, string>? metaMd5Map;
-            using (Stream metaFile = metadataContext.OpenRead(MetaFileName))
-            {
-                metaMd5Map = await JsonSerializer
-                    .DeserializeAsync<IDictionary<string, string>>(metaFile, options, token)
-                    .ConfigureAwait(false);
-            }
-
-            await CheckMetadataAsync(Must.NotNull(metaMd5Map!), token)
-                .ConfigureAwait(false);
-
-            IsInitialized = true;
-        }
-        else
-        {
-            IsInitialized = await UpdateMetadataAsync(token)
-                .ConfigureAwait(false);
-        }
-
+        await initializeCompletionSource.Task;
         return IsInitialized;
+    }
+
+    /// <inheritdoc/>
+    public async Task InitializeInternalAsync(CancellationToken token = default)
+    {
+        logger.LogInformation("元数据初始化开始");
+        metadataContext.EnsureDirectory();
+
+        IsInitialized = await UpdateMetadataAsync(token)
+            .ConfigureAwait(false);
+
+        initializeCompletionSource.SetResult();
+        logger.LogInformation("元数据初始化完成");
     }
 
     /// <inheritdoc/>

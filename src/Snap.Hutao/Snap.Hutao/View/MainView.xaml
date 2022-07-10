@@ -8,7 +8,9 @@
     xmlns:page="using:Snap.Hutao.View.Page"
     xmlns:view="using:Snap.Hutao.View"
     mc:Ignorable="d">
-
+    <UserControl.Resources>
+        <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+    </UserControl.Resources>
     <Grid>
         <!-- x:Bind can't get property update here seems like a WinUI 3 bug-->
         <NavigationView
@@ -24,19 +26,19 @@
 
                 <NavigationViewItem Content="活动" helper:NavHelper.NavigateTo="page:AnnouncementPage">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7C4;"/>
+                        <BitmapIcon UriSource="ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
                 <NavigationViewItem Content="成就" helper:NavHelper.NavigateTo="page:AchievementPage">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7C4;"/>
+                        <BitmapIcon UriSource="ms-appx:///Resource/Icon/UI_Icon_Achievement.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
                 <NavigationViewItem Content="角色" helper:NavHelper.NavigateTo="page:WikiAvatarPage">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE7C4;"/>
+                        <BitmapIcon UriSource="ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 

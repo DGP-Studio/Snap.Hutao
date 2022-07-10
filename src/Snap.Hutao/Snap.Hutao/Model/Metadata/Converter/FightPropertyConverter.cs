@@ -2,20 +2,20 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
-/// 角色头像转换器
+/// 战斗属性转换器
 /// </summary>
-internal class IconConverter : IValueConverter
+internal class FightPropertyConverter : IValueConverter
 {
-    private const string BaseUrl = "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/{0}.png";
-
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        return new Uri(string.Format(BaseUrl, value));
+        return ((FightProperty)value).GetDescription();
     }
 
     /// <inheritdoc/>

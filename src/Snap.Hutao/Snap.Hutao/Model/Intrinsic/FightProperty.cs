@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata.Annotation;
+
 namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
@@ -18,6 +20,7 @@ public enum FightProperty
     /// 基础生命值
     /// </summary>
     [Description("基础生命值")]
+    [Format(FormatMethod.Integer)]
     FIGHT_PROP_BASE_HP = 1,
 
     /// <summary>
@@ -29,12 +32,14 @@ public enum FightProperty
     /// 生命值加成百分比
     /// </summary>
     [Description("生命值")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_HP_PERCENT = 3,
 
     /// <summary>
     /// 基础攻击力
     /// </summary>
     [Description("基础攻击力")]
+    [Format(FormatMethod.Integer)]
     FIGHT_PROP_BASE_ATTACK = 4,
 
     /// <summary>
@@ -46,12 +51,14 @@ public enum FightProperty
     /// 攻击力百分比
     /// </summary>
     [Description("攻击力")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_ATTACK_PERCENT = 6,
 
     /// <summary>
     /// 基础防御力
     /// </summary>
     [Description("基础防御力")]
+    [Format(FormatMethod.Integer)]
     FIGHT_PROP_BASE_DEFENSE = 7,
 
     /// <summary>
@@ -63,6 +70,7 @@ public enum FightProperty
     /// 防御力百分比
     /// </summary>
     [Description("防御力")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_DEFENSE_PERCENT = 9,
 
     /// <summary>
@@ -89,6 +97,7 @@ public enum FightProperty
     /// 暴击率
     /// </summary>
     [Description("暴击率")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_CRITICAL = 20,
 
     /// <summary>
@@ -100,12 +109,14 @@ public enum FightProperty
     /// 暴击伤害
     /// </summary>
     [Description("暴击伤害")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_CRITICAL_HURT = 22,
 
     /// <summary>
     /// 元素充能效率
     /// </summary>
     [Description("元素充能效率")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_CHARGE_EFFICIENCY = 23,
 
     /// <summary>
@@ -122,6 +133,7 @@ public enum FightProperty
     /// 治疗提升
     /// </summary>
     [Description("治疗加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_HEAL_ADD = 26,
 
     /// <summary>
@@ -133,6 +145,7 @@ public enum FightProperty
     /// 元素精通
     /// </summary>
     [Description("元素精通")]
+    [Format(FormatMethod.Integer)]
     FIGHT_PROP_ELEMENT_MASTERY = 28,
 
     /// <summary>
@@ -144,6 +157,7 @@ public enum FightProperty
     /// 物理伤害加成
     /// </summary>
     [Description("物理伤害加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_PHYSICAL_ADD_HURT = 30,
 
     /// <summary>
@@ -160,18 +174,21 @@ public enum FightProperty
     /// 火元素伤害加成
     /// </summary>
     [Description("火元素伤害加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_FIRE_ADD_HURT = 40,
 
     /// <summary>
     /// 雷元素伤害加成
     /// </summary>
     [Description("雷元素伤害加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_ELEC_ADD_HURT = 41,
 
     /// <summary>
     /// 水元素伤害加成
     /// </summary>
     [Description("水元素伤害加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_WATER_ADD_HURT = 42,
 
     /// <summary>
@@ -183,18 +200,21 @@ public enum FightProperty
     /// 风元素伤害加成
     /// </summary>
     [Description("风元素伤害加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_WIND_ADD_HURT = 44,
 
     /// <summary>
     /// 岩元素伤害加成
     /// </summary>
     [Description("岩元素伤害加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_ROCK_ADD_HURT = 45,
 
     /// <summary>
     /// 冰元素伤害加成
     /// </summary>
     [Description("冰元素伤害加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_ICE_ADD_HURT = 46,
 
     /// <summary>

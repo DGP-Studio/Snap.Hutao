@@ -14,8 +14,8 @@ public struct POINT
 
     public POINT(int x, int y)
     {
-        this.X = x;
-        this.Y = y;
+        X = x;
+        Y = y;
     }
 
     public static implicit operator System.Drawing.Point(POINT p)

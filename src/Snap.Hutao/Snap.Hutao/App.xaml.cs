@@ -6,7 +6,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Metadata;
 using System.Diagnostics;
 using Windows.ApplicationModel.Activation;
 
@@ -65,6 +67,11 @@ public partial class App : Application
 
             Window = Ioc.Default.GetRequiredService<MainWindow>();
             Window.Activate();
+
+            if (Ioc.Default.GetRequiredService<IMetadataService>() is IMetadataInitializer initializer)
+            {
+                initializer.InitializeInternalAsync().SafeForget();
+            }
 
             if (uri != null)
             {

@@ -1,32 +1,206 @@
 ﻿<Page
     x:Class="Snap.Hutao.View.Page.WikiAvatarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Snap.Hutao.View.Page"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shv="using:Snap.Hutao.ViewModel"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=shv:WikiAvatarViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <mxi:Interaction.Behaviors>
         <mxic:EventTriggerBehavior EventName="Loaded">
             <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
         </mxic:EventTriggerBehavior>
     </mxi:Interaction.Behaviors>
+    <Page.Resources>
+        <shmmc:IconConverter x:Key="IconConverter"/>
+        <shmmc:FightPropertyConverter x:Key="FightPropertyConverter"/>
+        <shmmc:FightPropertyValueFormatter x:Key="FightPropertyValueFormatter"/>
+        <shc:BindingProxy
+            x:Key="FightPropertyBindingProxy"
+            DataContext="{Binding Selected.Property.Properties}"/>
+
+        <SolidColorBrush
+            x:Key="SystemControlPageBackgroundChromeLowBrush"
+            Color="{StaticResource SystemChromeLowColor}"
+            Opacity="0.2"/>
+    </Page.Resources>
     <Grid>
-        <SplitView IsPaneOpen="True" DisplayMode="Inline">
+        <SplitView
+            IsPaneOpen="True"
+            DisplayMode="Inline"
+            OpenPaneLength="374">
             <SplitView.Pane>
-                <ListView
+                <GridView
                     SelectionMode="Single"
                     ItemsSource="{Binding Avatars}"
-                    SelectedItem="{Binding Selected,Mode=TwoWay}"/>
+                    Padding="16,16,0,12"
+                    SelectedItem="{Binding Selected,Mode=TwoWay}">
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <shvc:ItemIcon
+                                Quality="{Binding Quality,Mode=OneWay}"
+                                Icon="{Binding Icon,Converter={StaticResource IconConverter},Mode=OneWay}"/>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
             </SplitView.Pane>
             <SplitView.Content>
-                <Grid>
-                    <TextBlock
-                        Text="{Binding Selected.Name}"/>
-                </Grid>
+                <ScrollViewer>
+                    <StackPanel Margin="0,0,16,16">
+                        <!--头图-->
+                        <Grid
+                            Margin="16,16,0,16"
+                            VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <shvc:ItemIcon
+                                Grid.Column="0"
+                                Height="100"
+                                Width="100"
+                                Quality="{Binding Selected.Quality,Mode=OneWay}"
+                                Icon="{Binding Selected.Icon,Converter={StaticResource IconConverter},Mode=OneWay}"/>
+                            <StackPanel
+                                Margin="16,0,0,0"
+                                Grid.Column="1">
+                                <TextBlock
+                                    Text="{Binding Selected.Name}"
+                                    Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                <TextBlock
+                                    Margin="0,6,0,0"
+                                    Text="{Binding Selected.Description}"
+                                    MaxLines="2"
+                                    Style="{StaticResource CaptionTextBlockStyle}"/>
+                            </StackPanel>
+                        </Grid>
+                        <!--属性-->
+                        <Expander
+                            Margin="16,0,0,0"
+                            Header="基础数值"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch">
+                            <Grid Margin="16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <cwuc:UniformGrid
+                                    Grid.Row="0"
+                                    Columns="5"
+                                    DataContext="{Binding Selected.Property}"
+                                    x:Name="PropertyGrid">
+                                    <TextBlock
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        TextWrapping="NoWrap"
+                                        Text="等级"/>
+                                    <TextBlock
+                                        TextWrapping="NoWrap"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{Binding Properties[0], Converter={StaticResource FightPropertyConverter}}"/>
+                                    <TextBlock
+                                        TextWrapping="NoWrap"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{Binding Properties[1], Converter={StaticResource FightPropertyConverter}}"/>
+                                    <TextBlock
+                                        TextWrapping="NoWrap"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{Binding Properties[2], Converter={StaticResource FightPropertyConverter}}"/>
+                                    <TextBlock
+                                        TextWrapping="NoWrap"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{Binding Properties[3], Converter={StaticResource FightPropertyConverter}}"/>
+                                </cwuc:UniformGrid>
+                                <ItemsControl
+                                    Margin="0,6,0,0"
+                                    Grid.Row="1"
+                                    ItemsSource="{Binding Selected.Property.Parameters}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <cwuc:UniformGrid
+                                            Columns="5">
+                                                <TextBlock
+                                                Text="{Binding Level}"/>
+                                                <TextBlock
+                                                Text="{Binding Parameters[0],
+                                                Converter={StaticResource FightPropertyValueFormatter},
+                                                ConverterParameter={Binding DataContext[0],Source={StaticResource FightPropertyBindingProxy}}}"/>
+                                                <TextBlock
+                                                Text="{Binding Parameters[1],
+                                                Converter={StaticResource FightPropertyValueFormatter},
+                                                ConverterParameter={Binding DataContext[1],Source={StaticResource FightPropertyBindingProxy}}}"/>
+                                                <TextBlock
+                                                Text="{Binding Parameters[2],
+                                                Converter={StaticResource FightPropertyValueFormatter},
+                                                ConverterParameter={Binding DataContext[2],Source={StaticResource FightPropertyBindingProxy}}}"/>
+                                                <TextBlock
+                                                Text="{Binding Parameters[3],
+                                                Converter={StaticResource FightPropertyValueFormatter},
+                                                ConverterParameter={Binding DataContext[3],Source={StaticResource FightPropertyBindingProxy}}}"/>
+                                            </cwuc:UniformGrid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </Expander>
+                        <!--资料-->
+                        <Expander
+                            Margin="16,16,0,0"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Header="语音">
+                            <ItemsControl
+                                ItemsSource="{Binding Selected.FetterInfo.Fetters}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,-4">
+                                            <TextBlock
+                                                Margin="16,16,16,0"
+                                                Text="{Binding Title}"/>
+                                            <TextBlock
+                                                Margin="16,8,16,16"
+                                                Text="{Binding Context}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                            <MenuFlyoutSeparator Margin="16,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Expander>
+                        <!--故事-->
+                        <Expander
+                            Margin="16,16,0,0"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Header="故事">
+                            <ItemsControl
+                                ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,-4">
+                                            <TextBlock
+                                                Margin="16,16,16,0"
+                                                Text="{Binding Title}"/>
+                                            <TextBlock
+                                                Margin="16,8,16,16"
+                                                Text="{Binding Context}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                            <MenuFlyoutSeparator Margin="16,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Expander>
+                    </StackPanel>
+                </ScrollViewer>
             </SplitView.Content>
         </SplitView>
     </Grid>

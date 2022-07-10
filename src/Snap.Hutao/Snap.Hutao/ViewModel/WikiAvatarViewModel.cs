@@ -6,6 +6,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Service.Metadata;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -51,7 +52,12 @@ internal class WikiAvatarViewModel : ObservableObject
         if (await metadataService.InitializeAsync())
         {
             IEnumerable<Avatar>? avatars = await metadataService.GetAvatarsAsync();
-            Avatars = new List<Avatar>(avatars);
+            IOrderedEnumerable<Avatar> sorted = avatars
+                .OrderBy(avatar => avatar.BeginTime)
+                .ThenBy(avatar => avatar.Sort);
+
+            Avatars = new List<Avatar>(sorted);
+            Selected = Avatars[0];
         }
     }
 }

@@ -2,8 +2,7 @@
     x:Class="Snap.Hutao.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:system="using:System">
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,14 +18,16 @@
 
             <StaticResource x:Key="ApplicationPageBackgroundThemeBrush" ResourceKey="ControlFillColorTransparentBrush" />
 
+            <FontFamily x:Key="SymbolThemeFontFamily">ms-appx:///Resource/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
+
             <Thickness x:Key="InfoBarIconMargin">6,16,16,16</Thickness>
             <Thickness x:Key="InfoBarContentRootPadding">16,0,0,0</Thickness>
 
-            <CornerRadius x:Key="CompatCornerRadius">4</CornerRadius>
-            <CornerRadius x:Key="CompatCornerRadiusTop">4,4,0,0</CornerRadius>
-            <CornerRadius x:Key="CompatCornerRadiusRight">0,4,4,0</CornerRadius>
-            <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,4,4</CornerRadius>
-            <CornerRadius x:Key="SmallCompatCornerRadius">2,2,2,2</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadius">6</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusTop">6,6,0,0</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusRight">0,6,6,0</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,6,6</CornerRadius>
+            <CornerRadius x:Key="SmallCompatCornerRadius">4</CornerRadius>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

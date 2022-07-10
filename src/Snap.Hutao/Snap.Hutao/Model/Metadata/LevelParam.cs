@@ -19,5 +19,5 @@ public class LevelParam<TLevel>
     /// <summary>
     /// 参数
     /// </summary>
-    public IEnumerable<double> Parameters { get; set; } = default!;
+    public IList<double> Parameters { get; set; } = default!;
 }

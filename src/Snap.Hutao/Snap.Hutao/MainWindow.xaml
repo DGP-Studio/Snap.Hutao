@@ -15,9 +15,11 @@
         </Grid.RowDefinitions>
 
         <view:TitleView
+            Margin="48,0,0,0"
             Grid.Row="0"
             x:Name="TitleBarView"/>
         <view:MainView
-            Grid.Row="1"/>
+            Grid.Row="0"
+            Grid.RowSpan="2"/>
     </Grid>
 </Window>

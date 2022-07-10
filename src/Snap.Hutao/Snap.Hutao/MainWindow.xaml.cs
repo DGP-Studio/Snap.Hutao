@@ -54,20 +54,19 @@ public sealed partial class MainWindow : Window
     private void InitializeWindow()
     {
         RECT rect = RetriveWindowRect();
-        if (rect.Size.IsEmpty)
+        if (!rect.Size.IsEmpty)
         {
-            return;
+            WINDOWPLACEMENT windowPlacement = new()
+            {
+                Length = Marshal.SizeOf<WINDOWPLACEMENT>(),
+                MaxPosition = new Point(-1, -1),
+                NormalPosition = rect,
+                ShowCmd = ShowWindowCommand.Normal,
+            };
+
+            User32.SetWindowPlacement(handle, ref windowPlacement);
         }
 
-        WINDOWPLACEMENT windowPlacement = new()
-        {
-            Length = Marshal.SizeOf<WINDOWPLACEMENT>(),
-            MaxPosition = new Point(-1, -1),
-            NormalPosition = rect,
-            ShowCmd = ShowWindowCommand.Normal,
-        };
-
-        User32.SetWindowPlacement(handle, ref windowPlacement);
         User32.SetWindowText(handle, "胡桃");
 
         bool micaApplied = new SystemBackdrop(this).TrySetBackdrop();

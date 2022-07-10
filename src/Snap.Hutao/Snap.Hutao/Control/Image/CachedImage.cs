@@ -16,7 +16,7 @@ public class CachedImage : ImageEx
 {
     static CachedImage()
     {
-        ImageCache.Instance.CacheDuration = Timeout.InfiniteTimeSpan;
+        ImageCache.Instance.CacheDuration = TimeSpan.FromDays(30);
         ImageCache.Instance.RetryCount = 3;
     }
 

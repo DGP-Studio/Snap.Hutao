@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
@@ -47,6 +48,8 @@ internal class NavigationService : INavigationService
             {
                 navigationView.ItemInvoked -= OnItemInvoked;
                 navigationView.BackRequested -= OnBackRequested;
+                navigationView.PaneClosed -= OnPaneStateChanged;
+                navigationView.PaneOpened -= OnPaneStateChanged;
             }
 
             navigationView = Must.NotNull(value!);
@@ -56,6 +59,8 @@ internal class NavigationService : INavigationService
             {
                 navigationView.ItemInvoked += OnItemInvoked;
                 navigationView.BackRequested += OnBackRequested;
+                navigationView.PaneClosed += OnPaneStateChanged;
+                navigationView.PaneOpened += OnPaneStateChanged;
             }
         }
     }
@@ -154,6 +159,8 @@ internal class NavigationService : INavigationService
     {
         NavigationView = navigationView;
         Frame = frame;
+
+        NavigationView.IsPaneOpen = LocalSetting.GetValueType(SettingKeys.IsNavPaneOpen, true);
     }
 
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -174,5 +181,10 @@ internal class NavigationService : INavigationService
             Frame.GoBack();
             SyncSelectedNavigationViewItemWith(Frame.Content.GetType());
         }
+    }
+
+    private void OnPaneStateChanged(NavigationView sender, object args)
+    {
+        LocalSetting.SetValueType(SettingKeys.IsNavPaneOpen, NavigationView!.IsPaneOpen);
     }
 }
