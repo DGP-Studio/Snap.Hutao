@@ -17,11 +17,6 @@ public class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbCo
     public AppDbContext CreateDbContext(string[] args)
     {
         MyDocumentContext myDocument = new(new());
-        myDocument.EnsureDirectory();
-
-        string dbFile = myDocument.Locate("Userdata.db");
-        string sqlConnectionString = $"Data Source={dbFile}";
-
-        return AppDbContext.Create(sqlConnectionString);
+        return AppDbContext.Create($"Data Source={myDocument.Locate("Userdata.db")}");
     }
 }

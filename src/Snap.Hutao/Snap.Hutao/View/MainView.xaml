@@ -12,13 +12,12 @@
         <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
     </UserControl.Resources>
     <Grid>
-        <!-- x:Bind can't get property update here seems like a WinUI 3 bug-->
         <NavigationView
             x:Name="NavView"
             CompactPaneLength="48"
             OpenPaneLength="244"
-            CompactModeThresholdWidth="128"
-            ExpandedModeThresholdWidth="720"
+            CompactModeThresholdWidth="16"
+            ExpandedModeThresholdWidth="16"
             IsPaneOpen="True"
             IsBackEnabled="{Binding ElementName=ContentFrame,Path=CanGoBack}">
 
@@ -26,7 +25,8 @@
 
                 <NavigationViewItem Content="活动" helper:NavHelper.NavigateTo="page:AnnouncementPage">
                     <NavigationViewItem.Icon>
-                        <BitmapIcon UriSource="ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png"/>
+                        <BitmapIcon
+                            UriSource="ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 

@@ -19,5 +19,5 @@ public class PropertyInfo
     /// <summary>
     /// 参数
     /// </summary>
-    public IEnumerable<LevelParam<string>> Parameters { get; set; } = default!;
+    public IEnumerable<LevelParam<string, double>> Parameters { get; set; } = default!;
 }

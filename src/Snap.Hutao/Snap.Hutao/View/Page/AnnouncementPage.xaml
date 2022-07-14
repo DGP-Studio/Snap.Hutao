@@ -27,9 +27,7 @@
         <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
     </shcc:CancellablePage.Resources>
     <Grid>
-        <ScrollViewer 
-            Padding="0,0,4,0"
-            Visibility="{Binding OpeningUI.IsWorking,Converter={StaticResource BoolToVisibilityRevertConverter}}">
+        <ScrollViewer Padding="0,0,4,0">
             <ItemsControl
                 HorizontalAlignment="Stretch"
                 ItemsSource="{Binding Announcement.List}" 

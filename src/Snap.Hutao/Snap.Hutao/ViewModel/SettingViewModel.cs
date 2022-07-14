@@ -12,7 +12,6 @@ internal class SettingViewModel
     /// <summary>
     /// 构造一个新的测试视图模型
     /// </summary>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     public SettingViewModel()
     {
     }

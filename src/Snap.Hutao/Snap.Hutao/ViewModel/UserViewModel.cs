@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
@@ -10,6 +11,7 @@ using Snap.Hutao.View.Dialog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -23,7 +25,6 @@ internal class UserViewModel : ObservableObject
 
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
-    private readonly ICommand removeUserCommandCache;
 
     private User? selectedUser;
     private ObservableCollection<User>? userInfos;
@@ -41,8 +42,8 @@ internal class UserViewModel : ObservableObject
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
-
-        removeUserCommandCache = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
+        RemoveUserCommand = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
+        CopyCookieCommand = new RelayCommand<User>(CopyCookie);
     }
 
     /// <summary>
@@ -75,6 +76,16 @@ internal class UserViewModel : ObservableObject
     /// </summary>
     public ICommand AddUserCommand { get; }
 
+    /// <summary>
+    /// 移除用户命令
+    /// </summary>
+    public ICommand RemoveUserCommand { get; }
+
+    /// <summary>
+    /// 复制Cookie命令
+    /// </summary>
+    public ICommand CopyCookieCommand { get; }
+
     private static bool TryValidateCookie(IDictionary<string, string> map, [NotNullWhen(true)] out IDictionary<string, string>? filteredCookie)
     {
         int validFlag = 4;
@@ -104,7 +115,7 @@ internal class UserViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        Users = await userService.GetInitializedUsersAsync(removeUserCommandCache);
+        Users = await userService.GetInitializedUsersAsync();
         SelectedUser = userService.CurrentUser;
     }
 
@@ -121,11 +132,7 @@ internal class UserViewModel : ObservableObject
             if (TryValidateCookie(cookieMap, out IDictionary<string, string>? filteredCookie))
             {
                 string simplifiedCookie = string.Join(';', filteredCookie.Select(kvp => $"{kvp.Key}={kvp.Value}"));
-                User user = new()
-                {
-                    Cookie = simplifiedCookie,
-                    RemoveCommand = removeUserCommandCache,
-                };
+                User user = new() { Cookie = simplifiedCookie };
 
                 switch (await userService.TryAddUserAsync(user, filteredCookie[AccountIdKey]))
                 {
@@ -158,6 +165,28 @@ internal class UserViewModel : ObservableObject
         {
             await userService.RemoveUserAsync(user);
             infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 成功移除");
+        }
+    }
+
+    private void CopyCookie(User? user)
+    {
+        if (User.IsNone(user))
+        {
+            return;
+        }
+
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        try
+        {
+            DataPackage content = new();
+            content.SetText(Must.NotNull(user.Cookie!));
+            Clipboard.SetContent(content);
+
+            infoBarService.Success($"{user.UserInfo!.Nickname} 的 Cookie 复制成功");
+        }
+        catch (Exception e)
+        {
+            infoBarService.Error(e);
         }
     }
 }

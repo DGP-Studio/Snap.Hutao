@@ -24,7 +24,7 @@ public static class Program
 
         Application.Start(p =>
         {
-            DispatcherQueueSynchronizationContext context = new(DispatcherQueue.GetForCurrentThread());
+            SynchronizationContext context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
             SynchronizationContext.SetSynchronizationContext(context);
             _ = new App();
         });

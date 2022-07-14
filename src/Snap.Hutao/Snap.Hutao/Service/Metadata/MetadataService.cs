@@ -25,6 +25,7 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
 {
     private const string MetaAPIHost = "http://hutao-metadata.snapgenshin.com";
     private const string MetaFileName = "Meta.json";
+
     private readonly IInfoBarService infoBarService;
     private readonly HttpClient httpClient;
     private readonly FileSystemContext metadataContext;
@@ -78,38 +79,12 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     public async Task InitializeInternalAsync(CancellationToken token = default)
     {
         logger.LogInformation("元数据初始化开始");
-        metadataContext.EnsureDirectory();
 
-        IsInitialized = await UpdateMetadataAsync(token)
+        IsInitialized = await TryUpdateMetadataAsync(token)
             .ConfigureAwait(false);
 
         initializeCompletionSource.SetResult();
         logger.LogInformation("元数据初始化完成");
-    }
-
-    /// <inheritdoc/>
-    public async Task<bool> UpdateMetadataAsync(CancellationToken token = default)
-    {
-        IDictionary<string, string>? metaMd5Map = await httpClient
-            .GetFromJsonAsync<IDictionary<string, string>>($"{MetaAPIHost}/{MetaFileName}", options, token)
-            .ConfigureAwait(false);
-
-        if (metaMd5Map is null)
-        {
-            infoBarService.Error("元数据校验文件解析失败");
-            return false;
-        }
-
-        await CheckMetadataAsync(metaMd5Map, token).ConfigureAwait(false);
-
-        using (FileStream metaFileStream = metadataContext.Create(MetaFileName))
-        {
-            await JsonSerializer
-                .SerializeAsync(metaFileStream, metaMd5Map, options, token)
-                .ConfigureAwait(false);
-        }
-
-        return true;
     }
 
     /// <inheritdoc/>
@@ -154,34 +129,30 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
         return GetMetadataAsync<IEnumerable<Weapon>>("Weapon", token);
     }
 
-    private async ValueTask<T> GetMetadataAsync<T>(string fileName, CancellationToken token)
-        where T : class
+    private async Task<bool> TryUpdateMetadataAsync(CancellationToken token = default)
     {
-        Verify.Operation(IsInitialized, "元数据服务尚未初始化，或初始化失败");
-        string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}";
-
-        if (memoryCache.TryGetValue(cacheKey, out object? value))
-        {
-            return Must.NotNull((value as T)!);
-        }
-
-        T? result = await JsonSerializer
-            .DeserializeAsync<T>(metadataContext.OpenRead($"{fileName}.json"), options, token)
+        // download meta check file
+        IDictionary<string, string>? metaMd5Map = await httpClient
+            .GetFromJsonAsync<IDictionary<string, string>>($"{MetaAPIHost}/{MetaFileName}", options, token)
             .ConfigureAwait(false);
 
-        return memoryCache.Set(cacheKey, Must.NotNull(result!));
-    }
-
-    private async Task<string> GetFileMd5Async(string fileFullName, CancellationToken token)
-    {
-        using (FileStream stream = metadataContext.OpenRead(fileFullName))
+        if (metaMd5Map is null)
         {
-            byte[] bytes = await MD5.Create()
-                .ComputeHashAsync(stream, token)
-                .ConfigureAwait(false);
-
-            return Convert.ToHexString(bytes);
+            infoBarService.Error("元数据校验文件解析失败");
+            return false;
         }
+
+        await CheckMetadataAsync(metaMd5Map, token).ConfigureAwait(false);
+
+        // save metadataFile
+        using (FileStream metaFileStream = metadataContext.Create(MetaFileName))
+        {
+            await JsonSerializer
+                .SerializeAsync(metaFileStream, metaMd5Map, options, token)
+                .ConfigureAwait(false);
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -193,6 +164,7 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     /// <returns>令牌</returns>
     private async Task CheckMetadataAsync(IDictionary<string, string> metaMd5Map, CancellationToken token)
     {
+        // TODO: Make this foreach async to imporve speed
         // enumerate files and compare md5
         foreach ((string fileName, string md5) in metaMd5Map)
         {
@@ -212,6 +184,18 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
                 await DownloadMetadataAsync(fileFullName, token)
                     .ConfigureAwait(false);
             }
+        }
+    }
+
+    private async Task<string> GetFileMd5Async(string fileFullName, CancellationToken token)
+    {
+        using (FileStream stream = metadataContext.OpenRead(fileFullName))
+        {
+            byte[] bytes = await MD5.Create()
+                .ComputeHashAsync(stream, token)
+                .ConfigureAwait(false);
+
+            return Convert.ToHexString(bytes);
         }
     }
 
@@ -237,5 +221,23 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
         }
 
         logger.LogInformation("{file} 下载完成", fileFullName);
+    }
+
+    private async ValueTask<T> GetMetadataAsync<T>(string fileName, CancellationToken token)
+        where T : class
+    {
+        Verify.Operation(IsInitialized, "元数据服务尚未初始化，或初始化失败");
+        string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}";
+
+        if (memoryCache.TryGetValue(cacheKey, out object? value))
+        {
+            return Must.NotNull((value as T)!);
+        }
+
+        T? result = await JsonSerializer
+            .DeserializeAsync<T>(metadataContext.OpenRead($"{fileName}.json"), options, token)
+            .ConfigureAwait(false);
+
+        return memoryCache.Set(cacheKey, Must.NotNull(result!));
     }
 }

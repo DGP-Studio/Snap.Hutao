@@ -42,7 +42,6 @@ internal static class IocConfiguration
     public static IServiceCollection AddDatebase(this IServiceCollection services)
     {
         MyDocumentContext myDocument = new(new());
-        myDocument.EnsureDirectory();
 
         string dbFile = myDocument.Locate("Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";

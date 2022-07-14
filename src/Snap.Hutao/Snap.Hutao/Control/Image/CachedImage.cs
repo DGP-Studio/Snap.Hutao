@@ -32,16 +32,21 @@ public class CachedImage : ImageEx
     /// <inheritdoc/>
     protected override async Task<ImageSource> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        BitmapImage image;
+        BitmapImage? image;
         try
         {
             image = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, token);
         }
+        catch (TaskCanceledException)
+        {
+            // task was explicitly canceled
+            throw;
+        }
         catch
         {
-            // maybe the image is corrupted remove it and re-download
+            // maybe the image is corrupted, remove it.
             await ImageCache.Instance.RemoveAsync(imageUri.Enumerate());
-            image = await ImageCache.Instance.GetFromCacheAsync(imageUri, false, token);
+            throw;
         }
 
         // check token state to determine whether the operation should be canceled.

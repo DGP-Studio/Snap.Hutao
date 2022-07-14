@@ -12,7 +12,7 @@ namespace Snap.Hutao.Extension;
 public static class EnumerableExtensions
 {
     /// <summary>
-    /// 将源转换为仅包含单个元素的集合
+    /// 将源转换为仅包含单个元素的枚举
     /// </summary>
     /// <typeparam name="TSource">源的类型</typeparam>
     /// <param name="source">源</param>
@@ -77,51 +77,6 @@ public static class EnumerableExtensions
     public static TSource? FirstOrFirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
     {
         return source.FirstOrDefault(predicate) ?? source.FirstOrDefault();
-    }
-
-    /// <summary>
-    /// 将二维可枚举对象一维化
-    /// </summary>
-    /// <typeparam name="TSource">源类型</typeparam>
-    /// <param name="source">源</param>
-    /// <returns>扁平的对象</returns>
-    public static IEnumerable<TSource> Flatten<TSource>(this IEnumerable<IEnumerable<TSource>> source)
-    {
-        return source.SelectMany(x => x);
-    }
-
-    /// <summary>
-    /// 对集合中的每个物品执行指定的操作
-    /// </summary>
-    /// <typeparam name="TSource">集合类型</typeparam>
-    /// <param name="source">集合</param>
-    /// <param name="action">指定的操作</param>
-    /// <returns>修改后的集合</returns>
-    public static IEnumerable<TSource> ForEach<TSource>(this IEnumerable<TSource> source, Action<TSource> action)
-    {
-        foreach (TSource item in source)
-        {
-            action(item);
-        }
-
-        return source;
-    }
-
-    /// <summary>
-    /// 对集合中的每个物品执行指定的操作
-    /// </summary>
-    /// <typeparam name="TSource">集合类型</typeparam>
-    /// <param name="source">集合</param>
-    /// <param name="func">指定的操作</param>
-    /// <returns>修改后的集合</returns>
-    public static async Task<IEnumerable<TSource>> ForEachAsync<TSource>(this IEnumerable<TSource> source, Func<TSource, Task> func)
-    {
-        foreach (TSource item in source)
-        {
-            await func(item);
-        }
-
-        return source;
     }
 
     /// <summary>

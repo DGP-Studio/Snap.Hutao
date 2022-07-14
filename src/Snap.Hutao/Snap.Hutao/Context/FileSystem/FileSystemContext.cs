@@ -21,6 +21,7 @@ internal abstract class FileSystemContext
     public FileSystemContext(IFileSystemLocation location)
     {
         this.location = location;
+        EnsureDirectory();
     }
 
     /// <summary>
@@ -60,22 +61,6 @@ internal abstract class FileSystemContext
         {
             Directory.Delete(folder, true);
         }
-    }
-
-    /// <summary>
-    /// 检查根目录
-    /// </summary>
-    /// <returns>是否创建了路径</returns>
-    public bool EnsureDirectory()
-    {
-        string folder = location.GetPath();
-        if (!Directory.Exists(folder))
-        {
-            Directory.CreateDirectory(folder);
-            return true;
-        }
-
-        return false;
     }
 
     /// <summary>
@@ -169,5 +154,21 @@ internal abstract class FileSystemContext
     public FileStream Create(string file)
     {
         return File.Create(Locate(file));
+    }
+
+    /// <summary>
+    /// 检查根目录
+    /// </summary>
+    /// <returns>是否创建了路径</returns>
+    private bool EnsureDirectory()
+    {
+        string folder = location.GetPath();
+        if (!Directory.Exists(folder))
+        {
+            Directory.CreateDirectory(folder);
+            return true;
+        }
+
+        return false;
     }
 }

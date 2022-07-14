@@ -8,10 +8,10 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     mc:Ignorable="d"
-    Width="64"
-    Height="64">
+    Width="80"
+    Height="80">
     <UserControl.Resources>
-        <shmmc:IconConverter x:Key="IconConverter"/>
+        <shmmc:AvatarIconConverter x:Key="IconConverter"/>
         <shmmc:QualityConverter x:Key="QualityConverter"/>
     </UserControl.Resources>
     <Grid>

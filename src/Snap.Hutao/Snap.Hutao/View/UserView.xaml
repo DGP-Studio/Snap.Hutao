@@ -1,12 +1,13 @@
 ﻿<UserControl
     x:Class="Snap.Hutao.View.UserView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shc="using:Snap.Hutao.Control"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
         <mxic:EventTriggerBehavior EventName="Loaded">
@@ -26,8 +27,9 @@
         <PersonPicture
             ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl,Mode=OneWay}"
             HorizontalAlignment="Left"
-            Margin="4,0,4,0"
-            Height="40"/>
+            Margin="6,2"
+            Height="36"
+            Width="36"/>
         <TextBlock
             VerticalAlignment="Center"
             Margin="0,0,0,2"
@@ -42,6 +44,11 @@
             FontFamily="{StaticResource SymbolThemeFontFamily}"
             Grid.Column="2"
             Margin="4">
+            <Button.Resources>
+                <shc:BindingProxy
+                    x:Key="ViewModelBindingProxy"
+                    DataContext="{Binding}"/>
+            </Button.Resources>
             <Button.Flyout>
                 <Flyout
                     Placement="TopEdgeAlignedRight"
@@ -124,7 +131,8 @@
                                                 BorderThickness="0"
                                                 BorderBrush="{x:Null}"
                                                 Margin="12,0,0,0"
-                                                Command="{Binding CopyCookieCommand}"
+                                                Command="{Binding DataContext.CopyCookieCommand,Source={StaticResource ViewModelBindingProxy}}"
+                                                CommandParameter="{Binding}"
                                                 ToolTipService.ToolTip="复制 Cookie"/>
                                             <Button
                                                 Content="&#xE74D;"
@@ -135,7 +143,7 @@
                                                 BorderThickness="0"
                                                 BorderBrush="{x:Null}"
                                                 Margin="6,0,0,0"
-                                                Command="{Binding RemoveCommand}"
+                                                Command="{Binding DataContext.RemoveUserCommand,Source={StaticResource ViewModelBindingProxy}}"
                                                 CommandParameter="{Binding}"
                                                 ToolTipService.ToolTip="移除用户"/>
                                         </StackPanel>

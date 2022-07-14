@@ -41,24 +41,25 @@ public class FetterInfo
     public int BirthDay { get; set; }
 
     /// <summary>
+    /// 格式化的生日日期
+    /// </summary>
+    public string BirthFormatted
+    {
+        get
+        {
+            return $"{BirthMonth} 月 {BirthDay} 日";
+        }
+    }
+
+    /// <summary>
     /// 神之眼属性-前
     /// </summary>
     public string VisionBefore { get; set; } = default!;
 
     /// <summary>
-    /// 神之眼属性-后
-    /// </summary>
-    public string VisionAfter { get; set; } = default!;
-
-    /// <summary>
     /// 命座-前
     /// </summary>
     public string ConstellationBefore { get; set; } = default!;
-
-    /// <summary>
-    /// 命座-后
-    /// </summary>
-    public string ConstellationAfter { get; set; } = default!;
 
     /// <summary>
     /// 中文CV

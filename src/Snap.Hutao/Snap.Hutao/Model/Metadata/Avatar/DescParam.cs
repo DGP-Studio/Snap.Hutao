@@ -18,5 +18,5 @@ public class DescParam
     /// <summary>
     /// 参数
     /// </summary>
-    public IEnumerable<LevelParam<int>> Parameters { get; set; } = default!;
+    public IEnumerable<LevelParam<int, double>> Parameters { get; set; } = default!;
 }

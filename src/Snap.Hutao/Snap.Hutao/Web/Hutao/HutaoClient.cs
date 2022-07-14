@@ -11,7 +11,6 @@ using Snap.Hutao.Web.Hutao.Model;
 using Snap.Hutao.Web.Hutao.Model.Post;
 using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -323,46 +322,6 @@ internal class HutaoClient : ISupportAsyncInitialization
 
         HttpResponseMessage response = await httpClient.PostAsJsonAsync($"{HutaoAPI}/Record/Upload", playerRecord, jsonSerializerOptions, token);
         return await response.Content.ReadFromJsonAsync<Response<string>>(jsonSerializerOptions, token);
-    }
-
-    /// <summary>
-    /// 异步上传物品所有物品
-    /// </summary>
-    /// <param name="characters">角色详细信息</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>响应</returns>
-    [Obsolete("不再强制要求上传物品")]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    internal async Task<Response<string>?> UploadItemsAsync(List<Character> characters, CancellationToken token = default)
-    {
-        Verify.Operation(IsInitialized, "必须在初始化后才能调用其他方法");
-
-        IEnumerable<Item> avatars = characters
-            .Select(avatar => new Item(avatar.Id, avatar.Name, avatar.Icon))
-            .DistinctBy(item => item.Id);
-
-        IEnumerable<Item> weapons = characters
-            .Select(avatar => avatar.Weapon)
-            .Select(weapon => new Item(weapon.Id, weapon.Name, weapon.Icon))
-            .DistinctBy(item => item.Id);
-
-        IEnumerable<Item> reliquaries = characters
-            .Select(avatars => avatars.Reliquaries)
-            .Flatten()
-            .Where(relic => relic.Position == ReliquaryPosition.FlowerOfLife)
-            .DistinctBy(relic => relic.Id)
-            .Select(relic => new Item(relic.ReliquarySet.Id, relic.ReliquarySet.Name, relic.Icon));
-
-        GenshinItemWrapper? data = new(avatars, weapons, reliquaries);
-        JsonSerializerOptions? option = Ioc.Default.GetService<JsonSerializerOptions>();
-
-        HttpResponseMessage? response = await httpClient
-            .PostAsJsonAsync($"{HutaoAPI}​/GenshinItem/Upload", data, jsonSerializerOptions, token)
-            .ConfigureAwait(false);
-
-        return await response.Content
-            .ReadFromJsonAsync<Response<string>>(jsonSerializerOptions, token)
-            .ConfigureAwait(false);
     }
 
     private class Auth

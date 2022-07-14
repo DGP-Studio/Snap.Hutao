@@ -67,12 +67,6 @@ public class User : Observable
     }
 
     /// <summary>
-    /// 移除命令
-    /// </summary>
-    [NotMapped]
-    public ICommand? RemoveCommand { get; set; }
-
-    /// <summary>
     /// 复制Cookie命令
     /// </summary>
     [NotMapped]
@@ -126,7 +120,6 @@ public class User : Observable
         }
 
         CopyCookieCommand = new RelayCommand(CopyCookie);
-        Must.NotNull(RemoveCommand!);
 
         UserInfo = await userClient
             .GetUserFullInfoAsync(this, token)

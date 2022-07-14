@@ -16,10 +16,9 @@ namespace Snap.Hutao.Control.HostBackdrop;
 public class SystemBackdrop
 {
     private readonly Window window;
-    private readonly BackbdropFallBackBehavior fallBackBehavior;
 
     private WindowsSystemDispatcherQueueHelper? dispatcherQueueHelper;
-    private ISystemBackdropControllerWithTargets? backdropController;
+    private MicaController? backdropController;
     private SystemBackdropConfiguration? configurationSource;
 
     /// <summary>
@@ -27,16 +26,14 @@ public class SystemBackdrop
     /// </summary>
     /// <param name="window">窗体</param>
     /// <param name="fallBackBehavior">回退行为</param>
-    public SystemBackdrop(Window window, BackbdropFallBackBehavior fallBackBehavior = BackbdropFallBackBehavior.Acrylic)
+    public SystemBackdrop(Window window)
     {
         this.window = window;
-        this.fallBackBehavior = fallBackBehavior;
     }
 
     private enum BackDropType
     {
         None,
-        Acrylic,
         Mica,
     }
 
@@ -46,9 +43,7 @@ public class SystemBackdrop
     /// <returns>是否设置成功</returns>
     public bool TrySetBackdrop()
     {
-        BackDropType targetBackDropType = ResolveBackdropType();
-
-        if (targetBackDropType == BackDropType.None)
+        if (!MicaController.IsSupported())
         {
             return false;
         }
@@ -67,12 +62,7 @@ public class SystemBackdrop
             configurationSource.IsInputActive = true;
             SetConfigurationSourceTheme();
 
-            backdropController = targetBackDropType switch
-            {
-                BackDropType.Mica => new MicaController(),
-                BackDropType.Acrylic => new DesktopAcrylicController(),
-                _ => throw Must.NeverHappen(),
-            };
+            backdropController = new MicaController();
 
             ICompositionSupportsSystemBackdrop target = window.As<ICompositionSupportsSystemBackdrop>();
             backdropController.AddSystemBackdropTarget(target);
@@ -80,27 +70,6 @@ public class SystemBackdrop
 
             return true;
         }
-    }
-
-    private BackDropType ResolveBackdropType()
-    {
-        BackDropType targetBackDropType = BackDropType.None;
-        if (MicaController.IsSupported())
-        {
-            targetBackDropType = BackDropType.Mica;
-        }
-        else
-        {
-            if (fallBackBehavior == BackbdropFallBackBehavior.Acrylic)
-            {
-                if (DesktopAcrylicController.IsSupported())
-                {
-                    targetBackDropType = BackDropType.Acrylic;
-                }
-            }
-        }
-
-        return targetBackDropType;
     }
 
     private void WindowActivated(object sender, WindowActivatedEventArgs args)

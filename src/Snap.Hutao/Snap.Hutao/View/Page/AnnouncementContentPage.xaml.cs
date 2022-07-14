@@ -36,14 +36,14 @@ openInWebview: function(url){ location.href = url }}";
     {
         base.OnNavigatedTo(e);
 
-        if (e.Parameter is INavigationExtra extra)
+        if (e.Parameter is INavigationData extra)
         {
             targetContent = extra.Data as string;
             LoadAnnouncementAsync(extra).SafeForget();
         }
     }
 
-    private async Task LoadAnnouncementAsync(INavigationExtra extra)
+    private async Task LoadAnnouncementAsync(INavigationData extra)
     {
         try
         {

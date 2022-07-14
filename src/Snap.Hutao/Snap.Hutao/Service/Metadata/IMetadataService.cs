@@ -69,11 +69,4 @@ internal interface IMetadataService
     /// <param name="token">取消令牌</param>
     /// <returns>武器列表</returns>
     ValueTask<IEnumerable<Weapon>> GetWeaponsAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步更新元数据
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>更新是否完成</returns>
-    Task<bool> UpdateMetadataAsync(CancellationToken token = default);
 }

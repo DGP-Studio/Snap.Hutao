@@ -8,6 +8,8 @@
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shv="using:Snap.Hutao.ViewModel"
@@ -20,42 +22,166 @@
         </mxic:EventTriggerBehavior>
     </mxi:Interaction.Behaviors>
     <Page.Resources>
-        <shmmc:IconConverter x:Key="IconConverter"/>
+        <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>
+        <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
+        <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
+        <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
+
         <shmmc:FightPropertyConverter x:Key="FightPropertyConverter"/>
         <shmmc:FightPropertyValueFormatter x:Key="FightPropertyValueFormatter"/>
+
+        <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
+
         <shc:BindingProxy
             x:Key="FightPropertyBindingProxy"
             DataContext="{Binding Selected.Property.Properties}"/>
 
-        <SolidColorBrush
-            x:Key="SystemControlPageBackgroundChromeLowBrush"
-            Color="{StaticResource SystemChromeLowColor}"
-            Opacity="0.2"/>
+        <DataTemplate x:Key="SkillDataTemplate">
+            <Expander
+                Margin="16,16,0,0"
+                Header="{Binding Name}"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <shct:DescriptionTextBlock
+                        Margin="16,16,16,0"
+                        Description="{Binding Description}">
+                        <shct:DescriptionTextBlock.Resources>
+                            <Style
+                                TargetType="TextBlock"
+                                BasedOn="{StaticResource BodyTextBlockStyle}">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                            </Style>
+                        </shct:DescriptionTextBlock.Resources>
+                    </shct:DescriptionTextBlock>
+                    <ScrollViewer
+                        Grid.Row="1"
+                        VerticalScrollMode="Disabled"
+                        HorizontalScrollBarVisibility="Auto">
+                        <Grid
+                            Margin="16"
+                            DataContext="{Binding Proud,Converter={StaticResource DescParamDescriptor}}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <ItemsControl
+                                Grid.Row="0"
+                                ItemsSource="{Binding Descriptions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <cwuc:UniformGrid
+                                            ColumnSpacing="16"
+                                            Columns="{Binding Descriptions.Count}"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            Text="{Binding}"
+                                            TextWrapping="NoWrap"
+                                            TextTrimming="CharacterEllipsis"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl
+                                Margin="0,16,0,0"
+                                Grid.Row="2"
+                                ItemsSource="{Binding Parameters}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <ItemsControl ItemsSource="{Binding}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <cwuc:UniformGrid
+                                                        ColumnSpacing="16"
+                                                        Columns="{Binding Count}"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock
+                                                        Text="{Binding}"
+                                                        TextTrimming="CharacterEllipsis"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </ScrollViewer>
+                </Grid>
+            </Expander>
+        </DataTemplate>
+
+        <DataTemplate x:Key="InherentDataTemplate">
+            <Expander
+                Margin="16,16,0,0"
+                Header="{Binding Name}"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch">
+                <shct:DescriptionTextBlock
+                        Margin="16"
+                        Description="{Binding Description}">
+                    <shct:DescriptionTextBlock.Resources>
+                        <Style
+                                TargetType="TextBlock"
+                                BasedOn="{StaticResource BodyTextBlockStyle}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </shct:DescriptionTextBlock.Resources>
+                </shct:DescriptionTextBlock>
+            </Expander>
+        </DataTemplate>
     </Page.Resources>
+    
     <Grid>
         <SplitView
             IsPaneOpen="True"
             DisplayMode="Inline"
-            OpenPaneLength="374">
+            OpenPaneLength="200">
+            <SplitView.PaneBackground>
+                <SolidColorBrush Color="{StaticResource CardBackgroundFillColorSecondary}"/>
+            </SplitView.PaneBackground>
             <SplitView.Pane>
-                <GridView
+                <ListView
                     SelectionMode="Single"
                     ItemsSource="{Binding Avatars}"
-                    Padding="16,16,0,12"
                     SelectedItem="{Binding Selected,Mode=TwoWay}">
-                    <GridView.ItemTemplate>
+                    <ListView.ItemTemplate>
                         <DataTemplate>
-                            <shvc:ItemIcon
-                                Quality="{Binding Quality,Mode=OneWay}"
-                                Icon="{Binding Icon,Converter={StaticResource IconConverter},Mode=OneWay}"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <shci:CachedImage
+                                    Grid.Column="0"
+                                    Width="48"
+                                    Height="48"
+                                    Margin="0,0,12,12"
+                                    Source="{Binding SideIcon,Converter={StaticResource AvatarSideIconConverter},Mode=OneWay}"/>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Grid.Column="1"
+                                    Margin="12,0,0,0"
+                                    Text="{Binding Name}"/>
+                            </Grid>
                         </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
+                    </ListView.ItemTemplate>
+                </ListView>
             </SplitView.Pane>
             <SplitView.Content>
                 <ScrollViewer>
                     <StackPanel Margin="0,0,16,16">
-                        <!--头图-->
+                        <!--简介-->
                         <Grid
                             Margin="16,16,0,16"
                             VerticalAlignment="Top">
@@ -63,23 +189,130 @@
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <shvc:ItemIcon
-                                Grid.Column="0"
-                                Height="100"
-                                Width="100"
-                                Quality="{Binding Selected.Quality,Mode=OneWay}"
-                                Icon="{Binding Selected.Icon,Converter={StaticResource IconConverter},Mode=OneWay}"/>
+                            <StackPanel Grid.Column="0">
+                                <Grid Margin="0,0,0,16" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <shci:CachedImage
+                                        Grid.Column="0"
+                                        Width="27.2"
+                                        Height="27.2"
+                                        Source="{Binding Selected.FetterInfo.VisionBefore,Converter={StaticResource ElementNameIconConverter}}"/>
+                                    <shci:CachedImage
+                                        Grid.Column="1"
+                                        Width="27.2"
+                                        Height="27.2"
+                                        Source="{Binding Selected.Weapon,Converter={StaticResource WeaponTypeIconConverter}}"/>
+                                </Grid>
+                                <shvc:ItemIcon
+                                    Height="100"
+                                    Width="100"
+                                    Quality="{Binding Selected.Quality,Mode=OneWay}"
+                                    Icon="{Binding Selected.Icon,Converter={StaticResource AvatarIconConverter},Mode=OneWay}"/>
+                            </StackPanel>
+
                             <StackPanel
                                 Margin="16,0,0,0"
                                 Grid.Column="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Text="{Binding Selected.Name}"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                    <TextBlock
+                                        Margin="24,0,0,0"
+                                        Text="{Binding Selected.FetterInfo.Title}"
+                                        Style="{StaticResource SubtitleTextBlockStyle}"/>
+                                </StackPanel>
+
                                 <TextBlock
-                                    Text="{Binding Selected.Name}"
-                                    Style="{StaticResource SubtitleTextBlockStyle}"/>
-                                <TextBlock
-                                    Margin="0,6,0,0"
-                                    Text="{Binding Selected.Description}"
-                                    MaxLines="2"
+                                    Margin="0,12,0,0"
+                                    Text="{Binding Selected.FetterInfo.Detail}"
+                                    TextWrapping="NoWrap"
                                     Style="{StaticResource CaptionTextBlockStyle}"/>
+
+                                <cwuc:UniformGrid
+                                    Columns="4"
+                                    ColumnSpacing="12"
+                                    Margin="0,12,0,0">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Text="所属"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock
+                                            Margin="0,6,0,0"
+                                            TextWrapping="NoWrap"
+                                            Text="{Binding Selected.FetterInfo.Native}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock
+                                            Text="命之座"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock
+                                            Margin="0,6,0,0"
+                                            TextWrapping="NoWrap"
+                                            Text="{Binding Selected.FetterInfo.ConstellationBefore}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock
+                                            Text="生日"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock
+                                            Margin="0,6,0,0"
+                                            TextWrapping="NoWrap"
+                                            Text="{Binding Selected.FetterInfo.BirthFormatted}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                </cwuc:UniformGrid>
+
+                                <cwuc:UniformGrid
+                                    Margin="0,12,0,0"
+                                    ColumnSpacing="12"
+                                    Columns="4">
+                                    <StackPanel>
+                                        <TextBlock
+                                            Text="汉语 CV"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock
+                                            Margin="0,6,0,0"
+                                            TextWrapping="NoWrap"
+                                            Text="{Binding Selected.FetterInfo.CvChinese}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock
+                                            Text="日语 CV"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock
+                                            Margin="0,6,0,0"
+                                            TextWrapping="NoWrap"
+                                            Text="{Binding Selected.FetterInfo.CvJapanese}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock
+                                            Text="英语 CV"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock
+                                            Margin="0,6,0,0"
+                                            TextWrapping="NoWrap"
+                                            Text="{Binding Selected.FetterInfo.CvEnglish}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                    <StackPanel>
+                                        <TextBlock
+                                            Text="韩语 CV"
+                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <TextBlock
+                                            Margin="0,6,0,0"
+                                            TextWrapping="NoWrap"
+                                            Text="{Binding Selected.FetterInfo.CvKorean}"
+                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                    </StackPanel>
+                                </cwuc:UniformGrid>
                             </StackPanel>
                         </Grid>
                         <!--属性-->
@@ -88,75 +321,209 @@
                             Header="基础数值"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch">
-                            <Grid Margin="16">
+                            <ScrollViewer
+                                VerticalScrollMode="Disabled"
+                                HorizontalScrollBarVisibility="Auto">
+                                <Grid Margin="16">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <cwuc:UniformGrid
+                                        Grid.Row="0"
+                                        Columns="5"
+                                        ColumnSpacing="16"
+                                        DataContext="{Binding Selected.Property}">
+                                        <TextBlock
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            TextWrapping="NoWrap"
+                                            Text="等级"/>
+                                        <TextBlock
+                                            TextWrapping="NoWrap"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{Binding Properties[0], Converter={StaticResource FightPropertyConverter}}"/>
+                                        <TextBlock
+                                            TextWrapping="NoWrap"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{Binding Properties[1], Converter={StaticResource FightPropertyConverter}}"/>
+                                        <TextBlock
+                                            TextWrapping="NoWrap"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{Binding Properties[2], Converter={StaticResource FightPropertyConverter}}"/>
+                                        <TextBlock
+                                            TextWrapping="NoWrap"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{Binding Properties[3], Converter={StaticResource FightPropertyConverter}}"/>
+                                    </cwuc:UniformGrid>
+                                    <ItemsControl
+                                        Margin="0,16,0,0"
+                                        Grid.Row="1"
+                                        ItemsSource="{Binding Selected.Property.Parameters}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <cwuc:UniformGrid
+                                                    Columns="5"
+                                                    ColumnSpacing="16">
+                                                    <TextBlock
+                                                        Text="{Binding Level}"/>
+                                                    <TextBlock
+                                                        Text="{Binding Parameters[0],
+                                                        Converter={StaticResource FightPropertyValueFormatter},
+                                                        ConverterParameter={Binding DataContext[0],Source={StaticResource FightPropertyBindingProxy}}}"/>
+                                                    <TextBlock
+                                                        Text="{Binding Parameters[1],
+                                                        Converter={StaticResource FightPropertyValueFormatter},
+                                                        ConverterParameter={Binding DataContext[1],Source={StaticResource FightPropertyBindingProxy}}}"/>
+                                                    <TextBlock
+                                                        Text="{Binding Parameters[2],
+                                                        Converter={StaticResource FightPropertyValueFormatter},
+                                                        ConverterParameter={Binding DataContext[2],Source={StaticResource FightPropertyBindingProxy}}}"/>
+                                                    <TextBlock
+                                                        Text="{Binding Parameters[3],
+                                                        Converter={StaticResource FightPropertyValueFormatter},
+                                                        ConverterParameter={Binding DataContext[3],Source={StaticResource FightPropertyBindingProxy}}}"/>
+                                                </cwuc:UniformGrid>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                            </ScrollViewer>
+                            
+                        </Expander>
+                        <TextBlock Text="天赋" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
+                        <ItemsControl
+                            ItemsSource="{Binding Selected.SkillDepot.Skills}"
+                            ItemTemplate="{StaticResource SkillDataTemplate}"/>
+
+                        <!--元素爆发-->
+                        <Expander
+                            Margin="16,16,0,0"
+                            Header="{Binding Name}"
+                            DataContext="{Binding Selected.SkillDepot.EnergySkill}"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <cwuc:UniformGrid
-                                    Grid.Row="0"
-                                    Columns="5"
-                                    DataContext="{Binding Selected.Property}"
-                                    x:Name="PropertyGrid">
-                                    <TextBlock
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        TextWrapping="NoWrap"
-                                        Text="等级"/>
-                                    <TextBlock
-                                        TextWrapping="NoWrap"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{Binding Properties[0], Converter={StaticResource FightPropertyConverter}}"/>
-                                    <TextBlock
-                                        TextWrapping="NoWrap"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{Binding Properties[1], Converter={StaticResource FightPropertyConverter}}"/>
-                                    <TextBlock
-                                        TextWrapping="NoWrap"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{Binding Properties[2], Converter={StaticResource FightPropertyConverter}}"/>
-                                    <TextBlock
-                                        TextWrapping="NoWrap"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="{Binding Properties[3], Converter={StaticResource FightPropertyConverter}}"/>
-                                </cwuc:UniformGrid>
-                                <ItemsControl
-                                    Margin="0,6,0,0"
+                                <shct:DescriptionTextBlock
+                                    Margin="16,16,16,0"
+                                    Description="{Binding Description}">
+                                    <shct:DescriptionTextBlock.Resources>
+                                        <Style
+                                            TargetType="TextBlock"
+                                            BasedOn="{StaticResource BodyTextBlockStyle}">
+                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                        </Style>
+                                    </shct:DescriptionTextBlock.Resources>
+                                </shct:DescriptionTextBlock>
+                                <ScrollViewer
                                     Grid.Row="1"
-                                    ItemsSource="{Binding Selected.Property.Parameters}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <cwuc:UniformGrid
-                                            Columns="5">
-                                                <TextBlock
-                                                Text="{Binding Level}"/>
-                                                <TextBlock
-                                                Text="{Binding Parameters[0],
-                                                Converter={StaticResource FightPropertyValueFormatter},
-                                                ConverterParameter={Binding DataContext[0],Source={StaticResource FightPropertyBindingProxy}}}"/>
-                                                <TextBlock
-                                                Text="{Binding Parameters[1],
-                                                Converter={StaticResource FightPropertyValueFormatter},
-                                                ConverterParameter={Binding DataContext[1],Source={StaticResource FightPropertyBindingProxy}}}"/>
-                                                <TextBlock
-                                                Text="{Binding Parameters[2],
-                                                Converter={StaticResource FightPropertyValueFormatter},
-                                                ConverterParameter={Binding DataContext[2],Source={StaticResource FightPropertyBindingProxy}}}"/>
-                                                <TextBlock
-                                                Text="{Binding Parameters[3],
-                                                Converter={StaticResource FightPropertyValueFormatter},
-                                                ConverterParameter={Binding DataContext[3],Source={StaticResource FightPropertyBindingProxy}}}"/>
-                                            </cwuc:UniformGrid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                    VerticalScrollMode="Disabled"
+                                    HorizontalScrollBarVisibility="Auto">
+                                    <Grid>
+                                        <Grid
+                                            Grid.Row="1"
+                                            Margin="16"
+                                            DataContext="{Binding Proud,Converter={StaticResource DescParamDescriptor}}">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <ItemsControl
+                                                Grid.Row="0"
+                                                ItemsSource="{Binding Descriptions}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <cwuc:UniformGrid
+                                                            ColumnSpacing="16"
+                                                            Columns="{Binding Descriptions.Count}"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock
+                                                            Text="{Binding}"
+                                                            TextWrapping="NoWrap"
+                                                            TextTrimming="CharacterEllipsis"
+                                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
+                                            <ItemsControl
+                                                Margin="0,6,0,0"
+                                                Grid.Row="2"
+                                                ItemsSource="{Binding Parameters}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <ItemsControl ItemsSource="{Binding}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <cwuc:UniformGrid
+                                                                        ColumnSpacing="16"
+                                                                        Columns="{Binding Count}"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock
+                                                                        Text="{Binding}"
+                                                                        TextTrimming="CharacterEllipsis"/>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </Grid>
+                                </ScrollViewer>
                             </Grid>
+                        </Expander>
+
+                        <ItemsControl
+                            ItemsSource="{Binding Selected.SkillDepot.Inherents}"
+                            ItemTemplate="{StaticResource InherentDataTemplate}"/>
+                        
+                        <TextBlock Text="命之座" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
+                        
+                        <ItemsControl
+                            ItemsSource="{Binding Selected.SkillDepot.Talents}"
+                            ItemTemplate="{StaticResource InherentDataTemplate}"/>
+
+                        <TextBlock Text="其他" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
+                        <!--衣装-->
+                        <Expander
+                            Margin="16,16,0,0"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Header="衣装">
+                            <ItemsControl
+                                ItemsSource="{Binding Selected.Costumes}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="0,0,0,-4">
+                                            <TextBlock
+                                                Margin="16,16,16,0"
+                                                Text="{Binding Name}"/>
+                                            <TextBlock
+                                                Margin="16,8,16,16"
+                                                Text="{Binding Description}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                            <MenuFlyoutSeparator Margin="16,0"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </Expander>
                         <!--资料-->
                         <Expander
                             Margin="16,16,0,0"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            Header="语音">
+                            Header="资料">
                             <ItemsControl
                                 ItemsSource="{Binding Selected.FetterInfo.Fetters}">
                                 <ItemsControl.ItemTemplate>
@@ -165,10 +532,15 @@
                                             <TextBlock
                                                 Margin="16,16,16,0"
                                                 Text="{Binding Title}"/>
-                                            <TextBlock
+                                            <shct:DescriptionTextBlock
                                                 Margin="16,8,16,16"
-                                                Text="{Binding Context}"
-                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                Description="{Binding Context}">
+                                                <shct:DescriptionTextBlock.Resources>
+                                                    <Style
+                                                        TargetType="TextBlock"
+                                                        BasedOn="{StaticResource CaptionTextBlockStyle}"/>
+                                                </shct:DescriptionTextBlock.Resources>
+                                            </shct:DescriptionTextBlock>
                                             <MenuFlyoutSeparator Margin="16,0"/>
                                         </StackPanel>
                                     </DataTemplate>

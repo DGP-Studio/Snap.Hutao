@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Control.Cancellable;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
@@ -65,11 +64,6 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
     }
 
     /// <summary>
-    /// 打开界面监视器
-    /// </summary>
-    public Watcher OpeningUI { get; } = new(false);
-
-    /// <summary>
     /// 打开界面触发的命令
     /// </summary>
     public ICommand OpenUICommand { get; }
@@ -81,23 +75,18 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
 
     private async Task OpenUIAsync()
     {
-        using (OpeningUI.Watch())
+        try
         {
-            try
-            {
-                Announcement = await announcementService.GetAnnouncementsAsync(OpenAnnouncementUICommand, CancellationToken);
-            }
-            catch (TaskCanceledException)
-            {
-                logger.LogInformation($"{nameof(OpenUIAsync)} cancelled");
-            }
+            Announcement = await announcementService.GetAnnouncementsAsync(OpenAnnouncementUICommand, CancellationToken);
+        }
+        catch (TaskCanceledException)
+        {
+            logger.LogInformation($"{nameof(OpenUIAsync)} cancelled");
         }
     }
 
     private void OpenAnnouncementUI(string? content)
     {
-        logger.LogInformation($"{nameof(OpenAnnouncementUICommand)} Triggered");
-
         if (WebView2Helper.IsSupported)
         {
             navigationService.Navigate<AnnouncementContentPage>(data: new NavigationExtra(content));

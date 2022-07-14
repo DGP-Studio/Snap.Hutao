@@ -7,6 +7,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Snap.Hutao.Service.Navigation;
@@ -85,8 +86,7 @@ internal class NavigationService : INavigationService
         }
         else
         {
-            NavigationViewItem? target = NavigationView.MenuItems
-                .OfType<NavigationViewItem>()
+            NavigationViewItem? target = EnumerateMenuItems(NavigationView.MenuItems)
                 .SingleOrDefault(menuItem => NavHelper.GetNavigateTo(menuItem) == pageType);
 
             NavigationView.SelectedItem = target;
@@ -163,6 +163,24 @@ internal class NavigationService : INavigationService
         NavigationView.IsPaneOpen = LocalSetting.GetValueType(SettingKeys.IsNavPaneOpen, true);
     }
 
+    /// <summary>
+    /// 遍历所有子菜单项
+    /// </summary>
+    /// <param name="items">项列表</param>
+    /// <returns>枚举器</returns>
+    private IEnumerable<NavigationViewItem> EnumerateMenuItems(IList<object> items)
+    {
+        foreach (NavigationViewItem item in items.OfType<NavigationViewItem>())
+        {
+            yield return item;
+
+            foreach (NavigationViewItem subItem in EnumerateMenuItems(item.MenuItems))
+            {
+                yield return subItem;
+            }
+        }
+    }
+
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         Selected = NavigationView?.SelectedItem as NavigationViewItem;
@@ -170,8 +188,12 @@ internal class NavigationService : INavigationService
             ? typeof(SettingPage)
             : NavHelper.GetNavigateTo(Selected);
 
-        INavigationAwaiter navigationAwaiter = new NavigationExtra(NavHelper.GetExtraData(Selected));
-        Navigate(Must.NotNull(targetType!), navigationAwaiter, false);
+        // ignore item that doesn't have nav type specified
+        if (targetType != null)
+        {
+            INavigationAwaiter navigationAwaiter = new NavigationExtra(NavHelper.GetExtraData(Selected));
+            Navigate(targetType, navigationAwaiter, false);
+        }
     }
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)

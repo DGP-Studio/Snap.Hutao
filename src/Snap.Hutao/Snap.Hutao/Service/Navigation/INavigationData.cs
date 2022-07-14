@@ -6,7 +6,7 @@ namespace Snap.Hutao.Service.Navigation;
 /// <summary>
 /// 为 <see cref="NavigationExtra"/> 提供抽象接口
 /// </summary>
-public interface INavigationExtra
+public interface INavigationData
 {
     /// <summary>
     /// 数据

@@ -24,7 +24,7 @@ public interface IUserService
     /// </summary>
     /// <param name="removeCommand">移除用户命令</param>
     /// <returns>准备完成的用户信息枚举</returns>
-    Task<ObservableCollection<User>> GetInitializedUsersAsync(ICommand removeCommand);
+    Task<ObservableCollection<User>> GetInitializedUsersAsync();
 
     /// <summary>
     /// 异步添加用户

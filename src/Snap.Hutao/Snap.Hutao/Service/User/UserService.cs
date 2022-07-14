@@ -121,7 +121,7 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<User>> GetInitializedUsersAsync(ICommand removeCommand)
+    public async Task<ObservableCollection<User>> GetInitializedUsersAsync()
     {
         if (cachedUsers == null)
         {
@@ -133,7 +133,6 @@ internal class UserService : IUserService
 
             foreach (User user in cachedUsers)
             {
-                user.RemoveCommand = removeCommand;
                 await user
                     .InitializeAsync(userClient, userGameRoleClient)
                     .ConfigureAwait(false);

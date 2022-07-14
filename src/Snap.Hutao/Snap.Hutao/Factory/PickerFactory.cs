@@ -8,7 +8,7 @@ using WinRT.Interop;
 namespace Snap.Hutao.Factory;
 
 /// <inheritdoc cref="IPickerFactory"/>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Transient, typeof(IPickerFactory))]
 internal class PickerFactory : IPickerFactory
 {
     private readonly MainWindow mainWindow;

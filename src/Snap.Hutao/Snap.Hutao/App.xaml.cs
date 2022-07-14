@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Microsoft.VisualStudio.Threading;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
@@ -68,6 +69,7 @@ public partial class App : Application
             Window = Ioc.Default.GetRequiredService<MainWindow>();
             Window.Activate();
 
+            logger.LogInformation("Image cache folder : {folder}", Windows.Storage.ApplicationData.Current.TemporaryFolder.Path);
             if (Ioc.Default.GetRequiredService<IMetadataService>() is IMetadataInitializer initializer)
             {
                 initializer.InitializeInternalAsync().SafeForget();
