@@ -9,8 +9,9 @@
     xmlns:cwub="using:CommunityToolkit.WinUI.UI.Behaviors"
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
-    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shca="using:Snap.Hutao.Control.Animation"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcc="using:Snap.Hutao.Control.Cancellable"
@@ -25,6 +26,8 @@
     <shcc:CancellablePage.Resources>
         <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+
+        <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
     </shcc:CancellablePage.Resources>
     <Grid>
         <ScrollViewer Padding="0,0,4,0">
@@ -152,7 +155,7 @@
                                             <mxi:Interaction.Behaviors>
                                                 <mxic:EventTriggerBehavior EventName="Tapped">
                                                     <mxic:InvokeCommandAction
-                                                        Command="{Binding OpenAnnouncementUICommand}"
+                                                        Command="{Binding DataContext.OpenAnnouncementUICommand,Source={StaticResource BindingProxy}}"
                                                         CommandParameter="{Binding Content}"/>
                                                 </mxic:EventTriggerBehavior>
                                                 <mxic:EventTriggerBehavior EventName="PointerEntered">

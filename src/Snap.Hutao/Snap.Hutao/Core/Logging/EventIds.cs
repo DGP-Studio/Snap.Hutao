@@ -16,5 +16,10 @@ internal static class EventIds
     /// <summary>
     /// 未处理的异常
     /// </summary>
-    public static readonly EventId UnhandledException = new(100000, nameof(UnhandledException));
+    public static readonly EventId UnhandledException = new(100001, nameof(UnhandledException));
+
+    /// <summary>
+    /// Forget任务执行异常
+    /// </summary>
+    public static readonly EventId TaskException = new(100002, nameof(TaskException));
 }

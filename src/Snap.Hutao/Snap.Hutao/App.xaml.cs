@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.VisualStudio.Threading;
@@ -31,6 +32,7 @@ public partial class App : Application
         // load app resource
         InitializeComponent();
         InitializeDependencyInjection();
+        InitializeImageCache();
 
         logger = Ioc.Default.GetRequiredService<ILogger<App>>();
         UnhandledException += AppUnhandledException;
@@ -69,10 +71,11 @@ public partial class App : Application
             Window = Ioc.Default.GetRequiredService<MainWindow>();
             Window.Activate();
 
-            logger.LogInformation("Image cache folder : {folder}", Windows.Storage.ApplicationData.Current.TemporaryFolder.Path);
+            logger.LogInformation("Cache folder : {folder}", Windows.Storage.ApplicationData.Current.TemporaryFolder.Path);
+
             if (Ioc.Default.GetRequiredService<IMetadataService>() is IMetadataInitializer initializer)
             {
-                initializer.InitializeInternalAsync().SafeForget();
+                initializer.InitializeInternalAsync().SafeForget(logger: logger);
             }
 
             if (uri != null)
@@ -102,6 +105,12 @@ public partial class App : Application
             .BuildServiceProvider();
 
         Ioc.Default.ConfigureServices(services);
+    }
+
+    private static void InitializeImageCache()
+    {
+        ImageCache.Instance.CacheDuration = TimeSpan.FromDays(30);
+        ImageCache.Instance.RetryCount = 3;
     }
 
     private void AppUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)

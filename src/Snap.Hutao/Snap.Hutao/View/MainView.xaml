@@ -9,7 +9,7 @@
     xmlns:view="using:Snap.Hutao.View"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
+        <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
     </UserControl.Resources>
     <Grid>
         <NavigationView

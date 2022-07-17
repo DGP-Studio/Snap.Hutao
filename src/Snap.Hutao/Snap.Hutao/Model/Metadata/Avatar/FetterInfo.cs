@@ -45,10 +45,7 @@ public class FetterInfo
     /// </summary>
     public string BirthFormatted
     {
-        get
-        {
-            return $"{BirthMonth} 月 {BirthDay} 日";
-        }
+        get => $"{BirthMonth} 月 {BirthDay} 日";
     }
 
     /// <summary>

@@ -9,14 +9,11 @@ namespace Snap.Hutao.Core;
 /// 检测 WebView2运行时 是否存在
 /// 不再使用注册表检查方式
 /// </summary>
-internal class WebView2Helper
+internal abstract class WebView2Helper
 {
     private static bool hasEverDetected = false;
     private static bool isSupported = false;
-
-    private WebView2Helper()
-    {
-    }
+    private static string version = "未检测到 WebView2 运行时";
 
     /// <summary>
     /// 检测 WebView2 是否存在
@@ -35,7 +32,7 @@ internal class WebView2Helper
                 isSupported = true;
                 try
                 {
-                    string version = CoreWebView2Environment.GetAvailableBrowserVersionString();
+                    version = CoreWebView2Environment.GetAvailableBrowserVersionString();
                 }
                 catch (Exception ex)
                 {
@@ -47,4 +44,9 @@ internal class WebView2Helper
             }
         }
     }
+
+    /// <summary>
+    /// WebView2的版本
+    /// </summary>
+    public static string Version => version;
 }

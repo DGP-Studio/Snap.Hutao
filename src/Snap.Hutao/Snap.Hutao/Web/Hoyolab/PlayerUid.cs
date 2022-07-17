@@ -38,8 +38,7 @@ public struct PlayerUid
     {
         get
         {
-            region ??= EvaluateRegion(Value[0]);
-            return region;
+            return region ??= EvaluateRegion(Value[0]);
         }
     }
 
@@ -53,7 +52,7 @@ public struct PlayerUid
             '7' => "os_euro",               // 欧服
             '8' => "os_asia",               // 亚服
             '9' => "os_cht",                // 台服
-            _ => Must.NeverHappen<string>(),
+            _ => throw Must.NeverHappen(),
         };
     }
 }

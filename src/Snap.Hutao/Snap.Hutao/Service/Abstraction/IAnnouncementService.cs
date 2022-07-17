@@ -13,8 +13,7 @@ public interface IAnnouncementService
     /// <summary>
     /// 异步获取游戏公告与活动,通常会进行缓存
     /// </summary>
-    /// <param name="openAnnouncementUICommand">打开公告时触发的命令</param>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>公告包装器</returns>
-    ValueTask<AnnouncementWrapper> GetAnnouncementsAsync(ICommand openAnnouncementUICommand, CancellationToken cancellationToken = default);
+    ValueTask<AnnouncementWrapper> GetAnnouncementsAsync(CancellationToken cancellationToken = default);
 }

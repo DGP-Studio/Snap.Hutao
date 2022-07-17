@@ -33,10 +33,6 @@ public sealed partial class MainWindow : Window
         this.logger = logger;
 
         InitializeComponent();
-
-        ExtendsContentIntoTitleBar = true;
-        SetTitleBar(TitleBarView.DragableArea);
-
         handle = WindowNative.GetWindowHandle(this);
         InitializeWindow();
     }
@@ -53,6 +49,9 @@ public sealed partial class MainWindow : Window
 
     private void InitializeWindow()
     {
+        ExtendsContentIntoTitleBar = true;
+        SetTitleBar(TitleBarView.DragableArea);
+
         RECT rect = RetriveWindowRect();
         if (!rect.Size.IsEmpty)
         {

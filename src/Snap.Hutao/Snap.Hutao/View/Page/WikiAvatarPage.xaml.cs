@@ -26,9 +26,9 @@ public sealed partial class WikiAvatarPage : Microsoft.UI.Xaml.Controls.Page
     {
         base.OnNavigatedTo(e);
 
-        if (e.Parameter is INavigationData extra)
+        if (e.Parameter is INavigationData data)
         {
-            extra.NotifyNavigationCompleted();
+            data.NotifyNavigationCompleted();
         }
     }
 }

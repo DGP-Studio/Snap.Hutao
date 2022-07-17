@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
 internal class AnnouncementService : IAnnouncementService
 {
-    private const string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
+    private static readonly string CacheKey = MemoryCacheExtensions.GetCacheKey(nameof(AnnouncementService), nameof(AnnouncementWrapper));
 
     private readonly AnnouncementClient announcementClient;
     private readonly IMemoryCache memoryCache;
@@ -31,12 +32,12 @@ internal class AnnouncementService : IAnnouncementService
     }
 
     /// <inheritdoc/>
-    public async ValueTask<AnnouncementWrapper> GetAnnouncementsAsync(ICommand openAnnouncementUICommand, CancellationToken cancellationToken = default)
+    public async ValueTask<AnnouncementWrapper> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
     {
         // 缓存中存在记录，直接返回
         if (memoryCache.TryGetValue(CacheKey, out object? cache))
         {
-            return Must.NotNull((cache as AnnouncementWrapper)!);
+            return Must.NotNull((AnnouncementWrapper)cache);
         }
 
         AnnouncementWrapper? wrapper = await announcementClient
@@ -55,30 +56,27 @@ internal class AnnouncementService : IAnnouncementService
         wrapper.List.Reverse();
 
         // 将公告内容联入公告列表
-        JoinAnnouncements(openAnnouncementUICommand, contentMap, wrapper.List);
+        JoinAnnouncements(contentMap, wrapper.List);
 
         return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
     }
 
-    private static void JoinAnnouncements(ICommand openAnnouncementUICommand, Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
+    private static void JoinAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
     {
         // 匹配特殊的时间格式: <t>(.*?)</t>
         Regex timeTagRegrex = new("&lt;t.*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline);
 
-        Regex timeTagInnerRegex = new("(?<=&lt;t.*?&gt;)(.*?)(?=&lt;/t&gt;)");
-
         announcementListWrappers.ForEach(listWrapper =>
         {
-            listWrapper.List?.ForEach(item =>
+            listWrapper.List.ForEach(item =>
             {
                 if (contentMap.TryGetValue(item.AnnId, out string? rawContent))
                 {
                     // remove <t/> tag
-                    rawContent = timeTagRegrex.Replace(rawContent!, x => timeTagInnerRegex.Match(x.Value).Value);
+                    rawContent = timeTagRegrex.Replace(rawContent!, x => x.Groups[1].Value);
                 }
 
                 item.Content = rawContent ?? string.Empty;
-                item.OpenAnnouncementUICommand = openAnnouncementUICommand;
             });
         });
     }

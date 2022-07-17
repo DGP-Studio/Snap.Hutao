@@ -42,9 +42,12 @@ internal static class Property<TOwner>
     /// <param name="defaultValue">默认值</param>
     /// <param name="callback">属性更改回调</param>
     /// <returns>注册的依赖属性</returns>
-    public static DependencyProperty Depend<TProperty>(string name, TProperty defaultValue, PropertyChangedCallback callback)
+    public static DependencyProperty Depend<TProperty>(
+        string name,
+        TProperty defaultValue,
+        Action<DependencyObject, DependencyPropertyChangedEventArgs> callback)
     {
-        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new(defaultValue, callback));
+        return DependencyProperty.Register(name, typeof(TProperty), typeof(TOwner), new(defaultValue, new(callback)));
     }
 
     /// <summary>
@@ -75,10 +78,14 @@ internal static class Property<TOwner>
     /// </summary>
     /// <typeparam name="TProperty">属性的类型</typeparam>
     /// <param name="name">属性名称</param>
+    /// <param name="defaultValue">默认值</param>
     /// <param name="callback">属性更改回调</param>
     /// <returns>注册的附加属性</returns>
-    public static DependencyProperty Attach<TProperty>(string name, PropertyChangedCallback callback)
+    public static DependencyProperty Attach<TProperty>(
+        string name,
+        TProperty defaultValue,
+        Action<DependencyObject, DependencyPropertyChangedEventArgs> callback)
     {
-        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new(callback));
+        return DependencyProperty.RegisterAttached(name, typeof(TProperty), typeof(TOwner), new(defaultValue, new(callback)));
     }
 }

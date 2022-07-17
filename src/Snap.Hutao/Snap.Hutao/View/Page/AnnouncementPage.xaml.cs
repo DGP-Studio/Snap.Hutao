@@ -27,9 +27,9 @@ public sealed partial class AnnouncementPage : CancellablePage
     {
         base.OnNavigatedTo(e);
 
-        if (e.Parameter is INavigationData extra)
+        if (e.Parameter is INavigationData data)
         {
-            extra.NotifyNavigationCompleted();
+            data.NotifyNavigationCompleted();
         }
     }
 }

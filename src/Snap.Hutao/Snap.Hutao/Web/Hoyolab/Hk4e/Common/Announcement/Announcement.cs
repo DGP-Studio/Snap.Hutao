@@ -13,11 +13,6 @@ public class Announcement : AnnouncementContent
     private double timePercent;
 
     /// <summary>
-    /// 启动展示窗口的命令
-    /// </summary>
-    public ICommand? OpenAnnouncementUICommand { get; set; }
-
-    /// <summary>
     /// 是否应展示时间
     /// </summary>
     public bool ShouldShowTimeDescription

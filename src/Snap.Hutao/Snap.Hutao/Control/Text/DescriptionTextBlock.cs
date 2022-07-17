@@ -27,6 +27,7 @@ public class DescriptionTextBlock : ContentControl
     /// </summary>
     public DescriptionTextBlock()
     {
+        IsTabStop = false;
         Content = new TextBlock();
     }
 

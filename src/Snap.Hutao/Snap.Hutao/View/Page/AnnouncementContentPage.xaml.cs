@@ -16,7 +16,7 @@ public sealed partial class AnnouncementContentPage : Microsoft.UI.Xaml.Controls
 {
     // support click open browser.
     private const string MihoyoSDKDefinition =
-            @"window.miHoYoGameJSSDK = {
+        @"window.miHoYoGameJSSDK = {
 openInBrowser: function(url){ window.chrome.webview.postMessage(url); },
 openInWebview: function(url){ location.href = url }}";
 
@@ -25,7 +25,6 @@ openInWebview: function(url){ location.href = url }}";
     /// <summary>
     /// 构造一个新的公告窗体
     /// </summary>
-    /// <param name="content">要展示的内容</param>
     public AnnouncementContentPage()
     {
         InitializeComponent();
@@ -43,7 +42,7 @@ openInWebview: function(url){ location.href = url }}";
         }
     }
 
-    private async Task LoadAnnouncementAsync(INavigationData extra)
+    private async Task LoadAnnouncementAsync(INavigationData data)
     {
         try
         {
@@ -54,11 +53,11 @@ openInWebview: function(url){ location.href = url }}";
         }
         catch (Exception ex)
         {
-            extra.NotifyNavigationException(ex);
+            data.NotifyNavigationException(ex);
             return;
         }
 
         WebView.NavigateToString(targetContent);
-        extra.NotifyNavigationCompleted();
+        data.NotifyNavigationCompleted();
     }
 }

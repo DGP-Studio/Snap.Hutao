@@ -14,12 +14,6 @@ namespace Snap.Hutao.Control.Image;
 /// </summary>
 public class CachedImage : ImageEx
 {
-    static CachedImage()
-    {
-        ImageCache.Instance.CacheDuration = TimeSpan.FromDays(30);
-        ImageCache.Instance.RetryCount = 3;
-    }
-
     /// <summary>
     /// 构造一个新的缓存图像
     /// </summary>

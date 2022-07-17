@@ -59,7 +59,6 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
     public AnnouncementWrapper? Announcement
     {
         get => announcement;
-
         set => SetProperty(ref announcement, value);
     }
 
@@ -77,7 +76,7 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
     {
         try
         {
-            Announcement = await announcementService.GetAnnouncementsAsync(OpenAnnouncementUICommand, CancellationToken);
+            Announcement = await announcementService.GetAnnouncementsAsync(CancellationToken);
         }
         catch (TaskCanceledException)
         {
