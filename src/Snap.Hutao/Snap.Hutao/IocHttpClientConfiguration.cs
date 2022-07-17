@@ -31,10 +31,10 @@ internal static class IocHttpClientConfiguration
         services.AddHttpClient<MetadataService>(DefaultConfiguration);
 
         // normal clients
-        services.AddHttpClient<HutaoClient>(DefaultConfiguration);
         services.AddHttpClient<AnnouncementClient>(DefaultConfiguration);
-        services.AddHttpClient<UserGameRoleClient>(DefaultConfiguration);
         services.AddHttpClient<EnkaClient>(DefaultConfiguration);
+        services.AddHttpClient<HutaoClient>(DefaultConfiguration);
+        services.AddHttpClient<UserGameRoleClient>(DefaultConfiguration);
 
         // x-rpc clients
         services.AddHttpClient<GameRecordClient>(XRpcConfiguration);

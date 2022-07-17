@@ -22,4 +22,9 @@ internal static class EventIds
     /// Forget任务执行异常
     /// </summary>
     public static readonly EventId TaskException = new(100002, nameof(TaskException));
+
+    /// <summary>
+    /// Forget任务执行异常
+    /// </summary>
+    public static readonly EventId AsyncCommandException = new(100003, nameof(AsyncCommandException));
 }

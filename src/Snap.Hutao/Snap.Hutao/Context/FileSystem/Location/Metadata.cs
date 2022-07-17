@@ -9,7 +9,7 @@ namespace Snap.Hutao.Context.FileSystem.Location;
 /// 我的文档位置
 /// </summary>
 [Injection(InjectAs.Transient)]
-public class Metadata : IFileSystemLocation
+internal class Metadata : IFileSystemLocation
 {
     private string? path;
 

@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:cwum="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
@@ -27,6 +26,7 @@
         <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
         <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
         <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
+        <shmmc:AvatarNameCardPicConverter x:Key="AvatarNameCardPicConverter"/>
 
         <shmmc:FightPropertyConverter x:Key="FightPropertyConverter"/>
         <shmmc:FightPropertyValueFormatter x:Key="FightPropertyValueFormatter"/>
@@ -144,44 +144,48 @@
             </Expander>
         </DataTemplate>
     </Page.Resources>
-    
-    <Grid>
-        <SplitView
-            IsPaneOpen="True"
-            DisplayMode="Inline"
-            OpenPaneLength="200">
-            <SplitView.PaneBackground>
-                <SolidColorBrush Color="{StaticResource CardBackgroundFillColorSecondary}"/>
-            </SplitView.PaneBackground>
-            <SplitView.Pane>
-                <ListView
-                    SelectionMode="Single"
-                    ItemsSource="{Binding Avatars}"
-                    SelectedItem="{Binding Selected,Mode=TwoWay}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <shci:CachedImage
-                                    Grid.Column="0"
-                                    Width="48"
-                                    Height="48"
-                                    Margin="0,0,12,12"
-                                    Source="{Binding SideIcon,Converter={StaticResource AvatarSideIconConverter},Mode=OneWay}"/>
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    Grid.Column="1"
-                                    Margin="12,0,0,0"
-                                    Text="{Binding Name}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </SplitView.Pane>
-            <SplitView.Content>
+
+    <SplitView
+        IsPaneOpen="True"
+        DisplayMode="Inline"
+        OpenPaneLength="200">
+        <SplitView.PaneBackground>
+            <SolidColorBrush Color="{StaticResource CardBackgroundFillColorSecondary}"/>
+        </SplitView.PaneBackground>
+        <SplitView.Pane>
+            <ListView
+                SelectionMode="Single"
+                ItemsSource="{Binding Avatars}"
+                SelectedItem="{Binding Selected,Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <shci:CachedImage
+                                Grid.Column="0"
+                                Width="48"
+                                Height="48"
+                                Margin="0,0,12,12"
+                                Source="{Binding SideIcon,Converter={StaticResource AvatarSideIconConverter},Mode=OneWay}"/>
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Grid.Column="1"
+                                Margin="12,0,0,0"
+                                Text="{Binding Name}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </SplitView.Pane>
+        <SplitView.Content>
+            <Grid>
+                <shci:Gradient
+                    VerticalAlignment="Top"
+                    Source="{Binding Selected,Converter={StaticResource AvatarNameCardPicConverter}}">
+                </shci:Gradient>
                 <ScrollViewer>
                     <StackPanel Margin="0,0,16,16">
                         <!--简介-->
@@ -391,7 +395,7 @@
                                     </ItemsControl>
                                 </Grid>
                             </ScrollViewer>
-                            
+
                         </Expander>
                         <TextBlock Text="天赋" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
                         <ItemsControl
@@ -407,9 +411,9 @@
                         <ItemsControl
                             ItemsSource="{Binding Selected.SkillDepot.Inherents}"
                             ItemTemplate="{StaticResource InherentDataTemplate}"/>
-                        
+
                         <TextBlock Text="命之座" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
-                        
+
                         <ItemsControl
                             ItemsSource="{Binding Selected.SkillDepot.Talents}"
                             ItemTemplate="{StaticResource InherentDataTemplate}"/>
@@ -494,7 +498,7 @@
                         </Expander>
                     </StackPanel>
                 </ScrollViewer>
-            </SplitView.Content>
-        </SplitView>
-    </Grid>
+            </Grid>
+        </SplitView.Content>
+    </SplitView>
 </Page>

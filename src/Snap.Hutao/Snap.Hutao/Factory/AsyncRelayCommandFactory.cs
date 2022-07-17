@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.AppCenter.Crashes;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Abstraction;
 
 namespace Snap.Hutao.Factory;
@@ -93,8 +93,7 @@ internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
                     if (asyncRelayCommand.ExecutionTask?.Exception is AggregateException exception)
                     {
                         Exception baseException = exception.GetBaseException();
-                        logger.LogError(baseException, "异步命令发生了错误");
-                        Crashes.TrackError(baseException);
+                        logger.LogError(EventIds.AsyncCommandException, baseException, "异步命令发生了错误");
                     }
                 }
             }

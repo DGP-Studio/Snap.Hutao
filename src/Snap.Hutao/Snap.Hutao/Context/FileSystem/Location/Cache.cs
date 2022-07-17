@@ -6,10 +6,10 @@ using System.IO;
 namespace Snap.Hutao.Context.FileSystem.Location;
 
 /// <summary>
-/// 我的文档位置
+/// 缓存位置
 /// </summary>
 [Injection(InjectAs.Transient)]
-internal class MyDocument : IFileSystemLocation
+internal class Cache : IFileSystemLocation
 {
     private string? path;
 
@@ -18,8 +18,7 @@ internal class MyDocument : IFileSystemLocation
     {
         if (string.IsNullOrEmpty(path))
         {
-            string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path = Path.GetFullPath(Path.Combine(myDocument, "Hutao"));
+            path = Windows.Storage.ApplicationData.Current.TemporaryFolder.Path;
         }
 
         return path;

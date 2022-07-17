@@ -24,6 +24,9 @@ public static class TaskExtensions
         {
             await task.ConfigureAwait(continueOnCapturedContext);
         }
+        catch (TaskCanceledException)
+        {
+        }
         catch (Exception e)
         {
             logger?.LogError(EventIds.TaskException, e, "{caller}:{exception}", nameof(SafeForget), e.GetBaseException());
