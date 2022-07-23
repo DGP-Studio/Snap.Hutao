@@ -84,11 +84,11 @@ public class PlayerRecord
         return hutaoClient.UploadRecordAsync(this, token);
     }
 
-    private static Damage? GetDamage(List<RankInfo> ranks)
+    private static Damage? GetDamage(List<Rank> ranks)
     {
         if (ranks.Count > 0)
         {
-            RankInfo rank = ranks[0];
+            Rank rank = ranks[0];
             return new Damage(rank.AvatarId, rank.Value);
         }
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Enka;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;

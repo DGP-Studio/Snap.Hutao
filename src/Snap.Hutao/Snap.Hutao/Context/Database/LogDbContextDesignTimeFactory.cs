@@ -1,11 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Snap.Hutao.Context.FileSystem;
-using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Model.Entity;
 
 namespace Snap.Hutao.Context.Database;
 

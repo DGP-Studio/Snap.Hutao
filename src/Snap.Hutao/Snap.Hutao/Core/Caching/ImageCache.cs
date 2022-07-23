@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
+using System.Net.Http;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 
@@ -30,13 +29,12 @@ public class ImageCache : CacheBase<BitmapImage>, IImageCache
     /// <summary>
     /// Initializes a new instance of the <see cref="ImageCache"/> class.
     /// </summary>
+    /// <param name="logger">日志器</param>
     /// <param name="httpClient">http客户端</param>
-    public ImageCache()
+    public ImageCache(ILogger<ImageCache> logger, HttpClient httpClient)
+        : base(logger, httpClient)
     {
         DispatcherQueue = Program.UIDispatcherQueue;
-
-        CacheDuration = TimeSpan.FromDays(30);
-        RetryCount = 3;
     }
 
     /// <summary>
@@ -48,9 +46,8 @@ public class ImageCache : CacheBase<BitmapImage>, IImageCache
     /// Cache specific hooks to process items from HTTP response
     /// </summary>
     /// <param name="stream">input stream</param>
-    /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
     /// <returns>awaitable task</returns>
-    protected override Task<BitmapImage> InitializeTypeAsync(Stream stream, List<KeyValuePair<string, object>> initializerKeyValues = null!)
+    protected override Task<BitmapImage> InitializeTypeAsync(Stream stream)
     {
         if (stream.Length == 0)
         {
@@ -60,24 +57,6 @@ public class ImageCache : CacheBase<BitmapImage>, IImageCache
         return DispatcherQueue.EnqueueAsync(async () =>
         {
             BitmapImage image = new();
-
-            if (initializerKeyValues != null && initializerKeyValues.Count > 0)
-            {
-                foreach (KeyValuePair<string, object> kvp in initializerKeyValues)
-                {
-                    if (string.IsNullOrWhiteSpace(kvp.Key))
-                    {
-                        continue;
-                    }
-
-                    PropertyInfo? propInfo = image.GetType().GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance);
-
-                    if (propInfo != null && propInfo.CanWrite)
-                    {
-                        propInfo.SetValue(image, kvp.Value);
-                    }
-                }
-            }
 
             // This action will run on the UI thread, no need to care which thread to continue with
             await image.SetSourceAsync(stream.AsRandomAccessStream()).AsTask().ConfigureAwait(false);
@@ -90,13 +69,12 @@ public class ImageCache : CacheBase<BitmapImage>, IImageCache
     /// Cache specific hooks to process items from HTTP response
     /// </summary>
     /// <param name="baseFile">storage file</param>
-    /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
     /// <returns>awaitable task</returns>
-    protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null!)
+    protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile)
     {
         using (Stream stream = await baseFile.OpenStreamForReadAsync().ConfigureAwait(false))
         {
-            return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(false);
+            return await InitializeTypeAsync(stream).ConfigureAwait(false);
         }
     }
 

@@ -22,13 +22,19 @@ internal struct ValueStopwatch
     /// <summary>
     /// 是否处于活动状态
     /// </summary>
-    public bool IsActive => startTimestamp != 0;
+    public bool IsActive
+    {
+        get => startTimestamp != 0;
+    }
 
     /// <summary>
     /// 触发一个新的停表
     /// </summary>
     /// <returns>一个新的停表实例</returns>
-    public static ValueStopwatch StartNew() => new(Stopwatch.GetTimestamp());
+    public static ValueStopwatch StartNew()
+    {
+        return new(Stopwatch.GetTimestamp());
+    }
 
     /// <summary>
     /// 获取经过的时间

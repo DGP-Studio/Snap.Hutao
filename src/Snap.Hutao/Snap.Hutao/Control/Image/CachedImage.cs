@@ -33,7 +33,7 @@ public class CachedImage : ImageEx
         BitmapImage? image;
         try
         {
-            image = await imageCache.GetFromCacheAsync(imageUri, true, token);
+            image = await imageCache.GetFromCacheAsync(imageUri, true);
         }
         catch (TaskCanceledException)
         {
@@ -54,7 +54,7 @@ public class CachedImage : ImageEx
         }
         else
         {
-            return Must.NotNull(image);
+            return Must.NotNull(image!);
         }
     }
 }

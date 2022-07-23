@@ -30,6 +30,11 @@ internal static class EventIds
     /// </summary>
     public static readonly EventId WebView2EnvironmentException = 100003;
 
+    /// <summary>
+    /// 缓存异常
+    /// </summary>
+    public static readonly EventId CacheException = 100004;
+
     // 服务
 
     /// <summary>

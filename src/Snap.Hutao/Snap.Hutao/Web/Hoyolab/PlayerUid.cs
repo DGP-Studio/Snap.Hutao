@@ -36,10 +36,7 @@ public struct PlayerUid
     /// </summary>
     public string Region
     {
-        get
-        {
-            return region ??= EvaluateRegion(Value[0]);
-        }
+        get => region ??= EvaluateRegion(Value[0]);
     }
 
     /// <inheritdoc/>

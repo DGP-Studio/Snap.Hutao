@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
+using Windows.Storage;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -13,15 +14,19 @@ namespace Snap.Hutao.Core.Caching;
 internal interface IImageCache
 {
     /// <summary>
+    /// Gets the StorageFile containing cached item for given Uri
+    /// </summary>
+    /// <param name="uri">Uri of the item.</param>
+    /// <returns>a StorageFile</returns>
+    Task<StorageFile?> GetFileFromCacheAsync(Uri uri);
+
+    /// <summary>
     /// Retrieves item represented by Uri from the cache. If the item is not found in the cache, it will try to downloaded and saved before returning it to the caller.
     /// </summary>
     /// <param name="uri">Uri of the item.</param>
     /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be found / downloaded.</param>
-    /// <param name="cancellationToken">instance of <see cref="CancellationToken"/></param>
-    /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
     /// <returns>an instance of Generic type</returns>
-    [SuppressMessage("", "CA1068")]
-    Task<BitmapImage> GetFromCacheAsync(Uri uri, bool throwOnError = false, CancellationToken cancellationToken = default(CancellationToken), List<KeyValuePair<string, object>> initializerKeyValues = null!);
+    Task<BitmapImage?> GetFromCacheAsync(Uri uri, bool throwOnError = false);
 
     /// <summary>
     /// Removed items based on uri list passed

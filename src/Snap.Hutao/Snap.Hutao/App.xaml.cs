@@ -44,7 +44,10 @@ public partial class App : Application
     public static Window? Window { get => window; set => window = value; }
 
     /// <inheritdoc cref="Application"/>
-    public static new App Current => (App)Application.Current;
+    public static new App Current
+    {
+        get => (App)Application.Current;
+    }
 
     /// <summary>
     /// Invoked when the application is launched.

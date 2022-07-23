@@ -57,4 +57,22 @@ internal struct WINDOWPLACEMENT
             return result;
         }
     }
+
+    /// <summary>
+    /// 构造一个新的<see cref="WINDOWPLACEMENT"/>
+    /// </summary>
+    /// <param name="max">最大点</param>
+    /// <param name="normal">正常位置</param>
+    /// <param name="command">显示命令</param>
+    /// <returns>窗体位置</returns>
+    public static WINDOWPLACEMENT Create(POINT max, RECT normal, ShowWindowCommand command)
+    {
+        WINDOWPLACEMENT result = Default;
+
+        result.MaxPosition = max;
+        result.NormalPosition = normal;
+        result.ShowCmd = command;
+
+        return result;
+    }
 }

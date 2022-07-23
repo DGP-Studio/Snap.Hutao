@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Reliquary;

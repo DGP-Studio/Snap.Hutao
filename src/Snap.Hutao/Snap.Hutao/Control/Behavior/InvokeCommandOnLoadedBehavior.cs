@@ -20,8 +20,8 @@ internal class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
     /// </summary>
     public ICommand Command
     {
-        get { return (ICommand)GetValue(CommandProperty); }
-        set { SetValue(CommandProperty, value); }
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
     }
 
     /// <summary>
@@ -30,8 +30,8 @@ internal class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
     [MaybeNull]
     public object CommandParameter
     {
-        get { return GetValue(CommandParameterProperty); }
-        set { SetValue(CommandParameterProperty, value); }
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
     }
 
     /// <inheritdoc/>

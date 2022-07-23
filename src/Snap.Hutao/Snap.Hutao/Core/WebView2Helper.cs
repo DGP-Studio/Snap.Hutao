@@ -50,5 +50,8 @@ internal abstract class WebView2Helper
     /// <summary>
     /// WebView2的版本
     /// </summary>
-    public static string Version => version;
+    public static string Version
+    {
+        get => version;
+    }
 }

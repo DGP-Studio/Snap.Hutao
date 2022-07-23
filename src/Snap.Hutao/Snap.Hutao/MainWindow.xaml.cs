@@ -67,13 +67,14 @@ public sealed partial class MainWindow : Window
         RECT rect = RetriveWindowRect();
         if (!rect.Size.IsEmpty)
         {
-            WINDOWPLACEMENT windowPlacement = new()
-            {
-                Length = Marshal.SizeOf<WINDOWPLACEMENT>(),
-                MaxPosition = new POINT(-1, -1),
-                NormalPosition = rect,
-                ShowCmd = ShowWindowCommand.Normal,
-            };
+            WINDOWPLACEMENT windowPlacement = WINDOWPLACEMENT.Create(new POINT(-1, -1), rect, ShowWindowCommand.Normal);
+            //WINDOWPLACEMENT windowPlacement = new()
+            //{
+            //    Length = Marshal.SizeOf<WINDOWPLACEMENT>(),
+            //    MaxPosition = new POINT(-1, -1),
+            //    NormalPosition = rect,
+            //    ShowCmd = ShowWindowCommand.Normal,
+            //};
 
             User32.SetWindowPlacement(handle, ref windowPlacement);
         }

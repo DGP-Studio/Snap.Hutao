@@ -18,7 +18,10 @@ public static class Program
     /// <summary>
     /// 主线程调度器队列
     /// </summary>
-    public static DispatcherQueue UIDispatcherQueue => Must.NotNull(dispatcherQueue!);
+    public static DispatcherQueue UIDispatcherQueue
+    {
+        get => Must.NotNull(dispatcherQueue!);
+    }
 
     [DllImport("Microsoft.ui.xaml.dll")]
     private static extern void XamlCheckProcessRequirements();

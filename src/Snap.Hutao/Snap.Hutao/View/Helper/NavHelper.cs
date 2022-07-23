@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
-using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.View.Helper;
 

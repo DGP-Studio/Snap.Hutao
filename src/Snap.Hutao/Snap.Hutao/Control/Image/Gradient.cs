@@ -1,15 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
@@ -64,6 +63,11 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
             .Error(exception, "应用渐变背景时发生异常");
     }
 
+    private static Task<StorageFile?> GetCachedFileAsync(string url)
+    {
+        return Ioc.Default.GetRequiredService<IImageCache>().GetFileFromCacheAsync(new(url));
+    }
+
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
         if (e.NewSize != e.PreviousSize && spriteVisual is not null)
@@ -76,22 +80,16 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
     {
         if (spriteVisual is not null)
         {
-            double width = ActualWidth;
-            double height = Math.Clamp(width * imageAspectRatio, 0, MaxHeight);
-
-            spriteVisual.Size = new Vector2((float)width, (float)height);
-            Height = height;
+            Height = (double)Math.Clamp(ActualWidth / imageAspectRatio, 0, MaxHeight);
+            spriteVisual.Size = ActualSize;
         }
     }
 
     private async Task ApplyImageAsync(string url, CancellationToken token)
     {
-        await AnimationBuilder
-            .Create()
-            .Opacity(0d)
-            .StartAsync(this, token);
+        await AnimationBuilder.Create().Opacity(0d).StartAsync(this, token);
 
-        StorageFile storageFile = await GetCachedFileAsync(url, token);
+        StorageFile? storageFile = Must.NotNull((await GetCachedFileAsync(url))!);
 
         Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
@@ -104,7 +102,6 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
 
         CompositionEffectBrush gradientEffectBrush = compositor.CompositeBlendEffectBrush(backgroundBrush, foregroundBrush);
         CompositionEffectBrush opacityMaskEffectBrush = compositor.CompositeLuminanceToAlphaEffectBrush(gradientEffectBrush);
-        compositor.CreateMaskBrush();
         CompositionEffectBrush alphaMaskEffectBrush = compositor.CompositeAlphaMaskEffectBrush(imageSurfaceBrush, opacityMaskEffectBrush);
 
         spriteVisual = compositor.CompositeSpriteVisual(alphaMaskEffectBrush);
@@ -112,40 +109,7 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
 
         ElementCompositionPreview.SetElementChildVisual(this, spriteVisual);
 
-        await AnimationBuilder
-            .Create()
-            .Opacity(1d)
-            .StartAsync(this, token);
-    }
-
-    private async Task<StorageFile> GetCachedFileAsync(string url, CancellationToken token)
-    {
-        string fileName = CacheContext.GetCacheFileName(url);
-        CacheContext cacheContext = Ioc.Default.GetRequiredService<CacheContext>();
-        StorageFolder imageCacheFolder = await CacheContext
-            .GetFolderAsync(nameof(Core.Caching.ImageCache), token)
-            .ConfigureAwait(false);
-
-        StorageFile storageFile;
-        if (!cacheContext.FileExists(nameof(Core.Caching.ImageCache), fileName))
-        {
-            storageFile = await imageCacheFolder
-                .CreateFileAsync(fileName)
-                .AsTask(token)
-                .ConfigureAwait(false);
-            await StreamHelper
-                .GetHttpStreamToStorageFileAsync(new(url), storageFile)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            storageFile = await imageCacheFolder
-                .GetFileAsync(fileName)
-                .AsTask(token)
-                .ConfigureAwait(false);
-        }
-
-        return storageFile;
+        await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
     }
 
     private async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
@@ -153,7 +117,7 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
         using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token))
         {
             BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream).AsTask(token);
-            imageAspectRatio = (double)decoder.PixelHeight / decoder.PixelWidth;
+            imageAspectRatio = decoder.PixelWidth / (double)decoder.PixelHeight;
 
             return LoadedImageSurface.StartLoadFromStream(imageStream);
         }
