@@ -16,32 +16,36 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 public class PlayerRecord
 {
     /// <summary>
-    /// 构造一个新的玩家记录
+    /// 防止从外部构造一个新的玩家记录
     /// </summary>
-    /// <param name="uid">uid</param>
-    /// <param name="playerAvatars">玩家角色</param>
-    /// <param name="playerSpiralAbyssesLevels">玩家深渊信息</param>
-    private PlayerRecord(string uid, IEnumerable<PlayerAvatar> playerAvatars, IEnumerable<PlayerSpiralAbyssLevel> playerSpiralAbyssesLevels)
+    private PlayerRecord()
     {
-        Uid = uid;
-        PlayerAvatars = playerAvatars;
-        PlayerSpiralAbyssesLevels = playerSpiralAbyssesLevels;
     }
 
     /// <summary>
     /// uid
     /// </summary>
-    public string Uid { get; }
+    public string Uid { get; private set; } = default!;
 
     /// <summary>
     /// 玩家角色
     /// </summary>
-    public IEnumerable<PlayerAvatar> PlayerAvatars { get; }
+    public IEnumerable<PlayerAvatar> PlayerAvatars { get; private set; } = default!;
 
     /// <summary>
     /// 玩家深渊信息
     /// </summary>
-    public IEnumerable<PlayerSpiralAbyssLevel> PlayerSpiralAbyssesLevels { get; }
+    public IEnumerable<PlayerSpiralAbyssLevel> PlayerSpiralAbyssesLevels { get; private set; } = default!;
+
+    /// <summary>
+    /// 造成最多伤害
+    /// </summary>
+    public Damage? DamageMost { get; private set; }
+
+    /// <summary>
+    /// 承受最多伤害
+    /// </summary>
+    public Damage? TakeDamageMost { get; private set; }
 
     /// <summary>
     /// 建造玩家记录
@@ -59,7 +63,14 @@ public class PlayerRecord
             .SelectMany(f => f.Levels, (f, level) => new IndexedLevel(f.Index, level))
             .Select(indexedLevel => new PlayerSpiralAbyssLevel(indexedLevel));
 
-        return new PlayerRecord(uid, playerAvatars, playerSpiralAbyssLevels);
+        return new()
+        {
+            Uid = uid,
+            PlayerAvatars = playerAvatars,
+            PlayerSpiralAbyssesLevels = playerSpiralAbyssLevels,
+            DamageMost = GetDamage(spiralAbyss.DamageRank),
+            TakeDamageMost = GetDamage(spiralAbyss.TakeDamageRank),
+        };
     }
 
     /// <summary>
@@ -68,8 +79,19 @@ public class PlayerRecord
     /// <param name="hutaoClient">使用的客户端</param>
     /// <param name="token">取消令牌</param>
     /// <returns>上传结果</returns>
-    internal Task<Response<string>?> UploadRecordAsync(HutaoClient hutaoClient, CancellationToken token = default)
+    internal Task<Response<string>?> UploadAsync(HutaoClient hutaoClient, CancellationToken token = default)
     {
         return hutaoClient.UploadRecordAsync(this, token);
+    }
+
+    private static Damage? GetDamage(List<RankInfo> ranks)
+    {
+        if (ranks.Count > 0)
+        {
+            RankInfo rank = ranks[0];
+            return new Damage(rank.AvatarId, rank.Value);
+        }
+
+        return null;
     }
 }

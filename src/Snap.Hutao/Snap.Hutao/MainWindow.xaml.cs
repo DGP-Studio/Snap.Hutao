@@ -4,9 +4,9 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Control.HostBackdrop;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Win32;
-using System.Drawing;
 using System.Runtime.InteropServices;
 using WinRT.Interop;
 
@@ -47,32 +47,7 @@ public sealed partial class MainWindow : Window
         return new RECT(left, top, right, bottom);
     }
 
-    private void InitializeWindow()
-    {
-        ExtendsContentIntoTitleBar = true;
-        SetTitleBar(TitleBarView.DragableArea);
-
-        RECT rect = RetriveWindowRect();
-        if (!rect.Size.IsEmpty)
-        {
-            WINDOWPLACEMENT windowPlacement = new()
-            {
-                Length = Marshal.SizeOf<WINDOWPLACEMENT>(),
-                MaxPosition = new Point(-1, -1),
-                NormalPosition = rect,
-                ShowCmd = ShowWindowCommand.Normal,
-            };
-
-            User32.SetWindowPlacement(handle, ref windowPlacement);
-        }
-
-        User32.SetWindowText(handle, "胡桃");
-
-        bool micaApplied = new SystemBackdrop(this).TrySetBackdrop();
-        logger.LogInformation("{name} 设置{result}", nameof(SystemBackdrop), micaApplied ? "成功" : "失败");
-    }
-
-    private void SaveWindowRect()
+    private static void SaveWindowRect(IntPtr handle)
     {
         WINDOWPLACEMENT windowPlacement = WINDOWPLACEMENT.Default;
         User32.GetWindowPlacement(handle, ref windowPlacement);
@@ -83,12 +58,36 @@ public sealed partial class MainWindow : Window
         LocalSetting.SetValueType(SettingKeys.WindowBottom, windowPlacement.NormalPosition.Bottom);
     }
 
+    private void InitializeWindow()
+    {
+        ExtendsContentIntoTitleBar = true;
+        SetTitleBar(TitleBarView.DragableArea);
+
+        User32.SetWindowText(handle, "胡桃");
+        RECT rect = RetriveWindowRect();
+        if (!rect.Size.IsEmpty)
+        {
+            WINDOWPLACEMENT windowPlacement = new()
+            {
+                Length = Marshal.SizeOf<WINDOWPLACEMENT>(),
+                MaxPosition = new POINT(-1, -1),
+                NormalPosition = rect,
+                ShowCmd = ShowWindowCommand.Normal,
+            };
+
+            User32.SetWindowPlacement(handle, ref windowPlacement);
+        }
+
+        bool micaApplied = new SystemBackdrop(this).TrySetBackdrop();
+        logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
+    }
+
     private void MainWindowClosed(object sender, WindowEventArgs args)
     {
-        SaveWindowRect();
+        SaveWindowRect(handle);
 
         // save datebase
         int changes = appDbContext.SaveChanges();
-        Verify.Operation(changes == 0, "存在可避免的未经处理的数据库更改");
+        Verify.Operation(changes == 0, "存在未经处理的数据库记录更改");
     }
 }

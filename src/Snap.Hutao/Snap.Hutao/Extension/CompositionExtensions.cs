@@ -60,7 +60,9 @@ internal static class CompositionExtensions
     /// <param name="compositor">合成器</param>
     /// <param name="sourceBrush">源</param>
     /// <returns>合成效果画刷</returns>
-    public static CompositionEffectBrush CompositeLuminanceToAlphaEffectBrush(this Compositor compositor, CompositionBrush sourceBrush)
+    public static CompositionEffectBrush CompositeLuminanceToAlphaEffectBrush(
+        this Compositor compositor,
+        CompositionBrush sourceBrush)
     {
         LuminanceToAlphaEffect effect = new()
         {
@@ -146,6 +148,25 @@ internal static class CompositionExtensions
         {
             brush.ColorStops.Add(compositor.CreateColorGradientStop(stop.Offset, stop.Color));
         }
+
+        return brush;
+    }
+
+    /// <summary>
+    /// 创建一个新的蒙版画刷
+    /// </summary>
+    /// <param name="compositor">合成器</param>
+    /// <param name="source">源</param>
+    /// <param name="mask">蒙版</param>
+    /// <returns>蒙版画刷</returns>
+    public static CompositionMaskBrush CompositeMaskBrush(
+        this Compositor compositor,
+        CompositionBrush source,
+        CompositionBrush mask)
+    {
+        CompositionMaskBrush brush = compositor.CreateMaskBrush();
+        brush.Source = source;
+        brush.Mask = mask;
 
         return brush;
     }

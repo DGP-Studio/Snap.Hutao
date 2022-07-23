@@ -24,9 +24,13 @@ internal class CacheContext : FileSystemContext
     /// <summary>
     /// 获取缓存文件夹
     /// </summary>
-    public static StorageFolder Folder
+    /// <param name="folderName">文件夹名称</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>缓存文件夹</returns>
+    public static Task<StorageFolder> GetFolderAsync(string folderName, CancellationToken token)
     {
-        get => ApplicationData.Current.TemporaryFolder;
+        StorageFolder tempstate = ApplicationData.Current.TemporaryFolder;
+        return tempstate.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists).AsTask(token);
     }
 
     /// <summary>

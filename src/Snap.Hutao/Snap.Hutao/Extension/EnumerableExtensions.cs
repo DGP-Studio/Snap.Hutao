@@ -9,19 +9,8 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// <see cref="IEnumerable{T}"/> 扩展
 /// </summary>
-public static class EnumerableExtensions
+public static partial class EnumerableExtensions
 {
-    /// <summary>
-    /// 将源转换为仅包含单个元素的枚举
-    /// </summary>
-    /// <typeparam name="TSource">源的类型</typeparam>
-    /// <param name="source">源</param>
-    /// <returns>集合</returns>
-    public static IEnumerable<TSource> Enumerate<TSource>(this TSource source)
-    {
-        yield return source;
-    }
-
     /// <summary>
     /// 计数
     /// </summary>
@@ -64,6 +53,17 @@ public static class EnumerableExtensions
     public static List<TSource> EmptyIfNull<TSource>(this List<TSource>? source)
     {
         return source ?? new();
+    }
+
+    /// <summary>
+    /// 将源转换为仅包含单个元素的枚举
+    /// </summary>
+    /// <typeparam name="TSource">源的类型</typeparam>
+    /// <param name="source">源</param>
+    /// <returns>集合</returns>
+    public static IEnumerable<TSource> Enumerate<TSource>(this TSource source)
+    {
+        yield return source;
     }
 
     /// <summary>

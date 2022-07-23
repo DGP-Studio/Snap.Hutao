@@ -8,11 +8,11 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Animation;
 using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Service.Abstraction;
 using System.Numerics;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
@@ -26,7 +26,8 @@ namespace Snap.Hutao.Control.Image;
 public class Gradient : Microsoft.UI.Xaml.Controls.Control
 {
     private static readonly DependencyProperty SourceProperty = Property<Gradient>.Depend(nameof(Source), string.Empty, OnSourceChanged);
-    private static readonly ConcurrentCancellationTokenSource<Gradient> ImageLoading = new();
+    private static readonly ConcurrentCancellationTokenSource<Gradient> LoadingTokenSource = new();
+
     private SpriteVisual? spriteVisual;
     private double imageAspectRatio;
 
@@ -47,31 +48,20 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
         set => SetValue(SourceProperty, value);
     }
 
-    private static async Task<StorageFile> GetCachedFileAsync(string url, CancellationToken token)
-    {
-        string fileName = CacheContext.GetCacheFileName(url);
-        CacheContext cacheContext = Ioc.Default.GetRequiredService<CacheContext>();
-
-        StorageFile storageFile;
-        if (!cacheContext.FileExists(fileName))
-        {
-            storageFile = await CacheContext.Folder.CreateFileAsync(fileName).AsTask(token);
-            await StreamHelper.GetHttpStreamToStorageFileAsync(new(url), storageFile);
-        }
-        else
-        {
-            storageFile = await CacheContext.Folder.GetFileAsync(fileName).AsTask(token);
-        }
-
-        return storageFile;
-    }
-
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs arg)
     {
         Gradient gradient = (Gradient)sender;
         string url = (string)arg.NewValue;
 
-        gradient.ApplyImageAsync(url, ImageLoading.Register(gradient)).SafeForget();
+        ILogger<Gradient> logger = Ioc.Default.GetRequiredService<ILogger<Gradient>>();
+        gradient.ApplyImageAsync(url, LoadingTokenSource.Register(gradient)).SafeForget(logger, OnApplyImageFailed);
+    }
+
+    private static void OnApplyImageFailed(Exception exception)
+    {
+        Ioc.Default
+            .GetRequiredService<IInfoBarService>()
+            .Error(exception, "应用渐变背景时发生异常");
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -98,7 +88,7 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
     {
         await AnimationBuilder
             .Create()
-            .Opacity(0, 1)
+            .Opacity(0d)
             .StartAsync(this, token);
 
         StorageFile storageFile = await GetCachedFileAsync(url, token);
@@ -114,6 +104,7 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
 
         CompositionEffectBrush gradientEffectBrush = compositor.CompositeBlendEffectBrush(backgroundBrush, foregroundBrush);
         CompositionEffectBrush opacityMaskEffectBrush = compositor.CompositeLuminanceToAlphaEffectBrush(gradientEffectBrush);
+        compositor.CreateMaskBrush();
         CompositionEffectBrush alphaMaskEffectBrush = compositor.CompositeAlphaMaskEffectBrush(imageSurfaceBrush, opacityMaskEffectBrush);
 
         spriteVisual = compositor.CompositeSpriteVisual(alphaMaskEffectBrush);
@@ -123,8 +114,38 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
 
         await AnimationBuilder
             .Create()
-            .Opacity(1, 0)
+            .Opacity(1d)
             .StartAsync(this, token);
+    }
+
+    private async Task<StorageFile> GetCachedFileAsync(string url, CancellationToken token)
+    {
+        string fileName = CacheContext.GetCacheFileName(url);
+        CacheContext cacheContext = Ioc.Default.GetRequiredService<CacheContext>();
+        StorageFolder imageCacheFolder = await CacheContext
+            .GetFolderAsync(nameof(Core.Caching.ImageCache), token)
+            .ConfigureAwait(false);
+
+        StorageFile storageFile;
+        if (!cacheContext.FileExists(nameof(Core.Caching.ImageCache), fileName))
+        {
+            storageFile = await imageCacheFolder
+                .CreateFileAsync(fileName)
+                .AsTask(token)
+                .ConfigureAwait(false);
+            await StreamHelper
+                .GetHttpStreamToStorageFileAsync(new(url), storageFile)
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            storageFile = await imageCacheFolder
+                .GetFileAsync(fileName)
+                .AsTask(token)
+                .ConfigureAwait(false);
+        }
+
+        return storageFile;
     }
 
     private async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)

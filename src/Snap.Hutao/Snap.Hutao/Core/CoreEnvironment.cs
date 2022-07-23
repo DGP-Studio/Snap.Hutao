@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 核心环境参数
 /// </summary>
-internal static class CoreEnvironment
+internal static partial class CoreEnvironment
 {
     /// <summary>
     /// 当前版本
@@ -42,4 +42,9 @@ internal static class CoreEnvironment
         object? machineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, userName);
         return Md5Convert.ToHexString($"{userName}{machineGuid}");
     }
+}
+
+internal static partial class CoreEnvironment
+{
+
 }

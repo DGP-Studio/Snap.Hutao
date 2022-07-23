@@ -1,20 +1,17 @@
 ﻿<shcc:CancellablePage
     x:Class="Snap.Hutao.View.Page.AchievementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Snap.Hutao.View.Page"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:shcc="using:Snap.Hutao.Control.Cancellable" 
-    xmlns:settings="using:SettingsUI.Controls"
+    xmlns:sc="using:SettingsUI.Controls"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shcc="using:Snap.Hutao.Control.Cancellable"
+    mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <mxi:Interaction.Behaviors>
-        <mxic:EventTriggerBehavior EventName="Loaded">
-            <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
-        </mxic:EventTriggerBehavior>
+        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid>
         <ScrollViewer>
@@ -23,7 +20,7 @@
                 ItemsSource="{Binding AchievementsView}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <settings:Setting
+                        <sc:Setting
                             Margin="0,12,0,0"
                             Header="{Binding Title}"
                             Description="{Binding Description}"/>

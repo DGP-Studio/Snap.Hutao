@@ -103,6 +103,7 @@ internal class NavigationService : INavigationService
 
         if (currentType == pageType)
         {
+            logger.LogInformation(EventIds.NavigationHistory, "Navigate to {pageType} : succeed, already in", pageType);
             return NavigationResult.AlreadyNavigatedTo;
         }
 
@@ -112,14 +113,13 @@ internal class NavigationService : INavigationService
         try
         {
             navigated = Frame?.Navigate(pageType, data) ?? false;
+            logger.LogInformation(EventIds.NavigationHistory, "Navigate to {pageType} : {result}", pageType, navigated ? "succeed" : "failed");
         }
         catch (Exception ex)
         {
-            logger.LogError(EventIds.NavigationFailed, ex, "导航到指定页面时发生了错误");
+            logger.LogError(EventIds.NavigationFailed, ex, "An error occurred while navigating to {pageType}", pageType);
             infoBarService.Error(ex);
         }
-
-        logger.LogInformation("Navigate to {pageType}:{result}", pageType, navigated ? "succeed" : "failed");
 
         // 首次导航失败时使属性持续保存为false
         HasEverNavigated = HasEverNavigated || navigated;
@@ -143,7 +143,9 @@ internal class NavigationService : INavigationService
         {
             try
             {
-                await data.WaitForCompletionAsync().ConfigureAwait(false);
+                await data
+                    .WaitForCompletionAsync()
+                    .ConfigureAwait(false);
             }
             catch (AggregateException)
             {

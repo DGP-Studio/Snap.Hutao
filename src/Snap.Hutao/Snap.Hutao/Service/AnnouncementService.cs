@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
 internal class AnnouncementService : IAnnouncementService
 {
-    private static readonly string CacheKey = MemoryCacheExtensions.GetCacheKey(nameof(AnnouncementService), nameof(AnnouncementWrapper));
+    private static readonly string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 
     private readonly AnnouncementClient announcementClient;
     private readonly IMemoryCache memoryCache;

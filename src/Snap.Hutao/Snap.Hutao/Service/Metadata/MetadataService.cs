@@ -4,6 +4,8 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Reliquary;
@@ -78,13 +80,14 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     /// <inheritdoc/>
     public async Task InitializeInternalAsync(CancellationToken token = default)
     {
-        logger.LogInformation("元数据初始化开始");
+        logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion begin");
 
         IsInitialized = await TryUpdateMetadataAsync(token)
             .ConfigureAwait(false);
 
         initializeCompletionSource.SetResult();
-        logger.LogInformation("元数据初始化完成");
+
+        logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion completed");
     }
 
     /// <inheritdoc/>
@@ -162,12 +165,11 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     /// <param name="metaMd5Map">元数据校验表</param>
     /// <param name="token">取消令牌</param>
     /// <returns>令牌</returns>
-    private async Task CheckMetadataAsync(IDictionary<string, string> metaMd5Map, CancellationToken token)
+    private Task CheckMetadataAsync(IDictionary<string, string> metaMd5Map, CancellationToken token)
     {
-        // TODO: Make this foreach async to imporve speed
-        // enumerate files and compare md5
-        foreach ((string fileName, string md5) in metaMd5Map)
+        return Parallel.ForEachAsync(metaMd5Map, token, async (pair, token) =>
         {
+            (string fileName, string md5) = pair;
             string fileFullName = $"{fileName}.json";
             bool skip = false;
 
@@ -179,12 +181,12 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
 
             if (!skip)
             {
-                logger.LogInformation("{file} 文件 MD5 不匹配", fileFullName);
+                logger.LogInformation(EventIds.MetadataFileMD5Check, "MD5 of {file} not matched", fileFullName);
 
                 await DownloadMetadataAsync(fileFullName, token)
                     .ConfigureAwait(false);
             }
-        }
+        });
     }
 
     private async Task<string> GetFileMd5Async(string fileFullName, CancellationToken token)
@@ -212,15 +214,13 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
             {
                 while (await streamReader.ReadLineAsync().ConfigureAwait(false) is string line)
                 {
-                    await (streamReader.EndOfStream
-                        ? streamWriter.WriteAsync(line) // Don't append the last line
-                        : streamWriter.WriteLineAsync(line))
-                        .ConfigureAwait(false);
+                    Func<string?, Task> writeMethod = streamReader.EndOfStream ? streamWriter.WriteAsync : streamWriter.WriteLineAsync;
+                    await writeMethod(line).ConfigureAwait(false);
                 }
             }
         }
 
-        logger.LogInformation("{file} 下载完成", fileFullName);
+        logger.LogInformation("Download {file} completed", fileFullName);
     }
 
     private async ValueTask<T> GetMetadataAsync<T>(string fileName, CancellationToken token)

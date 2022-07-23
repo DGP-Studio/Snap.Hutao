@@ -3,7 +3,7 @@
 
 using System.Net.Http.Headers;
 
-namespace Snap.Hutao.Extension;
+namespace Snap.Hutao.Web;
 
 /// <summary>
 /// <see cref="HttpRequestHeaders"/> 扩展

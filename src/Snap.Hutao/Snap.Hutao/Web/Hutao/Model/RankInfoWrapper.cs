@@ -8,17 +8,17 @@ using System.Text.Json.Serialization;
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 包装圣遗物套装
+/// 排行包装
 /// </summary>
-[JsonConverter(typeof(ReliquarySetsConverter))]
-public class ReliquarySets : List<ReliquarySet>
+public class RankInfoWrapper
 {
     /// <summary>
-    /// 构造一个新的圣遗物包装器
+    /// 伤害
     /// </summary>
-    /// <param name="sets">圣遗物套装</param>
-    public ReliquarySets(IEnumerable<ReliquarySet> sets)
-        : base(sets)
-    {
-    }
+    public RankInfo? Damage { get; set; }
+
+    /// <summary>
+    /// 承受伤害
+    /// </summary>
+    public RankInfo? TakeDamage { get; set; }
 }

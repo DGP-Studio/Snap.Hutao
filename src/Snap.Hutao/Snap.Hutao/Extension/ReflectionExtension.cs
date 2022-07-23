@@ -60,4 +60,16 @@ internal static class ReflectionExtension
             action.Invoke(type);
         }
     }
+
+    /// <summary>
+    /// 按字段名称设置值
+    /// </summary>
+    /// <param name="obj">对象</param>
+    /// <param name="fieldName">字段名称</param>
+    /// <param name="value">值</param>
+    public static void SetPrivateFieldValueByName(this object obj, string fieldName, object? value)
+    {
+        FieldInfo? fieldInfo = obj.GetType().GetField(fieldName, BindingFlags.Instance | BindingFlags.NonPublic);
+        fieldInfo?.SetValue(obj, value);
+    }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core.Logging;
 
 namespace Snap.Hutao.Core;
 
@@ -36,7 +37,8 @@ internal abstract class WebView2Helper
                 }
                 catch (Exception ex)
                 {
-                    Ioc.Default.GetRequiredService<ILogger<WebView2Helper>>().LogError(ex, "WebView2 运行时未安装");
+                    ILogger<WebView2Helper> logger = Ioc.Default.GetRequiredService<ILogger<WebView2Helper>>();
+                    logger.LogError(EventIds.WebView2EnvironmentException, ex, "WebView2 运行时未安装");
                     isSupported = false;
                 }
 

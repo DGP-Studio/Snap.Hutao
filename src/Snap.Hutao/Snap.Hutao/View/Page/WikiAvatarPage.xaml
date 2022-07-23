@@ -5,9 +5,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:cwum="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
@@ -17,9 +18,7 @@
     d:DataContext="{d:DesignInstance Type=shv:WikiAvatarViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <mxi:Interaction.Behaviors>
-        <mxic:EventTriggerBehavior EventName="Loaded">
-            <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
-        </mxic:EventTriggerBehavior>
+        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Page.Resources>
         <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>
@@ -150,7 +149,7 @@
         DisplayMode="Inline"
         OpenPaneLength="200">
         <SplitView.PaneBackground>
-            <SolidColorBrush Color="{StaticResource CardBackgroundFillColorSecondary}"/>
+            <SolidColorBrush Color="{ThemeResource CardBackgroundFillColorSecondary}"/>
         </SplitView.PaneBackground>
         <SplitView.Pane>
             <ListView
@@ -184,8 +183,7 @@
             <Grid>
                 <shci:Gradient
                     VerticalAlignment="Top"
-                    Source="{Binding Selected,Converter={StaticResource AvatarNameCardPicConverter}}">
-                </shci:Gradient>
+                    Source="{Binding Selected,Converter={StaticResource AvatarNameCardPicConverter}}"/>
                 <ScrollViewer>
                     <StackPanel Margin="0,0,16,16">
                         <!--简介-->
@@ -202,16 +200,16 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <BitmapIcon
+                                    <shci:CachedImage
                                         Grid.Column="0"
                                         Width="27.2"
                                         Height="27.2"
-                                        UriSource="{Binding Selected.FetterInfo.VisionBefore,Converter={StaticResource ElementNameIconConverter}}"/>
-                                    <BitmapIcon
+                                        Source="{Binding Selected.FetterInfo.VisionBefore,Converter={StaticResource ElementNameIconConverter}}"/>
+                                    <shci:CachedImage
                                         Grid.Column="1"
                                         Width="27.2"
                                         Height="27.2"
-                                        UriSource="{Binding Selected.Weapon,Converter={StaticResource WeaponTypeIconConverter}}"/>
+                                        Source="{Binding Selected.Weapon,Converter={StaticResource WeaponTypeIconConverter}}"/>
                                 </Grid>
                                 <shvc:ItemIcon
                                     Height="100"

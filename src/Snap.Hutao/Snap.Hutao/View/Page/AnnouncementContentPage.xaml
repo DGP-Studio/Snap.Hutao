@@ -5,6 +5,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <WebView2 x:Name="WebView"/>
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    ActualThemeChanged="PageActualThemeChanged">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition>
+                <DrillInNavigationTransitionInfo/>
+            </NavigationThemeTransition>
+        </TransitionCollection>
+    </Page.Transitions>
+    <WebView2
+        x:Name="WebView"
+        IsRightTapEnabled="False"
+        DefaultBackgroundColor="Transparent"/>
 </Page>

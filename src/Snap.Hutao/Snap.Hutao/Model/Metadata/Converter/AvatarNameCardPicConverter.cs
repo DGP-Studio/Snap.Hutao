@@ -21,8 +21,17 @@ internal class AvatarNameCardPicConverter : IValueConverter
         }
 
         Avatar.Avatar avatar = (Avatar.Avatar)value;
-        string avatarName = avatar.Icon[14..];
+        string avatarName = ReplaceSpecialCaseNaming(avatar.Icon[14..]);
         return new Uri(string.Format(BaseUrl, avatarName));
+    }
+
+    private static string ReplaceSpecialCaseNaming(string avatarName)
+    {
+        return avatarName switch
+        {
+            "Yae" => "Yae1",
+            _ => avatarName,
+        };
     }
 
     /// <inheritdoc/>

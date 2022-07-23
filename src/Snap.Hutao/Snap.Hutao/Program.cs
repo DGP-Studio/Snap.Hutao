@@ -13,6 +13,13 @@ namespace Snap.Hutao;
 /// </summary>
 public static class Program
 {
+    private static volatile DispatcherQueue? dispatcherQueue;
+
+    /// <summary>
+    /// 主线程调度器队列
+    /// </summary>
+    public static DispatcherQueue UIDispatcherQueue => Must.NotNull(dispatcherQueue!);
+
     [DllImport("Microsoft.ui.xaml.dll")]
     private static extern void XamlCheckProcessRequirements();
 
@@ -24,7 +31,8 @@ public static class Program
 
         Application.Start(p =>
         {
-            SynchronizationContext context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
+            dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+            SynchronizationContext context = new DispatcherQueueSynchronizationContext(dispatcherQueue);
             SynchronizationContext.SetSynchronizationContext(context);
             _ = new App();
         });

@@ -1,10 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Control.Image;
@@ -14,11 +14,15 @@ namespace Snap.Hutao.Control.Image;
 /// </summary>
 public class CachedImage : ImageEx
 {
+    private readonly IImageCache imageCache;
+
     /// <summary>
     /// 构造一个新的缓存图像
     /// </summary>
     public CachedImage()
     {
+        imageCache = Ioc.Default.GetRequiredService<IImageCache>();
+
         IsCacheEnabled = true;
         EnableLazyLoading = true;
     }
@@ -29,7 +33,7 @@ public class CachedImage : ImageEx
         BitmapImage? image;
         try
         {
-            image = await ImageCache.Instance.GetFromCacheAsync(imageUri, true, token);
+            image = await imageCache.GetFromCacheAsync(imageUri, true, token);
         }
         catch (TaskCanceledException)
         {
@@ -39,7 +43,7 @@ public class CachedImage : ImageEx
         catch
         {
             // maybe the image is corrupted, remove it.
-            await ImageCache.Instance.RemoveAsync(imageUri.Enumerate());
+            await imageCache.RemoveAsync(imageUri.Enumerate());
             throw;
         }
 

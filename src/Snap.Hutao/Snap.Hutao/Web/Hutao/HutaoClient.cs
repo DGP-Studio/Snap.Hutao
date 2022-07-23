@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
@@ -22,7 +23,7 @@ namespace Snap.Hutao.Web.Hutao;
 [Injection(InjectAs.Transient)]
 internal class HutaoClient : ISupportAsyncInitialization
 {
-    private const string AuthAPIHost = "https://auth.snapgenshin.com";
+    private const string AuthHost = "https://auth.snapgenshin.com";
     private const string HutaoAPI = "https://hutao-api.snapgenshin.com";
 
     private readonly HttpClient httpClient;
@@ -56,11 +57,11 @@ internal class HutaoClient : ISupportAsyncInitialization
         if (!IsInitialized)
         {
             Auth auth = new(
-                "08d9e212-0cb3-4d71-8ed7-003606da7b20",
-                "7ueWgZGn53dDhrm8L5ZRw+YWfOeSWtgQmJWquRgaygw=");
+                "08da6c59-da3b-48dd-8cf3-e3935a7f1d4f",
+                "ox5dwglSXYgenK2YBc8KrAVPoQbIJ4eHfUciE+05WfI=");
 
             HttpResponseMessage response = await httpClient
-                .PostAsJsonAsync($"{AuthAPIHost}/Auth/Login", auth, jsonSerializerOptions, token)
+                .PostAsJsonAsync($"{AuthHost}/Auth/Login", auth, jsonSerializerOptions, token)
                 .ConfigureAwait(false);
             Response<Token>? resp = await response.Content
                 .ReadFromJsonAsync<Response<Token>>(jsonSerializerOptions, token)
@@ -74,12 +75,13 @@ internal class HutaoClient : ISupportAsyncInitialization
     }
 
     /// <summary>
-    /// 检查对应的uid当前是否上传了数据
+    /// 异步检查对应的uid当前是否上传了数据
+    /// GET /Record/CheckRecord/{Uid}
     /// </summary>
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>当前是否上传了数据</returns>
-    public async Task<bool> CheckPeriodRecordUploadedAsync(string uid, CancellationToken token = default)
+    public async Task<bool> CheckPeriodRecordUploadedAsync(PlayerUid uid, CancellationToken token = default)
     {
         Verify.Operation(IsInitialized, "必须在初始化后才能调用其他方法");
 
@@ -91,7 +93,26 @@ internal class HutaoClient : ISupportAsyncInitialization
     }
 
     /// <summary>
+    /// 异步获取排行信息
+    /// GET /Record/Rank/{Uid}
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>排行信息</returns>
+    public async Task<RankInfoWrapper?> GetRankInfoAsync(PlayerUid uid, CancellationToken token = default)
+    {
+        Verify.Operation(IsInitialized, "必须在初始化后才能调用其他方法");
+
+        Response<RankInfoWrapper>? resp = await httpClient
+               .GetFromJsonAsync<Response<RankInfoWrapper>>($"{HutaoAPI}/Record/Rank/{uid}", token)
+               .ConfigureAwait(false);
+
+        return resp?.Data;
+    }
+
+    /// <summary>
     /// 异步获取总览数据
+    /// GET /Statistics/Overview
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>总览信息</returns>
@@ -108,6 +129,7 @@ internal class HutaoClient : ISupportAsyncInitialization
 
     /// <summary>
     /// 异步获取角色出场率
+    /// GET /Statistics/AvatarParticipation
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色出场率</returns>
@@ -123,7 +145,25 @@ internal class HutaoClient : ISupportAsyncInitialization
     }
 
     /// <summary>
+    /// 异步获取角色使用率
+    /// GET /Statistics2/AvatarParticipation
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>角色出场率</returns>
+    public async Task<IEnumerable<AvatarParticipation>> GetAvatarParticipations2Async(CancellationToken token = default)
+    {
+        Verify.Operation(IsInitialized, "必须在初始化后才能调用其他方法");
+
+        Response<IEnumerable<AvatarParticipation>>? resp = await httpClient
+            .GetFromJsonAsync<Response<IEnumerable<AvatarParticipation>>>($"{HutaoAPI}/Statistics2/AvatarParticipation", token)
+            .ConfigureAwait(false);
+
+        return EnumerableExtensions.EmptyIfNull(resp?.Data);
+    }
+
+    /// <summary>
     /// 异步获取角色圣遗物搭配
+    /// GET /Statistics/AvatarReliquaryUsage
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色圣遗物搭配</returns>
@@ -140,6 +180,7 @@ internal class HutaoClient : ISupportAsyncInitialization
 
     /// <summary>
     /// 异步获取角色搭配数据
+    /// GET /Statistics/TeamCollocation
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色搭配数据</returns>
@@ -156,6 +197,7 @@ internal class HutaoClient : ISupportAsyncInitialization
 
     /// <summary>
     /// 异步获取角色武器搭配数据
+    /// GET /Statistics/AvatarWEaponUsage
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色武器搭配数据</returns>
@@ -172,6 +214,7 @@ internal class HutaoClient : ISupportAsyncInitialization
 
     /// <summary>
     /// 异步获取角色命座信息
+    /// GET /Statistics/Constellation
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色图片列表</returns>
@@ -188,6 +231,7 @@ internal class HutaoClient : ISupportAsyncInitialization
 
     /// <summary>
     /// 异步获取队伍出场次数 层间
+    /// GET /Statistics/TeamCombination
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>队伍出场列表</returns>
@@ -204,10 +248,11 @@ internal class HutaoClient : ISupportAsyncInitialization
 
     /// <summary>
     /// 异步获取队伍出场次数 层
+    /// GET /Statistics2/TeamCombination
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>队伍出场列表</returns>
-    public async Task<IEnumerable<TeamCombination2>> GetTeamCombination2sAsync(CancellationToken token = default)
+    public async Task<IEnumerable<TeamCombination2>> GetTeamCombinations2Async(CancellationToken token = default)
     {
         Verify.Operation(IsInitialized, "必须在初始化后才能调用其他方法");
 
@@ -219,7 +264,8 @@ internal class HutaoClient : ISupportAsyncInitialization
     }
 
     /// <summary>
-    /// 按角色列表异步获取推荐队伍
+    /// 异步按角色列表异步获取推荐队伍
+    /// POST /Statistics2/TeamRecommanded
     /// </summary>
     /// <param name="floor">楼层</param>
     /// <param name="avatarIds">期望的角色，按期望出现顺序排序</param>
@@ -237,48 +283,6 @@ internal class HutaoClient : ISupportAsyncInitialization
 
         Response<IEnumerable<TeamCombination2>>? resp = await response.Content
             .ReadFromJsonAsync<Response<IEnumerable<TeamCombination2>>>(jsonSerializerOptions, token)
-            .ConfigureAwait(false);
-
-        return EnumerableExtensions.EmptyIfNull(resp?.Data);
-    }
-
-    /// <summary>
-    /// 异步获取角色图片列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色图片列表</returns>
-    public async Task<IEnumerable<Item>> GetAvatarMapAsync(CancellationToken token = default)
-    {
-        Response<IEnumerable<Item>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<Item>>>($"{HutaoAPI}/GenshinItem/Avatars", token)
-            .ConfigureAwait(false);
-
-        return EnumerableExtensions.EmptyIfNull(resp?.Data);
-    }
-
-    /// <summary>
-    /// 异步获取武器图片列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>武器图片列表</returns>
-    public async Task<IEnumerable<Item>> GetWeaponMapAsync(CancellationToken token = default)
-    {
-        Response<IEnumerable<Item>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<Item>>>($"{HutaoAPI}/GenshinItem/Weapons", token)
-            .ConfigureAwait(false);
-
-        return EnumerableExtensions.EmptyIfNull(resp?.Data);
-    }
-
-    /// <summary>
-    /// 异步获取圣遗物图片列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>圣遗物图片列表</returns>
-    public async Task<IEnumerable<Item>> GetReliquaryMapAsync(CancellationToken token = default)
-    {
-        Response<IEnumerable<Item>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<Item>>>($"{HutaoAPI}/GenshinItem/Reliquaries", token)
             .ConfigureAwait(false);
 
         return EnumerableExtensions.EmptyIfNull(resp?.Data);
@@ -311,6 +315,7 @@ internal class HutaoClient : ISupportAsyncInitialization
 
     /// <summary>
     /// 异步上传记录
+    /// POST /Record/Upload
     /// </summary>
     /// <param name="playerRecord">玩家记录</param>
     /// <param name="token">取消令牌</param>
@@ -320,8 +325,13 @@ internal class HutaoClient : ISupportAsyncInitialization
     {
         Verify.Operation(IsInitialized, "必须在初始化后才能调用其他方法");
 
-        HttpResponseMessage response = await httpClient.PostAsJsonAsync($"{HutaoAPI}/Record/Upload", playerRecord, jsonSerializerOptions, token);
-        return await response.Content.ReadFromJsonAsync<Response<string>>(jsonSerializerOptions, token);
+        HttpResponseMessage response = await httpClient
+            .PostAsJsonAsync($"{HutaoAPI}/Record/Upload", playerRecord, jsonSerializerOptions, token)
+            .ConfigureAwait(false);
+
+        return await response.Content
+            .ReadFromJsonAsync<Response<string>>(jsonSerializerOptions, token)
+            .ConfigureAwait(false);
     }
 
     private class Auth

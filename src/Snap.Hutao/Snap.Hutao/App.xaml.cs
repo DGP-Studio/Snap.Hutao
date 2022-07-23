@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.VisualStudio.Threading;
@@ -32,8 +31,9 @@ public partial class App : Application
         // load app resource
         InitializeComponent();
         InitializeDependencyInjection();
-        InitializeImageCache();
 
+        // notice that we already call InitializeDependencyInjection() above
+        // so we can use Ioc here.
         logger = Ioc.Default.GetRequiredService<ILogger<App>>();
         UnhandledException += AppUnhandledException;
     }
@@ -42,6 +42,9 @@ public partial class App : Application
     /// 当前窗口
     /// </summary>
     public static Window? Window { get => window; set => window = value; }
+
+    /// <inheritdoc cref="Application"/>
+    public static new App Current => (App)Application.Current;
 
     /// <summary>
     /// Invoked when the application is launched.
@@ -71,12 +74,13 @@ public partial class App : Application
             Window = Ioc.Default.GetRequiredService<MainWindow>();
             Window.Activate();
 
-            logger.LogInformation("Cache folder : {folder}", Windows.Storage.ApplicationData.Current.TemporaryFolder.Path);
+            logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", Windows.Storage.ApplicationData.Current.TemporaryFolder.Path);
 
-            if (Ioc.Default.GetRequiredService<IMetadataService>() is IMetadataInitializer initializer)
-            {
-                initializer.InitializeInternalAsync().SafeForget(logger: logger);
-            }
+            Ioc.Default
+                .GetRequiredService<IMetadataService>()
+                .As<IMetadataInitializer>()?
+                .InitializeInternalAsync()
+                .SafeForget(logger: logger);
 
             if (uri != null)
             {
@@ -90,7 +94,9 @@ public partial class App : Application
         IServiceProvider services = new ServiceCollection()
 
             // Microsoft extension
-            .AddLogging(builder => builder.AddDebug())
+            .AddLogging(builder => builder
+                .AddDebug()
+                .AddDatabase())
             .AddMemoryCache()
 
             // Hutao extensions
@@ -105,12 +111,6 @@ public partial class App : Application
             .BuildServiceProvider();
 
         Ioc.Default.ConfigureServices(services);
-    }
-
-    private static void InitializeImageCache()
-    {
-        ImageCache.Instance.CacheDuration = TimeSpan.FromDays(30);
-        ImageCache.Instance.RetryCount = 3;
     }
 
     private void AppUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)

@@ -15,13 +15,12 @@
     xmlns:shca="using:Snap.Hutao.Control.Animation"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcc="using:Snap.Hutao.Control.Cancellable"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shvc="using:Snap.Hutao.View.Converter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <mxi:Interaction.Behaviors>
-        <mxic:EventTriggerBehavior EventName="Loaded">
-            <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
-        </mxic:EventTriggerBehavior>
+        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <shcc:CancellablePage.Resources>
         <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -75,11 +74,14 @@
                                                         <mxi:Interaction.Behaviors>
                                                             <shcb:AutoHeightBehavior TargetWidth="1080" TargetHeight="390"/>
                                                         </mxi:Interaction.Behaviors>
-                                                        <Border.Background>
+                                                        <shci:CachedImage
+                                                            Stretch="UniformToFill"
+                                                            Source="{Binding Banner}"/>
+                                                        <!--<Border.Background>
                                                             <ImageBrush
                                                                 ImageSource="{Binding Banner}"
                                                                 Stretch="UniformToFill"/>
-                                                        </Border.Background>
+                                                        </Border.Background>-->
                                                         <cwua:Explicit.Animations>
                                                             <cwua:AnimationSet x:Name="ImageZoomInAnimation">
                                                                 <shca:ImageZoomInAnimation/>

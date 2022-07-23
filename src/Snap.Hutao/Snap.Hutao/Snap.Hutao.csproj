@@ -90,6 +90,11 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SettingsUI\SettingsUI.csproj" />
+    <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
        Tools extension to be activated for this project even if the Windows App SDK Nuget
        package has not yet been restored -->
@@ -138,10 +143,6 @@
     <Page Update="View\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SettingsUI\SettingsUI.csproj" />
-    <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\WikiAvatarPage.xaml">

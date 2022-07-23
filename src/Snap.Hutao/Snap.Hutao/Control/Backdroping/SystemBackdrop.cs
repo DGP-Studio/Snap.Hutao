@@ -17,7 +17,7 @@ public class SystemBackdrop
 {
     private readonly Window window;
 
-    private WindowsSystemDispatcherQueueHelper? dispatcherQueueHelper;
+    private DispatcherQueueHelper? dispatcherQueueHelper;
     private MicaController? backdropController;
     private SystemBackdropConfiguration? configurationSource;
 
@@ -25,7 +25,6 @@ public class SystemBackdrop
     /// 构造一个新的系统背景帮助类
     /// </summary>
     /// <param name="window">窗体</param>
-    /// <param name="fallBackBehavior">回退行为</param>
     public SystemBackdrop(Window window)
     {
         this.window = window;
@@ -49,7 +48,7 @@ public class SystemBackdrop
         }
         else
         {
-            dispatcherQueueHelper = new WindowsSystemDispatcherQueueHelper();
+            dispatcherQueueHelper = new DispatcherQueueHelper();
             dispatcherQueueHelper.EnsureWindowsSystemDispatcherQueueController();
 
             // Hooking up the policy object
@@ -104,16 +103,16 @@ public class SystemBackdrop
     {
         Must.NotNull(configurationSource!).Theme = ((FrameworkElement)window.Content).ActualTheme switch
         {
-            ElementTheme.Dark => SystemBackdropTheme.Dark,
-            ElementTheme.Light => SystemBackdropTheme.Light,
             ElementTheme.Default => SystemBackdropTheme.Default,
+            ElementTheme.Light => SystemBackdropTheme.Light,
+            ElementTheme.Dark => SystemBackdropTheme.Dark,
             _ => throw Must.NeverHappen(),
         };
     }
 
-    private class WindowsSystemDispatcherQueueHelper
+    private class DispatcherQueueHelper
     {
-        private object dispatcherQueueController = null!;
+        private object? dispatcherQueueController = null;
 
         /// <summary>
         /// 确保系统调度队列控制器存在
@@ -128,19 +127,21 @@ public class SystemBackdrop
 
             if (dispatcherQueueController == null)
             {
-                DispatcherQueueOptions options;
-                options.DwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions));
-                options.ThreadType = 2;    // DQTYPE_THREAD_CURRENT
-                options.ApartmentType = 2; // DQTAT_COM_STA
+                DispatcherQueueOptions options = new()
+                {
+                    DwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions)),
+                    ThreadType = 2,    // DQTYPE_THREAD_CURRENT
+                    ApartmentType = 2, // DQTAT_COM_STA
+                };
 
-                _ = CreateDispatcherQueueController(options, ref dispatcherQueueController!);
+                _ = CreateDispatcherQueueController(options, ref dispatcherQueueController);
             }
         }
 
         [DllImport("CoreMessaging.dll")]
         private static extern int CreateDispatcherQueueController(
             [In] DispatcherQueueOptions options,
-            [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object dispatcherQueueController);
+            [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object? dispatcherQueueController);
 
         [StructLayout(LayoutKind.Sequential)]
         private struct DispatcherQueueOptions

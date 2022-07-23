@@ -42,6 +42,12 @@ public struct PlayerUid
         }
     }
 
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return Value;
+    }
+
     private static string EvaluateRegion(char first)
     {
         return first switch
