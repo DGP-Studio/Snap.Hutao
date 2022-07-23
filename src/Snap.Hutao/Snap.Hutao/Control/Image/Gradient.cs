@@ -60,7 +60,7 @@ public class Gradient : Microsoft.UI.Xaml.Controls.Control
     {
         Ioc.Default
             .GetRequiredService<IInfoBarService>()
-            .Error(exception, "应用渐变背景时发生异常");
+            .Error(exception, "应用渐变图像时发生异常");
     }
 
     private static Task<StorageFile?> GetCachedFileAsync(string url)

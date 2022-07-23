@@ -25,17 +25,17 @@
                 <NavigationViewItem
                     Content="活动"
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
-                    Icon="{cwu:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
+                    Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
                 
                 <NavigationViewItem
                     Content="成就"
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
-                    Icon="{cwu:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
+                    Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
 
                 <NavigationViewItem
                     Content="角色"
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
-                    Icon="{cwu:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
+                    Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
             </NavigationView.MenuItems>
             
             <NavigationView.PaneFooter>

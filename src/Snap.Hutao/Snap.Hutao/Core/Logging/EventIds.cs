@@ -57,6 +57,11 @@ internal static class EventIds
     /// </summary>
     public static readonly EventId MetadataFileMD5Check = 100111;
 
+    /// <summary>
+    /// 文件缓存
+    /// </summary>
+    public static readonly EventId FileCaching = 100120;
+
     // 杂项
 
     /// <summary>

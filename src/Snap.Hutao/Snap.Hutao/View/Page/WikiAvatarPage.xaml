@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:cwum="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
@@ -200,12 +199,12 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <shci:CachedImage
+                                    <shci:MonoChrome
                                         Grid.Column="0"
                                         Width="27.2"
                                         Height="27.2"
                                         Source="{Binding Selected.FetterInfo.VisionBefore,Converter={StaticResource ElementNameIconConverter}}"/>
-                                    <shci:CachedImage
+                                    <shci:MonoChrome
                                         Grid.Column="1"
                                         Width="27.2"
                                         Height="27.2"

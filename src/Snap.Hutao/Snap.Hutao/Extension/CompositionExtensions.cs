@@ -55,6 +55,26 @@ internal static class CompositionExtensions
     }
 
     /// <summary>
+    /// 创建灰阶效果画刷
+    /// </summary>
+    /// <param name="compositor">合成器</param>
+    /// <param name="source">源</param>
+    /// <returns>合成效果画刷</returns>
+    public static CompositionEffectBrush CompositeGrayScaleEffectBrush(this Compositor compositor, CompositionBrush source)
+    {
+        GrayscaleEffect effect = new()
+        {
+            Source = new CompositionEffectSourceParameter("Source"),
+        };
+
+        CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
+
+        brush.SetSourceParameter("Source", source);
+
+        return brush;
+    }
+
+    /// <summary>
     /// 创建亮度转不透明度效果画刷
     /// </summary>
     /// <param name="compositor">合成器</param>

@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using Snap.Hutao.Core.Logging;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,7 +22,6 @@ public abstract class CacheBase<T>
     where T : class
 {
     private readonly SemaphoreSlim cacheFolderSemaphore = new(1);
-    private readonly ConcurrentDictionary<string, Task<T?>> concurrentTasks = new();
     private readonly ILogger logger;
     private readonly HttpClient httpClient;
 
@@ -48,12 +46,12 @@ public abstract class CacheBase<T>
     /// <summary>
     /// Gets or sets the life duration of every cache entry.
     /// </summary>
-    public TimeSpan CacheDuration { get; set; }
+    public TimeSpan CacheDuration { get; }
 
     /// <summary>
     /// Gets or sets the number of retries trying to ensure the file is cached.
     /// </summary>
-    public uint RetryCount { get; set; }
+    public uint RetryCount { get; }
 
     /// <summary>
     /// Clears all files in the cache
@@ -76,12 +74,12 @@ public abstract class CacheBase<T>
     {
         TimeSpan expiryDuration = duration ?? CacheDuration;
 
-        StorageFolder? folder = await GetCacheFolderAsync().ConfigureAwait(false);
-        IReadOnlyList<StorageFile>? files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
+        StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
+        IReadOnlyList<StorageFile> files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
 
-        List<StorageFile>? filesToDelete = new();
+        List<StorageFile> filesToDelete = new();
 
-        foreach (StorageFile? file in files)
+        foreach (StorageFile file in files)
         {
             if (file == null)
             {
@@ -136,23 +134,13 @@ public abstract class CacheBase<T>
     }
 
     /// <summary>
-    /// Retrieves item represented by Uri from the cache. If the item is not found in the cache, it will try to downloaded and saved before returning it to the caller.
-    /// </summary>
-    /// <param name="uri">Uri of the item.</param>
-    /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be found / downloaded.</param>
-    /// <returns>an instance of Generic type</returns>
-    public Task<T?> GetFromCacheAsync(Uri uri, bool throwOnError = false)
-    {
-        return GetItemAsync(uri, throwOnError);
-    }
-
-    /// <summary>
     /// Gets the StorageFile containing cached item for given Uri
     /// </summary>
     /// <param name="uri">Uri of the item.</param>
     /// <returns>a StorageFile</returns>
-    public async Task<StorageFile?> GetFileFromCacheAsync(Uri uri)
+    public async Task<StorageFile> GetFileFromCacheAsync(Uri uri)
     {
+        logger.LogInformation(EventIds.FileCaching, "Begin caching for [{uri}]", uri);
         StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
 
         string fileName = GetCacheFileName(uri);
@@ -161,27 +149,13 @@ public abstract class CacheBase<T>
 
         if (item == null)
         {
-            StorageFile? baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(false);
+            StorageFile baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(false);
             await DownloadFileAsync(uri, baseFile).ConfigureAwait(false);
             item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
         }
 
-        return item as StorageFile;
+        return Must.NotNull((item as StorageFile)!);
     }
-
-    /// <summary>
-    /// Cache specific hooks to process items from HTTP response
-    /// </summary>
-    /// <param name="stream">input stream</param>
-    /// <returns>awaitable task</returns>
-    protected abstract Task<T> InitializeTypeAsync(Stream stream);
-
-    /// <summary>
-    /// Cache specific hooks to process items from HTTP response
-    /// </summary>
-    /// <param name="baseFile">storage file</param>
-    /// <returns>awaitable task</returns>
-    protected abstract Task<T> InitializeTypeAsync(StorageFile baseFile);
 
     /// <summary>
     /// Override-able method that checks whether file is valid or not.
@@ -220,121 +194,16 @@ public abstract class CacheBase<T>
         return value;
     }
 
-    private async Task<T?> GetItemAsync(Uri uri, bool throwOnError)
+    private async Task DownloadFileAsync(Uri uri, StorageFile baseFile)
     {
-        T? instance = default(T);
-
-        string fileName = GetCacheFileName(uri);
-        concurrentTasks.TryGetValue(fileName, out Task<T?>? request);
-
-        // complete previous task first
-        if (request != null)
+        using (Stream httpStream = await httpClient.GetStreamAsync(uri))
         {
-            await request.ConfigureAwait(false);
-            request = null;
-        }
-
-        if (request == null)
-        {
-            request = GetFromCacheOrDownloadAsync(uri, fileName);
-
-            concurrentTasks[fileName] = request;
-        }
-
-        try
-        {
-            instance = await request.ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(EventIds.CacheException, ex, "Exception happened when caching.");
-            if (throwOnError)
+            using (Stream fs = await baseFile.OpenStreamForWriteAsync())
             {
-                throw;
+                await httpStream.CopyToAsync(fs);
+                await fs.FlushAsync();
             }
         }
-        finally
-        {
-            concurrentTasks.TryRemove(fileName, out _);
-        }
-
-        return instance;
-    }
-
-    private async Task<T?> GetFromCacheOrDownloadAsync(Uri uri, string fileName)
-    {
-        T? instance = default;
-
-        StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
-        StorageFile? baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false) as StorageFile;
-
-        bool downloadDataFile = baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(false);
-        baseFile ??= await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(false);
-
-        if (downloadDataFile)
-        {
-            uint retries = 0;
-            try
-            {
-                while (retries < RetryCount)
-                {
-                    try
-                    {
-                        instance = await DownloadFileAsync(uri, baseFile).ConfigureAwait(false);
-
-                        if (instance != null)
-                        {
-                            break;
-                        }
-                    }
-                    catch (FileNotFoundException)
-                    {
-                    }
-
-                    retries++;
-                }
-            }
-            catch (Exception)
-            {
-                await baseFile.DeleteAsync().AsTask().ConfigureAwait(false);
-                throw; // re-throwing the exception changes the stack trace. just throw
-            }
-        }
-
-        if (EqualityComparer<T>.Default.Equals(instance, default(T)))
-        {
-            instance = await InitializeTypeAsync(baseFile).ConfigureAwait(false);
-        }
-
-        return instance;
-    }
-
-    private async Task<T?> DownloadFileAsync(Uri uri, StorageFile baseFile)
-    {
-        T? instance = default;
-
-        using (MemoryStream memory = new())
-        {
-            using (Stream httpStream = await httpClient.GetStreamAsync(uri))
-            {
-                await httpStream.CopyToAsync(memory);
-                await memory.FlushAsync();
-
-                memory.Position = 0;
-
-                using (Stream fs = await baseFile.OpenStreamForWriteAsync())
-                {
-                    await memory.CopyToAsync(fs);
-                    await fs.FlushAsync();
-
-                    memory.Position = 0;
-                }
-            }
-
-            instance = await InitializeTypeAsync(memory).ConfigureAwait(false);
-        }
-
-        return instance;
     }
 
     [SuppressMessage("", "CA1822")]

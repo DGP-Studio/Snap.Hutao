@@ -44,20 +44,7 @@ internal class DescParamDescriptor : IValueConverter
         throw Must.NeverHappen();
     }
 
-    private IList<string> GetFormattedParameters(IEnumerable<DescFormat> formats, IList<double> param)
-    {
-        List<string> results = new();
-        foreach (DescFormat descFormat in formats)
-        {
-            string format = descFormat.Format;
-            string resultFormatted = Regex.Replace(format, @"{param\d+.*?}", match => EvaluateMatch(match, param));
-            results.Add(resultFormatted);
-        }
-
-        return results;
-    }
-
-    private string EvaluateMatch(Match match, IList<double> param)
+    private static string EvaluateMatch(Match match, IList<double> param)
     {
         if (match.Success)
         {
@@ -85,6 +72,19 @@ internal class DescParamDescriptor : IValueConverter
         {
             return string.Empty;
         }
+    }
+
+    private IList<string> GetFormattedParameters(IEnumerable<DescFormat> formats, IList<double> param)
+    {
+        List<string> results = new();
+        foreach (DescFormat descFormat in formats)
+        {
+            string format = descFormat.Format;
+            string resultFormatted = Regex.Replace(format, @"{param\d+.*?}", match => EvaluateMatch(match, param));
+            results.Add(resultFormatted);
+        }
+
+        return results;
     }
 
     private class DescFormat

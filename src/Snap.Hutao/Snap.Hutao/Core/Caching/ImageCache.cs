@@ -1,11 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -21,10 +18,7 @@ public class ImageCache : CacheBase<BitmapImage>, IImageCache
 {
     private const string DateAccessedProperty = "System.DateAccessed";
 
-    private readonly List<string> extendedPropertyNames = new()
-    {
-        DateAccessedProperty,
-    };
+    private readonly List<string> extendedPropertyNames = new() { DateAccessedProperty };
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ImageCache"/> class.
@@ -34,48 +28,6 @@ public class ImageCache : CacheBase<BitmapImage>, IImageCache
     public ImageCache(ILogger<ImageCache> logger, HttpClient httpClient)
         : base(logger, httpClient)
     {
-        DispatcherQueue = Program.UIDispatcherQueue;
-    }
-
-    /// <summary>
-    /// Gets or sets which DispatcherQueue is used to dispatch UI updates.
-    /// </summary>
-    private DispatcherQueue DispatcherQueue { get; }
-
-    /// <summary>
-    /// Cache specific hooks to process items from HTTP response
-    /// </summary>
-    /// <param name="stream">input stream</param>
-    /// <returns>awaitable task</returns>
-    protected override Task<BitmapImage> InitializeTypeAsync(Stream stream)
-    {
-        if (stream.Length == 0)
-        {
-            throw new FileNotFoundException();
-        }
-
-        return DispatcherQueue.EnqueueAsync(async () =>
-        {
-            BitmapImage image = new();
-
-            // This action will run on the UI thread, no need to care which thread to continue with
-            await image.SetSourceAsync(stream.AsRandomAccessStream()).AsTask().ConfigureAwait(false);
-
-            return image;
-        });
-    }
-
-    /// <summary>
-    /// Cache specific hooks to process items from HTTP response
-    /// </summary>
-    /// <param name="baseFile">storage file</param>
-    /// <returns>awaitable task</returns>
-    protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile)
-    {
-        using (Stream stream = await baseFile.OpenStreamForReadAsync().ConfigureAwait(false))
-        {
-            return await InitializeTypeAsync(stream).ConfigureAwait(false);
-        }
     }
 
     /// <summary>

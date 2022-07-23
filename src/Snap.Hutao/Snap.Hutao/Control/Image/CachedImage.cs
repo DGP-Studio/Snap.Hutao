@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Extension;
+using Windows.Storage;
 
 namespace Snap.Hutao.Control.Image;
 
@@ -14,15 +15,11 @@ namespace Snap.Hutao.Control.Image;
 /// </summary>
 public class CachedImage : ImageEx
 {
-    private readonly IImageCache imageCache;
-
     /// <summary>
     /// 构造一个新的缓存图像
     /// </summary>
     public CachedImage()
     {
-        imageCache = Ioc.Default.GetRequiredService<IImageCache>();
-
         IsCacheEnabled = true;
         EnableLazyLoading = true;
     }
@@ -30,10 +27,15 @@ public class CachedImage : ImageEx
     /// <inheritdoc/>
     protected override async Task<ImageSource> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        BitmapImage? image;
+        IImageCache imageCache = Ioc.Default.GetRequiredService<IImageCache>();
+
         try
         {
-            image = await imageCache.GetFromCacheAsync(imageUri, true);
+            StorageFile file = await imageCache.GetFileFromCacheAsync(imageUri);
+
+            // check token state to determine whether the operation should be canceled.
+            Must.TryThrowOnCanceled(token, "Image source has changed.");
+            return new BitmapImage(new(file.Path));
         }
         catch (TaskCanceledException)
         {
@@ -43,18 +45,8 @@ public class CachedImage : ImageEx
         catch
         {
             // maybe the image is corrupted, remove it.
-            await imageCache.RemoveAsync(imageUri.Enumerate());
+            await imageCache.RemoveAsync(imageUri.Enumerate()).ConfigureAwait(false);
             throw;
-        }
-
-        // check token state to determine whether the operation should be canceled.
-        if (token.IsCancellationRequested)
-        {
-            throw new TaskCanceledException("Image source has changed.");
-        }
-        else
-        {
-            return Must.NotNull(image!);
         }
     }
 }

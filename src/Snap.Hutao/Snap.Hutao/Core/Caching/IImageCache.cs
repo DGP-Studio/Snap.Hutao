@@ -18,15 +18,7 @@ internal interface IImageCache
     /// </summary>
     /// <param name="uri">Uri of the item.</param>
     /// <returns>a StorageFile</returns>
-    Task<StorageFile?> GetFileFromCacheAsync(Uri uri);
-
-    /// <summary>
-    /// Retrieves item represented by Uri from the cache. If the item is not found in the cache, it will try to downloaded and saved before returning it to the caller.
-    /// </summary>
-    /// <param name="uri">Uri of the item.</param>
-    /// <param name="throwOnError">Indicates whether or not exception should be thrown if item cannot be found / downloaded.</param>
-    /// <returns>an instance of Generic type</returns>
-    Task<BitmapImage?> GetFromCacheAsync(Uri uri, bool throwOnError = false);
+    Task<StorageFile> GetFileFromCacheAsync(Uri uri);
 
     /// <summary>
     /// Removed items based on uri list passed
@@ -34,4 +26,11 @@ internal interface IImageCache
     /// <param name="uriForCachedItems">Enumerable uri list</param>
     /// <returns>awaitable Task</returns>
     Task RemoveAsync(IEnumerable<Uri> uriForCachedItems);
+
+    /// <summary>
+    /// Removes cached files that have expired
+    /// </summary>
+    /// <param name="duration">Optional timespan to compute whether file has expired or not. If no value is supplied, <see cref="CacheDuration"/> is used.</param>
+    /// <returns>awaitable task</returns>
+    Task RemoveExpiredAsync(TimeSpan? duration = null);
 }

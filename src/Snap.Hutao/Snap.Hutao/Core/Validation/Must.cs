@@ -84,4 +84,20 @@ public static class Must
 #pragma warning restore CS8763 // 不应返回标记为 [DoesNotReturn] 的方法。
         }
     }
+
+    /// <summary>
+    /// 尝试抛出任务取消异常
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <param name="message">取消消息</param>
+    /// <exception cref="TaskCanceledException">任务被取消</exception>
+    [DebuggerStepThrough]
+    [SuppressMessage("", "CA1068")]
+    public static void TryThrowOnCanceled(CancellationToken token, string message)
+    {
+        if (token.IsCancellationRequested)
+        {
+            throw new TaskCanceledException("Image source has changed.");
+        }
+    }
 }
