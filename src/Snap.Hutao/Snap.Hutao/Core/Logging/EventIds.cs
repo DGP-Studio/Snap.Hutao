@@ -35,6 +35,11 @@ internal static class EventIds
     /// </summary>
     public static readonly EventId CacheException = 100004;
 
+    /// <summary>
+    /// Xaml绑定错误
+    /// </summary>
+    public static readonly EventId XamlBindingError = 100005;
+
     // 服务
 
     /// <summary>

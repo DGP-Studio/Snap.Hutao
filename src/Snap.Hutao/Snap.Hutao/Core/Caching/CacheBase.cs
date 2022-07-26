@@ -140,7 +140,6 @@ public abstract class CacheBase<T>
     /// <returns>a StorageFile</returns>
     public async Task<StorageFile> GetFileFromCacheAsync(Uri uri)
     {
-        logger.LogInformation(EventIds.FileCaching, "Begin caching for [{uri}]", uri);
         StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
 
         string fileName = GetCacheFileName(uri);
@@ -196,12 +195,16 @@ public abstract class CacheBase<T>
 
     private async Task DownloadFileAsync(Uri uri, StorageFile baseFile)
     {
+        logger.LogInformation(EventIds.FileCaching, "Begin downloading for {uri}", uri);
+
         using (Stream httpStream = await httpClient.GetStreamAsync(uri))
         {
-            using (Stream fs = await baseFile.OpenStreamForWriteAsync())
+            using (Stream fileStream = await baseFile.OpenStreamForWriteAsync())
             {
-                await httpStream.CopyToAsync(fs);
-                await fs.FlushAsync();
+                await httpStream.CopyToAsync(fileStream);
+
+                // Call this before dispose fileStream.
+                await fileStream.FlushAsync();
             }
         }
     }

@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -80,7 +81,7 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     public async Task InitializeInternalAsync(CancellationToken token = default)
     {
         logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion begin");
-
+        ValueStopwatch stopwatch = ValueStopwatch.StartNew();
         IsInitialized = await TryUpdateMetadataAsync(token)
             .ConfigureAwait(false);
 

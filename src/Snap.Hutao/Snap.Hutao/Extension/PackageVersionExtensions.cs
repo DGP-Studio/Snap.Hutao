@@ -20,3 +20,4 @@ public static class PackageVersionExtensions
         return new Version(packageVersion.Major, packageVersion.Minor, packageVersion.Build, packageVersion.Revision);
     }
 }
+

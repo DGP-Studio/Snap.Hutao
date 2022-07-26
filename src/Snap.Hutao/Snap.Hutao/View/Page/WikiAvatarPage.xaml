@@ -183,6 +183,7 @@
                 <shci:Gradient
                     VerticalAlignment="Top"
                     Source="{Binding Selected,Converter={StaticResource AvatarNameCardPicConverter}}"/>
+                
                 <ScrollViewer>
                     <StackPanel Margin="0,0,16,16">
                         <!--简介-->
@@ -394,6 +395,7 @@
                             </ScrollViewer>
 
                         </Expander>
+                        
                         <TextBlock Text="天赋" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
                         <ItemsControl
                             ItemsSource="{Binding Selected.SkillDepot.Skills}"

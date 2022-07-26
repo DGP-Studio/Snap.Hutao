@@ -16,7 +16,6 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcc="using:Snap.Hutao.Control.Cancellable"
     xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shvc="using:Snap.Hutao.View.Converter"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <mxi:Interaction.Behaviors>
@@ -24,15 +23,14 @@
     </mxi:Interaction.Behaviors>
     <shcc:CancellablePage.Resources>
         <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
-
+        
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
     </shcc:CancellablePage.Resources>
     <Grid>
         <ScrollViewer Padding="0,0,4,0">
             <ItemsControl
                 HorizontalAlignment="Stretch"
-                ItemsSource="{Binding Announcement.List}" 
+                ItemsSource="{Binding Announcement.List}"
                 Padding="0"
                 Margin="12,12,0,-12">
                 <ItemsControl.ItemTemplate>
@@ -50,7 +48,7 @@
                                 ItemsSource="{Binding List}" 
                                 Margin="0,0,2,0">
                                 <cwucont:AdaptiveGridView.ItemContainerStyle>
-                                    <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                    <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
                                         <Setter Property="Margin" Value="0,0,12,12"/>
                                     </Style>
                                 </cwucont:AdaptiveGridView.ItemContainerStyle>
@@ -66,8 +64,7 @@
                                                     <RowDefinition Height="auto"/>
                                                 </Grid.RowDefinitions>
                                                 <!--Image Layer-->
-                                                <Border
-                                                    cwu:UIElementExtensions.ClipToBounds="True">
+                                                <Border cwu:UIElementExtensions.ClipToBounds="True">
                                                     <Border
                                                         VerticalAlignment="Top"
                                                         cwu:VisualExtensions.NormalizedCenterPoint="0.5">
@@ -77,11 +74,6 @@
                                                         <shci:CachedImage
                                                             Stretch="UniformToFill"
                                                             Source="{Binding Banner}"/>
-                                                        <!--<Border.Background>
-                                                            <ImageBrush
-                                                                ImageSource="{Binding Banner}"
-                                                                Stretch="UniformToFill"/>
-                                                        </Border.Background>-->
                                                         <cwua:Explicit.Animations>
                                                             <cwua:AnimationSet x:Name="ImageZoomInAnimation">
                                                                 <shca:ImageZoomInAnimation/>
@@ -149,6 +141,7 @@
                                                                 Opacity="0.8"
                                                                 Margin="4,4,4,4"
                                                                 Style="{StaticResource CaptionTextBlockStyle}"
+                                                                Visibility="{Binding ShouldShowTimeDescription,Converter={StaticResource BoolToVisibilityConverter}}"
                                                                 Text="{Binding TimeDescription}" />
                                                         </Grid>
                                                     </StackPanel>
