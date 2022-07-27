@@ -31,6 +31,7 @@ public class CachedImage : ImageEx
 
         try
         {
+            Verify.Operation(imageUri.Host != string.Empty, "可能是空绑定产生的 [ms-appx:///]");
             StorageFile file = await imageCache.GetFileFromCacheAsync(imageUri);
 
             // check token state to determine whether the operation should be canceled.

@@ -2,27 +2,30 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Data;
-using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Annotation;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
-/// 战斗属性数值格式化器
+/// 技能图标转换器
 /// </summary>
-internal class FightPropertyValueFormatter : IValueConverter
+internal class SkillIconConverter : IValueConverter
 {
+    private const string SkillUrl = "https://static.snapgenshin.com/Skill/{0}.png";
+    private const string TalentUrl = "https://static.snapgenshin.com/Talent/{0}.png";
+
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        FormatMethod method = ((FightProperty)parameter).GetFormat();
+        string target = (string)value;
 
-        return method switch
+        if (target.StartsWith("UI_Talent_"))
         {
-            FormatMethod.Integer => Math.Round((double)value, MidpointRounding.AwayFromZero),
-            FormatMethod.Percent => string.Format("{0:P1}", value),
-            _ => value,
-        };
+            return new Uri(string.Format(TalentUrl, target));
+        }
+        else
+        {
+            return new Uri(string.Format(SkillUrl, target));
+        }
     }
 
     /// <inheritdoc/>

@@ -4,9 +4,10 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.VisualStudio.Threading;
-using Snap.Hutao.Core;
+using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Navigation;
+using Windows.System;
 
 namespace Snap.Hutao.View.Page;
 
@@ -55,31 +56,7 @@ openInWebview: function(url){ location.href = url }}";
         }
     }
 
-    private async Task LoadAnnouncementAsync(INavigationData data)
-    {
-        try
-        {
-            await WebView.EnsureCoreWebView2Async();
-
-            await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
-            WebView.CoreWebView2.WebMessageReceived += (_, e) => Browser.Open(e.TryGetWebMessageAsString());
-        }
-        catch (Exception ex)
-        {
-            data.NotifyNavigationException(ex);
-            return;
-        }
-
-        WebView.NavigateToString(ReplaceForeground(targetContent, ActualTheme));
-        data.NotifyNavigationCompleted();
-    }
-
-    private void PageActualThemeChanged(FrameworkElement sender, object args)
-    {
-        WebView.NavigateToString(ReplaceForeground(targetContent, ActualTheme));
-    }
-
-    private string? ReplaceForeground(string? rawContent, ElementTheme theme)
+    private static string? ReplaceForeground(string? rawContent, ElementTheme theme)
     {
         if (string.IsNullOrWhiteSpace(rawContent))
         {
@@ -104,5 +81,40 @@ openInWebview: function(url){ location.href = url }}";
 
         // wrap a default color body around
         return $@"<body style=""{(isDarkMode ? LightColor1 : DarkColor1)}"">{rawContent}</body>";
+    }
+
+    private async Task LoadAnnouncementAsync(INavigationData data)
+    {
+        try
+        {
+            await WebView.EnsureCoreWebView2Async();
+
+            await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
+            WebView.CoreWebView2.WebMessageReceived += OnWebMessageReceived;
+        }
+        catch (Exception ex)
+        {
+            data.NotifyNavigationException(ex);
+            return;
+        }
+
+        WebView.NavigateToString(ReplaceForeground(targetContent, ActualTheme));
+        data.NotifyNavigationCompleted();
+    }
+
+    private void PageActualThemeChanged(FrameworkElement sender, object args)
+    {
+        WebView.NavigateToString(ReplaceForeground(targetContent, ActualTheme));
+    }
+
+    [SuppressMessage("", "VSTHRD100")]
+    private async void OnWebMessageReceived(CoreWebView2 coreWebView2, CoreWebView2WebMessageReceivedEventArgs args)
+    {
+        string url = args.TryGetWebMessageAsString();
+
+        if (Uri.TryCreate(url, UriKind.RelativeOrAbsolute, out Uri? uri))
+        {
+            await Launcher.LaunchUriAsync(uri).AsTask().ConfigureAwait(false);
+        }
     }
 }

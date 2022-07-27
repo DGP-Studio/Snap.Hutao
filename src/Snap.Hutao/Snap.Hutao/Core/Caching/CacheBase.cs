@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Extension;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -236,25 +237,17 @@ public abstract class CacheBase<T>
             return;
         }
 
-        await cacheFolderSemaphore.WaitAsync().ConfigureAwait(false);
-
-        baseFolder ??= ApplicationData.Current.TemporaryFolder;
-
-        if (string.IsNullOrWhiteSpace(cacheFolderName))
+        using (await cacheFolderSemaphore.EnterAsync().ConfigureAwait(false))
         {
-            cacheFolderName = GetType().Name;
-        }
+            baseFolder ??= ApplicationData.Current.TemporaryFolder;
 
-        try
-        {
-            cacheFolder = await baseFolder
-                .CreateFolderAsync(cacheFolderName, CreationCollisionOption.OpenIfExists)
-                .AsTask()
-                .ConfigureAwait(false);
-        }
-        finally
-        {
-            cacheFolderSemaphore.Release();
+            if (string.IsNullOrWhiteSpace(cacheFolderName))
+            {
+                cacheFolderName = GetType().Name;
+            }
+
+            cacheFolder = await baseFolder.CreateFolderAsync(cacheFolderName, CreationCollisionOption.OpenIfExists)
+                .AsTask().ConfigureAwait(false);
         }
     }
 

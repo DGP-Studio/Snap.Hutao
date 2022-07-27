@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
+using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Enka;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
@@ -29,7 +30,7 @@ internal static class IocHttpClientConfiguration
     {
         // services
         services.AddHttpClient<MetadataService>(DefaultConfiguration);
-        // services.AddHttpClient<ImageCache>(DefaultConfiguration);
+        services.AddHttpClient<ImageCache>(DefaultConfiguration).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler() { MaxConnectionsPerServer = 20 });
 
         // normal clients
         services.AddHttpClient<AnnouncementClient>(DefaultConfiguration);

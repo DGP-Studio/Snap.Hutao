@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
@@ -13,7 +14,7 @@ public class SkillDepot
     /// <summary>
     /// 技能天赋
     /// </summary>
-    public IEnumerable<ProudableSkill> Skills { get; set; } = default!;
+    public IList<ProudableSkill> Skills { get; set; } = default!;
 
     /// <summary>
     /// 大招
@@ -23,10 +24,30 @@ public class SkillDepot
     /// <summary>
     /// 固有天赋
     /// </summary>
-    public IEnumerable<ProudableSkill> Inherents { get; set; } = default!;
+    public IList<ProudableSkill> Inherents { get; set; } = default!;
+
+    /// <summary>
+    /// 全部天赋
+    /// </summary>
+    public IList<ProudableSkill> CompositeSkills => GetCompositeSkills().ToList();
 
     /// <summary>
     /// 命之座
     /// </summary>
-    public IEnumerable<SkillBase> Talents { get; set; } = default!;
+    public IList<SkillBase> Talents { get; set; } = default!;
+
+    private IEnumerable<ProudableSkill> GetCompositeSkills()
+    {
+        foreach (ProudableSkill skill in Skills)
+        {
+            yield return skill;
+        }
+
+        yield return EnergySkill;
+
+        foreach (ProudableSkill skill in Inherents)
+        {
+            yield return skill;
+        }
+    }
 }

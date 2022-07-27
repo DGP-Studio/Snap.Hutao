@@ -17,31 +17,48 @@ internal class DescParamDescriptor : IValueConverter
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        DescParam descParam = (DescParam)value;
-        IEnumerable<DescFormat> parsedDescriptions = descParam.Descriptions.Select(desc =>
-        {
-            string[] parts = desc.Split('|', 2);
-            return new DescFormat(parts[0], parts[1]);
-        });
+        DescParam rawDescParam = (DescParam)value;
 
-        IList<IList<string>> parameters = descParam.Parameters
-            .Select(param =>
+        // Spilt rawDesc into two parts: desc and format
+        IList<DescFormat> parsedDescriptions = rawDescParam.Descriptions
+            .Select(desc =>
             {
-                IList<string> parameters = GetFormattedParameters(parsedDescriptions, param.Parameters);
-                parameters.Insert(0, param.Level.ToString());
-                return parameters;
+                string[] parts = desc.Split('|', 2);
+                return new DescFormat(parts[0], parts[1]);
             })
             .ToList();
 
-        List<string> descList = parsedDescriptions.Select(p => p.Description).ToList();
-        descList.Insert(0, "等级");
-        return new DescParamInternal(descList, parameters);
+        IList<LevelParam<string, ParameterInfo>> parameters = rawDescParam.Parameters
+            .Select(param =>
+            {
+                IList<ParameterInfo> parameters = GetFormattedParameters(parsedDescriptions, param.Parameters);
+                return new LevelParam<string, ParameterInfo>() { Level = param.Level.ToString(), Parameters = parameters };
+            })
+            .ToList();
+
+        return parameters;
     }
 
     /// <inheritdoc/>
     public object ConvertBack(object value, Type targetType, object parameter, string language)
     {
         throw Must.NeverHappen();
+    }
+
+    private static IList<ParameterInfo> GetFormattedParameters(IList<DescFormat> formats, IList<double> param)
+    {
+        List<ParameterInfo> results = new();
+
+        for (int index = 0; index < formats.Count; index++)
+        {
+            DescFormat descFormat = formats[index];
+
+            string format = descFormat.Format;
+            string resultFormatted = Regex.Replace(format, @"{param\d+.*?}", match => EvaluateMatch(match, param));
+            results.Add(new ParameterInfo { Description = descFormat.Description, Parameter = resultFormatted });
+        }
+
+        return results;
     }
 
     private static string EvaluateMatch(Match match, IList<double> param)
@@ -74,19 +91,6 @@ internal class DescParamDescriptor : IValueConverter
         }
     }
 
-    private IList<string> GetFormattedParameters(IEnumerable<DescFormat> formats, IList<double> param)
-    {
-        List<string> results = new();
-        foreach (DescFormat descFormat in formats)
-        {
-            string format = descFormat.Format;
-            string resultFormatted = Regex.Replace(format, @"{param\d+.*?}", match => EvaluateMatch(match, param));
-            results.Add(resultFormatted);
-        }
-
-        return results;
-    }
-
     private class DescFormat
     {
         public DescFormat(string description, string format)
@@ -98,18 +102,5 @@ internal class DescParamDescriptor : IValueConverter
         public string Description { get; set; }
 
         public string Format { get; set; }
-    }
-
-    private class DescParamInternal
-    {
-        public DescParamInternal(IList<string> descriptions, IList<IList<string>> parameters)
-        {
-            Descriptions = descriptions;
-            Parameters = parameters;
-        }
-
-        public IList<string> Descriptions { get; set; }
-
-        public IList<IList<string>> Parameters { get; set; }
     }
 }

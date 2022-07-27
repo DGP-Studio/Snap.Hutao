@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shct="using:Snap.Hutao.Control.Text"
@@ -26,30 +25,14 @@
         <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
         <shmmc:AvatarNameCardPicConverter x:Key="AvatarNameCardPicConverter"/>
 
-        <shmmc:FightPropertyConverter x:Key="FightPropertyConverter"/>
-        <shmmc:FightPropertyValueFormatter x:Key="FightPropertyValueFormatter"/>
-
         <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
-
-        <shc:BindingProxy
-            x:Key="FightPropertyBindingProxy"
-            DataContext="{Binding Selected.Property.Properties}"/>
+        <shmmc:PropertyInfoDescriptor x:Key="PropertyDescriptor"/>
 
         <DataTemplate x:Key="SkillDataTemplate">
-            <Expander
-                Margin="16,16,0,0"
-                Header="{Binding Name}"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+            <Grid Margin="0,12,0,0">
+                <StackPanel Grid.Column="0">
                     <shct:DescriptionTextBlock
-                        Grid.Column="0"
-                        MaxWidth="280"
-                        Margin="16"
+                        Margin="0,0,0,16"
                         Description="{Binding Description}">
                         <shct:DescriptionTextBlock.Resources>
                             <Style
@@ -59,87 +42,33 @@
                             </Style>
                         </shct:DescriptionTextBlock.Resources>
                     </shct:DescriptionTextBlock>
-                    <ScrollViewer
-                        Grid.Column="1"
-                        VerticalScrollMode="Disabled"
-                        HorizontalScrollBarVisibility="Auto">
-                        <Grid
-                            Margin="16"
-                            DataContext="{Binding Proud,Converter={StaticResource DescParamDescriptor}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <ItemsControl
-                                Grid.Row="0"
-                                ItemsSource="{Binding Descriptions}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <cwuc:UniformGrid
-                                            ColumnSpacing="16"
-                                            Columns="{Binding Descriptions.Count}"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock
-                                            Text="{Binding}"
-                                            TextWrapping="NoWrap"
-                                            TextTrimming="CharacterEllipsis"
-                                            Style="{StaticResource BaseTextBlockStyle}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                    <shvc:DescParamComboBox
+                        Grid.Column="0"
+                        HorizontalAlignment="Stretch"
+                        Source="{Binding Proud,Converter={StaticResource DescParamDescriptor}}"/>
 
-                            <ItemsControl
-                                Margin="0,16,0,0"
-                                Grid.Row="2"
-                                ItemsSource="{Binding Parameters}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <ItemsControl ItemsSource="{Binding}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <cwuc:UniformGrid
-                                                        ColumnSpacing="16"
-                                                        Columns="{Binding Count}"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock
-                                                        Text="{Binding}"
-                                                        TextTrimming="CharacterEllipsis"/>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
-                    </ScrollViewer>
-                </Grid>
-            </Expander>
+                    
+                </StackPanel>
+                
+            </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="InherentDataTemplate">
-            <Expander
-                Margin="16,16,0,0"
-                Header="{Binding Name}"
+        <DataTemplate x:Key="PropertyDataTemplate">
+            <shvc:DescParamComboBox
                 HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Stretch">
-                <shct:DescriptionTextBlock
-                        Margin="16"
-                        Description="{Binding Description}">
-                    <shct:DescriptionTextBlock.Resources>
-                        <Style
-                                TargetType="TextBlock"
-                                BasedOn="{StaticResource BodyTextBlockStyle}">
-                            <Setter Property="TextWrapping" Value="Wrap"/>
-                        </Style>
-                    </shct:DescriptionTextBlock.Resources>
-                </shct:DescriptionTextBlock>
-            </Expander>
+                Source="{Binding Property,Converter={StaticResource PropertyDescriptor}}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TalentDataTemplate">
+            <shct:DescriptionTextBlock
+                Margin="0,12,0,0"
+                Description="{Binding Description}">
+                <shct:DescriptionTextBlock.Resources>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource BodyTextBlockStyle}">
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                </shct:DescriptionTextBlock.Resources>
+            </shct:DescriptionTextBlock>
         </DataTemplate>
     </Page.Resources>
 
@@ -180,12 +109,13 @@
         </SplitView.Pane>
         <SplitView.Content>
             <Grid>
+                <!--渐变背景-->
                 <shci:Gradient
                     VerticalAlignment="Top"
                     Source="{Binding Selected,Converter={StaticResource AvatarNameCardPicConverter}}"/>
                 
                 <ScrollViewer>
-                    <StackPanel Margin="0,0,16,16">
+                    <StackPanel Margin="0,0,20,16">
                         <!--简介-->
                         <Grid
                             Margin="16,16,0,16"
@@ -321,111 +251,34 @@
                             </StackPanel>
                         </Grid>
                         <!--属性-->
-                        <Expander
-                            Margin="16,0,0,0"
-                            Header="基础数值"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch">
-                            <ScrollViewer
-                                VerticalScrollMode="Disabled"
-                                HorizontalScrollBarVisibility="Auto">
-                                <Grid Margin="16">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <cwuc:UniformGrid
-                                        Grid.Row="0"
-                                        Columns="5"
-                                        ColumnSpacing="16"
-                                        DataContext="{Binding Selected.Property}">
-                                        <TextBlock
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            TextWrapping="NoWrap"
-                                            Text="等级"/>
-                                        <TextBlock
-                                            TextWrapping="NoWrap"
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{Binding Properties[0], Converter={StaticResource FightPropertyConverter}}"/>
-                                        <TextBlock
-                                            TextWrapping="NoWrap"
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{Binding Properties[1], Converter={StaticResource FightPropertyConverter}}"/>
-                                        <TextBlock
-                                            TextWrapping="NoWrap"
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{Binding Properties[2], Converter={StaticResource FightPropertyConverter}}"/>
-                                        <TextBlock
-                                            TextWrapping="NoWrap"
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{Binding Properties[3], Converter={StaticResource FightPropertyConverter}}"/>
-                                    </cwuc:UniformGrid>
-                                    <ItemsControl
-                                        Margin="0,16,0,0"
-                                        Grid.Row="1"
-                                        ItemsSource="{Binding Selected.Property.Parameters}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <cwuc:UniformGrid
-                                                    Columns="5"
-                                                    ColumnSpacing="16">
-                                                    <TextBlock
-                                                        Text="{Binding Level}"/>
-                                                    <TextBlock
-                                                        Text="{Binding Parameters[0],
-                                                        Converter={StaticResource FightPropertyValueFormatter},
-                                                        ConverterParameter={Binding DataContext[0],Source={StaticResource FightPropertyBindingProxy}}}"/>
-                                                    <TextBlock
-                                                        Text="{Binding Parameters[1],
-                                                        Converter={StaticResource FightPropertyValueFormatter},
-                                                        ConverterParameter={Binding DataContext[1],Source={StaticResource FightPropertyBindingProxy}}}"/>
-                                                    <TextBlock
-                                                        Text="{Binding Parameters[2],
-                                                        Converter={StaticResource FightPropertyValueFormatter},
-                                                        ConverterParameter={Binding DataContext[2],Source={StaticResource FightPropertyBindingProxy}}}"/>
-                                                    <TextBlock
-                                                        Text="{Binding Parameters[3],
-                                                        Converter={StaticResource FightPropertyValueFormatter},
-                                                        ConverterParameter={Binding DataContext[3],Source={StaticResource FightPropertyBindingProxy}}}"/>
-                                                </cwuc:UniformGrid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Grid>
-                            </ScrollViewer>
-
-                        </Expander>
-                        
-                        <TextBlock Text="天赋" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
-                        <ItemsControl
-                            ItemsSource="{Binding Selected.SkillDepot.Skills}"
-                            ItemTemplate="{StaticResource SkillDataTemplate}"/>
-
                         <ContentControl
+                            Margin="16,16,0,0"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            Content="{Binding Selected.SkillDepot.EnergySkill}"
-                            ContentTemplate="{StaticResource SkillDataTemplate}"/>
+                            Content="{Binding Selected,Mode=OneWay}"
+                            ContentTemplate="{StaticResource PropertyDataTemplate}"/>
 
-                        <ItemsControl
-                            ItemsSource="{Binding Selected.SkillDepot.Inherents}"
-                            ItemTemplate="{StaticResource InherentDataTemplate}"/>
+                        <TextBlock Text="天赋" Style="{StaticResource BaseTextBlockStyle}" Margin="16,32,0,0"/>
+                        <shvc:SkillPivot
+                            Margin="16,16,0,0"
+                            Skills="{Binding Selected.SkillDepot.CompositeSkills}"
+                            ItemTemplate="{StaticResource SkillDataTemplate}"/>
 
-                        <TextBlock Text="命之座" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
+                        <TextBlock Text="命之座" Style="{StaticResource BaseTextBlockStyle}" Margin="16,32,0,0"/>
+                        <shvc:SkillPivot
+                            Grid.Column="1"
+                            Margin="16,16,0,0"
+                            Skills="{Binding Selected.SkillDepot.Talents}"
+                            ItemTemplate="{StaticResource TalentDataTemplate}"/>
 
-                        <ItemsControl
-                            ItemsSource="{Binding Selected.SkillDepot.Talents}"
-                            ItemTemplate="{StaticResource InherentDataTemplate}"/>
-
-                        <TextBlock Text="其他" Style="{StaticResource BaseTextBlockStyle}" Margin="16,16,0,0"/>
+                        <TextBlock Text="其他" Style="{StaticResource BaseTextBlockStyle}" Margin="16,32,0,0"/>
                         <!--衣装-->
                         <Expander
                             Margin="16,16,0,0"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             Header="衣装">
-                            <ItemsControl
-                                ItemsSource="{Binding Selected.Costumes}">
+                            <ItemsControl ItemsSource="{Binding Selected.Costumes}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="0,0,0,-4">
@@ -448,8 +301,7 @@
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             Header="资料">
-                            <ItemsControl
-                                ItemsSource="{Binding Selected.FetterInfo.Fetters}">
+                            <ItemsControl ItemsSource="{Binding Selected.FetterInfo.Fetters}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="0,0,0,-4">
@@ -460,9 +312,7 @@
                                                 Margin="16,8,16,16"
                                                 Description="{Binding Context}">
                                                 <shct:DescriptionTextBlock.Resources>
-                                                    <Style
-                                                        TargetType="TextBlock"
-                                                        BasedOn="{StaticResource CaptionTextBlockStyle}"/>
+                                                    <Style TargetType="TextBlock" BasedOn="{StaticResource CaptionTextBlockStyle}"/>
                                                 </shct:DescriptionTextBlock.Resources>
                                             </shct:DescriptionTextBlock>
                                             <MenuFlyoutSeparator Margin="16,0"/>
@@ -473,12 +323,12 @@
                         </Expander>
                         <!--故事-->
                         <Expander
-                            Margin="16,16,0,0"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            Header="故事">
+                                    Margin="16,16,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    Header="故事">
                             <ItemsControl
-                                ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
+                                        ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="0,0,0,-4">

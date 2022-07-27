@@ -13,11 +13,12 @@ namespace Snap.Hutao.Core.Logging;
 /// The provider for the <see cref="DebugLogger"/>.
 /// </summary>
 [ProviderAlias("Database")]
-public class DatebaseLoggerProvider : ILoggerProvider
+public sealed class DatebaseLoggerProvider : ILoggerProvider
 {
+    private static readonly object LogDbContextLock = new();
+
     // the provider is created per logger, we don't want to create to much
     private static volatile LogDbContext? logDbContext;
-    private static readonly object logDbContextLock = new();
 
     private static LogDbContext LogDbContext
     {
@@ -25,7 +26,7 @@ public class DatebaseLoggerProvider : ILoggerProvider
         {
             if (logDbContext == null)
             {
-                lock (logDbContextLock)
+                lock (LogDbContextLock)
                 {
                     // prevent re-entry call
                     if (logDbContext == null)
@@ -34,7 +35,7 @@ public class DatebaseLoggerProvider : ILoggerProvider
                         logDbContext = LogDbContext.Create($"Data Source={myDocument.Locate("Log.db")}");
                         if (logDbContext.Database.GetPendingMigrations().Any())
                         {
-                            Debug.WriteLine("Performing LogDbContext Migrations");
+                            Debug.WriteLine("[Debug] Performing LogDbContext Migrations");
                             logDbContext.Database.Migrate();
                         }
 
@@ -51,11 +52,12 @@ public class DatebaseLoggerProvider : ILoggerProvider
     /// <inheritdoc/>
     public ILogger CreateLogger(string name)
     {
-        return new DatebaseLogger(name, LogDbContext, logDbContextLock);
+        return new DatebaseLogger(name, LogDbContext, LogDbContextLock);
     }
 
     /// <inheritdoc/>
     public void Dispose()
     {
+        LogDbContext.Dispose();
     }
 }

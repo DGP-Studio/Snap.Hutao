@@ -14,34 +14,10 @@
             <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
         </mxic:EventTriggerBehavior>
     </mxi:Interaction.Behaviors>
-    <Grid Height="58">
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="auto"/>
-        </Grid.ColumnDefinitions>
-        <PersonPicture
-            ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl,Mode=OneWay}"
-            HorizontalAlignment="Left"
-            Margin="6,2"
-            Height="36"
-            Width="36"/>
-        <TextBlock
-            VerticalAlignment="Center"
-            Margin="0,0,0,2"
-            Grid.Column="1"
-            Text="{Binding SelectedUser.UserInfo.Nickname,Mode=OneWay}"
-            TextTrimming="CharacterEllipsis"/>
+    <StackPanel>
         <Button
             Background="Transparent"
             BorderBrush="{x:Null}"
-            Height="38.4"
-            Content="&#xE712;"
-            FontFamily="{StaticResource SymbolThemeFontFamily}"
             Grid.Column="2"
             Margin="4">
             <Button.Resources>
@@ -49,9 +25,36 @@
                     x:Key="ViewModelBindingProxy"
                     DataContext="{Binding}"/>
             </Button.Resources>
+            <Button.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <PersonPicture
+                        ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl,Mode=OneWay}"
+                        HorizontalAlignment="Left"
+                        Margin="1,1,6,1"
+                        Height="36"
+                        Width="36"/>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Margin="0,0,0,2"
+                        Grid.Column="1"
+                        Text="{Binding SelectedUser.UserInfo.Nickname,Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis"/>
+                    <FontIcon
+                        Grid.Column="2"
+                        Glyph="&#xE76C;"
+                        FontSize="12"
+                        VerticalAlignment="Center"
+                        Margin="0,0,8,0"/>
+                </Grid>
+            </Button.Content>
             <Button.Flyout>
                 <Flyout
-                    Placement="TopEdgeAlignedRight"
+                    Placement="LeftEdgeAlignedBottom"
                     LightDismissOverlayMode="On">
                     <Flyout.FlyoutPresenterStyle>
                         <Style
@@ -173,7 +176,7 @@
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </Grid.Resources>
-                                        
+
                                         <mxi:Interaction.Behaviors>
                                             <mxic:EventTriggerBehavior EventName="PointerEntered">
                                                 <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
@@ -183,7 +186,7 @@
                                             </mxic:EventTriggerBehavior>
                                         </mxi:Interaction.Behaviors>
                                     </Grid>
-                                    
+
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
@@ -196,11 +199,14 @@
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
+            <Button.Style>
+                <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </Button.Style>
         </Button>
-        <NavigationViewItemSeparator
-            Margin="0,4,0,0"
-            Grid.Row="1"
-            Grid.ColumnSpan="3"
-            VerticalAlignment="Bottom"/>
-    </Grid>
+        <NavigationViewItemSeparator/>
+    </StackPanel>
 </UserControl>

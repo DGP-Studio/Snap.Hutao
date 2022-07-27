@@ -14,10 +14,10 @@ public class PropertyInfo
     /// <summary>
     /// 提升的属性
     /// </summary>
-    public IEnumerable<FightProperty> Properties { get; set; } = default!;
+    public IList<FightProperty> Properties { get; set; } = default!;
 
     /// <summary>
     /// 参数
     /// </summary>
-    public IEnumerable<LevelParam<string, double>> Parameters { get; set; } = default!;
+    public IList<LevelParam<string, double>> Parameters { get; set; } = default!;
 }

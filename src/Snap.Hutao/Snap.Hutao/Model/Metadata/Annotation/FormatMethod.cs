@@ -1,4 +1,7 @@
-﻿namespace Snap.Hutao.Model.Metadata.Annotation;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Model.Metadata.Annotation;
 
 /// <summary>
 /// 格式化方法

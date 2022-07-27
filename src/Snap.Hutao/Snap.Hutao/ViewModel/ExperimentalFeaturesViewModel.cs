@@ -34,14 +34,14 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// </summary>
     public ICommand OpenDataFolderCommand { get; }
 
-    private Task OpenCacheFolderAsync()
+    private Task OpenCacheFolderAsync(CancellationToken token)
     {
-        return Launcher.LaunchFolderAsync(App.AppData.TemporaryFolder).AsTask();
+        return Launcher.LaunchFolderAsync(App.Current.AppData.TemporaryFolder).AsTask(token);
     }
 
-    private async Task OpenDataFolderAsync()
+    private async Task OpenDataFolderAsync(CancellationToken token)
     {
-        StorageFolder folder = await KnownFolders.DocumentsLibrary.GetFolderAsync("Hutao").AsTask().ConfigureAwait(false);
-        await Launcher.LaunchFolderAsync(folder).AsTask().ConfigureAwait(false);
+        StorageFolder folder = await KnownFolders.DocumentsLibrary.GetFolderAsync("Hutao").AsTask(token).ConfigureAwait(false);
+        await Launcher.LaunchFolderAsync(folder).AsTask(token).ConfigureAwait(false);
     }
 }

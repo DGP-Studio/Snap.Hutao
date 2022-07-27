@@ -34,7 +34,9 @@
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
     <None Remove="stylecop.json" />
+    <None Remove="View\Control\DescParamComboBox.xaml" />
     <None Remove="View\Control\ItemIcon.xaml" />
+    <None Remove="View\Control\SkillPivot.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\MainView.xaml" />
     <None Remove="View\Page\AchievementPage.xaml" />
@@ -103,6 +105,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\DescParamComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\SkillPivot.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\UserView.xaml">

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Generic;
 using Windows.Storage;
 

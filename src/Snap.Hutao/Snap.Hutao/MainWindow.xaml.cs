@@ -7,7 +7,6 @@ using Snap.Hutao.Control.HostBackdrop;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Win32;
-using System.Runtime.InteropServices;
 using WinRT.Interop;
 
 namespace Snap.Hutao;

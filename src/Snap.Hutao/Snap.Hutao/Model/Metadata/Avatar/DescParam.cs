@@ -13,10 +13,10 @@ public class DescParam
     /// <summary>
     /// 描述
     /// </summary>
-    public IEnumerable<string> Descriptions { get; set; } = default!;
+    public IList<string> Descriptions { get; set; } = default!;
 
     /// <summary>
     /// 参数
     /// </summary>
-    public IEnumerable<LevelParam<int, double>> Parameters { get; set; } = default!;
+    public IList<LevelParam<int, double>> Parameters { get; set; } = default!;
 }

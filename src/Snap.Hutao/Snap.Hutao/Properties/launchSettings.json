@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Snap.Hutao (Package)": {
-      "commandName": "MsixPackage"
+      "commandName": "MsixPackage",
+      "nativeDebugging": false
     },
     "Snap.Hutao (Unpackaged)": {
       "commandName": "Project"

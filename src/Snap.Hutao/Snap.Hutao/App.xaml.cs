@@ -45,12 +45,19 @@ public partial class App : Application
     public static Window? Window { get => window; set => window = value; }
 
     /// <inheritdoc cref="Application"/>
-    public static new App Current => (App)Application.Current;
+    public static new App Current
+    {
+        get => (App)Application.Current;
+    }
 
     /// <summary>
     /// <inheritdoc cref="Windows.Storage.ApplicationData.Current"/>
     /// </summary>
-    public static Windows.Storage.ApplicationData AppData => Windows.Storage.ApplicationData.Current;
+    [SuppressMessage("", "CA1822")]
+    public Windows.Storage.ApplicationData AppData
+    {
+        get => Windows.Storage.ApplicationData.Current;
+    }
 
     /// <summary>
     /// Invoked when the application is launched.
@@ -60,23 +67,19 @@ public partial class App : Application
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
-        AppInstance mainInstance = AppInstance.FindOrRegisterForKey("main");
+        AppInstance firstInstance = AppInstance.FindOrRegisterForKey("main");
+        firstInstance.Activated += OnActivated;
 
-        if (!mainInstance.IsCurrent)
+        if (!firstInstance.IsCurrent)
         {
             // Redirect the activation (and args) to the "main" instance, and exit.
-            await mainInstance.RedirectActivationToAsync(activatedEventArgs);
+            await firstInstance.RedirectActivationToAsync(activatedEventArgs);
             Process.GetCurrentProcess().Kill();
         }
         else
         {
             Window = Ioc.Default.GetRequiredService<MainWindow>();
             Window.Activate();
-
-            if (activatedEventArgs.TryGetProtocolActivatedUri(out Uri? uri))
-            {
-                Ioc.Default.GetRequiredService<IInfoBarService>().Information(uri.ToString());
-            }
 
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", AppData.TemporaryFolder.Path);
 
@@ -115,6 +118,14 @@ public partial class App : Application
     private void AppUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
+    }
+
+    private void OnActivated(object? sender, AppActivationArguments args)
+    {
+        if (args.TryGetProtocolActivatedUri(out Uri? uri))
+        {
+            Ioc.Default.GetRequiredService<IInfoBarService>().Information(uri.ToString());
+        }
     }
 
     private void XamlBindingFailed(object sender, BindingFailedEventArgs e)
