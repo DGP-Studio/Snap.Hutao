@@ -30,8 +30,8 @@ public sealed partial class SkillPivot : UserControl
     /// </summary>
     public IList Skills
     {
-        get { return (IList)GetValue(SkillsProperty); }
-        set { SetValue(SkillsProperty, value); }
+        get => (IList)GetValue(SkillsProperty);
+        set => SetValue(SkillsProperty, value);
     }
 
     /// <summary>
@@ -39,8 +39,8 @@ public sealed partial class SkillPivot : UserControl
     /// </summary>
     public object Selected
     {
-        get { return GetValue(SelectedProperty); }
-        set { SetValue(SelectedProperty, value); }
+        get => GetValue(SelectedProperty);
+        set => SetValue(SelectedProperty, value);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public sealed partial class SkillPivot : UserControl
     /// </summary>
     public DataTemplate ItemTemplate
     {
-        get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-        set { SetValue(ItemTemplateProperty, value); }
+        get => (DataTemplate)GetValue(ItemTemplateProperty);
+        set => SetValue(ItemTemplateProperty, value);
     }
 }

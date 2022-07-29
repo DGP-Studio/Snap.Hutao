@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI.UI;
 using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Model;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Service.Metadata;
 using System.Collections.Generic;
@@ -17,8 +20,13 @@ namespace Snap.Hutao.ViewModel;
 internal class WikiAvatarViewModel : ObservableObject
 {
     private readonly IMetadataService metadataService;
+    private readonly List<Selectable<string>> filterElementInfos;
+    private readonly List<Selectable<Pair<string, string>>> filterAssociationInfos;
+    private readonly List<Selectable<Pair<string, WeaponType>>> filterWeaponTypeInfos;
+    private readonly List<Selectable<Pair<string, ItemQuality>>> filterQualityInfos;
+    private readonly List<Selectable<Pair<string, string>>> filterBodyInfos;
 
-    private List<Avatar>? avatars;
+    private AdvancedCollectionView? avatars;
     private Avatar? selected;
 
     /// <summary>
@@ -30,17 +38,87 @@ internal class WikiAvatarViewModel : ObservableObject
     {
         this.metadataService = metadataService;
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+
+        filterElementInfos = new()
+        {
+            new("火", OnFilterChanged),
+            new("水", OnFilterChanged),
+            new("草", OnFilterChanged),
+            new("雷", OnFilterChanged),
+            new("冰", OnFilterChanged),
+            new("风", OnFilterChanged),
+            new("岩", OnFilterChanged),
+        };
+
+        filterAssociationInfos = new()
+        {
+            new(new("蒙德", "ASSOC_TYPE_MONDSTADT"), OnFilterChanged),
+            new(new("璃月", "ASSOC_TYPE_LIYUE"), OnFilterChanged),
+            new(new("稻妻", "ASSOC_TYPE_INAZUMA"), OnFilterChanged),
+            new(new("愚人众", "ASSOC_TYPE_FATUI"), OnFilterChanged),
+            new(new("游侠", "ASSOC_TYPE_RANGER"), OnFilterChanged),
+        };
+
+        filterWeaponTypeInfos = new()
+        {
+            new(new("单手剑", WeaponType.WEAPON_SWORD_ONE_HAND), OnFilterChanged),
+            new(new("法器", WeaponType.WEAPON_CATALYST), OnFilterChanged),
+            new(new("双手剑", WeaponType.WEAPON_CLAYMORE), OnFilterChanged),
+            new(new("弓", WeaponType.WEAPON_BOW), OnFilterChanged),
+            new(new("长柄武器", WeaponType.WEAPON_POLE), OnFilterChanged),
+        };
+
+        filterQualityInfos = new()
+        {
+            new(new("限定五星", ItemQuality.QUALITY_ORANGE_SP), OnFilterChanged),
+            new(new("五星", ItemQuality.QUALITY_ORANGE), OnFilterChanged),
+            new(new("四星", ItemQuality.QUALITY_PURPLE), OnFilterChanged),
+        };
+
+        filterBodyInfos = new()
+        {
+            new(new("成女", "BODY_LADY"), OnFilterChanged),
+            new(new("少女", "BODY_GIRL"), OnFilterChanged),
+            new(new("幼女", "BODY_LOLI"), OnFilterChanged),
+            new(new("成男", "BODY_MALE"), OnFilterChanged),
+            new(new("少男", "BODY_BOY"), OnFilterChanged),
+        };
     }
 
     /// <summary>
     /// 角色列表
     /// </summary>
-    public List<Avatar>? Avatars { get => avatars; set => SetProperty(ref avatars, value); }
+    public AdvancedCollectionView? Avatars { get => avatars; set => SetProperty(ref avatars, value); }
 
     /// <summary>
     /// 选中的角色
     /// </summary>
     public Avatar? Selected { get => selected; set => SetProperty(ref selected, value); }
+
+    /// <summary>
+    /// 筛选用元素信息集合
+    /// </summary>
+    public IList<Selectable<string>> FilterElementInfos => filterElementInfos;
+
+    /// <summary>
+    /// 筛选用所属国家集合
+    /// </summary>
+    public IList<Selectable<Pair<string, string>>> FilterAssociationInfos => filterAssociationInfos;
+
+    /// <summary>
+    /// 筛选用武器信息集合
+    /// </summary>
+    public IList<Selectable<Pair<string, WeaponType>>> FilterWeaponTypeInfos => filterWeaponTypeInfos;
+
+    /// <summary>
+    /// 筛选用星级信息集合
+    /// </summary>
+    public IList<Selectable<Pair<string, ItemQuality>>> FilterQualityInfos => filterQualityInfos;
+
+    /// <summary>
+    /// 筛选用体型信息集合
+    /// </summary>
+    public IList<Selectable<Pair<string, string>>> FilterBodyInfos => filterBodyInfos;
 
     /// <summary>
     /// 打开页面命令
@@ -56,8 +134,48 @@ internal class WikiAvatarViewModel : ObservableObject
                 .OrderBy(avatar => avatar.BeginTime)
                 .ThenBy(avatar => avatar.Sort);
 
-            Avatars = new List<Avatar>(sorted);
-            Selected = Avatars[0];
+            Avatars = new AdvancedCollectionView(new List<Avatar>(sorted), true);
+            Avatars.MoveCurrentToFirst();
+        }
+    }
+
+    private void OnFilterChanged()
+    {
+        if (Avatars is not null)
+        {
+            List<string> targetElements = filterElementInfos
+                .Where(e => e.IsSelected)
+                .Select(e => e.Value)
+                .ToList();
+
+            List<string> targetAssociations = filterAssociationInfos
+                .Where(e => e.IsSelected)
+                .Select(e => e.Value.Value)
+                .ToList();
+
+            List<WeaponType> targetWeaponTypes = filterWeaponTypeInfos
+                .Where(e => e.IsSelected)
+                .Select(e => e.Value.Value)
+                .ToList();
+
+            List<ItemQuality> targeQualities = FilterQualityInfos
+                .Where(e => e.IsSelected)
+                .Select(e => e.Value.Value)
+                .ToList();
+
+            List<string> targetBodies = filterBodyInfos
+                .Where(e => e.IsSelected)
+                .Select(e => e.Value.Value)
+                .ToList();
+
+            Avatars.Filter = (object o) => o is Avatar avatar
+                && targetElements.Contains(avatar.FetterInfo.VisionBefore)
+                && targetAssociations.Contains(avatar.FetterInfo.Association)
+                && targetWeaponTypes.Contains(avatar.Weapon)
+                && targeQualities.Contains(avatar.Quality)
+                && targetBodies.Contains(avatar.Body);
+
+            Avatars.MoveCurrentToFirst();
         }
     }
 }

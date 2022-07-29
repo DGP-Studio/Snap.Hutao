@@ -18,6 +18,8 @@
         <StackPanel Margin="32,0,24,0">
 
             <sc:SettingsGroup Header="关于 胡桃">
+                <sc:Setting Header="胡桃" Description="{Binding AppVersion}"/>
+
                 <sc:SettingExpander>
                     <sc:SettingExpander.Header>
                         <sc:Setting

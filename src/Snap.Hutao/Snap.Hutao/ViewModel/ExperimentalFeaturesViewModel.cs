@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Context.FileSystem.Location;
 using Snap.Hutao.Factory.Abstraction;
-using Windows.Storage;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel;
@@ -14,12 +14,17 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Transient)]
 internal class ExperimentalFeaturesViewModel : ObservableObject
 {
+    private readonly IFileSystemLocation hutaoLocation;
+
     /// <summary>
     /// 构造一个新的实验性功能视图模型
     /// </summary>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public ExperimentalFeaturesViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    /// <param name="hutaoLocation">数据文件夹</param>
+    public ExperimentalFeaturesViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory, HutaoLocation hutaoLocation)
     {
+        this.hutaoLocation = hutaoLocation;
+
         OpenCacheFolderCommand = asyncRelayCommandFactory.Create(OpenCacheFolderAsync);
         OpenDataFolderCommand = asyncRelayCommandFactory.Create(OpenDataFolderAsync);
     }
@@ -36,12 +41,11 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
     private Task OpenCacheFolderAsync(CancellationToken token)
     {
-        return Launcher.LaunchFolderAsync(App.Current.AppData.TemporaryFolder).AsTask(token);
+        return Launcher.LaunchFolderAsync(App.Current.CacheFolder).AsTask(token);
     }
 
-    private async Task OpenDataFolderAsync(CancellationToken token)
+    private Task OpenDataFolderAsync(CancellationToken token)
     {
-        StorageFolder folder = await KnownFolders.DocumentsLibrary.GetFolderAsync("Hutao").AsTask(token).ConfigureAwait(false);
-        await Launcher.LaunchFolderAsync(folder).AsTask(token).ConfigureAwait(false);
+        return Launcher.LaunchFolderPathAsync(hutaoLocation.GetPath()).AsTask(token);
     }
 }

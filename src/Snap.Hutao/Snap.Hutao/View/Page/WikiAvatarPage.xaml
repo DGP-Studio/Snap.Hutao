@@ -56,7 +56,7 @@
         <DataTemplate x:Key="PropertyDataTemplate">
             <shvc:DescParamComboBox
                 HorizontalAlignment="Stretch"
-                Source="{Binding Property,Converter={StaticResource PropertyDescriptor}}"/>
+                Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="TalentDataTemplate">
@@ -80,32 +80,104 @@
             <SolidColorBrush Color="{ThemeResource CardBackgroundFillColorSecondary}"/>
         </SplitView.PaneBackground>
         <SplitView.Pane>
-            <ListView
-                SelectionMode="Single"
-                ItemsSource="{Binding Avatars}"
-                SelectedItem="{Binding Selected,Mode=TwoWay}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <shci:CachedImage
-                                Grid.Column="0"
-                                Width="48"
-                                Height="48"
-                                Margin="0,0,12,12"
-                                Source="{Binding SideIcon,Converter={StaticResource AvatarSideIconConverter},Mode=OneWay}"/>
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                Grid.Column="1"
-                                Margin="12,0,0,0"
-                                Text="{Binding Name}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <CommandBar ClosedDisplayMode="Compact" DefaultLabelPosition="Right">
+                    <AppBarButton Label="筛选" Icon="Filter">
+                        <AppBarButton.Flyout>
+                            <Flyout Placement="RightEdgeAlignedTop" LightDismissOverlayMode="On">
+                                <cwuc:UniformGrid Columns="3" RowSpacing="16">
+                                    <cwuc:HeaderedItemsControl
+                                        Header="元素"
+                                        Padding="0,12,0,0"
+                                        ItemsSource="{Binding FilterElementInfos}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="{Binding Value}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </cwuc:HeaderedItemsControl>
+
+                                    <cwuc:HeaderedItemsControl
+                                        Header="所属"
+                                        Padding="0,12,0,0"
+                                        ItemsSource="{Binding FilterAssociationInfos}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="{Binding Value.Key}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </cwuc:HeaderedItemsControl>
+
+                                    <cwuc:HeaderedItemsControl
+                                        Header="武器"
+                                        Padding="0,12,0,0"
+                                        ItemsSource="{Binding FilterWeaponTypeInfos}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="{Binding Value.Key}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </cwuc:HeaderedItemsControl>
+
+                                    <cwuc:HeaderedItemsControl
+                                        Header="星级"
+                                        Padding="0,12,0,0"
+                                        ItemsSource="{Binding FilterQualityInfos}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="{Binding Value.Key}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </cwuc:HeaderedItemsControl>
+
+                                    <cwuc:HeaderedItemsControl
+                                        Header="体型"
+                                        Padding="0,12,0,0"
+                                        ItemsSource="{Binding FilterBodyInfos}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" Content="{Binding Value.Key}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </cwuc:HeaderedItemsControl>
+                                </cwuc:UniformGrid>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                </CommandBar>
+                <ListView
+                    Grid.Row="1"
+                    SelectionMode="Single"
+                    ItemsSource="{Binding Avatars}"
+                    SelectedItem="{Binding Selected,Mode=TwoWay}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <shci:CachedImage
+                                    Grid.Column="0"
+                                    Width="48"
+                                    Height="48"
+                                    Margin="0,0,12,12"
+                                    Source="{Binding SideIcon,Converter={StaticResource AvatarSideIconConverter},Mode=OneWay}"/>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Grid.Column="1"
+                                    Margin="12,0,0,0"
+                                    Text="{Binding Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+            
         </SplitView.Pane>
         <SplitView.Content>
             <Grid>
@@ -255,7 +327,7 @@
                             Margin="16,16,0,0"
                             HorizontalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
-                            Content="{Binding Selected,Mode=OneWay}"
+                            Content="{Binding Selected.Property,Mode=OneWay}"
                             ContentTemplate="{StaticResource PropertyDataTemplate}"/>
 
                         <TextBlock Text="天赋" Style="{StaticResource BaseTextBlockStyle}" Margin="16,32,0,0"/>

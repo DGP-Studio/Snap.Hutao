@@ -31,7 +31,7 @@ public sealed class DatebaseLoggerProvider : ILoggerProvider
                     // prevent re-entry call
                     if (logDbContext == null)
                     {
-                        MyDocumentContext myDocument = new(new());
+                        HutaoContext myDocument = new(new());
                         logDbContext = LogDbContext.Create($"Data Source={myDocument.Locate("Log.db")}");
                         if (logDbContext.Database.GetPendingMigrations().Any())
                         {

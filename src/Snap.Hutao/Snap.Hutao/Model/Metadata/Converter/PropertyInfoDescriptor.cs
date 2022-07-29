@@ -16,11 +16,11 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 internal class PropertyInfoDescriptor : IValueConverter
 {
     /// <inheritdoc/>
-    public object Convert(object value, Type targetType, object parameter, string language)
+    public object? Convert(object value, Type targetType, object parameter, string language)
     {
-        PropertyInfo rawDescParam = (PropertyInfo)value;
-
-        IList<LevelParam<string, ParameterInfo>> parameters = rawDescParam.Parameters
+        if (value is PropertyInfo rawDescParam)
+        {
+            IList<LevelParam<string, ParameterInfo>> parameters = rawDescParam.Parameters
             .Select(param =>
             {
                 IList<ParameterInfo> parameters = GetFormattedParameters(param.Parameters, rawDescParam.Properties);
@@ -28,7 +28,10 @@ internal class PropertyInfoDescriptor : IValueConverter
             })
             .ToList();
 
-        return parameters;
+            return parameters;
+        }
+
+        return null;
     }
 
     /// <inheritdoc/>

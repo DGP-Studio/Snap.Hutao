@@ -21,6 +21,14 @@ internal class SettingViewModel : ObservableObject
     }
 
     /// <summary>
+    /// 版本
+    /// </summary>
+    public string AppVersion
+    {
+        get => Core.CoreEnvironment.Version.ToString();
+    }
+
+    /// <summary>
     /// 实验性功能
     /// </summary>
     public ExperimentalFeaturesViewModel Experimental { get; }

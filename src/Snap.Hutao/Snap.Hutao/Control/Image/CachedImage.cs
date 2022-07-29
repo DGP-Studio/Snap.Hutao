@@ -36,6 +36,8 @@ public class CachedImage : ImageEx
 
             // check token state to determine whether the operation should be canceled.
             Must.TryThrowOnCanceled(token, "Image source has changed.");
+
+            // return a BitmapImage initialize with a uri will increase image quality.
             return new BitmapImage(new(file.Path));
         }
         catch (TaskCanceledException)

@@ -30,7 +30,7 @@ public class Gradient : CompositionImage
     }
 
     /// <inheritdoc/>
-    protected override async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
+    protected override async Task<LoadedImageSurface?> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
     {
         using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token))
         {

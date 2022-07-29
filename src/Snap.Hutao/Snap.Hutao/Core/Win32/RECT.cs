@@ -58,6 +58,11 @@ public struct RECT
         set => Right = value + Left;
     }
 
+    public long Area
+    {
+        get => Math.BigMul(Width, Height);
+    }
+
     public System.Drawing.Point Location
     {
         get => new(Left, Top);

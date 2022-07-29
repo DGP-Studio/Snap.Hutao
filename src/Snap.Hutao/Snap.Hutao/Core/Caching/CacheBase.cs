@@ -63,7 +63,7 @@ public abstract class CacheBase<T>
         StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
         IReadOnlyList<StorageFile> files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
 
-        await InternalClearAsync(files).ConfigureAwait(false);
+        await RemoveAsync(files).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public abstract class CacheBase<T>
             }
         }
 
-        await InternalClearAsync(filesToDelete).ConfigureAwait(false);
+        await RemoveAsync(filesToDelete).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -112,26 +112,19 @@ public abstract class CacheBase<T>
         IReadOnlyList<StorageFile> files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
 
         List<StorageFile> filesToDelete = new();
-        List<string> keys = new();
 
-        Dictionary<string, StorageFile> hashDictionary = new();
-
-        foreach (StorageFile file in files)
-        {
-            hashDictionary.Add(file.Name, file);
-        }
+        Dictionary<string, StorageFile> cachedFiles = files.ToDictionary(file => file.Name);
 
         foreach (Uri uri in uriForCachedItems)
         {
             string fileName = GetCacheFileName(uri);
-            if (hashDictionary.TryGetValue(fileName, out StorageFile? file))
+            if (cachedFiles.TryGetValue(fileName, out StorageFile? file))
             {
                 filesToDelete.Add(file);
-                keys.Add(fileName);
             }
         }
 
-        await InternalClearAsync(filesToDelete).ConfigureAwait(false);
+        await RemoveAsync(filesToDelete).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -210,22 +203,6 @@ public abstract class CacheBase<T>
         }
     }
 
-    [SuppressMessage("", "CA1822")]
-    private async Task InternalClearAsync(IEnumerable<StorageFile> files)
-    {
-        foreach (StorageFile file in files)
-        {
-            try
-            {
-                await file.DeleteAsync().AsTask().ConfigureAwait(false);
-            }
-            catch
-            {
-                // Just ignore errors for now
-            }
-        }
-    }
-
     /// <summary>
     /// Initializes with default values if user has not initialized explicitly
     /// </summary>
@@ -239,15 +216,17 @@ public abstract class CacheBase<T>
 
         using (await cacheFolderSemaphore.EnterAsync().ConfigureAwait(false))
         {
-            baseFolder ??= ApplicationData.Current.TemporaryFolder;
+            baseFolder ??= App.Current.CacheFolder;
 
             if (string.IsNullOrWhiteSpace(cacheFolderName))
             {
                 cacheFolderName = GetType().Name;
             }
 
-            cacheFolder = await baseFolder.CreateFolderAsync(cacheFolderName, CreationCollisionOption.OpenIfExists)
-                .AsTask().ConfigureAwait(false);
+            cacheFolder = await baseFolder
+                .CreateFolderAsync(cacheFolderName, CreationCollisionOption.OpenIfExists)
+                .AsTask()
+                .ConfigureAwait(false);
         }
     }
 
@@ -259,5 +238,20 @@ public abstract class CacheBase<T>
         }
 
         return Must.NotNull(cacheFolder!);
+    }
+
+    private async Task RemoveAsync(IEnumerable<StorageFile> files)
+    {
+        foreach (StorageFile file in files)
+        {
+            try
+            {
+                await file.DeleteAsync().AsTask().ConfigureAwait(false);
+            }
+            catch
+            {
+                logger.LogError(EventIds.CacheException, "Failed to delete file: {file}", file.Path);
+            }
+        }
     }
 }

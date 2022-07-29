@@ -64,7 +64,7 @@ public sealed partial class MainWindow : Window
 
         User32.SetWindowText(handle, "胡桃");
         RECT rect = RetriveWindowRect();
-        if (!rect.Size.IsEmpty)
+        if (rect.Area > 0)
         {
             WINDOWPLACEMENT windowPlacement = WINDOWPLACEMENT.Create(new POINT(-1, -1), rect, ShowWindowCommand.Normal);
             User32.SetWindowPlacement(handle, ref windowPlacement);

@@ -16,7 +16,7 @@ public class LogDbContextDesignTimeFactory : IDesignTimeDbContextFactory<LogDbCo
     [EditorBrowsable(EditorBrowsableState.Never)]
     public LogDbContext CreateDbContext(string[] args)
     {
-        MyDocumentContext myDocument = new(new());
+        HutaoContext myDocument = new(new());
         return LogDbContext.Create($"Data Source={myDocument.Locate("Log.db")}");
     }
 }

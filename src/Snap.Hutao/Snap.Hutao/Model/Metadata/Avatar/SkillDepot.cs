@@ -29,7 +29,10 @@ public class SkillDepot
     /// <summary>
     /// 全部天赋
     /// </summary>
-    public IList<ProudableSkill> CompositeSkills => GetCompositeSkills().ToList();
+    public IList<ProudableSkill> CompositeSkills
+    {
+        get => GetCompositeSkills().ToList();
+    }
 
     /// <summary>
     /// 命之座

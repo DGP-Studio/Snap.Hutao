@@ -11,6 +11,7 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
 using System.Diagnostics;
+using Windows.Storage;
 
 namespace Snap.Hutao;
 
@@ -54,9 +55,9 @@ public partial class App : Application
     /// <inheritdoc cref="Windows.Storage.ApplicationData.Current"/>
     /// </summary>
     [SuppressMessage("", "CA1822")]
-    public Windows.Storage.ApplicationData AppData
+    public StorageFolder CacheFolder
     {
-        get => Windows.Storage.ApplicationData.Current;
+        get => ApplicationData.Current.TemporaryFolder;
     }
 
     /// <summary>
@@ -81,7 +82,8 @@ public partial class App : Application
             Window = Ioc.Default.GetRequiredService<MainWindow>();
             Window.Activate();
 
-            logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", AppData.TemporaryFolder.Path);
+            logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", CacheFolder.Path);
+            logger.LogInformation(EventIds.CommonLog, "Data folder : {folder}", CacheFolder.Path);
 
             Ioc.Default
                 .GetRequiredService<IMetadataService>()

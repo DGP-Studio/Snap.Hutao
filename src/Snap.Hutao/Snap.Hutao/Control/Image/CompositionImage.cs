@@ -11,6 +11,7 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.Storage.Streams;
 
@@ -25,6 +26,8 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     private static readonly DependencyProperty SourceProperty = Property<CompositionImage>.Depend(nameof(Source), default(Uri), OnSourceChanged);
     private static readonly ConcurrentCancellationTokenSource<CompositionImage> LoadingTokenSource = new();
 
+    private readonly IImageCache imageCache;
+
     private SpriteVisual? spriteVisual;
 
     /// <summary>
@@ -32,6 +35,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     /// </summary>
     public CompositionImage()
     {
+        imageCache = Ioc.Default.GetRequiredService<IImageCache>();
         IsTabStop = false;
         SizeChanged += OnSizeChanged;
     }
@@ -59,11 +63,19 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     /// <param name="storageFile">文件</param>
     /// <param name="token">取消令牌</param>
     /// <returns>加载的图像表面</returns>
-    protected virtual async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
+    protected virtual async Task<LoadedImageSurface?> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
     {
-        using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token))
+        try
         {
-            return LoadedImageSurface.StartLoadFromStream(imageStream);
+            using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token))
+            {
+                return LoadedImageSurface.StartLoadFromStream(imageStream);
+            }
+        }
+        catch (COMException ex) when (ex.HResult == unchecked((int)0x88982F50))
+        {
+            // COMException (0x88982F50): 无法找不到组件。
+            return null;
         }
     }
 
@@ -76,11 +88,6 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
         spriteVisual.Size = ActualSize;
     }
 
-    private static Task<StorageFile> GetCachedFileAsync(Uri uri)
-    {
-        return Ioc.Default.GetRequiredService<IImageCache>().GetFileFromCacheAsync(uri);
-    }
-
     private static void OnApplyImageFailed(Exception exception)
     {
         Ioc.Default
@@ -90,40 +97,59 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs arg)
     {
-        if (arg.NewValue is Uri uri && uri != (arg.OldValue as Uri) && !string.IsNullOrEmpty(uri.Host))
+        CompositionImage image = (CompositionImage)sender;
+
+        _ = TryGetImageUri(arg, out Uri? uri);
+        ILogger<CompositionImage> logger = Ioc.Default.GetRequiredService<ILogger<CompositionImage>>();
+        image.ApplyImageInternalAsync(uri, LoadingTokenSource.Register(image)).SafeForget(logger, OnApplyImageFailed);
+    }
+
+    private static bool TryGetImageUri(DependencyPropertyChangedEventArgs arg, [NotNullWhen(true)] out Uri? result)
+    {
+        result = null;
+        if (arg.NewValue is Uri inner && !string.IsNullOrEmpty(inner.Host))
         {
-            CompositionImage image = (CompositionImage)sender;
-            ILogger<CompositionImage> logger = Ioc.Default.GetRequiredService<ILogger<CompositionImage>>();
-            image.ApplyImageInternalAsync(uri, LoadingTokenSource.Register(image)).SafeForget(logger, OnApplyImageFailed);
+            // value is different from old one and not
+            if (inner != (arg.OldValue as Uri))
+            {
+                result = inner;
+                return true;
+            }
         }
+
+        return false;
     }
 
     private async Task ApplyImageInternalAsync(Uri? uri, CancellationToken token)
     {
         await AnimationBuilder.Create().Opacity(0d).StartAsync(this, token);
 
-        if (uri is null)
+        if (uri != null)
         {
-            return;
+            StorageFile storageFile = await imageCache.GetFileFromCacheAsync(uri);
+
+            Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
+            if (await LoadImageSurfaceAsync(storageFile, token) is LoadedImageSurface imageSurface)
+            {
+                spriteVisual = CompositeSpriteVisual(compositor, imageSurface);
+                OnUpdateVisual(spriteVisual);
+
+                ElementCompositionPreview.SetElementChildVisual(this, spriteVisual);
+
+                await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
+            }
+            else
+            {
+                // Image is broken, remove it
+                await imageCache.RemoveAsync(uri.Enumerate());
+            }
         }
-
-        StorageFile storageFile = await GetCachedFileAsync(uri);
-
-        Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
-        LoadedImageSurface imageSurface = await LoadImageSurfaceAsync(storageFile, token);
-
-        spriteVisual = CompositeSpriteVisual(compositor, imageSurface);
-        OnUpdateVisual(spriteVisual);
-
-        ElementCompositionPreview.SetElementChildVisual(this, spriteVisual);
-
-        await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (e.NewSize != e.PreviousSize && spriteVisual is not null)
+        if (e.NewSize != e.PreviousSize && spriteVisual != null)
         {
             OnUpdateVisual(spriteVisual);
         }

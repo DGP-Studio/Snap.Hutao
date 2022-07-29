@@ -16,7 +16,7 @@ public class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbCo
     [EditorBrowsable(EditorBrowsableState.Never)]
     public AppDbContext CreateDbContext(string[] args)
     {
-        MyDocumentContext myDocument = new(new());
+        HutaoContext myDocument = new(new());
         return AppDbContext.Create($"Data Source={myDocument.Locate("Userdata.db")}");
     }
 }

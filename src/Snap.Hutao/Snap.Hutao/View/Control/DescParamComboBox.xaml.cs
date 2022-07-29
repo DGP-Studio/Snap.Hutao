@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Model.Metadata;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Snap.Hutao.View.Control;
 
@@ -31,8 +30,8 @@ public sealed partial class DescParamComboBox : UserControl
     /// </summary>
     public IList<LevelParam<string, ParameterInfo>> Source
     {
-        get { return (IList<LevelParam<string, ParameterInfo>>)GetValue(SourceProperty); }
-        set { SetValue(SourceProperty, value); }
+        get => (IList<LevelParam<string, ParameterInfo>>)GetValue(SourceProperty);
+        set => SetValue(SourceProperty, value);
     }
 
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
@@ -45,15 +44,13 @@ public sealed partial class DescParamComboBox : UserControl
             {
                 descParamComboBox.ItemHost.ItemsSource = list;
                 descParamComboBox.ItemHost.SelectedIndex = 0;
-
-                descParamComboBox.DetailsHost.ItemsSource = list.FirstOrDefault()?.Parameters;
             }
         }
     }
 
     private void ItemHostSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (sender is ComboBox comboBox && comboBox.SelectedIndex >= 0)
+        if (sender is ComboBox { SelectedIndex: >= 0 } comboBox)
         {
             DetailsHost.ItemsSource = Source[comboBox.SelectedIndex]?.Parameters;
         }

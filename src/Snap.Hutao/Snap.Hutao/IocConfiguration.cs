@@ -41,7 +41,7 @@ internal static class IocConfiguration
     /// <returns>可继续操作的集合</returns>
     public static IServiceCollection AddDatebase(this IServiceCollection services)
     {
-        MyDocumentContext myDocument = new(new());
+        HutaoContext myDocument = new(new());
 
         string dbFile = myDocument.Locate("Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";
