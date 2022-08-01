@@ -25,6 +25,12 @@ internal class AvatarNameCardPicConverter : IValueConverter
         return new Uri(string.Format(BaseUrl, avatarName));
     }
 
+    /// <inheritdoc/>
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        throw Must.NeverHappen();
+    }
+
     private static string ReplaceSpecialCaseNaming(string avatarName)
     {
         return avatarName switch
@@ -32,11 +38,5 @@ internal class AvatarNameCardPicConverter : IValueConverter
             "Yae" => "Yae1",
             _ => avatarName,
         };
-    }
-
-    /// <inheritdoc/>
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
-    {
-        throw Must.NeverHappen();
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.Exception;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
@@ -72,9 +73,8 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
                 return LoadedImageSurface.StartLoadFromStream(imageStream);
             }
         }
-        catch (COMException ex) when (ex.HResult == unchecked((int)0x88982F50))
+        catch (COMException ex) when (ex.Is(COMError.WINCODEC_ERR_COMPONENTNOTFOUND))
         {
-            // COMException (0x88982F50): 无法找不到组件。
             return null;
         }
     }

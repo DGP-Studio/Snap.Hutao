@@ -21,6 +21,7 @@ public class Pair<TKey, TValue>
         Value = value;
     }
 
+    /// <summary>
     /// 键
     /// </summary>
     public TKey Key { get; set; }

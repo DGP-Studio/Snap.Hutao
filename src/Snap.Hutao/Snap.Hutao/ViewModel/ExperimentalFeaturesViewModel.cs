@@ -41,7 +41,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
     private Task OpenCacheFolderAsync(CancellationToken token)
     {
-        return Launcher.LaunchFolderAsync(App.Current.CacheFolder).AsTask(token);
+        return Launcher.LaunchFolderAsync(App.CacheFolder).AsTask(token);
     }
 
     private Task OpenDataFolderAsync(CancellationToken token)

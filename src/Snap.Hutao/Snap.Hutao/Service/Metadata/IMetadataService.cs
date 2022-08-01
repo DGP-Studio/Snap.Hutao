@@ -26,47 +26,47 @@ internal interface IMetadataService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>成就列表</returns>
-    ValueTask<IEnumerable<Achievement>> GetAchievementsAsync(CancellationToken token = default);
+    ValueTask<List<Model.Metadata.Achievement.Achievement>> GetAchievementsAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取成就分类列表
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>成就分类列表</returns>
-    ValueTask<IEnumerable<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default);
+    ValueTask<List<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取角色列表
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    ValueTask<IEnumerable<Avatar>> GetAvatarsAsync(CancellationToken token = default);
+    ValueTask<List<Avatar>> GetAvatarsAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物列表
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>圣遗物列表</returns>
-    ValueTask<IEnumerable<Reliquary>> GetReliquariesAsync(CancellationToken token = default);
+    ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物强化属性列表
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>圣遗物强化属性列表</returns>
-    ValueTask<IEnumerable<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default);
+    ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物主属性强化属性列表
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>圣遗物强化属性列表</returns>
-    ValueTask<IEnumerable<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default);
+    ValueTask<List<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取武器列表
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>武器列表</returns>
-    ValueTask<IEnumerable<Weapon>> GetWeaponsAsync(CancellationToken token = default);
+    ValueTask<List<Weapon>> GetWeaponsAsync(CancellationToken token = default);
 }

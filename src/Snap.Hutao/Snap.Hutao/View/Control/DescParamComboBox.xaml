@@ -31,6 +31,9 @@
         <ItemsControl
             x:Name="DetailsHost"
             VerticalAlignment="Top">
+            <ItemsControl.ItemContainerTransitions>
+                <ContentThemeTransition/>
+            </ItemsControl.ItemContainerTransitions>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <sc:Setting Margin="0,2,0,0" Header="{Binding Description}" Padding="12,0">

@@ -3,9 +3,10 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.View.Dialog;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ internal class UserViewModel : ObservableObject
     private readonly IInfoBarService infoBarService;
 
     private User? selectedUser;
-    private ObservableCollection<User>? userInfos;
+    private ObservableCollection<User>? users;
 
     /// <summary>
     /// 构造一个新的用户视图模型
@@ -64,7 +65,7 @@ internal class UserViewModel : ObservableObject
     /// <summary>
     /// 用户信息集合
     /// </summary>
-    public ObservableCollection<User>? Users { get => userInfos; set => SetProperty(ref userInfos, value); }
+    public ObservableCollection<User>? Users { get => users; set => SetProperty(ref users, value); }
 
     /// <summary>
     /// 打开界面命令
@@ -90,20 +91,20 @@ internal class UserViewModel : ObservableObject
     {
         int validFlag = 4;
 
-        filteredCookie = new SortedDictionary<string, string>();
+        SortedDictionary<string, string> filter = new();
 
-        // O(1) to validate cookie
         foreach ((string key, string value) in map)
         {
             if (key == AccountIdKey || key == "cookie_token" || key == "ltoken" || key == "ltuid")
             {
                 validFlag--;
-                filteredCookie.Add(key, value);
+                filter.Add(key, value);
             }
         }
 
         if (validFlag == 0)
         {
+            filteredCookie = filter;
             return true;
         }
         else
@@ -115,41 +116,43 @@ internal class UserViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        Users = await userService.GetInitializedUsersAsync();
+        Users = await userService.GetUserCollectionAsync();
         SelectedUser = userService.CurrentUser;
     }
 
     private async Task AddUserAsync()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        // Get cookie from user input
+        Window mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
         Result<bool, string> result = await new UserDialog(mainWindow).GetInputCookieAsync();
 
-        // user confirms the input
+        // User confirms the input
         if (result.IsOk)
         {
-            IDictionary<string, string> cookieMap = userService.ParseCookie(result.Value);
-
-            if (TryValidateCookie(cookieMap, out IDictionary<string, string>? filteredCookie))
+            if (TryValidateCookie(userService.ParseCookie(result.Value), out IDictionary<string, string>? filteredCookie))
             {
                 string simplifiedCookie = string.Join(';', filteredCookie.Select(kvp => $"{kvp.Key}={kvp.Value}"));
-                User user = new() { Cookie = simplifiedCookie };
 
-                switch (await userService.TryAddUserAsync(user, filteredCookie[AccountIdKey]))
+                if (await userService.CreateUserAsync(simplifiedCookie) is User user)
                 {
-                    case UserAddResult.Added:
-                        infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 添加成功");
-                        break;
-                    case UserAddResult.Updated:
-                        infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 更新成功");
-                        break;
-                    case UserAddResult.AlreadyExists:
-                        infoBarService.Information($"用户 [{user.UserInfo!.Nickname}] 已经存在");
-                        break;
-                    case UserAddResult.InitializeFailed:
-                        infoBarService.Warning("此 Cookie 无法获取用户信息，请重新输入");
-                        break;
-                    default:
-                        throw Must.NeverHappen();
+                    switch (await userService.TryAddUserAsync(user, filteredCookie[AccountIdKey]))
+                    {
+                        case UserAddResult.Added:
+                            infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 添加成功");
+                            break;
+                        case UserAddResult.Updated:
+                            infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 更新成功");
+                            break;
+                        case UserAddResult.AlreadyExists:
+                            infoBarService.Information($"用户 [{user.UserInfo!.Nickname}] 已经存在");
+                            break;
+                        default:
+                            throw Must.NeverHappen();
+                    }
+                }
+                else
+                {
+                    infoBarService.Warning("此 Cookie 无法获取用户信息，请重新输入");
                 }
             }
             else
@@ -161,19 +164,14 @@ internal class UserViewModel : ObservableObject
 
     private async Task RemoveUserAsync(User? user)
     {
-        if (!User.IsNone(user))
-        {
-            await userService.RemoveUserAsync(user);
-            infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 成功移除");
-        }
+        Verify.Operation(user != null, "待删除的用户不应为 null");
+        await userService.RemoveUserAsync(user);
+        infoBarService.Success($"用户 [{user.UserInfo?.Nickname}] 成功移除");
     }
 
     private void CopyCookie(User? user)
     {
-        if (User.IsNone(user))
-        {
-            return;
-        }
+        Verify.Operation(user != null, "待复制 Cookie 的用户不应为 null");
 
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         try

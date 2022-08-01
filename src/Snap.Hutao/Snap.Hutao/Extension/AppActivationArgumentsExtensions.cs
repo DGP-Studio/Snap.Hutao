@@ -20,9 +20,8 @@ public static class AppActivationArgumentsExtensions
     public static bool TryGetProtocolActivatedUri(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out Uri? uri)
     {
         uri = null;
-        if (activatedEventArgs.Kind == ExtendedActivationKind.Protocol)
+        if (activatedEventArgs.Data is IProtocolActivatedEventArgs protocolArgs)
         {
-            IProtocolActivatedEventArgs protocolArgs = (activatedEventArgs.Data as IProtocolActivatedEventArgs)!;
             uri = protocolArgs.Uri;
             return true;
         }

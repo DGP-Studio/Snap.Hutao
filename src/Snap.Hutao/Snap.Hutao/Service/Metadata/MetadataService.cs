@@ -91,45 +91,45 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     }
 
     /// <inheritdoc/>
-    public ValueTask<IEnumerable<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default)
+    public ValueTask<List<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<IEnumerable<AchievementGoal>>("AchievementGoal", token);
+        return GetMetadataAsync<List<AchievementGoal>>("AchievementGoal", token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<IEnumerable<Achievement>> GetAchievementsAsync(CancellationToken token = default)
+    public ValueTask<List<Model.Metadata.Achievement.Achievement>> GetAchievementsAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<IEnumerable<Achievement>>("Achievement", token);
+        return GetMetadataAsync<List<Model.Metadata.Achievement.Achievement>>("Achievement", token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<IEnumerable<Avatar>> GetAvatarsAsync(CancellationToken token = default)
+    public ValueTask<List<Avatar>> GetAvatarsAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<IEnumerable<Avatar>>("Avatar", token);
+        return GetMetadataAsync<List<Avatar>>("Avatar", token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<IEnumerable<Reliquary>> GetReliquariesAsync(CancellationToken token = default)
+    public ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<IEnumerable<Reliquary>>("Reliquary", token);
+        return GetMetadataAsync<List<Reliquary>>("Reliquary", token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<IEnumerable<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default)
+    public ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<IEnumerable<ReliquaryAffix>>("ReliquaryAffix", token);
+        return GetMetadataAsync<List<ReliquaryAffix>>("ReliquaryAffix", token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<IEnumerable<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default)
+    public ValueTask<List<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<IEnumerable<ReliquaryAffixBase>>("ReliquaryMainAffix", token);
+        return GetMetadataAsync<List<ReliquaryAffixBase>>("ReliquaryMainAffix", token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<IEnumerable<Weapon>> GetWeaponsAsync(CancellationToken token = default)
+    public ValueTask<List<Weapon>> GetWeaponsAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<IEnumerable<Weapon>>("Weapon", token);
+        return GetMetadataAsync<List<Weapon>>("Weapon", token);
     }
 
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token = default)

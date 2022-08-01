@@ -44,9 +44,7 @@
             
             <Frame x:Name="ContentFrame">
                 <Frame.ContentTransitions>
-                    <TransitionCollection>
-                        <NavigationThemeTransition/>
-                    </TransitionCollection>
+                    <NavigationThemeTransition/>
                 </Frame.ContentTransitions>
             </Frame>
         </NavigationView>

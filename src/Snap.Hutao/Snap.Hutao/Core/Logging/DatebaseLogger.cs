@@ -41,7 +41,7 @@ internal sealed partial class DatebaseLogger : ILogger
     }
 
     /// <inheritdoc />
-    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+    public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, System.Exception? exception, Func<TState, System.Exception?, string> formatter)
     {
         if (!IsEnabled(logLevel))
         {

@@ -28,6 +28,7 @@ public partial class App : Application
     /// </summary>
     public App()
     {
+        AppInstance.GetCurrent().Activated += OnActivated;
         // load app resource
         InitializeComponent();
         InitializeDependencyInjection();
@@ -52,16 +53,24 @@ public partial class App : Application
     }
 
     /// <summary>
-    /// <inheritdoc cref="Windows.Storage.ApplicationData.Current"/>
+    /// <inheritdoc cref="ApplicationData.Current.TemporaryFolder"/>
     /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public StorageFolder CacheFolder
+    public static StorageFolder CacheFolder
     {
         get => ApplicationData.Current.TemporaryFolder;
     }
 
     /// <summary>
+    /// <inheritdoc cref="ApplicationData.Current.LocalSettings"/>
+    /// </summary>
+    public static ApplicationDataContainer Settings
+    {
+        get => ApplicationData.Current.LocalSettings;
+    }
+
+    /// <summary>
     /// Invoked when the application is launched.
+    /// Any async operation in this method should be wrapped with try catch
     /// </summary>
     /// <param name="args">Details about the launch request and process.</param>
     [SuppressMessage("", "VSTHRD100")]
@@ -69,7 +78,6 @@ public partial class App : Application
     {
         AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
         AppInstance firstInstance = AppInstance.FindOrRegisterForKey("main");
-        firstInstance.Activated += OnActivated;
 
         if (!firstInstance.IsCurrent)
         {
@@ -83,7 +91,6 @@ public partial class App : Application
             Window.Activate();
 
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", CacheFolder.Path);
-            logger.LogInformation(EventIds.CommonLog, "Data folder : {folder}", CacheFolder.Path);
 
             Ioc.Default
                 .GetRequiredService<IMetadataService>()
@@ -117,17 +124,20 @@ public partial class App : Application
         Ioc.Default.ConfigureServices(services);
     }
 
-    private void AppUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
-    {
-        logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
-    }
-
     private void OnActivated(object? sender, AppActivationArguments args)
     {
-        if (args.TryGetProtocolActivatedUri(out Uri? uri))
+        if (args.Kind == ExtendedActivationKind.Protocol)
         {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Information(uri.ToString());
+            if (args.TryGetProtocolActivatedUri(out Uri? uri))
+            {
+                Ioc.Default.GetRequiredService<IInfoBarService>().Information(uri.ToString());
+            }
         }
+    }
+
+    private void AppUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常: [HResult:{code}]", e.Exception.HResult);
     }
 
     private void XamlBindingFailed(object sender, BindingFailedEventArgs e)

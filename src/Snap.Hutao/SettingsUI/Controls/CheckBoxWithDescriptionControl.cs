@@ -35,13 +35,14 @@ public class CheckBoxWithDescriptionControl : CheckBox
 
     private void CheckBoxSubTextControl_Loaded(object sender, RoutedEventArgs e)
     {
-        StackPanel panel = new StackPanel() { Orientation = Orientation.Vertical };
+        StackPanel panel = new() { Orientation = Orientation.Vertical };
 
         // Add text box only if the description is not empty. Required for additional plugin options.
         if (!string.IsNullOrWhiteSpace(Description))
         {
             panel.Children.Add(new TextBlock() { Margin = new Thickness(0, 10, 0, 0), Text = Header });
-            panel.Children.Add(new IsEnabledTextBlock() { Style = (Style)Application.Current.Resources["SecondaryIsEnabledTextBlockStyle"], Text = Description });
+            //Style = (Style)Application.Current.Resources["SecondaryIsEnabledTextBlockStyle"]
+            panel.Children.Add(new IsEnabledTextBlock() { Text = Description });
         }
         else
         {

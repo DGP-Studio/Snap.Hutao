@@ -20,6 +20,8 @@ namespace Snap.Hutao.ViewModel;
 internal class WikiAvatarViewModel : ObservableObject
 {
     private readonly IMetadataService metadataService;
+
+    // filters
     private readonly List<Selectable<string>> filterElementInfos;
     private readonly List<Selectable<Pair<string, string>>> filterAssociationInfos;
     private readonly List<Selectable<Pair<string, WeaponType>>> filterWeaponTypeInfos;
@@ -129,12 +131,12 @@ internal class WikiAvatarViewModel : ObservableObject
     {
         if (await metadataService.InitializeAsync())
         {
-            IEnumerable<Avatar>? avatars = await metadataService.GetAvatarsAsync();
+            IList<Avatar> avatars = await metadataService.GetAvatarsAsync();
             IOrderedEnumerable<Avatar> sorted = avatars
                 .OrderBy(avatar => avatar.BeginTime)
                 .ThenBy(avatar => avatar.Sort);
 
-            Avatars = new AdvancedCollectionView(new List<Avatar>(sorted), true);
+            Avatars = new AdvancedCollectionView(sorted.ToList(), true);
             Avatars.MoveCurrentToFirst();
         }
     }
@@ -175,7 +177,10 @@ internal class WikiAvatarViewModel : ObservableObject
                 && targeQualities.Contains(avatar.Quality)
                 && targetBodies.Contains(avatar.Body);
 
-            Avatars.MoveCurrentToFirst();
+            if (!Avatars.Contains(Selected))
+            {
+                Avatars.MoveCurrentToFirst();
+            }
         }
     }
 }

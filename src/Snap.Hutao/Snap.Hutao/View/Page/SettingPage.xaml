@@ -10,7 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance shv:SettingViewModel}">
     <Page.Resources>
-        <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+        <Style TargetType="Button" BasedOn="{StaticResource SettingButtonStyle}">
             <Setter Property="MinWidth" Value="160"/>
         </Style>
     </Page.Resources>

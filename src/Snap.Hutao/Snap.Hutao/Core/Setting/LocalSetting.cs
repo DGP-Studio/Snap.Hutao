@@ -14,13 +14,12 @@ internal static class LocalSetting
     /// <summary>
     /// 由于 <see cref="Windows.Foundation.Collections.IPropertySet"/> 没有 nullable context,
     /// 在处理引用类型时需要格外小心
-    /// 将值类型的操作与引用类型区分开，可以提升一定的性能
     /// </summary>
     private static readonly ApplicationDataContainer Container;
 
     static LocalSetting()
     {
-        Container = ApplicationData.Current.LocalSettings;
+        Container = App.Settings;
     }
 
     /// <summary>
@@ -79,17 +78,11 @@ internal static class LocalSetting
     /// <typeparam name="T">设置项的类型</typeparam>
     /// <param name="key">键</param>
     /// <param name="value">值</param>
-    public static void Set<T>(string key, T? value)
-        where T : class
+    /// <returns>设置的值</returns>
+    public static T Set<T>(string key, T value)
     {
-        try
-        {
-            Container.Values[key] = value;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex);
-        }
+        Container.Values[key] = value;
+        return value;
     }
 
     /// <summary>
@@ -105,7 +98,7 @@ internal static class LocalSetting
         {
             Container.Values[key] = value;
         }
-        catch (Exception ex)
+        catch (System.Exception ex)
         {
             Debug.WriteLine(ex);
         }

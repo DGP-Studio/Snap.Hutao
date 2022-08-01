@@ -16,17 +16,21 @@ namespace Snap.Hutao.View.Page;
 /// </summary>
 public sealed partial class AnnouncementContentPage : Microsoft.UI.Xaml.Controls.Page
 {
+    // apply in dark mode
     private const string LightColor1 = "color:rgba(255,255,255,1)";
     private const string LightColor2 = "color:rgba(238,238,238,1)";
     private const string LightColor3 = "color:rgba(204,204,204,1)";
     private const string LightColor4 = "color:rgba(198,196,191,1)";
     private const string LightColor5 = "color:rgba(170,170,170,1)";
+    private const string LightAccentColor = "background-color: rgb(0,40,70)";
 
+    // find in content
     private const string DarkColor1 = "color:rgba(0,0,0,1)";
     private const string DarkColor2 = "color:rgba(17,17,17,1)";
     private const string DarkColor3 = "color:rgba(51,51,51,1)";
     private const string DarkColor4 = "color:rgba(57,59,64,1)";
     private const string DarkColor5 = "color:rgba(85,85,85,1)";
+    private const string DarkAccentColor1 = "background-color: rgb(255, 215, 185);";
 
     // support click open browser.
     private const string MihoyoSDKDefinition =
@@ -76,7 +80,8 @@ openInWebview: function(url){ location.href = url }}";
                 .Replace(DarkColor5, LightColor5)
                 .Replace(DarkColor4, LightColor4)
                 .Replace(DarkColor3, LightColor3)
-                .Replace(DarkColor2, LightColor2);
+                .Replace(DarkColor2, LightColor2)
+                .Replace(DarkAccentColor1, LightAccentColor);
         }
 
         // wrap a default color body around

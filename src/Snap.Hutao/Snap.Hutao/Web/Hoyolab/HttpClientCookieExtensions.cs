@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Binding;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab;
@@ -19,11 +19,7 @@ internal static class HttpClientCookieExtensions
     /// <returns>客户端</returns>
     internal static HttpClient SetUser(this HttpClient httpClient, User user)
     {
-        if (!User.IsNone(user))
-        {
-            httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie);
-        }
-
+        httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie);
         return httpClient;
     }
 }

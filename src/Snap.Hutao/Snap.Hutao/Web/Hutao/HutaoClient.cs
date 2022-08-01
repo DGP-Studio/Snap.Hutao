@@ -294,7 +294,7 @@ internal class HutaoClient : ISupportAsyncInitialization
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>玩家记录</returns>
-    public async Task<PlayerRecord> GetPlayerRecordAsync(User user, CancellationToken token = default)
+    public async Task<PlayerRecord> GetPlayerRecordAsync(Snap.Hutao.Model.Binding.User user, CancellationToken token = default)
     {
         PlayerInfo? playerInfo = await gameRecordClient
             .GetPlayerInfoAsync(user, token)

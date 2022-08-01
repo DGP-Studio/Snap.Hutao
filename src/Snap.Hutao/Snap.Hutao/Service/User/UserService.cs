@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Context.Database;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
@@ -15,16 +13,17 @@ namespace Snap.Hutao.Service;
 
 /// <summary>
 /// 用户服务
+/// 主要负责将用户数据与数据库同步
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IUserService))]
+[Injection(InjectAs.Singleton, typeof(IUserService))]
 internal class UserService : IUserService
 {
     private readonly AppDbContext appDbContext;
     private readonly UserClient userClient;
     private readonly UserGameRoleClient userGameRoleClient;
 
-    private User? currentUser;
-    private ObservableCollection<User>? cachedUsers = null;
+    private Model.Binding.User? currentUser;
+    private ObservableCollection<Model.Binding.User>? userCollection = null;
 
     /// <summary>
     /// 构造一个新的用户服务
@@ -40,18 +39,18 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public User? CurrentUser
+    public Model.Binding.User? CurrentUser
     {
         get => currentUser;
         set
         {
             // only update when not processing a deletion
-            if (!User.IsNone(value))
+            if (value != null)
             {
-                if (!User.IsNone(currentUser))
+                if (currentUser != null)
                 {
-                    User.SetSelectionState(currentUser, false);
-                    appDbContext.Users.Update(currentUser);
+                    currentUser.IsSelected = false;
+                    appDbContext.Users.Update(currentUser.Entity);
                     appDbContext.SaveChanges();
                 }
             }
@@ -59,91 +58,98 @@ internal class UserService : IUserService
             // 当删除到无用户时也能正常反应状态
             currentUser = value;
 
-            if (!User.IsNone(currentUser))
+            if (currentUser != null)
             {
-                User.SetSelectionState(currentUser, true);
-                appDbContext.Users.Update(currentUser);
+                currentUser.IsSelected = true;
+                appDbContext.Users.Update(currentUser.Entity);
                 appDbContext.SaveChanges();
             }
         }
     }
 
     /// <inheritdoc/>
-    public async Task<UserAddResult> TryAddUserAsync(User newUser, string uid)
+    public async Task<UserAddResult> TryAddUserAsync(Model.Binding.User newUser, string uid)
     {
-        Must.NotNull(cachedUsers!);
+        Must.NotNull(userCollection!);
 
         // 查找是否有相同的uid
-        User? userWithSameUid = cachedUsers
-            .SingleOrDefault(u => u.UserInfo!.Uid == uid);
-
-        if (userWithSameUid != null)
+        if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is Model.Binding.User userWithSameUid)
         {
-            // Prevent users from adding same cookie.
+            // Prevent users from adding a completely same cookie.
             if (userWithSameUid.Cookie == newUser.Cookie)
             {
                 return UserAddResult.AlreadyExists;
             }
             else
             {
-                // Try update user here.
+                // Update user cookie here.
                 userWithSameUid.Cookie = newUser.Cookie;
-                appDbContext.Users.Update(userWithSameUid);
-
-                await appDbContext
-                    .SaveChangesAsync()
-                    .ConfigureAwait(false);
+                appDbContext.Users.Update(userWithSameUid.Entity);
+                await appDbContext.SaveChangesAsync().ConfigureAwait(false);
 
                 return UserAddResult.Updated;
             }
         }
-
-        // must continue on the caller thread.
-        if (await newUser.InitializeAsync(userClient, userGameRoleClient))
+        else
         {
-            appDbContext.Users.Add(newUser);
+            Verify.Operation(newUser.IsInitialized, "该用户尚未初始化");
 
-            await appDbContext
-                .SaveChangesAsync()
-                .ConfigureAwait(false);
+            // Sync database
+            appDbContext.Users.Add(newUser.Entity);
+            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+
+            // Sync cache
+            userCollection.Add(newUser);
 
             return UserAddResult.Added;
         }
-
-        return UserAddResult.InitializeFailed;
     }
 
     /// <inheritdoc/>
-    public Task RemoveUserAsync(User user)
+    public Task RemoveUserAsync(Model.Binding.User user)
     {
-        appDbContext.Users.Remove(user);
+        userCollection!.Remove(user);
+        appDbContext.Users.Remove(user.Entity);
         return appDbContext.SaveChangesAsync();
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<User>> GetInitializedUsersAsync()
+    public async Task<ObservableCollection<Model.Binding.User>> GetUserCollectionAsync()
     {
-        if (cachedUsers == null)
+        if (userCollection == null)
         {
-            await appDbContext.Users
-                .LoadAsync()
-                .ConfigureAwait(false);
+            List<Model.Binding.User> users = new();
 
-            cachedUsers = appDbContext.Users.Local.ToObservableCollection();
-
-            foreach (User user in cachedUsers)
+            foreach (Model.Entity.User user in appDbContext.Users)
             {
-                await user
-                    .InitializeAsync(userClient, userGameRoleClient)
+                Model.Binding.User? initialized = await Model.Binding.User
+                    .CreateAsync(user, userClient, userGameRoleClient)
                     .ConfigureAwait(false);
+
+                if (initialized != null)
+                {
+                    users.Add(initialized);
+                }
+                else
+                {
+                    // User is unable to be initialized, remove it.
+                    appDbContext.Users.Remove(user);
+                    await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+                }
             }
 
-            CurrentUser = await appDbContext.Users
-                .SingleOrDefaultAsync(user => user.IsSelected)
-                .ConfigureAwait(false);
+            CurrentUser = users.SingleOrDefault(user => user.IsSelected);
+
+            userCollection = new(users);
         }
 
-        return cachedUsers;
+        return userCollection;
+    }
+
+    /// <inheritdoc/>
+    public Task<Model.Binding.User?> CreateUserAsync(string cookie)
+    {
+        return Model.Binding.User.CreateAsync(new() { Cookie = cookie }, userClient, userGameRoleClient);
     }
 
     /// <inheritdoc/>

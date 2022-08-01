@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -33,7 +34,7 @@ internal class UserGameRoleClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    public async Task<List<UserGameRole>> GetUserGameRolesAsync(Model.Entity.User user, CancellationToken token = default)
+    public async Task<List<UserGameRole>> GetUserGameRolesAsync(User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
             .SetUser(user)

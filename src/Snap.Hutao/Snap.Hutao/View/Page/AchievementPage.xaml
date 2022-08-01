@@ -5,28 +5,116 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:sc="using:SettingsUI.Controls"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcc="using:Snap.Hutao.Control.Cancellable"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shv="using:Snap.Hutao.ViewModel"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    d:DataContext="{d:DesignInstance shv:AchievementViewModel}">
+
+    <shcc:CancellablePage.Resources>
+        <shmmc:AchievementIconConverter x:Key="AchievementIconConverter"/>
+    </shcc:CancellablePage.Resources>
+
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid>
-        <ScrollViewer>
-            <ItemsControl
-                Margin="12,0,16,12"
-                ItemsSource="{Binding AchievementsView}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <sc:Setting
-                            Margin="0,12,0,0"
-                            Header="{Binding Title}"
-                            Description="{Binding Description}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
+        <SplitView
+            IsPaneOpen="True"
+            DisplayMode="Inline"
+            OpenPaneLength="252">
+            <SplitView.PaneBackground>
+                <SolidColorBrush Color="{ThemeResource CardBackgroundFillColorSecondary}"/>
+            </SplitView.PaneBackground>
+            <SplitView.Pane>
+                <ListView
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedAchievementGoal,Mode=TwoWay}"
+                    ItemsSource="{Binding AchievementGoals}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <shci:CachedImage
+                                    Width="24"
+                                    Height="24"
+                                    Grid.Column="0"
+                                    Source="{Binding Icon,Converter={StaticResource AchievementIconConverter}}"/>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Grid.Column="1"
+                                    Margin="12,0,0,2"
+                                    Text="{Binding Name}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </SplitView.Pane>
+
+            <SplitView.Content>
+                <ScrollViewer Padding="0,0,16,0">
+                    <ItemsControl
+                        Margin="16,0,0,16"
+                        ItemsSource="{Binding Achievements}">
+                        <!--ContentThemeTransition here can make items blinking,
+                            cause we are using ItemsStackPanel-->
+                        <!--<ItemsControl.Transitions>
+                            <ContentThemeTransition/>
+                        </ItemsControl.Transitions>-->
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsStackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid
+                                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                                    Background="{ThemeResource CardBackgroundBrush}"
+                                    BorderThickness="{ThemeResource CardBorderThickness}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    Padding="8"
+                                    Margin="0,16,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    MinHeight="48">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- Icon -->
+                                        <ColumnDefinition Width="*"/>
+                                        <!-- Header and subtitle -->
+                                        <ColumnDefinition Width="Auto"/>
+                                        <!-- Action control -->
+                                    </Grid.ColumnDefinitions>
+
+                                    <CheckBox
+                                        Margin="6,0,0,0"
+                                        Style="{StaticResource DefaultCheckBoxStyle}"
+                                        Padding="16,0,0,0"
+                                        Grid.Column="1">
+                                        <CheckBox.Content>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Title}"/>
+                                                <TextBlock
+                                                    Margin="0,2,0,0"
+                                                    Style="{StaticResource SecondaryTextStyle}"
+                                                    Text="{Binding Description}"/>
+                                            </StackPanel>
+                                        </CheckBox.Content>
+                                    </CheckBox>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </SplitView.Content>
+        </SplitView>
+
     </Grid>
 </shcc:CancellablePage>

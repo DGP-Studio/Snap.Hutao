@@ -3,6 +3,7 @@
 
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.Logging;
+using System.IO;
 
 namespace Snap.Hutao.Core;
 
@@ -35,7 +36,7 @@ internal abstract class WebView2Helper
                 {
                     version = CoreWebView2Environment.GetAvailableBrowserVersionString();
                 }
-                catch (Exception ex)
+                catch (FileNotFoundException ex)
                 {
                     ILogger<WebView2Helper> logger = Ioc.Default.GetRequiredService<ILogger<WebView2Helper>>();
                     logger.LogError(EventIds.WebView2EnvironmentException, ex, "WebView2 运行时未安装");

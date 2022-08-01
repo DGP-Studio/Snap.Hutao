@@ -35,7 +35,7 @@ internal class UserClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
-    public async Task<UserInfo?> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
+    public async Task<UserInfo?> GetUserFullInfoAsync(Model.Binding.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .UsingDynamicSecret()

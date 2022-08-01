@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.UI;
-using Microsoft.VisualStudio.Threading;
 using Snap.Hutao.Control.Cancellable;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Metadata.Achievement;
@@ -20,7 +19,9 @@ namespace Snap.Hutao.ViewModel;
 internal class AchievementViewModel : ObservableObject, ISupportCancellation
 {
     private readonly IMetadataService metadataService;
-    private AdvancedCollectionView? achievementsView;
+    private AdvancedCollectionView? achievements;
+    private IList<AchievementGoal>? achievementGoals;
+    private AchievementGoal? selectedAchievementGoal;
 
     /// <summary>
     /// 构造一个新的成就视图模型
@@ -39,10 +40,32 @@ internal class AchievementViewModel : ObservableObject, ISupportCancellation
     /// <summary>
     /// 成就视图
     /// </summary>
-    public AdvancedCollectionView? AchievementsView
+    public AdvancedCollectionView? Achievements
     {
-        get => achievementsView;
-        set => SetProperty(ref achievementsView, value);
+        get => achievements;
+        set => SetProperty(ref achievements, value);
+    }
+
+    /// <summary>
+    /// 成就分类
+    /// </summary>
+    public IList<AchievementGoal>? AchievementGoals
+    {
+        get => achievementGoals;
+        set => SetProperty(ref achievementGoals, value);
+    }
+
+    /// <summary>
+    /// 选中的成就分类
+    /// </summary>
+    public AchievementGoal? SelectedAchievementGoal
+    {
+        get => selectedAchievementGoal;
+        set
+        {
+            SetProperty(ref selectedAchievementGoal, value);
+            OnGoalChanged(value);
+        }
     }
 
     /// <summary>
@@ -50,17 +73,22 @@ internal class AchievementViewModel : ObservableObject, ISupportCancellation
     /// </summary>
     public ICommand OpenUICommand { get; }
 
-    private async Task OpenUIAsync(CancellationToken token)
+    private async Task OpenUIAsync()
     {
-        using (CancellationTokenExtensions.CombinedCancellationToken combined = token.CombineWith(CancellationToken))
+        if (await metadataService.InitializeAsync(CancellationToken))
         {
-            if (await metadataService.InitializeAsync(combined.Token))
-            {
-                IEnumerable<Achievement> achievements = await metadataService.GetAchievementsAsync(combined.Token);
+            Achievements = new(await metadataService.GetAchievementsAsync(CancellationToken), true);
+            AchievementGoals = await metadataService.GetAchievementGoalsAsync(CancellationToken);
+        }
+    }
 
-                // TODO
-                AchievementsView = new(achievements.ToList());
-            }
+    private void OnGoalChanged(AchievementGoal? goal)
+    {
+        if (Achievements != null)
+        {
+            Achievements.Filter = goal != null
+                ? ((object o) => o is Achievement achi && achi.Goal == goal.Id)
+                : ((object o) => true);
         }
     }
 }

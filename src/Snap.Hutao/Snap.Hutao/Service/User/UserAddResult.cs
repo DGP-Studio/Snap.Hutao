@@ -22,9 +22,4 @@ public enum UserAddResult
     /// 已经存在该用户
     /// </summary>
     AlreadyExists,
-
-    /// <summary>
-    /// 初始化用户失败
-    /// </summary>
-    InitializeFailed,
 }

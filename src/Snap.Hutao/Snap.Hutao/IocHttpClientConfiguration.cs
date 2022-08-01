@@ -19,7 +19,7 @@ namespace Snap.Hutao;
 /// </summary>
 internal static class IocHttpClientConfiguration
 {
-    private const string CommonUA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Snap Hutao";
+    private static readonly string CommonUA = $"Snap Hutao/{Core.CoreEnvironment.Version}";
 
     /// <summary>
     /// 添加 <see cref="HttpClient"/>
@@ -30,7 +30,8 @@ internal static class IocHttpClientConfiguration
     {
         // services
         services.AddHttpClient<MetadataService>(DefaultConfiguration);
-        services.AddHttpClient<ImageCache>(DefaultConfiguration).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler() { MaxConnectionsPerServer = 20 });
+        services.AddHttpClient<ImageCache>(DefaultConfiguration)
+            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler() { MaxConnectionsPerServer = 20 });
 
         // normal clients
         services.AddHttpClient<AnnouncementClient>(DefaultConfiguration);

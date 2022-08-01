@@ -9,6 +9,11 @@ namespace Snap.Hutao.Model.Metadata.Achievement;
 public class AchievementGoal
 {
     /// <summary>
+    /// Id
+    /// </summary>
+    public int Id { get; set; }
+
+    /// <summary>
     /// 排序顺序
     /// </summary>
     public int Order { get; set; }
