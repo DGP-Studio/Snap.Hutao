@@ -6,9 +6,9 @@ public class Unsafe
     /// <summary>
     /// 使用指针操作简化封送
     /// </summary>
-    /// <param name="lPARAM"></param>
-    /// <param name="minWidth"></param>
-    /// <param name="minHeight"></param>
+    /// <param name="lPARAM">lParam</param>
+    /// <param name="minWidth">最小宽度</param>
+    /// <param name="minHeight">最小高度</param>
     public static unsafe void SetMinTrackSize(nint lPARAM, float minWidth, float minHeight)
     {
         MINMAXINFO* rect2 = (MINMAXINFO*)lPARAM;

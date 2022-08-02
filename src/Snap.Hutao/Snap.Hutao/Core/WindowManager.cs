@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Control.HostBackdrop;
 using Snap.Hutao.Core.Logging;
@@ -23,6 +25,9 @@ internal class WindowManager
     private const int MinWidth = 848;
     private const int MinHeight = 524;
     private const int SubclassId = 101;
+
+    private static readonly Windows.UI.Color SystemBaseLowColor = Windows.UI.Color.FromArgb(0x33, 0xFF, 0xFF, 0xFF);
+    private static readonly Windows.UI.Color SystemBaseMediumLowColor = Windows.UI.Color.FromArgb(0x66, 0xFF, 0xFF, 0xFF);
     private readonly HWND handle;
     private readonly Window window;
     private readonly UIElement titleBar;
@@ -42,7 +47,9 @@ internal class WindowManager
         this.window = window;
         this.titleBar = titleBar;
         logger = Ioc.Default.GetRequiredService<ILogger<WindowManager>>();
+
         handle = (HWND)WindowNative.GetWindowHandle(window);
+
         InitializeWindow();
     }
 
@@ -70,11 +77,29 @@ internal class WindowManager
 
     private void InitializeWindow()
     {
-        window.ExtendsContentIntoTitleBar = true;
-        window.SetTitleBar(titleBar);
-        window.Closed += OnWindowClosed;
+        if (false && AppWindowTitleBar.IsCustomizationSupported())
+        {
+            AppWindow appWindow = GetAppWindow();
+            AppWindowTitleBar titleBar = appWindow.TitleBar;
+            titleBar.ExtendsContentIntoTitleBar = true;
 
-        SetWindowText(handle, "胡桃");
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonHoverBackgroundColor = SystemBaseLowColor;
+            titleBar.ButtonPressedBackgroundColor = SystemBaseMediumLowColor;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+            // appWindow.TitleBar.SetDragRectangles();
+            appWindow.Title = "胡桃";
+        }
+        else
+        {
+            window.ExtendsContentIntoTitleBar = true;
+            window.SetTitleBar(titleBar);
+
+            SetWindowText(handle, "胡桃");
+        }
+
+        window.Closed += OnWindowClosed;
         RECT rect = RetriveWindowRect();
         if (rect.Size > 0)
         {
@@ -111,5 +136,11 @@ internal class WindowManager
         }
 
         return DefSubclassProc(hwnd, uMsg, wParam, lParam);
+    }
+
+    private AppWindow GetAppWindow()
+    {
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(handle);
+        return AppWindow.GetFromWindowId(windowId);
     }
 }

@@ -17,11 +17,17 @@ public class ContentDialogBehavior : BehaviorBase<FrameworkElement>
     protected override void OnAssociatedObjectLoaded()
     {
         DependencyObject parent = VisualTreeHelper.GetParent(AssociatedObject);
-        DependencyObject child = VisualTreeHelper.GetChild(parent, 2);
-        Rectangle smokeLayerBackground = (Rectangle)child;
 
-        smokeLayerBackground.Margin = new Thickness(0);
-        smokeLayerBackground.RegisterPropertyChangedCallback(FrameworkElement.MarginProperty, OnMarginChanged);
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            DependencyObject current = VisualTreeHelper.GetChild(parent, i);
+            if (current is Rectangle { Name: "SmokeLayerBackground" } background)
+            {
+                background.ClearValue(FrameworkElement.MarginProperty);
+                background.RegisterPropertyChangedCallback(FrameworkElement.MarginProperty, OnMarginChanged);
+                break;
+            }
+        }
     }
 
     private static void OnMarginChanged(DependencyObject sender, DependencyProperty property)

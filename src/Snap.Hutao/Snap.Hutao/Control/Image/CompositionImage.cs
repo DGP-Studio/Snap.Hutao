@@ -12,6 +12,7 @@ using Snap.Hutao.Core.Exception;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -81,50 +82,52 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
         spriteVisual.Size = ActualSize;
     }
 
-    private static void OnApplyImageFailed(Exception exception)
+    private static void OnApplyImageFailed(Uri? uri, Exception exception)
     {
-        Ioc.Default
-            .GetRequiredService<IInfoBarService>()
-            .Error(exception, "应用合成图像时发生异常");
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+
+        if (exception is HttpRequestException httpRequestException)
+        {
+            infoBarService.Warning($"GET {uri}\n{httpRequestException}");
+        }
+        else
+        {
+            infoBarService.Error(exception, $"应用 {nameof(CompositionImage)} 的源时发生异常");
+        }
     }
 
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs arg)
     {
         CompositionImage image = (CompositionImage)sender;
-
-        _ = TryGetImageUri(arg, out Uri? uri);
+        CancellationToken token = LoadingTokenSource.Register(image);
         ILogger<CompositionImage> logger = Ioc.Default.GetRequiredService<ILogger<CompositionImage>>();
-        image.ApplyImageInternalAsync(uri, LoadingTokenSource.Register(image)).SafeForget(logger, OnApplyImageFailed);
-    }
 
-    private static bool TryGetImageUri(DependencyPropertyChangedEventArgs arg, [NotNullWhen(true)] out Uri? result)
-    {
-        result = null;
+        // source is valid
         if (arg.NewValue is Uri inner && !string.IsNullOrEmpty(inner.Host))
         {
-            // value is different from old one and not
+            // value is different from old one
             if (inner != (arg.OldValue as Uri))
             {
-                result = inner;
-                return true;
+                image.ApplyImageInternalAsync(inner, token).SafeForget(logger, ex => OnApplyImageFailed(inner, ex));
             }
         }
-
-        return false;
+        else
+        {
+            // should hide
+            image.HideAsync(token).SafeForget(logger);
+        }
     }
 
     private async Task ApplyImageInternalAsync(Uri? uri, CancellationToken token)
     {
-        await AnimationBuilder.Create().Opacity(0d).StartAsync(this, token);
+        await HideAsync(token);
 
         if (uri != null)
         {
             StorageFile storageFile = await imageCache.GetFileFromCacheAsync(uri);
-
             Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
             LoadedImageSurface? imageSurface = null;
-
             try
             {
                 imageSurface = await LoadImageSurfaceAsync(storageFile, token);
@@ -141,10 +144,19 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
                 OnUpdateVisual(spriteVisual);
 
                 ElementCompositionPreview.SetElementChildVisual(this, spriteVisual);
-
-                await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
+                await ShowAsync(token);
             }
         }
+    }
+
+    private Task ShowAsync(CancellationToken token)
+    {
+        return AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
+    }
+
+    private Task HideAsync(CancellationToken token)
+    {
+        return AnimationBuilder.Create().Opacity(0d).StartAsync(this, token);
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)

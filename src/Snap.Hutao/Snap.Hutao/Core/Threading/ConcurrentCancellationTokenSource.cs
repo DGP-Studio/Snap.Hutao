@@ -15,7 +15,7 @@ internal class ConcurrentCancellationTokenSource<TItem>
     private readonly ConcurrentDictionary<TItem, CancellationTokenSource> waitingItems = new();
 
     /// <summary>
-    /// 未某个项注册取消令牌
+    /// 为某个项注册取消令牌
     /// </summary>
     /// <param name="item">项</param>
     /// <returns>取消令牌</returns>
