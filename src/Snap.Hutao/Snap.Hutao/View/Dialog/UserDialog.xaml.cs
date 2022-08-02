@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Threading;
 
@@ -15,7 +16,7 @@ public sealed partial class UserDialog : ContentDialog
     /// 构造一个新的添加用户对话框
     /// </summary>
     /// <param name="window">呈现的父窗口</param>
-    public UserDialog(Microsoft.UI.Xaml.Window window)
+    public UserDialog(Window window)
     {
         InitializeComponent();
         XamlRoot = window.Content.XamlRoot;

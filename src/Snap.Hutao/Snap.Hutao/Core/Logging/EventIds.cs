@@ -78,4 +78,9 @@ internal static class EventIds
     /// 背景状态
     /// </summary>
     public static readonly EventId BackdropState = 200001;
+
+    /// <summary>
+    /// 子类控制
+    /// </summary>
+    public static readonly EventId SubClassing = 200002;
 }

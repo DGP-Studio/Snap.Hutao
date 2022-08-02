@@ -5,30 +5,30 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Control.HostBackdrop;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
-using System.Runtime.InteropServices;
-using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WinRT.Interop;
 
+using static Windows.Win32.PInvoke;
+
 namespace Snap.Hutao.Core;
 
 /// <summary>
-/// 窗口状态管理器
-/// 主要包含了各类 P/Inoke 代码
+/// 窗口管理器
+/// 主要包含了针对窗体的 P/Inoke 逻辑
 /// </summary>
 internal class WindowManager
 {
-    private const int MinWidth = 800;
-    private const int MinHeight = 600;
-
+    private const int MinWidth = 848;
+    private const int MinHeight = 524;
+    private const int SubclassId = 101;
     private readonly HWND handle;
     private readonly Window window;
     private readonly UIElement titleBar;
     private readonly ILogger<WindowManager> logger;
 
-    // We have to explictly hold a reference to the SUBCLASSPROC
+    // We have to explictly hold a reference to the SUBCLASSPROC,
     // otherwise will casuse System.ExecutionEngineException
     private SUBCLASSPROC? subClassProc;
 
@@ -53,17 +53,14 @@ internal class WindowManager
         int right = LocalSetting.GetValueType<int>(SettingKeys.WindowRight);
         int bottom = LocalSetting.GetValueType<int>(SettingKeys.WindowBottom);
 
-        return new() { left = left, top = top, right = right, bottom = bottom };
+        return new(left, top, right, bottom);
     }
 
     private static void SaveWindowRect(HWND handle)
     {
-        WINDOWPLACEMENT windowPlacement = new()
-        {
-            length = (uint)Marshal.SizeOf<WINDOWPLACEMENT>(),
-        };
+        WINDOWPLACEMENT windowPlacement = WINDOWPLACEMENT.Default;
 
-        PInvoke.GetWindowPlacement(handle, ref windowPlacement);
+        GetWindowPlacement(handle, ref windowPlacement);
 
         LocalSetting.Set(SettingKeys.WindowLeft, windowPlacement.rcNormalPosition.left);
         LocalSetting.Set(SettingKeys.WindowTop, windowPlacement.rcNormalPosition.top);
@@ -77,52 +74,42 @@ internal class WindowManager
         window.SetTitleBar(titleBar);
         window.Closed += OnWindowClosed;
 
-        PInvoke.SetWindowText(handle, "胡桃");
+        SetWindowText(handle, "胡桃");
         RECT rect = RetriveWindowRect();
-        if ((rect.right - rect.left) * (rect.bottom - rect.top) > 0)
+        if (rect.Size > 0)
         {
-            WINDOWPLACEMENT windowPlacement = new()
-            {
-                length = (uint)Marshal.SizeOf<WINDOWPLACEMENT>(),
-                showCmd = SHOW_WINDOW_CMD.SW_SHOWNORMAL,
-                ptMaxPosition = new() { x = -1, y = -1 },
-                rcNormalPosition = rect,
-            };
-
-            PInvoke.SetWindowPlacement(handle, in windowPlacement);
+            WINDOWPLACEMENT windowPlacement = WINDOWPLACEMENT.Create(new(-1, -1), rect, SHOW_WINDOW_CMD.SW_SHOWNORMAL);
+            SetWindowPlacement(handle, in windowPlacement);
         }
 
         bool micaApplied = new SystemBackdrop(window).TrySetBackdrop();
         logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
 
-        subClassProc = new(OnWindowProcedure);
-        _ = PInvoke.SetWindowSubclass(handle, subClassProc, 101, 0);
+        subClassProc = new(OnSubclassProcedure);
+        bool subClassApplied = SetWindowSubclass(handle, subClassProc, SubclassId, 0);
+        logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(SUBCLASSPROC), subClassApplied ? "succeed" : "failed");
     }
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        PInvoke.RemoveWindowSubclass(handle, subClassProc, 101);
+        RemoveWindowSubclass(handle, subClassProc, SubclassId);
         subClassProc = null;
         SaveWindowRect(handle);
     }
 
-    private LRESULT OnWindowProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
+    private LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {
         switch (uMsg)
         {
-            case PInvoke.WM_GETMINMAXINFO:
+            case WM_GETMINMAXINFO:
                 {
-                    uint dpi = PInvoke.GetDpiForWindow(handle);
+                    uint dpi = GetDpiForWindow(handle);
                     float scalingFactor = dpi / 96f;
-
-                    MINMAXINFO minMaxInfo = Marshal.PtrToStructure<MINMAXINFO>(lParam);
-                    minMaxInfo.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, minMaxInfo.ptMinTrackSize.x);
-                    minMaxInfo.ptMinTrackSize.y = (int)Math.Max(MinHeight * scalingFactor, minMaxInfo.ptMinTrackSize.y);
-                    Marshal.StructureToPtr(minMaxInfo, lParam, true);
+                    Win32.Unsafe.SetMinTrackSize(lParam, MinWidth * scalingFactor, MinHeight * scalingFactor);
                     break;
                 }
         }
 
-        return PInvoke.DefSubclassProc(hwnd, uMsg, wParam, lParam);
+        return DefSubclassProc(hwnd, uMsg, wParam, lParam);
     }
 }
