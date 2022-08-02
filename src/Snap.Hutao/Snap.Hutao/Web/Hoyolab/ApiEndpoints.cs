@@ -6,6 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// <summary>
 /// 米哈游Url端点
 /// </summary>
+[SuppressMessage("", "SA1201")]
 internal static class ApiEndpoints
 {
     /// <summary>
@@ -21,7 +22,13 @@ internal static class ApiEndpoints
     /// <summary>
     /// 游戏记录主页
     /// </summary>
-    public const string GameRecordIndex = $"{ApiTakumiRecordApi}/index?role_id={{0}}&server={{1}}";
+    /// <param name="uid">uid</param>
+    /// <param name="server">服务器区域</param>
+    /// <returns>游戏记录主页字符串</returns>
+    public static string GameRecordIndex(string uid, string server)
+    {
+        return $"{ApiTakumiRecordApi}/index?role_id={uid}&server={server}";
+    }
 
     /// <summary>
     /// 深渊信息

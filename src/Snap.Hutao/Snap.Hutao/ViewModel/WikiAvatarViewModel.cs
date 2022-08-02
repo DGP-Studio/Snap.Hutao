@@ -100,27 +100,42 @@ internal class WikiAvatarViewModel : ObservableObject
     /// <summary>
     /// 筛选用元素信息集合
     /// </summary>
-    public IList<Selectable<string>> FilterElementInfos => filterElementInfos;
+    public IList<Selectable<string>> FilterElementInfos
+    {
+        get => filterElementInfos;
+    }
 
     /// <summary>
     /// 筛选用所属国家集合
     /// </summary>
-    public IList<Selectable<Pair<string, string>>> FilterAssociationInfos => filterAssociationInfos;
+    public IList<Selectable<Pair<string, string>>> FilterAssociationInfos
+    {
+        get => filterAssociationInfos;
+    }
 
     /// <summary>
     /// 筛选用武器信息集合
     /// </summary>
-    public IList<Selectable<Pair<string, WeaponType>>> FilterWeaponTypeInfos => filterWeaponTypeInfos;
+    public IList<Selectable<Pair<string, WeaponType>>> FilterWeaponTypeInfos
+    {
+        get => filterWeaponTypeInfos;
+    }
 
     /// <summary>
     /// 筛选用星级信息集合
     /// </summary>
-    public IList<Selectable<Pair<string, ItemQuality>>> FilterQualityInfos => filterQualityInfos;
+    public IList<Selectable<Pair<string, ItemQuality>>> FilterQualityInfos
+    {
+        get => filterQualityInfos;
+    }
 
     /// <summary>
     /// 筛选用体型信息集合
     /// </summary>
-    public IList<Selectable<Pair<string, string>>> FilterBodyInfos => filterBodyInfos;
+    public IList<Selectable<Pair<string, string>>> FilterBodyInfos
+    {
+        get => filterBodyInfos;
+    }
 
     /// <summary>
     /// 打开页面命令

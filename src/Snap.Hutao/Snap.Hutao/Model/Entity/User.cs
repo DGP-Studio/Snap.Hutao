@@ -28,15 +28,4 @@ public class User
     /// 用户的Cookie
     /// </summary>
     public string? Cookie { get; set; }
-
-    /// <summary>
-    /// 设置用户的选中状态
-    /// 同时更新用户选择的角色信息
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="isSelected">是否选中</param>
-    public static void SetSelectionState(User user, bool isSelected)
-    {
-        user!.IsSelected = isSelected;
-    }
 }

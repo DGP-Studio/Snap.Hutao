@@ -8,7 +8,6 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Service.Metadata;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Snap.Hutao.ViewModel;
 

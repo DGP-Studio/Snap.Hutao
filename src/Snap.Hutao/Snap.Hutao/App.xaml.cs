@@ -28,7 +28,6 @@ public partial class App : Application
     /// </summary>
     public App()
     {
-        AppInstance.GetCurrent().Activated += OnActivated;
         // load app resource
         InitializeComponent();
         InitializeDependencyInjection();
@@ -79,14 +78,10 @@ public partial class App : Application
         AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
         AppInstance firstInstance = AppInstance.FindOrRegisterForKey("main");
 
-        if (!firstInstance.IsCurrent)
+        if (firstInstance.IsCurrent)
         {
-            // Redirect the activation (and args) to the "main" instance, and exit.
-            await firstInstance.RedirectActivationToAsync(activatedEventArgs);
-            Process.GetCurrentProcess().Kill();
-        }
-        else
-        {
+            firstInstance.Activated += OnActivated;
+
             Window = Ioc.Default.GetRequiredService<MainWindow>();
             Window.Activate();
 
@@ -94,9 +89,15 @@ public partial class App : Application
 
             Ioc.Default
                 .GetRequiredService<IMetadataService>()
-                .As<IMetadataInitializer>()?
+                .ImplictAs<IMetadataInitializer>()?
                 .InitializeInternalAsync()
                 .SafeForget(logger);
+        }
+        else
+        {
+            // Redirect the activation (and args) to the "main" instance, and exit.
+            await firstInstance.RedirectActivationToAsync(activatedEventArgs);
+            Process.GetCurrentProcess().Kill();
         }
     }
 

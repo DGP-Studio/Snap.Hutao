@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;

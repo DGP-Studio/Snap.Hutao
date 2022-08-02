@@ -29,6 +29,6 @@ public sealed partial class MainView : UserControl
         navigationService = Ioc.Default.GetRequiredService<INavigationService>();
         navigationService.Initialize(NavView, ContentFrame);
 
-        navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
+        //navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
     }
 }

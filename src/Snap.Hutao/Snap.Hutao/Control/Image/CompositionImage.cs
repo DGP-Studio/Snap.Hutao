@@ -64,18 +64,11 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     /// <param name="storageFile">文件</param>
     /// <param name="token">取消令牌</param>
     /// <returns>加载的图像表面</returns>
-    protected virtual async Task<LoadedImageSurface?> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
+    protected virtual async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
     {
-        try
+        using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token))
         {
-            using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token))
-            {
-                return LoadedImageSurface.StartLoadFromStream(imageStream);
-            }
-        }
-        catch (COMException ex) when (ex.Is(COMError.WINCODEC_ERR_COMPONENTNOTFOUND))
-        {
-            return null;
+            return LoadedImageSurface.StartLoadFromStream(imageStream);
         }
     }
 
@@ -130,7 +123,19 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
             Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
-            if (await LoadImageSurfaceAsync(storageFile, token) is LoadedImageSurface imageSurface)
+            LoadedImageSurface? imageSurface = null;
+
+            try
+            {
+                imageSurface = await LoadImageSurfaceAsync(storageFile, token);
+            }
+            catch (COMException ex) when (ex.Is(COMError.WINCODEC_ERR_COMPONENTNOTFOUND))
+            {
+                // Image is broken, remove it
+                await imageCache.RemoveAsync(uri.Enumerate());
+            }
+
+            if (imageSurface != null)
             {
                 spriteVisual = CompositeSpriteVisual(compositor, imageSurface);
                 OnUpdateVisual(spriteVisual);
@@ -138,11 +143,6 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
                 ElementCompositionPreview.SetElementChildVisual(this, spriteVisual);
 
                 await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
-            }
-            else
-            {
-                // Image is broken, remove it
-                await imageCache.RemoveAsync(uri.Enumerate());
             }
         }
     }

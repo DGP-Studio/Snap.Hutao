@@ -1,0 +1,16 @@
+﻿// ComCtl32
+SetWindowSubclass
+RemoveWindowSubclass
+DefSubclassProc
+
+// User32
+SetWindowText
+GetDpiForWindow
+GetWindowPlacement
+SetWindowPlacement
+
+// Type definition
+MINMAXINFO
+
+// Const value
+WM_GETMINMAXINFO

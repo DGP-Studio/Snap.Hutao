@@ -8,7 +8,7 @@ using Snap.Hutao.ViewModel;
 namespace Snap.Hutao.View.Page;
 
 /// <summary>
-/// An empty page that can be used on its own or navigated to within a Frame.
+/// 设置页面
 /// </summary>
 public sealed partial class SettingPage : Microsoft.UI.Xaml.Controls.Page
 {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Context.Database;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
@@ -22,8 +23,8 @@ internal class UserService : IUserService
     private readonly UserClient userClient;
     private readonly UserGameRoleClient userGameRoleClient;
 
-    private Model.Binding.User? currentUser;
-    private ObservableCollection<Model.Binding.User>? userCollection = null;
+    private User? currentUser;
+    private ObservableCollection<User>? userCollection = null;
 
     /// <summary>
     /// 构造一个新的用户服务
@@ -39,7 +40,7 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public Model.Binding.User? CurrentUser
+    public User? CurrentUser
     {
         get => currentUser;
         set
@@ -68,12 +69,12 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<UserAddResult> TryAddUserAsync(Model.Binding.User newUser, string uid)
+    public async Task<UserAddResult> TryAddUserAsync(User newUser, string uid)
     {
         Must.NotNull(userCollection!);
 
         // 查找是否有相同的uid
-        if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is Model.Binding.User userWithSameUid)
+        if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is User userWithSameUid)
         {
             // Prevent users from adding a completely same cookie.
             if (userWithSameUid.Cookie == newUser.Cookie)
@@ -94,36 +95,39 @@ internal class UserService : IUserService
         {
             Verify.Operation(newUser.IsInitialized, "该用户尚未初始化");
 
+            // Sync cache
+            userCollection.Add(newUser);
+
             // Sync database
             appDbContext.Users.Add(newUser.Entity);
             await appDbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            // Sync cache
-            userCollection.Add(newUser);
 
             return UserAddResult.Added;
         }
     }
 
     /// <inheritdoc/>
-    public Task RemoveUserAsync(Model.Binding.User user)
+    public Task RemoveUserAsync(User user)
     {
+        // Sync cache
         userCollection!.Remove(user);
+
+        // Sync database
         appDbContext.Users.Remove(user.Entity);
         return appDbContext.SaveChangesAsync();
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<Model.Binding.User>> GetUserCollectionAsync()
+    public async Task<ObservableCollection<User>> GetUserCollectionAsync()
     {
         if (userCollection == null)
         {
-            List<Model.Binding.User> users = new();
+            List<User> users = new();
 
-            foreach (Model.Entity.User user in appDbContext.Users)
+            foreach (Model.Entity.User entity in appDbContext.Users)
             {
-                Model.Binding.User? initialized = await Model.Binding.User
-                    .CreateAsync(user, userClient, userGameRoleClient)
+                User? initialized = await User
+                    .CreateAsync(entity, userClient, userGameRoleClient)
                     .ConfigureAwait(false);
 
                 if (initialized != null)
@@ -133,23 +137,22 @@ internal class UserService : IUserService
                 else
                 {
                     // User is unable to be initialized, remove it.
-                    appDbContext.Users.Remove(user);
+                    appDbContext.Users.Remove(entity);
                     await appDbContext.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
 
-            CurrentUser = users.SingleOrDefault(user => user.IsSelected);
-
             userCollection = new(users);
+            CurrentUser = users.SingleOrDefault(user => user.IsSelected);
         }
 
         return userCollection;
     }
 
     /// <inheritdoc/>
-    public Task<Model.Binding.User?> CreateUserAsync(string cookie)
+    public Task<User?> CreateUserAsync(string cookie)
     {
-        return Model.Binding.User.CreateAsync(new() { Cookie = cookie }, userClient, userGameRoleClient);
+        return User.CreateAsync(new() { Cookie = cookie }, userClient, userGameRoleClient);
     }
 
     /// <inheritdoc/>

@@ -55,7 +55,7 @@ internal class GameRecordClient
     /// <returns>玩家的基础信息</returns>
     public async Task<PlayerInfo?> GetPlayerInfoAsync(User user, PlayerUid uid, CancellationToken token = default)
     {
-        string url = string.Format(ApiEndpoints.GameRecordIndex, uid.Value, uid.Region);
+        string url = string.Format(ApiEndpoints.GameRecordIndex(uid.Value, uid.Region));
 
         Response<PlayerInfo>? resp = await httpClient
             .SetUser(user)

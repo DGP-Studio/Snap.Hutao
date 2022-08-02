@@ -14,7 +14,7 @@ public static class ObjectExtensions
     /// <typeparam name="T">目标转换类型</typeparam>
     /// <param name="obj">对象</param>
     /// <returns>转换类型后的对象</returns>
-    public static T? As<T>(this object? obj)
+    public static T? ImplictAs<T>(this object? obj)
         where T : class
     {
         return obj as T;

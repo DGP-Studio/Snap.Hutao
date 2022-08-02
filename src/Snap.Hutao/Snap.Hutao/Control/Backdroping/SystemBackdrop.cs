@@ -30,12 +30,6 @@ public class SystemBackdrop
         this.window = window;
     }
 
-    private enum BackDropType
-    {
-        None,
-        Mica,
-    }
-
     /// <summary>
     /// 尝试设置背景
     /// </summary>
@@ -63,8 +57,7 @@ public class SystemBackdrop
 
             backdropController = new MicaController();
 
-            ICompositionSupportsSystemBackdrop target = window.As<ICompositionSupportsSystemBackdrop>();
-            backdropController.AddSystemBackdropTarget(target);
+            backdropController.AddSystemBackdropTarget(window.As<ICompositionSupportsSystemBackdrop>());
             backdropController.SetSystemBackdropConfiguration(configurationSource);
 
             return true;
