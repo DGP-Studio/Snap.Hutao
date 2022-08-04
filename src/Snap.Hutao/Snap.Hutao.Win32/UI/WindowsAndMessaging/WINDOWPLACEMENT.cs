@@ -11,10 +11,7 @@ public partial struct WINDOWPLACEMENT
     {
         get
         {
-            return new WINDOWPLACEMENT()
-            {
-                length = (uint)Marshal.SizeOf<WINDOWPLACEMENT>(),
-            };
+            return new() { length = (uint)Marshal.SizeOf<WINDOWPLACEMENT>() };
         }
     }
 

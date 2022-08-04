@@ -1,10 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Page;
+using Windows.UI.ViewManagement;
 
 namespace Snap.Hutao.View;
 
@@ -15,6 +18,7 @@ public sealed partial class MainView : UserControl
 {
     private readonly INavigationService navigationService;
     private readonly IInfoBarService infoBarService;
+    private readonly UISettings uISettings;
 
     /// <summary>
     /// 构造一个新的主视图
@@ -23,6 +27,9 @@ public sealed partial class MainView : UserControl
     {
         InitializeComponent();
 
+        uISettings = new();
+        uISettings.ColorValuesChanged += OnUISettingsColorValuesChanged;
+
         infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         infoBarService.Initialize(InfoBarStack);
 
@@ -30,5 +37,29 @@ public sealed partial class MainView : UserControl
         navigationService.Initialize(NavView, ContentFrame);
 
         navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
+    }
+
+    private void OnUISettingsColorValuesChanged(UISettings sender, object args)
+    {
+        Program.UIDispatcherQueue.TryEnqueue(UpdateTheme);
+    }
+
+    private void UpdateTheme()
+    {
+        if (RequestedTheme.ToString() == App.Current.RequestedTheme.ToString())
+        {
+            return;
+        }
+
+        ILogger<MainView> logger = Ioc.Default.GetRequiredService<ILogger<MainView>>();
+        logger.LogInformation(EventIds.CommonLog, "Element Theme [{element}] App Theme [{app}]", RequestedTheme, App.Current.RequestedTheme);
+
+        // Update controls' theme which presents in the PopupRoot
+        RequestedTheme = App.Current.RequestedTheme switch
+        {
+            ApplicationTheme.Light => ElementTheme.Light,
+            ApplicationTheme.Dark => ElementTheme.Dark,
+            _ => throw Must.NeverHappen(),
+        };
     }
 }

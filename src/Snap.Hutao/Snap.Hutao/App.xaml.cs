@@ -67,11 +67,7 @@ public partial class App : Application
         get => ApplicationData.Current.LocalSettings;
     }
 
-    /// <summary>
-    /// Invoked when the application is launched.
-    /// Any async operation in this method should be wrapped with try catch
-    /// </summary>
-    /// <param name="args">Details about the launch request and process.</param>
+    /// <inheritdoc/>
     [SuppressMessage("", "VSTHRD100")]
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
@@ -83,7 +79,6 @@ public partial class App : Application
             firstInstance.Activated += OnActivated;
 
             Window = Ioc.Default.GetRequiredService<MainWindow>();
-            Window.Activate();
 
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", CacheFolder.Path);
 

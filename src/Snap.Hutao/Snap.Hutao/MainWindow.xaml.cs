@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Context.Database;
-using Snap.Hutao.Core;
+using Snap.Hutao.Core.Windowing;
 
 namespace Snap.Hutao;
 
@@ -14,6 +14,7 @@ namespace Snap.Hutao;
 public sealed partial class MainWindow : Window
 {
     private readonly AppDbContext appDbContext;
+    private readonly WindowManager windowManager;
 
     /// <summary>
     /// 构造一个新的主窗体
@@ -24,11 +25,13 @@ public sealed partial class MainWindow : Window
     {
         this.appDbContext = appDbContext;
         InitializeComponent();
-        _ = new WindowManager(this, TitleBarView.DragableArea);
+        windowManager = new WindowManager(this, (FrameworkElement)TitleBarView.DragableArea);
     }
 
     private void MainWindowClosed(object sender, WindowEventArgs args)
     {
+        windowManager.Dispose();
+
         // save userdata datebase
         int changes = appDbContext.SaveChanges();
         Verify.Operation(changes == 0, "存在未经处理的数据库记录更改");

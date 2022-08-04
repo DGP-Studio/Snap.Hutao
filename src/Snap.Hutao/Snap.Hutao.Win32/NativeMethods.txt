@@ -1,16 +1,30 @@
-﻿// ComCtl32
-SetWindowSubclass
-RemoveWindowSubclass
+﻿// Type definition
+MINMAXINFO
+
+
+// 
 DefSubclassProc
 
+SetWindowSubclass
+RemoveWindowSubclass
+
+
 // User32
-SetWindowText
 GetDpiForWindow
+
+GetMonitorInfo
+
 GetWindowPlacement
 SetWindowPlacement
 
-// Type definition
-MINMAXINFO
+GetWindowRect
+
+MonitorFromRect
+
+SetWindowPos
+
+SetWindowText
+
 
 // Const value
 WM_GETMINMAXINFO

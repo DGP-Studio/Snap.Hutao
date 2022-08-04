@@ -31,6 +31,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     private readonly IImageCache imageCache;
 
     private SpriteVisual? spriteVisual;
+    private bool isShow = true;
 
     /// <summary>
     /// 构造一个新的单色图像
@@ -88,7 +89,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
         if (exception is HttpRequestException httpRequestException)
         {
-            infoBarService.Warning($"GET {uri}\n{httpRequestException}");
+            infoBarService.Error(httpRequestException, $"GET {uri}");
         }
         else
         {
@@ -113,7 +114,6 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
         }
         else
         {
-            // should hide
             image.HideAsync(token).SafeForget(logger);
         }
     }
@@ -149,14 +149,22 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
         }
     }
 
-    private Task ShowAsync(CancellationToken token)
+    private async Task ShowAsync(CancellationToken token)
     {
-        return AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
+        if (!isShow)
+        {
+            await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
+            isShow = true;
+        }
     }
 
-    private Task HideAsync(CancellationToken token)
+    private async Task HideAsync(CancellationToken token)
     {
-        return AnimationBuilder.Create().Opacity(0d).StartAsync(this, token);
+        if (isShow)
+        {
+            await AnimationBuilder.Create().Opacity(0d).StartAsync(this, token);
+            isShow = false;
+        }
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)

@@ -94,8 +94,10 @@ openInWebview: function(url){ location.href = url }}";
         {
             await WebView.EnsureCoreWebView2Async();
 
-            await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
+            WebView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
             WebView.CoreWebView2.WebMessageReceived += OnWebMessageReceived;
+
+            await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
         }
         catch (Exception ex)
         {
