@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Convertion;
+using Snap.Hutao.Core.Convert;
 using System.Linq;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
@@ -12,13 +12,14 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 internal abstract class DynamicSecretProvider2 : Md5Convert
 {
     /// <summary>
-    /// 似乎已经与版本号无关，自2.11.1以来未曾改变salt
+    /// salt
     /// </summary>
-    public const string AppVersion = "2.16.1";
+    public const string AppVersion = "2.34.1";
 
     /// <summary>
     /// 米游社的盐
     /// 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
+    /// libxxxx.so
     /// </summary>
     private static readonly string Salt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
     private static readonly Random Random = new();
@@ -58,12 +59,13 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
     private static string GetRandomString()
     {
         // 原汁原味
-        // https://github.com/Azure99/GenshinPlayerQuery/issues/20#issuecomment-913641512
-        // int rand = (int)((Random.Next() / (int.MaxValue + 3D) * 100000D) + 100000D) % 1000000;
-        // if (rand < 100001)
-        // {
-        //     rand += 542367;
-        // }
+        // v16 = time(0LL);
+        // srand(v16);
+        // v17 = (int)((double)rand() / 2147483650.0 * 100000.0 + 100000.0) % 1000000;
+        // if (v17 >= 100001)
+        //     v18 = v17;
+        // else
+        //     v18 = v17 + 542367;
         int rand = Random.Next(100000, 200000);
         if (rand == 100000)
         {

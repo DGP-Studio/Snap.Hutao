@@ -162,7 +162,7 @@ internal class NavigationService : INavigationService
         NavigationView = navigationView;
         Frame = frame;
 
-        NavigationView.IsPaneOpen = LocalSetting.GetValueType(SettingKeys.IsNavPaneOpen, true);
+        NavigationView.IsPaneOpen = LocalSetting.Get(SettingKeys.IsNavPaneOpen, true);
     }
 
     /// <summary>
@@ -209,6 +209,6 @@ internal class NavigationService : INavigationService
 
     private void OnPaneStateChanged(NavigationView sender, object args)
     {
-        LocalSetting.SetValueType(SettingKeys.IsNavPaneOpen, NavigationView!.IsPaneOpen);
+        LocalSetting.Set(SettingKeys.IsNavPaneOpen, NavigationView!.IsPaneOpen);
     }
 }

@@ -9,9 +9,7 @@ using System.Collections.Generic;
 using Windows.Graphics;
 using Windows.UI;
 using Windows.Win32.Foundation;
-using Windows.Win32.UI.Shell;
 using WinRT.Interop;
-using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Windowing;
 
@@ -21,15 +19,16 @@ namespace Snap.Hutao.Core.Windowing;
 /// </summary>
 internal sealed class WindowManager : IDisposable
 {
-    private const int MinWidth = 848;
-    private const int MinHeight = 524;
-    private const int SubclassId = 101;
-
     private readonly HWND handle;
+    private readonly AppWindow appWindow;
+
     private readonly Window window;
     private readonly FrameworkElement titleBar;
+
     private readonly ILogger<WindowManager> logger;
     private readonly WindowSubclassManager subclassManager;
+
+    private readonly bool useLegacyDragBar;
 
     /// <summary>
     /// 构造一个新的窗口状态管理器
@@ -43,7 +42,12 @@ internal sealed class WindowManager : IDisposable
         logger = Ioc.Default.GetRequiredService<ILogger<WindowManager>>();
 
         handle = (HWND)WindowNative.GetWindowHandle(window);
-        subclassManager = new(handle);
+
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(handle);
+        appWindow = AppWindow.GetFromWindowId(windowId);
+
+        useLegacyDragBar = !AppWindowTitleBar.IsCustomizationSupported();
+        subclassManager = new(handle, useLegacyDragBar);
 
         InitializeWindow();
     }
@@ -51,51 +55,49 @@ internal sealed class WindowManager : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        WindowRect.SaveWindowRect(handle);
-        subclassManager.Dispose();
+        Persistence.Save(appWindow);
+        subclassManager?.Dispose();
     }
 
     private void InitializeWindow()
     {
-        if (AppWindowTitleBar.IsCustomizationSupported())
-        {
-            AppWindow appWindow = Interop.GetAppWindow(handle);
-            appWindow.Title = "胡桃";
+        appWindow.Title = "胡桃";
 
+        ExtendsContentIntoTitleBar();
+        Persistence.RecoverOrInit(appWindow);
+        appWindow.Show(true);
+
+        bool micaApplied = new SystemBackdrop(window).TrySetBackdrop();
+        logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
+
+        bool subClassApplied = subclassManager.TrySetWindowSubclass();
+        logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(WindowSubclassManager), subClassApplied ? "succeed" : "failed");
+    }
+
+    private void ExtendsContentIntoTitleBar()
+    {
+        if (useLegacyDragBar)
+        {
+            // use normal Window method to extend.
+            window.ExtendsContentIntoTitleBar = true;
+            window.SetTitleBar(titleBar);
+        }
+        else
+        {
             AppWindowTitleBar appTitleBar = appWindow.TitleBar;
+            appTitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
             appTitleBar.ExtendsContentIntoTitleBar = true;
 
             UpdateTitleButtonColor(appTitleBar);
             UpdateDragRectangles(appTitleBar);
             titleBar.SizeChanged += (s, e) => UpdateDragRectangles(appTitleBar);
             titleBar.ActualThemeChanged += (s, e) => UpdateTitleButtonColor(appTitleBar);
-
-            appWindow.Show(true);
         }
-        else
-        {
-            SetWindowText(handle, "胡桃");
-            window.ExtendsContentIntoTitleBar = true;
-            window.SetTitleBar(titleBar);
-
-            window.Activate();
-        }
-
-        Interop.SetWindowPosition(handle);
-
-        bool micaApplied = new SystemBackdrop(window).TrySetBackdrop();
-        logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
-
-        bool subClassApplied = subclassManager.TrySetWindowSubclass();
-        logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(SUBCLASSPROC), subClassApplied ? "succeed" : "failed");
     }
 
     private void UpdateDragRectangles(AppWindowTitleBar appTitleBar)
     {
-        uint dpi = GetDpiForWindow(handle);
-
-        // double scaleAdjustment = (uint)((((long)dpi * 100) + (96 >> 1)) / 96) / 100.0;
-        double scale = Math.Round(dpi / 96d, 2, MidpointRounding.AwayFromZero);
+        double scale = Persistence.GetScaleForWindow(handle);
 
         List<RectInt32> dragRectsList = new();
 
@@ -123,7 +125,7 @@ internal sealed class WindowManager : IDisposable
         // The Foreground doesn't accept Alpha channel. So we translate it to gray.
         byte light = (byte)((systemBaseMediumLowColor.R + systemBaseMediumLowColor.G + systemBaseMediumLowColor.B) / 3);
         byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
-        appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0XFF, result, result, result);
+        appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
 
         Color systemBaseHighColor = (Color)App.Current.Resources["SystemBaseHighColor"];
         appTitleBar.ButtonForegroundColor = systemBaseHighColor;

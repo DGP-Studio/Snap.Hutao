@@ -1,30 +1,19 @@
-﻿// Type definition
+﻿// Const value
+WM_GETMINMAXINFO
+WM_NCRBUTTONDOWN
+WM_NCRBUTTONUP
+
+
+// Type definition
 MINMAXINFO
 
 
-// 
+// Comctl32
 DefSubclassProc
-
 SetWindowSubclass
 RemoveWindowSubclass
 
 
 // User32
+FindWindowEx
 GetDpiForWindow
-
-GetMonitorInfo
-
-GetWindowPlacement
-SetWindowPlacement
-
-GetWindowRect
-
-MonitorFromRect
-
-SetWindowPos
-
-SetWindowText
-
-
-// Const value
-WM_GETMINMAXINFO

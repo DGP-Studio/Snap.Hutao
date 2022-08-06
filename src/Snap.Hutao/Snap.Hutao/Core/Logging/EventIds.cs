@@ -23,6 +23,7 @@ internal static class EventIds
     /// <summary>
     /// 异步命令执行异常
     /// </summary>
+    [Obsolete("异步命令不再通过Factory记录异常")]
     public static readonly EventId AsyncCommandException = 100002;
 
     /// <summary>
@@ -39,6 +40,11 @@ internal static class EventIds
     /// Xaml绑定错误
     /// </summary>
     public static readonly EventId XamlBindingError = 100005;
+
+    /// <summary>
+    /// Xaml绑定错误
+    /// </summary>
+    public static readonly EventId UnobservedTaskException = 100006;
 
     // 服务
 

@@ -38,6 +38,7 @@ public partial class App : Application
 
         UnhandledException += AppUnhandledException;
         DebugSettings.BindingFailed += XamlBindingFailed;
+        TaskScheduler.UnobservedTaskException += TaskSchedulerUnobservedTaskException;
     }
 
     /// <summary>
@@ -139,5 +140,10 @@ public partial class App : Application
     private void XamlBindingFailed(object sender, BindingFailedEventArgs e)
     {
         logger.LogCritical(EventIds.XamlBindingError, "XAML绑定失败: {message}", e.Message);
+    }
+
+    private void TaskSchedulerUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+    {
+        logger.LogCritical(EventIds.UnobservedTaskException, "异步任务执行异常: {message}", e.Exception);
     }
 }

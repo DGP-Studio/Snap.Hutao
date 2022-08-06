@@ -25,12 +25,12 @@ public sealed partial class MainWindow : Window
     {
         this.appDbContext = appDbContext;
         InitializeComponent();
-        windowManager = new WindowManager(this, (FrameworkElement)TitleBarView.DragableArea);
+        windowManager = new WindowManager(this, TitleBarView.DragableArea);
     }
 
     private void MainWindowClosed(object sender, WindowEventArgs args)
     {
-        windowManager.Dispose();
+        windowManager?.Dispose();
 
         // save userdata datebase
         int changes = appDbContext.SaveChanges();

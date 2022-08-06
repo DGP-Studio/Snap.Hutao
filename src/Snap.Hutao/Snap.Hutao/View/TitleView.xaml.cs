@@ -22,7 +22,7 @@ public sealed partial class TitleView : UserControl
     /// <summary>
     /// 获取可拖动区域
     /// </summary>
-    public UIElement DragableArea
+    public FrameworkElement DragableArea
     {
         get => DragableGrid;
     }

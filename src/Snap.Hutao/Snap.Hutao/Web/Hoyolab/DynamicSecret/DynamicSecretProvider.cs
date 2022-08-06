@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Convertion;
+using Snap.Hutao.Core.Convert;
 using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;

@@ -4,7 +4,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Snap.Hutao.Core.Convertion;
+namespace Snap.Hutao.Core.Convert;
 
 /// <summary>
 /// 支持Md5转换
@@ -20,6 +20,6 @@ internal abstract class Md5Convert
     {
         byte[] bytes = Encoding.UTF8.GetBytes(source);
         byte[] hash = MD5.HashData(bytes);
-        return Convert.ToHexString(hash);
+        return System.Convert.ToHexString(hash);
     }
 }
