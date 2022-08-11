@@ -10,12 +10,25 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
 internal class InfoBarService : IInfoBarService
 {
+    private readonly TaskCompletionSource initializaionCompletionSource = new();
     private StackPanel? infoBarStack;
+    
 
     /// <inheritdoc/>
     public void Initialize(StackPanel container)
     {
         infoBarStack = container;
+        initializaionCompletionSource.TrySetResult();
+    }
+
+    /// <summary>
+    /// 异步等待主窗体加载完成
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>任务</returns>
+    public Task WaitInitializationAsync(CancellationToken token = default)
+    {
+        return initializaionCompletionSource.Task;
     }
 
     /// <inheritdoc/>

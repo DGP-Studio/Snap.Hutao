@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
@@ -27,7 +28,8 @@ public sealed partial class MainView : UserControl
     {
         InitializeComponent();
 
-        uISettings = new();
+        // 由于 PopupRoot 的 BUG, 需要手动响应主题色更改
+        uISettings = Ioc.Default.GetRequiredService<UISettings>();
         uISettings.ColorValuesChanged += OnUISettingsColorValuesChanged;
 
         infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
@@ -46,20 +48,13 @@ public sealed partial class MainView : UserControl
 
     private void UpdateTheme()
     {
-        if (RequestedTheme.ToString() == App.Current.RequestedTheme.ToString())
+        if (!ThemeHelper.Equals(App.Current.RequestedTheme, RequestedTheme))
         {
-            return;
+            ILogger<MainView> logger = Ioc.Default.GetRequiredService<ILogger<MainView>>();
+            logger.LogInformation(EventIds.CommonLog, "Element Theme [{element}] App Theme [{app}]", RequestedTheme, App.Current.RequestedTheme);
+
+            // Update controls' theme which presents in the PopupRoot
+            RequestedTheme = ThemeHelper.ApplicationToElement(App.Current.RequestedTheme);
         }
-
-        ILogger<MainView> logger = Ioc.Default.GetRequiredService<ILogger<MainView>>();
-        logger.LogInformation(EventIds.CommonLog, "Element Theme [{element}] App Theme [{app}]", RequestedTheme, App.Current.RequestedTheme);
-
-        // Update controls' theme which presents in the PopupRoot
-        RequestedTheme = App.Current.RequestedTheme switch
-        {
-            ApplicationTheme.Light => ElementTheme.Light,
-            ApplicationTheme.Dark => ElementTheme.Dark,
-            _ => throw Must.NeverHappen(),
-        };
     }
 }

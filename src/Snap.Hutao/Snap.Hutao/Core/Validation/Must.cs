@@ -11,6 +11,16 @@ namespace Snap.Hutao.Core.Validation;
 public static class Must
 {
     /// <summary>
+    /// Unconditionally throws an <see cref="NotSupportedException"/>.
+    /// </summary>
+    /// <returns>Nothing. This method always throws.</returns>
+    [DoesNotReturn]
+    public static System.Exception NeverHappen()
+    {
+        throw new NotSupportedException("该行为不应发生，请联系开发者进一步确认");
+    }
+
+    /// <summary>
     /// Throws an <see cref="ArgumentNullException"/> if the specified parameter's value is null.
     /// </summary>
     /// <typeparam name="T">The type of the parameter.</typeparam>
@@ -25,25 +35,20 @@ public static class Must
     }
 
     /// <summary>
-    /// Unconditionally throws an <see cref="NotSupportedException"/>.
+    /// Throws an <see cref="ArgumentNullException"/> if the specified parameter's value is IntPtr.Zero.
     /// </summary>
-    /// <returns>Nothing. This method always throws.</returns>
-    [DoesNotReturn]
-    public static System.Exception NeverHappen()
+    /// <param name="value">The value of the argument.</param>
+    /// <param name="parameterName">The name of the parameter to include in any thrown exception.</param>
+    /// <returns>The value of the parameter.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see cref="IntPtr.Zero"/>.</exception>
+    public static Windows.Win32.Foundation.HWND NotNull(Windows.Win32.Foundation.HWND value, [CallerArgumentExpression("value")] string? parameterName = null)
     {
-        throw new NotSupportedException("该行为不应发生，请联系开发者进一步确认");
-    }
+        if (value == default)
+        {
+            throw new ArgumentNullException(parameterName);
+        }
 
-    /// <summary>
-    /// Unconditionally throws an <see cref="NotSupportedException"/>.
-    /// </summary>
-    /// <typeparam name="T">The type that the method should be typed to return (although it never returns anything).</typeparam>
-    /// <returns>Nothing. This method always throws.</returns>
-    [DoesNotReturn]
-    [return: MaybeNull]
-    public static T NeverHappen<T>()
-    {
-        throw new NotSupportedException("该行为不应发生，请联系开发者进一步确认");
+        return value;
     }
 
     /// <summary>

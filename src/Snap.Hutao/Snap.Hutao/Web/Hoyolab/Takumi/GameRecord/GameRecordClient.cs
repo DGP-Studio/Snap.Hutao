@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
@@ -17,7 +18,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 游戏记录提供器
 /// </summary>
-[Injection(InjectAs.Transient)]
+[HttpClient(HttpClientConfigration.XRpc)]
 internal class GameRecordClient
 {
     private readonly HttpClient httpClient;
@@ -42,7 +43,7 @@ internal class GameRecordClient
     /// <returns>玩家的基础信息</returns>
     public Task<PlayerInfo?> GetPlayerInfoAsync(User user, CancellationToken token = default)
     {
-        PlayerUid uid = Must.NotNull(user.SelectedUserGameRole!).AsPlayerUid();
+        PlayerUid uid = (PlayerUid)Must.NotNull(user.SelectedUserGameRole!);
         return GetPlayerInfoAsync(user, uid, token);
     }
 
@@ -55,12 +56,10 @@ internal class GameRecordClient
     /// <returns>玩家的基础信息</returns>
     public async Task<PlayerInfo?> GetPlayerInfoAsync(User user, PlayerUid uid, CancellationToken token = default)
     {
-        string url = string.Format(ApiEndpoints.GameRecordIndex(uid.Value, uid.Region));
-
         Response<PlayerInfo>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret2(jsonSerializerOptions, url)
-            .GetFromJsonAsync<Response<PlayerInfo>>(url, jsonSerializerOptions, token)
+            .UsingDynamicSecret2(jsonSerializerOptions, ApiEndpoints.GameRecordIndex(uid.Value, uid.Region))
+            .GetFromJsonAsync<Response<PlayerInfo>>(token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -75,7 +74,7 @@ internal class GameRecordClient
     /// <returns>深渊信息</returns>
     public Task<SpiralAbyss.SpiralAbyss?> GetSpiralAbyssAsync(User user, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
-        PlayerUid uid = Must.NotNull(user.SelectedUserGameRole!).AsPlayerUid();
+        PlayerUid uid = (PlayerUid)Must.NotNull(user.SelectedUserGameRole!);
         return GetSpiralAbyssAsync(user, uid, schedule, token);
     }
 
@@ -89,12 +88,10 @@ internal class GameRecordClient
     /// <returns>深渊信息</returns>
     public async Task<SpiralAbyss.SpiralAbyss?> GetSpiralAbyssAsync(User user, PlayerUid uid, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
-        string url = string.Format(ApiEndpoints.SpiralAbyss, (int)schedule, uid.Value, uid.Region);
-
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret2(jsonSerializerOptions, url)
-            .GetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(url, jsonSerializerOptions, token)
+            .UsingDynamicSecret2(jsonSerializerOptions, ApiEndpoints.GameRecordSpiralAbyss(schedule, uid))
+            .GetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -109,7 +106,7 @@ internal class GameRecordClient
     /// <returns>角色列表</returns>
     public Task<List<Character>> GetCharactersAsync(User user, PlayerInfo playerInfo, CancellationToken token = default)
     {
-        PlayerUid uid = Must.NotNull(user.SelectedUserGameRole!).AsPlayerUid();
+        PlayerUid uid = (PlayerUid)Must.NotNull(user.SelectedUserGameRole!);
         return GetCharactersAsync(user, uid, playerInfo, token);
     }
 
@@ -127,11 +124,13 @@ internal class GameRecordClient
 
         HttpResponseMessage? response = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret2(jsonSerializerOptions, ApiEndpoints.Character, data)
-            .PostAsJsonAsync(ApiEndpoints.Character, data, token)
+            .UsingDynamicSecret2(jsonSerializerOptions, ApiEndpoints.GameRecordCharacter, data)
+            .PostAsJsonAsync(token)
             .ConfigureAwait(false);
 
-        Response<CharacterWrapper>? resp = await response.Content.ReadFromJsonAsync<Response<CharacterWrapper>>(jsonSerializerOptions, token);
+        Response<CharacterWrapper>? resp = await response.Content
+            .ReadFromJsonAsync<Response<CharacterWrapper>>(jsonSerializerOptions, token)
+            .ConfigureAwait(false);
 
         return EnumerableExtensions.EmptyIfNull(resp?.Data?.Avatars);
     }

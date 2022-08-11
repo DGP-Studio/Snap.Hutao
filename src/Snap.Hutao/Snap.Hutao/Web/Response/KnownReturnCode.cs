@@ -9,19 +9,9 @@ namespace Snap.Hutao.Web.Response;
 public enum KnownReturnCode
 {
     /// <summary>
-    /// Json 异常
+    /// 无效请求
     /// </summary>
-    JsonParseIssue = -2000000002,
-
-    /// <summary>
-    /// Url为 空
-    /// </summary>
-    UrlIsEmpty = -2000000001,
-
-    /// <summary>
-    /// 内部错误
-    /// </summary>
-    InternalFailure = -2000000000,
+    InvalidRequest = -10001,
 
     /// <summary>
     /// 已经签到过了

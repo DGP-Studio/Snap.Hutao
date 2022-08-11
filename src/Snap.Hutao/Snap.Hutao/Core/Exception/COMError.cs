@@ -9,6 +9,11 @@ namespace Snap.Hutao.Core.Exception;
 public enum COMError : uint
 {
     /// <summary>
+    /// could not be found.
+    /// </summary>
+    STG_E_FILENOTFOUND = 0x80030002,
+
+    /// <summary>
     /// The component cannot be found.
     /// </summary>
     WINCODEC_ERR_COMPONENTNOTFOUND = 0x88982F50,

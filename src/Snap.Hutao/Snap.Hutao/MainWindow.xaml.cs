@@ -16,6 +16,8 @@ public sealed partial class MainWindow : Window
     private readonly AppDbContext appDbContext;
     private readonly WindowManager windowManager;
 
+    private readonly TaskCompletionSource initializaionCompletionSource = new();
+
     /// <summary>
     /// 构造一个新的主窗体
     /// </summary>
@@ -26,7 +28,11 @@ public sealed partial class MainWindow : Window
         this.appDbContext = appDbContext;
         InitializeComponent();
         windowManager = new WindowManager(this, TitleBarView.DragableArea);
+
+        initializaionCompletionSource.TrySetResult();
     }
+
+
 
     private void MainWindowClosed(object sender, WindowEventArgs args)
     {

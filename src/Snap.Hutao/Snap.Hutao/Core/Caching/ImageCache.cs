@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Media.Imaging;
+using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using System.Collections.Generic;
 using System.Net.Http;
 using Windows.Storage;
@@ -14,6 +15,8 @@ namespace Snap.Hutao.Core.Caching;
 /// The class's name will become the cache folder's name
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
+[HttpClient(HttpClientConfigration.Default)]
+[PrimaryHttpMessageHandler(MaxConnectionsPerServer = 20)]
 public class ImageCache : CacheBase<BitmapImage>, IImageCache
 {
     private const string DateAccessedProperty = "System.DateAccessed";
@@ -24,9 +27,9 @@ public class ImageCache : CacheBase<BitmapImage>, IImageCache
     /// Initializes a new instance of the <see cref="ImageCache"/> class.
     /// </summary>
     /// <param name="logger">日志器</param>
-    /// <param name="httpClient">http客户端</param>
-    public ImageCache(ILogger<ImageCache> logger, HttpClient httpClient)
-        : base(logger, httpClient)
+    /// <param name="httpClientFactory">http客户端工厂</param>
+    public ImageCache(ILogger<ImageCache> logger, IHttpClientFactory httpClientFactory)
+        : base(logger, httpClientFactory.CreateClient(nameof(ImageCache)))
     {
     }
 

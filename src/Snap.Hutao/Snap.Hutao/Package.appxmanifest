@@ -9,7 +9,7 @@
   <Identity
     Name="7f0db578-026f-4e0b-a75b-d5d06bb0a74d"
     Publisher="CN=DGP Studio"
-    Version="1.0.23.0" />
+    Version="1.0.26.0" />
 
   <Properties>
     <DisplayName>胡桃</DisplayName>
@@ -18,8 +18,8 @@
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />
+    <!--<TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.19041.0" />-->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.22000.0" />
   </Dependencies>
 
   <Resources>

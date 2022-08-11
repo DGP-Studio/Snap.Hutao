@@ -132,6 +132,10 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
             {
                 imageSurface = await LoadImageSurfaceAsync(storageFile, token);
             }
+            catch (COMException ex) when (ex.Is(COMError.STG_E_FILENOTFOUND))
+            {
+                // Image file not found.
+            }
             catch (COMException ex) when (ex.Is(COMError.WINCODEC_ERR_COMPONENTNOTFOUND))
             {
                 // Image is broken, remove it

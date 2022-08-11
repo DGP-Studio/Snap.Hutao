@@ -13,8 +13,6 @@ namespace Snap.Hutao.View;
 /// </summary>
 public sealed partial class UserView : UserControl
 {
-    private static readonly DependencyProperty IsExpandedProperty = Property<UserView>.Depend(nameof(IsExpanded), true);
-
     /// <summary>
     /// 构造一个新的用户视图
     /// </summary>
@@ -22,14 +20,5 @@ public sealed partial class UserView : UserControl
     {
         InitializeComponent();
         DataContext = Ioc.Default.GetRequiredService<UserViewModel>();
-    }
-
-    /// <summary>
-    /// 当前用户控件是否处于展开状态
-    /// </summary>
-    public bool IsExpanded
-    {
-        get => (bool)GetValue(IsExpandedProperty);
-        set => SetValue(IsExpandedProperty, value);
     }
 }

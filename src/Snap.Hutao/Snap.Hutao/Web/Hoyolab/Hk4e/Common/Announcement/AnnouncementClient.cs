@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Response;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// <summary>
 /// 公告客户端
 /// </summary>
-[Injection(InjectAs.Transient)]
+[HttpClient(HttpClientConfigration.Default)]
 internal class AnnouncementClient
 {
     private readonly HttpClient httpClient;

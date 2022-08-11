@@ -18,7 +18,7 @@ public static class HttpRequestHeadersExtensions
     /// <param name="value">值</param>
     public static void Set(this HttpRequestHeaders headers, string name, string? value)
     {
-        headers.Clear();
+        headers.Remove(name);
         headers.Add(name, value);
     }
 }

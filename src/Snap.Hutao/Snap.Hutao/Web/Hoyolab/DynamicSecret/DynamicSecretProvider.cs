@@ -11,9 +11,6 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// </summary>
 internal abstract class DynamicSecretProvider : Md5Convert
 {
-    // @Azure99 respect original author
-    private static readonly string Salt = "4a8knnbk5pbjqsrudp3dq484m9axoc5g";
-
     /// <summary>
     /// 创建动态密钥
     /// </summary>
@@ -22,8 +19,10 @@ internal abstract class DynamicSecretProvider : Md5Convert
     {
         // unix timestamp
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
         string r = GetRandomString();
-        string check = ToHexString($"salt={Salt}&t={t}&r={r}");
+
+        string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecret1Salt}&t={t}&r={r}").ToLowerInvariant();
 
         return $"{t},{r},{check}";
     }
@@ -31,22 +30,17 @@ internal abstract class DynamicSecretProvider : Md5Convert
     private static string GetRandomString()
     {
         StringBuilder sb = new(6);
-        Random random = new();
 
         for (int i = 0; i < 6; i++)
         {
-            int offset = random.Next(0, 32768) % 26;
-
-            // 实际上只能取到前16个小写字母
-            int target = 'a' - 10;
-
-            // 取数字
-            if (offset < 10)
+            int v8 = Random.Shared.Next(0, 32768) % 26;
+            int v9 = 87;
+            if (v8 < 10)
             {
-                target = '0';
+                v9 = 48;
             }
 
-            _ = sb.Append((char)(offset + target));
+            _ = sb.Append((char)(v8 + v9));
         }
 
         return sb.ToString();

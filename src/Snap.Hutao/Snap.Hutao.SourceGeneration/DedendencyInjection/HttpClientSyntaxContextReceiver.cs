@@ -11,12 +11,12 @@ namespace Snap.Hutao.SourceGeneration.DedendencyInjection;
 /// <summary>
 /// Created on demand before each generation pass
 /// </summary>
-public class InjectionSyntaxContextReceiver : ISyntaxContextReceiver
+public class HttpClientSyntaxContextReceiver : ISyntaxContextReceiver
 {
     /// <summary>
     /// 注入特性的名称
     /// </summary>
-    public const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectionAttribute";
+    public const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientAttribute";
 
     /// <summary>
     /// 所有需要注入的类型符号

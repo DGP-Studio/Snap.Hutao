@@ -8,7 +8,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// <summary>
 /// 用户游戏角色
 /// </summary>
-public record UserGameRole
+public class UserGameRole
 {
     /// <summary>
     /// hk4e_cn for Genshin Impact
@@ -68,16 +68,7 @@ public record UserGameRole
 
     public static explicit operator PlayerUid(UserGameRole userGameRole)
     {
-        return userGameRole.AsPlayerUid();
-    }
-
-    /// <summary>
-    /// 转化为 <see cref="PlayerUid"/>
-    /// </summary>
-    /// <returns>一个等价的 <see cref="PlayerUid"/> 实例</returns>
-    public PlayerUid AsPlayerUid()
-    {
-        return new PlayerUid(GameUid, Region);
+        return new PlayerUid(userGameRole.GameUid, userGameRole.Region);
     }
 
     /// <inheritdoc/>

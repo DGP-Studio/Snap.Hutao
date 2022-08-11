@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 
-namespace Snap.Hutao;
+namespace Snap.Hutao.Core.DependencyInjection;
 
 /// <summary>
 /// <see cref="Ioc"/> 配置
@@ -18,7 +18,7 @@ namespace Snap.Hutao;
 internal static class IocConfiguration
 {
     /// <summary>
-    /// 添加默认的 <see cref="JsonSerializer"/> 配置
+    /// 添加默认的 <see cref="JsonSerializerOptions"/>
     /// </summary>
     /// <param name="services">集合</param>
     /// <returns>可继续操作的集合</returns>
@@ -56,7 +56,6 @@ internal static class IocConfiguration
             }
         }
 
-        return services
-            .AddDbContextPool<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
+        return services.AddDbContextPool<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
     }
 }

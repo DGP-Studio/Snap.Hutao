@@ -12,19 +12,6 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 internal abstract class DynamicSecretProvider2 : Md5Convert
 {
     /// <summary>
-    /// salt
-    /// </summary>
-    public const string AppVersion = "2.34.1";
-
-    /// <summary>
-    /// 米游社的盐
-    /// 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
-    /// libxxxx.so
-    /// </summary>
-    private static readonly string Salt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
-    private static readonly Random Random = new();
-
-    /// <summary>
     /// 创建动态密钥
     /// </summary>
     /// <param name="options">json格式化器</param>
@@ -43,15 +30,10 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         string b = postBody is null ? string.Empty : JsonSerializer.Serialize(postBody, options);
 
         // query
-        string q = string.Empty;
-        string? query = new UriBuilder(queryUrl).Query;
-        if (!string.IsNullOrEmpty(query))
-        {
-            q = string.Join("&", query.Split('&').OrderBy(x => x));
-        }
+        string q = string.Join("&", new UriBuilder(queryUrl).Query.Split('&').OrderBy(x => x));
 
         // check
-        string check = ToHexString($"salt={Salt}&t={t}&r={r}&b={b}&q={q}");
+        string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecret2Salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
 
         return $"{t},{r},{check}";
     }
@@ -66,7 +48,7 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         //     v18 = v17;
         // else
         //     v18 = v17 + 542367;
-        int rand = Random.Next(100000, 200000);
+        int rand = Random.Shared.Next(100000, 200000);
         if (rand == 100000)
         {
             rand = 642367;

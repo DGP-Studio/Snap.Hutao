@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Metadata.Achievement;
@@ -23,6 +24,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// 元数据服务
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
+[HttpClient(HttpClientConfigration.Default)]
 internal class MetadataService : IMetadataService, IMetadataInitializer, ISupportAsyncInitialization
 {
     private const string MetaAPIHost = "http://hutao-metadata.snapgenshin.com";
@@ -46,25 +48,25 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     /// 构造一个新的元数据服务
     /// </summary>
     /// <param name="infoBarService">信息条服务</param>
-    /// <param name="httpClient">http客户端</param>
+    /// <param name="httpClientFactory">http客户端工厂</param>
     /// <param name="metadataContext">我的文档上下文</param>
     /// <param name="options">json序列化选项</param>
     /// <param name="logger">日志器</param>
     /// <param name="memoryCache">内存缓存</param>
     public MetadataService(
         IInfoBarService infoBarService,
-        HttpClient httpClient,
+        IHttpClientFactory httpClientFactory,
         MetadataContext metadataContext,
         JsonSerializerOptions options,
         ILogger<MetadataService> logger,
         IMemoryCache memoryCache)
     {
         this.infoBarService = infoBarService;
-        this.httpClient = httpClient;
         this.metadataContext = metadataContext;
         this.options = options;
         this.logger = logger;
         this.memoryCache = memoryCache;
+        httpClient = httpClientFactory.CreateClient(nameof(MetadataService));
     }
 
     /// <inheritdoc/>
@@ -73,63 +75,63 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
     {
-        await initializeCompletionSource.Task;
+        await initializeCompletionSource.Task.ConfigureAwait(false);
         return IsInitialized;
     }
 
     /// <inheritdoc/>
     public async Task InitializeInternalAsync(CancellationToken token = default)
     {
-        logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion begin");
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
+        logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion begin");
+
         IsInitialized = await TryUpdateMetadataAsync(token)
             .ConfigureAwait(false);
 
         initializeCompletionSource.SetResult();
-
-        logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion completed");
+        logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<List<AchievementGoal>>("AchievementGoal", token);
+        return FromCacheOrFileAsync<List<AchievementGoal>>("AchievementGoal", token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Model.Metadata.Achievement.Achievement>> GetAchievementsAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<List<Model.Metadata.Achievement.Achievement>>("Achievement", token);
+        return FromCacheOrFileAsync<List<Model.Metadata.Achievement.Achievement>>("Achievement", token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Avatar>> GetAvatarsAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<List<Avatar>>("Avatar", token);
+        return FromCacheOrFileAsync<List<Avatar>>("Avatar", token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<List<Reliquary>>("Reliquary", token);
+        return FromCacheOrFileAsync<List<Reliquary>>("Reliquary", token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<List<ReliquaryAffix>>("ReliquaryAffix", token);
+        return FromCacheOrFileAsync<List<ReliquaryAffix>>("ReliquaryAffix", token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<List<ReliquaryAffixBase>>("ReliquaryMainAffix", token);
+        return FromCacheOrFileAsync<List<ReliquaryAffixBase>>("ReliquaryMainAffix", token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Weapon>> GetWeaponsAsync(CancellationToken token = default)
     {
-        return GetMetadataAsync<List<Weapon>>("Weapon", token);
+        return FromCacheOrFileAsync<List<Weapon>>("Weapon", token);
     }
 
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token = default)
@@ -171,20 +173,18 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
         {
             (string fileName, string md5) = pair;
             string fileFullName = $"{fileName}.json";
-            bool skip = false;
 
+            bool skip = false;
             if (metadataContext.FileExists(fileFullName))
             {
-                skip = md5 == await GetFileMd5Async(fileFullName, token)
-                    .ConfigureAwait(false);
+                skip = md5 == await GetFileMd5Async(fileFullName, token).ConfigureAwait(false);
             }
 
             if (!skip)
             {
-                logger.LogInformation(EventIds.MetadataFileMD5Check, "MD5 of {file} not matched", fileFullName);
+                logger.LogInformation(EventIds.MetadataFileMD5Check, "MD5 of {file} not matched, begin downloading", fileFullName);
 
-                await DownloadMetadataAsync(fileFullName, token)
-                    .ConfigureAwait(false);
+                await DownloadMetadataAsync(fileFullName, token).ConfigureAwait(false);
             }
         });
     }
@@ -214,8 +214,8 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
             {
                 while (await streamReader.ReadLineAsync().ConfigureAwait(false) is string line)
                 {
-                    Func<string?, Task> writeMethod = streamReader.EndOfStream ? streamWriter.WriteAsync : streamWriter.WriteLineAsync;
-                    await writeMethod(line).ConfigureAwait(false);
+                    Func<string?, Task> write = streamReader.EndOfStream ? streamWriter.WriteAsync : streamWriter.WriteLineAsync;
+                    await write(line).ConfigureAwait(false);
                 }
             }
         }
@@ -223,7 +223,7 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
         logger.LogInformation("Download {file} completed", fileFullName);
     }
 
-    private async ValueTask<T> GetMetadataAsync<T>(string fileName, CancellationToken token)
+    private async ValueTask<T> FromCacheOrFileAsync<T>(string fileName, CancellationToken token)
         where T : class
     {
         Verify.Operation(IsInitialized, "元数据服务尚未初始化，或初始化失败");
@@ -234,10 +234,10 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
             return Must.NotNull((value as T)!);
         }
 
-        T? result = await JsonSerializer
-            .DeserializeAsync<T>(metadataContext.OpenRead($"{fileName}.json"), options, token)
-            .ConfigureAwait(false);
-
-        return memoryCache.Set(cacheKey, Must.NotNull(result!));
+        using (Stream fileStream = metadataContext.OpenRead($"{fileName}.json"))
+        {
+            T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
+            return memoryCache.Set(cacheKey, Must.NotNull(result!));
+        }
     }
 }

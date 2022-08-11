@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
 using System.Net.Http;
@@ -11,7 +12,7 @@ namespace Snap.Hutao.Web.Enka;
 /// <summary>
 /// Enka API 客户端
 /// </summary>
-[Injection(InjectAs.Transient)]
+[HttpClient(HttpClientConfigration.Default)]
 internal class EnkaClient
 {
     private const string EnkaAPI = "https://enka.shinshin.moe/u/{0}/__data.json";

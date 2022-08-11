@@ -33,6 +33,7 @@ internal class WindowSubclassManager : IDisposable
     /// <param name="isLegacyDragBar">是否为经典标题栏区域</param>
     public WindowSubclassManager(HWND hwnd, bool isLegacyDragBar)
     {
+        Must.NotNull(hwnd);
         this.hwnd = hwnd;
         this.isLegacyDragBar = isLegacyDragBar;
     }
@@ -44,20 +45,23 @@ internal class WindowSubclassManager : IDisposable
     public bool TrySetWindowSubclass()
     {
         windowProc = new(OnSubclassProcedure);
-        bool minSize = SetWindowSubclass(hwnd, windowProc, WindowSubclassId, 0);
+        bool windowHooked = SetWindowSubclass(hwnd, windowProc, WindowSubclassId, 0);
 
-        bool hideSystemMenu = true;
+        bool titleBarHooked = true;
 
         // only hook up drag bar proc when use legacy Window.ExtendsContentIntoTitleBar
         if (isLegacyDragBar)
         {
-            dragBarProc = new(OnDragBarProcedure);
-            hwndDragBar = FindWindowEx(hwnd, HWND.Zero, "DRAG_BAR_WINDOW_CLASS", string.Empty);
+            hwndDragBar = FindWindowEx(hwnd, default, "DRAG_BAR_WINDOW_CLASS", string.Empty);
 
-            hideSystemMenu = SetWindowSubclass(hwndDragBar, dragBarProc, DragBarSubclassId, 0);
+            if (!hwndDragBar.IsNull)
+            {
+                dragBarProc = new(OnDragBarProcedure);
+                titleBarHooked = SetWindowSubclass(hwndDragBar, dragBarProc, DragBarSubclassId, 0);
+            }
         }
 
-        return minSize && hideSystemMenu;
+        return windowHooked && titleBarHooked;
     }
 
     /// <inheritdoc/>
@@ -79,7 +83,7 @@ internal class WindowSubclassManager : IDisposable
         {
             case WM_GETMINMAXINFO:
                 {
-                    float scalingFactor = (float)Persistence.GetScaleForWindow(hwnd);
+                    double scalingFactor = Persistence.GetScaleForWindow(hwnd);
                     Win32.Unsafe.SetMinTrackSize(lParam, MinWidth * scalingFactor, MinHeight * scalingFactor);
                     break;
                 }
@@ -87,7 +91,7 @@ internal class WindowSubclassManager : IDisposable
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
                 {
-                    return (LRESULT)IntPtr.Zero;
+                    return new(0);
                 }
         }
 
@@ -101,7 +105,7 @@ internal class WindowSubclassManager : IDisposable
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
                 {
-                    return (LRESULT)IntPtr.Zero;
+                    return new(0);
                 }
         }
 

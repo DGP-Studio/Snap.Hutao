@@ -8,6 +8,8 @@ namespace Snap.Hutao.Context.Database;
 
 /// <summary>
 /// 日志数据库上下文
+/// 由于写入日志的行为需要锁定数据库上下文
+/// 所以将日志单独分离出来进行读写
 /// </summary>
 public class LogDbContext : DbContext
 {

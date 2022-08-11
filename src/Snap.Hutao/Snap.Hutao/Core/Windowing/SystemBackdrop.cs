@@ -19,7 +19,7 @@ public class SystemBackdrop
 
     private DispatcherQueueHelper? dispatcherQueueHelper;
     private MicaController? backdropController;
-    private SystemBackdropConfiguration? configurationSource;
+    private SystemBackdropConfiguration? configuration;
 
     /// <summary>
     /// 构造一个新的系统背景帮助类
@@ -42,35 +42,34 @@ public class SystemBackdrop
         }
         else
         {
-            dispatcherQueueHelper = new DispatcherQueueHelper();
-            dispatcherQueueHelper.EnsureWindowsSystemDispatcherQueueController();
+            dispatcherQueueHelper = new();
+            dispatcherQueueHelper.Ensure();
 
             // Hooking up the policy object
-            configurationSource = new SystemBackdropConfiguration();
-            window.Activated += WindowActivated;
-            window.Closed += WindowClosed;
-            ((FrameworkElement)window.Content).ActualThemeChanged += WindowThemeChanged;
+            configuration = new();
+            window.Activated += OnWindowActivated;
+            window.Closed += OnWindowClosed;
+            ((FrameworkElement)window.Content).ActualThemeChanged += OnWindowThemeChanged;
 
             // Initial configuration state.
-            configurationSource.IsInputActive = true;
-            SetConfigurationSourceTheme();
+            configuration.IsInputActive = true;
+            SetConfigurationSourceTheme(configuration);
 
-            backdropController = new MicaController();
+            backdropController = new();
 
             backdropController.AddSystemBackdropTarget(window.As<ICompositionSupportsSystemBackdrop>());
-            backdropController.SetSystemBackdropConfiguration(configurationSource);
+            backdropController.SetSystemBackdropConfiguration(configuration);
 
             return true;
         }
     }
 
-    private void WindowActivated(object sender, WindowActivatedEventArgs args)
+    private void OnWindowActivated(object sender, WindowActivatedEventArgs args)
     {
-        Must.NotNull(configurationSource!);
-        configurationSource.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+        Must.NotNull(configuration!).IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
     }
 
-    private void WindowClosed(object sender, WindowEventArgs args)
+    private void OnWindowClosed(object sender, WindowEventArgs args)
     {
         // Make sure any Mica/Acrylic controller is disposed so it doesn't try to
         // use this closed window.
@@ -80,27 +79,21 @@ public class SystemBackdrop
             backdropController = null;
         }
 
-        window.Activated -= WindowActivated;
-        configurationSource = null;
+        window.Activated -= OnWindowActivated;
+        configuration = null;
     }
 
-    private void WindowThemeChanged(FrameworkElement sender, object args)
+    private void OnWindowThemeChanged(FrameworkElement sender, object args)
     {
-        if (configurationSource != null)
+        if (configuration != null)
         {
-            SetConfigurationSourceTheme();
+            SetConfigurationSourceTheme(configuration);
         }
     }
 
-    private void SetConfigurationSourceTheme()
+    private void SetConfigurationSourceTheme(SystemBackdropConfiguration configuration)
     {
-        Must.NotNull(configurationSource!).Theme = ((FrameworkElement)window.Content).ActualTheme switch
-        {
-            ElementTheme.Default => SystemBackdropTheme.Default,
-            ElementTheme.Light => SystemBackdropTheme.Light,
-            ElementTheme.Dark => SystemBackdropTheme.Dark,
-            _ => throw Must.NeverHappen(),
-        };
+        configuration.Theme = ThemeHelper.ElementToSystemBackdrop(((FrameworkElement)window.Content).ActualTheme);
     }
 
     private class DispatcherQueueHelper
@@ -110,7 +103,7 @@ public class SystemBackdrop
         /// <summary>
         /// 确保系统调度队列控制器存在
         /// </summary>
-        public void EnsureWindowsSystemDispatcherQueueController()
+        public void Ensure()
         {
             if (DispatcherQueue.GetForCurrentThread() != null)
             {
@@ -122,7 +115,7 @@ public class SystemBackdrop
             {
                 DispatcherQueueOptions options = new()
                 {
-                    DwSize = Marshal.SizeOf(typeof(DispatcherQueueOptions)),
+                    DwSize = Marshal.SizeOf<DispatcherQueueOptions>(),
                     ThreadType = 2,    // DQTYPE_THREAD_CURRENT
                     ApartmentType = 2, // DQTAT_COM_STA
                 };
@@ -136,7 +129,6 @@ public class SystemBackdrop
             [In] DispatcherQueueOptions options,
             [In, Out, MarshalAs(UnmanagedType.IUnknown)] ref object? dispatcherQueueController);
 
-        [StructLayout(LayoutKind.Sequential)]
         private struct DispatcherQueueOptions
         {
             internal int DwSize;

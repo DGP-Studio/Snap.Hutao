@@ -36,7 +36,6 @@ internal sealed partial class DatebaseLogger : ILogger
     /// <inheritdoc />
     public bool IsEnabled(LogLevel logLevel)
     {
-        // If the filter is null, everything is enabled
         return logLevel != LogLevel.None;
     }
 
@@ -55,6 +54,7 @@ internal sealed partial class DatebaseLogger : ILogger
             return;
         }
 
+        // DbContext is not a thread safe class, so we have to lock the wirte procedure
         lock (logDbContextLock)
         {
             logDbContext.Logs.Add(new LogEntry
@@ -73,7 +73,7 @@ internal sealed partial class DatebaseLogger : ILogger
     /// <summary>
     /// An empty scope without any logic
     /// </summary>
-    private struct NullScope : IDisposable
+    private class NullScope : IDisposable
     {
         public NullScope()
         {

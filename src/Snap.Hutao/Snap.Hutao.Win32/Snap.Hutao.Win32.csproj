@@ -11,7 +11,7 @@
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.10-beta">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.Win32Metadata" Version="24.0.1-preview" />
+    <PackageReference Include="Microsoft.Windows.SDK.Win32Metadata" Version="25.0.28-preview" />
   </ItemGroup>
 
 </Project>

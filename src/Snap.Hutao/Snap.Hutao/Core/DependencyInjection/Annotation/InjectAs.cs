@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Core.DependencyInjection;
+namespace Snap.Hutao.Core.DependencyInjection.Annotation;
 
 /// <summary>
 /// 注入方法

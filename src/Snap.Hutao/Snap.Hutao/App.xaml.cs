@@ -12,6 +12,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
 using System.Diagnostics;
 using Windows.Storage;
+using Windows.UI.ViewManagement;
 
 namespace Snap.Hutao;
 
@@ -52,17 +53,13 @@ public partial class App : Application
         get => (App)Application.Current;
     }
 
-    /// <summary>
     /// <inheritdoc cref="ApplicationData.Current.TemporaryFolder"/>
-    /// </summary>
     public static StorageFolder CacheFolder
     {
         get => ApplicationData.Current.TemporaryFolder;
     }
 
-    /// <summary>
     /// <inheritdoc cref="ApplicationData.Current.LocalSettings"/>
-    /// </summary>
     public static ApplicationDataContainer Settings
     {
         get => ApplicationData.Current.LocalSettings;
@@ -78,10 +75,11 @@ public partial class App : Application
         if (firstInstance.IsCurrent)
         {
             firstInstance.Activated += OnActivated;
-
             Window = Ioc.Default.GetRequiredService<MainWindow>();
 
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", CacheFolder.Path);
+
+            OnActivated(firstInstance, activatedEventArgs);
 
             Ioc.Default
                 .GetRequiredService<IMetadataService>()
@@ -109,25 +107,31 @@ public partial class App : Application
 
             // Hutao extensions
             .AddInjections()
-            .AddDatebase()
             .AddHttpClients()
+            .AddDatebase()
             .AddJsonSerializerOptions()
 
             // Discrete services
             .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
+            .AddSingleton(new UISettings())
 
             .BuildServiceProvider();
 
         Ioc.Default.ConfigureServices(services);
     }
 
-    private void OnActivated(object? sender, AppActivationArguments args)
+    [SuppressMessage("", "VSTHRD100")]
+    private async void OnActivated(object? sender, AppActivationArguments args)
     {
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        await infoBarService.WaitInitializationAsync();
+        infoBarService.Information("OnActivated");
+
         if (args.Kind == ExtendedActivationKind.Protocol)
         {
             if (args.TryGetProtocolActivatedUri(out Uri? uri))
             {
-                Ioc.Default.GetRequiredService<IInfoBarService>().Information(uri.ToString());
+                infoBarService.Information(uri.ToString());
             }
         }
     }

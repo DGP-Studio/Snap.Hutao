@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -19,7 +20,8 @@ namespace Snap.Hutao.Web.Hutao;
 /// <summary>
 /// 胡桃API客户端
 /// </summary>
-[Injection(InjectAs.Transient)]
+// [Injection(InjectAs.Transient)]
+[HttpClient(HttpClientConfigration.Default)]
 internal class HutaoClient : ISupportAsyncInitialization
 {
     private const string AuthHost = "https://auth.snapgenshin.com";

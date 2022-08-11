@@ -16,9 +16,8 @@
         <NavigationView
             x:Name="NavView"
             CompactPaneLength="48"
-            OpenPaneLength="244"
-            CompactModeThresholdWidth="16"
-            ExpandedModeThresholdWidth="16"
+            OpenPaneLength="188"
+            PaneDisplayMode="Left"
             IsPaneOpen="True"
             IsBackEnabled="{Binding ElementName=ContentFrame,Path=CanGoBack}">
             <NavigationView.MenuItems>
@@ -37,9 +36,9 @@
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
                     Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
             </NavigationView.MenuItems>
-            
+
             <NavigationView.PaneFooter>
-                <shv:UserView IsExpanded="{Binding ElementName=NavView,Path=IsPaneOpen}"/>
+                <shv:UserView/>
             </NavigationView.PaneFooter>
             
             <Frame x:Name="ContentFrame">
