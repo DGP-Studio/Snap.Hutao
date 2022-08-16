@@ -6,6 +6,9 @@ using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 
+/// <summary>
+/// 奖励
+/// </summary>
 public class Reward
 {
     /// <summary>

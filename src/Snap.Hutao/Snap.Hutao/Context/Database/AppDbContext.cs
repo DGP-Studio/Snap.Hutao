@@ -21,14 +21,24 @@ public class AppDbContext : DbContext
     }
 
     /// <summary>
-    /// 设置项
+    /// 设置
     /// </summary>
     public DbSet<SettingEntry> Settings { get; set; } = default!;
 
     /// <summary>
-    /// 用户表
+    /// 用户
     /// </summary>
     public DbSet<User> Users { get; set; } = default!;
+
+    /// <summary>
+    /// 成就
+    /// </summary>
+    public DbSet<Achievement> Achievements { get; set; } = default!;
+
+    /// <summary>
+    /// 成就存档
+    /// </summary>
+    public DbSet<AchievementArchive> AchievementArchives { get; set; } = default!;
 
     /// <summary>
     /// 构造一个临时的应用程序数据库上下文

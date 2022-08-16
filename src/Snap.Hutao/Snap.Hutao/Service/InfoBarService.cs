@@ -12,7 +12,6 @@ internal class InfoBarService : IInfoBarService
 {
     private readonly TaskCompletionSource initializaionCompletionSource = new();
     private StackPanel? infoBarStack;
-    
 
     /// <inheritdoc/>
     public void Initialize(StackPanel container)

@@ -22,13 +22,53 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <CommandBar
+            Grid.Row="0"
+            DefaultLabelPosition="Right">
+            <CommandBar.Background>
+                <SolidColorBrush Color="{ThemeResource CardBackgroundFillColorSecondary}"/>
+            </CommandBar.Background>
+
+            <AppBarElementContainer>
+                <ComboBox
+                    MinWidth="160"
+                    Height="36"
+                    Margin="2,6,3,6"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Archives,Mode=OneWay}"
+                    SelectedItem="{Binding SelectedArchive,Mode=TwoWay}"/>
+            </AppBarElementContainer>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton
+                    Icon="Add"
+                    Label="创建新存档"
+                    Command="{Binding AddArchiveCommand}"/>
+                <AppBarButton
+                    Icon="Delete"
+                    Label="删除当前存档"
+                    Command="{Binding RemoveArchiveCommand}"/>
+                <AppBarSeparator/>
+                <AppBarButton
+                    Icon="Paste"
+                    Label="从剪贴板导入"
+                    Command="{Binding ImportUIAFFromClipboardCommand}"/>
+                <AppBarButton
+                    Icon="OpenFile"
+                    Label="从UIAF文件导入"
+                    Command="{Binding ImportUIAFFromFileCommand}"/>
+            </CommandBar.SecondaryCommands>
+            
+        </CommandBar>
         <SplitView
+            Grid.Row="1"
             IsPaneOpen="True"
             DisplayMode="Inline"
-            OpenPaneLength="252">
-            <SplitView.PaneBackground>
-                <SolidColorBrush Color="{ThemeResource CardBackgroundFillColorSecondary}"/>
-            </SplitView.PaneBackground>
+            OpenPaneLength="252"
+            PaneBackground="Transparent">
             <SplitView.Pane>
                 <ListView
                     SelectionMode="Single"
@@ -62,8 +102,7 @@
                     <ItemsControl
                         Margin="16,0,0,16"
                         ItemsSource="{Binding Achievements}">
-                        <!--ContentThemeTransition here can make items blinking,
-                            cause we are using ItemsStackPanel-->
+                        <!--ContentThemeTransition here can make items blinking, cause we are using ItemsStackPanel-->
                         <!--<ItemsControl.Transitions>
                             <ContentThemeTransition/>
                         </ItemsControl.Transitions>-->
@@ -86,28 +125,40 @@
                                     MinHeight="48">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
-                                        <!-- Icon -->
                                         <ColumnDefinition Width="*"/>
-                                        <!-- Header and subtitle -->
                                         <ColumnDefinition Width="Auto"/>
-                                        <!-- Action control -->
                                     </Grid.ColumnDefinitions>
 
                                     <CheckBox
+                                        IsChecked="{Binding IsChecked,Mode=TwoWay}"
                                         Margin="6,0,0,0"
                                         Style="{StaticResource DefaultCheckBoxStyle}"
                                         Padding="16,0,0,0"
                                         Grid.Column="1">
                                         <CheckBox.Content>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Title}"/>
+                                                <TextBlock Text="{Binding Inner.Title}"/>
                                                 <TextBlock
                                                     Margin="0,2,0,0"
                                                     Style="{StaticResource SecondaryTextStyle}"
-                                                    Text="{Binding Description}"/>
+                                                    Text="{Binding Inner.Description}"/>
                                             </StackPanel>
                                         </CheckBox.Content>
                                     </CheckBox>
+                                    <Grid Grid.Column="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="32"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image
+                                            Height="32"
+                                            Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Grid.Column="1"
+                                            Text="{Binding Inner.FinishReward.Count}"/>
+                                    </Grid>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -115,6 +166,5 @@
                 </ScrollViewer>
             </SplitView.Content>
         </SplitView>
-
     </Grid>
 </shcc:CancellablePage>

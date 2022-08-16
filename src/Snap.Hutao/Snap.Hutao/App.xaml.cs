@@ -4,8 +4,8 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
-using Microsoft.VisualStudio.Threading;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
@@ -23,6 +23,7 @@ public partial class App : Application
 {
     private static Window? window;
     private readonly ILogger<App> logger;
+    private readonly ExceptionRecorder exceptionRecorder;
 
     /// <summary>
     /// Initializes the singleton application object.
@@ -37,9 +38,7 @@ public partial class App : Application
         // so we can use Ioc here.
         logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
-        UnhandledException += AppUnhandledException;
-        DebugSettings.BindingFailed += XamlBindingFailed;
-        TaskScheduler.UnobservedTaskException += TaskSchedulerUnobservedTaskException;
+        exceptionRecorder = new(this, logger);
     }
 
     /// <summary>
@@ -74,12 +73,10 @@ public partial class App : Application
 
         if (firstInstance.IsCurrent)
         {
+            OnActivated(firstInstance, activatedEventArgs);
             firstInstance.Activated += OnActivated;
-            Window = Ioc.Default.GetRequiredService<MainWindow>();
 
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", CacheFolder.Path);
-
-            OnActivated(firstInstance, activatedEventArgs);
 
             Ioc.Default
                 .GetRequiredService<IMetadataService>()
@@ -106,10 +103,10 @@ public partial class App : Application
             .AddMemoryCache()
 
             // Hutao extensions
+            .AddJsonSerializerOptions()
+            .AddDatebase()
             .AddInjections()
             .AddHttpClients()
-            .AddDatebase()
-            .AddJsonSerializerOptions()
 
             // Discrete services
             .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
@@ -123,9 +120,10 @@ public partial class App : Application
     [SuppressMessage("", "VSTHRD100")]
     private async void OnActivated(object? sender, AppActivationArguments args)
     {
+        Window = Ioc.Default.GetRequiredService<MainWindow>();
+
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         await infoBarService.WaitInitializationAsync();
-        infoBarService.Information("OnActivated");
 
         if (args.Kind == ExtendedActivationKind.Protocol)
         {
@@ -134,20 +132,5 @@ public partial class App : Application
                 infoBarService.Information(uri.ToString());
             }
         }
-    }
-
-    private void AppUnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
-    {
-        logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常: [HResult:{code}]", e.Exception.HResult);
-    }
-
-    private void XamlBindingFailed(object sender, BindingFailedEventArgs e)
-    {
-        logger.LogCritical(EventIds.XamlBindingError, "XAML绑定失败: {message}", e.Message);
-    }
-
-    private void TaskSchedulerUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
-    {
-        logger.LogCritical(EventIds.UnobservedTaskException, "异步任务执行异常: {message}", e.Exception);
     }
 }

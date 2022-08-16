@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
-using Microsoft.VisualStudio.Threading;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Navigation;

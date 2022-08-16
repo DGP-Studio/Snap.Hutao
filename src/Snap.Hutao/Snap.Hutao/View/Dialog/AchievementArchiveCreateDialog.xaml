@@ -1,0 +1,22 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.View.Dialog.AchievementArchiveCreateDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Snap.Hutao.View.Dialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="设置成就存档的名称"
+    DefaultButton="Primary"
+    PrimaryButtonText="确认"
+    CloseButtonText="取消"
+    Style="{StaticResource DefaultContentDialogStyle}">
+
+    <Grid>
+        <TextBox
+            Margin="0,0,0,8"
+            x:Name="InputText"
+            PlaceholderText="在此处输入"
+            VerticalAlignment="Top"/>
+    </Grid>
+</ContentDialog>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Control.Cancellable;
 using Snap.Hutao.Service.Navigation;
@@ -31,5 +32,13 @@ public sealed partial class AchievementPage : CancellablePage
         {
             extra.NotifyNavigationCompleted();
         }
+    }
+
+    /// <inheritdoc/>
+    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+    {
+        ((AchievementViewModel)DataContext).SaveAchievements();
+
+        base.OnNavigatingFrom(e);
     }
 }

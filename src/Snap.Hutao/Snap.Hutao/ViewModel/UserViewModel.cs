@@ -123,13 +123,12 @@ internal class UserViewModel : ObservableObject
     private async Task AddUserAsync()
     {
         // Get cookie from user input
-        Window mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        Result<bool, string> result = await new UserDialog(mainWindow).GetInputCookieAsync();
+        (bool isOk, string cookie) = await new UserDialog(App.Window!).GetInputCookieAsync();
 
         // User confirms the input
-        if (result.IsOk)
+        if (isOk)
         {
-            if (TryValidateCookie(userService.ParseCookie(result.Value), out IDictionary<string, string>? filteredCookie))
+            if (TryValidateCookie(userService.ParseCookie(cookie), out IDictionary<string, string>? filteredCookie))
             {
                 string simplifiedCookie = string.Join(';', filteredCookie.Select(kvp => $"{kvp.Key}={kvp.Value}"));
 

@@ -7,35 +7,36 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 
 /// <summary>
 /// 签到结果
+/// https://docs.geetest.com/sensebot/apirefer/api/server
 /// </summary>
 public class SignInResult
 {
     /// <summary>
-    /// 通常是 ""
+    /// ？？？
     /// </summary>
     [JsonPropertyName("code")]
     public string Code { get; set; } = default!;
 
     /// <summary>
-    /// 通常是 ""
+    /// 风控码 375
     /// </summary>
     [JsonPropertyName("risk_code")]
     public int RiskCode { get; set; }
 
     /// <summary>
-    /// 通常是 ""
+    /// geetest appid
     /// </summary>
     [JsonPropertyName("gt")]
     public string Gt { get; set; } = default!;
 
     /// <summary>
-    /// 通常是 ""
+    /// geetest challenge id
     /// </summary>
     [JsonPropertyName("challenge")]
     public string Challenge { get; set; } = default!;
 
     /// <summary>
-    /// 通常是 ""
+    /// geetest 服务状态
     /// </summary>
     [JsonPropertyName("success")]
     public int Success { get; set; }

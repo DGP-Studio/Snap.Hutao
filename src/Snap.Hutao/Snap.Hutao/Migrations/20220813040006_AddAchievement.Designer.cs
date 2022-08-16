@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Snap.Hutao.Context.Database;
 
@@ -10,9 +11,10 @@ using Snap.Hutao.Context.Database;
 namespace Snap.Hutao.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220813040006_AddAchievement")]
+    partial class AddAchievement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
@@ -23,44 +25,23 @@ namespace Snap.Hutao.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("ArchiveId")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Current")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Id")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateTimeOffset>("Time")
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("InnerId");
 
-                    b.HasIndex("ArchiveId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("achievements");
-                });
-
-            modelBuilder.Entity("Snap.Hutao.Model.Entity.AchievementArchive", b =>
-                {
-                    b.Property<Guid>("InnerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<bool>("IsSelected")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("InnerId");
-
-                    b.ToTable("achievement_archives");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.SettingEntry", b =>
@@ -95,13 +76,13 @@ namespace Snap.Hutao.Migrations
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
-                    b.HasOne("Snap.Hutao.Model.Entity.AchievementArchive", "Archive")
+                    b.HasOne("Snap.Hutao.Model.Entity.User", "User")
                         .WithMany()
-                        .HasForeignKey("ArchiveId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Archive");
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

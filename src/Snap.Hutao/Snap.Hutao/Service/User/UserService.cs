@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.Abstraction;
@@ -22,6 +23,7 @@ internal class UserService : IUserService
     private readonly AppDbContext appDbContext;
     private readonly UserClient userClient;
     private readonly UserGameRoleClient userGameRoleClient;
+    private readonly IMessenger messenger;
 
     private User? currentUser;
     private ObservableCollection<User>? userCollection = null;
@@ -32,11 +34,13 @@ internal class UserService : IUserService
     /// <param name="appDbContext">应用程序数据库上下文</param>
     /// <param name="userClient">用户客户端</param>
     /// <param name="userGameRoleClient">角色客户端</param>
-    public UserService(AppDbContext appDbContext, UserClient userClient, UserGameRoleClient userGameRoleClient)
+    /// <param name="messenger">消息器</param>
+    public UserService(AppDbContext appDbContext, UserClient userClient, UserGameRoleClient userGameRoleClient, IMessenger messenger)
     {
         this.appDbContext = appDbContext;
         this.userClient = userClient;
         this.userGameRoleClient = userGameRoleClient;
+        this.messenger = messenger;
     }
 
     /// <inheritdoc/>
@@ -45,6 +49,11 @@ internal class UserService : IUserService
         get => currentUser;
         set
         {
+            if (currentUser == value)
+            {
+                return;
+            }
+
             // only update when not processing a deletion
             if (value != null)
             {
@@ -56,6 +65,8 @@ internal class UserService : IUserService
                 }
             }
 
+            Message.UserChangedMessage message = new(currentUser, value);
+
             // 当删除到无用户时也能正常反应状态
             currentUser = value;
 
@@ -65,6 +76,8 @@ internal class UserService : IUserService
                 appDbContext.Users.Update(currentUser.Entity);
                 appDbContext.SaveChanges();
             }
+
+            messenger.Send(message);
         }
     }
 
@@ -109,8 +122,10 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public Task RemoveUserAsync(User user)
     {
+        Must.NotNull(userCollection!);
+
         // Sync cache
-        userCollection!.Remove(user);
+        userCollection.Remove(user);
 
         // Sync database
         appDbContext.Users.Remove(user.Entity);
@@ -152,7 +167,7 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public Task<User?> CreateUserAsync(string cookie)
     {
-        return User.CreateAsync(new() { Cookie = cookie }, userClient, userGameRoleClient);
+        return User.CreateAsync(Model.Entity.User.Create(cookie), userClient, userGameRoleClient);
     }
 
     /// <inheritdoc/>

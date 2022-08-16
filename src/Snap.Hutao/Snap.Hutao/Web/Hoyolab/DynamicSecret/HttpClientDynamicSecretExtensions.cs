@@ -28,7 +28,6 @@ internal static class HttpClientDynamicSecretExtensions
     /// <param name="httpClient">请求器</param>
     /// <param name="options">选项</param>
     /// <param name="url">地址</param>
-    /// <param name="data">post数据</param>
     /// <returns>响应</returns>
     public static IDynamicSecret2HttpClient UsingDynamicSecret2(this HttpClient httpClient, JsonSerializerOptions options, string url)
     {
@@ -47,7 +46,6 @@ internal static class HttpClientDynamicSecretExtensions
     public static IDynamicSecret2HttpClient<TValue> UsingDynamicSecret2<TValue>(this HttpClient httpClient, JsonSerializerOptions options, string url, TValue data)
         where TValue : class
     {
-        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(options, url, data));
         return new DynamicSecret2HttpClient<TValue>(httpClient, options, url, data);
     }
 }

@@ -7,10 +7,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 /// <summary>
-/// 用户
+/// 成就存档
 /// </summary>
-[Table("users")]
-public class User
+[Table("achievement_archives")]
+public class AchievementArchive
 {
     /// <summary>
     /// 内部Id
@@ -20,22 +20,22 @@ public class User
     public Guid InnerId { get; set; }
 
     /// <summary>
-    /// 是否被选中
+    /// 名称
+    /// </summary>
+    public string Name { get; set; } = default!;
+
+    /// <summary>
+    /// 是否选中
     /// </summary>
     public bool IsSelected { get; set; }
 
     /// <summary>
-    /// 用户的Cookie
+    /// 创建一个新的存档
     /// </summary>
-    public string? Cookie { get; set; }
-
-    /// <summary>
-    /// 创建一个新的用户
-    /// </summary>
-    /// <param name="cookie">cookie</param>
-    /// <returns>新创建的用户</returns>
-    public static User Create(string cookie)
+    /// <param name="name">名称</param>
+    /// <returns>新存档</returns>
+    public static AchievementArchive Create(string name)
     {
-        return new() { Cookie = cookie };
+        return new() { Name = name };
     }
 }

@@ -73,6 +73,11 @@ internal static class EventIds
     /// </summary>
     public static readonly EventId FileCaching = 100120;
 
+    /// <summary>
+    /// 文件缓存
+    /// </summary>
+    public static readonly EventId Achievement = 100130;
+
     // 杂项
 
     /// <summary>
