@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Threading;
 using System.Runtime.InteropServices;
 using WinRT;
 
@@ -14,6 +15,7 @@ namespace Snap.Hutao;
 public static class Program
 {
     private static volatile DispatcherQueue? dispatcherQueue;
+    private static volatile SynchronizationContext? context;
 
     /// <summary>
     /// 主线程调度器队列
@@ -21,6 +23,15 @@ public static class Program
     public static DispatcherQueue UIDispatcherQueue
     {
         get => Must.NotNull(dispatcherQueue!);
+    }
+
+    /// <summary>
+    /// 异步切换到主线程
+    /// </summary>
+    /// <returns>等待体</returns>
+    public static SynchronizationContextAwaitable SwitchToMainThreadAsync()
+    {
+        return new SynchronizationContextAwaitable(context!);
     }
 
     [DllImport("Microsoft.ui.xaml.dll")]
@@ -36,7 +47,7 @@ public static class Program
         Application.Start(p =>
         {
             dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-            SynchronizationContext context = new DispatcherQueueSynchronizationContext(dispatcherQueue);
+            context = new DispatcherQueueSynchronizationContext(dispatcherQueue);
             SynchronizationContext.SetSynchronizationContext(context);
             _ = new App();
         });

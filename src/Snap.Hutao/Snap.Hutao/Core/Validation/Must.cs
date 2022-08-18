@@ -11,6 +11,20 @@ namespace Snap.Hutao.Core.Validation;
 public static class Must
 {
     /// <summary>
+    /// Throws an <see cref="ArgumentException"/> if a condition does not evaluate to true.
+    /// </summary>
+    /// <param name="condition">The condition to check.</param>
+    /// <param name="message">message</param>
+    /// <param name="parameterName">The name of the parameter to blame in the exception, if thrown.</param>
+    public static void Argument([DoesNotReturnIf(false)] bool condition, string? message, [CallerArgumentExpression("condition")] string? parameterName = null)
+    {
+        if (!condition)
+        {
+            throw new ArgumentException(message, parameterName);
+        }
+    }
+
+    /// <summary>
     /// Unconditionally throws an <see cref="NotSupportedException"/>.
     /// </summary>
     /// <returns>Nothing. This method always throws.</returns>

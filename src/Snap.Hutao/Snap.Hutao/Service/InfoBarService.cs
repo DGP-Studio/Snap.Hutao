@@ -90,14 +90,15 @@ internal class InfoBarService : IInfoBarService
         PrepareInfoBarAndShow(InfoBarSeverity.Error, ex.GetType().Name, $"{title}\n{ex.Message}", delay);
     }
 
-    private void PrepareInfoBarAndShow(InfoBarSeverity severity, string? title, string? message, int delay)
+    [SuppressMessage("", "VSTHRD100")]
+    private async void PrepareInfoBarAndShow(InfoBarSeverity severity, string? title, string? message, int delay)
     {
         if (infoBarStack is null)
         {
             return;
         }
 
-        infoBarStack.DispatcherQueue.TryEnqueue(() => PrepareInfoBarAndShowInternal(severity, title, message, delay));
+        await PrepareInfoBarAndShowInternalAsync(severity, title, message, delay).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -107,9 +108,10 @@ internal class InfoBarService : IInfoBarService
     /// <param name="title">标题</param>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    [SuppressMessage("", "VSTHRD100", Justification = "只能通过 async void 方法使控件在主线程创建")]
-    private async void PrepareInfoBarAndShowInternal(InfoBarSeverity severity, string? title, string? message, int delay)
+    private async Task PrepareInfoBarAndShowInternalAsync(InfoBarSeverity severity, string? title, string? message, int delay)
     {
+        await Program.SwitchToMainThreadAsync();
+
         InfoBar infoBar = new()
         {
             Severity = severity,
@@ -128,12 +130,12 @@ internal class InfoBarService : IInfoBarService
         }
     }
 
-    private void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
+    [SuppressMessage("", "VSTHRD100")]
+    private async void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
     {
-        Must.NotNull(infoBarStack!).DispatcherQueue.TryEnqueue(() =>
-        {
-            infoBarStack.Children.Remove(sender);
-            sender.Closed -= OnInfoBarClosed;
-        });
+        await Program.SwitchToMainThreadAsync();
+
+        Must.NotNull(infoBarStack!).Children.Remove(sender);
+        sender.Closed -= OnInfoBarClosed;
     }
 }

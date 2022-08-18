@@ -10,8 +10,9 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 检测 WebView2运行时 是否存在
 /// 不再使用注册表检查方式
+/// 必须为抽象类才能使用泛型日志器
 /// </summary>
-internal static class WebView2Helper
+internal abstract class WebView2Helper
 {
     private static bool hasEverDetected = false;
     private static bool isSupported = false;
