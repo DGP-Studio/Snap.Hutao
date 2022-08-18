@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.InterChange.Achievement;
@@ -24,9 +25,8 @@ internal class AchievementService : IAchievementService
 {
     private readonly AppDbContext appDbContext;
     private readonly ILogger<AchievementService> logger;
-    private readonly IMessenger messenger;
+    private readonly DbCurrent<EntityArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
 
-    private EntityArchive? currentArchive;
     private ObservableCollection<EntityArchive>? archiveCollection;
 
     /// <summary>
@@ -39,50 +39,62 @@ internal class AchievementService : IAchievementService
     {
         this.appDbContext = appDbContext;
         this.logger = logger;
-        this.messenger = messenger;
+
+        dbCurrent = new(appDbContext, appDbContext.AchievementArchives, messenger);
     }
 
     /// <inheritdoc/>
     public EntityArchive? CurrentArchive
     {
-        get => currentArchive;
-        set
-        {
-            if (currentArchive == value)
-            {
-                return;
-            }
-
-            // only update when not processing a deletion
-            if (value != null)
-            {
-                if (currentArchive != null)
-                {
-                    currentArchive.IsSelected = false;
-                    appDbContext.AchievementArchives.Update(currentArchive);
-                    appDbContext.SaveChanges();
-                }
-            }
-
-            Message.AchievementArchiveChangedMessage message = new(currentArchive, value);
-
-            currentArchive = value;
-
-            if (currentArchive != null)
-            {
-                currentArchive.IsSelected = true;
-                appDbContext.AchievementArchives.Update(currentArchive);
-                appDbContext.SaveChanges();
-            }
-
-            messenger.Send(message);
-        }
+        get => dbCurrent.Current;
+        set => dbCurrent.Current = value;
     }
 
     /// <inheritdoc/>
     public ObservableCollection<EntityArchive> GetArchiveCollection()
     {
         return archiveCollection ??= new(appDbContext.AchievementArchives.ToList());
+    }
+
+    /// <inheritdoc/>
+    public Task RemoveArchiveAsync(EntityArchive archive)
+    {
+        Must.NotNull(archiveCollection!);
+
+        // Sync cache
+        archiveCollection.Remove(archive);
+
+        // Sync database
+        appDbContext.AchievementArchives.Remove(archive);
+        return appDbContext.SaveChangesAsync();
+    }
+
+    /// <inheritdoc/>
+    public async Task<ArchiveAddResult> TryAddArchiveAsync(EntityArchive newArchive)
+    {
+        if (string.IsNullOrEmpty(newArchive.Name))
+        {
+            return ArchiveAddResult.InvalidName;
+        }
+
+        Must.NotNull(archiveCollection!);
+
+        // 查找是否有相同的名称
+        if (archiveCollection.SingleOrDefault(a => a.Name == newArchive.Name) is EntityArchive userWithSameUid)
+        {
+            return ArchiveAddResult.AlreadyExists;
+        }
+        else
+        {
+            // Sync cache
+            archiveCollection.Add(newArchive);
+
+            // Sync database
+            appDbContext.AchievementArchives.Add(newArchive);
+            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+
+            return ArchiveAddResult.Added;
+        }
     }
 
     /// <inheritdoc/>
@@ -140,19 +152,6 @@ internal class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public Task RemoveArchiveAsync(EntityArchive archive)
-    {
-        Must.NotNull(archiveCollection!);
-
-        // Sync cache
-        archiveCollection.Remove(archive);
-
-        // Sync database
-        appDbContext.AchievementArchives.Remove(archive);
-        return appDbContext.SaveChangesAsync();
-    }
-
-    /// <inheritdoc/>
     public void SaveAchievements(EntityArchive archive, IList<BindingAchievement> achievements)
     {
         string name = archive.Name;
@@ -168,34 +167,6 @@ internal class AchievementService : IAchievementService
         double time = stopwatch.GetElapsedTime().TotalMilliseconds;
         logger.LogInformation(EventIds.Achievement, "{add} added, {update} updated, {remove} removed", result.Add, result.Update, result.Remove);
         logger.LogInformation(EventIds.Achievement, "Save achievements for [{name}] completed in {time}ms", name, time);
-    }
-
-    /// <inheritdoc/>
-    public async Task<ArchiveAddResult> TryAddArchiveAsync(EntityArchive newArchive)
-    {
-        if (string.IsNullOrEmpty(newArchive.Name))
-        {
-            return ArchiveAddResult.InvalidName;
-        }
-
-        Must.NotNull(archiveCollection!);
-
-        // 查找是否有相同的名称
-        if (archiveCollection.SingleOrDefault(a => a.Name == newArchive.Name) is EntityArchive userWithSameUid)
-        {
-            return ArchiveAddResult.AlreadyExists;
-        }
-        else
-        {
-            // Sync cache
-            archiveCollection.Add(newArchive);
-
-            // Sync database
-            appDbContext.AchievementArchives.Add(newArchive);
-            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            return ArchiveAddResult.Added;
-        }
     }
 
     private ImportResult MergeAchievements(Guid archiveId, IOrderedEnumerable<UIAFItem> orederedUIAF, bool aggressive)

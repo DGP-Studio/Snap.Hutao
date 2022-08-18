@@ -2,15 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Web.Enka;
-using Snap.Hutao.Web.Hoyolab.Bbs.User;
-using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
-using Snap.Hutao.Web.Hutao;
 using System.Net.Http;
 
 namespace Snap.Hutao.Core.DependencyInjection;

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Win32;
-using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Extension;
 using Windows.ApplicationModel;
 
@@ -40,34 +38,16 @@ internal static class CoreEnvironment
     public static readonly Version Version;
 
     /// <summary>
-    /// 设备Id
-    /// </summary>
-    public static readonly string DeviceId;
-
-    /// <summary>
     /// 米游社设备Id
     /// </summary>
     public static readonly string HoyolabDeviceId;
-
-    private const string CryptographyKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography";
-    private const string MachineGuidValue = "MachineGuid";
 
     static CoreEnvironment()
     {
         Version = Package.Current.Id.Version.ToVersion();
         CommonUA = $"Snap Hutao/{Version}";
-        DeviceId = GetDeviceId();
-        HoyolabDeviceId = Guid.NewGuid().ToString();
-    }
 
-    /// <summary>
-    /// 获取设备的UUID
-    /// </summary>
-    /// <returns>设备的UUID</returns>
-    private static string GetDeviceId()
-    {
-        string userName = Environment.UserName;
-        object? machineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, userName);
-        return Md5Convert.ToHexString($"{userName}{machineGuid}");
+        // simply assign a random guid
+        HoyolabDeviceId = Guid.NewGuid().ToString();
     }
 }

@@ -56,5 +56,5 @@ public static class ThemeHelper
             ElementTheme.Dark => SystemBackdropTheme.Dark,
             _ => throw Must.NeverHappen(),
         };
-}
+    }
 }

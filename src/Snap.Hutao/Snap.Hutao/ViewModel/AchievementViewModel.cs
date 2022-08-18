@@ -15,6 +15,7 @@ using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -34,6 +35,7 @@ namespace Snap.Hutao.ViewModel;
 internal class AchievementViewModel
     : ObservableObject,
     ISupportCancellation,
+    INavigationRecipient,
     IRecipient<AchievementArchiveChangedMessage>,
     IRecipient<MainWindowClosedMessage>
 {
@@ -42,6 +44,8 @@ internal class AchievementViewModel
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
     private readonly IPickerFactory pickerFactory;
+
+    private readonly TaskCompletionSource<bool> openUICompletionSource = new();
 
     private AdvancedCollectionView? achievements;
     private IList<AchievementGoal>? achievementGoals;
@@ -190,6 +194,21 @@ internal class AchievementViewModel
         }
     }
 
+    /// <inheritdoc/>
+    public async Task<bool> ReceiveAsync(INavigationData data)
+    {
+        if (await openUICompletionSource.Task)
+        {
+            if (data.Data is "InvokeByUri")
+            {
+                await ImportUIAFFromClipboardAsync();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private async Task HandleArchiveChangeAsync(Model.Entity.AchievementArchive? oldArchieve, Model.Entity.AchievementArchive? newArchieve)
     {
         if (oldArchieve != null && Achievements != null)
@@ -209,7 +228,8 @@ internal class AchievementViewModel
 
     private async Task OpenUIAsync()
     {
-        if (await metadataService.InitializeAsync(CancellationToken))
+        bool metaInitialized = await metadataService.InitializeAsync(CancellationToken);
+        if (metaInitialized)
         {
             AchievementGoals = await metadataService.GetAchievementGoalsAsync(CancellationToken);
 
@@ -222,6 +242,8 @@ internal class AchievementViewModel
                 infoBarService.Warning("请创建或选择一个成就存档");
             }
         }
+
+        openUICompletionSource.TrySetResult(metaInitialized);
     }
 
     private async Task UpdateAchievementsAsync(Model.Entity.AchievementArchive archive)
@@ -291,8 +313,7 @@ internal class AchievementViewModel
             return;
         }
 
-        DataPackageView view = Clipboard.GetContent();
-        string json = await view.GetTextAsync();
+        string json = await Clipboard.GetContent().GetTextAsync();
 
         UIAF? uiaf = null;
         try
@@ -321,7 +342,7 @@ internal class AchievementViewModel
             await new ContentDialog2(App.Window!)
             {
                 Title = "导入失败",
-                Content = "剪贴板中的内容格式不正确",
+                Content = "数据格式不正确",
                 PrimaryButtonText = "确认",
                 DefaultButton = ContentDialogButton.Primary,
             }
@@ -375,7 +396,7 @@ internal class AchievementViewModel
                 await new ContentDialog2(App.Window!)
                 {
                     Title = "导入失败",
-                    Content = "文件中的内容格式不正确",
+                    Content = "数据格式不正确",
                     PrimaryButtonText = "确认",
                     DefaultButton = ContentDialogButton.Primary,
                 }

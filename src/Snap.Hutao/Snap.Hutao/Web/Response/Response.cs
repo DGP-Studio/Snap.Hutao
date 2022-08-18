@@ -27,11 +27,6 @@ public class Response : ISupportValidation
         {
             Ioc.Default.GetRequiredService<IInfoBarService>().Error(ToString());
         }
-
-        if (ReturnCode != 0)
-        {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Warning(ToString());
-        }
     }
 
     /// <summary>

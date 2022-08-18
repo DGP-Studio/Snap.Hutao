@@ -8,7 +8,6 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
 using System.Diagnostics;
 using Windows.Storage;
@@ -23,7 +22,6 @@ public partial class App : Application
 {
     private static Window? window;
     private readonly ILogger<App> logger;
-    private readonly ExceptionRecorder exceptionRecorder;
 
     /// <summary>
     /// Initializes the singleton application object.
@@ -38,7 +36,7 @@ public partial class App : Application
         // so we can use Ioc here.
         logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
-        exceptionRecorder = new(this, logger);
+        _ = new ExceptionRecorder(this, logger);
     }
 
     /// <summary>
@@ -73,8 +71,8 @@ public partial class App : Application
 
         if (firstInstance.IsCurrent)
         {
-            OnActivated(firstInstance, activatedEventArgs);
-            firstInstance.Activated += OnActivated;
+            Activation.Activate(firstInstance, activatedEventArgs);
+            firstInstance.Activated += Activation.Activate;
 
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", CacheFolder.Path);
 
@@ -115,22 +113,5 @@ public partial class App : Application
             .BuildServiceProvider();
 
         Ioc.Default.ConfigureServices(services);
-    }
-
-    [SuppressMessage("", "VSTHRD100")]
-    private async void OnActivated(object? sender, AppActivationArguments args)
-    {
-        Window = Ioc.Default.GetRequiredService<MainWindow>();
-
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
-        await infoBarService.WaitInitializationAsync();
-
-        if (args.Kind == ExtendedActivationKind.Protocol)
-        {
-            if (args.TryGetProtocolActivatedUri(out Uri? uri))
-            {
-                infoBarService.Information(uri.ToString());
-            }
-        }
     }
 }

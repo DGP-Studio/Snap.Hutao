@@ -34,8 +34,8 @@ public sealed partial class AchievementImportDialog : ContentDialog
     /// </summary>
     public UIAF UIAF
     {
-        get { return (UIAF)GetValue(UIAFProperty); }
-        set { SetValue(UIAFProperty, value); }
+        get => (UIAF)GetValue(UIAFProperty);
+        set => SetValue(UIAFProperty, value);
     }
 
     /// <summary>

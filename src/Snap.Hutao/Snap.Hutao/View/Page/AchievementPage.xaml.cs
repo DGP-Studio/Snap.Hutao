@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Control.Cancellable;
 using Snap.Hutao.Service.Navigation;
@@ -24,12 +23,18 @@ public sealed partial class AchievementPage : CancellablePage
     }
 
     /// <inheritdoc/>
-    protected override void OnNavigatedTo(NavigationEventArgs e)
+    [SuppressMessage("", "VSTHRD100")]
+    protected override async void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
 
         if (e.Parameter is INavigationData extra)
         {
+            if (extra.Data != null)
+            {
+                await ((INavigationRecipient)DataContext).ReceiveAsync(extra);
+            }
+
             extra.NotifyNavigationCompleted();
         }
     }
