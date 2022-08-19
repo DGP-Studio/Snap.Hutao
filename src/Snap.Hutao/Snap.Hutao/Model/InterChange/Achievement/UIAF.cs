@@ -11,6 +11,11 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 /// </summary>
 public class UIAF
 {
+    private static readonly List<string> SupportedVersion = new()
+    {
+        "v1.1",
+    };
+
     /// <summary>
     /// 信息
     /// </summary>
@@ -21,4 +26,13 @@ public class UIAF
     /// 列表
     /// </summary>
     public List<UIAFItem> List { get; set; } = default!;
+
+    /// <summary>
+    /// 确认当前UIAF对象的版本是否受支持
+    /// </summary>
+    /// <returns>当前UIAF对象是否受支持</returns>
+    public bool IsCurrentVersionSupported()
+    {
+        return SupportedVersion.Contains(Info.UIAFVersion ?? string.Empty);
+    }
 }

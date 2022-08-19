@@ -209,6 +209,17 @@ internal class AchievementViewModel
         return false;
     }
 
+    private static Task<ContentDialogResult> ShowImportFailDialogAsync(string message)
+    {
+        return new ContentDialog2(App.Window!)
+        {
+            Title = "导入失败",
+            Content = message,
+            PrimaryButtonText = "确认",
+            DefaultButton = ContentDialogButton.Primary,
+        }.ShowAsync().AsTask();
+    }
+
     private async Task HandleArchiveChangeAsync(Model.Entity.AchievementArchive? oldArchieve, Model.Entity.AchievementArchive? newArchieve)
     {
         if (oldArchieve != null && Achievements != null)
@@ -220,15 +231,12 @@ internal class AchievementViewModel
         {
             await UpdateAchievementsAsync(newArchieve);
         }
-        else
-        {
-            infoBarService.Warning("请创建或选择一个成就存档");
-        }
     }
 
     private async Task OpenUIAsync()
     {
         bool metaInitialized = await metadataService.InitializeAsync(CancellationToken);
+
         if (metaInitialized)
         {
             AchievementGoals = await metadataService.GetAchievementGoalsAsync(CancellationToken);
@@ -239,7 +247,7 @@ internal class AchievementViewModel
 
             if (SelectedArchive == null)
             {
-                infoBarService.Warning("请创建或选择一个成就存档");
+                infoBarService.Warning("请创建一个成就存档");
             }
         }
 
@@ -315,38 +323,27 @@ internal class AchievementViewModel
 
         string json = await Clipboard.GetContent().GetTextAsync();
 
-        UIAF? uiaf = null;
-        try
+        if (GetUIAFFromString(json) is UIAF uiaf)
         {
-            uiaf = JsonSerializer.Deserialize<UIAF>(json, options);
-        }
-        catch (Exception ex)
-        {
-            infoBarService?.Error(ex);
-        }
-
-        if (uiaf != null)
-        {
-            (bool isOk, ImportOption option) = await new AchievementImportDialog(App.Window!, uiaf).GetImportOptionAsync();
-
-            if (isOk)
+            if (uiaf.IsCurrentVersionSupported())
             {
-                ImportResult result = achievementService.ImportFromUIAF(achievementService.CurrentArchive, uiaf.List, option);
-                infoBarService!.Success($"新增:{result.Add} 个成就 | 更新:{result.Update} 个成就 | 删除{result.Remove} 个成就");
+                (bool isOk, ImportOption option) = await new AchievementImportDialog(App.Window!, uiaf).GetImportOptionAsync();
 
-                await UpdateAchievementsAsync(achievementService.CurrentArchive);
+                if (isOk)
+                {
+                    ImportResult result = achievementService.ImportFromUIAF(achievementService.CurrentArchive, uiaf.List, option);
+                    infoBarService!.Success($"新增:{result.Add} 个成就 | 更新:{result.Update} 个成就 | 删除{result.Remove} 个成就");
+                    await UpdateAchievementsAsync(achievementService.CurrentArchive);
+                }
+            }
+            else
+            {
+                await ShowImportFailDialogAsync("数据的 UIAF 版本过低，无法导入");
             }
         }
         else
         {
-            await new ContentDialog2(App.Window!)
-            {
-                Title = "导入失败",
-                Content = "数据格式不正确",
-                PrimaryButtonText = "确认",
-                DefaultButton = ContentDialogButton.Primary,
-            }
-            .ShowAsync();
+            await ShowImportFailDialogAsync("数据格式不正确");
         }
     }
 
@@ -364,45 +361,65 @@ internal class AchievementViewModel
 
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {
-            UIAF? uiaf = null;
-            try
+            if (await GetUIAFFromFileAsync(file) is UIAF uiaf)
             {
-                using (IRandomAccessStreamWithContentType fileSream = await file.OpenReadAsync())
+                if (uiaf.IsCurrentVersionSupported())
                 {
-                    using (Stream stream = fileSream.AsStream())
+                    (bool isOk, ImportOption option) = await new AchievementImportDialog(App.Window!, uiaf).GetImportOptionAsync();
+
+                    if (isOk)
                     {
-                        uiaf = await JsonSerializer.DeserializeAsync<UIAF>(stream, options);
+                        ImportResult result = achievementService.ImportFromUIAF(achievementService.CurrentArchive, uiaf.List, option);
+                        infoBarService!.Success($"新增:{result.Add} 个成就 | 更新:{result.Update} 个成就 | 删除{result.Remove} 个成就");
+                        await UpdateAchievementsAsync(achievementService.CurrentArchive);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                infoBarService?.Error(ex);
-            }
-
-            if (uiaf != null)
-            {
-                (bool isOk, ImportOption option) = await new AchievementImportDialog(App.Window!, uiaf).GetImportOptionAsync();
-
-                if (isOk)
+                else
                 {
-                    ImportResult result = achievementService.ImportFromUIAF(achievementService.CurrentArchive, uiaf.List, option);
-                    infoBarService!.Success($"新增:{result.Add} 个成就 | 更新:{result.Update} 个成就 | 删除{result.Remove} 个成就");
-                    await UpdateAchievementsAsync(achievementService.CurrentArchive);
+                    await ShowImportFailDialogAsync("数据的 UIAF 版本过低，无法导入");
                 }
             }
             else
             {
-                await new ContentDialog2(App.Window!)
-                {
-                    Title = "导入失败",
-                    Content = "数据格式不正确",
-                    PrimaryButtonText = "确认",
-                    DefaultButton = ContentDialogButton.Primary,
-                }
-                .ShowAsync();
+                await ShowImportFailDialogAsync("数据格式不正确");
             }
         }
+    }
+
+    private UIAF? GetUIAFFromString(string json)
+    {
+        UIAF? uiaf = null;
+        try
+        {
+            uiaf = JsonSerializer.Deserialize<UIAF>(json, options);
+        }
+        catch (Exception ex)
+        {
+            infoBarService?.Error(ex);
+        }
+
+        return uiaf;
+    }
+
+    private async Task<UIAF?> GetUIAFFromFileAsync(StorageFile file)
+    {
+        UIAF? uiaf = null;
+        try
+        {
+            using (IRandomAccessStreamWithContentType fileSream = await file.OpenReadAsync())
+            {
+                using (Stream stream = fileSream.AsStream())
+                {
+                    uiaf = await JsonSerializer.DeserializeAsync<UIAF>(stream, options);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            infoBarService?.Error(ex);
+        }
+
+        return uiaf;
     }
 
     private void UpdateAchievementFilter(AchievementGoal? goal)

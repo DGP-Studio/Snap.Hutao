@@ -27,7 +27,7 @@ public class UIAFInfo
     /// </summary>
     public DateTimeOffset ExportDateTime
     {
-        get => DateTimeOffset.FromUnixTimeSeconds(ExportTimestamp ?? 0);
+        get => DateTimeOffset.FromUnixTimeSeconds(ExportTimestamp ?? DateTimeOffset.MinValue.ToUnixTimeSeconds());
     }
 
     /// <summary>

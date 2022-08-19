@@ -83,6 +83,7 @@ public class Achievement : IEquatable<Achievement>
             ArchiveId = userId,
             Id = uiaf.Id,
             Current = uiaf.Current,
+            Status = uiaf.Status, // Hot fix | 1.0.30 | Status not set when create database entity
             Time = DateTimeOffset.FromUnixTimeSeconds(uiaf.Timestamp).ToLocalTime(true),
         };
     }

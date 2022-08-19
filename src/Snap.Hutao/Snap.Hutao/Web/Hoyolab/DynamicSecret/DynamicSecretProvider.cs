@@ -11,6 +11,8 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// </summary>
 internal abstract class DynamicSecretProvider : Md5Convert
 {
+    private const string RandomRange = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
     /// <summary>
     /// 创建动态密钥
     /// </summary>
@@ -33,14 +35,8 @@ internal abstract class DynamicSecretProvider : Md5Convert
 
         for (int i = 0; i < 6; i++)
         {
-            int v8 = Random.Shared.Next(0, 32768) % 26;
-            int v9 = 87;
-            if (v8 < 10)
-            {
-                v9 = 48;
-            }
-
-            _ = sb.Append((char)(v8 + v9));
+            int pos = Random.Shared.Next(0, RandomRange.Length);
+            sb.Append(RandomRange[pos]);
         }
 
         return sb.ToString();
