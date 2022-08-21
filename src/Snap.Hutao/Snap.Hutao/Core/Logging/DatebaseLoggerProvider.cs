@@ -10,14 +10,14 @@ using System.Linq;
 namespace Snap.Hutao.Core.Logging;
 
 /// <summary>
-/// The provider for the <see cref="DebugLogger"/>.
+/// The provider for the <see cref="DatebaseLogger"/>.
 /// </summary>
 [ProviderAlias("Database")]
 public sealed class DatebaseLoggerProvider : ILoggerProvider
 {
     private static readonly object LogDbContextLock = new();
 
-    // the provider is created per logger, we don't want to create to much
+    // the provider is created per logger, we don't want to create too much
     private static volatile LogDbContext? logDbContext;
 
     private static LogDbContext LogDbContext

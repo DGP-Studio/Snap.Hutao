@@ -39,7 +39,7 @@ public class CachedImage : ImageEx
             // check token state to determine whether the operation should be canceled.
             Must.ThrowOnCanceled(token, "Image source has changed.");
 
-            // BitmapImage initialize with a uri will increase image quality.
+            // BitmapImage initialize with a uri will increase image quality and loading speed.
             return new BitmapImage(new(file.Path));
         }
         catch (COMException ex) when (ex.Is(COMError.WINCODEC_ERR_COMPONENTNOTFOUND))

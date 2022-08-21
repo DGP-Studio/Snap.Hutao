@@ -6,9 +6,10 @@ namespace Snap.Hutao.Core.Logging;
 /// <summary>
 /// 事件Id定义
 /// </summary>
+[SuppressMessage("", "SA1124")]
 internal static class EventIds
 {
-    // 异常
+    #region 异常
 
     /// <summary>
     /// 未经处理的异常
@@ -44,8 +45,9 @@ internal static class EventIds
     /// Xaml绑定错误
     /// </summary>
     public static readonly EventId UnobservedTaskException = 100006;
+    #endregion
 
-    // 服务
+    #region 服务
 
     /// <summary>
     /// 导航历史
@@ -73,11 +75,17 @@ internal static class EventIds
     public static readonly EventId FileCaching = 100120;
 
     /// <summary>
-    /// 文件缓存
+    /// 删除缓存文件
+    /// </summary>
+    public static readonly EventId CacheRemoveFile = 100121;
+
+    /// <summary>
+    /// 成就
     /// </summary>
     public static readonly EventId Achievement = 100130;
+    #endregion
 
-    // 杂项
+    #region 杂项
 
     /// <summary>
     /// 杂项Log
@@ -93,4 +101,5 @@ internal static class EventIds
     /// 子类控制
     /// </summary>
     public static readonly EventId SubClassing = 200002;
+    #endregion
 }

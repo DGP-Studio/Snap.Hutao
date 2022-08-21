@@ -71,6 +71,7 @@ public partial class App : Application
 
         if (firstInstance.IsCurrent)
         {
+            // manually invoke the
             Activation.Activate(firstInstance, activatedEventArgs);
             firstInstance.Activated += Activation.Activate;
 

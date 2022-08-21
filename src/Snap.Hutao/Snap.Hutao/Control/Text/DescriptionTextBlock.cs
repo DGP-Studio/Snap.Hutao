@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Windows.UI;
 
@@ -21,6 +22,8 @@ public class DescriptionTextBlock : ContentControl
 {
     private static readonly DependencyProperty DescriptionProperty =
         Property<DescriptionTextBlock>.Depend(nameof(Description), string.Empty, OnDescriptionChanged);
+
+    private static readonly Regex ColorRegex = new(@"<color=([^>]+)>([^<]+)</color>", RegexOptions.Compiled);
 
     /// <summary>
     /// 构造一个新的呈现描述文本的文本块
@@ -46,17 +49,17 @@ public class DescriptionTextBlock : ContentControl
         text.Inlines.Clear();
 
         string[] lines = ((string)e.NewValue).Split('\n');
+
         foreach (string line in lines)
         {
-            MatchCollection matches = Regex.Matches(line, @"<color=([^>]+)>([^<]+)</color>");
             string left, right = line;
 
-            foreach (Match match in matches)
+            foreach (Match match in ColorRegex.Matches(line))
             {
-                string matched = match.Groups[0].Value;
-                int matchPosition = right.IndexOf(matched);
+                string fullMatch = match.Groups[0].Value;
+                int matchPosition = right.IndexOf(fullMatch);
                 left = right[..matchPosition];
-                right = right[(matchPosition + matched.Length)..];
+                right = right[(matchPosition + fullMatch.Length)..];
 
                 if (!string.IsNullOrWhiteSpace(left))
                 {
@@ -66,7 +69,7 @@ public class DescriptionTextBlock : ContentControl
                 string hexColor = match.Groups[1].Value;
                 string content = match.Groups[2].Value;
 
-                text.Inlines.Add(new Run { Text = content, Foreground = GetSolidColorBrush(hexColor[..7]) });
+                text.Inlines.Add(new Run { Text = content, Foreground = new SolidColorBrush(new HexColor(hexColor[1..])) });
             }
 
             if (!string.IsNullOrWhiteSpace(right))
@@ -91,12 +94,33 @@ public class DescriptionTextBlock : ContentControl
         }
     }
 
-    private static SolidColorBrush GetSolidColorBrush(string hex)
+    [StructLayout(LayoutKind.Explicit)]
+    private struct HexColor
     {
-        hex = hex.Replace("#", string.Empty);
-        byte r = (byte)Convert.ToUInt32(hex.Substring(0, 2), 16);
-        byte g = (byte)Convert.ToUInt32(hex.Substring(2, 2), 16);
-        byte b = (byte)Convert.ToUInt32(hex.Substring(4, 2), 16);
-        return new SolidColorBrush(Color.FromArgb(255, r, g, b));
+        [FieldOffset(3)]
+        public byte R;
+        [FieldOffset(2)]
+        public byte G;
+        [FieldOffset(1)]
+        public byte B;
+        [FieldOffset(0)]
+        public byte A;
+
+        [FieldOffset(0)]
+        private readonly uint data;
+
+        public HexColor(string hex)
+        {
+            R = 0;
+            G = 0;
+            B = 0;
+            A = 0;
+            data = Convert.ToUInt32(hex, 16);
+        }
+
+        public static implicit operator Color(HexColor hexColor)
+        {
+            return Color.FromArgb(hexColor.A, hexColor.R, hexColor.G, hexColor.B);
+        }
     }
 }

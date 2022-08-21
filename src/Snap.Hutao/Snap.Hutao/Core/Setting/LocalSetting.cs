@@ -28,10 +28,12 @@ internal static class LocalSetting
     /// <param name="key">键</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns>获取的值</returns>
-    public static T? Get<T>(string key, T? defaultValue = default)
+    [return:MaybeNull]
+    public static T Get<T>(string key, [AllowNull] T defaultValue = default)
     {
         if (Container.Values.TryGetValue(key, out object? value))
         {
+            // unbox the value
             return value is null ? defaultValue : (T)value;
         }
         else
@@ -48,9 +50,8 @@ internal static class LocalSetting
     /// <param name="key">键</param>
     /// <param name="value">值</param>
     /// <returns>设置的值</returns>
-    public static T Set<T>(string key, T value)
+    public static object? Set<T>(string key, T value)
     {
-        Container.Values[key] = value;
-        return value;
+        return Container.Values[key] = value;
     }
 }

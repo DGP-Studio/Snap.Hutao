@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Page;
@@ -42,11 +43,13 @@ public sealed partial class MainView : UserControl
 
     private void OnUISettingsColorValuesChanged(UISettings sender, object args)
     {
-        Program.UIDispatcherQueue.TryEnqueue(UpdateTheme);
+        UpdateThemeAsync().SafeForget();
     }
 
-    private void UpdateTheme()
+    private async Task UpdateThemeAsync()
     {
+        await Program.SwitchToMainThreadAsync();
+
         if (!ThemeHelper.Equals(App.Current.RequestedTheme, RequestedTheme))
         {
             ILogger<MainView> logger = Ioc.Default.GetRequiredService<ILogger<MainView>>();

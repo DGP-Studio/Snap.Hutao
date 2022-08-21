@@ -10,7 +10,6 @@ namespace Snap.Hutao.Core.Json.Converter;
 /// <summary>
 /// Json字典转换器
 /// </summary>
-/// <typeparam name="TKeyConverter">键的类型</typeparam>
 public class StringEnumKeyDictionaryConverter : JsonConverterFactory
 {
     /// <inheritdoc/>

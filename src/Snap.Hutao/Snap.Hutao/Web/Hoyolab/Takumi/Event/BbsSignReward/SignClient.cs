@@ -86,6 +86,17 @@ internal class SignClient
     /// <summary>
     /// 补签
     /// </summary>
+    /// <param name="userRole">用户角色</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>签到结果</returns>
+    public Task<Response<SignInResult>?> ReSignAsync(UserRole userRole, CancellationToken token = default)
+    {
+        return ReSignAsync(userRole.User, userRole.Role, token);
+    }
+
+    /// <summary>
+    /// 补签
+    /// </summary>
     /// <param name="user">用户</param>
     /// <param name="role">角色</param>
     /// <param name="token">取消令牌</param>
@@ -109,10 +120,21 @@ internal class SignClient
     /// <summary>
     /// 签到
     /// </summary>
+    /// <param name="userRole">用户角色</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>签到结果</returns>
+    public Task<Response<SignInResult>?> SignAsync(UserRole userRole, CancellationToken token = default)
+    {
+        return SignAsync(userRole.User, userRole.Role, token);
+    }
+
+    /// <summary>
+    /// 签到
+    /// </summary>
     /// <param name="user">用户</param>
     /// <param name="role">角色</param>
     /// <param name="token">取消令牌</param>
-    /// <returns>签到消息</returns>
+    /// <returns>签到结果</returns>
     public async Task<Response<SignInResult>?> SignAsync(User user, UserGameRole role, CancellationToken token = default)
     {
         HttpResponseMessage response = await httpClient

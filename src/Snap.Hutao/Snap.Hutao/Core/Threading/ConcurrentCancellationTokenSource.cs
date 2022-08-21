@@ -21,13 +21,11 @@ internal class ConcurrentCancellationTokenSource<TItem>
     /// <returns>取消令牌</returns>
     public CancellationToken Register(TItem item)
     {
-        if (waitingItems.TryRemove(item, out CancellationTokenSource? prevSource))
+        if (waitingItems.TryRemove(item, out CancellationTokenSource? previousSource))
         {
-            prevSource.Cancel();
+            previousSource.Cancel();
         }
 
-        CancellationTokenSource current = waitingItems.GetOrAdd(item, new CancellationTokenSource());
-
-        return current.Token;
+        return waitingItems.GetOrAdd(item, new CancellationTokenSource()).Token;
     }
 }

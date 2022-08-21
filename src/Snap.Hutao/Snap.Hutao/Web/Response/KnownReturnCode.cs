@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Response;
 /// <summary>
 /// 已知的返回代码
 /// </summary>
-public enum KnownReturnCode
+public enum KnownReturnCode : int
 {
     /// <summary>
     /// 无效请求
@@ -17,6 +17,11 @@ public enum KnownReturnCode
     /// 已经签到过了
     /// </summary>
     AlreadySignedIn = -5003,
+
+    /// <summary>
+    /// 尚未登录
+    /// </summary>
+    NotLoggedIn = -100,
 
     /// <summary>
     /// 验证密钥过期

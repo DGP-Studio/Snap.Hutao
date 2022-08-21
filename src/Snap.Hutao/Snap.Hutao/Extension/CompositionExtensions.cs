@@ -60,7 +60,9 @@ internal static class CompositionExtensions
     /// <param name="compositor">合成器</param>
     /// <param name="source">源</param>
     /// <returns>合成效果画刷</returns>
-    public static CompositionEffectBrush CompositeGrayScaleEffectBrush(this Compositor compositor, CompositionBrush source)
+    public static CompositionEffectBrush CompositeGrayScaleEffectBrush(
+        this Compositor compositor,
+        CompositionBrush source)
     {
         GrayscaleEffect effect = new()
         {

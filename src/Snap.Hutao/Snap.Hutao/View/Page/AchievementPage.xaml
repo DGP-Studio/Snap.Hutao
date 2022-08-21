@@ -42,26 +42,23 @@
                     ItemsSource="{Binding Archives,Mode=OneWay}"
                     SelectedItem="{Binding SelectedArchive,Mode=TwoWay}"/>
             </AppBarElementContainer>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton
-                    Icon="Add"
-                    Label="创建新存档"
-                    Command="{Binding AddArchiveCommand}"/>
-                <AppBarButton
-                    Icon="Delete"
-                    Label="删除当前存档"
-                    Command="{Binding RemoveArchiveCommand}"/>
-                <AppBarSeparator/>
-                <AppBarButton
-                    Icon="Paste"
-                    Label="从剪贴板导入"
-                    Command="{Binding ImportUIAFFromClipboardCommand}"/>
-                <AppBarButton
-                    Icon="OpenFile"
-                    Label="从UIAF文件导入"
-                    Command="{Binding ImportUIAFFromFileCommand}"/>
-            </CommandBar.SecondaryCommands>
-            
+            <AppBarButton
+                Icon="Add"
+                Label="创建新存档"
+                Command="{Binding AddArchiveCommand}"/>
+            <AppBarButton
+                Icon="Delete"
+                Label="删除当前存档"
+                Command="{Binding RemoveArchiveCommand}"/>
+            <AppBarSeparator/>
+            <AppBarButton
+                Icon="Paste"
+                Label="从剪贴板导入"
+                Command="{Binding ImportUIAFFromClipboardCommand}"/>
+            <AppBarButton
+                Icon="OpenFile"
+                Label="从UIAF文件导入"
+                Command="{Binding ImportUIAFFromFileCommand}"/>
         </CommandBar>
         <SplitView
             Grid.Row="1"

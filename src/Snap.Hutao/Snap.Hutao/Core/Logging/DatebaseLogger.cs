@@ -54,18 +54,19 @@ internal sealed partial class DatebaseLogger : ILogger
             return;
         }
 
+        LogEntry entry = new()
+        {
+            Category = name,
+            LogLevel = logLevel,
+            EventId = eventId.Id,
+            Message = message,
+            Exception = exception?.ToString(),
+        };
+
         // DbContext is not a thread safe class, so we have to lock the wirte procedure
         lock (logDbContextLock)
         {
-            logDbContext.Logs.Add(new LogEntry
-            {
-                Category = name,
-                LogLevel = logLevel,
-                EventId = eventId.Id,
-                Message = message,
-                Exception = exception?.ToString(),
-            });
-
+            logDbContext.Logs.Add(entry);
             logDbContext.SaveChanges();
         }
     }

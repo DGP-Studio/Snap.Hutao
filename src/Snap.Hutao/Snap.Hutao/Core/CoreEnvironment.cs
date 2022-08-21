@@ -11,10 +11,14 @@ namespace Snap.Hutao.Core;
 /// </summary>
 internal static class CoreEnvironment
 {
+    // Used DS1 History
+    // 2.34.1 9nQiU3AV0rJSIBWgdynfoGMGKaklfbM7
+    // 2.35.2 N50pqm7FSy2AkFz2B3TqtuZMJ5TOl3Ep
+
     /// <summary>
     /// 动态密钥1的盐
     /// </summary>
-    public const string DynamicSecret1Salt = "9nQiU3AV0rJSIBWgdynfoGMGKaklfbM7";
+    public const string DynamicSecret1Salt = "N50pqm7FSy2AkFz2B3TqtuZMJ5TOl3Ep";
 
     /// <summary>
     /// 动态密钥2的盐
@@ -25,7 +29,12 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社请求UA
     /// </summary>
-    public const string HoyolabUA = $"miHoYoBBS/2.34.1";
+    public const string HoyolabUA = $"miHoYoBBS/{HoyolabXrpcVersion}";
+
+    /// <summary>
+    /// 米游社 Rpc 版本
+    /// </summary>
+    public const string HoyolabXrpcVersion = "2.35.2";
 
     /// <summary>
     /// 标准UA

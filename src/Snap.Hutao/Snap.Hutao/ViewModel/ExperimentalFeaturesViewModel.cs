@@ -5,9 +5,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Context.FileSystem.Location;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
-using Snap.Hutao.Web.Response;
+using Snap.Hutao.Service.Sign;
+using System.Text;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel;
@@ -19,8 +18,7 @@ namespace Snap.Hutao.ViewModel;
 internal class ExperimentalFeaturesViewModel : ObservableObject
 {
     private readonly IFileSystemLocation hutaoLocation;
-    private readonly IUserService userService;
-    private readonly SignClient signClient;
+    private readonly ISignService signService;
     private readonly IInfoBarService infoBarService;
 
     /// <summary>
@@ -28,19 +26,16 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// </summary>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="hutaoLocation">数据文件夹</param>
-    /// <param name="userService">用户服务</param>
-    /// <param name="signClient">签到客户端</param>
-    /// <param name="infoBarService">信息栏服务</param>
+    /// <param name="signService">签到客户端</param>
+    /// <param name="infoBarService">信息条服务</param>
     public ExperimentalFeaturesViewModel(
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
         HutaoLocation hutaoLocation,
-        IUserService userService,
-        SignClient signClient,
+        ISignService signService,
         IInfoBarService infoBarService)
     {
         this.hutaoLocation = hutaoLocation;
-        this.userService = userService;
-        this.signClient = signClient;
+        this.signService = signService;
         this.infoBarService = infoBarService;
 
         OpenCacheFolderCommand = asyncRelayCommandFactory.Create(OpenCacheFolderAsync);
@@ -73,20 +68,15 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
         return Launcher.LaunchFolderPathAsync(hutaoLocation.GetPath()).AsTask();
     }
 
-    private async Task SignAllUserGameRolesAsync()
+    private async Task SignAllUserGameRolesAsync(CancellationToken token)
     {
-        foreach (Model.Binding.User user in await userService.GetUserCollectionAsync())
-        {
-            foreach (UserGameRole role in user.UserGameRoles)
-            {
-                Response<SignInResult>? result = await signClient.SignAsync(user, role);
-                if (result != null)
-                {
-                    infoBarService.Information(result.Message);
-                }
+        SignResult result = await signService.SignForAllAsync(token);
 
-                await Task.Delay(TimeSpan.FromSeconds(15));
-            }
-        }
+        StringBuilder stringBuilder = new StringBuilder()
+            .Append($"签到完成 - 用时: {result.Time.TotalSeconds:F2} 秒\r\n")
+            .Append($"请求: {result.TotalCount} 次\r\n")
+            .Append($"补签: {result.RetryCount} 次");
+
+        infoBarService.Information(stringBuilder.ToString());
     }
 }

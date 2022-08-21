@@ -13,8 +13,7 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// </summary>
 internal static class Activation
 {
-    private static volatile bool isActivating = false;
-    private static object activationLock = new();
+    private static readonly SemaphoreSlim ActivateSemaphore = new(1);
 
     /// <summary>
     /// 响应激活事件
@@ -33,27 +32,12 @@ internal static class Activation
     /// <returns>任务</returns>
     private static async Task HandleActivationAsync(AppActivationArguments args)
     {
-        if (isActivating)
+        if (ActivateSemaphore.CurrentCount > 0)
         {
-            lock (activationLock)
+            using (await ActivateSemaphore.EnterAsync().ConfigureAwait(false))
             {
-                if (isActivating)
-                {
-                    return;
-                }
+                await HandleActivationCoreAsync(args).ConfigureAwait(false);
             }
-        }
-
-        lock (activationLock)
-        {
-            isActivating = true;
-        }
-
-        await HandleActivationCoreAsync(args).ConfigureAwait(false);
-
-        lock (activationLock)
-        {
-            isActivating = false;
         }
     }
 
