@@ -121,7 +121,8 @@ internal class UserViewModel : ObservableObject
     private async Task AddUserAsync()
     {
         // Get cookie from user input
-        (bool isOk, string cookie) = await new UserDialog(App.Window!).GetInputCookieAsync();
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        (bool isOk, string cookie) = await new UserDialog(mainWindow).GetInputCookieAsync();
 
         // User confirms the input
         if (isOk)

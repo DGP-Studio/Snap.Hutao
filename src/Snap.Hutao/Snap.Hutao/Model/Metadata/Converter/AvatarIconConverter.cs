@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal class AvatarIconConverter : IValueConverter
 {
-    private const string BaseUrl = "https://upload-bbs.mihoyo.com/game_record/genshin/character_icon/{0}.png";
+    private const string BaseUrl = "https://static.snapgenshin.com/AvatarIcon/{0}.png";
 
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)

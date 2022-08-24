@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Core.Exception;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
@@ -132,13 +131,8 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
             {
                 imageSurface = await LoadImageSurfaceAsync(storageFile, token);
             }
-            catch (COMException ex) when (ex.Is(COMError.STG_E_FILENOTFOUND))
+            catch (COMException)
             {
-                // Image file not found.
-            }
-            catch (COMException ex) when (ex.Is(COMError.WINCODEC_ERR_COMPONENTNOTFOUND))
-            {
-                // Image is broken, remove it
                 await imageCache.RemoveAsync(uri.Enumerate());
             }
 

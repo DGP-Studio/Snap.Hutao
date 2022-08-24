@@ -194,6 +194,8 @@ public enum FightProperty
     /// <summary>
     /// 草元素伤害加成
     /// </summary>
+    [Description("草元素伤害加成")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_GRASS_ADD_HURT = 43,
 
     /// <summary>

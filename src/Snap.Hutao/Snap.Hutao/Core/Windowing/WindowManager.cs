@@ -116,10 +116,12 @@ internal sealed class WindowManager : IDisposable
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
         appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-        Color systemBaseLowColor = (Color)App.Current.Resources["SystemBaseLowColor"];
+        App app = Ioc.Default.GetRequiredService<App>();
+
+        Color systemBaseLowColor = (Color)app.Resources["SystemBaseLowColor"];
         appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
 
-        Color systemBaseMediumLowColor = (Color)App.Current.Resources["SystemBaseMediumLowColor"];
+        Color systemBaseMediumLowColor = (Color)app.Resources["SystemBaseMediumLowColor"];
         appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
 
         // The Foreground doesn't accept Alpha channel. So we translate it to gray.
@@ -127,7 +129,7 @@ internal sealed class WindowManager : IDisposable
         byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
         appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
 
-        Color systemBaseHighColor = (Color)App.Current.Resources["SystemBaseHighColor"];
+        Color systemBaseHighColor = (Color)app.Resources["SystemBaseHighColor"];
         appTitleBar.ButtonForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;

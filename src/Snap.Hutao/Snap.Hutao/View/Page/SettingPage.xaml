@@ -25,9 +25,7 @@
                         <sc:Setting
                             Icon="&#xE117;"
                             Header="检查更新"
-                            Description="根本没有检查更新选项">
-
-                        </sc:Setting>
+                            Description="根本没有检查更新选项"/>
                     </sc:SettingExpander.Header>
                     <InfoBar
                         IsClosable="False"
@@ -60,7 +58,7 @@
                 <sc:Setting
                     Icon="&#xE73A;"
                     Header="米游社签到"
-                    Description="所有账号的所有角色都会签到，每次间隔 15s">
+                    Description="所有账号的所有角色都会签到，每次间隔 5-15s">
                     <sc:Setting.ActionContent>
                         <Button Content="签到" Command="{Binding Experimental.SignAllUserGameRolesCommand}"/>
                     </sc:Setting.ActionContent>

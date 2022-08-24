@@ -50,7 +50,7 @@
 
         <StackPanel
             x:Name="InfoBarStack"
-            Margin="32"
+            Margin="32,48,32,32"
             MaxWidth="640"
             VerticalAlignment="Bottom">
             <StackPanel.Resources>

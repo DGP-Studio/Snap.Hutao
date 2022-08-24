@@ -55,7 +55,7 @@ public class MonoChrome : CompositionImage
         {
             ElementTheme.Light => ApplicationTheme.Light,
             ElementTheme.Dark => ApplicationTheme.Dark,
-            _ => App.Current.RequestedTheme,
+            _ => Ioc.Default.GetRequiredService<App>().RequestedTheme,
         };
 
         backgroundBrush.Color = theme switch

@@ -161,7 +161,7 @@ public class Announcement : AnnouncementContent
     /// 提醒版本
     /// </summary>
     [JsonPropertyName("remind_ver")]
-    public int RemindVer { get; set; }
+    public int RemindVersion { get; set; }
 
     /// <summary>
     /// 是否含有内容

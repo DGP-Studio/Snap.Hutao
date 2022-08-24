@@ -23,6 +23,7 @@ internal static class Activation
     /// <param name="args">激活参数</param>
     public static void Activate(object? sender, AppActivationArguments args)
     {
+        _ = sender;
         HandleActivationAsync(args).SafeForget();
     }
 
@@ -43,7 +44,7 @@ internal static class Activation
 
     private static async Task HandleActivationCoreAsync(AppActivationArguments args)
     {
-        App.Window = Ioc.Default.GetRequiredService<MainWindow>();
+        _ = Ioc.Default.GetRequiredService<MainWindow>();
 
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         await infoBarService.WaitInitializationAsync().ConfigureAwait(false);

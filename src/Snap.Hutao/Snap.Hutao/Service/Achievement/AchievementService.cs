@@ -152,6 +152,12 @@ internal class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
+    public Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportOption option)
+    {
+        return Task.Run(() => ImportFromUIAF(archive, list, option));
+    }
+
+    /// <inheritdoc/>
     public void SaveAchievements(EntityArchive archive, IList<BindingAchievement> achievements)
     {
         string name = archive.Name;

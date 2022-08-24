@@ -57,4 +57,20 @@ public static class ThemeHelper
             _ => throw Must.NeverHappen(),
         };
     }
+
+    /// <summary>
+    /// 检查是否为暗黑模式
+    /// </summary>
+    /// <param name="elementTheme">当前元素主题</param>
+    /// <param name="applicationTheme">当前应用主题</param>
+    /// <returns>是否为暗黑模式</returns>
+    public static bool IsDarkMode(ElementTheme elementTheme, ApplicationTheme applicationTheme)
+    {
+        return elementTheme switch
+        {
+            ElementTheme.Default => applicationTheme == ApplicationTheme.Dark,
+            ElementTheme.Dark => true,
+            _ => false,
+        };
+    }
 }

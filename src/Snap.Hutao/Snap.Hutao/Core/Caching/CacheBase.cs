@@ -216,7 +216,7 @@ public abstract class CacheBase<T>
 
         using (await cacheFolderSemaphore.EnterAsync().ConfigureAwait(false))
         {
-            baseFolder ??= App.CacheFolder;
+            baseFolder ??= ApplicationData.Current.TemporaryFolder;
 
             if (string.IsNullOrWhiteSpace(cacheFolderName))
             {

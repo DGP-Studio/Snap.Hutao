@@ -18,7 +18,7 @@ internal static class LocalSetting
 
     static LocalSetting()
     {
-        Container = App.Settings;
+        Container = ApplicationData.Current.LocalSettings;
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ internal static class LocalSetting
     /// <param name="key">键</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns>获取的值</returns>
-    [return:MaybeNull]
+    [return: MaybeNull]
     public static T Get<T>(string key, [AllowNull] T defaultValue = default)
     {
         if (Container.Values.TryGetValue(key, out object? value))

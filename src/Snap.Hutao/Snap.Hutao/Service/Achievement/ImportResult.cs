@@ -35,4 +35,10 @@ public struct ImportResult
         Update = update;
         Remove = remove;
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"新增:{Add} 个成就 | 更新:{Update} 个成就 | 删除{Remove} 个成就";
+    }
 }

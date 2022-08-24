@@ -50,13 +50,15 @@ public sealed partial class MainView : UserControl
     {
         await Program.SwitchToMainThreadAsync();
 
-        if (!ThemeHelper.Equals(App.Current.RequestedTheme, RequestedTheme))
+        App current = Ioc.Default.GetRequiredService<App>();
+
+        if (!ThemeHelper.Equals(current.RequestedTheme, RequestedTheme))
         {
             ILogger<MainView> logger = Ioc.Default.GetRequiredService<ILogger<MainView>>();
-            logger.LogInformation(EventIds.CommonLog, "Element Theme [{element}] App Theme [{app}]", RequestedTheme, App.Current.RequestedTheme);
+            logger.LogInformation(EventIds.CommonLog, "Element Theme [{element}] App Theme [{app}]", RequestedTheme, current.RequestedTheme);
 
             // Update controls' theme which presents in the PopupRoot
-            RequestedTheme = ThemeHelper.ApplicationToElement(App.Current.RequestedTheme);
+            RequestedTheme = ThemeHelper.ApplicationToElement(current.RequestedTheme);
         }
     }
 }

@@ -25,7 +25,10 @@ public struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOpe
     /// <summary>
     /// 是否完成
     /// </summary>
-    public bool IsCompleted => dispatherQueue.HasThreadAccess;
+    public bool IsCompleted
+    {
+        get => dispatherQueue.HasThreadAccess;
+    }
 
     /// <inheritdoc/>
     public void OnCompleted(Action continuation)

@@ -7,6 +7,7 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.Control.Cancellable;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
@@ -21,6 +22,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -211,7 +213,7 @@ internal class AchievementViewModel
 
     private static Task<ContentDialogResult> ShowImportFailDialogAsync(string message)
     {
-        return new ContentDialog2(App.Window!)
+        return new ContentDialog2(Ioc.Default.GetRequiredService<MainWindow>())
         {
             Title = "导入失败",
             Content = message,
@@ -239,7 +241,8 @@ internal class AchievementViewModel
 
         if (metaInitialized)
         {
-            AchievementGoals = await metadataService.GetAchievementGoalsAsync(CancellationToken);
+            List<AchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken);
+            AchievementGoals = goals.OrderBy(goal => goal.Order).ToList();
 
             Archives = achievementService.GetArchiveCollection();
 
@@ -265,7 +268,8 @@ internal class AchievementViewModel
 
     private async Task AddArchiveAsync()
     {
-        (bool isOk, string name) = await new AchievementArchiveCreateDialog(App.Window!).GetInputAsync();
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        (bool isOk, string name) = await new AchievementArchiveCreateDialog(mainWindow).GetInputAsync();
 
         if (isOk)
         {
@@ -292,7 +296,8 @@ internal class AchievementViewModel
     {
         if (Archives != null && SelectedArchive != null)
         {
-            ContentDialogResult result = await new ContentDialog2(App.Window!)
+            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+            ContentDialogResult result = await new ContentDialog2(mainWindow)
             {
                 Title = $"确定要删除存档 {SelectedArchive.Name} 吗？",
                 Content = "该操作是不可逆的，该存档和其内的所有成就状态会丢失。",
@@ -321,25 +326,9 @@ internal class AchievementViewModel
             return;
         }
 
-        string json = await Clipboard.GetContent().GetTextAsync();
-
-        if (GetUIAFFromString(json) is UIAF uiaf)
+        if (await GetUIAFFromClipboardAsync() is UIAF uiaf)
         {
-            if (uiaf.IsCurrentVersionSupported())
-            {
-                (bool isOk, ImportOption option) = await new AchievementImportDialog(App.Window!, uiaf).GetImportOptionAsync();
-
-                if (isOk)
-                {
-                    ImportResult result = achievementService.ImportFromUIAF(achievementService.CurrentArchive, uiaf.List, option);
-                    infoBarService!.Success($"新增:{result.Add} 个成就 | 更新:{result.Update} 个成就 | 删除{result.Remove} 个成就");
-                    await UpdateAchievementsAsync(achievementService.CurrentArchive);
-                }
-            }
-            else
-            {
-                await ShowImportFailDialogAsync("数据的 UIAF 版本过低，无法导入");
-            }
+            await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf);
         }
         else
         {
@@ -363,21 +352,7 @@ internal class AchievementViewModel
         {
             if (await GetUIAFFromFileAsync(file) is UIAF uiaf)
             {
-                if (uiaf.IsCurrentVersionSupported())
-                {
-                    (bool isOk, ImportOption option) = await new AchievementImportDialog(App.Window!, uiaf).GetImportOptionAsync();
-
-                    if (isOk)
-                    {
-                        ImportResult result = achievementService.ImportFromUIAF(achievementService.CurrentArchive, uiaf.List, option);
-                        infoBarService!.Success($"新增:{result.Add} 个成就 | 更新:{result.Update} 个成就 | 删除{result.Remove} 个成就");
-                        await UpdateAchievementsAsync(achievementService.CurrentArchive);
-                    }
-                }
-                else
-                {
-                    await ShowImportFailDialogAsync("数据的 UIAF 版本过低，无法导入");
-                }
+                await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf);
             }
             else
             {
@@ -386,9 +361,20 @@ internal class AchievementViewModel
         }
     }
 
-    private UIAF? GetUIAFFromString(string json)
+    private async Task<UIAF?> GetUIAFFromClipboardAsync()
     {
         UIAF? uiaf = null;
+        string json;
+        try
+        {
+            json = await Clipboard.GetContent().GetTextAsync();
+        }
+        catch (COMException ex)
+        {
+            infoBarService?.Error(ex);
+            return null;
+        }
+
         try
         {
             uiaf = JsonSerializer.Deserialize<UIAF>(json, options);
@@ -420,6 +406,41 @@ internal class AchievementViewModel
         }
 
         return uiaf;
+    }
+
+    private async Task<bool> TryImportUIAFInternalAsync(Model.Entity.AchievementArchive archive, UIAF uiaf)
+    {
+        if (uiaf.IsCurrentVersionSupported())
+        {
+            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+            (bool isOk, ImportOption option) = await new AchievementImportDialog(mainWindow, uiaf).GetImportOptionAsync();
+
+            if (isOk)
+            {
+                ContentDialog2 importingDialog = new(Ioc.Default.GetRequiredService<MainWindow>())
+                {
+                    Title = "导入成就中",
+                    Content = new ProgressBar() { IsIndeterminate = true },
+                    DefaultButton = ContentDialogButton.Primary,
+                };
+
+                ImportResult result;
+                using (importingDialog.BlockInteraction())
+                {
+                    result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, option);
+                }
+
+                infoBarService.Success(result.ToString());
+                await UpdateAchievementsAsync(archive);
+                return true;
+            }
+        }
+        else
+        {
+            await ShowImportFailDialogAsync("数据的 UIAF 版本过低，无法导入");
+        }
+
+        return false;
     }
 
     private void UpdateAchievementFilter(AchievementGoal? goal)

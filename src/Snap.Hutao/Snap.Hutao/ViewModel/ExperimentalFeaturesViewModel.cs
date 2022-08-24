@@ -7,6 +7,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Sign;
 using System.Text;
+using Windows.Storage;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel;
@@ -60,7 +61,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
     private Task OpenCacheFolderAsync()
     {
-        return Launcher.LaunchFolderAsync(App.CacheFolder).AsTask();
+        return Launcher.LaunchFolderAsync(ApplicationData.Current.TemporaryFolder).AsTask();
     }
 
     private Task OpenDataFolderAsync()

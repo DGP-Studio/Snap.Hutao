@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Core;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Navigation;
 using Windows.System;
@@ -21,7 +22,8 @@ public sealed partial class AnnouncementContentPage : Microsoft.UI.Xaml.Controls
     private const string LightColor3 = "color:rgba(204,204,204,1)";
     private const string LightColor4 = "color:rgba(198,196,191,1)";
     private const string LightColor5 = "color:rgba(170,170,170,1)";
-    private const string LightAccentColor = "background-color: rgb(0,40,70)";
+    private const string LightAccentColor1 = "background-color: rgb(0,40,70)";
+    private const string LightAccentColor2 = "background-color: rgb(1,40,70)";
 
     // find in content
     private const string DarkColor1 = "color:rgba(0,0,0,1)";
@@ -30,6 +32,7 @@ public sealed partial class AnnouncementContentPage : Microsoft.UI.Xaml.Controls
     private const string DarkColor4 = "color:rgba(57,59,64,1)";
     private const string DarkColor5 = "color:rgba(85,85,85,1)";
     private const string DarkAccentColor1 = "background-color: rgb(255, 215, 185);";
+    private const string DarkAccentColor2 = "background-color: rgb(254, 245, 231);";
 
     // support click open browser.
     private const string MihoyoSDKDefinition =
@@ -66,25 +69,19 @@ openInWebview: function(url){ location.href = url }}";
             return rawContent;
         }
 
-        bool isDarkMode = theme switch
-        {
-            ElementTheme.Default => App.Current.RequestedTheme == ApplicationTheme.Dark,
-            ElementTheme.Dark => true,
-            _ => false,
-        };
-
-        if (isDarkMode)
+        if (ThemeHelper.IsDarkMode(theme, Ioc.Default.GetRequiredService<App>().RequestedTheme))
         {
             rawContent = rawContent
                 .Replace(DarkColor5, LightColor5)
                 .Replace(DarkColor4, LightColor4)
                 .Replace(DarkColor3, LightColor3)
                 .Replace(DarkColor2, LightColor2)
-                .Replace(DarkAccentColor1, LightAccentColor);
+                .Replace(DarkAccentColor1, LightAccentColor1)
+                .Replace(DarkAccentColor2, LightAccentColor2);
         }
 
         // wrap a default color body around
-        return $@"<body style=""{(isDarkMode ? LightColor1 : DarkColor1)}"">{rawContent}</body>";
+        return $@"<body style=""{(ThemeHelper.IsDarkMode(theme, Ioc.Default.GetRequiredService<App>().RequestedTheme) ? LightColor1 : DarkColor1)}"">{rawContent}</body>";
     }
 
     private async Task LoadAnnouncementAsync(INavigationData data)
