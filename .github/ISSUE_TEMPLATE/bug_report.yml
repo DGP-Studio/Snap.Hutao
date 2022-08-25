@@ -25,16 +25,7 @@ body:
     attributes:
       label: Snap Hutao 版本
       description: 在应用程序的设置界面中靠下的位置可以找到
-      placeholder: 例：2022.3.23.1
-    validations:
-      required: true   
-     
-  - type: input
-    id: shuuid
-    attributes:
-      label: Snap Hutao 用户设备ID
-      description: 在应用程序的设置界面中靠下的位置可以找到，并可以通过右侧按钮复制
-      placeholder: 此ID不包含敏感信息，可以放心填写
+      placeholder: 例：1.0.30.0
     validations:
       required: true   
 
@@ -58,5 +49,5 @@ body:
     id: logs
     attributes:
       label: 相关的崩溃日志
-      description: 如果应用程序崩溃了，可以将崩溃日志复制后粘贴在此处
+      description: 如果应用程序崩溃了，可以将崩溃日志复制后粘贴在此处，Log.db文件包含了敏感信息，谨慎上传
       render: shell
