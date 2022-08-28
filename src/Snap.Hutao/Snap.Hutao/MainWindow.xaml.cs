@@ -32,7 +32,7 @@ public sealed partial class MainWindow : Window
         this.messenger = messenger;
 
         InitializeComponent();
-        windowManager = new WindowManager(this, TitleBarView.DragableArea);
+        windowManager = new WindowManager(this, TitleBarView.DragArea);
 
         initializaionCompletionSource.TrySetResult();
     }

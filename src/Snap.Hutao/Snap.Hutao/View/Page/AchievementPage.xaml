@@ -10,12 +10,14 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance shv:AchievementViewModel}">
 
     <shcc:CancellablePage.Resources>
         <shmmc:AchievementIconConverter x:Key="AchievementIconConverter"/>
+        <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </shcc:CancellablePage.Resources>
 
     <mxi:Interaction.Behaviors>
@@ -86,8 +88,11 @@
                         <FontIcon Glyph="&#xE8E5;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
+                <AppBarSeparator/>
                 <AppBarToggleButton
-                    Label="优先未完成">
+                    Label="优先未完成"
+                    IsChecked="{Binding IsIncompletedItemsFirst}"
+                    Command="{Binding SortIncompletedSwitchCommand}">
                     <AppBarToggleButton.Icon>
                         <FontIcon Glyph="&#xE8CB;"/>
                     </AppBarToggleButton.Icon>
@@ -163,7 +168,7 @@
 
                                     <CheckBox
                                         IsChecked="{Binding IsChecked,Mode=TwoWay}"
-                                        Margin="6,0,0,0"
+                                        Margin="6,0,12,0"
                                         Style="{StaticResource DefaultCheckBoxStyle}"
                                         Padding="16,0,0,0"
                                         Grid.Column="1">
@@ -173,6 +178,7 @@
                                                 <TextBlock
                                                     Margin="0,2,0,0"
                                                     Style="{StaticResource SecondaryTextStyle}"
+                                                    TextTrimming="CharacterEllipsis"
                                                     Text="{Binding Inner.Description}"/>
                                             </StackPanel>
                                         </CheckBox.Content>
@@ -180,15 +186,24 @@
                                     <Grid Grid.Column="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
+                                            <ColumnDefinition/>
                                             <ColumnDefinition Width="32"/>
                                         </Grid.ColumnDefinitions>
+                                        <TextBlock
+                                            Margin="12,0,12,0"
+                                            VerticalAlignment="Center"
+                                            Grid.Column="0"
+                                            Text="{Binding Time}"
+                                            Visibility="{Binding IsChecked,Converter={StaticResource BoolToVisibilityConverter}}"
+                                            />
                                         <Image
+                                            Grid.Column="1"
                                             Height="32"
                                             Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
                                         <TextBlock
                                             Margin="12,0,0,0"
                                             VerticalAlignment="Center"
-                                            Grid.Column="1"
+                                            Grid.Column="2"
                                             Text="{Binding Inner.FinishReward.Count}"/>
                                     </Grid>
                                 </Grid>

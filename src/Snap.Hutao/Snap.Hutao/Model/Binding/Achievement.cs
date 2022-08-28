@@ -57,7 +57,16 @@ public class Achievement : Observable
             {
                 Entity.Status = Intrinsic.AchievementInfoStatus.ACHIEVEMENT_POINT_TAKEN;
                 Entity.Time = DateTimeOffset.Now;
+                OnPropertyChanged(nameof(Time));
             }
         }
+    }
+
+    /// <summary>
+    /// 格式化的时间
+    /// </summary>
+    public string Time
+    {
+        get => entity.Time.ToString("yyyy-MM-dd HH:mm:ss");
     }
 }

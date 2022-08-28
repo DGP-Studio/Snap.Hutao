@@ -5,7 +5,7 @@ using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.UI.Composition;
 using System.Numerics;
 
-namespace Snap.Hutao.Extension;
+namespace Snap.Hutao.Control.Image;
 
 /// <summary>
 /// 合成扩展

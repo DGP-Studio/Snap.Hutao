@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
@@ -41,6 +42,8 @@ internal class AchievementViewModel
     IRecipient<AchievementArchiveChangedMessage>,
     IRecipient<MainWindowClosedMessage>
 {
+    private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(Model.Binding.Achievement.IsChecked), SortDirection.Ascending);
+
     private readonly IMetadataService metadataService;
     private readonly IAchievementService achievementService;
     private readonly IInfoBarService infoBarService;
@@ -54,6 +57,7 @@ internal class AchievementViewModel
     private AchievementGoal? selectedAchievementGoal;
     private ObservableCollection<Model.Entity.AchievementArchive>? archives;
     private Model.Entity.AchievementArchive? selectedArchive;
+    private bool isIncompletedItemsFirst = true;
 
     /// <summary>
     /// 构造一个新的成就视图模型
@@ -85,6 +89,7 @@ internal class AchievementViewModel
         ImportUIAFFromFileCommand = asyncRelayCommandFactory.Create(ImportUIAFFromFileAsync);
         AddArchiveCommand = asyncRelayCommandFactory.Create(AddArchiveAsync);
         RemoveArchiveCommand = asyncRelayCommandFactory.Create(RemoveArchiveAsync);
+        SortIncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
 
         messenger.Register<AchievementArchiveChangedMessage>(this);
         messenger.Register<MainWindowClosedMessage>(this);
@@ -149,6 +154,15 @@ internal class AchievementViewModel
     }
 
     /// <summary>
+    /// 未完成优先
+    /// </summary>
+    public bool IsIncompletedItemsFirst
+    {
+        get => isIncompletedItemsFirst;
+        set => SetProperty(ref isIncompletedItemsFirst, value);
+    }
+
+    /// <summary>
     /// 打开页面命令
     /// </summary>
     public ICommand OpenUICommand { get; }
@@ -172,6 +186,11 @@ internal class AchievementViewModel
     /// 从文件导入UIAF命令
     /// </summary>
     public ICommand ImportUIAFFromFileCommand { get; }
+
+    /// <summary>
+    /// 筛选未完成项开关命令
+    /// </summary>
+    public ICommand SortIncompletedSwitchCommand { get; }
 
     /// <inheritdoc/>
     public void Receive(MainWindowClosedMessage message)
@@ -264,6 +283,7 @@ internal class AchievementViewModel
         Achievements = new(combined, true);
 
         UpdateAchievementFilter(SelectedAchievementGoal);
+        UpdateAchievementsSort();
     }
 
     private async Task AddArchiveAsync()
@@ -441,6 +461,21 @@ internal class AchievementViewModel
         }
 
         return false;
+    }
+
+    private void UpdateAchievementsSort()
+    {
+        if (Achievements != null)
+        {
+            if (IsIncompletedItemsFirst)
+            {
+                Achievements.SortDescriptions.Add(IncompletedItemsFirstSortDescription);
+            }
+            else
+            {
+                Achievements.SortDescriptions.Clear();
+            }
+        }
     }
 
     private void UpdateAchievementFilter(AchievementGoal? goal)

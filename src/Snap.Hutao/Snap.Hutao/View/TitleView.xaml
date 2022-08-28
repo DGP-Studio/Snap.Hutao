@@ -9,7 +9,7 @@
     Height="44">
     <Grid x:Name="DragableGrid">
         <TextBlock
-            Text="胡桃"
+            Text="{x:Bind Title}"
             TextWrapping="NoWrap"
             Style="{StaticResource CaptionTextBlockStyle}" 
             VerticalAlignment="Center"

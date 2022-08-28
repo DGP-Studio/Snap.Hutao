@@ -4,7 +4,7 @@
 using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel.Activation;
 
-namespace Snap.Hutao.Extension;
+namespace Snap.Hutao.Core.LifeCycle;
 
 /// <summary>
 /// <see cref="AppActivationArguments"/> 扩展

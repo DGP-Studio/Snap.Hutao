@@ -4,7 +4,6 @@
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Extension;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
 using Windows.Win32.Foundation;

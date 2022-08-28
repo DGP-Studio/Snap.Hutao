@@ -22,8 +22,13 @@ public sealed partial class TitleView : UserControl
     /// <summary>
     /// 获取可拖动区域
     /// </summary>
-    public FrameworkElement DragableArea
+    public FrameworkElement DragArea
     {
         get => DragableGrid;
+    }
+
+    public string Title
+    {
+        get => $"胡桃 {Core.CoreEnvironment.Version}";
     }
 }

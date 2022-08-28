@@ -4,7 +4,7 @@
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
 
-namespace Snap.Hutao.Extension;
+namespace Snap.Hutao.Core.Windowing;
 
 /// <summary>
 /// <see cref="AppWindow"/> 扩展

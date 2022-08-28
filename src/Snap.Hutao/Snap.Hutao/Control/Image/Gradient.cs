@@ -4,7 +4,6 @@
 using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml.Media;
-using Snap.Hutao.Extension;
 using System.Numerics;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
