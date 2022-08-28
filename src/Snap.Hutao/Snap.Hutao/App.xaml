@@ -11,10 +11,10 @@
             </ResourceDictionary.MergedDictionaries>
 
             <!--Modify Window title bar color-->
-            <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush" />
-            <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush"/>
+            <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
 
-            <StaticResource x:Key="ApplicationPageBackgroundThemeBrush" ResourceKey="ControlFillColorTransparentBrush" />
+            <StaticResource x:Key="ApplicationPageBackgroundThemeBrush" ResourceKey="ControlFillColorTransparentBrush"/>
 
             <FontFamily x:Key="SymbolThemeFontFamily">ms-appx:///Resource/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
 

@@ -41,6 +41,12 @@ public class PlayerStats
     public int ElectroculusNumber { get; set; }
 
     /// <summary>
+    /// 草神瞳个数
+    /// </summary>
+    [JsonPropertyName("dendroculus_number")]
+    public int DendroculusNumber { get; set; }
+
+    /// <summary>
     /// 角色个数
     /// </summary>
     [JsonPropertyName("avatar_number")]

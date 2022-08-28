@@ -45,22 +45,13 @@
                         <Button Content="打开" Command="{Binding Experimental.OpenDataFolderCommand}"/>
                     </sc:Setting.ActionContent>
                 </sc:Setting>
-                
+
                 <sc:Setting
                     Icon="&#xE8B7;"
                     Header="打开 缓存 文件夹"
                     Description="图片缓存在此处存放">
                     <sc:Setting.ActionContent>
                         <Button Content="打开" Command="{Binding Experimental.OpenCacheFolderCommand}"/>
-                    </sc:Setting.ActionContent>
-                </sc:Setting>
-
-                <sc:Setting
-                    Icon="&#xE73A;"
-                    Header="米游社签到"
-                    Description="所有账号的所有角色都会签到，每次间隔 5-15s">
-                    <sc:Setting.ActionContent>
-                        <Button Content="签到" Command="{Binding Experimental.SignAllUserGameRolesCommand}"/>
                     </sc:Setting.ActionContent>
                 </sc:Setting>
             </sc:SettingsGroup>

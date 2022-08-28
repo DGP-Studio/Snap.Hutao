@@ -7,8 +7,11 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// 米哈游Url端点
 /// </summary>
 [SuppressMessage("", "SA1201")]
+[SuppressMessage("", "SA1124")]
 internal static class ApiEndpoints
 {
+    #region Announcement
+
     /// <summary>
     /// 公告列表
     /// </summary>
@@ -18,6 +21,9 @@ internal static class ApiEndpoints
     /// 公告内容
     /// </summary>
     public const string AnnContent = $"{Hk4eApi}/common/hk4e_cn/announcement/api/getAnnContent?{AnnouncementQuery}";
+    #endregion
+
+    #region GameRecord
 
     /// <summary>
     /// 角色信息
@@ -45,6 +51,9 @@ internal static class ApiEndpoints
     {
         return $"{ApiTakumiRecordApi}/spiralAbyss?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
     }
+    #endregion
+
+    #region SignIn
 
     /// <summary>
     /// 签到活动Id
@@ -85,6 +94,9 @@ internal static class ApiEndpoints
     /// 签到
     /// </summary>
     public const string SignInRewardSign = $"{ApiTakumi}/event/bbs_sign_reward/sign";
+    #endregion
+
+    #region UserFullInfo
 
     /// <summary>
     /// 用户详细信息
@@ -100,11 +112,15 @@ internal static class ApiEndpoints
     {
         return $"{BbsApiUserApi}/getUserFullInfo?uid={bbsUid}&gids=2";
     }
+    #endregion
+
+    #region UserGameRole
 
     /// <summary>
     /// 用户游戏角色
     /// </summary>
     public const string UserGameRoles = $"{ApiTakumi}/binding/api/getUserGameRolesByCookie?game_biz=hk4e_cn";
+    #endregion
 
     // consts
     private const string ApiTakumi = "https://api-takumi.mihoyo.com";

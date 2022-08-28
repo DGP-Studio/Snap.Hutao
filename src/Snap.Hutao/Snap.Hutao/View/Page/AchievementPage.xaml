@@ -26,40 +26,75 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <CommandBar
-            Grid.Row="0"
-            DefaultLabelPosition="Right">
-            <CommandBar.Background>
+        <Grid>
+            <Grid.Background>
                 <SolidColorBrush Color="{ThemeResource CardBackgroundFillColorSecondary}"/>
-            </CommandBar.Background>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="252"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <CommandBar
+                
+                Grid.Column="1"
+                DefaultLabelPosition="Right">
+                <CommandBar.Content>
+                    <AutoSuggestBox
+                        Height="36"
+                        PlaceholderText="搜索成就名称，描述或编号"
+                        HorizontalAlignment="Stretch"
+                        Margin="12,6,12,0"
+                        Width="220"
+                        QueryIcon="Find"/>
+                </CommandBar.Content>
 
-            <AppBarElementContainer>
-                <ComboBox
-                    MinWidth="160"
-                    Height="36"
-                    Margin="2,6,3,6"
-                    DisplayMemberPath="Name"
-                    ItemsSource="{Binding Archives,Mode=OneWay}"
-                    SelectedItem="{Binding SelectedArchive,Mode=TwoWay}"/>
-            </AppBarElementContainer>
-            <AppBarButton
-                Icon="Add"
-                Label="创建新存档"
-                Command="{Binding AddArchiveCommand}"/>
-            <AppBarButton
-                Icon="Delete"
-                Label="删除当前存档"
-                Command="{Binding RemoveArchiveCommand}"/>
-            <AppBarSeparator/>
-            <AppBarButton
-                Icon="Paste"
-                Label="从剪贴板导入"
-                Command="{Binding ImportUIAFFromClipboardCommand}"/>
-            <AppBarButton
-                Icon="OpenFile"
-                Label="从UIAF文件导入"
-                Command="{Binding ImportUIAFFromFileCommand}"/>
-        </CommandBar>
+                <AppBarElementContainer>
+                    <ComboBox
+                        MinWidth="120"
+                        Height="36"
+                        Margin="2,6,3,6"
+                        DisplayMemberPath="Name"
+                        ItemsSource="{Binding Archives,Mode=OneWay}"
+                        SelectedItem="{Binding SelectedArchive,Mode=TwoWay}"/>
+                </AppBarElementContainer>
+                <AppBarButton
+                    Label="创建新存档"
+                    Command="{Binding AddArchiveCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE710;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    Label="删除当前存档"
+                    Command="{Binding RemoveArchiveCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE74D;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarSeparator/>
+                <AppBarButton
+                    Label="从剪贴板导入"
+                    Command="{Binding ImportUIAFFromClipboardCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE710;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton
+                    Label="从UIAF文件导入"
+                    Command="{Binding ImportUIAFFromFileCommand}">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xE8E5;"/>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarToggleButton
+                    Label="优先未完成">
+                    <AppBarToggleButton.Icon>
+                        <FontIcon Glyph="&#xE8CB;"/>
+                    </AppBarToggleButton.Icon>
+                </AppBarToggleButton>
+            </CommandBar>
+        </Grid>
+        
         <SplitView
             Grid.Row="1"
             IsPaneOpen="True"

@@ -86,7 +86,10 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <CommandBar ClosedDisplayMode="Compact" DefaultLabelPosition="Right">
-                    <AppBarButton Label="筛选" Icon="Filter">
+                    <AppBarButton Label="筛选">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE71C;"/>
+                        </AppBarButton.Icon>
                         <AppBarButton.Flyout>
                             <Flyout Placement="RightEdgeAlignedTop" LightDismissOverlayMode="On">
                                 <cwuc:UniformGrid Columns="3" RowSpacing="16">

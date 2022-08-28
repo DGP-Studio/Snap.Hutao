@@ -8,9 +8,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using Windows.UI;
 
 namespace Snap.Hutao.Control.Text;
@@ -23,7 +20,11 @@ public class DescriptionTextBlock : ContentControl
     private static readonly DependencyProperty DescriptionProperty =
         Property<DescriptionTextBlock>.Depend(nameof(Description), string.Empty, OnDescriptionChanged);
 
-    private static readonly Regex ColorRegex = new(@"<color=([^>]+)>([^<]+)</color>", RegexOptions.Compiled);
+    private static readonly int ColorTagFullLength = "<color=#FFFFFFFF></color>".Length;
+    private static readonly int ColorTagLeftLength = "<color=#FFFFFFFF>".Length;
+
+    private static readonly int ItalicTagFullLength = "<i></i>".Length;
+    private static readonly int ItalicTagLeftLength = "<i>".Length;
 
     /// <summary>
     /// 构造一个新的呈现描述文本的文本块
@@ -48,79 +49,78 @@ public class DescriptionTextBlock : ContentControl
         TextBlock text = (TextBlock)((DescriptionTextBlock)d).Content;
         text.Inlines.Clear();
 
-        string[] lines = ((string)e.NewValue).Split('\n');
+        ReadOnlySpan<char> description = (string)e.NewValue;
 
-        foreach (string line in lines)
+        int last = 0;
+        for (int i = 0; i < description.Length;)
         {
-            string left, right = line;
-
-            foreach (Match match in ColorRegex.Matches(line))
+            if (description[i] == '\\' && description[i + 1] == 'n')
             {
-                string fullMatch = match.Groups[0].Value;
-                int matchPosition = right.IndexOf(fullMatch);
-                left = right[..matchPosition];
-                right = right[(matchPosition + fullMatch.Length)..];
+                AppendText(text, description[last..i]);
+                AppendLineBreak(text);
+                i += 1;
+                last = i;
+            }
+            else if (description[i] == '<' && description[i + 1] == 'c')
+            {
+                AppendText(text, description[last..i]);
 
-                if (!string.IsNullOrWhiteSpace(left))
-                {
-                    text.Inlines.Add(new Run { Text = left });
-                }
+                byte[] data = Convert.FromHexString(description.Slice(i + 8, 8));
+                Color color = Color.FromArgb(data[3], data[0], data[1], data[2]);
 
-                string hexColor = match.Groups[1].Value;
-                string content = match.Groups[2].Value;
+                int length = description[(i + ColorTagLeftLength)..].IndexOf('<');
+                AppendColorText(text, description.Slice(i + ColorTagLeftLength, length), color);
 
-                text.Inlines.Add(new Run { Text = content, Foreground = new SolidColorBrush(new HexColor(hexColor[1..])) });
+                i += length + ColorTagFullLength;
+                last = i;
+            }
+            else if (description[i] == '<' && description[i + 1] == 'i')
+            {
+                AppendText(text, description[last..i]);
+
+                int length = description[(i + ItalicTagLeftLength)..].IndexOf('<');
+                AppendItalicText(text, description.Slice(i + ItalicTagLeftLength, length));
+
+                i += length + ItalicTagFullLength;
+                last = i;
+            }
+            else
+            {
+                i += 1;
             }
 
-            if (!string.IsNullOrWhiteSpace(right))
+            if (i == description.Length - 1)
             {
-                if (right.Contains("<i>"))
-                {
-                    string italic = right.Replace("<i>", string.Empty).Replace("</i>", string.Empty);
-                    text.Inlines.Add(new Run { Text = italic, FontStyle = Windows.UI.Text.FontStyle.Italic });
-                }
-                else
-                {
-                    text.Inlines.Add(new Run { Text = right });
-                }
+                AppendText(text, description[last..i]);
             }
-
-            text.Inlines.Add(new LineBreak());
-        }
-
-        if (text.Inlines.LastOrDefault() is LineBreak newline)
-        {
-            text.Inlines.Remove(newline);
         }
     }
 
-    [StructLayout(LayoutKind.Explicit)]
-    private struct HexColor
+    private static void AppendText(TextBlock text, ReadOnlySpan<char> slice)
     {
-        [FieldOffset(3)]
-        public byte R;
-        [FieldOffset(2)]
-        public byte G;
-        [FieldOffset(1)]
-        public byte B;
-        [FieldOffset(0)]
-        public byte A;
+        text.Inlines.Add(new Run { Text = slice.ToString() });
+    }
 
-        [FieldOffset(0)]
-        private readonly uint data;
-
-        public HexColor(string hex)
+    private static void AppendColorText(TextBlock text, ReadOnlySpan<char> slice, Color color)
+    {
+        text.Inlines.Add(new Run
         {
-            R = 0;
-            G = 0;
-            B = 0;
-            A = 0;
-            data = Convert.ToUInt32(hex, 16);
-        }
+            Text = slice.ToString(),
+            Foreground = new SolidColorBrush(color),
+        });
+    }
 
-        public static implicit operator Color(HexColor hexColor)
+    private static void AppendItalicText(TextBlock text, ReadOnlySpan<char> slice)
+    {
+        text.Inlines.Add(new Run
         {
-            return Color.FromArgb(hexColor.A, hexColor.R, hexColor.G, hexColor.B);
-        }
+            Text = slice.ToString(),
+            FontStyle = Windows.UI.Text.FontStyle.Italic,
+        });
+    }
+
+    private static void AppendLineBreak(TextBlock text)
+    {
+        text.Inlines.Add(new LineBreak());
     }
 }

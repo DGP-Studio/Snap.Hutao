@@ -26,6 +26,7 @@ internal class AchievementService : IAchievementService
     private readonly AppDbContext appDbContext;
     private readonly ILogger<AchievementService> logger;
     private readonly DbCurrent<EntityArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
+    private readonly AchievementDbOperation achievementDbOperation;
 
     private ObservableCollection<EntityArchive>? archiveCollection;
 
@@ -41,6 +42,7 @@ internal class AchievementService : IAchievementService
         this.logger = logger;
 
         dbCurrent = new(appDbContext, appDbContext.AchievementArchives, messenger);
+        achievementDbOperation = new(appDbContext);
     }
 
     /// <inheritdoc/>
@@ -129,13 +131,13 @@ internal class AchievementService : IAchievementService
             case ImportOption.AggressiveMerge:
                 {
                     IOrderedEnumerable<UIAFItem> orederedUIAF = list.OrderBy(a => a.Id);
-                    return MergeAchievements(archiveId, orederedUIAF, true);
+                    return achievementDbOperation.Merge(archiveId, orederedUIAF, true);
                 }
 
             case ImportOption.LazyMerge:
                 {
                     IOrderedEnumerable<UIAFItem> orederedUIAF = list.OrderBy(a => a.Id);
-                    return MergeAchievements(archiveId, orederedUIAF, false);
+                    return achievementDbOperation.Merge(archiveId, orederedUIAF, false);
                 }
 
             case ImportOption.Overwrite:
@@ -143,7 +145,7 @@ internal class AchievementService : IAchievementService
                     IEnumerable<EntityAchievement> newData = list
                         .Select(uiaf => EntityAchievement.Create(archiveId, uiaf))
                         .OrderBy(a => a.Id);
-                    return OverwriteAchievements(archiveId, newData);
+                    return achievementDbOperation.Overwrite(archiveId, newData);
                 }
 
             default:
@@ -168,183 +170,10 @@ internal class AchievementService : IAchievementService
             .Where(a => a.IsChecked)
             .Select(a => a.Entity)
             .OrderBy(a => a.Id);
-        ImportResult result = OverwriteAchievements(archive.InnerId, newData);
+        ImportResult result = achievementDbOperation.Overwrite(archive.InnerId, newData);
 
         double time = stopwatch.GetElapsedTime().TotalMilliseconds;
         logger.LogInformation(EventIds.Achievement, "{add} added, {update} updated, {remove} removed", result.Add, result.Update, result.Remove);
         logger.LogInformation(EventIds.Achievement, "Save achievements for [{name}] completed in {time}ms", name, time);
-    }
-
-    private ImportResult MergeAchievements(Guid archiveId, IOrderedEnumerable<UIAFItem> orederedUIAF, bool aggressive)
-    {
-        IOrderedQueryable<EntityAchievement> oldData = appDbContext.Achievements
-            .Where(a => a.ArchiveId == archiveId)
-            .OrderBy(a => a.Id);
-
-        int add = 0;
-        int update = 0;
-        int remove = 0;
-
-        using (IEnumerator<EntityAchievement> entityEnumerator = oldData.GetEnumerator())
-        {
-            using (IEnumerator<UIAFItem> uiafEnumerator = orederedUIAF.GetEnumerator())
-            {
-                bool moveEntity = true;
-                bool moveUIAF = true;
-
-                while (true)
-                {
-                    bool moveEntityResult = moveEntity && entityEnumerator.MoveNext();
-                    bool moveUIAFResult = moveUIAF && uiafEnumerator.MoveNext();
-
-                    if (!(moveEntityResult || moveUIAFResult))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        EntityAchievement? entity = entityEnumerator.Current;
-                        UIAFItem? uiaf = uiafEnumerator.Current;
-
-                        if (entity == null && uiaf != null)
-                        {
-                            AddEntity(EntityAchievement.Create(archiveId, uiaf));
-                            add++;
-                            continue;
-                        }
-                        else if (entity != null && uiaf == null)
-                        {
-                            // skip
-                            continue;
-                        }
-
-                        if (entity!.Id < uiaf!.Id)
-                        {
-                            moveEntity = true;
-                            moveUIAF = false;
-                        }
-                        else if (entity.Id == uiaf.Id)
-                        {
-                            moveEntity = true;
-                            moveUIAF = true;
-
-                            if (aggressive)
-                            {
-                                RemoveEntity(entity);
-                                AddEntity(EntityAchievement.Create(archiveId, uiaf));
-                                update++;
-                            }
-                        }
-                        else
-                        {
-                            // entity.Id > uiaf.Id
-                            moveEntity = false;
-                            moveUIAF = true;
-
-                            AddEntity(EntityAchievement.Create(archiveId, uiaf));
-                            add++;
-                        }
-                    }
-                }
-            }
-        }
-
-        return new(add, update, remove);
-    }
-
-    private ImportResult OverwriteAchievements(Guid archiveId, IEnumerable<EntityAchievement> newData)
-    {
-        IQueryable<EntityAchievement> oldData = appDbContext.Achievements
-            .Where(a => a.ArchiveId == archiveId)
-            .OrderBy(a => a.Id);
-
-        int add = 0;
-        int update = 0;
-        int remove = 0;
-
-        using (IEnumerator<EntityAchievement> oldDataEnumerator = oldData.GetEnumerator())
-        {
-            using (IEnumerator<EntityAchievement> newDataEnumerator = newData.GetEnumerator())
-            {
-                bool moveOld = true;
-                bool moveNew = true;
-
-                while (true)
-                {
-                    bool moveOldResult = moveOld && oldDataEnumerator.MoveNext();
-                    bool moveNewResult = moveNew && newDataEnumerator.MoveNext();
-
-                    if (!(moveOldResult || moveNewResult))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        EntityAchievement? oldEntity = oldDataEnumerator.Current;
-                        EntityAchievement? newEntity = newDataEnumerator.Current;
-
-                        if (oldEntity == null && newEntity != null)
-                        {
-                            AddEntity(newEntity);
-                            add++;
-                            continue;
-                        }
-                        else if (oldEntity != null && newEntity == null)
-                        {
-                            RemoveEntity(oldEntity);
-                            remove++;
-                            continue;
-                        }
-
-                        if (oldEntity!.Id < newEntity!.Id)
-                        {
-                            moveOld = true;
-                            moveNew = false;
-                            RemoveEntity(oldEntity);
-                            remove++;
-                        }
-                        else if (oldEntity.Id == newEntity.Id)
-                        {
-                            moveOld = true;
-                            moveNew = true;
-
-                            if (oldEntity.Equals(newEntity))
-                            {
-                                // skip same entry.
-                                continue;
-                            }
-                            else
-                            {
-                                RemoveEntity(oldEntity);
-                                AddEntity(newEntity);
-                                update++;
-                            }
-                        }
-                        else
-                        {
-                            // entity.Id > uiaf.Id
-                            moveOld = false;
-                            moveNew = true;
-                            AddEntity(newEntity);
-                            add++;
-                        }
-                    }
-                }
-            }
-        }
-
-        return new(add, update, remove);
-    }
-
-    private void AddEntity(EntityAchievement entity)
-    {
-        appDbContext.Achievements.Add(entity);
-        appDbContext.SaveChanges();
-    }
-
-    private void RemoveEntity(EntityAchievement entity)
-    {
-        appDbContext.Achievements.Remove(entity);
-        appDbContext.SaveChanges();
     }
 }

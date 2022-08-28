@@ -4,9 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Context.FileSystem.Location;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Sign;
-using System.Text;
 using Windows.Storage;
 using Windows.System;
 
@@ -19,8 +16,6 @@ namespace Snap.Hutao.ViewModel;
 internal class ExperimentalFeaturesViewModel : ObservableObject
 {
     private readonly IFileSystemLocation hutaoLocation;
-    private readonly ISignService signService;
-    private readonly IInfoBarService infoBarService;
 
     /// <summary>
     /// 构造一个新的实验性功能视图模型
@@ -31,17 +26,12 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// <param name="infoBarService">信息条服务</param>
     public ExperimentalFeaturesViewModel(
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
-        HutaoLocation hutaoLocation,
-        ISignService signService,
-        IInfoBarService infoBarService)
+        HutaoLocation hutaoLocation)
     {
         this.hutaoLocation = hutaoLocation;
-        this.signService = signService;
-        this.infoBarService = infoBarService;
 
         OpenCacheFolderCommand = asyncRelayCommandFactory.Create(OpenCacheFolderAsync);
         OpenDataFolderCommand = asyncRelayCommandFactory.Create(OpenDataFolderAsync);
-        SignAllUserGameRolesCommand = asyncRelayCommandFactory.Create(SignAllUserGameRolesAsync);
     }
 
     /// <summary>
@@ -54,11 +44,6 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// </summary>
     public ICommand OpenDataFolderCommand { get; }
 
-    /// <summary>
-    /// 签到全部角色命令
-    /// </summary>
-    public ICommand SignAllUserGameRolesCommand { get; }
-
     private Task OpenCacheFolderAsync()
     {
         return Launcher.LaunchFolderAsync(ApplicationData.Current.TemporaryFolder).AsTask();
@@ -67,17 +52,5 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     private Task OpenDataFolderAsync()
     {
         return Launcher.LaunchFolderPathAsync(hutaoLocation.GetPath()).AsTask();
-    }
-
-    private async Task SignAllUserGameRolesAsync(CancellationToken token)
-    {
-        SignResult result = await signService.SignForAllAsync(token);
-
-        StringBuilder stringBuilder = new StringBuilder()
-            .Append($"签到完成 - 用时: {result.Time.TotalSeconds:F2} 秒\r\n")
-            .Append($"请求: {result.TotalCount} 次\r\n")
-            .Append($"补签: {result.RetryCount} 次");
-
-        infoBarService.Information(stringBuilder.ToString());
     }
 }

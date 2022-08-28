@@ -12,6 +12,12 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 public class PlayerInfo
 {
     /// <summary>
+    /// 玩家的角色信息
+    /// </summary>
+    [JsonPropertyName("role")]
+    public PlayerRole Role { get; set; } = default!;
+
+    /// <summary>
     /// 持有的角色的信息
     /// </summary>
     [JsonPropertyName("avatars")]

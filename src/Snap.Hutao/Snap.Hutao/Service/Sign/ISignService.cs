@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.Sign;
 /// <summary>
 /// 签到服务
 /// </summary>
+[Obsolete("米游社官方限制了签到功能")]
 public interface ISignService
 {
     /// <summary>
