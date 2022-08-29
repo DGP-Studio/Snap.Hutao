@@ -85,10 +85,9 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
         logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion begin");
 
-        IsInitialized = await TryUpdateMetadataAsync(token)
-            .ConfigureAwait(false);
-
+        IsInitialized = await TryUpdateMetadataAsync(token).ConfigureAwait(false);
         initializeCompletionSource.SetResult();
+
         logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 
@@ -136,14 +135,23 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
 
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token = default)
     {
-        // download meta check file
-        IDictionary<string, string>? metaMd5Map = await httpClient
-            .GetFromJsonAsync<IDictionary<string, string>>($"{MetaAPIHost}/{MetaFileName}", options, token)
-            .ConfigureAwait(false);
-
-        if (metaMd5Map is null)
+        IDictionary<string, string>? metaMd5Map = null;
+        try
         {
-            infoBarService.Error("元数据校验文件解析失败");
+            // download meta check file
+            metaMd5Map = await httpClient
+                .GetFromJsonAsync<IDictionary<string, string>>($"{MetaAPIHost}/{MetaFileName}", options, token)
+                .ConfigureAwait(false);
+
+            if (metaMd5Map is null)
+            {
+                infoBarService.Error("元数据校验文件解析失败");
+                return false;
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            infoBarService.Error(ex, "元数据校验文件下载失败");
             return false;
         }
 

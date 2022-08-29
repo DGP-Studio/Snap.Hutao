@@ -13,13 +13,24 @@
         <Style TargetType="Button" BasedOn="{StaticResource SettingButtonStyle}">
             <Setter Property="MinWidth" Value="160"/>
         </Style>
+        <Style TargetType="HyperlinkButton" BasedOn="{StaticResource HyperlinkButtonStyle}">
+            <Setter Property="MinWidth" Value="160"/>
+        </Style>
     </Page.Resources>
     <ScrollViewer>
         <StackPanel Margin="32,0,24,0">
 
             <sc:SettingsGroup Header="关于 胡桃">
-                <sc:Setting Header="胡桃" Description="{Binding AppVersion}"/>
-
+                <sc:Setting
+                    Icon="&#xECAA;"
+                    Header="胡桃"
+                    Description="{Binding AppVersion}"/>
+                <sc:Setting
+                    Icon="&#xED15;"
+                    Header="反馈"
+                    Description="只处理在 Github 上反馈的问题">
+                    <HyperlinkButton Content="前往反馈" NavigateUri="http://go.hut.ao/issue"/>
+                </sc:Setting>                    
                 <sc:SettingExpander>
                     <sc:SettingExpander.Header>
                         <sc:Setting

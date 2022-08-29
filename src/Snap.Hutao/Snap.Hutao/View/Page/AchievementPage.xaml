@@ -78,7 +78,7 @@
                     Label="从剪贴板导入"
                     Command="{Binding ImportUIAFFromClipboardCommand}">
                     <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE710;"/>
+                        <FontIcon Glyph="&#xE8B5;"/>
                     </AppBarButton.Icon>
                 </AppBarButton>
                 <AppBarButton
