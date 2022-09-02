@@ -19,7 +19,6 @@ using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -437,7 +436,7 @@ internal class AchievementViewModel
 
             if (isOk)
             {
-                ContentDialog2 importingDialog = new(Ioc.Default.GetRequiredService<MainWindow>())
+                ContentDialog2 importingDialog = new(mainWindow)
                 {
                     Title = "导入成就中",
                     Content = new ProgressBar() { IsIndeterminate = true },

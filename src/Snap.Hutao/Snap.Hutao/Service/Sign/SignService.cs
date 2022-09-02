@@ -6,7 +6,6 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 using Snap.Hutao.Web.Response;
-using System.Collections.Generic;
 
 namespace Snap.Hutao.Service.Sign;
 

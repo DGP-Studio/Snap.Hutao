@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.InterChange.Achievement;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using BindingAchievement = Snap.Hutao.Model.Binding.Achievement;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;

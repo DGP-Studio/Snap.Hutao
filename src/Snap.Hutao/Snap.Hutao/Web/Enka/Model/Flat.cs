@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Enka.Model;
 

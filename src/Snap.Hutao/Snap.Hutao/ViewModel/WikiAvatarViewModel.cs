@@ -8,7 +8,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Service.Metadata;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Snap.Hutao.ViewModel;
@@ -57,6 +56,7 @@ internal class WikiAvatarViewModel : ObservableObject
             new(new("蒙德", "ASSOC_TYPE_MONDSTADT"), OnFilterChanged),
             new(new("璃月", "ASSOC_TYPE_LIYUE"), OnFilterChanged),
             new(new("稻妻", "ASSOC_TYPE_INAZUMA"), OnFilterChanged),
+            new(new("须弥", "ASSOC_TYPE_SUMERU"), OnFilterChanged),
             new(new("愚人众", "ASSOC_TYPE_FATUI"), OnFilterChanged),
             new(new("游侠", "ASSOC_TYPE_RANGER"), OnFilterChanged),
         };

@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using System.Collections.Generic;
 using System.Net.Http;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

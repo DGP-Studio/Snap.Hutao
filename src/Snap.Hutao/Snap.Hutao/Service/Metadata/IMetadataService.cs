@@ -5,7 +5,6 @@ using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
-using System.Collections.Generic;
 
 namespace Snap.Hutao.Service.Metadata;
 

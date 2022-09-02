@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Abstraction;

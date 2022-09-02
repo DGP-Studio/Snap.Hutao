@@ -7,7 +7,6 @@ using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 

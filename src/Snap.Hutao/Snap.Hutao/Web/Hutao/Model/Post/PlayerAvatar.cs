@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Snap.Hutao.Web.Hutao.Model.Post;

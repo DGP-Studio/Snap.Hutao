@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Data;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Annotation;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Snap.Hutao.Model.Metadata.Converter;

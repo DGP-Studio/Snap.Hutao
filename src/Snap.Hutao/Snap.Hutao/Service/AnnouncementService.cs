@@ -4,7 +4,6 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 

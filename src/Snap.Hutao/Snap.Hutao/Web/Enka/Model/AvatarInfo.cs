@@ -3,8 +3,6 @@
 
 using Snap.Hutao.Core.Json.Converter;
 using Snap.Hutao.Model.Intrinsic;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Enka.Model;
 

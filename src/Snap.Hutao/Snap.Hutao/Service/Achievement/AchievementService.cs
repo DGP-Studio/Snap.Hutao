@@ -7,7 +7,6 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.InterChange.Achievement;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using BindingAchievement = Snap.Hutao.Model.Binding.Achievement;

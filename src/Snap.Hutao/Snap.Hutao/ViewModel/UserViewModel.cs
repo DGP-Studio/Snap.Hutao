@@ -7,7 +7,6 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.View.Dialog;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;

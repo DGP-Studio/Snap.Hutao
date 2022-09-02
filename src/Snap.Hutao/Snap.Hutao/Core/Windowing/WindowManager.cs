@@ -5,7 +5,6 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
-using System.Collections.Generic;
 using Windows.Graphics;
 using Windows.UI;
 using Windows.Win32.Foundation;

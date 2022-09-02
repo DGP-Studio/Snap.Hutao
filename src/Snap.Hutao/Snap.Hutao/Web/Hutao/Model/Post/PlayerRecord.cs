@@ -4,7 +4,6 @@
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 using Snap.Hutao.Web.Response;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Snap.Hutao.Web.Hutao.Model.Post;

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Text.Json.Serialization;
+using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Model.InterChange.Achievement;
 
@@ -27,7 +27,8 @@ public class UIAFInfo
     /// </summary>
     public DateTimeOffset ExportDateTime
     {
-        get => DateTimeOffset.FromUnixTimeSeconds(ExportTimestamp ?? DateTimeOffset.MinValue.ToUnixTimeSeconds());
+        // Hot fix | 1.0.31 | UIAF.Info.ExportTimestamp can be milliseconds
+        get => DateTimeOffsetExtensions.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
     }
 
     /// <summary>

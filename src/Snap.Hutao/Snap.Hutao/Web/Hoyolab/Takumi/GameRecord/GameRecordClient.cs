@@ -7,11 +7,9 @@ using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Response;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
