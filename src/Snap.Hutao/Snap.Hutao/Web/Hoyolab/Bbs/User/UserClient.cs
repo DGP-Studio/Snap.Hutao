@@ -38,7 +38,6 @@ internal class UserClient
     public async Task<UserInfo?> GetUserFullInfoAsync(Model.Binding.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
-            .UsingDynamicSecret()
             .SetUser(user)
             .GetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, jsonSerializerOptions, token)
             .ConfigureAwait(false);
@@ -56,7 +55,6 @@ internal class UserClient
     public async Task<UserInfo?> GetUserFullInfoAsync(Model.Binding.User user, string uid, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
-            .UsingDynamicSecret()
             .SetUser(user)
             .GetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(uid), jsonSerializerOptions, token)
             .ConfigureAwait(false);

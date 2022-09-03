@@ -11,8 +11,7 @@ namespace Snap.Hutao.Core.Logging;
 internal sealed partial class DatebaseLogger : ILogger
 {
     private readonly string name;
-    private readonly LogDbContext logDbContext;
-    private readonly object logDbContextLock;
+    private readonly LogEntryQueue logEntryQueue;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DatebaseLogger"/> class.
@@ -20,11 +19,10 @@ internal sealed partial class DatebaseLogger : ILogger
     /// <param name="name">The name of the logger.</param>
     /// <param name="logDbContext">应用程序数据库上下文</param>
     /// <param name="logDbContextLock">上下文锁</param>
-    public DatebaseLogger(string name, LogDbContext logDbContext, object logDbContextLock)
+    public DatebaseLogger(string name, LogEntryQueue logEntryQueue)
     {
         this.name = name;
-        this.logDbContext = logDbContext;
-        this.logDbContextLock = logDbContextLock;
+        this.logEntryQueue = logEntryQueue;
     }
 
     /// <inheritdoc />
@@ -47,7 +45,7 @@ internal sealed partial class DatebaseLogger : ILogger
             return;
         }
 
-        string message = Must.NotNull(formatter)(state, exception);
+        string message = formatter(state, exception);
 
         if (string.IsNullOrEmpty(message))
         {
@@ -63,12 +61,7 @@ internal sealed partial class DatebaseLogger : ILogger
             Exception = exception?.ToString(),
         };
 
-        // DbContext is not a thread safe class, so we have to lock the wirte procedure
-        lock (logDbContextLock)
-        {
-            logDbContext.Logs.Add(entry);
-            logDbContext.SaveChanges();
-        }
+        logEntryQueue.Enqueue(entry);
     }
 
     /// <summary>

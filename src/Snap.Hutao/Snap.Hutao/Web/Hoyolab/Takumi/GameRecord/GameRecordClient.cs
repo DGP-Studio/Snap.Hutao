@@ -56,7 +56,7 @@ internal class GameRecordClient
     {
         Response<PlayerInfo>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret2(jsonSerializerOptions, ApiEndpoints.GameRecordIndex(uid.Value, uid.Region))
+            .UsingDynamicSecret(jsonSerializerOptions, ApiEndpoints.GameRecordIndex(uid.Value, uid.Region))
             .GetFromJsonAsync<Response<PlayerInfo>>(token)
             .ConfigureAwait(false);
 
@@ -88,7 +88,7 @@ internal class GameRecordClient
     {
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret2(jsonSerializerOptions, ApiEndpoints.GameRecordSpiralAbyss(schedule, uid))
+            .UsingDynamicSecret(jsonSerializerOptions, ApiEndpoints.GameRecordSpiralAbyss(schedule, uid))
             .GetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(token)
             .ConfigureAwait(false);
 
@@ -122,7 +122,7 @@ internal class GameRecordClient
 
         HttpResponseMessage? response = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret2(jsonSerializerOptions, ApiEndpoints.GameRecordCharacter, data)
+            .UsingDynamicSecret(jsonSerializerOptions, ApiEndpoints.GameRecordCharacter, data)
             .PostAsJsonAsync(token)
             .ConfigureAwait(false);
 

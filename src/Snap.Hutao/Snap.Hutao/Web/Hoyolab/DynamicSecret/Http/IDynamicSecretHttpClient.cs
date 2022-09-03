@@ -8,7 +8,7 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
 /// <summary>
 /// 使用动态密钥2的Http客户端抽象
 /// </summary>
-internal interface IDynamicSecret2HttpClient
+internal interface IDynamicSecretHttpClient
 {
     /// <summary>
     /// Sends a GET request to the specified Uri and returns the value that results from deserializing the response body as JSON in an asynchronous operation.
@@ -23,7 +23,7 @@ internal interface IDynamicSecret2HttpClient
 /// 使用动态密钥2的Http客户端抽象
 /// </summary>
 /// <typeparam name="TValue">请求数据的类型</typeparam>
-internal interface IDynamicSecret2HttpClient<TValue>
+internal interface IDynamicSecretHttpClient<TValue>
     where TValue : class
 {
     /// <summary>

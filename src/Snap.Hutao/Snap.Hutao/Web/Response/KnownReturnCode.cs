@@ -19,9 +19,29 @@ public enum KnownReturnCode : int
     AlreadySignedIn = -5003,
 
     /// <summary>
+    /// 需要风险验证
+    /// </summary>
+    RET_NEED_RISK_VERIFY = -3235,
+
+    /// <summary>
+    /// 禁止
+    /// </summary>
+    RET_AIGIS_FAILED = -3202,
+
+    /// <summary>
+    /// Ban
+    /// </summary>
+    RET_BAN = -3201,
+
+    /// <summary>
+    /// 需要地理验证
+    /// </summary>
+    RET_NEED_AIGIS = -3101,
+
+    /// <summary>
     /// 尚未登录
     /// </summary>
-    NotLoggedIn = -100,
+    RET_TOKEN_INVALID = -100,
 
     /// <summary>
     /// 验证密钥过期
@@ -31,7 +51,7 @@ public enum KnownReturnCode : int
     /// <summary>
     /// Ok
     /// </summary>
-    OK = 0,
+    RET_SUCCESS = 0,
 
     /// <summary>
     /// 未定义

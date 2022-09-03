@@ -42,9 +42,5 @@ public sealed partial class MainWindow : Window
         messenger.Send(new MainWindowClosedMessage());
 
         windowManager?.Dispose();
-
-        // save userdata datebase
-        int changes = appDbContext.SaveChanges();
-        Verify.Operation(changes == 0, "存在未经处理的数据库记录更改");
     }
 }

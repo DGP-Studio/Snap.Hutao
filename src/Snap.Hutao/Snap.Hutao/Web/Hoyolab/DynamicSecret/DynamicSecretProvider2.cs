@@ -9,7 +9,7 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// <summary>
 /// 为MiHoYo接口请求器 <see cref="Requester"/> 提供2代动态密钥
 /// </summary>
-internal abstract class DynamicSecretProvider2 : Md5Convert
+internal abstract class DynamicSecretProvider : Md5Convert
 {
     /// <summary>
     /// 创建动态密钥
@@ -24,7 +24,7 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         // random
-        string r = GetRandomString();
+        int r = GetRandom();
 
         // body
         string b = postBody is null ? string.Empty : JsonSerializer.Serialize(postBody, options);
@@ -38,7 +38,7 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         return $"{t},{r},{check}";
     }
 
-    private static string GetRandomString()
+    private static int GetRandom()
     {
         // 原汁原味
         // v16 = time(0LL);
@@ -49,11 +49,6 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         // else
         //     v18 = v17 + 542367;
         int rand = Random.Shared.Next(100000, 200000);
-        if (rand == 100000)
-        {
-            rand = 642367;
-        }
-
-        return rand.ToString();
+        return rand == 100000 ? 642367 : rand;
     }
 }

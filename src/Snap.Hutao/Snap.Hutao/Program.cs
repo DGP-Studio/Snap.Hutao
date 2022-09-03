@@ -39,11 +39,13 @@ public static class Program
         XamlCheckProcessRequirements();
         ComWrappersSupport.InitializeComWrappers();
 
-        InitializeDependencyInjection();
-
-        // In a Desktop app this runs a message pump internally,
-        // and does not return until the application shuts down.
-        Application.Start(InitializeApp);
+        // by adding the using statement, we can dispose the injected services when we closing
+        using (InitializeDependencyInjection())
+        {
+            // In a Desktop app this runs a message pump internally,
+            // and does not return until the application shuts down.
+            Application.Start(InitializeApp);
+        }
     }
 
     private static void InitializeApp(ApplicationInitializationCallbackParams param)
@@ -55,9 +57,13 @@ public static class Program
         _ = Ioc.Default.GetRequiredService<App>();
     }
 
-    private static void InitializeDependencyInjection()
+    /// <summary>
+    /// 初始化依赖注入
+    /// </summary>
+    /// <returns>The ServiceProvider, so that we can dispose it.</returns>
+    private static ServiceProvider InitializeDependencyInjection()
     {
-        IServiceProvider services = new ServiceCollection()
+        ServiceProvider services = new ServiceCollection()
 
             // Microsoft extension
             .AddLogging(builder => builder
@@ -78,5 +84,6 @@ public static class Program
             .BuildServiceProvider();
 
         Ioc.Default.ConfigureServices(services);
+        return services;
     }
 }

@@ -10,7 +10,7 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
 /// 使用动态密钥2的Http客户端默认实现
 /// </summary>
 /// <typeparam name="TValue">请求提交的数据的的格式</typeparam>
-internal class DynamicSecret2HttpClient : IDynamicSecret2HttpClient
+internal class DynamicSecretHttpClient : IDynamicSecretHttpClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
@@ -23,13 +23,13 @@ internal class DynamicSecret2HttpClient : IDynamicSecret2HttpClient
     /// <param name="options">Json序列化选项</param>
     /// <param name="url">url</param>
     /// <param name="data">请求的数据</param>
-    public DynamicSecret2HttpClient(HttpClient httpClient, JsonSerializerOptions options, string url)
+    public DynamicSecretHttpClient(HttpClient httpClient, JsonSerializerOptions options, string url)
     {
         this.httpClient = httpClient;
         this.options = options;
         this.url = url;
 
-        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(options, url, null));
+        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider.Create(options, url, null));
     }
 
     /// <inheritdoc/>
@@ -44,7 +44,7 @@ internal class DynamicSecret2HttpClient : IDynamicSecret2HttpClient
 /// </summary>
 /// <typeparam name="TValue">请求提交的数据的的格式</typeparam>
 [SuppressMessage("", "SA1402")]
-internal class DynamicSecret2HttpClient<TValue> : IDynamicSecret2HttpClient<TValue>
+internal class DynamicSecretHttpClient<TValue> : IDynamicSecretHttpClient<TValue>
     where TValue : class
 {
     private readonly HttpClient httpClient;
@@ -59,14 +59,14 @@ internal class DynamicSecret2HttpClient<TValue> : IDynamicSecret2HttpClient<TVal
     /// <param name="options">Json序列化选项</param>
     /// <param name="url">url</param>
     /// <param name="data">请求的数据</param>
-    public DynamicSecret2HttpClient(HttpClient httpClient, JsonSerializerOptions options, string url, TValue? data)
+    public DynamicSecretHttpClient(HttpClient httpClient, JsonSerializerOptions options, string url, TValue? data)
     {
         this.httpClient = httpClient;
         this.options = options;
         this.url = url;
         this.data = data;
 
-        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(options, url, data));
+        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider.Create(options, url, data));
     }
 
     /// <inheritdoc/>

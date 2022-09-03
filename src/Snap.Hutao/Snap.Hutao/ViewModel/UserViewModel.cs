@@ -176,7 +176,7 @@ internal class UserViewModel : ObservableObject
             DataPackage content = new();
             content.SetText(Must.NotNull(user.Cookie!));
             Clipboard.SetContent(content);
-
+            Clipboard.Flush();
             infoBarService.Success($"{user.UserInfo!.Nickname} 的 Cookie 复制成功");
         }
         catch (Exception e)
