@@ -33,7 +33,7 @@ internal abstract class DynamicSecretProvider : Md5Convert
         string q = string.Join("&", new UriBuilder(queryUrl).Query.Split('&').OrderBy(x => x));
 
         // check
-        string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecret2Salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
+        string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecretSalt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
 
         return $"{t},{r},{check}";
     }

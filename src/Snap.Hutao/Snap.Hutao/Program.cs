@@ -67,8 +67,8 @@ public static class Program
 
             // Microsoft extension
             .AddLogging(builder => builder
-                .AddDebug()
-                .AddDatabase())
+                .AddDatabase()
+                .AddDebug())
             .AddMemoryCache()
 
             // Hutao extensions

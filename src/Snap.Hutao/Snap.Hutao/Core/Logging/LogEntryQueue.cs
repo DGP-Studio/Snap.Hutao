@@ -4,6 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem;
+using Snap.Hutao.Extension;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Linq;
@@ -15,50 +16,19 @@ namespace Snap.Hutao.Core.Logging;
 /// </summary>
 public sealed class LogEntryQueue : IDisposable
 {
-    private static readonly object LogDbContextCreationLock = new();
-
     private readonly ConcurrentQueue<LogEntry> entryQueue = new();
-    private readonly CancellationTokenSource disposeCancellationTokenSource = new();
-    private readonly TaskCompletionSource writeDbTaskCompletionSource = new();
-
-    // the provider is created per logger, we don't want to create too much
-    private volatile LogDbContext? logDbContext;
+    private readonly CancellationTokenSource disposeTokenSource = new();
+    private readonly TaskCompletionSource writeDbCompletionSource = new();
+    private readonly LogDbContext logDbContext;
 
     /// <summary>
     /// 构造一个新的日志队列
     /// </summary>
     public LogEntryQueue()
     {
-        Execute();
-    }
+        logDbContext = InitializeDbContext();
 
-    private LogDbContext LogDbContext
-    {
-        get
-        {
-            if (logDbContext == null)
-            {
-                lock (LogDbContextCreationLock)
-                {
-                    // prevent re-entry call
-                    if (logDbContext == null)
-                    {
-                        HutaoContext myDocument = new(new());
-                        logDbContext = LogDbContext.Create($"Data Source={myDocument.Locate("Log.db")}");
-                        if (logDbContext.Database.GetPendingMigrations().Any())
-                        {
-                            Debug.WriteLine("[Debug] Performing LogDbContext Migrations");
-                            logDbContext.Database.Migrate();
-                        }
-
-                        logDbContext.Logs.RemoveRange(logDbContext.Logs);
-                        logDbContext.SaveChanges();
-                    }
-                }
-            }
-
-            return logDbContext;
-        }
+        Task.Run(async () => await WritePendingLogsAsync(disposeTokenSource.Token)).SafeForget();
     }
 
     /// <summary>
@@ -74,45 +44,62 @@ public sealed class LogEntryQueue : IDisposable
     [SuppressMessage("", "VSTHRD002")]
     public void Dispose()
     {
-        disposeCancellationTokenSource.Cancel();
-        writeDbTaskCompletionSource.Task.GetAwaiter().GetResult();
+        // notify the write task to complete.
+        disposeTokenSource.Cancel();
 
-        LogDbContext.Dispose();
+        // Wait the db operation complete.
+        writeDbCompletionSource.Task.GetAwaiter().GetResult();
+
+        logDbContext.Dispose();
     }
 
-    [SuppressMessage("", "VSTHRD100")]
-    private async void Execute()
+    private static LogDbContext InitializeDbContext()
     {
-        await Task.Run(async () => await ExecuteCoreAsync(disposeCancellationTokenSource.Token));
+        HutaoContext myDocument = new(new());
+        LogDbContext logDbContext = LogDbContext.Create($"Data Source={myDocument.Locate("Log.db")}");
+        if (logDbContext.Database.GetPendingMigrations().Any())
+        {
+            Debug.WriteLine("[Debug] Performing LogDbContext Migrations");
+            logDbContext.Database.Migrate();
+        }
+
+        logDbContext.Logs.RemoveRange(logDbContext.Logs);
+        logDbContext.SaveChanges();
+
+        return logDbContext;
     }
 
-    private async Task ExecuteCoreAsync(CancellationToken token)
+    private async Task WritePendingLogsAsync(CancellationToken token)
     {
         bool hasAdded = false;
         while (true)
         {
             if (entryQueue.TryDequeue(out LogEntry? logEntry))
             {
-                LogDbContext.Logs.Add(logEntry);
+                logDbContext.Logs.Add(logEntry);
                 hasAdded = true;
             }
             else
             {
                 if (hasAdded)
                 {
-                    LogDbContext.SaveChanges();
+                    logDbContext.SaveChanges();
                     hasAdded = false;
                 }
 
                 if (token.IsCancellationRequested)
                 {
-                    writeDbTaskCompletionSource.TrySetResult();
+                    writeDbCompletionSource.TrySetResult();
                     break;
                 }
 
-                await Task
-                    .Delay(1000, CancellationToken.None)
-                    .ConfigureAwait(false);
+                try
+                {
+                    await Task.Delay(5000, token).ConfigureAwait(false);
+                }
+                catch (TaskCanceledException)
+                {
+                }
             }
         }
     }

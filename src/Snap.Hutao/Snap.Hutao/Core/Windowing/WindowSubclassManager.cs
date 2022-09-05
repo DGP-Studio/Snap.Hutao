@@ -1,9 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.WindowsAndMessaging;
 using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Windowing;
@@ -85,7 +88,9 @@ internal class WindowSubclassManager : IDisposable
             case WM_GETMINMAXINFO:
                 {
                     double scalingFactor = Persistence.GetScaleForWindow(hwnd);
-                    Win32.Unsafe.SetMinTrackSize(lParam, MinWidth * scalingFactor, MinHeight * scalingFactor);
+                    ref MINMAXINFO info = ref MINMAXINFO.FromPointer(lParam);
+                    info.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.x);
+                    info.ptMinTrackSize.y = (int)Math.Max(MinHeight * scalingFactor, info.ptMinTrackSize.y);
                     break;
                 }
 

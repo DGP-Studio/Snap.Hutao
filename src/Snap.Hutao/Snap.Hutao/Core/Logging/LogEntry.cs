@@ -20,6 +20,11 @@ public class LogEntry
     public Guid InnerId { get; set; }
 
     /// <summary>
+    /// 日志时间
+    /// </summary>
+    public DateTimeOffset Time { get; set; }
+
+    /// <summary>
     /// 类别
     /// </summary>
     public string Category { get; set; } = default!;

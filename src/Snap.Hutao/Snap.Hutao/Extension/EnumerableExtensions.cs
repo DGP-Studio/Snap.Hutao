@@ -79,6 +79,27 @@ public static partial class EnumerableExtensions
     }
 
     /// <summary>
+    /// 移除表中首个满足条件的项
+    /// </summary>
+    /// <typeparam name="T">项的类型</typeparam>
+    /// <param name="list">表</param>
+    /// <param name="shouldRemovePredicate">是否应当移除</param>
+    /// <returns>是否移除了元素</returns>
+    public static bool RemoveFirstWhere<T>(this IList<T> list, Func<T, bool> shouldRemovePredicate)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (shouldRemovePredicate.Invoke(list[i]))
+            {
+                list.RemoveAt(i);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// 表示一个对 <see cref="TItem"/> 类型的计数器
     /// </summary>
     /// <typeparam name="TItem">待计数的类型</typeparam>

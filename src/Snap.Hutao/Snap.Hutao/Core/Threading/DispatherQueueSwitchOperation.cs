@@ -14,17 +14,15 @@ public struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOpe
     private readonly DispatcherQueue dispatherQueue;
 
     /// <summary>
-    /// 构造一个新的同步上下文等待器
+    /// 构造一个新的调度器队列等待器
     /// </summary>
-    /// <param name="dispatherQueue">同步上下文</param>
+    /// <param name="dispatherQueue">调度器队列</param>
     public DispatherQueueSwitchOperation(DispatcherQueue dispatherQueue)
     {
         this.dispatherQueue = dispatherQueue;
     }
 
-    /// <summary>
-    /// 是否完成
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsCompleted
     {
         get => dispatherQueue.HasThreadAccess;
@@ -41,10 +39,7 @@ public struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOpe
     {
     }
 
-    /// <summary>
-    /// 获取等待器
-    /// </summary>
-    /// <returns>等待器</returns>
+    /// <inheritdoc/>
     public DispatherQueueSwitchOperation GetAwaiter()
     {
         return this;

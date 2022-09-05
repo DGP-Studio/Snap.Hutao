@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Context.Database;
-
 namespace Snap.Hutao.Core.Logging;
 
 /// <summary>
@@ -54,6 +52,7 @@ internal sealed partial class DatebaseLogger : ILogger
 
         LogEntry entry = new()
         {
+            Time = DateTimeOffset.Now,
             Category = name,
             LogLevel = logLevel,
             EventId = eventId.Id,

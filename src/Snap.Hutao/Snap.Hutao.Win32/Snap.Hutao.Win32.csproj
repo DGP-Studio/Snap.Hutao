@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.Windows.SDK.Win32Metadata" Version="25.0.28-preview" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Foundation\" />
+  </ItemGroup>
+
 </Project>

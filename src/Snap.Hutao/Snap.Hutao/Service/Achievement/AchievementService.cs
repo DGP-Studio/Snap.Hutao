@@ -141,10 +141,10 @@ internal class AchievementService : IAchievementService
 
             case ImportOption.Overwrite:
                 {
-                    IEnumerable<EntityAchievement> newData = list
+                    IEnumerable<EntityAchievement> orederedUIAF = list
                         .Select(uiaf => EntityAchievement.Create(archiveId, uiaf))
                         .OrderBy(a => a.Id);
-                    return achievementDbOperation.Overwrite(archiveId, newData);
+                    return achievementDbOperation.Overwrite(archiveId, orederedUIAF);
                 }
 
             default:
