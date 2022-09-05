@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem;
 using System.Diagnostics;
-using System.Linq;
 using System.Text.Encodings.Web;
 
 namespace Snap.Hutao.Core.DependencyInjection;

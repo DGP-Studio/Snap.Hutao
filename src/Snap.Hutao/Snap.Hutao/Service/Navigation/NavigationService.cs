@@ -7,7 +7,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
-using System.Linq;
 
 namespace Snap.Hutao.Service.Navigation;
 

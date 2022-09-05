@@ -5,7 +5,6 @@
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Windows.Storage;

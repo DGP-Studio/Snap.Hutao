@@ -4,7 +4,6 @@
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using System.Linq;
 
 namespace Snap.Hutao.Model.Binding;
 

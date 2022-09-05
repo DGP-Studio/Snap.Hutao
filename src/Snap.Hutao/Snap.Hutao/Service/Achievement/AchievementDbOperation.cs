@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
-using System.Linq;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;

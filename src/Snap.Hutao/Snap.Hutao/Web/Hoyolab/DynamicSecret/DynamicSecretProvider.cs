@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Convert;
-using System.Linq;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 

@@ -8,7 +8,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Service.Metadata;
-using System.Linq;
 
 namespace Snap.Hutao.ViewModel;
 

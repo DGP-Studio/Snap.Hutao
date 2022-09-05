@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Data;
 using Snap.Hutao.Model.Metadata.Avatar;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Model.Metadata.Converter;

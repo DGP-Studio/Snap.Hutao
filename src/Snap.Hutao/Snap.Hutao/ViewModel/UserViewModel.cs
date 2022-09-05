@@ -8,7 +8,6 @@ using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Snap.Hutao.ViewModel;

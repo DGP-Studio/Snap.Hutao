@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Extension;
-using System.Collections;
-using System.Linq;
 
 namespace Snap.Hutao.Web.Request.QueryString;
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
-using System.Linq;
 
 namespace Snap.Hutao.Web.Hutao.Model.Post;
 

@@ -7,7 +7,6 @@ using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Extension;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Linq;
 
 namespace Snap.Hutao.Core.Logging;
 
