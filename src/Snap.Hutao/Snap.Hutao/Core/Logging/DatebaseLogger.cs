@@ -66,7 +66,7 @@ internal sealed partial class DatebaseLogger : ILogger
     /// <summary>
     /// An empty scope without any logic
     /// </summary>
-    private class NullScope : IDisposable
+    private struct NullScope : IDisposable
     {
         public NullScope()
         {

@@ -26,7 +26,7 @@ public sealed partial class UserDialog : ContentDialog
     /// 获取输入的Cookie
     /// </summary>
     /// <returns>输入的结果</returns>
-    public async Task<Result<bool, string>> GetInputCookieAsync()
+    public async Task<ValueResult<bool, string>> GetInputCookieAsync()
     {
         ContentDialogResult result = await ShowAsync();
         string cookie = InputText.Text;

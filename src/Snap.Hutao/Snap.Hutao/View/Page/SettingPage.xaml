@@ -19,8 +19,32 @@
     </Page.Resources>
     <ScrollViewer>
         <StackPanel Margin="32,0,24,0">
-
             <sc:SettingsGroup Header="关于 胡桃">
+                <Grid Margin="0,4,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Column="0"
+                        Width="80"
+                        Source="ms-appx:///Assets/Square150x150Logo.scale-200.png"/>
+                    <Grid
+                        Margin="16,0,0,0"
+                        Grid.Column="1">
+                        <TextBlock TextWrapping="Wrap">
+                            <Run>胡桃 图标由 </Run>
+                            <Hyperlink NavigateUri="https://dieqi32894.lofter.com/post/4b58ce16_2b6b2d365">LOFTER@夙夜</Hyperlink>
+                            <Run>纸绘，并由 </Run>
+                            <Hyperlink NavigateUri="https://github.com/DGP-Studio">DGP Studio</Hyperlink>
+                            <Run> 后期处理后，授权使用。</Run>
+                        </TextBlock>
+                        <TextBlock
+                            VerticalAlignment="Bottom"
+                            Text="Copyright © 2022 DGP Studio. All Rights Reserved."/>
+                    </Grid>
+
+                </Grid>
                 <sc:Setting
                     Icon="&#xECAA;"
                     Header="胡桃"

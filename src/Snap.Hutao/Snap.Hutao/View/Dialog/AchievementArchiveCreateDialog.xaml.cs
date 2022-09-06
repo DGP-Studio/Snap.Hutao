@@ -26,7 +26,7 @@ public sealed partial class AchievementArchiveCreateDialog : ContentDialog
     /// 获取输入的字符串
     /// </summary>
     /// <returns>输入的结果</returns>
-    public async Task<Result<bool, string>> GetInputAsync()
+    public async Task<ValueResult<bool, string>> GetInputAsync()
     {
         ContentDialogResult result = await ShowAsync();
         string text = InputText.Text ?? string.Empty;
