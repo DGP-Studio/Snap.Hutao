@@ -25,11 +25,7 @@ internal abstract class WebView2Helper
     {
         get
         {
-            if (hasEverDetected)
-            {
-                return isSupported;
-            }
-            else
+            if (!hasEverDetected)
             {
                 hasEverDetected = true;
                 isSupported = true;
@@ -43,9 +39,9 @@ internal abstract class WebView2Helper
                     logger.LogError(EventIds.WebView2EnvironmentException, ex, "WebView2 运行时未安装");
                     isSupported = false;
                 }
-
-                return isSupported;
             }
+
+            return isSupported;
         }
     }
 

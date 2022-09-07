@@ -41,15 +41,4 @@ public static class ProcessHelper
         };
         return Process.Start(processInfo);
     }
-
-    /// <summary>
-    /// 启动进程
-    /// </summary>
-    /// <param name="uri">路径</param>
-    /// <param name="useShellExecute">使用shell</param>
-    /// <returns>进程</returns>
-    public static Process? Start(Uri uri, bool useShellExecute = true)
-    {
-        return Start(uri.AbsolutePath, useShellExecute);
-    }
 }

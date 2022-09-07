@@ -11,6 +11,7 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// <summary>
 /// 手动模式
 /// </summary>
+[Injection(InjectAs.Transient, typeof(IGameLocator))]
 internal class ManualGameLocator : IGameLocator
 {
     private readonly IPickerFactory pickerFactory;
@@ -23,6 +24,9 @@ internal class ManualGameLocator : IGameLocator
     {
         this.pickerFactory = pickerFactory;
     }
+
+    /// <inheritdoc/>
+    public string Name { get => nameof(ManualGameLocator); }
 
     /// <inheritdoc/>
     public Task<ValueResult<bool, string>> LocateGamePathAsync()

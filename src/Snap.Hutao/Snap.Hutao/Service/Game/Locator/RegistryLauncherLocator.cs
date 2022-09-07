@@ -10,8 +10,12 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// <summary>
 /// 注册表启动器位置定位器
 /// </summary>
+[Injection(InjectAs.Transient, typeof(IGameLocator))]
 internal class RegistryLauncherLocator : IGameLocator
 {
+    /// <inheritdoc/>
+    public string Name { get => nameof(RegistryLauncherLocator); }
+
     /// <inheritdoc/>
     public Task<ValueResult<bool, string>> LocateGamePathAsync()
     {

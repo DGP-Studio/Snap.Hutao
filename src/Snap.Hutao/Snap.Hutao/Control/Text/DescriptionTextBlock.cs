@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core;
+using System.Runtime.InteropServices;
 using Windows.UI;
 
 namespace Snap.Hutao.Control.Text;
@@ -64,10 +65,7 @@ public class DescriptionTextBlock : ContentControl
             else if (description[i] == '<' && description[i + 1] == 'c')
             {
                 AppendText(text, description[last..i]);
-
-                byte[] data = Convert.FromHexString(description.Slice(i + 8, 8));
-                Color color = Color.FromArgb(data[3], data[0], data[1], data[2]);
-
+                HexColor color = new(description.Slice(i + 8, 8));
                 int length = description[(i + ColorTagLeftLength)..].IndexOf('<');
                 AppendColorText(text, description.Slice(i + ColorTagLeftLength, length), color);
 
@@ -101,7 +99,7 @@ public class DescriptionTextBlock : ContentControl
         text.Inlines.Add(new Run { Text = slice.ToString() });
     }
 
-    private static void AppendColorText(TextBlock text, ReadOnlySpan<char> slice, Color color)
+    private static void AppendColorText(TextBlock text, ReadOnlySpan<char> slice, HexColor color)
     {
         text.Inlines.Add(new Run
         {
@@ -122,5 +120,36 @@ public class DescriptionTextBlock : ContentControl
     private static void AppendLineBreak(TextBlock text)
     {
         text.Inlines.Add(new LineBreak());
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    private struct HexColor
+    {
+        [FieldOffset(3)]
+        public byte R;
+        [FieldOffset(2)]
+        public byte G;
+        [FieldOffset(1)]
+        public byte B;
+        [FieldOffset(0)]
+        public byte A;
+
+        [FieldOffset(0)]
+        private readonly uint data;
+
+        public HexColor(ReadOnlySpan<char> hex)
+        {
+            Must.Argument(hex.Length == 8, "色值长度不为8");
+            R = 0;
+            G = 0;
+            B = 0;
+            A = 0;
+            data = Convert.ToUInt32(hex.ToString(), 16);
+        }
+
+        public static implicit operator Color(HexColor hexColor)
+        {
+            return Color.FromArgb(hexColor.A, hexColor.R, hexColor.G, hexColor.B);
+        }
     }
 }

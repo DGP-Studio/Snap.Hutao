@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Threading;
 
 namespace Snap.Hutao.Service.Game.Locator;
@@ -8,7 +9,7 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// <summary>
 /// 游戏位置定位器
 /// </summary>
-internal interface IGameLocator
+internal interface IGameLocator : INamed
 {
     /// <summary>
     /// 异步获取游戏位置
