@@ -3,6 +3,8 @@
 // some part of this file came from:
 // https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
@@ -67,7 +69,15 @@ public class DescriptionTextBlock : ContentControl
                 AppendText(text, description[last..i]);
                 HexColor color = new(description.Slice(i + 8, 8));
                 int length = description[(i + ColorTagLeftLength)..].IndexOf('<');
+
+                // Light Theme 下将颜色字体调暗
+                if (Application.Current.RequestedTheme == ApplicationTheme.Light)
+                {
+                    color.L = (byte)(color.L * 0.3);
+                }
+
                 AppendColorText(text, description.Slice(i + ColorTagLeftLength, length), color);
+
 
                 i += length + ColorTagFullLength;
                 last = i;
@@ -136,6 +146,76 @@ public class DescriptionTextBlock : ContentControl
 
         [FieldOffset(0)]
         private readonly uint data;
+
+        public byte H
+        {
+            get
+            {
+                HslColor hslColor = ColorHelper.ToHsl(Color.FromArgb(A, R, G, B));
+                return (byte)(hslColor.H * 360);
+            }
+
+            set
+            {
+                HslColor hslColor = ColorHelper.ToHsl(Color.FromArgb(A, R, G, B));
+                hslColor.H = value / 360.0;
+                Color color = ColorHelper.FromHsl(hslColor.H, hslColor.S, hslColor.L, hslColor.A);
+                R = color.R;
+                G = color.G;
+                B = color.B;
+                A = color.A;
+            }
+        }
+
+        public byte S
+        {
+            get
+            {
+                HslColor hslColor = ColorHelper.ToHsl(Color.FromArgb(A, R, G, B));
+                return (byte)(hslColor.S * 100);
+            }
+
+            set
+            {
+                HslColor hslColor = ColorHelper.ToHsl(Color.FromArgb(A, R, G, B));
+                hslColor.S = value / 100.0;
+                Color color = ColorHelper.FromHsl(hslColor.H, hslColor.S, hslColor.L, hslColor.A);
+                R = color.R;
+                G = color.G;
+                B = color.B;
+                A = color.A;
+            }
+        }
+
+        public byte L
+        {
+            get
+            {
+                HslColor hslColor = ColorHelper.ToHsl(Color.FromArgb(A, R, G, B));
+                return (byte)(hslColor.L * 100);
+            }
+
+            set
+            {
+                HslColor hslColor = ToHslColor();
+                hslColor.L = value / 100.0;
+                SetColor(hslColor);
+            }
+        }
+
+        public void SetColor(HslColor hslColor)
+        {
+            Color color = ColorHelper.FromHsl(hslColor.H, hslColor.S, hslColor.L, hslColor.A);
+            R = color.R;
+            G = color.G;
+            B = color.B;
+            A = color.A;
+        }
+
+        public readonly HslColor ToHslColor()
+        {
+            return ColorHelper.ToHsl(Color.FromArgb(A, R, G, B));
+        }
 
         public HexColor(ReadOnlySpan<char> hex)
         {
