@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
-// some part of this file came from:
+// Some part of this file came from:
 // https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
@@ -36,6 +35,8 @@ public class DescriptionTextBlock : ContentControl
     {
         IsTabStop = false;
         Content = new TextBlock();
+
+        ActualThemeChanged += OnActualThemeChanged;
     }
 
     /// <summary>
@@ -50,13 +51,19 @@ public class DescriptionTextBlock : ContentControl
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         TextBlock text = (TextBlock)((DescriptionTextBlock)d).Content;
-        text.Inlines.Clear();
-
         ReadOnlySpan<char> description = (string)e.NewValue;
+
+        ApplyDescription(text, description);
+    }
+
+    private static void ApplyDescription(TextBlock text, ReadOnlySpan<char> description)
+    {
+        text.Inlines.Clear();
 
         int last = 0;
         for (int i = 0; i < description.Length;)
         {
+            // newline
             if (description[i] == '\\' && description[i + 1] == 'n')
             {
                 AppendText(text, description[last..i]);
@@ -64,6 +71,8 @@ public class DescriptionTextBlock : ContentControl
                 i += 1;
                 last = i;
             }
+
+            // color tag
             else if (description[i] == '<' && description[i + 1] == 'c')
             {
                 AppendText(text, description[last..i]);
@@ -74,6 +83,8 @@ public class DescriptionTextBlock : ContentControl
                 i += length + ColorTagFullLength;
                 last = i;
             }
+
+            // italic
             else if (description[i] == '<' && description[i + 1] == 'i')
             {
                 AppendText(text, description[last..i]);
@@ -134,6 +145,11 @@ public class DescriptionTextBlock : ContentControl
     private static void AppendLineBreak(TextBlock text)
     {
         text.Inlines.Add(new LineBreak());
+    }
+
+    private void OnActualThemeChanged(FrameworkElement sender, object args)
+    {
+        ApplyDescription((TextBlock)this.Content, Description);
     }
 
     [StructLayout(LayoutKind.Explicit)]
