@@ -69,7 +69,9 @@ openInWebview: function(url){ location.href = url }}";
             return rawContent;
         }
 
-        if (ThemeHelper.IsDarkMode(theme, Ioc.Default.GetRequiredService<App>().RequestedTheme))
+        bool isDarkMode = ThemeHelper.IsDarkMode(theme);
+
+        if (isDarkMode)
         {
             rawContent = rawContent
                 .Replace(DarkColor5, LightColor5)
@@ -81,7 +83,7 @@ openInWebview: function(url){ location.href = url }}";
         }
 
         // wrap a default color body around
-        return $@"<body style=""{(ThemeHelper.IsDarkMode(theme, Ioc.Default.GetRequiredService<App>().RequestedTheme) ? LightColor1 : DarkColor1)}"">{rawContent}</body>";
+        return $@"<body style=""{(isDarkMode ? LightColor1 : DarkColor1)}"">{rawContent}</body>";
     }
 
     private async Task LoadAnnouncementAsync(INavigationData data)

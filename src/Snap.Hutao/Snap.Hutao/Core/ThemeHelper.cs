@@ -62,6 +62,17 @@ public static class ThemeHelper
     /// 检查是否为暗黑模式
     /// </summary>
     /// <param name="elementTheme">当前元素主题</param>
+    /// <returns>是否为暗黑模式</returns>
+    public static bool IsDarkMode(ElementTheme elementTheme)
+    {
+        ApplicationTheme appTheme = Ioc.Default.GetRequiredService<App>().RequestedTheme;
+        return IsDarkMode(elementTheme, appTheme);
+    }
+
+    /// <summary>
+    /// 检查是否为暗黑模式
+    /// </summary>
+    /// <param name="elementTheme">当前元素主题</param>
     /// <param name="applicationTheme">当前应用主题</param>
     /// <returns>是否为暗黑模式</returns>
     public static bool IsDarkMode(ElementTheme elementTheme, ApplicationTheme applicationTheme)

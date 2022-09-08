@@ -244,7 +244,7 @@ public abstract class CacheBase<T>
         {
             try
             {
-                logger.LogInformation(EventIds.CacheRemoveFile, "Removing file {file}", file);
+                logger.LogInformation(EventIds.CacheRemoveFile, "Removing file {file}", file.Path);
                 await file.DeleteAsync().AsTask().ConfigureAwait(false);
             }
             catch
