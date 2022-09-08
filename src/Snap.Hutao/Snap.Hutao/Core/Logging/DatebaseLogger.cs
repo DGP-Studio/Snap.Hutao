@@ -15,8 +15,7 @@ internal sealed partial class DatebaseLogger : ILogger
     /// Initializes a new instance of the <see cref="DatebaseLogger"/> class.
     /// </summary>
     /// <param name="name">The name of the logger.</param>
-    /// <param name="logDbContext">应用程序数据库上下文</param>
-    /// <param name="logDbContextLock">上下文锁</param>
+    /// <param name="logEntryQueue">日志队列</param>
     public DatebaseLogger(string name, LogEntryQueue logEntryQueue)
     {
         this.name = name;

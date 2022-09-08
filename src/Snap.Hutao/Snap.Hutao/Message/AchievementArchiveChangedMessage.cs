@@ -8,6 +8,7 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 成就存档切换消息
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
 internal class AchievementArchiveChangedMessage : ValueChangedMessage<AchievementArchive>
 {
     /// <summary>

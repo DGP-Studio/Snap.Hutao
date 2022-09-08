@@ -13,6 +13,22 @@ public struct GachaLogConfigration
     private readonly QueryString innerQuery;
 
     /// <summary>
+    /// 构造一个新的祈愿记录请求配置
+    /// </summary>
+    /// <param name="query">原始查询字符串</param>
+    /// <param name="type">祈愿类型</param>
+    /// <param name="endId">终止Id</param>
+    public GachaLogConfigration(string query, GachaConfigType type, ulong endId = 0UL)
+    {
+        innerQuery = QueryString.Parse(query);
+        innerQuery.Set("lang", "zh-cn");
+
+        Size = 20;
+        Type = type;
+        EndId = endId;
+    }
+
+    /// <summary>
     /// 尺寸
     /// </summary>
     public int Size
@@ -34,22 +50,6 @@ public struct GachaLogConfigration
     public ulong EndId
     {
         set => innerQuery.Set("end_id", value);
-    }
-
-    /// <summary>
-    /// 构造一个新的祈愿记录请求配置
-    /// </summary>
-    /// <param name="query">原始查询字符串</param>
-    /// <param name="type">祈愿类型</param>
-    /// <param name="endId">终止Id</param>
-    public GachaLogConfigration(string query, GachaConfigType type, ulong endId = 0UL)
-    {
-        innerQuery = QueryString.Parse(query);
-        innerQuery.Set("lang", "zh-cn");
-
-        Size = 20;
-        Type = type;
-        EndId = endId;
     }
 
     /// <summary>

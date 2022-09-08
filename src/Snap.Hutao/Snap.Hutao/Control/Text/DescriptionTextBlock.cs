@@ -149,7 +149,7 @@ public class DescriptionTextBlock : ContentControl
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
-        ApplyDescription((TextBlock)this.Content, Description);
+        ApplyDescription((TextBlock)Content, Description);
     }
 
     [StructLayout(LayoutKind.Explicit)]

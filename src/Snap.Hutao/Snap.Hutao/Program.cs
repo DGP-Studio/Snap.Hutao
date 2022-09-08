@@ -18,16 +18,12 @@ namespace Snap.Hutao;
 /// </summary>
 public static class Program
 {
-    private static volatile DispatcherQueue? dispatcherQueue;
-
     /// <summary>
-    /// 异步切换到主线程
+    /// 主线程队列
     /// </summary>
-    /// <returns>等待体</returns>
-    public static DispatherQueueSwitchOperation SwitchToMainThreadAsync()
-    {
-        return new(dispatcherQueue!);
-    }
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [SuppressMessage("", "SA1401")]
+    internal static volatile DispatcherQueue? DispatcherQueue;
 
     [DllImport("Microsoft.ui.xaml.dll")]
     private static extern void XamlCheckProcessRequirements();
@@ -50,8 +46,8 @@ public static class Program
 
     private static void InitializeApp(ApplicationInitializationCallbackParams param)
     {
-        dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        DispatcherQueueSynchronizationContext context = new(dispatcherQueue);
+        DispatcherQueue = DispatcherQueue.GetForCurrentThread();
+        DispatcherQueueSynchronizationContext context = new(DispatcherQueue);
         SynchronizationContext.SetSynchronizationContext(context);
 
         _ = Ioc.Default.GetRequiredService<App>();

@@ -32,18 +32,10 @@ public sealed partial class AchievementPage : CancellablePage
         {
             if (extra.Data != null)
             {
-                await ((INavigationRecipient)DataContext).ReceiveAsync(extra);
+                await ((INavigationRecipient)DataContext).ReceiveAsync(extra).ConfigureAwait(false);
             }
 
             extra.NotifyNavigationCompleted();
         }
-    }
-
-    /// <inheritdoc/>
-    protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-    {
-        ((AchievementViewModel)DataContext).SaveAchievements();
-
-        base.OnNavigatingFrom(e);
     }
 }

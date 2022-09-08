@@ -148,6 +148,18 @@ csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_style_unused_value_assignment_preference = discard_variable:silent
 csharp_style_unused_value_expression_statement_preference = discard_variable:silent
 
+# CA1001: 具有可释放字段的类型应该是可释放的
+dotnet_diagnostic.CA1001.severity = warning
+
+# CA1309: 使用序数字符串比较
+dotnet_diagnostic.CA1309.severity = suggestion
+
+# CA1805: 避免进行不必要的初始化
+dotnet_diagnostic.CA1805.severity = suggestion
+
+# VSTHRD111: Use ConfigureAwait(bool)
+dotnet_diagnostic.VSTHRD111.severity = suggestion
+
 [*.vb]
 #### 命名样式 ####
 

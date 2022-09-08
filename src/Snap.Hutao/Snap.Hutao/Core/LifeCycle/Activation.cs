@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
@@ -84,7 +85,7 @@ internal static class Activation
         {
             case "/import":
                 {
-                    await Program.SwitchToMainThreadAsync();
+                    await ThreadHelper.SwitchToMainThreadAsync();
 
                     INavigationAwaiter navigationAwaiter = new NavigationExtra("InvokeByUri");
                     await Ioc.Default

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service;
@@ -110,7 +111,7 @@ internal class InfoBarService : IInfoBarService
     /// <param name="delay">关闭延迟</param>
     private async Task PrepareInfoBarAndShowInternalAsync(InfoBarSeverity severity, string? title, string? message, int delay)
     {
-        await Program.SwitchToMainThreadAsync();
+        await ThreadHelper.SwitchToMainThreadAsync();
 
         InfoBar infoBar = new()
         {
@@ -133,7 +134,7 @@ internal class InfoBarService : IInfoBarService
     [SuppressMessage("", "VSTHRD100")]
     private async void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
     {
-        await Program.SwitchToMainThreadAsync();
+        await ThreadHelper.SwitchToMainThreadAsync();
 
         Must.NotNull(infoBarStack!).Children.Remove(sender);
         sender.Closed -= OnInfoBarClosed;

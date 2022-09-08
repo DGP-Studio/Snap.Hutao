@@ -6,9 +6,10 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control;
 using Snap.Hutao.Control.Cancellable;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.Threading;
+using Snap.Hutao.Core.Threading.CodeAnalysis;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
@@ -37,10 +38,11 @@ internal class AchievementViewModel
     : ObservableObject,
     ISupportCancellation,
     INavigationRecipient,
-    IRecipient<AchievementArchiveChangedMessage>,
-    IRecipient<MainWindowClosedMessage>
+    IDisposable,
+    IRecipient<AchievementArchiveChangedMessage>
 {
-    private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(Model.Binding.Achievement.IsChecked), SortDirection.Ascending);
+    private static readonly SortDescription IncompletedItemsFirstSortDescription =
+        new(nameof(Model.Binding.Achievement.IsChecked), SortDirection.Ascending);
 
     private readonly IMetadataService metadataService;
     private readonly IAchievementService achievementService;
@@ -89,8 +91,7 @@ internal class AchievementViewModel
         RemoveArchiveCommand = asyncRelayCommandFactory.Create(RemoveArchiveAsync);
         SortIncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
 
-        messenger.Register<AchievementArchiveChangedMessage>(this);
-        messenger.Register<MainWindowClosedMessage>(this);
+        messenger.Register(this);
     }
 
     /// <inheritdoc/>
@@ -191,21 +192,13 @@ internal class AchievementViewModel
     public ICommand SortIncompletedSwitchCommand { get; }
 
     /// <inheritdoc/>
-    public void Receive(MainWindowClosedMessage message)
-    {
-        SaveAchievements();
-    }
-
-    /// <inheritdoc/>
     public void Receive(AchievementArchiveChangedMessage message)
     {
         HandleArchiveChangeAsync(message.OldValue, message.NewValue).SafeForget();
     }
 
-    /// <summary>
-    /// 保存当前用户的成就
-    /// </summary>
-    public void SaveAchievements()
+    /// <inheritdoc/>
+    public void Dispose()
     {
         if (Achievements != null && SelectedArchive != null)
         {
@@ -216,11 +209,11 @@ internal class AchievementViewModel
     /// <inheritdoc/>
     public async Task<bool> ReceiveAsync(INavigationData data)
     {
-        if (await openUICompletionSource.Task)
+        if (await openUICompletionSource.Task.ConfigureAwait(false))
         {
             if (data.Data is "InvokeByUri")
             {
-                await ImportUIAFFromClipboardAsync();
+                await ImportUIAFFromClipboardAsync().ConfigureAwait(false);
                 return true;
             }
         }
@@ -228,17 +221,22 @@ internal class AchievementViewModel
         return false;
     }
 
+    [ThreadAccess(ThreadAccessState.MainThread)]
     private static Task<ContentDialogResult> ShowImportFailDialogAsync(string message)
     {
-        return new ContentDialog2(Ioc.Default.GetRequiredService<MainWindow>())
+        ContentDialog dialog = new()
         {
             Title = "导入失败",
             Content = message,
             PrimaryButtonText = "确认",
             DefaultButton = ContentDialogButton.Primary,
-        }.ShowAsync().AsTask();
+        };
+
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        return dialog.InitializeWithWindow(mainWindow).ShowAsync().AsTask();
     }
 
+    [ThreadAccess(ThreadAccessState.MainThread)]
     private async Task HandleArchiveChangeAsync(Model.Entity.AchievementArchive? oldArchieve, Model.Entity.AchievementArchive? newArchieve)
     {
         if (oldArchieve != null && Achievements != null)
@@ -248,17 +246,19 @@ internal class AchievementViewModel
 
         if (newArchieve != null)
         {
-            await UpdateAchievementsAsync(newArchieve);
+            await UpdateAchievementsAsync(newArchieve).ConfigureAwait(false);
         }
     }
 
+    [ThreadAccess(ThreadAccessState.MainThread)]
     private async Task OpenUIAsync()
     {
-        bool metaInitialized = await metadataService.InitializeAsync(CancellationToken);
+        bool metaInitialized = await metadataService.InitializeAsync(CancellationToken).ConfigureAwait(false);
 
         if (metaInitialized)
         {
-            List<AchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken);
+            List<AchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
+            await ThreadHelper.SwitchToMainThreadAsync();
             AchievementGoals = goals.OrderBy(goal => goal.Order).ToList();
 
             Archives = achievementService.GetArchiveCollection();
@@ -274,24 +274,29 @@ internal class AchievementViewModel
         openUICompletionSource.TrySetResult(metaInitialized);
     }
 
+    [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task UpdateAchievementsAsync(Model.Entity.AchievementArchive archive)
     {
-        List<Achievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken);
+        List<Achievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
         List<Model.Binding.Achievement> combined = achievementService.GetAchievements(archive, rawAchievements);
+
+        // Assemble achievements on the UI thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
         Achievements = new(combined, true);
 
         UpdateAchievementFilter(SelectedAchievementGoal);
         UpdateAchievementsSort();
     }
 
+    [ThreadAccess(ThreadAccessState.MainThread)]
     private async Task AddArchiveAsync()
     {
         MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, string name) = await new AchievementArchiveCreateDialog(mainWindow).GetInputAsync();
+        (bool isOk, string name) = await new AchievementArchiveCreateDialog(mainWindow).GetInputAsync().ConfigureAwait(false);
 
         if (isOk)
         {
-            ArchiveAddResult result = await achievementService.TryAddArchiveAsync(Model.Entity.AchievementArchive.Create(name));
+            ArchiveAddResult result = await achievementService.TryAddArchiveAsync(Model.Entity.AchievementArchive.Create(name)).ConfigureAwait(false);
 
             switch (result)
             {
@@ -310,24 +315,26 @@ internal class AchievementViewModel
         }
     }
 
+    [ThreadAccess(ThreadAccessState.MainThread)]
     private async Task RemoveArchiveAsync()
     {
         if (Archives != null && SelectedArchive != null)
         {
-            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-            ContentDialogResult result = await new ContentDialog2(mainWindow)
+            ContentDialog dialog = new()
             {
                 Title = $"确定要删除存档 {SelectedArchive.Name} 吗？",
                 Content = "该操作是不可逆的，该存档和其内的所有成就状态会丢失。",
                 PrimaryButtonText = "确认",
                 CloseButtonText = "取消",
                 DefaultButton = ContentDialogButton.Close,
-            }
-            .ShowAsync();
+            };
+
+            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+            ContentDialogResult result = await dialog.InitializeWithWindow(mainWindow).ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
-                await achievementService.RemoveArchiveAsync(SelectedArchive);
+                await achievementService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
 
                 // reselect first archive
                 SelectedArchive = Archives.FirstOrDefault();
@@ -335,25 +342,28 @@ internal class AchievementViewModel
         }
     }
 
+    [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task ImportUIAFFromClipboardAsync()
     {
         if (achievementService.CurrentArchive == null)
         {
             // TODO: automatically create a archive.
-            infoBarService.Information("必须选择一个用户才能导入成就");
+            infoBarService.Information("必须创建一个用户才能导入成就");
             return;
         }
 
-        if (await GetUIAFFromClipboardAsync() is UIAF uiaf)
+        if (await GetUIAFFromClipboardAsync().ConfigureAwait(false) is UIAF uiaf)
         {
-            await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf);
+            await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf).ConfigureAwait(false);
         }
         else
         {
-            await ShowImportFailDialogAsync("数据格式不正确");
+            await ThreadHelper.SwitchToMainThreadAsync();
+            await ShowImportFailDialogAsync("数据格式不正确").ConfigureAwait(false);
         }
     }
 
+    [ThreadAccess(ThreadAccessState.MainThread)]
     private async Task ImportUIAFFromFileAsync()
     {
         if (achievementService.CurrentArchive == null)
@@ -368,24 +378,27 @@ internal class AchievementViewModel
 
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {
-            if (await GetUIAFFromFileAsync(file) is UIAF uiaf)
+            if (await GetUIAFFromFileAsync(file).ConfigureAwait(false) is UIAF uiaf)
             {
-                await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf);
+                await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf).ConfigureAwait(false);
             }
             else
             {
-                await ShowImportFailDialogAsync("数据格式不正确");
+                await ThreadHelper.SwitchToMainThreadAsync();
+                await ShowImportFailDialogAsync("数据格式不正确").ConfigureAwait(false);
             }
         }
     }
 
+    [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task<UIAF?> GetUIAFFromClipboardAsync()
     {
         UIAF? uiaf = null;
         string json;
         try
         {
-            json = await Clipboard.GetContent().GetTextAsync();
+            Task<string> task = Clipboard.GetContent().GetTextAsync().AsTask();
+            json = await task.ConfigureAwait(false);
         }
         catch (COMException ex)
         {
@@ -405,6 +418,7 @@ internal class AchievementViewModel
         return uiaf;
     }
 
+    [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task<UIAF?> GetUIAFFromFileAsync(StorageFile file)
     {
         UIAF? uiaf = null;
@@ -414,7 +428,7 @@ internal class AchievementViewModel
             {
                 using (Stream stream = fileSream.AsStream())
                 {
-                    uiaf = await JsonSerializer.DeserializeAsync<UIAF>(stream, options);
+                    uiaf = await JsonSerializer.DeserializeAsync<UIAF>(stream, options).ConfigureAwait(false);
                 }
             }
         }
@@ -426,16 +440,18 @@ internal class AchievementViewModel
         return uiaf;
     }
 
+    [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task<bool> TryImportUIAFInternalAsync(Model.Entity.AchievementArchive archive, UIAF uiaf)
     {
         if (uiaf.IsCurrentVersionSupported())
         {
             MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-            (bool isOk, ImportOption option) = await new AchievementImportDialog(mainWindow, uiaf).GetImportOptionAsync();
+            await ThreadHelper.SwitchToMainThreadAsync();
+            (bool isOk, ImportOption option) = await new AchievementImportDialog(mainWindow, uiaf).GetImportOptionAsync().ConfigureAwait(true);
 
             if (isOk)
             {
-                ContentDialog2 importingDialog = new(mainWindow)
+                ContentDialog importingDialog = new()
                 {
                     Title = "导入成就中",
                     Content = new ProgressBar() { IsIndeterminate = true },
@@ -443,19 +459,20 @@ internal class AchievementViewModel
                 };
 
                 ImportResult result;
-                using (importingDialog.BlockInteraction())
+                using (await importingDialog.InitializeWithWindow(mainWindow).BlockAsync().ConfigureAwait(false))
                 {
-                    result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, option);
+                    result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, option).ConfigureAwait(false);
                 }
 
                 infoBarService.Success(result.ToString());
-                await UpdateAchievementsAsync(archive);
+                await UpdateAchievementsAsync(archive).ConfigureAwait(false);
                 return true;
             }
         }
         else
         {
-            await ShowImportFailDialogAsync("数据的 UIAF 版本过低，无法导入");
+            await ThreadHelper.SwitchToMainThreadAsync();
+            await ShowImportFailDialogAsync("数据的 UIAF 版本过低，无法导入").ConfigureAwait(false);
         }
 
         return false;

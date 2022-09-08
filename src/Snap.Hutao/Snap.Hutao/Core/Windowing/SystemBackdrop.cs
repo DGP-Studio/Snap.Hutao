@@ -57,6 +57,8 @@ public class SystemBackdrop
 
             backdropController = new();
 
+            // Mica Alt
+            // backdropController.Kind = MicaKind.BaseAlt;
             backdropController.AddSystemBackdropTarget(window.As<ICompositionSupportsSystemBackdrop>());
             backdropController.SetSystemBackdropConfiguration(configuration);
 

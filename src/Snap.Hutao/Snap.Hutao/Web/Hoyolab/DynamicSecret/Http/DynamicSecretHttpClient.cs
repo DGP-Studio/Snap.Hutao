@@ -3,6 +3,7 @@
 
 using System.Net.Http;
 using System.Net.Http.Json;
+using Snap.Hutao.Web.Request;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
 

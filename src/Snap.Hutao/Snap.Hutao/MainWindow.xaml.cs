@@ -15,7 +15,6 @@ namespace Snap.Hutao;
 [Injection(InjectAs.Singleton)]
 public sealed partial class MainWindow : Window
 {
-    private readonly AppDbContext appDbContext;
     private readonly WindowManager windowManager;
     private readonly IMessenger messenger;
 
@@ -26,9 +25,8 @@ public sealed partial class MainWindow : Window
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="messenger">消息器</param>
-    public MainWindow(AppDbContext appDbContext, IMessenger messenger)
+    public MainWindow(IMessenger messenger)
     {
-        this.appDbContext = appDbContext;
         this.messenger = messenger;
 
         InitializeComponent();

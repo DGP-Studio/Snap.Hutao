@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Web.Request;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab;
