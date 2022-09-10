@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control.Cancellable;
+using Snap.Hutao.Control;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Core.Threading.CodeAnalysis;
@@ -51,6 +51,8 @@ internal class AchievementViewModel
     private readonly IPickerFactory pickerFactory;
 
     private readonly TaskCompletionSource<bool> openUICompletionSource = new();
+
+    private bool disposed;
 
     private AdvancedCollectionView? achievements;
     private IList<AchievementGoal>? achievementGoals;
@@ -200,9 +202,14 @@ internal class AchievementViewModel
     /// <inheritdoc/>
     public void Dispose()
     {
-        if (Achievements != null && SelectedArchive != null)
+        if (!disposed)
         {
-            achievementService.SaveAchievements(SelectedArchive, (Achievements.Source as IList<Model.Binding.Achievement>)!);
+            if (Achievements != null && SelectedArchive != null)
+            {
+                achievementService.SaveAchievements(SelectedArchive, (Achievements.Source as IList<Model.Binding.Achievement>)!);
+            }
+
+            disposed = true;
         }
     }
 

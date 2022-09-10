@@ -78,23 +78,17 @@ internal class WindowSubclassManager : IDisposable
         dragBarProc = null;
     }
 
-    private LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
+    private unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {
         switch (uMsg)
         {
             case WM_GETMINMAXINFO:
                 {
                     double scalingFactor = Persistence.GetScaleForWindow(hwnd);
-                    ref MINMAXINFO info = ref MINMAXINFO.FromPointer(lParam);
-                    info.ptMinTrackSize.x = (int)Math.Max(MinWidth * scalingFactor, info.ptMinTrackSize.x);
-                    info.ptMinTrackSize.y = (int)Math.Max(MinHeight * scalingFactor, info.ptMinTrackSize.y);
+                    MINMAXINFO* info = (MINMAXINFO*)lParam.Value;
+                    info->ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, info->ptMinTrackSize.X);
+                    info->ptMinTrackSize.X = (int)Math.Max(MinHeight * scalingFactor, info->ptMinTrackSize.X);
                     break;
-                }
-
-            case WM_NCRBUTTONDOWN:
-            case WM_NCRBUTTONUP:
-                {
-                    return new(0);
                 }
         }
 

@@ -1,0 +1,24 @@
+﻿// Const value
+WM_GETMINMAXINFO
+WM_NCRBUTTONDOWN
+WM_NCRBUTTONUP
+
+
+// Type definition
+MINMAXINFO
+
+// Comctl32
+DefSubclassProc
+SetWindowSubclass
+RemoveWindowSubclass
+
+// Kernel32
+CreateToolhelp32Snapshot
+Module32First
+Module32Next
+ReadProcessMemory
+WriteProcessMemory
+
+// User32
+FindWindowEx
+GetDpiForWindow

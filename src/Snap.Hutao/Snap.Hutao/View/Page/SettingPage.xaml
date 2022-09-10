@@ -18,79 +18,87 @@
         </Style>
     </Page.Resources>
     <ScrollViewer>
-        <StackPanel Margin="32,0,24,0">
-            <sc:SettingsGroup Header="关于 胡桃">
-                <Grid Margin="0,4,0,16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Image
-                        Grid.Column="0"
-                        Width="80"
-                        Source="ms-appx:///Assets/Square150x150Logo.scale-200.png"/>
-                    <Grid
-                        Margin="16,0,0,0"
-                        Grid.Column="1">
-                        <TextBlock TextWrapping="Wrap">
-                            <Run>胡桃 图标由 </Run>
-                            <Hyperlink NavigateUri="https://dieqi32894.lofter.com/post/4b58ce16_2b6b2d365">LOFTER@夙夜</Hyperlink>
-                            <Run>纸绘，并由 </Run>
-                            <Hyperlink NavigateUri="https://github.com/DGP-Studio">DGP Studio</Hyperlink>
-                            <Run> 后期处理后，授权使用。</Run>
-                        </TextBlock>
-                        <TextBlock
-                            VerticalAlignment="Bottom"
-                            Text="Copyright © 2022 DGP Studio. All Rights Reserved."/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MaxWidth="1000"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="32,0,24,0">
+                <sc:SettingsGroup Header="关于 胡桃">
+                    <Grid Margin="0,4,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Image
+                            Grid.Column="0"
+                            Width="80"
+                            Source="ms-appx:///Assets/Square150x150Logo.scale-200.png"/>
+                        <Grid
+                            Margin="16,0,0,0"
+                            Grid.Column="1">
+                            <TextBlock TextWrapping="Wrap">
+                                <Run>胡桃 图标由 </Run>
+                                <Hyperlink NavigateUri="https://dieqi32894.lofter.com/post/4b58ce16_2b6b2d365">LOFTER@夙夜</Hyperlink>
+                                <Run>纸绘，并由 </Run>
+                                <Hyperlink NavigateUri="https://github.com/DGP-Studio">DGP Studio</Hyperlink>
+                                <Run> 后期处理后，授权使用。</Run>
+                            </TextBlock>
+                            <TextBlock
+                                VerticalAlignment="Bottom"
+                                Text="Copyright © 2022 DGP Studio. All Rights Reserved."/>
+                        </Grid>
                     </Grid>
+                    <sc:Setting
+                        Icon="&#xECAA;"
+                        Header="胡桃"
+                        Description="{Binding AppVersion}"/>
+                    <sc:Setting
+                        Icon="&#xED15;"
+                        Header="反馈"
+                        Description="只处理在 Github 上反馈的问题">
+                        <HyperlinkButton
+                            Content="前往反馈"
+                            NavigateUri="http://go.hut.ao/issue"/>
+                    </sc:Setting>
+                    <sc:SettingExpander>
+                        <sc:SettingExpander.Header>
+                            <sc:Setting
+                                Icon="&#xE117;"
+                                Header="检查更新"
+                                Description="根本没有检查更新选项"/>
+                        </sc:SettingExpander.Header>
+                        <InfoBar
+                            IsClosable="False"
+                            Severity="Informational"
+                            Message="都说了没有了"
+                            IsOpen="True"
+                            CornerRadius="0,0,4,4"/>
+                    </sc:SettingExpander>
+                </sc:SettingsGroup>
 
-                </Grid>
-                <sc:Setting
-                    Icon="&#xECAA;"
-                    Header="胡桃"
-                    Description="{Binding AppVersion}"/>
-                <sc:Setting
-                    Icon="&#xED15;"
-                    Header="反馈"
-                    Description="只处理在 Github 上反馈的问题">
-                    <HyperlinkButton Content="前往反馈" NavigateUri="http://go.hut.ao/issue"/>
-                </sc:Setting>                    
-                <sc:SettingExpander>
-                    <sc:SettingExpander.Header>
-                        <sc:Setting
-                            Icon="&#xE117;"
-                            Header="检查更新"
-                            Description="根本没有检查更新选项"/>
-                    </sc:SettingExpander.Header>
-                    <InfoBar
-                        IsClosable="False"
-                        Severity="Informational"
-                        Message="都说了没有了"
-                        IsOpen="True"
-                        CornerRadius="0,0,4,4"/>
-                </sc:SettingExpander>
-            </sc:SettingsGroup>
+                <sc:SettingsGroup Header="测试功能">
+                    <sc:Setting
+                        Icon="&#xEC25;"
+                        Header="打开 数据 文件夹"
+                        Description="用户数据/日志/元数据在此处存放">
+                        <sc:Setting.ActionContent>
+                            <Button Content="打开" Command="{Binding Experimental.OpenDataFolderCommand}"/>
+                        </sc:Setting.ActionContent>
+                    </sc:Setting>
 
-            <sc:SettingsGroup Header="测试功能">
-                <sc:Setting
-                    Icon="&#xEC25;"
-                    Header="打开 数据 文件夹"
-                    Description="用户数据/日志/元数据在此处存放">
-                    <sc:Setting.ActionContent>
-                        <Button Content="打开" Command="{Binding Experimental.OpenDataFolderCommand}"/>
-                    </sc:Setting.ActionContent>
-                </sc:Setting>
+                    <sc:Setting
+                        Icon="&#xE8B7;"
+                        Header="打开 缓存 文件夹"
+                        Description="图片缓存在此处存放">
+                        <sc:Setting.ActionContent>
+                            <Button Content="打开" Command="{Binding Experimental.OpenCacheFolderCommand}"/>
+                        </sc:Setting.ActionContent>
+                    </sc:Setting>
+                </sc:SettingsGroup>
 
-                <sc:Setting
-                    Icon="&#xE8B7;"
-                    Header="打开 缓存 文件夹"
-                    Description="图片缓存在此处存放">
-                    <sc:Setting.ActionContent>
-                        <Button Content="打开" Command="{Binding Experimental.OpenCacheFolderCommand}"/>
-                    </sc:Setting.ActionContent>
-                </sc:Setting>
-            </sc:SettingsGroup>
-
-        </StackPanel>
+            </StackPanel>
+        </Grid>
+        
     </ScrollViewer>
 </Page>

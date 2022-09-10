@@ -14,8 +14,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SettingsUI", "SettingsUI\Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Hutao.SourceGeneration", "Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj", "{8B96721E-5604-47D2-9B72-06FEBAD0CE00}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Hutao.Win32", "Snap.Hutao.Win32\Snap.Hutao.Win32.csproj", "{29209B14-A6E1-442E-9287-2C65B03C96CD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,22 +82,6 @@ Global
 		{8B96721E-5604-47D2-9B72-06FEBAD0CE00}.Release|x64.Build.0 = Release|x64
 		{8B96721E-5604-47D2-9B72-06FEBAD0CE00}.Release|x86.ActiveCfg = Release|Any CPU
 		{8B96721E-5604-47D2-9B72-06FEBAD0CE00}.Release|x86.Build.0 = Release|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Debug|arm64.ActiveCfg = Debug|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Debug|arm64.Build.0 = Debug|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Debug|x64.Build.0 = Debug|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Debug|x86.Build.0 = Debug|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Release|arm64.ActiveCfg = Release|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Release|arm64.Build.0 = Release|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Release|x64.ActiveCfg = Release|x64
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Release|x64.Build.0 = Release|x64
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Release|x86.ActiveCfg = Release|Any CPU
-		{29209B14-A6E1-442E-9287-2C65B03C96CD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

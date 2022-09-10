@@ -25,6 +25,45 @@ public static class Must
     }
 
     /// <summary>
+    /// Throws an <see cref="ArgumentOutOfRangeException"/> if a condition does not evaluate to true.
+    /// </summary>
+    /// <param name="condition">The condition to check.</param>
+    /// <param name="message">message</param>
+    /// <param name="parameterName">The name of the parameter to blame in the exception, if thrown.</param>
+    public static void Range([DoesNotReturnIf(false)] bool condition, string? message, [CallerArgumentExpression("condition")] string? parameterName = null)
+    {
+        if (!condition)
+        {
+            throw new ArgumentOutOfRangeException(message, parameterName);
+        }
+    }
+
+    /// <summary>
+    /// 任务异常
+    /// </summary>
+    /// <param name="message">异常消息</param>
+    /// <returns>异常的任务</returns>
+    [SuppressMessage("", "VSTHRD200")]
+    public static Task Fault(string message)
+    {
+        InvalidOperationException exception = new(message);
+        return Task.FromException(exception);
+    }
+
+    /// <summary>
+    /// 任务异常
+    /// </summary>
+    /// <typeparam name="T">任务结果类型</typeparam>
+    /// <param name="message">异常消息</param>
+    /// <returns>异常的任务</returns>
+    [SuppressMessage("", "VSTHRD200")]
+    public static Task<T> Fault<T>(string message)
+    {
+        InvalidOperationException exception = new(message);
+        return Task.FromException<T>(exception);
+    }
+
+    /// <summary>
     /// Unconditionally throws an <see cref="NotSupportedException"/>.
     /// </summary>
     /// <returns>Nothing. This method always throws.</returns>

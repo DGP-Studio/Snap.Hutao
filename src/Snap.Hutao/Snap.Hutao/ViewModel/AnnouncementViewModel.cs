@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Snap.Hutao.Control.Cancellable;
+using Snap.Hutao.Control;
 using Snap.Hutao.Core;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;

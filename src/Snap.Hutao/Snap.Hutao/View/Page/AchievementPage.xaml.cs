@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Navigation;
-using Snap.Hutao.Control.Cancellable;
+using Snap.Hutao.Control;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.ViewModel;
 
@@ -11,7 +11,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 成就页面
 /// </summary>
-public sealed partial class AchievementPage : CancellablePage
+public sealed partial class AchievementPage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的成就页面
