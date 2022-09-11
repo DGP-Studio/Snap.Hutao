@@ -23,13 +23,13 @@ public class Achievement : IEquatable<Achievement>
     public Guid InnerId { get; set; }
 
     /// <summary>
-    /// 完成成就的用户
+    /// 存档
     /// </summary>
     [ForeignKey(nameof(ArchiveId))]
     public AchievementArchive Archive { get; set; } = default!;
 
     /// <summary>
-    /// 完成成就的用户Id
+    /// 存档Id
     /// </summary>
     public Guid ArchiveId { get; set; }
 

@@ -64,6 +64,14 @@ internal sealed class WindowManager : IDisposable
 
         ExtendsContentIntoTitleBar();
         Persistence.RecoverOrInit(appWindow);
+
+        // Log basic window state here.
+        PointInt32 pos = appWindow.Position;
+        string posString = $"{pos.X},{pos.Y}";
+        SizeInt32 size = appWindow.Size;
+        string sizeString = $"{size.Width},{size.Height}";
+        logger.LogInformation(EventIds.WindowState, "Postion: [{pos}], Size: [{size}]", posString, sizeString);
+
         appWindow.Show(true);
 
         bool micaApplied = new SystemBackdrop(window).TrySetBackdrop();

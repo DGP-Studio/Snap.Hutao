@@ -6,13 +6,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录服务
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IGachaLogService))]
-internal class GachaLogService : IGachaLogService
+internal interface IGachaLogService
 {
-    public GachaLogService()
-    {
-
-    }
-
 
 }

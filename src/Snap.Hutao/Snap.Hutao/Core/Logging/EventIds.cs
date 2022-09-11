@@ -101,5 +101,10 @@ internal static class EventIds
     /// 子类控制
     /// </summary>
     public static readonly EventId SubClassing = 200002;
+
+    /// <summary>
+    /// 窗口状态
+    /// </summary>
+    public static readonly EventId WindowState = 200003;
     #endregion
 }

@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Threading;
 using System.Runtime.InteropServices;
 using Windows.UI.ViewManagement;
 using WinRT;

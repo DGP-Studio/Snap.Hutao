@@ -36,6 +36,7 @@
     <None Remove="Resource\Icon\UI_BagTabIcon_Avatar.png" />
     <None Remove="Resource\Icon\UI_BagTabIcon_Weapon.png" />
     <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
+    <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
@@ -50,6 +51,7 @@
     <None Remove="View\Page\AchievementPage.xaml" />
     <None Remove="View\Page\AnnouncementContentPage.xaml" />
     <None Remove="View\Page\AnnouncementPage.xaml" />
+    <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
     <None Remove="View\TitleView.xaml" />
@@ -74,6 +76,7 @@
     <Content Include="Resource\Icon\UI_BagTabIcon_Avatar.png" />
     <Content Include="Resource\Icon\UI_BagTabIcon_Weapon.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
+    <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
   </ItemGroup>
@@ -94,10 +97,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.0.64" />
-    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.46-beta">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.46-beta" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.4" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
@@ -204,5 +204,10 @@
   <ItemGroup>
     <Folder Include="Web\Hoyolab\Takumi\Event\" />
     <Folder Include="Win32\UI\WindowsAndMessaging\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\GachaLogPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

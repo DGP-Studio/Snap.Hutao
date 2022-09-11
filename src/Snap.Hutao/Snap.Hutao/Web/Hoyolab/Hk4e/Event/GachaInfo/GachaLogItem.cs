@@ -20,12 +20,13 @@ public class GachaLogItem
     /// 祈愿类型
     /// </summary>
     [JsonPropertyName("gacha_type")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public GachaConfigType GachaType { get; set; } = default!;
 
     /// <summary>
     /// 总为 <see cref="string.Empty"/>
     /// </summary>
-    [Obsolete("API removed this property")]
+    [Obsolete("API clear this property")]
     [JsonPropertyName("item_id")]
     public string ItemId { get; set; } = default!;
 
@@ -34,13 +35,14 @@ public class GachaLogItem
     /// 一般为 1
     /// </summary>
     [JsonPropertyName("count")]
-    public string? Count { get; set; } = default!;
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+    public int Count { get; set; }
 
     /// <summary>
     /// 时间
     /// </summary>
     [JsonPropertyName("time")]
-    [JsonConverter(typeof(DateTimeOffsetConverter))]
+    [JsonConverter(typeof(Core.Json.Converter.DateTimeOffsetConverter))]
     public DateTimeOffset Time { get; set; }
 
     /// <summary>

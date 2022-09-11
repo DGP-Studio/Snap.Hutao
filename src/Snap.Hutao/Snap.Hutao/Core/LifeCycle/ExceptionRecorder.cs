@@ -24,7 +24,6 @@ internal class ExceptionRecorder
 
         application.UnhandledException += OnAppUnhandledException;
         application.DebugSettings.BindingFailed += OnXamlBindingFailed;
-        TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
     }
 
     /// <summary>
@@ -45,15 +44,5 @@ internal class ExceptionRecorder
     public void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
     {
         logger.LogCritical(EventIds.XamlBindingError, "XAML绑定失败: {message}", e.Message);
-    }
-
-    /// <summary>
-    /// 异步命令异常时触发
-    /// </summary>
-    /// <param name="sender">实例</param>
-    /// <param name="e">事件参数</param>
-    public void OnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
-    {
-        logger.LogCritical(EventIds.UnobservedTaskException, "异步任务执行异常: {message}", e.Exception);
     }
 }

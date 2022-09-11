@@ -87,7 +87,7 @@ internal class WindowSubclassManager : IDisposable
                     double scalingFactor = Persistence.GetScaleForWindow(hwnd);
                     MINMAXINFO* info = (MINMAXINFO*)lParam.Value;
                     info->ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, info->ptMinTrackSize.X);
-                    info->ptMinTrackSize.X = (int)Math.Max(MinHeight * scalingFactor, info->ptMinTrackSize.X);
+                    info->ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, info->ptMinTrackSize.Y);
                     break;
                 }
         }

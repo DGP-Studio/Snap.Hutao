@@ -10,7 +10,8 @@ namespace Snap.Hutao;
 /// 主窗体
 /// </summary>
 [Injection(InjectAs.Singleton)]
-public sealed partial class MainWindow : Window, IDisposable
+[SuppressMessage("", "CA1001")]
+public sealed partial class MainWindow : Window
 {
     private readonly WindowManager windowManager;
 
@@ -20,12 +21,13 @@ public sealed partial class MainWindow : Window, IDisposable
     public MainWindow()
     {
         InitializeComponent();
+        Closed += MainWindowClosed;
         windowManager = new WindowManager(this, TitleBarView.DragArea);
     }
 
-    /// <inheritdoc/>
-    public void Dispose()
+    private void MainWindowClosed(object sender, WindowEventArgs args)
     {
-        windowManager.Dispose();
+        // Must dispose it before window is completely closed
+        windowManager?.Dispose();
     }
 }

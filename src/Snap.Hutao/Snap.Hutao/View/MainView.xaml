@@ -35,6 +35,11 @@
                     Content="角色"
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
                     Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
+
+                <NavigationViewItem
+                    Content="祈愿记录"
+                    shvh:NavHelper.NavigateTo="shvp:GachaLogPage"
+                    Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>

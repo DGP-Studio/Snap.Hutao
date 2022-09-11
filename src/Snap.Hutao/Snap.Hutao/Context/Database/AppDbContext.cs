@@ -41,6 +41,16 @@ public class AppDbContext : DbContext
     public DbSet<AchievementArchive> AchievementArchives { get; set; } = default!;
 
     /// <summary>
+    /// 卡池数据
+    /// </summary>
+    public DbSet<GachaItem> GachaItems { get; set; } = default!;
+
+    /// <summary>
+    /// 卡池存档
+    /// </summary>
+    public DbSet<GachaArchive> GachaArchives { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个临时的应用程序数据库上下文
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>
