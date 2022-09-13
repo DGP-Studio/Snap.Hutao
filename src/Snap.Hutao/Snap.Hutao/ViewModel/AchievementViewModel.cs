@@ -269,7 +269,6 @@ internal class AchievementViewModel
             AchievementGoals = goals.OrderBy(goal => goal.Order).ToList();
 
             Archives = achievementService.GetArchiveCollection();
-
             SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
 
             if (SelectedArchive == null)

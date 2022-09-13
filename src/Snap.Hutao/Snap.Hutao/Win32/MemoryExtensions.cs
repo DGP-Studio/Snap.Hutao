@@ -19,8 +19,7 @@ internal static class MemoryExtensions
     public static unsafe string AsString(this MODULEENTRY32.__winmdroot_Foundation_CHAR_256 char256)
     {
         byte* pszModule = (byte*)&char256;
-        string szModule = Encoding.UTF8.GetString(pszModule, StringLength(pszModule));
-        return szModule;
+        return Encoding.UTF8.GetString(pszModule, StringLength(pszModule));
     }
 
     private static unsafe int StringLength(byte* pszStr)

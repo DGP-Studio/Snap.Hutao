@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.Database;
 
 /// <summary>
 /// 数据库当前项
+/// 简化对数据库中选中项的管理
 /// </summary>
 /// <typeparam name="TEntity">实体的类型</typeparam>
 /// <typeparam name="TMessage">消息的类型</typeparam>
@@ -35,7 +36,7 @@ internal class DbCurrent<TEntity, TMessage>
     }
 
     /// <summary>
-    /// 当前项
+    /// 当前选中的项
     /// </summary>
     public TEntity? Current
     {

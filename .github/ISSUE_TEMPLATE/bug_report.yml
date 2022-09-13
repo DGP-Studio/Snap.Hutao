@@ -48,6 +48,6 @@ body:
   - type: textarea
     id: logs
     attributes:
-      label: 相关的崩溃日志
-      description: 如果应用程序崩溃了，可以将崩溃日志复制后粘贴在此处，Log.db文件包含了敏感信息，谨慎上传
+      label: 相关的崩溃日志 位于 %HOMEPATH%/Documents/Hutao/Log.db
+      description: 如果应用程序崩溃了，可以将崩溃日志复制后粘贴在此处，文件包含了敏感信息，谨慎上传
       render: shell

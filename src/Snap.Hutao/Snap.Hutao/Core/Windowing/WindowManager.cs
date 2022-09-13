@@ -58,6 +58,40 @@ internal sealed class WindowManager : IDisposable
         subclassManager?.Dispose();
     }
 
+    private static void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
+    {
+        appTitleBar.ButtonBackgroundColor = Colors.Transparent;
+        appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+        App app = Ioc.Default.GetRequiredService<App>();
+
+        Color systemBaseLowColor = (Color)app.Resources["SystemBaseLowColor"];
+        appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
+
+        Color systemBaseMediumLowColor = (Color)app.Resources["SystemBaseMediumLowColor"];
+        appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
+
+        // The Foreground doesn't accept Alpha channel. So we translate it to gray.
+        byte light = (byte)((systemBaseMediumLowColor.R + systemBaseMediumLowColor.G + systemBaseMediumLowColor.B) / 3);
+        byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
+        appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
+
+        Color systemBaseHighColor = (Color)app.Resources["SystemBaseHighColor"];
+        appTitleBar.ButtonForegroundColor = systemBaseHighColor;
+        appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
+        appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
+    }
+
+    private static (string PosString, string SizeString) GetPostionAndSize(AppWindow appWindow)
+    {
+        PointInt32 pos = appWindow.Position;
+        string posString = $"{pos.X},{pos.Y}";
+        SizeInt32 size = appWindow.Size;
+        string sizeString = $"{size.Width},{size.Height}";
+
+        return (posString, sizeString);
+    }
+
     private void InitializeWindow()
     {
         appWindow.Title = "胡桃";
@@ -66,11 +100,8 @@ internal sealed class WindowManager : IDisposable
         Persistence.RecoverOrInit(appWindow);
 
         // Log basic window state here.
-        PointInt32 pos = appWindow.Position;
-        string posString = $"{pos.X},{pos.Y}";
-        SizeInt32 size = appWindow.Size;
-        string sizeString = $"{size.Width},{size.Height}";
-        logger.LogInformation(EventIds.WindowState, "Postion: [{pos}], Size: [{size}]", posString, sizeString);
+        (string pos, string size) = GetPostionAndSize(appWindow);
+        logger.LogInformation(EventIds.WindowState, "Postion: [{pos}], Size: [{size}]", pos, size);
 
         appWindow.Show(true);
 
@@ -115,30 +146,5 @@ internal sealed class WindowManager : IDisposable
         RectInt32[] dragRects = dragRectsList.ToArray();
 
         appTitleBar.SetDragRectangles(dragRects);
-    }
-
-    [SuppressMessage("", "CA1822")]
-    private void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
-    {
-        appTitleBar.ButtonBackgroundColor = Colors.Transparent;
-        appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-        App app = Ioc.Default.GetRequiredService<App>();
-
-        Color systemBaseLowColor = (Color)app.Resources["SystemBaseLowColor"];
-        appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
-
-        Color systemBaseMediumLowColor = (Color)app.Resources["SystemBaseMediumLowColor"];
-        appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
-
-        // The Foreground doesn't accept Alpha channel. So we translate it to gray.
-        byte light = (byte)((systemBaseMediumLowColor.R + systemBaseMediumLowColor.G + systemBaseMediumLowColor.B) / 3);
-        byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
-        appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
-
-        Color systemBaseHighColor = (Color)app.Resources["SystemBaseHighColor"];
-        appTitleBar.ButtonForegroundColor = systemBaseHighColor;
-        appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
-        appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
     }
 }

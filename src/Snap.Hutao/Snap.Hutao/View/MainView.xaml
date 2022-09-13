@@ -8,6 +8,7 @@
     xmlns:shv="using:Snap.Hutao.View"
     xmlns:shvh="using:Snap.Hutao.View.Helper"
     xmlns:shvp="using:Snap.Hutao.View.Page"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
@@ -24,22 +25,22 @@
                 <NavigationViewItem
                     Content="活动"
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
-                    Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
                 
                 <NavigationViewItem
                     Content="成就"
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
-                    Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
 
                 <NavigationViewItem
                     Content="角色"
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
-                    Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
 
                 <NavigationViewItem
                     Content="祈愿记录"
                     shvh:NavHelper.NavigateTo="shvp:GachaLogPage"
-                    Icon="{cwu:BitmapIcon ShowAsMonochrome=True,Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>

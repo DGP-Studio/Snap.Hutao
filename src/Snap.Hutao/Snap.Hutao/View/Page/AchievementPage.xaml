@@ -10,6 +10,7 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -37,7 +38,6 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <CommandBar
-                
                 Grid.Column="1"
                 DefaultLabelPosition="Right">
                 <CommandBar.Content>
@@ -61,42 +61,37 @@
                 </AppBarElementContainer>
                 <AppBarButton
                     Label="创建新存档"
-                    Command="{Binding AddArchiveCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE710;"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
+                    Icon="{shcm:FontIcon Glyph=&#xE710;}"
+                    Command="{Binding AddArchiveCommand}"/>
                 <AppBarButton
                     Label="删除当前存档"
-                    Command="{Binding RemoveArchiveCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE74D;"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
+                    Icon="{shcm:FontIcon Glyph=&#xE74D;}"
+                    Command="{Binding RemoveArchiveCommand}"/>
+                
                 <AppBarSeparator/>
+                
                 <AppBarButton
-                    Label="从剪贴板导入"
-                    Command="{Binding ImportUIAFFromClipboardCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE8B5;"/>
-                    </AppBarButton.Icon>
-                </AppBarButton>
-                <AppBarButton
-                    Label="从UIAF文件导入"
-                    Command="{Binding ImportUIAFFromFileCommand}">
-                    <AppBarButton.Icon>
-                        <FontIcon Glyph="&#xE8E5;"/>
-                    </AppBarButton.Icon>
+                    Label="导入"
+                    Icon="{shcm:FontIcon Glyph=&#xE8B5;}">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                            <MenuFlyoutItem
+                                Text="从剪贴板导入"
+                                Icon="{shcm:FontIcon Glyph=&#xE77F;}"
+                                Command="{Binding ImportUIAFFromClipboardCommand}"/>
+                            <MenuFlyoutItem
+                                Text="从 UIAF 文件导入"
+                                Icon="{shcm:FontIcon Glyph=&#xE8E5;}"
+                                Command="{Binding ImportUIAFFromFileCommand}"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarSeparator/>
                 <AppBarToggleButton
                     Label="优先未完成"
+                    Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
                     IsChecked="{Binding IsIncompletedItemsFirst}"
-                    Command="{Binding SortIncompletedSwitchCommand}">
-                    <AppBarToggleButton.Icon>
-                        <FontIcon Glyph="&#xE8CB;"/>
-                    </AppBarToggleButton.Icon>
-                </AppBarToggleButton>
+                    Command="{Binding SortIncompletedSwitchCommand}"/>
             </CommandBar>
         </Grid>
         

@@ -15,7 +15,7 @@ public class User : Observable
     private readonly Entity.User inner;
 
     private UserGameRole? selectedUserGameRole;
-    private bool isInitialized = false;
+    private bool isInitialized;
 
     /// <summary>
     /// 构造一个新的绑定视图用户

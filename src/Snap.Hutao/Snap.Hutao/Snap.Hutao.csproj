@@ -100,6 +100,7 @@
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.46-beta" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.1" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.1.4" />
+    <PackageReference Include="MiniExcel" Version="1.26.7" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -203,7 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Web\Hoyolab\Takumi\Event\" />
-    <Folder Include="Win32\UI\WindowsAndMessaging\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\GachaLogPage.xaml">

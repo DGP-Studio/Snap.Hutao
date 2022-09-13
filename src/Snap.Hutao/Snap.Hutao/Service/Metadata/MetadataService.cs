@@ -41,7 +41,7 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     /// </summary>
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
-    private bool isInitialized = false;
+    private bool isInitialized;
 
     /// <summary>
     /// 构造一个新的元数据服务

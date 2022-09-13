@@ -5,6 +5,7 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 
 /// <summary>
 /// 统一可交换成就格式
+/// https://www.snapgenshin.com/development/UIAF.html
 /// </summary>
 public class UIAF
 {
