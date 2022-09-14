@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.Logging;
 
-namespace Snap.Hutao.Extension;
+namespace Snap.Hutao.Core.Threading;
 
 /// <summary>
 /// 任务扩展
@@ -22,8 +22,9 @@ public static class TaskExtensions
         {
             await task;
         }
-        catch
+        catch (System.Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine(ex);
         }
     }
 
@@ -42,7 +43,7 @@ public static class TaskExtensions
         {
             // Do nothing
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
         }
@@ -54,7 +55,7 @@ public static class TaskExtensions
     /// <param name="task">任务</param>
     /// <param name="logger">日志器</param>
     /// <param name="onException">发生异常时调用</param>
-    public static async void SafeForget(this Task task, ILogger? logger = null, Action<Exception>? onException = null)
+    public static async void SafeForget(this Task task, ILogger? logger = null, Action<System.Exception>? onException = null)
     {
         try
         {
@@ -64,7 +65,7 @@ public static class TaskExtensions
         {
             // Do nothing
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
             onException?.Invoke(e);
@@ -78,7 +79,7 @@ public static class TaskExtensions
     /// <param name="logger">日志器</param>
     /// <param name="onCanceled">任务取消时调用</param>
     /// <param name="onException">发生异常时调用</param>
-    public static async void SafeForget(this Task task, ILogger? logger = null, Action? onCanceled = null, Action<Exception>? onException = null)
+    public static async void SafeForget(this Task task, ILogger? logger = null, Action? onCanceled = null, Action<System.Exception>? onException = null)
     {
         try
         {
@@ -88,7 +89,7 @@ public static class TaskExtensions
         {
             onCanceled?.Invoke();
         }
-        catch (Exception e)
+        catch (System.Exception e)
         {
             logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
             onException?.Invoke(e);

@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Xaml.Interactivity;
 using Snap.Hutao.Control.Behavior;
 using Snap.Hutao.Core.Threading;
-using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Control.Extension;
 
@@ -33,20 +32,15 @@ internal static class ContentDialogExtensions
     /// 阻止用户交互
     /// </summary>
     /// <param name="contentDialog">对话框</param>
-    /// <param name="switchToMainThread">切换到主线程</param>
     /// <returns>用于恢复用户交互</returns>
-    public static async ValueTask<IDisposable> BlockAsync(this ContentDialog contentDialog, bool switchToMainThread = false)
+    public static async ValueTask<IAsyncDisposable> BlockAsync(this ContentDialog contentDialog)
     {
-        if (switchToMainThread)
-        {
-            await ThreadHelper.SwitchToMainThreadAsync();
-        }
-
+        await ThreadHelper.SwitchToMainThreadAsync();
         contentDialog.ShowAsync().AsTask().SafeForget();
         return new ContentDialogHider(contentDialog);
     }
 
-    private struct ContentDialogHider : IDisposable
+    private struct ContentDialogHider : IAsyncDisposable
     {
         private readonly ContentDialog contentDialog;
 
@@ -55,8 +49,11 @@ internal static class ContentDialogExtensions
             this.contentDialog = contentDialog;
         }
 
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
+            await ThreadHelper.SwitchToMainThreadAsync();
+
+            // Hide() must be called on main thread.
             contentDialog.Hide();
         }
     }

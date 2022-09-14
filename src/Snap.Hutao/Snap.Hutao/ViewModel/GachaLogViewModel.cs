@@ -123,7 +123,7 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
 
     private async Task RefreshByWebCacheAsync()
     {
-        Statistics = await gachaLogService.RefreshAsync();
+        //Statistics = await gachaLogService.RefreshAsync();
     }
 
     private async Task RefreshByManualInputAsync()

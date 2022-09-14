@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Metadata;
 using System.Diagnostics;

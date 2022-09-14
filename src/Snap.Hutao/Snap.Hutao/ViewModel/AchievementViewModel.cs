@@ -10,7 +10,6 @@ using Snap.Hutao.Control;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Core.Threading.CodeAnalysis;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.InterChange.Achievement;
@@ -403,8 +402,8 @@ internal class AchievementViewModel
         string json;
         try
         {
-            Task<string> task = Clipboard.GetContent().GetTextAsync().AsTask();
-            json = await task.ConfigureAwait(false);
+            await ThreadHelper.SwitchToMainThreadAsync();
+            json = await Clipboard.GetContent().GetTextAsync();
         }
         catch (COMException ex)
         {
@@ -465,7 +464,7 @@ internal class AchievementViewModel
                 };
 
                 ImportResult result;
-                using (await importingDialog.InitializeWithWindow(mainWindow).BlockAsync().ConfigureAwait(false))
+                await using (await importingDialog.InitializeWithWindow(mainWindow).BlockAsync().ConfigureAwait(false))
                 {
                     result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, option).ConfigureAwait(false);
                 }
