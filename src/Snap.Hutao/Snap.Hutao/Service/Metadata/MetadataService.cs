@@ -7,6 +7,8 @@ using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Reliquary;
@@ -109,6 +111,36 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     }
 
     /// <inheritdoc/>
+    public ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<GachaEvent>>("GachaEvent", token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<int, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<int, Avatar>("Avatar", a => a.Id, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<int, Weapon>("Weapon", w => w.Id, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<string, Avatar>> GetNameToAvatarMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<string, Avatar>("Avatar", a => a.Name, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<string, Weapon>> GetNameToWeaponMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<string, Weapon>("Weapon", w => w.Name, token);
+    }
+
+    /// <inheritdoc/>
     public ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default)
     {
         return FromCacheOrFileAsync<List<Reliquary>>("Reliquary", token);
@@ -132,7 +164,7 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
         return FromCacheOrFileAsync<List<Weapon>>("Weapon", token);
     }
 
-    private async Task<bool> TryUpdateMetadataAsync(CancellationToken token = default)
+    private async Task<bool> TryUpdateMetadataAsync(CancellationToken token)
     {
         IDictionary<string, string>? metaMd5Map = null;
         try
@@ -238,7 +270,7 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {
-            return Must.NotNull((value as T)!);
+            return Must.NotNull((T)value!);
         }
 
         using (Stream fileStream = metadataContext.OpenRead($"{fileName}.json"))
@@ -246,5 +278,21 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
             T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
             return memoryCache.Set(cacheKey, Must.NotNull(result!));
         }
+    }
+
+    private async ValueTask<Dictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TKey, TValue>(string fileName, Func<TValue, TKey> keySelector, CancellationToken token)
+        where TKey : notnull
+    {
+        Verify.Operation(IsInitialized, "元数据服务尚未初始化，或初始化失败");
+        string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}.Map.{typeof(TKey).Name}";
+
+        if (memoryCache.TryGetValue(cacheKey, out object? value))
+        {
+            return Must.NotNull((Dictionary<TKey, TValue>)value!);
+        }
+
+        List<TValue> list = await FromCacheOrFileAsync<List<TValue>>(fileName, token).ConfigureAwait(false);
+        Dictionary<TKey, TValue> dict = list.ToDictionaryOverride(keySelector);
+        return memoryCache.Set(cacheKey, dict);
     }
 }

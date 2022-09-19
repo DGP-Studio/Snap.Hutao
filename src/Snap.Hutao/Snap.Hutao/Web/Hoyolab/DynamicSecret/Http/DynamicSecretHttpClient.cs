@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Request;
 using System.Net.Http;
 using System.Net.Http.Json;
-using Snap.Hutao.Web.Request;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
 
@@ -30,7 +30,7 @@ internal class DynamicSecretHttpClient : IDynamicSecretHttpClient
         this.options = options;
         this.url = url;
 
-        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider.Create(options, url, null));
+        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(options, url, null));
     }
 
     /// <inheritdoc/>
@@ -67,7 +67,7 @@ internal class DynamicSecretHttpClient<TValue> : IDynamicSecretHttpClient<TValue
         this.url = url;
         this.data = data;
 
-        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider.Create(options, url, data));
+        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(options, url, data));
     }
 
     /// <inheritdoc/>

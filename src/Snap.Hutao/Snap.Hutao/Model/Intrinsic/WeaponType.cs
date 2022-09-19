@@ -7,6 +7,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 武器类型
 /// https://github.com/Grasscutters/Grasscutter/blob/development/src/main/java/emu/grasscutter/game/props/WeaponType.java
 /// </summary>
+[SuppressMessage("", "SA1124")]
 public enum WeaponType
 {
     /// <summary>
@@ -19,6 +20,7 @@ public enum WeaponType
     /// </summary>
     WEAPON_SWORD_ONE_HAND = 1,
 
+    #region Not Used
     /// <summary>
     /// ?
     /// </summary>
@@ -66,6 +68,7 @@ public enum WeaponType
     /// </summary>
     [Obsolete("尚未发现使用")]
     WEAPON_SHIELD_SMALL = 9,
+    #endregion
 
     /// <summary>
     /// 法器

@@ -4,9 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     mc:Ignorable="d">
 
@@ -16,7 +14,7 @@
         
         <Thickness x:Key="PivotHeaderItemMargin">0,0,16,0</Thickness>
         <Thickness x:Key="PivotItemMargin">0</Thickness>
-
+        
         <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource DefaultPivotHeaderItemStyle}">
             <Setter Property="Height" Value="80"/>
         </Style>

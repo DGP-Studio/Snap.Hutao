@@ -10,6 +10,11 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// </summary>
 public struct GachaLogConfigration
 {
+    /// <summary>
+    /// 尺寸
+    /// </summary>
+    public const int Size = 20;
+
     private readonly QueryString innerQuery;
 
     /// <summary>
@@ -18,37 +23,24 @@ public struct GachaLogConfigration
     /// <param name="query">原始查询字符串</param>
     /// <param name="type">祈愿类型</param>
     /// <param name="endId">终止Id</param>
-    public GachaLogConfigration(string query, GachaConfigType type, ulong endId = 0UL)
+    public GachaLogConfigration(string query, GachaConfigType type, long endId = 0L)
     {
         innerQuery = QueryString.Parse(query);
-        innerQuery.Set("lang", "zh-cn");
 
-        Size = 20;
-        Type = type;
+        innerQuery.Set("lang", "zh-cn");
+        innerQuery.Set("gacha_type", (int)type);
+        innerQuery.Set("size", Size);
+
         EndId = endId;
     }
 
     /// <summary>
-    /// 尺寸
-    /// </summary>
-    public int Size
-    {
-        set => innerQuery.Set("size", value);
-    }
-
-    /// <summary>
-    /// 类型
-    /// </summary>
-    public GachaConfigType Type
-    {
-        set => innerQuery.Set("gacha_type", (int)value);
-    }
-
-    /// <summary>
     /// 结束Id
+    /// 控制API返回的分页
     /// </summary>
-    public ulong EndId
+    public long EndId
     {
+        get => long.Parse(innerQuery["end_id"]);
         set => innerQuery.Set("end_id", value);
     }
 

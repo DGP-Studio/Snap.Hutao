@@ -5,7 +5,6 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Core.Exception;
 using Snap.Hutao.Extension;
 using System.Runtime.InteropServices;
 using Windows.Storage;
@@ -34,21 +33,21 @@ public class CachedImage : ImageEx
         try
         {
             Verify.Operation(imageUri.Host != string.Empty, "无效的Uri");
-            StorageFile file = await imageCache.GetFileFromCacheAsync(imageUri);
+            StorageFile file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true);
 
             // check token state to determine whether the operation should be canceled.
-            Must.ThrowOnCanceled(token, "Image source has changed.");
+            token.ThrowIfCancellationRequested();
 
             // BitmapImage initialize with a uri will increase image quality and loading speed.
             return new BitmapImage(new(file.Path));
         }
-        catch (COMException ex) when (ex.Is(COMError.WINCODEC_ERR_COMPONENTNOTFOUND))
+        catch (COMException)
         {
             // The image is corrupted, remove it.
             await imageCache.RemoveAsync(imageUri.Enumerate()).ConfigureAwait(false);
             return null;
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
             // task was explicitly canceled
             return null;

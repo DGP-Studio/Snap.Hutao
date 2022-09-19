@@ -54,7 +54,7 @@
                                     <DataTemplate>
                                         <Border
                                             CornerRadius="{StaticResource CompatCornerRadius}" 
-                                            Background="{ThemeResource SystemControlPageBackgroundAltHighBrush}"
+                                            Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
                                             cwu:UIElementExtensions.ClipToBounds="True">
                                             <Grid>
                                                 <Grid.RowDefinitions>

@@ -122,25 +122,25 @@ internal class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public ImportResult ImportFromUIAF(EntityArchive archive, List<UIAFItem> list, ImportOption option)
+    public ImportResult ImportFromUIAF(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy)
     {
         Guid archiveId = archive.InnerId;
 
-        switch (option)
+        switch (strategy)
         {
-            case ImportOption.AggressiveMerge:
+            case ImportStrategy.AggressiveMerge:
                 {
                     IOrderedEnumerable<UIAFItem> orederedUIAF = list.OrderBy(a => a.Id);
                     return achievementDbOperation.Merge(archiveId, orederedUIAF, true);
                 }
 
-            case ImportOption.LazyMerge:
+            case ImportStrategy.LazyMerge:
                 {
                     IOrderedEnumerable<UIAFItem> orederedUIAF = list.OrderBy(a => a.Id);
                     return achievementDbOperation.Merge(archiveId, orederedUIAF, false);
                 }
 
-            case ImportOption.Overwrite:
+            case ImportStrategy.Overwrite:
                 {
                     IEnumerable<EntityAchievement> orederedUIAF = list
                         .Select(uiaf => EntityAchievement.Create(archiveId, uiaf))
@@ -154,9 +154,9 @@ internal class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportOption option)
+    public Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy)
     {
-        return Task.Run(() => ImportFromUIAF(archive, list, option));
+        return Task.Run(() => ImportFromUIAF(archive, list, strategy));
     }
 
     /// <inheritdoc/>

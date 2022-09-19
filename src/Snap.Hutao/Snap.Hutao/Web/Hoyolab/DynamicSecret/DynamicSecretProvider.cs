@@ -2,52 +2,43 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Convert;
+using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 
 /// <summary>
-/// 为MiHoYo接口请求器 <see cref="Requester"/> 提供2代动态密钥
+/// 为MiHoYo接口请求器 <see cref="Requester"/> 提供动态密钥
 /// </summary>
 internal abstract class DynamicSecretProvider : Md5Convert
 {
+    private const string RandomRange = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
     /// <summary>
     /// 创建动态密钥
     /// </summary>
-    /// <param name="options">json格式化器</param>
-    /// <param name="queryUrl">查询url</param>
-    /// <param name="postBody">请求体</param>
     /// <returns>密钥</returns>
-    public static string Create(JsonSerializerOptions options, string queryUrl, object? postBody = null)
+    public static string Create()
     {
         // unix timestamp
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-        // random
-        int r = GetRandom();
+        string r = GetRandomString();
 
-        // body
-        string b = postBody is null ? string.Empty : JsonSerializer.Serialize(postBody, options);
-
-        // query
-        string q = string.Join("&", new UriBuilder(queryUrl).Query.Split('&').OrderBy(x => x));
-
-        // check
-        string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecretSalt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
+        string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecret1Salt}&t={t}&r={r}").ToLowerInvariant();
 
         return $"{t},{r},{check}";
     }
 
-    private static int GetRandom()
+    private static string GetRandomString()
     {
-        // 原汁原味
-        // v16 = time(0LL);
-        // srand(v16);
-        // v17 = (int)((double)rand() / 2147483650.0 * 100000.0 + 100000.0) % 1000000;
-        // if (v17 >= 100001)
-        //     v18 = v17;
-        // else
-        //     v18 = v17 + 542367;
-        int rand = Random.Shared.Next(100000, 200000);
-        return rand == 100000 ? 642367 : rand;
+        StringBuilder sb = new(6);
+
+        for (int i = 0; i < 6; i++)
+        {
+            int pos = Random.Shared.Next(0, RandomRange.Length);
+            sb.Append(RandomRange[pos]);
+        }
+
+        return sb.ToString();
     }
 }

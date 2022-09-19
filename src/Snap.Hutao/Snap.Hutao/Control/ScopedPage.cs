@@ -4,6 +4,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
+using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.Control;
 
@@ -39,6 +40,21 @@ public class ScopedPage : Page
         DataContext = viewModel;
     }
 
+    /// <summary>
+    /// 异步通知接收器
+    /// </summary>
+    /// <param name="extra">额外内容</param>
+    /// <returns>任务</returns>
+    public async Task NotifyRecipentAsync(INavigationData extra)
+    {
+        if (extra.Data != null && DataContext is INavigationRecipient recipient)
+        {
+            await recipient.ReceiveAsync(extra).ConfigureAwait(false);
+        }
+
+        extra.NotifyNavigationCompleted();
+    }
+
     /// <inheritdoc/>
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
@@ -47,5 +63,17 @@ public class ScopedPage : Page
 
         // Try dispose scope when page is not presented
         serviceScope.Dispose();
+    }
+
+    /// <inheritdoc/>
+    [SuppressMessage("", "VSTHRD100")]
+    protected override async void OnNavigatedTo(NavigationEventArgs e)
+    {
+        base.OnNavigatedTo(e);
+
+        if (e.Parameter is INavigationData extra)
+        {
+            await NotifyRecipentAsync(extra).ConfigureAwait(false);
+        }
     }
 }

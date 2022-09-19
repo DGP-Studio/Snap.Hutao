@@ -1,25 +1,25 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Service.Achievement;
+namespace Snap.Hutao.Service.GachaLog;
 
 /// <summary>
-/// 导入选项
+/// 刷新策略
 /// </summary>
-public enum ImportOption
+public enum RefreshStrategy
 {
+    /// <summary>
+    /// 无策略 用于切换存档时使用
+    /// </summary>
+    None = 0,
+
     /// <summary>
     /// 贪婪合并
     /// </summary>
-    AggressiveMerge = 0,
+    AggressiveMerge = 1,
 
     /// <summary>
     /// 懒惰合并
     /// </summary>
-    LazyMerge = 1,
-
-    /// <summary>
-    /// 完全覆盖
-    /// </summary>
-    Overwrite = 2,
+    LazyMerge = 2,
 }

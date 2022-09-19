@@ -60,26 +60,54 @@
             MaxWidth="640"
             VerticalAlignment="Bottom">
             <StackPanel.Resources>
-                <AcrylicBrush
-                    x:Key="InfoBarErrorSeverityBackgroundBrush"
-                    TintOpacity="0.6"
-                    TintColor="#442726"
-                    FallbackColor="#442726"/>
-                <AcrylicBrush
-                    x:Key="InfoBarWarningSeverityBackgroundBrush"
-                    TintOpacity="0.6"
-                    TintColor="#433519"
-                    FallbackColor="#433519"/>
-                <AcrylicBrush
-                    x:Key="InfoBarSuccessSeverityBackgroundBrush"
-                    TintOpacity="0.6"
-                    TintColor="#393D1B"
-                    FallbackColor="#393D1B"/>
-                <AcrylicBrush
-                    x:Key="InfoBarInformationalSeverityBackgroundBrush"
-                    TintOpacity="0.6"
-                    TintColor="#34424d"
-                    FallbackColor="#34424d"/>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <AcrylicBrush
+                                x:Key="InfoBarErrorSeverityBackgroundBrush"
+                                TintOpacity="0.6"
+                                TintColor="#FDE7E9"
+                                FallbackColor="#FDE7E9"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarWarningSeverityBackgroundBrush"
+                                TintOpacity="0.6"
+                                TintColor="#FFF4CE"
+                                FallbackColor="#FFF4CE"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarSuccessSeverityBackgroundBrush"
+                                TintOpacity="0.6"
+                                TintColor="#DFF6DD"
+                                FallbackColor="#DFF6DD"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarInformationalSeverityBackgroundBrush"
+                                TintOpacity="0.6"
+                                TintColor="#80F6F6F6"
+                                FallbackColor="#80F6F6F6"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <AcrylicBrush
+                                x:Key="InfoBarErrorSeverityBackgroundBrush"
+                                TintOpacity="0.6"
+                                TintColor="#442726"
+                                FallbackColor="#442726"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarWarningSeverityBackgroundBrush"
+                                TintOpacity="0.6"
+                                TintColor="#433519"
+                                FallbackColor="#433519"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarSuccessSeverityBackgroundBrush"
+                                TintOpacity="0.6"
+                                TintColor="#393D1B"
+                                FallbackColor="#393D1B"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarInformationalSeverityBackgroundBrush"
+                                TintOpacity="0.6"
+                                TintColor="#34424d"
+                                FallbackColor="#34424d"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
             </StackPanel.Resources>
             <StackPanel.Transitions>
                 <TransitionCollection>

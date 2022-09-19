@@ -103,19 +103,4 @@ public static class Must
 
         return value;
     }
-
-    /// <summary>
-    /// 尝试抛出任务取消异常
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <param name="message">取消消息</param>
-    /// <exception cref="TaskCanceledException">任务被取消</exception>
-    [SuppressMessage("", "CA1068")]
-    public static void ThrowOnCanceled(CancellationToken token, string message)
-    {
-        if (token.IsCancellationRequested)
-        {
-            throw new TaskCanceledException("Image source has changed.");
-        }
-    }
 }

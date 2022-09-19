@@ -10,6 +10,7 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 祈愿记录存档
 /// </summary>
+[Table("gacha_archives")]
 public class GachaArchive : ISelectable
 {
     /// <summary>
@@ -26,4 +27,14 @@ public class GachaArchive : ISelectable
 
     /// <inheritdoc/>
     public bool IsSelected { get; set; }
+
+    /// <summary>
+    /// 构造一个新的卡池存档
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>新的卡池存档</returns>
+    public static GachaArchive Create(string uid)
+    {
+        return new() { Uid = uid };
+    }
 }

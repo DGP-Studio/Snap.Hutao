@@ -69,6 +69,11 @@ internal static class ApiEndpoints
     #region UserFullInfo
 
     /// <summary>
+    /// BBS 指向引用
+    /// </summary>
+    public const string BbsReferer = "https://bbs.mihoyo.com/";
+
+    /// <summary>
     /// 用户详细信息
     /// </summary>
     public const string UserFullInfo = $"{BbsApiUserApi}/getUserFullInfo?gids=2";

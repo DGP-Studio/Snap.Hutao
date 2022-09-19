@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Reliquary;
@@ -40,6 +41,41 @@ internal interface IMetadataService
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
     ValueTask<List<Avatar>> GetAvatarsAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取卡池配置列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>卡池配置列表</returns>
+    ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default(CancellationToken));
+
+    /// <summary>
+    /// 异步获取Id到角色的字典
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>Id到角色的字典</returns>
+    ValueTask<Dictionary<int, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default(CancellationToken));
+
+    /// <summary>
+    /// 异步获取ID到武器的字典
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>Id到武器的字典</returns>
+    ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default(CancellationToken));
+
+    /// <summary>
+    /// 异步获取名称到角色的字典
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>名称到角色的字典</returns>
+    ValueTask<Dictionary<string, Avatar>> GetNameToAvatarMapAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取名称到武器的字典
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>名称到武器的字典</returns>
+    ValueTask<Dictionary<string, Weapon>> GetNameToWeaponMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物列表

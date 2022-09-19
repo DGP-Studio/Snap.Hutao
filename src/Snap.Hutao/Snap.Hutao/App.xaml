@@ -21,6 +21,8 @@
             <Thickness x:Key="InfoBarIconMargin">6,16,16,16</Thickness>
             <Thickness x:Key="InfoBarContentRootPadding">16,0,0,0</Thickness>
 
+            <x:Double x:Key="PivotHeaderItemFontSize">16</x:Double>
+            
             <CornerRadius x:Key="CompatCornerRadius">6</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusTop">6,6,0,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusRight">0,6,6,0</CornerRadius>

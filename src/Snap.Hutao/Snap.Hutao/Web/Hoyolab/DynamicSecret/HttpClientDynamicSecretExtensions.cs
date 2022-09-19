@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
+using Snap.Hutao.Web.Request;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
@@ -11,6 +12,17 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// </summary>
 internal static class HttpClientDynamicSecretExtensions
 {
+    /// <summary>
+    /// 使用一代动态密钥执行 GET 操作
+    /// </summary>
+    /// <param name="httpClient">请求器</param>
+    /// <returns>响应</returns>
+    public static HttpClient UsingDynamicSecret(this HttpClient httpClient)
+    {
+        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider.Create());
+        return httpClient;
+    }
+
     /// <summary>
     /// 使用二代动态密钥执行 GET 操作
     /// </summary>

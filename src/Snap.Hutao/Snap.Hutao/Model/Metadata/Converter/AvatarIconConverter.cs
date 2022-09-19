@@ -12,10 +12,20 @@ internal class AvatarIconConverter : IValueConverter
 {
     private const string BaseUrl = "https://static.snapgenshin.com/AvatarIcon/{0}.png";
 
+    /// <summary>
+    /// 名称转Uri
+    /// </summary>
+    /// <param name="name">名称</param>
+    /// <returns>链接</returns>
+    public static Uri NameToUri(string name)
+    {
+        return new Uri(string.Format(BaseUrl, name));
+    }
+
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        return new Uri(string.Format(BaseUrl, value));
+        return NameToUri((string)value);
     }
 
     /// <inheritdoc/>

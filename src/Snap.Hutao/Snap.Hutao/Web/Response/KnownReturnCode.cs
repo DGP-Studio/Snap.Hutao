@@ -39,14 +39,19 @@ public enum KnownReturnCode : int
     RET_NEED_AIGIS = -3101,
 
     /// <summary>
-    /// 尚未登录
+    /// 访问过于频繁
     /// </summary>
-    RET_TOKEN_INVALID = -100,
+    VIsitTooFrequently = -110,
 
     /// <summary>
     /// 验证密钥过期
     /// </summary>
     AuthKeyTimeOut = -101,
+
+    /// <summary>
+    /// 尚未登录
+    /// </summary>
+    RET_TOKEN_INVALID = -100,
 
     /// <summary>
     /// Ok

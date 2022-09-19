@@ -42,13 +42,13 @@ public sealed partial class AchievementImportDialog : ContentDialog
     /// 异步获取导入选项
     /// </summary>
     /// <returns>导入选项</returns>
-    public async Task<ValueResult<bool, ImportOption>> GetImportOptionAsync()
+    public async Task<ValueResult<bool, ImportStrategy>> GetImportStrategyAsync()
     {
         await ThreadHelper.SwitchToMainThreadAsync();
 
         ContentDialogResult result = await ShowAsync();
-        ImportOption option = (ImportOption)ImportModeSelector.SelectedIndex;
+        ImportStrategy strategy = (ImportStrategy)ImportModeSelector.SelectedIndex;
 
-        return new(result == ContentDialogResult.Primary, option);
+        return new(result == ContentDialogResult.Primary, strategy);
     }
 }

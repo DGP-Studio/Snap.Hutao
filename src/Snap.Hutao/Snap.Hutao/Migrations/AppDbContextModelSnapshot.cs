@@ -15,7 +15,7 @@ namespace Snap.Hutao.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.9");
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
@@ -78,7 +78,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasKey("InnerId");
 
-                    b.ToTable("GachaArchives");
+                    b.ToTable("gacha_archives");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.GachaItem", b =>
@@ -99,6 +99,9 @@ namespace Snap.Hutao.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("QueryType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTimeOffset>("Time")
                         .HasColumnType("TEXT");
 
@@ -106,7 +109,7 @@ namespace Snap.Hutao.Migrations
 
                     b.HasIndex("ArchiveId");
 
-                    b.ToTable("GachaItems");
+                    b.ToTable("gacha_items");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.SettingEntry", b =>

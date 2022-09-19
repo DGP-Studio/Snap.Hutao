@@ -45,6 +45,11 @@ internal static class EventIds
     /// Xaml绑定错误
     /// </summary>
     public static readonly EventId UnobservedTaskException = 100006;
+
+    /// <summary>
+    /// Xaml绑定错误
+    /// </summary>
+    public static readonly EventId HttpException = 100007;
     #endregion
 
     #region 服务

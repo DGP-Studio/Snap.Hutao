@@ -39,18 +39,18 @@ internal interface IAchievementService
     /// </summary>
     /// <param name="archive">用户</param>
     /// <param name="list">UIAF数据</param>
-    /// <param name="option">选项</param>
+    /// <param name="strategy">选项</param>
     /// <returns>导入结果</returns>
-    ImportResult ImportFromUIAF(EntityArchive archive, List<UIAFItem> list, ImportOption option);
+    ImportResult ImportFromUIAF(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy);
 
     /// <summary>
     /// 异步导入UIAF数据
     /// </summary>
     /// <param name="archive">用户</param>
     /// <param name="list">UIAF数据</param>
-    /// <param name="option">选项</param>
+    /// <param name="strategy">选项</param>
     /// <returns>导入结果</returns>
-    Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportOption option);
+    Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy);
 
     /// <summary>
     /// 异步移除存档

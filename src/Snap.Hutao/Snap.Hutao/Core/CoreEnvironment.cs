@@ -12,15 +12,21 @@ namespace Snap.Hutao.Core;
 internal static class CoreEnvironment
 {
     /// <summary>
-    /// 动态密钥的盐
+    /// 动态密钥1的盐
     /// 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
     /// </summary>
-    public const string DynamicSecretSalt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
+    public const string DynamicSecret1Salt = "n0KjuIrKgLHh08LWSCYP0WXlVXaYvV64";
+
+    /// <summary>
+    /// 动态密钥2的盐
+    /// 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
+    /// </summary>
+    public const string DynamicSecret2Salt = "YVEIkzDFNHLeKXLxzqCA9TzxCpWwbIbk";
 
     /// <summary>
     /// 米游社请求UA
     /// </summary>
-    public const string HoyolabUA = $"miHoYoBBS/{HoyolabXrpcVersion}";
+    public const string HoyolabUA = $"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBS/{HoyolabXrpcVersion}";
 
     /// <summary>
     /// 米游社 Rpc 版本

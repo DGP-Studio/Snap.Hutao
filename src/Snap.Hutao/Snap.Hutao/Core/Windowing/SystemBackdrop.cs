@@ -55,10 +55,11 @@ public class SystemBackdrop
             configuration.IsInputActive = true;
             SetConfigurationSourceTheme(configuration);
 
-            backdropController = new();
-
-            // Mica Alt
-            backdropController.Kind = MicaKind.BaseAlt;
+            backdropController = new()
+            {
+                // Mica Alt
+                Kind = MicaKind.BaseAlt
+            };
             backdropController.AddSystemBackdropTarget(window.As<ICompositionSupportsSystemBackdrop>());
             backdropController.SetSystemBackdropConfiguration(configuration);
 

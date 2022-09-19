@@ -8,6 +8,7 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Core.Threading.CodeAnalysis;
 using Snap.Hutao.Factory.Abstraction;
@@ -21,8 +22,6 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Runtime.InteropServices;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
@@ -398,29 +397,15 @@ internal class AchievementViewModel
     [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task<UIAF?> GetUIAFFromClipboardAsync()
     {
-        UIAF? uiaf = null;
-        string json;
         try
         {
-            await ThreadHelper.SwitchToMainThreadAsync();
-            json = await Clipboard.GetContent().GetTextAsync();
-        }
-        catch (COMException ex)
-        {
-            infoBarService?.Error(ex);
-            return null;
-        }
-
-        try
-        {
-            uiaf = JsonSerializer.Deserialize<UIAF>(json, options);
+            return await Clipboard.DeserializeTextAsync<UIAF>(options).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             infoBarService?.Error(ex);
+            return null;
         }
-
-        return uiaf;
     }
 
     [ThreadAccess(ThreadAccessState.AnyThread)]
@@ -452,7 +437,7 @@ internal class AchievementViewModel
         {
             MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
             await ThreadHelper.SwitchToMainThreadAsync();
-            (bool isOk, ImportOption option) = await new AchievementImportDialog(mainWindow, uiaf).GetImportOptionAsync().ConfigureAwait(true);
+            (bool isOk, ImportStrategy strategy) = await new AchievementImportDialog(mainWindow, uiaf).GetImportStrategyAsync().ConfigureAwait(true);
 
             if (isOk)
             {
@@ -466,7 +451,7 @@ internal class AchievementViewModel
                 ImportResult result;
                 await using (await importingDialog.InitializeWithWindow(mainWindow).BlockAsync().ConfigureAwait(false))
                 {
-                    result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, option).ConfigureAwait(false);
+                    result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
                 }
 
                 infoBarService.Success(result.ToString());

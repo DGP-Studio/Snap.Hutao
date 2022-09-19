@@ -18,8 +18,7 @@ internal abstract class Md5Convert
     /// <returns>计算的结果</returns>
     public static string ToHexString(string source)
     {
-        byte[] bytes = Encoding.UTF8.GetBytes(source);
-        byte[] hash = MD5.HashData(bytes);
+        byte[] hash = MD5.HashData(Encoding.UTF8.GetBytes(source));
         return System.Convert.ToHexString(hash);
     }
 }

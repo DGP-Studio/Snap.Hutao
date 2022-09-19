@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
@@ -137,18 +138,32 @@ internal class NavigationService : INavigationService
     {
         NavigationResult result = Navigate<TPage>(data, syncNavigationViewItem);
 
-        if (result is NavigationResult.Succeed)
+        switch (result)
         {
-            try
-            {
-                await data
-                    .WaitForCompletionAsync()
-                    .ConfigureAwait(false);
-            }
-            catch (AggregateException)
-            {
-                return NavigationResult.Failed;
-            }
+            case NavigationResult.Succeed:
+                {
+                    try
+                    {
+                        await data.WaitForCompletionAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(EventIds.NavigationFailed, ex, "异步导航时发生异常");
+                        return NavigationResult.Failed;
+                    }
+                }
+
+                break;
+
+            case NavigationResult.AlreadyNavigatedTo:
+                {
+                    if (Frame!.Content is ScopedPage scopedPage)
+                    {
+                        await scopedPage.NotifyRecipentAsync((INavigationData)data).ConfigureAwait(false);
+                    }
+                }
+
+                break;
         }
 
         return result;

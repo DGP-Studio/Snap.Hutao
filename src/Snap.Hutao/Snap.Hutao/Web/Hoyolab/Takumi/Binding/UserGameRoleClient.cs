@@ -6,7 +6,6 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
@@ -17,15 +16,21 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 internal class UserGameRoleClient
 {
     private readonly HttpClient httpClient;
+    private readonly JsonSerializerOptions options;
+    private readonly ILogger<UserGameRoleClient> logger;
 
     /// <summary>
     /// 构造一个新的用户游戏角色提供器
     /// </summary>
     /// <param name="userService">用户服务</param>
     /// <param name="httpClient">请求器</param>
-    public UserGameRoleClient(HttpClient httpClient)
+    /// <param name="options">Json序列化选项</param>
+    /// <param name="logger">日志器</param>
+    public UserGameRoleClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<UserGameRoleClient> logger)
     {
         this.httpClient = httpClient;
+        this.options = options;
+        this.logger = logger;
     }
 
     /// <summary>
@@ -38,7 +43,7 @@ internal class UserGameRoleClient
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
             .SetUser(user)
-            .GetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRoles, token)
+            .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRoles, options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtensions.EmptyIfNull(resp?.Data?.List);

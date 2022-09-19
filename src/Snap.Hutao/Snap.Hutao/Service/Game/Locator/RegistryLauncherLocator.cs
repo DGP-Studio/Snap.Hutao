@@ -3,7 +3,6 @@
 
 using Microsoft.Win32;
 using Snap.Hutao.Core.Threading;
-using System.IO;
 
 namespace Snap.Hutao.Service.Game.Locator;
 
@@ -19,7 +18,7 @@ internal class RegistryLauncherLocator : IGameLocator
     /// <inheritdoc/>
     public Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
-        return Task.FromResult(LocateInternal("InstallPath", "YuanShen.exe"));
+        return Task.FromResult(LocateInternal("InstallPath", "\\Genshin Impact Game\\YuanShen.exe"));
     }
 
     /// <inheritdoc/>
@@ -28,16 +27,16 @@ internal class RegistryLauncherLocator : IGameLocator
         return Task.FromResult(LocateInternal("DisplayIcon"));
     }
 
-    private static ValueResult<bool, string> LocateInternal(string key, string? combine = null)
+    private static ValueResult<bool, string> LocateInternal(string key, string? append = null)
     {
         RegistryKey? uninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神");
         if (uninstallKey != null)
         {
             if (uninstallKey.GetValue(key) is string path)
             {
-                if (!string.IsNullOrEmpty(combine))
+                if (!string.IsNullOrEmpty(append))
                 {
-                    path = Path.Combine(combine);
+                    path += append;
                 }
 
                 return new(true, path);

@@ -44,7 +44,6 @@ public struct QueryString
     /// </summary>
     /// <param name="queryString">
     /// The query string to deserialize.
-    /// This should NOT have a leading ? character.
     /// Valid input would be something like "a=1&amp;b=5".
     /// URL decoding of keys/values is automatically performed.
     /// Also supports query strings that are serialized using ; instead of &amp;, like "a=1;b=5"</param>
@@ -55,6 +54,9 @@ public struct QueryString
         {
             return new QueryString();
         }
+
+        int questionMarkIndex = queryString.IndexOf('?');
+        queryString = queryString[(questionMarkIndex + 1)..];
 
         string[] pairs = queryString.Split('&', ';');
         QueryString answer = new();

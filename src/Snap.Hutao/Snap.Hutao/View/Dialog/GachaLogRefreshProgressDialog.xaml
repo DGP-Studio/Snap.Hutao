@@ -1,0 +1,51 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.View.Dialog.GachaLogRefreshProgressDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    mc:Ignorable="d"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    Title="获取祈愿物品中">
+    
+    <ContentDialog.Resources>
+        <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <DataTemplate x:Key="GachaItemDataTemplate">
+            <Grid
+                Width="40"
+                Height="40">
+                <shvc:ItemIcon
+                    Icon="{Binding Icon}"
+                    Badge="{Binding Badge}"
+                    Quality="{Binding Quality}"/>
+            </Grid>
+        </DataTemplate>
+    </ContentDialog.Resources>
+
+    <mxi:Interaction.Behaviors>
+        <shcb:ContentDialogBehavior/>
+    </mxi:Interaction.Behaviors>
+
+    <StackPanel>
+        <TextBlock
+            Text="AuthKey 已失效，请重新获取"
+            Visibility="{x:Bind State.AuthKeyTimeout,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}"/>
+        <cwucont:HeaderedItemsControl
+            x:Name="GachaItemsPresenter"
+            Padding="0,8,0,0"
+            HorizontalAlignment="Left"
+            ItemTemplate="{StaticResource GachaItemDataTemplate}">
+            <cwucont:HeaderedItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <cwucont:UniformGrid Columns="5" ColumnSpacing="4" RowSpacing="4"/>
+                </ItemsPanelTemplate>
+            </cwucont:HeaderedItemsControl.ItemsPanel>
+        </cwucont:HeaderedItemsControl>
+    </StackPanel>
+    
+</ContentDialog>
