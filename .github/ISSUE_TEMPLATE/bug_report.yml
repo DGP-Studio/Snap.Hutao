@@ -1,6 +1,6 @@
 name: 问题反馈
 description: 告诉我们你的问题
-title: "[Bug]: 取一个合适的标题"
+title: "[Bug]: 在这里填写一个合适的标题"
 labels: ["BUG"]
 assignees:
   - Lightczx
