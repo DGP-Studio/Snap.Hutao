@@ -37,6 +37,8 @@ public struct GachaLogConfigration
     /// <summary>
     /// 结束Id
     /// 控制API返回的分页
+    /// 米哈游使用了 keyset pagination 来实现这一目标
+    /// https://learn.microsoft.com/en-us/ef/core/querying/pagination#keyset-pagination
     /// </summary>
     public long EndId
     {

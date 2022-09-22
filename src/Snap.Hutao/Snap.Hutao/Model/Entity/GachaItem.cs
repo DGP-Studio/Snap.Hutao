@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -71,6 +72,26 @@ public class GachaItem
             ArchiveId = archiveId,
             GachaType = item.GachaType,
             QueryType = ToQueryType(item.GachaType),
+            ItemId = itemId,
+            Time = item.Time,
+            Id = item.Id,
+        };
+    }
+
+    /// <summary>
+    /// 构造一个新的数据库祈愿物品
+    /// </summary>
+    /// <param name="archiveId">存档Id</param>
+    /// <param name="item">祈愿物品</param>
+    /// <param name="itemId">物品Id</param>
+    /// <returns>新的祈愿物品</returns>
+    public static GachaItem Create(Guid archiveId, UIGFItem item, int itemId)
+    {
+        return new()
+        {
+            ArchiveId = archiveId,
+            GachaType = item.GachaType,
+            QueryType = item.UIGFGachaType,
             ItemId = itemId,
             Time = item.Time,
             Id = item.Id,

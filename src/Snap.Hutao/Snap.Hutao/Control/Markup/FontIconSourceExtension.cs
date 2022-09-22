@@ -10,7 +10,7 @@ namespace Snap.Hutao.Control.Markup;
 /// Custom <see cref="MarkupExtension"/> which can provide <see cref="FontIcon"/> values.
 /// </summary>
 [MarkupExtensionReturnType(ReturnType = typeof(FontIcon))]
-internal class FontIconExtension : MarkupExtension
+internal class FontIconSourceExtension : MarkupExtension
 {
     /// <summary>
     /// Gets or sets the <see cref="string"/> value representing the icon to display.
@@ -20,7 +20,7 @@ internal class FontIconExtension : MarkupExtension
     /// <inheritdoc/>
     protected override object ProvideValue()
     {
-        return new FontIcon()
+        return new FontIconSource()
         {
             Glyph = Glyph,
         };

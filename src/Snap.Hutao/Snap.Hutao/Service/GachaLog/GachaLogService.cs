@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
@@ -143,6 +144,12 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
+    public Task ImportFromUIGFAsync(List<UIGFItem> list, string uid)
+    {
+        return Task.Run(() => ImportFromUIGF(list, uid));
+    }
+
+    /// <inheritdoc/>
     public async Task RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token)
     {
         Verify.Operation(IsInitialized, "祈愿记录服务未能正常初始化");
@@ -158,9 +165,45 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         CurrentArchive = result ?? CurrentArchive;
     }
 
+    /// <inheritdoc/>
+    public Task RemoveArchiveAsync(GachaArchive archive)
+    {
+        Must.NotNull(archiveCollection!);
+
+        // Sync cache
+        archiveCollection.Remove(archive);
+
+        // Sync database
+        appDbContext.GachaArchives.Remove(archive);
+        return appDbContext.SaveChangesAsync();
+    }
+
     private static Task RandomDelayAsync(CancellationToken token)
     {
         return Task.Delay(TimeSpan.FromSeconds(Random.Shared.NextDouble() + 1), token);
+    }
+
+    private void ImportFromUIGF(List<UIGFItem> list, string uid)
+    {
+        GachaArchive? archive = null;
+        SkipOrInitArchive(ref archive, uid);
+        Guid archiveId = Must.NotNull(archive!).InnerId;
+
+        long trimId = appDbContext.GachaItems
+            .Where(i => i.ArchiveId == archiveId)
+            .OrderBy(i => i.Id)
+            .Take(1)
+            .FirstOrDefault()?.Id ?? long.MaxValue;
+
+        IEnumerable<GachaItem> toAdd = list
+            .OrderByDescending(i => i.Id)
+            .Where(i => i.Id < trimId)
+            .Select(i => GachaItem.Create(archiveId, i, GetItemId(i)));
+
+        appDbContext.GachaItems.AddRange(toAdd);
+        appDbContext.SaveChanges();
+
+        CurrentArchive = archive;
     }
 
     private async Task<GachaArchive?> FetchGachaLogsAsync(string query, bool isLazy, IProgress<FetchState> progress, CancellationToken token)
@@ -262,10 +305,12 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
             item = appDbContext.GachaItems
                 .Where(i => i.ArchiveId == archive.InnerId)
                 .Where(i => i.QueryType == configType)
+                .OrderByDescending(i => i.Id)
+                .Take(1)
+                .FirstOrDefault();
 
-                // MaxBy should be supported by .NET 7
-                .AsEnumerable()
-                .MaxBy(i => i.Id);
+            // MaxBy should be supported by .NET 7
+            // .MaxBy(i => i.Id);
         }
 
         return item?.Id ?? 0L;

@@ -44,7 +44,7 @@ public sealed partial class AchievementImportDialog : ContentDialog
     /// <returns>导入选项</returns>
     public async Task<ValueResult<bool, ImportStrategy>> GetImportStrategyAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        //await ThreadHelper.SwitchToMainThreadAsync();
 
         ContentDialogResult result = await ShowAsync();
         ImportStrategy strategy = (ImportStrategy)ImportModeSelector.SelectedIndex;

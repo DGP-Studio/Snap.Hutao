@@ -16,17 +16,6 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 public static class GachaStatisticsExtensions
 {
     /// <summary>
-    /// 值域压缩
-    /// </summary>
-    /// <param name="b">源</param>
-    /// <returns>压缩值</returns>
-    public static byte HalfRange(this byte b)
-    {
-        // [0,256] -> [0,128]-> [64,172]
-        return (byte)((b / 2) + 64);
-    }
-
-    /// <summary>
     /// 求平均值
     /// </summary>
     /// <param name="span">跨度</param>
@@ -83,7 +72,10 @@ public static class GachaStatisticsExtensions
     /// <returns>统计物品列表</returns>
     public static List<StatisticsItem> ToStatisticsList(this Dictionary<IStatisticsItemSource, int> dict)
     {
-        return dict.Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value)).ToList();
+        return dict
+            .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
+            .OrderByDescending(item => item.Count)
+            .ToList();
     }
 
     /// <summary>
@@ -93,7 +85,10 @@ public static class GachaStatisticsExtensions
     /// <returns>统计物品列表</returns>
     public static List<StatisticsItem> ToStatisticsList(this Dictionary<Avatar, int> dict)
     {
-        return dict.Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value)).ToList();
+        return dict
+            .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
+            .OrderByDescending(item => item.Count)
+            .ToList();
     }
 
     /// <summary>
@@ -103,6 +98,9 @@ public static class GachaStatisticsExtensions
     /// <returns>统计物品列表</returns>
     public static List<StatisticsItem> ToStatisticsList(this Dictionary<Weapon, int> dict)
     {
-        return dict.Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value)).ToList();
+        return dict
+            .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
+            .OrderByDescending(item => item.Count)
+            .ToList();
     }
 }

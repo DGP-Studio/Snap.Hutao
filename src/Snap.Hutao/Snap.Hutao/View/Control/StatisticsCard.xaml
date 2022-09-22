@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shmbg="using:Snap.Hutao.Model.Binding.Gacha"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shmbg:TypedWishSummary}">
@@ -163,23 +164,23 @@
                         
                         <Grid Margin="0,2,0,0">
                             <TextBlock
-                                    Text="五星平均抽数"
-                                    Style="{StaticResource BodyTextBlockStyle}"/>
+                                Text="五星平均抽数"
+                                Style="{StaticResource BodyTextBlockStyle}"/>
                             <TextBlock 
-                                    HorizontalAlignment="Right"
-                                    FontFamily="Consolas,MicroSoft YaHei UI" 
-                                    Text="{Binding AverageOrangePullFormatted}"
-                                    Style="{StaticResource BodyTextBlockStyle}"/>
+                                HorizontalAlignment="Right"
+                                FontFamily="Consolas,MicroSoft YaHei UI" 
+                                Text="{Binding AverageOrangePullFormatted}"
+                                Style="{StaticResource BodyTextBlockStyle}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
                             <TextBlock
-                                    Text="UP 平均抽数"
-                                    Style="{StaticResource BodyTextBlockStyle}"/>
+                                Text="UP 平均抽数"
+                                Style="{StaticResource BodyTextBlockStyle}"/>
                             <TextBlock 
-                                    HorizontalAlignment="Right"
-                                    FontFamily="Consolas,MicroSoft YaHei UI" 
-                                    Text="{Binding AverageUpOrangePullFormatted}"
-                                    Style="{StaticResource BodyTextBlockStyle}"/>
+                                HorizontalAlignment="Right"
+                                FontFamily="Consolas,MicroSoft YaHei UI"
+                                Text="{Binding AverageUpOrangePullFormatted}"
+                                Style="{StaticResource BodyTextBlockStyle}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
                             <TextBlock
@@ -194,10 +195,13 @@
                                 Style="{StaticResource BodyTextBlockStyle}"/>
                         </Grid>
                     </StackPanel>
-                    <MenuFlyoutSeparator Margin="-12,12"/>
+                    <MenuFlyoutSeparator Margin="-12,12,-12,0"/>
                 </StackPanel>
             </Expander>
-            <ScrollViewer Grid.Row="2" Margin="12,-4,12,8" VerticalScrollBarVisibility="Hidden">
+            <ScrollViewer
+                Grid.Row="2"
+                Margin="12,6,12,12"
+                VerticalScrollBarVisibility="Hidden">
                 <ItemsControl
                     ItemsSource="{Binding OrangeList}"
                     ItemTemplate="{StaticResource OrangeListTemplate}"/>

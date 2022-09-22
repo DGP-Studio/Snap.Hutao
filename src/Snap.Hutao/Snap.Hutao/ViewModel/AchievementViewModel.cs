@@ -8,6 +8,7 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Core.Threading.CodeAnalysis;
@@ -21,10 +22,8 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
-using System.IO;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -382,14 +381,14 @@ internal class AchievementViewModel
 
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {
-            if (await GetUIAFFromFileAsync(file).ConfigureAwait(false) is UIAF uiaf)
+            if (await file.DeserializeJsonAsync<UIAF>(options, ex => infoBarService?.Error(ex)).ConfigureAwait(false) is UIAF uiaf)
             {
                 await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf).ConfigureAwait(false);
             }
             else
             {
                 await ThreadHelper.SwitchToMainThreadAsync();
-                await ShowImportFailDialogAsync("数据格式不正确").ConfigureAwait(false);
+                await ShowImportFailDialogAsync("文件的数据格式不正确").ConfigureAwait(false);
             }
         }
     }
@@ -409,28 +408,6 @@ internal class AchievementViewModel
     }
 
     [ThreadAccess(ThreadAccessState.AnyThread)]
-    private async Task<UIAF?> GetUIAFFromFileAsync(StorageFile file)
-    {
-        UIAF? uiaf = null;
-        try
-        {
-            using (IRandomAccessStreamWithContentType fileSream = await file.OpenReadAsync())
-            {
-                using (Stream stream = fileSream.AsStream())
-                {
-                    uiaf = await JsonSerializer.DeserializeAsync<UIAF>(stream, options).ConfigureAwait(false);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            infoBarService?.Error(ex);
-        }
-
-        return uiaf;
-    }
-
-    [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task<bool> TryImportUIAFInternalAsync(Model.Entity.AchievementArchive archive, UIAF uiaf)
     {
         if (uiaf.IsCurrentVersionSupported())
@@ -445,7 +422,6 @@ internal class AchievementViewModel
                 {
                     Title = "导入成就中",
                     Content = new ProgressBar() { IsIndeterminate = true },
-                    DefaultButton = ContentDialogButton.Primary,
                 };
 
                 ImportResult result;

@@ -1,23 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Xml.Linq;
-using Windows.UI;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
@@ -139,7 +130,10 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         return new()
         {
             // history
-            HistoryWishes = historyWishBuilders.Select(builder => builder.ToHistoryWish()).ToList(),
+            HistoryWishes = historyWishBuilders
+                .OrderByDescending(builder => builder.From)
+                .ThenBy(builder => builder.ConfigType, new GachaConfigTypeComparar())
+                .Select(builder => builder.ToHistoryWish()).ToList(),
 
             // avatars
             OrangeAvatars = orangeAvatarCounter.ToStatisticsList(),
@@ -150,6 +144,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
             PurpleWeapons = purpleWeaponCounter.ToStatisticsList(),
             BlueWeapons = blueWeaponCounter.ToStatisticsList(),
 
+            // typed wish summary
             PermanentWish = permanentWishBuilder.ToTypedWishSummary(),
             AvatarWish = avatarWishBuilder.ToTypedWishSummary(),
             WeaponWish = weaponWishBuilder.ToTypedWishSummary(),

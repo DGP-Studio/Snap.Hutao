@@ -33,8 +33,8 @@ public sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     /// </summary>
     public FetchState State
     {
-        get { return (FetchState)GetValue(StateProperty); }
-        set { SetValue(StateProperty, value); }
+        get => (FetchState)GetValue(StateProperty);
+        set => SetValue(StateProperty, value);
     }
 
     /// <summary>

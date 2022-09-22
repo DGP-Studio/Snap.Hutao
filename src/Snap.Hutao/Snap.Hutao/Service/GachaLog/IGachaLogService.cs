@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.InterChange.GachaLog;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -38,6 +39,14 @@ internal interface IGachaLogService
     Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive = null);
 
     /// <summary>
+    /// 异步从UIGF导入数据
+    /// </summary>
+    /// <param name="list">列表</param>
+    /// <param name="uid">Uid</param>
+    /// <returns>任务</returns>
+    Task ImportFromUIGFAsync(List<UIGFItem> list, string uid);
+
+    /// <summary>
     /// 异步初始化
     /// </summary>
     /// <param name="token">取消令牌</param>
@@ -54,4 +63,11 @@ internal interface IGachaLogService
     /// <param name="token">取消令牌</param>
     /// <returns>任务</returns>
     Task RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token);
+
+    /// <summary>
+    /// 删除存档
+    /// </summary>
+    /// <param name="archive">存档</param>
+    /// <returns>任务</returns>
+    Task RemoveArchiveAsync(GachaArchive archive);
 }

@@ -55,10 +55,16 @@ internal class HistoryWishBuilder
     public GachaConfigType ConfigType { get => configType; }
 
     /// <inheritdoc cref="GachaEvent.From"/>
-    public DateTimeOffset From => gachaEvent.From;
+    public DateTimeOffset From
+    {
+        get => gachaEvent.From;
+    }
 
     /// <inheritdoc cref="GachaEvent.To"/>
-    public DateTimeOffset To => gachaEvent.To;
+    public DateTimeOffset To
+    {
+        get => gachaEvent.To;
+    }
 
     /// <summary>
     /// 计数五星角色

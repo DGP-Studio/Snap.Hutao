@@ -1,0 +1,75 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.View.Dialog.GachaLogImportDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    mc:Ignorable="d"
+    Title="导入祈愿记录"
+    DefaultButton="Primary"
+    PrimaryButtonText="确认"
+    CloseButtonText="取消"
+    Style="{StaticResource DefaultContentDialogStyle}">
+    
+    <mxi:Interaction.Behaviors>
+        <shcb:ContentDialogBehavior/>
+    </mxi:Interaction.Behaviors>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <cwuc:UniformGrid
+            Grid.Row="0"
+            Columns="3"
+            ColumnSpacing="16"
+            RowSpacing="16">
+            <cwuc:HeaderedContentControl Header="导出App">
+                <TextBlock
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Opacity="0.6"
+                    Margin="0,4,0,0"
+                    Text="{x:Bind UIGF.Info.ExportApp,Mode=OneWay,TargetNullValue=未知}"/>
+            </cwuc:HeaderedContentControl>
+            <cwuc:HeaderedContentControl Header="导出时间">
+                <TextBlock
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Opacity="0.6"
+                    Margin="0,4,0,0"
+                    Text="{x:Bind UIGF.Info.ExportDateTime.LocalDateTime,Mode=OneWay,TargetNullValue=未知}"/>
+            </cwuc:HeaderedContentControl>
+            <cwuc:HeaderedContentControl Header="导出App版本">
+                <TextBlock
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Opacity="0.6"
+                    Margin="0,4,0,0"
+                    Text="{x:Bind UIGF.Info.ExportAppVersion,Mode=OneWay,TargetNullValue=未知}"/>
+            </cwuc:HeaderedContentControl>
+            <cwuc:HeaderedContentControl Header="UIGF 版本">
+                <TextBlock
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Opacity="0.6"
+                    Margin="0,4,0,0"
+                    Text="{x:Bind UIGF.Info.UIGFVersion,Mode=OneWay,TargetNullValue=未知}"/>
+            </cwuc:HeaderedContentControl>
+            <cwuc:HeaderedContentControl Header="记录条数">
+                <TextBlock
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Opacity="0.6"
+                    Margin="0,4,0,0"
+                    Text="{x:Bind UIGF.List.Count,Mode=OneWay,TargetNullValue=未知}"/>
+            </cwuc:HeaderedContentControl>
+            <cwuc:HeaderedContentControl Header="UID">
+                <TextBlock
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Opacity="0.6"
+                    Margin="0,4,0,0"
+                    Text="{x:Bind UIGF.Info.Uid,Mode=OneWay,TargetNullValue=未知}"/>
+            </cwuc:HeaderedContentControl>
+        </cwuc:UniformGrid>
+    </Grid>
+</ContentDialog>

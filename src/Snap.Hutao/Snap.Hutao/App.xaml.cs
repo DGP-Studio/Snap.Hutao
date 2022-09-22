@@ -29,7 +29,6 @@ public partial class App : Application
     {
         // load app resource
         InitializeComponent();
-
         this.logger = logger;
 
         _ = new ExceptionRecorder(this, logger);

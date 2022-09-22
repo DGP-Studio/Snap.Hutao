@@ -27,6 +27,7 @@
             <CornerRadius x:Key="CompatCornerRadiusTop">6,6,0,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusRight">0,6,6,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,6,6</CornerRadius>
+            <CornerRadius x:Key="CompatCornerRadiusSmall">2</CornerRadius>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

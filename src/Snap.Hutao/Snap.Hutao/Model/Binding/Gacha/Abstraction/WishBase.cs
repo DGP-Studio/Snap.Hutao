@@ -43,4 +43,12 @@ public abstract class WishBase
     /// 总数
     /// </summary>
     public int TotalCount { get; set; }
+
+    /// <summary>
+    /// 总数
+    /// </summary>
+    public string TotalCountFormatted
+    {
+        get => $"{TotalCount} 抽";
+    }
 }

@@ -87,13 +87,13 @@ internal class TypedWishSummaryBuilder
 
             // track total pulls
             ++totalCountTracker;
+            TrackFromToTime(item.Time);
 
             switch (avatar.Quality)
             {
                 case ItemQuality.QUALITY_ORANGE:
                     {
                         TrackMinMaxOrangePull(lastOrangePullTracker);
-                        TrackFromToTime(item.Time);
                         averageOrangePullTracker.Add(lastOrangePullTracker);
 
                         if (isUp)
@@ -135,13 +135,13 @@ internal class TypedWishSummaryBuilder
 
             // track total pulls
             ++totalCountTracker;
+            TrackFromToTime(item.Time);
 
             switch (weapon.RankLevel)
             {
                 case ItemQuality.QUALITY_ORANGE:
                     {
                         TrackMinMaxOrangePull(lastOrangePullTracker);
-                        TrackFromToTime(item.Time);
                         averageOrangePullTracker.Add(lastOrangePullTracker);
 
                         if (isUp)

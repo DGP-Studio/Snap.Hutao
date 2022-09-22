@@ -42,7 +42,7 @@ internal sealed class WindowManager : IDisposable
 
         handle = (HWND)WindowNative.GetWindowHandle(window);
 
-        WindowId windowId = Win32Interop.GetWindowIdFromWindow(handle);
+        Microsoft.UI.WindowId windowId = Win32Interop.GetWindowIdFromWindow(handle);
         appWindow = AppWindow.GetFromWindowId(windowId);
 
         useLegacyDragBar = !AppWindowTitleBar.IsCustomizationSupported();
