@@ -15,6 +15,7 @@ namespace Snap.Hutao.Web.Enka;
 [HttpClient(HttpClientConfigration.Default)]
 internal class EnkaClient
 {
+    private const string EnkaAPI = "https://enka.shinshin.moe/u/{0}/__data.json";
     private const string EnkaAPIHutaoForward = "https://enka-api.hut.ao/{0}";
 
     private readonly HttpClient httpClient;
@@ -29,6 +30,17 @@ internal class EnkaClient
     }
 
     /// <summary>
+    /// 异步获取转发的 Enka API 响应
+    /// </summary>
+    /// <param name="playerUid">玩家Uid</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>Enka API 响应</returns>
+    public Task<EnkaResponse?> GetForwardDataAsync(PlayerUid playerUid, CancellationToken token)
+    {
+        return httpClient.GetFromJsonAsync<EnkaResponse>(string.Format(EnkaAPIHutaoForward, playerUid.Value), token);
+    }
+
+    /// <summary>
     /// 异步获取 Enka API 响应
     /// </summary>
     /// <param name="playerUid">玩家Uid</param>
@@ -36,6 +48,6 @@ internal class EnkaClient
     /// <returns>Enka API 响应</returns>
     public Task<EnkaResponse?> GetDataAsync(PlayerUid playerUid, CancellationToken token)
     {
-        return httpClient.GetFromJsonAsync<EnkaResponse>(string.Format(EnkaAPIHutaoForward, playerUid.Value), token);
+        return httpClient.GetFromJsonAsync<EnkaResponse>(string.Format(EnkaAPI, playerUid.Value), token);
     }
 }

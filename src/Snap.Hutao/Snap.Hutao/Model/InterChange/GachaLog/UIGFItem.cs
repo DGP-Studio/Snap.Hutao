@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using MiniExcelLibs.Attributes;
+using Snap.Hutao.Core.Json.Converter;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.Model.InterChange.GachaLog;
@@ -16,6 +17,6 @@ public class UIGFItem : GachaLogItem
     /// </summary>
     [ExcelColumn(Name = "uigf_gacha_type")]
     [JsonPropertyName("uigf_gacha_type")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(EnumStringValueConverter<GachaConfigType>))]
     public GachaConfigType UIGFGachaType { get; set; } = default!;
 }

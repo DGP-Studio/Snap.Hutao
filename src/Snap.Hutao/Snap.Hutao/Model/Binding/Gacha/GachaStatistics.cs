@@ -9,11 +9,6 @@ namespace Snap.Hutao.Model.Binding.Gacha;
 public class GachaStatistics
 {
     /// <summary>
-    /// 默认的空祈愿统计
-    /// </summary>
-    public static readonly GachaStatistics Default = new();
-
-    /// <summary>
     /// 角色活动
     /// </summary>
     public TypedWishSummary AvatarWish { get; set; } = default!;

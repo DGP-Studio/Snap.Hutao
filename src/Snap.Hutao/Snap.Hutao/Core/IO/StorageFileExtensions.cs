@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Threading;
 using System.IO;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Core.IO;
 
@@ -18,27 +18,47 @@ public static class StorageFileExtensions
     /// <typeparam name="T">内容的类型</typeparam>
     /// <param name="file">文件</param>
     /// <param name="options">序列化选项</param>
-    /// <param name="onException">错误时调用</param>
-    /// <returns>反序列化后的内容</returns>
-    public static async Task<T?> DeserializeJsonAsync<T>(this StorageFile file, JsonSerializerOptions options, Action<System.Exception>? onException = null)
+    /// <returns>操作是否成功，反序列化后的内容</returns>
+    public static async Task<ValueResult<bool, T?>> DeserializeFromJsonAsync<T>(this StorageFile file, JsonSerializerOptions options)
         where T : class
     {
-        T? t = null;
         try
         {
-            using (IRandomAccessStreamWithContentType fileSream = await file.OpenReadAsync())
+            using (FileStream stream = File.OpenRead(file.Path))
             {
-                using (Stream stream = fileSream.AsStream())
-                {
-                    t = await JsonSerializer.DeserializeAsync<T>(stream, options).ConfigureAwait(false);
-                }
+                T? t = await JsonSerializer.DeserializeAsync<T>(stream, options).ConfigureAwait(false);
+                return new(true, t);
             }
         }
         catch (System.Exception ex)
         {
-            onException?.Invoke(ex);
+            _ = ex;
+            return new(false, null);
         }
+    }
 
-        return t;
+    /// <summary>
+    /// 将对象异步序列化入文件
+    /// </summary>
+    /// <typeparam name="T">对象的类型</typeparam>
+    /// <param name="file">文件</param>
+    /// <param name="obj">对象</param>
+    /// <param name="options">序列化选项</param>
+    /// <returns>操作是否成功</returns>
+    public static async Task<bool> SerializeToJsonAsync<T>(this StorageFile file, T obj, JsonSerializerOptions options)
+    {
+        try
+        {
+            using (FileStream stream = File.Create(file.Path))
+            {
+                await JsonSerializer.SerializeAsync(stream, obj, options).ConfigureAwait(false);
+            }
+
+            return true;
+        }
+        catch (System.Exception)
+        {
+            return false;
+        }
     }
 }

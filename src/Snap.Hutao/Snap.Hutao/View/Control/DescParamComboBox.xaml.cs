@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
 using Snap.Hutao.Model.Metadata;
+using System.Diagnostics;
 
 namespace Snap.Hutao.View.Control;
 

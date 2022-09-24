@@ -78,7 +78,7 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
     {
         using (SafeFileHandle snapshot = CreateToolhelp32Snapshot_SafeHandle(CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE, (uint)processId))
         {
-            Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error());
+            Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
             MODULEENTRY32 entry = StructMarshal.MODULEENTRY32();
             bool found = false;

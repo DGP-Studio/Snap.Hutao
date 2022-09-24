@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using MiniExcelLibs.Attributes;
+using Snap.Hutao.Core.Json.Converter;
 using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -32,15 +33,15 @@ public class GachaLogItem
     [ExcelColumn(Name = "item_id")]
     [Obsolete("API clear this property")]
     [JsonPropertyName("item_id")]
-    public string ItemId { get; set; } = default!;
+    public string ItemId { get; set; } = string.Empty;
 
     /// <summary>
     /// 个数 一般为 1
     /// </summary>
     [ExcelColumn(Name = "count")]
     [JsonPropertyName("count")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
-    public int Count { get; set; }
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public int? Count { get; set; }
 
     /// <summary>
     /// 时间
@@ -76,7 +77,7 @@ public class GachaLogItem
     /// </summary>
     [ExcelColumn(Name = "rank_type")]
     [JsonPropertyName("rank_type")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(EnumStringValueConverter<ItemQuality>))]
     public ItemQuality Rank { get; set; } = default!;
 
     /// <summary>

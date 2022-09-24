@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.UI.Behaviors;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 
@@ -11,7 +12,7 @@ namespace Snap.Hutao.Control.Behavior;
 /// <summary>
 /// Make ContentDialog's SmokeLayerBackground dsiplay over custom titleBar
 /// </summary>
-public class ContentDialogBehavior : BehaviorBase<FrameworkElement>
+public class ContentDialogBehavior : BehaviorBase<ContentDialog>
 {
     /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()

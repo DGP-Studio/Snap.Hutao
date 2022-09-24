@@ -16,7 +16,7 @@ internal static class EnumExtensions
     /// <typeparam name="TEnum">枚举的类型</typeparam>
     /// <param name="enum">枚举值</param>
     /// <returns>描述</returns>
-    internal static FormatMethod GetFormat<TEnum>(this TEnum @enum)
+    internal static FormatMethod GetFormatMethod<TEnum>(this TEnum @enum)
         where TEnum : struct, Enum
     {
         string enumName = Must.NotNull(Enum.GetName(@enum)!);

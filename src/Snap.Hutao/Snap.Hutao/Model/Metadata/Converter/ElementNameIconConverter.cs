@@ -1,14 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Control;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
 /// 元素名称图标转换器
 /// </summary>
-internal class ElementNameIconConverter : IValueConverter
+internal class ElementNameIconConverter : ValueConverterBase<string, Uri>
 {
     private const string BaseUrl = "https://static.snapgenshin.com/IconElement/UI_Icon_Element_{0}.png";
 
@@ -35,14 +35,8 @@ internal class ElementNameIconConverter : IValueConverter
     }
 
     /// <inheritdoc/>
-    public object Convert(object value, Type targetType, object parameter, string language)
+    public override Uri Convert(string from)
     {
-        return ElementNameToIconUri((string)value);
-    }
-
-    /// <inheritdoc/>
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
-    {
-        throw Must.NeverHappen();
+        return ElementNameToIconUri(from);
     }
 }

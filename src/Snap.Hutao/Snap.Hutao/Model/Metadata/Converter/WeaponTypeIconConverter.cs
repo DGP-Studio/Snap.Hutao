@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Control;
 using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 元素名称图标转换器
 /// </summary>
-internal class WeaponTypeIconConverter : IValueConverter
+internal class WeaponTypeIconConverter : ValueConverterBase<WeaponType, Uri>
 {
     private const string BaseUrl = "https://static.snapgenshin.com/Skill/Skill_A_{0}.png";
 
@@ -34,14 +34,8 @@ internal class WeaponTypeIconConverter : IValueConverter
     }
 
     /// <inheritdoc/>
-    public object Convert(object value, Type targetType, object parameter, string language)
+    public override Uri Convert(WeaponType from)
     {
-        return WeaponTypeToIconUri((WeaponType)value);
-    }
-
-    /// <inheritdoc/>
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
-    {
-        throw Must.NeverHappen();
+        return WeaponTypeToIconUri(from);
     }
 }

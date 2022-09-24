@@ -18,7 +18,7 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
             return false;
         }
 
-        if (typeToConvert.GetGenericTypeDefinition() != typeof(Dictionary<,>))
+        if (typeToConvert.GetGenericTypeDefinition() != typeof(IDictionary<,>))
         {
             return false;
         }
@@ -40,14 +40,11 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
     private class StringEnumDictionaryConverterInner<TKey, TValue> : JsonConverter<IDictionary<TKey, TValue>>
         where TKey : struct, Enum
     {
-        private readonly JsonConverter<TValue>? valueConverter;
         private readonly Type keyType;
         private readonly Type valueType;
 
         public StringEnumDictionaryConverterInner(JsonSerializerOptions options)
         {
-            valueConverter = (JsonConverter<TValue>)options.GetConverter(typeof(TValue));
-
             // Cache the key and value types.
             keyType = typeof(TKey);
             valueType = typeof(TValue);
@@ -77,22 +74,13 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
 
                 string? propertyName = reader.GetString();
 
-                if (!Enum.TryParse(propertyName, out TKey key))
+                if (!Enum.TryParse(propertyName, ignoreCase: false, out TKey key) && !Enum.TryParse(propertyName, ignoreCase: true, out key))
                 {
                     throw new JsonException($"Unable to convert \"{propertyName}\" to Enum \"{keyType}\".");
                 }
 
                 // Get the value.
-                TValue value;
-                if (valueConverter != null)
-                {
-                    reader.Read();
-                    value = valueConverter.Read(ref reader, valueType, options)!;
-                }
-                else
-                {
-                    value = JsonSerializer.Deserialize<TValue>(ref reader, options)!;
-                }
+                TValue value = JsonSerializer.Deserialize<TValue>(ref reader, options)!;
 
                 // Add to dictionary.
                 dictionary.Add(key, value);
@@ -111,15 +99,7 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
                 string? convertedName = options.PropertyNamingPolicy?.ConvertName(propertyName) ?? propertyName;
 
                 writer.WritePropertyName(convertedName);
-
-                if (valueConverter != null)
-                {
-                    valueConverter.Write(writer, value, options);
-                }
-                else
-                {
-                    JsonSerializer.Serialize(writer, value, options);
-                }
+                JsonSerializer.Serialize(writer, value, options);
             }
 
             writer.WriteEndObject();

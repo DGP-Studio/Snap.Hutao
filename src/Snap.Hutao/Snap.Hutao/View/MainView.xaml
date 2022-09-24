@@ -4,11 +4,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:cwu="using:CommunityToolkit.WinUI.UI"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.View"
     xmlns:shvh="using:Snap.Hutao.View.Helper"
     xmlns:shvp="using:Snap.Hutao.View.Page"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
@@ -26,21 +25,26 @@
                     Content="活动"
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
+
+                <NavigationViewItemHeader Content="工具"/>
                 
+                <NavigationViewItem
+                    Content="祈愿记录"
+                    shvh:NavHelper.NavigateTo="shvp:GachaLogPage"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
+
                 <NavigationViewItem
                     Content="成就"
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
 
+                <NavigationViewItemHeader Content="WIKI"/>
+
                 <NavigationViewItem
                     Content="角色"
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
-
-                <NavigationViewItem
-                    Content="祈愿记录"
-                    shvh:NavHelper.NavigateTo="shvp:GachaLogPage"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
+                
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>

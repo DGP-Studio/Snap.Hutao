@@ -44,7 +44,9 @@ public sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     public void OnReport(FetchState state)
     {
         State = state;
-        GachaItemsPresenter.Header = state.ConfigType.GetDescription();
+        GachaItemsPresenter.Header = state.AuthKeyTimeout
+            ? null
+            : (object)$"正在获取 {state.ConfigType.GetDescription()}";
 
         // Binding not working here.
         GachaItemsPresenter.Items.Clear();

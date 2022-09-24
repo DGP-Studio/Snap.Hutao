@@ -6,6 +6,7 @@ using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using System.IO;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -169,34 +170,21 @@ public abstract class CacheBase<T>
 
     private static string GetCacheFileName(Uri uri)
     {
-        return CreateHash64(uri.ToString()).ToString();
-    }
-
-    private static ulong CreateHash64(string str)
-    {
-        byte[] utf8 = Encoding.UTF8.GetBytes(str);
-
-        ulong value = (ulong)utf8.Length;
-        for (int n = 0; n < utf8.Length; n++)
-        {
-            value += (ulong)utf8[n] << ((n * 5) % 56);
-        }
-
-        return value;
+        string url = uri.ToString();
+        byte[] chars = Encoding.UTF8.GetBytes(url);
+        byte[] hash = SHA1.HashData(chars);
+        return System.Convert.ToHexString(hash);
     }
 
     private async Task DownloadFileAsync(Uri uri, StorageFile baseFile)
     {
         logger.LogInformation(EventIds.FileCaching, "Begin downloading for {uri}", uri);
 
-        using (Stream httpStream = await httpClient.GetStreamAsync(uri))
+        using (Stream httpStream = await httpClient.GetStreamAsync(uri).ConfigureAwait(false))
         {
-            using (Stream fileStream = await baseFile.OpenStreamForWriteAsync())
+            using (FileStream fileStream = File.Create(baseFile.Path))
             {
-                await httpStream.CopyToAsync(fileStream);
-
-                // Call this before dispose fileStream.
-                await fileStream.FlushAsync();
+                await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
             }
         }
     }

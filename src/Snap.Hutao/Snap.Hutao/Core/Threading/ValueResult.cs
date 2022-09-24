@@ -12,8 +12,6 @@ namespace Snap.Hutao.Core.Threading;
 /// <typeparam name="TResult">结果类型</typeparam>
 /// <typeparam name="TValue">值类型</typeparam>
 public readonly struct ValueResult<TResult, TValue> : IDeconstructable<TResult, TValue>
-    where TResult : notnull
-    where TValue : notnull
 {
     /// <summary>
     /// 是否成功

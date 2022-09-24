@@ -1,34 +1,27 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Control;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
 /// 角色名片转换器
 /// </summary>
-internal class AvatarNameCardPicConverter : IValueConverter
+internal class AvatarNameCardPicConverter : ValueConverterBase<Avatar.Avatar?, Uri>
 {
     private const string BaseUrl = "https://static.snapgenshin.com/NameCardPic/UI_NameCardPic_{0}_P.png";
 
     /// <inheritdoc/>
-    public object Convert(object value, Type targetType, object parameter, string language)
+    public override Uri Convert(Avatar.Avatar? avatar)
     {
-        if (value == null)
+        if (avatar == null)
         {
             return null!;
         }
 
-        Avatar.Avatar avatar = (Avatar.Avatar)value;
-        string avatarName = ReplaceSpecialCaseNaming(avatar.Icon[14..]);
+        string avatarName = ReplaceSpecialCaseNaming(avatar.Icon["UI_AvatarIcon_".Length..]);
         return new Uri(string.Format(BaseUrl, avatarName));
-    }
-
-    /// <inheritdoc/>
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
-    {
-        throw Must.NeverHappen();
     }
 
     private static string ReplaceSpecialCaseNaming(string avatarName)

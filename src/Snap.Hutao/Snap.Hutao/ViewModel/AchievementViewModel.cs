@@ -377,12 +377,16 @@ internal class AchievementViewModel
 
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker();
         picker.SuggestedStartLocation = PickerLocationId.Desktop;
+        picker.CommitButtonText = "导入";
         picker.FileTypeFilter.Add(".json");
 
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {
-            if (await file.DeserializeJsonAsync<UIAF>(options, ex => infoBarService?.Error(ex)).ConfigureAwait(false) is UIAF uiaf)
+            (bool isOk, UIAF? uiaf) = await file.DeserializeFromJsonAsync<UIAF>(options).ConfigureAwait(false);
+
+            if (isOk)
             {
+                Must.NotNull(uiaf!);
                 await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf).ConfigureAwait(false);
             }
             else

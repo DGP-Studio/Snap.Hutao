@@ -34,7 +34,7 @@ public class SystemBackdrop
     /// 尝试设置背景
     /// </summary>
     /// <returns>是否设置成功</returns>
-    public bool TrySetBackdrop()
+    public bool TryApply()
     {
         if (!MicaController.IsSupported())
         {
@@ -58,7 +58,7 @@ public class SystemBackdrop
             backdropController = new()
             {
                 // Mica Alt
-                Kind = MicaKind.BaseAlt
+                Kind = MicaKind.BaseAlt,
             };
             backdropController.AddSystemBackdropTarget(window.As<ICompositionSupportsSystemBackdrop>());
             backdropController.SetSystemBackdropConfiguration(configuration);

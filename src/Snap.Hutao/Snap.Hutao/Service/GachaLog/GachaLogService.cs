@@ -2,13 +2,17 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.Threading;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
+using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
@@ -46,8 +50,11 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
 
     private readonly Dictionary<string, ItemBase> itemBaseCache = new();
 
-    private Dictionary<string, Model.Metadata.Avatar.Avatar>? avatarMap;
-    private Dictionary<string, Model.Metadata.Weapon.Weapon>? weaponMap;
+    private Dictionary<string, Model.Metadata.Avatar.Avatar>? nameAvatarMap;
+    private Dictionary<string, Model.Metadata.Weapon.Weapon>? nameWeaponMap;
+
+    private Dictionary<int, Model.Metadata.Avatar.Avatar>? idAvatarMap;
+    private Dictionary<int, Model.Metadata.Weapon.Weapon>? idWeaponMap;
     private ObservableCollection<GachaArchive>? archiveCollection;
 
     /// <summary>
@@ -90,6 +97,26 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     public bool IsInitialized { get; set; }
 
     /// <inheritdoc/>
+    public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
+    {
+        Verify.Operation(IsInitialized, "祈愿记录服务未能正常初始化");
+
+        var list = appDbContext.GachaItems
+            .Where(i => i.ArchiveId == archive.InnerId)
+            .AsEnumerable()
+            .Select(i => i.ToUIGFItem(GetNameQualityByItemId(i.ItemId)))
+            .ToList();
+
+        UIGF uigf = new()
+        {
+            Info = UIGFInfo.Create(archive.Uid),
+            List = list,
+        };
+
+        return Task.FromResult(uigf);
+    }
+
+    /// <inheritdoc/>
     public ObservableCollection<GachaArchive> GetArchiveCollection()
     {
         return archiveCollection ??= new(appDbContext.GachaArchives.ToList());
@@ -100,8 +127,11 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     {
         if (await metadataService.InitializeAsync(token).ConfigureAwait(false))
         {
-            avatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
-            weaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
+            nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
+            nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
+
+            idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
+            idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
             IsInitialized = true;
         }
@@ -128,7 +158,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         }
         else
         {
-            return Task.FromResult(GachaStatistics.Default);
+            return Must.Fault<GachaStatistics>("没有选中的存档");
         }
     }
 
@@ -150,7 +180,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
-    public async Task RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token)
+    public async Task<bool> RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token)
     {
         Verify.Operation(IsInitialized, "祈愿记录服务未能正常初始化");
 
@@ -161,8 +191,9 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
             _ => throw Must.NeverHappen(),
         };
 
-        GachaArchive? result = await FetchGachaLogsAsync(query, isLazy, progress, token).ConfigureAwait(false);
+        (bool authkeyValid, GachaArchive? result) = await FetchGachaLogsAsync(query, isLazy, progress, token).ConfigureAwait(false);
         CurrentArchive = result ?? CurrentArchive;
+        return authkeyValid;
     }
 
     /// <inheritdoc/>
@@ -206,7 +237,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         CurrentArchive = archive;
     }
 
-    private async Task<GachaArchive?> FetchGachaLogsAsync(string query, bool isLazy, IProgress<FetchState> progress, CancellationToken token)
+    private async Task<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(string query, bool isLazy, IProgress<FetchState> progress, CancellationToken token)
     {
         GachaArchive? archive = null;
         FetchState state = new();
@@ -274,7 +305,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
             await RandomDelayAsync(token).ConfigureAwait(false);
         }
 
-        return archive;
+        return new(!state.AuthKeyTimeout, archive);
     }
 
     private void SkipOrInitArchive([NotNull] ref GachaArchive? archive, string uid)
@@ -320,8 +351,8 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     {
         return item.ItemType switch
         {
-            "角色" => avatarMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
-            "武器" => weaponMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
+            "角色" => nameAvatarMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
+            "武器" => nameWeaponMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
             _ => 0,
         };
     }
@@ -332,8 +363,8 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         {
             result = type switch
             {
-                "角色" => avatarMap![name].ToItemBase(),
-                "武器" => weaponMap![name].ToItemBase(),
+                "角色" => nameAvatarMap![name].ToItemBase(),
+                "武器" => nameWeaponMap![name].ToItemBase(),
                 _ => throw Must.NeverHappen(),
             };
 
@@ -341,6 +372,16 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         }
 
         return result;
+    }
+
+    private INameQuality GetNameQualityByItemId(int id)
+    {
+        return id.Place() switch
+        {
+            8 => idAvatarMap![id],
+            5 => idWeaponMap![id],
+            _ => throw Must.NeverHappen(),
+        };
     }
 
     private void SaveGachaItems(List<GachaItem> itemsToAdd, bool isLazy, GachaArchive? archive, long endId)

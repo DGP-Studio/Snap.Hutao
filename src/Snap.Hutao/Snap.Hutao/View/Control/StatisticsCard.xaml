@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shmbg="using:Snap.Hutao.Model.Binding.Gacha"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shmbg:TypedWishSummary}">
@@ -54,6 +53,8 @@
                         Visibility="{Binding IsUp,Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                     <TextBlock
+                        Width="16"
+                        TextAlignment="Center"
                         Text="{Binding LastPull}"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyTextBlockStyle}"/>
@@ -94,16 +95,45 @@
                             <TextBlock Margin="12,0,0,12" Text="抽" VerticalAlignment="Bottom"/>
                         </StackPanel>
 
-                        <ProgressBar 
-                            Margin="0,0,0,0" 
-                            Value="{Binding LastOrangePull}"
-                            Maximum="90"
-                            Foreground="{StaticResource OrangeBrush}"/>
-                        <ProgressBar
-                            Margin="0,6,0,0"
-                            Value="{Binding LastPurplePull}"
-                            Maximum="10"
-                            Foreground="{StaticResource PurpleBrush}"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ProgressBar
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Value="{Binding LastOrangePull}"
+                                Maximum="{Binding GuarenteeOrangeThreshold}"
+                                Foreground="{StaticResource OrangeBrush}"/>
+                            <TextBlock
+                                Width="20"
+                                TextAlignment="Center"
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding LastOrangePull}"
+                                Foreground="{StaticResource OrangeBrush}"/>
+                            <ProgressBar
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                Value="{Binding LastPurplePull}"
+                                Maximum="{Binding GuarenteePurpleThreshold}"
+                                Foreground="{StaticResource PurpleBrush}"/>
+                            <TextBlock
+                                Width="20"
+                                TextAlignment="Center"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding LastPurplePull}"
+                                Foreground="{StaticResource PurpleBrush}"/>
+                        </Grid>
+
                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                             <TextBlock
                                 FontFamily="Consolas"

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Data;
+using Snap.Hutao.Control;
 using Snap.Hutao.Model.Metadata.Avatar;
 using System.Text.RegularExpressions;
 
@@ -10,41 +10,26 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 描述参数解析器
 /// </summary>
-internal class DescParamDescriptor : IValueConverter
+internal sealed class DescParamDescriptor : ValueConverterBase<DescParam, IList<LevelParam<string, ParameterInfo>>>
 {
     /// <inheritdoc/>
-    public object Convert(object value, Type targetType, object parameter, string language)
+    public override IList<LevelParam<string, ParameterInfo>> Convert(DescParam rawDescParam)
     {
-        DescParam rawDescParam = (DescParam)value;
-
-        // Spilt rawDesc into two parts: desc and format
-        IList<DescFormat> parsedDescriptions = rawDescParam.Descriptions
-            .Select(desc =>
-            {
-                string[] parts = desc.Split('|', 2);
-                return new DescFormat(parts[0], parts[1]);
-            })
-            .ToList();
-
         IList<LevelParam<string, ParameterInfo>> parameters = rawDescParam.Parameters
-            .Select(param =>
-            {
-                IList<ParameterInfo> parameters = GetFormattedParameters(parsedDescriptions, param.Parameters);
-                return new LevelParam<string, ParameterInfo>() { Level = param.Level.ToString(), Parameters = parameters };
-            })
+            .Select(param => new LevelParam<string, ParameterInfo>(
+                param.Level.ToString(),
+                GetParameterInfos(rawDescParam, param.Parameters)))
             .ToList();
 
         return parameters;
     }
 
-    /// <inheritdoc/>
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    private static IList<ParameterInfo> GetParameterInfos(DescParam rawDescParam, IList<double> param)
     {
-        throw Must.NeverHappen();
-    }
+        IList<DescFormat> formats = rawDescParam.Descriptions
+            .Select(desc => new DescFormat(desc))
+            .ToList();
 
-    private static IList<ParameterInfo> GetFormattedParameters(IList<DescFormat> formats, IList<double> param)
-    {
         List<ParameterInfo> results = new();
 
         for (int index = 0; index < formats.Count; index++)
@@ -63,25 +48,12 @@ internal class DescParamDescriptor : IValueConverter
     {
         if (match.Success)
         {
+            // remove parentheses and split by {value:format}
             string[] parts = match.Value[1..^1].Split(':', 2);
 
-            int index = int.Parse(parts[0][5..]) - 1;
-            if (parts[1] == "I")
-            {
-                return ((int)param[index]).ToString();
-            }
+            int index = int.Parse(parts[0]["param".Length..]) - 1;
 
-            if (parts[1] == "F1P")
-            {
-                return string.Format("{0:P1}", param[index]);
-            }
-
-            if (parts[1] == "F2P")
-            {
-                return string.Format("{0:P2}", param[index]);
-            }
-
-            return string.Format($"{{0:{parts[1]}}}", param[index]);
+            return string.Format(new ParameterFormat(), $"{{0:{parts[1]}}}", param[index]);
         }
         else
         {
@@ -89,12 +61,15 @@ internal class DescParamDescriptor : IValueConverter
         }
     }
 
-    private class DescFormat
+    private sealed class DescFormat
     {
-        public DescFormat(string description, string format)
+        public DescFormat(string desc)
         {
-            Description = description;
-            Format = format;
+            // Spilt rawDesc into two parts: desc and format
+            string[] parts = desc.Split('|', 2);
+
+            Description = parts[0];
+            Format = parts[1];
         }
 
         public string Description { get; set; }

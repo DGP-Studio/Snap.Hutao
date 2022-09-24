@@ -44,6 +44,11 @@ public enum KnownReturnCode : int
     VIsitTooFrequently = -110,
 
     /// <summary>
+    /// 应用Id错误
+    /// </summary>
+    AppIdError = -109,
+
+    /// <summary>
     /// 验证密钥过期
     /// </summary>
     AuthKeyTimeOut = -101,

@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Configuration;
 
 namespace Snap.Hutao.Context.Database;
 
@@ -51,6 +52,11 @@ public class AppDbContext : DbContext
     public DbSet<GachaArchive> GachaArchives { get; set; } = default!;
 
     /// <summary>
+    /// 角色信息
+    /// </summary>
+    public DbSet<AvatarInfo> AvatarInfos { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个临时的应用程序数据库上下文
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>
@@ -58,5 +64,11 @@ public class AppDbContext : DbContext
     public static AppDbContext Create(string sqlConnectionString)
     {
         return new(new DbContextOptionsBuilder<AppDbContext>().UseSqlite(sqlConnectionString).Options);
+    }
+
+    /// <inheritdoc/>
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new AvatarInfoConfiguration());
     }
 }

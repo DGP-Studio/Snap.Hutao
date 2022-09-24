@@ -76,9 +76,9 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
     {
         try
         {
-            Announcement = await announcementService.GetAnnouncementsAsync(CancellationToken);
+            Announcement = await announcementService.GetAnnouncementsAsync(CancellationToken).ConfigureAwait(true);
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
             logger.LogInformation($"{nameof(OpenUIAsync)} cancelled");
         }

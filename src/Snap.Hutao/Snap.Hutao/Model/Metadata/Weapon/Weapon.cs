@@ -12,7 +12,7 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 /// <summary>
 /// 武器
 /// </summary>
-public class Weapon : IStatisticsItemSource
+public class Weapon : IStatisticsItemSource, INameQuality
 {
     /// <summary>
     /// Id
@@ -54,6 +54,10 @@ public class Weapon : IStatisticsItemSource
     /// </summary>
     public PropertyInfo Property { get; set; } = default!;
 
+    /// <inheritdoc/>
+    [JsonIgnore]
+    public ItemQuality Quality => RankLevel;
+
     /// <summary>
     /// 转换为基础物品
     /// </summary>
@@ -63,7 +67,7 @@ public class Weapon : IStatisticsItemSource
         return new()
         {
             Name = Name,
-            Icon = EquipIconConverter.NameToUri(Icon),
+            Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),
             Quality = RankLevel,
         };
@@ -79,7 +83,7 @@ public class Weapon : IStatisticsItemSource
         return new()
         {
             Name = Name,
-            Icon = EquipIconConverter.NameToUri(Icon),
+            Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),
             Quality = RankLevel,
             Count = count,
@@ -98,7 +102,7 @@ public class Weapon : IStatisticsItemSource
         return new()
         {
             Name = Name,
-            Icon = EquipIconConverter.NameToUri(Icon),
+            Icon = EquipIconConverter.IconNameToUri(Icon),
             Badge = WeaponTypeIconConverter.WeaponTypeToIconUri(WeaponType),
             Time = time,
             Quality = RankLevel,

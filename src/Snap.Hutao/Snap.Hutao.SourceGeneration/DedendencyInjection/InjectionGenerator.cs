@@ -74,39 +74,43 @@ internal static partial class ServiceCollectionExtensions
 
         foreach (INamedTypeSymbol classSymbol in receiver.Classes)
         {
-            lineBuilder
-                .Clear()
-                .Append("\r\n");
-
-            AttributeData injectionInfo = classSymbol
+            IEnumerable<AttributeData> datas = classSymbol
                 .GetAttributes()
-                .Single(attr => attr.AttributeClass!.ToDisplayString() == InjectionSyntaxContextReceiver.AttributeName);
-            ImmutableArray<TypedConstant> arguments = injectionInfo.ConstructorArguments;
+                .Where(attr => attr.AttributeClass!.ToDisplayString() == InjectionSyntaxContextReceiver.AttributeName);
 
-            TypedConstant injectAs = arguments[0];
-
-            string injectAsName = injectAs.ToCSharpString();
-            switch (injectAsName)
+            foreach (AttributeData injectionInfo in datas)
             {
-                case InjectAsSingletonName:
-                    lineBuilder.Append(@"        services.AddSingleton(");
-                    break;
-                case InjectAsTransientName:
-                    lineBuilder.Append(@"        services.AddTransient(");
-                    break;
-                default:
-                    throw new InvalidOperationException($"非法的InjectAs值: [{injectAsName}]");
+                lineBuilder
+                    .Clear()
+                    .Append("\r\n");
+
+                ImmutableArray<TypedConstant> arguments = injectionInfo.ConstructorArguments;
+
+                TypedConstant injectAs = arguments[0];
+
+                string injectAsName = injectAs.ToCSharpString();
+                switch (injectAsName)
+                {
+                    case InjectAsSingletonName:
+                        lineBuilder.Append(@"        services.AddSingleton(");
+                        break;
+                    case InjectAsTransientName:
+                        lineBuilder.Append(@"        services.AddTransient(");
+                        break;
+                    default:
+                        throw new InvalidOperationException($"非法的InjectAs值: [{injectAsName}]");
+                }
+
+                if (arguments.Length == 2)
+                {
+                    TypedConstant interfaceType = arguments[1];
+                    lineBuilder.Append($"{interfaceType.ToCSharpString()}, ");
+                }
+
+                lineBuilder.Append($"typeof({classSymbol.ToDisplayString()}));");
+
+                lines.Add(lineBuilder.ToString());
             }
-
-            if (arguments.Length == 2)
-            {
-                TypedConstant interfaceType = arguments[1];
-                lineBuilder.Append($"{interfaceType.ToCSharpString()}, ");
-            }
-
-            lineBuilder.Append($"typeof({classSymbol.ToDisplayString()}));");
-
-            lines.Add(lineBuilder.ToString());
         }
 
         foreach (string line in lines.OrderBy(x => x))

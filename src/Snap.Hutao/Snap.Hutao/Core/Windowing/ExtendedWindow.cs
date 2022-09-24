@@ -16,7 +16,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// 窗口管理器
 /// 主要包含了针对窗体的 P/Inoke 逻辑
 /// </summary>
-internal sealed class WindowManager : IDisposable
+internal sealed class ExtendedWindow
 {
     private readonly HWND handle;
     private readonly AppWindow appWindow;
@@ -24,7 +24,7 @@ internal sealed class WindowManager : IDisposable
     private readonly Window window;
     private readonly FrameworkElement titleBar;
 
-    private readonly ILogger<WindowManager> logger;
+    private readonly ILogger<ExtendedWindow> logger;
     private readonly WindowSubclassManager subclassManager;
 
     private readonly bool useLegacyDragBar;
@@ -34,15 +34,15 @@ internal sealed class WindowManager : IDisposable
     /// </summary>
     /// <param name="window">窗口</param>
     /// <param name="titleBar">充当标题栏的元素</param>
-    public WindowManager(Window window, FrameworkElement titleBar)
+    private ExtendedWindow(Window window, FrameworkElement titleBar)
     {
         this.window = window;
         this.titleBar = titleBar;
-        logger = Ioc.Default.GetRequiredService<ILogger<WindowManager>>();
+        logger = Ioc.Default.GetRequiredService<ILogger<ExtendedWindow>>();
 
         handle = (HWND)WindowNative.GetWindowHandle(window);
 
-        Microsoft.UI.WindowId windowId = Win32Interop.GetWindowIdFromWindow(handle);
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(handle);
         appWindow = AppWindow.GetFromWindowId(windowId);
 
         useLegacyDragBar = !AppWindowTitleBar.IsCustomizationSupported();
@@ -51,11 +51,15 @@ internal sealed class WindowManager : IDisposable
         InitializeWindow();
     }
 
-    /// <inheritdoc/>
-    public void Dispose()
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    /// <param name="window">窗口</param>
+    /// <param name="titleBar">标题栏</param>
+    /// <returns>实例</returns>
+    public static ExtendedWindow Initialize(Window window, FrameworkElement titleBar)
     {
-        Persistence.Save(appWindow);
-        subclassManager?.Dispose();
+        return new(window, titleBar);
     }
 
     private static void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
@@ -105,11 +109,19 @@ internal sealed class WindowManager : IDisposable
 
         appWindow.Show(true);
 
-        bool micaApplied = new SystemBackdrop(window).TrySetBackdrop();
+        bool micaApplied = new SystemBackdrop(window).TryApply();
         logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
 
         bool subClassApplied = subclassManager.TrySetWindowSubclass();
         logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(WindowSubclassManager), subClassApplied ? "succeed" : "failed");
+
+        window.Closed += OnWindowClosed;
+    }
+
+    private void OnWindowClosed(object sender, WindowEventArgs args)
+    {
+        Persistence.Save(appWindow);
+        subclassManager?.Dispose();
     }
 
     private void ExtendsContentIntoTitleBar()

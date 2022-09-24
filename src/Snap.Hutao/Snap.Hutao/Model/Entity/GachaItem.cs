@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Extension;
 using Snap.Hutao.Model.InterChange.GachaLog;
+using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -59,6 +61,17 @@ public class GachaItem
     public long Id { get; set; }
 
     /// <summary>
+    /// 获取物品类型字符串
+    /// </summary>
+    /// <param name="itemId">物品Id</param>
+    /// <returns>物品类型字符串</returns>
+    public static string GetItemTypeStringByItemId(int itemId)
+    {
+        int idLength = itemId.Place();
+        return idLength == 8 ? "角色" : idLength == 5 ? "武器" : "未知";
+    }
+
+    /// <summary>
     /// 构造一个新的数据库祈愿物品
     /// </summary>
     /// <param name="archiveId">存档Id</param>
@@ -109,6 +122,26 @@ public class GachaItem
         {
             GachaConfigType.AvatarEventWish2 => GachaConfigType.AvatarEventWish,
             _ => configType,
+        };
+    }
+
+    /// <summary>
+    /// 转换到UIGF物品
+    /// </summary>
+    /// <param name="nameQuality">物品</param>
+    /// <returns>UIGF 物品</returns>
+    public UIGFItem ToUIGFItem(INameQuality nameQuality)
+    {
+        return new()
+        {
+            GachaType = GachaType,
+            Count = 1,
+            Time = Time,
+            Name = nameQuality.Name,
+            ItemType = GetItemTypeStringByItemId(ItemId),
+            Rank = nameQuality.Quality,
+            Id = Id,
+            UIGFGachaType = QueryType,
         };
     }
 }

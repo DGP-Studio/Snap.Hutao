@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core.Exception;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Threading;

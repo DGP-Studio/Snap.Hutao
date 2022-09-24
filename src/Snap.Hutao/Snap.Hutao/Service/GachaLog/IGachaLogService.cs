@@ -19,6 +19,13 @@ internal interface IGachaLogService
     GachaArchive? CurrentArchive { get; set; }
 
     /// <summary>
+    /// 导出为一个新的UIGF对象
+    /// </summary>
+    /// <param name="archive">存档</param>
+    /// <returns>UIGF对象</returns>
+    Task<UIGF> ExportToUIGFAsync(GachaArchive archive);
+
+    /// <summary>
     /// 获取可用于绑定的存档集合
     /// </summary>
     /// <returns>存档集合</returns>
@@ -61,8 +68,8 @@ internal interface IGachaLogService
     /// <param name="strategy">刷新策略</param>
     /// <param name="progress">进度</param>
     /// <param name="token">取消令牌</param>
-    /// <returns>任务</returns>
-    Task RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token);
+    /// <returns>验证密钥是否可用</returns>
+    Task<bool> RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token);
 
     /// <summary>
     /// 删除存档

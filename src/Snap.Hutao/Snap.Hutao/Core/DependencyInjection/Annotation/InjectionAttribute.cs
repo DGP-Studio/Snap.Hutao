@@ -7,7 +7,7 @@ namespace Snap.Hutao.Core.DependencyInjection.Annotation;
 /// 指示被标注的类型可注入
 /// 由源生成器生成注入代码
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public class InjectionAttribute : Attribute
 {
     /// <summary>

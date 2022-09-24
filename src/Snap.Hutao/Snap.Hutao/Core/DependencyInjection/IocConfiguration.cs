@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem;
 using System.Diagnostics;
-using System.Text.Encodings.Web;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
@@ -22,14 +21,7 @@ internal static class IocConfiguration
     /// <returns>可继续操作的集合</returns>
     public static IServiceCollection AddJsonSerializerOptions(this IServiceCollection services)
     {
-        return services
-            .AddSingleton(new JsonSerializerOptions()
-            {
-                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-                Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
-                PropertyNameCaseInsensitive = true,
-                WriteIndented = true,
-            });
+        return services.AddSingleton(CoreEnvironment.JsonOptions);
     }
 
     /// <summary>

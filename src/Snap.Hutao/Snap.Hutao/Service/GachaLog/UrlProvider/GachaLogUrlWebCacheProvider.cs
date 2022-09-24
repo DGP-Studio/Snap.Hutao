@@ -47,7 +47,6 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
                 {
                     using (BinaryReader reader = new(fileStream))
                     {
-                        Regex urlMatch = new("(https.+?game_biz=hk4e.+?)&", RegexOptions.Compiled);
                         string url = string.Empty;
                         while (!reader.EndOfStream())
                         {
@@ -58,7 +57,7 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
                                 byte[] chars = ReadBytesUntilZero(reader);
                                 string result = Encoding.UTF8.GetString(chars.AsSpan());
 
-                                if (urlMatch.Match(result).Success)
+                                if (result.Contains("&auth_appid=webview_gacha"))
                                 {
                                     url = result;
                                 }

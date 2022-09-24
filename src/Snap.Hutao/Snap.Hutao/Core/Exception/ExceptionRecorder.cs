@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
 
-namespace Snap.Hutao.Core.LifeCycle;
+namespace Snap.Hutao.Core.Exception;
 
 /// <summary>
 /// 异常记录器

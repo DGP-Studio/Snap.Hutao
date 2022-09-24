@@ -12,7 +12,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 角色
 /// </summary>
-public class Avatar : IStatisticsItemSource
+public class Avatar : IStatisticsItemSource, INameQuality
 {
     /// <summary>
     /// Id
@@ -93,7 +93,7 @@ public class Avatar : IStatisticsItemSource
         return new()
         {
             Name = Name,
-            Icon = AvatarIconConverter.NameToUri(Icon),
+            Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
             Quality = Quality,
         };
@@ -109,7 +109,7 @@ public class Avatar : IStatisticsItemSource
         return new()
         {
             Name = Name,
-            Icon = AvatarIconConverter.NameToUri(Icon),
+            Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
             Quality = Quality,
             Count = count,
@@ -128,7 +128,7 @@ public class Avatar : IStatisticsItemSource
         return new()
         {
             Name = Name,
-            Icon = AvatarIconConverter.NameToUri(Icon),
+            Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
             Quality = Quality,
             Time = time,

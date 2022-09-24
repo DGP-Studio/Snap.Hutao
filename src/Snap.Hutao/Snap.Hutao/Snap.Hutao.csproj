@@ -38,6 +38,7 @@
     <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
+    <None Remove="Resource\Icon\UI_Icon_None.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
     <None Remove="stylecop.json" />
@@ -81,6 +82,7 @@
     <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
+    <Content Include="Resource\Icon\UI_Icon_None.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
   </ItemGroup>
 
@@ -204,9 +206,6 @@
     <Page Update="View\Control\ItemIcon.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Annotation\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\GachaLogImportDialog.xaml">

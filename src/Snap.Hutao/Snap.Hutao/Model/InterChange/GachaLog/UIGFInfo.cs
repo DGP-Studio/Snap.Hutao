@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Model.InterChange.GachaLog;
@@ -53,4 +54,22 @@ public class UIGFInfo
     /// </summary>
     [JsonPropertyName("uigf_version")]
     public string UIGFVersion { get; set; } = default!;
+
+    /// <summary>
+    /// 构造一个新的专用 UIGF 信息
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>专用 UIGF 信息</returns>
+    public static UIGFInfo Create(string uid)
+    {
+        return new()
+        {
+            Uid = uid,
+            Language = "zh-cn",
+            ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
+            ExportApp = "胡桃",
+            ExportAppVersion = CoreEnvironment.Version.ToString(),
+            UIGFVersion = UIGF.CurrentVersion,
+        };
+    }
 }

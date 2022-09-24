@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Extension;
+using System.Text.Encodings.Web;
 using Windows.ApplicationModel;
 
 namespace Snap.Hutao.Core;
@@ -11,15 +12,15 @@ namespace Snap.Hutao.Core;
 /// </summary>
 internal static class CoreEnvironment
 {
+    // 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
+
     /// <summary>
     /// 动态密钥1的盐
-    /// 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
     /// </summary>
     public const string DynamicSecret1Salt = "n0KjuIrKgLHh08LWSCYP0WXlVXaYvV64";
 
     /// <summary>
     /// 动态密钥2的盐
-    /// 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
     /// </summary>
     public const string DynamicSecret2Salt = "YVEIkzDFNHLeKXLxzqCA9TzxCpWwbIbk";
 
@@ -47,6 +48,17 @@ internal static class CoreEnvironment
     /// 米游社设备Id
     /// </summary>
     public static readonly string HoyolabDeviceId;
+
+    /// <summary>
+    /// 默认的Json序列化选项
+    /// </summary>
+    public static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        PropertyNameCaseInsensitive = true,
+        WriteIndented = true,
+    };
 
     static CoreEnvironment()
     {
