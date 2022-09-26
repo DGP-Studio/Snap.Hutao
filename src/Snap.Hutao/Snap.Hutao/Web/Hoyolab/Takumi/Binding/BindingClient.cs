@@ -10,23 +10,22 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 /// <summary>
-/// 用户游戏角色提供器
+/// 绑定客户端
 /// </summary>
 [HttpClient(HttpClientConfigration.Default)]
-internal class UserGameRoleClient
+internal class BindingClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
-    private readonly ILogger<UserGameRoleClient> logger;
+    private readonly ILogger<BindingClient> logger;
 
     /// <summary>
     /// 构造一个新的用户游戏角色提供器
     /// </summary>
-    /// <param name="userService">用户服务</param>
     /// <param name="httpClient">请求器</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="logger">日志器</param>
-    public UserGameRoleClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<UserGameRoleClient> logger)
+    public BindingClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<BindingClient> logger)
     {
         this.httpClient = httpClient;
         this.options = options;

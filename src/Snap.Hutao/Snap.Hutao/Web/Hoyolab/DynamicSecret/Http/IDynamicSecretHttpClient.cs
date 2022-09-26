@@ -32,4 +32,14 @@ internal interface IDynamicSecretHttpClient<TValue>
     /// <param name="token">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     Task<HttpResponseMessage> PostAsJsonAsync(CancellationToken token);
+
+    /// <summary>
+    /// Sends a POST request to the specified Uri containing the value serialized as JSON in the request body.
+    /// </summary>
+    /// <typeparam name="TResult">值的类型</typeparam>
+    /// <param name="logger">日志器</param>
+    /// <param name="token">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+    /// <returns>结果</returns>
+    Task<TResult?> TryCatchPostAsJsonAsync<TResult>(ILogger logger, CancellationToken token = default)
+        where TResult : class;
 }

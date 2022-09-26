@@ -25,7 +25,7 @@ internal class ParameterFormat : IFormatProvider, ICustomFormatter
                         case 'P':
                             return string.Format($"{{0:P0}}", arg);
                         case 'I':
-                            return ((int)arg!).ToString();
+                            return arg == null ? "0" : ((IConvertible)arg).ToInt32(null).ToString();
                     }
 
                     break;

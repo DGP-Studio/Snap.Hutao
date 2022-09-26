@@ -89,16 +89,36 @@ internal static class ApiEndpoints
     }
     #endregion
 
-    #region UserGameRole
+    #region Binding
 
     /// <summary>
     /// 用户游戏角色
     /// </summary>
     public const string UserGameRoles = $"{ApiTaKumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_cn";
+
+    /// <summary>
+    /// 用户游戏角色
+    /// </summary>
+    public const string GenAuthKey = $"{ApiTaKumiBindingApi}/genAuthKey";
+    #endregion
+
+    #region Auth
+
+    /// <summary>
+    /// 获取 stoken 与 ltoken
+    /// </summary>
+    /// <param name="loginTicket">登录票证</param>
+    /// <param name="loginUid">uid</param>
+    /// <returns>Url</returns>
+    public static string AuthMultiToken(string loginTicket, string loginUid)
+    {
+        return $"{ApiTakumiAuthApi}/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3";
+    }
     #endregion
 
     // consts
     private const string ApiTakumi = "https://api-takumi.mihoyo.com";
+    private const string ApiTakumiAuthApi = $"{ApiTakumi}/auth/api";
     private const string ApiTaKumiBindingApi = $"{ApiTakumi}/binding/api";
     private const string ApiTakumiRecord = "https://api-takumi-record.mihoyo.com";
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";

@@ -45,9 +45,7 @@
                     <shvc:DescParamComboBox
                         Grid.Column="0"
                         HorizontalAlignment="Stretch"
-                        Source="{Binding Proud,Converter={StaticResource DescParamDescriptor}}"/>
-
-                    
+                        Source="{Binding Proud,Mode=OneWay,Converter={StaticResource DescParamDescriptor}}"/>
                 </StackPanel>
                 
             </Grid>

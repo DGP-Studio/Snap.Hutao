@@ -21,6 +21,11 @@ public enum RefreshOption
     WebCache,
 
     /// <summary>
+    /// 通过Stoken刷新
+    /// </summary>
+    Stoken,
+
+    /// <summary>
     /// 手动输入Url刷新
     /// </summary>
     ManualInput,

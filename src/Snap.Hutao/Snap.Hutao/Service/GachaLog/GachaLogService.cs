@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
@@ -168,6 +167,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         return option switch
         {
             RefreshOption.WebCache => urlProviders.Single(p => p.Name == nameof(GachaLogUrlWebCacheProvider)),
+            RefreshOption.Stoken => urlProviders.Single(p => p.Name == nameof(GachaLogUrlStokenProvider)),
             RefreshOption.ManualInput => urlProviders.Single(p => p.Name == nameof(GachaLogUrlManualInputProvider)),
             _ => null,
         };

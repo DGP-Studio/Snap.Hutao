@@ -8,7 +8,9 @@
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
-    mc:Ignorable="d">
+    xmlns:shvm="using:Snap.Hutao.ViewModel"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance shvm:UserViewModel}">
     <mxi:Interaction.Behaviors>
         <mxic:EventTriggerBehavior EventName="Loaded">
             <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
@@ -191,10 +193,18 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
+                        <TextBlock
+                            Margin="10,6,0,6"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="Cookie"/>
                         <CommandBar DefaultLabelPosition="Right">
                             <AppBarButton
                                 Icon="Add"
-                                Label="添加新用户"
+                                Label="升级Stoken"
+                                Command="{Binding UpgradeToStokenCommand}"/>
+                            <AppBarButton
+                                Icon="Add"
+                                Label="手动添加"
                                 Command="{Binding AddUserCommand}"/>
                         </CommandBar>
                     </StackPanel>

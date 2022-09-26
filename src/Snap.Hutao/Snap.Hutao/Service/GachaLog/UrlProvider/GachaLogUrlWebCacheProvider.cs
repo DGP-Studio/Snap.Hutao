@@ -7,7 +7,6 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Game;
 using System.IO;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.GachaLog;
 

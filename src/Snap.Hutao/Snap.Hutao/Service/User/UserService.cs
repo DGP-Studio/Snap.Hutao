@@ -3,11 +3,14 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Context.Database;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
+using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
+using BindingUser = Snap.Hutao.Model.Binding.User;
 
 namespace Snap.Hutao.Service;
 
@@ -20,11 +23,12 @@ internal class UserService : IUserService
 {
     private readonly AppDbContext appDbContext;
     private readonly UserClient userClient;
-    private readonly UserGameRoleClient userGameRoleClient;
+    private readonly BindingClient userGameRoleClient;
+    private readonly AuthClient authClient;
     private readonly IMessenger messenger;
 
-    private User? currentUser;
-    private ObservableCollection<User>? userCollection = null;
+    private BindingUser? currentUser;
+    private ObservableCollection<BindingUser>? userCollection;
 
     /// <summary>
     /// 构造一个新的用户服务
@@ -32,17 +36,24 @@ internal class UserService : IUserService
     /// <param name="appDbContext">应用程序数据库上下文</param>
     /// <param name="userClient">用户客户端</param>
     /// <param name="userGameRoleClient">角色客户端</param>
+    /// <param name="authClient">验证客户端</param>
     /// <param name="messenger">消息器</param>
-    public UserService(AppDbContext appDbContext, UserClient userClient, UserGameRoleClient userGameRoleClient, IMessenger messenger)
+    public UserService(
+        AppDbContext appDbContext,
+        UserClient userClient,
+        BindingClient userGameRoleClient,
+        AuthClient authClient,
+        IMessenger messenger)
     {
         this.appDbContext = appDbContext;
         this.userClient = userClient;
         this.userGameRoleClient = userGameRoleClient;
+        this.authClient = authClient;
         this.messenger = messenger;
     }
 
     /// <inheritdoc/>
-    public User? CurrentUser
+    public BindingUser? CurrentUser
     {
         get => currentUser;
         set
@@ -80,12 +91,12 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<UserAddResult> TryAddUserAsync(User newUser, string uid)
+    public async Task<UserAddResult> TryAddUserAsync(BindingUser newUser, string uid)
     {
         Must.NotNull(userCollection!);
 
         // 查找是否有相同的uid
-        if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is User userWithSameUid)
+        if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is BindingUser userWithSameUid)
         {
             // Prevent users from adding a completely same cookie.
             if (userWithSameUid.Cookie == newUser.Cookie)
@@ -118,7 +129,7 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public Task RemoveUserAsync(User user)
+    public Task RemoveUserAsync(BindingUser user)
     {
         Must.NotNull(userCollection!);
 
@@ -131,16 +142,16 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<User>> GetUserCollectionAsync()
+    public async Task<ObservableCollection<BindingUser>> GetUserCollectionAsync()
     {
         if (userCollection == null)
         {
-            List<User> users = new();
+            List<BindingUser> users = new();
 
             foreach (Model.Entity.User entity in appDbContext.Users)
             {
-                User? initialized = await User
-                    .CreateAsync(entity, userClient, userGameRoleClient)
+                BindingUser? initialized = await BindingUser
+                    .ResumeAsync(entity, userClient, userGameRoleClient)
                     .ConfigureAwait(false);
 
                 if (initialized != null)
@@ -163,25 +174,30 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public Task<User?> CreateUserAsync(string cookie)
+    public Task<BindingUser?> CreateUserAsync(IDictionary<string, string> cookie)
     {
-        return User.CreateAsync(Model.Entity.User.Create(cookie), userClient, userGameRoleClient);
+        return BindingUser.CreateAsync(cookie, userClient, userGameRoleClient, authClient);
     }
 
     /// <inheritdoc/>
-    public IDictionary<string, string> ParseCookie(string cookie)
+    public async Task<ValueResult<bool, string>> TryUpgradeUserAsync(IDictionary<string, string> addition, CancellationToken token = default)
     {
-        SortedDictionary<string, string> cookieDictionary = new();
-
-        string[] values = cookie.TrimEnd(';').Split(';');
-        foreach (string[] parts in values.Select(c => c.Split('=', 2)))
+        Must.NotNull(userCollection!);
+        if (addition.TryGetValue(CookieKeys.LOGIN_UID, out string? uid))
         {
-            string cookieName = parts[0].Trim();
-            string cookieValue = parts.Length == 1 ? string.Empty : parts[1].Trim();
-
-            cookieDictionary.Add(cookieName, cookieValue);
+            // 查找是否有相同的uid
+            if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is BindingUser userWithSameUid)
+            {
+                // Update user cookie here.
+                if (await userWithSameUid.TryUpgradeAsync(addition, authClient, token))
+                {
+                    appDbContext.Users.Update(userWithSameUid.Entity);
+                    await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+                    return new(true, uid);
+                }
+            }
         }
 
-        return cookieDictionary;
+        return new(false, string.Empty);
     }
 }

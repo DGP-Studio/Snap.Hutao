@@ -9,7 +9,8 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
-    xmlns:shvc="using:Snap.Hutao.View.Control" xmlns:image="using:Snap.Hutao.Control.Image"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shv:GachaLogViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -45,15 +46,19 @@
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem
                                     Text="从缓存刷新"
-                                    Icon="{shcm:FontIcon Glyph=&#xE721;}"
+                                    Icon="{shcm:FontIcon Glyph=&#xE81E;}"
                                     Command="{Binding RefreshByWebCacheCommand}"/>
+                                <MenuFlyoutItem
+                                    Text="Stoken刷新"
+                                    Icon="{shcm:FontIcon Glyph=&#xE192;}"
+                                    Command="{Binding RefreshByStokenCommand}"/>
                                 <MenuFlyoutItem
                                     Text="手动输入Url"
                                     Icon="{shcm:FontIcon Glyph=&#xE765;}"
                                     Command="{Binding RefreshByManualInputCommand}"/>
                                 <ToggleMenuFlyoutItem
                                     Text="全量刷新"
-                                    Icon="{shcm:FontIcon Glyph=&#xEA37;}"
+                                    Icon="{shcm:FontIcon Glyph=&#xE1CD;}"
                                     IsChecked="{Binding IsAggressiveRefresh}"/>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
@@ -157,7 +162,7 @@
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Margin="2">
-                                                            <image:CachedImage
+                                                            <shci:CachedImage
                                                                 Width="32"
                                                                 Height="32"
                                                                 Source="{Binding Icon}"/>
@@ -187,7 +192,7 @@
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Margin="2">
-                                                            <image:CachedImage
+                                                            <shci:CachedImage
                                                                 Width="32"
                                                                 Height="32"
                                                                 Source="{Binding Icon}"/>

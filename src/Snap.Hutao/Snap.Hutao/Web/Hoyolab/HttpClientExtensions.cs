@@ -29,6 +29,22 @@ internal static class HttpClientExtensions
         }
     }
 
+    /// <inheritdoc cref="HttpClientJsonExtensions.PostAsJsonAsync{TValue}(HttpClient, string?, TValue, JsonSerializerOptions?, CancellationToken)"/>
+    internal static async Task<TResult?> TryCatchPostAsJsonAsync<TValue, TResult>(this HttpClient httpClient, string requestUri, TValue value, JsonSerializerOptions options, ILogger logger, CancellationToken token = default)
+        where TResult : class
+    {
+        try
+        {
+            HttpResponseMessage message = await httpClient.PostAsJsonAsync(requestUri, value, options, token).ConfigureAwait(false);
+            return await message.Content.ReadFromJsonAsync<TResult>(options, token).ConfigureAwait(false);
+        }
+        catch (HttpRequestException ex)
+        {
+            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            return null;
+        }
+    }
+
     /// <summary>
     /// 设置用户的Cookie
     /// </summary>

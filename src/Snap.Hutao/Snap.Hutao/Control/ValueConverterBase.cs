@@ -15,7 +15,22 @@ public abstract class ValueConverterBase<TFrom, TTo> : IValueConverter
     /// <inheritdoc/>
     public object? Convert(object value, Type targetType, object parameter, string language)
     {
+#if DEBUG
+        try
+        {
+            return Convert((TFrom)value);
+        }
+        catch (Exception ex)
+        {
+            Ioc.Default
+                .GetRequiredService<ILogger<ValueConverterBase<TFrom, TTo>>>()
+                .LogError(ex, "值转换器异常");
+        }
+
+        return null;
+#else
         return Convert((TFrom)value);
+#endif
     }
 
     /// <inheritdoc/>

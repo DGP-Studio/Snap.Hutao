@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Automation.Provider;
+using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Model.Binding;
 using System.Collections.ObjectModel;
 
@@ -34,6 +36,14 @@ public interface IUserService
     Task<UserAddResult> TryAddUserAsync(User user, string uid);
 
     /// <summary>
+    /// 尝试使用 login_ticket 升级用户
+    /// </summary>
+    /// <param name="cookie">额外的Cookie</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>是否升级成功</returns>
+    Task<ValueResult<bool, string>> TryUpgradeUserAsync(IDictionary<string, string> addiition, CancellationToken token = default);
+
+    /// <summary>
     /// 异步移除用户
     /// </summary>
     /// <param name="user">待移除的用户</param>
@@ -41,16 +51,10 @@ public interface IUserService
     Task RemoveUserAsync(User user);
 
     /// <summary>
-    /// 将cookie的字符串形式转换为字典
-    /// </summary>
-    /// <param name="cookie">cookie的字符串形式</param>
-    /// <returns>包含cookie信息的字典</returns>
-    IDictionary<string, string> ParseCookie(string cookie);
-
-    /// <summary>
     /// 创建一个新的绑定用户
+    /// 若存在 login_ticket 与 login_uid 则 自动获取 stoken
     /// </summary>
     /// <param name="cookie">cookie的字符串形式</param>
     /// <returns>新的绑定用户</returns>
-    Task<User?> CreateUserAsync(string cookie);
+    Task<User?> CreateUserAsync(IDictionary<string, string> cookie);
 }

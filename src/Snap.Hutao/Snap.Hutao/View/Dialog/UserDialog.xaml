@@ -22,20 +22,21 @@
         <TextBox
             Margin="0,0,0,8"
             x:Name="InputText"
-            TextChanged="InputTextChanged" 
+            TextChanged="InputTextChanged"
             PlaceholderText="在此处输入"
             VerticalAlignment="Top"/>
-        <settings:Setting
-            Margin="0,8,0,0"
-            Icon="&#xEB41;"
-            Header="手动获取"
-            Description="进入我们的文档页面并按指示操作"
-            HorizontalAlignment="Stretch">
-            <HyperlinkButton
-                Margin="12,0,0,0"
-                Padding="4"
-                Content="立即前往"
-                NavigateUri="https://www.snapgenshin.com/documents/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie"/>
-        </settings:Setting>
+        <settings:SettingsGroup Margin="0,-48,0,0">
+            <settings:Setting
+                Icon="&#xEB41;"
+                Header="操作文档"
+                Description="进入我们的文档页面并按指示操作"
+                HorizontalAlignment="Stretch">
+                <HyperlinkButton
+                    Margin="12,0,0,0"
+                    Padding="4"
+                    Content="立即前往"
+                    NavigateUri="https://www.snapgenshin.com/documents/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie"/>
+            </settings:Setting>
+        </settings:SettingsGroup>
     </StackPanel>
 </ContentDialog>

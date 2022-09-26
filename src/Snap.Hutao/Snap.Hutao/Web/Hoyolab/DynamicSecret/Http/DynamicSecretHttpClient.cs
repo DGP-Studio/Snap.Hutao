@@ -51,7 +51,7 @@ internal class DynamicSecretHttpClient<TValue> : IDynamicSecretHttpClient<TValue
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly string url;
-    private readonly TValue? data = null;
+    private readonly TValue data;
 
     /// <summary>
     /// 构造一个新的使用动态密钥2的Http客户端默认实现的实例
@@ -60,7 +60,7 @@ internal class DynamicSecretHttpClient<TValue> : IDynamicSecretHttpClient<TValue
     /// <param name="options">Json序列化选项</param>
     /// <param name="url">url</param>
     /// <param name="data">请求的数据</param>
-    public DynamicSecretHttpClient(HttpClient httpClient, JsonSerializerOptions options, string url, TValue? data)
+    public DynamicSecretHttpClient(HttpClient httpClient, JsonSerializerOptions options, string url, TValue data)
     {
         this.httpClient = httpClient;
         this.options = options;
@@ -74,5 +74,12 @@ internal class DynamicSecretHttpClient<TValue> : IDynamicSecretHttpClient<TValue
     public Task<HttpResponseMessage> PostAsJsonAsync(CancellationToken token)
     {
         return httpClient.PostAsJsonAsync(url, data, options, token);
+    }
+
+    /// <inheritdoc/>
+    public Task<TResult?> TryCatchPostAsJsonAsync<TResult>(ILogger logger, CancellationToken token = default(CancellationToken))
+        where TResult : class
+    {
+        return httpClient.TryCatchPostAsJsonAsync<TValue, TResult>(url, data, options, logger, token);
     }
 }

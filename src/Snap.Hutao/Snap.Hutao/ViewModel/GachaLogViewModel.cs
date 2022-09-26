@@ -63,6 +63,7 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         RefreshByWebCacheCommand = asyncRelayCommandFactory.Create(RefreshByWebCacheAsync);
+        RefreshByStokenCommand = asyncRelayCommandFactory.Create(RefreshByStokenAsync);
         RefreshByManualInputCommand = asyncRelayCommandFactory.Create(RefreshByManualInputAsync);
         ImportFromUIGFExcelCommand = asyncRelayCommandFactory.Create(ImportFromUIGFExcelAsync);
         ImportFromUIGFJsonCommand = asyncRelayCommandFactory.Create(ImportFromUIGFJsonAsync);
@@ -123,6 +124,11 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     /// 浏览器缓存刷新命令
     /// </summary>
     public ICommand RefreshByWebCacheCommand { get; }
+
+    /// <summary>
+    /// Stoken 刷新命令
+    /// </summary>
+    public ICommand RefreshByStokenCommand { get; }
 
     /// <summary>
     /// 手动输入Url刷新命令
@@ -188,6 +194,11 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
         return RefreshInternalAsync(RefreshOption.WebCache);
     }
 
+    private Task RefreshByStokenAsync()
+    {
+        return RefreshInternalAsync(RefreshOption.Stoken);
+    }
+
     private Task RefreshByManualInputAsync()
     {
         return RefreshInternalAsync(RefreshOption.ManualInput);
@@ -206,6 +217,7 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
                 RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
 
                 MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+                await ThreadHelper.SwitchToMainThreadAsync();
                 GachaLogRefreshProgressDialog dialog = new(mainWindow);
                 IAsyncDisposable dialogHider = await dialog.BlockAsync().ConfigureAwait(false);
                 Progress<FetchState> progress = new(dialog.OnReport);

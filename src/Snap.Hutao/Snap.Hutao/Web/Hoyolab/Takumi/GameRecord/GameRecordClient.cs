@@ -8,7 +8,6 @@ using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 
@@ -19,17 +18,19 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 internal class GameRecordClient
 {
     private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions jsonSerializerOptions;
+    private readonly JsonSerializerOptions options;
+    private readonly ILogger<GameRecordClient> logger;
 
     /// <summary>
     /// 构造一个新的游戏记录提供器
     /// </summary>
     /// <param name="httpClient">请求器</param>
-    /// <param name="jsonSerializerOptions">json序列化选项</param>
-    public GameRecordClient(HttpClient httpClient, JsonSerializerOptions jsonSerializerOptions)
+    /// <param name="options">json序列化选项</param>
+    public GameRecordClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<GameRecordClient> logger)
     {
         this.httpClient = httpClient;
-        this.jsonSerializerOptions = jsonSerializerOptions;
+        this.options = options;
+        this.logger = logger;
     }
 
     /// <summary>
@@ -55,7 +56,7 @@ internal class GameRecordClient
     {
         Response<PlayerInfo>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret(jsonSerializerOptions, ApiEndpoints.GameRecordIndex(uid.Value, uid.Region))
+            .UsingDynamicSecret(options, ApiEndpoints.GameRecordIndex(uid.Value, uid.Region))
             .GetFromJsonAsync<Response<PlayerInfo>>(token)
             .ConfigureAwait(false);
 
@@ -87,7 +88,7 @@ internal class GameRecordClient
     {
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret(jsonSerializerOptions, ApiEndpoints.GameRecordSpiralAbyss(schedule, uid))
+            .UsingDynamicSecret(options, ApiEndpoints.GameRecordSpiralAbyss(schedule, uid))
             .GetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(token)
             .ConfigureAwait(false);
 
@@ -119,14 +120,10 @@ internal class GameRecordClient
     {
         CharacterData data = new(uid, playerInfo.Avatars.Select(x => x.Id));
 
-        HttpResponseMessage? response = await httpClient
+        Response<CharacterWrapper>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret(jsonSerializerOptions, ApiEndpoints.GameRecordCharacter, data)
-            .PostAsJsonAsync(token)
-            .ConfigureAwait(false);
-
-        Response<CharacterWrapper>? resp = await response.Content
-            .ReadFromJsonAsync<Response<CharacterWrapper>>(jsonSerializerOptions, token)
+            .UsingDynamicSecret(options, ApiEndpoints.GameRecordCharacter, data)
+            .TryCatchPostAsJsonAsync<Response<CharacterWrapper>>(logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtensions.EmptyIfNull(resp?.Data?.Avatars);

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.QueryString;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -15,6 +16,18 @@ public struct GachaLogConfigration
     /// </summary>
     public const int Size = 20;
 
+    /// <summary>
+    /// Below keys are required:
+    /// authkey_ver
+    /// auth_appid
+    /// authkey
+    /// sign_type
+    /// Below keys used as control:
+    /// lang
+    /// gacha_type
+    /// size
+    /// end_id
+    /// </summary>
     private readonly QueryString innerQuery;
 
     /// <summary>
@@ -44,6 +57,23 @@ public struct GachaLogConfigration
     {
         get => long.Parse(innerQuery["end_id"]);
         set => innerQuery.Set("end_id", value);
+    }
+
+    /// <summary>
+    /// 转换到查询字符串
+    /// </summary>
+    /// <param name="genAuthKeyData">生成信息</param>
+    /// <param name="gameAuthKey">验证包装</param>
+    /// <returns>查询</returns>
+    public static string AsQuery(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey)
+    {
+        QueryString queryString = new();
+        queryString.Set("auth_appid", genAuthKeyData.AuthAppId);
+        queryString.Set("authkey", Uri.EscapeDataString(gameAuthKey.AuthKey));
+        queryString.Set("authkey_ver", gameAuthKey.AuthKeyVersion);
+        queryString.Set("sign_type", gameAuthKey.SignType);
+
+        return queryString.ToString();
     }
 
     /// <summary>
