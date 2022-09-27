@@ -4,6 +4,7 @@
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Win32;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
 using Windows.Win32.Foundation;
@@ -25,11 +26,11 @@ internal static class Persistence
         // Set first launch size.
         HWND hwnd = (HWND)Win32Interop.GetWindowFromWindowId(appWindow.Id);
         SizeInt32 size = TransformSizeForWindow(new(1200, 741), hwnd);
-        RectInt32 rect = new(0, 0, size.Width, size.Height);
+        RectInt32 rect = StructMarshal.RectInt32(size);
 
-        // Make it centralized
-        TransformToCenterScreen(ref rect);
         RectInt32 target = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (ulong)(CompactRect)rect);
+        //if(target.Width*target.Height)
+        TransformToCenterScreen(ref target);
         appWindow.MoveAndResize(target);
     }
 

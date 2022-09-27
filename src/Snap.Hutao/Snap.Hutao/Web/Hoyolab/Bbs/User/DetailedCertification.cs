@@ -12,7 +12,7 @@ public class DetailedCertification : Certification
     /// Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public string Id { get; set; } = default!;
 
     /// <summary>
     /// 认证Id

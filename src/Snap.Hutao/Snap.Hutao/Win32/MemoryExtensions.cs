@@ -7,7 +7,7 @@ using Windows.Win32.System.Diagnostics.ToolHelp;
 namespace Snap.Hutao.Win32;
 
 /// <summary>
-/// 内存拓展
+/// 内存拓展 for <see cref="Memory{T}"/> <see cref="Span{T}"/>
 /// </summary>
 internal static class MemoryExtensions
 {
