@@ -10,7 +10,6 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
-using System.Net;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Snap.Hutao.ViewModel;
@@ -21,8 +20,6 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Transient)]
 internal class UserViewModel : ObservableObject
 {
-    private const string AccountIdKey = "account_id";
-
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
 
@@ -42,7 +39,7 @@ internal class UserViewModel : ObservableObject
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
-        UpgradeToStokenCommand = asyncRelayCommandFactory.Create(UpgradeToStokenAsync);
+        UpgradeToStokenCommand = asyncRelayCommandFactory.Create(UpgradeByLoginTicketAsync);
         RemoveUserCommand = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
     }
@@ -92,35 +89,45 @@ internal class UserViewModel : ObservableObject
     /// </summary>
     public ICommand CopyCookieCommand { get; }
 
-    private static bool TryValidateCookie(IDictionary<string, string> map, [NotNullWhen(true)] out IDictionary<string, string>? filteredCookie)
+    private static (bool Valid, bool Upgrade) TryValidateCookie(IDictionary<string, string> map, out IDictionary<string, string> cookie)
     {
         int validFlag = 4;
+        int stokenFlag = 2;
 
-        SortedDictionary<string, string> filter = new();
+        cookie = new SortedDictionary<string, string>();
 
         foreach ((string key, string value) in map)
         {
-            if (key == CookieKeys.COOKIE_TOKEN || key == CookieKeys.ACCOUNT_ID || key == CookieKeys.LTOKEN || key == CookieKeys.LTUID)
+            switch (key)
             {
-                validFlag--;
-                filter.Add(key, value);
-            }
-            else if (key == CookieKeys.STOKEN || key == CookieKeys.STUID || key == CookieKeys.LOGIN_TICKET || key == CookieKeys.LOGIN_UID)
-            {
-                filter.Add(key, value);
+                case CookieKeys.COOKIE_TOKEN:
+                case CookieKeys.ACCOUNT_ID:
+                case CookieKeys.LTOKEN:
+                case CookieKeys.LTUID:
+                    {
+                        validFlag--;
+                        cookie.Add(key, value);
+                        break;
+                    }
+
+                case CookieKeys.STOKEN:
+                case CookieKeys.STUID:
+                    {
+                        stokenFlag--;
+                        cookie.Add(key, value);
+                        break;
+                    }
+
+                case CookieKeys.LOGIN_TICKET:
+                case CookieKeys.LOGIN_UID:
+                    {
+                        cookie.Add(key, value);
+                        break;
+                    }
             }
         }
 
-        if (validFlag == 0)
-        {
-            filteredCookie = filter;
-            return true;
-        }
-        else
-        {
-            filteredCookie = null;
-            return false;
-        }
+        return (validFlag == 0, stokenFlag == 0);
     }
 
     private async Task OpenUIAsync()
@@ -138,11 +145,12 @@ internal class UserViewModel : ObservableObject
         // User confirms the input
         if (result.IsOk)
         {
-            if (TryValidateCookie(User.ParseCookie(result.Value), out IDictionary<string, string>? filteredCookie))
+            (bool valid, bool upgradable) = TryValidateCookie(User.MapCookie(result.Value), out IDictionary<string, string> cookie);
+            if (valid)
             {
-                if (await userService.CreateUserAsync(filteredCookie).ConfigureAwait(false) is User user)
+                if (await userService.CreateUserAsync(cookie).ConfigureAwait(false) is User user)
                 {
-                    switch (await userService.TryAddUserAsync(user, filteredCookie[AccountIdKey]).ConfigureAwait(false))
+                    switch (await userService.TryAddUserAsync(user, cookie[CookieKeys.ACCOUNT_ID]).ConfigureAwait(false))
                     {
                         case UserAddResult.Added:
                             infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 添加成功");
@@ -164,12 +172,28 @@ internal class UserViewModel : ObservableObject
             }
             else
             {
-                infoBarService.Warning("提供的文本不是正确的 Cookie ，请重新输入");
+                if (upgradable)
+                {
+                    (bool success, string nickname) = await userService.TryUpgradeUserByStokenAsync(cookie).ConfigureAwait(false);
+
+                    if (success)
+                    {
+                        infoBarService.Information($"用户 [{nickname}] 的 Stoken 更新成功");
+                    }
+                    else
+                    {
+                        infoBarService.Warning($"未找到匹配的可升级用户");
+                    }
+                }
+                else
+                {
+                    infoBarService.Warning("提供的文本不是正确的 Cookie ，请重新输入");
+                }
             }
         }
     }
 
-    private async Task UpgradeToStokenAsync()
+    private async Task UpgradeByLoginTicketAsync()
     {
         // Get cookie from user input
         MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
@@ -178,10 +202,10 @@ internal class UserViewModel : ObservableObject
         // User confirms the input
         if (isOk)
         {
-            (bool isUpgradeSucceed, string uid) = await userService.TryUpgradeUserAsync(addition).ConfigureAwait(false);
-            if (isUpgradeSucceed)
+            (bool isUpgraded, string nickname) = await userService.TryUpgradeUserByLoginTicketAsync(addition).ConfigureAwait(false);
+            if (isUpgraded)
             {
-                infoBarService.Information($"用户 [{uid}] 的 Cookie 已成功添加 Stoken");
+                infoBarService.Information($"用户 [{nickname}] 的 Cookie 已成功添加 Stoken");
             }
             else
             {

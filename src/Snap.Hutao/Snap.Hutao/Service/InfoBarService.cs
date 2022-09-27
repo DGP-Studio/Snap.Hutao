@@ -91,19 +91,18 @@ internal class InfoBarService : IInfoBarService
         PrepareInfoBarAndShow(InfoBarSeverity.Error, ex.GetType().Name, $"{title}\n{ex.Message}", delay);
     }
 
-    [SuppressMessage("", "VSTHRD100")]
-    private async void PrepareInfoBarAndShow(InfoBarSeverity severity, string? title, string? message, int delay)
+    private void PrepareInfoBarAndShow(InfoBarSeverity severity, string? title, string? message, int delay)
     {
         if (infoBarStack is null)
         {
             return;
         }
 
-        await PrepareInfoBarAndShowInternalAsync(severity, title, message, delay).ConfigureAwait(false);
+        PrepareInfoBarAndShowInternalAsync(severity, title, message, delay).SafeForget();
     }
 
     /// <summary>
-    /// 此方法应在主线程上运行
+    /// 准备信息条并显示
     /// </summary>
     /// <param name="severity">严重程度</param>
     /// <param name="title">标题</param>
@@ -122,11 +121,12 @@ internal class InfoBarService : IInfoBarService
         };
 
         infoBar.Closed += OnInfoBarClosed;
-        Must.NotNull(infoBarStack!).Children.Add(infoBar);
+        infoBarStack!.Children.Add(infoBar);
 
         if (delay > 0)
         {
-            await Task.Delay(delay);
+            await Task.Delay(delay).ConfigureAwait(true);
+            infoBarStack.Children.Remove(infoBar);
             infoBar.IsOpen = false;
         }
     }
@@ -136,7 +136,7 @@ internal class InfoBarService : IInfoBarService
     {
         await ThreadHelper.SwitchToMainThreadAsync();
 
-        Must.NotNull(infoBarStack!).Children.Remove(sender);
+        infoBarStack!.Children.Remove(sender);
         sender.Closed -= OnInfoBarClosed;
     }
 }

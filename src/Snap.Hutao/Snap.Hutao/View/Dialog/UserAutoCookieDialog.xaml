@@ -19,12 +19,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
+
         </Grid.RowDefinitions>
-        <TextBlock
-            Margin="0,0,0,8"
-            Text="请在 成功登录米哈游通行证 后点击 [继续] 按钮"/>
+        <TextBlock 
+            Text="在下方登录"
+            Grid.Row="0"/>
         <WebView2
-            Grid.Row="1"
+            Grid.Row="2"
+            Margin="0,12,0,0"
             Width="640"
             Height="400"
             x:Name="WebView"/>

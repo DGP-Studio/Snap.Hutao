@@ -13,12 +13,10 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 internal sealed class DescParamDescriptor : ValueConverterBase<DescParam, IList<LevelParam<string, ParameterInfo>>>
 {
     /// <inheritdoc/>
-    public override IList<LevelParam<string, ParameterInfo>> Convert(DescParam rawDescParam)
+    public override IList<LevelParam<string, ParameterInfo>> Convert(DescParam from)
     {
-        IList<LevelParam<string, ParameterInfo>> parameters = rawDescParam.Parameters
-            .Select(param => new LevelParam<string, ParameterInfo>(
-                param.Level.ToString(),
-                GetParameterInfos(rawDescParam, param.Parameters)))
+        IList<LevelParam<string, ParameterInfo>> parameters = from.Parameters
+            .Select(param => new LevelParam<string, ParameterInfo>(param.Level.ToString(), GetParameterInfos(from, param.Parameters)))
             .ToList();
 
         return parameters;

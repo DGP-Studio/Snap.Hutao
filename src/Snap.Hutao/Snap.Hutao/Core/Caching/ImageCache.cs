@@ -15,7 +15,7 @@ namespace Snap.Hutao.Core.Caching;
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 [HttpClient(HttpClientConfigration.Default)]
-[PrimaryHttpMessageHandler(MaxConnectionsPerServer = 20)]
+[PrimaryHttpMessageHandler(MaxConnectionsPerServer = 16)]
 public class ImageCache : CacheBase<BitmapImage>, IImageCache
 {
     private const string DateAccessedProperty = "System.DateAccessed";

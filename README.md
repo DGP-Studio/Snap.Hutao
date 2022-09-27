@@ -6,7 +6,9 @@
 ## 安装
 
 * 前往 [下载页面](https://go.hut.ao/archive) 下载最新版本的 `胡桃` 安装包
-* 完全解压后，使用 powershell 运行 `install.ps1` 文件
+* （曾启用的可以跳过此步骤）在系统设置中打开 **开发者选项** 界面，勾选 `开发人员模式` 和 `允许 PowerShell 脚本`
+* 完全解压后，右键使用 powershell 运行 `install.ps1` 文件
+* 安装完成后可以关闭 `允许 PowerShell 脚本`
 
 ## 特别感谢
 

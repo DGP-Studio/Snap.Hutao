@@ -9,6 +9,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shvm="using:Snap.Hutao.ViewModel"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shvm:UserViewModel}">
     <mxi:Interaction.Behaviors>
@@ -199,11 +200,11 @@
                             Text="Cookie"/>
                         <CommandBar DefaultLabelPosition="Right">
                             <AppBarButton
-                                Icon="Add"
+                                Icon="{shcm:FontIcon Glyph=&#xF4A5;}"
                                 Label="升级Stoken"
                                 Command="{Binding UpgradeToStokenCommand}"/>
                             <AppBarButton
-                                Icon="Add"
+                                Icon="{shcm:FontIcon Glyph=&#xE710;}"
                                 Label="手动添加"
                                 Command="{Binding AddUserCommand}"/>
                         </CommandBar>

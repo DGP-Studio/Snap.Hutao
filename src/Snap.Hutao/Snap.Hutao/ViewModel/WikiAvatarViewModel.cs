@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.UI;
+using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
@@ -143,13 +144,14 @@ internal class WikiAvatarViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        if (await metadataService.InitializeAsync())
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            IList<Avatar> avatars = await metadataService.GetAvatarsAsync();
+            IList<Avatar> avatars = await metadataService.GetAvatarsAsync().ConfigureAwait(false);
             IOrderedEnumerable<Avatar> sorted = avatars
                 .OrderBy(avatar => avatar.BeginTime)
                 .ThenBy(avatar => avatar.Sort);
 
+            await ThreadHelper.SwitchToMainThreadAsync();
             Avatars = new AdvancedCollectionView(sorted.ToList(), true);
             Avatars.MoveCurrentToFirst();
         }
@@ -174,7 +176,7 @@ internal class WikiAvatarViewModel : ObservableObject
                 .Select(e => e.Value.Value)
                 .ToList();
 
-            List<ItemQuality> targeQualities = FilterQualityInfos
+            List<ItemQuality> targetQualities = FilterQualityInfos
                 .Where(e => e.IsSelected)
                 .Select(e => e.Value.Value)
                 .ToList();
@@ -188,7 +190,7 @@ internal class WikiAvatarViewModel : ObservableObject
                 && targetElements.Contains(avatar.FetterInfo.VisionBefore)
                 && targetAssociations.Contains(avatar.FetterInfo.Association)
                 && targetWeaponTypes.Contains(avatar.Weapon)
-                && targeQualities.Contains(avatar.Quality)
+                && targetQualities.Contains(avatar.Quality)
                 && targetBodies.Contains(avatar.Body);
 
             if (!Avatars.Contains(Selected))

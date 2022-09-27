@@ -77,7 +77,7 @@ public class User : Observable
     /// </summary>
     /// <param name="cookie">cookie的字符串形式</param>
     /// <returns>包含cookie信息的字典</returns>
-    public static IDictionary<string, string> ParseCookie(string cookie)
+    public static IDictionary<string, string> MapCookie(string cookie)
     {
         SortedDictionary<string, string> cookieDictionary = new();
 
@@ -142,9 +142,9 @@ public class User : Observable
     /// <param name="authClient">验证客户端</param>
     /// <param name="token">取消令牌</param>
     /// <returns>是否升级成功</returns>
-    internal async Task<bool> TryUpgradeAsync(IDictionary<string, string> addition, AuthClient authClient, CancellationToken token)
+    internal async Task<bool> TryUpgradeByLoginTicketAsync(IDictionary<string, string> addition, AuthClient authClient, CancellationToken token)
     {
-        IDictionary<string, string> cookie = ParseCookie(Cookie!);
+        IDictionary<string, string> cookie = MapCookie(Cookie!);
         if (addition.TryGetValue(CookieKeys.LOGIN_TICKET, out string? loginTicket))
         {
             cookie[CookieKeys.LOGIN_TICKET] = loginTicket;
@@ -155,7 +155,7 @@ public class User : Observable
             cookie[CookieKeys.LOGIN_UID] = loginUid;
         }
 
-        bool result = await TryAddStokenToCookieAsync(cookie, authClient, token).ConfigureAwait(false);
+        bool result = await TryRequestStokenAndAddToCookieAsync(cookie, authClient, token).ConfigureAwait(false);
 
         if (result)
         {
@@ -165,12 +165,31 @@ public class User : Observable
         return result;
     }
 
+    /// <summary>
+    /// 添加 Stoken
+    /// </summary>
+    /// <param name="addition">额外的cookie</param>
+    internal void AddStoken(IDictionary<string, string> addition)
+    {
+        IDictionary<string, string> cookie = MapCookie(Cookie!);
+
+        if (addition.TryGetValue(CookieKeys.STOKEN, out string? stoken))
+        {
+            cookie[CookieKeys.STOKEN] = stoken;
+        }
+
+        if (addition.TryGetValue(CookieKeys.STUID, out string? stuid))
+        {
+            cookie[CookieKeys.STUID] = stuid;
+        }
+    }
+
     private static string ToCookieString(IDictionary<string, string> cookie)
     {
         return string.Join(';', cookie.Select(kvp => $"{kvp.Key}={kvp.Value}"));
     }
 
-    private static async Task<bool> TryAddStokenToCookieAsync(IDictionary<string, string> cookie, AuthClient authClient, CancellationToken token)
+    private static async Task<bool> TryRequestStokenAndAddToCookieAsync(IDictionary<string, string> cookie, AuthClient authClient, CancellationToken token)
     {
         if (cookie.TryGetValue(CookieKeys.LOGIN_TICKET, out string? loginTicket))
         {
@@ -225,7 +244,7 @@ public class User : Observable
             return true;
         }
 
-        if (await TryAddStokenToCookieAsync(cookie, authClient, token).ConfigureAwait(false))
+        if (await TryRequestStokenAndAddToCookieAsync(cookie, authClient, token).ConfigureAwait(false))
         {
             Cookie = ToCookieString(cookie);
         }

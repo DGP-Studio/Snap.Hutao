@@ -118,6 +118,7 @@ internal class UserService : IUserService
             Verify.Operation(newUser.IsInitialized, "该用户尚未初始化");
 
             // Sync cache
+            await ThreadHelper.SwitchToMainThreadAsync();
             userCollection.Add(newUser);
 
             // Sync database
@@ -180,7 +181,7 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> TryUpgradeUserAsync(IDictionary<string, string> addition, CancellationToken token = default)
+    public async Task<ValueResult<bool, string>> TryUpgradeUserByLoginTicketAsync(IDictionary<string, string> addition, CancellationToken token = default)
     {
         Must.NotNull(userCollection!);
         if (addition.TryGetValue(CookieKeys.LOGIN_UID, out string? uid))
@@ -189,12 +190,33 @@ internal class UserService : IUserService
             if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is BindingUser userWithSameUid)
             {
                 // Update user cookie here.
-                if (await userWithSameUid.TryUpgradeAsync(addition, authClient, token))
+                if (await userWithSameUid.TryUpgradeByLoginTicketAsync(addition, authClient, token))
                 {
                     appDbContext.Users.Update(userWithSameUid.Entity);
                     await appDbContext.SaveChangesAsync().ConfigureAwait(false);
-                    return new(true, uid);
+                    return new(true, userWithSameUid.UserInfo?.Nickname ?? string.Empty);
                 }
+            }
+        }
+
+        return new(false, string.Empty);
+    }
+
+    /// <inheritdoc/>
+    public async Task<ValueResult<bool, string>> TryUpgradeUserByStokenAsync(IDictionary<string, string> stoken)
+    {
+        Must.NotNull(userCollection!);
+        if (stoken.TryGetValue(CookieKeys.STUID, out string? uid))
+        {
+            // 查找是否有相同的uid
+            if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is BindingUser userWithSameUid)
+            {
+                // Update user cookie here.
+                userWithSameUid.AddStoken(stoken);
+
+                appDbContext.Users.Update(userWithSameUid.Entity);
+                await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+                return new(true, userWithSameUid.UserInfo?.Nickname ?? string.Empty);
             }
         }
 

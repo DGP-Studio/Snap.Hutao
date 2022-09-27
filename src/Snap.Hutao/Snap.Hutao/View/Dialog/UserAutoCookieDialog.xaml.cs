@@ -13,7 +13,7 @@ namespace Snap.Hutao.View.Dialog;
 /// </summary>
 public sealed partial class UserAutoCookieDialog : ContentDialog
 {
-    private IDictionary<string, string>? cookieString;
+    private IDictionary<string, string>? cookie;
 
     /// <summary>
     /// 构造一个新的用户自动Cookie对话框
@@ -32,7 +32,7 @@ public sealed partial class UserAutoCookieDialog : ContentDialog
     public async Task<ValueResult<bool, IDictionary<string, string>>> GetInputCookieAsync()
     {
         ContentDialogResult result = await ShowAsync();
-        return new(result == ContentDialogResult.Primary && cookieString != null, cookieString!);
+        return new(result == ContentDialogResult.Primary && cookie != null, cookie!);
     }
 
     [SuppressMessage("", "VSTHRD100")]
@@ -62,8 +62,7 @@ public sealed partial class UserAutoCookieDialog : ContentDialog
                 {
                     CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
                     IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
-                    cookieString = cookies.ToDictionary(c => c.Name, c => c.Value);
-
+                    cookie = cookies.ToDictionary(c => c.Name, c => c.Value);
                     WebView.CoreWebView2.SourceChanged -= OnCoreWebView2SourceChanged;
                 }
                 catch (Exception)

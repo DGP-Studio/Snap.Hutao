@@ -38,10 +38,17 @@ public interface IUserService
     /// <summary>
     /// 尝试使用 login_ticket 升级用户
     /// </summary>
-    /// <param name="cookie">额外的Cookie</param>
+    /// <param name="addiition">额外的Cookie</param>
     /// <param name="token">取消令牌</param>
     /// <returns>是否升级成功</returns>
-    Task<ValueResult<bool, string>> TryUpgradeUserAsync(IDictionary<string, string> addiition, CancellationToken token = default);
+    Task<ValueResult<bool, string>> TryUpgradeUserByLoginTicketAsync(IDictionary<string, string> addiition, CancellationToken token = default);
+
+    /// <summary>
+    /// 尝试使用 Stoken 升级用户
+    /// </summary>
+    /// <param name="stoken">stoken</param>
+    /// <returns>是否升级成功</returns>
+    Task<ValueResult<bool, string>> TryUpgradeUserByStokenAsync(IDictionary<string, string> stoken);
 
     /// <summary>
     /// 异步移除用户
