@@ -29,7 +29,11 @@ internal static class Persistence
         RectInt32 rect = StructMarshal.RectInt32(size);
 
         RectInt32 target = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (ulong)(CompactRect)rect);
-        //if(target.Width*target.Height)
+        if (target.Width * target.Height < 848 * 524)
+        {
+            target = rect;
+        }
+
         TransformToCenterScreen(ref target);
         appWindow.MoveAndResize(target);
     }
