@@ -12,7 +12,7 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 /// <summary>
 /// 武器
 /// </summary>
-public class Weapon : IStatisticsItemSource, INameQuality
+public class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQuality
 {
     /// <summary>
     /// Id

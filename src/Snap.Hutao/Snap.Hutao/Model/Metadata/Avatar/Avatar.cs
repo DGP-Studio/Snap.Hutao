@@ -12,7 +12,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 角色
 /// </summary>
-public class Avatar : IStatisticsItemSource, INameQuality
+public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
 {
     /// <summary>
     /// Id

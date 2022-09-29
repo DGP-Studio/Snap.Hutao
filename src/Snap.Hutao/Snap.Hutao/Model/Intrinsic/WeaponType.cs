@@ -21,6 +21,7 @@ public enum WeaponType
     WEAPON_SWORD_ONE_HAND = 1,
 
     #region Not Used
+
     /// <summary>
     /// ?
     /// </summary>

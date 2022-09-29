@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.Threading;
+using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.View.Dialog;
 
@@ -13,7 +14,7 @@ namespace Snap.Hutao.View.Dialog;
 /// </summary>
 public sealed partial class UserAutoCookieDialog : ContentDialog
 {
-    private IDictionary<string, string>? cookie;
+    private Cookie? cookie;
 
     /// <summary>
     /// 构造一个新的用户自动Cookie对话框
@@ -29,7 +30,7 @@ public sealed partial class UserAutoCookieDialog : ContentDialog
     /// 获取输入的Cookie
     /// </summary>
     /// <returns>输入的结果</returns>
-    public async Task<ValueResult<bool, IDictionary<string, string>>> GetInputCookieAsync()
+    public async Task<ValueResult<bool, Cookie>> GetInputCookieAsync()
     {
         ContentDialogResult result = await ShowAsync();
         return new(result == ContentDialogResult.Primary && cookie != null, cookie!);
@@ -58,16 +59,10 @@ public sealed partial class UserAutoCookieDialog : ContentDialog
         {
             if (sender.Source.ToString() == "https://user.mihoyo.com/#/account/home")
             {
-                try
-                {
-                    CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
-                    IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
-                    cookie = cookies.ToDictionary(c => c.Name, c => c.Value);
-                    WebView.CoreWebView2.SourceChanged -= OnCoreWebView2SourceChanged;
-                }
-                catch (Exception)
-                {
-                }
+                CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
+                IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
+                cookie = Cookie.FromCoreWebView2Cookies(cookies);
+                WebView.CoreWebView2.SourceChanged -= OnCoreWebView2SourceChanged;
             }
         }
     }

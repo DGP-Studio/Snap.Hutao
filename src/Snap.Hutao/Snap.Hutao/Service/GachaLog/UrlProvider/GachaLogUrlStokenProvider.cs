@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Threading;
-using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
@@ -35,10 +35,10 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
     /// <inheritdoc/>
     public async Task<ValueResult<bool, string>> GetQueryAsync()
     {
-        Model.Binding.User? user = userService.CurrentUser;
+        Model.Binding.User? user = userService.Current;
         if (user != null)
         {
-            if (user.Cookie!.Contains(CookieKeys.STOKEN) && user.SelectedUserGameRole != null)
+            if (user.Cookie!.ContainsSToken() && user.SelectedUserGameRole != null)
             {
                 PlayerUid uid = (PlayerUid)user.SelectedUserGameRole;
                 GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(uid);
@@ -51,6 +51,6 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
             }
         }
 
-        return new(false, null!);
+        return new(false, "当前用户的Cookie不包含 Stoken");
     }
 }

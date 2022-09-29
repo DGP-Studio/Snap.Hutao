@@ -69,6 +69,8 @@ public class AppDbContext : DbContext
     /// <inheritdoc/>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new AvatarInfoConfiguration());
+        modelBuilder
+            .ApplyConfiguration(new AvatarInfoConfiguration())
+            .ApplyConfiguration(new UserConfiguration());
     }
 }

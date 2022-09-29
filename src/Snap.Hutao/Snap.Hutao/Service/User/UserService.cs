@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Threading;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
@@ -12,7 +11,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.Model.Binding.User;
 
-namespace Snap.Hutao.Service;
+namespace Snap.Hutao.Service.User;
 
 /// <summary>
 /// 用户服务
@@ -23,7 +22,7 @@ internal class UserService : IUserService
 {
     private readonly AppDbContext appDbContext;
     private readonly UserClient userClient;
-    private readonly BindingClient userGameRoleClient;
+    private readonly BindingClient bindingClient;
     private readonly AuthClient authClient;
     private readonly IMessenger messenger;
 
@@ -35,25 +34,25 @@ internal class UserService : IUserService
     /// </summary>
     /// <param name="appDbContext">应用程序数据库上下文</param>
     /// <param name="userClient">用户客户端</param>
-    /// <param name="userGameRoleClient">角色客户端</param>
+    /// <param name="bindingClient">角色客户端</param>
     /// <param name="authClient">验证客户端</param>
     /// <param name="messenger">消息器</param>
     public UserService(
         AppDbContext appDbContext,
         UserClient userClient,
-        BindingClient userGameRoleClient,
+        BindingClient bindingClient,
         AuthClient authClient,
         IMessenger messenger)
     {
         this.appDbContext = appDbContext;
         this.userClient = userClient;
-        this.userGameRoleClient = userGameRoleClient;
+        this.bindingClient = bindingClient;
         this.authClient = authClient;
         this.messenger = messenger;
     }
 
     /// <inheritdoc/>
-    public BindingUser? CurrentUser
+    public BindingUser? Current
     {
         get => currentUser;
         set
@@ -91,45 +90,6 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<UserAddResult> TryAddUserAsync(BindingUser newUser, string uid)
-    {
-        Must.NotNull(userCollection!);
-
-        // 查找是否有相同的uid
-        if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is BindingUser userWithSameUid)
-        {
-            // Prevent users from adding a completely same cookie.
-            if (userWithSameUid.Cookie == newUser.Cookie)
-            {
-                return UserAddResult.AlreadyExists;
-            }
-            else
-            {
-                // Update user cookie here.
-                userWithSameUid.Cookie = newUser.Cookie;
-                appDbContext.Users.Update(userWithSameUid.Entity);
-                await appDbContext.SaveChangesAsync().ConfigureAwait(false);
-
-                return UserAddResult.Updated;
-            }
-        }
-        else
-        {
-            Verify.Operation(newUser.IsInitialized, "该用户尚未初始化");
-
-            // Sync cache
-            await ThreadHelper.SwitchToMainThreadAsync();
-            userCollection.Add(newUser);
-
-            // Sync database
-            appDbContext.Users.Add(newUser.Entity);
-            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
-
-            return UserAddResult.Added;
-        }
-    }
-
-    /// <inheritdoc/>
     public Task RemoveUserAsync(BindingUser user)
     {
         Must.NotNull(userCollection!);
@@ -152,7 +112,7 @@ internal class UserService : IUserService
             foreach (Model.Entity.User entity in appDbContext.Users)
             {
                 BindingUser? initialized = await BindingUser
-                    .ResumeAsync(entity, userClient, userGameRoleClient)
+                    .ResumeAsync(entity, userClient, bindingClient)
                     .ConfigureAwait(false);
 
                 if (initialized != null)
@@ -168,58 +128,94 @@ internal class UserService : IUserService
             }
 
             userCollection = new(users);
-            CurrentUser = users.SingleOrDefault(user => user.IsSelected);
+            Current = users.SingleOrDefault(user => user.IsSelected);
         }
 
         return userCollection;
     }
 
     /// <inheritdoc/>
-    public Task<BindingUser?> CreateUserAsync(IDictionary<string, string> cookie)
-    {
-        return BindingUser.CreateAsync(cookie, userClient, userGameRoleClient, authClient);
-    }
-
-    /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> TryUpgradeUserByLoginTicketAsync(IDictionary<string, string> addition, CancellationToken token = default)
+    public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie)
     {
         Must.NotNull(userCollection!);
-        if (addition.TryGetValue(CookieKeys.LOGIN_UID, out string? uid))
+
+        // 检查 uid 是否存在
+        if (cookie.TryGetUid(out string? uid))
         {
-            // 查找是否有相同的uid
-            if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is BindingUser userWithSameUid)
+            // 检查 login ticket 是否存在
+            // 若存在则尝试升级至 stoken
+            await TryAddMultiTokenAsync(cookie, uid).ConfigureAwait(false);
+
+            // 检查 uid 对应用户是否存在
+            if (UserHelper.TryGetUserByUid(userCollection, uid, out BindingUser? userWithSameUid))
             {
-                // Update user cookie here.
-                if (await userWithSameUid.TryUpgradeByLoginTicketAsync(addition, authClient, token))
+                // 检查 stoken 是否存在
+                if (cookie.ContainsSToken())
                 {
-                    appDbContext.Users.Update(userWithSameUid.Entity);
-                    await appDbContext.SaveChangesAsync().ConfigureAwait(false);
-                    return new(true, userWithSameUid.UserInfo?.Nickname ?? string.Empty);
+                    // insert stoken directly
+                    userWithSameUid.Cookie!.InsertSToken(uid, cookie);
+                    return new(UserOptionResult.Upgraded, uid);
+                }
+
+                if (cookie.ContainsLTokenAndCookieToken())
+                {
+                    UpdateUserCookie(cookie, userWithSameUid);
+                    return new(UserOptionResult.Updated, uid);
                 }
             }
-        }
-
-        return new(false, string.Empty);
-    }
-
-    /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> TryUpgradeUserByStokenAsync(IDictionary<string, string> stoken)
-    {
-        Must.NotNull(userCollection!);
-        if (stoken.TryGetValue(CookieKeys.STUID, out string? uid))
-        {
-            // 查找是否有相同的uid
-            if (userCollection.SingleOrDefault(u => u.UserInfo!.Uid == uid) is BindingUser userWithSameUid)
+            else if (cookie.ContainsLTokenAndCookieToken())
             {
-                // Update user cookie here.
-                userWithSameUid.AddStoken(stoken);
-
-                appDbContext.Users.Update(userWithSameUid.Entity);
-                await appDbContext.SaveChangesAsync().ConfigureAwait(false);
-                return new(true, userWithSameUid.UserInfo?.Nickname ?? string.Empty);
+                return await TryCreateUserAndAddAsync(userCollection, cookie).ConfigureAwait(false);
             }
         }
 
-        return new(false, string.Empty);
+        return new(UserOptionResult.Incomplete, null!);
+    }
+
+    private async Task TryAddMultiTokenAsync(Cookie cookie, string uid)
+    {
+        if (cookie.TryGetLoginTicket(out string? loginTicket))
+        {
+            // get multitoken
+            Dictionary<string, string> multiToken = await authClient
+                .GetMultiTokenByLoginTicketAsync(loginTicket, uid, default)
+                .ConfigureAwait(false);
+
+            if (multiToken.Count >= 2)
+            {
+                cookie.InsertMultiToken(uid, multiToken);
+                cookie.RemoveLoginTicket();
+            }
+        }
+    }
+
+    private void UpdateUserCookie(Cookie cookie, BindingUser user)
+    {
+        user.Cookie = cookie;
+
+        appDbContext.Users.Update(user.Entity);
+        appDbContext.SaveChanges();
+    }
+
+    private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(ObservableCollection<BindingUser> users, Cookie cookie)
+    {
+        cookie.Trim();
+        BindingUser? newUser = await BindingUser.CreateAsync(cookie, userClient, bindingClient).ConfigureAwait(false);
+        if (newUser != null)
+        {
+            // Sync cache
+            await ThreadHelper.SwitchToMainThreadAsync();
+            users.Add(newUser);
+
+            // Sync database
+            appDbContext.Users.Add(newUser.Entity);
+            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+
+            return new(UserOptionResult.Added, newUser.UserInfo!.Uid);
+        }
+        else
+        {
+            return new(UserOptionResult.Invalid, null!);
+        }
     }
 }

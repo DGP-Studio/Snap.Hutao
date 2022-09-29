@@ -5,8 +5,9 @@ using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+using Windows.UI;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
@@ -34,35 +35,28 @@ public static class GachaStatisticsExtensions
     }
 
     /// <summary>
-    /// 增加计数
+    /// 完成添加
     /// </summary>
-    /// <typeparam name="TKey">键类型</typeparam>
-    /// <param name="dict">字典</param>
-    /// <param name="key">键</param>
-    public static void Increase<TKey>(this Dictionary<TKey, int> dict, TKey key)
-        where TKey : notnull
+    /// <param name="summaryItems">简述物品列表</param>
+    public static void CompleteAdding(this List<SummaryItem> summaryItems)
     {
-        ++CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
-    }
+        // we can't trust first item's prev state.
+        bool isPreviousUp = true;
 
-    /// <summary>
-    /// 增加计数
-    /// </summary>
-    /// <typeparam name="TKey">键类型</typeparam>
-    /// <param name="dict">字典</param>
-    /// <param name="key">键</param>
-    /// <returns>是否存在键值</returns>
-    public static bool TryIncrease<TKey>(this Dictionary<TKey, int> dict, TKey key)
-        where TKey : notnull
-    {
-        ref int value = ref CollectionsMarshal.GetValueRefOrNullRef(dict, key);
-        if (!Unsafe.IsNullRef(ref value))
+        // mark the IsGuarentee
+        foreach (SummaryItem item in summaryItems)
         {
-            ++value;
-            return true;
+            if (item.IsUp && (!isPreviousUp))
+            {
+                item.IsGuarentee = true;
+            }
+
+            isPreviousUp = item.IsUp;
+            item.Color = GetColorByName(item.Name);
         }
 
-        return false;
+        // reverse items
+        summaryItems.Reverse();
     }
 
     /// <summary>
@@ -102,5 +96,15 @@ public static class GachaStatisticsExtensions
             .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
             .OrderByDescending(item => item.Count)
             .ToList();
+    }
+
+    private static Color GetColorByName(string name)
+    {
+        byte[] codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
+        Span<byte> first = new(codes, 0, 5);
+        Span<byte> second = new(codes, 5, 5);
+        Span<byte> third = new(codes, 10, 5);
+        Color color = Color.FromArgb(255, first.Average(), second.Average(), third.Average());
+        return color;
     }
 }
