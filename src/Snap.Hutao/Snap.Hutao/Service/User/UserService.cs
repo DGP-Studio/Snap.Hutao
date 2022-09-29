@@ -153,7 +153,7 @@ internal class UserService : IUserService
                 if (cookie.ContainsSToken())
                 {
                     // insert stoken directly
-                    userWithSameUid.Cookie!.InsertSToken(uid, cookie);
+                    userWithSameUid.Cookie.InsertSToken(uid, cookie);
                     return new(UserOptionResult.Upgraded, uid);
                 }
 

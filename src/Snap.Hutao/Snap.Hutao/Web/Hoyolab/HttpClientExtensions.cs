@@ -53,7 +53,7 @@ internal static class HttpClientExtensions
     /// <returns>客户端</returns>
     internal static HttpClient SetUser(this HttpClient httpClient, User user)
     {
-        httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie?.ToString() ?? string.Empty);
+        httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie.ToString());
         return httpClient;
     }
 

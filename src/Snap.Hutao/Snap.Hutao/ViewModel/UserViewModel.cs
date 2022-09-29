@@ -164,11 +164,9 @@ internal class UserViewModel : ObservableObject
     private void CopyCookie(User? user)
     {
         Verify.Operation(user != null, "待复制 Cookie 的用户不应为 null");
-
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         try
         {
-            Clipboard.SetText(user.Cookie?.ToString() ?? string.Empty);
+            Clipboard.SetText(user.Cookie.ToString());
             infoBarService.Success($"{user.UserInfo!.Nickname} 的 Cookie 复制成功");
         }
         catch (Exception e)
