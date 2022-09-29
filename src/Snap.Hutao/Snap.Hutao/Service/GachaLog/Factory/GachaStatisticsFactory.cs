@@ -89,9 +89,9 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
                         break;
                 }
 
-                permanentWishBuilder.TrackAvatar(item, avatar, isUp);
-                avatarWishBuilder.TrackAvatar(item, avatar, isUp);
-                weaponWishBuilder.TrackAvatar(item, avatar, isUp);
+                permanentWishBuilder.Track(item, avatar, isUp);
+                avatarWishBuilder.Track(item, avatar, isUp);
+                weaponWishBuilder.Track(item, avatar, isUp);
             }
 
             // It's a weapon
@@ -116,9 +116,9 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
                         break;
                 }
 
-                permanentWishBuilder.TrackWeapon(item, weapon, isUp);
-                avatarWishBuilder.TrackWeapon(item, weapon, isUp);
-                weaponWishBuilder.TrackWeapon(item, weapon, isUp);
+                permanentWishBuilder.Track(item, weapon, isUp);
+                avatarWishBuilder.Track(item, weapon, isUp);
+                weaponWishBuilder.Track(item, weapon, isUp);
             }
             else
             {

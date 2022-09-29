@@ -25,4 +25,16 @@ internal static class Clipboard
         string json = await view.GetTextAsync();
         return JsonSerializer.Deserialize<T>(json, options);
     }
+
+    /// <summary>
+    /// 设置文本
+    /// </summary>
+    /// <param name="text">文本</param>
+    public static void SetText(string text)
+    {
+        DataPackage content = new();
+        content.SetText(text);
+        Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(content);
+        Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+    }
 }

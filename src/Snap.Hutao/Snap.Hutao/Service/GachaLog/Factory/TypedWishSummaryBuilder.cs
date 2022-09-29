@@ -5,12 +5,8 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Weapon;
+using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using System.Security.Cryptography;
-using System.Text;
-using Windows.UI;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
@@ -75,9 +71,9 @@ internal class TypedWishSummaryBuilder
     /// 追踪物品
     /// </summary>
     /// <param name="item">祈愿物品</param>
-    /// <param name="avatar">对应角色</param>
+    /// <param name="source">对应武器</param>
     /// <param name="isUp">是否为Up物品</param>
-    public void TrackAvatar(GachaItem item, Avatar avatar, bool isUp)
+    public void Track(GachaItem item, ISummaryItemSource source, bool isUp)
     {
         if (typeEvaluator(item.GachaType))
         {
@@ -89,7 +85,7 @@ internal class TypedWishSummaryBuilder
             ++totalCountTracker;
             TrackFromToTime(item.Time);
 
-            switch (avatar.Quality)
+            switch (source.Quality)
             {
                 case ItemQuality.QUALITY_ORANGE:
                     {
@@ -102,55 +98,7 @@ internal class TypedWishSummaryBuilder
                             lastUpOrangePullTracker = 0;
                         }
 
-                        summaryItemCache.Add(avatar.ToSummaryItem(lastOrangePullTracker, item.Time, isUp));
-
-                        lastOrangePullTracker = 0;
-                        ++totalOrangePullTracker;
-                        break;
-                    }
-
-                case ItemQuality.QUALITY_PURPLE:
-                    {
-                        lastPurplePullTracker = 0;
-                        ++totalPurplePullTracker;
-                        break;
-                    }
-            }
-        }
-    }
-
-    /// <summary>
-    /// 追踪物品
-    /// </summary>
-    /// <param name="item">祈愿物品</param>
-    /// <param name="weapon">对应武器</param>
-    /// <param name="isUp">是否为Up物品</param>
-    public void TrackWeapon(GachaItem item, Weapon weapon, bool isUp)
-    {
-        if (typeEvaluator(item.GachaType))
-        {
-            ++lastOrangePullTracker;
-            ++lastPurplePullTracker;
-            ++lastUpOrangePullTracker;
-
-            // track total pulls
-            ++totalCountTracker;
-            TrackFromToTime(item.Time);
-
-            switch (weapon.RankLevel)
-            {
-                case ItemQuality.QUALITY_ORANGE:
-                    {
-                        TrackMinMaxOrangePull(lastOrangePullTracker);
-                        averageOrangePullTracker.Add(lastOrangePullTracker);
-
-                        if (isUp)
-                        {
-                            averageUpOrangePullTracker.Add(lastUpOrangePullTracker);
-                            lastUpOrangePullTracker = 0;
-                        }
-
-                        summaryItemCache.Add(weapon.ToSummaryItem(lastOrangePullTracker, item.Time, isUp));
+                        summaryItemCache.Add(source.ToSummaryItem(lastOrangePullTracker, item.Time, isUp));
 
                         lastOrangePullTracker = 0;
                         ++totalOrangePullTracker;
@@ -179,7 +127,7 @@ internal class TypedWishSummaryBuilder
     /// <returns>类型化祈愿统计信息</returns>
     public TypedWishSummary ToTypedWishSummary()
     {
-        CompleteSummaryItems(summaryItemCache);
+        summaryItemCache.CompleteAdding();
         double totalCountDouble = totalCountTracker;
 
         return new()
@@ -207,37 +155,6 @@ internal class TypedWishSummaryBuilder
             AverageUpOrangePull = averageUpOrangePullTracker.AverageNoThrow(),
             OrangeList = summaryItemCache,
         };
-    }
-
-    private static void CompleteSummaryItems(List<SummaryItem> summaryItems)
-    {
-        // we can't trust first item's prev state.
-        bool isPreviousUp = true;
-
-        // mark the IsGuarentee
-        foreach (SummaryItem item in summaryItems)
-        {
-            if (item.IsUp && (!isPreviousUp))
-            {
-                item.IsGuarentee = true;
-            }
-
-            isPreviousUp = item.IsUp;
-            item.Color = GetColorByName(item.Name);
-        }
-
-        // reverse items
-        summaryItems.Reverse();
-    }
-
-    private static Color GetColorByName(string name)
-    {
-        byte[] codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
-        Span<byte> first = new(codes, 0, 5);
-        Span<byte> second = new(codes, 5, 5);
-        Span<byte> third = new(codes, 10, 5);
-        Color color = Color.FromArgb(255, first.Average()/*.HalfRange()*/, second.Average()/*.HalfRange()*/, third.Average()/*.HalfRange()*/);
-        return color;
     }
 
     private void TrackMinMaxOrangePull(int lastOrangePull)

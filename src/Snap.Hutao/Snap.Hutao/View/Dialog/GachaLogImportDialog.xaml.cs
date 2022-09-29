@@ -42,7 +42,6 @@ public sealed partial class GachaLogImportDialog : ContentDialog
     /// <returns>是否导入</returns>
     public async Task<bool> GetShouldImportAsync()
     {
-        //await ThreadHelper.SwitchToMainThreadAsync();
         return await ShowAsync() == ContentDialogResult.Primary;
     }
 }

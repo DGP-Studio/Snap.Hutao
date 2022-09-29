@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Web.Hoyolab;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,14 +29,14 @@ public class User : ISelectable
     /// <summary>
     /// 用户的Cookie
     /// </summary>
-    public string? Cookie { get; set; }
+    public Cookie Cookie { get; set; } = default!;
 
     /// <summary>
     /// 创建一个新的用户
     /// </summary>
     /// <param name="cookie">cookie</param>
     /// <returns>新创建的用户</returns>
-    public static User Create(string cookie)
+    public static User Create(Cookie cookie)
     {
         return new() { Cookie = cookie };
     }

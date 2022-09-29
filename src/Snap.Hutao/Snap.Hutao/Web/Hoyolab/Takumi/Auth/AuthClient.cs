@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
@@ -46,7 +47,10 @@ internal class AuthClient
 
         if (resp?.Data != null)
         {
-            return resp.Data.List.ToDictionary(n => n.Name, n => n.Token);
+            Dictionary<string, string> dict = resp.Data.List.ToDictionary(n => n.Name, n => n.Token);
+            Must.Argument(dict.ContainsKey(Cookie.LTOKEN), "MultiToken 应该包含 ltoken");
+            Must.Argument(dict.ContainsKey(Cookie.STOKEN), "MultiToken 应该包含 stoken");
+            return dict;
         }
 
         return new();

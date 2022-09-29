@@ -26,6 +26,7 @@ internal class GameRecordClient
     /// </summary>
     /// <param name="httpClient">请求器</param>
     /// <param name="options">json序列化选项</param>
+    /// <param name="logger">日志器</param>
     public GameRecordClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<GameRecordClient> logger)
     {
         this.httpClient = httpClient;

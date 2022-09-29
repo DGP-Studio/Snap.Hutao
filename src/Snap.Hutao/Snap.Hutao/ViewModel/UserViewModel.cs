@@ -3,14 +3,15 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -54,7 +55,7 @@ internal class UserViewModel : ObservableObject
         {
             if (SetProperty(ref selectedUser, value))
             {
-                userService.CurrentUser = value;
+                userService.Current = value;
             }
         }
     }
@@ -75,7 +76,7 @@ internal class UserViewModel : ObservableObject
     public ICommand AddUserCommand { get; }
 
     /// <summary>
-    /// 升级到Stoken命令
+    /// 登录米哈游通行证升级到Stoken命令
     /// </summary>
     public ICommand UpgradeToStokenCommand { get; }
 
@@ -89,51 +90,10 @@ internal class UserViewModel : ObservableObject
     /// </summary>
     public ICommand CopyCookieCommand { get; }
 
-    private static (bool Valid, bool Upgrade) TryValidateCookie(IDictionary<string, string> map, out IDictionary<string, string> cookie)
-    {
-        int validFlag = 4;
-        int stokenFlag = 2;
-
-        cookie = new SortedDictionary<string, string>();
-
-        foreach ((string key, string value) in map)
-        {
-            switch (key)
-            {
-                case CookieKeys.COOKIE_TOKEN:
-                case CookieKeys.ACCOUNT_ID:
-                case CookieKeys.LTOKEN:
-                case CookieKeys.LTUID:
-                    {
-                        validFlag--;
-                        cookie.Add(key, value);
-                        break;
-                    }
-
-                case CookieKeys.STOKEN:
-                case CookieKeys.STUID:
-                    {
-                        stokenFlag--;
-                        cookie.Add(key, value);
-                        break;
-                    }
-
-                case CookieKeys.LOGIN_TICKET:
-                case CookieKeys.LOGIN_UID:
-                    {
-                        cookie.Add(key, value);
-                        break;
-                    }
-            }
-        }
-
-        return (validFlag == 0, stokenFlag == 0);
-    }
-
     private async Task OpenUIAsync()
     {
         Users = await userService.GetUserCollectionAsync().ConfigureAwait(true);
-        SelectedUser = userService.CurrentUser;
+        SelectedUser = userService.Current;
     }
 
     private async Task AddUserAsync()
@@ -145,50 +105,29 @@ internal class UserViewModel : ObservableObject
         // User confirms the input
         if (result.IsOk)
         {
-            (bool valid, bool upgradable) = TryValidateCookie(User.MapCookie(result.Value), out IDictionary<string, string> cookie);
-            if (valid)
-            {
-                if (await userService.CreateUserAsync(cookie).ConfigureAwait(false) is User user)
-                {
-                    switch (await userService.TryAddUserAsync(user, cookie[CookieKeys.ACCOUNT_ID]).ConfigureAwait(false))
-                    {
-                        case UserAddResult.Added:
-                            infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 添加成功");
-                            break;
-                        case UserAddResult.Updated:
-                            infoBarService.Success($"用户 [{user.UserInfo!.Nickname}] 更新成功");
-                            break;
-                        case UserAddResult.AlreadyExists:
-                            infoBarService.Information($"用户 [{user.UserInfo!.Nickname}] 已经存在");
-                            break;
-                        default:
-                            throw Must.NeverHappen();
-                    }
-                }
-                else
-                {
-                    infoBarService.Warning("此 Cookie 无法获取用户信息，请重新输入");
-                }
-            }
-            else
-            {
-                if (upgradable)
-                {
-                    (bool success, string nickname) = await userService.TryUpgradeUserByStokenAsync(cookie).ConfigureAwait(false);
+            Cookie cookie = Cookie.Parse(result.Value);
 
-                    if (success)
-                    {
-                        infoBarService.Information($"用户 [{nickname}] 的 Stoken 更新成功");
-                    }
-                    else
-                    {
-                        infoBarService.Warning($"未找到匹配的可升级用户");
-                    }
-                }
-                else
-                {
-                    infoBarService.Warning("提供的文本不是正确的 Cookie ，请重新输入");
-                }
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie).ConfigureAwait(false);
+
+            switch (optionResult)
+            {
+                case UserOptionResult.Added:
+                    infoBarService.Success($"用户 [{uid}] 添加成功");
+                    break;
+                case UserOptionResult.Incomplete:
+                    infoBarService.Information($"此 Cookie 不完整，操作失败");
+                    break;
+                case UserOptionResult.Invalid:
+                    infoBarService.Information($"此 Cookie 无法，操作失败");
+                    break;
+                case UserOptionResult.Updated:
+                    infoBarService.Success($"用户 [{uid}] 更新成功");
+                    break;
+                case UserOptionResult.Upgraded:
+                    infoBarService.Information($"用户 [{uid}] 升级成功");
+                    break;
+                default:
+                    throw Must.NeverHappen();
             }
         }
     }
@@ -197,15 +136,16 @@ internal class UserViewModel : ObservableObject
     {
         // Get cookie from user input
         MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, IDictionary<string, string> addition) = await new UserAutoCookieDialog(mainWindow).GetInputCookieAsync().ConfigureAwait(false);
+        (bool isOk, Cookie addition) = await new UserAutoCookieDialog(mainWindow).GetInputCookieAsync().ConfigureAwait(false);
 
         // User confirms the input
         if (isOk)
         {
-            (bool isUpgraded, string nickname) = await userService.TryUpgradeUserByLoginTicketAsync(addition).ConfigureAwait(false);
-            if (isUpgraded)
+            (UserOptionResult result, string nickname) = await userService.ProcessInputCookieAsync(addition).ConfigureAwait(false);
+
+            if (result == UserOptionResult.Upgraded)
             {
-                infoBarService.Information($"用户 [{nickname}] 的 Cookie 已成功添加 Stoken");
+                infoBarService.Information($"用户 [{nickname}] 的 Cookie 升级成功");
             }
             else
             {
@@ -228,10 +168,7 @@ internal class UserViewModel : ObservableObject
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         try
         {
-            DataPackage content = new();
-            content.SetText(Must.NotNull(user.Cookie!));
-            Clipboard.SetContent(content);
-            Clipboard.Flush();
+            Clipboard.SetText(user.Cookie?.ToString() ?? string.Empty);
             infoBarService.Success($"{user.UserInfo!.Nickname} 的 Cookie 复制成功");
         }
         catch (Exception e)

@@ -20,15 +20,19 @@ public sealed partial class TitleView : UserControl
     }
 
     /// <summary>
+    /// 标题
+    /// </summary>
+    [SuppressMessage("", "CA1822")]
+    public string Title
+    {
+        get => $"胡桃 {Core.CoreEnvironment.Version}";
+    }
+
+    /// <summary>
     /// 获取可拖动区域
     /// </summary>
     public FrameworkElement DragArea
     {
         get => DragableGrid;
-    }
-
-    public string Title
-    {
-        get => $"胡桃 {Core.CoreEnvironment.Version}";
     }
 }
