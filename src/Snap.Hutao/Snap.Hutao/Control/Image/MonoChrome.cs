@@ -29,7 +29,6 @@ public class MonoChrome : CompositionImage
     {
         CompositionColorBrush blackLayerBursh = compositor.CreateColorBrush(Colors.Black);
         CompositionSurfaceBrush imageSurfaceBrush = compositor.CompositeSurfaceBrush(imageSurface, stretch: CompositionStretch.Uniform, vRatio: 0f);
-
         CompositionEffectBrush overlayBrush = compositor.CompositeBlendEffectBrush(blackLayerBursh, imageSurfaceBrush, BlendEffectMode.Overlay);
         CompositionEffectBrush opacityBrush = compositor.CompositeLuminanceToAlphaEffectBrush(overlayBrush);
 

@@ -57,6 +57,7 @@ internal class AchievementViewModel
     private ObservableCollection<Model.Entity.AchievementArchive>? archives;
     private Model.Entity.AchievementArchive? selectedArchive;
     private bool isIncompletedItemsFirst = true;
+    private string searchText = string.Empty;
 
     /// <summary>
     /// 构造一个新的成就视图模型
@@ -88,6 +89,7 @@ internal class AchievementViewModel
         ImportUIAFFromFileCommand = asyncRelayCommandFactory.Create(ImportUIAFFromFileAsync);
         AddArchiveCommand = asyncRelayCommandFactory.Create(AddArchiveAsync);
         RemoveArchiveCommand = asyncRelayCommandFactory.Create(RemoveArchiveAsync);
+        SearchAchievementCommand = new RelayCommand<string>(SearchAchievement);
         SortIncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
 
         messenger.Register(this);
@@ -147,8 +149,18 @@ internal class AchievementViewModel
         set
         {
             SetProperty(ref selectedAchievementGoal, value);
+            SearchText = string.Empty;
             UpdateAchievementFilter(value);
         }
+    }
+
+    /// <summary>
+    /// 搜索文本
+    /// </summary>
+    public string SearchText
+    {
+        get => searchText;
+        set => SetProperty(ref searchText, value);
     }
 
     /// <summary>
@@ -174,6 +186,11 @@ internal class AchievementViewModel
     /// 删除存档命令
     /// </summary>
     public ICommand RemoveArchiveCommand { get; }
+
+    /// <summary>
+    /// 搜索成就命令
+    /// </summary>
+    public ICommand SearchAchievementCommand { get; }
 
     /// <summary>
     /// 从剪贴板导入UIAF命令
@@ -345,6 +362,30 @@ internal class AchievementViewModel
         }
     }
 
+    private void SearchAchievement(string? search)
+    {
+        if (Achievements != null)
+        {
+            SetProperty(ref selectedAchievementGoal, null);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                if (search.Length == 5 && int.TryParse(search, out int achiId))
+                {
+                    Achievements.Filter = (object o) => ((Model.Binding.Achievement)o).Inner.Id == achiId;
+                }
+                else
+                {
+                    Achievements.Filter = (object o) =>
+                    {
+                        Model.Binding.Achievement achi = (Model.Binding.Achievement)o;
+                        return achi.Inner.Title.Contains(search) || achi.Inner.Description.Contains(search);
+                    };
+                }
+            }
+        }
+    }
+
     [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task ImportUIAFFromClipboardAsync()
     {
@@ -469,7 +510,7 @@ internal class AchievementViewModel
         {
             Achievements.Filter = goal != null
                 ? ((object o) => o is Model.Binding.Achievement achi && achi.Inner.Goal == goal.Id)
-                : ((object o) => true);
+                : null;
         }
     }
 }

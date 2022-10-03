@@ -18,7 +18,7 @@ public class Reliquary
     /// <summary>
     /// 允许出现的等级
     /// </summary>
-    public IEnumerable<ItemQuality> RankLevels { get; set; } = default!;
+    public ItemQuality RankLevel { get; set; } = default!;
 
     /// <summary>
     /// 套装Id

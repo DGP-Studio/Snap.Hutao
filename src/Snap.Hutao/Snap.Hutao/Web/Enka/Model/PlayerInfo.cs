@@ -83,4 +83,19 @@ public class PlayerInfo
     /// </summary>
     [JsonPropertyName("profilePicture")]
     public ProfilePicture ProfilePicture { get; set; } = default!;
+
+    /// <summary>
+    /// 创建空对象
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>空的玩家信息</returns>
+    public static PlayerInfo CreateEmpty(string uid)
+    {
+        return new()
+        {
+            Nickname = uid,
+            Signature = string.Empty,
+            ProfilePicture = new() { AvatarId = 10000046 }, // use Hutao as default.
+        };
+    }
 }

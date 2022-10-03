@@ -15,7 +15,7 @@ public enum ItemType
     ITEM_NONE = 0,
 
     /// <summary>
-    /// 贵重道具
+    /// 虚拟道具
     /// </summary>
     ITEM_VIRTUAL = 1,
 

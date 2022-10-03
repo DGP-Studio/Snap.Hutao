@@ -12,22 +12,43 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal sealed class DescParamDescriptor : ValueConverterBase<DescParam, IList<LevelParam<string, ParameterInfo>>>
 {
+    /// <summary>
+    /// 获取特定等级的解释
+    /// </summary>
+    /// <param name="from">源</param>
+    /// <param name="level">等级</param>
+    /// <returns>特定等级的解释</returns>
+    public static LevelParam<string, ParameterInfo> Convert(DescParam from, int level)
+    {
+        // DO NOT INLINE!
+        // Cache the formats
+        IList<DescFormat> formats = from.Descriptions
+            .Select(desc => new DescFormat(desc))
+            .ToList();
+
+        LevelParam<int, double> param = from.Parameters.Single(param => param.Level == level);
+
+        return new LevelParam<string, ParameterInfo>(param.Level.ToString(), GetParameterInfos(formats, param.Parameters));
+    }
+
     /// <inheritdoc/>
     public override IList<LevelParam<string, ParameterInfo>> Convert(DescParam from)
     {
+        // DO NOT INLINE!
+        // Cache the formats
+        IList<DescFormat> formats = from.Descriptions
+            .Select(desc => new DescFormat(desc))
+            .ToList();
+
         IList<LevelParam<string, ParameterInfo>> parameters = from.Parameters
-            .Select(param => new LevelParam<string, ParameterInfo>(param.Level.ToString(), GetParameterInfos(from, param.Parameters)))
+            .Select(param => new LevelParam<string, ParameterInfo>(param.Level.ToString(), GetParameterInfos(formats, param.Parameters)))
             .ToList();
 
         return parameters;
     }
 
-    private static IList<ParameterInfo> GetParameterInfos(DescParam rawDescParam, IList<double> param)
+    private static IList<ParameterInfo> GetParameterInfos(IList<DescFormat> formats, IList<double> param)
     {
-        IList<DescFormat> formats = rawDescParam.Descriptions
-            .Select(desc => new DescFormat(desc))
-            .ToList();
-
         List<ParameterInfo> results = new();
 
         for (int index = 0; index < formats.Count; index++)

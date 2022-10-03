@@ -73,10 +73,8 @@
     <SplitView
         IsPaneOpen="True"
         DisplayMode="Inline"
-        OpenPaneLength="200">
-        <SplitView.PaneBackground>
-            <SolidColorBrush Color="{ThemeResource CardBackgroundFillColorSecondary}"/>
-        </SplitView.PaneBackground>
+        OpenPaneLength="200"
+        PaneBackground="{StaticResource CardBackgroundFillColorSecondary}">
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>

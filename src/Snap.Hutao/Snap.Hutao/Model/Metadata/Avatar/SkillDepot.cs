@@ -24,7 +24,7 @@ public class SkillDepot
     public IList<ProudableSkill> Inherents { get; set; } = default!;
 
     /// <summary>
-    /// 全部天赋
+    /// 全部天赋,包括固有天赋
     /// </summary>
     public IList<ProudableSkill> CompositeSkills
     {
@@ -35,6 +35,20 @@ public class SkillDepot
     /// 命之座
     /// </summary>
     public IList<SkillBase> Talents { get; set; } = default!;
+
+    /// <summary>
+    /// 获取无固有天赋的技能列表
+    /// </summary>
+    /// <returns>天赋列表</returns>
+    public IEnumerable<ProudableSkill> GetCompositeSkillsNoInherents()
+    {
+        foreach (ProudableSkill skill in Skills)
+        {
+            yield return skill;
+        }
+
+        yield return EnergySkill;
+    }
 
     private IEnumerable<ProudableSkill> GetCompositeSkills()
     {

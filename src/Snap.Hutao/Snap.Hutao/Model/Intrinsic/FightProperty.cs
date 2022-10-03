@@ -24,8 +24,10 @@ public enum FightProperty
     FIGHT_PROP_BASE_HP = 1,
 
     /// <summary>
-    /// 生命值加成
+    /// 小生命值加成
     /// </summary>
+    [Description("生命值")]
+    [Format(FormatMethod.Integer)]
     FIGHT_PROP_HP = 2,
 
     /// <summary>
@@ -45,6 +47,8 @@ public enum FightProperty
     /// <summary>
     /// 攻击力加成
     /// </summary>
+    [Description("攻击力")]
+    [Format(FormatMethod.Integer)]
     FIGHT_PROP_ATTACK = 5,
 
     /// <summary>
@@ -64,6 +68,8 @@ public enum FightProperty
     /// <summary>
     /// 防御力加成
     /// </summary>
+    [Description("防御力")]
+    [Format(FormatMethod.Integer)]
     FIGHT_PROP_DEFENSE = 8,
 
     /// <summary>
@@ -387,6 +393,8 @@ public enum FightProperty
     /// <summary>
     /// 最大生命值
     /// </summary>
+    [Description("生命值")]
+    [Format(FormatMethod.Integer)]
     FIGHT_PROP_MAX_HP = 2000,
 
     /// <summary>

@@ -28,4 +28,15 @@ public class AvatarInfo
     /// 角色的信息
     /// </summary>
     public Web.Enka.Model.AvatarInfo Info { get; set; } = default!;
+
+    /// <summary>
+    /// 创建一个新的实体角色信息
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <param name="info">角色信息</param>
+    /// <returns>实体角色信息</returns>
+    public static AvatarInfo Create(string uid, Web.Enka.Model.AvatarInfo info)
+    {
+        return new() { Uid = uid, Info = info };
+    }
 }

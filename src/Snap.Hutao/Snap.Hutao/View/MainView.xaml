@@ -22,7 +22,7 @@
             IsBackEnabled="{Binding ElementName=ContentFrame,Path=CanGoBack}">
             <NavigationView.MenuItems>
                 <NavigationViewItem
-                    Content="活动"
+                    Content="活动公告"
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
 
@@ -34,14 +34,19 @@
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
 
                 <NavigationViewItem
-                    Content="成就"
+                    Content="成就管理"
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
+
+                <NavigationViewItem
+                    Content="属性统计"
+                    shvh:NavHelper.NavigateTo="shvp:AvatarPropertyPage"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}"/>
 
                 <NavigationViewItemHeader Content="WIKI"/>
 
                 <NavigationViewItem
-                    Content="角色"
+                    Content="角色资料"
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
                 

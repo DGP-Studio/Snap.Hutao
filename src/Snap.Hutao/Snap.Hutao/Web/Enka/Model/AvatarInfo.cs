@@ -31,7 +31,7 @@ public class AvatarInfo
     /// 命座 Id
     /// </summary>
     [JsonPropertyName("talentIdList")]
-    public IList<int> TalentIdList { get; set; } = default!;
+    public IList<int>? TalentIdList { get; set; }
 
     /// <summary>
     /// 属性Map
@@ -86,5 +86,5 @@ public class AvatarInfo
     /// 命座额外技能等级
     /// </summary>
     [JsonPropertyName("proudSkillExtraLevelMap")]
-    public IDictionary<string, int> ProudSkillExtraLevelMap { get; set; } = default!;
+    public IDictionary<string, int>? ProudSkillExtraLevelMap { get; set; } = default!;
 }

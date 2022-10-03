@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -47,21 +48,35 @@ internal interface IMetadataService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>卡池配置列表</returns>
-    ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default(CancellationToken));
+    ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取Id到角色的字典
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>Id到角色的字典</returns>
-    ValueTask<Dictionary<int, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default(CancellationToken));
+    ValueTask<Dictionary<int, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取ID到圣遗物副词条的字典
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>字典</returns>
+    ValueTask<Dictionary<int, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取圣遗物主词条Id与属性的字典
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>字典</returns>
+    ValueTask<Dictionary<int, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取ID到武器的字典
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>Id到武器的字典</returns>
-    ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default(CancellationToken));
+    ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取名称到角色的字典
@@ -90,6 +105,13 @@ internal interface IMetadataService
     /// <param name="token">取消令牌</param>
     /// <returns>圣遗物强化属性列表</returns>
     ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取圣遗物等级数据
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>圣遗物等级数据</returns>
+    ValueTask<List<ReliquaryLevel>> GetReliquaryLevelsAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物主属性强化属性列表

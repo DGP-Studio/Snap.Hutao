@@ -3,8 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Xaml.Interactivity;
-using Snap.Hutao.Control.Behavior;
 using Snap.Hutao.Core.Threading;
 
 namespace Snap.Hutao.Control.Extension;
@@ -23,7 +21,6 @@ internal static class ContentDialogExtensions
     public static ContentDialog InitializeWithWindow(this ContentDialog contentDialog, Window window)
     {
         contentDialog.XamlRoot = window.Content.XamlRoot;
-        Interaction.SetBehaviors(contentDialog, new() { new ContentDialogBehavior() });
 
         return contentDialog;
     }

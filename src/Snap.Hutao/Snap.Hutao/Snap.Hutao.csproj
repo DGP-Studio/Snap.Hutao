@@ -38,6 +38,7 @@
     <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
+    <None Remove="Resource\Icon\UI_Icon_BoostUp.png" />
     <None Remove="Resource\Icon\UI_Icon_None.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
@@ -48,6 +49,7 @@
     <None Remove="View\Control\StatisticsCard.xaml" />
     <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
+    <None Remove="View\Dialog\AvatarInfoQueryDialog.xaml" />
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\UserAutoCookieDialog.xaml" />
@@ -56,6 +58,7 @@
     <None Remove="View\Page\AchievementPage.xaml" />
     <None Remove="View\Page\AnnouncementContentPage.xaml" />
     <None Remove="View\Page\AnnouncementPage.xaml" />
+    <None Remove="View\Page\AvatarPropertyPage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
@@ -83,6 +86,7 @@
     <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
+    <Content Include="Resource\Icon\UI_Icon_BoostUp.png" />
     <Content Include="Resource\Icon\UI_Icon_None.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
   </ItemGroup>
@@ -127,6 +131,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\AvatarInfoQueryDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\AvatarPropertyPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\UserAutoCookieDialog.xaml">

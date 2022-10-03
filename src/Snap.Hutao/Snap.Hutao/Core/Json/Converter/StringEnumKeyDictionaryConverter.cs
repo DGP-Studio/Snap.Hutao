@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Reflection;
-
 namespace Snap.Hutao.Core.Json.Converter;
 
 /// <summary>
@@ -33,7 +31,7 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
         Type valueType = type.GetGenericArguments()[1];
 
         Type innerConverterType = typeof(StringEnumDictionaryConverterInner<,>).MakeGenericType(keyType, valueType);
-        JsonConverter converter = (JsonConverter)Activator.CreateInstance(innerConverterType, BindingFlags.Instance | BindingFlags.Public, null, new object[] { options }, null)!;
+        JsonConverter converter = (JsonConverter)Activator.CreateInstance(innerConverterType)!;
         return converter;
     }
 
@@ -41,13 +39,11 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
         where TKey : struct, Enum
     {
         private readonly Type keyType;
-        private readonly Type valueType;
 
-        public StringEnumDictionaryConverterInner(JsonSerializerOptions options)
+        public StringEnumDictionaryConverterInner()
         {
             // Cache the key and value types.
             keyType = typeof(TKey);
-            valueType = typeof(TValue);
         }
 
         public override IDictionary<TKey, TValue> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

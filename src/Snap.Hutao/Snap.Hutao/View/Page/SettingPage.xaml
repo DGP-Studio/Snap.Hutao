@@ -23,7 +23,7 @@
                 <ColumnDefinition MaxWidth="1000"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Margin="32,0,24,0">
+            <StackPanel Margin="32,0,24,24">
                 <sc:SettingsGroup Header="关于 胡桃">
                     <Grid Margin="0,4,0,16">
                         <Grid.ColumnDefinitions>

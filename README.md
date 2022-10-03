@@ -3,11 +3,11 @@
 
 ![Snap.Hutao](https://repobeats.axiom.co/api/embed/f029553fbe0c60689b1710476ec8512452163fc9.svg)
 
-## 项目首页
+## 项目首页（文档）
 
 [![Deploy Docs](https://github.com/DGP-Studio/Snap.Hutao.Docs/actions/workflows/deploy-docs.yml/badge.svg)](https://github.com/DGP-Studio/Snap.Hutao.Docs/actions/workflows/deploy-docs.yml)
 
-[https://hut.ao](https://hut.ao)
+[HUT.AO](https://hut.ao)
 
 ## 安装
 

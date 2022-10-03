@@ -27,4 +27,14 @@ public class Costume
     /// 是否为默认
     /// </summary>
     public bool IsDefault { get; set; }
+
+    /// <summary>
+    /// 图标
+    /// </summary>
+    public string? Icon { get; set; }
+
+    /// <summary>
+    /// 侧面图标
+    /// </summary>
+    public string? SideIcon { get; set; }
 }
