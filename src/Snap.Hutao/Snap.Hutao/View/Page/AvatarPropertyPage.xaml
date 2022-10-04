@@ -12,8 +12,12 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shct="using:Snap.Hutao.Control.Text"
+    xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:sc="using:SettingsUI.Controls"
+    xmlns:shvcont="using:Snap.Hutao.View.Control"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance shv:AvatarPropertyViewModel}">
@@ -28,9 +32,11 @@
                 <x:Double>1</x:Double>
             </cwuconv:BoolToObjectConverter.TrueValue>
             <cwuconv:BoolToObjectConverter.FalseValue>
-                <x:Double>0.3</x:Double>
+                <x:Double>0.5</x:Double>
             </cwuconv:BoolToObjectConverter.FalseValue>
         </cwuconv:BoolToObjectConverter>
+        <shvconv:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+        <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
     </Page.Resources>
     
     <Grid>
@@ -140,15 +146,6 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <!--<Border
-                            Margin="12,12,12,0"
-                            CornerRadius="{StaticResource CompatCornerRadius}"
-                            Background="{StaticResource CardBackgroundFillColorSecondary}">
-                            <TextBlock
-                                Margin="12,6"
-                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                Text="{Binding SelectedAvatar.Name}"/>
-                        </Border>-->
                         <Border
                             Margin="12,12,12,0"
                             CornerRadius="{StaticResource CompatCornerRadius}"
@@ -167,11 +164,42 @@
                                             Background="Transparent"
                                             BorderBrush="{x:Null}"
                                             Margin="2,2,0,2">
-                                            <shci:CachedImage
-                                                Width="32"
-                                                Height="32"
-                                                Source="{Binding Icon}"
-                                                Opacity="{Binding IsActiviated,Converter={StaticResource BoolToOpacityConverter}}"/>
+                                            <Button.Content>
+                                                <Grid>
+                                                    <!--#FFDAB79B-->
+                                                    <Ellipse
+                                                        Fill="#FFDAB79B"
+                                                        Stroke="#FFB29880"/>
+                                                    <shci:CachedImage
+                                                        Width="32"
+                                                        Height="32"
+                                                        Source="{Binding Icon}"
+                                                        Opacity="{Binding IsActiviated,Converter={StaticResource BoolToOpacityConverter}}"/>
+                                                    <Image
+                                                        Width="16"
+                                                        Height="16"
+                                                        Source="ms-appx:///Resource/Icon/UI_Icon_Locked.png"
+                                                        Visibility="{Binding IsActiviated,Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                                                    </Image>
+                                                </Grid>
+                                                
+                                            </Button.Content>
+                                            
+                                            <Button.Flyout>
+                                                <Flyout Placement="Bottom">
+                                                    <shct:DescriptionTextBlock
+                                                        MaxWidth="320"
+                                                        Description="{Binding Description}">
+                                                        <shct:DescriptionTextBlock.Resources>
+                                                            <Style
+                                                                TargetType="TextBlock"
+                                                                BasedOn="{StaticResource BodyTextBlockStyle}">
+                                                                <Setter Property="TextWrapping" Value="Wrap"/>
+                                                            </Style>
+                                                        </shct:DescriptionTextBlock.Resources>
+                                                    </shct:DescriptionTextBlock>
+                                                </Flyout>
+                                            </Button.Flyout>
                                         </Button>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -196,24 +224,125 @@
                                             Background="Transparent"
                                             BorderBrush="{x:Null}"
                                             Margin="2,2,0,2">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto"/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <shci:CachedImage
-                                                    Width="32"
-                                                    Height="32"
-                                                    Source="{Binding Icon}"/>
-                                                <TextBlock
-                                                    VerticalAlignment="Bottom"
-                                                    HorizontalAlignment="Right"
-                                                    Text="{Binding Info.Level}"/>
-                                            </Grid>
+                                            <Button.Content>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition Width="44"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Ellipse
+                                                        Grid.Column="0"
+                                                        Fill="#FFDAB79B"
+                                                        Stroke="#FFB29880"/>
+                                                    <shci:CachedImage
+                                                        Grid.Column="0"
+                                                        Width="32"
+                                                        Height="32"
+                                                        Source="{Binding Icon}"/>
+                                                    <Border
+                                                        CornerRadius="{StaticResource CompatCornerRadius}"
+                                                        Background="#FFB29880"
+                                                        Padding="4,0"
+                                                        Width="40"
+                                                        Grid.Column="1"
+                                                        Margin="6,0,0,0"
+                                                        VerticalAlignment="Center"
+                                                        HorizontalAlignment="Center">
+                                                        <TextBlock
+                                                            Margin="0,0,0,2"
+                                                            HorizontalAlignment="Center"
+                                                            Style="{StaticResource BaseTextBlockStyle}"
+                                                            Foreground="#FFFFFFFF"
+                                                            Text="{Binding Info.Level}"/>
+                                                    </Border>
+                                                </Grid>
+                                            </Button.Content>
+                                            <Button.Flyout>
+                                                <Flyout Placement="Bottom">
+                                                    <StackPanel MaxWidth="320">
+                                                        <shct:DescriptionTextBlock
+                                                            Description="{Binding Description}">
+                                                            <shct:DescriptionTextBlock.Resources>
+                                                                <Style
+                                                                    TargetType="TextBlock"
+                                                                    BasedOn="{StaticResource BodyTextBlockStyle}">
+                                                                    <Setter Property="TextWrapping" Value="Wrap"/>
+                                                                </Style>
+                                                            </shct:DescriptionTextBlock.Resources>
+                                                        </shct:DescriptionTextBlock>
+                                                        <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Info.Parameters}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <sc:Setting Margin="0,2,0,0" Header="{Binding Description}" Padding="12,0">
+                                                                        <sc:Setting.ActionContent>
+                                                                            <TextBlock Text="{Binding Parameter}"/>
+                                                                        </sc:Setting.ActionContent>
+                                                                    </sc:Setting>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </Button.Flyout>
                                         </Button>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                        </Border>
+                        <Border
+                            Margin="12,12,12,0"
+                            Padding="6"
+                            VerticalAlignment="Top"
+                            CornerRadius="{StaticResource CompatCornerRadius}"
+                            Background="{StaticResource CardBackgroundFillColorSecondary}">
+                            <Grid DataContext="{Binding SelectedAvatar.Weapon}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Padding="0">
+                                    <Button.Content>
+                                        <shvcont:ItemIcon
+                                            Width="48"
+                                            Height="48"
+                                            Icon="{Binding Icon}"
+                                            Quality="{Binding Quality}"/>
+                                    </Button.Content>
+                                    <Button.Flyout>
+                                        <Flyout Placement="Bottom">
+                                            <shct:DescriptionTextBlock
+                                                        MaxWidth="320"
+                                                        Description="{Binding AffixDescription}">
+                                                <shct:DescriptionTextBlock.Resources>
+                                                    <Style
+                                                                TargetType="TextBlock"
+                                                                BasedOn="{StaticResource BodyTextBlockStyle}">
+                                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                                    </Style>
+                                                </shct:DescriptionTextBlock.Resources>
+                                            </shct:DescriptionTextBlock>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+
+                                <TextBlock
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding Name}"/>
+                                <TextBlock
+                                    Grid.Column="2"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding Level}"/>
+                                <TextBlock
+                                    Grid.Column="3"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Text="{Binding AffixLevel}"/>
+                            </Grid>
                         </Border>
                         <Border
                             Margin="12,12,12,0"
@@ -233,7 +362,7 @@
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition/>
-                                                    <ColumnDefinition Width="68"/>
+                                                    <ColumnDefinition Width="60"/>
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Grid.Column="0"
@@ -244,6 +373,7 @@
                                                     Margin="6,0,0,0"
                                                     Grid.Column="1"
                                                     Text="{Binding Value2}"
+                                                    Foreground="LimeGreen"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
                                                     HorizontalAlignment="Left"/>
                                             </Grid>
@@ -254,61 +384,90 @@
                         </Border>
                     </StackPanel>
                     
-                    <ScrollViewer Grid.Column="1" Padding="0,0,12,0">
+                    <ScrollViewer Grid.Column="1" Padding="0,0,0,0">
                         <cwucont:AdaptiveGridView
-                            DesiredWidth="224"
                             cwua:ItemsReorderAnimation.Duration="0:0:0.1"
                             SelectionMode="None"
-                            HorizontalContentAlignment="Stretch"
+                            HorizontalAlignment="Left"
                             ItemsSource="{Binding SelectedAvatar.Reliquaries}"
                             Margin="0,12,0,0">
+                            <cwucont:AdaptiveGridView.ItemContainerStyle>
+                                <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
+                                    <Setter Property="Margin" Value="0,0,12,12"/>
+                                </Style>
+                            </cwucont:AdaptiveGridView.ItemContainerStyle>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border
+                                        Margin="0,0,0,0"
                                         HorizontalAlignment="Stretch"
                                         CornerRadius="{StaticResource CompatCornerRadius}"
                                         Background="{StaticResource CardBackgroundFillColorSecondary}">
-                                        <StackPanel Margin="6" HorizontalAlignment="Stretch">
-                                            <Grid>
+                                        <Grid Margin="6">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <Grid Grid.Column="0">
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="6"/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
-                                                <shvc:ItemIcon
-                                                    Grid.Column="0"
-                                                    HorizontalAlignment="Left"
-                                                    Width="48"
-                                                    Height="48"
-                                                    Icon="{Binding Icon}"
-                                                    Quality="{Binding Quality}"/>
-                                                <StackPanel Grid.Column="1" Margin="6,0,0,0">
-                                                    <Grid>
-                                                        <TextBlock
-                                                            Text="{Binding Name}"/>
-                                                        <TextBlock
+
+                                                <Grid
+                                                    Margin="2"
+                                                    Grid.Column="0"> 
+                                                    <TextBlock
+                                                            Text="{Binding Name}"
+                                                            FontWeight="Bold"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                    <TextBlock
                                                             Margin="12,0,0,0"
                                                             Text="{Binding Level}"
+                                                            FontWeight="Bold"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
                                                             HorizontalAlignment="Right"/>
-                                                    </Grid>
-                                                    <Grid Margin="0,10,0,0">
-                                                        <TextBlock
+                                                </Grid>
+                                                <Grid Margin="2" Grid.Column="2">
+                                                    <TextBlock
                                                             Text="{Binding MainProperty.Key}"
                                                             FontWeight="Bold"
                                                             Style="{StaticResource CaptionTextBlockStyle}"/>
-                                                        <TextBlock
+                                                    <TextBlock
                                                             Text="{Binding MainProperty.Value}"
                                                             FontWeight="Bold"
                                                             Style="{StaticResource CaptionTextBlockStyle}"
                                                             HorizontalAlignment="Right"/>
-                                                    </Grid>
-                                                </StackPanel>
+                                                </Grid>
                                             </Grid>
-                                            
-                                            <MenuFlyoutSeparator Margin="-2,4,-2,0"/>
-                                            <ItemsControl ItemsSource="{Binding SubProperties}">
+                                            <Rectangle Height="1" Grid.Row="1" Margin="0,6">
+                                                <Rectangle.Fill>
+                                                    <SolidColorBrush Color="{Binding Quality,Converter={StaticResource QualityColorConverter}}"/>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <shci:CachedImage
+                                                Opacity="0.3"
+                                                Grid.Row="2"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Bottom"
+                                                Width="80"
+                                                Height="80"
+                                                Source="{Binding Icon}"/>
+                                            <ItemsControl Grid.Row="2" ItemsSource="{Binding SubProperties}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <cwucont:UniformGrid
+                                                            Columns="2"
+                                                            Rows="5"
+                                                            ColumnSpacing="6"
+                                                            Orientation="Vertical"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Padding="2">
+                                                        <Grid Padding="2" MinWidth="128">
                                                             <TextBlock
                                                                 Text="{Binding Key}"
                                                                 Style="{StaticResource CaptionTextBlockStyle}"/>
@@ -320,7 +479,7 @@
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
-                                        </StackPanel>
+                                        </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

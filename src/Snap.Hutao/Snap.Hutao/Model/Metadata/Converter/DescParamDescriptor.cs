@@ -28,7 +28,7 @@ internal sealed class DescParamDescriptor : ValueConverterBase<DescParam, IList<
 
         LevelParam<int, double> param = from.Parameters.Single(param => param.Level == level);
 
-        return new LevelParam<string, ParameterInfo>(param.Level.ToString(), GetParameterInfos(formats, param.Parameters));
+        return new LevelParam<string, ParameterInfo>($"Lv.{param.Level}", GetParameterInfos(formats, param.Parameters));
     }
 
     /// <inheritdoc/>

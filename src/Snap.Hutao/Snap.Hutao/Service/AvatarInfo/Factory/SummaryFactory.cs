@@ -5,7 +5,6 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Annotation;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Service.Metadata;
@@ -144,7 +143,7 @@ internal class SummaryFactory : ISummaryFactory
                 Description = reliquary.Description,
 
                 // EquipBase
-                Level = $"+ {equip.Reliquary!.Level - 1}",
+                Level = $"+{equip.Reliquary!.Level - 1}",
                 Quality = reliquary.RankLevel,
                 MainProperty = CreateReliquaryMainProperty(equip.Reliquary.MainPropId, reliquary.RankLevel, equip.Reliquary.Level),
 
@@ -182,13 +181,13 @@ internal class SummaryFactory : ISummaryFactory
                 Description = weapon.Description,
 
                 // EquipBase
-                Level = $"{equip.Weapon!.Level}",
+                Level = $"Lv.{equip.Weapon!.Level}",
                 Quality = weapon.Quality,
                 MainProperty = new(string.Empty, string.Empty), // TODO
 
                 // Weapon
                 SubProperty = new(string.Empty, string.Empty), // TODO
-                AffixLevel = level + 1,
+                AffixLevel = $"精炼{level + 1}",
                 AffixName = weapon.Affix?.Name ?? string.Empty,
                 AffixDescription = weapon.Affix?.Descriptions.Single(a => a.Level == level).Description ?? string.Empty,
             };

@@ -16,7 +16,7 @@ public class Weapon : EquipBase
     /// <summary>
     /// 精炼属性
     /// </summary>
-    public int AffixLevel { get; set; }
+    public string AffixLevel { get; set; } = default!;
 
     /// <summary>
     /// 精炼名称

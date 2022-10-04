@@ -39,6 +39,7 @@
     <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
     <None Remove="Resource\Icon\UI_Icon_BoostUp.png" />
+    <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_None.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
@@ -87,6 +88,7 @@
     <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
     <Content Include="Resource\Icon\UI_Icon_BoostUp.png" />
+    <Content Include="Resource\Icon\UI_Icon_Locked.png" />
     <Content Include="Resource\Icon\UI_Icon_None.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
   </ItemGroup>
