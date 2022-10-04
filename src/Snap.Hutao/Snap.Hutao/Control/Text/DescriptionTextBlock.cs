@@ -102,7 +102,7 @@ public class DescriptionTextBlock : ContentControl
 
             if (i == description.Length - 1)
             {
-                AppendText(text, description[last..i]);
+                AppendText(text, description[last..(i + 1)]);
             }
         }
     }

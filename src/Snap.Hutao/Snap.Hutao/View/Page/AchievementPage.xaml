@@ -4,14 +4,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     xmlns:shv="using:Snap.Hutao.ViewModel"
-    xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance shv:AchievementViewModel}">
@@ -42,12 +43,23 @@
                 DefaultLabelPosition="Right">
                 <CommandBar.Content>
                     <AutoSuggestBox
+                        Text="{Binding SearchText,Mode=TwoWay}"
                         Height="36"
                         PlaceholderText="搜索成就名称，描述或编号"
                         HorizontalAlignment="Stretch"
                         Margin="12,6,12,0"
                         Width="220"
-                        QueryIcon="Find"/>
+                        VerticalContentAlignment="Center"
+                        Style="{StaticResource DefaultAutoSuggestBoxStyle}"
+                        QueryIcon="{shcm:FontIcon Glyph=&#xE721;}">
+                        <mxi:Interaction.Behaviors>
+                            <mxic:EventTriggerBehavior EventName="QuerySubmitted">
+                                <mxic:InvokeCommandAction
+                                    Command="{Binding SearchAchievementCommand}"
+                                    CommandParameter="{Binding SearchText}"/>
+                            </mxic:EventTriggerBehavior>
+                        </mxi:Interaction.Behaviors>
+                    </AutoSuggestBox>
                 </CommandBar.Content>
 
                 <AppBarElementContainer>
@@ -134,7 +146,7 @@
                     <ItemsControl
                         Margin="16,0,0,16"
                         ItemsSource="{Binding Achievements}">
-                        <!--ContentThemeTransition here can make items blinking, cause we are using ItemsStackPanel-->
+                        <!--ContentThemeTransition here can make items blinking-->
                         <!--<ItemsControl.Transitions>
                             <ContentThemeTransition/>
                         </ItemsControl.Transitions>-->

@@ -5,18 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     mc:Ignorable="d"
     Title="为当前存档导入成就"
     DefaultButton="Primary"
     PrimaryButtonText="确认"
     CloseButtonText="取消"
     Style="{StaticResource DefaultContentDialogStyle}">
-
-    <mxi:Interaction.Behaviors>
-        <shcb:ContentDialogBehavior/>
-    </mxi:Interaction.Behaviors>
 
     <Grid>
         <Grid.RowDefinitions>

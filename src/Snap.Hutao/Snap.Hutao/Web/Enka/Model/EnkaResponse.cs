@@ -32,14 +32,7 @@ public class EnkaResponse
     /// </summary>
     public bool IsValid
     {
-        get => Ttl.HasValue;
-    }
-
-    /// <summary>
-    /// 是否包含角色详细数据
-    /// </summary>
-    public bool HasDetail
-    {
-        get => AvatarInfoList != null;
+        [MemberNotNullWhen(true, nameof(PlayerInfo), nameof(AvatarInfoList))]
+        get => PlayerInfo != null && AvatarInfoList != null;
     }
 }

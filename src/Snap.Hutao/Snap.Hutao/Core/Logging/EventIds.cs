@@ -88,6 +88,11 @@ internal static class EventIds
     /// 成就
     /// </summary>
     public static readonly EventId Achievement = 100130;
+
+    /// <summary>
+    /// 祈愿统计生成
+    /// </summary>
+    public static readonly EventId GachaStatisticGeneration = 100140;
     #endregion
 
     #region 杂项

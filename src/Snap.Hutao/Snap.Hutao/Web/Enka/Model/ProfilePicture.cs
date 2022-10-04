@@ -13,4 +13,10 @@ public class ProfilePicture
     /// </summary>
     [JsonPropertyName("avatarId")]
     public int AvatarId { get; set; }
+
+    /// <summary>
+    /// 衣装Id
+    /// </summary>
+    [JsonPropertyName("costumeId")]
+    public int? CostumeId { get; set; }
 }

@@ -197,15 +197,15 @@
                         <TextBlock
                             Margin="10,6,0,6"
                             Style="{StaticResource BaseTextBlockStyle}"
-                            Text="Cookie"/>
+                            Text="Cookie操作"/>
                         <CommandBar DefaultLabelPosition="Right">
                             <AppBarButton
                                 Icon="{shcm:FontIcon Glyph=&#xF4A5;}"
-                                Label="升级Stoken"
+                                Label="登录米哈游通行证"
                                 Command="{Binding UpgradeToStokenCommand}"/>
                             <AppBarButton
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                                Label="手动添加"
+                                Label="手动输入"
                                 Command="{Binding AddUserCommand}"/>
                         </CommandBar>
                     </StackPanel>

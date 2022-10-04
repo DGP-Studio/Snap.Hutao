@@ -100,6 +100,26 @@ public static partial class EnumerableExtensions
     }
 
     /// <summary>
+    /// 获取值或默认值
+    /// </summary>
+    /// <typeparam name="TKey">键类型</typeparam>
+    /// <typeparam name="TValue">值类型</typeparam>
+    /// <param name="dictionary">字典</param>
+    /// <param name="key">键</param>
+    /// <param name="defaultValue">默认值</param>
+    /// <returns>结果值</returns>
+    public static TValue? GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = default)
+        where TKey : notnull
+    {
+        if (dictionary.TryGetValue(key, out TValue? value))
+        {
+            return value;
+        }
+
+        return defaultValue;
+    }
+
+    /// <summary>
     /// 增加计数
     /// </summary>
     /// <typeparam name="TKey">键类型</typeparam>
@@ -109,6 +129,21 @@ public static partial class EnumerableExtensions
         where TKey : notnull
     {
         ++CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
+    }
+
+    /// <summary>
+    /// 增加计数
+    /// </summary>
+    /// <typeparam name="TKey">键类型</typeparam>
+    /// <param name="dict">字典</param>
+    /// <param name="key">键</param>
+    /// <param name="value">增加的值</param>
+    public static void Increase<TKey>(this Dictionary<TKey, int> dict, TKey key, int value)
+        where TKey : notnull
+    {
+        // ref the value, so that we can manipulate it outside the dict.
+        ref int current = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
+        current += value;
     }
 
     /// <summary>
@@ -161,6 +196,20 @@ public static partial class EnumerableExtensions
         foreach (TSource value in source)
         {
             dictionary[keySelector(value)] = value;
+        }
+
+        return dictionary;
+    }
+
+    /// <inheritdoc cref="Enumerable.ToDictionary{TSource, TKey, TElement}(IEnumerable{TSource}, Func{TSource, TKey}, Func{TSource, TElement})"/>
+    public static Dictionary<TKey, TValue> ToDictionaryOverride<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+        where TKey : notnull
+    {
+        Dictionary<TKey, TValue> dictionary = new();
+
+        foreach (TSource value in source)
+        {
+            dictionary[keySelector(value)] = valueSelector(value);
         }
 
         return dictionary;

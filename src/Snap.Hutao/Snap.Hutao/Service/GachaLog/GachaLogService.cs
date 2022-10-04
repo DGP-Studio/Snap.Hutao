@@ -5,6 +5,8 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
@@ -45,6 +47,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly IGachaStatisticsFactory gachaStatisticsFactory;
+    private readonly ILogger<GachaLogService> logger;
     private readonly DbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
 
     private readonly Dictionary<string, ItemBase> itemBaseCache = new();
@@ -65,6 +68,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     /// <param name="metadataService">元数据服务</param>
     /// <param name="infoBarService">信息条服务</param>
     /// <param name="gachaStatisticsFactory">祈愿统计工厂</param>
+    /// <param name="logger">日志器</param>
     /// <param name="messenger">消息器</param>
     public GachaLogService(
         AppDbContext appDbContext,
@@ -73,6 +77,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         IMetadataService metadataService,
         IInfoBarService infoBarService,
         IGachaStatisticsFactory gachaStatisticsFactory,
+        ILogger<GachaLogService> logger,
         IMessenger messenger)
     {
         this.appDbContext = appDbContext;
@@ -80,6 +85,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         this.gachaInfoClient = gachaInfoClient;
         this.metadataService = metadataService;
         this.infoBarService = infoBarService;
+        this.logger = logger;
         this.gachaStatisticsFactory = gachaStatisticsFactory;
 
         dbCurrent = new(appDbContext, appDbContext.GachaArchives, messenger);
@@ -143,21 +149,24 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
-    public Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive = null)
+    public async Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive = null)
     {
         archive ??= CurrentArchive;
 
         // Return statistics
         if (archive != null)
         {
+            ValueStopwatch stopwatch = ValueStopwatch.StartNew();
             IQueryable<GachaItem> items = appDbContext.GachaItems
                 .Where(i => i.ArchiveId == archive.InnerId);
 
-            return gachaStatisticsFactory.CreateAsync(items);
+            GachaStatistics statistics = await gachaStatisticsFactory.CreateAsync(items).ConfigureAwait(false);
+            logger.LogInformation(EventIds.GachaStatisticGeneration, "GachaStatistic Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
+            return statistics;
         }
         else
         {
-            return Must.Fault<GachaStatistics>("没有选中的存档");
+            throw Must.NeverHappen();
         }
     }
 

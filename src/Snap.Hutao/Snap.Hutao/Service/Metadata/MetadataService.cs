@@ -8,6 +8,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -123,6 +124,18 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     }
 
     /// <inheritdoc/>
+    public ValueTask<Dictionary<int, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<int, ReliquaryAffix>("ReliquaryAffix", a => a.Id, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<int, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<int, FightProperty, ReliquaryAffixBase>("ReliquaryMainAffix", r => r.Id, r => r.Type, token);
+    }
+
+    /// <inheritdoc/>
     public ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default)
     {
         return FromCacheAsDictionaryAsync<int, Weapon>("Weapon", w => w.Id, token);
@@ -150,6 +163,12 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
     public ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default)
     {
         return FromCacheOrFileAsync<List<ReliquaryAffix>>("ReliquaryAffix", token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<List<ReliquaryLevel>> GetReliquaryLevelsAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<ReliquaryLevel>>("ReliquaryMainAffixLevel", token);
     }
 
     /// <inheritdoc/>
@@ -293,6 +312,22 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
 
         List<TValue> list = await FromCacheOrFileAsync<List<TValue>>(fileName, token).ConfigureAwait(false);
         Dictionary<TKey, TValue> dict = list.ToDictionaryOverride(keySelector);
+        return memoryCache.Set(cacheKey, dict);
+    }
+
+    private async ValueTask<Dictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TKey, TValue, TData>(string fileName, Func<TData, TKey> keySelector, Func<TData, TValue> valueSelector, CancellationToken token)
+    where TKey : notnull
+    {
+        Verify.Operation(IsInitialized, "元数据服务尚未初始化，或初始化失败");
+        string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}.Map.{typeof(TKey).Name}.{typeof(TValue).Name}";
+
+        if (memoryCache.TryGetValue(cacheKey, out object? value))
+        {
+            return Must.NotNull((Dictionary<TKey, TValue>)value!);
+        }
+
+        List<TData> list = await FromCacheOrFileAsync<List<TData>>(fileName, token).ConfigureAwait(false);
+        Dictionary<TKey, TValue> dict = list.ToDictionaryOverride(keySelector, valueSelector);
         return memoryCache.Set(cacheKey, dict);
     }
 }

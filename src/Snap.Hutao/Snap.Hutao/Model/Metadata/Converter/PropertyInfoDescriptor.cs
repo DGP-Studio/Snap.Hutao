@@ -13,6 +13,25 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal class PropertyInfoDescriptor : ValueConverterBase<PropertyInfo, IList<LevelParam<string, ParameterInfo>>?>
 {
+    /// <summary>
+    /// 格式化战斗属性
+    /// </summary>
+    /// <param name="property">战斗属性</param>
+    /// <param name="value">值</param>
+    /// <returns>格式化的值</returns>
+    public static string FormatProperty(FightProperty property, double value)
+    {
+        FormatMethod method = property.GetFormatMethod();
+
+        string valueFormatted = method switch
+        {
+            FormatMethod.Integer => Math.Round((double)value, MidpointRounding.AwayFromZero).ToString(),
+            FormatMethod.Percent => string.Format("{0:P1}", value),
+            _ => value.ToString(),
+        };
+        return valueFormatted;
+    }
+
     /// <inheritdoc/>
     public override IList<LevelParam<string, ParameterInfo>> Convert(PropertyInfo from)
     {
@@ -34,14 +53,7 @@ internal class PropertyInfoDescriptor : ValueConverterBase<PropertyInfo, IList<L
         for (int index = 0; index < parameters.Count; index++)
         {
             double param = parameters[index];
-            FormatMethod method = properties[index].GetFormatMethod();
-
-            string valueFormatted = method switch
-            {
-                FormatMethod.Integer => Math.Round((double)param, MidpointRounding.AwayFromZero).ToString(),
-                FormatMethod.Percent => string.Format("{0:P1}", param),
-                _ => param.ToString(),
-            };
+            string valueFormatted = FormatProperty(properties[index], param);
 
             results.Add(new ParameterInfo { Description = properties[index].GetDescription(), Parameter = valueFormatted });
         }

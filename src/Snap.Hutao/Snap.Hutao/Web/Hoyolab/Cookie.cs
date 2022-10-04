@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Extension;
 

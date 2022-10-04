@@ -1,0 +1,22 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.View.Dialog.AvatarInfoQueryDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Snap.Hutao.View.Dialog"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    IsPrimaryButtonEnabled="False"
+    Title="查询UID对应的橱窗"
+    DefaultButton="Primary"
+    PrimaryButtonText="请输入UID"
+    CloseButtonText="取消"
+    Style="{StaticResource DefaultContentDialogStyle}">
+
+    <Grid>
+        <TextBox
+            x:Name="InputText"
+            TextChanged="InputTextChanged"
+            PlaceholderText="请输入UID"/>
+    </Grid>
+</ContentDialog>

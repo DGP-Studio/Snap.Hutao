@@ -24,8 +24,8 @@ internal class I18NExtension : MarkupExtension
     static I18NExtension()
     {
         string currentName = CultureInfo.CurrentUICulture.Name;
-        Type languageType = TranslationMap.GetValueOrDefault(currentName, typeof(LanguagezhCN));
-        Translation = (ITranslation)Activator.CreateInstance(languageType)!;
+        Type? languageType = ((IDictionary<string, Type>)TranslationMap).GetValueOrDefault(currentName, typeof(LanguagezhCN));
+        Translation = (ITranslation)Activator.CreateInstance(languageType!)!;
     }
 
     /// <summary>

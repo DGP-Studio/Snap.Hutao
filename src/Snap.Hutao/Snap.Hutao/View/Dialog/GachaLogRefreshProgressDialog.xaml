@@ -7,12 +7,10 @@
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     mc:Ignorable="d"
     Style="{StaticResource DefaultContentDialogStyle}"
     Title="获取祈愿物品中">
-    
+
     <ContentDialog.Resources>
         <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <DataTemplate x:Key="GachaItemDataTemplate">
@@ -26,10 +24,6 @@
             </Grid>
         </DataTemplate>
     </ContentDialog.Resources>
-
-    <mxi:Interaction.Behaviors>
-        <shcb:ContentDialogBehavior/>
-    </mxi:Interaction.Behaviors>
 
     <StackPanel>
         <TextBlock

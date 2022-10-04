@@ -121,19 +121,27 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         await HideAsync(token);
 
+        LoadedImageSurface? imageSurface = null;
+        Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
         if (uri != null)
         {
-            StorageFile storageFile = await imageCache.GetFileFromCacheAsync(uri);
-            Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
-            LoadedImageSurface? imageSurface = null;
-            try
+            if (uri.Scheme == "ms-appx")
             {
-                imageSurface = await LoadImageSurfaceAsync(storageFile, token);
+                imageSurface = LoadedImageSurface.StartLoadFromUri(uri);
             }
-            catch (COMException)
+            else
             {
-                await imageCache.RemoveAsync(uri.Enumerate());
+                StorageFile storageFile = await imageCache.GetFileFromCacheAsync(uri);
+
+                try
+                {
+                    imageSurface = await LoadImageSurfaceAsync(storageFile, token);
+                }
+                catch (COMException)
+                {
+                    await imageCache.RemoveAsync(uri.Enumerate());
+                }
             }
 
             if (imageSurface != null)

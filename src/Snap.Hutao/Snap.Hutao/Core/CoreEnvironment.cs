@@ -22,7 +22,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// 动态密钥2的盐
     /// </summary>
-    public const string DynamicSecret2Salt = "YVEIkzDFNHLeKXLxzqCA9TzxCpWwbIbk";
+    public const string DynamicSecret2Salt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
 
     /// <summary>
     /// 米游社请求UA

@@ -54,6 +54,11 @@ public class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQuality
     /// </summary>
     public PropertyInfo Property { get; set; } = default!;
 
+    /// <summary>
+    /// 被动信息, 无被动的武器为 <see langword="null"/>
+    /// </summary>
+    public AffixInfo? Affix { get; set; } = default!;
+
     /// <inheritdoc/>
     [JsonIgnore]
     public ItemQuality Quality => RankLevel;

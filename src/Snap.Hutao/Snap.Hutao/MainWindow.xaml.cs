@@ -10,7 +10,6 @@ namespace Snap.Hutao;
 /// 主窗体
 /// </summary>
 [Injection(InjectAs.Singleton)]
-[Injection(InjectAs.Singleton, typeof(Window))] // This is for IEnumerable<Window>
 [SuppressMessage("", "CA1001")]
 public sealed partial class MainWindow : Window
 {
