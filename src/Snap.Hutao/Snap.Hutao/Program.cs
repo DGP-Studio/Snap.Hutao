@@ -15,7 +15,7 @@ namespace Snap.Hutao;
 /// <summary>
 /// Program class
 /// </summary>
-public static class Program
+public static partial class Program
 {
     /// <summary>
     /// 主线程队列
@@ -62,8 +62,8 @@ public static class Program
 
             // Microsoft extension
             .AddLogging(builder => builder
-                .AddDatabase()
-                .AddDebug())
+                .AddDebug()
+                .AddDatabase())
             .AddMemoryCache()
 
             // Hutao extensions

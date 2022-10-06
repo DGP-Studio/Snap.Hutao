@@ -44,7 +44,11 @@ public class SkillDepot
     {
         foreach (ProudableSkill skill in Skills)
         {
-            yield return skill;
+            // skip skills like Mona's & Ayaka's shift
+            if (skill.Proud.Parameters.Count > 1)
+            {
+                yield return skill;
+            }
         }
 
         yield return EnergySkill;

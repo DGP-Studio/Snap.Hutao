@@ -159,6 +159,7 @@ dotnet_diagnostic.CA1805.severity = suggestion
 
 # VSTHRD111: Use ConfigureAwait(bool)
 dotnet_diagnostic.VSTHRD111.severity = suggestion
+csharp_style_prefer_top_level_statements = true:silent
 
 [*.vb]
 #### 命名样式 ####

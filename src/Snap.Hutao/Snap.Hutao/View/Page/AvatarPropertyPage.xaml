@@ -242,7 +242,7 @@
                                                     <Border
                                                         CornerRadius="{StaticResource CompatCornerRadius}"
                                                         Background="#FFB29880"
-                                                        Padding="4,0"
+                                                        Padding="2,0"
                                                         Width="40"
                                                         Grid.Column="1"
                                                         Margin="6,0,0,0"
@@ -317,8 +317,8 @@
                                                         Description="{Binding AffixDescription}">
                                                 <shct:DescriptionTextBlock.Resources>
                                                     <Style
-                                                                TargetType="TextBlock"
-                                                                BasedOn="{StaticResource BodyTextBlockStyle}">
+                                                        TargetType="TextBlock"
+                                                        BasedOn="{StaticResource BodyTextBlockStyle}">
                                                         <Setter Property="TextWrapping" Value="Wrap"/>
                                                     </Style>
                                                 </shct:DescriptionTextBlock.Resources>

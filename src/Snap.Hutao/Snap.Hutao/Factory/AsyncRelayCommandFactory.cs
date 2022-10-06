@@ -93,7 +93,7 @@ internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
                     if (asyncRelayCommand.ExecutionTask?.Exception is AggregateException exception)
                     {
                         Exception baseException = exception.GetBaseException();
-                        logger.LogError(EventIds.AsyncCommandException, baseException, "{name} Exception", nameof(asyncRelayCommand));
+                        logger.LogError(EventIds.AsyncCommandException, baseException, "{name} Exception", nameof(AsyncRelayCommand));
                     }
                 }
             }

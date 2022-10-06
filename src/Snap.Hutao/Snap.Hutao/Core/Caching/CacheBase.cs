@@ -139,7 +139,7 @@ public abstract class CacheBase<T>
 
         IStorageItem? item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
 
-        if (item == null)
+        if (item == null || (await item.GetBasicPropertiesAsync()).Size == 0)
         {
             StorageFile baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(false);
             await DownloadFileAsync(uri, baseFile).ConfigureAwait(false);

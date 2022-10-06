@@ -20,6 +20,8 @@ public sealed class LogEntryQueue : IDisposable
     private readonly TaskCompletionSource writeDbCompletionSource = new();
     private readonly LogDbContext logDbContext;
 
+    private bool disposed;
+
     /// <summary>
     /// 构造一个新的日志队列
     /// </summary>
@@ -27,7 +29,7 @@ public sealed class LogEntryQueue : IDisposable
     {
         logDbContext = InitializeDbContext();
 
-        Task.Run(async () => await WritePendingLogsAsync(disposeTokenSource.Token)).SafeForget();
+        Task.Run(() => WritePendingLogsAsync(disposeTokenSource.Token)).SafeForget();
     }
 
     /// <summary>
@@ -43,6 +45,11 @@ public sealed class LogEntryQueue : IDisposable
     [SuppressMessage("", "VSTHRD002")]
     public void Dispose()
     {
+        if (disposed)
+        {
+            return;
+        }
+
         // notify the write task to complete.
         disposeTokenSource.Cancel();
 
@@ -50,6 +57,7 @@ public sealed class LogEntryQueue : IDisposable
         writeDbCompletionSource.Task.GetAwaiter().GetResult();
 
         logDbContext.Dispose();
+        disposed = true;
     }
 
     private static LogDbContext InitializeDbContext()

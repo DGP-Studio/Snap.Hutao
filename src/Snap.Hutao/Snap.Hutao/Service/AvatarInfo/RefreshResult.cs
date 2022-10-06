@@ -14,6 +14,11 @@ public enum RefreshResult
     Ok,
 
     /// <summary>
+    /// 元数据加载失败
+    /// </summary>
+    MetadataUninitialized,
+
+    /// <summary>
     /// API 不可用
     /// </summary>
     APIUnavailable,

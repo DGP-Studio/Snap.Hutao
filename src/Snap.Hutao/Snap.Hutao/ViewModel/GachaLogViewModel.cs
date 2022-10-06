@@ -16,11 +16,8 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
-using System.IO;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Pickers.Provider;
-using Windows.Storage.Streams;
 
 namespace Snap.Hutao.ViewModel;
 

@@ -98,6 +98,7 @@
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+    <!-- Prevent NewtownSoft.Json -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
     <!-- The PrivateAssets & IncludeAssets of Microsoft.EntityFrameworkCore.Tools should be remove to prevent multiple deps files-->
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9" />

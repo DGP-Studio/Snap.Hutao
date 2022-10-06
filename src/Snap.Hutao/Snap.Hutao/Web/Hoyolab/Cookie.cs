@@ -174,7 +174,9 @@ public partial class Cookie
 
         if (uidCounter.Count > 0)
         {
-            uid = uidCounter.MaxBy(kvp => kvp.Value).Key;
+            // fix #88 自带页面登录米游社，提示登录失败
+            string key = uidCounter.MaxBy(kvp => kvp.Value).Key;
+            uid = inner[key];
             return true;
         }
         else

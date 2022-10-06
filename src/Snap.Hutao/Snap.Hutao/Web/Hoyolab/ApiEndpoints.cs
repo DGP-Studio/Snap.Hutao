@@ -97,7 +97,7 @@ internal static class ApiEndpoints
     public const string UserGameRoles = $"{ApiTaKumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_cn";
 
     /// <summary>
-    /// 用户游戏角色
+    /// AuthKey
     /// </summary>
     public const string GenAuthKey = $"{ApiTaKumiBindingApi}/genAuthKey";
     #endregion

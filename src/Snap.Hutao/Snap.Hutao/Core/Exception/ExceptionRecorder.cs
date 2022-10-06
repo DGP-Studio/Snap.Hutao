@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
+using System.IO;
 
 namespace Snap.Hutao.Core.Exception;
 
@@ -24,24 +25,33 @@ internal class ExceptionRecorder
 
         application.UnhandledException += OnAppUnhandledException;
         application.DebugSettings.BindingFailed += OnXamlBindingFailed;
+        AppDomain.CurrentDomain.UnhandledException += OnCurrentDomainUnhandledException;
     }
 
-    /// <summary>
-    /// 当应用程序未经处理的异常引发时调用
-    /// </summary>
-    /// <param name="sender">实例</param>
-    /// <param name="e">事件参数</param>
-    public void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    private void OnCurrentDomainUnhandledException(object sender, System.UnhandledExceptionEventArgs e)
     {
-        logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常: [HResult:{code}]", e.Exception.HResult);
+        logger.LogError(EventIds.UnhandledException, e.ExceptionObject as System.Exception, "未经处理的异常");
+
+        foreach (ILoggerProvider provider in Ioc.Default.GetRequiredService<IEnumerable<ILoggerProvider>>())
+        {
+            provider.Dispose();
+        }
     }
 
-    /// <summary>
-    /// Xaml 绑定失败时触发
-    /// </summary>
-    /// <param name="sender">实例</param>
-    /// <param name="e">事件参数</param>
-    public void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
+    private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
+
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        File.WriteAllText(Path.Combine(path, "Excpetion.txt"), e.Exception?.ToString());
+
+        foreach (ILoggerProvider provider in Ioc.Default.GetRequiredService<IEnumerable<ILoggerProvider>>())
+        {
+            provider.Dispose();
+        }
+    }
+
+    private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
     {
         logger.LogCritical(EventIds.XamlBindingError, "XAML绑定失败: {message}", e.Message);
     }
