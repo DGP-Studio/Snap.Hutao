@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
+using System.Diagnostics;
 using System.IO;
 
 namespace Snap.Hutao.Core.Exception;
@@ -25,25 +27,14 @@ internal class ExceptionRecorder
 
         application.UnhandledException += OnAppUnhandledException;
         application.DebugSettings.BindingFailed += OnXamlBindingFailed;
-        AppDomain.CurrentDomain.UnhandledException += OnCurrentDomainUnhandledException;
-    }
-
-    private void OnCurrentDomainUnhandledException(object sender, System.UnhandledExceptionEventArgs e)
-    {
-        logger.LogError(EventIds.UnhandledException, e.ExceptionObject as System.Exception, "未经处理的异常");
-
-        foreach (ILoggerProvider provider in Ioc.Default.GetRequiredService<IEnumerable<ILoggerProvider>>())
-        {
-            provider.Dispose();
-        }
     }
 
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
+        // string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        // string fileName = $"ex-{DateTimeOffset.Now:yyyyMMddHHmmssffff}.txt";
+        // File.WriteAllText(Path.Combine(path, fileName), $"{e.Exception}\r\n{e.Exception.StackTrace}");
         logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
-
-        string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        File.WriteAllText(Path.Combine(path, "Excpetion.txt"), e.Exception?.ToString());
 
         foreach (ILoggerProvider provider in Ioc.Default.GetRequiredService<IEnumerable<ILoggerProvider>>())
         {
