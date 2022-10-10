@@ -64,4 +64,14 @@ public class Avatar
     /// 属性
     /// </summary>
     public List<Pair2<string, string, string?>> Properties { get; set; } = default!;
+
+    /// <summary>
+    /// 评分
+    /// </summary>
+    public string Score { get; set; } = default!;
+
+    /// <summary>
+    /// 双爆评分
+    /// </summary>
+    public string CritScore { get; set; } = default!;
 }

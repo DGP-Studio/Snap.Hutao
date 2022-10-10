@@ -4,9 +4,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shmbg="using:Snap.Hutao.Model.Binding.Gacha"
+    xmlns:shvc="using:Snap.Hutao.View.Converter"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shmbg:TypedWishSummary}">
 
@@ -15,8 +18,8 @@
         <SolidColorBrush x:Key="PurpleBrush" Color="#FFA156E0"/>
         <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
 
-        <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-
+        <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
         <DataTemplate x:Key="OrangeListTemplate" x:DataType="shmbg:SummaryItem">
             <Grid Margin="0,4,4,0" Background="Transparent" >
                 <ToolTipService.ToolTip>
@@ -60,8 +63,54 @@
                         Style="{StaticResource BodyTextBlockStyle}"/>
                 </StackPanel>
             </Grid>
-
         </DataTemplate>
+
+        <DataTemplate x:Key="OrangeGridTemplate" x:DataType="shmbg:SummaryItem">
+            <Grid Width="40" Margin="0,4,4,0">
+                <ToolTipService.ToolTip>
+                    <TextBlock Text="{Binding TimeFormatted}"/>
+                </ToolTipService.ToolTip>
+                <StackPanel>
+                    <shci:CachedImage
+                        Source="{Binding Icon}"
+                        Height="40" Width="40"/>
+                    <TextBlock
+                        Text="{Binding LastPull}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        HorizontalAlignment="Center"
+                        TextWrapping="NoWrap">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{Binding Color}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </StackPanel>
+
+                <!--<StackPanel
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        Foreground="#FF0063FF"
+                        Text="保底"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding IsGuarentee,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        Text="UP"  
+                        Foreground="#FFFFA400"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding IsUp,Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+                    <TextBlock
+                        Width="20"
+                        TextAlignment="Center"
+                        Text="{Binding LastPull}"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource BodyTextBlockStyle}"/>
+                </StackPanel>-->
+            </Grid>
+        </DataTemplate>
+
     </UserControl.Resources>
 
     <Border 
@@ -74,6 +123,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Expander
+                x:Name="DetailExpander"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 Background="Transparent"
@@ -86,6 +136,17 @@
                             VerticalAlignment="Center"
                             Text="{Binding Name}" 
                             Style="{StaticResource SubtitleTextBlockStyle}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock
+                                Margin="0,4,12,4"
+                                FontFamily="Consolas"
+                                Text="{Binding TotalCount}"
+                                Visibility="{Binding ElementName=DetailExpander,Path=IsExpanded,Converter={StaticResource BoolToVisibilityRevertConverter}}"
+                                FontSize="24"/>
+                            <shcp:PanelSelector
+                                Margin="6,0,6,0"
+                                x:Name="ItemsPanelSelector"/>
+                        </StackPanel>
                     </Grid>
                 </Expander.Header>
                 <StackPanel>
@@ -232,9 +293,32 @@
                 Grid.Row="2"
                 Margin="12,6,12,12"
                 VerticalScrollBarVisibility="Hidden">
-                <ItemsControl
-                    ItemsSource="{Binding OrangeList}"
-                    ItemTemplate="{StaticResource OrangeListTemplate}"/>
+                <cwucont:SwitchPresenter Value="{Binding ElementName=ItemsPanelSelector,Path=Current}">
+                    <cwucont:SwitchPresenter.ContentTransitions>
+                        <ContentThemeTransition/>
+                    </cwucont:SwitchPresenter.ContentTransitions>
+                    <cwucont:Case Value="List">
+                        <ItemsControl
+                            ItemsSource="{Binding OrangeList}"
+                            ItemTemplate="{StaticResource OrangeListTemplate}"/>
+                    </cwucont:Case>
+                    <cwucont:Case Value="Grid">
+                        <ItemsControl
+                            Margin="0,0,-4,0"
+                            ItemsSource="{Binding OrangeList}"
+                            ItemTemplate="{StaticResource OrangeGridTemplate}">
+                            <ItemsControl.Transitions>
+                                <ReorderThemeTransition/>
+                            </ItemsControl.Transitions>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <cwucont:WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </cwucont:Case>
+                </cwucont:SwitchPresenter>
+                
             </ScrollViewer>
         </Grid>
     </Border>

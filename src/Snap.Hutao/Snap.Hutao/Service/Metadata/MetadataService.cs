@@ -8,12 +8,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Metadata.Achievement;
-using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Reliquary;
-using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Abstraction;
 using System.IO;
 using System.Net.Http;
@@ -27,7 +21,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfigration.Default)]
-internal class MetadataService : IMetadataService, IMetadataInitializer, ISupportAsyncInitialization
+internal partial class MetadataService : IMetadataService, IMetadataInitializer, ISupportAsyncInitialization
 {
     private const string MetaAPIHost = "http://hutao-metadata.snapgenshin.com";
     private const string MetaFileName = "Meta.json";
@@ -91,96 +85,6 @@ internal class MetadataService : IMetadataService, IMetadataInitializer, ISuppor
         initializeCompletionSource.SetResult();
 
         logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<AchievementGoal>>("AchievementGoal", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<Model.Metadata.Achievement.Achievement>> GetAchievementsAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<Model.Metadata.Achievement.Achievement>>("Achievement", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<Avatar>> GetAvatarsAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<Avatar>>("Avatar", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<GachaEvent>>("GachaEvent", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<int, Avatar>("Avatar", a => a.Id, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<int, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<int, ReliquaryAffix>("ReliquaryAffix", a => a.Id, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<int, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<int, FightProperty, ReliquaryAffixBase>("ReliquaryMainAffix", r => r.Id, r => r.Type, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<int, Weapon>("Weapon", w => w.Id, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<string, Avatar>> GetNameToAvatarMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<string, Avatar>("Avatar", a => a.Name, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<string, Weapon>> GetNameToWeaponMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<string, Weapon>("Weapon", w => w.Name, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<Reliquary>>("Reliquary", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<ReliquaryAffix>>("ReliquaryAffix", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<ReliquaryLevel>> GetReliquaryLevelsAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<ReliquaryLevel>>("ReliquaryMainAffixLevel", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<ReliquaryAffixBase>>("ReliquaryMainAffix", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<Weapon>> GetWeaponsAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<Weapon>>("Weapon", token);
     }
 
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token)

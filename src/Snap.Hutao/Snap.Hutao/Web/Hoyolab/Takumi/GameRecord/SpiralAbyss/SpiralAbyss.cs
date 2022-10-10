@@ -18,13 +18,15 @@ public class SpiralAbyss
     /// 开始时间
     /// </summary>
     [JsonPropertyName("start_time")]
-    public string StartTime { get; set; } = default!;
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+    public long StartTime { get; set; }
 
     /// <summary>
     /// 结束时间
     /// </summary>
     [JsonPropertyName("end_time")]
-    public string EndTime { get; set; } = default!;
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+    public long EndTime { get; set; }
 
     /// <summary>
     /// 战斗次数

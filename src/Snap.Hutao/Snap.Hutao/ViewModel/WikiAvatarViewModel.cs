@@ -148,12 +148,12 @@ internal class WikiAvatarViewModel : ObservableObject
         {
             IList<Avatar> avatars = await metadataService.GetAvatarsAsync().ConfigureAwait(false);
             IOrderedEnumerable<Avatar> sorted = avatars
-                .OrderBy(avatar => avatar.BeginTime)
-                .ThenBy(avatar => avatar.Sort);
+                .OrderByDescending(avatar => avatar.BeginTime)
+                .ThenByDescending(avatar => avatar.Sort);
 
             await ThreadHelper.SwitchToMainThreadAsync();
             Avatars = new AdvancedCollectionView(sorted.ToList(), true);
-            Avatars.MoveCurrentToFirst();
+            Selected = Avatars.Cast<Avatar>().FirstOrDefault();
         }
     }
 

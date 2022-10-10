@@ -13,4 +13,10 @@ public class CharacterWrapper
     /// </summary>
     [JsonPropertyName("avatars")]
     public List<Character> Avatars { get; set; } = default!;
+
+    /// <summary>
+    /// 玩家角色信息
+    /// </summary>
+    [JsonPropertyName("role")]
+    public Role Role { get; set; } = default!;
 }

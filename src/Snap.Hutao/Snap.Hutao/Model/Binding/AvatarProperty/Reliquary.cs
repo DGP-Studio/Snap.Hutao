@@ -11,5 +11,15 @@ public class Reliquary : EquipBase
     /// <summary>
     /// 副属性列表
     /// </summary>
-    public List<Pair<string, string>> SubProperties { get; set; } = default!;
+    public List<ReliquarySubProperty> SubProperties { get; set; } = default!;
+
+    /// <summary>
+    /// 评分
+    /// </summary>
+    public double Score { get; set; }
+
+    /// <summary>
+    /// 格式化评分
+    /// </summary>
+    public string ScoreFormatted { get => $"{Score:F2}"; }
 }

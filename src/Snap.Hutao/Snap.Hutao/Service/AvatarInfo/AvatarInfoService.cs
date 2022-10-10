@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Service.AvatarInfo.Factory;
@@ -20,20 +22,29 @@ internal class AvatarInfoService : IAvatarInfoService
 {
     private readonly AppDbContext appDbContext;
     private readonly ISummaryFactory summaryFactory;
-    private readonly EnkaClient enkaClient;
     private readonly IMetadataService metadataService;
+    private readonly ILogger<AvatarInfoService> logger;
+    private readonly EnkaClient enkaClient;
 
     /// <summary>
     /// 构造一个新的角色信息服务
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
+    /// <param name="metadataService">元数据服务</param>
     /// <param name="summaryFactory">简述工厂</param>
+    /// <param name="logger">日志器</param>
     /// <param name="enkaClient">Enka客户端</param>
-    public AvatarInfoService(AppDbContext appDbContext, IMetadataService metadataService, ISummaryFactory summaryFactory, EnkaClient enkaClient)
+    public AvatarInfoService(
+        AppDbContext appDbContext,
+        IMetadataService metadataService,
+        ISummaryFactory summaryFactory,
+        ILogger<AvatarInfoService> logger,
+        EnkaClient enkaClient)
     {
         this.appDbContext = appDbContext;
         this.metadataService = metadataService;
         this.summaryFactory = summaryFactory;
+        this.logger = logger;
         this.enkaClient = enkaClient;
     }
 
@@ -56,7 +67,7 @@ internal class AvatarInfoService : IAvatarInfoService
                         ? UpdateDbAvatarInfo(uid.Value, resp.AvatarInfoList)
                         : resp.AvatarInfoList;
 
-                    Summary summary = await summaryFactory.CreateAsync(resp.PlayerInfo, list).ConfigureAwait(false);
+                    Summary summary = await GetSummaryCoreAsync(resp.PlayerInfo, list).ConfigureAwait(false);
                     return new(RefreshResult.Ok, summary);
                 }
                 else
@@ -68,7 +79,7 @@ internal class AvatarInfoService : IAvatarInfoService
             {
                 PlayerInfo info = PlayerInfo.CreateEmpty(uid.Value);
 
-                Summary summary = await summaryFactory.CreateAsync(info, GetDbAvatarInfos(uid.Value)).ConfigureAwait(false);
+                Summary summary = await GetSummaryCoreAsync(info, GetDbAvatarInfos(uid.Value)).ConfigureAwait(false);
                 return new(RefreshResult.Ok, summary);
             }
         }
@@ -81,6 +92,15 @@ internal class AvatarInfoService : IAvatarInfoService
     private static bool HasOption(RefreshOption source, RefreshOption define)
     {
         return (source & define) == define;
+    }
+
+    private async Task<Summary> GetSummaryCoreAsync(PlayerInfo info, IEnumerable<Web.Enka.Model.AvatarInfo> avatarInfos)
+    {
+        ValueStopwatch stopwatch = ValueStopwatch.StartNew();
+        Summary summary = await summaryFactory.CreateAsync(info, avatarInfos).ConfigureAwait(false);
+        logger.LogInformation(EventIds.AvatarInfoGeneration, "AvatarInfoSummary Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
+
+        return summary;
     }
 
     private async Task<EnkaResponse?> GetEnkaResponseAsync(PlayerUid uid, CancellationToken token = default)

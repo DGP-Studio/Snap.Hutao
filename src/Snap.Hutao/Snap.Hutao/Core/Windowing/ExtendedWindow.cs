@@ -5,6 +5,8 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Extension;
+using Snap.Hutao.Win32;
 using Windows.Graphics;
 using Windows.UI;
 using Windows.Win32.Foundation;
@@ -149,14 +151,8 @@ internal sealed class ExtendedWindow
     {
         double scale = Persistence.GetScaleForWindow(handle);
 
-        List<RectInt32> dragRectsList = new();
-
         // 48 is the navigation button leftInset
-        RectInt32 dragRect = new((int)(48 * scale), 0, (int)(titleBar.ActualWidth * scale), (int)(titleBar.ActualHeight * scale));
-        dragRectsList.Add(dragRect);
-
-        RectInt32[] dragRects = dragRectsList.ToArray();
-
-        appTitleBar.SetDragRectangles(dragRects);
+        RectInt32 dragRect = new RectInt32(48, 0, (int)titleBar.ActualWidth, (int)titleBar.ActualHeight).Scale(scale);
+        appTitleBar.SetDragRectangles(dragRect.Enumerate().ToArray());
     }
 }

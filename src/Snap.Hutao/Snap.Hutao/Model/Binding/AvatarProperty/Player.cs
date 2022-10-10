@@ -32,9 +32,4 @@ public class Player
     /// 深渊层间
     /// </summary>
     public string SipralAbyssFloorLevel { get; set; } = default!;
-
-    /// <summary>
-    /// 头像
-    /// </summary>
-    public Uri ProfilePicture { get; set; } = default!;
 }

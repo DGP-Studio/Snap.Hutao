@@ -18,6 +18,7 @@ internal class RegistryLauncherLocator : IGameLocator
     /// <inheritdoc/>
     public Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
+        // TODO: fix folder moved issue
         return Task.FromResult(LocateInternal("InstallPath", "\\Genshin Impact Game\\YuanShen.exe"));
     }
 

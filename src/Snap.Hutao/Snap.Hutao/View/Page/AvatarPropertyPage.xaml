@@ -8,16 +8,17 @@
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:sc="using:SettingsUI.Controls"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shv="using:Snap.Hutao.ViewModel"
-    xmlns:sc="using:SettingsUI.Controls"
-    xmlns:shvcont="using:Snap.Hutao.View.Control"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance shv:AvatarPropertyViewModel}">
@@ -50,19 +51,15 @@
             <CommandBar.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
                         <ColumnDefinition Width="240"/>
                         <ColumnDefinition Width="72"/>
                         <ColumnDefinition Width="72"/>
                     </Grid.ColumnDefinitions>
-                    <PersonPicture
-                        Grid.Column="0"
-                        Width="36"
-                        Margin="2,4,0,0"
-                        ProfilePicture="{Binding Summary.Player.ProfilePicture}"/>
+                    <shcp:PanelSelector Margin="6,6,0,0" x:Name="ItemsPanelSelector"/>
                     <StackPanel
                         Grid.Column="1"
-                        Margin="6,6,0,0">
+                        Margin="12,6,0,0">
                         <TextBlock
                             Text="{Binding Summary.Player.Nickname}"/>
                         <TextBlock
@@ -113,31 +110,61 @@
             OpenPaneLength="200"
             PaneBackground="Transparent">
             <SplitView.Pane>
-                <ListView
-                    SelectedItem="{Binding SelectedAvatar,Mode=TwoWay}"
-                    ItemsSource="{Binding Summary.Avatars}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <shci:CachedImage
-                                    Grid.Column="0"
-                                    Width="48"
-                                    Height="48"
-                                    Margin="0,0,12,12"
-                                    Source="{Binding SideIcon,Mode=OneWay}"/>
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    Grid.Column="1"
-                                    Margin="12,0,0,0"
-                                    Text="{Binding Name}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <cwucont:SwitchPresenter Value="{Binding ElementName=ItemsPanelSelector,Path=Current}">
+                    <cwucont:SwitchPresenter.ContentTransitions>
+                        <ContentThemeTransition/>
+                    </cwucont:SwitchPresenter.ContentTransitions>
+                    <cwucont:Case Value="List">
+                        <ListView
+                            SelectedItem="{Binding SelectedAvatar,Mode=TwoWay}"
+                            ItemsSource="{Binding Summary.Avatars}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <shci:CachedImage
+                                            Grid.Column="0"
+                                            Width="48"
+                                            Height="48"
+                                            Margin="0,0,12,12"
+                                            Source="{Binding SideIcon,Mode=OneWay}"/>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock
+                                                Margin="12,0,0,0"
+                                                Text="{Binding Name}"/>
+                                            <TextBlock
+                                                Margin="12,0,0,0"
+                                                Text="{Binding Level}"
+                                                Opacity="0.7"
+                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </cwucont:Case>
+                    <cwucont:Case Value="Grid">
+                        <GridView
+                            Margin="6,6,0,0"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedAvatar,Mode=TwoWay}"
+                            ItemsSource="{Binding Summary.Avatars}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <shci:CachedImage
+                                        Grid.Column="0"
+                                        Width="40"
+                                        Height="40"
+                                        Margin="0"
+                                        Source="{Binding Icon,Mode=OneWay}"/>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </cwucont:Case>
+                </cwucont:SwitchPresenter>
             </SplitView.Pane>
             <SplitView.Content>
                 <Grid>
@@ -311,18 +338,31 @@
                                             Quality="{Binding Quality}"/>
                                     </Button.Content>
                                     <Button.Flyout>
-                                        <Flyout Placement="Bottom">
-                                            <shct:DescriptionTextBlock
-                                                        MaxWidth="320"
-                                                        Description="{Binding AffixDescription}">
-                                                <shct:DescriptionTextBlock.Resources>
-                                                    <Style
-                                                        TargetType="TextBlock"
-                                                        BasedOn="{StaticResource BodyTextBlockStyle}">
-                                                        <Setter Property="TextWrapping" Value="Wrap"/>
-                                                    </Style>
-                                                </shct:DescriptionTextBlock.Resources>
-                                            </shct:DescriptionTextBlock>
+                                        <Flyout Placement="BottomEdgeAlignedLeft">
+                                            <StackPanel>
+                                                <sc:Setting Margin="0,2,0,0" Header="{Binding MainProperty.Key}" Padding="12,0">
+                                                    <sc:Setting.ActionContent>
+                                                        <TextBlock Text="{Binding MainProperty.Value}"/>
+                                                    </sc:Setting.ActionContent>
+                                                </sc:Setting>
+                                                <sc:Setting Margin="0,2,0,0" Header="{Binding SubProperty.Key}" Padding="12,0">
+                                                    <sc:Setting.ActionContent>
+                                                        <TextBlock Text="{Binding SubProperty.Value}"/>
+                                                    </sc:Setting.ActionContent>
+                                                </sc:Setting>
+                                                <shct:DescriptionTextBlock
+                                                    MaxWidth="320"
+                                                    Margin="0,12,0,0"
+                                                    Description="{Binding AffixDescription}">
+                                                    <shct:DescriptionTextBlock.Resources>
+                                                        <Style
+                                                            TargetType="TextBlock"
+                                                            BasedOn="{StaticResource BodyTextBlockStyle}">
+                                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                                        </Style>
+                                                    </shct:DescriptionTextBlock.Resources>
+                                                </shct:DescriptionTextBlock>
+                                            </StackPanel>
                                         </Flyout>
                                     </Button.Flyout>
                                 </Button>
@@ -346,7 +386,7 @@
                         </Border>
                         <Border
                             Margin="12,12,12,0"
-                            Padding="6,6,0,6"
+                            Padding="6,6,6,6"
                             VerticalAlignment="Top"
                             CornerRadius="{StaticResource CompatCornerRadius}"
                             Background="{StaticResource CardBackgroundFillColorSecondary}">
@@ -356,31 +396,53 @@
                                     <DataTemplate>
                                         <Grid Margin="4">
                                             <TextBlock
-                                                Text="{Binding Key}"
-                                                FontWeight="Bold"
-                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                Text="{Binding Key}"/>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition/>
-                                                    <ColumnDefinition Width="60"/>
+                                                    <ColumnDefinition Width="64"/>
                                                 </Grid.ColumnDefinitions>
                                                 <TextBlock
                                                     Grid.Column="0"
                                                     Text="{Binding Value1}"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
                                                     HorizontalAlignment="Right"/>
                                                 <TextBlock
                                                     Margin="6,0,0,0"
                                                     Grid.Column="1"
                                                     Text="{Binding Value2}"
-                                                    Foreground="LimeGreen"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Foreground="#FF90E800"
                                                     HorizontalAlignment="Left"/>
                                             </Grid>
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
+                        </Border>
+                        <Border
+                            Margin="12,12,12,0"
+                            Padding="6,6,6,6"
+                            VerticalAlignment="Top"
+                            CornerRadius="{StaticResource CompatCornerRadius}"
+                            Background="{StaticResource CardBackgroundFillColorSecondary}">
+                            <StackPanel>
+                                <Grid Margin="4">
+                                    <TextBlock
+                                        Text="圣遗物评分"/>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Text="{Binding SelectedAvatar.Score}"
+                                        HorizontalAlignment="Right"/>
+                                </Grid>
+                                <Grid Margin="4">
+                                    <TextBlock
+                                        Text="双暴评分"/>
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        Text="{Binding SelectedAvatar.CritScore}"
+                                        HorizontalAlignment="Right"/>
+                                </Grid>
+                            </StackPanel>
+                            
                         </Border>
                     </StackPanel>
                     
@@ -390,7 +452,7 @@
                             SelectionMode="None"
                             HorizontalAlignment="Left"
                             ItemsSource="{Binding SelectedAvatar.Reliquaries}"
-                            Margin="0,12,0,0">
+                            Margin="0,12,0,-12">
                             <cwucont:AdaptiveGridView.ItemContainerStyle>
                                 <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
                                     <Setter Property="Margin" Value="0,0,12,12"/>
@@ -405,14 +467,21 @@
                                         Background="{StaticResource CardBackgroundFillColorSecondary}">
                                         <Grid Margin="6">
                                             <Grid.RowDefinitions>
+                                                <!--名称主属性-->
                                                 <RowDefinition Height="auto"/>
+                                                <!--分割-->
                                                 <RowDefinition Height="auto"/>
+                                                <!--详细副词条-->
                                                 <RowDefinition/>
+                                                <!--分割-->
+                                                <RowDefinition Height="auto"/>
+                                                <!--评分-->
+                                                <RowDefinition Height="auto"/>
                                             </Grid.RowDefinitions>
                                             <Grid Grid.Column="0">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition/>
-                                                    <ColumnDefinition Width="6"/>
+                                                    <ColumnDefinition Width="16"/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
 
@@ -420,29 +489,25 @@
                                                     Margin="2"
                                                     Grid.Column="0"> 
                                                     <TextBlock
-                                                            Text="{Binding Name}"
-                                                            FontWeight="Bold"
-                                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                        Text="{Binding Name}"
+                                                        FontWeight="Bold"/>
                                                     <TextBlock
-                                                            Margin="12,0,0,0"
-                                                            Text="{Binding Level}"
-                                                            FontWeight="Bold"
-                                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                                            HorizontalAlignment="Right"/>
+                                                        Margin="12,0,0,0"
+                                                        Text="{Binding Level}"
+                                                        FontWeight="Bold"
+                                                        HorizontalAlignment="Right"/>
                                                 </Grid>
                                                 <Grid Margin="2" Grid.Column="2">
                                                     <TextBlock
-                                                            Text="{Binding MainProperty.Key}"
-                                                            FontWeight="Bold"
-                                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                        Text="{Binding MainProperty.Key}"
+                                                        FontWeight="Bold"/>
                                                     <TextBlock
-                                                            Text="{Binding MainProperty.Value}"
-                                                            FontWeight="Bold"
-                                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                                            HorizontalAlignment="Right"/>
+                                                        Text="{Binding MainProperty.Value}"
+                                                        FontWeight="Bold"
+                                                        HorizontalAlignment="Right"/>
                                                 </Grid>
                                             </Grid>
-                                            <Rectangle Height="1" Grid.Row="1" Margin="0,6">
+                                            <Rectangle Height="1" Grid.Row="1" Margin="0,6" Opacity="0.8">
                                                 <Rectangle.Fill>
                                                     <SolidColorBrush Color="{Binding Quality,Converter={StaticResource QualityColorConverter}}"/>
                                                 </Rectangle.Fill>
@@ -455,30 +520,52 @@
                                                 Width="80"
                                                 Height="80"
                                                 Source="{Binding Icon}"/>
-                                            <ItemsControl Grid.Row="2" ItemsSource="{Binding SubProperties}">
+                                            <ItemsControl
+                                                VerticalAlignment="Stretch"
+                                                Grid.Row="2"
+                                                ItemsSource="{Binding SubProperties}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <cwucont:UniformGrid
                                                             Columns="2"
                                                             Rows="5"
-                                                            ColumnSpacing="6"
+                                                            ColumnSpacing="16"
                                                             Orientation="Vertical"/>
                                                     </ItemsPanelTemplate>
                                                 </ItemsControl.ItemsPanel>
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Grid Padding="2" MinWidth="128">
+                                                        <Grid Padding="2" MinWidth="152" Opacity="{Binding Opacity}">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition/>
+                                                            </Grid.RowDefinitions>
                                                             <TextBlock
-                                                                Text="{Binding Key}"
-                                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                                Text="{Binding Name}"/>
                                                             <TextBlock
                                                                 Text="{Binding Value}"
-                                                                HorizontalAlignment="Right"
-                                                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                                                HorizontalAlignment="Right"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
+
+                                            <Rectangle Height="1" Grid.Row="3" Margin="0,6" Opacity="0.8">
+                                                <Rectangle.Fill>
+                                                    <SolidColorBrush Color="{Binding Quality,Converter={StaticResource QualityColorConverter}}"/>
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                            <Grid Grid.Row="4"
+                                                    Margin="2"
+                                                    Grid.Column="0">
+                                                <TextBlock
+                                                    Text="评分"
+                                                    FontWeight="Bold"/>
+                                                <TextBlock
+                                                    Margin="12,0,0,0"
+                                                    Text="{Binding ScoreFormatted}"
+                                                    FontWeight="Bold"
+                                                    HorizontalAlignment="Right"/>
+                                            </Grid>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>

@@ -9,6 +9,17 @@ namespace Snap.Hutao.Extension;
 public static class NumberExtensions
 {
     /// <summary>
+    /// 获取从右向左某位上的数字
+    /// </summary>
+    /// <param name="x">源</param>
+    /// <param name="place">位</param>
+    /// <returns>数字</returns>
+    public static int AtPlace(this int x, int place)
+    {
+        return (int)(x / Math.Pow(10, place - 1)) % 10;
+    }
+
+    /// <summary>
     /// 计算给定整数的位数
     /// </summary>
     /// <param name="x">给定的整数</param>

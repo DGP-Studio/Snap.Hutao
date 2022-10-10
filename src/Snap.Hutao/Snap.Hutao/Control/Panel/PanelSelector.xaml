@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.Control.Panel.PanelSelector"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    mc:Ignorable="d">
+
+    <SplitButton Padding="0,6" Click="SplitButtonClick" Loaded="SplitButtonLoaded">
+        <SplitButton.Content>
+            <FontIcon Name="IconPresenter" Glyph="&#xE8FD;"/>
+        </SplitButton.Content>
+        <SplitButton.Flyout>
+            <MenuFlyout>
+                <RadioMenuFlyoutItem
+                    Tag="List"
+                    Click="RadioMenuFlyoutItemClick"
+                    Icon="{shcm:FontIcon Glyph=&#xE8FD;}"
+                    Text="列表"/>
+                <RadioMenuFlyoutItem
+                    Tag="Grid"
+                    Click="RadioMenuFlyoutItemClick"
+                    Icon="{shcm:FontIcon Glyph=&#xF0E2;}"
+                    Text="网格"/>
+            </MenuFlyout>
+        </SplitButton.Flyout>
+    </SplitButton>
+</UserControl>

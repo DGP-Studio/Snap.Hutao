@@ -24,8 +24,8 @@ body:
     id: shver
     attributes:
       label: Snap Hutao 版本
-      description: 在应用程序的设置界面中靠下的位置可以找到
-      placeholder: 例：1.0.30.0
+      description: 在应用标题，应用程序的设置界面中靠下的位置可以找到
+      placeholder: 例：1.1.0
     validations:
       required: true   
 
@@ -51,7 +51,7 @@ body:
       label: 相关的崩溃日志 位于 `%HOMEPATH%/Documents/Hutao/Log.db`
       description: |
                    在资源管理器中直接输入`%HOMEPATH%/Documents/Hutao`即可进入文件夹
-                   如果应用程序崩溃了，可以将崩溃日志复制后粘贴在此处，文件包含了敏感信息，谨慎上传
+                   如果应用程序崩溃了，请将`log.db` 文件上传，文件包含了敏感信息，谨慎上传
                    如果这个表单是关于导入祈愿记录的问题，请包含你导入的`Json`文件
                    **务必不要上传`user.db`文件，该文件包含你的帐号敏感信息**
       render: shell
@@ -68,9 +68,10 @@ body:
   - type: checkboxes
     id: confirm-no-duplicated-issue
     attributes:
-      label: 我确认该问题是一个新问题，没有其他人已经提出相同的问题
+      label: 我确认没有他人提出相同或类似的问题
       description: |
                    请先通过 Issue 搜索功能确认这不是相同的问题；
+                   [BUG Issues](https://github.com/DGP-Studio/Snap.Hutao/issues?q=is%3Aissue+is%3Aopen+label%3ABUG)
                    你应该在原始 Issue 中通过回复添加有助于解决问题的信息，而不是创建重复的问题；
                    **没有帮助的重复问题可能会被直接关闭**
       options:

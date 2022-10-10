@@ -79,12 +79,28 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
     private Task OpenUIAsync()
     {
-        return RefreshCoreAsync(RefreshOption.DatabaseOnly);
+        if (userService.Current is Model.Binding.User user)
+        {
+            if (user.SelectedUserGameRole is UserGameRole role)
+            {
+                return RefreshCoreAsync((PlayerUid)role, RefreshOption.DatabaseOnly);
+            }
+        }
+
+        return Task.CompletedTask;
     }
 
     private Task RefreshByUserGameRoleAsync()
     {
-        return RefreshCoreAsync(RefreshOption.Standard);
+        if (userService.Current is Model.Binding.User user)
+        {
+            if (user.SelectedUserGameRole is UserGameRole role)
+            {
+                return RefreshCoreAsync((PlayerUid)role, RefreshOption.Standard);
+            }
+        }
+
+        return Task.CompletedTask;
     }
 
     private async Task RefreshByInputUidAsync()
@@ -94,54 +110,30 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
         if (isOk)
         {
-            (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(uid, RefreshOption.RequestFromAPI).ConfigureAwait(false);
-
-            if (result == RefreshResult.Ok)
-            {
-                await ThreadHelper.SwitchToMainThreadAsync();
-                Summary = summary;
-            }
-            else
-            {
-                switch (result)
-                {
-                    case RefreshResult.APIUnavailable:
-                        infoBarService.Warning("面板服务当前不可用");
-                        break;
-                    case RefreshResult.ShowcaseNotOpen:
-                        infoBarService.Warning("角色橱窗尚未开启，请前往游戏操作后重试");
-                        break;
-                }
-            }
+            await RefreshCoreAsync(uid, RefreshOption.RequestFromAPI).ConfigureAwait(false);
         }
     }
 
-    private async Task RefreshCoreAsync(RefreshOption option)
+    private async Task RefreshCoreAsync(PlayerUid uid, RefreshOption option)
     {
-        if (userService.Current is Model.Binding.User user)
-        {
-            if (user.SelectedUserGameRole is UserGameRole role)
-            {
-                (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync((PlayerUid)role, option).ConfigureAwait(false);
+        (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(uid, option).ConfigureAwait(false);
 
-                if (result == RefreshResult.Ok)
-                {
-                    await ThreadHelper.SwitchToMainThreadAsync();
-                    Summary = summary;
-                    SelectedAvatar = Summary?.Avatars.FirstOrDefault();
-                }
-                else
-                {
-                    switch (result)
-                    {
-                        case RefreshResult.APIUnavailable:
-                            infoBarService.Warning("面板服务当前不可用");
-                            break;
-                        case RefreshResult.ShowcaseNotOpen:
-                            infoBarService.Warning("角色橱窗尚未开启，请前往游戏操作后重试");
-                            break;
-                    }
-                }
+        if (result == RefreshResult.Ok)
+        {
+            await ThreadHelper.SwitchToMainThreadAsync();
+            Summary = summary;
+            SelectedAvatar = Summary?.Avatars.FirstOrDefault();
+        }
+        else
+        {
+            switch (result)
+            {
+                case RefreshResult.APIUnavailable:
+                    infoBarService.Warning("角色信息服务当前不可用");
+                    break;
+                case RefreshResult.ShowcaseNotOpen:
+                    infoBarService.Warning("角色橱窗尚未开启，请前往游戏操作后重试");
+                    break;
             }
         }
     }

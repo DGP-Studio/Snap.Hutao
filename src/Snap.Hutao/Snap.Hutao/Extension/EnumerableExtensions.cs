@@ -108,7 +108,7 @@ public static partial class EnumerableExtensions
     /// <param name="key">键</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns>结果值</returns>
-    public static TValue? GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = default)
+    public static TValue? GetValueOrDefault2<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = default)
         where TKey : notnull
     {
         if (dictionary.TryGetValue(key, out TValue? value))

@@ -19,7 +19,6 @@ public sealed partial class MainView : UserControl
 {
     private readonly INavigationService navigationService;
     private readonly IInfoBarService infoBarService;
-    private readonly UISettings uISettings;
 
     /// <summary>
     /// 构造一个新的主视图
@@ -28,10 +27,6 @@ public sealed partial class MainView : UserControl
     {
         InitializeComponent();
 
-        // 由于 PopupRoot 的 BUG, 需要手动响应主题色更改
-        uISettings = Ioc.Default.GetRequiredService<UISettings>();
-        uISettings.ColorValuesChanged += OnUISettingsColorValuesChanged;
-
         infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         infoBarService.Initialize(InfoBarStack);
 
@@ -39,11 +34,6 @@ public sealed partial class MainView : UserControl
         navigationService.Initialize(NavView, ContentFrame);
 
         navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
-    }
-
-    private void OnUISettingsColorValuesChanged(UISettings sender, object args)
-    {
-        UpdateThemeAsync().SafeForget();
     }
 
     private async Task UpdateThemeAsync()

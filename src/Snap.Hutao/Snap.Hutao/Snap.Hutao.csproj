@@ -21,7 +21,7 @@
     <PackageCertificateThumbprint>F8C2255969BEA4A681CED102771BF807856AEC02</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
@@ -31,6 +31,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <None Remove="Control\Panel\PanelSelector.xaml" />
     <None Remove="NativeMethods.json" />
     <None Remove="NativeMethods.txt" />
     <None Remove="Resource\Icon\UI_BagTabIcon_Avatar.png" />
@@ -250,6 +251,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\GachaLogPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Panel\PanelSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

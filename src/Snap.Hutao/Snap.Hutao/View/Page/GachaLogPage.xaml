@@ -99,9 +99,9 @@
             <PivotItem Header="总览">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MaxWidth="320"/>
-                        <ColumnDefinition MaxWidth="320"/>
-                        <ColumnDefinition MaxWidth="320"/>
+                        <ColumnDefinition MaxWidth="388"/>
+                        <ColumnDefinition MaxWidth="388"/>
+                        <ColumnDefinition MaxWidth="388"/>
                         <ColumnDefinition Width="auto" MinWidth="16"/>
                     </Grid.ColumnDefinitions>
                     <shvc:StatisticsCard
