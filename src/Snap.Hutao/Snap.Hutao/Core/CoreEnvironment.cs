@@ -17,7 +17,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// 动态密钥1的盐
     /// </summary>
-    public const string DynamicSecret1Salt = "Qqx8cyv7kuyD8fTw11SmvXSFHp7iZD29";
+    public const string DynamicSecret1Salt = "yUZ3s0Sna1IrSNfk29Vo6vRapdOyqyhB";
 
     /// <summary>
     /// 动态密钥2的盐
@@ -32,7 +32,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
-    public const string HoyolabXrpcVersion = "2.37.1";
+    public const string HoyolabXrpcVersion = "2.38.1";
 
     /// <summary>
     /// 标准UA

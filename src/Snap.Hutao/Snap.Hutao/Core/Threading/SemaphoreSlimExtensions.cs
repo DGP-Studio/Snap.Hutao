@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Extension;
+namespace Snap.Hutao.Core.Threading;
 
 /// <summary>
 /// 信号量扩展
@@ -15,7 +15,7 @@ public static class SemaphoreSlimExtensions
     /// <returns>可释放的对象，用于释放信号量</returns>
     public static async Task<IDisposable> EnterAsync(this SemaphoreSlim semaphoreSlim)
     {
-        await semaphoreSlim.WaitAsync();
+        await semaphoreSlim.WaitAsync().ConfigureAwait(false);
         return new SemaphoreSlimReleaser(semaphoreSlim);
     }
 

@@ -3,7 +3,6 @@
 
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Threading;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 

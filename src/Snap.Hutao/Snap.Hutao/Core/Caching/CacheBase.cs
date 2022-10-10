@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Extension;
+using Snap.Hutao.Core.Threading;
 using System.IO;
 using System.Net.Http;
 using System.Security.Cryptography;
