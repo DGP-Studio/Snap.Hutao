@@ -8,7 +8,7 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// <see cref="BinaryReader"/> 扩展
 /// </summary>
-public static class BinaryReaderExtensions
+public static class BinaryReaderExtension
 {
     /// <summary>
     /// 判断是否处于流的结尾

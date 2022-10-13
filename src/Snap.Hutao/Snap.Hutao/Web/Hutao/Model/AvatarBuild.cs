@@ -4,17 +4,12 @@
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 带有层的间编号
+/// 角色相关解构
 /// </summary>
-public class LevelInfo
+public abstract class AvatarBuild
 {
     /// <summary>
-    /// 层
+    /// 角色Id
     /// </summary>
-    public int Floor { get; set; }
-
-    /// <summary>
-    /// 上下半 0,1
-    /// </summary>
-    public int Index { get; set; }
+    public int AvatarId { get; set; }
 }

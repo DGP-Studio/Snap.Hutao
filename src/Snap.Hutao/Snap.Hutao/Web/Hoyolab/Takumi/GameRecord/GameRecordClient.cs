@@ -127,7 +127,7 @@ internal class GameRecordClient
             .TryCatchPostAsJsonAsync<Response<CharacterWrapper>>(logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtensions.EmptyIfNull(resp?.Data?.Avatars);
+        return EnumerableExtension.EmptyIfNull(resp?.Data?.Avatars);
     }
 
     private class CharacterData

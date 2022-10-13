@@ -4,18 +4,17 @@
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 比率
+/// 出场率
 /// </summary>
-/// <typeparam name="T"><see cref="Id"/> 的类型</typeparam>
-public class Rate<T>
+public class AvatarAppearanceRank
 {
     /// <summary>
-    /// 表示唯一标识符的实例
+    /// 楼层
     /// </summary>
-    public T Id { get; set; } = default!;
+    public int Floor { get; set; }
 
     /// <summary>
-    /// 比率
+    /// 排行
     /// </summary>
-    public decimal Value { get; set; }
+    public List<ItemRate<int, double>> Ranks { get; set; } = default!;
 }

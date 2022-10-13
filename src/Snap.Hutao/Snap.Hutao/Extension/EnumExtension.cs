@@ -8,7 +8,7 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// 枚举拓展
 /// </summary>
-public static class EnumExtensions
+public static class EnumExtension
 {
     /// <summary>
     /// 获取枚举的描述

@@ -8,7 +8,7 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// </summary>
 public struct PlayerUid
 {
-    private string? region = null;
+    private string? region = default;
 
     /// <summary>
     /// 构造一个新的玩家 Uid 结构

@@ -9,7 +9,7 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// <see cref="IEnumerable{T}"/> 扩展
 /// </summary>
-public static partial class EnumerableExtensions
+public static partial class EnumerableExtension
 {
     /// <inheritdoc cref="Enumerable.Average(IEnumerable{int})"/>
     public static double AverageNoThrow(this List<int> source)

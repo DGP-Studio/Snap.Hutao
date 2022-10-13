@@ -6,7 +6,7 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// 对象扩展
 /// </summary>
-public static class ObjectExtensions
+public static class ObjectExtension
 {
     /// <summary>
     /// <see langword="as"/> 的链式调用扩展

@@ -4,17 +4,17 @@
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 组队数据
+/// 使用率
 /// </summary>
-public class TeamCollocation
+public class AvatarUsageRank
 {
     /// <summary>
-    /// 角色Id
+    /// 楼层
     /// </summary>
-    public int Avatar { get; set; }
+    public int Floor { get; set; }
 
     /// <summary>
-    /// 角色搭配比率
+    /// 排行
     /// </summary>
-    public IEnumerable<Rate<int>> Collocations { get; set; } = default!;
+    public List<ItemRate<int, double>> Ranks { get; set; } = default!;
 }

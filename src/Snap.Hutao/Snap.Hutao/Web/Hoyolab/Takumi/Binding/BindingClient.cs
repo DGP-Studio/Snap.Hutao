@@ -45,6 +45,6 @@ internal class BindingClient
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRoles, options, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtensions.EmptyIfNull(resp?.Data?.List);
+        return EnumerableExtension.EmptyIfNull(resp?.Data?.List);
     }
 }

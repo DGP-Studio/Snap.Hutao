@@ -2,20 +2,18 @@
 // Licensed under the MIT license.
 
 namespace Snap.Hutao.Web.Hutao.Model;
-
 /// <summary>
-/// 队伍上场率2
-/// 层上场率
+/// 队伍出场次数
 /// </summary>
-public record TeamCombination2
+public class TeamAppearance
 {
     /// <summary>
-    /// 带有层的间
+    /// 上半
     /// </summary>
-    public int Floor { get; set; }
+    public List<ItemRate<string, int>> Up { get; set; } = default!;
 
     /// <summary>
-    /// 队伍
+    /// 下半
     /// </summary>
-    public IEnumerable<Rate<Team>> Teams { get; set; } = null!;
+    public List<ItemRate<string, int>> Down { get; set; } = default!;
 }

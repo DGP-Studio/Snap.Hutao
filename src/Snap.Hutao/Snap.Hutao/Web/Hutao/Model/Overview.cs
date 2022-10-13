@@ -9,17 +9,22 @@ namespace Snap.Hutao.Web.Hutao.Model;
 public class Overview
 {
     /// <summary>
-    /// 所有用户数量
+    /// 规划Id
     /// </summary>
-    public int TotalPlayerCount { get; set; }
+    public int ScheduleId { get; set; }
 
     /// <summary>
-    /// 当期提交深渊数据用户数量
+    /// 总记录数
     /// </summary>
-    public int CollectedPlayerCount { get; set; }
+    public int RecordTotal { get; set; }
 
     /// <summary>
-    /// 当期满星用户数量
+    /// 总深渊计数
     /// </summary>
-    public int FullStarPlayerCount { get; set; }
+    public int SpiralAbyssTotal { get; set; }
+
+    /// <summary>
+    /// 满星数
+    /// </summary>
+    public int SpiralAbyssFullStar { get; set; }
 }

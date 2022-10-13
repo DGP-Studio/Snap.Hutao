@@ -8,7 +8,7 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// 包版本扩展
 /// </summary>
-public static class PackageVersionExtensions
+public static class PackageVersionExtension
 {
     /// <summary>
     /// 将包版本转换为版本

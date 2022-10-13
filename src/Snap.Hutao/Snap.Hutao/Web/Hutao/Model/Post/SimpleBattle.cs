@@ -6,27 +6,27 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 namespace Snap.Hutao.Web.Hutao.Model.Post;
 
 /// <summary>
-/// 玩家深渊某间的战斗信息
+/// 上下半信息
 /// </summary>
-public class PlayerSpiralAbyssBattle
+public class SimpleBattle
 {
     /// <summary>
-    /// 构造一个新的战斗信息
+    /// 构造一个新的战斗
     /// </summary>
     /// <param name="battle">战斗</param>
-    internal PlayerSpiralAbyssBattle(Battle battle)
+    public SimpleBattle(Battle battle)
     {
-        BattleIndex = battle.Index;
-        AvatarIds = battle.Avatars.Select(a => a.Id);
+        Index = battle.Index;
+        Avatars = battle.Avatars.Select(a => a.Id);
     }
 
     /// <summary>
-    /// 战斗上下半间 0,1
+    /// 上下半遍号 1-2
     /// </summary>
-    public int BattleIndex { get; }
+    public int Index { get; set; }
 
     /// <summary>
-    /// 角色Id列表
+    /// 角色列表
     /// </summary>
-    public IEnumerable<int> AvatarIds { get; }
+    public IEnumerable<int> Avatars { get; set; } = default!;
 }

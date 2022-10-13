@@ -4,27 +4,17 @@
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 排行信息
+/// 排行包装
 /// </summary>
 public class RankInfo
 {
     /// <summary>
-    /// 角色Id
+    /// 造成伤害
     /// </summary>
-    public int AvatarId { get; set; }
+    public ItemRate<int, double> Damage { get; set; } = default!;
 
     /// <summary>
-    /// 值
+    /// 受到伤害
     /// </summary>
-    public int Value { get; set; }
-
-    /// <summary>
-    /// 百分比
-    /// </summary>
-    public double Percent { get; set; }
-
-    /// <summary>
-    /// 总体百分比
-    /// </summary>
-    public double PercentTotal { get; set; }
+    public ItemRate<int, double> TakeDamage { get; set; } = default!;
 }

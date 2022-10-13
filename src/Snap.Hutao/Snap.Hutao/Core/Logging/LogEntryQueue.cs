@@ -70,9 +70,8 @@ public sealed class LogEntryQueue : IDisposable
             logDbContext.Database.Migrate();
         }
 
-        logDbContext.Logs.RemoveRange(logDbContext.Logs);
-        logDbContext.SaveChanges();
-
+        // only raw sql can pass
+        logDbContext.Database.ExecuteSqlRaw("DELETE FROM logs WHERE Exception IS NULL");
         return logDbContext;
     }
 

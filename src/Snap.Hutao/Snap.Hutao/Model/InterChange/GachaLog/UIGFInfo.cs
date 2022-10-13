@@ -34,7 +34,7 @@ public class UIGFInfo
     /// </summary>
     public DateTimeOffset ExportDateTime
     {
-        get => DateTimeOffsetExtensions.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
+        get => DateTimeOffsetExtension.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
     }
 
     /// <summary>

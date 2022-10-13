@@ -6,7 +6,7 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// 数高性能扩展
 /// </summary>
-public static class NumberExtensions
+public static class NumberExtension
 {
     /// <summary>
     /// 获取从右向左某位上的数字

@@ -1,22 +1,23 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
+
 namespace Snap.Hutao.Web.Hutao.Model.Post;
 
 /// <summary>
-/// 伤害信息
+/// 数值
 /// </summary>
-public class Damage
+public class SimpleRank
 {
     /// <summary>
-    /// 构造一个新的伤害信息
+    /// 构造一个新的数值
     /// </summary>
-    /// <param name="avatarId">角色Id</param>
-    /// <param name="value">值</param>
-    public Damage(int avatarId, int value)
+    /// <param name="rank">排行</param>
+    public SimpleRank(Rank rank)
     {
-        AvatarId = avatarId;
-        Value = value;
+        AvatarId = rank.AvatarId;
+        Value = rank.Value;
     }
 
     /// <summary>

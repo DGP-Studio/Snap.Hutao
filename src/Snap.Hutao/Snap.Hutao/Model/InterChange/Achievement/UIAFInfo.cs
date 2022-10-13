@@ -28,7 +28,7 @@ public class UIAFInfo
     public DateTimeOffset ExportDateTime
     {
         // Hot fix | 1.0.31 | UIAF.Info.ExportTimestamp can be milliseconds
-        get => DateTimeOffsetExtensions.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
+        get => DateTimeOffsetExtension.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
     }
 
     /// <summary>

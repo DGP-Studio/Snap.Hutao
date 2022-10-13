@@ -117,6 +117,11 @@ internal class AvatarInfoService : IAvatarInfoService
 
         foreach (Web.Enka.Model.AvatarInfo webInfo in webInfos)
         {
+            if (webInfo.AvatarId == 10000005 || webInfo.AvatarId == 10000007)
+            {
+                continue;
+            }
+
             Model.Entity.AvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == webInfo.AvatarId);
 
             if (entity == null)
@@ -141,8 +146,9 @@ internal class AvatarInfoService : IAvatarInfoService
         return appDbContext.AvatarInfos
             .Where(i => i.Uid == uid)
             .Select(i => i.Info)
-            .AsEnumerable()
-            .OrderByDescending(i => i.AvatarId)
+
+            // .AsEnumerable()
+            // .OrderByDescending(i => i.AvatarId)
             .ToList();
     }
 }

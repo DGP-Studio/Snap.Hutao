@@ -55,6 +55,6 @@ internal class AnnouncementClient
             .GetFromJsonAsync<Response<ListWrapper<AnnouncementContent>>>(ApiEndpoints.AnnContent, jsonSerializerOptions, cancellationToken)
             .ConfigureAwait(false);
 
-        return EnumerableExtensions.EmptyIfNull(resp?.Data?.List);
+        return EnumerableExtension.EmptyIfNull(resp?.Data?.List);
     }
 }

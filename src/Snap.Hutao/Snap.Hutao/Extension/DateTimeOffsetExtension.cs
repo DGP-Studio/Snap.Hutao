@@ -6,7 +6,7 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// <see cref="DateTimeOffset"/> 扩展
 /// </summary>
-public static class DateTimeOffsetExtensions
+public static class DateTimeOffsetExtension
 {
     /// <summary>
     /// Converts the current <see cref="DateTimeOffset"/> to a <see cref="DateTimeOffset"/> that represents the local time.

@@ -4,18 +4,17 @@
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 队伍上场率
-/// 层间上场率
+/// 角色命座信息
 /// </summary>
-public record TeamCombination
+public class AvatarConstellationInfo : AvatarBuild
 {
     /// <summary>
-    /// 带有层的间
+    /// 持有率
     /// </summary>
-    public LevelInfo Level { get; set; } = null!;
+    public double HoldingRate { get; set; }
 
     /// <summary>
-    /// 队伍
+    /// 命之座
     /// </summary>
-    public IEnumerable<Rate<Team>> Teams { get; set; } = null!;
+    public List<ItemRate<int, double>> Constellations { get; set; } = default!;
 }
