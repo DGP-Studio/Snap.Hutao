@@ -1,13 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
-using Snap.Hutao.Context.Database;
-using Snap.Hutao.Core.Threading;
-using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hoyolab.Bbs.User;
-using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.Model.Binding.User;
 

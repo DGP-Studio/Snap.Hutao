@@ -44,7 +44,7 @@ public sealed partial class UserAutoCookieDialog : ContentDialog
 
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
-        foreach (var item in cookies)
+        foreach (CoreWebView2Cookie item in cookies)
         {
             manager.DeleteCookie(item);
         }

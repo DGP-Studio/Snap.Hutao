@@ -11,10 +11,13 @@ public static class AvatarIds
 {
     public const int Ayaka = 10000002;
     public const int Qin = 10000003;
+
     public const int Lisa = 10000006;
+
     public const int Barbara = 10000014;
     public const int Kaeya = 10000015;
     public const int Diluc = 10000016;
+
     public const int Razor = 10000020;
     public const int Ambor = 10000021;
     public const int Venti = 10000022;
@@ -23,6 +26,7 @@ public static class AvatarIds
     public const int Xingqiu = 10000025;
     public const int Xiao = 10000026;
     public const int Ningguang = 10000027;
+
     public const int Klee = 10000029;
     public const int Zhongli = 10000030;
     public const int Fischl = 10000031;
@@ -34,6 +38,7 @@ public static class AvatarIds
     public const int Ganyu = 10000037;
     public const int Albedo = 10000038;
     public const int Diona = 10000039;
+
     public const int Mona = 10000041;
     public const int Keqing = 10000042;
     public const int Sucrose = 10000043;
@@ -54,6 +59,7 @@ public static class AvatarIds
     public const int Yae = 10000058;
     public const int Heizou = 10000059;
     public const int Yelan = 10000060;
+
     public const int Aloy = 10000062;
     public const int Shenhe = 10000063;
     public const int Yunjin = 10000064;
@@ -62,6 +68,7 @@ public static class AvatarIds
     public const int Collei = 10000067;
     public const int Dori = 10000068;
     public const int Tighnari = 10000069;
+    public const int Nilou = 10000070;
     public const int Cyno = 10000071;
     public const int Candace = 10000072;
 }

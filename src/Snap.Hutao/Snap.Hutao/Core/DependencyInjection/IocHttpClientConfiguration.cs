@@ -36,6 +36,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(CoreEnvironment.HoyolabUA);
+        client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
         client.DefaultRequestHeaders.Add("x-rpc-app_version", CoreEnvironment.HoyolabXrpcVersion);
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "5");
         client.DefaultRequestHeaders.Add("x-rpc-device_id", CoreEnvironment.HoyolabDeviceId);

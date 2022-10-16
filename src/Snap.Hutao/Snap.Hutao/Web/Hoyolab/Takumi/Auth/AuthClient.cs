@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;

@@ -18,11 +18,11 @@ public class Offering
     /// 等级
     /// </summary>
     [JsonPropertyName("level")]
-    public string Level { get; set; } = default!;
+    public int Level { get; set; } = default!;
 
     /// <summary>
     /// 图标
     /// </summary>
     [JsonPropertyName("icon")]
-    public string Icon { get; set; } = default!;
+    public Uri Icon { get; set; } = default!;
 }

@@ -20,13 +20,14 @@ namespace Snap.Hutao.Web.Hutao;
 /// </summary>
 // [Injection(InjectAs.Transient)]
 [HttpClient(HttpClientConfigration.Default)]
-internal class HutaoClient
+internal class HomaClient
 {
-    private const string HutaoAPI = "https://hutao-api.snapgenshin.com";
+    private const string HutaoAPI = "https://homa.snapgenshin.com";
 
     private readonly HttpClient httpClient;
     private readonly GameRecordClient gameRecordClient;
     private readonly JsonSerializerOptions options;
+    private readonly ILogger<HomaClient> logger;
 
     /// <summary>
     /// 构造一个新的胡桃API客户端
@@ -34,11 +35,13 @@ internal class HutaoClient
     /// <param name="httpClient">http客户端</param>
     /// <param name="gameRecordClient">游戏记录客户端</param>
     /// <param name="options">json序列化选项</param>
-    public HutaoClient(HttpClient httpClient, GameRecordClient gameRecordClient, JsonSerializerOptions options)
+    /// <param name="logger">日志器</param>
+    public HomaClient(HttpClient httpClient, GameRecordClient gameRecordClient, JsonSerializerOptions options, ILogger<HomaClient> logger)
     {
         this.httpClient = httpClient;
         this.gameRecordClient = gameRecordClient;
         this.options = options;
+        this.logger = logger;
     }
 
     /// <summary>
@@ -195,14 +198,8 @@ internal class HutaoClient
     /// <param name="playerRecord">玩家记录</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public async Task<Response<string>?> UploadRecordAsync(SimpleRecord playerRecord, CancellationToken token = default)
+    public Task<Response<string>?> UploadRecordAsync(SimpleRecord playerRecord, CancellationToken token = default)
     {
-        HttpResponseMessage response = await httpClient
-            .PostAsJsonAsync($"{HutaoAPI}/Record/Upload", playerRecord, options, token)
-            .ConfigureAwait(false);
-
-        return await response.Content
-            .ReadFromJsonAsync<Response<string>>(options, token)
-            .ConfigureAwait(false);
+        return httpClient.TryCatchPostAsJsonAsync<SimpleRecord, Response<string>>($"{HutaoAPI}/Record/Upload", playerRecord, options, logger, token);
     }
 }

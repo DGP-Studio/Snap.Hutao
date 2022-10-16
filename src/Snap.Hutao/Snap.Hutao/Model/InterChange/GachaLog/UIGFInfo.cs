@@ -32,6 +32,7 @@ public class UIGFInfo
     /// <summary>
     /// 导出时间
     /// </summary>
+    [JsonIgnore]
     public DateTimeOffset ExportDateTime
     {
         get => DateTimeOffsetExtension.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);

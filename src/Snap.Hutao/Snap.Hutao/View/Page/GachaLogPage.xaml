@@ -68,11 +68,13 @@
                         <AppBarButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem
-                            Text="从 UIGF Json 文件导入"
-                            Command="{Binding ImportFromUIGFJsonCommand}"/>
+                                    Text="从 UIGF Json 文件导入"
+                                    Command="{Binding ImportFromUIGFJsonCommand}"/>
                                 <MenuFlyoutItem
-                            Text="从 UIGF Excel 文件导入"
-                            Command="{Binding ImportFromUIGFExcelCommand}"/>
+                                    Text="从 UIGF Excel 文件导入"
+                                    IsEnabled="False"
+                                    Visibility="Collapsed"
+                                    Command="{Binding ImportFromUIGFExcelCommand}"/>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
@@ -80,11 +82,13 @@
                         <AppBarButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem
-                                        Text="导出到 UIGF Json 文件"
-                                        Command="{Binding ExportToUIGFJsonCommand}"/>
+                                    Text="导出到 UIGF Json 文件"
+                                    Command="{Binding ExportToUIGFJsonCommand}"/>
                                 <MenuFlyoutItem
-                                        Text="导出到 UIGF Excel 文件"
-                                        Command="{Binding ExportToUIGFExcelCommand}"/>
+                                    Text="导出到 UIGF Excel 文件"
+                                    IsEnabled="False"
+                                    Visibility="Collapsed"
+                                    Command="{Binding ExportToUIGFExcelCommand}"/>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>

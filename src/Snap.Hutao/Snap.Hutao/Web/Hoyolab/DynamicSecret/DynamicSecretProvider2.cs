@@ -29,7 +29,8 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         string b = postBody is null ? string.Empty : JsonSerializer.Serialize(postBody, options);
 
         // query
-        string q = string.Join('&', new UriBuilder(queryUrl).Query.Split('&').OrderBy(x => x));
+        string[] queries = queryUrl.Split('?', 2);
+        string q = queries.Length == 2 ? string.Join('&', queries[1].Split('&').OrderBy(x => x)) : string.Empty;
 
         // check
         string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecret2Salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();

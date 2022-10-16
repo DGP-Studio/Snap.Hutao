@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Windows.Graphics;
-using Windows.Win32.System.Diagnostics.ToolHelp;
 
 namespace Snap.Hutao.Win32;
 

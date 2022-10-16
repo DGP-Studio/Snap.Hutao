@@ -106,7 +106,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     {
         Verify.Operation(IsInitialized, "祈愿记录服务未能正常初始化");
 
-        var list = appDbContext.GachaItems
+        List<UIGFItem> list = appDbContext.GachaItems
             .Where(i => i.ArchiveId == archive.InnerId)
             .AsEnumerable()
             .Select(i => i.ToUIGFItem(GetNameQualityByItemId(i.ItemId)))

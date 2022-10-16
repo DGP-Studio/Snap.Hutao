@@ -24,7 +24,7 @@ public class Floor
     /// 是否解锁
     /// </summary>
     [JsonPropertyName("is_unlock")]
-    public string IsUnlock { get; set; } = default!;
+    public bool IsUnlock { get; set; } = default!;
 
     /// <summary>
     /// 结束时间

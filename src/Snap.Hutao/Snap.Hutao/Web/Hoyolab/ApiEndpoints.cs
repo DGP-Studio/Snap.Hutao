@@ -51,7 +51,7 @@ internal static class ApiEndpoints
     /// <returns>游戏记录主页字符串</returns>
     public static string GameRecordIndex(string uid, string server)
     {
-        return $"{ApiTakumiRecordApi}/index?role_id={uid}&server={server}";
+        return $"{ApiTakumiRecordApi}/index?server={server}&role_id={uid}";
     }
 
     /// <summary>

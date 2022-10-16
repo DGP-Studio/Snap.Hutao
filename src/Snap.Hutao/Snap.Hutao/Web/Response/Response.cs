@@ -40,16 +40,6 @@ public class Response : ISupportValidation
     [JsonPropertyName("message")]
     public string Message { get; set; } = default!;
 
-    /// <summary>
-    /// 响应是否正常
-    /// </summary>
-    /// <param name="response">响应</param>
-    /// <returns>是否Ok</returns>
-    public static bool IsOk(Response? response)
-    {
-        return response is not null && response.ReturnCode == 0;
-    }
-
     /// <inheritdoc/>
     public bool Validate()
     {
@@ -88,6 +78,17 @@ public class Response<TData> : Response
     /// </summary>
     [JsonPropertyName("data")]
     public TData? Data { get; set; }
+
+    /// <summary>
+    /// 响应是否正常
+    /// </summary>
+    /// <param name="response">响应</param>
+    /// <returns>是否Ok</returns>
+    [MemberNotNullWhen(true, nameof(Data))]
+    public bool IsOk()
+    {
+        return ReturnCode == 0;
+    }
 
     /// <inheritdoc/>
     public override int GetHashCode()

@@ -19,6 +19,7 @@ public class SimpleAvatar
         AvatarId = character.Id;
         WeaponId = character.Weapon.Id;
         ReliquarySetIds = character.Reliquaries.Select(r => r.ReliquarySet.Id);
+        ActivedConstellationNumber = character.ActivedConstellationNum;
     }
 
     /// <summary>

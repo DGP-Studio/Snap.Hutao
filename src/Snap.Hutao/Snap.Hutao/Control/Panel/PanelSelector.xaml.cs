@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core;
-using Snap.Hutao.Web.Hutao.Model;
 
 namespace Snap.Hutao.Control.Panel;
 
@@ -28,8 +27,8 @@ public sealed partial class PanelSelector : UserControl
     /// </summary>
     public string Current
     {
-        get { return (string)GetValue(CurrentProperty); }
-        set { SetValue(CurrentProperty, value); }
+        get => (string)GetValue(CurrentProperty);
+        set => SetValue(CurrentProperty, value);
     }
 
     private void SplitButtonLoaded(object sender, RoutedEventArgs e)

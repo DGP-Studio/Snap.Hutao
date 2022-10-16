@@ -61,7 +61,10 @@ public class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQuality
 
     /// <inheritdoc/>
     [JsonIgnore]
-    public ItemQuality Quality => RankLevel;
+    public ItemQuality Quality
+    {
+        get => RankLevel;
+    }
 
     /// <summary>
     /// 转换为基础物品

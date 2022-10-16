@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32;
+using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Core.Threading;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Game.Locator;
 
@@ -18,8 +21,30 @@ internal class RegistryLauncherLocator : IGameLocator
     /// <inheritdoc/>
     public Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
-        // TODO: fix folder moved issue
-        return Task.FromResult(LocateInternal("InstallPath", "\\Genshin Impact Game\\YuanShen.exe"));
+        ValueResult<bool, string> result = LocateInternal("InstallPath");
+
+        if (result.IsOk == false)
+        {
+            return Task.FromResult(result);
+        }
+        else
+        {
+            string path = result.Value;
+            string configPath = Path.Combine(path, "config.ini");
+            string? escapedPath = null;
+            using (FileStream stream = File.OpenRead(configPath))
+            {
+                IEnumerable<IniElement> elements = IniSerializer.Deserialize(stream);
+                escapedPath = elements.OfType<IniParameter>().FirstOrDefault(p => p.Key == "game_install_path")?.Value;
+            }
+
+            if (escapedPath != null)
+            {
+                return Task.FromResult<ValueResult<bool, string>>(new(true, Unescape(escapedPath)));
+            }
+        }
+
+        return Task.FromResult<ValueResult<bool, string>>(new(false, null!));
     }
 
     /// <inheritdoc/>
@@ -28,18 +53,13 @@ internal class RegistryLauncherLocator : IGameLocator
         return Task.FromResult(LocateInternal("DisplayIcon"));
     }
 
-    private static ValueResult<bool, string> LocateInternal(string key, string? append = null)
+    private static ValueResult<bool, string> LocateInternal(string key)
     {
         RegistryKey? uninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神");
         if (uninstallKey != null)
         {
             if (uninstallKey.GetValue(key) is string path)
             {
-                if (!string.IsNullOrEmpty(append))
-                {
-                    path += append;
-                }
-
                 return new(true, path);
             }
             else
@@ -51,5 +71,19 @@ internal class RegistryLauncherLocator : IGameLocator
         {
             return new(false, null!);
         }
+    }
+
+    private static string Unescape(string str)
+    {
+        string? hex4Result = Regex.Replace(str, @"\\x([0-9a-f]{4})", @"\u$1");
+
+        // 不包含中文
+        if (!hex4Result.Contains(@"\u"))
+        {
+            // fix path with \
+            hex4Result = hex4Result.Replace(@"\", @"\\");
+        }
+
+        return Regex.Unescape(hex4Result);
     }
 }

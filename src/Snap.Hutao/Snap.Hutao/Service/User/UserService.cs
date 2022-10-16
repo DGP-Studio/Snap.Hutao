@@ -154,12 +154,18 @@ internal class UserService : IUserService
                 {
                     // insert stoken directly
                     userWithSameUid.Cookie.InsertSToken(uid, cookie);
+                    appDbContext.Users.Update(userWithSameUid.Entity);
+                    appDbContext.SaveChanges();
+
                     return new(UserOptionResult.Upgraded, uid);
                 }
 
                 if (cookie.ContainsLTokenAndCookieToken())
                 {
-                    UpdateUserCookie(cookie, userWithSameUid);
+                    userWithSameUid.Cookie = cookie;
+                    appDbContext.Users.Update(userWithSameUid.Entity);
+                    appDbContext.SaveChanges();
+
                     return new(UserOptionResult.Updated, uid);
                 }
             }
@@ -187,14 +193,6 @@ internal class UserService : IUserService
                 cookie.RemoveLoginTicket();
             }
         }
-    }
-
-    private void UpdateUserCookie(Cookie cookie, BindingUser user)
-    {
-        user.Cookie = cookie;
-
-        appDbContext.Users.Update(user.Entity);
-        appDbContext.SaveChanges();
     }
 
     private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(ObservableCollection<BindingUser> users, Cookie cookie)

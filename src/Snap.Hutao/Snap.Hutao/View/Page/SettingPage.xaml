@@ -95,6 +95,15 @@
                             <Button Content="打开" Command="{Binding Experimental.OpenCacheFolderCommand}"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
+
+                    <sc:Setting
+                        Icon="&#xE898;"
+                        Header="上传深渊数据"
+                        Description="将当前账号的深渊数据上传到胡桃数据库">
+                        <sc:Setting.ActionContent>
+                            <Button Content="上传" Command="{Binding Experimental.UploadSpiralAbyssRecordCommand}"/>
+                        </sc:Setting.ActionContent>
+                    </sc:Setting>
                 </sc:SettingsGroup>
 
             </StackPanel>

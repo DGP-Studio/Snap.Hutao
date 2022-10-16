@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
-using System.Diagnostics;
-using System.IO;
 
 namespace Snap.Hutao.Core.Exception;
 

@@ -8,7 +8,6 @@ using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Page;
-using Windows.UI.ViewManagement;
 
 namespace Snap.Hutao.View;
 

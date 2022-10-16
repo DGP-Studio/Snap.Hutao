@@ -24,7 +24,7 @@ public class GachaLogItem
     /// </summary>
     [ExcelColumn(Name = "gacha_type")]
     [JsonPropertyName("gacha_type")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(EnumStringValueConverter<GachaConfigType>))]
     public GachaConfigType GachaType { get; set; } = default!;
 
     /// <summary>

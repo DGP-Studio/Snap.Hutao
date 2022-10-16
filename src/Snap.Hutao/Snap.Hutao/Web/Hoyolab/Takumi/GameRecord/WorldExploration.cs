@@ -25,7 +25,7 @@ public class WorldExploration
     /// 图标
     /// </summary>
     [JsonPropertyName("icon")]
-    public string Icon { get; set; } = default!;
+    public Uri Icon { get; set; } = default!;
 
     /// <summary>
     /// 名称
@@ -39,7 +39,8 @@ public class WorldExploration
     /// Reputation
     /// </summary>
     [JsonPropertyName("type")]
-    public string Type { get; set; } = default!;
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public WorldExplorationType Type { get; set; } = default!;
 
     /// <summary>
     /// 供奉进度
@@ -63,7 +64,7 @@ public class WorldExploration
     /// 地图链接
     /// </summary>
     [JsonPropertyName("map_url")]
-    public string MapUrl { get; set; } = default!;
+    public Uri MapUrl { get; set; } = default!;
 
     /// <summary>
     /// 攻略链接 无攻略时为 <see cref="string.Empty"/>
@@ -75,41 +76,25 @@ public class WorldExploration
     /// 背景图片
     /// </summary>
     [JsonPropertyName("background_image")]
-    public string BackgroundImage { get; set; } = default!;
+    public Uri BackgroundImage { get; set; } = default!;
 
     /// <summary>
     /// 反色图标
     /// </summary>
     [JsonPropertyName("inner_icon")]
-    public string InnerIcon { get; set; } = default!;
+    public Uri InnerIcon { get; set; } = default!;
 
     /// <summary>
     /// 背景图片
     /// </summary>
     [JsonPropertyName("cover")]
-    public string Cover { get; set; } = default!;
+    public Uri Cover { get; set; } = default!;
 
     /// <summary>
     /// 百分比*100进度
     /// </summary>
     public double ExplorationPercentageBy10
     {
-        get => ExplorationPercentage / 10.0;
-    }
-
-    /// <summary>
-    /// 类型名称转换器
-    /// </summary>
-    public string TypeFormatted
-    {
-        get => IsReputation ? "声望等级" : "供奉等级";
-    }
-
-    /// <summary>
-    /// 指示当前是否为声望
-    /// </summary>
-    public bool IsReputation
-    {
-        get => Type == "Reputation";
+        get => ExplorationPercentage / 1000.0;
     }
 }

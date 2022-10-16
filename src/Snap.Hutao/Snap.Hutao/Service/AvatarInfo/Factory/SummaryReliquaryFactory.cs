@@ -87,11 +87,11 @@ internal class SummaryReliquaryFactory
         // 沙 杯 头
         if (equip.Flat.EquipType is EquipType.EQUIP_SHOES or EquipType.EQUIP_RING or EquipType.EQUIP_DRESS)
         {
-            AffixWeight weightConfig = GetAffixWeightForAvatarId(avatarInfo.AvatarId);
+            AffixWeight weightConfig = GetAffixWeightForAvatarId();
             ReliquaryLevel maxRelicLevel = reliqueryLevels.Where(r => r.Quality == reliquary.RankLevel).MaxBy(r => r.Level)!;
 
             double percent = relicLevel.Properties[property] / maxRelicLevel.Properties[property];
-            double baseScore = 8 * percent * weightConfig[property];
+            double baseScore = 8 * percent * weightConfig.GetValueOrDefault(property, 0);
 
             double score = subProperties.Sum(p => p.Score);
             return ((score + baseScore) / 1700) * 66;
@@ -103,9 +103,9 @@ internal class SummaryReliquaryFactory
         }
     }
 
-    private AffixWeight GetAffixWeightForAvatarId(int avatarId)
+    private AffixWeight GetAffixWeightForAvatarId()
     {
-        return ReliquaryWeightConfiguration.AffixWeights.First(w => w.AvatarId == avatarId);
+        return ReliquaryWeightConfiguration.AffixWeights.FirstOrDefault(w => w.AvatarId == avatarInfo.AvatarId, ReliquaryWeightConfiguration.Default);
     }
 
     private ReliquarySubProperty CreateSubProperty(int appendPropId)
@@ -121,7 +121,7 @@ internal class SummaryReliquaryFactory
     {
         MetadataReliquaryAffix affix = idReliquaryAffixMap[appendId];
 
-        AffixWeight weightConfig = GetAffixWeightForAvatarId(avatarInfo.AvatarId);
+        AffixWeight weightConfig = GetAffixWeightForAvatarId();
         double weight = weightConfig.GetValueOrDefault(affix.Type, 0) / 100D;
 
         // 小字词条，转换到等效百分比计算
