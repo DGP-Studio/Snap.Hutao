@@ -520,34 +520,65 @@
                                                 Width="80"
                                                 Height="80"
                                                 Source="{Binding Icon}"/>
-                                            <ItemsControl
-                                                VerticalAlignment="Stretch"
-                                                Grid.Row="2"
-                                                ItemsSource="{Binding SubProperties}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <cwucont:UniformGrid
-                                                            Columns="2"
-                                                            Rows="5"
-                                                            ColumnSpacing="16"
-                                                            Orientation="Vertical"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Padding="2" MinWidth="152" Opacity="{Binding Opacity}">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition/>
-                                                            </Grid.RowDefinitions>
-                                                            <TextBlock
-                                                                Text="{Binding Name}"/>
-                                                            <TextBlock
-                                                                Text="{Binding Value}"
-                                                                HorizontalAlignment="Right"/>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
+                                            <Grid Grid.Row="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="16"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <ItemsControl
+                                                    MinWidth="156"
+                                                    Grid.Column="0"
+                                                    VerticalAlignment="Stretch"
+                                                    ItemsSource="{Binding PrimarySubProperties}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <cwucont:UniformGrid
+                                                                Columns="1"
+                                                                Rows="5"
+                                                                Orientation="Vertical"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Padding="2" Opacity="{Binding Opacity}">
+                                                                <TextBlock
+                                                                    Text="{Binding Name}"/>
+                                                                <TextBlock
+                                                                    Text="{Binding Value}"
+                                                                    HorizontalAlignment="Right"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+
+                                                <ItemsControl
+                                                    MinWidth="156"
+                                                    Grid.Column="2"
+                                                    VerticalAlignment="Stretch"
+                                                    ItemsSource="{Binding SecondarySubProperties}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <cwucont:UniformGrid
+                                                                Columns="1"
+                                                                Rows="5"
+                                                                Orientation="Vertical"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Padding="2" Opacity="{Binding Opacity}">
+                                                                <TextBlock
+                                                                    Text="{Binding Name}"/>
+                                                                <TextBlock
+                                                                    Text="{Binding Value}"
+                                                                    HorizontalAlignment="Right"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                           
 
                                             <Rectangle Height="1" Grid.Row="3" Margin="0,6" Opacity="0.8">
                                                 <Rectangle.Fill>

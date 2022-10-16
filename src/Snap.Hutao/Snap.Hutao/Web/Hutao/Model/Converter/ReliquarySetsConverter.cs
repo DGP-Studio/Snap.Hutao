@@ -8,12 +8,14 @@ namespace Snap.Hutao.Web.Hutao.Model.Converter;
 /// </summary>
 internal class ReliquarySetsConverter : JsonConverter<ReliquarySets>
 {
+    private const char Separator = ',';
+
     /// <inheritdoc/>
     public override ReliquarySets? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         if (reader.GetString() is string source)
         {
-            string[] sets = source.Split(';');
+            string[] sets = source.Split(Separator);
             return new(sets.Select(set => new ReliquarySet(set)));
         }
         else
@@ -25,6 +27,6 @@ internal class ReliquarySetsConverter : JsonConverter<ReliquarySets>
     /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, ReliquarySets value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(string.Join(';', value));
+        writer.WriteStringValue(string.Join(Separator, value));
     }
 }

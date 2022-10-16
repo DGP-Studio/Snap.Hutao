@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Web.Enka.Model;
+using System.Runtime.InteropServices;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
 using MetadataReliquaryAffix = Snap.Hutao.Model.Metadata.Reliquary.ReliquaryAffix;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
@@ -61,6 +62,12 @@ internal class SummaryReliquaryFactory
     {
         MetadataReliquary reliquary = reliquaries.Single(r => r.Ids.Contains(equip.ItemId));
         List<ReliquarySubProperty> subProperty = equip.Reliquary!.AppendPropIdList.Select(id => CreateSubProperty(id)).ToList();
+
+        int affixCount = GetAffixCount(reliquary);
+        Span<ReliquarySubProperty> span = CollectionsMarshal.AsSpan(subProperty);
+        List<ReliquarySubProperty> primary = new(span[..^affixCount].ToArray());
+        List<ReliquarySubProperty> secondary = new(span[^affixCount..].ToArray());
+
         ReliquaryLevel relicLevel = reliqueryLevels.Single(r => r.Level == equip.Reliquary!.Level && r.Quality == reliquary.RankLevel);
         FightProperty property = idRelicMainPropMap[equip.Reliquary.MainPropId];
 
@@ -77,8 +84,42 @@ internal class SummaryReliquaryFactory
             MainProperty = new(property.GetDescription(), PropertyInfoDescriptor.FormatValue(property, relicLevel.Properties[property])),
 
             // Reliquary
-            SubProperties = subProperty,
+            // SubProperties = subProperty,
+            PrimarySubProperties = primary,
+            SecondarySubProperties = secondary,
             Score = ScoreReliquary(property, reliquary, relicLevel, subProperty),
+        };
+    }
+
+    private int GetAffixCount(MetadataReliquary reliquary)
+    {
+        return (reliquary.RankLevel, equip.Reliquary!.Level) switch
+        {
+            (ItemQuality.QUALITY_ORANGE, > 20) => 5,
+            (ItemQuality.QUALITY_ORANGE, > 16) => 4,
+            (ItemQuality.QUALITY_ORANGE, > 12) => 3,
+            (ItemQuality.QUALITY_ORANGE, > 8) => 2,
+            (ItemQuality.QUALITY_ORANGE, > 4) => 1,
+            (ItemQuality.QUALITY_ORANGE, _) => 0,
+
+            (ItemQuality.QUALITY_PURPLE, > 16) => 4,
+            (ItemQuality.QUALITY_PURPLE, > 12) => 3,
+            (ItemQuality.QUALITY_PURPLE, > 8) => 2,
+            (ItemQuality.QUALITY_PURPLE, > 4) => 1,
+            (ItemQuality.QUALITY_PURPLE, _) => 0,
+
+            (ItemQuality.QUALITY_BLUE, > 12) => 3,
+            (ItemQuality.QUALITY_BLUE, > 8) => 2,
+            (ItemQuality.QUALITY_BLUE, > 4) => 1,
+            (ItemQuality.QUALITY_BLUE, _) => 0,
+
+            (ItemQuality.QUALITY_GREEN, > 4) => 1,
+            (ItemQuality.QUALITY_GREEN, _) => 0,
+
+            (ItemQuality.QUALITY_WHITE, > 4) => 1,
+            (ItemQuality.QUALITY_WHITE, _) => 0,
+
+            _ => 0,
         };
     }
 

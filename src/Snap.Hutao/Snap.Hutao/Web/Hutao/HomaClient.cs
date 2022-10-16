@@ -108,14 +108,14 @@ internal class HomaClient
 
     /// <summary>
     /// 异步获取角色使用率
-    /// GET /Statistics2/AvatarParticipation
+    /// GET /Statistics/Avatar/UtilizationRate
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色出场率</returns>
-    public async Task<IEnumerable<AvatarUsageRank>> GetAvatarParticipations2Async(CancellationToken token = default)
+    public async Task<IEnumerable<AvatarUsageRank>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
     {
         Response<IEnumerable<AvatarUsageRank>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<AvatarUsageRank>>>($"{HutaoAPI}/Statistics/Avatar/HoldingRate", token)
+            .GetFromJsonAsync<Response<IEnumerable<AvatarUsageRank>>>($"{HutaoAPI}/Statistics/Avatar/UtilizationRate", token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -123,7 +123,7 @@ internal class HomaClient
 
     /// <summary>
     /// 异步获取角色/武器/圣遗物搭配
-    /// GET /Statistics/AvatarReliquaryUsage
+    /// GET /Statistics/Avatar/AvatarCollocation
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色/武器/圣遗物搭配</returns>
@@ -138,14 +138,14 @@ internal class HomaClient
 
     /// <summary>
     /// 异步获取角色命座信息
-    /// GET /Statistics/Constellation
+    /// GET /Statistics/Avatar/HoldingRate
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色图片列表</returns>
-    public async Task<IEnumerable<AvatarConstellationInfo>> GetAvatarConstellationInfosAsync(CancellationToken token = default)
+    public async Task<IEnumerable<AvatarConstellationInfo>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
     {
         Response<IEnumerable<AvatarConstellationInfo>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<AvatarConstellationInfo>>>($"{HutaoAPI}/Statistics/Constellation", token)
+            .GetFromJsonAsync<Response<IEnumerable<AvatarConstellationInfo>>>($"{HutaoAPI}/Statistics/Avatar/HoldingRate", token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -153,7 +153,7 @@ internal class HomaClient
 
     /// <summary>
     /// 异步获取队伍出场次数
-    /// GET /Statistics/TeamCombination
+    /// GET /Team/Combination
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>队伍出场列表</returns>
