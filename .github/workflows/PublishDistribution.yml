@@ -36,4 +36,4 @@ jobs:
           $RCCONF
           EOF
           
-          rclone copy ./release-download/* dgp-od-cn:/snaphutao/Releases
+          rclone copy ./release-download/* dgpODCN:/snaphutao/Releases/
