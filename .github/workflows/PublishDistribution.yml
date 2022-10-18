@@ -1,0 +1,39 @@
+name: PublishDistribution
+
+on:
+  release:
+    types: [published]
+
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        
+      # Download Publish.zip
+      - name: Download Release
+        uses: robinraju/release-downloader@v1.5
+        with: 
+          repository: "DGP-Studio/Snap.Hutao"
+          latest: true
+          fileName: "*.zip"
+          out-file-path: ./release-download
+          
+      # Upload to OD21 (Testing)
+      - name: Upload OD21
+        env:
+          RCCONF: ${{ secrets.RCCONF }}
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+          mkdir -p ~/.config/rclone/
+          cat << EOF > ~/.config/rclone/rclone.conf
+          $RCCONF
+          EOF
+          
+          rclone copy ./release-download/* dgp-od-cn:/snaphutao/Releases
