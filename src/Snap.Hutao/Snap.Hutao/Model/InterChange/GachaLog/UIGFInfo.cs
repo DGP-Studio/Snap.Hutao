@@ -27,6 +27,7 @@ public class UIGFInfo
     /// 导出的时间戳
     /// </summary>
     [JsonPropertyName("export_timestamp")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public long? ExportTimestamp { get; set; }
 
     /// <summary>

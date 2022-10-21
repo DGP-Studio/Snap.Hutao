@@ -20,6 +20,7 @@ public static partial class Program
     /// <summary>
     /// 主线程队列
     /// </summary>
+    [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [SuppressMessage("", "SA1401")]
     internal static volatile DispatcherQueue? DispatcherQueue;

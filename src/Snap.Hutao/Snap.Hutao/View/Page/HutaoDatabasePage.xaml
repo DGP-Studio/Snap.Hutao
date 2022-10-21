@@ -1,0 +1,309 @@
+﻿<shc:ScopedPage
+    x:Class="Snap.Hutao.View.Page.HutaoDatabasePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shv="using:Snap.Hutao.ViewModel"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance shv:HutaoDatabaseViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    
+    <mxi:Interaction.Behaviors>
+        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <shc:ScopedPage.Resources>
+        <Thickness x:Key="PivotHeaderItemMargin">8,0,8,0</Thickness>
+        <Thickness x:Key="PivotItemMargin">0</Thickness>
+    </shc:ScopedPage.Resources>
+    
+    <Grid>
+        <Pivot>
+            <PivotItem Header="角色使用">
+                <Pivot ItemsSource="{Binding AvatarUsageRanks}">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Floor}"/>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <Pivot.ItemTemplate>
+                        <DataTemplate>
+                            <ScrollViewer>
+                                <GridView
+                                    SelectionMode="None"
+                                    ItemsSource="{Binding Avatars}"
+                                    Margin="12,12,0,0">
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
+                                            <Setter Property="Margin" Value="0,0,12,12"/>
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{StaticResource CardBackgroundFillColorDefault}">
+                                                <StackPanel>
+                                                    <shvc:ItemIcon
+                                                        Icon="{Binding Icon}"
+                                                        Quality="{Binding Quality}"/>
+                                                    <TextBlock
+                                                        Margin="0,0,0,2"
+                                                        HorizontalAlignment="Center"
+                                                        Text="{Binding Rate}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </GridView>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </Pivot.ItemTemplate>
+                </Pivot>
+            </PivotItem>
+            <PivotItem Header="角色出场">
+                <Pivot ItemsSource="{Binding AvatarAppearanceRanks}">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Floor}"/>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <Pivot.ItemTemplate>
+                        <DataTemplate>
+                            <ScrollViewer>
+                                <GridView
+                                    SelectionMode="None"
+                                    ItemsSource="{Binding Avatars}"
+                                    Margin="12,12,0,0">
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
+                                            <Setter Property="Margin" Value="0,0,12,12"/>
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Background="{StaticResource CardBackgroundFillColorDefault}">
+                                                <StackPanel>
+                                                    <shvc:ItemIcon
+                                                        Icon="{Binding Icon}"
+                                                        Quality="{Binding Quality}"/>
+                                                    <TextBlock
+                                                        Margin="0,0,0,2"
+                                                        HorizontalAlignment="Center"
+                                                        Text="{Binding Rate}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </GridView>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </Pivot.ItemTemplate>
+                </Pivot>
+            </PivotItem>
+            <PivotItem Header="角色持有">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Margin="12,0,12,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="角色" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="1" Text="持有" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="2" Text="0 命" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="3" Text="1 命" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="4" Text="2 命" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="5" Text="3 命" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="6" Text="4 命" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="7" Text="5 命" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                        <TextBlock Grid.Column="8" Text="6 命" Margin="6" HorizontalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1">
+                        <ItemsControl
+                            HorizontalContentAlignment="Stretch"
+                            ItemsSource="{Binding AvatarConstellationInfos}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <ItemsStackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        Background="{StaticResource CardBackgroundFillColorDefault}"
+                                        CornerRadius="{StaticResource CompatCornerRadius}"
+                                        Margin="12,0,12,12">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <shvc:ItemIcon
+                                                Height="48"
+                                                Width="48"
+                                                Icon="{Binding Icon}"
+                                                Quality="{Binding Quality}"/>
+
+                                            <Grid Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="1*"/>
+                                                    <ColumnDefinition Width="7*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Rate}"/>
+                                                <ItemsControl Grid.Column="1" ItemsSource="{Binding Rates}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <cwuc:UniformGrid Columns="7"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Text="{Binding}"/>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </PivotItem>
+            <PivotItem Header="队伍出场">
+                <Pivot ItemsSource="{Binding TeamAppearances}">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Floor}"/>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <Pivot.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ScrollViewer Grid.Column="0">
+                                    <ItemsControl ItemsSource="{Binding Up}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsStackPanel/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                    CornerRadius="{StaticResource CompatCornerRadius}"
+                                                    Margin="12,12,12,0"
+                                                    Background="{StaticResource CardBackgroundFillColorDefault}">
+                                                    <Grid Margin="6">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="120"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <ItemsControl ItemsSource="{Binding}" HorizontalAlignment="Left">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <cwuc:UniformGrid Columns="4" ColumnSpacing="6"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <shvc:ItemIcon
+                                                                    Width="48"
+                                                                    Height="48"
+                                                                    Icon="{Binding Icon}"
+                                                                    Quality="{Binding Quality}"/>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                        <TextBlock
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Text="{Binding Rate}"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+
+                                <ScrollViewer Grid.Column="1">
+                                    <ItemsControl ItemsSource="{Binding Down}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <ItemsStackPanel/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border
+                                                    CornerRadius="{StaticResource CompatCornerRadius}"
+                                                    Margin="12,12,12,0"
+                                                    Background="{StaticResource CardBackgroundFillColorDefault}">
+                                                    <Grid Margin="6">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="120"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <ItemsControl ItemsSource="{Binding}" HorizontalAlignment="Left">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <cwuc:UniformGrid Columns="4" ColumnSpacing="6"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <shvc:ItemIcon
+                                                                    Width="48"
+                                                                    Height="48"
+                                                                    Icon="{Binding Icon}"
+                                                                    Quality="{Binding Quality}"/>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                        <TextBlock
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Text="{Binding Rate}"/>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
+                        </DataTemplate>
+                    </Pivot.ItemTemplate>
+                </Pivot>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</shc:ScopedPage>

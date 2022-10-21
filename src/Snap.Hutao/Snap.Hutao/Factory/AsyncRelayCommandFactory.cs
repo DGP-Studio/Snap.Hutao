@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Service.AppCenter;
 
 namespace Snap.Hutao.Factory;
 
@@ -11,15 +12,18 @@ namespace Snap.Hutao.Factory;
 [Injection(InjectAs.Transient, typeof(IAsyncRelayCommandFactory))]
 internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
 {
-    private readonly ILogger logger;
+    private readonly ILogger<AsyncRelayCommandFactory> logger;
+    private readonly AppCenter appCenter;
 
     /// <summary>
     /// 构造一个新的异步命令工厂
     /// </summary>
     /// <param name="logger">日志器</param>
-    public AsyncRelayCommandFactory(ILogger<AsyncRelayCommandFactory> logger)
+    /// <param name="appCenter">App Center</param>
+    public AsyncRelayCommandFactory(ILogger<AsyncRelayCommandFactory> logger, AppCenter appCenter)
     {
         this.logger = logger;
+        this.appCenter = appCenter;
     }
 
     /// <inheritdoc/>
@@ -94,6 +98,7 @@ internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
                     {
                         Exception baseException = exception.GetBaseException();
                         logger.LogError(EventIds.AsyncCommandException, baseException, "{name} Exception", nameof(AsyncRelayCommand));
+                        appCenter.TrackError(exception);
                     }
                 }
             }

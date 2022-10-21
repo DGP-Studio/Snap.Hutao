@@ -1,7 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Win32;
 using Snap.Hutao.Extension;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Encodings.Web;
 using Windows.ApplicationModel;
 
@@ -12,6 +15,9 @@ namespace Snap.Hutao.Core;
 /// </summary>
 internal static class CoreEnvironment
 {
+    private const string CryptographyKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\";
+    private const string MachineGuidValue = "MachineGuid";
+
     // 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
 
     /// <summary>
@@ -50,6 +56,11 @@ internal static class CoreEnvironment
     public static readonly string HoyolabDeviceId;
 
     /// <summary>
+    /// AppCenter 设备Id
+    /// </summary>
+    public static readonly string AppCenterDeviceId;
+
+    /// <summary>
     /// 默认的Json序列化选项
     /// </summary>
     public static readonly JsonSerializerOptions JsonOptions = new()
@@ -67,5 +78,15 @@ internal static class CoreEnvironment
 
         // simply assign a random guid
         HoyolabDeviceId = Guid.NewGuid().ToString();
+        AppCenterDeviceId = GetUniqueUserID();
+    }
+
+    private static string GetUniqueUserID()
+    {
+        string userName = Environment.UserName;
+        object? machineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, userName);
+        byte[] bytes = Encoding.UTF8.GetBytes($"{userName}{machineGuid}");
+        byte[] hash = MD5.Create().ComputeHash(bytes);
+        return System.Convert.ToHexString(hash);
     }
 }

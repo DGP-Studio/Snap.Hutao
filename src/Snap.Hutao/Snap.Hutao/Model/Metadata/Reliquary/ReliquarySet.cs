@@ -11,15 +11,30 @@ public class ReliquarySet
     /// <summary>
     /// 套装Id
     /// </summary>
-    public int SetId { get; set; } = default!;
+    public int SetId { get; set; }
+
+    /// <summary>
+    /// 装备被动Id
+    /// </summary>
+    public int EquipAffixId { get; set; }
+
+    /// <summary>
+    /// 套装名称
+    /// </summary>
+    public string Name { get; set; } = default!;
+
+    /// <summary>
+    /// 套装图标
+    /// </summary>
+    public string Icon { get; set; } = default!;
 
     /// <summary>
     /// 需要的数量
     /// </summary>
-    public IEnumerable<int> NeedNumber { get; set; } = default!;
+    public List<int> NeedNumber { get; set; } = default!;
 
     /// <summary>
     /// 描述
     /// </summary>
-    public IEnumerable<string> Descriptions { get; set; } = default!;
+    public List<string> Descriptions { get; set; } = default!;
 }

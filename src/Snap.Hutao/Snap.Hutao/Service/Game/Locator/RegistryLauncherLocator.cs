@@ -21,7 +21,7 @@ internal class RegistryLauncherLocator : IGameLocator
     /// <inheritdoc/>
     public Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
-        ValueResult<bool, string> result = LocateInternal("InstallPath");
+        ValueResult<bool, string> result = LocateInternal("DisplayIcon");
 
         if (result.IsOk == false)
         {

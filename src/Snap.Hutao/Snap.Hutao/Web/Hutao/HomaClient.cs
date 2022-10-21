@@ -97,10 +97,10 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色出场率</returns>
-    public async Task<IEnumerable<AvatarAppearanceRank>> GetAvatarAttendanceRatesAsync(CancellationToken token = default)
+    public async Task<List<AvatarAppearanceRank>> GetAvatarAttendanceRatesAsync(CancellationToken token = default)
     {
-        Response<IEnumerable<AvatarAppearanceRank>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<AvatarAppearanceRank>>>($"{HutaoAPI}/Statistics/Avatar/AttendanceRate", token)
+        Response<List<AvatarAppearanceRank>>? resp = await httpClient
+            .GetFromJsonAsync<Response<List<AvatarAppearanceRank>>>($"{HutaoAPI}/Statistics/Avatar/AttendanceRate", token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -112,10 +112,10 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色出场率</returns>
-    public async Task<IEnumerable<AvatarUsageRank>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
+    public async Task<List<AvatarUsageRank>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
     {
-        Response<IEnumerable<AvatarUsageRank>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<AvatarUsageRank>>>($"{HutaoAPI}/Statistics/Avatar/UtilizationRate", token)
+        Response<List<AvatarUsageRank>>? resp = await httpClient
+            .GetFromJsonAsync<Response<List<AvatarUsageRank>>>($"{HutaoAPI}/Statistics/Avatar/UtilizationRate", token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -127,10 +127,10 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色/武器/圣遗物搭配</returns>
-    public async Task<IEnumerable<AvatarCollocation>> GetAvatarCollocationsAsync(CancellationToken token = default)
+    public async Task<List<AvatarCollocation>> GetAvatarCollocationsAsync(CancellationToken token = default)
     {
-        Response<IEnumerable<AvatarCollocation>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<AvatarCollocation>>>($"{HutaoAPI}/Statistics/Avatar/AvatarCollocation", token)
+        Response<List<AvatarCollocation>>? resp = await httpClient
+            .GetFromJsonAsync<Response<List<AvatarCollocation>>>($"{HutaoAPI}/Statistics/Avatar/AvatarCollocation", token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -142,10 +142,10 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色图片列表</returns>
-    public async Task<IEnumerable<AvatarConstellationInfo>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
+    public async Task<List<AvatarConstellationInfo>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
     {
-        Response<IEnumerable<AvatarConstellationInfo>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<AvatarConstellationInfo>>>($"{HutaoAPI}/Statistics/Avatar/HoldingRate", token)
+        Response<List<AvatarConstellationInfo>>? resp = await httpClient
+            .GetFromJsonAsync<Response<List<AvatarConstellationInfo>>>($"{HutaoAPI}/Statistics/Avatar/HoldingRate", token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -157,10 +157,10 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>队伍出场列表</returns>
-    public async Task<IEnumerable<TeamAppearance>> GetTeamCombinationsAsync(CancellationToken token = default)
+    public async Task<List<TeamAppearance>> GetTeamCombinationsAsync(CancellationToken token = default)
     {
-        Response<IEnumerable<TeamAppearance>>? resp = await httpClient
-            .GetFromJsonAsync<Response<IEnumerable<TeamAppearance>>>($"{HutaoAPI}/Team/Combination", token)
+        Response<List<TeamAppearance>>? resp = await httpClient
+            .GetFromJsonAsync<Response<List<TeamAppearance>>>($"{HutaoAPI}/Statistics/Team/Combination", token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);

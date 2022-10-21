@@ -36,9 +36,9 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
     public async Task<ValueResult<bool, string>> GetQueryAsync()
     {
         Model.Binding.User? user = userService.Current;
-        if (user != null)
+        if (user != null && user.SelectedUserGameRole != null)
         {
-            if (user.Cookie!.ContainsSToken() && user.SelectedUserGameRole != null)
+            if (user.Cookie!.ContainsSToken())
             {
                 PlayerUid uid = (PlayerUid)user.SelectedUserGameRole;
                 GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(uid);
@@ -48,9 +48,19 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
                 {
                     return new(true, GachaLogConfigration.AsQuery(data, authkey));
                 }
+                else
+                {
+                    return new(false, "请求验证密钥失败");
+                }
+            }
+            else
+            {
+                return new(false, "当前用户的Cookie不包含 Stoken");
             }
         }
-
-        return new(false, "当前用户的Cookie不包含 Stoken");
+        else
+        {
+            return new(false, "尚未选择要刷新的用户以及角色");
+        }
     }
 }

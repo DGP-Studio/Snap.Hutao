@@ -1,0 +1,19 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.View.Dialog.GachaLogUrlDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="手动输入祈愿记录Url"
+    DefaultButton="Primary"
+    PrimaryButtonText="确认"
+    CloseButtonText="取消"
+    Style="{StaticResource DefaultContentDialogStyle}">
+
+    <Grid>
+        <TextBox
+            x:Name="InputText"
+            PlaceholderText="请输入Url"/>
+    </Grid>
+</ContentDialog>

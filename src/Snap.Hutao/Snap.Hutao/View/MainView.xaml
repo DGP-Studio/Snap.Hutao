@@ -42,7 +42,12 @@
                     Content="属性统计"
                     shvh:NavHelper.NavigateTo="shvp:AvatarPropertyPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}"/>
-
+                
+                <NavigationViewItem
+                    Content="深渊统计"
+                    shvh:NavHelper.NavigateTo="shvp:HutaoDatabasePage"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ChapterIcon_Hutao.png}"/>
+                
                 <NavigationViewItemHeader Content="WIKI"/>
 
                 <NavigationViewItem

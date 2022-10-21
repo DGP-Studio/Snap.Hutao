@@ -38,7 +38,7 @@ public partial class Cookie
     public static Cookie Parse(string cookieString)
     {
         SortedDictionary<string, string> cookieMap = new();
-
+        cookieString = cookieString.Replace(" ", string.Empty);
         string[] values = cookieString.TrimEnd(';').Split(';');
         foreach (string[] parts in values.Select(c => c.Split('=', 2)))
         {

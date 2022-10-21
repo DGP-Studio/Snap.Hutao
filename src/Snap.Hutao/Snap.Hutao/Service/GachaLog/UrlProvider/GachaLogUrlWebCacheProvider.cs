@@ -40,7 +40,17 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
             string folder = Path.GetDirectoryName(path) ?? string.Empty;
             string cacheFile = Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
 
-            using (TemporaryFile tempFile = TemporaryFile.CreateFromFileCopy(cacheFile))
+            TemporaryFile tempFile;
+            try
+            {
+                tempFile = TemporaryFile.CreateFromFileCopy(cacheFile);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return new(false, $"找不到原神内置浏览器缓存路径：\n{cacheFile}");
+            }
+
+            using (tempFile)
             {
                 using (FileStream fileStream = new(tempFile.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
@@ -74,7 +84,7 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
         }
         else
         {
-            return new(false, null!);
+            return new(false, $"未正确提供原神路径，或当前设置的路径不正确");
         }
     }
 

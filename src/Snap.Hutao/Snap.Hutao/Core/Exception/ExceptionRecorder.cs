@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Service.AppCenter;
 
 namespace Snap.Hutao.Core.Exception;
 
@@ -12,15 +13,18 @@ namespace Snap.Hutao.Core.Exception;
 internal class ExceptionRecorder
 {
     private readonly ILogger logger;
+    private readonly AppCenter appCenter;
 
     /// <summary>
     /// 构造一个新的异常记录器
     /// </summary>
     /// <param name="application">应用程序</param>
     /// <param name="logger">日志器</param>
-    public ExceptionRecorder(Application application, ILogger logger)
+    /// <param name="appCenter">App Center</param>
+    public ExceptionRecorder(Application application, ILogger logger, AppCenter appCenter)
     {
         this.logger = logger;
+        this.appCenter = appCenter;
 
         application.UnhandledException += OnAppUnhandledException;
         application.DebugSettings.BindingFailed += OnXamlBindingFailed;
@@ -28,9 +32,7 @@ internal class ExceptionRecorder
 
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        // string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-        // string fileName = $"ex-{DateTimeOffset.Now:yyyyMMddHHmmssffff}.txt";
-        // File.WriteAllText(Path.Combine(path, fileName), $"{e.Exception}\r\n{e.Exception.StackTrace}");
+        appCenter.TrackCrash(e.Exception);
         logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
 
         foreach (ILoggerProvider provider in Ioc.Default.GetRequiredService<IEnumerable<ILoggerProvider>>())

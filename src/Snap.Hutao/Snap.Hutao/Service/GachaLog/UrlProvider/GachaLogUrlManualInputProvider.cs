@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Threading;
+using Snap.Hutao.View.Dialog;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -15,8 +16,26 @@ internal class GachaLogUrlManualInputProvider : IGachaLogUrlProvider
     public string Name { get => nameof(GachaLogUrlManualInputProvider); }
 
     /// <inheritdoc/>
-    public Task<ValueResult<bool, string>> GetQueryAsync()
+    public async Task<ValueResult<bool, string>> GetQueryAsync()
     {
-        throw new NotImplementedException();
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        await ThreadHelper.SwitchToMainThreadAsync();
+        ValueResult<bool, string> result = await new GachaLogUrlDialog(mainWindow).GetInputUrlAsync().ConfigureAwait(false);
+
+        if (result.IsOk)
+        {
+            if (result.Value.Contains("&auth_appid=webview_gacha"))
+            {
+                return result;
+            }
+            else
+            {
+                return new(false, "提供的Url无效");
+            }
+        }
+        else
+        {
+            return new(false, null!);
+        }
     }
 }

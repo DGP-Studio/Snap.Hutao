@@ -44,6 +44,13 @@ internal interface IMetadataService
     ValueTask<List<Avatar>> GetAvatarsAsync(CancellationToken token = default);
 
     /// <summary>
+    /// 异步获取装备被动Id到圣遗物套装的映射
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>装备被动Id到圣遗物套装的映射</returns>
+    ValueTask<Dictionary<int, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default);
+
+    /// <summary>
     /// 异步获取卡池配置列表
     /// </summary>
     /// <param name="token">取消令牌</param>
@@ -126,4 +133,11 @@ internal interface IMetadataService
     /// <param name="token">取消令牌</param>
     /// <returns>武器列表</returns>
     ValueTask<List<Weapon>> GetWeaponsAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取圣遗物套装
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>圣遗物套装列表</returns>
+    ValueTask<List<ReliquarySet>> GetReliquarySetsAsync(CancellationToken token = default);
 }

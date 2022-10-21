@@ -15,7 +15,7 @@ internal class ReliquarySetsConverter : JsonConverter<ReliquarySets>
     {
         if (reader.GetString() is string source)
         {
-            string[] sets = source.Split(Separator);
+            string[] sets = source.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
             return new(sets.Select(set => new ReliquarySet(set)));
         }
         else

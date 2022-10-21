@@ -16,14 +16,14 @@ public class ReliquarySet
     {
         string[]? deconstructed = set.Split('-');
 
-        Id = int.Parse(deconstructed[0]);
+        EquipAffixId = int.Parse(deconstructed[0]);
         Count = int.Parse(deconstructed[1]);
     }
 
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; }
+    public int EquipAffixId { get; }
 
     /// <summary>
     /// 个数
@@ -33,6 +33,6 @@ public class ReliquarySet
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"{Id}-{Count}";
+        return $"{EquipAffixId}-{Count}";
     }
 }

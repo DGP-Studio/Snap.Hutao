@@ -233,6 +233,13 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
                     dialog.DefaultButton = ContentDialogButton.Primary;
                 }
             }
+            else
+            {
+                if (query is string message)
+                {
+                    infoBarService.Warning(message);
+                }
+            }
         }
     }
 

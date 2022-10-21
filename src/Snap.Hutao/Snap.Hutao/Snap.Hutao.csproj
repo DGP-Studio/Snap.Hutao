@@ -29,6 +29,12 @@
     <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN;DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION;DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT</DefineConstants>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
   
   <ItemGroup>
     <None Remove="Control\Panel\PanelSelector.xaml" />
@@ -38,6 +44,7 @@
     <None Remove="Resource\Icon\UI_BagTabIcon_Weapon.png" />
     <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
+    <None Remove="Resource\Icon\UI_ChapterIcon_Hutao.png" />
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
     <None Remove="Resource\Icon\UI_Icon_BoostUp.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
@@ -54,6 +61,7 @@
     <None Remove="View\Dialog\AvatarInfoQueryDialog.xaml" />
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
+    <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
     <None Remove="View\Dialog\UserAutoCookieDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\MainView.xaml" />
@@ -62,6 +70,7 @@
     <None Remove="View\Page\AnnouncementPage.xaml" />
     <None Remove="View\Page\AvatarPropertyPage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
+    <None Remove="View\Page\HutaoDatabasePage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
     <None Remove="View\TitleView.xaml" />
@@ -87,6 +96,7 @@
     <Content Include="Resource\Icon\UI_BagTabIcon_Weapon.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
+    <Content Include="Resource\Icon\UI_ChapterIcon_Hutao.png" />
     <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
     <Content Include="Resource\Icon\UI_Icon_BoostUp.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
@@ -99,10 +109,9 @@
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <!-- Prevent NewtownSoft.Json -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.10" />
     <!-- The PrivateAssets & IncludeAssets of Microsoft.EntityFrameworkCore.Tools should be remove to prevent multiple deps files-->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
@@ -138,6 +147,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\HutaoDatabasePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\GachaLogUrlDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\AvatarInfoQueryDialog.xaml">

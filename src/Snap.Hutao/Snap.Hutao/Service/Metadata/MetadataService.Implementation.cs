@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -40,42 +39,6 @@ internal partial class MetadataService
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<int, Avatar>("Avatar", a => a.Id, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<int, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<int, ReliquaryAffix>("ReliquaryAffix", a => a.Id, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<int, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<int, FightProperty, ReliquaryAffixBase>("ReliquaryMainAffix", r => r.Id, r => r.Type, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<int, Weapon>("Weapon", w => w.Id, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<string, Avatar>> GetNameToAvatarMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<string, Avatar>("Avatar", a => a.Name, token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<Dictionary<string, Weapon>> GetNameToWeaponMapAsync(CancellationToken token = default)
-    {
-        return FromCacheAsDictionaryAsync<string, Weapon>("Weapon", w => w.Name, token);
-    }
-
-    /// <inheritdoc/>
     public ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default)
     {
         return FromCacheOrFileAsync<List<Reliquary>>("Reliquary", token);
@@ -97,6 +60,12 @@ internal partial class MetadataService
     public ValueTask<List<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default)
     {
         return FromCacheOrFileAsync<List<ReliquaryAffixBase>>("ReliquaryMainAffix", token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<List<ReliquarySet>> GetReliquarySetsAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<ReliquarySet>>("ReliquarySet", token);
     }
 
     /// <inheritdoc/>

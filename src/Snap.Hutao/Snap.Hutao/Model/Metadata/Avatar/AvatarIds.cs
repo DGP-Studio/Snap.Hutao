@@ -71,4 +71,6 @@ public static class AvatarIds
     public const int Nilou = 10000070;
     public const int Cyno = 10000071;
     public const int Candace = 10000072;
+    public const int Nahida = 10000073;
+    public const int Layla = 10000074;
 }

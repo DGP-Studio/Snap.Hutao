@@ -137,6 +137,7 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie)
     {
+        cookie.Trim();
         Must.NotNull(userCollection!);
 
         // 检查 uid 是否存在
@@ -197,7 +198,6 @@ internal class UserService : IUserService
 
     private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(ObservableCollection<BindingUser> users, Cookie cookie)
     {
-        cookie.Trim();
         BindingUser? newUser = await BindingUser.CreateAsync(cookie, userClient, bindingClient).ConfigureAwait(false);
         if (newUser != null)
         {
