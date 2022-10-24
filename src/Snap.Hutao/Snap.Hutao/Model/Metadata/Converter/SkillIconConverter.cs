@@ -13,6 +13,8 @@ internal class SkillIconConverter : ValueConverterBase<string, Uri>
     private const string SkillUrl = "https://static.snapgenshin.com/Skill/{0}.png";
     private const string TalentUrl = "https://static.snapgenshin.com/Talent/{0}.png";
 
+    private static readonly Uri UIIconNone = new("https://static.snapgenshin.com/Bg/UI_Icon_None.png");
+
     /// <summary>
     /// 名称转Uri
     /// </summary>
@@ -20,6 +22,11 @@ internal class SkillIconConverter : ValueConverterBase<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            return UIIconNone;
+        }
+
         if (name.StartsWith("UI_Talent_"))
         {
             return new Uri(string.Format(TalentUrl, name));

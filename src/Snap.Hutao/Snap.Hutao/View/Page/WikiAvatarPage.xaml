@@ -215,7 +215,7 @@
                     Source="{Binding Selected,Converter={StaticResource AvatarNameCardPicConverter}}"/>
                 
                 <ScrollViewer>
-                    <StackPanel Margin="0,0,20,16">
+                    <StackPanel Margin="0,0,20,16" MaxWidth="800" HorizontalAlignment="Left">
                         <!--简介-->
                         <Grid
                             Margin="16,16,0,16"

@@ -40,7 +40,7 @@ internal class AchievementService : IAchievementService
         this.appDbContext = appDbContext;
         this.logger = logger;
 
-        dbCurrent = new(appDbContext, appDbContext.AchievementArchives, messenger);
+        dbCurrent = new(appDbContext.AchievementArchives, messenger);
         achievementDbOperation = new(appDbContext);
     }
 

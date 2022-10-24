@@ -25,6 +25,17 @@
     
     <Grid>
         <Pivot>
+            <Pivot.RightHeader>
+                <CommandBar>
+                    <AppBarButton>
+                        <AppBarButton.Flyout>
+                            <Flyout>
+                                
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                </CommandBar>
+            </Pivot.RightHeader>
             <PivotItem Header="角色使用">
                 <Pivot ItemsSource="{Binding AvatarUsageRanks}">
                     <Pivot.HeaderTemplate>
@@ -38,7 +49,7 @@
                                 <GridView
                                     SelectionMode="None"
                                     ItemsSource="{Binding Avatars}"
-                                    Margin="12,12,0,0">
+                                    Margin="12,12,0,-12">
                                     <GridView.ItemContainerStyle>
                                         <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
                                             <Setter Property="Margin" Value="0,0,12,12"/>
@@ -78,7 +89,7 @@
                                 <GridView
                                     SelectionMode="None"
                                     ItemsSource="{Binding Avatars}"
-                                    Margin="12,12,0,0">
+                                    Margin="12,12,0,-12">
                                     <GridView.ItemContainerStyle>
                                         <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
                                             <Setter Property="Margin" Value="0,0,12,12"/>
@@ -208,7 +219,7 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <ScrollViewer Grid.Column="0">
+                                <ScrollViewer Grid.Column="0" Margin="0,12,0,0">
                                     <ItemsControl ItemsSource="{Binding Up}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -219,7 +230,7 @@
                                             <DataTemplate>
                                                 <Border
                                                     CornerRadius="{StaticResource CompatCornerRadius}"
-                                                    Margin="12,12,12,0"
+                                                    Margin="12,0,12,12"
                                                     Background="{StaticResource CardBackgroundFillColorDefault}">
                                                     <Grid Margin="6">
                                                         <Grid.ColumnDefinitions>
@@ -254,7 +265,7 @@
                                     </ItemsControl>
                                 </ScrollViewer>
 
-                                <ScrollViewer Grid.Column="1">
+                                <ScrollViewer Grid.Column="1" Margin="0,12,0,0">
                                     <ItemsControl ItemsSource="{Binding Down}">
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -265,7 +276,7 @@
                                             <DataTemplate>
                                                 <Border
                                                     CornerRadius="{StaticResource CompatCornerRadius}"
-                                                    Margin="12,12,12,0"
+                                                    Margin="12,0,12,12"
                                                     Background="{StaticResource CardBackgroundFillColorDefault}">
                                                     <Grid Margin="6">
                                                         <Grid.ColumnDefinitions>

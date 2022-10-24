@@ -73,8 +73,26 @@
                             Severity="Informational"
                             Message="都说了没有了"
                             IsOpen="True"
-                            CornerRadius="0,0,4,4"/>
+                            CornerRadius="0,0,4,4">
+                            <InfoBar.ActionButton>
+                                <Button HorizontalAlignment="Right" Width="1" Content="没用的按钮"/>
+                            </InfoBar.ActionButton>
+                        </InfoBar>
                     </sc:SettingExpander>
+                </sc:SettingsGroup>
+
+                <sc:SettingsGroup Header="祈愿记录">
+                    <sc:Setting
+                        Icon="&#xE81C;"
+                        Header="无记录的历史祈愿活动"
+                        Description="在祈愿记录页面显示或隐藏无记录的历史祈愿活动">
+                        <ToggleSwitch
+                            Style="{StaticResource ToggleSwitchSettingStyle}"
+                            OnContent="显示"
+                            OffContent="隐藏"
+                            IsOn="{Binding IsEmptyHistoryWishVisible,Mode=TwoWay}"/>
+                    </sc:Setting>
+                        
                 </sc:SettingsGroup>
 
                 <sc:SettingsGroup Header="测试功能">

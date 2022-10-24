@@ -29,8 +29,8 @@ internal class RegistryLauncherLocator : IGameLocator
         }
         else
         {
-            string path = result.Value;
-            string configPath = Path.Combine(path, "config.ini");
+            string? path = Path.GetDirectoryName(result.Value);
+            string configPath = Path.Combine(path!, "config.ini");
             string? escapedPath = null;
             using (FileStream stream = File.OpenRead(configPath))
             {
@@ -40,7 +40,8 @@ internal class RegistryLauncherLocator : IGameLocator
 
             if (escapedPath != null)
             {
-                return Task.FromResult<ValueResult<bool, string>>(new(true, Unescape(escapedPath)));
+                string gamePath = Path.Combine(Unescape(escapedPath), "YuanShen.exe");
+                return Task.FromResult<ValueResult<bool, string>>(new(true, gamePath));
             }
         }
 

@@ -7,9 +7,17 @@ namespace Snap.Hutao.Message;
 /// 值变化消息
 /// </summary>
 /// <typeparam name="TValue">值的类型</typeparam>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
 internal abstract class ValueChangedMessage<TValue>
     where TValue : class
 {
+    /// <summary>
+    /// 动态访问
+    /// </summary>
+    public ValueChangedMessage()
+    {
+    }
+
     /// <summary>
     /// 构造一个新的值变化消息
     /// </summary>
@@ -24,10 +32,10 @@ internal abstract class ValueChangedMessage<TValue>
     /// <summary>
     /// 旧的值
     /// </summary>
-    public TValue? OldValue { get; private set; }
+    public TValue? OldValue { get; set; }
 
     /// <summary>
     /// 新的值
     /// </summary>
-    public TValue? NewValue { get; private set; }
+    public TValue? NewValue { get; set; }
 }

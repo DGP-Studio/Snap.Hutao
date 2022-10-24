@@ -13,6 +13,16 @@ namespace Snap.Hutao.Model.Entity;
 public class SettingEntry
 {
     /// <summary>
+    /// 游戏路径
+    /// </summary>
+    public const string GamePath = "GamePath";
+
+    /// <summary>
+    /// 空的历史记录卡池是否可见
+    /// </summary>
+    public const string IsEmptyHistoryWishVisible = "IsEmptyHistoryWishVisible";
+
+    /// <summary>
     /// 构造一个新的设置入口
     /// </summary>
     /// <param name="key">键</param>

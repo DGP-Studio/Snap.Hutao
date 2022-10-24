@@ -24,7 +24,7 @@ public class GachaStatistics
     public TypedWishSummary PermanentWish { get; set; } = default!;
 
     /// <summary>
-    /// 历史
+    /// 历史卡池
     /// </summary>
     public List<HistoryWish> HistoryWishes { get; set; } = default!;
 

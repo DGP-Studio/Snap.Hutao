@@ -68,6 +68,14 @@ internal class HistoryWishBuilder
     }
 
     /// <summary>
+    /// 卡池是否为空
+    /// </summary>
+    public bool IsEmpty
+    {
+        get => totalCountTracker <= 0;
+    }
+
+    /// <summary>
     /// 计数五星角色
     /// </summary>
     /// <param name="avatar">角色</param>

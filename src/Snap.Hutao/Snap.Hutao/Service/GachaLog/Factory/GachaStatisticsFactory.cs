@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Context.Database;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
@@ -19,14 +21,17 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 internal class GachaStatisticsFactory : IGachaStatisticsFactory
 {
     private readonly IMetadataService metadataService;
+    private readonly AppDbContext appDbContext;
 
     /// <summary>
     /// 构造一个新的祈愿统计工厂
     /// </summary>
     /// <param name="metadataService">元数据服务</param>
-    public GachaStatisticsFactory(IMetadataService metadataService)
+    /// <param name="appDbContext">数据库上下文</param>
+    public GachaStatisticsFactory(IMetadataService metadataService, AppDbContext appDbContext)
     {
         this.metadataService = metadataService;
+        this.appDbContext = appDbContext;
     }
 
     /// <inheritdoc/>
@@ -41,15 +46,29 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         List<GachaEvent> gachaevents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
         List<HistoryWishBuilder> historyWishBuilders = gachaevents.Select(g => new HistoryWishBuilder(g, nameAvatarMap, nameWeaponMap)).ToList();
 
+        SettingEntry? entry = await appDbContext.Settings
+            .SingleOrDefaultAsync(e => e.Key == SettingEntry.IsEmptyHistoryWishVisible)
+            .ConfigureAwait(false);
+
+        if (entry == null)
+        {
+            entry = new(SettingEntry.IsEmptyHistoryWishVisible, true.ToString());
+            appDbContext.Settings.Add(entry);
+            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+        }
+
+        bool isEmptyHistoryWishVisible = bool.Parse(entry.Value!);
+
         IOrderedEnumerable<GachaItem> orderedItems = items.OrderBy(i => i.Id);
-        return await Task.Run(() => CreateCore(orderedItems, historyWishBuilders, idAvatarMap, idWeaponMap)).ConfigureAwait(false);
+        return await Task.Run(() => CreateCore(orderedItems, historyWishBuilders, idAvatarMap, idWeaponMap, isEmptyHistoryWishVisible)).ConfigureAwait(false);
     }
 
     private static GachaStatistics CreateCore(
         IOrderedEnumerable<GachaItem> items,
         List<HistoryWishBuilder> historyWishBuilders,
         Dictionary<int, Avatar> avatarMap,
-        Dictionary<int, Weapon> weaponMap)
+        Dictionary<int, Weapon> weaponMap,
+        bool isEmptyHistoryWishVisible)
     {
         TypedWishSummaryBuilder permanentWishBuilder = new("奔行世间", TypedWishSummaryBuilder.PermanentWish, 90, 10);
         TypedWishSummaryBuilder avatarWishBuilder = new("角色活动", TypedWishSummaryBuilder.AvatarEventWish, 90, 10);
@@ -131,6 +150,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         {
             // history
             HistoryWishes = historyWishBuilders
+                .Where(b => isEmptyHistoryWishVisible || (!b.IsEmpty))
                 .OrderByDescending(builder => builder.From)
                 .ThenBy(builder => builder.ConfigType, new GachaConfigTypeComparar())
                 .Select(builder => builder.ToHistoryWish()).ToList(),

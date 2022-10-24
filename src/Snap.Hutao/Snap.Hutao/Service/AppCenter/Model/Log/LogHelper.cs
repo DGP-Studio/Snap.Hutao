@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics;
+
 namespace Snap.Hutao.Service.AppCenter.Model.Log;
 
 [SuppressMessage("", "SA1600")]
@@ -21,7 +23,7 @@ public static class LogHelper
         {
             Type = exception.GetType().ToString(),
             Message = exception.Message,
-            StackTrace = exception.ToString(),
+            StackTrace = exception.StackTrace,
         };
 
         if (exception is AggregateException aggregateException)
@@ -35,10 +37,19 @@ public static class LogHelper
                 }
             }
         }
-        else if (exception.InnerException != null)
+
+        if (exception.InnerException != null)
         {
             current.InnerExceptions ??= new();
             current.InnerExceptions.Add(Create(exception.InnerException));
+        }
+
+        StackTrace stackTrace = new(exception, true);
+        StackFrame[] frames = stackTrace.GetFrames();
+
+        if (frames.Length > 0 && frames[0].HasNativeImage())
+        {
+
         }
 
         return current;

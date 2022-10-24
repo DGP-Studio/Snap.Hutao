@@ -27,4 +27,19 @@ public class Overview
     /// 满星数
     /// </summary>
     public int SpiralAbyssFullStar { get; set; }
+
+    /// <summary>
+    /// 统计时间
+    /// </summary>
+    public long Timestamp { get; set; }
+
+    /// <summary>
+    /// 总时间
+    /// </summary>
+    public double TimeTotal { get; set; }
+
+    /// <summary>
+    /// 平均时间
+    /// </summary>
+    public double TimeAverage { get; set; }
 }

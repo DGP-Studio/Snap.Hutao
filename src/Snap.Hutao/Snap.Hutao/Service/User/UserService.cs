@@ -73,7 +73,7 @@ internal class UserService : IUserService
                 }
             }
 
-            Message.UserChangedMessage message = new(currentUser, value);
+            Message.UserChangedMessage message = new() { OldValue = currentUser, NewValue = value };
 
             // 当删除到无用户时也能正常反应状态
             currentUser = value;

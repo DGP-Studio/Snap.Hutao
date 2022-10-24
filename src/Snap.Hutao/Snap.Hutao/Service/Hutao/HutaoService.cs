@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model;
 
-namespace Snap.Hutao.Service;
+namespace Snap.Hutao.Service.Hutao;
 
 /// <summary>
 /// 胡桃 API 服务

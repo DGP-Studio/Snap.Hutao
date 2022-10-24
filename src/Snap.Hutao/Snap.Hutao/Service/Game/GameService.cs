@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Threading;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.Locator;
 
@@ -16,8 +17,6 @@ namespace Snap.Hutao.Service.Game;
 [Injection(InjectAs.Transient, typeof(IGameService))]
 internal class GameService : IGameService
 {
-    private const string GamePath = "GamePath";
-
     private readonly AppDbContext appDbContext;
     private readonly IMemoryCache memoryCache;
     private readonly IEnumerable<IGameLocator> gameLocators;
@@ -38,7 +37,7 @@ internal class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, string>> GetGamePathAsync()
     {
-        string key = $"{nameof(GameService)}.Cache.{GamePath}";
+        string key = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
 
         if (memoryCache.TryGetValue(key, out object? value))
         {
@@ -46,16 +45,11 @@ internal class GameService : IGameService
         }
         else
         {
-            SettingEntry? entry = await appDbContext.Settings
-                .SingleOrDefaultAsync(e => e.Key == GamePath)
-                .ConfigureAwait(false);
+            SettingEntry entry = appDbContext.Settings.SingleOrAdd(e => e.Key == SettingEntry.GamePath, () => new(SettingEntry.GamePath, null), out bool added);
 
             // Cannot find in setting
-            if (entry == null)
+            if (added)
             {
-                // Create new setting
-                entry = new(GamePath, null);
-
                 // Try locate by registry
                 IGameLocator locator = gameLocators.Single(l => l.Name == nameof(RegistryLauncherLocator));
                 ValueResult<bool, string> result = await locator.LocateGamePathAsync().ConfigureAwait(false);
@@ -71,7 +65,7 @@ internal class GameService : IGameService
                 {
                     // Save result.
                     entry.Value = result.Value;
-                    await appDbContext.Settings.AddAsync(entry).ConfigureAwait(false);
+                    appDbContext.Settings.Update(entry);
                     await appDbContext.SaveChangesAsync().ConfigureAwait(false);
                 }
                 else

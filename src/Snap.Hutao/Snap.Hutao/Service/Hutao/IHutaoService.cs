@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Web.Hutao.Model;
 
-namespace Snap.Hutao.Service.Abstraction;
+namespace Snap.Hutao.Service.Hutao;
 
 /// <summary>
 /// 胡桃 API 服务

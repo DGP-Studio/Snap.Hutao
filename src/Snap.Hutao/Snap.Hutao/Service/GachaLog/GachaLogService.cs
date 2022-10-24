@@ -88,7 +88,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         this.logger = logger;
         this.gachaStatisticsFactory = gachaStatisticsFactory;
 
-        dbCurrent = new(appDbContext, appDbContext.GachaArchives, messenger);
+        dbCurrent = new(appDbContext.GachaArchives, messenger);
     }
 
     /// <inheritdoc/>

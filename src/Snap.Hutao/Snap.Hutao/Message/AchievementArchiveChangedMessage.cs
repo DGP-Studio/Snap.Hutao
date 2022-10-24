@@ -8,16 +8,7 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 成就存档切换消息
 /// </summary>
-[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
 internal class AchievementArchiveChangedMessage : ValueChangedMessage<AchievementArchive>
 {
-    /// <summary>
-    /// 构造一个新的用户切换消息
-    /// </summary>
-    /// <param name="oldArchive">老用户</param>
-    /// <param name="newArchive">新用户</param>
-    public AchievementArchiveChangedMessage(AchievementArchive? oldArchive, AchievementArchive? newArchive)
-        : base(oldArchive, newArchive)
-    {
-    }
 }
