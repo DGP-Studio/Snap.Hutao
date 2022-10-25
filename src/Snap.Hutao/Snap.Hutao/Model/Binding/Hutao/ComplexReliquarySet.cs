@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 圣遗物套装
 /// </summary>
-internal class ComplexReliquarySet
+public class ComplexReliquarySet
 {
     /// <summary>
     /// 构造一个新的胡桃数据库圣遗物套装

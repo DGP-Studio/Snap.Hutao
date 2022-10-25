@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 胡桃数据库武器
 /// </summary>
-internal class ComplexWeapon
+public class ComplexWeapon
 {
     /// <summary>
     /// 构造一个胡桃数据库武器

@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃 API 缓存
 /// </summary>
-internal interface IHtaoCache
+internal interface IHutaoCache
 {
     /// <summary>
     /// 角色使用率

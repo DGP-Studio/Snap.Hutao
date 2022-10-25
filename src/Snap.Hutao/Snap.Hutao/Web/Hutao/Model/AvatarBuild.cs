@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
@@ -11,5 +13,5 @@ public abstract class AvatarBuild
     /// <summary>
     /// 角色Id
     /// </summary>
-    public int AvatarId { get; set; }
+    public AvatarId AvatarId { get; set; }
 }

@@ -1,16 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Binding.Hutao;
 
 /// <summary>
 /// 角色搭配
 /// </summary>
-internal class ComplexAvatarCollocation : ComplexAvatar
+public class ComplexAvatarCollocation : ComplexAvatar
 {
     /// <summary>
     /// 构造一个新的角色搭配
@@ -21,6 +20,11 @@ internal class ComplexAvatarCollocation : ComplexAvatar
         : base(avatar, 0)
     {
     }
+
+    /// <summary>
+    /// 角色Id
+    /// </summary>
+    public AvatarId AvatarId { get; set; }
 
     /// <summary>
     /// 角色

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
+using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -83,6 +84,11 @@ public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
     /// 皮肤
     /// </summary>
     public IEnumerable<Costume> Costumes { get; set; } = default!;
+
+    /// <summary>
+    /// [非元数据] 搭配数据
+    /// </summary>
+    public ComplexAvatarCollocation? Collocation { get; set; }
 
     /// <summary>
     /// 转换为基础物品

@@ -6,8 +6,11 @@ using CommunityToolkit.WinUI.UI;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 
 namespace Snap.Hutao.ViewModel;
@@ -19,6 +22,7 @@ namespace Snap.Hutao.ViewModel;
 internal class WikiAvatarViewModel : ObservableObject
 {
     private readonly IMetadataService metadataService;
+    private readonly IHutaoCache hutaoCache;
 
     // filters
     private readonly List<Selectable<string>> filterElementInfos;
@@ -34,10 +38,12 @@ internal class WikiAvatarViewModel : ObservableObject
     /// 构造一个新的角色资料视图模型
     /// </summary>
     /// <param name="metadataService">元数据服务</param>
+    /// <param name="hutaoCache">胡桃缓存</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public WikiAvatarViewModel(IMetadataService metadataService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public WikiAvatarViewModel(IMetadataService metadataService, IHutaoCache hutaoCache, IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
         this.metadataService = metadataService;
+        this.hutaoCache = hutaoCache;
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
 
         filterElementInfos = new()
@@ -146,14 +152,30 @@ internal class WikiAvatarViewModel : ObservableObject
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            IList<Avatar> avatars = await metadataService.GetAvatarsAsync().ConfigureAwait(false);
-            IOrderedEnumerable<Avatar> sorted = avatars
+            List<Avatar> avatars = await metadataService.GetAvatarsAsync().ConfigureAwait(false);
+            List<Avatar> sorted = avatars
                 .OrderByDescending(avatar => avatar.BeginTime)
-                .ThenByDescending(avatar => avatar.Sort);
+                .ThenByDescending(avatar => avatar.Sort)
+                .ToList();
+
+            await CombineWithAvatarCollocationsAsync(sorted).ConfigureAwait(false);
 
             await ThreadHelper.SwitchToMainThreadAsync();
-            Avatars = new AdvancedCollectionView(sorted.ToList(), true);
+            Avatars = new AdvancedCollectionView(sorted, true);
             Selected = Avatars.Cast<Avatar>().FirstOrDefault();
+        }
+    }
+
+    private async Task CombineWithAvatarCollocationsAsync(List<Avatar> avatars)
+    {
+        if (await hutaoCache.InitializeForWikiAvatarViewModelAsync().ConfigureAwait(false))
+        {
+            Dictionary<AvatarId, ComplexAvatarCollocation> idCollocations = hutaoCache.AvatarCollocations!.ToDictionary(a => a.AvatarId);
+
+            foreach (Avatar avatar in avatars)
+            {
+                avatar.Collocation = idCollocations.GetValueOrDefault(avatar.Id);
+            }
         }
     }
 

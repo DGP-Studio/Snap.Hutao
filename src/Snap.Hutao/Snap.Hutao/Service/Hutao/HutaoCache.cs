@@ -12,8 +12,8 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃 API 缓存
 /// </summary>
-[Injection(InjectAs.Singleton, typeof(IHtaoCache))]
-internal class HutaoCache : IHtaoCache
+[Injection(InjectAs.Singleton, typeof(IHutaoCache))]
+internal class HutaoCache : IHutaoCache
 {
     private readonly IHutaoService hutaoService;
     private readonly IMetadataService metadataService;
@@ -91,6 +91,7 @@ internal class HutaoCache : IHtaoCache
             {
                 return new ComplexAvatarCollocation(idAvatarMap[co.AvatarId])
                 {
+                    AvatarId = co.AvatarId,
                     Avatars = co.Avatars.Select(a => new ComplexAvatar(idAvatarMap[a.Item], a.Rate)).ToList(),
                     Weapons = co.Weapons.Select(w => new ComplexWeapon(idWeaponMap[w.Item], w.Rate)).ToList(),
                     ReliquarySets = co.Reliquaries.Select(r => new ComplexReliquarySet(r, idReliquarySetMap)).ToList(),

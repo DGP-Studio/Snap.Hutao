@@ -25,6 +25,7 @@
         <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
         <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
         <shmmc:AvatarNameCardPicConverter x:Key="AvatarNameCardPicConverter"/>
+        <shmmc:GachaAvatarImgConverter x:Key="GachaAvatarImgConverter"/>
 
         <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
         <shmmc:PropertyInfoDescriptor x:Key="PropertyDescriptor"/>
@@ -69,6 +70,10 @@
                 </shct:DescriptionTextBlock.Resources>
             </shct:DescriptionTextBlock>
         </DataTemplate>
+
+        <ItemsPanelTemplate x:Key="HorizontalStackPanelTemplate">
+            <StackPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
     </Page.Resources>
 
     <SplitView
@@ -370,6 +375,94 @@
                             Margin="16,16,0,0"
                             Skills="{Binding Selected.SkillDepot.Talents}"
                             ItemTemplate="{StaticResource TalentDataTemplate}"/>
+                        
+                        <TextBlock Text="搭配角色" Style="{StaticResource BaseTextBlockStyle}" Margin="16,32,0,0"/>
+                        <GridView
+                            Margin="16,16,0,0"
+                            SelectionMode="None"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            ItemsSource="{Binding Selected.Collocation.Avatars}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        ToolTipService.ToolTip="{Binding Name}"
+                                        Background="{StaticResource CardBackgroundFillColorDefault}">
+                                        <StackPanel>
+                                            <shvc:ItemIcon
+                                                Icon="{Binding Icon}"
+                                                Quality="{Binding Quality}"/>
+                                            <TextBlock
+                                                Margin="0,0,0,2"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding Rate}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                        <TextBlock Text="搭配武器" Style="{StaticResource BaseTextBlockStyle}" Margin="16,0,0,0"/>
+                        <GridView
+                            Margin="16,16,0,0"
+                            SelectionMode="None"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            ItemsSource="{Binding Selected.Collocation.Weapons}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        ToolTipService.ToolTip="{Binding Name}"
+                                        Background="{StaticResource CardBackgroundFillColorDefault}">
+                                        <StackPanel>
+                                            <shvc:ItemIcon
+                                                Icon="{Binding Icon}"
+                                                Quality="{Binding Quality}"/>
+                                            <TextBlock
+                                                Margin="0,0,0,2"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding Rate}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+
+                        <TextBlock Text="搭配圣遗物" Style="{StaticResource BaseTextBlockStyle}" Margin="16,0,0,0"/>
+                        <GridView
+                            Margin="16,16,0,0"
+                            SelectionMode="None"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            ItemsSource="{Binding Selected.Collocation.ReliquarySets}">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border
+                                        ToolTipService.ToolTip="{Binding Name}"
+                                        Background="{StaticResource CardBackgroundFillColorDefault}">
+                                        <StackPanel>
+                                            <Grid>
+                                                <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
+                                                <ItemsControl
+                                                    Margin="0,0,16,0"
+                                                    HorizontalAlignment="Center"
+                                                    ItemsSource="{Binding Icons}"
+                                                    ItemsPanel="{StaticResource HorizontalStackPanelTemplate}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <shci:CachedImage Width="48" Margin="0,0,-16,0" Source="{Binding}"/>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="0,0,0,2"
+                                                HorizontalAlignment="Center"
+                                                Text="{Binding Rate}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
 
                         <TextBlock Text="其他" Style="{StaticResource BaseTextBlockStyle}" Margin="16,32,0,0"/>
                         <!--衣装-->
@@ -445,6 +538,17 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </Expander>
+
+                        <Border
+                            Margin="16,16,0,0"
+                            Background="{StaticResource CardBackgroundFillColorDefault}"
+                            BorderThickness="1"
+                            BorderBrush="{StaticResource CardStrokeColorDefault}"
+                            CornerRadius="{StaticResource CompatCornerRadius}">
+                            <shci:CachedImage
+                                HorizontalAlignment="Stretch"
+                                Source="{Binding Selected.Icon,Converter={StaticResource GachaAvatarImgConverter}}"/>
+                        </Border>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

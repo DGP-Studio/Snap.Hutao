@@ -15,7 +15,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
 {
-    private readonly IHtaoCache hutaoCache;
+    private readonly IHutaoCache hutaoCache;
 
     private List<ComplexAvatarRank>? avatarUsageRanks;
     private List<ComplexAvatarRank>? avatarAppearanceRanks;
@@ -28,7 +28,7 @@ internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
     /// <param name="hutaoCache">胡桃服务缓存</param>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public HutaoDatabaseViewModel(IHtaoCache hutaoCache, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public HutaoDatabaseViewModel(IHutaoCache hutaoCache, IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
         this.hutaoCache = hutaoCache;
 
