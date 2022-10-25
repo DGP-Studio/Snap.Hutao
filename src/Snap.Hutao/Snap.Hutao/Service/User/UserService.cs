@@ -153,8 +153,8 @@ internal class UserService : IUserService
                 // 检查 stoken 是否存在
                 if (cookie.ContainsSToken())
                 {
-                    // insert stoken directly
-                    userWithSameUid.Cookie.InsertSToken(uid, cookie);
+                    // insert stoken
+                    userWithSameUid.UpdateSToken(uid, cookie);
                     appDbContext.Users.Update(userWithSameUid.Entity);
                     appDbContext.SaveChanges();
 

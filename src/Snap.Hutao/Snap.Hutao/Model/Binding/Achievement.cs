@@ -1,12 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace Snap.Hutao.Model.Binding;
 
 /// <summary>
 /// 用于视图绑定的成就
 /// </summary>
-public class Achievement : Observable
+public class Achievement : ObservableObject
 {
     /// <summary>
     /// 满进度占位符
@@ -28,7 +30,7 @@ public class Achievement : Observable
         this.inner = inner;
         this.entity = entity;
 
-        // Property should only be set when is  user checking.
+        // Property should only be set when it's user checking.
         isChecked = (int)entity.Status >= 2;
     }
 
@@ -50,7 +52,7 @@ public class Achievement : Observable
         get => isChecked;
         set
         {
-            Set(ref isChecked, value);
+            SetProperty(ref isChecked, value);
 
             // Only update state when checked
             if (value)
@@ -67,6 +69,6 @@ public class Achievement : Observable
     /// </summary>
     public string Time
     {
-        get => entity.Time.ToString("yyyy-MM-dd HH:mm:ss");
+        get => entity.Time.ToString("yyyy.MM.dd HH:mm:ss");
     }
 }

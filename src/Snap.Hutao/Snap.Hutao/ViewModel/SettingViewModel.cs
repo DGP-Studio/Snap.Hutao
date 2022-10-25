@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Context.Database;
-using Snap.Hutao.Extension;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 
 namespace Snap.Hutao.ViewModel;
@@ -11,7 +11,7 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 测试视图模型
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal class SettingViewModel : ObservableObject
 {
     private readonly AppDbContext appDbContext;

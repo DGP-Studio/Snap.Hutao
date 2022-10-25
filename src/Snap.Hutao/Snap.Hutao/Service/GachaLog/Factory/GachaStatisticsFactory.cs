@@ -17,7 +17,7 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// <summary>
 /// 祈愿统计工厂
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IGachaStatisticsFactory))]
+[Injection(InjectAs.Scoped, typeof(IGachaStatisticsFactory))]
 internal class GachaStatisticsFactory : IGachaStatisticsFactory
 {
     private readonly IMetadataService metadataService;

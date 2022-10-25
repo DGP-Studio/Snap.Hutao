@@ -14,7 +14,6 @@ using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Model.Metadata.Abstraction;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -27,7 +26,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录服务
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IGachaLogService))]
+[Injection(InjectAs.Scoped, typeof(IGachaLogService))]
 internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
 {
     /// <summary>
@@ -45,7 +44,6 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     private readonly IEnumerable<IGachaLogUrlProvider> urlProviders;
     private readonly GachaInfoClient gachaInfoClient;
     private readonly IMetadataService metadataService;
-    private readonly IInfoBarService infoBarService;
     private readonly IGachaStatisticsFactory gachaStatisticsFactory;
     private readonly ILogger<GachaLogService> logger;
     private readonly DbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
@@ -66,7 +64,6 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     /// <param name="urlProviders">Url提供器集合</param>
     /// <param name="gachaInfoClient">祈愿记录客户端</param>
     /// <param name="metadataService">元数据服务</param>
-    /// <param name="infoBarService">信息条服务</param>
     /// <param name="gachaStatisticsFactory">祈愿统计工厂</param>
     /// <param name="logger">日志器</param>
     /// <param name="messenger">消息器</param>
@@ -75,7 +72,6 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         IEnumerable<IGachaLogUrlProvider> urlProviders,
         GachaInfoClient gachaInfoClient,
         IMetadataService metadataService,
-        IInfoBarService infoBarService,
         IGachaStatisticsFactory gachaStatisticsFactory,
         ILogger<GachaLogService> logger,
         IMessenger messenger)
@@ -84,7 +80,6 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         this.urlProviders = urlProviders;
         this.gachaInfoClient = gachaInfoClient;
         this.metadataService = metadataService;
-        this.infoBarService = infoBarService;
         this.logger = logger;
         this.gachaStatisticsFactory = gachaStatisticsFactory;
 
@@ -135,8 +130,8 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
             nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
             nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
 
-            idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
+            idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
+            idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
 
             IsInitialized = true;
         }
@@ -214,8 +209,8 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         archiveCollection.Remove(archive);
 
         // Sync database
-        appDbContext.GachaArchives.Remove(archive);
-        return appDbContext.SaveChangesAsync();
+        appDbContext.GachaArchives.RemoveAndSave(archive);
+        return Task.CompletedTask;
     }
 
     private static Task RandomDelayAsync(CancellationToken token)
@@ -232,7 +227,6 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         long trimId = appDbContext.GachaItems
             .Where(i => i.ArchiveId == archiveId)
             .OrderBy(i => i.Id)
-            .Take(1)
             .FirstOrDefault()?.Id ?? long.MaxValue;
 
         IEnumerable<GachaItem> toAdd = list
@@ -326,8 +320,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
             if (archive == null)
             {
                 GachaArchive created = GachaArchive.Create(uid);
-                appDbContext.GachaArchives.Add(created);
-                appDbContext.SaveChanges();
+                appDbContext.GachaArchives.AddAndSave(created);
 
                 archive = appDbContext.GachaArchives.Single(a => a.Uid == uid);
                 GachaArchive temp = archive;
@@ -346,10 +339,9 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
                 .Where(i => i.ArchiveId == archive.InnerId)
                 .Where(i => i.QueryType == configType)
                 .OrderByDescending(i => i.Id)
-                .Take(1)
                 .FirstOrDefault();
 
-            // MaxBy should be supported by .NET 7
+            // TODO MaxBy should be supported by .NET 7
             // .MaxBy(i => i.Id);
         }
 

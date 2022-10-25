@@ -4,7 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Snap.Hutao.Extension;
+namespace Snap.Hutao.Core.Database;
 
 /// <summary>
 /// 数据库集合上下文
@@ -48,6 +48,34 @@ public static class DbSetExtension
         }
 
         return entry;
+    }
+
+    /// <summary>
+    /// 添加并保存
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="dbSet">数据库集</param>
+    /// <param name="entity">实体</param>
+    /// <returns>影响条数</returns>
+    public static int AddAndSave<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+        where TEntity : class
+    {
+        dbSet.Add(entity);
+        return dbSet.Context().SaveChanges();
+    }
+
+    /// <summary>
+    /// 移除并保存
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="dbSet">数据库集</param>
+    /// <param name="entity">实体</param>
+    /// <returns>影响条数</returns>
+    public static int RemoveAndSave<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+        where TEntity : class
+    {
+        dbSet.Remove(entity);
+        return dbSet.Context().SaveChanges();
     }
 
     /// <summary>

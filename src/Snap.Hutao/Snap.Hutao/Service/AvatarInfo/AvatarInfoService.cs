@@ -17,7 +17,7 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// <summary>
 /// 角色信息服务
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IAvatarInfoService))]
+[Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
 internal class AvatarInfoService : IAvatarInfoService
 {
     private readonly AppDbContext appDbContext;

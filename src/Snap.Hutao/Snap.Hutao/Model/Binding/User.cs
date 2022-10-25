@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
@@ -12,7 +13,7 @@ namespace Snap.Hutao.Model.Binding;
 /// <summary>
 /// 用于视图绑定的用户
 /// </summary>
-public class User : Observable
+public class User : ObservableObject
 {
     private readonly EntityUser inner;
 
@@ -44,7 +45,7 @@ public class User : Observable
     public UserGameRole? SelectedUserGameRole
     {
         get => selectedUserGameRole;
-        private set => Set(ref selectedUserGameRole, value);
+        private set => SetProperty(ref selectedUserGameRole, value);
     }
 
     /// <inheritdoc cref="EntityUser.IsSelected"/>
@@ -58,7 +59,19 @@ public class User : Observable
     public Cookie Cookie
     {
         get => inner.Cookie;
-        set => inner.Cookie = value;
+        set
+        {
+            inner.Cookie = value;
+            OnPropertyChanged(nameof(HasSToken));
+        }
+    }
+
+    /// <summary>
+    /// 是否拥有 SToken
+    /// </summary>
+    public bool HasSToken
+    {
+        get => inner.Cookie.ContainsSToken();
     }
 
     /// <summary>
@@ -72,6 +85,17 @@ public class User : Observable
     public bool IsInitialized { get => isInitialized; }
 
     /// <summary>
+    /// 更新SToken
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <param name="cookie">cookie</param>
+    internal void UpdateSToken(string uid, Cookie cookie)
+    {
+        Cookie.InsertSToken(uid, cookie);
+        OnPropertyChanged(nameof(HasSToken));
+    }
+
+    /// <summary>
     /// 从数据库恢复用户
     /// </summary>
     /// <param name="inner">数据库实体</param>
@@ -79,11 +103,7 @@ public class User : Observable
     /// <param name="userGameRoleClient">角色客户端</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户是否初始化完成，若Cookie失效会返回 <see langword="false"/> </returns>
-    internal static async Task<User?> ResumeAsync(
-        EntityUser inner,
-        UserClient userClient,
-        BindingClient userGameRoleClient,
-        CancellationToken token = default)
+    internal static async Task<User?> ResumeAsync(EntityUser inner, UserClient userClient, BindingClient userGameRoleClient, CancellationToken token = default)
     {
         User user = new(inner);
         bool successful = await user.InitializeCoreAsync(userClient, userGameRoleClient, token).ConfigureAwait(false);
@@ -98,36 +118,20 @@ public class User : Observable
     /// <param name="userGameRoleClient">角色客户端</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户是否初始化完成，若Cookie失效会返回 <see langword="null"/> </returns>
-    internal static async Task<User?> CreateAsync(
-        Cookie cookie,
-        UserClient userClient,
-        BindingClient userGameRoleClient,
-        CancellationToken token = default)
+    internal static async Task<User?> CreateAsync(Cookie cookie, UserClient userClient, BindingClient userGameRoleClient, CancellationToken token = default)
     {
         User user = new(EntityUser.Create(cookie));
         bool successful = await user.InitializeCoreAsync(userClient, userGameRoleClient, token).ConfigureAwait(false);
         return successful ? user : null;
     }
 
-    private async Task<bool> InitializeCoreAsync(
-        UserClient userClient,
-        BindingClient userGameRoleClient,
-        CancellationToken token = default)
+    private async Task<bool> InitializeCoreAsync(UserClient userClient, BindingClient userGameRoleClient, CancellationToken token = default)
     {
         if (isInitialized)
         {
             return true;
         }
 
-        await InitializeUserInfoAndUserGameRolesAsync(userClient, userGameRoleClient, token).ConfigureAwait(false);
-
-        isInitialized = true;
-
-        return UserInfo != null && UserGameRoles.Any();
-    }
-
-    private async Task InitializeUserInfoAndUserGameRolesAsync(UserClient userClient, BindingClient userGameRoleClient, CancellationToken token)
-    {
         UserInfo = await userClient
             .GetUserFullInfoAsync(this, token)
             .ConfigureAwait(false);
@@ -137,5 +141,9 @@ public class User : Observable
             .ConfigureAwait(false);
 
         SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
+
+        isInitialized = true;
+
+        return UserInfo != null && UserGameRoles.Any();
     }
 }

@@ -16,12 +16,10 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 公告视图模型
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
 {
     private readonly IAnnouncementService announcementService;
-    private readonly INavigationService navigationService;
-    private readonly IInfoBarService infoBarService;
     private readonly ILogger<AnnouncementViewModel> logger;
 
     private AnnouncementWrapper? announcement;
@@ -36,14 +34,10 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
     /// <param name="logger">日志器</param>
     public AnnouncementViewModel(
         IAnnouncementService announcementService,
-        INavigationService navigationService,
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
-        IInfoBarService infoBarService,
         ILogger<AnnouncementViewModel> logger)
     {
         this.announcementService = announcementService;
-        this.navigationService = navigationService;
-        this.infoBarService = infoBarService;
         this.logger = logger;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
@@ -88,10 +82,12 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
     {
         if (WebView2Helper.IsSupported)
         {
+            INavigationService navigationService = Ioc.Default.GetRequiredService<INavigationService>();
             navigationService.Navigate<AnnouncementContentPage>(data: new NavigationExtra(content));
         }
         else
         {
+            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
             infoBarService.Warning("尚未安装 WebView2 运行时。");
         }
     }

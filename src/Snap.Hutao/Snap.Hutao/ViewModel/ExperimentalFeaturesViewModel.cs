@@ -16,7 +16,7 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 实验性功能视图模型
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal class ExperimentalFeaturesViewModel : ObservableObject
 {
     private readonly IFileSystemLocation hutaoLocation;

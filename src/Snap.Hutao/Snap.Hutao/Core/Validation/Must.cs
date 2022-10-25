@@ -41,18 +41,6 @@ public static class Must
     /// <summary>
     /// 任务异常
     /// </summary>
-    /// <param name="message">异常消息</param>
-    /// <returns>异常的任务</returns>
-    [SuppressMessage("", "VSTHRD200")]
-    public static Task Fault(string message)
-    {
-        InvalidOperationException exception = new(message);
-        return Task.FromException(exception);
-    }
-
-    /// <summary>
-    /// 任务异常
-    /// </summary>
     /// <typeparam name="T">任务结果类型</typeparam>
     /// <param name="message">异常消息</param>
     /// <returns>异常的任务</returns>

@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 胡桃数据库视图模型
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
 {
     private readonly IHtaoCache hutaoCache;

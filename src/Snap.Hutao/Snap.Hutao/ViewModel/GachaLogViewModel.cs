@@ -24,7 +24,7 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 祈愿记录视图模型
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal class GachaLogViewModel : ObservableObject, ISupportCancellation
 {
     private readonly IGachaLogService gachaLogService;

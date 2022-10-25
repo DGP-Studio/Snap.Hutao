@@ -9,11 +9,6 @@ namespace Snap.Hutao.Core.Setting;
 internal static class SettingKeys
 {
     /// <summary>
-    /// 上次打开时App的版本
-    /// </summary>
-    public const string LastAppVersion = "LastAppVersion";
-
-    /// <summary>
     /// 窗体左侧
     /// </summary>
     public const string WindowRect = "WindowRect";

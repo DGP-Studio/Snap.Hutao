@@ -17,4 +17,9 @@ public enum InjectAs
     /// 指示应注册为短期对象
     /// </summary>
     Transient,
+
+    /// <summary>
+    /// 指示应注册为范围对象
+    /// </summary>
+    Scoped,
 }

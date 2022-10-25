@@ -18,7 +18,7 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 角色属性视图模型
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 {
     private readonly IUserService userService;

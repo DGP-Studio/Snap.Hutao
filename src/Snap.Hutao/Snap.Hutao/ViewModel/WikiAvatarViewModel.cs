@@ -15,7 +15,7 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 角色资料视图模型
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal class WikiAvatarViewModel : ObservableObject
 {
     private readonly IMetadataService metadataService;

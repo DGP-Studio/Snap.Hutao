@@ -28,9 +28,6 @@ public class ScopedPage : Page
         serviceScope = Ioc.Default.CreateScope();
     }
 
-    /// <inheritdoc cref="IServiceScope.ServiceProvider"/>
-    public IServiceProvider ServiceProvider { get => serviceScope.ServiceProvider; }
-
     /// <summary>
     /// 初始化
     /// </summary>
@@ -38,7 +35,7 @@ public class ScopedPage : Page
     public void InitializeWith<TViewModel>()
         where TViewModel : class, ISupportCancellation
     {
-        ISupportCancellation viewModel = ServiceProvider.GetRequiredService<TViewModel>();
+        ISupportCancellation viewModel = serviceScope.ServiceProvider.GetRequiredService<TViewModel>();
         viewModel.CancellationToken = viewLoadingCancellationTokenSource.Token;
         DataContext = viewModel;
     }

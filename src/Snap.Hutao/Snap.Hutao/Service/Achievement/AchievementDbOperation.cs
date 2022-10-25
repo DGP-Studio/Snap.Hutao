@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
@@ -63,7 +64,7 @@ public class AchievementDbOperation
 
                         if (entity == null && uiaf != null)
                         {
-                            AddEntity(EntityAchievement.Create(archiveId, uiaf));
+                            appDbContext.Achievements.AddAndSave(EntityAchievement.Create(archiveId, uiaf));
                             add++;
                             continue;
                         }
@@ -85,8 +86,8 @@ public class AchievementDbOperation
 
                             if (aggressive)
                             {
-                                RemoveEntity(entity);
-                                AddEntity(EntityAchievement.Create(archiveId, uiaf));
+                                appDbContext.Achievements.RemoveAndSave(entity);
+                                appDbContext.Achievements.AddAndSave(EntityAchievement.Create(archiveId, uiaf));
                                 update++;
                             }
                         }
@@ -96,7 +97,7 @@ public class AchievementDbOperation
                             moveEntity = false;
                             moveUIAF = true;
 
-                            AddEntity(EntityAchievement.Create(archiveId, uiaf));
+                            appDbContext.Achievements.AddAndSave(EntityAchievement.Create(archiveId, uiaf));
                             add++;
                         }
                     }
@@ -115,7 +116,7 @@ public class AchievementDbOperation
     /// <returns>导入结果</returns>
     public ImportResult Overwrite(Guid archiveId, IEnumerable<EntityAchievement> items)
     {
-        IQueryable<EntityAchievement> oldData = appDbContext.Achievements
+        IOrderedQueryable<EntityAchievement> oldData = appDbContext.Achievements
             .Where(a => a.ArchiveId == archiveId)
             .OrderBy(a => a.Id);
 
@@ -142,13 +143,13 @@ public class AchievementDbOperation
 
                         if (oldEntity == null && newEntity != null)
                         {
-                            AddEntity(newEntity);
+                            appDbContext.Achievements.AddAndSave(newEntity);
                             add++;
                             continue;
                         }
                         else if (oldEntity != null && newEntity == null)
                         {
-                            RemoveEntity(oldEntity);
+                            appDbContext.Achievements.RemoveAndSave(oldEntity);
                             remove++;
                             continue;
                         }
@@ -157,7 +158,7 @@ public class AchievementDbOperation
                         {
                             moveOld = true;
                             moveNew = false;
-                            RemoveEntity(oldEntity);
+                            appDbContext.Achievements.RemoveAndSave(oldEntity);
                             remove++;
                         }
                         else if (oldEntity.Id == newEntity.Id)
@@ -172,8 +173,8 @@ public class AchievementDbOperation
                             }
                             else
                             {
-                                RemoveEntity(oldEntity);
-                                AddEntity(newEntity);
+                                appDbContext.Achievements.RemoveAndSave(oldEntity);
+                                appDbContext.Achievements.AddAndSave(newEntity);
                                 update++;
                             }
                         }
@@ -182,7 +183,7 @@ public class AchievementDbOperation
                             // entity.Id > uiaf.Id
                             moveOld = false;
                             moveNew = true;
-                            AddEntity(newEntity);
+                            appDbContext.Achievements.AddAndSave(newEntity);
                             add++;
                         }
                     }
@@ -195,17 +196,5 @@ public class AchievementDbOperation
         }
 
         return new(add, update, remove);
-    }
-
-    private void AddEntity(EntityAchievement entity)
-    {
-        appDbContext.Achievements.Add(entity);
-        appDbContext.SaveChanges();
-    }
-
-    private void RemoveEntity(EntityAchievement entity)
-    {
-        appDbContext.Achievements.Remove(entity);
-        appDbContext.SaveChanges();
     }
 }

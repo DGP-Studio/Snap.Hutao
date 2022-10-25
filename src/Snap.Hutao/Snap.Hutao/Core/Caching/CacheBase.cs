@@ -23,6 +23,8 @@ public abstract class CacheBase<T>
 {
     private readonly SemaphoreSlim cacheFolderSemaphore = new(1);
     private readonly ILogger logger;
+
+    // violate di rule
     private readonly HttpClient httpClient;
 
     private StorageFolder? baseFolder;

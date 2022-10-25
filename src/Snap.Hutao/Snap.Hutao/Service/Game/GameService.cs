@@ -4,8 +4,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Threading;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.Locator;
 

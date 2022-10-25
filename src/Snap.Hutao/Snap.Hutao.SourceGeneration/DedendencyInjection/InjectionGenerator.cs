@@ -22,6 +22,7 @@ public class InjectionGenerator : ISourceGenerator
 {
     private const string InjectAsSingletonName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Singleton";
     private const string InjectAsTransientName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Transient";
+    private const string InjectAsScopedName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Scoped";
 
     /// <inheritdoc/>
     public void Initialize(GeneratorInitializationContext context)
@@ -97,8 +98,11 @@ internal static partial class ServiceCollectionExtensions
                     case InjectAsTransientName:
                         lineBuilder.Append(@"        services.AddTransient(");
                         break;
+                    case InjectAsScopedName:
+                        lineBuilder.Append(@"        services.AddScoped(");
+                        break;
                     default:
-                        throw new InvalidOperationException($"非法的InjectAs值: [{injectAsName}]");
+                        throw new InvalidOperationException($"非法的 InjectAs 值: [{injectAsName}]");
                 }
 
                 if (arguments.Length == 2)

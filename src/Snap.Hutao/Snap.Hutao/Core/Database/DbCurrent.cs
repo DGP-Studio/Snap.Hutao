@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Core.Database;
 
@@ -17,7 +16,6 @@ internal class DbCurrent<TEntity, TMessage>
     where TEntity : class, ISelectable
     where TMessage : Message.ValueChangedMessage<TEntity>, new()
 {
-    private readonly DbContext dbContext;
     private readonly DbSet<TEntity> dbSet;
     private readonly IMessenger messenger;
 
@@ -31,7 +29,6 @@ internal class DbCurrent<TEntity, TMessage>
     /// 
     public DbCurrent(DbSet<TEntity> dbSet, IMessenger messenger)
     {
-        this.dbContext = dbSet.Context();
         this.dbSet = dbSet;
         this.messenger = messenger;
     }

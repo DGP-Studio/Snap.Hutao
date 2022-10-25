@@ -30,7 +30,7 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 成就视图模型
 /// </summary>
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Scoped)]
 internal class AchievementViewModel
     : ObservableObject,
     ISupportCancellation,
@@ -42,10 +42,10 @@ internal class AchievementViewModel
         new(nameof(Model.Binding.Achievement.IsChecked), SortDirection.Ascending);
 
     private readonly IMetadataService metadataService;
-    private readonly IAchievementService achievementService;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
-    private readonly IPickerFactory pickerFactory;
+
+    private readonly IAchievementService achievementService;
 
     private readonly TaskCompletionSource<bool> openUICompletionSource = new();
 
@@ -67,7 +67,7 @@ internal class AchievementViewModel
     /// <param name="infoBarService">信息条服务</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    /// <param name="pickerFactory">文件选择器工厂</param>
+    /// <param name="scopeFactory">范围工厂</param>
     /// <param name="messenger">消息器</param>
     public AchievementViewModel(
         IMetadataService metadataService,
@@ -75,14 +75,12 @@ internal class AchievementViewModel
         IInfoBarService infoBarService,
         JsonSerializerOptions options,
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
-        IPickerFactory pickerFactory,
         IMessenger messenger)
     {
         this.metadataService = metadataService;
         this.achievementService = achievementService;
         this.infoBarService = infoBarService;
         this.options = options;
-        this.pickerFactory = pickerFactory;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         ImportUIAFFromClipboardCommand = asyncRelayCommandFactory.Create(ImportUIAFFromClipboardAsync);
@@ -416,6 +414,7 @@ internal class AchievementViewModel
             return;
         }
 
+        IPickerFactory pickerFactory = Ioc.Default.GetRequiredService<IPickerFactory>();
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker();
         picker.SuggestedStartLocation = PickerLocationId.Desktop;
         picker.CommitButtonText = "导入";

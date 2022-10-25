@@ -19,7 +19,7 @@ namespace Snap.Hutao.Service.Achievement;
 /// <summary>
 /// 成就服务
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IAchievementService))]
+[Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal class AchievementService : IAchievementService
 {
     private readonly AppDbContext appDbContext;

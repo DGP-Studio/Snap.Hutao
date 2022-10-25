@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace Snap.Hutao.Model;
 
 /// <summary>
@@ -8,7 +10,7 @@ namespace Snap.Hutao.Model;
 /// 默认为选中状态
 /// </summary>
 /// <typeparam name="T">值的类型</typeparam>
-public class Selectable<T> : Observable
+public class Selectable<T> : ObservableObject
     where T : class
 {
     private readonly Action? selectedChanged;
@@ -35,7 +37,7 @@ public class Selectable<T> : Observable
         get => isSelected;
         set
         {
-            Set(ref isSelected, value);
+            SetProperty(ref isSelected, value);
             selectedChanged?.Invoke();
         }
     }
@@ -43,5 +45,5 @@ public class Selectable<T> : Observable
     /// <summary>
     /// 存放的对象
     /// </summary>
-    public T Value { get => value; set => Set(ref this.value, value); }
+    public T Value { get => value; set => SetProperty(ref this.value, value); }
 }
