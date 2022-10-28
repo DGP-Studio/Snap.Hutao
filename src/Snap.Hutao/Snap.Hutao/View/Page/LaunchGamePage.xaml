@@ -1,0 +1,132 @@
+﻿<control:ScopedPage
+    x:Class="Snap.Hutao.View.Page.LaunchGamePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sc="using:SettingsUI.Controls"
+    xmlns:control="using:Snap.Hutao.Control"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource SettingButtonStyle}">
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+        <Style TargetType="HyperlinkButton" BasedOn="{StaticResource HyperlinkButtonStyle}">
+            <Setter Property="MinWidth" Value="120"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Column="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition MaxWidth="800"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="32,0,24,24">
+                    <sc:SettingsGroup Header="常规" Margin="0,0,0,0">
+                        <sc:Setting
+                            Icon="&#xE8AB;"
+                            Header="服务器"
+                            Description="切换游戏服务器，B服用户需要自备额外的 PCGameSDK.dll 文件">
+                            <sc:Setting.ActionContent>
+                                <ComboBox Width="120"/>
+                            </sc:Setting.ActionContent>
+                        </sc:Setting>
+                    </sc:SettingsGroup>
+                    <sc:SettingsGroup Header="外观">
+                        <sc:Setting
+                            Icon="&#xE740;"
+                            Header="全屏"
+                            Description="覆盖默认的全屏状态">
+                            <sc:Setting.ActionContent>
+                                <ToggleSwitch
+                                Style="{StaticResource ToggleSwitchSettingStyle}"
+                                Width="120"/>
+                            </sc:Setting.ActionContent>
+                        </sc:Setting>
+                        <sc:Setting
+                            Icon="&#xE737;"
+                            Header="无边框"
+                            Description="将窗口创建为弹出窗口，不带框架">
+                            <sc:Setting.ActionContent>
+                                <ToggleSwitch
+                                Style="{StaticResource ToggleSwitchSettingStyle}"
+                                Width="120"/>
+                            </sc:Setting.ActionContent>
+                        </sc:Setting>
+
+                        <sc:Setting
+                            Margin="0,6,0,0"
+                            Icon="&#xE76F;"
+                            Header="宽度"
+                            Description="覆盖默认屏幕宽度">
+                            <sc:Setting.ActionContent>
+                                <NumberBox
+                                Width="120"/>
+                            </sc:Setting.ActionContent>
+                        </sc:Setting>
+                        <sc:Setting
+                            Icon="&#xE784;"
+                            Header="高度"
+                            Description="覆盖默认屏幕高度">
+                            <sc:Setting.ActionContent>
+                                <NumberBox
+                                Width="120"/>
+                            </sc:Setting.ActionContent>
+                        </sc:Setting>
+                    </sc:SettingsGroup>
+
+                    <sc:SettingsGroup Header="Dangerous feature">
+                        <sc:Setting
+                            Icon="&#xE785;"
+                            Header="Unlock frame rate limit"
+                            Description="Requires administrator privilege.&#10;Otherwise the option does not take effect.">
+                            <sc:Setting.ActionContent>
+                                <ToggleSwitch
+                                OnContent="Enable"
+                                OffContent="Disable"
+                                Style="{StaticResource ToggleSwitchSettingStyle}"
+                                Width="120"/>
+                            </sc:Setting.ActionContent>
+                        </sc:Setting>
+                        <sc:Setting
+                            Header="Set frame rate"
+                            Description="60">
+                            <sc:Setting.ActionContent>
+                                <Slider
+                                    Minimum="60"
+                                    Maximum="360"
+                                    Width="400"/>
+                            </sc:Setting.ActionContent>
+                        </sc:Setting>
+                    </sc:SettingsGroup>
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+        <Grid
+            Grid.Row="1"
+            VerticalAlignment="Bottom"
+            Background="{StaticResource CardBackgroundFillColorSecondary}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox
+                Header="原神账号"
+                Grid.Column="0"
+                Margin="32,24,0,24"
+                Width="160"/>
+            <Button
+                Grid.Column="1"
+                Margin="24"
+                Width="138"
+                Content="启动游戏"/>
+        </Grid>
+    </Grid>
+</control:ScopedPage>

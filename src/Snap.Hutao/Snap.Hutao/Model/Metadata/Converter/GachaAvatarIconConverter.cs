@@ -6,11 +6,11 @@ using Snap.Hutao.Control;
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
-/// 立绘转换器
+/// 立绘图标转换器
 /// </summary>
-internal class GachaAvatarImgConverter : ValueConverterBase<string, Uri>
+internal class GachaAvatarIconConverter : ValueConverterBase<string, Uri>
 {
-    private const string BaseUrl = "https://static.snapgenshin.com/GachaAvatarImg/UI_Gacha_AvatarImg_{0}.png";
+    private const string BaseUrl = "https://static.snapgenshin.com/GachaAvatarIcon/UI_Gacha_AvatarIcon_{0}.png";
 
     /// <summary>
     /// 名称转Uri

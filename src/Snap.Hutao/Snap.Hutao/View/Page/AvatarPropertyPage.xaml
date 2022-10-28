@@ -36,8 +36,6 @@
                 <x:Double>0.5</x:Double>
             </cwuconv:BoolToObjectConverter.FalseValue>
         </cwuconv:BoolToObjectConverter>
-        <shvconv:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
-        <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
     </Page.Resources>
     
     <Grid>

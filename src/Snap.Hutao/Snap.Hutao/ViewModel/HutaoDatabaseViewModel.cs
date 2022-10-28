@@ -6,6 +6,7 @@ using Snap.Hutao.Control;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Web.Hutao.Model;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -21,6 +22,7 @@ internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
     private List<ComplexAvatarRank>? avatarAppearanceRanks;
     private List<ComplexAvatarConstellationInfo>? avatarConstellationInfos;
     private List<ComplexTeamRank>? teamAppearances;
+    private Overview? overview;
 
     /// <summary>
     /// 构造一个新的胡桃数据库视图模型
@@ -59,6 +61,11 @@ internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
     public List<ComplexTeamRank>? TeamAppearances { get => teamAppearances; set => SetProperty(ref teamAppearances, value); }
 
     /// <summary>
+    /// 总览数据
+    /// </summary>
+    public Overview? Overview { get => overview; set => SetProperty(ref overview, value); }
+
+    /// <summary>
     /// 打开界面命令
     /// </summary>
     public ICommand OpenUICommand { get; }
@@ -71,6 +78,7 @@ internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
             AvatarUsageRanks = hutaoCache.AvatarUsageRanks;
             AvatarConstellationInfos = hutaoCache.AvatarConstellationInfos;
             TeamAppearances = hutaoCache.TeamAppearances;
+            Overview = hutaoCache.Overview;
         }
     }
 }

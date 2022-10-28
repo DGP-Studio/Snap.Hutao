@@ -147,6 +147,7 @@ internal class HistoryWishBuilder
             TotalCount = totalCountTracker,
 
             // fill
+            Version = gachaEvent.Version,
             OrangeUpList = orangeUpCounter.ToStatisticsList(),
             PurpleUpList = purpleUpCounter.ToStatisticsList(),
             OrangeList = orangeCounter.ToStatisticsList(),

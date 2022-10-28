@@ -13,6 +13,11 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// </summary>
 internal static class Activation
 {
+    /// <summary>
+    /// 启动游戏启动参数
+    /// </summary>
+    public const string LaunchGame = "LaunchGame";
+
     private static readonly SemaphoreSlim ActivateSemaphore = new(1);
 
     /// <summary>
@@ -44,16 +49,36 @@ internal static class Activation
 
     private static async Task HandleActivationCoreAsync(AppActivationArguments args)
     {
-        _ = Ioc.Default.GetRequiredService<MainWindow>();
+        string argument = string.Empty;
 
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
-        await infoBarService.WaitInitializationAsync().ConfigureAwait(false);
+        if (args.Kind == ExtendedActivationKind.Launch)
+        {
+            if (args.TryGetLaunchActivatedArgument(out string? arguments))
+            {
+                argument = arguments;
+            }
+        }
+
+        switch (argument)
+        {
+            case "":
+                {
+                    _ = Ioc.Default.GetRequiredService<MainWindow>();
+                    await Ioc.Default.GetRequiredService<IInfoBarService>().WaitInitializationAsync().ConfigureAwait(false);
+                    break;
+                }
+
+            case LaunchGame:
+                {
+                    break;
+                }
+        }
 
         if (args.Kind == ExtendedActivationKind.Protocol)
         {
             if (args.TryGetProtocolActivatedUri(out Uri? uri))
             {
-                infoBarService.Information(uri.ToString());
+                Ioc.Default.GetRequiredService<IInfoBarService>().Information(uri.ToString());
                 await HandleUrlActivationAsync(uri).ConfigureAwait(false);
             }
         }

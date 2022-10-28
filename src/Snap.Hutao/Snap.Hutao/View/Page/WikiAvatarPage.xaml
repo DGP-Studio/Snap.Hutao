@@ -8,11 +8,11 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
-    xmlns:shct="using:Snap.Hutao.Control.Text"
-    xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
+    xmlns:shct="using:Snap.Hutao.Control.Text"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance Type=shv:WikiAvatarViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -20,16 +20,6 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Page.Resources>
-        <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>
-        <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
-        <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
-        <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
-        <shmmc:AvatarNameCardPicConverter x:Key="AvatarNameCardPicConverter"/>
-        <shmmc:GachaAvatarImgConverter x:Key="GachaAvatarImgConverter"/>
-
-        <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
-        <shmmc:PropertyInfoDescriptor x:Key="PropertyDescriptor"/>
-
         <DataTemplate x:Key="SkillDataTemplate">
             <Grid Margin="0,12,0,0">
                 <StackPanel Grid.Column="0">
@@ -92,10 +82,7 @@
                         <shcp:PanelSelector Margin="6,8,0,0" x:Name="ItemsPanelSelector"/>
                     </CommandBar.Content>
 
-                    <AppBarButton Label="筛选">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE71C;"/>
-                        </AppBarButton.Icon>
+                    <AppBarButton Label="筛选" Icon="{shcm:FontIcon Glyph=&#xE71C;}">
                         <AppBarButton.Flyout>
                             <Flyout Placement="RightEdgeAlignedTop" LightDismissOverlayMode="On">
                                 <cwuc:UniformGrid Columns="3" RowSpacing="16">
@@ -465,6 +452,176 @@
                         </GridView>
 
                         <TextBlock Text="其他" Style="{StaticResource BaseTextBlockStyle}" Margin="16,32,0,0"/>
+                        <Border
+                            Margin="16,16,0,0"
+                            Background="{StaticResource CardBackgroundFillColorDefault}"
+                            BorderThickness="1"
+                            BorderBrush="{StaticResource CardStrokeColorDefault}"
+                            CornerRadius="{StaticResource CompatCornerRadius}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <mxi:Interaction.Behaviors>
+                                    <shcb:AutoHeightBehavior TargetWidth="2048" TargetHeight="1024"/>
+                                </mxi:Interaction.Behaviors>
+                                <Border
+                                    Background="{StaticResource CardBackgroundFillColorDefault}"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource CardStrokeColorDefault}"
+                                    CornerRadius="{StaticResource CompatCornerRadius}"
+                                    Margin="16"
+                                    Grid.Column="0">
+                                    <shci:CachedImage
+                                        HorizontalAlignment="Stretch"
+                                        Source="{Binding Selected.Icon,Converter={StaticResource GachaAvatarIconConverter}}"/>
+                                </Border>
+                                
+
+                                <shci:CachedImage
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Stretch"
+                                    Source="{Binding Selected.Icon,Converter={StaticResource GachaAvatarImgConverter}}"/>
+                            </Grid>
+                        </Border>
+                        <!--料理-->
+                        <Expander
+                            Margin="16,16,0,0"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Header="料理">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Margin="16,16,0,0"
+                                    Text="特殊料理"
+                                    Grid.Column="0"
+                                    Style="{StaticResource BaseTextBlockStyle}"/>
+                                <Border
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Margin="16,16,0,16"
+                                    CornerRadius="{StaticResource CompatCornerRadius}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Background="{StaticResource CardBackgroundFillColorDefault}"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource CardStrokeColorDefault}">
+                                    <StackPanel>
+                                        <shvc:ItemIcon
+                                            Icon="{Binding Selected.FetterInfo.CookBonus.Icon,Converter={StaticResource ItemIconConverter}}"
+                                            Quality="{Binding Selected.FetterInfo.CookBonus.RankLevel}"/>
+                                        <TextBlock
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap"
+                                            MaxWidth="80"
+                                            Margin="0,0,0,2"
+                                            HorizontalAlignment="Center"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding Selected.FetterInfo.CookBonus.Name}"/>
+                                    </StackPanel>
+                                </Border>
+                                <TextBlock
+                                    Margin="16,16,0,0"
+                                    Text="原料理"
+                                    Grid.Column="1"
+                                    Style="{StaticResource BaseTextBlockStyle}"/>
+                                <Border
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="16,16,0,16"
+                                    CornerRadius="{StaticResource CompatCornerRadius}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Background="{StaticResource CardBackgroundFillColorDefault}"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource CardStrokeColorDefault}">
+                                    <StackPanel>
+                                        <shvc:ItemIcon
+                                            Icon="{Binding Selected.FetterInfo.CookBonus.OriginIcon,Converter={StaticResource ItemIconConverter}}"
+                                            Quality="{Binding Selected.FetterInfo.CookBonus.RankLevel}"/>
+                                        <TextBlock
+                                            TextWrapping="NoWrap"
+                                            TextTrimming="CharacterEllipsis"
+                                            MaxWidth="80"
+                                            Margin="0,0,0,2"
+                                            HorizontalAlignment="Center"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding Selected.FetterInfo.CookBonus.OriginName}"/>
+                                    </StackPanel>
+                                </Border>
+                                <Rectangle
+                                    Grid.Column="2"
+                                    Grid.RowSpan="2"
+                                    Width="1"
+                                    Fill="{StaticResource SystemChromeHighColor}"
+                                    Margin="16,16,0,16"/>
+                                <TextBlock
+                                    Margin="16,16,0,0"
+                                    Text="材料"
+                                    Grid.Column="3"
+                                    Style="{StaticResource BaseTextBlockStyle}"/>
+                                <ItemsControl
+                                    Grid.Row="1"
+                                    Grid.Column="3"
+                                    ItemsSource="{Binding Selected.FetterInfo.CookBonus.InputList}"
+                                    ItemsPanel="{StaticResource HorizontalStackPanelTemplate}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border
+                                                ToolTipService.ToolTip="{Binding Name}"
+                                                Grid.Row="1"
+                                                Grid.Column="1"
+                                                Margin="16,16,0,16"
+                                                CornerRadius="{StaticResource CompatCornerRadius}"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="{StaticResource CardBackgroundFillColorDefault}"
+                                                BorderThickness="1"
+                                                BorderBrush="{StaticResource CardStrokeColorDefault}">
+                                                <StackPanel>
+                                                    <shvc:ItemIcon
+                                                        Icon="{Binding Icon,Converter={StaticResource ItemIconConverter}}"
+                                                        Quality="{Binding RankLevel}"/>
+                                                    <TextBlock
+                                                        TextTrimming="CharacterEllipsis"
+                                                        MaxWidth="80"
+                                                        Margin="0,0,0,2"
+                                                        HorizontalAlignment="Center"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding Count}"/>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <TextBlock
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="4"
+                                    Margin="16,0,16,16"
+                                    TextWrapping="Wrap"
+                                    Text="{Binding Selected.FetterInfo.CookBonus.Description}"/>
+                                <TextBlock
+                                    Grid.Row="3"
+                                    Grid.ColumnSpan="4"
+                                    Margin="16,0,16,16"
+                                    TextWrapping="Wrap"
+                                    Text="{Binding Selected.FetterInfo.CookBonus.EffectDescription}"/>
+                            </Grid>
+                        </Expander>
                         <!--衣装-->
                         <Expander
                             Margin="16,16,0,0"
@@ -516,10 +673,10 @@
                         </Expander>
                         <!--故事-->
                         <Expander
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    Header="故事">
+                            Margin="16,16,0,0"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            Header="故事">
                             <ItemsControl
                                         ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
                                 <ItemsControl.ItemTemplate>
@@ -538,17 +695,6 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </Expander>
-
-                        <Border
-                            Margin="16,16,0,0"
-                            Background="{StaticResource CardBackgroundFillColorDefault}"
-                            BorderThickness="1"
-                            BorderBrush="{StaticResource CardStrokeColorDefault}"
-                            CornerRadius="{StaticResource CompatCornerRadius}">
-                            <shci:CachedImage
-                                HorizontalAlignment="Stretch"
-                                Source="{Binding Selected.Icon,Converter={StaticResource GachaAvatarImgConverter}}"/>
-                        </Border>
                     </StackPanel>
                 </ScrollViewer>
             </Grid>

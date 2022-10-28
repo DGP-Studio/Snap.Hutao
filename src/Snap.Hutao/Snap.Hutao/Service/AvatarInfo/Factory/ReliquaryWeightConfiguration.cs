@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 

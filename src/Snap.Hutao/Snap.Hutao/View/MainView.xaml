@@ -27,7 +27,12 @@
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
 
                 <NavigationViewItemHeader Content="工具"/>
-                
+
+                <NavigationViewItem
+                    Content="启动游戏"
+                    shvh:NavHelper.NavigateTo="shvp:LaunchGamePage"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_GuideIcon_PlayMethod.png}"/>
+
                 <NavigationViewItem
                     Content="祈愿记录"
                     shvh:NavHelper.NavigateTo="shvp:GachaLogPage"

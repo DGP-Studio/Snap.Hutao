@@ -8,8 +8,8 @@
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
-    xmlns:shvm="using:Snap.Hutao.ViewModel"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shvm="using:Snap.Hutao.ViewModel"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shvm:UserViewModel}">
     <mxi:Interaction.Behaviors>
@@ -120,11 +120,19 @@
                                             HorizontalAlignment="Left"
                                             Margin="0,0"
                                             Height="32"/>
-                                        <TextBlock
-                                            Margin="12,0,0,0"
+                                        <StackPanel
                                             Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding UserInfo.Nickname}"/>
+                                            Margin="12,0,0,0"
+                                            VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding UserInfo.Nickname}"/>
+                                            <TextBlock
+                                                Text="Stoken"
+                                                Visibility="{Binding HasSToken,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Foreground="Green"
+                                                Opacity="0.6"/>
+                                        </StackPanel>
+                                        
                                         <StackPanel
                                             x:Name="ButtonPanel"
                                             Orientation="Horizontal"

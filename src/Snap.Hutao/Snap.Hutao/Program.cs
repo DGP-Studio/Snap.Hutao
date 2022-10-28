@@ -7,7 +7,6 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
 using System.Runtime.InteropServices;
-using Windows.UI.ViewManagement;
 using WinRT;
 
 namespace Snap.Hutao;
@@ -32,6 +31,7 @@ public static partial class Program
     private static void Main(string[] args)
     {
         _ = args;
+
         XamlCheckProcessRequirements();
         ComWrappersSupport.InitializeComWrappers();
 
@@ -75,7 +75,6 @@ public static partial class Program
 
             // Discrete services
             .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
-            .AddSingleton(new UISettings())
 
             .BuildServiceProvider();
 

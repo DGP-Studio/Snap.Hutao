@@ -77,6 +77,11 @@ public class FetterInfo
     public string CvKorean { get; set; } = default!;
 
     /// <summary>
+    /// 料理
+    /// </summary>
+    public CookBonus? CookBonus { get; set; }
+
+    /// <summary>
     /// 好感语音
     /// </summary>
     public IEnumerable<Fetter> Fetters { get; set; } = default!;

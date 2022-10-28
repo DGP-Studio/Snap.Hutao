@@ -16,6 +16,11 @@ public class GachaEvent
     public string Name { get; set; } = default!;
 
     /// <summary>
+    /// 版本
+    /// </summary>
+    public string Version { get; set; } = default!;
+
+    /// <summary>
     /// 开始时间
     /// </summary>
     public DateTimeOffset From { get; set; }

@@ -10,6 +10,8 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:sc="using:SettingsUI.Controls"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shv:HutaoDatabaseViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -26,11 +28,15 @@
     <Grid>
         <Pivot>
             <Pivot.RightHeader>
-                <CommandBar>
-                    <AppBarButton>
+                <CommandBar DefaultLabelPosition="Right">
+                    <AppBarButton Label="详情" Icon="{shcm:FontIcon Glyph=&#xE946;}">
                         <AppBarButton.Flyout>
-                            <Flyout>
-                                
+                            <Flyout Placement="BottomEdgeAlignedRight">
+                                <sc:SettingsGroup Header="数据来自「胡桃数据库」" Margin="0,-32,0,0" MinWidth="240">
+                                    <sc:Setting Header="上传记录总数" Content="{Binding Overview.RecordTotal}"/>
+                                    <sc:Setting Header="深渊记录总数" Content="{Binding Overview.SpiralAbyssTotal}"/>
+                                    <sc:Setting Header="深渊记录满星数" Content="{Binding Overview.SpiralAbyssFullStar}"/>
+                                </sc:SettingsGroup>
                             </Flyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>

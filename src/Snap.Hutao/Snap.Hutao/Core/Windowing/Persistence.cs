@@ -44,7 +44,7 @@ internal static class Persistence
     /// <param name="appWindow">应用窗体</param>
     public static void Save(AppWindow appWindow)
     {
-        LocalSetting.Set(SettingKeys.WindowRect, (ulong)(CompactRect)appWindow.GetRect());
+        LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)appWindow.GetRect());
     }
 
     /// <summary>
@@ -124,7 +124,7 @@ internal static class Persistence
             return new(rect.X, rect.Y, rect.Width, rect.Height);
         }
 
-        public static explicit operator ulong(CompactRect rect)
+        public static implicit operator ulong(CompactRect rect)
         {
             return rect.Value;
         }

@@ -140,10 +140,17 @@
                                             <RowDefinition/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <TextBlock
-                                            Margin="0,8,0,0"
-                                            Text="{Binding Name}"
-                                            Style="{StaticResource BaseTextBlockStyle}"/>
+                                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                            <TextBlock
+                                                Width="32"
+                                                Text="{Binding Version}"
+                                                Style="{StaticResource BaseTextBlockStyle}"/>
+                                            <TextBlock
+                                                Margin="0,0,0,0"
+                                                Text="{Binding Name}"
+                                                Style="{StaticResource BaseTextBlockStyle}"/>
+                                        </StackPanel>
+                                        
                                         <TextBlock
                                             Margin="0,8,0,0"
                                             Text="{Binding TotalCountFormatted}"

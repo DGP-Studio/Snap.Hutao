@@ -15,4 +15,23 @@ internal interface IGameService
     /// </summary>
     /// <returns>结果</returns>
     ValueTask<ValueResult<bool, string>> GetGamePathAsync();
+
+    /// <summary>
+    /// 获取游戏路径，跳过异步定位器
+    /// </summary>
+    /// <returns>游戏路径，当路径无效时会设置并返回 <see cref="string.Empty"/></returns>
+    string GetGamePathSkipLocator();
+
+    /// <summary>
+    /// 异步启动
+    /// </summary>
+    /// <param name="configuration">启动配置</param>
+    /// <returns>任务</returns>
+    ValueTask LaunchAsync(LaunchConfiguration configuration);
+
+    /// <summary>
+    /// 重写游戏路径
+    /// </summary>
+    /// <param name="path">路径</param>
+    void OverwriteGamePath(string path);
 }

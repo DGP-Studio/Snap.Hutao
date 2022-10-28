@@ -54,13 +54,17 @@ public partial class App : Application
             logger.LogInformation(EventIds.CommonLog, "Snap Hutao : {version}", CoreEnvironment.Version);
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.TemporaryFolder.Path);
 
+            JumpListHelper.ConfigAsync().SafeForget(logger);
+
             Ioc.Default
                 .GetRequiredService<IMetadataService>()
                 .ImplictAs<IMetadataInitializer>()?
                 .InitializeInternalAsync()
                 .SafeForget(logger);
 
-            Ioc.Default.GetRequiredService<AppCenter>().Initialize();
+            Ioc.Default
+                .GetRequiredService<AppCenter>()
+                .Initialize();
         }
         else
         {

@@ -11,6 +11,11 @@ namespace Snap.Hutao.Model.Binding.Gacha;
 public class HistoryWish : WishBase
 {
     /// <summary>
+    /// 版本
+    /// </summary>
+    public string Version { get; set; }
+
+    /// <summary>
     /// 五星Up
     /// </summary>
     public List<StatisticsItem> OrangeUpList { get; set; } = default!;

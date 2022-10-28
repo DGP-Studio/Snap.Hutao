@@ -8,7 +8,6 @@
     xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
     xmlns:cwub="using:CommunityToolkit.WinUI.UI.Behaviors"
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
@@ -21,7 +20,6 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <shc:ScopedPage.Resources>
-        <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
     </shc:ScopedPage.Resources>
     <Grid>

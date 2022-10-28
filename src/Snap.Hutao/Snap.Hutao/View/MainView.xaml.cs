@@ -2,9 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core;
-using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Page;
@@ -33,23 +30,5 @@ public sealed partial class MainView : UserControl
         navigationService.Initialize(NavView, ContentFrame);
 
         navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
-    }
-
-    private async Task UpdateThemeAsync()
-    {
-        // It seems that UISettings.ColorValuesChanged
-        // event can raise up on a background thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-
-        App current = Ioc.Default.GetRequiredService<App>();
-
-        if (!ThemeHelper.Equals(current.RequestedTheme, RequestedTheme))
-        {
-            ILogger<MainView> logger = Ioc.Default.GetRequiredService<ILogger<MainView>>();
-            logger.LogInformation(EventIds.CommonLog, "Element Theme [{element}] | App Theme [{app}]", RequestedTheme, current.RequestedTheme);
-
-            // Update controls' theme which presents in the PopupRoot
-            RequestedTheme = ThemeHelper.ApplicationToElement(current.RequestedTheme);
-        }
     }
 }

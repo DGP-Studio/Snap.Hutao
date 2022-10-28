@@ -95,6 +95,17 @@
                         
                 </sc:SettingsGroup>
 
+                <sc:SettingsGroup Header="游戏">
+                    <sc:Setting
+                        Icon="&#xE7FC;"
+                        Header="游戏路径"
+                        Description="{Binding GamePath}">
+                        <sc:Setting.ActionContent>
+                            <Button Content="设置路径" Command="{Binding SetGamePathCommand}"/>
+                        </sc:Setting.ActionContent>
+                    </sc:Setting>
+                </sc:SettingsGroup>
+                
                 <sc:SettingsGroup Header="测试功能">
                     <sc:Setting
                         Icon="&#xEC25;"

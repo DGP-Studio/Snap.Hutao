@@ -4,23 +4,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     d:DataContext="{d:DesignInstance shv:AchievementViewModel}">
-
-    <shc:ScopedPage.Resources>
-        <shmmc:AchievementIconConverter x:Key="AchievementIconConverter"/>
-        <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-    </shc:ScopedPage.Resources>
 
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>

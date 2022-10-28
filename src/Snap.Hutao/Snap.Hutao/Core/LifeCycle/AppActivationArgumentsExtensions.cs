@@ -28,4 +28,22 @@ public static class AppActivationArgumentsExtensions
 
         return false;
     }
+
+    /// <summary>
+    /// 尝试获取启动的参数
+    /// </summary>
+    /// <param name="activatedEventArgs">应用程序激活参数</param>
+    /// <param name="arguments">参数</param>
+    /// <returns>是否存在参数</returns>
+    public static bool TryGetLaunchActivatedArgument(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out string? arguments)
+    {
+        arguments = null;
+        if (activatedEventArgs.Data is ILaunchActivatedEventArgs launchArgs)
+        {
+            arguments = launchArgs.Arguments;
+            return true;
+        }
+
+        return false;
+    }
 }

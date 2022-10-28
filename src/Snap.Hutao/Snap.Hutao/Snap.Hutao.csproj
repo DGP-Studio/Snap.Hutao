@@ -34,6 +34,7 @@
   
   <ItemGroup>
     <None Remove="Control\Panel\PanelSelector.xaml" />
+    <None Remove="LaunchGameWindow.xaml" />
     <None Remove="NativeMethods.json" />
     <None Remove="NativeMethods.txt" />
     <None Remove="Resource\Icon\UI_BagTabIcon_Avatar.png" />
@@ -41,6 +42,7 @@
     <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <None Remove="Resource\Icon\UI_ChapterIcon_Hutao.png" />
+    <None Remove="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
     <None Remove="Resource\Icon\UI_Icon_BoostUp.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
@@ -67,6 +69,7 @@
     <None Remove="View\Page\AvatarPropertyPage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\HutaoDatabasePage.xaml" />
+    <None Remove="View\Page\LaunchGamePage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
     <None Remove="View\TitleView.xaml" />
@@ -93,6 +96,7 @@
     <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <Content Include="Resource\Icon\UI_ChapterIcon_Hutao.png" />
+    <Content Include="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
     <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
     <Content Include="Resource\Icon\UI_Icon_BoostUp.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
@@ -143,6 +147,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="LaunchGameWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\LaunchGamePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\HutaoDatabasePage.xaml">
