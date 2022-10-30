@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Web.Hoyolab;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -9,10 +10,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Snap.Hutao.Model.Entity;
 
 /// <summary>
-/// 用户
+/// 游戏内账号
 /// </summary>
-[Table("users")]
-public class User : ISelectable
+[Table("game_accounts")]
+public class GameAccount : ISelectable
 {
     /// <summary>
     /// 内部Id
@@ -21,23 +22,26 @@ public class User : ISelectable
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public Guid InnerId { get; set; }
 
-    /// <summary>
-    /// 是否被选中
-    /// </summary>
+    /// <inheritdoc/>
     public bool IsSelected { get; set; }
 
     /// <summary>
-    /// 用户的Cookie
+    /// 对应的Uid
     /// </summary>
-    public Cookie Cookie { get; set; } = default!;
+    public string? AttachUid { get; set; }
 
     /// <summary>
-    /// 创建一个新的用户
+    /// 服务器类型
     /// </summary>
-    /// <param name="cookie">cookie</param>
-    /// <returns>新创建的用户</returns>
-    public static User Create(Cookie cookie)
-    {
-        return new() { Cookie = cookie };
-    }
+    public SchemeType Type { get; set; }
+
+    /// <summary>
+    /// 名称
+    /// </summary>
+    public string Name { get; set; } = default!;
+
+    /// <summary>
+    /// MIHOYOSDK_ADL_PROD_CN_h3123967166
+    /// </summary>
+    public string MihoyoSDK { get; set; } = default!;
 }

@@ -57,6 +57,11 @@ public class AppDbContext : DbContext
     public DbSet<AvatarInfo> AvatarInfos { get; set; } = default!;
 
     /// <summary>
+    /// 游戏内账号
+    /// </summary>
+    public DbSet<GameAccount> GameAccounts { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个临时的应用程序数据库上下文
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>

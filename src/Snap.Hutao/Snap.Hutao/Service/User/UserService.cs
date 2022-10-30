@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
@@ -20,10 +22,7 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserService))]
 internal class UserService : IUserService
 {
-    private readonly AppDbContext appDbContext;
-    private readonly UserClient userClient;
-    private readonly BindingClient bindingClient;
-    private readonly AuthClient authClient;
+    private readonly IServiceScopeFactory scopeFactory;
     private readonly IMessenger messenger;
 
     private BindingUser? currentUser;
@@ -32,22 +31,11 @@ internal class UserService : IUserService
     /// <summary>
     /// 构造一个新的用户服务
     /// </summary>
-    /// <param name="appDbContext">应用程序数据库上下文</param>
-    /// <param name="userClient">用户客户端</param>
-    /// <param name="bindingClient">角色客户端</param>
-    /// <param name="authClient">验证客户端</param>
+    /// <param name="scopeFactory">范围工厂</param>
     /// <param name="messenger">消息器</param>
-    public UserService(
-        AppDbContext appDbContext,
-        UserClient userClient,
-        BindingClient bindingClient,
-        AuthClient authClient,
-        IMessenger messenger)
+    public UserService(IServiceScopeFactory scopeFactory, IMessenger messenger)
     {
-        this.appDbContext = appDbContext;
-        this.userClient = userClient;
-        this.bindingClient = bindingClient;
-        this.authClient = authClient;
+        this.scopeFactory = scopeFactory;
         this.messenger = messenger;
     }
 
@@ -62,44 +50,54 @@ internal class UserService : IUserService
                 return;
             }
 
-            // only update when not processing a deletion
-            if (value != null)
+            using (IServiceScope scope = scopeFactory.CreateScope())
             {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                // only update when not processing a deletion
+                if (value != null)
+                {
+                    if (currentUser != null)
+                    {
+                        currentUser.IsSelected = false;
+                        appDbContext.Users.Update(currentUser.Entity);
+                        appDbContext.SaveChanges();
+                    }
+                }
+
+                Message.UserChangedMessage message = new() { OldValue = currentUser, NewValue = value };
+
+                // 当删除到无用户时也能正常反应状态
+                currentUser = value;
+
                 if (currentUser != null)
                 {
-                    currentUser.IsSelected = false;
+                    currentUser.IsSelected = true;
                     appDbContext.Users.Update(currentUser.Entity);
                     appDbContext.SaveChanges();
                 }
+
+                messenger.Send(message);
             }
-
-            Message.UserChangedMessage message = new() { OldValue = currentUser, NewValue = value };
-
-            // 当删除到无用户时也能正常反应状态
-            currentUser = value;
-
-            if (currentUser != null)
-            {
-                currentUser.IsSelected = true;
-                appDbContext.Users.Update(currentUser.Entity);
-                appDbContext.SaveChanges();
-            }
-
-            messenger.Send(message);
         }
     }
 
     /// <inheritdoc/>
-    public Task RemoveUserAsync(BindingUser user)
+    public async Task RemoveUserAsync(BindingUser user)
     {
+        await Task.Yield();
         Must.NotNull(userCollection!);
 
         // Sync cache
         userCollection.Remove(user);
 
         // Sync database
-        appDbContext.Users.Remove(user.Entity);
-        return appDbContext.SaveChangesAsync();
+        using (IServiceScope scope = scopeFactory.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            appDbContext.Users.RemoveAndSave(user.Entity);
+        }
     }
 
     /// <inheritdoc/>
@@ -109,21 +107,27 @@ internal class UserService : IUserService
         {
             List<BindingUser> users = new();
 
-            foreach (Model.Entity.User entity in appDbContext.Users)
+            using (IServiceScope scope = scopeFactory.CreateScope())
             {
-                BindingUser? initialized = await BindingUser
-                    .ResumeAsync(entity, userClient, bindingClient)
-                    .ConfigureAwait(false);
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                UserClient userClient = scope.ServiceProvider.GetRequiredService<UserClient>();
+                BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
 
-                if (initialized != null)
+                foreach (Model.Entity.User entity in appDbContext.Users)
                 {
-                    users.Add(initialized);
-                }
-                else
-                {
-                    // User is unable to be initialized, remove it.
-                    appDbContext.Users.Remove(entity);
-                    await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+                    BindingUser? initialized = await BindingUser
+                        .ResumeAsync(entity, userClient, bindingClient)
+                        .ConfigureAwait(false);
+
+                    if (initialized != null)
+                    {
+                        users.Add(initialized);
+                    }
+                    else
+                    {
+                        // User is unable to be initialized, remove it.
+                        appDbContext.Users.RemoveAndSave(entity);
+                    }
                 }
             }
 
@@ -150,24 +154,27 @@ internal class UserService : IUserService
             // 检查 uid 对应用户是否存在
             if (UserHelper.TryGetUserByUid(userCollection, uid, out BindingUser? userWithSameUid))
             {
-                // 检查 stoken 是否存在
-                if (cookie.ContainsSToken())
+                using (IServiceScope scope = scopeFactory.CreateScope())
                 {
-                    // insert stoken
-                    userWithSameUid.UpdateSToken(uid, cookie);
-                    appDbContext.Users.Update(userWithSameUid.Entity);
-                    appDbContext.SaveChanges();
+                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                    return new(UserOptionResult.Upgraded, uid);
-                }
+                    // 检查 stoken 是否存在
+                    if (cookie.ContainsSToken())
+                    {
+                        // insert stoken
+                        userWithSameUid.UpdateSToken(uid, cookie);
+                        appDbContext.Users.UpdateAndSave(userWithSameUid.Entity);
 
-                if (cookie.ContainsLTokenAndCookieToken())
-                {
-                    userWithSameUid.Cookie = cookie;
-                    appDbContext.Users.Update(userWithSameUid.Entity);
-                    appDbContext.SaveChanges();
+                        return new(UserOptionResult.Upgraded, uid);
+                    }
 
-                    return new(UserOptionResult.Updated, uid);
+                    if (cookie.ContainsLTokenAndCookieToken())
+                    {
+                        userWithSameUid.Cookie = cookie;
+                        appDbContext.Users.UpdateAndSave(userWithSameUid.Entity);
+
+                        return new(UserOptionResult.Updated, uid);
+                    }
                 }
             }
             else if (cookie.ContainsLTokenAndCookieToken())
@@ -184,7 +191,8 @@ internal class UserService : IUserService
         if (cookie.TryGetLoginTicket(out string? loginTicket))
         {
             // get multitoken
-            Dictionary<string, string> multiToken = await authClient
+            Dictionary<string, string> multiToken = await Ioc.Default
+                .GetRequiredService<AuthClient>()
                 .GetMultiTokenByLoginTicketAsync(loginTicket, uid, default)
                 .ConfigureAwait(false);
 
@@ -198,22 +206,27 @@ internal class UserService : IUserService
 
     private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(ObservableCollection<BindingUser> users, Cookie cookie)
     {
-        BindingUser? newUser = await BindingUser.CreateAsync(cookie, userClient, bindingClient).ConfigureAwait(false);
-        if (newUser != null)
+        using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            // Sync cache
-            await ThreadHelper.SwitchToMainThreadAsync();
-            users.Add(newUser);
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            UserClient userClient = scope.ServiceProvider.GetRequiredService<UserClient>();
+            BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
 
-            // Sync database
-            appDbContext.Users.Add(newUser.Entity);
-            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+            BindingUser? newUser = await BindingUser.CreateAsync(cookie, userClient, bindingClient).ConfigureAwait(false);
+            if (newUser != null)
+            {
+                // Sync cache
+                await ThreadHelper.SwitchToMainThreadAsync();
+                users.Add(newUser);
 
-            return new(UserOptionResult.Added, newUser.UserInfo!.Uid);
-        }
-        else
-        {
-            return new(UserOptionResult.Invalid, null!);
+                // Sync database
+                appDbContext.Users.AddAndSave(newUser.Entity);
+                return new(UserOptionResult.Added, newUser.UserInfo!.Uid);
+            }
+            else
+            {
+                return new(UserOptionResult.Invalid, null!);
+            }
         }
     }
 }

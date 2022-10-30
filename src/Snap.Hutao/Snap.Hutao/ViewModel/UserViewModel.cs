@@ -8,8 +8,10 @@ using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
 
@@ -40,7 +42,8 @@ internal class UserViewModel : ObservableObject
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
-        UpgradeToStokenCommand = asyncRelayCommandFactory.Create(UpgradeByLoginTicketAsync);
+        LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
+        LoginMihoyoBBSCommand = new RelayCommand(LoginMihoyoBBS);
         RemoveUserCommand = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
     }
@@ -78,7 +81,12 @@ internal class UserViewModel : ObservableObject
     /// <summary>
     /// 登录米哈游通行证升级到Stoken命令
     /// </summary>
-    public ICommand UpgradeToStokenCommand { get; }
+    public ICommand LoginMihoyoUserCommand { get; }
+
+    /// <summary>
+    /// 登录米游社命令
+    /// </summary>
+    public ICommand LoginMihoyoBBSCommand { get; }
 
     /// <summary>
     /// 移除用户命令
@@ -132,26 +140,14 @@ internal class UserViewModel : ObservableObject
         }
     }
 
-    private async Task UpgradeByLoginTicketAsync()
+    private void LoginMihoyoUser()
     {
-        // Get cookie from user input
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, Cookie addition) = await new UserAutoCookieDialog(mainWindow).GetInputCookieAsync().ConfigureAwait(false);
+        Ioc.Default.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+    }
 
-        // User confirms the input
-        if (isOk)
-        {
-            (UserOptionResult result, string nickname) = await userService.ProcessInputCookieAsync(addition).ConfigureAwait(false);
-
-            if (result == UserOptionResult.Upgraded)
-            {
-                infoBarService.Information($"用户 [{nickname}] 的 Cookie 升级成功");
-            }
-            else
-            {
-                infoBarService.Warning("请先添加对应用户的米游社Cookie");
-            }
-        }
+    private void LoginMihoyoBBS()
+    {
+        Ioc.Default.GetRequiredService<INavigationService>().Navigate<LoginMihoyoBBSPage>(INavigationAwaiter.Default);
     }
 
     private async Task RemoveUserAsync(User? user)

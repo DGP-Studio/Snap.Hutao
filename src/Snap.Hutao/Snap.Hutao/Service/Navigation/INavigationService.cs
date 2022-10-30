@@ -72,4 +72,9 @@ public interface INavigationService
     /// <param name="pageType">同步的页面类型</param>
     /// <returns>是否同步成功</returns>
     bool SyncSelectedNavigationViewItemWith(Type pageType);
+
+    /// <summary>
+    /// 尽可能尝试返回
+    /// </summary>
+    void GoBack();
 }

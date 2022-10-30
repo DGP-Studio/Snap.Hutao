@@ -138,7 +138,8 @@
                             Style="{StaticResource SubtitleTextBlockStyle}"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <TextBlock
-                                Margin="0,4,12,4"
+                                VerticalAlignment="Bottom"
+                                Margin="0,4,12,2"
                                 FontFamily="Consolas"
                                 Text="{Binding TotalCount}"
                                 Visibility="{Binding ElementName=DetailExpander,Path=IsExpanded,Converter={StaticResource BoolToVisibilityRevertConverter}}"
@@ -318,7 +319,6 @@
                         </ItemsControl>
                     </cwucont:Case>
                 </cwucont:SwitchPresenter>
-                
             </ScrollViewer>
         </Grid>
     </Border>

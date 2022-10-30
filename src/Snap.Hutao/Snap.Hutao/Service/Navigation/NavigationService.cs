@@ -178,6 +178,18 @@ internal class NavigationService : INavigationService
         NavigationView.IsPaneOpen = LocalSetting.Get(SettingKeys.IsNavPaneOpen, true);
     }
 
+    /// <inheritdoc/>
+    public void GoBack()
+    {
+        bool canGoBack = Frame?.CanGoBack ?? false;
+
+        if (canGoBack)
+        {
+            Frame!.GoBack();
+            SyncSelectedNavigationViewItemWith(Frame.Content.GetType());
+        }
+    }
+
     /// <summary>
     /// 遍历所有子菜单项
     /// </summary>

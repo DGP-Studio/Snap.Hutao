@@ -21,6 +21,11 @@ public class GachaEvent
     public string Version { get; set; } = default!;
 
     /// <summary>
+    /// 卡池图
+    /// </summary>
+    public Uri Banner { get; set; } = default!;
+
+    /// <summary>
     /// 开始时间
     /// </summary>
     public DateTimeOffset From { get; set; }

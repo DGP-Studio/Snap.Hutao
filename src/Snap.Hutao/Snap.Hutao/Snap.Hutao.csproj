@@ -70,6 +70,8 @@
     <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\HutaoDatabasePage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
+    <None Remove="View\Page\LoginMihoyoBBSPage.xaml" />
+    <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
     <None Remove="View\TitleView.xaml" />
@@ -147,6 +149,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\LoginMihoyoBBSPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\LoginMihoyoUserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="LaunchGameWindow.xaml">

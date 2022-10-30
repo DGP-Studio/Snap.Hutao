@@ -23,6 +23,12 @@ internal interface IGameService
     string GetGamePathSkipLocator();
 
     /// <summary>
+    /// 获取多通道值
+    /// </summary>
+    /// <returns>多通道值</returns>
+    MultiChannel GetMultiChannel();
+
+    /// <summary>
     /// 异步启动
     /// </summary>
     /// <param name="configuration">启动配置</param>

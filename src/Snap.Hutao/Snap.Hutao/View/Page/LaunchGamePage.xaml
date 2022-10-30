@@ -21,7 +21,7 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Column="0">
+        <ScrollViewer Grid.Column="0" CanContentRenderOutsideBounds="True">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MaxWidth="800"/>
@@ -37,6 +37,36 @@
                                 <ComboBox Width="120"/>
                             </sc:Setting.ActionContent>
                         </sc:Setting>
+                        <sc:SettingExpander>
+                            <sc:SettingExpander.Header>
+                                <Grid Padding="0,16">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon Glyph="&#xE748;"/>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock
+                                                Margin="20,0,0,0"
+                                                
+                                                Text="账号"/>
+                                            <TextBlock
+                                                Opacity="0.8"
+                                                Margin="20,0,0,0"
+                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                Text="在游戏内切换账号,网络环境发生变化后需要重新手动检测"/>
+                                        </StackPanel>
+                                        
+                                    </StackPanel>
+                                    
+                                    <Button
+                                        HorizontalAlignment="Right"
+                                        Grid.Column="1"
+                                        Margin="0,0,8,0"
+                                        Width="80"
+                                        MinWidth="88"
+                                        Content="检测"/>
+                                </Grid>
+                                
+                            </sc:SettingExpander.Header>
+                        </sc:SettingExpander>
                     </sc:SettingsGroup>
                     <sc:SettingsGroup Header="外观">
                         <sc:Setting
@@ -111,19 +141,10 @@
         <Grid
             Grid.Row="1"
             VerticalAlignment="Bottom"
-            Background="{StaticResource CardBackgroundFillColorSecondary}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-
-            <ComboBox
-                Header="原神账号"
-                Grid.Column="0"
-                Margin="32,24,0,24"
-                Width="160"/>
+            Background="{StaticResource SystemControlAcrylicElementMediumHighBrush}">
             <Button
-                Grid.Column="1"
+                HorizontalAlignment="Right"
+                Grid.Column="3"
                 Margin="24"
                 Width="138"
                 Content="启动游戏"/>

@@ -6,10 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.Unlocker;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 
@@ -26,6 +28,8 @@ internal class GameService : IGameService
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IMemoryCache memoryCache;
     private readonly SemaphoreSlim gameSemaphore = new(1);
+
+    private ObservableCollection<GameAccount>? gameAccounts;
 
     /// <summary>
     /// 构造一个新的游戏服务
@@ -129,51 +133,77 @@ internal class GameService : IGameService
     }
 
     /// <inheritdoc/>
+    public MultiChannel GetMultiChannel()
+    {
+        string gamePath = GetGamePathSkipLocator();
+        string configPath = Path.Combine(gamePath, "config.ini");
+
+        using (FileStream stream = File.OpenRead(configPath))
+        {
+            List<IniElement> elements = IniSerializer.Deserialize(stream).ToList();
+            string? channel = elements.OfType<IniParameter>().FirstOrDefault(p => p.Key == "channel")?.Value;
+            string? subChannel = elements.OfType<IniParameter>().FirstOrDefault(p => p.Key == "sub_channel")?.Value;
+
+            return new(channel, subChannel);
+        }
+    }
+
+    public async Task<ObservableCollection<GameAccount>> GetGameAccountCollectionAsync()
+    {
+        if (gameAccounts == null)
+        {
+
+        }
+
+        return gameAccounts;
+    }
+
+    /// <inheritdoc/>
     public async ValueTask LaunchAsync(LaunchConfiguration configuration)
     {
-        (bool isOk, string gamePath) = await GetGamePathAsync().ConfigureAwait(false);
-
-        if (isOk)
+        if (gameSemaphore.CurrentCount == 0)
         {
-            if (gameSemaphore.CurrentCount == 0)
+            return;
+        }
+
+        string gamePath = GetGamePathSkipLocator();
+
+        string commandLine = new CommandLineBuilder()
+            .AppendIf("-popupwindow", configuration.IsBorderless)
+            .Append("-screen-fullscreen", configuration.IsFullScreen ? 1 : 0)
+            .Append("-screen-width", configuration.ScreenWidth)
+            .Append("-screen-height", configuration.ScreenHeight)
+            .Append("-monitor", configuration.Monitor)
+            .Build();
+
+        Process game = new()
+        {
+            StartInfo = new()
             {
-                return;
+                Arguments = commandLine,
+                FileName = gamePath,
+                UseShellExecute = true,
+                Verb = "runas",
+                WorkingDirectory = Path.GetDirectoryName(gamePath),
+            },
+        };
+
+        using (await gameSemaphore.EnterAsync().ConfigureAwait(false))
+        {
+            if (configuration.UnlockFPS)
+            {
+                IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, configuration.TargetFPS);
+
+                TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
+                TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
+                TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
+                await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
             }
-
-            string commandLine = new CommandLineBuilder()
-                .Append("-window-mode", configuration.WindowMode)
-                .Append("-screen-fullscreen", configuration.IsFullScreen ? 1 : 0)
-                .Append("-screen-width", configuration.ScreenWidth)
-                .Append("-screen-height", configuration.ScreenHeight)
-                .Append("-monitor", configuration.Monitor)
-                .Build();
-
-            Process game = new()
+            else
             {
-                StartInfo = new()
+                if (game.Start())
                 {
-                    Arguments = commandLine,
-                    FileName = gamePath,
-                    UseShellExecute = true,
-                    Verb = "runas",
-                    WorkingDirectory = Path.GetDirectoryName(gamePath),
-                },
-            };
-
-            using (await gameSemaphore.EnterAsync().ConfigureAwait(false))
-            {
-                if (configuration.UnlockFPS)
-                {
-                    IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, configuration.TargetFPS);
-
-                    await unlocker.UnlockAsync(TimeSpan.FromMilliseconds(100), TimeSpan.FromMilliseconds(10000), TimeSpan.FromMilliseconds(2000)).ConfigureAwait(false);
-                }
-                else
-                {
-                    if (game.Start())
-                    {
-                        await game.WaitForExitAsync().ConfigureAwait(false);
-                    }
+                    await game.WaitForExitAsync().ConfigureAwait(false);
                 }
             }
         }

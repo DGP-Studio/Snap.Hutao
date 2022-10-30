@@ -9,8 +9,9 @@ namespace Snap.Hutao.Core.Threading;
 internal static class ThreadHelper
 {
     /// <summary>
-    /// 异步切换到主线程
+    /// 使用此静态方法以 异步切换到 主线程
     /// </summary>
+    /// <remarks>使用 <see cref="Task.Yield"/> 异步切换到 后台线程</remarks>
     /// <returns>等待体</returns>
     public static DispatherQueueSwitchOperation SwitchToMainThreadAsync()
     {

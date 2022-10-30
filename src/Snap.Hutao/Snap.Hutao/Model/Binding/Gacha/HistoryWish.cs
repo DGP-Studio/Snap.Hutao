@@ -13,7 +13,12 @@ public class HistoryWish : WishBase
     /// <summary>
     /// 版本
     /// </summary>
-    public string Version { get; set; }
+    public string Version { get; set; } = default!;
+
+    /// <summary>
+    /// 卡池图片
+    /// </summary>
+    public Uri BannerImage { get; set; } = default!;
 
     /// <summary>
     /// 五星Up

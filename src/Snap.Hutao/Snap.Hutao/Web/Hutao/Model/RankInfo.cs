@@ -11,10 +11,10 @@ public class RankInfo
     /// <summary>
     /// 造成伤害
     /// </summary>
-    public ItemRate<int, double> Damage { get; set; } = default!;
+    public RankValue Damage { get; set; } = default!;
 
     /// <summary>
     /// 受到伤害
     /// </summary>
-    public ItemRate<int, double> TakeDamage { get; set; } = default!;
+    public RankValue TakeDamage { get; set; } = default!;
 }

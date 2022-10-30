@@ -14,9 +14,9 @@ internal struct LaunchConfiguration
     public bool IsFullScreen { get; set; }
 
     /// <summary>
-    /// Override fullscreen windowed mode. Accepted values are exclusive or borderless.
+    /// 是否为无边框窗口
     /// </summary>
-    public string WindowMode { get; private set; }
+    public bool IsBorderless { get; private set; }
 
     /// <summary>
     /// 是否启用解锁帧率

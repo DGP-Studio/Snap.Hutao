@@ -241,8 +241,20 @@
                         </ListView>
                     </SplitView.Pane>
                     <SplitView.Content>
+                        
                         <ScrollViewer>
                             <StackPanel Margin="16,0,16,0">
+                                <Border
+                                    HorizontalAlignment="Left"
+                                    Margin="0,16,0,0"
+                                    BorderThickness="1"
+                                    BorderBrush="{StaticResource CardStrokeColorDefault}"
+                                    CornerRadius="{StaticResource CompatCornerRadius}">
+                                    <shci:CachedImage
+                                        MaxHeight="320"
+                                        Source="{Binding SelectedHistoryWish.BannerImage}"/>
+                                </Border>
+                                
                                 <TextBlock Text="五星" Style="{StaticResource BaseTextBlockStyle}" Margin="0,16,0,8"/>
                                 <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}">
                                     <GridView.ItemTemplate>

@@ -205,12 +205,16 @@
                         <TextBlock
                             Margin="10,6,0,6"
                             Style="{StaticResource BaseTextBlockStyle}"
-                            Text="Cookie操作"/>
+                            Text="Cookie 操作"/>
                         <CommandBar DefaultLabelPosition="Right">
-                            <AppBarButton
-                                Icon="{shcm:FontIcon Glyph=&#xF4A5;}"
-                                Label="登录米哈游通行证"
-                                Command="{Binding UpgradeToStokenCommand}"/>
+                            <AppBarButton Label="网页登录" Icon="{shcm:FontIcon Glyph=&#xEB41;}">
+                                <AppBarButton.Flyout>
+                                    <MenuFlyout>
+                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="登录米游社原神社区" Command="{Binding LoginMihoyoBBSCommand}"/>
+                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="登录米哈游通行证" Command="{Binding LoginMihoyoUserCommand}"/>
+                                    </MenuFlyout>
+                                </AppBarButton.Flyout>
+                            </AppBarButton>
                             <AppBarButton
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
                                 Label="手动输入"
