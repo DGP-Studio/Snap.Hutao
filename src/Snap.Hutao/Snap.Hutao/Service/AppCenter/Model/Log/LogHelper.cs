@@ -49,7 +49,6 @@ public static class LogHelper
 
         if (frames.Length > 0 && frames[0].HasNativeImage())
         {
-
         }
 
         return current;

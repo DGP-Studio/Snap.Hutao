@@ -2,19 +2,22 @@
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+  IgnorableNamespaces="uap desktop6 rescap">
 
   <Identity
     Name="7f0db578-026f-4e0b-a75b-d5d06bb0a74d"
     Publisher="CN=DGP Studio"
-    Version="1.1.14.0" />
+    Version="1.1.18.0" />
 
   <Properties>
     <DisplayName>胡桃</DisplayName>
     <PublisherDisplayName>DGP Studio</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
+
+    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
   </Properties>
 
   <Dependencies>
@@ -50,6 +53,7 @@
   </Applications>
 
   <Capabilities>
-    <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="runFullTrust"/>
+    <rescap:Capability Name="unvirtualizedResources"/>
   </Capabilities>
 </Package>

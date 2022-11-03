@@ -181,13 +181,16 @@ internal class NavigationService : INavigationService
     /// <inheritdoc/>
     public void GoBack()
     {
-        bool canGoBack = Frame?.CanGoBack ?? false;
-
-        if (canGoBack)
+        Program.DispatcherQueue!.TryEnqueue(() =>
         {
-            Frame!.GoBack();
-            SyncSelectedNavigationViewItemWith(Frame.Content.GetType());
-        }
+            bool canGoBack = Frame?.CanGoBack ?? false;
+
+            if (canGoBack)
+            {
+                Frame!.GoBack();
+                SyncSelectedNavigationViewItemWith(Frame.Content.GetType());
+            }
+        });
     }
 
     /// <summary>

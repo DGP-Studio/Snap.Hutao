@@ -63,7 +63,7 @@ public sealed partial class LoginMihoyoBBSPage : Microsoft.UI.Xaml.Controls.Page
                 infoBarService.Information($"此 Cookie 不完整，操作失败");
                 break;
             case UserOptionResult.Invalid:
-                infoBarService.Information($"此 Cookie 无法，操作失败");
+                infoBarService.Information($"此 Cookie 无效，操作失败");
                 break;
             case UserOptionResult.Updated:
                 infoBarService.Success($"用户 [{nickname}] 更新成功");

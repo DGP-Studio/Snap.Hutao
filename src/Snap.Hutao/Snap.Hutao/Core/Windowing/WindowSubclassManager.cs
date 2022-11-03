@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -11,14 +12,14 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// 窗体子类管理器
 /// </summary>
-internal class WindowSubclassManager : IDisposable
+/// <typeparam name="TWindow">窗体类型</typeparam>
+internal class WindowSubclassManager<TWindow> : IDisposable
+    where TWindow : Window, IExtendedWindowSource
 {
     private const int WindowSubclassId = 101;
     private const int DragBarSubclassId = 102;
 
-    private const int MinWidth = 848;
-    private const int MinHeight = 524;
-
+    private readonly TWindow window;
     private readonly HWND hwnd;
     private readonly bool isLegacyDragBar;
     private HWND hwndDragBar;
@@ -30,12 +31,13 @@ internal class WindowSubclassManager : IDisposable
     /// <summary>
     /// 构造一个新的窗体子类管理器
     /// </summary>
+    /// <param name="window">窗体实例</param>
     /// <param name="hwnd">窗体句柄</param>
     /// <param name="isLegacyDragBar">是否为经典标题栏区域</param>
-    public WindowSubclassManager(HWND hwnd, bool isLegacyDragBar)
+    public WindowSubclassManager(TWindow window, HWND hwnd, bool isLegacyDragBar)
     {
-        Must.NotNull(hwnd);
-        this.hwnd = hwnd;
+        this.window = window;
+        this.hwnd = Must.NotNull(hwnd);
         this.isLegacyDragBar = isLegacyDragBar;
     }
 
@@ -85,9 +87,7 @@ internal class WindowSubclassManager : IDisposable
             case WM_GETMINMAXINFO:
                 {
                     double scalingFactor = Persistence.GetScaleForWindow(hwnd);
-                    MINMAXINFO* info = (MINMAXINFO*)lParam.Value;
-                    info->ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, info->ptMinTrackSize.X);
-                    info->ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, info->ptMinTrackSize.Y);
+                    window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
                     break;
                 }
         }

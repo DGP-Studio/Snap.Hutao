@@ -60,7 +60,7 @@
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
-    <None Remove="View\Dialog\UserAutoCookieDialog.xaml" />
+    <None Remove="View\Dialog\GameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\MainView.xaml" />
     <None Remove="View\Page\AchievementPage.xaml" />
@@ -151,6 +151,11 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="View\Dialog\GameAccountNameDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="View\Page\LoginMihoyoBBSPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -187,11 +192,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\AvatarPropertyPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\UserAutoCookieDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

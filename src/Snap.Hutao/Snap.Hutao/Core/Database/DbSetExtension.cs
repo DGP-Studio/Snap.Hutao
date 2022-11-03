@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Snap.Hutao.Model.Entity;
 
 namespace Snap.Hutao.Core.Database;
 

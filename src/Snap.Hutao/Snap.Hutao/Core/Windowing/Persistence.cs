@@ -21,21 +21,26 @@ internal static class Persistence
     /// 设置窗体位置
     /// </summary>
     /// <param name="appWindow">应用窗体</param>
-    public static void RecoverOrInit(AppWindow appWindow)
+    /// <param name="persistSize">持久化尺寸</param>
+    /// <param name="size">初始尺寸</param>
+    public static void RecoverOrInit(AppWindow appWindow, bool persistSize, SizeInt32 size)
     {
         // Set first launch size.
         HWND hwnd = (HWND)Win32Interop.GetWindowFromWindowId(appWindow.Id);
-        SizeInt32 size = TransformSizeForWindow(new(1200, 741), hwnd);
-        RectInt32 rect = StructMarshal.RectInt32(size);
+        SizeInt32 transformedSize = TransformSizeForWindow(size, hwnd);
+        RectInt32 rect = StructMarshal.RectInt32(transformedSize);
 
-        RectInt32 target = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (ulong)(CompactRect)rect);
-        if (target.Width * target.Height < 848 * 524)
+        if (persistSize)
         {
-            target = rect;
+            RectInt32 persistedSize = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (ulong)(CompactRect)rect);
+            if (persistedSize.Width * persistedSize.Height > 848 * 524)
+            {
+                rect = persistedSize;
+            }
         }
 
-        TransformToCenterScreen(ref target);
-        appWindow.MoveAndResize(target);
+        TransformToCenterScreen(ref rect);
+        appWindow.MoveAndResize(rect);
     }
 
     /// <summary>

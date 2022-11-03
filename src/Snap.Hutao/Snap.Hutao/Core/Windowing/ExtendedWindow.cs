@@ -18,16 +18,18 @@ namespace Snap.Hutao.Core.Windowing;
 /// 窗口管理器
 /// 主要包含了针对窗体的 P/Inoke 逻辑
 /// </summary>
-internal sealed class ExtendedWindow
+/// <typeparam name="TWindow">窗体类型</typeparam>
+internal sealed class ExtendedWindow<TWindow>
+    where TWindow : Window, IExtendedWindowSource
 {
     private readonly HWND handle;
     private readonly AppWindow appWindow;
 
-    private readonly Window window;
+    private readonly TWindow window;
     private readonly FrameworkElement titleBar;
 
-    private readonly ILogger<ExtendedWindow> logger;
-    private readonly WindowSubclassManager subclassManager;
+    private readonly ILogger<ExtendedWindow<TWindow>> logger;
+    private readonly WindowSubclassManager<TWindow> subclassManager;
 
     private readonly bool useLegacyDragBar;
 
@@ -36,11 +38,11 @@ internal sealed class ExtendedWindow
     /// </summary>
     /// <param name="window">窗口</param>
     /// <param name="titleBar">充当标题栏的元素</param>
-    private ExtendedWindow(Window window, FrameworkElement titleBar)
+    private ExtendedWindow(TWindow window, FrameworkElement titleBar)
     {
         this.window = window;
         this.titleBar = titleBar;
-        logger = Ioc.Default.GetRequiredService<ILogger<ExtendedWindow>>();
+        logger = Ioc.Default.GetRequiredService<ILogger<ExtendedWindow<TWindow>>>();
 
         handle = (HWND)WindowNative.GetWindowHandle(window);
 
@@ -48,7 +50,7 @@ internal sealed class ExtendedWindow
         appWindow = AppWindow.GetFromWindowId(windowId);
 
         useLegacyDragBar = !AppWindowTitleBar.IsCustomizationSupported();
-        subclassManager = new(handle, useLegacyDragBar);
+        subclassManager = new(window, handle, useLegacyDragBar);
 
         InitializeWindow();
     }
@@ -57,11 +59,10 @@ internal sealed class ExtendedWindow
     /// 初始化
     /// </summary>
     /// <param name="window">窗口</param>
-    /// <param name="titleBar">标题栏</param>
     /// <returns>实例</returns>
-    public static ExtendedWindow Initialize(Window window, FrameworkElement titleBar)
+    public static ExtendedWindow<TWindow> Initialize(TWindow window)
     {
-        return new(window, titleBar);
+        return new(window, window.TitleBar);
     }
 
     private static void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
@@ -103,7 +104,8 @@ internal sealed class ExtendedWindow
         appWindow.Title = "胡桃";
 
         ExtendsContentIntoTitleBar();
-        Persistence.RecoverOrInit(appWindow);
+
+        Persistence.RecoverOrInit(appWindow, window.PersistSize, window.InitSize);
 
         // Log basic window state here.
         (string pos, string size) = GetPostionAndSize(appWindow);
@@ -115,14 +117,18 @@ internal sealed class ExtendedWindow
         logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
 
         bool subClassApplied = subclassManager.TrySetWindowSubclass();
-        logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(WindowSubclassManager), subClassApplied ? "succeed" : "failed");
+        logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(WindowSubclassManager<TWindow>), subClassApplied ? "succeed" : "failed");
 
         window.Closed += OnWindowClosed;
     }
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        Persistence.Save(appWindow);
+        if (window.PersistSize)
+        {
+            Persistence.Save(appWindow);
+        }
+
         subclassManager?.Dispose();
     }
 

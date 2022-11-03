@@ -15,9 +15,6 @@ namespace Snap.Hutao.Core;
 /// </summary>
 internal static class CoreEnvironment
 {
-    private const string CryptographyKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\";
-    private const string MachineGuidValue = "MachineGuid";
-
     // 计算过程：https://gist.github.com/Lightczx/373c5940b36e24b25362728b52dec4fd
 
     /// <summary>
@@ -70,6 +67,9 @@ internal static class CoreEnvironment
         PropertyNameCaseInsensitive = true,
         WriteIndented = true,
     };
+
+    private const string CryptographyKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\";
+    private const string MachineGuidValue = "MachineGuid";
 
     static CoreEnvironment()
     {

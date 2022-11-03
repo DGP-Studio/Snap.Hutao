@@ -29,7 +29,7 @@ public class User : ISelectable
     /// <summary>
     /// 用户的Cookie
     /// </summary>
-    public Cookie Cookie { get; set; } = default!;
+    public Cookie? Cookie { get; set; }
 
     /// <summary>
     /// 创建一个新的用户

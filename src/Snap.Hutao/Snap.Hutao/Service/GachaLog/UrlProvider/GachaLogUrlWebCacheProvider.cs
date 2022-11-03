@@ -54,59 +54,34 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
             {
                 using (FileStream fileStream = new(tempFile.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
-                    using (BinaryReader reader = new(fileStream))
+                    using (MemoryStream memoryStream = new())
                     {
-                        string url = string.Empty;
-                        while (!reader.EndOfStream())
-                        {
-                            uint test = reader.ReadUInt32();
-
-                            if (test == 0x2F302F31)
-                            {
-                                byte[] chars = ReadBytesUntilZero(reader);
-                                string result = Encoding.UTF8.GetString(chars.AsSpan());
-
-                                if (result.Contains("&auth_appid=webview_gacha"))
-                                {
-                                    url = result;
-                                }
-
-                                // align up
-                                long offset = reader.BaseStream.Position % 128;
-                                reader.BaseStream.Position += 128 - offset;
-                            }
-                        }
-
-                        return new(!string.IsNullOrEmpty(url), url);
+                        await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
+                        string? result = Match(memoryStream);
+                        return new(!string.IsNullOrEmpty(result), result!);
                     }
                 }
             }
         }
         else
         {
-            return new(false, $"未正确提供原神路径，或当前设置的路径不正确");
+            return new(false, "未正确提供原神路径，或当前设置的路径不正确");
         }
     }
 
-    private static byte[] ReadBytesUntilZero(BinaryReader binaryReader)
+    private static string? Match(MemoryStream stream)
     {
-        return ReadByteEnumerableUntilZero(binaryReader).ToArray();
-    }
+        ReadOnlySpan<byte> span = stream.ToArray();
+        ReadOnlySpan<byte> match = Encoding.UTF8.GetBytes("https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html");
+        ReadOnlySpan<byte> zero = Encoding.UTF8.GetBytes("\0");
 
-    private static IEnumerable<byte> ReadByteEnumerableUntilZero(BinaryReader binaryReader)
-    {
-        while (binaryReader.BaseStream.Position < binaryReader.BaseStream.Length)
+        int index = span.LastIndexOf(match);
+        if (index >= 0)
         {
-            byte b = binaryReader.ReadByte();
-
-            if (b == 0x00)
-            {
-                yield break;
-            }
-            else
-            {
-                yield return b;
-            }
+            int length = span[index..].IndexOf(zero);
+            return Encoding.UTF8.GetString(span.Slice(index, length));
         }
+
+        return null;
     }
 }

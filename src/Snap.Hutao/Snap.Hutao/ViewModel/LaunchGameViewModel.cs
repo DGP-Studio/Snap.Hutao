@@ -2,11 +2,19 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Context.Database;
 using Snap.Hutao.Control;
+using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.User;
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel;
@@ -17,7 +25,11 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 {
+    private static readonly string TrueString = true.ToString();
+    private static readonly string FalseString = false.ToString();
+
     private readonly IGameService gameService;
+    private readonly AppDbContext appDbContext;
 
     private readonly List<LaunchScheme> knownSchemes = new()
     {
@@ -41,16 +53,19 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     /// 构造一个新的启动游戏视图模型
     /// </summary>
     /// <param name="gameService">游戏服务</param>
+    /// <param name="appDbContext">数据库上下文</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public LaunchGameViewModel(IGameService gameService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public LaunchGameViewModel(IGameService gameService, AppDbContext appDbContext, IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
         this.gameService = gameService;
+        this.appDbContext = appDbContext;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         LaunchCommand = asyncRelayCommandFactory.Create(LaunchAsync);
         DetectGameAccountCommand = asyncRelayCommandFactory.Create(DetectGameAccountAsync);
-        ModifyGameAccountCommand = asyncRelayCommandFactory.Create(ModifyGameAccountAsync);
-        RemoveGameAccountCommand = asyncRelayCommandFactory.Create(RemoveGameAccountAsync);
+        ModifyGameAccountCommand = asyncRelayCommandFactory.Create<GameAccount>(ModifyGameAccountAsync);
+        RemoveGameAccountCommand = asyncRelayCommandFactory.Create<GameAccount>(RemoveGameAccountAsync);
+        AttachGameAccountCommand = new RelayCommand<GameAccount>(AttachGameAccountToCurrentUserGameRole);
     }
 
     /// <inheritdoc/>
@@ -107,6 +122,12 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     public int TargetFps { get => targetFps; set => SetProperty(ref targetFps, value); }
 
     /// <summary>
+    /// 是否提权
+    /// </summary>
+    [SuppressMessage("Performance", "CA1822")]
+    public bool IsElevated { get => Activation.GetElevated(); }
+
+    /// <summary>
     /// 打开界面命令
     /// </summary>
     public ICommand OpenUICommand { get; }
@@ -131,6 +152,11 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     /// </summary>
     public ICommand RemoveGameAccountCommand { get; }
 
+    /// <summary>
+    /// 绑定到Uid命令
+    /// </summary>
+    public ICommand AttachGameAccountCommand { get; }
+
     private async Task OpenUIAsync()
     {
         (bool isOk, string gamePath) = await gameService.GetGamePathAsync().ConfigureAwait(false);
@@ -139,26 +165,110 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
         {
             MultiChannel multi = gameService.GetMultiChannel();
             SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
+            GameAccounts = gameService.GetGameAccountCollection();
+
+            // Sync from Settings
+            RetiveSetting();
         }
+    }
+
+    private void RetiveSetting()
+    {
+        DbSet<SettingEntry> settings = appDbContext.Settings;
+
+        isFullScreen = settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, TrueString).GetBoolean();
+        OnPropertyChanged(nameof(IsFullScreen));
+
+        isBorderless = settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, FalseString).GetBoolean();
+        OnPropertyChanged(nameof(IsBorderless));
+
+        screenWidth = settings.SingleOrAdd(SettingEntry.LaunchScreenWidth, "1920").GetInt32();
+        OnPropertyChanged(nameof(ScreenWidth));
+
+        screenHeight = settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, "1080").GetInt32();
+        OnPropertyChanged(nameof(ScreenHeight));
+
+        unlockFps = settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, FalseString).GetBoolean();
+        OnPropertyChanged(nameof(UnlockFps));
+
+        targetFps = settings.SingleOrAdd(SettingEntry.LaunchTargetFps, "60").GetInt32();
+        OnPropertyChanged(nameof(TargetFps));
+    }
+
+    private void SaveSetting()
+    {
+        DbSet<SettingEntry> settings = appDbContext.Settings;
+        settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, TrueString).SetBoolean(IsFullScreen);
+        settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, FalseString).SetBoolean(IsBorderless);
+        settings.SingleOrAdd(SettingEntry.LaunchScreenWidth, "1920").SetInt32(ScreenWidth);
+        settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, "1080").SetInt32(ScreenHeight);
+        settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, FalseString).SetBoolean(UnlockFps);
+        settings.SingleOrAdd(SettingEntry.LaunchTargetFps, "60").SetInt32(TargetFps);
+        appDbContext.SaveChanges();
     }
 
     private async Task LaunchAsync()
     {
+        if (gameService.IsGameRunning())
+        {
+            return;
+        }
 
+        if (SelectedScheme != null)
+        {
+            gameService.SetMultiChannel(SelectedScheme);
+        }
+
+        if (SelectedGameAccount != null)
+        {
+            if (!gameService.SetGameAccount(SelectedGameAccount))
+            {
+                Ioc.Default.GetRequiredService<IInfoBarService>().Warning("切换账号失败");
+            }
+        }
+
+        SaveSetting();
+
+        LaunchConfiguration configuration = new(IsFullScreen, IsBorderless, ScreenWidth, ScreenHeight, IsElevated && UnlockFps, TargetFps);
+        await gameService.LaunchAsync(configuration).ConfigureAwait(false);
     }
 
     private async Task DetectGameAccountAsync()
     {
-
+        await gameService.DetectGameAccountAsync().ConfigureAwait(false);
     }
 
-    private async Task ModifyGameAccountAsync()
+    private void AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
     {
+        if (gameAccount != null)
+        {
+            IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
+            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
+            if (userService.Current?.SelectedUserGameRole is UserGameRole role)
+            {
+                gameService.AttachGameAccountToUid(gameAccount, role.GameUid);
+            }
+            else
+            {
+                infoBarService.Warning("当前未选择角色");
+            }
+        }
     }
 
-    private async Task RemoveGameAccountAsync()
+    private async Task ModifyGameAccountAsync(GameAccount? gameAccount)
     {
+        if (gameAccount != null)
+        {
+            await gameService.ModifyGameAccountAsync(gameAccount).ConfigureAwait(false);
+        }
+    }
 
+    private async Task RemoveGameAccountAsync(GameAccount? gameAccount)
+    {
+        if (gameAccount != null)
+        {
+            await gameService.RemoveGameAccountAsync(gameAccount).ConfigureAwait(false);
+        }
     }
 }

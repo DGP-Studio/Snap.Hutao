@@ -5,6 +5,7 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
+using System.Security.Principal;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
@@ -19,6 +20,19 @@ internal static class Activation
     public const string LaunchGame = "LaunchGame";
 
     private static readonly SemaphoreSlim ActivateSemaphore = new(1);
+
+    /// <summary>
+    /// 获取是否提升了权限
+    /// </summary>
+    /// <returns>是否提升了权限</returns>
+    public static bool GetElevated()
+    {
+        using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+        {
+            WindowsPrincipal principal = new(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+    }
 
     /// <summary>
     /// 响应激活事件
@@ -70,6 +84,18 @@ internal static class Activation
 
             case LaunchGame:
                 {
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    if (!MainWindow.IsPresent)
+                    {
+                        _ = Ioc.Default.GetRequiredService<LaunchGameWindow>();
+                    }
+                    else
+                    {
+                        await Ioc.Default
+                            .GetRequiredService<INavigationService>()
+                            .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
+                    }
+
                     break;
                 }
         }

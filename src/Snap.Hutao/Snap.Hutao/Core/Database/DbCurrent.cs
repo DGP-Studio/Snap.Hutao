@@ -26,7 +26,6 @@ internal class DbCurrent<TEntity, TMessage>
     /// </summary>
     /// <param name="dbSet">数据集</param>
     /// <param name="messenger">消息器</param>
-    /// 
     public DbCurrent(DbSet<TEntity> dbSet, IMessenger messenger)
     {
         this.dbSet = dbSet;

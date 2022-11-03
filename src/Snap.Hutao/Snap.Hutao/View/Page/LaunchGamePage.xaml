@@ -1,19 +1,32 @@
-﻿<control:ScopedPage
+﻿<shc:ScopedPage
     x:Class="Snap.Hutao.View.Page.LaunchGamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:sc="using:SettingsUI.Controls"
-    xmlns:control="using:Snap.Hutao.Control"
+    xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shv="using:Snap.Hutao.ViewModel"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance shv:LaunchGameViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <mxi:Interaction.Behaviors>
+        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+    </mxi:Interaction.Behaviors>
+    
     <Page.Resources>
+        <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
+
         <Style TargetType="Button" BasedOn="{StaticResource SettingButtonStyle}">
-            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinWidth" Value="160"/>
         </Style>
         <Style TargetType="HyperlinkButton" BasedOn="{StaticResource HyperlinkButtonStyle}">
-            <Setter Property="MinWidth" Value="120"/>
+            <Setter Property="MinWidth" Value="160"/>
         </Style>
     </Page.Resources>
     <Grid>
@@ -34,10 +47,14 @@
                             Header="服务器"
                             Description="切换游戏服务器，B服用户需要自备额外的 PCGameSDK.dll 文件">
                             <sc:Setting.ActionContent>
-                                <ComboBox Width="120"/>
+                                <ComboBox
+                                    Width="160"
+                                    ItemsSource="{Binding KnownSchemes}"
+                                    SelectedItem="{Binding SelectedScheme,Mode=TwoWay}"
+                                    DisplayMemberPath="Name"/>
                             </sc:Setting.ActionContent>
                         </sc:Setting>
-                        <sc:SettingExpander>
+                        <sc:SettingExpander IsExpanded="True">
                             <sc:SettingExpander.Header>
                                 <Grid Padding="0,16">
                                     <StackPanel Orientation="Horizontal">
@@ -45,7 +62,6 @@
                                         <StackPanel VerticalAlignment="Center">
                                             <TextBlock
                                                 Margin="20,0,0,0"
-                                                
                                                 Text="账号"/>
                                             <TextBlock
                                                 Opacity="0.8"
@@ -53,19 +69,103 @@
                                                 Style="{StaticResource CaptionTextBlockStyle}"
                                                 Text="在游戏内切换账号,网络环境发生变化后需要重新手动检测"/>
                                         </StackPanel>
-                                        
                                     </StackPanel>
-                                    
+
                                     <Button
                                         HorizontalAlignment="Right"
+                                        Command="{Binding DetectGameAccountCommand}"
                                         Grid.Column="1"
                                         Margin="0,0,8,0"
-                                        Width="80"
-                                        MinWidth="88"
+                                        Width="128"
+                                        MinWidth="128"
                                         Content="检测"/>
                                 </Grid>
-                                
                             </sc:SettingExpander.Header>
+                            <ListView
+                                ItemsSource="{Binding GameAccounts}"
+                                SelectedItem="{Binding SelectedGameAccount,Mode=TwoWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <StackPanel Margin="0,12">
+                                                <TextBlock Text="{Binding Name}"/>
+                                                <TextBlock
+                                                    Opacity="0.8"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding AttachUid,TargetNullValue=该账号尚未绑定 UID}"/>
+                                            </StackPanel>
+                                            <StackPanel
+                                                x:Name="ButtonPanel"
+                                                Visibility="Collapsed"
+                                                HorizontalAlignment="Right"
+                                                Orientation="Horizontal">
+                                                <Button
+                                                    Margin="4,8"
+                                                    MinWidth="48"
+                                                    VerticalAlignment="Stretch"
+                                                    ToolTipService.ToolTip="绑定当前用户角色"
+                                                    Content="&#xE723;" 
+                                                    Command="{Binding DataContext.AttachGameAccountCommand,Source={StaticResource BindingProxy}}"
+                                                    CommandParameter="{Binding}"
+                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+                                                <Button
+                                                    Margin="4,8"
+                                                    MinWidth="48"
+                                                    VerticalAlignment="Stretch"
+                                                    ToolTipService.ToolTip="重命名"
+                                                    Content="&#xE8AC;"
+                                                    Command="{Binding DataContext.ModifyGameAccountCommand,Source={StaticResource BindingProxy}}"
+                                                    CommandParameter="{Binding}"
+                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+                                                <Button
+                                                    Margin="4,8"
+                                                    MinWidth="48"
+                                                    VerticalAlignment="Stretch"
+                                                    ToolTipService.ToolTip="删除"
+                                                    Content="&#xE74D;"
+                                                    Command="{Binding DataContext.RemoveGameAccountCommand,Source={StaticResource BindingProxy}}"
+                                                    CommandParameter="{Binding}"
+                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"/>
+                                            </StackPanel>
+                                            
+                                            <Grid.Resources>
+                                                <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                                                    <ObjectAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="ButtonPanel"
+                                                        Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+
+                                                <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                                                    <ObjectAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="ButtonPanel"
+                                                        Storyboard.TargetProperty="Visibility">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Collapsed</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </Grid.Resources>
+                                            
+                                            <mxi:Interaction.Behaviors>
+                                                <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                                                </mxic:EventTriggerBehavior>
+                                                <mxic:EventTriggerBehavior EventName="PointerExited">
+                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                                                </mxic:EventTriggerBehavior>
+                                            </mxi:Interaction.Behaviors>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </sc:SettingExpander>
                     </sc:SettingsGroup>
                     <sc:SettingsGroup Header="外观">
@@ -75,8 +175,9 @@
                             Description="覆盖默认的全屏状态">
                             <sc:Setting.ActionContent>
                                 <ToggleSwitch
-                                Style="{StaticResource ToggleSwitchSettingStyle}"
-                                Width="120"/>
+                                    IsOn="{Binding IsFullScreen,Mode=TwoWay}"
+                                    Style="{StaticResource ToggleSwitchSettingStyle}"
+                                    Width="120"/>
                             </sc:Setting.ActionContent>
                         </sc:Setting>
                         <sc:Setting
@@ -85,8 +186,9 @@
                             Description="将窗口创建为弹出窗口，不带框架">
                             <sc:Setting.ActionContent>
                                 <ToggleSwitch
-                                Style="{StaticResource ToggleSwitchSettingStyle}"
-                                Width="120"/>
+                                    IsOn="{Binding IsBorderless,Mode=TwoWay}"
+                                    Style="{StaticResource ToggleSwitchSettingStyle}"
+                                    Width="120"/>
                             </sc:Setting.ActionContent>
                         </sc:Setting>
 
@@ -97,7 +199,8 @@
                             Description="覆盖默认屏幕宽度">
                             <sc:Setting.ActionContent>
                                 <NumberBox
-                                Width="120"/>
+                                    Value="{Binding ScreenWidth,Mode=TwoWay}"
+                                    Width="160"/>
                             </sc:Setting.ActionContent>
                         </sc:Setting>
                         <sc:Setting
@@ -106,29 +209,32 @@
                             Description="覆盖默认屏幕高度">
                             <sc:Setting.ActionContent>
                                 <NumberBox
-                                Width="120"/>
+                                    Value="{Binding ScreenHeight,Mode=TwoWay}"
+                                    Width="160"/>
                             </sc:Setting.ActionContent>
                         </sc:Setting>
                     </sc:SettingsGroup>
 
-                    <sc:SettingsGroup Header="Dangerous feature">
+                    <sc:SettingsGroup Header="Dangerous Feature" IsEnabled="{Binding IsElevated}">
                         <sc:Setting
                             Icon="&#xE785;"
                             Header="Unlock frame rate limit"
-                            Description="Requires administrator privilege.&#10;Otherwise the option does not take effect.">
+                            Description="Requires administrator privilege. Otherwise the option will be disabled.">
                             <sc:Setting.ActionContent>
                                 <ToggleSwitch
-                                OnContent="Enable"
-                                OffContent="Disable"
-                                Style="{StaticResource ToggleSwitchSettingStyle}"
-                                Width="120"/>
+                                    IsOn="{Binding UnlockFps,Mode=TwoWay}"
+                                    OnContent="Enable"
+                                    OffContent="Disable"
+                                    Style="{StaticResource ToggleSwitchSettingStyle}"
+                                    Width="120"/>
                             </sc:Setting.ActionContent>
                         </sc:Setting>
                         <sc:Setting
                             Header="Set frame rate"
-                            Description="60">
+                            Description="{Binding TargetFps}">
                             <sc:Setting.ActionContent>
                                 <Slider
+                                    Value="{Binding TargetFps,Mode=TwoWay}"
                                     Minimum="60"
                                     Maximum="360"
                                     Width="400"/>
@@ -143,6 +249,7 @@
             VerticalAlignment="Bottom"
             Background="{StaticResource SystemControlAcrylicElementMediumHighBrush}">
             <Button
+                Command="{Binding LaunchCommand}"
                 HorizontalAlignment="Right"
                 Grid.Column="3"
                 Margin="24"
@@ -150,4 +257,4 @@
                 Content="启动游戏"/>
         </Grid>
     </Grid>
-</control:ScopedPage>
+</shc:ScopedPage>

@@ -126,7 +126,7 @@ internal class UserViewModel : ObservableObject
                     infoBarService.Information($"此 Cookie 不完整，操作失败");
                     break;
                 case UserOptionResult.Invalid:
-                    infoBarService.Information($"此 Cookie 无法，操作失败");
+                    infoBarService.Information($"此 Cookie 无效，操作失败");
                     break;
                 case UserOptionResult.Updated:
                     infoBarService.Success($"用户 [{uid}] 更新成功");
@@ -162,7 +162,7 @@ internal class UserViewModel : ObservableObject
         Verify.Operation(user != null, "待复制 Cookie 的用户不应为 null");
         try
         {
-            Clipboard.SetText(user.Cookie.ToString());
+            Clipboard.SetText(user.Cookie!.ToString());
             infoBarService.Success($"{user.UserInfo!.Nickname} 的 Cookie 复制成功");
         }
         catch (Exception e)

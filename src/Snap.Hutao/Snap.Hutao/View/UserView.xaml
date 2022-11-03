@@ -22,7 +22,7 @@
             Background="Transparent"
             BorderBrush="{x:Null}"
             Grid.Column="2"
-            Margin="4">
+            Margin="4,4,4,6">
             <Button.Resources>
                 <shc:BindingProxy
                     x:Key="ViewModelBindingProxy"
@@ -210,8 +210,8 @@
                             <AppBarButton Label="网页登录" Icon="{shcm:FontIcon Glyph=&#xEB41;}">
                                 <AppBarButton.Flyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="登录米游社原神社区" Command="{Binding LoginMihoyoBBSCommand}"/>
-                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="登录米哈游通行证" Command="{Binding LoginMihoyoUserCommand}"/>
+                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="添加 Cookie" Command="{Binding LoginMihoyoBBSCommand}"/>
+                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="升级 Stoken" Command="{Binding LoginMihoyoUserCommand}"/>
                                     </MenuFlyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>

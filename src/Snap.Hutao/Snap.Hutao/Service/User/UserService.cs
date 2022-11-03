@@ -95,7 +95,6 @@ internal class UserService : IUserService
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
             appDbContext.Users.RemoveAndSave(user.Entity);
         }
     }

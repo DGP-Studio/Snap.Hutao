@@ -8,9 +8,11 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Core.Threading;
+using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.Unlocker;
+using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -24,6 +26,7 @@ namespace Snap.Hutao.Service.Game;
 internal class GameService : IGameService
 {
     private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
+    private const string ConfigFile = "config.ini";
 
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IMemoryCache memoryCache;
@@ -136,7 +139,7 @@ internal class GameService : IGameService
     public MultiChannel GetMultiChannel()
     {
         string gamePath = GetGamePathSkipLocator();
-        string configPath = Path.Combine(gamePath, "config.ini");
+        string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFile);
 
         using (FileStream stream = File.OpenRead(configPath))
         {
@@ -148,11 +151,61 @@ internal class GameService : IGameService
         }
     }
 
-    public async Task<ObservableCollection<GameAccount>> GetGameAccountCollectionAsync()
+    /// <inheritdoc/>
+    public void SetMultiChannel(LaunchScheme scheme)
+    {
+        string gamePath = GetGamePathSkipLocator();
+        string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFile);
+
+        List<IniElement> elements;
+        using (FileStream readStream = File.OpenRead(configPath))
+        {
+            elements = IniSerializer.Deserialize(readStream).ToList();
+        }
+
+        foreach (IniElement element in elements)
+        {
+            if (element is IniParameter parameter)
+            {
+                if (parameter.Key == "channel")
+                {
+                    parameter.Value = scheme.Channel;
+                }
+
+                if (parameter.Key == "sub_channel")
+                {
+                    parameter.Value = scheme.SubChannel;
+                }
+            }
+        }
+
+        using (FileStream writeStream = File.Create(configPath))
+        {
+            IniSerializer.Serialize(writeStream, elements);
+        }
+    }
+
+    /// <inheritdoc/>
+    public bool IsGameRunning()
+    {
+        if (gameSemaphore.CurrentCount == 0)
+        {
+            return true;
+        }
+
+        return Process.GetProcessesByName("YuanShen.exe").Any();
+    }
+
+    /// <inheritdoc/>
+    public ObservableCollection<GameAccount> GetGameAccountCollection()
     {
         if (gameAccounts == null)
         {
-
+            using (IServiceScope scope = scopeFactory.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                gameAccounts = new(appDbContext.GameAccounts.ToList());
+            }
         }
 
         return gameAccounts;
@@ -161,19 +214,19 @@ internal class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask LaunchAsync(LaunchConfiguration configuration)
     {
-        if (gameSemaphore.CurrentCount == 0)
+        if (IsGameRunning())
         {
             return;
         }
 
         string gamePath = GetGamePathSkipLocator();
 
+        // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
         string commandLine = new CommandLineBuilder()
             .AppendIf("-popupwindow", configuration.IsBorderless)
             .Append("-screen-fullscreen", configuration.IsFullScreen ? 1 : 0)
             .Append("-screen-width", configuration.ScreenWidth)
             .Append("-screen-height", configuration.ScreenHeight)
-            .Append("-monitor", configuration.Monitor)
             .Build();
 
         Process game = new()
@@ -190,22 +243,122 @@ internal class GameService : IGameService
 
         using (await gameSemaphore.EnterAsync().ConfigureAwait(false))
         {
-            if (configuration.UnlockFPS)
+            try
             {
-                IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, configuration.TargetFPS);
-
-                TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
-                TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
-                TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
-                await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
-            }
-            else
-            {
-                if (game.Start())
+                if (configuration.UnlockFPS)
                 {
-                    await game.WaitForExitAsync().ConfigureAwait(false);
+                    IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, configuration.TargetFPS);
+
+                    TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
+                    TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
+                    TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
+                    if (game.Start())
+                    {
+                        await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
+                    }
+                }
+                else
+                {
+                    if (game.Start())
+                    {
+                        await game.WaitForExitAsync().ConfigureAwait(false);
+                    }
                 }
             }
+            catch (Win32Exception)
+            {
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask DetectGameAccountAsync()
+    {
+        Must.NotNull(gameAccounts!);
+
+        string? registrySdk = GameAccountRegistryInterop.Get();
+        if (!string.IsNullOrEmpty(registrySdk))
+        {
+            GameAccount? account = gameAccounts.SingleOrDefault(a => a.MihoyoSDK == registrySdk);
+
+            if (account == null)
+            {
+                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+                (bool isOk, string name) = await new GameAccountNameDialog(mainWindow).GetInputNameAsync().ConfigureAwait(false);
+
+                if (isOk)
+                {
+                    account = GameAccount.Create(name, registrySdk);
+
+                    // sync cache
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    gameAccounts.Add(GameAccount.Create(name, registrySdk));
+
+                    // sync database
+                    using (IServiceScope scope = scopeFactory.CreateScope())
+                    {
+                        AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                        appDbContext.GameAccounts.AddAndSave(account);
+                    }
+                }
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    public bool SetGameAccount(GameAccount account)
+    {
+        return GameAccountRegistryInterop.Set(account);
+    }
+
+    /// <inheritdoc/>
+    public void AttachGameAccountToUid(GameAccount gameAccount, string uid)
+    {
+        using (IServiceScope scope = scopeFactory.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            IQueryable<GameAccount> oldAccounts = appDbContext.GameAccounts.Where(a => a.AttachUid == uid);
+
+            foreach (GameAccount account in oldAccounts)
+            {
+                account.UpdateAttachUid(null);
+                appDbContext.GameAccounts.UpdateAndSave(account);
+            }
+
+            gameAccount.UpdateAttachUid(uid);
+            appDbContext.GameAccounts.UpdateAndSave(gameAccount);
+        }
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
+    {
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        (bool isOk, string name) = await new GameAccountNameDialog(mainWindow).GetInputNameAsync().ConfigureAwait(false);
+
+        if (isOk)
+        {
+            gameAccount.UpdateName(name);
+
+            // sync database
+            using (IServiceScope scope = scopeFactory.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                appDbContext.GameAccounts.UpdateAndSave(gameAccount);
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
+    {
+        Must.NotNull(gameAccounts!).Remove(gameAccount);
+
+        await Task.Yield();
+        using (IServiceScope scope = scopeFactory.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.GameAccounts.RemoveAndSave(gameAccount);
         }
     }
 }

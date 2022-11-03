@@ -7,7 +7,7 @@
     xmlns:settings="using:SettingsUI.Controls"
     mc:Ignorable="d"
     IsPrimaryButtonEnabled="False"
-    Title="设置米游社Cookie"
+    Title="设置 Cookie"
     DefaultButton="Primary"
     PrimaryButtonText="请输入Cookie"
     CloseButtonText="取消"
@@ -20,17 +20,19 @@
             TextChanged="InputTextChanged"
             PlaceholderText="在此处输入"
             VerticalAlignment="Top"/>
+        <TextBlock Margin="0,4,0,0" Text="接受包含 Cookie / LoginTicket / Stoken 的字符串"/>
         <settings:SettingsGroup Margin="0,-48,0,0">
+            
             <settings:Setting
                 Icon="&#xEB41;"
                 Header="操作文档"
-                Description="进入我们的文档页面并按指示操作"
+                Description="进入文档页面并按指示操作"
                 HorizontalAlignment="Stretch">
                 <HyperlinkButton
                     Margin="12,0,0,0"
                     Padding="6"
                     Content="立即前往"
-                    NavigateUri="https://www.snapgenshin.com/documents/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie"/>
+                    NavigateUri="https://hut.ao/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie"/>
             </settings:Setting>
         </settings:SettingsGroup>
     </StackPanel>

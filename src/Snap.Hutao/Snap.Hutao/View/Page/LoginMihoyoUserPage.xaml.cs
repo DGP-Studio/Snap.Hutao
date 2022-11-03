@@ -28,7 +28,6 @@ public sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Pag
     private async void OnRootLoaded(object sender, RoutedEventArgs e)
     {
         await WebView.EnsureCoreWebView2Async();
-        WebView.CoreWebView2.SourceChanged += OnCoreWebView2SourceChanged;
 
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
@@ -40,23 +39,10 @@ public sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Pag
         WebView.CoreWebView2.Navigate("https://user.mihoyo.com/#/login/password");
     }
 
-    [SuppressMessage("", "VSTHRD100")]
-    private async void OnCoreWebView2SourceChanged(CoreWebView2 sender, CoreWebView2SourceChangedEventArgs args)
-    {
-        if (sender != null)
-        {
-            if (sender.Source.ToString() == "https://user.mihoyo.com/#/account/home")
-            {
-                await HandleCurrentCookieAsync().ConfigureAwait(false);
-            }
-        }
-    }
-
     private async Task HandleCurrentCookieAsync()
     {
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
-        WebView.CoreWebView2.SourceChanged -= OnCoreWebView2SourceChanged;
 
         Cookie cookie = Cookie.FromCoreWebView2Cookies(cookies);
         IUserService userService = Ioc.Default.GetRequiredService<IUserService>();

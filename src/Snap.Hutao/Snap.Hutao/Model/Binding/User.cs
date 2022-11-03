@@ -56,7 +56,7 @@ public class User : ObservableObject
     }
 
     /// <inheritdoc cref="EntityUser.Cookie"/>
-    public Cookie Cookie
+    public Cookie? Cookie
     {
         get => inner.Cookie;
         set
@@ -71,7 +71,7 @@ public class User : ObservableObject
     /// </summary>
     public bool HasSToken
     {
-        get => inner.Cookie.ContainsSToken();
+        get => inner.Cookie!.ContainsSToken();
     }
 
     /// <summary>
@@ -83,17 +83,6 @@ public class User : ObservableObject
     /// 是否初始化完成
     /// </summary>
     public bool IsInitialized { get => isInitialized; }
-
-    /// <summary>
-    /// 更新SToken
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <param name="cookie">cookie</param>
-    internal void UpdateSToken(string uid, Cookie cookie)
-    {
-        Cookie.InsertSToken(uid, cookie);
-        OnPropertyChanged(nameof(HasSToken));
-    }
 
     /// <summary>
     /// 从数据库恢复用户
@@ -123,6 +112,17 @@ public class User : ObservableObject
         User user = new(EntityUser.Create(cookie));
         bool successful = await user.InitializeCoreAsync(userClient, userGameRoleClient, token).ConfigureAwait(false);
         return successful ? user : null;
+    }
+
+    /// <summary>
+    /// 更新SToken
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <param name="cookie">cookie</param>
+    internal void UpdateSToken(string uid, Cookie cookie)
+    {
+        Cookie!.InsertSToken(uid, cookie);
+        OnPropertyChanged(nameof(HasSToken));
     }
 
     private async Task<bool> InitializeCoreAsync(UserClient userClient, BindingClient userGameRoleClient, CancellationToken token = default)
