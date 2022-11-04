@@ -31,15 +31,15 @@ internal class SummaryFactory : ISummaryFactory
     }
 
     /// <inheritdoc/>
-    public async Task<Summary> CreateAsync(ModelPlayerInfo playerInfo, IEnumerable<ModelAvatarInfo> avatarInfos)
+    public async Task<Summary> CreateAsync(ModelPlayerInfo playerInfo, IEnumerable<ModelAvatarInfo> avatarInfos, CancellationToken token)
     {
-        Dictionary<int, MetadataAvatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-        Dictionary<int, MetadataWeapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
-        Dictionary<int, FightProperty> idRelicMainPropMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync().ConfigureAwait(false);
-        Dictionary<int, ReliquaryAffix> idReliquaryAffixMap = await metadataService.GetIdReliquaryAffixMapAsync().ConfigureAwait(false);
+        Dictionary<int, MetadataAvatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
+        Dictionary<int, MetadataWeapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
+        Dictionary<int, FightProperty> idRelicMainPropMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false);
+        Dictionary<int, ReliquaryAffix> idReliquaryAffixMap = await metadataService.GetIdReliquaryAffixMapAsync(token).ConfigureAwait(false);
 
-        List<ReliquaryLevel> reliqueryLevels = await metadataService.GetReliquaryLevelsAsync().ConfigureAwait(false);
-        List<MetadataReliquary> reliquaries = await metadataService.GetReliquariesAsync().ConfigureAwait(false);
+        List<ReliquaryLevel> reliqueryLevels = await metadataService.GetReliquaryLevelsAsync(token).ConfigureAwait(false);
+        List<MetadataReliquary> reliquaries = await metadataService.GetReliquariesAsync(token).ConfigureAwait(false);
 
         SummaryFactoryImplementation inner = new(idAvatarMap, idWeaponMap, idRelicMainPropMap, idReliquaryAffixMap, reliqueryLevels, reliquaries);
         return inner.Create(playerInfo, avatarInfos);

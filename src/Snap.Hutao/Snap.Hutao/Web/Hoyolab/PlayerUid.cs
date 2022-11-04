@@ -8,6 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// </summary>
 public struct PlayerUid
 {
+    [SuppressMessage("", "CA1805")]
+    [SuppressMessage("", "IDE0079")]
     private string? region = default;
 
     /// <summary>

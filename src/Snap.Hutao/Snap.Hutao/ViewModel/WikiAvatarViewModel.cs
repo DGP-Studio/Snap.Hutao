@@ -161,6 +161,8 @@ internal class WikiAvatarViewModel : ObservableObject
             await CombineWithAvatarCollocationsAsync(sorted).ConfigureAwait(false);
 
             await ThreadHelper.SwitchToMainThreadAsync();
+
+            // RPC_E_WRONG_THREAD ?
             Avatars = new AdvancedCollectionView(sorted, true);
             Selected = Avatars.Cast<Avatar>().FirstOrDefault();
         }

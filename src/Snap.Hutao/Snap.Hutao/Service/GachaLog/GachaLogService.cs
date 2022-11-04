@@ -123,15 +123,15 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
+    public async ValueTask<bool> InitializeAsync()
     {
-        if (await metadataService.InitializeAsync(token).ConfigureAwait(false))
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
-            nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
+            nameAvatarMap = await metadataService.GetNameToAvatarMapAsync().ConfigureAwait(false);
+            nameWeaponMap = await metadataService.GetNameToWeaponMapAsync().ConfigureAwait(false);
 
-            idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
-            idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
+            idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
+            idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
             IsInitialized = true;
         }

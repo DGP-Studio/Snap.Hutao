@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Service.AppCenter;
+using Snap.Hutao.Web.Hutao;
 
 namespace Snap.Hutao.Core.Exception;
 
@@ -13,26 +13,24 @@ namespace Snap.Hutao.Core.Exception;
 internal class ExceptionRecorder
 {
     private readonly ILogger logger;
-    private readonly AppCenter appCenter;
 
     /// <summary>
     /// 构造一个新的异常记录器
     /// </summary>
     /// <param name="application">应用程序</param>
     /// <param name="logger">日志器</param>
-    /// <param name="appCenter">App Center</param>
-    public ExceptionRecorder(Application application, ILogger logger, AppCenter appCenter)
+    public ExceptionRecorder(Application application, ILogger logger)
     {
         this.logger = logger;
-        this.appCenter = appCenter;
 
         application.UnhandledException += OnAppUnhandledException;
         application.DebugSettings.BindingFailed += OnXamlBindingFailed;
     }
 
+    [SuppressMessage("", "VSTHRD002")]
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        appCenter.TrackCrash(e.Exception);
+        Ioc.Default.GetRequiredService<HomaClient2>().UploadLogAsync(e.Exception).GetAwaiter().GetResult();
         logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
 
         foreach (ILoggerProvider provider in Ioc.Default.GetRequiredService<IEnumerable<ILoggerProvider>>())

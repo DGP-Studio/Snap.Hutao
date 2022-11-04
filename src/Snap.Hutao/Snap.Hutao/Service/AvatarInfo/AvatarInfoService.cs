@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Model.Binding.AvatarProperty;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Enka;
@@ -51,11 +53,14 @@ internal class AvatarInfoService : IAvatarInfoService
     /// <inheritdoc/>
     public async Task<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(PlayerUid uid, RefreshOption refreshOption, CancellationToken token = default)
     {
-        if (await metadataService.InitializeAsync(token).ConfigureAwait(false))
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
+            token.ThrowIfCancellationRequested();
+
             if (HasOption(refreshOption, RefreshOption.RequestFromAPI))
             {
                 EnkaResponse? resp = await GetEnkaResponseAsync(uid, token).ConfigureAwait(false);
+                token.ThrowIfCancellationRequested();
                 if (resp == null)
                 {
                     return new(RefreshResult.APIUnavailable, null);
@@ -67,7 +72,8 @@ internal class AvatarInfoService : IAvatarInfoService
                         ? UpdateDbAvatarInfo(uid.Value, resp.AvatarInfoList)
                         : resp.AvatarInfoList;
 
-                    Summary summary = await GetSummaryCoreAsync(resp.PlayerInfo, list).ConfigureAwait(false);
+                    Summary summary = await GetSummaryCoreAsync(resp.PlayerInfo, list, token).ConfigureAwait(false);
+                    token.ThrowIfCancellationRequested();
                     return new(RefreshResult.Ok, summary);
                 }
                 else
@@ -79,7 +85,8 @@ internal class AvatarInfoService : IAvatarInfoService
             {
                 PlayerInfo info = PlayerInfo.CreateEmpty(uid.Value);
 
-                Summary summary = await GetSummaryCoreAsync(info, GetDbAvatarInfos(uid.Value)).ConfigureAwait(false);
+                Summary summary = await GetSummaryCoreAsync(info, GetDbAvatarInfos(uid.Value), token).ConfigureAwait(false);
+                token.ThrowIfCancellationRequested();
                 return new(RefreshResult.Ok, summary);
             }
         }
@@ -94,10 +101,10 @@ internal class AvatarInfoService : IAvatarInfoService
         return (source & define) == define;
     }
 
-    private async Task<Summary> GetSummaryCoreAsync(PlayerInfo info, IEnumerable<Web.Enka.Model.AvatarInfo> avatarInfos)
+    private async Task<Summary> GetSummaryCoreAsync(PlayerInfo info, IEnumerable<Web.Enka.Model.AvatarInfo> avatarInfos, CancellationToken token)
     {
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
-        Summary summary = await summaryFactory.CreateAsync(info, avatarInfos).ConfigureAwait(false);
+        Summary summary = await summaryFactory.CreateAsync(info, avatarInfos, token).ConfigureAwait(false);
         logger.LogInformation(EventIds.AvatarInfoGeneration, "AvatarInfoSummary Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
 
         return summary;
@@ -117,7 +124,7 @@ internal class AvatarInfoService : IAvatarInfoService
 
         foreach (Web.Enka.Model.AvatarInfo webInfo in webInfos)
         {
-            if (webInfo.AvatarId == 10000005 || webInfo.AvatarId == 10000007)
+            if (AvatarIds.IsPlayer(webInfo.AvatarId))
             {
                 continue;
             }
@@ -127,28 +134,31 @@ internal class AvatarInfoService : IAvatarInfoService
             if (entity == null)
             {
                 entity = Model.Entity.AvatarInfo.Create(uid, webInfo);
-                appDbContext.Add(entity);
+                appDbContext.AvatarInfos.AddAndSave(entity);
             }
             else
             {
                 entity.Info = webInfo;
-                appDbContext.Update(entity);
+                appDbContext.AvatarInfos.UpdateAndSave(entity);
             }
         }
-
-        appDbContext.SaveChanges();
 
         return GetDbAvatarInfos(uid);
     }
 
     private List<Web.Enka.Model.AvatarInfo> GetDbAvatarInfos(string uid)
     {
-        return appDbContext.AvatarInfos
-            .Where(i => i.Uid == uid)
-            .Select(i => i.Info)
-
-            // .AsEnumerable()
-            // .OrderByDescending(i => i.AvatarId)
-            .ToList();
+        try
+        {
+            return appDbContext.AvatarInfos
+                .Where(i => i.Uid == uid)
+                .Select(i => i.Info)
+                .ToList();
+        }
+        catch (ObjectDisposedException)
+        {
+            // appDbContext can be disposed unexpectedly
+            return new();
+        }
     }
 }

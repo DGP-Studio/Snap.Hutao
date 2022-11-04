@@ -66,15 +66,20 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     {
         HomaClient homaClient = Ioc.Default.GetRequiredService<HomaClient>();
         IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
         if (userService.Current is Model.Binding.User user)
         {
+            if (user.SelectedUserGameRole == null)
+            {
+                infoBarService.Warning("尚未选择角色");
+            }
+
             SimpleRecord record = await homaClient.GetPlayerRecordAsync(user).ConfigureAwait(false);
             Web.Response.Response<string>? response = await homaClient.UploadRecordAsync(record).ConfigureAwait(false);
 
             if (response != null && response.IsOk())
             {
-                IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
                 infoBarService.Success(response.Message);
             }
         }

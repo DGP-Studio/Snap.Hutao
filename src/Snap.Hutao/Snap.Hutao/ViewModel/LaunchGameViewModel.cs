@@ -13,9 +13,11 @@ using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -159,9 +161,9 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 
     private async Task OpenUIAsync()
     {
-        (bool isOk, string gamePath) = await gameService.GetGamePathAsync().ConfigureAwait(false);
+        bool gameExists = File.Exists(gameService.GetGamePathSkipLocator());
 
-        if (isOk)
+        if (gameExists)
         {
             MultiChannel multi = gameService.GetMultiChannel();
             SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
@@ -169,6 +171,11 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 
             // Sync from Settings
             RetiveSetting();
+        }
+        else
+        {
+            Ioc.Default.GetRequiredService<IInfoBarService>().Warning("游戏路径不正确，前往设置更改游戏路径。");
+            await Ioc.Default.GetRequiredService<INavigationService>().NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
         }
     }
 
@@ -209,6 +216,8 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 
     private async Task LaunchAsync()
     {
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+
         if (gameService.IsGameRunning())
         {
             return;
@@ -216,7 +225,14 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 
         if (SelectedScheme != null)
         {
-            gameService.SetMultiChannel(SelectedScheme);
+            try
+            {
+                gameService.SetMultiChannel(SelectedScheme);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                infoBarService.Warning("切换服务器失败，保存配置文件时发生异常\n请以管理员模式启动胡桃。");
+            }
         }
 
         if (SelectedGameAccount != null)

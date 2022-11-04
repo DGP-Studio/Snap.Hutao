@@ -37,6 +37,7 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     private GachaStatistics? statistics;
     private bool isAggressiveRefresh;
     private HistoryWish? selectedHistoryWish;
+    private bool isInitialized;
 
     /// <summary>
     /// 构造一个新的祈愿记录视图模型
@@ -113,6 +114,11 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     public bool IsAggressiveRefresh { get => isAggressiveRefresh; set => SetProperty(ref isAggressiveRefresh, value); }
 
     /// <summary>
+    /// 初始化是否完成
+    /// </summary>
+    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
+
+    /// <summary>
     /// 页面加载命令
     /// </summary>
     public ICommand OpenUICommand { get; }
@@ -183,6 +189,9 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
             {
                 infoBarService.Information("请刷新或导入祈愿记录");
             }
+
+            await ThreadHelper.SwitchToMainThreadAsync();
+            IsInitialized = true;
         }
     }
 

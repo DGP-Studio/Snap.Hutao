@@ -24,7 +24,7 @@
         <Thickness x:Key="PivotItemMargin">0</Thickness>
     </shc:ScopedPage.Resources>
 
-    <Grid>
+    <Grid Visibility="{Binding IsInitialized,Converter={StaticResource BoolToVisibilityConverter}}">
         <Rectangle
             Height="48"
             VerticalAlignment="Top"

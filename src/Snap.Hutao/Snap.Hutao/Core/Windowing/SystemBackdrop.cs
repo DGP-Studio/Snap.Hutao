@@ -101,7 +101,7 @@ public class SystemBackdrop
 
     private class DispatcherQueueHelper
     {
-        private object? dispatcherQueueController = null;
+        private object? dispatcherQueueController;
 
         /// <summary>
         /// 确保系统调度队列控制器存在

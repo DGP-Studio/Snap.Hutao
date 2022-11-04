@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
@@ -59,7 +60,7 @@ internal class GameService : IGameService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                SettingEntry entry = appDbContext.Settings.SingleOrAdd(e => e.Key == SettingEntry.GamePath, () => new(SettingEntry.GamePath, null), out bool added);
+                SettingEntry entry = appDbContext.Settings.SingleOrAdd(e => e.Key == SettingEntry.GamePath, () => new(SettingEntry.GamePath, string.Empty), out bool added);
 
                 // Cannot find in setting
                 if (added)
@@ -87,6 +88,11 @@ internal class GameService : IGameService
                     {
                         return new(false, null!);
                     }
+                }
+
+                if (entry.Value == null)
+                {
+                    return new(false, null!);
                 }
 
                 // Set cache and return.
@@ -139,7 +145,7 @@ internal class GameService : IGameService
     public MultiChannel GetMultiChannel()
     {
         string gamePath = GetGamePathSkipLocator();
-        string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFile);
+        string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFile);
 
         using (FileStream stream = File.OpenRead(configPath))
         {
@@ -220,6 +226,11 @@ internal class GameService : IGameService
         }
 
         string gamePath = GetGamePathSkipLocator();
+
+        if (string.IsNullOrWhiteSpace(gamePath))
+        {
+            return;
+        }
 
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
         string commandLine = new CommandLineBuilder()
@@ -317,14 +328,6 @@ internal class GameService : IGameService
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            IQueryable<GameAccount> oldAccounts = appDbContext.GameAccounts.Where(a => a.AttachUid == uid);
-
-            foreach (GameAccount account in oldAccounts)
-            {
-                account.UpdateAttachUid(null);
-                appDbContext.GameAccounts.UpdateAndSave(account);
-            }
-
             gameAccount.UpdateAttachUid(uid);
             appDbContext.GameAccounts.UpdateAndSave(gameAccount);
         }
@@ -358,7 +361,14 @@ internal class GameService : IGameService
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.GameAccounts.RemoveAndSave(gameAccount);
+            try
+            {
+                appDbContext.GameAccounts.RemoveAndSave(gameAccount);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // This gameAccount has already been deleted.
+            }
         }
     }
 }

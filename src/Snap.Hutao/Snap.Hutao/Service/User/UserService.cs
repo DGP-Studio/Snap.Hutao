@@ -161,6 +161,7 @@ internal class UserService : IUserService
                     if (cookie.ContainsSToken())
                     {
                         // insert stoken
+                        await ThreadHelper.SwitchToMainThreadAsync();
                         userWithSameUid.UpdateSToken(uid, cookie);
                         appDbContext.Users.UpdateAndSave(userWithSameUid.Entity);
 
@@ -169,6 +170,7 @@ internal class UserService : IUserService
 
                     if (cookie.ContainsLTokenAndCookieToken())
                     {
+                        await ThreadHelper.SwitchToMainThreadAsync();
                         userWithSameUid.Cookie = cookie;
                         appDbContext.Users.UpdateAndSave(userWithSameUid.Entity);
 

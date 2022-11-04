@@ -31,6 +31,6 @@ public class UIAF
     /// <returns>当前UIAF对象是否受支持</returns>
     public bool IsCurrentVersionSupported()
     {
-        return SupportedVersion.Contains(Info.UIAFVersion ?? string.Empty);
+        return SupportedVersion.Contains(Info?.UIAFVersion ?? string.Empty);
     }
 }

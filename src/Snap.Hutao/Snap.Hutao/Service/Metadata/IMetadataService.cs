@@ -18,9 +18,8 @@ internal interface IMetadataService
     /// <summary>
     /// 异步初始化服务，尝试更新元数据
     /// </summary>
-    /// <param name="token">取消令牌</param>
     /// <returns>初始化是否成功</returns>
-    ValueTask<bool> InitializeAsync(CancellationToken token = default);
+    ValueTask<bool> InitializeAsync();
 
     /// <summary>
     /// 异步获取成就列表

@@ -9,12 +9,6 @@ namespace Snap.Hutao.Model.Binding.AvatarProperty;
 public class Reliquary : EquipBase
 {
     /// <summary>
-    /// 副属性列表
-    /// </summary>
-    [Obsolete]
-    public List<ReliquarySubProperty> SubProperties { get; set; } = default!;
-
-    /// <summary>
     /// 初始词条
     /// </summary>
     public List<ReliquarySubProperty> PrimarySubProperties { get; set; } = default!;

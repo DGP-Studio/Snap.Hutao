@@ -209,7 +209,8 @@ internal static class SummaryHelper
             (2, 0) => 100,
             (2, 1) => 80,
 
-            _ => throw Must.NeverHappen(),
+            // TODO: Not quite sure why can we hit this branch.
+            _ => 0,
         };
     }
 
@@ -224,16 +225,6 @@ internal static class SummaryHelper
         double cd = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL_HURT];
 
         return 100 * ((cr * 2) + cd);
-    }
-
-    private static string FormatValue(FormatMethod method, double value)
-    {
-        return method switch
-        {
-            FormatMethod.Integer => Math.Round((double)value, MidpointRounding.AwayFromZero).ToString(),
-            FormatMethod.Percent => string.Format("{0:P1}", value),
-            _ => value.ToString(),
-        };
     }
 
     private static FightProperty GetBonusFightProperty(IDictionary<FightProperty, double> fightPropMap)

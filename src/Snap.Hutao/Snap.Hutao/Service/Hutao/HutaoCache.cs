@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding.Hutao;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Metadata;
@@ -111,8 +112,8 @@ internal class HutaoCache : IHutaoCache
             Dictionary<int, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             idAvatarExtendedMap = new(idAvatarMap)
             {
-                [10000005] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerBoy", Quality = Model.Intrinsic.ItemQuality.QUALITY_ORANGE },
-                [10000007] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerGirl", Quality = Model.Intrinsic.ItemQuality.QUALITY_ORANGE },
+                [AvatarIds.PlayerBoy] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerBoy", Quality = Model.Intrinsic.ItemQuality.QUALITY_ORANGE },
+                [AvatarIds.PlayerGirl] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerGirl", Quality = Model.Intrinsic.ItemQuality.QUALITY_ORANGE },
             };
         }
 

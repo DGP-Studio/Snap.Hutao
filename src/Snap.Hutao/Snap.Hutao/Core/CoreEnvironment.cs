@@ -53,9 +53,9 @@ internal static class CoreEnvironment
     public static readonly string HoyolabDeviceId;
 
     /// <summary>
-    /// AppCenter 设备Id
+    /// 胡桃设备Id
     /// </summary>
-    public static readonly string AppCenterDeviceId;
+    public static readonly string HutaoDeviceId;
 
     /// <summary>
     /// 默认的Json序列化选项
@@ -78,7 +78,7 @@ internal static class CoreEnvironment
 
         // simply assign a random guid
         HoyolabDeviceId = Guid.NewGuid().ToString();
-        AppCenterDeviceId = GetUniqueUserID();
+        HutaoDeviceId = GetUniqueUserID();
     }
 
     private static string GetUniqueUserID()

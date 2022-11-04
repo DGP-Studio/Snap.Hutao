@@ -17,8 +17,8 @@ public class SimpleSpiralAbyss
     public SimpleSpiralAbyss(SpiralAbyss spiralAbyss)
     {
         ScheduleId = spiralAbyss.ScheduleId;
-        Damage = new(spiralAbyss.DamageRank.Single());
-        TakeDamage = new(spiralAbyss.TakeDamageRank.Single());
+        Damage = SimpleRank.FromRank(spiralAbyss.DamageRank.SingleOrDefault());
+        TakeDamage = SimpleRank.FromRank(spiralAbyss.TakeDamageRank.SingleOrDefault());
         Floors = spiralAbyss.Floors.Select(f => new SimpleFloor(f));
     }
 
@@ -30,12 +30,12 @@ public class SimpleSpiralAbyss
     /// <summary>
     /// 造成伤害
     /// </summary>
-    public SimpleRank Damage { get; set; } = default!;
+    public SimpleRank? Damage { get; set; } = default!;
 
     /// <summary>
     /// 受到伤害
     /// </summary>
-    public SimpleRank TakeDamage { get; set; } = default!;
+    public SimpleRank? TakeDamage { get; set; } = default!;
 
     /// <summary>
     /// 层

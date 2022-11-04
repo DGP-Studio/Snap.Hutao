@@ -56,10 +56,10 @@
                     <sc:Setting
                         Icon="&#xED15;"
                         Header="反馈"
-                        Description="只处理在 Github 上反馈的问题">
+                        Description="Github 上反馈的问题会优先处理">
                         <HyperlinkButton
                             Content="前往反馈"
-                            NavigateUri="http://go.hut.ao/issue"/>
+                            NavigateUri="https://hut.ao/statements/bug-report.html"/>
                     </sc:Setting>
                     <sc:SettingExpander>
                         <sc:SettingExpander.Header>
@@ -75,7 +75,11 @@
                             IsOpen="True"
                             CornerRadius="0,0,4,4">
                             <InfoBar.ActionButton>
-                                <Button HorizontalAlignment="Right" Width="1" Content="没用的按钮"/>
+                                <Button
+                                    HorizontalAlignment="Right"
+                                    Width="1"
+                                    Command="{Binding DebugExceptionCommand}"
+                                    Content="没用的按钮"/>
                             </InfoBar.ActionButton>
                         </InfoBar>
                     </sc:SettingExpander>
@@ -105,7 +109,7 @@
                         </sc:Setting.ActionContent>
                     </sc:Setting>
                 </sc:SettingsGroup>
-                
+
                 <sc:SettingsGroup Header="测试功能">
                     <sc:Setting
                         Icon="&#xEC25;"
@@ -134,7 +138,6 @@
                         </sc:Setting.ActionContent>
                     </sc:Setting>
                 </sc:SettingsGroup>
-
             </StackPanel>
         </Grid>
         

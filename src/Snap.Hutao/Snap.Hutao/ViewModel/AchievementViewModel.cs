@@ -272,7 +272,7 @@ internal class AchievementViewModel
     [ThreadAccess(ThreadAccessState.MainThread)]
     private async Task OpenUIAsync()
     {
-        bool metaInitialized = await metadataService.InitializeAsync(CancellationToken).ConfigureAwait(false);
+        bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(false);
 
         if (metaInitialized)
         {

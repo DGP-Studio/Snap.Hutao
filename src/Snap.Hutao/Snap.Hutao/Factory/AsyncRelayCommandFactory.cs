@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Service.AppCenter;
+using Snap.Hutao.Web.Hutao;
 
 namespace Snap.Hutao.Factory;
 
@@ -13,17 +13,14 @@ namespace Snap.Hutao.Factory;
 internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
 {
     private readonly ILogger<AsyncRelayCommandFactory> logger;
-    private readonly AppCenter appCenter;
 
     /// <summary>
     /// 构造一个新的异步命令工厂
     /// </summary>
     /// <param name="logger">日志器</param>
-    /// <param name="appCenter">App Center</param>
-    public AsyncRelayCommandFactory(ILogger<AsyncRelayCommandFactory> logger, AppCenter appCenter)
+    public AsyncRelayCommandFactory(ILogger<AsyncRelayCommandFactory> logger)
     {
         this.logger = logger;
-        this.appCenter = appCenter;
     }
 
     /// <inheritdoc/>
@@ -86,6 +83,7 @@ internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
         return command;
     }
 
+    [SuppressMessage("", "VSTHRD002")]
     private void ReportException(IAsyncRelayCommand command)
     {
         command.PropertyChanged += (sender, args) =>
@@ -98,7 +96,7 @@ internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
                     {
                         Exception baseException = exception.GetBaseException();
                         logger.LogError(EventIds.AsyncCommandException, baseException, "{name} Exception", nameof(AsyncRelayCommand));
-                        appCenter.TrackError(exception);
+                        Ioc.Default.GetRequiredService<HomaClient2>().UploadLogAsync(baseException).GetAwaiter().GetResult();
                     }
                 }
             }

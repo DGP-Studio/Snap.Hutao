@@ -69,7 +69,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
     public bool IsInitialized { get => isInitialized; private set => isInitialized = value; }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
+    public async ValueTask<bool> InitializeAsync()
     {
         await initializeCompletionSource.Task.ConfigureAwait(false);
         return IsInitialized;

@@ -14,8 +14,8 @@ namespace Snap.Hutao.Core;
 /// </summary>
 internal abstract class WebView2Helper
 {
-    private static bool hasEverDetected = false;
-    private static bool isSupported = false;
+    private static bool hasEverDetected;
+    private static bool isSupported;
     private static string version = "未检测到 WebView2 运行时";
 
     /// <summary>

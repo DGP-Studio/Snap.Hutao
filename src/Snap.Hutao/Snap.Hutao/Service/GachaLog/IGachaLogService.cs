@@ -58,7 +58,7 @@ internal interface IGachaLogService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>是否初始化成功</returns>
-    ValueTask<bool> InitializeAsync(CancellationToken token = default);
+    ValueTask<bool> InitializeAsync();
 
     /// <summary>
     /// 刷新祈愿记录

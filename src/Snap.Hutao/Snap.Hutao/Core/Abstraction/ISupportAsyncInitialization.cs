@@ -18,5 +18,5 @@ internal interface ISupportAsyncInitialization
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>初始化任务</returns>
-    ValueTask<bool> InitializeAsync(CancellationToken token = default);
+    ValueTask<bool> InitializeAsync();
 }

@@ -83,7 +83,7 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
-                return RefreshCoreAsync((PlayerUid)role, RefreshOption.DatabaseOnly);
+                return RefreshCoreAsync((PlayerUid)role, RefreshOption.DatabaseOnly, CancellationToken);
             }
         }
 
@@ -96,7 +96,7 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
-                return RefreshCoreAsync((PlayerUid)role, RefreshOption.Standard);
+                return RefreshCoreAsync((PlayerUid)role, RefreshOption.Standard, CancellationToken);
             }
         }
 
@@ -110,31 +110,37 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
         if (isOk)
         {
-            await RefreshCoreAsync(uid, RefreshOption.RequestFromAPI).ConfigureAwait(false);
+            await RefreshCoreAsync(uid, RefreshOption.RequestFromAPI, CancellationToken).ConfigureAwait(false);
         }
     }
 
-    private async Task RefreshCoreAsync(PlayerUid uid, RefreshOption option)
+    private async Task RefreshCoreAsync(PlayerUid uid, RefreshOption option, CancellationToken token)
     {
-        (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(uid, option).ConfigureAwait(false);
+        try
+        {
+            (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(uid, option, token).ConfigureAwait(false);
 
-        if (result == RefreshResult.Ok)
-        {
-            await ThreadHelper.SwitchToMainThreadAsync();
-            Summary = summary;
-            SelectedAvatar = Summary?.Avatars.FirstOrDefault();
-        }
-        else
-        {
-            switch (result)
+            if (result == RefreshResult.Ok)
             {
-                case RefreshResult.APIUnavailable:
-                    infoBarService.Warning("角色信息服务当前不可用");
-                    break;
-                case RefreshResult.ShowcaseNotOpen:
-                    infoBarService.Warning("角色橱窗尚未开启，请前往游戏操作后重试");
-                    break;
+                await ThreadHelper.SwitchToMainThreadAsync();
+                Summary = summary;
+                SelectedAvatar = Summary?.Avatars.FirstOrDefault();
             }
+            else
+            {
+                switch (result)
+                {
+                    case RefreshResult.APIUnavailable:
+                        infoBarService.Warning("角色信息服务当前不可用");
+                        break;
+                    case RefreshResult.ShowcaseNotOpen:
+                        infoBarService.Warning("角色橱窗尚未开启，请前往游戏操作后重试");
+                        break;
+                }
+            }
+        }
+        catch (OperationCanceledException)
+        {
         }
     }
 }

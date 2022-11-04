@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Threading;
@@ -46,11 +47,13 @@ internal class SettingViewModel : ObservableObject
         GamePath = gameService.GetGamePathSkipLocator();
 
         SetGamePathCommand = asyncRelayCommandFactory.Create(SetGamePathAsync);
+        DebugExceptionCommand = new RelayCommand(DebugThrowException);
     }
 
     /// <summary>
     /// 版本
     /// </summary>
+    [SuppressMessage("", "CA1822")]
     public string AppVersion
     {
         get => Core.CoreEnvironment.Version.ToString();
@@ -90,6 +93,11 @@ internal class SettingViewModel : ObservableObject
     /// </summary>
     public ICommand SetGamePathCommand { get; }
 
+    /// <summary>
+    /// 调试异常命令
+    /// </summary>
+    public ICommand DebugExceptionCommand { get; }
+
     private async Task SetGamePathAsync()
     {
         IGameLocator locator = Ioc.Default.GetRequiredService<IEnumerable<IGameLocator>>()
@@ -102,5 +110,12 @@ internal class SettingViewModel : ObservableObject
             await ThreadHelper.SwitchToMainThreadAsync();
             GamePath = path;
         }
+    }
+
+    private void DebugThrowException()
+    {
+#if DEBUG
+        throw new InvalidOperationException("测试用异常");
+#endif
     }
 }

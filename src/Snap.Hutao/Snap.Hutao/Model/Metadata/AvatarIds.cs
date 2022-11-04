@@ -14,7 +14,9 @@ public static class AvatarIds
     public static readonly AvatarId Ayaka = 10000002;
     public static readonly AvatarId Qin = 10000003;
 
+    public static readonly AvatarId PlayerBoy = 10000005;
     public static readonly AvatarId Lisa = 10000006;
+    public static readonly AvatarId PlayerGirl = 10000007;
 
     public static readonly AvatarId Barbara = 10000014;
     public static readonly AvatarId Kaeya = 10000015;
@@ -75,4 +77,16 @@ public static class AvatarIds
     public static readonly AvatarId Candace = 10000072;
     public static readonly AvatarId Nahida = 10000073;
     public static readonly AvatarId Layla = 10000074;
+    public static readonly AvatarId Wanderer = 10000075;
+    public static readonly AvatarId Faruzan = 10000076;
+
+    /// <summary>
+    /// 检查该角色是否为主角
+    /// </summary>
+    /// <param name="avatarId">角色Id</param>
+    /// <returns>角色是否为主角</returns>
+    public static bool IsPlayer(AvatarId avatarId)
+    {
+        return avatarId == PlayerBoy || avatarId == PlayerGirl;
+    }
 }

@@ -9,7 +9,6 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Service.AppCenter;
 using Snap.Hutao.Service.Metadata;
 using System.Diagnostics;
 using Windows.Storage;
@@ -29,13 +28,13 @@ public partial class App : Application
     /// </summary>
     /// <param name="logger">日志器</param>
     /// <param name="appCenter">App Center</param>
-    public App(ILogger<App> logger, AppCenter appCenter)
+    public App(ILogger<App> logger)
     {
         // load app resource
         InitializeComponent();
         this.logger = logger;
 
-        _ = new ExceptionRecorder(this, logger, appCenter);
+        _ = new ExceptionRecorder(this, logger);
     }
 
     /// <inheritdoc/>
@@ -61,10 +60,6 @@ public partial class App : Application
                 .ImplictAs<IMetadataInitializer>()?
                 .InitializeInternalAsync()
                 .SafeForget(logger);
-
-            Ioc.Default
-                .GetRequiredService<AppCenter>()
-                .Initialize();
         }
         else
         {

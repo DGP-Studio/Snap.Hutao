@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
@@ -60,7 +61,7 @@ internal class SummaryFactoryImplementation
         return new()
         {
             Player = SummaryHelper.CreatePlayer(playerInfo),
-            Avatars = avatarInfos.Select(a =>
+            Avatars = avatarInfos.Where(a => !AvatarIds.IsPlayer(a.AvatarId)).Select(a =>
             {
                 SummaryAvatarFactory summaryAvatarFactory = new(
                     idAvatarMap,

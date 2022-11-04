@@ -16,6 +16,7 @@ internal interface ISummaryFactory
     /// </summary>
     /// <param name="playerInfo">玩家信息</param>
     /// <param name="avatarInfos">角色列表</param>
+    /// <param name="token">取消令牌</param>
     /// <returns>简述对象</returns>
-    Task<Summary> CreateAsync(PlayerInfo playerInfo, IEnumerable<Web.Enka.Model.AvatarInfo> avatarInfos);
+    Task<Summary> CreateAsync(PlayerInfo playerInfo, IEnumerable<Web.Enka.Model.AvatarInfo> avatarInfos, CancellationToken token);
 }
