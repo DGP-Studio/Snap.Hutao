@@ -160,5 +160,9 @@ internal sealed class ExtendedWindow<TWindow>
         // 48 is the navigation button leftInset
         RectInt32 dragRect = new RectInt32(48, 0, (int)titleBar.ActualWidth, (int)titleBar.ActualHeight).Scale(scale);
         appTitleBar.SetDragRectangles(dragRect.Enumerate().ToArray());
+
+        // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
+        // add this to set the same window size after every time drag rectangles are set
+        appWindow.ResizeClient(appWindow.ClientSize);
     }
 }
