@@ -40,7 +40,6 @@ internal class GameService : IGameService
     /// </summary>
     /// <param name="scopeFactory">范围工厂</param>
     /// <param name="memoryCache">内存缓存</param>
-    /// <param name="gameLocators">游戏定位器集合</param>
     public GameService(IServiceScopeFactory scopeFactory, IMemoryCache memoryCache)
     {
         this.scopeFactory = scopeFactory;

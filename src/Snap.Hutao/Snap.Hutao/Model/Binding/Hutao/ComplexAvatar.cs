@@ -21,6 +21,7 @@ public class ComplexAvatar
     {
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
+        SideIcon = AvatarSideIconConverter.IconNameToUri(avatar.SideIcon);
         Quality = avatar.Quality;
         Rate = $"{rate:P3}";
     }
@@ -34,6 +35,11 @@ public class ComplexAvatar
     /// 图标
     /// </summary>
     public Uri Icon { get; set; } = default!;
+
+    /// <summary>
+    /// 侧面图标
+    /// </summary>
+    public Uri SideIcon { get; set; } = default!;
 
     /// <summary>
     /// 星级

@@ -15,9 +15,7 @@
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shct="using:Snap.Hutao.Control.Text"
-    xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
-    xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -45,7 +43,7 @@
         </Grid.RowDefinitions>
         <CommandBar
             DefaultLabelPosition="Right"
-            Background="{StaticResource CardBackgroundFillColorSecondary}">
+            Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
             <CommandBar.Content>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -54,7 +52,9 @@
                         <ColumnDefinition Width="72"/>
                         <ColumnDefinition Width="72"/>
                     </Grid.ColumnDefinitions>
-                    <shcp:PanelSelector Margin="6,6,0,0" x:Name="ItemsPanelSelector"/>
+                    <shcp:PanelSelector
+                        Margin="6,6,0,0"
+                        x:Name="ItemsPanelSelector"/>
                     <StackPanel
                         Grid.Column="1"
                         Margin="12,6,0,0">
@@ -90,12 +90,12 @@
                     </StackPanel>
                 </Grid>
             </CommandBar.Content>
+
             <AppBarSeparator/>
             <AppBarButton
                 Label="刷新"
                 Icon="{shcm:FontIcon Glyph=&#xE72C;}"
                 Command="{Binding RefreshByUserGameRoleCommand}"/>
-
             <AppBarButton
                 Label="按UID查询"
                 Icon="{shcm:FontIcon Glyph=&#xE721;}"
@@ -236,12 +236,8 @@
                             CornerRadius="{StaticResource CompatCornerRadius}"
                             Background="{StaticResource CardBackgroundFillColorSecondary}">
                             <ItemsControl
-                                ItemsSource="{Binding SelectedAvatar.Skills}">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
+                                ItemsSource="{Binding SelectedAvatar.Skills}"
+                                ItemsPanel="{StaticResource HorizontalStackPanelTemplate}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Button
@@ -450,12 +446,8 @@
                             SelectionMode="None"
                             HorizontalAlignment="Left"
                             ItemsSource="{Binding SelectedAvatar.Reliquaries}"
-                            Margin="0,12,0,-12">
-                            <cwucont:AdaptiveGridView.ItemContainerStyle>
-                                <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
-                                    <Setter Property="Margin" Value="0,0,12,12"/>
-                                </Style>
-                            </cwucont:AdaptiveGridView.ItemContainerStyle>
+                            Margin="0,12,0,-12"
+                            ItemContainerStyle="{StaticResource LargeGridViewItemStyle}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border

@@ -12,9 +12,19 @@ internal class AvatarSideIconConverter : ValueConverterBase<string, Uri>
 {
     private const string BaseUrl = "https://static.snapgenshin.com/AvatarIcon/{0}.png";
 
+    /// <summary>
+    /// 名称转Uri
+    /// </summary>
+    /// <param name="name">名称</param>
+    /// <returns>链接</returns>
+    public static Uri IconNameToUri(string name)
+    {
+        return new Uri(string.Format(BaseUrl, name));
+    }
+
     /// <inheritdoc/>
     public override Uri Convert(string from)
     {
-        return new Uri(string.Format(BaseUrl, from));
+        return IconNameToUri(from);
     }
 }

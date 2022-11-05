@@ -25,6 +25,8 @@
             <Thickness x:Key="InfoBarContentRootPadding">16,0,0,0</Thickness>
             <!--Pivot Resource-->
             <x:Double x:Key="PivotHeaderItemFontSize">16</x:Double>
+            <Thickness x:Key="PivotHeaderItemMargin">16,0,0,0</Thickness>
+            <Thickness x:Key="PivotItemMargin">0</Thickness>
             <!--CornerRadius-->
             <CornerRadius x:Key="CompatCornerRadius">6</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusTop">6,6,0,0</CornerRadius>
@@ -46,6 +48,22 @@
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
             <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
             <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+            
+            <!--Styles-->
+            <Style
+                x:Key="LargeGridViewItemStyle"
+                TargetType="GridViewItem"
+                BasedOn="{StaticResource DefaultGridViewItemStyle}">
+                <Setter Property="Margin" Value="0,0,12,12"/>
+            </Style>
+            <!--ItemsPanelTemplate-->
+            <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">
+                <ItemsStackPanel/>
+            </ItemsPanelTemplate>
+
+            <ItemsPanelTemplate x:Key="HorizontalStackPanelTemplate">
+                <StackPanel Orientation="Horizontal"/>
+            </ItemsPanelTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

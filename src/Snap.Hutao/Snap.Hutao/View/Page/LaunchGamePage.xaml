@@ -34,13 +34,13 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Column="0" CanContentRenderOutsideBounds="True">
+        <ScrollViewer Grid.RowSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition MaxWidth="800"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Margin="32,0,24,24">
+                <StackPanel Margin="16,-16,16,16">
                     <sc:SettingsGroup Header="常规" Margin="0,0,0,0">
                         <sc:Setting
                             Icon="&#xE8AB;"
@@ -246,15 +246,21 @@
         </ScrollViewer>
         <Grid
             Grid.Row="1"
-            VerticalAlignment="Bottom"
-            Background="{StaticResource SystemControlAcrylicElementMediumHighBrush}">
+            VerticalAlignment="Bottom">
             <Button
+                Style="{StaticResource AccentButtonStyle}"
                 Command="{Binding LaunchCommand}"
                 HorizontalAlignment="Right"
                 Grid.Column="3"
                 Margin="24"
-                Width="138"
-                Content="启动游戏"/>
+                MinWidth="80"
+                Width="100"
+                Height="80">
+                <StackPanel>
+                    <FontIcon Glyph="&#xE7FC;" FontSize="36"/>
+                    <TextBlock Margin="0,4,0,0" Text="启动游戏"/>
+                </StackPanel>
+            </Button>
         </Grid>
     </Grid>
 </shc:ScopedPage>

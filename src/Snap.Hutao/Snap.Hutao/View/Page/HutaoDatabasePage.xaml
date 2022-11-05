@@ -15,16 +15,11 @@
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shv:HutaoDatabaseViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    
+
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <shc:ScopedPage.Resources>
-        <Thickness x:Key="PivotHeaderItemMargin">8,0,8,0</Thickness>
-        <Thickness x:Key="PivotItemMargin">0</Thickness>
-    </shc:ScopedPage.Resources>
-    
     <Grid>
         <Pivot>
             <Pivot.RightHeader>
@@ -55,25 +50,15 @@
                                 <GridView
                                     SelectionMode="None"
                                     ItemsSource="{Binding Avatars}"
-                                    Margin="12,12,0,-12">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
-                                            <Setter Property="Margin" Value="0,0,12,12"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
+                                    Margin="16,16,6,-6"
+                                    ItemContainerStyle="{StaticResource LargeGridViewItemStyle}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Background="{StaticResource CardBackgroundFillColorDefault}">
-                                                <StackPanel>
-                                                    <shvc:ItemIcon
-                                                        Icon="{Binding Icon}"
-                                                        Quality="{Binding Quality}"/>
-                                                    <TextBlock
-                                                        Margin="0,0,0,2"
-                                                        HorizontalAlignment="Center"
-                                                        Text="{Binding Rate}"/>
-                                                </StackPanel>
-                                            </Border>
+                                            <shvc:BottomTextControl Text="{Binding Rate}">
+                                                <shvc:ItemIcon
+                                                    Icon="{Binding Icon}"
+                                                    Quality="{Binding Quality}"/>
+                                            </shvc:BottomTextControl>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </GridView>
@@ -95,25 +80,15 @@
                                 <GridView
                                     SelectionMode="None"
                                     ItemsSource="{Binding Avatars}"
-                                    Margin="12,12,0,-12">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
-                                            <Setter Property="Margin" Value="0,0,12,12"/>
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
+                                    Margin="16,16,6,-6"
+                                    ItemContainerStyle="{StaticResource LargeGridViewItemStyle}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Background="{StaticResource CardBackgroundFillColorDefault}">
-                                                <StackPanel>
-                                                    <shvc:ItemIcon
-                                                        Icon="{Binding Icon}"
-                                                        Quality="{Binding Quality}"/>
-                                                    <TextBlock
-                                                        Margin="0,0,0,2"
-                                                        HorizontalAlignment="Center"
-                                                        Text="{Binding Rate}"/>
-                                                </StackPanel>
-                                            </Border>
+                                            <shvc:BottomTextControl Text="{Binding Rate}">
+                                                <shvc:ItemIcon
+                                                    Icon="{Binding Icon}"
+                                                    Quality="{Binding Quality}"/>
+                                            </shvc:BottomTextControl>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </GridView>
@@ -128,7 +103,7 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid Margin="12,0,12,0">
+                    <Grid Margin="16,0,16,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="48"/>
                             <ColumnDefinition />
@@ -152,6 +127,7 @@
                     </Grid>
                     <ScrollViewer Grid.Row="1">
                         <ItemsControl
+                            Margin="0,0,0,8"
                             HorizontalContentAlignment="Stretch"
                             ItemsSource="{Binding AvatarConstellationInfos}">
                             <ItemsControl.ItemsPanel>
@@ -164,7 +140,7 @@
                                     <Border
                                         Background="{StaticResource CardBackgroundFillColorDefault}"
                                         CornerRadius="{StaticResource CompatCornerRadius}"
-                                        Margin="12,0,12,12">
+                                        Margin="16,0,16,8">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>

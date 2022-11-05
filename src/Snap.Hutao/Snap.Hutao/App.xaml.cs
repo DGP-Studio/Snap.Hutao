@@ -7,7 +7,6 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Exception;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Metadata;
 using System.Diagnostics;

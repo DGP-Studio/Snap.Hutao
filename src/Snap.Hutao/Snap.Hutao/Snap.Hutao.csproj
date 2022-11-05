@@ -48,8 +48,10 @@
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_None.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_210.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
     <None Remove="stylecop.json" />
+    <None Remove="View\Control\BottomTextControl.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
     <None Remove="View\Control\ItemIcon.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
@@ -67,6 +69,7 @@
     <None Remove="View\Page\AnnouncementContentPage.xaml" />
     <None Remove="View\Page\AnnouncementPage.xaml" />
     <None Remove="View\Page\AvatarPropertyPage.xaml" />
+    <None Remove="View\Page\DailyNotePage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\HutaoDatabasePage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
@@ -104,6 +107,7 @@
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
     <Content Include="Resource\Icon\UI_Icon_None.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -149,6 +153,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\DailyNotePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\BottomTextControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\GameAccountNameDialog.xaml">

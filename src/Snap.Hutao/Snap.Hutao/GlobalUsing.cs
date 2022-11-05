@@ -11,6 +11,7 @@ global using Microsoft.Extensions.Logging;
 // Snap.Hutao
 global using Snap.Hutao.Core.DependencyInjection;
 global using Snap.Hutao.Core.DependencyInjection.Annotation;
+global using Snap.Hutao.Core.Threading;
 global using Snap.Hutao.Core.Validation;
 
 // Runtime

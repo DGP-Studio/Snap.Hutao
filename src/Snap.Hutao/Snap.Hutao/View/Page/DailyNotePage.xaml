@@ -1,0 +1,53 @@
+﻿<shc:ScopedPage
+    x:Class="Snap.Hutao.View.Page.DailyNotePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:sc="using:SettingsUI.Controls"
+    xmlns:shv="using:Snap.Hutao.ViewModel"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance shv:DailyNoteViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <CommandBar
+            Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+            DefaultLabelPosition="Right">
+            <AppBarButton Label="添加角色" Icon="{shcm:FontIcon Glyph=&#xE710;}"/>
+            <AppBarButton Label="立即刷新" Icon="{shcm:FontIcon Glyph=&#xE72C;}"/>
+            <AppBarButton Label="通知设置" Icon="{shcm:FontIcon Glyph=&#xE713;}">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <StackPanel>
+                            <RadioButtons ItemsSource="{Binding RefreshTimes}">
+                                <RadioButtons.Header>
+                                    <TextBlock Text="刷新间隔时间" Style="{StaticResource BaseTextBlockStyle}"/>
+                                </RadioButtons.Header>
+                                <RadioButtons.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Margin="0,0,0,0" Text="{Binding Name}"/>
+                                    </DataTemplate>
+                                </RadioButtons.ItemTemplate>
+                            </RadioButtons>
+                            <sc:SettingsGroup Header="通知" Margin="0,-16,0,0">
+                                <sc:Setting
+                                    Icon="&#xEA8F;"
+                                    Header="提醒通知"
+                                    Description="防止通知自动收入操作中心">
+                                    <ToggleSwitch Margin="24,0,0,0" Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                                </sc:Setting>
+                            </sc:SettingsGroup>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+        </CommandBar>
+    </Grid>
+</shc:ScopedPage>

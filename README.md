@@ -37,4 +37,3 @@
 * [microsoft/vs-validation](https://github.com/microsoft/vs-validation)
 * [microsoft/WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
 * [microsoft/microsoft-ui-xaml](https://github.com/microsoft/microsoft-ui-xaml)
-* [MiniExcel/MiniExcel](https://github.com/MiniExcel/MiniExcel)

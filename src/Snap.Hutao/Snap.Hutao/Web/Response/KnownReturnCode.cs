@@ -69,6 +69,11 @@ public enum KnownReturnCode : int
     NotDefined = 7,
 
     /// <summary>
+    /// 账号有风险
+    /// </summary>
+    CODE1034 = 1034,
+
+    /// <summary>
     /// 数据未公开
     /// </summary>
     DataIsNotPublicForTheUser = 10102,

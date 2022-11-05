@@ -23,17 +23,22 @@
                 <ColumnDefinition MaxWidth="1000"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Margin="32,0,24,24">
+            <StackPanel Margin="16,-16,24,16">
                 <sc:SettingsGroup Header="关于 胡桃">
                     <Grid Margin="0,4,0,16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Image
-                            Grid.Column="0"
+                        <Border
                             Width="80"
-                            Source="ms-appx:///Assets/Square150x150Logo.scale-200.png"/>
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource CompatCornerRadius}"
+                            BorderBrush="{StaticResource CardStrokeColorDefault}"
+                            Background="{StaticResource CardBackgroundFillColorDefault}">
+                            <Image Source="ms-appx:///Assets/Square150x150Logo.scale-200.png"/>
+                        </Border>
+                        
                         <Grid
                             Margin="16,0,0,0"
                             Grid.Column="1">

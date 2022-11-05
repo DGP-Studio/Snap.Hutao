@@ -18,22 +18,22 @@
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.Background>
-                <SolidColorBrush Color="{ThemeResource CardBackgroundFillColorSecondary}"/>
-            </Grid.Background>
+        <Grid Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="252"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            
             <CommandBar
                 Grid.Column="1"
                 DefaultLabelPosition="Right">
+                
                 <CommandBar.Content>
                     <AutoSuggestBox
                         Text="{Binding SearchText,Mode=TwoWay}"
@@ -57,7 +57,7 @@
 
                 <AppBarElementContainer>
                     <ComboBox
-                        MinWidth="120"
+                        MinWidth="140"
                         Height="36"
                         Margin="2,6,3,6"
                         DisplayMemberPath="Name"
@@ -138,16 +138,8 @@
                 <ScrollViewer Padding="0,0,16,0">
                     <ItemsControl
                         Margin="16,0,0,16"
-                        ItemsSource="{Binding Achievements}">
-                        <!--ContentThemeTransition here can make items blinking-->
-                        <!--<ItemsControl.Transitions>
-                            <ContentThemeTransition/>
-                        </ItemsControl.Transitions>-->
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <ItemsStackPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
+                        ItemsSource="{Binding Achievements}"
+                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid
@@ -194,8 +186,7 @@
                                             VerticalAlignment="Center"
                                             Grid.Column="0"
                                             Text="{Binding Time}"
-                                            Visibility="{Binding IsChecked,Converter={StaticResource BoolToVisibilityConverter}}"
-                                            />
+                                            Visibility="{Binding IsChecked,Converter={StaticResource BoolToVisibilityConverter}}"/>
                                         <Image
                                             Grid.Column="1"
                                             Height="32"

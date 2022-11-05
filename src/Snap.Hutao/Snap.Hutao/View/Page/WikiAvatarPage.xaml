@@ -60,10 +60,6 @@
                 </shct:DescriptionTextBlock.Resources>
             </shct:DescriptionTextBlock>
         </DataTemplate>
-
-        <ItemsPanelTemplate x:Key="HorizontalStackPanelTemplate">
-            <StackPanel Orientation="Horizontal"/>
-        </ItemsPanelTemplate>
     </Page.Resources>
 
     <SplitView
@@ -372,19 +368,13 @@
                             ItemsSource="{Binding Selected.Collocation.Avatars}">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border
+                                    <shvc:BottomTextControl
                                         ToolTipService.ToolTip="{Binding Name}"
-                                        Background="{StaticResource CardBackgroundFillColorDefault}">
-                                        <StackPanel>
-                                            <shvc:ItemIcon
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <TextBlock
-                                                Margin="0,0,0,2"
-                                                HorizontalAlignment="Center"
-                                                Text="{Binding Rate}"/>
-                                        </StackPanel>
-                                    </Border>
+                                        Text="{Binding Rate}">
+                                        <shvc:ItemIcon
+                                            Icon="{Binding Icon}"
+                                            Quality="{Binding Quality}"/>
+                                    </shvc:BottomTextControl>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
@@ -397,23 +387,16 @@
                             ItemsSource="{Binding Selected.Collocation.Weapons}">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border
+                                    <shvc:BottomTextControl
                                         ToolTipService.ToolTip="{Binding Name}"
-                                        Background="{StaticResource CardBackgroundFillColorDefault}">
-                                        <StackPanel>
-                                            <shvc:ItemIcon
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <TextBlock
-                                                Margin="0,0,0,2"
-                                                HorizontalAlignment="Center"
-                                                Text="{Binding Rate}"/>
-                                        </StackPanel>
-                                    </Border>
+                                        Text="{Binding Rate}">
+                                        <shvc:ItemIcon
+                                            Icon="{Binding Icon}"
+                                            Quality="{Binding Quality}"/>
+                                    </shvc:BottomTextControl>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
-
                         <TextBlock Text="搭配圣遗物" Style="{StaticResource BaseTextBlockStyle}" Margin="16,0,0,0"/>
                         <GridView
                             Margin="16,16,0,0"
@@ -423,30 +406,49 @@
                             ItemsSource="{Binding Selected.Collocation.ReliquarySets}">
                             <GridView.ItemTemplate>
                                 <DataTemplate>
-                                    <Border
+                                    <shvc:BottomTextControl
                                         ToolTipService.ToolTip="{Binding Name}"
-                                        Background="{StaticResource CardBackgroundFillColorDefault}">
-                                        <StackPanel>
-                                            <Grid>
-                                                <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
-                                                <ItemsControl
-                                                    Margin="0,0,16,0"
-                                                    HorizontalAlignment="Center"
-                                                    ItemsSource="{Binding Icons}"
-                                                    ItemsPanel="{StaticResource HorizontalStackPanelTemplate}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <shci:CachedImage Width="48" Margin="0,0,-16,0" Source="{Binding}"/>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </Grid>
-                                            <TextBlock
-                                                Margin="0,0,0,2"
-                                                HorizontalAlignment="Center"
-                                                Text="{Binding Rate}"/>
-                                        </StackPanel>
-                                    </Border>
+                                        Text="{Binding Rate}">
+                                        <cwuc:SwitchPresenter Value="{Binding Icons.Count,Mode=OneWay}">
+                                            <cwuc:Case IsDefault="True">
+                                                <cwuc:Case.Value>
+                                                    <x:Int32>0</x:Int32>
+                                                </cwuc:Case.Value>
+                                                <Grid>
+                                                    <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
+                                                </Grid>
+                                            </cwuc:Case>
+                                            <cwuc:Case>
+                                                <cwuc:Case.Value>
+                                                    <x:Int32>1</x:Int32>
+                                                </cwuc:Case.Value>
+                                                <Grid>
+                                                    <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
+                                                    <shci:CachedImage Width="80" Margin="0,0,0,0" Source="{Binding Icons[0]}"/>
+                                                </Grid>
+                                            </cwuc:Case>
+                                            <cwuc:Case>
+                                                <cwuc:Case.Value>
+                                                    <x:Int32>2</x:Int32>
+                                                </cwuc:Case.Value>
+                                                <Grid>
+                                                    <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
+                                                    <shci:CachedImage
+                                                        Width="54"
+                                                        Margin="0,4,0,0"
+                                                        Source="{Binding Icons[0]}"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top"/>
+                                                    <shci:CachedImage
+                                                        Width="54"
+                                                        Margin="0,0,0,4"
+                                                        Source="{Binding Icons[1]}"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"/>
+                                                </Grid>
+                                            </cwuc:Case>
+                                        </cwuc:SwitchPresenter>
+                                    </shvc:BottomTextControl>
                                 </DataTemplate>
                             </GridView.ItemTemplate>
                         </GridView>
@@ -510,59 +512,29 @@
                                     Text="特殊料理"
                                     Grid.Column="0"
                                     Style="{StaticResource BaseTextBlockStyle}"/>
-                                <Border
+                                <shvc:BottomTextControl
                                     Grid.Row="1"
                                     Grid.Column="0"
                                     Margin="16,16,0,16"
-                                    CornerRadius="{StaticResource CompatCornerRadius}"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Background="{StaticResource CardBackgroundFillColorDefault}"
-                                    BorderThickness="1"
-                                    BorderBrush="{StaticResource CardStrokeColorDefault}">
-                                    <StackPanel>
-                                        <shvc:ItemIcon
+                                    Text="{Binding Selected.FetterInfo.CookBonus.Name}">
+                                    <shvc:ItemIcon
                                             Icon="{Binding Selected.FetterInfo.CookBonus.Icon,Converter={StaticResource ItemIconConverter}}"
                                             Quality="{Binding Selected.FetterInfo.CookBonus.RankLevel}"/>
-                                        <TextBlock
-                                            TextTrimming="CharacterEllipsis"
-                                            TextWrapping="NoWrap"
-                                            MaxWidth="80"
-                                            Margin="0,0,0,2"
-                                            HorizontalAlignment="Center"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding Selected.FetterInfo.CookBonus.Name}"/>
-                                    </StackPanel>
-                                </Border>
+                                </shvc:BottomTextControl>
                                 <TextBlock
                                     Margin="16,16,0,0"
                                     Text="原料理"
                                     Grid.Column="1"
                                     Style="{StaticResource BaseTextBlockStyle}"/>
-                                <Border
+                                <shvc:BottomTextControl
                                     Grid.Row="1"
                                     Grid.Column="1"
                                     Margin="16,16,0,16"
-                                    CornerRadius="{StaticResource CompatCornerRadius}"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top"
-                                    Background="{StaticResource CardBackgroundFillColorDefault}"
-                                    BorderThickness="1"
-                                    BorderBrush="{StaticResource CardStrokeColorDefault}">
-                                    <StackPanel>
-                                        <shvc:ItemIcon
+                                    Text="{Binding Selected.FetterInfo.CookBonus.OriginName}">
+                                    <shvc:ItemIcon
                                             Icon="{Binding Selected.FetterInfo.CookBonus.OriginIcon,Converter={StaticResource ItemIconConverter}}"
                                             Quality="{Binding Selected.FetterInfo.CookBonus.RankLevel}"/>
-                                        <TextBlock
-                                            TextWrapping="NoWrap"
-                                            TextTrimming="CharacterEllipsis"
-                                            MaxWidth="80"
-                                            Margin="0,0,0,2"
-                                            HorizontalAlignment="Center"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding Selected.FetterInfo.CookBonus.OriginName}"/>
-                                    </StackPanel>
-                                </Border>
+                                </shvc:BottomTextControl>
                                 <Rectangle
                                     Grid.Column="2"
                                     Grid.RowSpan="2"
@@ -581,30 +553,14 @@
                                     ItemsPanel="{StaticResource HorizontalStackPanelTemplate}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border
+                                            <shvc:BottomTextControl
                                                 ToolTipService.ToolTip="{Binding Name}"
-                                                Grid.Row="1"
-                                                Grid.Column="1"
                                                 Margin="16,16,0,16"
-                                                CornerRadius="{StaticResource CompatCornerRadius}"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Top"
-                                                Background="{StaticResource CardBackgroundFillColorDefault}"
-                                                BorderThickness="1"
-                                                BorderBrush="{StaticResource CardStrokeColorDefault}">
-                                                <StackPanel>
-                                                    <shvc:ItemIcon
-                                                        Icon="{Binding Icon,Converter={StaticResource ItemIconConverter}}"
-                                                        Quality="{Binding RankLevel}"/>
-                                                    <TextBlock
-                                                        TextTrimming="CharacterEllipsis"
-                                                        MaxWidth="80"
-                                                        Margin="0,0,0,2"
-                                                        HorizontalAlignment="Center"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding Count}"/>
-                                                </StackPanel>
-                                            </Border>
+                                                Text="{Binding Count}">
+                                                <shvc:ItemIcon
+                                                    Icon="{Binding Icon,Converter={StaticResource ItemIconConverter}}"
+                                                    Quality="{Binding RankLevel}"/>
+                                            </shvc:BottomTextControl>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

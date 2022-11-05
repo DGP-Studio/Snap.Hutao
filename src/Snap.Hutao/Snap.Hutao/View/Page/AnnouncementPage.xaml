@@ -14,6 +14,8 @@
     xmlns:shca="using:Snap.Hutao.Control.Animation"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shv="using:Snap.Hutao.ViewModel"
+    d:DataContext="{d:DesignInstance shv:AnnouncementViewModel}"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <mxi:Interaction.Behaviors>
@@ -28,7 +30,7 @@
                 HorizontalAlignment="Stretch"
                 ItemsSource="{Binding Announcement.List}"
                 Padding="0"
-                Margin="12,12,0,-12">
+                Margin="16,16,0,-6">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -41,13 +43,9 @@
                                 SelectionMode="None"
                                 DesiredWidth="300"
                                 HorizontalAlignment="Stretch"
-                                ItemsSource="{Binding List}" 
+                                ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                                ItemsSource="{Binding List}"
                                 Margin="0,0,2,0">
-                                <cwucont:AdaptiveGridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem" BasedOn="{StaticResource DefaultGridViewItemStyle}">
-                                        <Setter Property="Margin" Value="0,0,12,12"/>
-                                    </Style>
-                                </cwucont:AdaptiveGridView.ItemContainerStyle>
                                 <cwucont:AdaptiveGridView.ItemTemplate>
                                     <DataTemplate>
                                         <Border

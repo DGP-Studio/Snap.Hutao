@@ -39,6 +39,11 @@
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
 
                 <NavigationViewItem
+                    Content="实时便笺"
+                    shvh:NavHelper.NavigateTo="shvp:DailyNotePage"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ItemIcon_210.png}"/>
+
+                <NavigationViewItem
                     Content="成就管理"
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>

@@ -30,6 +30,7 @@ public class ScopedPage : Page
 
     /// <summary>
     /// 初始化
+    /// 应当在 InitializeComponent() 前调用
     /// </summary>
     /// <typeparam name="TViewModel">视图模型类型</typeparam>
     public void InitializeWith<TViewModel>()

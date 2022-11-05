@@ -19,11 +19,6 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <shc:ScopedPage.Resources>
-        <Thickness x:Key="PivotHeaderItemMargin">8,0,8,0</Thickness>
-        <Thickness x:Key="PivotItemMargin">0</Thickness>
-    </shc:ScopedPage.Resources>
-
     <Grid Visibility="{Binding IsInitialized,Converter={StaticResource BoolToVisibilityConverter}}">
         <Rectangle
             Height="48"
@@ -34,7 +29,7 @@
                 <ComboBox
                     MinWidth="120"
                     Height="36"
-                    Margin="16,6,12,6"
+                    Margin="16,6,0,6"
                     DisplayMemberPath="Uid"
                     SelectedItem="{Binding SelectedArchive,Mode=TwoWay}"
                     ItemsSource="{Binding Archives}"/>
@@ -45,13 +40,13 @@
                         <AppBarButton.Flyout>
                             <MenuFlyout Placement="Bottom">
                                 <MenuFlyoutItem
-                                    Text="从缓存刷新"
-                                    Icon="{shcm:FontIcon Glyph=&#xE81E;}"
-                                    Command="{Binding RefreshByWebCacheCommand}"/>
-                                <MenuFlyoutItem
                                     Text="Stoken刷新"
                                     Icon="{shcm:FontIcon Glyph=&#xE192;}"
                                     Command="{Binding RefreshByStokenCommand}"/>
+                                <MenuFlyoutItem
+                                    Text="从缓存刷新"
+                                    Icon="{shcm:FontIcon Glyph=&#xE81E;}"
+                                    Command="{Binding RefreshByWebCacheCommand}"/>
                                 <MenuFlyoutItem
                                     Text="手动输入Url"
                                     Icon="{shcm:FontIcon Glyph=&#xE765;}"
