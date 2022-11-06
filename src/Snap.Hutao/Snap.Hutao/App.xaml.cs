@@ -49,7 +49,7 @@ public partial class App : Application
             Activation.Activate(firstInstance, activatedEventArgs);
             firstInstance.Activated += Activation.Activate;
 
-            logger.LogInformation(EventIds.CommonLog, "Snap Hutao : {version}", CoreEnvironment.Version);
+            logger.LogInformation(EventIds.CommonLog, "Snap Hutao | {name} : {version}", CoreEnvironment.FamilyName, CoreEnvironment.Version);
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.TemporaryFolder.Path);
 
             JumpListHelper.ConfigAsync().SafeForget(logger);

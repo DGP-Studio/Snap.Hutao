@@ -10,7 +10,6 @@ using Snap.Hutao.Control;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Core.Threading.CodeAnalysis;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
@@ -38,8 +37,8 @@ internal class AchievementViewModel
     IDisposable,
     IRecipient<AchievementArchiveChangedMessage>
 {
-    private static readonly SortDescription IncompletedItemsFirstSortDescription =
-        new(nameof(Model.Binding.Achievement.IsChecked), SortDirection.Ascending);
+    private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(Model.Binding.Achievement.IsChecked), SortDirection.Ascending);
+    private static readonly SortDescription CompletionTimeSortDescription = new(nameof(Model.Binding.Achievement.Time), SortDirection.Descending);
 
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
@@ -495,6 +494,7 @@ internal class AchievementViewModel
             if (IsIncompletedItemsFirst)
             {
                 Achievements.SortDescriptions.Add(IncompletedItemsFirstSortDescription);
+                Achievements.SortDescriptions.Add(CompletionTimeSortDescription);
             }
             else
             {

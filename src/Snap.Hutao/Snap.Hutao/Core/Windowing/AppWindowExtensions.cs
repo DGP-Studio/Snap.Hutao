@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Windowing;
+using Snap.Hutao.Win32;
 using Windows.Graphics;
 
 namespace Snap.Hutao.Core.Windowing;
@@ -18,9 +19,6 @@ public static class AppWindowExtensions
     /// <returns>呈现矩形</returns>
     public static RectInt32 GetRect(this AppWindow appWindow)
     {
-        PointInt32 postion = appWindow.Position;
-        SizeInt32 size = appWindow.Size;
-
-        return new RectInt32(postion.X, postion.Y, size.Width, size.Height);
+        return StructMarshal.RectInt32(appWindow.Position, appWindow.Size);
     }
 }

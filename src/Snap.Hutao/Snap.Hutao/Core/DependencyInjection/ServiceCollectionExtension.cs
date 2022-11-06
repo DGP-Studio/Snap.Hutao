@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.DependencyInjection;
 /// 服务管理器
 /// 依赖注入的核心管理类
 /// </summary>
-internal static partial class ServiceCollectionExtensions
+internal static partial class ServiceCollectionExtension
 {
     /// <summary>
     /// 向容器注册服务

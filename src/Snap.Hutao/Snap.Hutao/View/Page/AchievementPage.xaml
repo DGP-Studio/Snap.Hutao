@@ -41,7 +41,7 @@
                         PlaceholderText="搜索成就名称，描述或编号"
                         HorizontalAlignment="Stretch"
                         Margin="12,6,12,0"
-                        Width="220"
+                        Width="240"
                         VerticalContentAlignment="Center"
                         Style="{StaticResource DefaultAutoSuggestBoxStyle}"
                         QueryIcon="{shcm:FontIcon Glyph=&#xE721;}">
@@ -57,7 +57,7 @@
 
                 <AppBarElementContainer>
                     <ComboBox
-                        MinWidth="140"
+                        MinWidth="120"
                         Height="36"
                         Margin="2,6,3,6"
                         DisplayMemberPath="Name"

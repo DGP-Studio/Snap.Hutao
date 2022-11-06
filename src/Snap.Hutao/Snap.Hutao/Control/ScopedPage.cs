@@ -11,9 +11,6 @@ namespace Snap.Hutao.Control;
 /// <summary>
 /// 表示支持取消加载的异步页面
 /// 在被导航到其他页面前触发取消异步通知
-/// <para/>
-/// InitializeWith{T}();
-/// InitializeComponent();
 /// </summary>
 public class ScopedPage : Page
 {
@@ -26,6 +23,7 @@ public class ScopedPage : Page
     public ScopedPage()
     {
         serviceScope = Ioc.Default.CreateScope();
+        serviceScope.Track();
     }
 
     /// <summary>

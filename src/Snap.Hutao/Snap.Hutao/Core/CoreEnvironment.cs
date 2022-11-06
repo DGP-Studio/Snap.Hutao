@@ -58,6 +58,11 @@ internal static class CoreEnvironment
     public static readonly string HutaoDeviceId;
 
     /// <summary>
+    /// 包家族名称
+    /// </summary>
+    public static readonly string FamilyName;
+
+    /// <summary>
     /// 默认的Json序列化选项
     /// </summary>
     public static readonly JsonSerializerOptions JsonOptions = new()
@@ -74,6 +79,7 @@ internal static class CoreEnvironment
     static CoreEnvironment()
     {
         Version = Package.Current.Id.Version.ToVersion();
+        FamilyName = Package.Current.Id.FamilyName;
         CommonUA = $"Snap Hutao/{Version}";
 
         // simply assign a random guid

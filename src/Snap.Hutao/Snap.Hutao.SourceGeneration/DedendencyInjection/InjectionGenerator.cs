@@ -52,7 +52,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
-internal static partial class ServiceCollectionExtensions
+internal static partial class ServiceCollectionExtension
 {{
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""{toolName}"",""1.0.0.0"")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -65,7 +65,7 @@ internal static partial class ServiceCollectionExtensions
     }
 }");
 
-        context.AddSource("ServiceCollectionExtensions.g.cs", SourceText.From(sourceCodeBuilder.ToString(), Encoding.UTF8));
+        context.AddSource("ServiceCollectionExtension.g.cs", SourceText.From(sourceCodeBuilder.ToString(), Encoding.UTF8));
     }
 
     private static void FillWithInjectionServices(InjectionSyntaxContextReceiver receiver, StringBuilder sourceCodeBuilder)

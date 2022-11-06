@@ -126,7 +126,7 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     /// <summary>
     /// 是否提权
     /// </summary>
-    [SuppressMessage("Performance", "CA1822")]
+    [SuppressMessage("", "CA1822")]
     public bool IsElevated { get => Activation.GetElevated(); }
 
     /// <summary>

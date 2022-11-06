@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Intrinsic;
 using System.ComponentModel.DataAnnotations;
@@ -84,7 +83,7 @@ public class Achievement : IEquatable<Achievement>
             Id = uiaf.Id,
             Current = uiaf.Current,
             Status = uiaf.Status, // Hot fix | 1.0.30 | Status not set when create database entity
-            Time = DateTimeOffset.FromUnixTimeSeconds(uiaf.Timestamp).ToLocalTime(true),
+            Time = DateTimeOffset.FromUnixTimeSeconds(uiaf.Timestamp).ToLocalTime(),
         };
     }
 
