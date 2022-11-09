@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 

@@ -89,14 +89,4 @@ public class Response<TData> : Response
     {
         return ReturnCode == 0;
     }
-
-    /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        int j = ReturnCode.GetHashCode();
-        int k = Message == null ? 0 : Message.GetHashCode();
-        int i = Data == null ? 0 : Data.GetHashCode();
-
-        return (((j * 31) + k) * 31) + i;
-    }
 }

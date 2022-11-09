@@ -1,12 +1,16 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Message;
 using Snap.Hutao.Win32;
+using System.IO;
+using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.UI;
 using Windows.Win32.Foundation;
@@ -15,11 +19,10 @@ using WinRT.Interop;
 namespace Snap.Hutao.Core.Windowing;
 
 /// <summary>
-/// 窗口管理器
-/// 主要包含了针对窗体的 P/Inoke 逻辑
+/// 扩展窗口
 /// </summary>
 /// <typeparam name="TWindow">窗体类型</typeparam>
-internal sealed class ExtendedWindow<TWindow>
+internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMessage>
     where TWindow : Window, IExtendedWindowSource
 {
     private readonly HWND handle;
@@ -33,8 +36,10 @@ internal sealed class ExtendedWindow<TWindow>
 
     private readonly bool useLegacyDragBar;
 
+    private SystemBackdrop? systemBackdrop;
+
     /// <summary>
-    /// 构造一个新的窗口状态管理器
+    /// 构造一个新的扩展窗口
     /// </summary>
     /// <param name="window">窗口</param>
     /// <param name="titleBar">充当标题栏的元素</param>
@@ -63,6 +68,17 @@ internal sealed class ExtendedWindow<TWindow>
     public static ExtendedWindow<TWindow> Initialize(TWindow window)
     {
         return new(window, window.TitleBar);
+    }
+
+    /// <inheritdoc/>
+    public void Receive(BackdropTypeChangedMessage message)
+    {
+        if (systemBackdrop != null)
+        {
+            systemBackdrop.BackdropType = message.BackdropType;
+            bool micaApplied = systemBackdrop.TryApply();
+            logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
+        }
     }
 
     private static void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
@@ -102,7 +118,7 @@ internal sealed class ExtendedWindow<TWindow>
     private void InitializeWindow()
     {
         appWindow.Title = "胡桃";
-
+        appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/Logos/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
         Persistence.RecoverOrInit(appWindow, window.PersistSize, window.InitSize);
@@ -113,12 +129,14 @@ internal sealed class ExtendedWindow<TWindow>
 
         appWindow.Show(true);
 
-        bool micaApplied = new SystemBackdrop(window).TryApply();
+        systemBackdrop = new(window);
+        bool micaApplied = systemBackdrop.TryApply();
         logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
 
         bool subClassApplied = subclassManager.TrySetWindowSubclass();
         logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(WindowSubclassManager<TWindow>), subClassApplied ? "succeed" : "failed");
 
+        Ioc.Default.GetRequiredService<IMessenger>().Register(this);
         window.Closed += OnWindowClosed;
     }
 

@@ -1,9 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-
 namespace Snap.Hutao.Extension;
 
 /// <summary>
@@ -11,26 +8,6 @@ namespace Snap.Hutao.Extension;
 /// </summary>
 public static partial class EnumerableExtension
 {
-    /// <inheritdoc cref="Enumerable.Average(IEnumerable{int})"/>
-    public static double AverageNoThrow(this List<int> source)
-    {
-        Span<int> span = CollectionsMarshal.AsSpan(source);
-
-        if (span.IsEmpty)
-        {
-            return 0;
-        }
-
-        long sum = 0;
-
-        for (int i = 0; i < span.Length; i++)
-        {
-            sum += span[i];
-        }
-
-        return (double)sum / span.Length;
-    }
-
     /// <summary>
     /// 计数
     /// </summary>
@@ -64,18 +41,6 @@ public static partial class EnumerableExtension
     }
 
     /// <summary>
-    /// 如果传入列表不为空则原路返回，
-    /// 如果传入列表为空返回一个空的列表
-    /// </summary>
-    /// <typeparam name="TSource">源类型</typeparam>
-    /// <param name="source">源</param>
-    /// <returns>源列表或空列表</returns>
-    public static List<TSource> EmptyIfNull<TSource>(this List<TSource>? source)
-    {
-        return source ?? new();
-    }
-
-    /// <summary>
     /// 将源转换为仅包含单个元素的枚举
     /// </summary>
     /// <typeparam name="TSource">源的类型</typeparam>
@@ -97,94 +62,6 @@ public static partial class EnumerableExtension
     public static TSource? FirstOrFirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
     {
         return source.FirstOrDefault(predicate) ?? source.FirstOrDefault();
-    }
-
-    /// <summary>
-    /// 获取值或默认值
-    /// </summary>
-    /// <typeparam name="TKey">键类型</typeparam>
-    /// <typeparam name="TValue">值类型</typeparam>
-    /// <param name="dictionary">字典</param>
-    /// <param name="key">键</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>结果值</returns>
-    public static TValue? GetValueOrDefault2<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = default)
-        where TKey : notnull
-    {
-        if (dictionary.TryGetValue(key, out TValue? value))
-        {
-            return value;
-        }
-
-        return defaultValue;
-    }
-
-    /// <summary>
-    /// 增加计数
-    /// </summary>
-    /// <typeparam name="TKey">键类型</typeparam>
-    /// <param name="dict">字典</param>
-    /// <param name="key">键</param>
-    public static void Increase<TKey>(this Dictionary<TKey, int> dict, TKey key)
-        where TKey : notnull
-    {
-        ++CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
-    }
-
-    /// <summary>
-    /// 增加计数
-    /// </summary>
-    /// <typeparam name="TKey">键类型</typeparam>
-    /// <param name="dict">字典</param>
-    /// <param name="key">键</param>
-    /// <param name="value">增加的值</param>
-    public static void Increase<TKey>(this Dictionary<TKey, int> dict, TKey key, int value)
-        where TKey : notnull
-    {
-        // ref the value, so that we can manipulate it outside the dict.
-        ref int current = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
-        current += value;
-    }
-
-    /// <summary>
-    /// 增加计数
-    /// </summary>
-    /// <typeparam name="TKey">键类型</typeparam>
-    /// <param name="dict">字典</param>
-    /// <param name="key">键</param>
-    /// <returns>是否存在键值</returns>
-    public static bool TryIncrease<TKey>(this Dictionary<TKey, int> dict, TKey key)
-        where TKey : notnull
-    {
-        ref int value = ref CollectionsMarshal.GetValueRefOrNullRef(dict, key);
-        if (!Unsafe.IsNullRef(ref value))
-        {
-            ++value;
-            return true;
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// 移除表中首个满足条件的项
-    /// </summary>
-    /// <typeparam name="T">项的类型</typeparam>
-    /// <param name="list">表</param>
-    /// <param name="shouldRemovePredicate">是否应当移除</param>
-    /// <returns>是否移除了元素</returns>
-    public static bool RemoveFirstWhere<T>(this IList<T> list, Func<T, bool> shouldRemovePredicate)
-    {
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (shouldRemovePredicate.Invoke(list[i]))
-            {
-                list.RemoveAt(i);
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /// <inheritdoc cref="Enumerable.ToDictionary{TSource, TKey}(IEnumerable{TSource}, Func{TSource, TKey})"/>

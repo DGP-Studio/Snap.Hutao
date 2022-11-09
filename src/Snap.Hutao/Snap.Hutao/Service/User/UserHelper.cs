@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Collections.ObjectModel;
-using BindingUser = Snap.Hutao.Model.Binding.User;
+using BindingUser = Snap.Hutao.Model.Binding.User.User;
 
 namespace Snap.Hutao.Service.User;
 

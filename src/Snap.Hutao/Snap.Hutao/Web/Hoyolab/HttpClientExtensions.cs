@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Web.Request;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -64,9 +64,21 @@ internal static class HttpClientExtensions
     /// 设置用户的Cookie
     /// </summary>
     /// <param name="httpClient">http客户端</param>
-    /// <param name="user">用户</param>
+    /// <param name="user">绑定用户</param>
     /// <returns>客户端</returns>
     internal static HttpClient SetUser(this HttpClient httpClient, User user)
+    {
+        httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie!.ToString());
+        return httpClient;
+    }
+
+    /// <summary>
+    /// 设置用户的Cookie
+    /// </summary>
+    /// <param name="httpClient">http客户端</param>
+    /// <param name="user">实体用户</param>
+    /// <returns>客户端</returns>
+    internal static HttpClient SetUser(this HttpClient httpClient, Model.Entity.User user)
     {
         httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie!.ToString());
         return httpClient;

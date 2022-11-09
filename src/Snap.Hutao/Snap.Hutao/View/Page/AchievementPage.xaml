@@ -148,7 +148,7 @@
                                     BorderThickness="{ThemeResource CardBorderThickness}"
                                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                     Padding="8"
-                                    Margin="0,16,0,0"
+                                    Margin="0,8,0,0"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     MinHeight="48">

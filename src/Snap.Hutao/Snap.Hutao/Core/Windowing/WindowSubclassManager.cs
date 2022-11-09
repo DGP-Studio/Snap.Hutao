@@ -52,9 +52,10 @@ internal class WindowSubclassManager<TWindow> : IDisposable
 
         bool titleBarHooked = true;
 
-        // only hook up drag bar proc when use legacy Window.ExtendsContentIntoTitleBar
+        // only hook up drag bar proc when not use legacy Window.ExtendsContentIntoTitleBar
         if (isLegacyDragBar)
         {
+            titleBarHooked = false;
             hwndDragBar = FindWindowEx(hwnd, default, "DRAG_BAR_WINDOW_CLASS", string.Empty);
 
             if (!hwndDragBar.IsNull)
@@ -89,6 +90,12 @@ internal class WindowSubclassManager<TWindow> : IDisposable
                     double scalingFactor = Persistence.GetScaleForWindow(hwnd);
                     window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
                     break;
+                }
+
+            case WM_NCRBUTTONDOWN:
+            case WM_NCRBUTTONUP:
+                {
+                    return new(0);
                 }
         }
 

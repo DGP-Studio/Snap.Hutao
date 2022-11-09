@@ -35,6 +35,7 @@ public sealed partial class LaunchGameWindow : Window, IDisposable, IExtendedWin
 
         scope = scopeFactory.CreateScope();
         RootGrid.DataContext = scope.ServiceProvider.GetRequiredService<LaunchGameViewModel>();
+        Closed += (s, e) => Dispose();
     }
 
     /// <inheritdoc/>

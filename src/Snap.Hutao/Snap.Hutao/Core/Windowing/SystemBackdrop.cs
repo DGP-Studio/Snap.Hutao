@@ -1,9 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model.Entity;
 using System.Runtime.InteropServices;
 using Windows.System;
 using WinRT;
@@ -18,7 +22,7 @@ public class SystemBackdrop
     private readonly Window window;
 
     private DispatcherQueueHelper? dispatcherQueueHelper;
-    private MicaController? backdropController;
+    private ISystemBackdropControllerWithTargets? backdropController;
     private SystemBackdropConfiguration? configuration;
 
     /// <summary>
@@ -28,7 +32,18 @@ public class SystemBackdrop
     public SystemBackdrop(Window window)
     {
         this.window = window;
+        using (IServiceScope scope = Ioc.Default.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.SystemBackdropType, BackdropType.Mica.ToString());
+            BackdropType = Enum.Parse<BackdropType>(entry.Value!);
+        }
     }
+
+    /// <summary>
+    /// 背景类型
+    /// </summary>
+    public BackdropType BackdropType { get; set; }
 
     /// <summary>
     /// 尝试设置背景
@@ -36,30 +51,49 @@ public class SystemBackdrop
     /// <returns>是否设置成功</returns>
     public bool TryApply()
     {
-        if (!MicaController.IsSupported())
+        bool isSupport = BackdropType switch
+        {
+            BackdropType.Acrylic => DesktopAcrylicController.IsSupported(),
+            BackdropType.Mica or BackdropType.MicaAlt => MicaController.IsSupported(),
+            _ => false,
+        };
+
+        if (!isSupport)
         {
             return false;
         }
         else
         {
-            dispatcherQueueHelper = new();
-            dispatcherQueueHelper.Ensure();
+            // Previous one
+            if (backdropController != null)
+            {
+                backdropController.RemoveAllSystemBackdropTargets();
+            }
+            else
+            {
+                dispatcherQueueHelper = new();
+                dispatcherQueueHelper.Ensure();
+            }
 
             // Hooking up the policy object
-            configuration = new();
+            configuration = new()
+            {
+                IsInputActive = true, // Initial configuration state.
+            };
+            SetConfigurationSourceTheme(configuration);
+
             window.Activated += OnWindowActivated;
             window.Closed += OnWindowClosed;
             ((FrameworkElement)window.Content).ActualThemeChanged += OnWindowThemeChanged;
 
-            // Initial configuration state.
-            configuration.IsInputActive = true;
-            SetConfigurationSourceTheme(configuration);
-
-            backdropController = new()
+            backdropController = BackdropType switch
             {
-                // Mica Alt
-                Kind = MicaKind.BaseAlt,
+                BackdropType.Acrylic => new DesktopAcrylicController(),
+                BackdropType.Mica => new MicaController() { Kind = MicaKind.Base },
+                BackdropType.MicaAlt => new MicaController() { Kind = MicaKind.BaseAlt },
+                _ => throw Must.NeverHappen(),
             };
+
             backdropController.AddSystemBackdropTarget(window.As<ICompositionSupportsSystemBackdrop>());
             backdropController.SetSystemBackdropConfiguration(configuration);
 
@@ -69,7 +103,7 @@ public class SystemBackdrop
 
     private void OnWindowActivated(object sender, WindowActivatedEventArgs args)
     {
-        Must.NotNull(configuration!).IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
+        configuration!.IsInputActive = args.WindowActivationState != WindowActivationState.Deactivated;
     }
 
     private void OnWindowClosed(object sender, WindowEventArgs args)

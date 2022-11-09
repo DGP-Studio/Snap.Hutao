@@ -3,6 +3,7 @@
 
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
@@ -91,20 +92,6 @@ public partial class Cookie
     }
 
     /// <summary>
-    /// 插入Stoken
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <param name="multiToken">tokens</param>
-    public void InsertMultiToken(string uid, Dictionary<string, string> multiToken)
-    {
-        inner[STUID] = uid;
-        inner[STOKEN] = multiToken[STOKEN];
-
-        inner[LTUID] = uid;
-        inner[LTOKEN] = multiToken[LTOKEN];
-    }
-
-    /// <summary>
     /// 插入 Stoken
     /// </summary>
     /// <param name="stuid">stuid</param>
@@ -113,15 +100,6 @@ public partial class Cookie
     {
         inner[STUID] = stuid;
         inner[STOKEN] = cookie.inner[STOKEN];
-    }
-
-    /// <summary>
-    /// 移除 LoginTicket
-    /// </summary>
-    public void RemoveLoginTicket()
-    {
-        inner.Remove(LOGIN_TICKET);
-        inner.Remove(LOGIN_UID);
     }
 
     /// <summary>
@@ -187,6 +165,34 @@ public partial class Cookie
     }
 
     /// <summary>
+    /// 异步尝试添加MultiToken
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>任务</returns>
+    public async Task TryAddMultiTokenAsync(string uid)
+    {
+        if (TryGetLoginTicket(out string? loginTicket))
+        {
+            // get multitoken
+            Dictionary<string, string> multiToken = await Ioc.Default
+                .GetRequiredService<AuthClient>()
+                .GetMultiTokenByLoginTicketAsync(loginTicket, uid, default)
+                .ConfigureAwait(false);
+
+            if (multiToken.Count >= 2)
+            {
+                inner[STUID] = uid;
+                inner[STOKEN] = multiToken[STOKEN];
+                inner[LTUID] = uid;
+                inner[LTOKEN] = multiToken[LTOKEN];
+
+                inner.Remove(LOGIN_TICKET);
+                inner.Remove(LOGIN_UID);
+            }
+        }
+    }
+
+    /// <summary>
     /// 转换为Cookie的字符串表示
     /// </summary>
     /// <returns>Cookie的字符串表示</returns>
@@ -194,24 +200,4 @@ public partial class Cookie
     {
         return string.Join(';', inner.Select(kvp => $"{kvp.Key}={kvp.Value}"));
     }
-}
-
-/// <summary>
-/// 键部分
-/// </summary>
-[SuppressMessage("", "SA1310")]
-[SuppressMessage("", "SA1600")]
-public partial class Cookie
-{
-    public const string COOKIE_TOKEN = "cookie_token";
-    public const string ACCOUNT_ID = "account_id";
-
-    public const string LOGIN_TICKET = "login_ticket";
-    public const string LOGIN_UID = "login_uid";
-
-    public const string LTOKEN = "ltoken";
-    public const string LTUID = "ltuid";
-
-    public const string STOKEN = "stoken";
-    public const string STUID = "stuid";
 }

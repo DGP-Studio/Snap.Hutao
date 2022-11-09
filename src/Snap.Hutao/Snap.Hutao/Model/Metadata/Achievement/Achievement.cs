@@ -44,11 +44,6 @@ public class Achievement
     public int Progress { get; set; }
 
     /// <summary>
-    /// 触发器
-    /// </summary>
-    public IEnumerable<AchievementTrigger>? Triggers { get; set; }
-
-    /// <summary>
     /// 图标
     /// </summary>
     public string? Icon { get; set; }

@@ -1,25 +1,30 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Metadata.Achievement;
+namespace Snap.Hutao.Core.Windowing;
 
 /// <summary>
-/// 成就触发器类型
+/// 背景类型
 /// </summary>
-public enum AchievementTriggerType
+public enum BackdropType
 {
     /// <summary>
-    /// 任务
+    /// 无
     /// </summary>
-    Quest = 1,
+    None = 0,
 
     /// <summary>
-    /// 子任务
+    /// 亚克力
     /// </summary>
-    SubQuest = 2,
+    Acrylic,
 
     /// <summary>
-    /// 日常任务
+    /// 云母
     /// </summary>
-    DailyTask = 3,
+    Mica,
+
+    /// <summary>
+    /// 变种云母
+    /// </summary>
+    MicaAlt,
 }

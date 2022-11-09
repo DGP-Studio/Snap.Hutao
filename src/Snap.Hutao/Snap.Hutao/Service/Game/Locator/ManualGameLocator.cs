@@ -44,7 +44,7 @@ internal class ManualGameLocator : IGameLocator
     {
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker();
         picker.FileTypeFilter.Add(".exe");
-        picker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+        picker.SuggestedStartLocation = PickerLocationId.Desktop;
 
         // System.Runtime.InteropServices.COMException (0x80004005): Error HRESULT E_FAIL has been returned from a call to a COM component.
         // Not sure what's going on here.

@@ -35,7 +35,7 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
     /// <inheritdoc/>
     public async Task<ValueResult<bool, string>> GetQueryAsync()
     {
-        Model.Binding.User? user = userService.Current;
+        Model.Binding.User.User? user = userService.Current;
         if (user != null && user.SelectedUserGameRole != null)
         {
             if (user.Cookie!.ContainsSToken())

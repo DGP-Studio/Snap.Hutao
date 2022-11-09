@@ -132,7 +132,7 @@
                                                 Foreground="Green"
                                                 Opacity="0.6"/>
                                         </StackPanel>
-                                        
+
                                         <StackPanel
                                             x:Name="ButtonPanel"
                                             Orientation="Horizontal"
@@ -198,7 +198,6 @@
                                             </mxic:EventTriggerBehavior>
                                         </mxi:Interaction.Behaviors>
                                     </Grid>
-
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

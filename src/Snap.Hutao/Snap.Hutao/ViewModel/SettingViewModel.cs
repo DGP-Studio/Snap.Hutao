@@ -3,10 +3,12 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.Threading;
+using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
@@ -22,9 +24,17 @@ internal class SettingViewModel : ObservableObject
     private readonly AppDbContext appDbContext;
     private readonly IGameService gameService;
     private readonly SettingEntry isEmptyHistoryWishVisibleEntry;
+    private readonly SettingEntry selectedBackdropTypeEntry;
+    private readonly List<NamedValue<BackdropType>> backdropTypes = new()
+    {
+        new("亚克力", BackdropType.Acrylic),
+        new("云母", BackdropType.Mica),
+        new("变种云母", BackdropType.MicaAlt),
+    };
 
     private bool isEmptyHistoryWishVisible;
     private string gamePath;
+    private NamedValue<BackdropType> selectedBackdropType;
 
     /// <summary>
     /// 构造一个新的测试视图模型
@@ -40,9 +50,15 @@ internal class SettingViewModel : ObservableObject
 
         Experimental = experimental;
 
-        isEmptyHistoryWishVisibleEntry = appDbContext.Settings
-            .SingleOrAdd(e => e.Key == SettingEntry.IsEmptyHistoryWishVisible, () => new(SettingEntry.IsEmptyHistoryWishVisible, true.ToString()), out _);
+        isEmptyHistoryWishVisibleEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.IsEmptyHistoryWishVisible, true.ToString());
         IsEmptyHistoryWishVisible = bool.Parse(isEmptyHistoryWishVisibleEntry.Value!);
+
+        selectedBackdropTypeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.SystemBackdropType, BackdropType.Mica.ToString());
+        BackdropType type = Enum.Parse<BackdropType>(selectedBackdropTypeEntry.Value!);
+
+        // prevent unnecessary backdrop setting.
+        selectedBackdropType = backdropTypes.Single(t => t.Value == type);
+        OnPropertyChanged(nameof(SelectedBackdropType));
 
         GamePath = gameService.GetGamePathSkipLocator();
 
@@ -67,9 +83,11 @@ internal class SettingViewModel : ObservableObject
         get => isEmptyHistoryWishVisible;
         set
         {
-            SetProperty(ref isEmptyHistoryWishVisible, value);
-            isEmptyHistoryWishVisibleEntry.Value = value.ToString();
-            appDbContext.Settings.UpdateAndSave(isEmptyHistoryWishVisibleEntry);
+            if (SetProperty(ref isEmptyHistoryWishVisible, value))
+            {
+                isEmptyHistoryWishVisibleEntry.Value = value.ToString();
+                appDbContext.Settings.UpdateAndSave(isEmptyHistoryWishVisibleEntry);
+            }
         }
     }
 
@@ -81,6 +99,29 @@ internal class SettingViewModel : ObservableObject
         get => gamePath;
         [MemberNotNull(nameof(gamePath))]
         set => SetProperty(ref gamePath, value);
+    }
+
+    /// <summary>
+    /// 背景类型
+    /// </summary>
+    public List<NamedValue<BackdropType>> BackdropTypes { get => backdropTypes; }
+
+    /// <summary>
+    /// 选中的背景类型
+    /// </summary>
+    public NamedValue<BackdropType> SelectedBackdropType
+    {
+        get => selectedBackdropType;
+        [MemberNotNull(nameof(selectedBackdropType))]
+        set
+        {
+            if (SetProperty(ref selectedBackdropType, value))
+            {
+                selectedBackdropTypeEntry.Value = value.Value.ToString();
+                appDbContext.Settings.UpdateAndSave(selectedBackdropTypeEntry);
+                Ioc.Default.GetRequiredService<IMessenger>().Send(new Message.BackdropTypeChangedMessage(value.Value));
+            }
+        }
     }
 
     /// <summary>

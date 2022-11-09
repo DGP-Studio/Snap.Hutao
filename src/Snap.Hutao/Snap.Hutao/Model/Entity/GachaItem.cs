@@ -26,6 +26,7 @@ public class GachaItem
     /// <summary>
     /// 存档
     /// </summary>
+    [ForeignKey(nameof(ArchiveId))]
     public GachaArchive Archive { get; set; } = default!;
 
     /// <summary>

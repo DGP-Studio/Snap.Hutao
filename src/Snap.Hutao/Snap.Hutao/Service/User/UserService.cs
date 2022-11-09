@@ -5,13 +5,12 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.Threading;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
-using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
-using BindingUser = Snap.Hutao.Model.Binding.User;
+using BindingUser = Snap.Hutao.Model.Binding.User.User;
 
 namespace Snap.Hutao.Service.User;
 
@@ -27,6 +26,7 @@ internal class UserService : IUserService
 
     private BindingUser? currentUser;
     private ObservableCollection<BindingUser>? userCollection;
+    private ObservableCollection<Model.Binding.User.UserAndRole>? roleCollection;
 
     /// <summary>
     /// 构造一个新的用户服务
@@ -86,15 +86,17 @@ internal class UserService : IUserService
     public async Task RemoveUserAsync(BindingUser user)
     {
         await Task.Yield();
-        Must.NotNull(userCollection!);
 
         // Sync cache
-        userCollection.Remove(user);
+        userCollection!.Remove(user);
+        roleCollection!.RemoveWhere(r => r.User.InnerId == user.Entity.InnerId);
 
         // Sync database
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // Note: cascade deleted dailynotes
             appDbContext.Users.RemoveAndSave(user.Entity);
         }
     }
@@ -138,6 +140,27 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
+    public async Task<ObservableCollection<Model.Binding.User.UserAndRole>> GetRoleCollectionAsync()
+    {
+        if (roleCollection == null)
+        {
+            List<Model.Binding.User.UserAndRole> userAndRoles = new();
+            ObservableCollection<BindingUser> observableUsers = await GetUserCollectionAsync().ConfigureAwait(false);
+            foreach (BindingUser user in observableUsers.ToList())
+            {
+                foreach (UserGameRole role in user.UserGameRoles)
+                {
+                    userAndRoles.Add(new(user.Entity, role));
+                }
+            }
+
+            roleCollection = new(userAndRoles);
+        }
+
+        return roleCollection;
+    }
+
+    /// <inheritdoc/>
     public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie)
     {
         cookie.Trim();
@@ -148,7 +171,7 @@ internal class UserService : IUserService
         {
             // 检查 login ticket 是否存在
             // 若存在则尝试升级至 stoken
-            await TryAddMultiTokenAsync(cookie, uid).ConfigureAwait(false);
+            await cookie.TryAddMultiTokenAsync(uid).ConfigureAwait(false);
 
             // 检查 uid 对应用户是否存在
             if (UserHelper.TryGetUserByUid(userCollection, uid, out BindingUser? userWithSameUid))
@@ -180,32 +203,14 @@ internal class UserService : IUserService
             }
             else if (cookie.ContainsLTokenAndCookieToken())
             {
-                return await TryCreateUserAndAddAsync(userCollection, cookie).ConfigureAwait(false);
+                return await TryCreateUserAndAddAsync(cookie).ConfigureAwait(false);
             }
         }
 
         return new(UserOptionResult.Incomplete, null!);
     }
 
-    private async Task TryAddMultiTokenAsync(Cookie cookie, string uid)
-    {
-        if (cookie.TryGetLoginTicket(out string? loginTicket))
-        {
-            // get multitoken
-            Dictionary<string, string> multiToken = await Ioc.Default
-                .GetRequiredService<AuthClient>()
-                .GetMultiTokenByLoginTicketAsync(loginTicket, uid, default)
-                .ConfigureAwait(false);
-
-            if (multiToken.Count >= 2)
-            {
-                cookie.InsertMultiToken(uid, multiToken);
-                cookie.RemoveLoginTicket();
-            }
-        }
-    }
-
-    private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(ObservableCollection<BindingUser> users, Cookie cookie)
+    private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie)
     {
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
@@ -217,8 +222,19 @@ internal class UserService : IUserService
             if (newUser != null)
             {
                 // Sync cache
-                await ThreadHelper.SwitchToMainThreadAsync();
-                users.Add(newUser);
+                if (userCollection != null)
+                {
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    userCollection!.Add(newUser);
+
+                    if (roleCollection != null)
+                    {
+                        foreach (UserGameRole role in newUser.UserGameRoles)
+                        {
+                            roleCollection.Add(new(newUser.Entity, role));
+                        }
+                    }
+                }
 
                 // Sync database
                 appDbContext.Users.AddAndSave(newUser.Entity);

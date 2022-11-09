@@ -62,6 +62,11 @@ public class AppDbContext : DbContext
     public DbSet<GameAccount> GameAccounts { get; set; } = default!;
 
     /// <summary>
+    /// 实时便笺
+    /// </summary>
+    public DbSet<DailyNoteEntry> DailyNotes { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个临时的应用程序数据库上下文
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>
@@ -76,6 +81,7 @@ public class AppDbContext : DbContext
     {
         modelBuilder
             .ApplyConfiguration(new AvatarInfoConfiguration())
-            .ApplyConfiguration(new UserConfiguration());
+            .ApplyConfiguration(new UserConfiguration())
+            .ApplyConfiguration(new DailyNoteEntryConfiguration());
     }
 }

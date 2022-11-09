@@ -16,6 +16,9 @@
         <Style TargetType="HyperlinkButton" BasedOn="{StaticResource HyperlinkButtonStyle}">
             <Setter Property="MinWidth" Value="160"/>
         </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource DefaultComboBoxStyle}">
+            <Setter Property="MinWidth" Value="160"/>
+        </Style>
     </Page.Resources>
     <ScrollViewer>
         <Grid>
@@ -90,6 +93,19 @@
                     </sc:SettingExpander>
                 </sc:SettingsGroup>
 
+                <sc:SettingsGroup Header="外观">
+                    <sc:Setting
+                        Icon="&#xE7F7;"
+                        Header="背景材质"
+                        Description="更改窗体的背景材质">
+                        <ComboBox
+                            SelectedItem="{Binding SelectedBackdropType,Mode=TwoWay}"
+                            ItemsSource="{Binding BackdropTypes}"
+                            DisplayMemberPath="Name"/>
+                    </sc:Setting>
+                    
+                </sc:SettingsGroup>
+                
                 <sc:SettingsGroup Header="祈愿记录">
                     <sc:Setting
                         Icon="&#xE81C;"

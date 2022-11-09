@@ -39,8 +39,9 @@ internal class ResourceClient
     /// <returns>游戏资源</returns>
     public async Task<GameResource?> GetResourceAsync(LaunchScheme scheme, CancellationToken token = default)
     {
+        string url = ApiEndpoints.SdkStaticLauncherResource(scheme.LauncherId, scheme.Channel, scheme.SubChannel);
         Response<GameResource>? response = await httpClient
-            .TryCatchGetFromJsonAsync<Response<GameResource>>(ApiEndpoints.SdkStaticLauncherResource(scheme.Channel, scheme.SubChannel), options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<GameResource>>(url, options, logger, token)
             .ConfigureAwait(false);
 
         return response?.Data;

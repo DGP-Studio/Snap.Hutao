@@ -44,6 +44,17 @@ internal static class ApiEndpoints
     public const string GameRecordCharacter = $"{ApiTakumiRecordApi}/character";
 
     /// <summary>
+    /// 游戏记录实时便笺
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <param name="server">服务器区域</param>
+    /// <returns>游戏记录实时便笺字符串</returns>
+    public static string GameRecordDailyNote(string uid, string server)
+    {
+        return $"{ApiTakumiRecordApi}/dailyNote?server={server}&role_id={uid}";
+    }
+
+    /// <summary>
     /// 游戏记录主页
     /// </summary>
     /// <param name="uid">uid</param>
@@ -121,12 +132,13 @@ internal static class ApiEndpoints
     /// <summary>
     /// 启动器资源
     /// </summary>
+    /// <param name="launcherId">启动器Id</param>
     /// <param name="channel">通道</param>
     /// <param name="subChannel">子通道</param>
     /// <returns>启动器资源字符串</returns>
-    public static string SdkStaticLauncherResource(string channel, string subChannel)
+    public static string SdkStaticLauncherResource(string launcherId, string channel, string subChannel)
     {
-        return $"{SdkStaticLauncherApi}/resource?key=eYd89JmJ&launcher_id=18&channel_id={channel}&sub_channel_id={subChannel}";
+        return $"{SdkStaticLauncherApi}/resource?key=eYd89JmJ&launcher_id={launcherId}&channel_id={channel}&sub_channel_id={subChannel}";
     }
 
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?filter_adv=true&key=eYd89JmJ&language=zh-cn&launcher_id=18

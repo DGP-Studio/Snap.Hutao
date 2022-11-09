@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Response;
@@ -32,6 +32,42 @@ internal class GameRecordClient
         this.httpClient = httpClient;
         this.options = options;
         this.logger = logger;
+    }
+
+    /// <summary>
+    /// 异步获取实时便笺
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="uid">查询uid</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>实时便笺</returns>
+    public async Task<DailyNote.DailyNote?> GetDialyNoteAsync(User user, PlayerUid uid, CancellationToken token = default)
+    {
+        Response<DailyNote.DailyNote>? resp = await httpClient
+            .SetUser(user)
+            .UsingDynamicSecret(options, ApiEndpoints.GameRecordDailyNote(uid.Value, uid.Region))
+            .GetFromJsonAsync<Response<DailyNote.DailyNote>>(token)
+            .ConfigureAwait(false);
+
+        return resp?.Data;
+    }
+
+    /// <summary>
+    /// 异步获取实时便笺
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="uid">查询uid</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>实时便笺</returns>
+    public async Task<DailyNote.DailyNote?> GetDialyNoteAsync(Model.Entity.User user, PlayerUid uid, CancellationToken token = default)
+    {
+        Response<DailyNote.DailyNote>? resp = await httpClient
+            .SetUser(user)
+            .UsingDynamicSecret(options, ApiEndpoints.GameRecordDailyNote(uid.Value, uid.Region))
+            .GetFromJsonAsync<Response<DailyNote.DailyNote>>(token)
+            .ConfigureAwait(false);
+
+        return resp?.Data;
     }
 
     /// <summary>
@@ -68,7 +104,7 @@ internal class GameRecordClient
     /// 获取玩家深渊信息
     /// </summary>
     /// <param name="user">用户</param>
-    /// <param name="schedule">1：当期，2：上期</param>
+    /// <param name="schedule">期</param>
     /// <param name="token">取消令牌</param>
     /// <returns>深渊信息</returns>
     public Task<SpiralAbyss.SpiralAbyss?> GetSpiralAbyssAsync(User user, SpiralAbyssSchedule schedule, CancellationToken token = default)

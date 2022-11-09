@@ -23,6 +23,11 @@ public class SettingEntry
     public const string IsEmptyHistoryWishVisible = "IsEmptyHistoryWishVisible";
 
     /// <summary>
+    /// 窗口背景类型
+    /// </summary>
+    public const string SystemBackdropType = "SystemBackdropType";
+
+    /// <summary>
     /// 启动游戏 全屏
     /// </summary>
     public const string LaunchIsFullScreen = "Launch.IsFullScreen";

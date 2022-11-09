@@ -168,25 +168,38 @@ internal class GameService : IGameService
             elements = IniSerializer.Deserialize(readStream).ToList();
         }
 
+        bool changed = false;
+
         foreach (IniElement element in elements)
         {
             if (element is IniParameter parameter)
             {
                 if (parameter.Key == "channel")
                 {
-                    parameter.Value = scheme.Channel;
+                    if (parameter.Value != scheme.Channel)
+                    {
+                        parameter.Value = scheme.Channel;
+                        changed = true;
+                    }
                 }
 
                 if (parameter.Key == "sub_channel")
                 {
-                    parameter.Value = scheme.SubChannel;
+                    if (parameter.Value != scheme.SubChannel)
+                    {
+                        parameter.Value = scheme.SubChannel;
+                        changed = true;
+                    }
                 }
             }
         }
 
-        using (FileStream writeStream = File.Create(configPath))
+        if (changed)
         {
-            IniSerializer.Serialize(writeStream, elements);
+            using (FileStream writeStream = File.Create(configPath))
+            {
+                IniSerializer.Serialize(writeStream, elements);
+            }
         }
     }
 
@@ -340,6 +353,7 @@ internal class GameService : IGameService
 
         if (isOk)
         {
+            await ThreadHelper.SwitchToMainThreadAsync();
             gameAccount.UpdateName(name);
 
             // sync database

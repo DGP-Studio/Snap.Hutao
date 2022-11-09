@@ -41,7 +41,7 @@ public enum KnownReturnCode : int
     /// <summary>
     /// 访问过于频繁
     /// </summary>
-    VIsitTooFrequently = -110,
+    VisitTooFrequently = -110,
 
     /// <summary>
     /// 应用Id错误

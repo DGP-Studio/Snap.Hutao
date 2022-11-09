@@ -64,7 +64,7 @@ public class UserGameRole
         get => $"{RegionName} | Lv.{Level}";
     }
 
-    public static explicit operator PlayerUid(UserGameRole userGameRole)
+    public static implicit operator PlayerUid(UserGameRole userGameRole)
     {
         return new PlayerUid(userGameRole.GameUid, userGameRole.Region);
     }

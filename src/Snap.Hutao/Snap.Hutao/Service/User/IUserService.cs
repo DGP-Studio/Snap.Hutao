@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
-using BindingUser = Snap.Hutao.Model.Binding.User;
+using BindingUser = Snap.Hutao.Model.Binding.User.User;
 
 namespace Snap.Hutao.Service.User;
 
@@ -17,6 +16,12 @@ public interface IUserService
     /// 获取或设置当前用户
     /// </summary>
     BindingUser? Current { get; set; }
+
+    /// <summary>
+    /// 异步获取角色与用户集合
+    /// </summary>
+    /// <returns>角色与用户集合</returns>
+    Task<ObservableCollection<Model.Binding.User.UserAndRole>> GetRoleCollectionAsync();
 
     /// <summary>
     /// 初始化用户服务及所有用户

@@ -41,6 +41,11 @@ public struct PlayerUid
         get => region ??= EvaluateRegion(Value[0]);
     }
 
+    public static implicit operator PlayerUid(string source)
+    {
+        return new(source);
+    }
+
     /// <inheritdoc/>
     public override string ToString()
     {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;

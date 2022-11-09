@@ -82,6 +82,62 @@ namespace Snap.Hutao.Migrations
                     b.ToTable("avatar_infos");
                 });
 
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.DailyNoteEntry", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DailyNote")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("DailyTaskNotify")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("DailyTaskNotifySuppressed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ExpeditionNotify")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ExpeditionNotifySuppressed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("HomeCoinNotifySuppressed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("HomeCoinNotifyThreshold")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ResinNotifySuppressed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ResinNotifyThreshold")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("ShowInHomeWidget")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("TransformerNotify")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("TransformerNotifySuppressed")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InnerId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("daily_notes");
+                });
+
             modelBuilder.Entity("Snap.Hutao.Model.Entity.GachaArchive", b =>
                 {
                     b.Property<Guid>("InnerId")
@@ -195,6 +251,17 @@ namespace Snap.Hutao.Migrations
                         .IsRequired();
 
                     b.Navigation("Archive");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.DailyNoteEntry", b =>
+                {
+                    b.HasOne("Snap.Hutao.Model.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.GachaItem", b =>

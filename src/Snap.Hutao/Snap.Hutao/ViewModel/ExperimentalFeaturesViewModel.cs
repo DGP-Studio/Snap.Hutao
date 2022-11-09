@@ -68,7 +68,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
         IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
-        if (userService.Current is Model.Binding.User user)
+        if (userService.Current is Model.Binding.User.User user)
         {
             if (user.SelectedUserGameRole == null)
             {

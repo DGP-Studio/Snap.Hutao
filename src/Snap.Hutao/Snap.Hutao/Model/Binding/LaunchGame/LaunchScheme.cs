@@ -18,11 +18,13 @@ public class LaunchScheme
     /// <param name="channel">通道</param>
     /// <param name="cps">通道描述字符串</param>
     /// <param name="subChannel">子通道</param>
-    public LaunchScheme(string name, string channel, string subChannel)
+    /// <param name="launcherId">启动器Id</param>
+    public LaunchScheme(string name, string channel, string subChannel, string launcherId)
     {
         Name = name;
         Channel = channel;
         SubChannel = subChannel;
+        LauncherId = launcherId;
     }
 
     /// <summary>
@@ -39,4 +41,9 @@ public class LaunchScheme
     /// 子通道
     /// </summary>
     public string SubChannel { get; set; }
+
+    /// <summary>
+    /// 启动器Id
+    /// </summary>
+    public string LauncherId { get; set; }
 }

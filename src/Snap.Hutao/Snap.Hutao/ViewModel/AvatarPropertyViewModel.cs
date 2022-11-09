@@ -6,6 +6,7 @@ using Snap.Hutao.Control;
 using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.AvatarProperty;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.User;
@@ -79,7 +80,7 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
     private Task OpenUIAsync()
     {
-        if (userService.Current is Model.Binding.User user)
+        if (userService.Current is User user)
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
@@ -92,7 +93,7 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
     private Task RefreshByUserGameRoleAsync()
     {
-        if (userService.Current is Model.Binding.User user)
+        if (userService.Current is User user)
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {

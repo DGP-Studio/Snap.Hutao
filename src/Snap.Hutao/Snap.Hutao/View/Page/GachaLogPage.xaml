@@ -23,7 +23,7 @@
         <Rectangle
             Height="48"
             VerticalAlignment="Top"
-            Fill="{StaticResource CardBackgroundFillColorSecondary}"/>
+            Fill="{StaticResource CardBackgroundFillColorDefaultBrush}"/>
         <Pivot Grid.RowSpan="2">
             <Pivot.LeftHeader>
                 <ComboBox

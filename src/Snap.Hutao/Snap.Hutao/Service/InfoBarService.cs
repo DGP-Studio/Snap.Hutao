@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service;

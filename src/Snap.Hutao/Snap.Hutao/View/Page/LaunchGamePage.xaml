@@ -23,10 +23,16 @@
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
 
         <Style TargetType="Button" BasedOn="{StaticResource SettingButtonStyle}">
-            <Setter Property="MinWidth" Value="160"/>
+            <Setter Property="MinWidth" Value="156"/>
         </Style>
         <Style TargetType="HyperlinkButton" BasedOn="{StaticResource HyperlinkButtonStyle}">
-            <Setter Property="MinWidth" Value="160"/>
+            <Setter Property="MinWidth" Value="156"/>
+        </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource DefaultComboBoxStyle}">
+            <Setter Property="MinWidth" Value="156"/>
+        </Style>
+        <Style TargetType="NumberBox">
+            <Setter Property="MinWidth" Value="158"/>
         </Style>
     </Page.Resources>
     <Grid>
@@ -48,7 +54,6 @@
                             Description="切换游戏服务器，B服用户需要自备额外的 PCGameSDK.dll 文件">
                             <sc:Setting.ActionContent>
                                 <ComboBox
-                                    Width="160"
                                     ItemsSource="{Binding KnownSchemes}"
                                     SelectedItem="{Binding SelectedScheme,Mode=TwoWay}"
                                     DisplayMemberPath="Name"/>
@@ -56,30 +61,20 @@
                         </sc:Setting>
                         <sc:SettingExpander IsExpanded="True">
                             <sc:SettingExpander.Header>
-                                <Grid Padding="0,16">
-                                    <StackPanel Orientation="Horizontal">
-                                        <FontIcon Glyph="&#xE748;"/>
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock
-                                                Margin="20,0,0,0"
-                                                Text="账号"/>
-                                            <TextBlock
-                                                Opacity="0.8"
-                                                Margin="20,0,0,0"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="在游戏内切换账号,网络环境发生变化后需要重新手动检测"/>
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <Button
-                                        HorizontalAlignment="Right"
-                                        Command="{Binding DetectGameAccountCommand}"
-                                        Grid.Column="1"
-                                        Margin="0,0,8,0"
-                                        Width="128"
-                                        MinWidth="128"
-                                        Content="检测"/>
-                                </Grid>
+                                <sc:Setting
+                                    Icon="&#xE748;"
+                                    Header="账号"
+                                    Description="在游戏内切换账号,网络环境发生变化后需要重新手动检测">
+                                    <sc:Setting.ActionContent>
+                                        <Button
+                                            HorizontalAlignment="Right"
+                                            Command="{Binding DetectGameAccountCommand}"
+                                            Grid.Column="1"
+                                            Margin="0,0,8,0"
+                                            MinWidth="124"
+                                            Content="检测"/>
+                                    </sc:Setting.ActionContent>
+                                </sc:Setting>
                             </sc:SettingExpander.Header>
                             <ListView
                                 ItemsSource="{Binding GameAccounts}"
@@ -118,7 +113,7 @@
                                                     CommandParameter="{Binding}"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"/>
                                                 <Button
-                                                    Margin="4,8"
+                                                    Margin="4,8,0,8"
                                                     MinWidth="48"
                                                     VerticalAlignment="Stretch"
                                                     ToolTipService.ToolTip="删除"

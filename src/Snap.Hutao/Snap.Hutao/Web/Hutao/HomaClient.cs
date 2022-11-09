@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
@@ -172,7 +173,7 @@ internal class HomaClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>玩家记录</returns>
-    public async Task<SimpleRecord> GetPlayerRecordAsync(Snap.Hutao.Model.Binding.User user, CancellationToken token = default)
+    public async Task<SimpleRecord> GetPlayerRecordAsync(User user, CancellationToken token = default)
     {
         PlayerInfo? playerInfo = await gameRecordClient
             .GetPlayerInfoAsync(user, token)

@@ -35,8 +35,8 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 
     private readonly List<LaunchScheme> knownSchemes = new()
     {
-        new LaunchScheme(name: "官方服 | 天空岛", channel: "1", subChannel: "1"),
-        new LaunchScheme(name: "渠道服 | 世界树", channel: "14", subChannel: "0"),
+        new LaunchScheme(name: "官方服 | 天空岛", channel: "1", subChannel: "1", launcherId: "18"),
+        new LaunchScheme(name: "渠道服 | 世界树", channel: "14", subChannel: "0", launcherId: "17"),
 
         // new LaunchScheme(name: "国际服 | 暂不支持", channel: "1", subChannel: "0"),
     };
@@ -231,7 +231,7 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
             }
             catch (UnauthorizedAccessException)
             {
-                infoBarService.Warning("切换服务器失败，保存配置文件时发生异常\n请以管理员模式启动胡桃。");
+                infoBarService.Warning("读取或保存配置文件时发生异常，请以管理员模式启动胡桃。");
             }
         }
 
@@ -239,7 +239,7 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
         {
             if (!gameService.SetGameAccount(SelectedGameAccount))
             {
-                Ioc.Default.GetRequiredService<IInfoBarService>().Warning("切换账号失败");
+                infoBarService.Warning("切换账号失败");
             }
         }
 

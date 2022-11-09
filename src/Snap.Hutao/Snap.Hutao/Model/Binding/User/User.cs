@@ -8,7 +8,7 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
-namespace Snap.Hutao.Model.Binding;
+namespace Snap.Hutao.Model.Binding.User;
 
 /// <summary>
 /// 用于视图绑定的用户
