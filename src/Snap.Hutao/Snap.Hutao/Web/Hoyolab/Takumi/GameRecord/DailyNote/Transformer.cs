@@ -12,6 +12,7 @@ public class Transformer
     /// 是否拥有该道具
     /// </summary>
     [JsonPropertyName("obtained")]
+    [MemberNotNullWhen(true, nameof(RecoveryTime))]
     public bool Obtained { get; set; }
 
     /// <summary>

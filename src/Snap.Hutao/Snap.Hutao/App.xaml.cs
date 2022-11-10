@@ -53,12 +53,6 @@ public partial class App : Application
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.TemporaryFolder.Path);
 
             JumpListHelper.ConfigAsync().SafeForget(logger);
-
-            Ioc.Default
-                .GetRequiredService<IMetadataService>()
-                .ImplictAs<IMetadataInitializer>()?
-                .InitializeInternalAsync()
-                .SafeForget(logger);
         }
         else
         {

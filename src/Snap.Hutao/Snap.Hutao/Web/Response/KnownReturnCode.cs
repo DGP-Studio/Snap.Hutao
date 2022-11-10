@@ -59,6 +59,11 @@ public enum KnownReturnCode : int
     RET_TOKEN_INVALID = -100,
 
     /// <summary>
+    /// 数据不存在
+    /// </summary>
+    DataNotExists = -1,
+
+    /// <summary>
     /// Ok
     /// </summary>
     RET_SUCCESS = 0,

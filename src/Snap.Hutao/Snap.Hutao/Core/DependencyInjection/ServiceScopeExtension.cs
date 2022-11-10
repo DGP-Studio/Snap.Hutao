@@ -27,9 +27,6 @@ public static class ServiceScopeExtension
     /// </summary>
     public static void DisposeLast()
     {
-        if (scopeReference != null)
-        {
-            scopeReference.Dispose();
-        }
+        scopeReference?.Dispose();
     }
 }

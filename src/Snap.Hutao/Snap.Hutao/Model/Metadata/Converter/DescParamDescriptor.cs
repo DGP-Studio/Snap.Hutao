@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 描述参数解析器
 /// </summary>
-internal sealed class DescParamDescriptor : ValueConverterBase<DescParam, IList<LevelParam<string, ParameterInfo>>>
+internal sealed partial class DescParamDescriptor : ValueConverterBase<DescParam, IList<LevelParam<string, ParameterInfo>>>
 {
     /// <summary>
     /// 获取特定等级的解释
@@ -56,12 +56,15 @@ internal sealed class DescParamDescriptor : ValueConverterBase<DescParam, IList<
             DescFormat descFormat = formats[index];
 
             string format = descFormat.Format;
-            string resultFormatted = Regex.Replace(format, @"{param\d+.*?}", match => EvaluateMatch(match, param));
+            string resultFormatted = ParamRegex().Replace(format, match => EvaluateMatch(match, param));
             results.Add(new ParameterInfo { Description = descFormat.Description, Parameter = resultFormatted });
         }
 
         return results;
     }
+
+    [GeneratedRegex("{param\\d+.*?}")]
+    private static partial Regex ParamRegex();
 
     private static string EvaluateMatch(Match match, IList<double> param)
     {

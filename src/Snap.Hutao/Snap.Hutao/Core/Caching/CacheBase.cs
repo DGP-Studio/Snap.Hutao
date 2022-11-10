@@ -18,6 +18,7 @@ namespace Snap.Hutao.Core.Caching;
 /// 经过简化
 /// </summary>
 /// <typeparam name="T">Generic type as supplied by consumer of the class</typeparam>
+[SuppressMessage("", "CA1001")]
 public abstract class CacheBase<T>
     where T : class
 {

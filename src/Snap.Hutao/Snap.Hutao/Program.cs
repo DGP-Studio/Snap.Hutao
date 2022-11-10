@@ -24,8 +24,8 @@ public static partial class Program
     [SuppressMessage("", "SA1401")]
     internal static volatile DispatcherQueue? DispatcherQueue;
 
-    [DllImport("Microsoft.ui.xaml.dll")]
-    private static extern void XamlCheckProcessRequirements();
+    [LibraryImport("Microsoft.ui.xaml.dll")]
+    private static partial void XamlCheckProcessRequirements();
 
     [STAThread]
     private static void Main(string[] args)

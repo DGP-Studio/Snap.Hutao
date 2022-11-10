@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.Threading;
 
 namespace Snap.Hutao.Control.Extension;
 
@@ -37,7 +36,7 @@ internal static class ContentDialogExtensions
         return new ContentDialogHider(contentDialog);
     }
 
-    private struct ContentDialogHider : IAsyncDisposable
+    private readonly struct ContentDialogHider : IAsyncDisposable
     {
         private readonly ContentDialog contentDialog;
 

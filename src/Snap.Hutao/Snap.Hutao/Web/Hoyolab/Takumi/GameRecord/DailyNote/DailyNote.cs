@@ -28,8 +28,18 @@ public class DailyNote
     public int ResinRecoveryTime { get; set; }
 
     /// <summary>
+    /// 格式化的树脂显示
+    /// </summary>
+    [JsonIgnore]
+    public string ResinFormatted
+    {
+        get => $"{CurrentResin}/{MaxResin}";
+    }
+
+    /// <summary>
     /// 格式化的树脂恢复时间
     /// </summary>
+    [JsonIgnore]
     public string ResinRecoveryTargetTime
     {
         get
@@ -43,7 +53,7 @@ public class DailyNote
                 2 => "后天",
                 _ => $"{totalDays}天",
             };
-            return $"{day} {tt:HH:mm}";
+            return $"{day} {tt:HH:mm} 全部恢复";
         }
     }
 
@@ -60,6 +70,15 @@ public class DailyNote
     public int TotalTaskNum { get; set; }
 
     /// <summary>
+    /// 格式化任务
+    /// </summary>
+    [JsonIgnore]
+    public string TaskFormatted
+    {
+        get => $"{FinishedTaskNum}/{TotalTaskNum}";
+    }
+
+    /// <summary>
     /// 4次委托额外奖励是否领取
     /// </summary>
     [JsonPropertyName("is_extra_task_reward_received")]
@@ -68,6 +87,7 @@ public class DailyNote
     /// <summary>
     /// 每日委托奖励字符串
     /// </summary>
+    [JsonIgnore]
     public string ExtraTaskRewardDescription
     {
         get
@@ -89,6 +109,7 @@ public class DailyNote
     /// <summary>
     /// 周本树脂减免使用次数
     /// </summary>
+    [JsonIgnore]
     public int ResinDiscountUsedNum
     {
         get => ResinDiscountNumLimit - RemainResinDiscountNum;
@@ -99,6 +120,14 @@ public class DailyNote
     /// </summary>
     [JsonPropertyName("resin_discount_num_limit")]
     public int ResinDiscountNumLimit { get; set; }
+
+    /// <summary>
+    /// 格式化周本
+    /// </summary>
+    public string ResinDiscountFormatted
+    {
+        get => $"{ResinDiscountUsedNum}/{ResinDiscountNumLimit}";
+    }
 
     /// <summary>
     /// 当前派遣数
@@ -138,8 +167,18 @@ public class DailyNote
     public int HomeCoinRecoveryTime { get; set; }
 
     /// <summary>
+    /// 格式化洞天宝钱
+    /// </summary>
+    [JsonIgnore]
+    public string HomeCoinFormatted
+    {
+        get => $"{CurrentHomeCoin}/{MaxHomeCoin}";
+    }
+
+    /// <summary>
     /// 格式化的洞天宝钱恢复时间
     /// </summary>
+    [JsonIgnore]
     public string HomeCoinRecoveryTargetTimeFormatted
     {
         get
@@ -153,7 +192,7 @@ public class DailyNote
                 2 => "后天",
                 _ => $"{totalDays}天",
             };
-            return $"{day} {reach:HH:mm}";
+            return $"{day} {reach:HH:mm} 达到上限";
         }
     }
 

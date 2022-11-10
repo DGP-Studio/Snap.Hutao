@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Message;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
@@ -99,6 +100,8 @@ internal class UserService : IUserService
             // Note: cascade deleted dailynotes
             appDbContext.Users.RemoveAndSave(user.Entity);
         }
+
+        messenger.Send(new UserRemovedMessage(user.Entity));
     }
 
     /// <inheritdoc/>
@@ -158,6 +161,17 @@ internal class UserService : IUserService
         }
 
         return roleCollection;
+    }
+
+    /// <inheritdoc/>
+    public UserGameRole? GetUserGameRoleByUid(string uid)
+    {
+        if (roleCollection != null)
+        {
+            return roleCollection.Single(r => r.Role.GameUid == uid).Role;
+        }
+
+        return null;
     }
 
     /// <inheritdoc/>

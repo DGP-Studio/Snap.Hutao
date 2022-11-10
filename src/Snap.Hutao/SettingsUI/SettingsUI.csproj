@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows10.0.17763.0</TargetFrameworks>
+    <TargetFrameworks>net7.0-windows10.0.17763.0</TargetFrameworks>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>SettingsUI</RootNamespace>
     <Platforms>x64</Platforms>

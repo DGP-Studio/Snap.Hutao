@@ -6,7 +6,7 @@ namespace Snap.Hutao.Model.Binding.AvatarProperty;
 /// <summary>
 /// 词条评分
 /// </summary>
-public struct AffixScore
+public readonly struct AffixScore
 {
     /// <summary>
     /// 构造一个新的圣遗物评分

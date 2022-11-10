@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
-using Snap.Hutao.Core.Threading;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.DailyNote;
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using System.Security.Principal;
 
@@ -63,43 +65,6 @@ internal static class Activation
 
     private static async Task HandleActivationCoreAsync(AppActivationArguments args)
     {
-        string argument = string.Empty;
-
-        if (args.Kind == ExtendedActivationKind.Launch)
-        {
-            if (args.TryGetLaunchActivatedArgument(out string? arguments))
-            {
-                argument = arguments;
-            }
-        }
-
-        switch (argument)
-        {
-            case "":
-                {
-                    _ = Ioc.Default.GetRequiredService<MainWindow>();
-                    await Ioc.Default.GetRequiredService<IInfoBarService>().WaitInitializationAsync().ConfigureAwait(false);
-                    break;
-                }
-
-            case LaunchGame:
-                {
-                    await ThreadHelper.SwitchToMainThreadAsync();
-                    if (!MainWindow.IsPresent)
-                    {
-                        _ = Ioc.Default.GetRequiredService<LaunchGameWindow>();
-                    }
-                    else
-                    {
-                        await Ioc.Default
-                            .GetRequiredService<INavigationService>()
-                            .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
-                    }
-
-                    break;
-                }
-        }
-
         if (args.Kind == ExtendedActivationKind.Protocol)
         {
             if (args.TryGetProtocolActivatedUri(out Uri? uri))
@@ -108,22 +73,71 @@ internal static class Activation
                 await HandleUrlActivationAsync(uri).ConfigureAwait(false);
             }
         }
+        else if (args.Kind == ExtendedActivationKind.Launch)
+        {
+            if (args.TryGetLaunchActivatedArgument(out string? arguments))
+            {
+                switch (arguments)
+                {
+                    case "":
+                        {
+                            await WaitMainWindowAsync().ConfigureAwait(false);
+                            break;
+                        }
+
+                    case LaunchGame:
+                        {
+                            await ThreadHelper.SwitchToMainThreadAsync();
+                            if (!MainWindow.IsPresent)
+                            {
+                                _ = Ioc.Default.GetRequiredService<LaunchGameWindow>();
+                            }
+                            else
+                            {
+                                await Ioc.Default
+                                    .GetRequiredService<INavigationService>()
+                                    .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
+                            }
+
+                            break;
+                        }
+                }
+            }
+        }
+    }
+
+    private static async Task WaitMainWindowAsync()
+    {
+        _ = Ioc.Default.GetRequiredService<MainWindow>();
+        await Ioc.Default.GetRequiredService<IInfoBarService>().WaitInitializationAsync().ConfigureAwait(false);
+
+        Ioc.Default
+            .GetRequiredService<IMetadataService>()
+            .ImplictAs<IMetadataInitializer>()?
+            .InitializeInternalAsync()
+            .SafeForget();
     }
 
     private static async Task HandleUrlActivationAsync(Uri uri)
     {
         UriBuilder builder = new(uri);
-        Must.Argument(builder.Scheme == "hutao", "uri 的协议不正确");
 
         string category = builder.Host.ToLowerInvariant();
         string action = builder.Path.ToLowerInvariant();
-        string rawParameter = builder.Query.ToLowerInvariant();
+        string parameter = builder.Query.ToLowerInvariant();
 
         switch (category)
         {
             case "achievement":
                 {
-                    await HandleAchievementActionAsync(action, rawParameter).ConfigureAwait(false);
+                    await WaitMainWindowAsync().ConfigureAwait(false);
+                    await HandleAchievementActionAsync(action, parameter).ConfigureAwait(false);
+                    break;
+                }
+
+            case "dailynote":
+                {
+                    await HandleDailyNoteActionAsync(action, parameter).ConfigureAwait(false);
                     break;
                 }
         }
@@ -131,6 +145,7 @@ internal static class Activation
 
     private static async Task HandleAchievementActionAsync(string action, string parameter)
     {
+        _ = parameter;
         switch (action)
         {
             case "/import":
@@ -141,6 +156,22 @@ internal static class Activation
                     await Ioc.Default
                         .GetRequiredService<INavigationService>()
                         .NavigateAsync<View.Page.AchievementPage>(navigationAwaiter, true)
+                        .ConfigureAwait(false);
+                    break;
+                }
+        }
+    }
+
+    private static async Task HandleDailyNoteActionAsync(string action, string parameter)
+    {
+        _ = parameter;
+        switch (action)
+        {
+            case "/refresh":
+                {
+                    await Ioc.Default
+                        .GetRequiredService<IDailyNoteService>()
+                        .RefreshDailyNotesAsync(true)
                         .ConfigureAwait(false);
                     break;
                 }

@@ -14,16 +14,8 @@ internal class ThreadAccessAttribute : Attribute
     /// 指示方法的进入线程访问状态
     /// </summary>
     /// <param name="enter">进入状态</param>
+    [SuppressMessage("", "IDE0060")]
     public ThreadAccessAttribute(ThreadAccessState enter)
-    {
-    }
-
-    /// <summary>
-    /// 指示方法的进入退出线程访问状态
-    /// </summary>
-    /// <param name="enter">进入状态</param>
-    /// <param name="leave">离开状态</param>
-    public ThreadAccessAttribute(ThreadAccessState enter, ThreadAccessState leave)
     {
     }
 }

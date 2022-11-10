@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service;
 
 /// <inheritdoc/>
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
-internal class AnnouncementService : IAnnouncementService
+internal partial class AnnouncementService : IAnnouncementService
 {
     private static readonly string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 
@@ -34,7 +34,7 @@ internal class AnnouncementService : IAnnouncementService
         // 缓存中存在记录，直接返回
         if (memoryCache.TryGetValue(CacheKey, out object? cache))
         {
-            return Must.NotNull((AnnouncementWrapper)cache);
+            return Must.NotNull((AnnouncementWrapper)cache!);
         }
 
         AnnouncementWrapper? wrapper = await announcementClient
@@ -60,8 +60,7 @@ internal class AnnouncementService : IAnnouncementService
 
     private static void JoinAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
     {
-        // 匹配特殊的时间格式: <t>(.*?)</t>
-        Regex timeTagRegrex = new("&lt;t.*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline);
+        Regex timeTagRegrex = XmlTagRegex();
 
         announcementListWrappers.ForEach(listWrapper =>
         {
@@ -77,4 +76,11 @@ internal class AnnouncementService : IAnnouncementService
             });
         });
     }
+
+    /// <summary>
+    /// 匹配特殊的时间格式: <t>(.*?)</t>
+    /// </summary>
+    /// <returns>正则</returns>
+    [GeneratedRegex("&lt;t.*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline)]
+    private static partial Regex XmlTagRegex();
 }

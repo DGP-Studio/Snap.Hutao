@@ -174,7 +174,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
         {
             using (StreamWriter streamWriter = new(metadataContext.Create(fileFullName)))
             {
-                while (await streamReader.ReadLineAsync().ConfigureAwait(false) is string line)
+                while (await streamReader.ReadLineAsync(token).ConfigureAwait(false) is string line)
                 {
                     Func<string?, Task> write = streamReader.EndOfStream ? streamWriter.WriteAsync : streamWriter.WriteLineAsync;
                     await write(line).ConfigureAwait(false);

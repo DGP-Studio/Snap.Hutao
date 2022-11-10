@@ -68,7 +68,7 @@ internal class HutaoService : IHutaoService
         string key = $"{nameof(HutaoService)}.Cache.{typeName}";
         if (memoryCache.TryGetValue(key, out object? cache))
         {
-            return (T)cache;
+            return (T)cache!;
         }
 
         T web = await taskFunc(default).ConfigureAwait(false);

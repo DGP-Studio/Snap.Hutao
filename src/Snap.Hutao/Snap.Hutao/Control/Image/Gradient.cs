@@ -31,9 +31,9 @@ public class Gradient : CompositionImage
     /// <inheritdoc/>
     protected override async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
     {
-        using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token))
+        using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token).ConfigureAwait(true))
         {
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream).AsTask(token);
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream).AsTask(token).ConfigureAwait(true);
             imageAspectRatio = decoder.PixelWidth / (double)decoder.PixelHeight;
 
             return LoadedImageSurface.StartLoadFromStream(imageStream);

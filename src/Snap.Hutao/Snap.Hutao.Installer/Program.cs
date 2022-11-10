@@ -13,6 +13,7 @@ internal class Program
 
     public static async Task Main(string[] args)
     {
+        _ = args;
         string ps1File = Path.Combine(AppContext.BaseDirectory, "Install.ps1");
 
         if (!File.Exists(ps1File))

@@ -24,6 +24,7 @@ namespace Snap.Hutao.Service.Game;
 /// 游戏服务
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IGameService))]
+[SuppressMessage("", "CA1001")]
 internal class GameService : IGameService
 {
     private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";

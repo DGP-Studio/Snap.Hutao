@@ -8,7 +8,7 @@ namespace Snap.Hutao.Web.Request.QueryString;
 /// <summary>
 /// querystring serializer/deserializer
 /// </summary>
-public struct QueryString
+public readonly struct QueryString
 {
     private readonly Dictionary<string, List<string>> dictionary = new();
 

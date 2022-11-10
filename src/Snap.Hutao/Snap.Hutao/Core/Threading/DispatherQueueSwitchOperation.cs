@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.Threading;
 /// <summary>
 /// 调度器队列切换操作
 /// </summary>
-public struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOperation>, IAwaiter
+public readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOperation>, IAwaiter
 {
     private readonly DispatcherQueue dispatherQueue;
 

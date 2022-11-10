@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.Model.Binding.User.User;
 
@@ -31,6 +32,13 @@ public interface IUserService
     /// </summary>
     /// <returns>准备完成的用户信息集合</returns>
     Task<ObservableCollection<BindingUser>> GetUserCollectionAsync();
+
+    /// <summary>
+    /// 获取角色信息
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>对应的角色信息</returns>
+    UserGameRole? GetUserGameRoleByUid(string uid);
 
     /// <summary>
     /// 尝试异步处理输入的Cookie

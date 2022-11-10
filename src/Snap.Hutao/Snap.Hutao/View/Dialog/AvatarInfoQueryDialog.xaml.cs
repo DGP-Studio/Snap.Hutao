@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.View.Dialog;

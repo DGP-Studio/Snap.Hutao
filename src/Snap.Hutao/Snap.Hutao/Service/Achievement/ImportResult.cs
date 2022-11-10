@@ -6,7 +6,7 @@ namespace Snap.Hutao.Service.Achievement;
 /// <summary>
 /// 导入结果
 /// </summary>
-public struct ImportResult
+public readonly struct ImportResult
 {
     /// <summary>
     /// 新增数

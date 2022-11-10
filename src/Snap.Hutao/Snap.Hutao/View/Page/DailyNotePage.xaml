@@ -4,10 +4,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:sc="using:SettingsUI.Controls"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     mc:Ignorable="d"
@@ -33,10 +37,10 @@
         <CommandBar
             Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
             DefaultLabelPosition="Right">
-            <AppBarButton Label="立即刷新" Icon="{shcm:FontIcon Glyph=&#xE72C;}"/>
+            <AppBarButton Label="立即刷新" Icon="{shcm:FontIcon Glyph=&#xE72C;}" Command="{Binding RefreshCommand}"/>
             <AppBarButton Label="添加角色" Icon="{shcm:FontIcon Glyph=&#xE710;}">
                 <AppBarButton.Flyout>
-                    <Flyout Placement="Bottom">
+                    <Flyout Placement="Bottom" LightDismissOverlayMode="On">
                         <Flyout.FlyoutPresenterStyle>
                             <Style
                                 TargetType="FlyoutPresenter"
@@ -90,7 +94,7 @@
                 <AppBarButton.Flyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <StackPanel>
-                            <RadioButtons ItemsSource="{Binding RefreshTimes}">
+                            <RadioButtons ItemsSource="{Binding RefreshTimes}" SelectedItem="{Binding SelectedRefreshTime}">
                                 <RadioButtons.Header>
                                     <TextBlock Text="刷新间隔时间" Style="{StaticResource BaseTextBlockStyle}"/>
                                 </RadioButtons.Header>
@@ -105,7 +109,10 @@
                                     Icon="&#xEA8F;"
                                     Header="提醒通知"
                                     Description="防止通知自动收入操作中心">
-                                    <ToggleSwitch Margin="24,0,0,0" Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                                    <ToggleSwitch
+                                        Margin="24,0,0,0"
+                                        IsOn="{Binding IsReminderNotification,Mode=TwoWay}"
+                                        Style="{StaticResource ToggleSwitchSettingStyle}"/>
                                 </sc:Setting>
                             </sc:SettingsGroup>
                         </StackPanel>
@@ -113,5 +120,363 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
         </CommandBar>
+
+        <ScrollViewer Grid.Row="1">
+            <ItemsControl
+                Margin="0,0,0,16"
+                ItemsSource="{Binding DailyNoteEntries}">
+                <ItemsControl.ItemContainerTransitions>
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                </ItemsControl.ItemContainerTransitions>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="16,16,16,0"
+                            BorderThickness="1"
+                            Padding="8"
+                            CornerRadius="{StaticResource CompatCornerRadius}"
+                            BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
+                            Background="{StaticResource CardBackgroundFillColorSecondary}">
+                            <Grid Background="Transparent">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid HorizontalAlignment="Stretch" MinHeight="40">
+                                    <TextBlock
+                                        Margin="4,0,0,4"
+                                        VerticalAlignment="Center"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{Binding UserGameRole}"/>
+                                    <StackPanel
+                                        x:Name="ButtonPanel"
+                                        Visibility="Collapsed"
+                                        HorizontalAlignment="Right"
+                                        Orientation="Horizontal">
+                                        <Button
+                                            MinHeight="36.8"
+                                            Content="&#xE74D;"
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Stretch"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            BorderBrush="{x:Null}"
+                                            Margin="6,0,0,0"
+                                            Command="{Binding DataContext.RemoveDailyNoteCommand,Source={StaticResource ViewModelBindingProxy}}"
+                                            CommandParameter="{Binding}"
+                                            ToolTipService.ToolTip="移除用户"/>
+                                        <Button
+                                            MinHeight="36.8"
+                                            Content="&#xE713;" 
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                            VerticalAlignment="Stretch"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            BorderBrush="{x:Null}"
+                                            Margin="8,0,0,0"
+                                            Command="{Binding DataContext.ModifyNotificationCommand,Source={StaticResource ViewModelBindingProxy}}"
+                                            CommandParameter="{Binding}"
+                                            ToolTipService.ToolTip="通知设置"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <cwuc:UniformGrid Grid.Row="1" Columns="5" Margin="0,8,0,0" ColumnSpacing="8">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid
+                                                Grid.Column="0"
+                                                Height="40"
+                                                Width="40">
+                                                <Image
+                                                    Width="32"
+                                                    Source="ms-appx:///Resource/Icon/UI_ItemIcon_210_256.png" />
+                                                <ProgressRing
+                                                    Height="40"
+                                                    Width="40"
+                                                    Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                                    Value="{Binding DailyNote.CurrentResin,Mode=OneWay}"
+                                                    Maximum="{Binding DailyNote.MaxResin,Mode=OneWay}"
+                                                    IsIndeterminate="False"/>
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="12,0,0,4"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.ResinFormatted,Mode=OneWay}"/>
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Opacity="0.6"
+                                            Margin="4,4,0,0"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding DailyNote.ResinRecoveryTargetTime,Mode=OneWay}"/>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid
+                                                Grid.Column="0"
+                                                Height="40"
+                                                Width="40">
+                                                <Image
+                                                    Width="32"
+                                                    Source="ms-appx:///Resource/Icon/UI_ItemIcon_204.png" />
+                                                <ProgressRing
+                                                    Height="40"
+                                                    Width="40"
+                                                    Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                                    Maximum="{Binding DailyNote.MaxHomeCoin,Mode=OneWay}"
+                                                    Value="{Binding DailyNote.CurrentHomeCoin,Mode=OneWay}"
+                                                    IsIndeterminate="False"/>
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="12,0,0,4"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.HomeCoinFormatted,Mode=OneWay}"/>
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Opacity="0.6"
+                                            Margin="4,4,0,0"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding DailyNote.HomeCoinRecoveryTargetTimeFormatted,Mode=OneWay}"/>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid
+                                                Grid.Column="0"
+                                                Height="40"
+                                                Width="40">
+                                                <Image
+                                                    Width="32"
+                                                    Source="ms-appx:///Resource/Icon/UI_MarkQuest_Events_Proce.png" />
+                                                <ProgressRing
+                                                    Height="40"
+                                                    Width="40"
+                                                    Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                                    Value="{Binding DailyNote.FinishedTaskNum,Mode=OneWay}"
+                                                    Maximum="{Binding DailyNote.TotalTaskNum,Mode=OneWay}"
+                                                    IsIndeterminate="False"/>
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="12,0,0,4"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.TaskFormatted,Mode=OneWay}"/>
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Opacity="0.6"
+                                            Margin="4,4,0,0"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding DailyNote.ExtraTaskRewardDescription,Mode=OneWay}"/>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid
+                                                Grid.Column="0"
+                                                Height="40"
+                                                Width="40">
+                                                <Image
+                                                    Width="32"
+                                                    Source="ms-appx:///Resource/Icon/UI_MarkTower.png" />
+                                                <ProgressRing
+                                                    Height="40"
+                                                    Width="40"
+                                                    Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                                    Value="{Binding DailyNote.ResinDiscountUsedNum,Mode=OneWay}"
+                                                    Maximum="{Binding DailyNote.ResinDiscountNumLimit,Mode=OneWay}"
+                                                    IsIndeterminate="False"/>
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="12,0,0,4"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.ResinDiscountFormatted,Mode=OneWay}"/>
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Opacity="0.6"
+                                            Margin="4,4,0,0"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="本周已消耗减半次数"/>
+                                    </Grid>
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid
+                                                Grid.Column="0"
+                                                Height="40"
+                                                Width="40">
+                                                <Image
+                                                    Width="32"
+                                                    Source="ms-appx:///Resource/Icon/UI_ItemIcon_220021.png" />
+                                                <ProgressRing
+                                                    Height="40"
+                                                    Width="40"
+                                                    Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                                    Value="{Binding DailyNote.Transformer.RecoveryTime.TotalSeconds,Mode=OneWay}"
+                                                    Maximum="604800"
+                                                    IsIndeterminate="False"/>
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="12,0,0,4"
+                                                Grid.Column="1"
+                                                VerticalAlignment="Center"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.Transformer.RecoveryTime.ReachedFormatted,Mode=OneWay}"/>
+                                        </Grid>
+
+                                        <TextBlock
+                                            Grid.Row="1"
+                                            Opacity="0.6"
+                                            Margin="4,4,0,0"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding DailyNote.Transformer.RecoveryTime.TimeFormatted,Mode=OneWay}"/>
+                                    </Grid>
+                                </cwuc:UniformGrid>
+
+                                <ItemsControl Margin="0,16,0,0" Grid.Row="2" ItemsSource="{Binding DailyNote.Expeditions,Mode=OneWay}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <cwuc:UniformGrid Columns="5" ColumnSpacing="8"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition/>
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid
+                                                        Grid.Column="0"
+                                                        Height="40"
+                                                        Width="40">
+                                                        <shci:CachedImage
+                                                            Width="32"
+                                                            Margin="0,0,0,8"
+                                                            Source="{Binding AvatarSideIcon,Mode=OneWay}" />
+                                                        <ProgressRing
+                                                            Height="40"
+                                                            Width="40"
+                                                            Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                                            Maximum="{Binding TotalTime,Mode=OneWay}"
+                                                            Value="{Binding PassedTime,Mode=OneWay}"
+                                                            IsIndeterminate="False"/>
+                                                    </Grid>
+                                                    <TextBlock
+                                                        Margin="12,0,0,4"
+                                                        Grid.Column="1"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource BaseTextBlockStyle}"
+                                                        Text="{Binding RemainedTimeFormatted,Mode=OneWay}"/>
+                                                </Grid>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <Grid.Resources>
+                                    <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                                        <ObjectAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="ButtonPanel"
+                                                        Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Visible</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+
+                                    <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                                        <ObjectAnimationUsingKeyFrames
+                                                        Storyboard.TargetName="ButtonPanel"
+                                                        Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <Visibility>Collapsed</Visibility>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </Grid.Resources>
+
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                                    </mxic:EventTriggerBehavior>
+                                    <mxic:EventTriggerBehavior EventName="PointerExited">
+                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        
     </Grid>
 </shc:ScopedPage>

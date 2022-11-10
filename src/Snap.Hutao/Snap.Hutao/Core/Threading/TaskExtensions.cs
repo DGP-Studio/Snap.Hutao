@@ -20,7 +20,7 @@ public static class TaskExtensions
     {
         try
         {
-            await task;
+            await task.ConfigureAwait(false);
         }
         catch (System.Exception ex)
         {
@@ -37,7 +37,7 @@ public static class TaskExtensions
     {
         try
         {
-            await task;
+            await task.ConfigureAwait(false);
         }
         catch (TaskCanceledException)
         {
@@ -59,7 +59,7 @@ public static class TaskExtensions
     {
         try
         {
-            await task;
+            await task.ConfigureAwait(false);
         }
         catch (TaskCanceledException)
         {
@@ -83,7 +83,7 @@ public static class TaskExtensions
     {
         try
         {
-            await task;
+            await task.ConfigureAwait(false);
         }
         catch (TaskCanceledException)
         {

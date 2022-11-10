@@ -44,8 +44,21 @@ public class RecoveryTime
     public bool Reached { get; set; }
 
     /// <summary>
+    /// 剩余秒数
+    /// </summary>
+    [JsonIgnore]
+    public int TotalSeconds
+    {
+        get
+        {
+            return (60 * 60 * 24 * 7) - (Second + (60 * Minute) + (60 * 60 * Hour) + (60 * 60 * 24 * Day));
+        }
+    }
+
+    /// <summary>
     /// 获取格式化的剩余时间
     /// </summary>
+    [JsonIgnore]
     public string TimeFormatted
     {
         get
@@ -70,6 +83,7 @@ public class RecoveryTime
     /// <summary>
     /// 获取格式化的状态
     /// </summary>
+    [JsonIgnore]
     public string ReachedFormatted
     {
         get => Reached ? "可使用" : "冷却中";

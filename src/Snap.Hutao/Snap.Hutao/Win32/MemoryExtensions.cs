@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Text;
-using Windows.Win32.System.Diagnostics.ToolHelp;
+using Windows.Win32.Foundation;
 
 namespace Snap.Hutao.Win32;
 
@@ -16,7 +16,7 @@ internal static class MemoryExtensions
     /// </summary>
     /// <param name="char256">目标字符数组</param>
     /// <returns>结果字符串</returns>
-    public static unsafe string AsString(this MODULEENTRY32.__winmdroot_Foundation_CHAR_256 char256)
+    public static unsafe string AsString(this __CHAR_256 char256)
     {
         byte* pszModule = (byte*)&char256;
         return Encoding.UTF8.GetString(pszModule, StringLength(pszModule));

@@ -24,6 +24,7 @@ internal sealed partial class DatebaseLogger : ILogger
 
     /// <inheritdoc />
     public IDisposable BeginScope<TState>(TState state)
+        where TState : notnull
     {
         return new NullScope();
     }

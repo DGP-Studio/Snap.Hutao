@@ -67,7 +67,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     /// <returns>加载的图像表面</returns>
     protected virtual async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
     {
-        using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token))
+        using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token).ConfigureAwait(true))
         {
             return LoadedImageSurface.StartLoadFromStream(imageStream);
         }
@@ -119,7 +119,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
     private async Task ApplyImageInternalAsync(Uri? uri, CancellationToken token)
     {
-        await HideAsync(token);
+        await HideAsync(token).ConfigureAwait(true);
 
         LoadedImageSurface? imageSurface = null;
         Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
@@ -132,15 +132,15 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
             }
             else
             {
-                StorageFile storageFile = await imageCache.GetFileFromCacheAsync(uri);
+                StorageFile storageFile = await imageCache.GetFileFromCacheAsync(uri).ConfigureAwait(true);
 
                 try
                 {
-                    imageSurface = await LoadImageSurfaceAsync(storageFile, token);
+                    imageSurface = await LoadImageSurfaceAsync(storageFile, token).ConfigureAwait(true);
                 }
                 catch (COMException)
                 {
-                    await imageCache.RemoveAsync(uri.Enumerate());
+                    await imageCache.RemoveAsync(uri.Enumerate()).ConfigureAwait(true);
                 }
             }
 
@@ -150,7 +150,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
                 OnUpdateVisual(spriteVisual);
 
                 ElementCompositionPreview.SetElementChildVisual(this, spriteVisual);
-                await ShowAsync(token);
+                await ShowAsync(token).ConfigureAwait(true);
             }
         }
     }
@@ -159,7 +159,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         if (!isShow)
         {
-            await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token);
+            await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token).ConfigureAwait(true);
             isShow = true;
         }
     }
@@ -168,7 +168,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         if (isShow)
         {
-            await AnimationBuilder.Create().Opacity(0d).StartAsync(this, token);
+            await AnimationBuilder.Create().Opacity(0d).StartAsync(this, token).ConfigureAwait(true);
             isShow = false;
         }
     }

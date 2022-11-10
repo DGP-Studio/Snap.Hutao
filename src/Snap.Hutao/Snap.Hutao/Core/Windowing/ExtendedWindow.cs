@@ -22,6 +22,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// 扩展窗口
 /// </summary>
 /// <typeparam name="TWindow">窗体类型</typeparam>
+[SuppressMessage("", "CA1001")]
 internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMessage>
     where TWindow : Window, IExtendedWindowSource
 {

@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 任务计划器服务
 /// </summary>
-internal class TaskSchedulerHelper
+internal static class TaskSchedulerHelper
 {
     private const string DailyNoteRefreshTaskName = "SnapHutaoDailyNoteRefreshTask";
 
@@ -17,7 +17,7 @@ internal class TaskSchedulerHelper
     /// 注册实时便笺刷新任务
     /// </summary>
     /// <param name="interval">间隔（秒）</param>
-    public void RegisterForDailyNoteRefresh(int interval)
+    public static void RegisterForDailyNoteRefresh(int interval)
     {
         TimeSpan intervalTime = TimeSpan.FromSeconds(interval);
         if (TaskService.Instance.GetTask(DailyNoteRefreshTaskName) is SchedulerTask targetTask)

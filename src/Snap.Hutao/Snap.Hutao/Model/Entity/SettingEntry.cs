@@ -10,8 +10,11 @@ namespace Snap.Hutao.Model.Entity;
 /// 设置入口
 /// </summary>
 [Table("settings")]
+[SuppressMessage("", "SA1124")]
 public class SettingEntry
 {
+    #region EntryNames
+
     /// <summary>
     /// 游戏路径
     /// </summary>
@@ -26,6 +29,16 @@ public class SettingEntry
     /// 窗口背景类型
     /// </summary>
     public const string SystemBackdropType = "SystemBackdropType";
+
+    /// <summary>
+    /// 实时便笺刷新时间
+    /// </summary>
+    public const string DailyNoteRefreshSeconds = "DailyNote.RefreshSeconds";
+
+    /// <summary>
+    /// 实时便笺提醒式通知
+    /// </summary>
+    public const string DailyNoteReminderNotify = "DailyNote.ReminderNotify";
 
     /// <summary>
     /// 启动游戏 全屏
@@ -56,6 +69,7 @@ public class SettingEntry
     /// 启动游戏 目标帧率
     /// </summary>
     public const string LaunchTargetFps = "Launch.TargetFps";
+    #endregion
 
     /// <summary>
     /// 构造一个新的设置入口

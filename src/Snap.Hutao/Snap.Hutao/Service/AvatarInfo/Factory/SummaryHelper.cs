@@ -147,13 +147,12 @@ internal static class SummaryHelper
         }
 
         // 物伤
-        if (fightPropMap.ContainsKey(FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT))
+        if (fightPropMap.TryGetValue(FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT, out double addValue))
         {
-            double value = fightPropMap[FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT];
-            if (value > 0)
+            if (addValue > 0)
             {
                 string description = FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT.GetDescription();
-                Pair2<string, string, string?> physicalBonusPair2 = new(description, PropertyInfoDescriptor.FormatValue(FormatMethod.Percent, value), null);
+                Pair2<string, string, string?> physicalBonusPair2 = new(description, PropertyInfoDescriptor.FormatValue(FormatMethod.Percent, addValue), null);
                 properties.Add(physicalBonusPair2);
             }
         }

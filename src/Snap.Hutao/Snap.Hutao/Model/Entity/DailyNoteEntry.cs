@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Binding.User;
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,8 +13,11 @@ namespace Snap.Hutao.Model.Entity;
 /// 实时便笺入口
 /// </summary>
 [Table("daily_notes")]
-public class DailyNoteEntry
+public class DailyNoteEntry : INotifyPropertyChanged
 {
+    /// <inheritdoc/>
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     /// <summary>
     /// 内部Id
     /// </summary>
@@ -35,6 +40,12 @@ public class DailyNoteEntry
     /// Uid
     /// </summary>
     public string Uid { get; set; } = default!;
+
+    /// <summary>
+    /// 玩家角色
+    /// </summary>
+    [NotMapped]
+    public UserGameRole? UserGameRole { get; set; }
 
     /// <summary>
     /// Json!!! 实时便笺
@@ -95,4 +106,30 @@ public class DailyNoteEntry
     /// 是否在主页显示小组件
     /// </summary>
     public bool ShowInHomeWidget { get; set; }
+
+    /// <summary>
+    /// 构造一个新的实时便笺
+    /// </summary>
+    /// <param name="userAndRole">用户与角色</param>
+    /// <returns>新的实时便笺</returns>
+    public static DailyNoteEntry Create(UserAndRole userAndRole)
+    {
+        return new()
+        {
+            UserId = userAndRole.User.InnerId,
+            Uid = userAndRole.Role.GameUid,
+            ResinNotifyThreshold = 160,
+            HomeCoinNotifyThreshold = 2400,
+        };
+    }
+
+    /// <summary>
+    /// 更新实时便笺
+    /// </summary>
+    /// <param name="dailyNote">新的值</param>
+    public void UpdateDailyNote(DailyNote? dailyNote)
+    {
+        DailyNote = dailyNote;
+        PropertyChanged?.Invoke(this, new(nameof(DailyNote)));
+    }
 }

@@ -13,7 +13,7 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// 注册表启动器位置定位器
 /// </summary>
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
-internal class RegistryLauncherLocator : IGameLocator
+internal partial class RegistryLauncherLocator : IGameLocator
 {
     /// <inheritdoc/>
     public string Name { get => nameof(RegistryLauncherLocator); }
@@ -76,7 +76,7 @@ internal class RegistryLauncherLocator : IGameLocator
 
     private static string Unescape(string str)
     {
-        string? hex4Result = Regex.Replace(str, @"\\x([0-9a-f]{4})", @"\u$1");
+        string? hex4Result = Utf16Regex().Replace(str, @"\u$1");
 
         // 不包含中文
         if (!hex4Result.Contains(@"\u"))
@@ -87,4 +87,7 @@ internal class RegistryLauncherLocator : IGameLocator
 
         return Regex.Unescape(hex4Result);
     }
+
+    [GeneratedRegex("\\\\x([0-9a-f]{4})")]
+    private static partial Regex Utf16Regex();
 }
