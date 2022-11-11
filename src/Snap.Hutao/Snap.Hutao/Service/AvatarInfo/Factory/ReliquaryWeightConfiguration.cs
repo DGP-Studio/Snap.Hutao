@@ -83,5 +83,6 @@ internal static partial class ReliquaryWeightConfiguration
         new(AvatarIds.Nilou, 100, 75, 0, 100, 100, 0, 55, 0, "反应流") { { FightProperty.FIGHT_PROP_WATER_ADD_HURT, 100 } },
         new(AvatarIds.Cyno, 0, 75, 0, 100, 100, 75, 55, 0) { { FightProperty.FIGHT_PROP_ELEC_ADD_HURT, 100 } },
         new(AvatarIds.Candace, 100, 75, 0, 100, 100, 0, 55, 0) { { FightProperty.FIGHT_PROP_WATER_ADD_HURT, 100 } },
+        new(AvatarIds.Nahida, 0, 55, 0, 100, 100, 100, 55, 0) { { FightProperty.FIGHT_PROP_GRASS_ADD_HURT, 100 } },
     };
 }

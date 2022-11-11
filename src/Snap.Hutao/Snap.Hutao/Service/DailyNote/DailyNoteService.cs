@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
@@ -11,6 +12,7 @@ using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 using System.Collections.ObjectModel;
@@ -96,6 +98,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
+            BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
 
             foreach (DailyNoteEntry entry in appDbContext.DailyNotes.Include(n => n.User))
             {
@@ -111,7 +114,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
 
                 if (notify)
                 {
-                    await NotifyDailyNoteAsync(entry).ConfigureAwait(false);
+                    await NotifyDailyNoteAsync(bindingClient, entry).ConfigureAwait(false);
                 }
             }
 
@@ -131,7 +134,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
         }
     }
 
-    private async ValueTask NotifyDailyNoteAsync(DailyNoteEntry entry)
+    private async ValueTask NotifyDailyNoteAsync(BindingClient client,DailyNoteEntry entry)
     {
         if (entry.DailyNote == null)
         {
@@ -139,34 +142,111 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
         }
 
         List<string> hints = new();
-        if (!entry.ResinNotifySuppressed && entry.DailyNote.CurrentResin >= entry.ResinNotifyThreshold)
+
+        // NotifySuppressed judge
         {
-            hints.Add($"当前原粹树脂：{entry.DailyNote.CurrentResin}");
-            entry.ResinNotifySuppressed = true;
+            if (entry.DailyNote.CurrentResin >= entry.ResinNotifyThreshold)
+            {
+                if (!entry.ResinNotifySuppressed)
+                {
+                    hints.Add($"当前原粹树脂：{entry.DailyNote.CurrentResin}");
+                    entry.ResinNotifySuppressed = true;
+                }
+            }
+            else
+            {
+                entry.ResinNotifySuppressed = false;
+            }
+
+            if (entry.DailyNote.CurrentHomeCoin >= entry.HomeCoinNotifyThreshold)
+            {
+                if (!entry.HomeCoinNotifySuppressed)
+                {
+                    hints.Add($"当前洞天宝钱：{entry.DailyNote.CurrentHomeCoin}");
+                    entry.HomeCoinNotifySuppressed = true;
+                }
+            }
+            else
+            {
+                entry.HomeCoinNotifySuppressed = false;
+            }
+
+            if (entry.DailyTaskNotify && !entry.DailyNote.IsExtraTaskRewardReceived)
+            {
+                if (!entry.DailyTaskNotifySuppressed)
+                {
+                    hints.Add(entry.DailyNote.ExtraTaskRewardDescription);
+                    entry.DailyTaskNotifySuppressed = true;
+                }
+            }
+            else
+            {
+                entry.DailyTaskNotifySuppressed = false;
+            }
+
+            if (entry.TransformerNotify && entry.DailyNote.Transformer.Obtained && entry.DailyNote.Transformer.RecoveryTime.Reached)
+            {
+                if (!entry.TransformerNotifySuppressed)
+                {
+                    hints.Add("参量质变仪已准备完成");
+                    entry.TransformerNotifySuppressed = true;
+                }
+            }
+            else
+            {
+                entry.TransformerNotifySuppressed = false;
+            }
+
+            if (entry.ExpeditionNotify && entry.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished))
+            {
+                if (!entry.ExpeditionNotifySuppressed)
+                {
+                    hints.Add("探索派遣已完成");
+                    entry.ExpeditionNotifySuppressed = true;
+                }
+            }
+            else
+            {
+                entry.ExpeditionNotifySuppressed = false;
+            }
         }
 
-        if (!entry.HomeCoinNotifySuppressed && entry.DailyNote.CurrentHomeCoin >= entry.HomeCoinNotifyThreshold)
+        if (hints.Count <= 0)
         {
-            hints.Add($"当前洞天宝钱：{entry.DailyNote.CurrentHomeCoin}");
-            entry.HomeCoinNotifySuppressed = true;
+            return;
         }
 
-        if (!entry.DailyTaskNotifySuppressed && entry.DailyTaskNotify && !entry.DailyNote.IsExtraTaskRewardReceived)
+        List<UserGameRole> roles = await client.GetUserGameRolesAsync(entry.User).ConfigureAwait(false);
+        string attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "未知角色";
+
+        ToastContentBuilder builder = new ToastContentBuilder()
+            .AddHeader("DAILYNOTE", "实时便笺提醒", "DAILYNOTE")
+            .AddAttributionText(attribution)
+            .AddButton(new ToastButton().SetContent("开始游戏").AddArgument("Action", "LaunchGame").AddArgument("Uid", entry.Uid))
+            .AddButton(new ToastButtonDismiss("我知道了"));
+
+        using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            hints.Add(entry.DailyNote.ExtraTaskRewardDescription);
-            entry.DailyTaskNotifySuppressed = true;
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, false.ToString()).GetBoolean())
+            {
+                builder.SetToastScenario(ToastScenario.Reminder);
+            }
         }
 
-        if (!entry.TransformerNotifySuppressed && entry.TransformerNotify && entry.DailyNote.Transformer.Obtained && entry.DailyNote.Transformer.RecoveryTime.Reached)
+        if (hints.Count > 2)
         {
-            hints.Add("参量质变仪已准备完成");
-            entry.TransformerNotifySuppressed = true;
+            builder.AddText("多个提醒项达到设定值");
+        }
+        else
+        {
+            foreach (string hint in hints)
+            {
+                builder.AddText(hint);
+            }
         }
 
-        if (!entry.ExpeditionNotifySuppressed && entry.ExpeditionNotify && entry.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished))
-        {
-            hints.Add("探索派遣已完成");
-            entry.ExpeditionNotifySuppressed = true;
-        }
+        await ThreadHelper.SwitchToMainThreadAsync();
+        builder.Show();
     }
 }

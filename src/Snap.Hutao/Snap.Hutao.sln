@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SettingsUI", "SettingsUI\Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Hutao.SourceGeneration", "Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj", "{8B96721E-5604-47D2-9B72-06FEBAD0CE00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Hutao.Installer", "Snap.Hutao.Installer\Snap.Hutao.Installer.csproj", "{CEC01691-F65E-4874-9AE2-F571369A7631}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Hutao.Installer", "Snap.Hutao.Installer\Snap.Hutao.Installer.csproj", "{CEC01691-F65E-4874-9AE2-F571369A7631}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,8 +88,8 @@ Global
 		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|arm64.ActiveCfg = Debug|Any CPU
 		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|arm64.Build.0 = Debug|Any CPU
-		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|x64.Build.0 = Debug|Any CPU
+		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|x64.ActiveCfg = Debug|x64
+		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|x64.Build.0 = Debug|x64
 		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{CEC01691-F65E-4874-9AE2-F571369A7631}.Debug|x86.Build.0 = Debug|Any CPU
 		{CEC01691-F65E-4874-9AE2-F571369A7631}.Release|Any CPU.ActiveCfg = Release|Any CPU

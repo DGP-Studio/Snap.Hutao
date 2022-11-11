@@ -38,7 +38,18 @@ internal class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    public async Task<List<UserGameRole>> GetUserGameRolesAsync(User user, CancellationToken token = default)
+    public Task<List<UserGameRole>> GetUserGameRolesAsync(User user, CancellationToken token = default)
+    {
+        return GetUserGameRolesAsync(user.Entity, token);
+    }
+
+    /// <summary>
+    /// 获取用户角色信息
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>用户角色信息</returns>
+    public async Task<List<UserGameRole>> GetUserGameRolesAsync(Model.Entity.User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
             .SetUser(user)

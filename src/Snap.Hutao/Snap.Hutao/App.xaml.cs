@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Exception;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Extension;
-using Snap.Hutao.Service.Metadata;
 using System.Diagnostics;
 using Windows.Storage;
 
@@ -48,6 +47,7 @@ public partial class App : Application
             // manually invoke
             Activation.Activate(firstInstance, activatedEventArgs);
             firstInstance.Activated += Activation.Activate;
+            ToastNotificationManagerCompat.OnActivated += Activation.NotificationActivate;
 
             logger.LogInformation(EventIds.CommonLog, "Snap Hutao | {name} : {version}", CoreEnvironment.FamilyName, CoreEnvironment.Version);
             logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.TemporaryFolder.Path);

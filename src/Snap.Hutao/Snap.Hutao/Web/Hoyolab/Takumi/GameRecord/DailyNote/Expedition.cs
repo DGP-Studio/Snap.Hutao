@@ -14,7 +14,7 @@ public class Expedition
     private const string Keqing = "https://upload-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Keqing.png";
     private const string Sara = "https://upload-bbs.mihoyo.com/game_record/genshin/character_side_icon/UI_AvatarIcon_Side_Sara.png";
 
-    private static readonly List<string> ShortExpeditionTimeAvatars = new List<string>()
+    private static readonly List<string> ShortExpeditionTimeAvatars = new()
     {
         Bennett, Chongyun, Fischl, Keqing, Sara,
     };

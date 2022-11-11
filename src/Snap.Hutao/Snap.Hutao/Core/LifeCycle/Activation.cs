@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
@@ -45,7 +46,29 @@ internal static class Activation
     public static void Activate(object? sender, AppActivationArguments args)
     {
         _ = sender;
-        HandleActivationAsync(args).SafeForget();
+        if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
+        {
+            HandleActivationAsync(args).SafeForget();
+        }
+    }
+
+    /// <summary>
+    /// 响应通知激活事件
+    /// </summary>
+    /// <param name="args">参数</param>
+    public static void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)
+    {
+        ToastArguments toastArgs = ToastArguments.Parse(args.Argument);
+        _ = toastArgs;
+
+        if (toastArgs.TryGetValue("Action", out string? action))
+        {
+            if (action == LaunchGame)
+            {
+                _ = toastArgs.TryGetValue("Uid", out string? uid);
+                HandleLaunchGameActionAsync(uid).SafeForget();
+            }
+        }
     }
 
     /// <summary>
@@ -87,18 +110,7 @@ internal static class Activation
 
                     case LaunchGame:
                         {
-                            await ThreadHelper.SwitchToMainThreadAsync();
-                            if (!MainWindow.IsPresent)
-                            {
-                                _ = Ioc.Default.GetRequiredService<LaunchGameWindow>();
-                            }
-                            else
-                            {
-                                await Ioc.Default
-                                    .GetRequiredService<INavigationService>()
-                                    .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
-                            }
-
+                            await HandleLaunchGameActionAsync().ConfigureAwait(false);
                             break;
                         }
                 }
@@ -108,6 +120,7 @@ internal static class Activation
 
     private static async Task WaitMainWindowAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         _ = Ioc.Default.GetRequiredService<MainWindow>();
         await Ioc.Default.GetRequiredService<IInfoBarService>().WaitInitializationAsync().ConfigureAwait(false);
 
@@ -175,6 +188,23 @@ internal static class Activation
                         .ConfigureAwait(false);
                     break;
                 }
+        }
+    }
+
+    private static async Task HandleLaunchGameActionAsync(string? uid = null)
+    {
+        await ThreadHelper.SwitchToMainThreadAsync();
+
+        // TODO auto switch to account
+        if (!MainWindow.IsPresent)
+        {
+            _ = Ioc.Default.GetRequiredService<LaunchGameWindow>();
+        }
+        else
+        {
+            await Ioc.Default
+                .GetRequiredService<INavigationService>()
+                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
         }
     }
 }
