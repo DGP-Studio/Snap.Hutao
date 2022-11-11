@@ -30,8 +30,8 @@ public sealed partial class BottomTextControl : ContentControl
     /// </summary>
     public UIElement TopContent
     {
-        get { return (UIElement)GetValue(TopContentProperty); }
-        set { SetValue(TopContentProperty, value); }
+        get => (UIElement)GetValue(TopContentProperty);
+        set => SetValue(TopContentProperty, value);
     }
 
     /// <summary>
@@ -39,8 +39,8 @@ public sealed partial class BottomTextControl : ContentControl
     /// </summary>
     public string Text
     {
-        get { return (string)GetValue(TextProperty); }
-        set { SetValue(TextProperty, value); }
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
     }
 
     private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs dp)

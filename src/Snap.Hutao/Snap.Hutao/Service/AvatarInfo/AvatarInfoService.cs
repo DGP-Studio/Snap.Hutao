@@ -5,7 +5,6 @@ using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.AvatarInfo.Factory;

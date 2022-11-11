@@ -17,22 +17,32 @@ internal static class TaskSchedulerHelper
     /// 注册实时便笺刷新任务
     /// </summary>
     /// <param name="interval">间隔（秒）</param>
-    public static void RegisterForDailyNoteRefresh(int interval)
+    /// <returns>是否注册或修改成功</returns>
+    public static bool RegisterForDailyNoteRefresh(int interval)
     {
-        TimeSpan intervalTime = TimeSpan.FromSeconds(interval);
-        if (TaskService.Instance.GetTask(DailyNoteRefreshTaskName) is SchedulerTask targetTask)
+        try
         {
-            TimeTrigger? trigger = targetTask.Definition.Triggers[0] as TimeTrigger;
-            trigger!.Repetition.Interval = intervalTime;
-            targetTask.RegisterChanges();
+            TimeSpan intervalTime = TimeSpan.FromSeconds(interval);
+            if (TaskService.Instance.GetTask(DailyNoteRefreshTaskName) is SchedulerTask targetTask)
+            {
+                TimeTrigger? trigger = targetTask.Definition.Triggers[0] as TimeTrigger;
+                trigger!.Repetition.Interval = intervalTime;
+                targetTask.RegisterChanges();
+                return true;
+            }
+            else
+            {
+                TaskDefinition task = TaskService.Instance.NewTask();
+                task.RegistrationInfo.Description = "胡桃实时便笺刷新任务 | 请勿编辑或删除。";
+                task.Triggers.Add(new TimeTrigger() { Repetition = new(intervalTime, TimeSpan.Zero), });
+                task.Actions.Add("explorer", "hutao://DailyNote/Refresh");
+                TaskService.Instance.RootFolder.RegisterTaskDefinition(DailyNoteRefreshTaskName, task);
+                return true;
+            }
         }
-        else
+        catch (UnauthorizedAccessException)
         {
-            TaskDefinition task = TaskService.Instance.NewTask();
-            task.RegistrationInfo.Description = "胡桃实时便笺刷新任务 | 请勿编辑或删除。";
-            task.Triggers.Add(new TimeTrigger() { Repetition = new(intervalTime, TimeSpan.Zero), });
-            task.Actions.Add("explorer", "hutao://DailyNote/Refresh");
-            TaskService.Instance.RootFolder.RegisterTaskDefinition(DailyNoteRefreshTaskName, task);
+            return false;
         }
     }
 }

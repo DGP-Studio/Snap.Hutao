@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Service.Navigation;
 using Windows.System;
 

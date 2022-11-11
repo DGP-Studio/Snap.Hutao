@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Web.Hoyolab;
 

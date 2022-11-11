@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.IO.DataTransfer;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.Abstraction;

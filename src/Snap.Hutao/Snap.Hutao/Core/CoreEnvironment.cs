@@ -4,8 +4,6 @@
 using Microsoft.Win32;
 using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Extension;
-using System.Security.Cryptography;
-using System.Text;
 using System.Text.Encodings.Web;
 using Windows.ApplicationModel;
 

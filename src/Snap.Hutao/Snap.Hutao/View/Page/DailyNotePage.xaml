@@ -94,7 +94,7 @@
                 <AppBarButton.Flyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <StackPanel>
-                            <RadioButtons ItemsSource="{Binding RefreshTimes}" SelectedItem="{Binding SelectedRefreshTime}">
+                            <RadioButtons ItemsSource="{Binding RefreshTimes}" SelectedItem="{Binding SelectedRefreshTime,Mode=TwoWay}">
                                 <RadioButtons.Header>
                                     <TextBlock Text="刷新间隔时间" Style="{StaticResource BaseTextBlockStyle}"/>
                                 </RadioButtons.Header>

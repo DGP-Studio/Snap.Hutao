@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.Threading;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Game;
 using System.IO;
 using System.Text;

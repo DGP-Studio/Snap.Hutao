@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Control;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Binding.User;

@@ -4,7 +4,6 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem;
-using Snap.Hutao.Core.Threading;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 

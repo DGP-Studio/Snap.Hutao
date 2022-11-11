@@ -3,7 +3,6 @@
 
 using Microsoft.Win32;
 using Snap.Hutao.Core.IO.Ini;
-using Snap.Hutao.Core.Threading;
 using System.IO;
 using System.Text.RegularExpressions;
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Abstraction;
-using Snap.Hutao.Core.Threading;
 
 namespace Snap.Hutao.Service.GachaLog;
 

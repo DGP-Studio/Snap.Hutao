@@ -8,7 +8,6 @@ using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO.Ini;
-using Snap.Hutao.Core.Threading;
 using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game.Locator;

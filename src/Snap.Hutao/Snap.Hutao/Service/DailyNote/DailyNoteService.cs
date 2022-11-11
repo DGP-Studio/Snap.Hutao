@@ -134,7 +134,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
         }
     }
 
-    private async ValueTask NotifyDailyNoteAsync(BindingClient client,DailyNoteEntry entry)
+    private async ValueTask NotifyDailyNoteAsync(BindingClient client, DailyNoteEntry entry)
     {
         if (entry.DailyNote == null)
         {

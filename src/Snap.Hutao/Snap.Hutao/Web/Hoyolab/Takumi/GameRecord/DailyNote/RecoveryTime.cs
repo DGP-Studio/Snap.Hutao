@@ -49,10 +49,7 @@ public class RecoveryTime
     [JsonIgnore]
     public int TotalSeconds
     {
-        get
-        {
-            return (60 * 60 * 24 * 7) - (Second + (60 * Minute) + (60 * 60 * Hour) + (60 * 60 * 24 * Day));
-        }
+        get => (60 * 60 * 24 * 7) - (Second + (60 * Minute) + (60 * 60 * Hour) + (60 * 60 * 24 * Day));
     }
 
     /// <summary>
