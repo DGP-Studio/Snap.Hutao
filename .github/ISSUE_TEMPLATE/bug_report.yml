@@ -54,18 +54,18 @@ body:
                    如果应用程序崩溃了，请将`log.db` 文件上传，文件包含了敏感信息，谨慎上传
                    如果这个表单是关于导入祈愿记录的问题，请包含你导入的`Json`文件
                    **务必不要上传`user.db`文件，该文件包含你的帐号敏感信息**
-      render: shell
   
-  - type: checkboxes
+  - type: dropdown
     id: confirm-issue
     attributes:
       label: 我确认已在表单中附上了充足的补充说明以帮助开发人员确定问题
       description: 补充说明包括但不限于：日志文件、抛出的错误信息、截图和录屏
       options:
-        - label: 是
-          required: true
+        - 是
+    validations:
+      required: true
         
-  - type: checkboxes
+  - type: dropdown
     id: confirm-no-duplicated-issue
     attributes:
       label: 我确认没有他人提出相同或类似的问题
@@ -75,15 +75,17 @@ body:
                    你应该在原始 Issue 中通过回复添加有助于解决问题的信息，而不是创建重复的问题；
                    **没有帮助的重复问题可能会被直接关闭**
       options:
-        - label: 是
-          required: true
+        - 是
+    validations:
+      required: true
       
-  - type: checkboxes
+  - type: dropdown
     id: confirm-docs
     attributes:
       label: 我确认该问题没有在文档中解释
       description: Snap Hutao 官方文档：[https://hut.ao](https://hut.ao)
       options:
-        - label: 是
-          required: true
+        - 是
+    validations:
+      required: true
         
