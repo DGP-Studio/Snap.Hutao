@@ -17,14 +17,24 @@ internal static class CoreEnvironment
     // 计算过程：https://github.com/UIGF-org/Hoyolab.Salt
 
     /// <summary>
-    /// 动态密钥1的盐
+    /// 动态密钥1的K2盐
     /// </summary>
-    public const string DynamicSecret1Salt = "jEpJb9rRARU2rXDA9qYbZ3selxkuct9a";
+    public const string DynamicSecretK2Salt = "fdv0fY9My9eA7MR0NpjGP9RjueFvjUSQ";
 
     /// <summary>
-    /// 动态密钥2的盐
+    /// 动态密钥1的LK2盐
     /// </summary>
-    public const string DynamicSecret2Salt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
+    public const string DynamicSecretLK2Salt = "jEpJb9rRARU2rXDA9qYbZ3selxkuct9a";
+
+    /// <summary>
+    /// 动态密钥2的X4盐
+    /// </summary>
+    public const string DynamicSecretX4Salt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
+
+    /// <summary>
+    /// 动态密钥2的X6盐
+    /// </summary>
+    public const string DynamicSecretX6Salt = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
 
     /// <summary>
     /// 米游社请求UA

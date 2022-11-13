@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
 
@@ -17,6 +18,14 @@ internal interface IDynamicSecretHttpClient
     /// <param name="token">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     Task<TValue?> GetFromJsonAsync<TValue>(CancellationToken token);
+
+    /// <inheritdoc cref="HttpClientJsonExtensions.GetFromJsonAsync{TValue}(HttpClient, string?, JsonSerializerOptions?, CancellationToken)"/>
+    Task<T?> TryCatchGetFromJsonAsync<T>(CancellationToken token = default)
+        where T : class;
+
+    /// <inheritdoc cref="HttpClientJsonExtensions.GetFromJsonAsync{TValue}(HttpClient, string?, JsonSerializerOptions?, CancellationToken)"/>
+    Task<T?> TryCatchGetFromJsonAsync<T>(ILogger logger, CancellationToken token = default(CancellationToken))
+        where T : class;
 }
 
 /// <summary>

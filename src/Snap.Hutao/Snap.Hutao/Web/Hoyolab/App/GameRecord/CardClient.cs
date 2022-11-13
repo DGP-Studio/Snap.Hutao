@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
+using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -23,7 +24,7 @@ internal class CardClient
     /// 构造一个新的桌面卡片客户端
     /// </summary>
     /// <param name="httpClient">http客户端</param>
-    /// <param name="options">选项</param>
+    /// <param name="options">json序列化选项</param>
     /// <param name="logger">日志器</param>
     public CardClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<CardClient> logger)
     {
@@ -38,12 +39,13 @@ internal class CardClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>桌面小组件数据</returns>
-    [ApiInformation<WidgetData>(Cookie = CookieType.Stoken)]
+    [ApiInformation<WidgetData>(Cookie = CookieType.Stoken, Salt = SaltType.X6)]
     public async Task<WidgetData?> GetWidgetDataAsync(User user, CancellationToken token)
     {
         Response<DataWrapper<WidgetData>>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
-            .TryCatchGetFromJsonAsync<Response<DataWrapper<WidgetData>>>(ApiEndpoints.UserFullInfo, options, logger, token)
+            .UsingDynamicSecret2(SaltType.X6, options, ApiEndpoints.AppWidgetData)
+            .TryCatchGetFromJsonAsync<Response<DataWrapper<WidgetData>>>(logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data?.Data;

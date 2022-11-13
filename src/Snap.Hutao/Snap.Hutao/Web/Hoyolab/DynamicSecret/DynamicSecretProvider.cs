@@ -16,15 +16,19 @@ internal abstract class DynamicSecretProvider : Md5Convert
     /// <summary>
     /// 创建动态密钥
     /// </summary>
+    /// <param name="saltType">SALT 类型</param>
     /// <returns>密钥</returns>
-    public static string Create()
+    public static string Create(SaltType saltType)
     {
+        Verify.Operation(saltType is SaltType.K2 or SaltType.LK2, "SALT 值无效");
+
         // unix timestamp
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         string r = GetRandomString();
 
-        string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecret1Salt}&t={t}&r={r}").ToLowerInvariant();
+        string salt = saltType == SaltType.K2 ? Core.CoreEnvironment.DynamicSecretK2Salt : Core.CoreEnvironment.DynamicSecretLK2Salt;
+        string check = ToHexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
 
         return $"{t},{r},{check}";
     }

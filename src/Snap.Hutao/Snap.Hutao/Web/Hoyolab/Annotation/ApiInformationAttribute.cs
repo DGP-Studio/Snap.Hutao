@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,4 +21,9 @@ internal class ApiInformationAttribute<TReturnType> : Attribute
     /// Cookie类型
     /// </summary>
     public CookieType Cookie { get; set; }
+
+    /// <summary>
+    /// SALT
+    /// </summary>
+    public SaltType Salt { get; set; }
 }

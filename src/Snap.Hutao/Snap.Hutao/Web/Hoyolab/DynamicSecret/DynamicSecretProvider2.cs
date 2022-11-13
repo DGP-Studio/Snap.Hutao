@@ -13,12 +13,15 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
     /// <summary>
     /// 创建动态密钥
     /// </summary>
+    /// <param name="saltType">SALT 类型</param>
     /// <param name="options">json格式化器</param>
     /// <param name="queryUrl">查询url</param>
     /// <param name="postBody">请求体</param>
     /// <returns>密钥</returns>
-    public static string Create(JsonSerializerOptions options, string queryUrl, object? postBody = null)
+    public static string Create(SaltType saltType, JsonSerializerOptions options, string queryUrl, object? postBody = null)
     {
+        Verify.Operation(saltType is SaltType.X6 or SaltType.X4, "SALT 值无效");
+
         // unix timestamp
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
@@ -33,7 +36,8 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         string q = queries.Length == 2 ? string.Join('&', queries[1].Split('&').OrderBy(x => x)) : string.Empty;
 
         // check
-        string check = ToHexString($"salt={Core.CoreEnvironment.DynamicSecret2Salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
+        string salt = saltType == SaltType.X6 ? Core.CoreEnvironment.DynamicSecretX6Salt : Core.CoreEnvironment.DynamicSecretX4Salt;
+        string check = ToHexString($"salt={salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
 
         return $"{t},{r},{check}";
     }

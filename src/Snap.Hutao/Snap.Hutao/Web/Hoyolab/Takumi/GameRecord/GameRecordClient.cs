@@ -45,7 +45,7 @@ internal class GameRecordClient
     {
         Response<DailyNote.DailyNote>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret(options, ApiEndpoints.GameRecordDailyNote(uid.Value, uid.Region))
+            .UsingDynamicSecret2(options, ApiEndpoints.GameRecordDailyNote(uid.Value, uid.Region))
             .GetFromJsonAsync<Response<DailyNote.DailyNote>>(token)
             .ConfigureAwait(false);
 
@@ -63,7 +63,7 @@ internal class GameRecordClient
     {
         Response<DailyNote.DailyNote>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret(options, ApiEndpoints.GameRecordDailyNote(uid.Value, uid.Region))
+            .UsingDynamicSecret2(options, ApiEndpoints.GameRecordDailyNote(uid.Value, uid.Region))
             .GetFromJsonAsync<Response<DailyNote.DailyNote>>(token)
             .ConfigureAwait(false);
 
@@ -93,7 +93,7 @@ internal class GameRecordClient
     {
         Response<PlayerInfo>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret(options, ApiEndpoints.GameRecordIndex(uid.Value, uid.Region))
+            .UsingDynamicSecret2(options, ApiEndpoints.GameRecordIndex(uid.Value, uid.Region))
             .GetFromJsonAsync<Response<PlayerInfo>>(token)
             .ConfigureAwait(false);
 
@@ -125,7 +125,7 @@ internal class GameRecordClient
     {
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret(options, ApiEndpoints.GameRecordSpiralAbyss(schedule, uid))
+            .UsingDynamicSecret2(options, ApiEndpoints.GameRecordSpiralAbyss(schedule, uid))
             .GetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(token)
             .ConfigureAwait(false);
 
@@ -159,7 +159,7 @@ internal class GameRecordClient
 
         Response<CharacterWrapper>? resp = await httpClient
             .SetUser(user)
-            .UsingDynamicSecret(options, ApiEndpoints.GameRecordCharacter, data)
+            .UsingDynamicSecret2(options, ApiEndpoints.GameRecordCharacter, data)
             .TryCatchPostAsJsonAsync<Response<CharacterWrapper>>(logger, token)
             .ConfigureAwait(false);
 

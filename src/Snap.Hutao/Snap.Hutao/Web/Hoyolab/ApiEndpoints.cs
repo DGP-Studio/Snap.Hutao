@@ -145,6 +145,14 @@ internal static class ApiEndpoints
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?key=eYd89JmJ&language=zh-cn&launcher_id=18
     #endregion
 
+    #region ma-cn-session
+
+    /// <summary>
+    /// 验证 Ltoken 有效性
+    /// </summary>
+    public const string AccountVerifyLtoken = $"{PassportApiV4}/account/ma-cn-session/web/verifyLtoken";
+    #endregion
+
     #region App
 
     /// <summary>
@@ -170,6 +178,8 @@ internal static class ApiEndpoints
     private const string Hk4eApi = "https://hk4e-api.mihoyo.com";
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
     private const string Hk4eApiGachaInfoApi = $"{Hk4eApi}/event/gacha_info/api";
+
+    private const string PassportApiV4 = "passport-api-v4.mihoyo.com";
 
     private const string SdkStatic = "https://sdk-static.mihoyo.com";
     private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";
