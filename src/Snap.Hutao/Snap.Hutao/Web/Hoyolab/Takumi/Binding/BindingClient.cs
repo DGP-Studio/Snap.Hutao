@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Binding.User;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
@@ -41,12 +41,12 @@ internal class BindingClient
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
     [ApiInformation(Cookie = CookieType.Ltoken)]
-    public async Task<List<UserGameRole>> GetUserGameRolesAsync(string actionTicket, Model.Entity.User user, CancellationToken token = default)
+    public async Task<List<UserGameRole>> GetUserGameRolesAsync(string actionTicket, User user, CancellationToken token = default)
     {
         string url = ApiEndpoints.UserGameRolesByActionTicket(actionTicket);
 
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user)
+            .SetUser(user, CookieType.Ltoken)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(url, options, logger, token)
             .ConfigureAwait(false);
 
@@ -59,10 +59,11 @@ internal class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    public async Task<List<UserGameRole>> GetUserGameRolesAsync(Model.Entity.User user, CancellationToken token = default)
+    [ApiInformation(Cookie = CookieType.Ltoken)]
+    public async Task<List<UserGameRole>> GetUserGameRolesAsync(User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user)
+            .SetUser(user, CookieType.Ltoken)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRolesByCookie, options, logger, token)
             .ConfigureAwait(false);
 

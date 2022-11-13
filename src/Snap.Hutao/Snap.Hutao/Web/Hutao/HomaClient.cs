@@ -175,21 +175,23 @@ internal class HomaClient
     /// <returns>玩家记录</returns>
     public async Task<SimpleRecord> GetPlayerRecordAsync(User user, CancellationToken token = default)
     {
+        Must.NotNull(user.SelectedUserGameRole!);
+
         PlayerInfo? playerInfo = await gameRecordClient
-            .GetPlayerInfoAsync(user, token)
+            .GetPlayerInfoAsync(user.Entity, user.SelectedUserGameRole, token)
             .ConfigureAwait(false);
         Must.NotNull(playerInfo!);
 
         List<Character> characters = await gameRecordClient
-            .GetCharactersAsync(user, playerInfo, token)
+            .GetCharactersAsync(user.Entity, user.SelectedUserGameRole, playerInfo, token)
             .ConfigureAwait(false);
 
         SpiralAbyss? spiralAbyssInfo = await gameRecordClient
-            .GetSpiralAbyssAsync(user, SpiralAbyssSchedule.Current, token)
+            .GetSpiralAbyssAsync(user.Entity, user.SelectedUserGameRole, SpiralAbyssSchedule.Current, token)
             .ConfigureAwait(false);
         Must.NotNull(spiralAbyssInfo!);
 
-        return new(Must.NotNull(user.SelectedUserGameRole!).GameUid, characters, spiralAbyssInfo);
+        return new(user.SelectedUserGameRole.GameUid, characters, spiralAbyssInfo);
     }
 
     /// <summary>

@@ -50,7 +50,7 @@ internal class AuthClient
                     .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, stoken, uid), options, logger)
                     .ConfigureAwait(false);
 
-                return resp.Data?.Ticket;
+                return resp?.Data?.Ticket;
             }
         }
 

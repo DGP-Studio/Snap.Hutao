@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Hoyolab.Annotation;
+using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -33,13 +35,34 @@ internal class UserClient
     /// <summary>
     /// 获取当前用户详细信息
     /// </summary>
+    /// <param name="uid">用户id</param>
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
-    public async Task<UserInfo?> GetUserFullInfoAsync(Model.Binding.User.User user, CancellationToken token = default)
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
+    public async Task<UserInfo?> GetUserFullInfoAsync(string uid, Model.Entity.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
-            .SetUser(user)
+            .SetUser(user, CookieType.Stoken)
+            .SetReferer(ApiEndpoints.BbsReferer)
+            .UsingDynamicSecret1(SaltType.K2)
+            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(uid), options, logger, token)
+            .ConfigureAwait(false);
+
+        return resp?.Data?.UserInfo;
+    }
+
+    /// <summary>
+    /// 获取当前用户详细信息
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>详细信息</returns>
+    [ApiInformation(Cookie = CookieType.Ltoken)]
+    public async Task<UserInfo?> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
+    {
+        Response<UserFullInfoWrapper>? resp = await httpClient
+            .SetUser(user, CookieType.Ltoken)
             .SetReferer(ApiEndpoints.BbsReferer)
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, options, logger, token)
             .ConfigureAwait(false);

@@ -105,6 +105,8 @@ dotnet_naming_style.pascal_case.capitalization = pascal_case
 dotnet_diagnostic.SA1629.severity = silent
 dotnet_diagnostic.SA1642.severity = silent
 
+dotnet_diagnostic.IDE0060.severity = none
+
 # SA1208: System using directives should be placed before other using directives
 dotnet_diagnostic.SA1208.severity = none
 
@@ -160,6 +162,7 @@ dotnet_diagnostic.CA1805.severity = suggestion
 # VSTHRD111: Use ConfigureAwait(bool)
 dotnet_diagnostic.VSTHRD111.severity = suggestion
 csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_readonly_struct = true:suggestion
 
 [*.vb]
 #### 命名样式 ####

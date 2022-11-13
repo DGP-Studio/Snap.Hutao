@@ -15,7 +15,6 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
 internal class DynamicSecretHttpClient : IDynamicSecretHttpClient
 {
     private readonly HttpClient httpClient;
-    private readonly SaltType saltType;
     private readonly JsonSerializerOptions options;
     private readonly string url;
 
@@ -29,11 +28,10 @@ internal class DynamicSecretHttpClient : IDynamicSecretHttpClient
     public DynamicSecretHttpClient(HttpClient httpClient, SaltType saltType, JsonSerializerOptions options, string url)
     {
         this.httpClient = httpClient;
-        this.saltType = saltType;
         this.options = options;
         this.url = url;
 
-        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(options, url, null));
+        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(saltType, options, url, null));
     }
 
     /// <inheritdoc/>
@@ -81,7 +79,6 @@ internal class DynamicSecretHttpClient<TValue> : IDynamicSecretHttpClient<TValue
     where TValue : class
 {
     private readonly HttpClient httpClient;
-    private readonly SaltType saltType;
     private readonly JsonSerializerOptions options;
     private readonly string url;
     private readonly TValue data;
@@ -97,12 +94,11 @@ internal class DynamicSecretHttpClient<TValue> : IDynamicSecretHttpClient<TValue
     public DynamicSecretHttpClient(HttpClient httpClient, SaltType saltType, JsonSerializerOptions options, string url, TValue data)
     {
         this.httpClient = httpClient;
-        this.saltType = saltType;
         this.options = options;
         this.url = url;
         this.data = data;
 
-        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(options, url, data));
+        httpClient.DefaultRequestHeaders.Set("DS", DynamicSecretProvider2.Create(saltType, options, url, data));
     }
 
     /// <inheritdoc/>

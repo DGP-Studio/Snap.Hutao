@@ -62,7 +62,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
             if (!appDbContext.DailyNotes.Any(n => n.Uid == roleUid))
             {
                 DailyNoteEntry newEntry = DailyNoteEntry.Create(role);
-                newEntry.DailyNote = await gameRecordClient.GetDialyNoteAsync(role.User, newEntry.Uid).ConfigureAwait(false);
+                newEntry.DailyNote = await gameRecordClient.GetDailyNoteAsync(role.User, newEntry.Uid).ConfigureAwait(false);
                 appDbContext.DailyNotes.AddAndSave(newEntry);
 
                 newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
@@ -102,7 +102,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
 
             foreach (DailyNoteEntry entry in appDbContext.DailyNotes.Include(n => n.User))
             {
-                WebDailyNote? dailyNote = await gameRecordClient.GetDialyNoteAsync(entry.User, entry.Uid).ConfigureAwait(false);
+                WebDailyNote? dailyNote = await gameRecordClient.GetDailyNoteAsync(entry.User, entry.Uid).ConfigureAwait(false);
 
                 // database
                 entry.DailyNote = dailyNote;

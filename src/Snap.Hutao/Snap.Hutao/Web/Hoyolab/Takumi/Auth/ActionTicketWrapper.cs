@@ -17,7 +17,7 @@ public class ActionTicketWrapper
     /// 凭证
     /// </summary>
     [JsonPropertyName("ticket")]
-    public string Ticket { get; set; }
+    public string Ticket { get; set; } = default!;
 
     /// <summary>
     /// 是否验证
@@ -29,5 +29,5 @@ public class ActionTicketWrapper
     /// 账户信息
     /// </summary>
     [JsonPropertyName("account_info")]
-    public AccountInfo AccountInfo { get; set; }
+    public AccountInfo AccountInfo { get; set; } = default!;
 }

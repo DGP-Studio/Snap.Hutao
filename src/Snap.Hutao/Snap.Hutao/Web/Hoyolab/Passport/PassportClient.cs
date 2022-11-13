@@ -38,7 +38,7 @@ internal class PassportClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证信息</returns>
-    [ApiInformation(Cookie = CookieType.All)]
+    [ApiInformation(Cookie = CookieType.Ltoken)]
     public async Task<VerifyInformation?> VerifyLtokenAsync(User user, CancellationToken token)
     {
         Response<VerifyInformation>? response = await httpClient

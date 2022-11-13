@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 玩家的主角信息
 /// </summary>
-public class PlayerRole
+public class BasicRoleInfo
 {
     /// <summary>
     /// 角色图标Url

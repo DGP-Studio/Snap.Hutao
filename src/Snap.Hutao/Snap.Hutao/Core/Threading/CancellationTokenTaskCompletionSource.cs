@@ -26,7 +26,7 @@ public sealed class CancellationTokenTaskCompletionSource : IDisposable
             return;
         }
 
-        TaskCompletionSource tcs = new TaskCompletionSource();
+        TaskCompletionSource tcs = new();
         registration = cancellationToken.Register(() => tcs.TrySetResult(), useSynchronizationContext: false);
         Task = tcs.Task;
     }

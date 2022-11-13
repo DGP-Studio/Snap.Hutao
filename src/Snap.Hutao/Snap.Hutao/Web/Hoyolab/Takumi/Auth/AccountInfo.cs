@@ -14,7 +14,6 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 [SuppressMessage("", "SA1600")]
 public class AccountInfo
 {
-
     [JsonPropertyName("is_realname")]
     public bool IsRealname { get; set; }
 

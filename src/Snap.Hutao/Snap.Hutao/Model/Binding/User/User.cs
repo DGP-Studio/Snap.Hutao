@@ -133,7 +133,7 @@ public class User : ObservableObject
         }
 
         UserInfo = await userClient
-            .GetUserFullInfoAsync(this, token)
+            .GetUserFullInfoAsync(Entity, token)
             .ConfigureAwait(false);
 
         UserGameRoles = await userGameRoleClient

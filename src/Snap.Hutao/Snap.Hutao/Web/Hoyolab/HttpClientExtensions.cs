@@ -81,7 +81,7 @@ internal static class HttpClientExtensions
     /// <param name="user">实体用户</param>
     /// <param name="cookie">Cookie类型</param>
     /// <returns>客户端</returns>
-    internal static HttpClient SetUser(this HttpClient httpClient, Model.Entity.User user, CookieType cookie = CookieType.All)
+    internal static HttpClient SetUser(this HttpClient httpClient, Model.Entity.User user, CookieType cookie)
     {
         httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie!.ToString(cookie));
         return httpClient;

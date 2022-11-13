@@ -41,6 +41,16 @@ internal static class ApiEndpoints
     #region GameRecord
 
     /// <summary>
+    /// 角色基本信息
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>角色基本信息字符串</returns>
+    public static string GameRecordRoleBasicInfo(PlayerUid uid)
+    {
+        return $"{ApiTakumiRecordApi}/roleBasicInfo?role_id={uid.Value}&server={uid.Region}";
+    }
+
+    /// <summary>
     /// 角色信息
     /// </summary>
     public const string GameRecordCharacter = $"{ApiTakumiRecordApi}/character";

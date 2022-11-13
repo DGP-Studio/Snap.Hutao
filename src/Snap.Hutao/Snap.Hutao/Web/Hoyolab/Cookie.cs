@@ -204,6 +204,7 @@ public partial class Cookie
         results = type switch
         {
             CookieType.None => Enumerable.Empty<KeyValuePair<string, string>>(),
+            CookieType.Ltoken => inner.Where(kvp => kvp.Key is E_HK4E_TOKEN or LTUID or LTOKEN or ACCOUNT_ID or COOKIE_TOKEN),
             CookieType.Stoken => inner.Where(kvp => kvp.Key is STUID or STOKEN or MID),
             CookieType.All => inner,
             _ => throw Must.NeverHappen(type.ToString()),
