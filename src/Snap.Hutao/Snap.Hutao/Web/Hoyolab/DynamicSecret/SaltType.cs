@@ -24,6 +24,11 @@ public enum SaltType
     X6,
 
     /// <summary>
+    /// PROD
+    /// </summary>
+    PROD,
+
+    /// <summary>
     /// K2
     /// </summary>
     K2,

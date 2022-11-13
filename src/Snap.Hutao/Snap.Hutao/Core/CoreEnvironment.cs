@@ -4,6 +4,8 @@
 using Microsoft.Win32;
 using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using System.Collections.Immutable;
 using System.Text.Encodings.Web;
 using Windows.ApplicationModel;
 
@@ -37,6 +39,11 @@ internal static class CoreEnvironment
     public const string DynamicSecretX6Salt = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
 
     /// <summary>
+    /// LoginApi的盐
+    /// </summary>
+    public const string DynamicSecretPRODSalt = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS";
+
+    /// <summary>
     /// 米游社请求UA
     /// </summary>
     public const string HoyolabUA = $"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBS/{HoyolabXrpcVersion}";
@@ -45,6 +52,18 @@ internal static class CoreEnvironment
     /// 米游社 Rpc 版本
     /// </summary>
     public const string HoyolabXrpcVersion = "2.40.1";
+
+    /// <summary>
+    /// 动态密钥
+    /// </summary>
+    public static readonly ImmutableDictionary<SaltType, string> DynamicSecrets = new Dictionary<SaltType, string>()
+    {
+        [SaltType.K2] = "fdv0fY9My9eA7MR0NpjGP9RjueFvjUSQ",
+        [SaltType.LK2] = "jEpJb9rRARU2rXDA9qYbZ3selxkuct9a",
+        [SaltType.X4] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
+        [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
+        [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
+    }.ToImmutableDictionary();
 
     /// <summary>
     /// 标准UA

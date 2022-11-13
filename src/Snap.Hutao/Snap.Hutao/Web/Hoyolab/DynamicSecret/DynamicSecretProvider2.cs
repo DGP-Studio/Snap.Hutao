@@ -20,7 +20,7 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
     /// <returns>密钥</returns>
     public static string Create(SaltType saltType, JsonSerializerOptions options, string queryUrl, object? postBody = null)
     {
-        Verify.Operation(saltType is SaltType.X6 or SaltType.X4, "SALT 值无效");
+        Verify.Operation(saltType is SaltType.X6 or SaltType.X4 or SaltType.PROD, "SALT 值无效");
 
         // unix timestamp
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
@@ -29,17 +29,27 @@ internal abstract class DynamicSecretProvider2 : Md5Convert
         int r = GetRandom();
 
         // body
-        string b = postBody is null ? string.Empty : JsonSerializer.Serialize(postBody, options);
+        string b = postBody is null ? GetDefaultBody(saltType) : JsonSerializer.Serialize(postBody, options);
 
         // query
         string[] queries = queryUrl.Split('?', 2);
         string q = queries.Length == 2 ? string.Join('&', queries[1].Split('&').OrderBy(x => x)) : string.Empty;
 
         // check
-        string salt = saltType == SaltType.X6 ? Core.CoreEnvironment.DynamicSecretX6Salt : Core.CoreEnvironment.DynamicSecretX4Salt;
+        string salt = Core.CoreEnvironment.DynamicSecrets[saltType];
         string check = ToHexString($"salt={salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
 
         return $"{t},{r},{check}";
+    }
+
+    private static string GetDefaultBody(SaltType saltType)
+    {
+        return saltType switch
+        {
+            SaltType.X4 or SaltType.X6 => string.Empty,
+            SaltType.PROD => "{}",
+            _ => throw Must.NeverHappen(((int)saltType).ToString()),
+        };
     }
 
     private static int GetRandom()

@@ -27,7 +27,7 @@ internal abstract class DynamicSecretProvider : Md5Convert
 
         string r = GetRandomString();
 
-        string salt = saltType == SaltType.K2 ? Core.CoreEnvironment.DynamicSecretK2Salt : Core.CoreEnvironment.DynamicSecretLK2Salt;
+        string salt = Core.CoreEnvironment.DynamicSecrets[saltType];
         string check = ToHexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
 
         return $"{t},{r},{check}";

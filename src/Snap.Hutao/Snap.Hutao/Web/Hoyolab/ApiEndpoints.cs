@@ -182,6 +182,11 @@ internal static class ApiEndpoints
     #region ma-cn-session
 
     /// <summary>
+    /// 获取 CookieToken
+    /// </summary>
+    public const string AccountCookieAccountInfoBySToken = $"{PassportApi}/account/auth/api/getCookieAccountInfoBySToken";
+
+    /// <summary>
     /// 验证 Ltoken 有效性
     /// </summary>
     public const string AccountVerifyLtoken = $"{PassportApiV4}/account/ma-cn-session/web/verifyLtoken";
@@ -213,6 +218,7 @@ internal static class ApiEndpoints
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
     private const string Hk4eApiGachaInfoApi = $"{Hk4eApi}/event/gacha_info/api";
 
+    private const string PassportApi = "passport-api.mihoyo.com";
     private const string PassportApiV4 = "passport-api-v4.mihoyo.com";
 
     private const string SdkStatic = "https://sdk-static.mihoyo.com";

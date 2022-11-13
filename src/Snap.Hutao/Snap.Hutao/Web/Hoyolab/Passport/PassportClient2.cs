@@ -11,10 +11,10 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 /// <summary>
-/// 通行证客户端
+/// 通行证客户端 XRPC 版
 /// </summary>
-[HttpClient(HttpClientConfigration.Default)]
-internal class PassportClient
+[HttpClient(HttpClientConfigration.XRpc)]
+internal class PassportClient2
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
@@ -26,7 +26,7 @@ internal class PassportClient
     /// <param name="httpClient">http客户端</param>
     /// <param name="options">json序列化选项</param>
     /// <param name="logger">日志器</param>
-    public PassportClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<PassportClient> logger)
+    public PassportClient2(HttpClient httpClient, JsonSerializerOptions options, ILogger<PassportClient> logger)
     {
         this.httpClient = httpClient;
         this.options = options;
@@ -34,30 +34,20 @@ internal class PassportClient
     }
 
     /// <summary>
-    /// 异步验证Ltoken
+    /// 异步获取 CookieToken
     /// </summary>
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
-    /// <returns>验证信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken)]
-    public async Task<VerifyInformation?> VerifyLtokenAsync(User user, CancellationToken token)
+    /// <returns>uid 与 cookie token</returns>
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.PROD)]
+    public async Task<UidCookieToken?> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token)
     {
-        Response<VerifyInformation>? response = await httpClient
-            .SetUser(user, CookieType.All)
-            .TryCatchPostAsJsonAsync<Timestamp, Response<VerifyInformation>>(ApiEndpoints.AccountVerifyLtoken, new(), options, logger, token)
+        Response<UidCookieToken>? resp = await httpClient
+            .SetUser(user, CookieType.Stoken)
+            .UsingDynamicSecret2(SaltType.PROD, options, ApiEndpoints.AccountCookieAccountInfoBySToken)
+            .TryCatchGetFromJsonAsync<Response<UidCookieToken>>(logger, token)
             .ConfigureAwait(false);
 
-        return response?.Data;
-    }
-
-    private class Timestamp
-    {
-        public Timestamp()
-        {
-            T = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        }
-
-        [JsonPropertyName("t")]
-        public long T { get; set; }
+        return resp?.Data;
     }
 }
