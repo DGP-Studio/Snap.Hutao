@@ -145,12 +145,24 @@ internal static class ApiEndpoints
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?key=eYd89JmJ&language=zh-cn&launcher_id=18
     #endregion
 
+    #region App
+
+    /// <summary>
+    /// 小组件数据
+    /// </summary>
+    public const string AppWidgetData = $"{AppCardApi}/getWidgetData?game_id=2";
+    #endregion
+
     // consts
     private const string ApiTakumi = "https://api-takumi.mihoyo.com";
     private const string ApiTakumiAuthApi = $"{ApiTakumi}/auth/api";
     private const string ApiTaKumiBindingApi = $"{ApiTakumi}/binding/api";
+
     private const string ApiTakumiRecord = "https://api-takumi-record.mihoyo.com";
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";
+
+    private const string App = "https://app.mihoyo.com";
+    private const string AppCardApi = $"{App}/game_record/app/card/api";
 
     private const string BbsApi = "https://bbs-api.mihoyo.com";
     private const string BbsApiUserApi = $"{BbsApi}/user/wapi";

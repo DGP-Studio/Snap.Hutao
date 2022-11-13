@@ -21,4 +21,6 @@ public partial class Cookie
 
     public const string STOKEN = "stoken";
     public const string STUID = "stuid";
+
+    public const string MID = "mid";
 }

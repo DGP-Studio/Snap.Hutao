@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive.Converter;
+using Windows.ApplicationModel.Chat;
 
 namespace Snap.Hutao.Model.Primitive;
 

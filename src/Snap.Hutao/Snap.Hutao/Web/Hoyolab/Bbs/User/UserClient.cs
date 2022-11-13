@@ -39,10 +39,10 @@ internal class UserClient
     public async Task<UserInfo?> GetUserFullInfoAsync(Model.Binding.User.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
-                .SetUser(user)
-                .SetReferer(ApiEndpoints.BbsReferer)
-                .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, options, logger, token)
-                .ConfigureAwait(false);
+            .SetUser(user)
+            .SetReferer(ApiEndpoints.BbsReferer)
+            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, options, logger, token)
+            .ConfigureAwait(false);
 
         return resp?.Data?.UserInfo;
     }

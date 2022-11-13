@@ -11,6 +11,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 internal class ElementNameIconConverter : ValueConverterBase<string, Uri>
 {
     private const string BaseUrl = "https://static.snapgenshin.com/IconElement/UI_Icon_Element_{0}.png";
+    private static readonly Uri UIIconNone = new("https://static.snapgenshin.com/Bg/UI_Icon_None.png");
 
     /// <summary>
     /// 将中文元素名称转换为图标链接
@@ -28,10 +29,12 @@ internal class ElementNameIconConverter : ValueConverterBase<string, Uri>
             "岩" => "Rock",
             "水" => "Water",
             "风" => "Wind",
-            _ => throw Must.NeverHappen(),
+            _ => string.Empty,
         };
 
-        return new Uri(string.Format(BaseUrl, element));
+        return string.IsNullOrEmpty(element)
+            ? UIIconNone
+            : new Uri(string.Format(BaseUrl, element));
     }
 
     /// <inheritdoc/>

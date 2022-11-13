@@ -182,7 +182,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
 
         // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
         SizeInt32 size = appWindow.ClientSize;
-        size.Height -= 38;
+        size.Height -= (int)(31 * scale);
         appWindow.ResizeClient(size);
     }
 }

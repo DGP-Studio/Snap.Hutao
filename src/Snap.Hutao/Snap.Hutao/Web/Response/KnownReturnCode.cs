@@ -24,6 +24,11 @@ public enum KnownReturnCode : int
     RET_NEED_RISK_VERIFY = -3235,
 
     /// <summary>
+    /// 验证码已失效，请重新获取
+    /// </summary>
+    VerifyCodeOutdated = -3209,
+
+    /// <summary>
     /// 禁止
     /// </summary>
     RET_AIGIS_FAILED = -3202,

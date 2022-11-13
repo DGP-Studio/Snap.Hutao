@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
@@ -18,7 +19,7 @@ public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; set; }
+    public AvatarId Id { get; set; }
 
     /// <summary>
     /// 排序号
@@ -88,6 +89,7 @@ public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
     /// <summary>
     /// [非元数据] 搭配数据
     /// </summary>
+    [JsonIgnore]
     public ComplexAvatarCollocation? Collocation { get; set; }
 
     /// <summary>
@@ -118,6 +120,7 @@ public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
             Quality = Quality,
+
             Count = count,
         };
     }
@@ -137,6 +140,7 @@ public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
             Icon = AvatarIconConverter.IconNameToUri(Icon),
             Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
             Quality = Quality,
+
             Time = time,
             LastPull = lastPull,
             IsUp = isUp,

@@ -193,11 +193,31 @@ public partial class Cookie
     }
 
     /// <summary>
+    /// 根据类型输出对应的Cookie
+    /// </summary>
+    /// <param name="type">类型</param>
+    /// <returns>Cookie对应的字符串表示</returns>
+    public string ToString(CookieType type)
+    {
+        IEnumerable<KeyValuePair<string, string>> results;
+
+        results = type switch
+        {
+            CookieType.None => Enumerable.Empty<KeyValuePair<string, string>>(),
+            CookieType.Stoken => inner.Where(kvp => kvp.Key is STUID or STOKEN or MID),
+            CookieType.All => inner,
+            _ => throw Must.NeverHappen(type.ToString()),
+        };
+
+        return string.Join(';', results.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+    }
+
+    /// <summary>
     /// 转换为Cookie的字符串表示
     /// </summary>
     /// <returns>Cookie的字符串表示</returns>
     public override string ToString()
     {
-        return string.Join(';', inner.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+        return ToString(CookieType.All);
     }
 }

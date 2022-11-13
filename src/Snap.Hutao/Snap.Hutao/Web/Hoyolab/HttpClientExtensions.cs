@@ -66,6 +66,7 @@ internal static class HttpClientExtensions
     /// <param name="httpClient">http客户端</param>
     /// <param name="user">绑定用户</param>
     /// <returns>客户端</returns>
+    [Obsolete("请使用带有 type 的重载")]
     internal static HttpClient SetUser(this HttpClient httpClient, User user)
     {
         httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie!.ToString());
@@ -77,10 +78,11 @@ internal static class HttpClientExtensions
     /// </summary>
     /// <param name="httpClient">http客户端</param>
     /// <param name="user">实体用户</param>
+    /// <param name="type">Cookie类型</param>
     /// <returns>客户端</returns>
-    internal static HttpClient SetUser(this HttpClient httpClient, Model.Entity.User user)
+    internal static HttpClient SetUser(this HttpClient httpClient, Model.Entity.User user, CookieType type = CookieType.All)
     {
-        httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie!.ToString());
+        httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie!.ToString(type));
         return httpClient;
     }
 

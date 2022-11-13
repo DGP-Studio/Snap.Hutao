@@ -54,11 +54,12 @@ public static class Must
     /// <summary>
     /// Unconditionally throws an <see cref="NotSupportedException"/>.
     /// </summary>
+    /// <param name="context">上下文</param>
     /// <returns>Nothing. This method always throws.</returns>
     [DoesNotReturn]
-    public static System.Exception NeverHappen()
+    public static System.Exception NeverHappen(string? context = null)
     {
-        throw new NotSupportedException("该行为不应发生，请联系开发者进一步确认");
+        throw new NotSupportedException(context);
     }
 
     /// <summary>

@@ -46,6 +46,6 @@ internal static class IocConfiguration
             }
         }
 
-        return services.AddDbContextPool<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
+        return services.AddDbContext<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
     }
 }
