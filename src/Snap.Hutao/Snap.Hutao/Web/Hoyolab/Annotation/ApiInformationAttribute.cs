@@ -2,11 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Snap.Hutao.Web.Hoyolab.Annotation;
 
@@ -15,7 +10,7 @@ namespace Snap.Hutao.Web.Hoyolab.Annotation;
 /// </summary>
 /// <typeparam name="TReturnType">API 的返回类型</typeparam>
 [AttributeUsage(AttributeTargets.Method)]
-internal class ApiInformationAttribute<TReturnType> : Attribute
+internal class ApiInformationAttribute : Attribute
 {
     /// <summary>
     /// Cookie类型

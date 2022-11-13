@@ -39,7 +39,7 @@ internal class CardClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>桌面小组件数据</returns>
-    [ApiInformation<WidgetData>(Cookie = CookieType.Stoken, Salt = SaltType.X6)]
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.X6)]
     public async Task<WidgetData?> GetWidgetDataAsync(User user, CancellationToken token)
     {
         Response<DataWrapper<WidgetData>>? resp = await httpClient

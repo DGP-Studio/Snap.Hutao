@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Snap.Hutao.Web.Hoyolab;
 
 /// <summary>
@@ -105,7 +107,17 @@ internal static class ApiEndpoints
     /// <summary>
     /// 用户游戏角色
     /// </summary>
-    public const string UserGameRoles = $"{ApiTaKumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_cn";
+    /// <param name="actionTicket">操作凭证</param>
+    /// <returns>用户游戏角色字符串</returns>
+    public static string UserGameRolesByActionTicket(string actionTicket)
+    {
+        return $"{ApiTaKumiBindingApi}/getUserGameRolesByCookie?action_ticket={actionTicket}&game_biz=hk4e_cn";
+    }
+
+    /// <summary>
+    /// 用户游戏角色
+    /// </summary>
+    public const string UserGameRolesByCookie = $"{ApiTaKumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_cn";
 
     /// <summary>
     /// AuthKey
@@ -114,6 +126,18 @@ internal static class ApiEndpoints
     #endregion
 
     #region Auth
+
+    /// <summary>
+    /// 获取 stoken 与 ltoken
+    /// </summary>
+    /// <param name="actionType">操作类型 game_role</param>
+    /// <param name="stoken">Stoken</param>
+    /// <param name="uid">uid</param>
+    /// <returns>Url</returns>
+    public static string AuthActionTicket(string actionType, string stoken, string uid)
+    {
+        return $"{ApiTakumiAuthApi}/getMultiTokenByLoginTicket?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid}";
+    }
 
     /// <summary>
     /// 获取 stoken 与 ltoken

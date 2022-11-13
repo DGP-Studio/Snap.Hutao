@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
@@ -29,6 +31,30 @@ internal class AuthClient
         this.httpClient = httpClient;
         this.options = options;
         this.logger = logger;
+    }
+
+    /// <summary>
+    /// 异步获取操作凭证
+    /// </summary>
+    /// <param name="action">操作</param>
+    /// <param name="user">用户</param>
+    /// <returns>操作凭证</returns>
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = DynamicSecret.SaltType.K2)]
+    public async Task<string?> GetActionTicketByStokenAsync(string action, User user)
+    {
+        if (user.Cookie!.TryGetValue(Cookie.STOKEN, out string? stoken))
+        {
+            if (user.Cookie.TryGetUid(out string? uid))
+            {
+                Response<ActionTicketWrapper>? resp = await httpClient
+                    .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, stoken, uid), options, logger)
+                    .ConfigureAwait(false);
+
+                return resp.Data?.Ticket;
+            }
+        }
+
+        return null;
     }
 
     /// <summary>

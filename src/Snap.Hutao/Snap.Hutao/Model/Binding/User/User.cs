@@ -137,7 +137,7 @@ public class User : ObservableObject
             .ConfigureAwait(false);
 
         UserGameRoles = await userGameRoleClient
-            .GetUserGameRolesAsync(this, token)
+            .GetUserGameRolesAsync(Entity, token)
             .ConfigureAwait(false);
 
         SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
