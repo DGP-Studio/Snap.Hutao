@@ -22,8 +22,3 @@ internal abstract class Md5Convert
         return System.Convert.ToHexString(hash);
     }
 }
-
-internal class RSAConvert
-{ 
-
-}
