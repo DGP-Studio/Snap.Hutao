@@ -16,33 +16,6 @@ namespace Snap.Hutao.Core;
 /// </summary>
 internal static class CoreEnvironment
 {
-    // 计算过程：https://github.com/UIGF-org/Hoyolab.Salt
-
-    /// <summary>
-    /// 动态密钥1的K2盐
-    /// </summary>
-    public const string DynamicSecretK2Salt = "fdv0fY9My9eA7MR0NpjGP9RjueFvjUSQ";
-
-    /// <summary>
-    /// 动态密钥1的LK2盐
-    /// </summary>
-    public const string DynamicSecretLK2Salt = "jEpJb9rRARU2rXDA9qYbZ3selxkuct9a";
-
-    /// <summary>
-    /// 动态密钥2的X4盐
-    /// </summary>
-    public const string DynamicSecretX4Salt = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs";
-
-    /// <summary>
-    /// 动态密钥2的X6盐
-    /// </summary>
-    public const string DynamicSecretX6Salt = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v";
-
-    /// <summary>
-    /// LoginApi的盐
-    /// </summary>
-    public const string DynamicSecretPRODSalt = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS";
-
     /// <summary>
     /// 米游社请求UA
     /// </summary>
@@ -55,6 +28,7 @@ internal static class CoreEnvironment
 
     /// <summary>
     /// 动态密钥
+    /// https://github.com/UIGF-org/Hoyolab.Salt
     /// </summary>
     public static readonly ImmutableDictionary<SaltType, string> DynamicSecrets = new Dictionary<SaltType, string>()
     {

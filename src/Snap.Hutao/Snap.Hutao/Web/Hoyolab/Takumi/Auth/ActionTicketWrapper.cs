@@ -29,5 +29,5 @@ public class ActionTicketWrapper
     /// 账户信息
     /// </summary>
     [JsonPropertyName("account_info")]
-    public AccountInfo AccountInfo { get; set; } = default!;
+    public ActionTicketAccountInfo AccountInfo { get; set; } = default!;
 }

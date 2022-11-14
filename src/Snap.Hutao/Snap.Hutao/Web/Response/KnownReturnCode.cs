@@ -44,6 +44,11 @@ public enum KnownReturnCode : int
     RET_NEED_AIGIS = -3101,
 
     /// <summary>
+    /// 登录信息已失效，请重新登录
+    /// </summary>
+    LoginDataOutdated = -262,
+
+    /// <summary>
     /// 访问过于频繁
     /// </summary>
     VisitTooFrequently = -110,

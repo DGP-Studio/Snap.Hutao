@@ -12,7 +12,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 /// 账户信息
 /// </summary>
 [SuppressMessage("", "SA1600")]
-public class AccountInfo
+public class ActionTicketAccountInfo
 {
     [JsonPropertyName("is_realname")]
     public bool IsRealname { get; set; }

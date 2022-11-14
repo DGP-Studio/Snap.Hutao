@@ -130,9 +130,14 @@ internal static class ApiEndpoints
     public const string UserGameRolesByCookie = $"{ApiTaKumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_cn";
 
     /// <summary>
+    /// 用户游戏角色
+    /// </summary>
+    public const string UserGameRolesByStoken = $"{ApiTaKumiBindingApi}/getUserGameRolesByStoken";
+
+    /// <summary>
     /// AuthKey
     /// </summary>
-    public const string GenAuthKey = $"{ApiTaKumiBindingApi}/genAuthKey";
+    public const string BindingGenAuthKey = $"{ApiTaKumiBindingApi}/genAuthKey";
     #endregion
 
     #region Auth
@@ -179,7 +184,7 @@ internal static class ApiEndpoints
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?key=eYd89JmJ&language=zh-cn&launcher_id=18
     #endregion
 
-    #region ma-cn-session
+    #region LoginApi
 
     /// <summary>
     /// 获取 CookieToken
@@ -192,7 +197,29 @@ internal static class ApiEndpoints
     public const string AccountVerifyLtoken = $"{PassportApiV4}/account/ma-cn-session/web/verifyLtoken";
     #endregion
 
+    #region WebAccountApi
+
+    /// <summary>
+    /// 通过通行证Cookie登录
+    /// </summary>
+    /// <returns>通行证Cookie登录</returns>
+    public static string AccountLoginByCookie()
+    {
+        return $"{WebApiAccountApi}/login_by_cookie?t={DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
+    }
+    #endregion
+
     #region App
+
+    /// <summary>
+    /// 另一个AuthKey
+    /// </summary>
+    public const string AppAccountGenAuthKey = $"{AppAuthApi}/genAuthKey";
+
+    /// <summary>
+    /// 通过 Stoken 获取 Ltoken
+    /// </summary>
+    public const string AppAccountGetLTokenBySToken = $"{AppAuthApi}/getLTokenBySToken";
 
     /// <summary>
     /// 小组件数据
@@ -209,6 +236,7 @@ internal static class ApiEndpoints
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";
 
     private const string App = "https://app.mihoyo.com";
+    private const string AppAuthApi = $"{App}/account/auth/api";
     private const string AppCardApi = $"{App}/game_record/app/card/api";
 
     private const string BbsApi = "https://bbs-api.mihoyo.com";
@@ -223,6 +251,9 @@ internal static class ApiEndpoints
 
     private const string SdkStatic = "https://sdk-static.mihoyo.com";
     private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";
+
+    private const string WebApiAccount = "https://webapi.account.mihoyo.com";
+    private const string WebApiAccountApi = $"{WebApiAccount}/Api";
 
     private const string AnnouncementQuery = "game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000";
 }
