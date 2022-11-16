@@ -34,6 +34,34 @@ internal class PassportClient2
     }
 
     /// <summary>
+    /// 异步账密登录
+    /// </summary>
+    /// <param name="account">用户</param>
+    /// <param name="password">密码</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>登录数据</returns>
+    public async Task<LoginResult?> LoginByPasswordAsync(string account, string password, CancellationToken token)
+    {
+        Dictionary<string, string> data = new()
+        {
+            { "account", RSAEncryptedString.Encrypt(account) },
+            { "password", RSAEncryptedString.Encrypt(password) },
+        };
+
+        Response<LoginResult>? resp = await httpClient
+            .SetAppId()
+            .SetHeader("x-rpc-aigis", string.Empty)
+            .SetHeader("x-rpc-client_type", "2")
+            .SetHeader("x-rpc-game_biz", "bbs_cn")
+            .SetHeader("x-rpc-sdk_version", "1.3.1.2")
+            .UsingDynamicSecret2(SaltType.PROD, options, ApiEndpoints.AccountLoginByPassword, data)
+            .TryCatchPostAsJsonAsync<Response<LoginResult>>(logger, token)
+            .ConfigureAwait(false);
+
+        return resp?.Data;
+    }
+
+    /// <summary>
     /// 异步获取 CookieToken
     /// </summary>
     /// <param name="user">用户</param>
@@ -50,4 +78,38 @@ internal class PassportClient2
 
         return resp?.Data;
     }
+}
+
+public class LoginResult
+{
+    [JsonPropertyName("token")]
+    public TokenWrapper Token { get; set; }
+
+    [JsonPropertyName("user_info")]
+    public UserInformation UserInfo { get; set; }
+
+    [JsonPropertyName("reactivate_info")]
+    public ReactivateInfo ReactivateInfo { get; set; }
+
+    [JsonPropertyName("login_ticket")]
+    public string LoginTicket { get; set; }
+}
+
+public class ReactivateInfo
+{
+
+    [JsonPropertyName("required")]
+    public bool Required { get; set; }
+
+    [JsonPropertyName("ticket")]
+    public string Ticket { get; set; }
+}
+
+public class TokenWrapper
+{
+    [JsonPropertyName("token_type")]
+    public int TokenType { get; set; }
+
+    [JsonPropertyName("token")]
+    public string Token { get; set; }
 }

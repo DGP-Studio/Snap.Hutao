@@ -40,11 +40,11 @@ internal class PassportClient
     /// <param name="token">取消令牌</param>
     /// <returns>验证信息</returns>
     [ApiInformation(Cookie = CookieType.All)]
-    public async Task<VerifyInformation?> VerifyLtokenAsync(User user, CancellationToken token)
+    public async Task<UserInformation?> VerifyLtokenAsync(User user, CancellationToken token)
     {
-        Response<VerifyInformation>? response = await httpClient
+        Response<UserInformation>? response = await httpClient
             .SetUser(user, CookieType.All)
-            .TryCatchPostAsJsonAsync<Timestamp, Response<VerifyInformation>>(ApiEndpoints.AccountVerifyLtoken, new(), options, logger, token)
+            .TryCatchPostAsJsonAsync<Timestamp, Response<UserInformation>>(ApiEndpoints.AccountVerifyLtoken, new(), options, logger, token)
             .ConfigureAwait(false);
 
         return response?.Data;

@@ -3,10 +3,12 @@
 
 using Microsoft.Win32;
 using Snap.Hutao.Core.Convert;
+using Snap.Hutao.Core.Json;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using System.Collections.Immutable;
 using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Windows.ApplicationModel;
 
 namespace Snap.Hutao.Core;
@@ -70,7 +72,7 @@ internal static class CoreEnvironment
     public static readonly JsonSerializerOptions JsonOptions = new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        Encoder = new InboxTextEncoder(), //JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         PropertyNameCaseInsensitive = true,
         WriteIndented = true,
     };

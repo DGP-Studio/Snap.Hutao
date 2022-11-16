@@ -10,7 +10,7 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// 验证返回信息
 /// </summary>
-public class VerifyInformation
+public class UserInformation
 {
     /// <summary>
     /// 账户Id

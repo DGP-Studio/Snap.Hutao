@@ -12,11 +12,12 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
+using Snap.Hutao.Web.Hoyolab.Passport;
 
 namespace Snap.Hutao.ViewModel;
 
 /// <summary>
-/// 测试视图模型
+/// 设置视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
 internal class SettingViewModel : ObservableObject
@@ -37,7 +38,7 @@ internal class SettingViewModel : ObservableObject
     private NamedValue<BackdropType> selectedBackdropType;
 
     /// <summary>
-    /// 构造一个新的测试视图模型
+    /// 构造一个新的设置视图模型
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="gameService">游戏服务</param>
@@ -153,10 +154,13 @@ internal class SettingViewModel : ObservableObject
         }
     }
 
-    private void DebugThrowException()
+    private async void DebugThrowException()
     {
 #if DEBUG
-        throw new InvalidOperationException("测试用异常");
+        PassportClient2 passportClient2 = Ioc.Default.GetRequiredService<PassportClient2>();
+        LoginResult? data = await passportClient2.LoginByPasswordAsync("phoneNunmber", "password", CancellationToken.None).ConfigureAwait(false);
+
+        _ = data;
 #endif
     }
 }

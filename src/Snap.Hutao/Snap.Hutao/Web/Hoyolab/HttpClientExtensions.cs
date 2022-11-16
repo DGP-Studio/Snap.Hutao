@@ -98,4 +98,28 @@ internal static class HttpClientExtensions
         httpClient.DefaultRequestHeaders.Set("Referer", referer);
         return httpClient;
     }
+
+    /// <summary>
+    /// 设置AppId
+    /// </summary>
+    /// <param name="httpClient">http客户端</param>
+    /// <returns>客户端</returns>
+    internal static HttpClient SetAppId(this HttpClient httpClient)
+    {
+        httpClient.DefaultRequestHeaders.Set("x-rpc-app_id", "bll8iq97cem8");
+        return httpClient;
+    }
+
+    /// <summary>
+    /// 设置头
+    /// </summary>
+    /// <param name="httpClient">http客户端</param>
+    /// <param name="key">键</param>
+    /// <param name="value">值</param>
+    /// <returns>客户端</returns>
+    internal static HttpClient SetHeader(this HttpClient httpClient, string key, string value)
+    {
+        httpClient.DefaultRequestHeaders.Set(key, value);
+        return httpClient;
+    }
 }
