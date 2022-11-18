@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
@@ -64,11 +65,11 @@ internal class BindingClient2
     public async Task<GameAuthKey?> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         Response<GameAuthKey>? resp = await httpClient
-                .SetUser(user, CookieType.Stoken)
-                .SetReferer("https://app.mihoyo.com")
-                .UsingDynamicSecret1(SaltType.K2)
-                .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.BindingGenAuthKey, data, options, logger, token)
-                .ConfigureAwait(false);
+            .SetUser(user, CookieType.Stoken)
+            .SetReferer("https://app.mihoyo.com")
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
+            .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.BindingGenAuthKey, data, options, logger, token)
+            .ConfigureAwait(false);
 
         return resp?.Data;
     }

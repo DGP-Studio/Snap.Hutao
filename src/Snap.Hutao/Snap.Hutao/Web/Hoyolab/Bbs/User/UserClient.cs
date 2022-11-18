@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -43,7 +42,7 @@ internal class UserClient
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Cookie)
-            //.SetReferer(ApiEndpoints.BbsReferer)
+            .SetReferer(ApiEndpoints.BbsReferer)
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, options, logger, token)
             .ConfigureAwait(false);
 

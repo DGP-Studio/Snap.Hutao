@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Model.Binding.User;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Request;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -62,7 +60,7 @@ internal static class HttpClientExtensions
     }
 
     /// <summary>
-    /// 设置用户的Cookie
+    /// 设置用户的 Cookie
     /// </summary>
     /// <param name="httpClient">http客户端</param>
     /// <param name="user">实体用户</param>
@@ -70,7 +68,25 @@ internal static class HttpClientExtensions
     /// <returns>客户端</returns>
     internal static HttpClient SetUser(this HttpClient httpClient, Model.Entity.User user, CookieType cookie)
     {
-        httpClient.DefaultRequestHeaders.Set("Cookie", user.Cookie!.ToString(cookie));
+        if (cookie == CookieType.Stoken)
+        {
+            return httpClient.SetRawCookie(user.Stoken!);
+        }
+        else
+        {
+            return httpClient.SetRawCookie(user.Cookie!);
+        }
+    }
+
+    /// <summary>
+    /// 设置 Cookie
+    /// </summary>
+    /// <param name="httpClient">http客户端</param>
+    /// <param name="cookie">Cookie</param>
+    /// <returns>客户端</returns>
+    internal static HttpClient SetRawCookie(this HttpClient httpClient, Cookie cookie)
+    {
+        httpClient.DefaultRequestHeaders.Set("Cookie", cookie.ToString());
         return httpClient;
     }
 

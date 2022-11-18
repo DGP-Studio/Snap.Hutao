@@ -50,8 +50,8 @@ internal class PassportClient2
         };
 
         Response<LoginResult>? resp = await httpClient
-            .UsingDynamicSecret2(SaltType.PROD, options, ApiEndpoints.AccountLoginByPassword, data)
-            .TryCatchPostAsJsonAsync<Response<LoginResult>>(logger, token)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
+            .TryCatchPostAsJsonAsync<Dictionary<string, string>, Response<LoginResult>>(ApiEndpoints.AccountLoginByPassword, data, options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -68,8 +68,8 @@ internal class PassportClient2
     {
         Response<UidCookieToken>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
-            .UsingDynamicSecret2(SaltType.PROD, options, ApiEndpoints.AccountCookieAccountInfoBySToken)
-            .TryCatchGetFromJsonAsync<Response<UidCookieToken>>(logger, token)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
+            .TryCatchGetFromJsonAsync<Response<UidCookieToken>>(ApiEndpoints.AccountCookieAccountInfoBySToken, options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data;

@@ -6,7 +6,6 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Widget;
 using Snap.Hutao.Web.Response;
@@ -129,8 +128,8 @@ internal class GameRecordClient
 
         Response<CharacterWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Cookie)
-            .UsingDynamicSecret2(SaltType.X4, options, ApiEndpoints.GameRecordCharacter, data)
-            .TryCatchPostAsJsonAsync<Response<CharacterWrapper>>(logger, token)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
+            .TryCatchPostAsJsonAsync<CharacterData, Response<CharacterWrapper>>(ApiEndpoints.GameRecordCharacter, data, options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data?.Avatars);

@@ -18,7 +18,13 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(e => e.Cookie)
             .HasColumnType("TEXT")
             .HasConversion(
-                e => e == null ? string.Empty : e.ToString(),
+                e => e!.ToString(),
+                e => Cookie.Parse(e));
+
+        builder.Property(e => e.Stoken)
+            .HasColumnType("TEXT")
+            .HasConversion(
+                e => e!.ToString(),
                 e => Cookie.Parse(e));
     }
 }

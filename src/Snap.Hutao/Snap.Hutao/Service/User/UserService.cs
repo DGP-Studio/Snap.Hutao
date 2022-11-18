@@ -114,13 +114,11 @@ internal class UserService : IUserService
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                UserClient userClient = scope.ServiceProvider.GetRequiredService<UserClient>();
-                BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
 
                 foreach (Model.Entity.User entity in appDbContext.Users)
                 {
                     BindingUser? initialized = await BindingUser
-                        .ResumeAsync(entity, userClient, bindingClient)
+                        .ResumeAsync(entity)
                         .ConfigureAwait(false);
 
                     if (initialized != null)
@@ -177,51 +175,44 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie)
     {
-        cookie.Trim();
         Must.NotNull(userCollection!);
 
-        // 检查 uid 是否存在
-        if (cookie.TryGetUid(out string? uid))
+        string? mid = await cookie.GetMidAsync().ConfigureAwait(false);
+
+        if (mid == null)
         {
-            // 检查 login ticket 是否存在
-            // 若存在则尝试升级至 stoken
-            await cookie.TryAddMultiTokenAsync(uid).ConfigureAwait(false);
-
-            // 检查 uid 对应用户是否存在
-            if (UserHelper.TryGetUserByUid(userCollection, uid, out BindingUser? userWithSameUid))
-            {
-                using (IServiceScope scope = scopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                    // 检查 stoken 是否存在
-                    if (cookie.ContainsSToken())
-                    {
-                        // insert stoken
-                        await ThreadHelper.SwitchToMainThreadAsync();
-                        userWithSameUid.UpdateSToken(uid, cookie);
-                        appDbContext.Users.UpdateAndSave(userWithSameUid.Entity);
-
-                        return new(UserOptionResult.Upgraded, uid);
-                    }
-
-                    if (cookie.ContainsLTokenAndCookieToken())
-                    {
-                        await ThreadHelper.SwitchToMainThreadAsync();
-                        userWithSameUid.Cookie = cookie;
-                        appDbContext.Users.UpdateAndSave(userWithSameUid.Entity);
-
-                        return new(UserOptionResult.Updated, uid);
-                    }
-                }
-            }
-            else if (cookie.ContainsLTokenAndCookieToken())
-            {
-                return await TryCreateUserAndAddAsync(cookie).ConfigureAwait(false);
-            }
+            return new(UserOptionResult.Invalid, "输入的Cookie无法获取用户信息");
         }
 
-        return new(UserOptionResult.Incomplete, null!);
+        // 检查 mid 对应用户是否存在
+        if (UserHelper.TryGetUser(userCollection, mid, out BindingUser? user))
+        {
+            using (IServiceScope scope = scopeFactory.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                // 检查 stoken 是否存在
+                if (user.HasStoken)
+                {
+                    // update stoken
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    user.UpdateSToken(cookie);
+                    appDbContext.Users.UpdateAndSave(user.Entity);
+
+                    return new(UserOptionResult.Upgraded, mid);
+                }
+
+                await ThreadHelper.SwitchToMainThreadAsync();
+                user.Cookie = cookie;
+                appDbContext.Users.UpdateAndSave(user.Entity);
+
+                return new(UserOptionResult.Updated, mid);
+            }
+        }
+        else
+        {
+            return await TryCreateUserAndAddAsync(cookie).ConfigureAwait(false);
+        }
     }
 
     private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie)
@@ -229,10 +220,8 @@ internal class UserService : IUserService
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            UserClient userClient = scope.ServiceProvider.GetRequiredService<UserClient>();
-            BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
 
-            BindingUser? newUser = await BindingUser.CreateAsync(cookie, userClient, bindingClient).ConfigureAwait(false);
+            BindingUser? newUser = await BindingUser.CreateAsync(cookie).ConfigureAwait(false);
             if (newUser != null)
             {
                 // Sync cache
@@ -256,7 +245,7 @@ internal class UserService : IUserService
             }
             else
             {
-                return new(UserOptionResult.Invalid, null!);
+                return new(UserOptionResult.Invalid, "输入的Cookie无法获取用户信息");
             }
         }
     }

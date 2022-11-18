@@ -127,7 +127,7 @@
                                             <TextBlock Text="{Binding UserInfo.Nickname}"/>
                                             <TextBlock
                                                 Text="Stoken"
-                                                Visibility="{Binding HasSToken,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                Visibility="{Binding HasStoken,Converter={StaticResource BoolToVisibilityConverter}}"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
                                                 Foreground="Green"
                                                 Opacity="0.6"/>
@@ -210,7 +210,7 @@
                                 <AppBarButton.Flyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="网页米游社" Command="{Binding LoginMihoyoBBSCommand}"/>
-                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="米游社" Command="{Binding LoginMihoyoBBS2Command}"/>
+                                        <!--<MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="米游社" Command="{Binding LoginMihoyoBBS2Command}"/>-->
                                     </MenuFlyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>

@@ -142,7 +142,7 @@ internal class UserViewModel : ObservableObject
     private async Task LoginMihoyoBBS2Async()
     {
         MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        await new LoginMihoyoBBSDialog(mainWindow).GetInputAccountPasswordAsync();
+        await new LoginMihoyoBBSDialog(mainWindow).GetInputAccountPasswordAsync().ConfigureAwait(false);
     }
 
     private void LoginMihoyoBBS()

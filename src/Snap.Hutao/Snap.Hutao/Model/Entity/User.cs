@@ -22,14 +22,29 @@ public class User : ISelectable
     public Guid InnerId { get; set; }
 
     /// <summary>
+    /// 米游社账号 Id
+    /// </summary>
+    public string? Aid { get; set; }
+
+    /// <summary>
+    /// 米哈游 Id
+    /// </summary>
+    public string? Mid { get; set; }
+
+    /// <summary>
     /// 是否被选中
     /// </summary>
     public bool IsSelected { get; set; }
 
     /// <summary>
-    /// 用户的Cookie
+    /// 用户的 Cookie
     /// </summary>
     public Cookie? Cookie { get; set; }
+
+    /// <summary>
+    /// 用户的 Stoken V2
+    /// </summary>
+    public Cookie? Stoken { get; set; }
 
     /// <summary>
     /// 创建一个新的用户

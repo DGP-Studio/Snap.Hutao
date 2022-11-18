@@ -102,8 +102,8 @@ dotnet_naming_style.pascal_case.required_prefix =
 dotnet_naming_style.pascal_case.required_suffix = 
 dotnet_naming_style.pascal_case.word_separator = 
 dotnet_naming_style.pascal_case.capitalization = pascal_case
-dotnet_diagnostic.SA1629.severity = silent
-dotnet_diagnostic.SA1642.severity = silent
+dotnet_diagnostic.SA1629.severity = none
+dotnet_diagnostic.SA1642.severity = none
 
 dotnet_diagnostic.IDE0060.severity = none
 

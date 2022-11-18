@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -36,18 +35,18 @@ internal class PassportClient
     /// <summary>
     /// 异步验证Ltoken
     /// </summary>
-    /// <param name="user">用户</param>
+    /// <param name="cookie">待校验的 Cookie</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证信息</returns>
     [ApiInformation(Cookie = CookieType.Cookie)]
-    public async Task<UserInformation?> VerifyLtokenAsync(User user, CancellationToken token)
+    public async Task<UserInformation?> VerifyLtokenAsync(Cookie cookie, CancellationToken token)
     {
-        Response<UserInformation>? response = await httpClient
-            .SetUser(user, CookieType.All)
-            .TryCatchPostAsJsonAsync<Timestamp, Response<UserInformation>>(ApiEndpoints.AccountVerifyLtoken, new(), options, logger, token)
+        Response<UserInfoWrapper>? response = await httpClient
+            .SetRawCookie(cookie)
+            .TryCatchPostAsJsonAsync<Timestamp, Response<UserInfoWrapper>>(ApiEndpoints.AccountVerifyLtoken, new(), options, logger, token)
             .ConfigureAwait(false);
 
-        return response?.Data;
+        return response?.Data?.UserInfo;
     }
 
     private class Timestamp

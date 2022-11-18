@@ -37,7 +37,7 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
         Model.Binding.User.User? user = userService.Current;
         if (user != null && user.SelectedUserGameRole != null)
         {
-            if (user.Cookie!.ContainsSToken())
+            if (user.HasStoken)
             {
                 PlayerUid uid = (PlayerUid)user.SelectedUserGameRole;
                 GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(uid);
@@ -54,7 +54,7 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
             }
             else
             {
-                return new(false, "当前用户的Cookie不包含 Stoken");
+                return new(false, "当前用户的 Cookie 不包含 Stoken");
             }
         }
         else

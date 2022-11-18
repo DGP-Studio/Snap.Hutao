@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
+using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
@@ -59,19 +60,26 @@ public class User : ObservableObject
     public Cookie? Cookie
     {
         get => inner.Cookie;
+        set => inner.Cookie = value;
+    }
+
+    /// <inheritdoc cref="EntityUser.Stoken"/>
+    public Cookie? Stoken
+    {
+        get => inner.Cookie;
         set
         {
-            inner.Cookie = value;
-            OnPropertyChanged(nameof(HasSToken));
+            inner.Stoken = value;
+            OnPropertyChanged(nameof(HasStoken));
         }
     }
 
     /// <summary>
     /// 是否拥有 SToken
     /// </summary>
-    public bool HasSToken
+    public bool HasStoken
     {
-        get => inner.Cookie!.ContainsSToken();
+        get => inner.Stoken != null;
     }
 
     /// <summary>
@@ -88,14 +96,12 @@ public class User : ObservableObject
     /// 从数据库恢复用户
     /// </summary>
     /// <param name="inner">数据库实体</param>
-    /// <param name="userClient">用户客户端</param>
-    /// <param name="userGameRoleClient">角色客户端</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户是否初始化完成，若Cookie失效会返回 <see langword="false"/> </returns>
-    internal static async Task<User?> ResumeAsync(EntityUser inner, UserClient userClient, BindingClient userGameRoleClient, CancellationToken token = default)
+    internal static async Task<User?> ResumeAsync(EntityUser inner, CancellationToken token = default)
     {
         User user = new(inner);
-        bool successful = await user.InitializeCoreAsync(userClient, userGameRoleClient, token).ConfigureAwait(false);
+        bool successful = await user.InitializeCoreAsync(token).ConfigureAwait(false);
         return successful ? user : null;
     }
 
@@ -103,40 +109,54 @@ public class User : ObservableObject
     /// 创建并初始化用户
     /// </summary>
     /// <param name="cookie">cookie</param>
-    /// <param name="userClient">用户客户端</param>
-    /// <param name="userGameRoleClient">角色客户端</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户是否初始化完成，若Cookie失效会返回 <see langword="null"/> </returns>
-    internal static async Task<User?> CreateAsync(Cookie cookie, UserClient userClient, BindingClient userGameRoleClient, CancellationToken token = default)
+    internal static async Task<User?> CreateAsync(Cookie cookie, CancellationToken token = default)
     {
-        User user = new(EntityUser.Create(cookie));
-        bool successful = await user.InitializeCoreAsync(userClient, userGameRoleClient, token).ConfigureAwait(false);
-        return successful ? user : null;
+        EntityUser entity = EntityUser.Create(cookie);
+
+        UserInformation? userInfo = await Ioc.Default
+            .GetRequiredService<PassportClient>()
+            .VerifyLtokenAsync(cookie, CancellationToken.None)
+            .ConfigureAwait(false);
+
+        entity.Aid = userInfo?.Aid;
+        entity.Mid = userInfo?.Mid;
+
+        if (entity.Aid == null && entity.Mid == null)
+        {
+            return null;
+        }
+        else
+        {
+            User user = new(entity);
+            bool initialized = await user.InitializeCoreAsync(token).ConfigureAwait(false);
+            return initialized ? user : null;
+        }
     }
 
     /// <summary>
     /// 更新SToken
     /// </summary>
-    /// <param name="uid">uid</param>
-    /// <param name="cookie">cookie</param>
-    internal void UpdateSToken(string uid, Cookie cookie)
+    /// <param name="stoken">cookie</param>
+    internal void UpdateSToken(Cookie stoken)
     {
-        Cookie!.InsertSToken(uid, cookie);
-        OnPropertyChanged(nameof(HasSToken));
+        Stoken = stoken;
+        OnPropertyChanged(nameof(HasStoken));
     }
 
-    private async Task<bool> InitializeCoreAsync(UserClient userClient, BindingClient userGameRoleClient, CancellationToken token = default)
+    private async Task<bool> InitializeCoreAsync(CancellationToken token = default)
     {
         if (isInitialized)
         {
             return true;
         }
 
-        UserInfo = await userClient
+        UserInfo = await Ioc.Default.GetRequiredService<UserClient>()
             .GetUserFullInfoAsync(Entity, token)
             .ConfigureAwait(false);
 
-        UserGameRoles = await userGameRoleClient
+        UserGameRoles = await Ioc.Default.GetRequiredService<BindingClient>()
             .GetUserGameRolesByCookieAsync(Entity, token)
             .ConfigureAwait(false);
 
