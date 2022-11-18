@@ -16,7 +16,7 @@ public enum CookieType
     /// <summary>
     /// 需要 Ltoken &amp; CookieToken &amp; e_hk4e_token
     /// </summary>
-    Ltoken,
+    Cookie,
 
     /// <summary>
     /// 需要 Stoken

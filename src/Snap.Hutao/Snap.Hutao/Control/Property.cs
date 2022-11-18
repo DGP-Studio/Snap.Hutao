@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Control;
 
 /// <summary>
 /// 快速创建 <see cref="TOwner"/> 的 <see cref="DependencyProperty"/>

@@ -216,7 +216,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
             return;
         }
 
-        List<UserGameRole> roles = await client.GetUserGameRolesAsync(entry.User).ConfigureAwait(false);
+        List<UserGameRole> roles = await client.GetUserGameRolesByCookieAsync(entry.User).ConfigureAwait(false);
         string attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "未知角色";
 
         ToastContentBuilder builder = new ToastContentBuilder()

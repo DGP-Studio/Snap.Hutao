@@ -17,4 +17,9 @@ public enum HttpClientConfigration
     /// 米游社请求配置
     /// </summary>
     XRpc,
+
+    /// <summary>
+    /// 米游社登录请求配置
+    /// </summary>
+    XRpc2,
 }

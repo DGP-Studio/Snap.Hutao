@@ -10,14 +10,15 @@ using System.Net.Http;
 namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 
 /// <summary>
-/// 用户信息客户端
+/// 用户信息客户端 DS版
 /// </summary>
+[UseDynamicSecret]
 [HttpClient(HttpClientConfigration.XRpc)]
-internal class UserClient
+internal class UserClient2
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
-    private readonly ILogger<UserClient> logger;
+    private readonly ILogger<UserClient2> logger;
 
     /// <summary>
     /// 构造一个新的用户信息客户端
@@ -25,7 +26,7 @@ internal class UserClient
     /// <param name="httpClient">http客户端</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="logger">日志器</param>
-    public UserClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<UserClient> logger)
+    public UserClient2(HttpClient httpClient, JsonSerializerOptions options, ILogger<UserClient2> logger)
     {
         this.httpClient = httpClient;
         this.options = options;
@@ -35,16 +36,18 @@ internal class UserClient
     /// <summary>
     /// 获取当前用户详细信息
     /// </summary>
+    /// <param name="uid">用户id</param>
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
-    [ApiInformation(Cookie = CookieType.Cookie)]
-    public async Task<UserInfo?> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
+    public async Task<UserInfo?> GetUserFullInfoAsync(string uid, Model.Entity.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.Cookie)
+            .SetUser(user, CookieType.Stoken)
             //.SetReferer(ApiEndpoints.BbsReferer)
-            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, options, logger, token)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
+            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(uid), options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data?.UserInfo;

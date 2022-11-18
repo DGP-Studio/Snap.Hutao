@@ -41,8 +41,8 @@ internal class UserViewModel : ObservableObject
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
-        LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
         LoginMihoyoBBSCommand = new RelayCommand(LoginMihoyoBBS);
+        LoginMihoyoBBS2Command = asyncRelayCommandFactory.Create(LoginMihoyoBBS2Async);
         RemoveUserCommand = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
     }
@@ -78,14 +78,14 @@ internal class UserViewModel : ObservableObject
     public ICommand AddUserCommand { get; }
 
     /// <summary>
-    /// 登录米哈游通行证升级到Stoken命令
-    /// </summary>
-    public ICommand LoginMihoyoUserCommand { get; }
-
-    /// <summary>
     /// 登录米游社命令
     /// </summary>
     public ICommand LoginMihoyoBBSCommand { get; }
+
+    /// <summary>
+    /// 登录米哈游通行证升级到Stoken命令
+    /// </summary>
+    public ICommand LoginMihoyoBBS2Command { get; }
 
     /// <summary>
     /// 移除用户命令
@@ -139,9 +139,10 @@ internal class UserViewModel : ObservableObject
         }
     }
 
-    private void LoginMihoyoUser()
+    private async Task LoginMihoyoBBS2Async()
     {
-        Ioc.Default.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        await new LoginMihoyoBBSDialog(mainWindow).GetInputAccountPasswordAsync();
     }
 
     private void LoginMihoyoBBS()

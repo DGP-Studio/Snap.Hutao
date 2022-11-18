@@ -1,0 +1,31 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.View.Dialog.LoginMihoyoBBSDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="登录到米游社"
+    DefaultButton="Primary"
+    PrimaryButtonText="确认"
+    CloseButtonText="取消"
+    Style="{StaticResource DefaultContentDialogStyle}">
+
+    <Grid>
+        <StackPanel>
+            <TextBox
+                Margin="0,16,0,0"
+                PlaceholderText="请输入账号"
+                Name="AccountTextBox"/>
+            <PasswordBox
+                Margin="0,16,0,0"
+                PlaceholderText="请输入密码"
+                Name="PasswordTextBox"/>
+
+            <TextBlock
+                Margin="0,16,0,0"
+                Foreground="Yellow"
+                Text="在此处输入你的米游社账号密码是不安全的，&#10;经过修改的程序可以窃取你的账号信息，&#10;如果担心此方面的问题，请取消登录"/>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

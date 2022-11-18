@@ -40,13 +40,13 @@ internal class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken)]
-    public async Task<List<UserGameRole>> GetUserGameRolesAsync(string actionTicket, User user, CancellationToken token = default)
+    [ApiInformation(Cookie = CookieType.Cookie)]
+    public async Task<List<UserGameRole>> GetUserGameRolesByActionTicketAsync(string actionTicket, User user, CancellationToken token = default)
     {
         string url = ApiEndpoints.UserGameRolesByActionTicket(actionTicket);
 
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
+            .SetUser(user, CookieType.Cookie)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(url, options, logger, token)
             .ConfigureAwait(false);
 
@@ -59,29 +59,12 @@ internal class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken)]
-    public async Task<List<UserGameRole>> GetUserGameRolesAsync(User user, CancellationToken token = default)
+    [ApiInformation(Cookie = CookieType.Cookie)]
+    public async Task<List<UserGameRole>> GetUserGameRolesByCookieAsync(User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
+            .SetUser(user, CookieType.Cookie)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRolesByCookie, options, logger, token)
-            .ConfigureAwait(false);
-
-        return EnumerableExtension.EmptyIfNull(resp?.Data?.List);
-    }
-
-    /// <summary>
-    /// 获取用户角色信息
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Stoken)]
-    public async Task<List<UserGameRole>> GetUserGameRolesByStokenAsync(User user, CancellationToken token = default)
-    {
-        Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.Stoken)
-            .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRolesByStoken, options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data?.List);

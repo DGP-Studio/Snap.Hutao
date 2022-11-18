@@ -11,5 +11,5 @@ public class Constellation : NameIconDescription
     /// <summary>
     /// 是否激活
     /// </summary>
-    public bool IsActiviated { get; set; }
+    public bool IsActivated { get; set; }
 }

@@ -206,11 +206,11 @@
                             Style="{StaticResource BaseTextBlockStyle}"
                             Text="Cookie 操作"/>
                         <CommandBar DefaultLabelPosition="Right">
-                            <AppBarButton Label="网页登录" Icon="{shcm:FontIcon Glyph=&#xEB41;}">
+                            <AppBarButton Label="登录" Icon="{shcm:FontIcon Glyph=&#xEB41;}">
                                 <AppBarButton.Flyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="添加 Cookie" Command="{Binding LoginMihoyoBBSCommand}"/>
-                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="升级 Stoken" Command="{Binding LoginMihoyoUserCommand}"/>
+                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="网页米游社" Command="{Binding LoginMihoyoBBSCommand}"/>
+                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="米游社" Command="{Binding LoginMihoyoBBS2Command}"/>
                                     </MenuFlyout>
                                 </AppBarButton.Flyout>
                             </AppBarButton>

@@ -20,7 +20,7 @@
             TextChanged="InputTextChanged"
             PlaceholderText="在此处输入"
             VerticalAlignment="Top"/>
-        <TextBlock Margin="0,4,0,0" Text="接受包含 Cookie / LoginTicket / Stoken 的字符串"/>
+        <TextBlock Margin="0,4,0,0" Text="接受包含 Cookie / Stoken 的字符串"/>
         <settings:SettingsGroup Margin="0,-48,0,0">
             
             <settings:Setting

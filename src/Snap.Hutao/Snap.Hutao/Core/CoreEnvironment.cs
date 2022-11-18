@@ -8,6 +8,7 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using System.Collections.Immutable;
 using System.Text.Encodings.Web;
+using System.Text.Json.Serialization.Metadata;
 using System.Text.Unicode;
 using Windows.ApplicationModel;
 
@@ -26,20 +27,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
-    public const string HoyolabXrpcVersion = "2.40.1";
-
-    /// <summary>
-    /// 动态密钥
-    /// https://github.com/UIGF-org/Hoyolab.Salt
-    /// </summary>
-    public static readonly ImmutableDictionary<SaltType, string> DynamicSecrets = new Dictionary<SaltType, string>()
-    {
-        [SaltType.K2] = "fdv0fY9My9eA7MR0NpjGP9RjueFvjUSQ",
-        [SaltType.LK2] = "jEpJb9rRARU2rXDA9qYbZ3selxkuct9a",
-        [SaltType.X4] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
-        [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
-        [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
-    }.ToImmutableDictionary();
+    public const string HoyolabXrpcVersion = "2.41.0";
 
     /// <summary>
     /// 标准UA
@@ -72,9 +60,16 @@ internal static class CoreEnvironment
     public static readonly JsonSerializerOptions JsonOptions = new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        Encoder = new InboxTextEncoder(), //JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        Encoder = new JsonTextEncoder(),
         PropertyNameCaseInsensitive = true,
         WriteIndented = true,
+        TypeInfoResolver = new DefaultJsonTypeInfoResolver()
+        {
+            Modifiers =
+            {
+                JsonTypeInfoResolvers.ResolveEnumType,
+            },
+        },
     };
 
     private const string CryptographyKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\";

@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
-using Snap.Hutao.Core;
+using Snap.Hutao.Control;
 
 namespace Snap.Hutao.View.Control;
 

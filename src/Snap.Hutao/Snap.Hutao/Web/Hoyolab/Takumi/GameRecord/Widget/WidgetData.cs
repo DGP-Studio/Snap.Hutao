@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-
-namespace Snap.Hutao.Web.Hoyolab.App.GameRecord;
+namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Widget;
 
 /// <summary>
 /// 小组件数据

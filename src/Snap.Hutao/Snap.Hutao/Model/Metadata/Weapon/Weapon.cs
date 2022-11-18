@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Weapon;
 
@@ -17,7 +18,7 @@ public class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQuality
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; set; }
+    public WeaponId Id { get; set; }
 
     /// <summary>
     /// 武器类型

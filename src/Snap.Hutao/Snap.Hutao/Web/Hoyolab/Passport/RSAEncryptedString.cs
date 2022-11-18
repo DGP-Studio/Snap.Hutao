@@ -22,7 +22,7 @@ internal class RSAEncryptedString
 
     public static implicit operator string(RSAEncryptedString encryptedString)
     {
-        return encryptedString.encryptedSource.Replace("=", @"\u003d");
+        return encryptedString.encryptedSource;
     }
 
     /// <summary>

@@ -6,7 +6,9 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using Snap.Hutao.Web.Hoyolab.DynamicSecret.Http;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Widget;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -15,6 +17,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 游戏记录提供器
 /// </summary>
+[UseDynamicSecret]
 [HttpClient(HttpClientConfigration.XRpc)]
 internal class GameRecordClient
 {
@@ -42,13 +45,13 @@ internal class GameRecordClient
     /// <param name="uid">查询uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>实时便笺</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
     public async Task<DailyNote.DailyNote?> GetDailyNoteAsync(User user, PlayerUid uid, CancellationToken token = default)
     {
         Response<DailyNote.DailyNote>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
-            .UsingDynamicSecret2(SaltType.X4, options, ApiEndpoints.GameRecordDailyNote(uid.Value, uid.Region))
-            .GetFromJsonAsync<Response<DailyNote.DailyNote>>(token)
+            .SetUser(user, CookieType.Cookie)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
+            .TryCatchGetFromJsonAsync<Response<DailyNote.DailyNote>>(ApiEndpoints.GameRecordDailyNote(uid), options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -61,13 +64,13 @@ internal class GameRecordClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>玩家的基础信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
     public async Task<PlayerInfo?> GetPlayerInfoAsync(User user, PlayerUid uid, CancellationToken token = default)
     {
         Response<PlayerInfo>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
-            .UsingDynamicSecret2(SaltType.X4, options, ApiEndpoints.GameRecordIndex(uid.Value, uid.Region))
-            .GetFromJsonAsync<Response<PlayerInfo>>(token)
+            .SetUser(user, CookieType.Cookie)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
+            .TryCatchGetFromJsonAsync<Response<PlayerInfo>>(ApiEndpoints.GameRecordIndex(uid), options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -81,13 +84,13 @@ internal class GameRecordClient
     /// <param name="schedule">1：当期，2：上期</param>
     /// <param name="token">取消令牌</param>
     /// <returns>深渊信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
     public async Task<SpiralAbyss.SpiralAbyss?> GetSpiralAbyssAsync(User user, PlayerUid uid, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
-            .UsingDynamicSecret2(SaltType.X4, options, ApiEndpoints.GameRecordSpiralAbyss(schedule, uid))
-            .GetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(token)
+            .SetUser(user, CookieType.Cookie)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
+            .TryCatchGetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(ApiEndpoints.GameRecordSpiralAbyss(schedule, uid), options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -100,13 +103,13 @@ internal class GameRecordClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色基本信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
     public async Task<BasicRoleInfo?> GetRoleBasicInfoAsync(User user, PlayerUid uid, CancellationToken token = default)
     {
         Response<BasicRoleInfo>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
-            .UsingDynamicSecret2(SaltType.X4, options, ApiEndpoints.GameRecordRoleBasicInfo(uid))
-            .TryCatchGetFromJsonAsync<Response<BasicRoleInfo>>(logger, token)
+            .SetUser(user, CookieType.Cookie)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
+            .TryCatchGetFromJsonAsync<Response<BasicRoleInfo>>(ApiEndpoints.GameRecordRoleBasicInfo(uid), options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -117,16 +120,15 @@ internal class GameRecordClient
     /// </summary>
     /// <param name="user">用户</param>
     /// <param name="uid">uid</param>
-    /// <param name="playerInfo">玩家的基础信息</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
-    public async Task<List<Character>> GetCharactersAsync(User user, PlayerUid uid, PlayerInfo playerInfo, CancellationToken token = default)
+    [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
+    public async Task<List<Character>> GetCharactersAsync(User user, PlayerUid uid, CancellationToken token = default)
     {
-        CharacterData data = new(uid, playerInfo.Avatars.Select(x => x.Id));
+        CharacterData data = new(uid);
 
         Response<CharacterWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
+            .SetUser(user, CookieType.Cookie)
             .UsingDynamicSecret2(SaltType.X4, options, ApiEndpoints.GameRecordCharacter, data)
             .TryCatchPostAsJsonAsync<Response<CharacterWrapper>>(logger, token)
             .ConfigureAwait(false);
@@ -134,17 +136,31 @@ internal class GameRecordClient
         return EnumerableExtension.EmptyIfNull(resp?.Data?.Avatars);
     }
 
+    /// <summary>
+    /// 异步获取桌面小组件数据
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>桌面小组件数据</returns>
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.X6)]
+    public async Task<WidgetData?> GetWidgetDataAsync(User user, CancellationToken token)
+    {
+        Response<DataWrapper<WidgetData>>? resp = await httpClient
+            .SetUser(user, CookieType.Stoken)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X6, false)
+            .TryCatchGetFromJsonAsync<Response<DataWrapper<WidgetData>>>(ApiEndpoints.CardWidgetData, options, logger, token)
+            .ConfigureAwait(false);
+
+        return resp?.Data?.Data;
+    }
+
     private class CharacterData
     {
-        public CharacterData(PlayerUid uid, IEnumerable<int> characterIds)
+        public CharacterData(PlayerUid uid)
         {
-            CharacterIds = characterIds;
             Uid = uid.Value;
             Server = uid.Region;
         }
-
-        [JsonPropertyName("character_ids")]
-        public IEnumerable<int> CharacterIds { get; }
 
         [JsonPropertyName("role_id")]
         public string Uid { get; }

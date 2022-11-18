@@ -13,6 +13,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// <summary>
 /// Stoken绑定客户端
 /// </summary>
+[UseDynamicSecret]
 [HttpClient(HttpClientConfigration.XRpc)]
 internal class BindingClient2
 {
@@ -31,6 +32,24 @@ internal class BindingClient2
         this.httpClient = httpClient;
         this.options = options;
         this.logger = logger;
+    }
+
+    /// <summary>
+    /// 获取用户角色信息
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>用户角色信息</returns>
+    [ApiInformation(Cookie = CookieType.Stoken)]
+    public async Task<List<UserGameRole>> GetUserGameRolesByStokenAsync(User user, CancellationToken token = default)
+    {
+        Response<ListWrapper<UserGameRole>>? resp = await httpClient
+            .SetUser(user, CookieType.Stoken)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
+            .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRolesByStoken, options, logger, token)
+            .ConfigureAwait(false);
+
+        return EnumerableExtension.EmptyIfNull(resp?.Data?.List);
     }
 
     /// <summary>

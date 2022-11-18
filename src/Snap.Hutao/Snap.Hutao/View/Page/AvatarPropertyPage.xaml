@@ -199,12 +199,12 @@
                                                         Width="32"
                                                         Height="32"
                                                         Source="{Binding Icon}"
-                                                        Opacity="{Binding IsActiviated,Converter={StaticResource BoolToOpacityConverter}}"/>
+                                                        Opacity="{Binding IsActivated,Converter={StaticResource BoolToOpacityConverter}}"/>
                                                     <Image
                                                         Width="16"
                                                         Height="16"
                                                         Source="ms-appx:///Resource/Icon/UI_Icon_Locked.png"
-                                                        Visibility="{Binding IsActiviated,Converter={StaticResource BoolToVisibilityRevertConverter}}">
+                                                        Visibility="{Binding IsActivated,Converter={StaticResource BoolToVisibilityRevertConverter}}">
                                                     </Image>
                                                 </Grid>
                                                 

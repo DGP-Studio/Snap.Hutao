@@ -29,7 +29,7 @@ public enum KnownReturnCode : int
     VerifyCodeOutdated = -3209,
 
     /// <summary>
-    /// 禁止
+    /// 极验失败
     /// </summary>
     RET_AIGIS_FAILED = -3202,
 
@@ -39,7 +39,7 @@ public enum KnownReturnCode : int
     RET_BAN = -3201,
 
     /// <summary>
-    /// 需要地理验证
+    /// 需要极验
     /// </summary>
     RET_NEED_AIGIS = -3101,
 

@@ -47,7 +47,7 @@ internal static class SummaryHelper
             Name = talent.Name,
             Icon = SkillIconConverter.IconNameToUri(talent.Icon),
             Description = talent.Description,
-            IsActiviated = talentIds?.Contains(talent.Id) ?? false,
+            IsActivated = talentIds?.Contains(talent.Id) ?? false,
         }).ToList();
     }
 

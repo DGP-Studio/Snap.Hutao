@@ -21,4 +21,17 @@ public static class StringBuilderExtensions
     {
         return condition ? sb.Append(value) : sb;
     }
+
+    /// <summary>
+    /// 当条件符合时执行 <see cref="StringBuilder.Append(string?)"/>
+    /// </summary>
+    /// <param name="sb">字符串建造器</param>
+    /// <param name="condition">条件</param>
+    /// <param name="trueValue">条件符合时附加的字符串</param>
+    /// <param name="falseValue">条件不符合时附加的字符串</param>
+    /// <returns>同一个字符串建造器</returns>
+    public static StringBuilder AppendIfElse(this StringBuilder sb, bool condition, string? trueValue, string? falseValue)
+    {
+        return condition ? sb.Append(trueValue) : sb.Append(falseValue);
+    }
 }

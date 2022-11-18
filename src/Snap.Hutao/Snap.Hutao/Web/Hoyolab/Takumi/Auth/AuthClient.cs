@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
+using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
@@ -13,6 +14,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 /// <summary>
 /// 授权客户端
 /// </summary>
+[UseDynamicSecret]
 [HttpClient(HttpClientConfigration.Default)]
 internal class AuthClient
 {
@@ -47,6 +49,7 @@ internal class AuthClient
             if (user.Cookie.TryGetUid(out string? uid))
             {
                 Response<ActionTicketWrapper>? resp = await httpClient
+                    .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
                     .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, stoken, uid), options, logger)
                     .ConfigureAwait(false);
 
@@ -64,6 +67,7 @@ internal class AuthClient
     /// <param name="loginUid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>包含token的字典</returns>
+    [Obsolete]
     public async Task<Dictionary<string, string>> GetMultiTokenByLoginTicketAsync(string loginTicket, string loginUid, CancellationToken token)
     {
         Response<ListWrapper<NameToken>>? resp = await httpClient

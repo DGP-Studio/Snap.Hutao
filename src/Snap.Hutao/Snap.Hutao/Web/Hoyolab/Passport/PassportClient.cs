@@ -39,7 +39,7 @@ internal class PassportClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证信息</returns>
-    [ApiInformation(Cookie = CookieType.All)]
+    [ApiInformation(Cookie = CookieType.Cookie)]
     public async Task<UserInformation?> VerifyLtokenAsync(User user, CancellationToken token)
     {
         Response<UserInformation>? response = await httpClient
@@ -52,12 +52,7 @@ internal class PassportClient
 
     private class Timestamp
     {
-        public Timestamp()
-        {
-            T = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
-        }
-
         [JsonPropertyName("t")]
-        public long T { get; set; }
+        public long T { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
     }
 }
