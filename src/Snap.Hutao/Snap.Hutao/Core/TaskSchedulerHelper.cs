@@ -22,23 +22,17 @@ internal static class TaskSchedulerHelper
     {
         try
         {
-            TimeSpan intervalTime = TimeSpan.FromSeconds(interval);
             if (TaskService.Instance.GetTask(DailyNoteRefreshTaskName) is SchedulerTask targetTask)
             {
-                TimeTrigger? trigger = targetTask.Definition.Triggers[0] as TimeTrigger;
-                trigger!.Repetition.Interval = intervalTime;
-                targetTask.RegisterChanges();
-                return true;
+                TaskService.Instance.RootFolder.DeleteTask(DailyNoteRefreshTaskName);
             }
-            else
-            {
-                TaskDefinition task = TaskService.Instance.NewTask();
-                task.RegistrationInfo.Description = "胡桃实时便笺刷新任务 | 请勿编辑或删除。";
-                task.Triggers.Add(new TimeTrigger() { Repetition = new(intervalTime, TimeSpan.Zero), });
-                task.Actions.Add("explorer", "hutao://DailyNote/Refresh");
-                TaskService.Instance.RootFolder.RegisterTaskDefinition(DailyNoteRefreshTaskName, task);
-                return true;
-            }
+
+            TaskDefinition task = TaskService.Instance.NewTask();
+            task.RegistrationInfo.Description = "胡桃实时便笺刷新任务 | 请勿编辑或删除。";
+            task.Triggers.Add(new TimeTrigger() { Repetition = new(TimeSpan.FromSeconds(interval), TimeSpan.Zero), });
+            task.Actions.Add("explorer", "hutao://DailyNote/Refresh");
+            TaskService.Instance.RootFolder.RegisterTaskDefinition(DailyNoteRefreshTaskName, task);
+            return true;
         }
         catch (UnauthorizedAccessException)
         {
