@@ -177,8 +177,13 @@ internal class HomaClient
     {
         Must.NotNull(user.SelectedUserGameRole!);
 
+        PlayerInfo? playerInfo = await gameRecordClient
+            .GetPlayerInfoAsync(user.Entity, user.SelectedUserGameRole, token)
+            .ConfigureAwait(false);
+        Must.NotNull(playerInfo!);
+
         List<Character> characters = await gameRecordClient
-            .GetCharactersAsync(user.Entity, user.SelectedUserGameRole, token)
+            .GetCharactersAsync(user.Entity, user.SelectedUserGameRole, playerInfo, token)
             .ConfigureAwait(false);
 
         SpiralAbyss? spiralAbyssInfo = await gameRecordClient

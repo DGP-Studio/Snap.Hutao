@@ -119,12 +119,13 @@ internal class GameRecordClient
     /// </summary>
     /// <param name="user">用户</param>
     /// <param name="uid">uid</param>
+    /// <param name="playerInfo">玩家的基础信息</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
-    public async Task<List<Character>> GetCharactersAsync(User user, PlayerUid uid, CancellationToken token = default)
+    public async Task<List<Character>> GetCharactersAsync(User user, PlayerUid uid, PlayerInfo playerInfo, CancellationToken token = default)
     {
-        CharacterData data = new(uid);
+        CharacterData data = new(uid, playerInfo.Avatars.Select(x => x.Id));
 
         Response<CharacterWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Cookie)
@@ -155,11 +156,15 @@ internal class GameRecordClient
 
     private class CharacterData
     {
-        public CharacterData(PlayerUid uid)
+        public CharacterData(PlayerUid uid, IEnumerable<int> characterIds)
         {
+            CharacterIds = characterIds;
             Uid = uid.Value;
             Server = uid.Region;
         }
+
+        [JsonPropertyName("character_ids")]
+        public IEnumerable<int> CharacterIds { get; }
 
         [JsonPropertyName("role_id")]
         public string Uid { get; }

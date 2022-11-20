@@ -61,13 +61,13 @@ internal class BindingClient2
     /// <param name="data">提交数据</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.LK2)]
     public async Task<GameAuthKey?> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         Response<GameAuthKey>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
             .SetReferer("https://app.mihoyo.com")
-            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, true)
             .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.BindingGenAuthKey, data, options, logger, token)
             .ConfigureAwait(false);
 

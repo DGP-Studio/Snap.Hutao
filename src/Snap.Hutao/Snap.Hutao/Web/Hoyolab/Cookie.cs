@@ -66,6 +66,23 @@ public partial class Cookie
     }
 
     /// <summary>
+    /// 从登录结果创建Cookie
+    /// </summary>
+    /// <param name="loginResult">登录结果</param>
+    /// <returns>Cookie</returns>
+    public static Cookie FromLoginResult(LoginResult loginResult)
+    {
+        SortedDictionary<string, string> cookieMap = new()
+        {
+            [STUID] = loginResult.UserInfo.Aid,
+            [STOKEN] = loginResult.Token.Token,
+            [MID] = loginResult.UserInfo.Mid,
+        };
+
+        return new(cookieMap);
+    }
+
+    /// <summary>
     /// 此 Cookie 是 SToken
     /// </summary>
     /// <returns>是否存在</returns>

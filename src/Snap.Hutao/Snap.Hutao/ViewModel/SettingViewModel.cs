@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Windowing;
@@ -12,7 +12,11 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
+using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Dialog;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -44,7 +48,11 @@ internal class SettingViewModel : ObservableObject
     /// <param name="gameService">游戏服务</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="experimental">实验性功能</param>
-    public SettingViewModel(AppDbContext appDbContext, IGameService gameService, IAsyncRelayCommandFactory asyncRelayCommandFactory, ExperimentalFeaturesViewModel experimental)
+    public SettingViewModel(
+        AppDbContext appDbContext,
+        IGameService gameService,
+        IAsyncRelayCommandFactory asyncRelayCommandFactory,
+        ExperimentalFeaturesViewModel experimental)
     {
         this.appDbContext = appDbContext;
         this.gameService = gameService;
@@ -64,7 +72,7 @@ internal class SettingViewModel : ObservableObject
         GamePath = gameService.GetGamePathSkipLocator();
 
         SetGamePathCommand = asyncRelayCommandFactory.Create(SetGamePathAsync);
-        DebugExceptionCommand = new RelayCommand(DebugThrowException);
+        DebugExceptionCommand = asyncRelayCommandFactory.Create(DebugThrowExceptionAsync);
     }
 
     /// <summary>
@@ -154,13 +162,35 @@ internal class SettingViewModel : ObservableObject
         }
     }
 
-    private async void DebugThrowException()
+    private async Task DebugThrowExceptionAsync()
     {
 #if DEBUG
-        PassportClient2 passportClient2 = Ioc.Default.GetRequiredService<PassportClient2>();
-        LoginResult? data = await passportClient2.LoginByPasswordAsync("phoneNunmber", "password", CancellationToken.None).ConfigureAwait(false);
+        LoginMihoyoBBSDialog dialog = ActivatorUtilities.CreateInstance<LoginMihoyoBBSDialog>(Ioc.Default);
+        (bool isOk, Dictionary<string, string>? data) = await dialog.GetInputAccountPasswordAsync().ConfigureAwait(false);
 
-        _ = data;
+        if (isOk)
+        {
+            (Response<LoginResult>? resp, Aigis? aigis) = await Ioc.Default
+                .GetRequiredService<PassportClient2>()
+                .LoginByPasswordAsync(data, CancellationToken.None)
+                .ConfigureAwait(false);
+
+            if (resp != null)
+            {
+                if (resp.IsOk())
+                {
+                    Cookie cookie = Cookie.FromLoginResult(resp.Data!);
+                    await Ioc.Default
+                        .GetRequiredService<IUserService>()
+                        .ProcessInputCookieAsync(cookie)
+                        .ConfigureAwait(false);
+                }
+
+                if (resp.ReturnCode == (int)KnownReturnCode.RET_NEED_AIGIS)
+                {
+                }
+            }
+        }
 #endif
     }
 }

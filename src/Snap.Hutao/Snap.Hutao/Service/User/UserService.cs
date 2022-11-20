@@ -90,7 +90,7 @@ internal class UserService : IUserService
 
         // Sync cache
         userCollection!.Remove(user);
-        roleCollection!.RemoveWhere(r => r.User.InnerId == user.Entity.InnerId);
+        roleCollection?.RemoveWhere(r => r.User.InnerId == user.Entity.InnerId);
 
         // Sync database
         using (IServiceScope scope = scopeFactory.CreateScope())
@@ -191,8 +191,7 @@ internal class UserService : IUserService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                // 检查 stoken 是否存在
-                if (user.HasStoken)
+                if (cookie.IsStoken())
                 {
                     // update stoken
                     await ThreadHelper.SwitchToMainThreadAsync();
@@ -201,12 +200,13 @@ internal class UserService : IUserService
 
                     return new(UserOptionResult.Upgraded, mid);
                 }
+                else
+                {
+                    user.Cookie = cookie;
+                    appDbContext.Users.UpdateAndSave(user.Entity);
 
-                await ThreadHelper.SwitchToMainThreadAsync();
-                user.Cookie = cookie;
-                appDbContext.Users.UpdateAndSave(user.Entity);
-
-                return new(UserOptionResult.Updated, mid);
+                    return new(UserOptionResult.Updated, mid);
+                }
             }
         }
         else
@@ -245,7 +245,7 @@ internal class UserService : IUserService
             }
             else
             {
-                return new(UserOptionResult.Invalid, "输入的Cookie无法获取用户信息");
+                return new(UserOptionResult.Invalid, "输入的 Cookie 无法获取用户信息");
             }
         }
     }

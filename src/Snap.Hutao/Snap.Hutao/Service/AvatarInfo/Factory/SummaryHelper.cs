@@ -118,7 +118,7 @@ internal static class SummaryHelper
         double def = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_DEFENSE);                    // 8
         double defPercent = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_DEFENSE_PERCENT);     // 9
         double defAdd = def + (baseDef * defPercent);
-        double maxDef = baseDef + defPercent;
+        double maxDef = baseDef + defAdd;
         Pair2<string, string, string?> defPair2 = PropertyInfoDescriptor.FormatIntegerPair2("防御力", FormatMethod.Integer, maxDef, defAdd);
 
         double em = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_ELEMENT_MASTERY);             // 28

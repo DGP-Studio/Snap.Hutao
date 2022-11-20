@@ -5,6 +5,7 @@ using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Web.Request;
 using System.Collections.Immutable;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
@@ -28,26 +29,28 @@ public class DynamicSecretHandler : DelegatingHandler
     }.ToImmutableDictionary();
 
     /// <inheritdoc/>
-    protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token)
     {
         if (request.Headers.TryGetValues("DS-Option", out IEnumerable<string>? values))
         {
             string[] definations = values.Single().Split('|');
             string version = definations[0];
             string saltType = definations[1];
-            bool includeCharsKey = definations[2] == "true";
+            bool includeChars = definations[2] == "true";
 
             string salt = DynamicSecrets[saltType];
 
             long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-            string r = includeCharsKey ? GetRandomStringWithChars() : GetRandomStringNoChars();
+            string r = includeChars ? GetRandomStringWithChars() : GetRandomStringNoChars();
 
             string dsContent = $"salt={salt}&t={t}&r={r}";
 
             if (version == nameof(DynamicSecretVersion.Gen2))
             {
-                string b = request.Content?.ToString() ?? (saltType == nameof(SaltType.PROD) ? "{}" : string.Empty);
+                string b = request.Content != null
+                    ? await request.Content.ReadAsStringAsync(token).ConfigureAwait(false)
+                    : (saltType == nameof(SaltType.PROD) ? "{}" : string.Empty);
 
                 string[] queries = Uri.UnescapeDataString(request.RequestUri!.Query).Split('?', 2);
                 string q = queries.Length == 2 ? string.Join('&', queries[1].Split('&').OrderBy(x => x)) : string.Empty;
@@ -61,7 +64,7 @@ public class DynamicSecretHandler : DelegatingHandler
             request.Headers.Set("DS", $"{t},{r},{check}");
         }
 
-        return base.SendAsync(request, cancellationToken);
+        return await base.SendAsync(request, token).ConfigureAwait(false);
     }
 
     private static string GetRandomStringWithChars()

@@ -45,7 +45,7 @@ internal class UserClient2
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
-            //.SetReferer(ApiEndpoints.BbsReferer)
+            .SetReferer(ApiEndpoints.BbsReferer)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(uid), options, logger, token)
             .ConfigureAwait(false);

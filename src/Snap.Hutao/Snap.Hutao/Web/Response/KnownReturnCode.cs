@@ -19,7 +19,7 @@ public enum KnownReturnCode : int
     AlreadySignedIn = -5003,
 
     /// <summary>
-    /// 需要风险验证
+    /// 需要风险验证(闪验)
     /// </summary>
     RET_NEED_RISK_VERIFY = -3235,
 
@@ -89,7 +89,17 @@ public enum KnownReturnCode : int
     CODE1034 = 1034,
 
     /// <summary>
+    /// 请登录
+    /// </summary>
+    PleaseLogin = 10001,
+
+    /// <summary>
     /// 数据未公开
     /// </summary>
     DataIsNotPublicForTheUser = 10102,
+
+    /// <summary>
+    /// 实时便笺
+    /// </summary>
+    CODE10104 = 10104,
 }

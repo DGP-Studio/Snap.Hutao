@@ -16,7 +16,7 @@ public sealed partial class LoginMihoyoBBSDialog : ContentDialog
     /// 构造一个新的登录到米游社对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public LoginMihoyoBBSDialog(Window window)
+    public LoginMihoyoBBSDialog(MainWindow window)
     {
         InitializeComponent();
         XamlRoot = window.Content.XamlRoot;

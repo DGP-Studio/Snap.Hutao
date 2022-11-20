@@ -206,8 +206,8 @@
                                                     Height="40"
                                                     Width="40"
                                                     Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                                                    Value="{Binding DailyNote.CurrentResin,Mode=OneWay}"
                                                     Maximum="{Binding DailyNote.MaxResin,Mode=OneWay}"
+                                                    Value="{Binding DailyNote.CurrentResin,Mode=OneWay}"
                                                     IsIndeterminate="False"/>
                                             </Grid>
                                             <TextBlock
@@ -288,8 +288,8 @@
                                                     Height="40"
                                                     Width="40"
                                                     Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                                                    Value="{Binding DailyNote.FinishedTaskNum,Mode=OneWay}"
                                                     Maximum="{Binding DailyNote.TotalTaskNum,Mode=OneWay}"
+                                                    Value="{Binding DailyNote.FinishedTaskNum,Mode=OneWay}"
                                                     IsIndeterminate="False"/>
                                             </Grid>
                                             <TextBlock
@@ -329,8 +329,8 @@
                                                     Height="40"
                                                     Width="40"
                                                     Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                                                    Value="{Binding DailyNote.ResinDiscountUsedNum,Mode=OneWay}"
                                                     Maximum="{Binding DailyNote.ResinDiscountNumLimit,Mode=OneWay}"
+                                                    Value="{Binding DailyNote.ResinDiscountUsedNum,Mode=OneWay}"
                                                     IsIndeterminate="False"/>
                                             </Grid>
                                             <TextBlock
@@ -370,8 +370,8 @@
                                                     Height="40"
                                                     Width="40"
                                                     Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-                                                    Value="{Binding DailyNote.Transformer.RecoveryTime.TotalSeconds,Mode=OneWay}"
                                                     Maximum="604800"
+                                                    Value="{Binding DailyNote.Transformer.RecoveryTime.TotalSeconds,Mode=OneWay}"
                                                     IsIndeterminate="False"/>
                                             </Grid>
                                             <TextBlock

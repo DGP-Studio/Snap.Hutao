@@ -10,6 +10,30 @@ namespace Snap.Hutao.Web.Hoyolab;
 [SuppressMessage("", "SA1124")]
 internal static class ApiEndpoints
 {
+    #region
+
+    /// <summary>
+    /// 获取GT码
+    /// </summary>
+    /// <param name="gt">gt</param>
+    /// <returns>GT码Url</returns>
+    public static string GeetestGetType(string gt)
+    {
+        return $"{ApiGeetest}/gettype.php?gt={gt}";
+    }
+
+    /// <summary>
+    /// 验证接口
+    /// </summary>
+    /// <param name="gt">gt</param>
+    /// <param name="challenge">challenge流水号</param>
+    /// <returns>验证接口Url</returns>
+    public static string GeetestAjax(string gt, string challenge)
+    {
+        return $"{ApiV6Geetest}/ajax.php?gt={gt}&challenge={challenge}&lang=zh-cn&pt=3&client_type=web_mobile";
+    }
+    #endregion
+
     #region ApiTakumiAuthApi
 
     /// <summary>
@@ -217,6 +241,9 @@ internal static class ApiEndpoints
     #endregion
 
     // consts
+    private const string ApiGeetest = "https://api.geetest.com";
+    private const string ApiV6Geetest = "https://apiv6.geetest.com";
+
     private const string ApiTakumi = "https://api-takumi.mihoyo.com";
     private const string ApiTakumiAuthApi = $"{ApiTakumi}/auth/api";
     private const string ApiTaKumiBindingApi = $"{ApiTakumi}/binding/api";

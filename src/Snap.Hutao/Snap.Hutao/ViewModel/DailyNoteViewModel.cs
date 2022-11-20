@@ -100,7 +100,18 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
     /// <summary>
     /// 提醒式通知
     /// </summary>
-    public bool IsReminderNotification { get => isReminderNotification; set => SetProperty(ref isReminderNotification, value); }
+    public bool IsReminderNotification
+    {
+        get => isReminderNotification;
+        set
+        {
+            if (SetProperty(ref isReminderNotification, value))
+            {
+                reminderNotifyEntry.SetBoolean(value);
+                appDbContext.Settings.UpdateAndSave(reminderNotifyEntry!);
+            }
+        }
+    }
 
     /// <summary>
     /// 用户与角色集合

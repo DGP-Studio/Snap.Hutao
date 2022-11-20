@@ -7,12 +7,14 @@ using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 /// <summary>
 /// 通行证客户端 XRPC 版
 /// </summary>
+[UseDynamicSecret]
 [HttpClient(HttpClientConfigration.XRpc2)]
 internal class PassportClient2
 {
@@ -36,25 +38,23 @@ internal class PassportClient2
     /// <summary>
     /// 异步账密登录
     /// </summary>
-    /// <param name="account">用户</param>
-    /// <param name="password">密码</param>
+    /// <param name="data">账密数据</param>
     /// <param name="token">取消令牌</param>
     /// <returns>登录数据</returns>
     [ApiInformation(Salt = SaltType.PROD)]
-    public async Task<LoginResult?> LoginByPasswordAsync(string account, string password, CancellationToken token)
+    public async Task<ValueResult<Response<LoginResult>?, Aigis?>> LoginByPasswordAsync(Dictionary<string, string> data, CancellationToken token)
     {
-        Dictionary<string, string> data = new()
-        {
-            { "account", RSAEncryptedString.Encrypt(account) },
-            { "password", RSAEncryptedString.Encrypt(password) },
-        };
-
-        Response<LoginResult>? resp = await httpClient
+        HttpResponseMessage resp = await httpClient
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .TryCatchPostAsJsonAsync<Dictionary<string, string>, Response<LoginResult>>(ApiEndpoints.AccountLoginByPassword, data, options, logger, token)
+            .PostAsJsonAsync(ApiEndpoints.AccountLoginByPassword, data, options, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        _ = resp.Headers.TryGetValues("X-Rpc-Aigis", out IEnumerable<string>? values);
+
+        Aigis? aigis = values != null && values.Any() ? JsonSerializer.Deserialize<Aigis>(values.Single(), options) : null;
+        Response<LoginResult>? body = await resp.Content.ReadFromJsonAsync<Response<LoginResult>>(options, token).ConfigureAwait(false);
+
+        return new(body, aigis);
     }
 
     /// <summary>

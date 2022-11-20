@@ -41,12 +41,12 @@ public class User : ObservableObject
     public List<UserGameRole> UserGameRoles { get; private set; } = default!;
 
     /// <summary>
-    /// 用户信息
+    /// 用户信息, 请勿访问set
     /// </summary>
     public UserGameRole? SelectedUserGameRole
     {
         get => selectedUserGameRole;
-        private set => SetProperty(ref selectedUserGameRole, value);
+        set => SetProperty(ref selectedUserGameRole, value);
     }
 
     /// <inheritdoc cref="EntityUser.IsSelected"/>

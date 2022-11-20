@@ -23,6 +23,13 @@ internal class JsonTextEncoder : JavaScriptEncoder
     /// <inheritdoc/>
     public override unsafe bool TryEncodeUnicodeScalar(int unicodeScalar, char* buffer, int bufferLength, out int numberOfCharactersWritten)
     {
+        // " => \"
+        if (unicodeScalar == '"')
+        {
+            numberOfCharactersWritten = 2;
+            return "\\\"".AsSpan().TryCopyTo(new Span<char>(buffer, bufferLength));
+        }
+
         string encoded = $"\\u{(uint)unicodeScalar:x4}";
         numberOfCharactersWritten = (encoded.Length <= (uint)bufferLength) ? encoded.Length : 0;
         return encoded.AsSpan().TryCopyTo(new Span<char>(buffer, bufferLength));
@@ -31,6 +38,6 @@ internal class JsonTextEncoder : JavaScriptEncoder
     /// <inheritdoc/>
     public override bool WillEncode(int unicodeScalar)
     {
-        return true;
+        return unicodeScalar == '=';
     }
 }

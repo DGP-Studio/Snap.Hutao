@@ -42,7 +42,7 @@ internal class UserClient
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.BbsReferer)
+            .SetReferer(ApiEndpoints.BbsReferer) // Otherwise HTTP 403
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, options, logger, token)
             .ConfigureAwait(false);
 
