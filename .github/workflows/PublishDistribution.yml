@@ -18,6 +18,7 @@ jobs:
         
       # Download Publish.zip
       - name: Download Release
+        timeout-minutes: 5
         uses: robinraju/release-downloader@v1.5
         with: 
           repository: "DGP-Studio/Snap.Hutao"
@@ -25,8 +26,9 @@ jobs:
           fileName: "*.zip"
           out-file-path: ./release-download
           
-      # Upload to OD21 (Testing)
-      - name: Upload OD21
+      # Upload to Drive
+      - name: Upload Drive
+        timeout-minutes: 5
         env:
           RCCONF: ${{ secrets.RCCONF }}
         run: |
