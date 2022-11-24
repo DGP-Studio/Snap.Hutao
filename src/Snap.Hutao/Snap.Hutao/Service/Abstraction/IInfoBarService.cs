@@ -88,7 +88,7 @@ public interface IInfoBarService
     /// </summary>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    void Warning(string message, int delay = 0);
+    void Warning(string message, int delay = 30000);
 
     /// <summary>
     /// 显示警告信息
@@ -96,5 +96,5 @@ public interface IInfoBarService
     /// <param name="title">标题</param>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    void Warning(string title, string message, int delay = 0);
+    void Warning(string title, string message, int delay = 30000);
 }

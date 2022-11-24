@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.Abstraction;
@@ -13,6 +14,7 @@ using Snap.Hutao.View.Dialog;
 using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
+using System.Text;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -41,8 +43,7 @@ internal class UserViewModel : ObservableObject
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
-        LoginMihoyoBBSCommand = new RelayCommand(LoginMihoyoBBS);
-        LoginMihoyoBBS2Command = asyncRelayCommandFactory.Create(LoginMihoyoBBS2Async);
+        LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
         RemoveUserCommand = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
     }
@@ -80,12 +81,7 @@ internal class UserViewModel : ObservableObject
     /// <summary>
     /// 登录米游社命令
     /// </summary>
-    public ICommand LoginMihoyoBBSCommand { get; }
-
-    /// <summary>
-    /// 登录米哈游通行证升级到Stoken命令
-    /// </summary>
-    public ICommand LoginMihoyoBBS2Command { get; }
+    public ICommand LoginMihoyoUserCommand { get; }
 
     /// <summary>
     /// 移除用户命令
@@ -130,24 +126,15 @@ internal class UserViewModel : ObservableObject
                 case UserOptionResult.Updated:
                     infoBarService.Success($"用户 [{uid}] 更新成功");
                     break;
-                case UserOptionResult.Upgraded:
-                    infoBarService.Information($"用户 [{uid}] 升级成功");
-                    break;
                 default:
                     throw Must.NeverHappen();
             }
         }
     }
 
-    private async Task LoginMihoyoBBS2Async()
+    private void LoginMihoyoUser()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        await new LoginMihoyoBBSDialog(mainWindow).GetInputAccountPasswordAsync().ConfigureAwait(false);
-    }
-
-    private void LoginMihoyoBBS()
-    {
-        Ioc.Default.GetRequiredService<INavigationService>().Navigate<LoginMihoyoBBSPage>(INavigationAwaiter.Default);
+        Ioc.Default.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
     }
 
     private async Task RemoveUserAsync(User? user)
@@ -162,7 +149,15 @@ internal class UserViewModel : ObservableObject
         Verify.Operation(user != null, "待复制 Cookie 的用户不应为 null");
         try
         {
-            Clipboard.SetText(user.Cookie!.ToString());
+            string cookieString = new StringBuilder()
+                .Append(user.Stoken)
+                .AppendIf(user.Stoken != null, ';')
+                .Append(user.Ltoken)
+                .AppendIf(user.Ltoken != null, ';')
+                .Append(user.CookieToken)
+                .ToString();
+
+            Clipboard.SetText(cookieString);
             infoBarService.Success($"{user.UserInfo!.Nickname} 的 Cookie 复制成功");
         }
         catch (Exception e)

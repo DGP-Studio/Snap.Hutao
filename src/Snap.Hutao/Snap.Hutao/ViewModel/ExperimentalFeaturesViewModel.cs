@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem.Location;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
@@ -35,6 +38,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
         OpenCacheFolderCommand = asyncRelayCommandFactory.Create(OpenCacheFolderAsync);
         OpenDataFolderCommand = asyncRelayCommandFactory.Create(OpenDataFolderAsync);
         UploadSpiralAbyssRecordCommand = asyncRelayCommandFactory.Create(UploadSpiralAbyssRecordAsync);
+        DeleteUsersCommand = asyncRelayCommandFactory.Create(DeleteUsersAsync);
     }
 
     /// <summary>
@@ -51,6 +55,11 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// 上传深渊记录命令
     /// </summary>
     public ICommand UploadSpiralAbyssRecordCommand { get; }
+
+    /// <summary>
+    /// 清空用户命令
+    /// </summary>
+    public ICommand DeleteUsersCommand { get; }
 
     private Task OpenCacheFolderAsync()
     {
@@ -82,6 +91,18 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
             {
                 infoBarService.Success(response.Message);
             }
+        }
+    }
+
+    private async Task DeleteUsersAsync()
+    {
+        using (IServiceScope scope = Ioc.Default.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
+
+            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
+            infoBarService.Success("清除用户数据成功,请重启胡桃");
         }
     }
 }

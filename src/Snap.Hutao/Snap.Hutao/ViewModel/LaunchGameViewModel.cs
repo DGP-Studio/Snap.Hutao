@@ -229,9 +229,13 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
             {
                 gameService.SetMultiChannel(SelectedScheme);
             }
+            catch (DirectoryNotFoundException)
+            {
+                infoBarService.Warning("找不到游戏配置文件 config.ini");
+            }
             catch (UnauthorizedAccessException)
             {
-                infoBarService.Warning("读取或保存配置文件时发生异常，请以管理员模式启动胡桃。");
+                infoBarService.Warning("无法读取或保存配置文件，请以管理员模式启动胡桃。");
             }
         }
 

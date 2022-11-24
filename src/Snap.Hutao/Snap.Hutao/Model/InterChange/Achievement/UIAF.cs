@@ -9,9 +9,14 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 /// </summary>
 public class UIAF
 {
+    /// <summary>
+    /// 当前发行的版本
+    /// </summary>
+    public const string CurrentVersion = "v1.1";
+
     private static readonly List<string> SupportedVersion = new()
     {
-        "v1.1",
+        CurrentVersion,
     };
 
     /// <summary>

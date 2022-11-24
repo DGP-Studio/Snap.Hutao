@@ -61,7 +61,7 @@ internal class SummaryReliquaryFactory
     public PropertyReliquary CreateReliquary()
     {
         MetadataReliquary reliquary = reliquaries.Single(r => r.Ids.Contains(equip.ItemId));
-        List<ReliquarySubProperty> subProperty = equip.Reliquary!.AppendPropIdList.Select(id => CreateSubProperty(id)).ToList();
+        List<ReliquarySubProperty> subProperty = equip.Reliquary!.AppendPropIdList.EmptyIfNull().Select(CreateSubProperty).ToList();
 
         int affixCount = GetAffixCount(reliquary);
         Span<ReliquarySubProperty> span = CollectionsMarshal.AsSpan(subProperty);

@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hoyolab;
+
+namespace Snap.Hutao.Web;
 
 /// <summary>
 /// 米哈游Url端点
@@ -10,7 +12,7 @@ namespace Snap.Hutao.Web.Hoyolab;
 [SuppressMessage("", "SA1124")]
 internal static class ApiEndpoints
 {
-    #region
+    #region ApiGeetest
 
     /// <summary>
     /// 获取GT码
@@ -69,7 +71,7 @@ internal static class ApiEndpoints
     /// <returns>用户游戏角色字符串</returns>
     public static string UserGameRolesByActionTicket(string actionTicket)
     {
-        return $"{ApiTaKumiBindingApi}/getUserGameRolesByCookie?action_ticket={actionTicket}&game_biz=hk4e_cn";
+        return $"{ApiTaKumiBindingApi}/getUserGameRoles?action_ticket={actionTicket}&game_biz=hk4e_cn";
     }
 
     /// <summary>
@@ -88,7 +90,22 @@ internal static class ApiEndpoints
     public const string BindingGenAuthKey = $"{ApiTaKumiBindingApi}/genAuthKey";
     #endregion
 
-    #region ApiTakumiRecordApi
+    #region ApiTakumiCardApi | ApiTakumiRecordApi
+
+    /// <summary>
+    /// 小组件数据
+    /// </summary>
+    public const string CardWidgetData = $"{ApiTakumiCardApi}/getWidgetData?game_id=2";
+
+    /// <summary>
+    /// 发起验证码
+    /// </summary>
+    public const string CardCreateVerification = $"{ApiTakumiCardWApi}/createVerification?is_high=false";
+
+    /// <summary>
+    /// 验证验证码
+    /// </summary>
+    public const string CardVerifyVerification = $"{ApiTakumiCardWApi}/verifyVerification";
 
     /// <summary>
     /// 角色基本信息
@@ -131,7 +148,7 @@ internal static class ApiEndpoints
     /// <param name="scheduleType">深渊类型</param>
     /// <param name="uid">Uid</param>
     /// <returns>深渊信息字符串</returns>
-    public static string GameRecordSpiralAbyss(Takumi.GameRecord.SpiralAbyssSchedule scheduleType, PlayerUid uid)
+    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, PlayerUid uid)
     {
         return $"{ApiTakumiRecordApi}/spiralAbyss?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
     }
@@ -143,16 +160,6 @@ internal static class ApiEndpoints
     /// 另一个AuthKey
     /// </summary>
     public const string AppAuthGenAuthKey = $"{AppAuthApi}/genAuthKey";
-
-    /// <summary>
-    /// 通过 Stoken 获取 Ltoken
-    /// </summary>
-    public const string AppAuthGetLTokenBySToken = $"{AppAuthApi}/getLTokenBySToken";
-
-    /// <summary>
-    /// 小组件数据
-    /// </summary>
-    public const string CardWidgetData = $"{ApiTakumiCardApi}/getWidgetData?game_id=2";
     #endregion
 
     #region BbsApiUserApi
@@ -204,15 +211,25 @@ internal static class ApiEndpoints
     }
     #endregion
 
-    #region PassportApi|PassportApiV4
+    #region PassportApi | PassportApiV4
 
     /// <summary>
     /// 获取 CookieToken
     /// </summary>
-    public const string AccountCookieAccountInfoBySToken = $"{PassportApi}/account/auth/api/getCookieAccountInfoBySToken";
+    public const string AccountGetCookieTokenBySToken = $"{PassportApiAuthApi}/getCookieAccountInfoBySToken";
 
     /// <summary>
-    /// 验证 Ltoken 有效性
+    /// 获取Ltoken
+    /// </summary>
+    public const string AccountGetLtokenByStoken = $"{PassportApiAuthApi}/getLTokenBySToken";
+
+    /// <summary>
+    /// 获取V2Stoken
+    /// </summary>
+    public const string AccountGetSTokenByOldtoken = $"{PassportApi}/account/ma-cn-session/app/getTokenBySToken";
+
+    /// <summary>
+    /// 登录
     /// </summary>
     public const string AccountLoginByPassword = $"{PassportApi}/account/ma-cn-passport/app/loginByPassword";
 
@@ -220,6 +237,11 @@ internal static class ApiEndpoints
     /// 验证 Ltoken 有效性
     /// </summary>
     public const string AccountVerifyLtoken = $"{PassportApiV4}/account/ma-cn-session/web/verifyLtoken";
+
+    /// <summary>
+    /// 创建 ActionTicket
+    /// </summary>
+    public const string AccountCreateActionTicket = $"{PassportApi}/account/ma-cn-verifier/app/createActionTicketByToken";
     #endregion
 
     #region SdkStaticLauncherApi
@@ -249,6 +271,7 @@ internal static class ApiEndpoints
     private const string ApiTaKumiBindingApi = $"{ApiTakumi}/binding/api";
 
     private const string ApiTakumiCardApi = $"{ApiTakumiRecord}/game_record/app/card/api";
+    private const string ApiTakumiCardWApi = $"{ApiTakumiRecord}/game_record/app/card/wapi";
 
     private const string ApiTakumiRecord = "https://api-takumi-record.mihoyo.com";
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";
@@ -264,6 +287,7 @@ internal static class ApiEndpoints
     private const string Hk4eApiGachaInfoApi = $"{Hk4eApi}/event/gacha_info/api";
 
     private const string PassportApi = "https://passport-api.mihoyo.com";
+    private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";
     private const string PassportApiV4 = "https://passport-api-v4.mihoyo.com";
 
     private const string SdkStatic = "https://sdk-static.mihoyo.com";

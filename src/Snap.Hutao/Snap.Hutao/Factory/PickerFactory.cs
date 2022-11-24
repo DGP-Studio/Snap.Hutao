@@ -11,6 +11,8 @@ namespace Snap.Hutao.Factory;
 [Injection(InjectAs.Transient, typeof(IPickerFactory))]
 internal class PickerFactory : IPickerFactory
 {
+    private const string AnyType = "*";
+
     private readonly MainWindow mainWindow;
 
     /// <summary>
@@ -23,9 +25,21 @@ internal class PickerFactory : IPickerFactory
     }
 
     /// <inheritdoc/>
-    public FileOpenPicker GetFileOpenPicker()
+    public FileOpenPicker GetFileOpenPicker(PickerLocationId location, string commitButton, params string[] fileTypes)
     {
-        return GetInitializedPicker<FileOpenPicker>();
+        FileOpenPicker picker = GetInitializedPicker<FileOpenPicker>();
+
+        picker.SuggestedStartLocation = location;
+        picker.CommitButtonText = commitButton;
+
+        foreach (string type in fileTypes)
+        {
+            picker.FileTypeFilter.Add(type);
+        }
+
+        picker.FileTypeFilter.Add(AnyType);
+
+        return picker;
     }
 
     /// <inheritdoc/>

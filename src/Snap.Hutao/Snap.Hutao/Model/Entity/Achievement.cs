@@ -87,6 +87,21 @@ public class Achievement : IEquatable<Achievement>
         };
     }
 
+    /// <summary>
+    /// 转换到UIAF物品
+    /// </summary>
+    /// <returns>UIAF物品</returns>
+    public UIAFItem ToUIAFItem()
+    {
+        return new()
+        {
+            Id = Id,
+            Current = Current,
+            Status = Status,
+            Timestamp = Time.ToUniversalTime().ToUnixTimeSeconds(),
+        };
+    }
+
     /// <inheritdoc/>
     public bool Equals(Achievement? other)
     {

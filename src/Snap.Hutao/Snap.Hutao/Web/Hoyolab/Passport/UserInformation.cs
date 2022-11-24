@@ -36,7 +36,7 @@ public class UserInformation
     /// 是否为邮箱验证
     /// </summary>
     [JsonPropertyName("is_email_verify")]
-    public int IsEmailVerify { get; set; } = default!;
+    public JsonElement IsEmailVerify { get; set; } = default!;
 
     /// <summary>
     /// 区域码 +86

@@ -15,16 +15,16 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
     /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<User> builder)
     {
-        builder.Property(e => e.Cookie)
+        builder.Property(e => e.CookieToken)
             .HasColumnType("TEXT")
-            .HasConversion(
-                e => e!.ToString(),
-                e => Cookie.Parse(e));
+            .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
+
+        builder.Property(e => e.Ltoken)
+            .HasColumnType("TEXT")
+            .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
 
         builder.Property(e => e.Stoken)
             .HasColumnType("TEXT")
-            .HasConversion(
-                e => e!.ToString(),
-                e => Cookie.Parse(e));
+            .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
     }
 }

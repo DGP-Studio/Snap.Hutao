@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.Passport;
-using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
@@ -30,6 +28,12 @@ public partial class Cookie
     private Cookie(SortedDictionary<string, string> dict)
     {
         inner = dict;
+    }
+
+    public string this[string key]
+    {
+        get => inner[key];
+        set => inner[key] = value;
     }
 
     /// <summary>
@@ -70,8 +74,13 @@ public partial class Cookie
     /// </summary>
     /// <param name="loginResult">登录结果</param>
     /// <returns>Cookie</returns>
-    public static Cookie FromLoginResult(LoginResult loginResult)
+    public static Cookie FromLoginResult(LoginResult? loginResult)
     {
+        if (loginResult == null)
+        {
+            return new();
+        }
+
         SortedDictionary<string, string> cookieMap = new()
         {
             [STUID] = loginResult.UserInfo.Aid,
@@ -82,53 +91,82 @@ public partial class Cookie
         return new(cookieMap);
     }
 
-    /// <summary>
-    /// 此 Cookie 是 SToken
-    /// </summary>
-    /// <returns>是否存在</returns>
-    public bool IsStoken()
+    public bool TryGetAsStoken([NotNullWhen(true)] out Cookie? cookie)
     {
-        int stokenFlag = 0;
+        bool hasMid = TryGetValue(MID, out string? mid);
+        bool hasStoken = TryGetValue(STOKEN, out string? stoken);
+        bool hasStuid = TryGetValue(STUID, out string? stuid);
 
-        foreach (string key in inner.Keys)
+        if (hasMid && hasStoken && hasStuid)
         {
-            if (key is MID or STOKEN or STUID)
+            cookie = new Cookie(new()
             {
-                stokenFlag++;
-            }
+                [MID] = mid!,
+                [STOKEN] = stoken!,
+                [STUID] = stuid!,
+            });
+
+            return true;
         }
 
-        return stokenFlag == 3;
+        cookie = null;
+        return false;
     }
 
-    /// <summary>
-    /// 异步获取 Mid
-    /// </summary>
-    /// <returns>mid</returns>
-    public async Task<string?> GetMidAsync()
+    public bool TryGetAsLtoken([NotNullWhen(true)] out Cookie? cookie)
     {
-        string? mid;
-        if (IsStoken())
-        {
-            mid = inner[MID];
-        }
-        else
-        {
-            UserInformation? userInfo = await Ioc.Default
-                .GetRequiredService<PassportClient>()
-                .VerifyLtokenAsync(this, CancellationToken.None)
-                .ConfigureAwait(false);
+        bool hasLtoken = TryGetValue(LTOKEN, out string? ltoken);
+        bool hasStuid = TryGetValue(LTUID, out string? ltuid);
 
-            mid = userInfo?.Mid;
+        if (hasLtoken && hasStuid)
+        {
+            cookie = new Cookie(new()
+            {
+                [LTOKEN] = ltoken!,
+                [LTUID] = ltuid!,
+            });
+
+            return true;
         }
 
-        return mid;
+        cookie = null;
+        return false;
+    }
+
+    public bool TryGetAsCookieToken([NotNullWhen(true)] out Cookie? cookie)
+    {
+        bool hasAccountId = TryGetValue(ACCOUNT_ID, out string? accountId);
+        bool hasCookieToken = TryGetValue(COOKIE_TOKEN, out string? cookieToken);
+
+        if (hasAccountId && hasCookieToken)
+        {
+            cookie = new Cookie(new()
+            {
+                [ACCOUNT_ID] = accountId!,
+                [COOKIE_TOKEN] = cookieToken!,
+            });
+
+            return true;
+        }
+
+        cookie = null;
+        return false;
     }
 
     /// <inheritdoc cref="Dictionary{TKey, TValue}.TryGetValue(TKey, out TValue)"/>
     public bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
     {
         return inner.TryGetValue(key, out value);
+    }
+
+    /// <summary>
+    /// 获取值
+    /// </summary>
+    /// <param name="key">键</param>
+    /// <returns>值或默认值</returns>
+    public string? GetValueOrDefault(string key)
+    {
+        return inner.GetValueOrDefault(key);
     }
 
     /// <summary>

@@ -11,6 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 用户信息客户端
 /// </summary>
+[IgnoreSetCookie]
 [HttpClient(HttpClientConfigration.XRpc)]
 internal class UserClient
 {
@@ -37,13 +38,32 @@ internal class UserClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
-    [ApiInformation(Cookie = CookieType.Cookie)]
+    [ApiInformation(Cookie = CookieType.Ltoken)]
     public async Task<UserInfo?> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.Cookie)
+            .SetUser(user, CookieType.Ltoken)
             .SetReferer(ApiEndpoints.BbsReferer) // Otherwise HTTP 403
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfo, options, logger, token)
+            .ConfigureAwait(false);
+
+        return resp?.Data?.UserInfo;
+    }
+
+    /// <summary>
+    /// 获取当前用户详细信息
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>详细信息</returns>
+    [ApiInformation(Cookie = CookieType.Ltoken)]
+    public async Task<UserInfo?> GetUserFullInfoByUidAsync(Model.Entity.User user, CancellationToken token = default)
+    {
+        Response<UserFullInfoWrapper>? resp = await httpClient
+
+            // .SetUser(user, CookieType.Cookie)
+            .SetReferer(ApiEndpoints.BbsReferer) // Otherwise HTTP 403
+            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data?.UserInfo;

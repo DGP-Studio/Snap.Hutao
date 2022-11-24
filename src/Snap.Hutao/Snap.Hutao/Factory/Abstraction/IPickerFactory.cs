@@ -13,8 +13,11 @@ internal interface IPickerFactory
     /// <summary>
     /// 获取 经过初始化的 <see cref="FileOpenPicker"/>
     /// </summary>
+    /// <param name="location">初始位置</param>
+    /// <param name="commitButton">提交按钮文本</param>
+    /// <param name="fileTypes">文件类型</param>
     /// <returns>经过初始化的 <see cref="FileOpenPicker"/></returns>
-    FileOpenPicker GetFileOpenPicker();
+    FileOpenPicker GetFileOpenPicker(PickerLocationId location, string commitButton, params string[] fileTypes);
 
     /// <summary>
     /// 获取 经过初始化的 <see cref="FileSavePicker"/>

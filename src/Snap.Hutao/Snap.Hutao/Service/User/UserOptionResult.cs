@@ -27,9 +27,4 @@ public enum UserOptionResult
     /// 用户的Cookie成功更新
     /// </summary>
     Updated,
-
-    /// <summary>
-    /// 升级到Stoken
-    /// </summary>
-    Upgraded,
 }

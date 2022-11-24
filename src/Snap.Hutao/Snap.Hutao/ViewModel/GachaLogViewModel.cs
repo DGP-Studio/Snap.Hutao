@@ -258,10 +258,7 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
 
     private async Task ImportFromUIGFJsonAsync()
     {
-        FileOpenPicker picker = pickerFactory.GetFileOpenPicker();
-        picker.SuggestedStartLocation = PickerLocationId.Desktop;
-        picker.CommitButtonText = "导入";
-        picker.FileTypeFilter.Add(".json");
+        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "导入", ".json");
 
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {

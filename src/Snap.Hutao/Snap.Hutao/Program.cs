@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Logging;
 using System.Runtime.InteropServices;
 using WinRT;
@@ -43,6 +44,8 @@ public static partial class Program
             Application.Start(InitializeApp);
             ServiceScopeExtension.DisposeLast();
         }
+
+        AppInstance.GetCurrent().UnregisterKey();
     }
 
     private static void InitializeApp(ApplicationInitializationCallbackParams param)

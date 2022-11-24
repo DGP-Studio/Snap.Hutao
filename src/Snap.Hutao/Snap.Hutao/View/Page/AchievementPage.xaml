@@ -18,8 +18,8 @@
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
-    
-    <Grid>
+
+    <Grid Visibility="{Binding IsInitialized,Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -91,6 +91,10 @@
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
+                <AppBarButton
+                    Label="导出"
+                    Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
+                    Command="{Binding ExportAsUIAFToFileCommand}"/>
                 <AppBarSeparator/>
                 <AppBarToggleButton
                     Label="优先未完成"

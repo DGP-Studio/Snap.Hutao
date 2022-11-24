@@ -6,11 +6,17 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// <summary>
 /// 玩家 Uid
 /// </summary>
-public struct PlayerUid
+public readonly struct PlayerUid
 {
-    [SuppressMessage("", "CA1805")]
-    [SuppressMessage("", "IDE0079")]
-    private string? region = default;
+    /// <summary>
+    /// UID 的实际值
+    /// </summary>
+    public readonly string Value;
+
+    /// <summary>
+    /// 地区代码
+    /// </summary>
+    public readonly string Region;
 
     /// <summary>
     /// 构造一个新的玩家 Uid 结构
@@ -21,24 +27,7 @@ public struct PlayerUid
     {
         Must.Argument(value.Length == 9, "uid 应为9位数字");
         Value = value;
-
-        if (region != null)
-        {
-            this.region = region;
-        }
-    }
-
-    /// <summary>
-    /// UID 的实际值
-    /// </summary>
-    public string Value { get; }
-
-    /// <summary>
-    /// 地区代码
-    /// </summary>
-    public string Region
-    {
-        get => region ??= EvaluateRegion(Value[0]);
+        Region = region ?? EvaluateRegion(value[0]);
     }
 
     public static implicit operator PlayerUid(string source)

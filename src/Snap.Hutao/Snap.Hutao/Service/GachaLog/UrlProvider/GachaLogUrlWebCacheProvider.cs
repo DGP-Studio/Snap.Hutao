@@ -28,6 +28,17 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
     /// <inheritdoc/>
     public string Name { get => nameof(GachaLogUrlWebCacheProvider); }
 
+    /// <summary>
+    /// 获取缓存文件路径
+    /// </summary>
+    /// <param name="path">游戏路径</param>
+    /// <returns>缓存文件路径</returns>
+    public static string GetCacheFile(string path)
+    {
+        string folder = Path.GetDirectoryName(path) ?? string.Empty;
+        return Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
+    }
+
     /// <inheritdoc/>
     public async Task<ValueResult<bool, string>> GetQueryAsync()
     {
@@ -35,8 +46,7 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
 
         if (isOk)
         {
-            string folder = Path.GetDirectoryName(path) ?? string.Empty;
-            string cacheFile = Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
+            string cacheFile = GetCacheFile(path);
 
             TemporaryFile tempFile;
             try

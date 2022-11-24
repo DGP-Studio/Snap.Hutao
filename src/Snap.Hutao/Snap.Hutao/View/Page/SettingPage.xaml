@@ -41,7 +41,7 @@
                             Background="{StaticResource CardBackgroundFillColorDefault}">
                             <Image Source="ms-appx:///Assets/Square150x150Logo.scale-200.png"/>
                         </Border>
-                        
+
                         <Grid
                             Margin="16,0,0,0"
                             Grid.Column="1">
@@ -103,9 +103,9 @@
                             ItemsSource="{Binding BackdropTypes}"
                             DisplayMemberPath="Name"/>
                     </sc:Setting>
-                    
+
                 </sc:SettingsGroup>
-                
+
                 <sc:SettingsGroup Header="祈愿记录">
                     <sc:Setting
                         Icon="&#xE81C;"
@@ -117,7 +117,7 @@
                             OffContent="隐藏"
                             IsOn="{Binding IsEmptyHistoryWishVisible,Mode=TwoWay}"/>
                     </sc:Setting>
-                        
+
                 </sc:SettingsGroup>
 
                 <sc:SettingsGroup Header="游戏">
@@ -127,6 +127,14 @@
                         Description="{Binding GamePath}">
                         <sc:Setting.ActionContent>
                             <Button Content="设置路径" Command="{Binding SetGamePathCommand}"/>
+                        </sc:Setting.ActionContent>
+                    </sc:Setting>
+                    <sc:Setting
+                        Icon="&#xE74D;"
+                        Header="删除游戏内网页缓存"
+                        Description="若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作">
+                        <sc:Setting.ActionContent>
+                            <Button Content="删除" Command="{Binding DeleteGameWebCacheCommand}"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
                 </sc:SettingsGroup>
@@ -151,6 +159,18 @@
                     </sc:Setting>
 
                     <sc:Setting
+                        Icon="&#xE756;"
+                        Header="删除所有用户"
+                        Description="直接删除用户表的所有记录，用于修复特定的账号冲突问题"
+                        Background="#80800000">
+                        <sc:Setting.ActionContent>
+                            <Button
+                                Content="执行"
+                                Command="{Binding Experimental.DeleteUsersCommand}"/>
+                        </sc:Setting.ActionContent>
+                    </sc:Setting>
+
+                    <sc:Setting
                         Icon="&#xE898;"
                         Header="上传深渊数据"
                         Description="将当前账号的深渊数据上传到胡桃数据库">
@@ -161,6 +181,5 @@
                 </sc:SettingsGroup>
             </StackPanel>
         </Grid>
-        
     </ScrollViewer>
 </Page>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Hoyolab;
 using System.Numerics;
 using Windows.Graphics;
 using Windows.Win32.System.Diagnostics.ToolHelp;
@@ -61,5 +62,15 @@ internal static class StructMarshal
     public static bool IsDefault(MODULEENTRY32 moduleEntry32)
     {
         return moduleEntry32.dwSize == 0;
+    }
+
+    /// <summary>
+    /// 判断结构实例是否为默认结构
+    /// </summary>
+    /// <param name="uid">待测试的结构</param>
+    /// <returns>是否为默认结构</returns>
+    public static bool IsDefault(PlayerUid uid)
+    {
+        return uid.Value == default;
     }
 }

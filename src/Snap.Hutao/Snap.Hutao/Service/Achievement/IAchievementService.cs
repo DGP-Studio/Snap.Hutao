@@ -21,6 +21,13 @@ internal interface IAchievementService
     EntityArchive? CurrentArchive { get; set; }
 
     /// <summary>
+    /// 异步导出到UIAF
+    /// </summary>
+    /// <param name="selectedArchive">存档</param>
+    /// <returns>UIAF</returns>
+    Task<UIAF> ExportToUIAFAsync(EntityArchive selectedArchive);
+
+    /// <summary>
     /// 获取整合的成就
     /// </summary>
     /// <param name="archive">用户</param>

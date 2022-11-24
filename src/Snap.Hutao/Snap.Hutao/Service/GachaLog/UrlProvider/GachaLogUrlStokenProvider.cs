@@ -37,7 +37,7 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
         Model.Binding.User.User? user = userService.Current;
         if (user != null && user.SelectedUserGameRole != null)
         {
-            if (user.HasStoken)
+            if (user.Stoken != null)
             {
                 PlayerUid uid = (PlayerUid)user.SelectedUserGameRole;
                 GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(uid);

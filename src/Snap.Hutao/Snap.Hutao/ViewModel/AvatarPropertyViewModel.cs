@@ -12,6 +12,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.Win32;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -110,7 +111,14 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
         if (isOk)
         {
-            await RefreshCoreAsync(uid, RefreshOption.RequestFromAPI, CancellationToken).ConfigureAwait(false);
+            if (StructMarshal.IsDefault(uid))
+            {
+                infoBarService.Information("请输入正确的UID");
+            }
+            else
+            {
+                await RefreshCoreAsync(uid, RefreshOption.RequestFromAPI, CancellationToken).ConfigureAwait(false);
+            }
         }
     }
 

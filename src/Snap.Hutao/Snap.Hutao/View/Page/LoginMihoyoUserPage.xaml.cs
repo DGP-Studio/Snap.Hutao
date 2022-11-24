@@ -7,6 +7,8 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hoyolab.Passport;
+using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 
 namespace Snap.Hutao.View.Page;
 
@@ -38,30 +40,42 @@ public sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Pag
         WebView.CoreWebView2.Navigate("https://user.mihoyo.com/#/login/password");
     }
 
-    private async Task HandleCurrentCookieAsync()
+    private async Task HandleCurrentCookieAsync(CancellationToken token)
     {
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
 
-        Cookie cookie = Cookie.FromCoreWebView2Cookies(cookies);
-        IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
-        (UserOptionResult result, string nickname) = await userService.ProcessInputCookieAsync(cookie).ConfigureAwait(false);
+        Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
+        Dictionary<string, string> multiToken = await Ioc.Default.GetRequiredService<AuthClient>().GetMultiTokenByLoginTicketAsync(loginTicketCookie, token).ConfigureAwait(false);
+        Cookie stokenV1 = Cookie.Parse($"stuid={loginTicketCookie["login_uid"]};stoken={multiToken["stoken"]}");
+        LoginResult? loginResult = await Ioc.Default.GetRequiredService<PassportClient2>().LoginByStokenAsync(stokenV1, token).ConfigureAwait(false);
+        Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
+        (UserOptionResult result, string nickname) = await Ioc.Default.GetRequiredService<IUserService>().ProcessInputCookieAsync(stokenV2).ConfigureAwait(false);
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
-        if (result == UserOptionResult.Upgraded)
+        switch (result)
         {
-            infoBarService.Information($"用户 [{nickname}] 的 Cookie 升级成功");
-        }
-        else
-        {
-            infoBarService.Warning("请先添加对应用户的米游社Cookie");
+            case UserOptionResult.Added:
+                infoBarService.Success($"用户 [{nickname}] 添加成功");
+                break;
+            case UserOptionResult.Incomplete:
+                infoBarService.Information($"此 Cookie 不完整，操作失败");
+                break;
+            case UserOptionResult.Invalid:
+                infoBarService.Information($"此 Cookie 无效，操作失败");
+                break;
+            case UserOptionResult.Updated:
+                infoBarService.Success($"用户 [{nickname}] 更新成功");
+                break;
+            default:
+                throw Must.NeverHappen();
         }
     }
 
     private void CookieButtonClick(object sender, RoutedEventArgs e)
     {
-        HandleCurrentCookieAsync().SafeForget();
+        HandleCurrentCookieAsync(CancellationToken.None).SafeForget();
     }
 }

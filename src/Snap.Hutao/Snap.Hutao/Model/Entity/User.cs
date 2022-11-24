@@ -37,9 +37,14 @@ public class User : ISelectable
     public bool IsSelected { get; set; }
 
     /// <summary>
-    /// 用户的 Cookie
+    /// 用户的 Cookie Token
     /// </summary>
-    public Cookie? Cookie { get; set; }
+    public Cookie? CookieToken { get; set; }
+
+    /// <summary>
+    /// 用户的 Ltoken
+    /// </summary>
+    public Cookie? Ltoken { get; set; }
 
     /// <summary>
     /// 用户的 Stoken V2
@@ -53,6 +58,9 @@ public class User : ISelectable
     /// <returns>新创建的用户</returns>
     public static User Create(Cookie cookie)
     {
-        return new() { Cookie = cookie };
+        _ = cookie.TryGetAsStoken(out Cookie? stoken);
+        _ = cookie.TryGetAsLtoken(out Cookie? ltoken);
+
+        return new() { Stoken = stoken, Ltoken = ltoken };
     }
 }

@@ -5,7 +5,6 @@ using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Web.Request;
 using System.Collections.Immutable;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
@@ -13,7 +12,7 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// <summary>
 /// 动态密钥处理器
 /// </summary>
-[Injection(InjectAs.Scoped)]
+[Injection(InjectAs.Transient)]
 public class DynamicSecretHandler : DelegatingHandler
 {
     private const string RandomRange = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -50,7 +49,7 @@ public class DynamicSecretHandler : DelegatingHandler
             {
                 string b = request.Content != null
                     ? await request.Content.ReadAsStringAsync(token).ConfigureAwait(false)
-                    : (saltType == nameof(SaltType.PROD) ? "{}" : string.Empty);
+                    : (saltType == nameof(SaltType.PROD) ? "{}" : string.Empty); // PROD's default value is {}
 
                 string[] queries = Uri.UnescapeDataString(request.RequestUri!.Query).Split('?', 2);
                 string q = queries.Length == 2 ? string.Join('&', queries[1].Split('&').OrderBy(x => x)) : string.Empty;

@@ -30,7 +30,14 @@ public sealed partial class AvatarInfoQueryDialog : ContentDialog
     {
         ContentDialogResult result = await ShowAsync();
 
-        return new(result == ContentDialogResult.Primary, result == ContentDialogResult.Primary ? new(InputText.Text) : default);
+        bool isOk = result == ContentDialogResult.Primary;
+
+        if (InputText.Text.Length != 9)
+        {
+            return new(false, default);
+        }
+
+        return new(isOk, isOk && InputText.Text.Length == 9 ? new(InputText.Text) : default);
     }
 
     private void InputTextChanged(object sender, TextChangedEventArgs e)

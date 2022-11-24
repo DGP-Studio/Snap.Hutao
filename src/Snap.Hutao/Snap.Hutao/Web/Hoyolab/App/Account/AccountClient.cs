@@ -47,29 +47,12 @@ internal class AccountClient
     {
         Response<GameAuthKey>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
-            //.SetReferer("https://app.mihoyo.com")
+
+            // .SetReferer("https://app.mihoyo.com")
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, false)
             .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.AppAuthGenAuthKey, data, options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data;
-    }
-
-    /// <summary>
-    /// 异步获取 Ltoken
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>Ltoken</returns>
-    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.PROD)]
-    public async Task<string?> GetLTokenBySTokenAsync(User user, CancellationToken token)
-    {
-        Response<LtokenWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.Stoken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, false)
-            .TryCatchGetFromJsonAsync<Response<LtokenWrapper>>(ApiEndpoints.AppAuthGetLTokenBySToken, options, logger, token)
-            .ConfigureAwait(false);
-
-        return resp?.Data?.Ltoken;
     }
 }

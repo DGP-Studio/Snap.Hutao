@@ -120,18 +120,11 @@
                                             HorizontalAlignment="Left"
                                             Margin="0,0"
                                             Height="32"/>
-                                        <StackPanel
+                                        <TextBlock
                                             Grid.Column="1"
                                             Margin="12,0,0,0"
-                                            VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding UserInfo.Nickname}"/>
-                                            <TextBlock
-                                                Text="Stoken"
-                                                Visibility="{Binding HasStoken,Converter={StaticResource BoolToVisibilityConverter}}"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Foreground="Green"
-                                                Opacity="0.6"/>
-                                        </StackPanel>
+                                            VerticalAlignment="Center"
+                                            Text="{Binding UserInfo.Nickname}"/>
 
                                         <StackPanel
                                             x:Name="ButtonPanel"
@@ -206,13 +199,13 @@
                             Style="{StaticResource BaseTextBlockStyle}"
                             Text="Cookie 操作"/>
                         <CommandBar DefaultLabelPosition="Right">
-                            <AppBarButton Label="登录" Icon="{shcm:FontIcon Glyph=&#xEB41;}">
-                                <AppBarButton.Flyout>
+                            <AppBarButton Label="登录米哈游通行证" Icon="{shcm:FontIcon Glyph=&#xEB41;}" Command="{Binding LoginMihoyoUserCommand}">
+                                <!--<AppBarButton.Flyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="网页米游社" Command="{Binding LoginMihoyoBBSCommand}"/>
-                                        <!--<MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="米游社" Command="{Binding LoginMihoyoBBS2Command}"/>-->
+                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="米游社" Command="{Binding LoginMihoyoBBS2Command}"/>
                                     </MenuFlyout>
-                                </AppBarButton.Flyout>
+                                </AppBarButton.Flyout>-->
                             </AppBarButton>
                             <AppBarButton
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"

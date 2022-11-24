@@ -18,11 +18,20 @@
             Margin="0,0,0,8"
             x:Name="InputText"
             TextChanged="InputTextChanged"
-            PlaceholderText="在此处输入"
+            PlaceholderText="在此处输入包含 Stoken 的字符串"
             VerticalAlignment="Top"/>
-        <TextBlock Margin="0,4,0,0" Text="接受包含 Cookie / Stoken 的字符串"/>
         <settings:SettingsGroup Margin="0,-48,0,0">
-            
+            <settings:Setting
+                Icon="&#xEC7A;"
+                Header="Github 上的第三方工具"
+                Description="HolographicHat/GetToken"
+                HorizontalAlignment="Stretch">
+                <HyperlinkButton
+                    Margin="12,0,0,0"
+                    Padding="6"
+                    Content="前往下载"
+                    NavigateUri="https://github.com/HolographicHat/GetToken/releases/latest"/>
+            </settings:Setting>
             <settings:Setting
                 Icon="&#xEB41;"
                 Header="操作文档"

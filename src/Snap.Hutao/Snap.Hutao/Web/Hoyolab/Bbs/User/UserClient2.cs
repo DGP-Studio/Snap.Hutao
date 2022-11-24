@@ -36,18 +36,17 @@ internal class UserClient2
     /// <summary>
     /// 获取当前用户详细信息
     /// </summary>
-    /// <param name="uid">用户id</param>
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
     [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
-    public async Task<UserInfo?> GetUserFullInfoAsync(string uid, Model.Entity.User user, CancellationToken token = default)
+    public async Task<UserInfo?> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
             .SetReferer(ApiEndpoints.BbsReferer)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
-            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(uid), options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
             .ConfigureAwait(false);
 
         return resp?.Data?.UserInfo;

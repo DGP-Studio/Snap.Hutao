@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Model.InterChange.Achievement;
@@ -25,6 +26,7 @@ public class UIAFInfo
     /// <summary>
     /// 导出时间
     /// </summary>
+    [JsonIgnore]
     public DateTimeOffset ExportDateTime
     {
         // Hot fix | 1.0.31 | UIAF.Info.ExportTimestamp can be milliseconds
@@ -42,4 +44,20 @@ public class UIAFInfo
     /// </summary>
     [JsonPropertyName("uiaf_version")]
     public string? UIAFVersion { get; set; }
+
+    /// <summary>
+    /// 构造一个新的专用 UIAF 信息
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>专用 UIAF 信息</returns>
+    public static UIAFInfo Create()
+    {
+        return new()
+        {
+            ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
+            ExportApp = "胡桃",
+            ExportAppVersion = CoreEnvironment.Version.ToString(),
+            UIAFVersion = UIAF.CurrentVersion,
+        };
+    }
 }

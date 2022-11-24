@@ -55,13 +55,13 @@ internal class InfoBarService : IInfoBarService
     }
 
     /// <inheritdoc/>
-    public void Warning(string message, int delay = 0)
+    public void Warning(string message, int delay = 30000)
     {
         PrepareInfoBarAndShow(InfoBarSeverity.Warning, null, message, delay);
     }
 
     /// <inheritdoc/>
-    public void Warning(string title, string message, int delay = 0)
+    public void Warning(string title, string message, int delay = 30000)
     {
         PrepareInfoBarAndShow(InfoBarSeverity.Warning, title, message, delay);
     }

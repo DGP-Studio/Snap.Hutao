@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Snap.Hutao.Context.Database;
 
@@ -10,9 +11,11 @@ using Snap.Hutao.Context.Database;
 namespace Snap.Hutao.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221123060511_RenameCookieToLtoken")]
+    partial class RenameCookieToLtoken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -232,9 +235,6 @@ namespace Snap.Hutao.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Aid")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("CookieToken")
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsSelected")

@@ -41,12 +41,7 @@ internal class ManualGameLocator : IGameLocator
 
     private async Task<ValueResult<bool, string>> LocateInternalAsync(string fileName)
     {
-        FileOpenPicker picker = pickerFactory.GetFileOpenPicker();
-        picker.FileTypeFilter.Add(".exe");
-        picker.SuggestedStartLocation = PickerLocationId.Desktop;
-
-        // System.Runtime.InteropServices.COMException (0x80004005): Error HRESULT E_FAIL has been returned from a call to a COM component.
-        // Not sure what's going on here.
+        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "选择游戏本体", ".exe");
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {
             string path = file.Path;

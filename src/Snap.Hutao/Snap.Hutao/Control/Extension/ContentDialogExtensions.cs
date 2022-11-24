@@ -33,6 +33,8 @@ internal static class ContentDialogExtensions
     {
         await ThreadHelper.SwitchToMainThreadAsync();
         contentDialog.ShowAsync().AsTask().SafeForget();
+
+        // E_ASYNC_OPERATION_NOT_STARTED 0x80000019
         return new ContentDialogHider(contentDialog);
     }
 

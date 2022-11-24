@@ -8,7 +8,6 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.Model.Binding.User.User;
@@ -24,6 +23,7 @@ internal class UserService : IUserService
 {
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IMessenger messenger;
+    private readonly object currentUserLocker = new();
 
     private BindingUser? currentUser;
     private ObservableCollection<BindingUser>? userCollection;
@@ -51,34 +51,35 @@ internal class UserService : IUserService
                 return;
             }
 
-            using (IServiceScope scope = scopeFactory.CreateScope())
+            lock (currentUserLocker)
             {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                // only update when not processing a deletion
-                if (value != null)
+                using (IServiceScope scope = scopeFactory.CreateScope())
                 {
+                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                    // only update when not processing a deletion
+                    if (value != null)
+                    {
+                        if (currentUser != null)
+                        {
+                            currentUser.IsSelected = false;
+                            appDbContext.Users.UpdateAndSave(currentUser.Entity);
+                        }
+                    }
+
+                    UserChangedMessage message = new() { OldValue = currentUser, NewValue = value };
+
+                    // 当删除到无用户时也能正常反应状态
+                    currentUser = value;
+
                     if (currentUser != null)
                     {
-                        currentUser.IsSelected = false;
-                        appDbContext.Users.Update(currentUser.Entity);
-                        appDbContext.SaveChanges();
+                        currentUser.IsSelected = true;
+                        appDbContext.Users.UpdateAndSave(currentUser.Entity);
                     }
+
+                    messenger.Send(message);
                 }
-
-                Message.UserChangedMessage message = new() { OldValue = currentUser, NewValue = value };
-
-                // 当删除到无用户时也能正常反应状态
-                currentUser = value;
-
-                if (currentUser != null)
-                {
-                    currentUser.IsSelected = true;
-                    appDbContext.Users.Update(currentUser.Entity);
-                    appDbContext.SaveChanges();
-                }
-
-                messenger.Send(message);
             }
         }
     }
@@ -166,7 +167,9 @@ internal class UserService : IUserService
     {
         if (roleCollection != null)
         {
-            return roleCollection.Single(r => r.Role.GameUid == uid).Role;
+            // System.InvalidOperationException: Sequence contains no matching element
+            // Not quiet sure why this happen when its Single()
+            return roleCollection.SingleOrDefault(r => r.Role.GameUid == uid)?.Role;
         }
 
         return null;
@@ -177,7 +180,7 @@ internal class UserService : IUserService
     {
         Must.NotNull(userCollection!);
 
-        string? mid = await cookie.GetMidAsync().ConfigureAwait(false);
+        string? mid = cookie.GetValueOrDefault(Cookie.MID);
 
         if (mid == null)
         {
@@ -191,21 +194,18 @@ internal class UserService : IUserService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                if (cookie.IsStoken())
+                if (cookie.TryGetAsStoken(out Cookie? stoken))
                 {
-                    // update stoken
-                    await ThreadHelper.SwitchToMainThreadAsync();
-                    user.UpdateSToken(cookie);
-                    appDbContext.Users.UpdateAndSave(user.Entity);
+                    user.Stoken = stoken;
+                    user.Ltoken = cookie.TryGetAsLtoken(out Cookie? ltoken) ? ltoken : user.Ltoken;
+                    user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
-                    return new(UserOptionResult.Upgraded, mid);
+                    appDbContext.Users.UpdateAndSave(user.Entity);
+                    return new(UserOptionResult.Updated, mid);
                 }
                 else
                 {
-                    user.Cookie = cookie;
-                    appDbContext.Users.UpdateAndSave(user.Entity);
-
-                    return new(UserOptionResult.Updated, mid);
+                    return new(UserOptionResult.Invalid, "必须包含 Stoken");
                 }
             }
         }

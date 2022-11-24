@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Hoyolab.Passport;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 
 /// <summary>
@@ -24,5 +26,5 @@ public class ActionTicketWrapper
     /// 账户信息
     /// </summary>
     [JsonPropertyName("account_info")]
-    public ActionTicketAccountInfo AccountInfo { get; set; } = default!;
+    public UserInformation AccountInfo { get; set; } = default!;
 }

@@ -6,20 +6,36 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// <summary>
 /// Cookie 类型
 /// </summary>
+[Flags]
 public enum CookieType
 {
     /// <summary>
     /// 不需要 Cookie
     /// </summary>
-    None,
+    None = 0B0000,
 
     /// <summary>
-    /// 需要 Ltoken &amp; CookieToken
+    /// 需要 CookieToken
     /// </summary>
-    Cookie,
+    CookieToken = 0B0001,
+
+    /// <summary>
+    /// 需要 Ltoken
+    /// </summary>
+    Ltoken = 0B0010,
+
+    /// <summary>
+    /// 需要 CookieToken 与 Ltoken
+    /// </summary>
+    Cookie = CookieToken | Ltoken,
 
     /// <summary>
     /// 需要 Stoken
     /// </summary>
-    Stoken,
+    Stoken = 0B0100,
+
+    /// <summary>
+    /// 需要 Mid
+    /// </summary>
+    Mid = 0B1000,
 }

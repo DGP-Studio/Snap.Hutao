@@ -40,13 +40,13 @@ internal class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Cookie)]
+    [ApiInformation(Cookie = CookieType.Ltoken)]
     public async Task<List<UserGameRole>> GetUserGameRolesByActionTicketAsync(string actionTicket, User user, CancellationToken token = default)
     {
         string url = ApiEndpoints.UserGameRolesByActionTicket(actionTicket);
 
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.Cookie)
+            .SetUser(user, CookieType.Ltoken)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(url, options, logger, token)
             .ConfigureAwait(false);
 
@@ -59,11 +59,11 @@ internal class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Cookie)]
+    [ApiInformation(Cookie = CookieType.Ltoken)]
     public async Task<List<UserGameRole>> GetUserGameRolesByCookieAsync(User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.Cookie)
+            .SetUser(user, CookieType.Ltoken)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRolesByCookie, options, logger, token)
             .ConfigureAwait(false);
 

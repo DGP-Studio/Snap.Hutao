@@ -58,20 +58,60 @@ internal class PassportClient2
     }
 
     /// <summary>
+    /// V1Stoken 登录
+    /// </summary>
+    /// <param name="stokenV1">v1 Stoken</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>登录数据</returns>
+    [ApiInformation(Salt = SaltType.PROD)]
+    public async Task<LoginResult?> LoginByStokenAsync(Cookie stokenV1, CancellationToken token)
+    {
+        HttpResponseMessage message = await httpClient
+            .SetHeader("Cookie", stokenV1.ToString())
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
+            .PostAsync(ApiEndpoints.AccountGetSTokenByOldtoken, null, token)
+            .ConfigureAwait(false);
+
+        Response<LoginResult>? resp = await message.Content
+            .ReadFromJsonAsync<Response<LoginResult>>(options, token)
+            .ConfigureAwait(false);
+
+        return resp?.Data;
+    }
+
+    /// <summary>
     /// 异步获取 CookieToken
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>cookie token</returns>
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.PROD)]
+    public async Task<string?> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token)
+    {
+        Response<UidCookieToken>? resp = await httpClient
+            .SetUser(user, CookieType.Stoken)
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
+            .TryCatchGetFromJsonAsync<Response<UidCookieToken>>(ApiEndpoints.AccountGetCookieTokenBySToken, options, logger, token)
+            .ConfigureAwait(false);
+
+        return resp?.Data?.CookieToken;
+    }
+
+    /// <summary>
+    /// 异步获取 Ltoken
     /// </summary>
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>uid 与 cookie token</returns>
     [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.PROD)]
-    public async Task<UidCookieToken?> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token)
+    public async Task<string?> GetLtokenBySTokenAsync(User user, CancellationToken token)
     {
-        Response<UidCookieToken>? resp = await httpClient
+        Response<LtokenWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .TryCatchGetFromJsonAsync<Response<UidCookieToken>>(ApiEndpoints.AccountCookieAccountInfoBySToken, options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<LtokenWrapper>>(ApiEndpoints.AccountGetLtokenByStoken, options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return resp?.Data?.Ltoken;
     }
 }

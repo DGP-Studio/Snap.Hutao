@@ -27,11 +27,6 @@ public class Response : ISupportValidation
             Ioc.Default.GetRequiredService<IInfoBarService>().Error(ToString());
         }
 
-        if (returnCode == (int)KnownReturnCode.CODE1034)
-        {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Warning("账号有风险，请前往米游社查看");
-        }
-
         Ioc.Default.GetRequiredService<ILogger<Response>>().LogInformation("Response [{resp}]", ToString());
     }
 

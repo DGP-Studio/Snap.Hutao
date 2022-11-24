@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.Immutable;
+
 namespace Snap.Hutao.Model.InterChange.GachaLog;
 
 /// <summary>
@@ -14,10 +16,10 @@ public class UIGF
     /// </summary>
     public const string CurrentVersion = "v2.2";
 
-    private static readonly List<string> SupportedVersion = new()
+    private static readonly ImmutableList<string> SupportedVersion = new List<string>()
     {
         "v2.1", CurrentVersion,
-    };
+    }.ToImmutableList();
 
     /// <summary>
     /// 信息
@@ -37,6 +39,6 @@ public class UIGF
     /// <returns>当前UIAF对象是否受支持</returns>
     public bool IsCurrentVersionSupported()
     {
-        return SupportedVersion.Contains(Info.UIGFVersion ?? string.Empty);
+        return SupportedVersion.Contains(Info?.UIGFVersion ?? string.Empty);
     }
 }

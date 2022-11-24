@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
@@ -10,6 +11,7 @@ using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.User;
@@ -17,6 +19,7 @@ using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
+using System.IO;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -28,6 +31,7 @@ internal class SettingViewModel : ObservableObject
 {
     private readonly AppDbContext appDbContext;
     private readonly IGameService gameService;
+    private readonly ILogger<SettingViewModel> logger;
     private readonly SettingEntry isEmptyHistoryWishVisibleEntry;
     private readonly SettingEntry selectedBackdropTypeEntry;
     private readonly List<NamedValue<BackdropType>> backdropTypes = new()
@@ -48,14 +52,17 @@ internal class SettingViewModel : ObservableObject
     /// <param name="gameService">游戏服务</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="experimental">实验性功能</param>
+    /// <param name="logger">日志器</param>
     public SettingViewModel(
         AppDbContext appDbContext,
         IGameService gameService,
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
-        ExperimentalFeaturesViewModel experimental)
+        ExperimentalFeaturesViewModel experimental,
+        ILogger<SettingViewModel> logger)
     {
         this.appDbContext = appDbContext;
         this.gameService = gameService;
+        this.logger = logger;
 
         Experimental = experimental;
 
@@ -73,6 +80,7 @@ internal class SettingViewModel : ObservableObject
 
         SetGamePathCommand = asyncRelayCommandFactory.Create(SetGamePathAsync);
         DebugExceptionCommand = asyncRelayCommandFactory.Create(DebugThrowExceptionAsync);
+        DeleteGameWebCacheCommand = new RelayCommand(DeleteGameWebCache);
     }
 
     /// <summary>
@@ -148,6 +156,11 @@ internal class SettingViewModel : ObservableObject
     /// </summary>
     public ICommand DebugExceptionCommand { get; }
 
+    /// <summary>
+    /// 删除游戏网页缓存命令
+    /// </summary>
+    public ICommand DeleteGameWebCacheCommand { get; }
+
     private async Task SetGamePathAsync()
     {
         IGameLocator locator = Ioc.Default.GetRequiredService<IEnumerable<IGameLocator>>()
@@ -159,6 +172,19 @@ internal class SettingViewModel : ObservableObject
             gameService.OverwriteGamePath(path);
             await ThreadHelper.SwitchToMainThreadAsync();
             GamePath = path;
+        }
+    }
+
+    private void DeleteGameWebCache()
+    {
+        IGameService gameService = Ioc.Default.GetRequiredService<IGameService>();
+        string gamePath = gameService.GetGamePathSkipLocator();
+
+        if (!string.IsNullOrEmpty(gamePath))
+        {
+            string cacheFilePath = GachaLogUrlWebCacheProvider.GetCacheFile(gamePath);
+            string cacheFolder = Path.GetDirectoryName(cacheFilePath)!;
+            Directory.Delete(cacheFolder, true);
         }
     }
 
@@ -179,7 +205,8 @@ internal class SettingViewModel : ObservableObject
             {
                 if (resp.IsOk())
                 {
-                    Cookie cookie = Cookie.FromLoginResult(resp.Data!);
+                    Cookie cookie = Cookie.FromLoginResult(resp.Data);
+
                     await Ioc.Default
                         .GetRequiredService<IUserService>()
                         .ProcessInputCookieAsync(cookie)

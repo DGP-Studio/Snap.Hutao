@@ -32,10 +32,14 @@ public sealed partial class LoginMihoyoBBSPage : Microsoft.UI.Xaml.Controls.Page
         await WebView.EnsureCoreWebView2Async();
 
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
-        IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync(CookieSite);
-        foreach (CoreWebView2Cookie item in cookies)
+        IReadOnlyList<CoreWebView2Cookie>? cookies = await manager.GetCookiesAsync(CookieSite);
+
+        if (cookies != null)
         {
-            manager.DeleteCookie(item);
+            foreach (CoreWebView2Cookie item in cookies)
+            {
+                manager.DeleteCookie(item);
+            }
         }
 
         WebView.CoreWebView2.Navigate(Website);
@@ -66,9 +70,6 @@ public sealed partial class LoginMihoyoBBSPage : Microsoft.UI.Xaml.Controls.Page
                 break;
             case UserOptionResult.Updated:
                 infoBarService.Success($"用户 [{nickname}] 更新成功");
-                break;
-            case UserOptionResult.Upgraded:
-                infoBarService.Information($"用户 [{nickname}] 升级成功");
                 break;
             default:
                 throw Must.NeverHappen();

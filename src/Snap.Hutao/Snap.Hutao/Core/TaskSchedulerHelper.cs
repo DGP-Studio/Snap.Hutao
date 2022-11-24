@@ -22,7 +22,8 @@ internal static class TaskSchedulerHelper
     {
         try
         {
-            if (TaskService.Instance.GetTask(DailyNoteRefreshTaskName) is SchedulerTask targetTask)
+            SchedulerTask? targetTask = TaskService.Instance.GetTask(DailyNoteRefreshTaskName);
+            if (targetTask != null)
             {
                 TaskService.Instance.RootFolder.DeleteTask(DailyNoteRefreshTaskName);
             }

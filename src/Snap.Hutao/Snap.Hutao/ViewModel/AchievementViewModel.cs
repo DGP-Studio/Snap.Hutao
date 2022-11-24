@@ -11,6 +11,7 @@ using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Threading.CodeAnalysis;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.InterChange.Achievement;
@@ -57,6 +58,7 @@ internal class AchievementViewModel
     private Model.Entity.AchievementArchive? selectedArchive;
     private bool isIncompletedItemsFirst = true;
     private string searchText = string.Empty;
+    private bool isInitialized;
 
     /// <summary>
     /// 构造一个新的成就视图模型
@@ -84,6 +86,7 @@ internal class AchievementViewModel
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         ImportUIAFFromClipboardCommand = asyncRelayCommandFactory.Create(ImportUIAFFromClipboardAsync);
         ImportUIAFFromFileCommand = asyncRelayCommandFactory.Create(ImportUIAFFromFileAsync);
+        ExportAsUIAFToFileCommand = asyncRelayCommandFactory.Create(ExportAsUIAFToFileAsync);
         AddArchiveCommand = asyncRelayCommandFactory.Create(AddArchiveAsync);
         RemoveArchiveCommand = asyncRelayCommandFactory.Create(RemoveArchiveAsync);
         SearchAchievementCommand = new RelayCommand<string>(SearchAchievement);
@@ -94,6 +97,11 @@ internal class AchievementViewModel
 
     /// <inheritdoc/>
     public CancellationToken CancellationToken { get; set; }
+
+    /// <summary>
+    /// 是否初始化完成
+    /// </summary>
+    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
 
     /// <summary>
     /// 成就存档集合
@@ -200,6 +208,11 @@ internal class AchievementViewModel
     public ICommand ImportUIAFFromFileCommand { get; }
 
     /// <summary>
+    /// 以 UIAF 文件格式导出
+    /// </summary>
+    public ICommand ExportAsUIAFToFileCommand { get; }
+
+    /// <summary>
     /// 筛选未完成项开关命令
     /// </summary>
     public ICommand SortIncompletedSwitchCommand { get; }
@@ -240,6 +253,21 @@ internal class AchievementViewModel
     }
 
     [ThreadAccess(ThreadAccessState.MainThread)]
+    private static Task<ContentDialogResult> ShowImportResultDialogAsync(string title, string message)
+    {
+        ContentDialog dialog = new()
+        {
+            Title = title,
+            Content = message,
+            PrimaryButtonText = "确认",
+            DefaultButton = ContentDialogButton.Primary,
+        };
+
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        return dialog.InitializeWithWindow(mainWindow).ShowAsync().AsTask();
+    }
+
+    [ThreadAccess(ThreadAccessState.MainThread)]
     private static Task<ContentDialogResult> ShowImportFailDialogAsync(string message)
     {
         ContentDialog dialog = new()
@@ -275,20 +303,30 @@ internal class AchievementViewModel
 
         if (metaInitialized)
         {
-            List<AchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
-            await ThreadHelper.SwitchToMainThreadAsync();
-            AchievementGoals = goals.OrderBy(goal => goal.Order).ToList();
-
-            Archives = achievementService.GetArchiveCollection();
-            SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
-
-            if (SelectedArchive == null)
+            try
             {
-                infoBarService.Warning("请创建一个成就存档");
+                List<AchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
+
+                await ThreadHelper.SwitchToMainThreadAsync();
+                AchievementGoals = goals.OrderBy(goal => goal.Order).ToList();
+
+                Archives = achievementService.GetArchiveCollection();
+                SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
+
+                if (SelectedArchive == null)
+                {
+                    infoBarService.Warning("请创建一个成就存档");
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                // Indicate initialization not succeed
+                openUICompletionSource.TrySetResult(false);
             }
         }
 
         openUICompletionSource.TrySetResult(metaInitialized);
+        IsInitialized = true;
     }
 
     [ThreadAccess(ThreadAccessState.AnyThread)]
@@ -359,6 +397,42 @@ internal class AchievementViewModel
         }
     }
 
+    [ThreadAccess(ThreadAccessState.MainThread)]
+    private async Task ExportAsUIAFToFileAsync()
+    {
+        if (SelectedArchive == null || Achievements == null)
+        {
+            infoBarService.Information("必须选择一个存档才能导出成就");
+            return;
+        }
+
+        achievementService.SaveAchievements(SelectedArchive, (Achievements.Source as IList<Model.Binding.Achievement>)!);
+
+        await ThreadHelper.SwitchToMainThreadAsync();
+        IPickerFactory pickerFactory = Ioc.Default.GetRequiredService<IPickerFactory>();
+        FileSavePicker picker = pickerFactory.GetFileSavePicker();
+        picker.FileTypeChoices.Add("UIAF 文件", ".json".Enumerate().ToList());
+        picker.SuggestedStartLocation = PickerLocationId.Desktop;
+        picker.CommitButtonText = "导出";
+        picker.SuggestedFileName = $"{achievementService.CurrentArchive?.Name}.json";
+
+        if (await picker.PickSaveFileAsync() is StorageFile file)
+        {
+            UIAF uiaf = await achievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);
+            bool isOk = await file.SerializeToJsonAsync(uiaf, options).ConfigureAwait(false);
+
+            await ThreadHelper.SwitchToMainThreadAsync();
+            if (isOk)
+            {
+                await ShowImportResultDialogAsync("导出成功", "成功保存到指定位置").ConfigureAwait(false);
+            }
+            else
+            {
+                await ShowImportResultDialogAsync("导出失败", "写入文件时遇到问题").ConfigureAwait(false);
+            }
+        }
+    }
+
     private void SearchAchievement(string? search)
     {
         if (Achievements != null)
@@ -409,15 +483,12 @@ internal class AchievementViewModel
     {
         if (achievementService.CurrentArchive == null)
         {
-            infoBarService.Information("必须选择一个用户才能导入成就");
+            infoBarService.Information("必须选择一个存档才能导入成就");
             return;
         }
 
         IPickerFactory pickerFactory = Ioc.Default.GetRequiredService<IPickerFactory>();
-        FileOpenPicker picker = pickerFactory.GetFileOpenPicker();
-        picker.SuggestedStartLocation = PickerLocationId.Desktop;
-        picker.CommitButtonText = "导入";
-        picker.FileTypeFilter.Add(".json");
+        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "导入", ".json");
 
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {

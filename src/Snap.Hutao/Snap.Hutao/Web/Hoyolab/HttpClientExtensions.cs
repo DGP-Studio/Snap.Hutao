@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Request;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net.Sockets;
+using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab;
 
@@ -26,6 +29,11 @@ internal static class HttpClientExtensions
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
         }
+        catch (SocketException ex)
+        {
+            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            return null;
+        }
     }
 
     /// <inheritdoc cref="HttpClientJsonExtensions.PostAsJsonAsync{TValue}(HttpClient, string?, TValue, JsonSerializerOptions?, CancellationToken)"/>
@@ -38,6 +46,11 @@ internal static class HttpClientExtensions
             return await message.Content.ReadFromJsonAsync<TResult>(options, token).ConfigureAwait(false);
         }
         catch (HttpRequestException ex)
+        {
+            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            return null;
+        }
+        catch (SocketException ex)
         {
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
@@ -57,6 +70,10 @@ internal static class HttpClientExtensions
         {
             return null;
         }
+        catch (SocketException)
+        {
+            return null;
+        }
     }
 
     /// <summary>
@@ -68,25 +85,30 @@ internal static class HttpClientExtensions
     /// <returns>客户端</returns>
     internal static HttpClient SetUser(this HttpClient httpClient, Model.Entity.User user, CookieType cookie)
     {
-        if (cookie == CookieType.Stoken)
-        {
-            return httpClient.SetRawCookie(user.Stoken!);
-        }
-        else
-        {
-            return httpClient.SetRawCookie(user.Cookie!);
-        }
-    }
+        httpClient.DefaultRequestHeaders.Remove("Cookie");
+        StringBuilder stringBuilder = new();
 
-    /// <summary>
-    /// 设置 Cookie
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="cookie">Cookie</param>
-    /// <returns>客户端</returns>
-    internal static HttpClient SetRawCookie(this HttpClient httpClient, Cookie cookie)
-    {
-        httpClient.DefaultRequestHeaders.Set("Cookie", cookie.ToString());
+        if ((cookie & CookieType.CookieToken) == CookieType.CookieToken)
+        {
+            stringBuilder.Append(user.CookieToken).AppendIf(user.CookieToken != null, ';');
+        }
+
+        if ((cookie & CookieType.Ltoken) == CookieType.Ltoken)
+        {
+            stringBuilder.Append(user.Ltoken).AppendIf(user.Ltoken != null, ';');
+        }
+
+        if ((cookie & CookieType.Stoken) == CookieType.Stoken)
+        {
+            stringBuilder.Append(user.Stoken).AppendIf(user.Stoken != null, ';');
+        }
+
+        if ((cookie & CookieType.Mid) == CookieType.Mid)
+        {
+            stringBuilder.Append("mid=").Append(user.Mid).Append(';');
+        }
+
+        httpClient.DefaultRequestHeaders.Set("Cookie", stringBuilder.ToString());
         return httpClient;
     }
 
@@ -99,6 +121,18 @@ internal static class HttpClientExtensions
     internal static HttpClient SetReferer(this HttpClient httpClient, string referer)
     {
         httpClient.DefaultRequestHeaders.Set("Referer", referer);
+        return httpClient;
+    }
+
+    /// <summary>
+    /// 设置验证流水号
+    /// </summary>
+    /// <param name="httpClient">http客户端</param>
+    /// <param name="challenge">验证流水号</param>
+    /// <returns>客户端</returns>
+    internal static HttpClient SetXrpcChallenge(this HttpClient httpClient, string challenge)
+    {
+        httpClient.DefaultRequestHeaders.Set("x-rpc-challenge", challenge);
         return httpClient;
     }
 

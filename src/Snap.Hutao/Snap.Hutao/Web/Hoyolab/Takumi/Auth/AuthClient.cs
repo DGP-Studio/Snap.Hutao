@@ -46,15 +46,42 @@ internal class AuthClient
     {
         if (user.Stoken != null)
         {
-            user.Stoken.TryGetValue(Cookie.STOKEN, out string? token);
             Response<ActionTicketWrapper>? resp = await httpClient
+                .SetUser(user, CookieType.Stoken)
                 .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
-                .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, token!, user.Aid!), options, logger)
+                .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, user.Stoken[Cookie.STOKEN], user.Aid!), options, logger)
                 .ConfigureAwait(false);
 
             return resp?.Data?.Ticket;
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// 获取 MultiToken
+    /// </summary>
+    /// <param name="loginTicket">登录票证</param>
+    /// <param name="loginUid">uid</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>包含token的字典</returns>
+    public async Task<Dictionary<string, string>> GetMultiTokenByLoginTicketAsync(Cookie cookie, CancellationToken token)
+    {
+        string loginTicket = cookie["login_ticket"];
+        string loginUid = cookie["login_uid"];
+
+        Response<ListWrapper<NameToken>>? resp = await httpClient
+            .TryCatchGetFromJsonAsync<Response<ListWrapper<NameToken>>>(ApiEndpoints.AuthMultiToken(loginTicket, loginUid), options, logger, token)
+            .ConfigureAwait(false);
+
+        if (resp?.Data != null)
+        {
+            Dictionary<string, string> dict = resp.Data.List.ToDictionary(n => n.Name, n => n.Token);
+            Must.Argument(dict.ContainsKey(Cookie.LTOKEN), "MultiToken 应该包含 ltoken");
+            Must.Argument(dict.ContainsKey(Cookie.STOKEN), "MultiToken 应该包含 stoken");
+            return dict;
+        }
+
+        return new();
     }
 }

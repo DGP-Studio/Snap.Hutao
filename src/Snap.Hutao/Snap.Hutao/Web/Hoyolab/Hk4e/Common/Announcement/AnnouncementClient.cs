@@ -5,7 +5,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
@@ -16,16 +15,19 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 internal class AnnouncementClient
 {
     private readonly HttpClient httpClient;
+    private readonly ILogger<AnnouncementClient> logger;
     private readonly JsonSerializerOptions jsonSerializerOptions;
 
     /// <summary>
     /// 构造一个新的公告客户端
     /// </summary>
     /// <param name="httpClient">客户端</param>
+    /// <param name="logger">日志器</param>
     /// <param name="jsonSerializerOptions">json序列化选项</param>
-    public AnnouncementClient(HttpClient httpClient, JsonSerializerOptions jsonSerializerOptions)
+    public AnnouncementClient(HttpClient httpClient, ILogger<AnnouncementClient> logger, JsonSerializerOptions jsonSerializerOptions)
     {
         this.httpClient = httpClient;
+        this.logger = logger;
         this.jsonSerializerOptions = jsonSerializerOptions;
     }
 
@@ -37,7 +39,7 @@ internal class AnnouncementClient
     public async Task<AnnouncementWrapper?> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
     {
         Response<AnnouncementWrapper>? resp = await httpClient
-            .GetFromJsonAsync<Response<AnnouncementWrapper>>(ApiEndpoints.AnnList, jsonSerializerOptions, cancellationToken)
+            .TryCatchGetFromJsonAsync<Response<AnnouncementWrapper>>(ApiEndpoints.AnnList, jsonSerializerOptions, logger, cancellationToken)
             .ConfigureAwait(false);
 
         return resp?.Data;
@@ -52,7 +54,7 @@ internal class AnnouncementClient
     {
         // Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         Response<ListWrapper<AnnouncementContent>>? resp = await httpClient
-            .GetFromJsonAsync<Response<ListWrapper<AnnouncementContent>>>(ApiEndpoints.AnnContent, jsonSerializerOptions, cancellationToken)
+            .TryCatchGetFromJsonAsync<Response<ListWrapper<AnnouncementContent>>>(ApiEndpoints.AnnContent, jsonSerializerOptions, logger, cancellationToken)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data?.List);

@@ -121,6 +121,24 @@ internal class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
+    public Task<UIAF> ExportToUIAFAsync(EntityArchive archive)
+    {
+        List<UIAFItem> list = appDbContext.Achievements
+            .Where(i => i.ArchiveId == archive.InnerId)
+            .AsEnumerable()
+            .Select(i => i.ToUIAFItem())
+            .ToList();
+
+        UIAF uigf = new()
+        {
+            Info = UIAFInfo.Create(),
+            List = list,
+        };
+
+        return Task.FromResult(uigf);
+    }
+
+    /// <inheritdoc/>
     public ImportResult ImportFromUIAF(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy)
     {
         Guid archiveId = archive.InnerId;
