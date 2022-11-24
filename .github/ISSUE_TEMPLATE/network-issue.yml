@@ -1,0 +1,76 @@
+name: 网络问题
+description: 当网络问题影响到你的程序使用时
+title: "[Network]: 在这里填写一个合适的标题"
+labels: ["area-Network"]
+assignees:
+  - Lightczx
+  - Masterain98
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **请先在上方为工单设置一个合适的标题**
+        **请按下方的要求填写完整的问题表单，以便我们更快的定位问题。**
+  
+  - type: textarea
+    id: network-diagnosis-report
+    attributes:
+      label: 提交你的网络诊断报告
+      description: | 
+        停下！
+        **在填写下面的问题之前请先使用我们的网络诊断工具**
+        **这个工具将会生成一份报告，请将这份报告拖入下面的框中，让其与你的工单一起被上传提交**
+        - 你可以点击下面的链接以下载网络诊断工具：
+          - [胡桃资源站](https://d.hut.ao/d/tools/network-diagnosis-tool.exe)
+          - [GitHub](https://github.com/DGP-Studio/Snap.Hutao/files/10081999/network-diagnosis-hutao.zip)
+    validations:
+      required: true
+  
+  - type: input
+    id: user-geo-location
+    attributes:
+      label: 你的地理位置
+      description: | 
+        中国用户请精确到省级行政区
+        海外用户请精确到国家
+      placeholder: 北京
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-isp
+    attributes:
+      label: 你的运营商
+      description: 中国用户请精确到省级行政区，海外地区请精确到国家
+      options:
+        - 中国电信
+        - 中国联通
+        - 中国移动
+        - 中国广电
+        - 其它
+    validations:
+      required: true 
+  
+  - type: dropdown
+    id: user-issue-category
+    attributes:
+      label: 你的问题
+      description: 选择一个问题类别
+      options:
+        - 完全无法连接服务器
+        - 连接速度慢
+        - 获取到了不正确的页面或数据
+        - 图片下载错误（429 Error）
+        - 其它
+    validations:
+      required: true 
+  
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 你的问题（补充）
+      description: 如果你在上一项中选择了`其它`或者你有更多信息需要提供，请在这里写下来
+    validations:
+      required: false
+  
+
