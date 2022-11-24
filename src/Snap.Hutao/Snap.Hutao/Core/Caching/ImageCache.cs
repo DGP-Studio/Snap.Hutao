@@ -25,7 +25,7 @@ public class ImageCache : IImageCache
 {
     private const string DateAccessedProperty = "System.DateAccessed";
 
-    private static readonly ImmutableDictionary<int, TimeSpan> retryCountToDelay = new Dictionary<int, TimeSpan>()
+    private static readonly ImmutableDictionary<int, TimeSpan> RetryCountToDelay = new Dictionary<int, TimeSpan>()
     {
         [0] = TimeSpan.FromSeconds(4),
         [1] = TimeSpan.FromSeconds(16),
@@ -239,7 +239,7 @@ public class ImageCache : IImageCache
                 else
                 {
                     retryCount++;
-                    TimeSpan delay = message.Headers.RetryAfter?.Delta ?? retryCountToDelay[retryCount];
+                    TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
                     await Task.Delay(delay).ConfigureAwait(false);
                 }
             }

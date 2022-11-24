@@ -61,8 +61,7 @@ internal class AuthClient
     /// <summary>
     /// 获取 MultiToken
     /// </summary>
-    /// <param name="loginTicket">登录票证</param>
-    /// <param name="loginUid">uid</param>
+    /// <param name="cookie">login cookie</param>
     /// <param name="token">取消令牌</param>
     /// <returns>包含token的字典</returns>
     public async Task<Dictionary<string, string>> GetMultiTokenByLoginTicketAsync(Cookie cookie, CancellationToken token)

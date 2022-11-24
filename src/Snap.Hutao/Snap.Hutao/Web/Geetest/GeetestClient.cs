@@ -21,6 +21,7 @@ internal class GeetestClient
     /// 构造一个新的极验客户端
     /// </summary>
     /// <param name="httpClient">http客户端</param>
+    /// <param name="options">Json 序列化选项</param>
     public GeetestClient(HttpClient httpClient, JsonSerializerOptions options)
     {
         this.httpClient = httpClient;
@@ -63,45 +64,4 @@ internal class GeetestClient
     {
         return GetAjaxAsync(registration.Gt, registration.Challenge);
     }
-}
-
-/// <summary>
-/// 极验返回结果信息
-/// </summary>
-public class GeetestResult<T>
-{
-    /// <summary>
-    /// 成功失败的标识码 success
-    /// </summary>
-    [JsonPropertyName("status")]
-    public string Status { get; set; } = default!;
-
-    /// <summary>
-    /// 返回数据，json格式
-    /// </summary>
-    [JsonPropertyName("data")]
-    public T Data { get; set; } = default!;
-}
-
-/// <summary>
-/// 极验数据
-/// </summary>
-public class GeetestData
-{
-    /// <summary>
-    /// 结果
-    /// </summary>
-    [JsonPropertyName("result")]
-    public string Result { get; set; } = default!;
-
-    /// <summary>
-    /// 验证
-    /// </summary>
-    [JsonPropertyName("validate")]
-    public string? Validate { get; set; }
-
-    /// <summary>
-    /// 分数
-    /// </summary>
-    public int Score { get; set; } = default!;
 }
