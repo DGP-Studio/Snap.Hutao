@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
 
 namespace Snap.Hutao.Model.Binding.Hutao;
@@ -16,10 +17,10 @@ internal class Team : List<ComplexAvatar>
     /// </summary>
     /// <param name="team">队伍</param>
     /// <param name="idAvatarMap">映射</param>
-    public Team(ItemRate<string, int> team, Dictionary<int, Avatar> idAvatarMap)
+    public Team(ItemRate<string, int> team, Dictionary<AvatarId, Avatar> idAvatarMap)
         : base(4)
     {
-        IEnumerable<int> ids = team.Item.Split(',').Select(i => int.Parse(i));
+        IEnumerable<int> ids = team.Item.Split(',').Select(int.Parse);
 
         foreach (int id in ids)
         {

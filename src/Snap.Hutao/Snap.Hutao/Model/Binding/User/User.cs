@@ -181,7 +181,7 @@ public class User : ObservableObject
 
                 if (cookieToken != null)
                 {
-                    Cookie cookieTokenCookie = Cookie.Parse($"acount_id={Entity.Aid};cookie_token={cookieToken}");
+                    Cookie cookieTokenCookie = Cookie.Parse($"account_id={Entity.Aid};cookie_token={cookieToken}");
                     Entity.CookieToken = cookieTokenCookie;
                 }
             }

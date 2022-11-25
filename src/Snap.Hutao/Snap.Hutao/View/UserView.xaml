@@ -197,6 +197,13 @@
                         <TextBlock
                             Margin="10,6,0,6"
                             Style="{StaticResource BaseTextBlockStyle}"
+                            Text="Webview"/>
+                        <CommandBar DefaultLabelPosition="Right">
+                            <AppBarButton Label="米游社签到" Icon="{shcm:FontIcon Glyph=&#xEB41;}" Command="{Binding ShowSignInWebViewDialogCommand}"/>
+                        </CommandBar>
+                        <TextBlock
+                            Margin="10,6,0,6"
+                            Style="{StaticResource BaseTextBlockStyle}"
                             Text="Cookie 操作"/>
                         <CommandBar DefaultLabelPosition="Right">
                             <AppBarButton Label="登录米哈游通行证" Icon="{shcm:FontIcon Glyph=&#xEB41;}" Command="{Binding LoginMihoyoUserCommand}">

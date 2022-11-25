@@ -6,10 +6,10 @@ using Snap.Hutao.Model.Primitive.Converter;
 namespace Snap.Hutao.Model.Primitive;
 
 /// <summary>
-/// 8位 角色Id
+/// 6位 装备属性Id
 /// </summary>
-[JsonConverter(typeof(IdentityConverter<AvatarId>))]
-public readonly struct AvatarId : IEquatable<AvatarId>
+[JsonConverter(typeof(IdentityConverter<EquipAffixId>))]
+public readonly struct EquipAffixId : IEquatable<EquipAffixId>
 {
     /// <summary>
     /// 值
@@ -17,36 +17,36 @@ public readonly struct AvatarId : IEquatable<AvatarId>
     public readonly int Value;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AvatarId"/> struct.
+    /// Initializes a new instance of the <see cref="EquipAffixId"/> struct.
     /// </summary>
     /// <param name="value">value</param>
-    public AvatarId(int value)
+    public EquipAffixId(int value)
     {
         Value = value;
     }
 
-    public static implicit operator int(AvatarId value)
+    public static implicit operator int(EquipAffixId value)
     {
         return value.Value;
     }
 
-    public static implicit operator AvatarId(int value)
+    public static implicit operator EquipAffixId(int value)
     {
         return new(value);
     }
 
-    public static bool operator ==(AvatarId left, AvatarId right)
+    public static bool operator ==(EquipAffixId left, EquipAffixId right)
     {
         return left.Value == right.Value;
     }
 
-    public static bool operator !=(AvatarId left, AvatarId right)
+    public static bool operator !=(EquipAffixId left, EquipAffixId right)
     {
         return !(left == right);
     }
 
     /// <inheritdoc/>
-    public bool Equals(AvatarId other)
+    public bool Equals(EquipAffixId other)
     {
         return Value == other.Value;
     }
@@ -54,7 +54,7 @@ public readonly struct AvatarId : IEquatable<AvatarId>
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
-        return obj is AvatarId other && Equals(other);
+        return obj is EquipAffixId other && Equals(other);
     }
 
     /// <inheritdoc/>

@@ -133,11 +133,6 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </StackPanel.Resources>
-            <StackPanel.Transitions>
-                <TransitionCollection>
-                    <AddDeleteThemeTransition/>
-                </TransitionCollection>
-            </StackPanel.Transitions>
         </StackPanel>
     </Grid>
 </UserControl>

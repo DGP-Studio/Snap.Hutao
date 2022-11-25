@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Reliquary;
+using Snap.Hutao.Model.Primitive;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
@@ -18,10 +19,10 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// </summary>
 internal class SummaryFactoryImplementation
 {
-    private readonly Dictionary<int, MetadataAvatar> idAvatarMap;
-    private readonly Dictionary<int, FightProperty> idRelicMainPropMap;
-    private readonly Dictionary<int, MetadataWeapon> idWeaponMap;
-    private readonly Dictionary<int, ReliquaryAffix> idReliquaryAffixMap;
+    private readonly Dictionary<AvatarId, MetadataAvatar> idAvatarMap;
+    private readonly Dictionary<WeaponId, MetadataWeapon> idWeaponMap;
+    private readonly Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap;
+    private readonly Dictionary<ReliquaryAffixId, ReliquaryAffix> idReliquaryAffixMap;
     private readonly List<ReliquaryLevel> reliqueryLevels;
     private readonly List<MetadataReliquary> reliquaries;
 
@@ -35,10 +36,10 @@ internal class SummaryFactoryImplementation
     /// <param name="reliqueryLevels">圣遗物主属性等级</param>
     /// <param name="reliquaries">圣遗物</param>
     public SummaryFactoryImplementation(
-        Dictionary<int, MetadataAvatar> idAvatarMap,
-        Dictionary<int, MetadataWeapon> idWeaponMap,
-        Dictionary<int, FightProperty> idRelicMainPropMap,
-        Dictionary<int, ReliquaryAffix> idReliquaryAffixMap,
+        Dictionary<AvatarId, MetadataAvatar> idAvatarMap,
+        Dictionary<WeaponId, MetadataWeapon> idWeaponMap,
+        Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap,
+        Dictionary<ReliquaryAffixId, ReliquaryAffix> idReliquaryAffixMap,
         List<ReliquaryLevel> reliqueryLevels,
         List<MetadataReliquary> reliquaries)
     {

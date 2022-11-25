@@ -4,6 +4,7 @@ WM_NCRBUTTONDOWN
 WM_NCRBUTTONUP
 
 // Type definition
+HRESULT
 MINMAXINFO
 
 // Comctl32

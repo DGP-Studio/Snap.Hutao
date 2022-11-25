@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Reliquary;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Enka.Model;
 using System.Runtime.InteropServices;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
@@ -20,8 +21,8 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// </summary>
 internal class SummaryReliquaryFactory
 {
-    private readonly Dictionary<int, MetadataReliquaryAffix> idReliquaryAffixMap;
-    private readonly Dictionary<int, FightProperty> idRelicMainPropMap;
+    private readonly Dictionary<ReliquaryAffixId, MetadataReliquaryAffix> idReliquaryAffixMap;
+    private readonly Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap;
     private readonly List<ReliquaryLevel> reliqueryLevels;
     private readonly List<MetadataReliquary> reliquaries;
 
@@ -38,8 +39,8 @@ internal class SummaryReliquaryFactory
     /// <param name="avatarInfo">角色信息</param>
     /// <param name="equip">圣遗物</param>
     public SummaryReliquaryFactory(
-        Dictionary<int, MetadataReliquaryAffix> idReliquaryAffixMap,
-        Dictionary<int, FightProperty> idRelicMainPropMap,
+        Dictionary<ReliquaryAffixId, MetadataReliquaryAffix> idReliquaryAffixMap,
+        Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap,
         List<ReliquaryLevel> reliqueryLevels,
         List<MetadataReliquary> reliquaries,
         ModelAvatarInfo avatarInfo,

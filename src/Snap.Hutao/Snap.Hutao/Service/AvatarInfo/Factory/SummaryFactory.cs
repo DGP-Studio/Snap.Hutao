@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Reliquary;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
@@ -33,10 +34,10 @@ internal class SummaryFactory : ISummaryFactory
     /// <inheritdoc/>
     public async Task<Summary> CreateAsync(ModelPlayerInfo playerInfo, IEnumerable<ModelAvatarInfo> avatarInfos, CancellationToken token)
     {
-        Dictionary<int, MetadataAvatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
-        Dictionary<int, MetadataWeapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
-        Dictionary<int, FightProperty> idRelicMainPropMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false);
-        Dictionary<int, ReliquaryAffix> idReliquaryAffixMap = await metadataService.GetIdReliquaryAffixMapAsync(token).ConfigureAwait(false);
+        Dictionary<AvatarId, MetadataAvatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
+        Dictionary<WeaponId, MetadataWeapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
+        Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false);
+        Dictionary<ReliquaryAffixId, ReliquaryAffix> idReliquaryAffixMap = await metadataService.GetIdReliquaryAffixMapAsync(token).ConfigureAwait(false);
 
         List<ReliquaryLevel> reliqueryLevels = await metadataService.GetReliquaryLevelsAsync(token).ConfigureAwait(false);
         List<MetadataReliquary> reliquaries = await metadataService.GetReliquariesAsync(token).ConfigureAwait(false);

@@ -6,9 +6,9 @@ using Snap.Hutao.Model.Primitive.Converter;
 namespace Snap.Hutao.Model.Primitive;
 
 /// <summary>
-/// 武器Id
+/// 5位 武器Id
 /// </summary>
-[JsonConverter(typeof(WeaponIdConverter))]
+[JsonConverter(typeof(IdentityConverter<WeaponId>))]
 public readonly struct WeaponId : IEquatable<WeaponId>
 {
     /// <summary>

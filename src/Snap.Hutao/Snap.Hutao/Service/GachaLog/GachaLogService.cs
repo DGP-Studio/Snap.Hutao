@@ -13,6 +13,7 @@ using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Model.Metadata.Abstraction;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -52,8 +53,8 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     private Dictionary<string, Model.Metadata.Avatar.Avatar>? nameAvatarMap;
     private Dictionary<string, Model.Metadata.Weapon.Weapon>? nameWeaponMap;
 
-    private Dictionary<int, Model.Metadata.Avatar.Avatar>? idAvatarMap;
-    private Dictionary<int, Model.Metadata.Weapon.Weapon>? idWeaponMap;
+    private Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? idAvatarMap;
+    private Dictionary<WeaponId, Model.Metadata.Weapon.Weapon>? idWeaponMap;
     private ObservableCollection<GachaArchive>? archiveCollection;
 
     /// <summary>

@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
@@ -37,8 +38,8 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
     /// <inheritdoc/>
     public async Task<GachaStatistics> CreateAsync(IEnumerable<GachaItem> items)
     {
-        Dictionary<int, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-        Dictionary<int, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
+        Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
+        Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
         Dictionary<string, Avatar> nameAvatarMap = await metadataService.GetNameToAvatarMapAsync().ConfigureAwait(false);
         Dictionary<string, Weapon> nameWeaponMap = await metadataService.GetNameToWeaponMapAsync().ConfigureAwait(false);
@@ -66,8 +67,8 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
     private static GachaStatistics CreateCore(
         IOrderedEnumerable<GachaItem> items,
         List<HistoryWishBuilder> historyWishBuilders,
-        Dictionary<int, Avatar> avatarMap,
-        Dictionary<int, Weapon> weaponMap,
+        Dictionary<AvatarId, Avatar> avatarMap,
+        Dictionary<WeaponId, Weapon> weaponMap,
         bool isEmptyHistoryWishVisible)
     {
         TypedWishSummaryBuilder permanentWishBuilder = new("奔行世间", TypedWishSummaryBuilder.PermanentWish, 90, 10);

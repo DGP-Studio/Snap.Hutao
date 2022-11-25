@@ -6,10 +6,10 @@ using Snap.Hutao.Model.Primitive.Converter;
 namespace Snap.Hutao.Model.Primitive;
 
 /// <summary>
-/// 8位 角色Id
+/// 6位 圣遗物副词条Id
 /// </summary>
-[JsonConverter(typeof(IdentityConverter<AvatarId>))]
-public readonly struct AvatarId : IEquatable<AvatarId>
+[JsonConverter(typeof(IdentityConverter<ReliquaryAffixId>))]
+public readonly struct ReliquaryAffixId : IEquatable<ReliquaryAffixId>
 {
     /// <summary>
     /// 值
@@ -17,36 +17,36 @@ public readonly struct AvatarId : IEquatable<AvatarId>
     public readonly int Value;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AvatarId"/> struct.
+    /// Initializes a new instance of the <see cref="ReliquaryAffixId"/> struct.
     /// </summary>
     /// <param name="value">value</param>
-    public AvatarId(int value)
+    public ReliquaryAffixId(int value)
     {
         Value = value;
     }
 
-    public static implicit operator int(AvatarId value)
+    public static implicit operator int(ReliquaryAffixId value)
     {
         return value.Value;
     }
 
-    public static implicit operator AvatarId(int value)
+    public static implicit operator ReliquaryAffixId(int value)
     {
         return new(value);
     }
 
-    public static bool operator ==(AvatarId left, AvatarId right)
+    public static bool operator ==(ReliquaryAffixId left, ReliquaryAffixId right)
     {
         return left.Value == right.Value;
     }
 
-    public static bool operator !=(AvatarId left, AvatarId right)
+    public static bool operator !=(ReliquaryAffixId left, ReliquaryAffixId right)
     {
         return !(left == right);
     }
 
     /// <inheritdoc/>
-    public bool Equals(AvatarId other)
+    public bool Equals(ReliquaryAffixId other)
     {
         return Value == other.Value;
     }
@@ -54,7 +54,7 @@ public readonly struct AvatarId : IEquatable<AvatarId>
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
-        return obj is AvatarId other && Equals(other);
+        return obj is ReliquaryAffixId other && Equals(other);
     }
 
     /// <inheritdoc/>

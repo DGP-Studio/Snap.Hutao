@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
 
 namespace Snap.Hutao.Model.Binding.Hutao;
@@ -16,7 +17,7 @@ internal class ComplexTeamRank
     /// </summary>
     /// <param name="teamRank">队伍排行</param>
     /// <param name="idAvatarMap">映射</param>
-    public ComplexTeamRank(TeamAppearance teamRank, Dictionary<int, Avatar> idAvatarMap)
+    public ComplexTeamRank(TeamAppearance teamRank, Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         Floor = $"第 {teamRank.Floor} 层";
         Up = teamRank.Up.Select(teamRate => new Team(teamRate, idAvatarMap)).ToList();

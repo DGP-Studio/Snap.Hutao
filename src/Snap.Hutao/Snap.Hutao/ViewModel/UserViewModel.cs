@@ -46,6 +46,7 @@ internal class UserViewModel : ObservableObject
         LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
         RemoveUserCommand = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
+        ShowSignInWebViewDialogCommand = asyncRelayCommandFactory.Create(ShowSignInWebViewDialogAsync);
     }
 
     /// <summary>
@@ -82,6 +83,8 @@ internal class UserViewModel : ObservableObject
     /// 登录米游社命令
     /// </summary>
     public ICommand LoginMihoyoUserCommand { get; }
+
+    public ICommand ShowSignInWebViewDialogCommand { get; }
 
     /// <summary>
     /// 移除用户命令
@@ -164,5 +167,11 @@ internal class UserViewModel : ObservableObject
         {
             infoBarService.Error(e);
         }
+    }
+
+    private async Task ShowSignInWebViewDialogAsync()
+    {
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        await new SignInWebViewDialog(mainWindow).ShowAsync();
     }
 }

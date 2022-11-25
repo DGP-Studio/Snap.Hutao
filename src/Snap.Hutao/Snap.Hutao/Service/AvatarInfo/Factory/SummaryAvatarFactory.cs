@@ -6,6 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Reliquary;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Enka.Model;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
@@ -22,10 +23,10 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// </summary>
 internal class SummaryAvatarFactory
 {
-    private readonly Dictionary<int, MetadataAvatar> idAvatarMap;
-    private readonly Dictionary<int, FightProperty> idRelicMainPropMap;
-    private readonly Dictionary<int, ReliquaryAffix> idReliquaryAffixMap;
-    private readonly Dictionary<int, MetadataWeapon> idWeaponMap;
+    private readonly Dictionary<AvatarId, MetadataAvatar> idAvatarMap;
+    private readonly Dictionary<WeaponId, MetadataWeapon> idWeaponMap;
+    private readonly Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap;
+    private readonly Dictionary<ReliquaryAffixId, ReliquaryAffix> idReliquaryAffixMap;
     private readonly List<ReliquaryLevel> reliqueryLevels;
     private readonly List<MetadataReliquary> reliquaries;
 
@@ -42,18 +43,18 @@ internal class SummaryAvatarFactory
     /// <param name="reliquaries">圣遗物</param>
     /// <param name="avatarInfo">角色信息</param>
     public SummaryAvatarFactory(
-        Dictionary<int, MetadataAvatar> idAvatarMap,
-        Dictionary<int, MetadataWeapon> idWeaponMap,
-        Dictionary<int, FightProperty> idRelicMainPropMap,
-        Dictionary<int, ReliquaryAffix> idReliquaryAffixMap,
+        Dictionary<AvatarId, MetadataAvatar> idAvatarMap,
+        Dictionary<WeaponId, MetadataWeapon> idWeaponMap,
+        Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap,
+        Dictionary<ReliquaryAffixId, ReliquaryAffix> idReliquaryAffixMap,
         List<ReliquaryLevel> reliqueryLevels,
         List<MetadataReliquary> reliquaries,
         ModelAvatarInfo avatarInfo)
     {
         this.idAvatarMap = idAvatarMap;
+        this.idWeaponMap = idWeaponMap;
         this.idRelicMainPropMap = idRelicMainPropMap;
         this.idReliquaryAffixMap = idReliquaryAffixMap;
-        this.idWeaponMap = idWeaponMap;
         this.reliqueryLevels = reliqueryLevels;
         this.reliquaries = reliquaries;
         this.avatarInfo = avatarInfo;

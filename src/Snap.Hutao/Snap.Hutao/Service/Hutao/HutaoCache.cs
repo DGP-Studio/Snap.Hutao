@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Hutao.Model;
 
@@ -19,7 +20,7 @@ internal class HutaoCache : IHutaoCache
     private readonly IHutaoService hutaoService;
     private readonly IMetadataService metadataService;
 
-    private Dictionary<int, Avatar>? idAvatarExtendedMap;
+    private Dictionary<AvatarId, Avatar>? idAvatarExtendedMap;
 
     /// <summary>
     /// 构造一个新的胡桃 API 缓存
@@ -55,7 +56,7 @@ internal class HutaoCache : IHutaoCache
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            Dictionary<int, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
+            Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
 
             Task avatarAppearanceRankTask = AvatarAppearanceRankAsync(idAvatarMap);
             Task avatarUsageRank = AvatarUsageRanksAsync(idAvatarMap);
@@ -82,9 +83,9 @@ internal class HutaoCache : IHutaoCache
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            Dictionary<int, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
-            Dictionary<int, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
-            Dictionary<int, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap = await metadataService.GetEquipAffixIdToReliquarySetMapAsync().ConfigureAwait(false);
+            Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
+            Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
+            Dictionary<EquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap = await metadataService.GetEquipAffixIdToReliquarySetMapAsync().ConfigureAwait(false);
 
             // AvatarCollocation
             List<AvatarCollocation> avatarCollocationsRaw = await hutaoService.GetAvatarCollocationsAsync().ConfigureAwait(false);
@@ -105,11 +106,11 @@ internal class HutaoCache : IHutaoCache
         return false;
     }
 
-    private async ValueTask<Dictionary<int, Avatar>> GetIdAvatarMapExtendedAsync()
+    private async ValueTask<Dictionary<AvatarId, Avatar>> GetIdAvatarMapExtendedAsync()
     {
         if (idAvatarExtendedMap == null)
         {
-            Dictionary<int, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
+            Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             idAvatarExtendedMap = new(idAvatarMap)
             {
                 [AvatarIds.PlayerBoy] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerBoy", Quality = Model.Intrinsic.ItemQuality.QUALITY_ORANGE },
@@ -120,7 +121,7 @@ internal class HutaoCache : IHutaoCache
         return idAvatarExtendedMap;
     }
 
-    private async Task AvatarAppearanceRankAsync(Dictionary<int, Avatar> idAvatarMap)
+    private async Task AvatarAppearanceRankAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarAppearanceRank> avatarAppearanceRanksRaw = await hutaoService.GetAvatarAppearanceRanksAsync().ConfigureAwait(false);
         AvatarAppearanceRanks = avatarAppearanceRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new ComplexAvatarRank
@@ -130,7 +131,7 @@ internal class HutaoCache : IHutaoCache
         }).ToList();
     }
 
-    private async Task AvatarUsageRanksAsync(Dictionary<int, Avatar> idAvatarMap)
+    private async Task AvatarUsageRanksAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarUsageRank> avatarUsageRanksRaw = await hutaoService.GetAvatarUsageRanksAsync().ConfigureAwait(false);
         AvatarUsageRanks = avatarUsageRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new ComplexAvatarRank
@@ -140,7 +141,7 @@ internal class HutaoCache : IHutaoCache
         }).ToList();
     }
 
-    private async Task AvatarConstellationInfosAsync(Dictionary<int, Avatar> idAvatarMap)
+    private async Task AvatarConstellationInfosAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarConstellationInfo> avatarConstellationInfosRaw = await hutaoService.GetAvatarConstellationInfosAsync().ConfigureAwait(false);
         AvatarConstellationInfos = avatarConstellationInfosRaw.OrderBy(i => i.HoldingRate).Select(info =>
@@ -149,7 +150,7 @@ internal class HutaoCache : IHutaoCache
         }).ToList();
     }
 
-    private async Task TeamAppearancesAsync(Dictionary<int, Avatar> idAvatarMap)
+    private async Task TeamAppearancesAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<TeamAppearance> teamAppearancesRaw = await hutaoService.GetTeamAppearancesAsync().ConfigureAwait(false);
         TeamAppearances = teamAppearancesRaw.OrderByDescending(t => t.Floor).Select(team => new ComplexTeamRank(team, idAvatarMap)).ToList();

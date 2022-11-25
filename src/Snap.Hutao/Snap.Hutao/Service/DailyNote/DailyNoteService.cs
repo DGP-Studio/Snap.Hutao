@@ -108,11 +108,8 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
                 entry.DailyNote = dailyNote;
 
                 // cache
-                Guid userId = entry.UserId;
                 await ThreadHelper.SwitchToMainThreadAsync();
-
-                // BUG: can found multiple entries sometime
-                entries?.Single(e => e.UserId == userId).UpdateDailyNote(dailyNote);
+                entries?.Single(e => e.UserId == entry.UserId && e.Uid == entry.Uid).UpdateDailyNote(dailyNote);
 
                 if (notify)
                 {

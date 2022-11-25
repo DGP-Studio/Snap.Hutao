@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Reliquary;
 
@@ -13,7 +14,7 @@ public class ReliquaryAffixBase
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; set; }
+    public ReliquaryMainAffixId Id { get; set; }
 
     /// <summary>
     /// 战斗属性

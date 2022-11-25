@@ -69,7 +69,7 @@ internal class PassportClient2
         HttpResponseMessage message = await httpClient
             .SetHeader("Cookie", stokenV1.ToString())
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .PostAsync(ApiEndpoints.AccountGetSTokenByOldtoken, null, token)
+            .PostAsync(ApiEndpoints.AccountGetSTokenByOldToken, null, token)
             .ConfigureAwait(false);
 
         Response<LoginResult>? resp = await message.Content

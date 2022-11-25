@@ -226,7 +226,7 @@ internal static class ApiEndpoints
     /// <summary>
     /// 获取V2Stoken
     /// </summary>
-    public const string AccountGetSTokenByOldtoken = $"{PassportApi}/account/ma-cn-session/app/getTokenBySToken";
+    public const string AccountGetSTokenByOldToken = $"{PassportApi}/account/ma-cn-session/app/getTokenBySToken";
 
     /// <summary>
     /// 登录

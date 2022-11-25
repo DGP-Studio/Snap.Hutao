@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
 using System.Text;
 
@@ -17,7 +18,7 @@ public class ComplexReliquarySet
     /// </summary>
     /// <param name="reliquarySetRate">圣遗物套装率</param>
     /// <param name="idReliquarySetMap">圣遗物套装映射</param>
-    public ComplexReliquarySet(ItemRate<ReliquarySets, double> reliquarySetRate, Dictionary<int, Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
+    public ComplexReliquarySet(ItemRate<ReliquarySets, double> reliquarySetRate, Dictionary<EquipAffixId, Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
     {
         ReliquarySets sets = reliquarySetRate.Item;
 
@@ -43,7 +44,7 @@ public class ComplexReliquarySet
         }
         else
         {
-            Name = "无圣遗物";
+            Name = "无圣遗物或散件";
         }
 
         Rate = $"{reliquarySetRate.Rate:P3}";

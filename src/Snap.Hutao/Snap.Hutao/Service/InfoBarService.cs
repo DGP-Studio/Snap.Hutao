@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service;
@@ -117,6 +118,7 @@ internal class InfoBarService : IInfoBarService
             Title = title,
             Message = message,
             IsOpen = true,
+            Transitions = new() { new AddDeleteThemeTransition() },
         };
 
         infoBar.Closed += OnInfoBarClosed;

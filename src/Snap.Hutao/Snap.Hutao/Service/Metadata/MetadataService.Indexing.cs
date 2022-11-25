@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Service.Metadata;
 
@@ -14,33 +15,33 @@ namespace Snap.Hutao.Service.Metadata;
 internal partial class MetadataService
 {
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<EquipAffixId, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<int, ReliquarySet>("ReliquarySet", r => r.EquipAffixId, token);
+        return FromCacheAsDictionaryAsync<EquipAffixId, ReliquarySet>("ReliquarySet", r => r.EquipAffixId, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<int, Avatar>("Avatar", a => a.Id, token);
+        return FromCacheAsDictionaryAsync<AvatarId, Avatar>("Avatar", a => a.Id, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<ReliquaryAffixId, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<int, ReliquaryAffix>("ReliquaryAffix", a => a.Id, token);
+        return FromCacheAsDictionaryAsync<ReliquaryAffixId, ReliquaryAffix>("ReliquaryAffix", a => a.Id, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<ReliquaryMainAffixId, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<int, FightProperty, ReliquaryAffixBase>("ReliquaryMainAffix", r => r.Id, r => r.Type, token);
+        return FromCacheAsDictionaryAsync<ReliquaryMainAffixId, FightProperty, ReliquaryAffixBase>("ReliquaryMainAffix", r => r.Id, r => r.Type, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<WeaponId, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<int, Weapon>("Weapon", w => w.Id, token);
+        return FromCacheAsDictionaryAsync<WeaponId, Weapon>("Weapon", w => w.Id, token);
     }
 
     /// <inheritdoc/>

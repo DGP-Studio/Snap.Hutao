@@ -30,8 +30,13 @@ public static class CastTo<TTo>
 
         private static Func<TCachedFrom, TTo> Get()
         {
+            // 参数表达式，表示 传入源类型
             ParameterExpression param = Expression.Parameter(typeof(TCachedFrom));
+
+            // 一元转换 调用 相关类的显式或隐式转换运算符
             UnaryExpression convert = Expression.ConvertChecked(param, typeof(TTo));
+
+            // 生成一个源类型入，目标类型出的 lamdba
             return Expression.Lambda<Func<TCachedFrom, TTo>>(convert, param).Compile();
         }
     }

@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Service.Metadata;
 
@@ -47,7 +48,7 @@ internal interface IMetadataService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>装备被动Id到圣遗物套装的映射</returns>
-    ValueTask<Dictionary<int, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<EquipAffixId, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取卡池配置列表
@@ -61,28 +62,28 @@ internal interface IMetadataService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>Id到角色的字典</returns>
-    ValueTask<Dictionary<int, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取ID到圣遗物副词条的字典
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>字典</returns>
-    ValueTask<Dictionary<int, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<ReliquaryAffixId, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物主词条Id与属性的字典
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>字典</returns>
-    ValueTask<Dictionary<int, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<ReliquaryMainAffixId, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取ID到武器的字典
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>Id到武器的字典</returns>
-    ValueTask<Dictionary<int, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<WeaponId, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取名称到角色的字典

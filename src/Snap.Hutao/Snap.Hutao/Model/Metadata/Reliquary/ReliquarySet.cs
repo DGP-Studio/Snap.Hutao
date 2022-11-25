@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Model.Metadata.Reliquary;
 
 /// <summary>
@@ -16,7 +18,7 @@ public class ReliquarySet
     /// <summary>
     /// 装备被动Id
     /// </summary>
-    public int EquipAffixId { get; set; }
+    public EquipAffixId EquipAffixId { get; set; }
 
     /// <summary>
     /// 套装名称
