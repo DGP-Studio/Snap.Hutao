@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
 
 namespace Snap.Hutao.Web.Bridge.Model;
 

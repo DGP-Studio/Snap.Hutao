@@ -13,8 +13,8 @@ namespace Snap.Hutao.Web.Bridge;
 /// 调用桥
 /// </summary>
 [ComVisible(true)]
-[ClassInterface(ClassInterfaceType.AutoDual)]
-public sealed class MiHoYoJsBridge /*: IMiHoYoJsBridge*/
+[ClassInterface(ClassInterfaceType.None)]
+public sealed class MiHoYoJsBridge : IMiHoYoJsBridge
 {
     private readonly CoreWebView2 webView;
     private readonly ILogger<MiHoYoJsBridge>? logger;
