@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Web.Bridge.Model;
 
 namespace Snap.Hutao.Web.Response;
 
@@ -60,7 +61,7 @@ public class Response : ISupportValidation
 /// </summary>
 /// <typeparam name="TData">数据类型</typeparam>
 [SuppressMessage("", "SA1402")]
-public class Response<TData> : Response
+public class Response<TData> : Response, IJsResult
 {
     /// <summary>
     /// 构造一个新的 Mihoyo 标准API响应
@@ -90,5 +91,11 @@ public class Response<TData> : Response
     public bool IsOk()
     {
         return ReturnCode == 0;
+    }
+
+    /// <inheritdoc/>
+    string IJsResult.ToString(JsonSerializerOptions options)
+    {
+        return JsonSerializer.Serialize(this);
     }
 }

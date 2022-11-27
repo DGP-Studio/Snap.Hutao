@@ -15,10 +15,11 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 [Injection(InjectAs.Transient)]
 public class DynamicSecretHandler : DelegatingHandler
 {
-    private const string RandomRange = "abcdefghijklmnopqrstuvwxyz1234567890";
-
+    /// <summary>
+    /// 盐
+    /// </summary>
     // https://github.com/UIGF-org/Hoyolab.Salt
-    private static readonly ImmutableDictionary<string, string> DynamicSecrets = new Dictionary<string, string>()
+    public static readonly ImmutableDictionary<string, string> DynamicSecrets = new Dictionary<string, string>()
     {
         [nameof(SaltType.K2)] = "TsmyHpZg8gFAVKTtlPaL6YwMldzxZJxQ",
         [nameof(SaltType.LK2)] = "osgT0DljLarYxgebPPHJFjdaxPfoiHGt",
@@ -26,6 +27,8 @@ public class DynamicSecretHandler : DelegatingHandler
         [nameof(SaltType.X6)] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
         [nameof(SaltType.PROD)] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
     }.ToImmutableDictionary();
+
+    private const string RandomRange = "abcdefghijklmnopqrstuvwxyz1234567890";
 
     /// <inheritdoc/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token)
@@ -64,36 +67,6 @@ public class DynamicSecretHandler : DelegatingHandler
         }
 
         return await base.SendAsync(request, token).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// 获取DS
-    /// </summary>
-    /// <param name="saltType">nameof <see cref="SaltType"/></param>
-    /// <param name="version">nameof <see cref="DynamicSecretVersion"/></param>
-    /// <param name="body">body</param>
-    /// <param name="query">query</param>
-    /// <param name="includeChars">是否需要字母</param>
-    /// <returns>DS</returns>
-    public static string GetDynamicSecret(string saltType, string version, string? body = null, string? query = null, bool includeChars = true)
-    {
-        string salt = DynamicSecrets[saltType];
-
-        long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-
-        string r = includeChars ? GetRandomStringWithChars() : GetRandomStringNoChars();
-
-        string dsContent = $"salt={salt}&t={t}&r={r}";
-
-        if (version == nameof(DynamicSecretVersion.Gen2))
-        {
-            string[] queries = Uri.UnescapeDataString(query!).Split('?', 2);
-            string q = queries.Length == 2 ? string.Join('&', queries[1].Split('&').OrderBy(x => x)) : string.Empty;
-
-            dsContent = $"{dsContent}&b={body}&q={q}";
-        }
-
-        return Md5Convert.ToHexString(dsContent).ToLowerInvariant();
     }
 
     private static string GetRandomStringWithChars()

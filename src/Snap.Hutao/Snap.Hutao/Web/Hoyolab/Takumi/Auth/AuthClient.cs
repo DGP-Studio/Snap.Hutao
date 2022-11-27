@@ -59,6 +59,24 @@ internal class AuthClient
     }
 
     /// <summary>
+    /// 异步获取操作凭证
+    /// </summary>
+    /// <param name="action">操作</param>
+    /// <param name="user">用户</param>
+    /// <returns>操作凭证</returns>
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
+    public async Task<Response<ActionTicketWrapper>?> GetActionTicketWrapperByStokenAsync(string action, User user)
+    {
+        Response<ActionTicketWrapper>? resp = await httpClient
+            .SetUser(user, CookieType.Stoken)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
+            .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, user.Stoken![Cookie.STOKEN], user.Aid!), options, logger)
+            .ConfigureAwait(false);
+
+        return resp;
+    }
+
+    /// <summary>
     /// 获取 MultiToken
     /// </summary>
     /// <param name="cookie">login cookie</param>

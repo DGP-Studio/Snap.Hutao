@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.TaskScheduler;
+using System.Runtime.InteropServices;
 using SchedulerTask = Microsoft.Win32.TaskScheduler.Task;
 
 namespace Snap.Hutao.Core;
@@ -36,6 +37,10 @@ internal static class TaskSchedulerHelper
             return true;
         }
         catch (UnauthorizedAccessException)
+        {
+            return false;
+        }
+        catch (COMException)
         {
             return false;
         }

@@ -4,6 +4,7 @@
 namespace Snap.Hutao.Web.Bridge.Model;
 
 /// <summary>
+/// 由WebView向客户端传递的参数
 /// Js 参数
 /// </summary>
 public class JsParam
@@ -12,52 +13,54 @@ public class JsParam
     /// 方法名称
     /// </summary>
     [JsonPropertyName("method")]
-    public string Method { get; set; } = string.Empty;
+    public string Method { get; set; } = default!;
 
     /// <summary>
-    /// 数据
+    /// 数据 可以为空
     /// </summary>
     [JsonPropertyName("payload")]
-    public JsonElement Data { get; set; }
+    public JsonElement? Payload { get; set; }
 
     /// <summary>
-    /// 回调名称
+    /// 回调的名称，调用 JavaScript:mhyWebBridge 时作为首个参数传入
     /// </summary>
     [JsonPropertyName("callback")]
-    public string CallbackName { get; set; } = string.Empty;
+    public string Callback { get; set; } = default!;
+}
+
+/// <summary>
+/// 由WebView向客户端传递的参数
+/// Js 参数
+/// </summary>
+/// <typeparam name="TPayload">Payload 类型</typeparam>
+[SuppressMessage("", "SA1402")]
+public class JsParam<TPayload>
+{
+    /// <summary>
+    /// 方法名称
+    /// </summary>
+    [JsonPropertyName("method")]
+    public string Method { get; set; } = default!;
 
     /// <summary>
-    /// 对应的调用桥
+    /// 数据 可以为空
     /// </summary>
-    internal MiHoYoJsBridge Bridge { get; set; } = null!;
+    [JsonPropertyName("payload")]
+    public TPayload Payload { get; set; } = default!;
 
     /// <summary>
-    /// 执行回调
+    /// 回调的名称，调用 JavaScript:mhyWebBridge 时作为首个参数传入
     /// </summary>
-    /// <param name="resultFactory">结果工厂</param>
-    public void Callback(Func<JsResult>? resultFactory = null)
+    [JsonPropertyName("callback")]
+    public string Callback { get; set; } = string.Empty;
+
+    public static implicit operator JsParam<TPayload>(JsParam jsParam)
     {
-        JsResult? result = resultFactory?.Invoke() ?? new();
-        Callback(result?.ToString());
-    }
-
-    /// <summary>
-    /// 执行回调
-    /// </summary>
-    /// <param name="resultModifier">结果工厂</param>
-    public void Callback(Action<JsResult> resultModifier)
-    {
-        JsResult result = new();
-        resultModifier(result);
-        Callback(result?.ToString());
-    }
-
-    /// <summary>
-    /// 执行回调
-    /// </summary>
-    /// <param name="result">结果</param>
-    public void Callback(string? result = null)
-    {
-        Bridge.InvokeJsCallbackAsync(CallbackName, result).GetAwaiter().GetResult();
+        return new JsParam<TPayload>()
+        {
+            Method = jsParam.Method,
+            Payload = jsParam.Payload.HasValue ? jsParam.Payload.Value.Deserialize<TPayload>() : default,
+            Callback = jsParam.Callback,
+        };
     }
 }

@@ -4,9 +4,11 @@
 namespace Snap.Hutao.Web.Bridge.Model;
 
 /// <summary>
+/// 用于传回网页的参数
 /// Js结果
 /// </summary>
-public class JsResult
+/// <typeparam name="TData">内部数据类型</typeparam>
+public class JsResult<TData> : IJsResult
 {
     /// <summary>
     /// 代码
@@ -24,10 +26,10 @@ public class JsResult
     /// 数据
     /// </summary>
     [JsonPropertyName("data")]
-    public Dictionary<string, object> Data { get; set; } = new();
+    public TData Data { get; set; } = default!;
 
     /// <inheritdoc/>
-    public override string ToString()
+    string IJsResult.ToString(JsonSerializerOptions options)
     {
         return JsonSerializer.Serialize(this);
     }

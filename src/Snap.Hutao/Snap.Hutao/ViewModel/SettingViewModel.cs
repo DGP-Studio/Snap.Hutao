@@ -81,6 +81,7 @@ internal class SettingViewModel : ObservableObject
         SetGamePathCommand = asyncRelayCommandFactory.Create(SetGamePathAsync);
         DebugExceptionCommand = asyncRelayCommandFactory.Create(DebugThrowExceptionAsync);
         DeleteGameWebCacheCommand = new RelayCommand(DeleteGameWebCache);
+        ShowSignInWebViewDialogCommand = asyncRelayCommandFactory.Create(ShowSignInWebViewDialogAsync);
     }
 
     /// <summary>
@@ -90,6 +91,15 @@ internal class SettingViewModel : ObservableObject
     public string AppVersion
     {
         get => Core.CoreEnvironment.Version.ToString();
+    }
+
+    /// <summary>
+    /// 设备Id
+    /// </summary>
+    [SuppressMessage("", "CA1822")]
+    public string DeviceId
+    {
+        get => Core.CoreEnvironment.HutaoDeviceId;
     }
 
     /// <summary>
@@ -161,6 +171,11 @@ internal class SettingViewModel : ObservableObject
     /// </summary>
     public ICommand DeleteGameWebCacheCommand { get; }
 
+    /// <summary>
+    /// 签到对话框命令
+    /// </summary>
+    public ICommand ShowSignInWebViewDialogCommand { get; }
+
     private async Task SetGamePathAsync()
     {
         IGameLocator locator = Ioc.Default.GetRequiredService<IEnumerable<IGameLocator>>()
@@ -186,6 +201,12 @@ internal class SettingViewModel : ObservableObject
             string cacheFolder = Path.GetDirectoryName(cacheFilePath)!;
             Directory.Delete(cacheFolder, true);
         }
+    }
+
+    private async Task ShowSignInWebViewDialogAsync()
+    {
+        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+        await new SignInWebViewDialog(mainWindow).ShowAsync();
     }
 
     private async Task DebugThrowExceptionAsync()

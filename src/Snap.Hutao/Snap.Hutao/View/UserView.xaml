@@ -197,23 +197,9 @@
                         <TextBlock
                             Margin="10,6,0,6"
                             Style="{StaticResource BaseTextBlockStyle}"
-                            Text="Webview"/>
-                        <CommandBar DefaultLabelPosition="Right">
-                            <AppBarButton Label="米游社签到" Icon="{shcm:FontIcon Glyph=&#xEB41;}" Command="{Binding ShowSignInWebViewDialogCommand}"/>
-                        </CommandBar>
-                        <TextBlock
-                            Margin="10,6,0,6"
-                            Style="{StaticResource BaseTextBlockStyle}"
                             Text="Cookie 操作"/>
                         <CommandBar DefaultLabelPosition="Right">
-                            <AppBarButton Label="登录米哈游通行证" Icon="{shcm:FontIcon Glyph=&#xEB41;}" Command="{Binding LoginMihoyoUserCommand}">
-                                <!--<AppBarButton.Flyout>
-                                    <MenuFlyout>
-                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="网页米游社" Command="{Binding LoginMihoyoBBSCommand}"/>
-                                        <MenuFlyoutItem Icon="{shcm:FontIcon Glyph=&#xF4A5;}" Text="米游社" Command="{Binding LoginMihoyoBBS2Command}"/>
-                                    </MenuFlyout>
-                                </AppBarButton.Flyout>-->
-                            </AppBarButton>
+                            <AppBarButton Label="登录米哈游通行证" Icon="{shcm:FontIcon Glyph=&#xEB41;}" Command="{Binding LoginMihoyoUserCommand}"/>
                             <AppBarButton
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
                                 Label="手动输入"

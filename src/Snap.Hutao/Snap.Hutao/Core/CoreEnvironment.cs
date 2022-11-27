@@ -21,6 +21,11 @@ internal static class CoreEnvironment
     public const string HoyolabUA = $"Mozilla/5.0 (Windows NT 10.0; Win64; x64) miHoYoBBS/{HoyolabXrpcVersion}";
 
     /// <summary>
+    /// 米游社移动端请求UA
+    /// </summary>
+    public const string HoyolabMobileUA = $"Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/106.0.5249.126 Mobile Safari/537.36 miHoYoBBS/{HoyolabXrpcVersion}";
+
+    /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
     public const string HoyolabXrpcVersion = "2.41.0";

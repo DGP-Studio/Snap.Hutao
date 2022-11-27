@@ -62,6 +62,16 @@
                         Header="胡桃"
                         Description="{Binding AppVersion}"/>
                     <sc:Setting
+                        Icon="&#xE975;"
+                        Header="设备ID">
+                        <sc:Setting.Description>
+                            <TextBlock
+                                IsTextSelectionEnabled="True"
+                                Text="{Binding DeviceId}"
+                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                        </sc:Setting.Description>
+                    </sc:Setting>
+                    <sc:Setting
                         Icon="&#xED15;"
                         Header="反馈"
                         Description="Github 上反馈的问题会优先处理">
@@ -159,14 +169,23 @@
                     </sc:Setting>
 
                     <sc:Setting
-                        Icon="&#xE756;"
-                        Header="删除所有用户"
-                        Description="直接删除用户表的所有记录，用于修复特定的账号冲突问题"
-                        Background="#80800000">
+                        Icon="&#xE9D5;"
+                        Header="米游社每日签到">
+                        <sc:Setting.Description>
+                            <StackPanel>
+                                <TextBlock
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="对当前选中的账号进行签到"/>
+                                <TextBlock
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Foreground="Yellow"
+                                    Text="可能需要重启应用以对其他账号签到"/>
+                            </StackPanel>
+                        </sc:Setting.Description>
                         <sc:Setting.ActionContent>
                             <Button
-                                Content="执行"
-                                Command="{Binding Experimental.DeleteUsersCommand}"/>
+                                Content="打开签到对话框"
+                                Command="{Binding ShowSignInWebViewDialogCommand}"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
 
@@ -176,6 +195,20 @@
                         Description="将当前账号的深渊数据上传到胡桃数据库">
                         <sc:Setting.ActionContent>
                             <Button Content="上传" Command="{Binding Experimental.UploadSpiralAbyssRecordCommand}"/>
+                        </sc:Setting.ActionContent>
+                    </sc:Setting>
+                </sc:SettingsGroup>
+
+                <sc:SettingsGroup Header="危险功能" Foreground="#FF800000">
+                    <sc:Setting
+                        Icon="&#xE756;"
+                        Header="删除所有用户"
+                        Description="直接删除用户表的所有记录，用于修复特定的账号冲突问题"
+                        Background="#80800000">
+                        <sc:Setting.ActionContent>
+                            <Button
+                                Content="执行"
+                                Command="{Binding Experimental.DeleteUsersCommand}"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
                 </sc:SettingsGroup>

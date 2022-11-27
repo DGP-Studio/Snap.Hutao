@@ -109,7 +109,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
 
                 // cache
                 await ThreadHelper.SwitchToMainThreadAsync();
-                entries?.Single(e => e.UserId == entry.UserId && e.Uid == entry.Uid).UpdateDailyNote(dailyNote);
+                entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
 
                 if (notify)
                 {
