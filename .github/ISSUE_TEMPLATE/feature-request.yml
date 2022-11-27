@@ -1,0 +1,19 @@
+name: 功能请求
+description: 告诉我们你的想法
+title: "[Feat]: 在这里填写一个合适的标题"
+labels: ["功能"]
+assignees:
+  - Lightczx
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请按下方的要求填写完整的问题表单，以便我们更快的定位问题。
+
+  - type: textarea
+    id: req
+    attributes:
+      label: 你想要实现或优化的功能？
+      description: 详细的描述一下你想要的功能
+    validations:
+      required: true
