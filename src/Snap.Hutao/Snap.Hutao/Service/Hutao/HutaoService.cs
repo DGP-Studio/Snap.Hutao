@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Database;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model;
 
@@ -10,21 +13,27 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃 API 服务
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IHutaoService))]
+[Injection(InjectAs.Scoped, typeof(IHutaoService))]
 internal class HutaoService : IHutaoService
 {
     private readonly HomaClient homaClient;
     private readonly IMemoryCache memoryCache;
+    private readonly AppDbContext appDbContext;
+    private readonly JsonSerializerOptions options;
 
     /// <summary>
     /// 构造一个新的胡桃 API 服务
     /// </summary>
     /// <param name="homaClient">胡桃 API 客户端</param>
     /// <param name="memoryCache">内存缓存</param>
-    public HutaoService(HomaClient homaClient, IMemoryCache memoryCache)
+    /// <param name="appDbContext">数据库上下文</param>
+    /// <param name="options">Json序列化选项</param>
+    public HutaoService(HomaClient homaClient, IMemoryCache memoryCache, AppDbContext appDbContext, JsonSerializerOptions options)
     {
         this.homaClient = homaClient;
         this.memoryCache = memoryCache;
+        this.appDbContext = appDbContext;
+        this.options = options;
     }
 
     /// <inheritdoc/>
@@ -58,6 +67,12 @@ internal class HutaoService : IHutaoService
     }
 
     /// <inheritdoc/>
+    public ValueTask<List<WeaponCollocation>> GetWeaponCollocationsAsync()
+    {
+        return FromCacheOrWebAsync(nameof(WeaponCollocation), homaClient.GetWeaponCollocationsAsync);
+    }
+
+    /// <inheritdoc/>
     public ValueTask<List<TeamAppearance>> GetTeamAppearancesAsync()
     {
         return FromCacheOrWebAsync(nameof(TeamAppearance), homaClient.GetTeamCombinationsAsync);
@@ -71,7 +86,27 @@ internal class HutaoService : IHutaoService
             return (T)cache!;
         }
 
+        if (appDbContext.ObjectCache.SingleOrDefault(e => e.Key == key) is ObjectCacheEntry entry)
+        {
+            if (entry.ExpireTime > DateTimeOffset.Now)
+            {
+                T value = JsonSerializer.Deserialize<T>(entry.Value!, options)!;
+                return memoryCache.Set(key, value, TimeSpan.FromMinutes(30));
+            }
+            else
+            {
+                appDbContext.ObjectCache.RemoveAndSave(entry);
+            }
+        }
+
         T web = await taskFunc(default).ConfigureAwait(false);
+        appDbContext.ObjectCache.AddAndSave(new()
+        {
+            Key = key,
+            ExpireTime = DateTimeOffset.Now.AddHours(4),
+            Value = JsonSerializer.Serialize(web, options),
+        });
+
         return memoryCache.Set(key, web, TimeSpan.FromMinutes(30));
     }
 }

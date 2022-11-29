@@ -17,5 +17,5 @@ public class AffixInfo
     /// 各个等级的描述
     /// 0-4
     /// </summary>
-    public List<LevelDescription<int>> Descriptions { get; set; } = default!;
+    public List<LevelDescription> Descriptions { get; set; } = default!;
 }

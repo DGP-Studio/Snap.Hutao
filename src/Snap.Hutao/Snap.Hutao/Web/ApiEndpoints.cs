@@ -6,7 +6,7 @@ using Snap.Hutao.Web.Hoyolab;
 namespace Snap.Hutao.Web;
 
 /// <summary>
-/// 米哈游Url端点
+/// API端点
 /// </summary>
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1124")]

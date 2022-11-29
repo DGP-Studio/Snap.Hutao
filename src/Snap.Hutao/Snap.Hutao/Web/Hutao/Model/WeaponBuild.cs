@@ -6,12 +6,12 @@ using Snap.Hutao.Model.Primitive;
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 角色相关构筑
+/// 武器相关构筑
 /// </summary>
-public abstract class AvatarBuild
+public abstract class WeaponBuild
 {
     /// <summary>
     /// 角色Id
     /// </summary>
-    public AvatarId AvatarId { get; set; }
+    public WeaponId WeaponId { get; set; }
 }

@@ -35,6 +35,6 @@ public class ReliquarySet
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"{EquipAffixId}-{Count}";
+        return $"{(int)EquipAffixId}-{Count}";
     }
 }

@@ -83,7 +83,15 @@ public class MiHoYoJSInterface
     [JsMethod("getHTTPRequestHeaders")]
     public virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
     {
-        throw new NotImplementedException();
+        return new()
+        {
+            Data = new Dictionary<string, string>()
+            {
+                { "x-rpc-client_type", "5" },
+                { "x-rpc-device_id",  Core.CoreEnvironment.HoyolabDeviceId },
+                { "x-rpc-app_version", Core.CoreEnvironment.HoyolabXrpcVersion },
+            },
+        };
     }
 
     /// <summary>
@@ -139,6 +147,30 @@ public class MiHoYoJSInterface
     }
 
     /// <summary>
+    /// 获取2代动态密钥
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>响应</returns>
+    [JsMethod("getDS2")]
+    public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
+    {
+        string salt = DynamicSecretHandler.DynamicSecrets[nameof(SaltType.X4)];
+        long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+        int r = GetRandom();
+        string b = param.Payload.Body;
+        string q = string.Join('&', param.Payload.Query.OrderBy(x => x.Key).Select(x => $"{x.Key}={x.Value}"));
+        string check = Md5Convert.ToHexString($"salt={salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
+
+        return new() { Data = new() { ["DS"] = $"{t},{r},{check}", }, };
+
+        static int GetRandom()
+        {
+            int rand = Random.Shared.Next(100000, 200000);
+            return rand == 100000 ? 642367 : rand;
+        }
+    }
+
+    /// <summary>
     /// 获取用户基本信息
     /// </summary>
     /// <param name="param">参数</param>
@@ -162,6 +194,11 @@ public class MiHoYoJSInterface
         };
     }
 
+    /// <summary>
+    /// 获取CookieToken
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>响应</returns>
     [JsMethod("getCookieToken")]
     public virtual async Task<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
@@ -185,22 +222,32 @@ public class MiHoYoJSInterface
         return new() { Data = new() { [Cookie.COOKIE_TOKEN] = cookieToken! } };
     }
 
-    [JsMethod("configure_share")]
-    public virtual Task<IJsResult?> ConfigureShare(JsParam param)
+    /// <summary>
+    /// 关闭
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>响应</returns>
+    [JsMethod("closePage")]
+    public virtual IJsResult? ClosePage(JsParam param)
     {
-        throw new NotImplementedException();
+        return null;
+    }
+
+    /// <summary>
+    /// 调整分享设置
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>响应</returns>
+    [JsMethod("configure_share")]
+    public virtual IJsResult? ConfigureShare(JsParam param)
+    {
+        return null;
     }
 
     [JsMethod("showAlertDialog")]
     public virtual Task<IJsResult?> ShowAlertDialogAsync(JsParam param)
     {
         return Task.FromException<IJsResult?>(new NotImplementedException());
-    }
-
-    [JsMethod("closePage")]
-    public virtual IJsResult? ClosePage(JsParam param)
-    {
-        throw new NotImplementedException();
     }
 
     [JsMethod("startRealPersonValidation")]
@@ -211,12 +258,6 @@ public class MiHoYoJSInterface
 
     [JsMethod("startRealnameAuth")]
     public virtual IJsResult? StartRealnameAuth(JsParam param)
-    {
-        throw new NotImplementedException();
-    }
-
-    [JsMethod("getDS2")]
-    public virtual IJsResult? GetDynamicSecrectV2(JsParam param)
     {
         throw new NotImplementedException();
     }
@@ -264,7 +305,7 @@ public class MiHoYoJSInterface
     }
 
     [JsMethod("showToast")]
-    public virtual Task<IJsResult?> ShowToast(JsParam param)
+    public virtual IJsResult? ShowToast(JsParam param)
     {
         throw new NotImplementedException();
     }
@@ -287,7 +328,7 @@ public class MiHoYoJSInterface
             .Append(')')
             .ToString();
 
-        logger?.LogInformation("[ExecuteScript] {js}", js);
+        logger?.LogInformation("[ExecuteScript: {callback}]\n{payload}", callback, payload);
 
         await ThreadHelper.SwitchToMainThreadAsync();
         return await webView.ExecuteScriptAsync(js);
@@ -297,24 +338,27 @@ public class MiHoYoJSInterface
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
     {
         string message = args.TryGetWebMessageAsString();
-        logger?.LogInformation("[OnMessage] {message}", message);
 
         JsParam param = JsonSerializer.Deserialize<JsParam>(message)!;
 
+        logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);
         IJsResult? result = param.Method switch
         {
+            "closePage" => ClosePage(param),
+            "configure_share" => ConfigureShare(param),
+            "eventTrack" => null,
             "getActionTicket" => await GetActionTicketAsync(param).ConfigureAwait(false),
-            "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
             "getCookieInfo" => GetCookieInfo(param),
-            "getDS" => GetDynamicSecrectV1(param),
-            "getUserInfo" => GetUserInfo(param),
             "getCookieToken" => await GetCookieTokenAsync(param).ConfigureAwait(false),
-            "configure_share" => null,
+            "getDS" => GetDynamicSecrectV1(param),
+            "getDS2" => GetDynamicSecrectV2(param),
+            "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
+            "getUserInfo" => GetUserInfo(param),
             "login" => null,
-            _ => null,
+            _ => logger.LogWarning<IJsResult>("Unhandled Message Type: {method}", param.Method),
         };
 
-        if (result != null)
+        if (result != null && param.Callback != null)
         {
             await ExecuteCallbackScriptAsync(param.Callback, result.ToString(options)).ConfigureAwait(false);
         }
@@ -329,6 +373,8 @@ public class MiHoYoJSInterface
     {
         if (new Uri(args.Uri).Host.EndsWith("mihoyo.com"))
         {
+            // Execute this solve issue: When open same site second time,there might be no bridge init.
+            coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
             coreWebView2.ExecuteScriptAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
         }
     }

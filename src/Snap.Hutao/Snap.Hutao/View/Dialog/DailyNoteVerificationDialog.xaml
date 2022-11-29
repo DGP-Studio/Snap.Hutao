@@ -1,0 +1,17 @@
+﻿<ContentDialog
+    x:Class="Snap.Hutao.View.Dialog.DailyNoteVerificationDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Closed="OnContentDialogClosed"
+    Style="{StaticResource DefaultContentDialogStyle}"
+    Title="米游社实时便笺"
+    PrimaryButtonText="完成"
+    DefaultButton="Primary">
+
+    <Grid Loaded="OnGridLoaded">
+        <WebView2 Name="WebView" Height="448" Width="380"/>
+    </Grid>
+</ContentDialog>

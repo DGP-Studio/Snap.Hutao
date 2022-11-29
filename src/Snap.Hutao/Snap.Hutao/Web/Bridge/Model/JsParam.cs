@@ -25,7 +25,7 @@ public class JsParam
     /// 回调的名称，调用 JavaScript:mhyWebBridge 时作为首个参数传入
     /// </summary>
     [JsonPropertyName("callback")]
-    public string Callback { get; set; } = default!;
+    public string? Callback { get; set; }
 }
 
 /// <summary>
@@ -52,14 +52,14 @@ public class JsParam<TPayload>
     /// 回调的名称，调用 JavaScript:mhyWebBridge 时作为首个参数传入
     /// </summary>
     [JsonPropertyName("callback")]
-    public string Callback { get; set; } = string.Empty;
+    public string? Callback { get; set; }
 
     public static implicit operator JsParam<TPayload>(JsParam jsParam)
     {
         return new JsParam<TPayload>()
         {
             Method = jsParam.Method,
-            Payload = jsParam.Payload.HasValue ? jsParam.Payload.Value.Deserialize<TPayload>() : default,
+            Payload = jsParam.Payload.HasValue ? jsParam.Payload.Value.Deserialize<TPayload>()! : default!,
             Callback = jsParam.Callback,
         };
     }

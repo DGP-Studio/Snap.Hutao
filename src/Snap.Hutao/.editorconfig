@@ -1,4 +1,6 @@
-﻿[*.cs]
+﻿charset = utf-8-bom
+
+[*.cs]
 
 # SA1101: Prefix local calls with this
 dotnet_diagnostic.SA1101.severity = none
@@ -76,31 +78,31 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.interface.required_modifiers = 
+dotnet_naming_symbols.interface.required_modifiers =
 
 dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
 dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.types.required_modifiers = 
+dotnet_naming_symbols.types.required_modifiers =
 
 dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.non_field_members.required_modifiers = 
+dotnet_naming_symbols.non_field_members.required_modifiers =
 
 # 命名样式
 
 dotnet_naming_style.begins_with_i.required_prefix = I
-dotnet_naming_style.begins_with_i.required_suffix = 
-dotnet_naming_style.begins_with_i.word_separator = 
+dotnet_naming_style.begins_with_i.required_suffix =
+dotnet_naming_style.begins_with_i.word_separator =
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
-dotnet_naming_style.pascal_case.required_prefix = 
-dotnet_naming_style.pascal_case.required_suffix = 
-dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.required_prefix =
+dotnet_naming_style.pascal_case.required_suffix =
+dotnet_naming_style.pascal_case.word_separator =
 dotnet_naming_style.pascal_case.capitalization = pascal_case
 
-dotnet_naming_style.pascal_case.required_prefix = 
-dotnet_naming_style.pascal_case.required_suffix = 
-dotnet_naming_style.pascal_case.word_separator = 
+dotnet_naming_style.pascal_case.required_prefix =
+dotnet_naming_style.pascal_case.required_suffix =
+dotnet_naming_style.pascal_case.word_separator =
 dotnet_naming_style.pascal_case.capitalization = pascal_case
 dotnet_diagnostic.SA1629.severity = none
 dotnet_diagnostic.SA1642.severity = none
@@ -185,29 +187,29 @@ dotnet_naming_rule.非字段成员_should_be_帕斯卡拼写法.style = 帕斯�
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
-dotnet_naming_symbols.interface.required_modifiers = 
+dotnet_naming_symbols.interface.required_modifiers =
 
 dotnet_naming_symbols.类型.applicable_kinds = class, struct, interface, enum
 dotnet_naming_symbols.类型.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
-dotnet_naming_symbols.类型.required_modifiers = 
+dotnet_naming_symbols.类型.required_modifiers =
 
 dotnet_naming_symbols.非字段成员.applicable_kinds = property, event, method
 dotnet_naming_symbols.非字段成员.applicable_accessibilities = public, friend, private, protected, protected_friend, private_protected
-dotnet_naming_symbols.非字段成员.required_modifiers = 
+dotnet_naming_symbols.非字段成员.required_modifiers =
 
 # 命名样式
 
 dotnet_naming_style.以_i_开始.required_prefix = I
-dotnet_naming_style.以_i_开始.required_suffix = 
-dotnet_naming_style.以_i_开始.word_separator = 
+dotnet_naming_style.以_i_开始.required_suffix =
+dotnet_naming_style.以_i_开始.word_separator =
 dotnet_naming_style.以_i_开始.capitalization = pascal_case
 
-dotnet_naming_style.帕斯卡拼写法.required_prefix = 
-dotnet_naming_style.帕斯卡拼写法.required_suffix = 
-dotnet_naming_style.帕斯卡拼写法.word_separator = 
+dotnet_naming_style.帕斯卡拼写法.required_prefix =
+dotnet_naming_style.帕斯卡拼写法.required_suffix =
+dotnet_naming_style.帕斯卡拼写法.word_separator =
 dotnet_naming_style.帕斯卡拼写法.capitalization = pascal_case
 
-dotnet_naming_style.帕斯卡拼写法.required_prefix = 
-dotnet_naming_style.帕斯卡拼写法.required_suffix = 
-dotnet_naming_style.帕斯卡拼写法.word_separator = 
+dotnet_naming_style.帕斯卡拼写法.required_prefix =
+dotnet_naming_style.帕斯卡拼写法.required_suffix =
+dotnet_naming_style.帕斯卡拼写法.word_separator =
 dotnet_naming_style.帕斯卡拼写法.capitalization = pascal_case

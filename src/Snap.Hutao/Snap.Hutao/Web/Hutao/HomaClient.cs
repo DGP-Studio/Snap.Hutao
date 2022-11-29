@@ -138,6 +138,21 @@ internal class HomaClient
     }
 
     /// <summary>
+    /// 异步获取武器搭配
+    /// GET /Statistics/Avatar/AvatarCollocation
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>角色/武器/圣遗物搭配</returns>
+    public async Task<List<WeaponCollocation>> GetWeaponCollocationsAsync(CancellationToken token = default)
+    {
+        Response<List<WeaponCollocation>>? resp = await httpClient
+            .GetFromJsonAsync<Response<List<WeaponCollocation>>>($"{HutaoAPI}/Statistics/Weapon/WeaponCollocation", token)
+            .ConfigureAwait(false);
+
+        return EnumerableExtension.EmptyIfNull(resp?.Data);
+    }
+
+    /// <summary>
     /// 异步获取角色命座信息
     /// GET /Statistics/Avatar/HoldingRate
     /// </summary>

@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Web.Geetest;
 

@@ -45,4 +45,10 @@ internal interface IHutaoService
     /// </summary>
     /// <returns>队伍上场</returns>
     ValueTask<List<TeamAppearance>> GetTeamAppearancesAsync();
+
+    /// <summary>
+    /// 异步获取武器搭配
+    /// </summary>
+    /// <returns>武器搭配</returns>
+    ValueTask<List<WeaponCollocation>> GetWeaponCollocationsAsync();
 }

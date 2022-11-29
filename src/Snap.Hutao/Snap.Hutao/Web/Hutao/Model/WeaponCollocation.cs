@@ -1,17 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Primitive;
-
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
-/// 角色相关构筑
+/// 武器搭配
 /// </summary>
-public abstract class AvatarBuild
+public class WeaponCollocation : WeaponBuild
 {
     /// <summary>
-    /// 角色Id
+    /// 其他角色
     /// </summary>
-    public AvatarId AvatarId { get; set; }
+    public List<ItemRate<int, double>> Avatars { get; set; } = default!;
 }

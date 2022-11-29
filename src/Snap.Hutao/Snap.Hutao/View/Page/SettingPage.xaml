@@ -178,7 +178,7 @@
                                     Text="对当前选中的账号进行签到"/>
                                 <TextBlock
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Foreground="Yellow"
+                                    Foreground="{StaticResource SystemFillColorCautionBrush}"
                                     Text="可能需要重启应用以对其他账号签到"/>
                             </StackPanel>
                         </sc:Setting.Description>
@@ -199,12 +199,12 @@
                     </sc:Setting>
                 </sc:SettingsGroup>
 
-                <sc:SettingsGroup Header="危险功能" Foreground="#FF800000">
+                <sc:SettingsGroup Header="危险功能" Foreground="{StaticResource SystemFillColorCriticalBrush}">
                     <sc:Setting
                         Icon="&#xE756;"
                         Header="删除所有用户"
                         Description="直接删除用户表的所有记录，用于修复特定的账号冲突问题"
-                        Background="#80800000">
+                        Background="{StaticResource SystemFillColorCriticalBackgroundBrush}">
                         <sc:Setting.ActionContent>
                             <Button
                                 Content="执行"

@@ -42,6 +42,14 @@ public class TypedWishSummary : WishBase
     public int LastOrangePull { get; set; }
 
     /// <summary>
+    /// 据上个五星抽数格式化
+    /// </summary>
+    public string LastOrangePullFormatted
+    {
+        get => $"已垫 {LastOrangePull} 抽";
+    }
+
+    /// <summary>
     /// 五星保底阈值
     /// </summary>
     public int GuarenteeOrangeThreshold { get; set; }
@@ -50,6 +58,14 @@ public class TypedWishSummary : WishBase
     /// 据上个四星抽数
     /// </summary>
     public int LastPurplePull { get; set; }
+
+    /// <summary>
+    /// 据上个四星抽数格式化
+    /// </summary>
+    public string LastPurplePullFormatted
+    {
+        get => $"已垫 {LastPurplePull} 抽";
+    }
 
     /// <summary>
     /// 四星保底阈值

@@ -65,6 +65,10 @@
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
                 
+                <NavigationViewItem
+                    Content="武器资料"
+                    shvh:NavHelper.NavigateTo="shvp:WikiWeaponPage"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}"/>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>

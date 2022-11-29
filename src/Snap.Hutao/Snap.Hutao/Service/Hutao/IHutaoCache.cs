@@ -42,14 +42,25 @@ internal interface IHutaoCache
     List<ComplexAvatarCollocation>? AvatarCollocations { get; set; }
 
     /// <summary>
+    /// 武器搭配
+    /// </summary>
+    List<ComplexWeaponCollocation>? WeaponCollocations { get; set; }
+
+    /// <summary>
     /// 为数据库视图模型初始化
     /// </summary>
-    /// <returns>任务</returns>
+    /// <returns>是否初始化完成</returns>
     ValueTask<bool> InitializeForDatabaseViewModelAsync();
 
     /// <summary>
     /// 为Wiki角色视图模型初始化
     /// </summary>
-    /// <returns>任务</returns>
+    /// <returns>是否初始化完成</returns>
     ValueTask<bool> InitializeForWikiAvatarViewModelAsync();
+
+    /// <summary>
+    /// 为Wiki武器视图模型初始化
+    /// </summary>
+    /// <returns>是否初始化完成</returns>
+    ValueTask<bool> InitializeForWikiWeaponViewModelAsync();
 }

@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Logging;
 using System.Collections.Immutable;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -236,10 +237,11 @@ public class ImageCache : IImageCache
                         }
                     }
                 }
-                else
+                else if (message.StatusCode == HttpStatusCode.TooManyRequests)
                 {
                     retryCount++;
                     TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
+                    logger.LogInformation("Retry after {delay}.", delay);
                     await Task.Delay(delay).ConfigureAwait(false);
                 }
             }

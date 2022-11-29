@@ -10,8 +10,11 @@ namespace Snap.Hutao.Context.Database;
 /// <summary>
 /// 应用程序数据库上下文
 /// </summary>
-public class AppDbContext : DbContext
+public sealed class AppDbContext : DbContext
 {
+    private readonly Guid contextId;
+    private readonly ILogger<AppDbContext>? logger;
+
     /// <summary>
     /// 构造一个新的应用程序数据库上下文
     /// </summary>
@@ -19,6 +22,19 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
+    }
+
+    /// <summary>
+    /// 构造一个新的应用程序数据库上下文
+    /// </summary>
+    /// <param name="options">选项</param>
+    /// <param name="logger">日志器</param>
+    public AppDbContext(DbContextOptions<AppDbContext> options, ILogger<AppDbContext> logger)
+        : this(options)
+    {
+        contextId = Guid.NewGuid();
+        this.logger = logger;
+        logger.LogInformation("AppDbContext[{id}] created.", contextId);
     }
 
     /// <summary>
@@ -67,6 +83,11 @@ public class AppDbContext : DbContext
     public DbSet<DailyNoteEntry> DailyNotes { get; set; } = default!;
 
     /// <summary>
+    /// 对象缓存
+    /// </summary>
+    public DbSet<ObjectCacheEntry> ObjectCache { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个临时的应用程序数据库上下文
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>
@@ -74,6 +95,13 @@ public class AppDbContext : DbContext
     public static AppDbContext Create(string sqlConnectionString)
     {
         return new(new DbContextOptionsBuilder<AppDbContext>().UseSqlite(sqlConnectionString).Options);
+    }
+
+    /// <inheritdoc/>
+    public override void Dispose()
+    {
+        base.Dispose();
+        logger?.LogInformation("AppDbContext[{id}] disposed.", contextId);
     }
 
     /// <inheritdoc/>

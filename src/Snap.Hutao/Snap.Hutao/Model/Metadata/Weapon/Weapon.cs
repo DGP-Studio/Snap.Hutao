@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
+using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -59,6 +60,12 @@ public class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQuality
     /// 被动信息, 无被动的武器为 <see langword="null"/>
     /// </summary>
     public AffixInfo? Affix { get; set; } = default!;
+
+    /// <summary>
+    /// [非元数据] 搭配数据
+    /// </summary>
+    [JsonIgnore]
+    public ComplexWeaponCollocation? Collocation { get; set; }
 
     /// <inheritdoc/>
     [JsonIgnore]

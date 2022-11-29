@@ -11,7 +11,7 @@
         CornerRadius="{StaticResource CompatCornerRadius}"
         BorderBrush="{StaticResource CardStrokeColorDefault}"
         Background="{StaticResource CardBackgroundFillColorDefault}">
-        <StackPanel>
+        <StackPanel Name="BackgroundStack">
             <ContentPresenter
                 Name="ContentHost"/>
             <TextBlock

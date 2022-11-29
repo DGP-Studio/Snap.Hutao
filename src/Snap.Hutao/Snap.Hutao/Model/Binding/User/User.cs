@@ -76,10 +76,7 @@ public class User : ObservableObject
     public Cookie? Stoken
     {
         get => inner.Stoken;
-        set
-        {
-            inner.Stoken = value;
-        }
+        set => inner.Stoken = value;
     }
 
     /// <summary>
@@ -96,8 +93,14 @@ public class User : ObservableObject
     internal static async Task<User?> ResumeAsync(EntityUser inner, CancellationToken token = default)
     {
         User user = new(inner);
-        bool successful = await user.InitializeCoreAsync(token).ConfigureAwait(false);
-        return successful ? user : null;
+        bool isOk = await user.InitializeCoreAsync(token).ConfigureAwait(false);
+
+        if (!isOk)
+        {
+            user.UserInfo = new UserInfo() { Nickname = "网络异常" };
+        }
+
+        return user;
     }
 
     /// <summary>

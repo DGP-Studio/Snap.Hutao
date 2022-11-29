@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 

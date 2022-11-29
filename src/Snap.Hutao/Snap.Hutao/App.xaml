@@ -41,8 +41,10 @@
             <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
             <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
             <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
+            <shmmc:EquipIconConverter x:Key="EquipIconConverter"/>
             <shmmc:GachaAvatarImgConverter x:Key="GachaAvatarImgConverter"/>
             <shmmc:GachaAvatarIconConverter x:Key="GachaAvatarIconConverter"/>
+            <shmmc:GachaEquipIconConverter x:Key="GachaEquipIconConverter"/>
             <shmmc:ItemIconConverter x:Key="ItemIconConverter"/>
             <shmmc:PropertyInfoDescriptor x:Key="PropertyDescriptor"/>
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>

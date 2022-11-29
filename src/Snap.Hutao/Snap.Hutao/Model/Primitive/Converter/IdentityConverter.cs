@@ -21,7 +21,6 @@ internal class IdentityConverter<TWrapper> : JsonConverter<TWrapper>
     /// <inheritdoc/>
     public override void Write(Utf8JsonWriter writer, TWrapper value, JsonSerializerOptions options)
     {
-
         writer.WriteNumberValue(CastTo<int>.From(value));
     }
 }

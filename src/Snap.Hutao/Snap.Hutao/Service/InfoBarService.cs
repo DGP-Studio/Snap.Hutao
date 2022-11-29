@@ -3,8 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.Xaml.Interactivity;
-using Snap.Hutao.Control.Behavior;
 using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service;

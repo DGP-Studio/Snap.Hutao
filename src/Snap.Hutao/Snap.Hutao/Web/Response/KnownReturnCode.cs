@@ -44,6 +44,11 @@ public enum KnownReturnCode : int
     RET_NEED_AIGIS = -3101,
 
     /// <summary>
+    /// 参数不合法
+    /// </summary>
+    InvalidParameter = -3001,
+
+    /// <summary>
     /// 请在米游社App内打开~
     /// </summary>
     PleaseOpenInBbsApp = -1104,

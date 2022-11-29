@@ -9,7 +9,7 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shmbg="using:Snap.Hutao.Model.Binding.Gacha"
-    xmlns:shvc="using:Snap.Hutao.View.Converter"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     mc:Ignorable="d"
     d:DataContext="{d:DesignInstance shmbg:TypedWishSummary}">
 
@@ -18,8 +18,6 @@
         <SolidColorBrush x:Key="PurpleBrush" Color="#FFA156E0"/>
         <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
 
-        <cwuconv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
         <DataTemplate x:Key="OrangeListTemplate" x:DataType="shmbg:SummaryItem">
             <Grid Margin="0,4,4,0" Background="Transparent" >
                 <ToolTipService.ToolTip>
@@ -67,47 +65,31 @@
 
         <DataTemplate x:Key="OrangeGridTemplate" x:DataType="shmbg:SummaryItem">
             <Grid Width="40" Margin="0,4,4,0">
-                <ToolTipService.ToolTip>
-                    <TextBlock Text="{Binding TimeFormatted}"/>
-                </ToolTipService.ToolTip>
-                <StackPanel>
-                    <shci:CachedImage
+                <Border
+                    BorderThickness="1"
+                    CornerRadius="{StaticResource CompatCornerRadius}"
+                    BorderBrush="{StaticResource CardStrokeColorDefault}"
+                    Background="{StaticResource CardBackgroundFillColorDefault}"
+                    ToolTipService.ToolTip="{Binding TimeFormatted}">
+                    <StackPanel>
+                        <shvc:ItemIcon
+                            Icon="{Binding Icon}"
+                            Quality="QUALITY_ORANGE"
+                            Height="40" Width="40"/>
+                        <!--<shci:CachedImage
                         Source="{Binding Icon}"
-                        Height="40" Width="40"/>
-                    <TextBlock
-                        Text="{Binding LastPull}"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        HorizontalAlignment="Center"
-                        TextWrapping="NoWrap">
-                        <TextBlock.Foreground>
-                            <SolidColorBrush Color="{Binding Color}"/>
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                </StackPanel>
-
-                <!--<StackPanel
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-                    <TextBlock
-                        Margin="0,0,8,0"
-                        Foreground="#FF0063FF"
-                        Text="保底"
-                        VerticalAlignment="Center"
-                        Visibility="{Binding IsGuarentee,Converter={StaticResource BoolToVisibilityConverter}}"/>
-                    <TextBlock
-                        Margin="0,0,8,0"
-                        Text="UP"  
-                        Foreground="#FFFFA400"
-                        VerticalAlignment="Center"
-                        Visibility="{Binding IsUp,Converter={StaticResource BoolToVisibilityConverter}}"/>
-
-                    <TextBlock
-                        Width="20"
-                        TextAlignment="Center"
-                        Text="{Binding LastPull}"
-                        VerticalAlignment="Center"
-                        Style="{StaticResource BodyTextBlockStyle}"/>
-                </StackPanel>-->
+                        Height="40" Width="40"/>-->
+                        <TextBlock
+                            Text="{Binding LastPull}"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            HorizontalAlignment="Center"
+                            TextWrapping="NoWrap">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{Binding Color}"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </StackPanel>
+                </Border>
             </Grid>
         </DataTemplate>
 
@@ -157,61 +139,110 @@
                             <TextBlock Margin="12,0,0,12" Text="抽" VerticalAlignment="Bottom"/>
                         </StackPanel>
 
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                        <Grid ColumnSpacing="4">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
-                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <ProgressBar
+                            <Border
                                 Grid.Column="0"
-                                Grid.Row="0"
-                                Value="{Binding LastOrangePull}"
-                                Maximum="{Binding GuarenteeOrangeThreshold}"
-                                Foreground="{StaticResource OrangeBrush}"/>
-                            <TextBlock
-                                Width="20"
-                                TextAlignment="Center"
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource CompatCornerRadius}"
+                                BorderBrush="{StaticResource CardStrokeColorDefault}"
+                                Background="{StaticResource CardBackgroundFillColorDefault}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <ProgressRing
+                                        Margin="4"
+                                        Height="40"
+                                        Width="40"
+                                        Grid.Column="0"
+                                        IsIndeterminate="False"
+                                        Maximum="{Binding GuarenteeOrangeThreshold}"
+                                        Value="{Binding LastOrangePull}"
+                                        Foreground="{StaticResource OrangeBrush}"
+                                        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"/>
+                                    <TextBlock
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Grid.Column="0"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{Binding LastOrangePull}"
+                                        Foreground="{StaticResource OrangeBrush}"/>
+                                    <TextBlock
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Grid.Column="1"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="五星"
+                                        Foreground="{StaticResource OrangeBrush}"/>
+                                </Grid>
+                            </Border>
+                            <Border
                                 Grid.Column="1"
-                                Grid.Row="0"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding LastOrangePull}"
-                                Foreground="{StaticResource OrangeBrush}"/>
-                            <ProgressBar
-                                Grid.Column="0"
-                                Grid.Row="1"
-                                Value="{Binding LastPurplePull}"
-                                Maximum="{Binding GuarenteePurpleThreshold}"
-                                Foreground="{StaticResource PurpleBrush}"/>
-                            <TextBlock
-                                Width="20"
-                                TextAlignment="Center"
-                                Grid.Column="1"
-                                Grid.Row="1"
-                                Style="{StaticResource CaptionTextBlockStyle}"
-                                Text="{Binding LastPurplePull}"
-                                Foreground="{StaticResource PurpleBrush}"/>
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource CompatCornerRadius}"
+                                BorderBrush="{StaticResource CardStrokeColorDefault}"
+                                Background="{StaticResource CardBackgroundFillColorDefault}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <ProgressRing
+                                        Margin="4"
+                                        Height="40"
+                                        Width="40"
+                                        Grid.Column="0"
+                                        IsIndeterminate="False"
+                                        Maximum="{Binding GuarenteePurpleThreshold}"
+                                        Value="{Binding LastPurplePull}"
+                                        Foreground="{StaticResource PurpleBrush}"
+                                        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"/>
+                                    <TextBlock
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Grid.Column="0"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{Binding LastPurplePull}"
+                                        Foreground="{StaticResource PurpleBrush}"/>
+                                    <TextBlock
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Grid.Column="1"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="四星"
+                                        Foreground="{StaticResource PurpleBrush}"/>
+                                </Grid>
+                            </Border>
                         </Grid>
 
                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                             <TextBlock
+                                Opacity="0.6"
                                 FontFamily="Consolas"
                                 HorizontalAlignment="Left"
-                                Style="{StaticResource BodyTextBlockStyle}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding FromFormatted}"/>
                             <TextBlock
+                                Opacity="0.6"
                                 FontFamily="Consolas"
                                 Text="-"
                                 VerticalAlignment="Center"
                                 HorizontalAlignment="Left"
-                                Style="{StaticResource BodyTextBlockStyle}"/>
+                                Style="{StaticResource CaptionTextBlockStyle}"/>
                             <TextBlock
+                                Opacity="0.6"
                                 FontFamily="Consolas"
                                 HorizontalAlignment="Left"
-                                Style="{StaticResource BodyTextBlockStyle}"
+                                Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding ToFormatted}"/>
                         </StackPanel>
                     </StackPanel>

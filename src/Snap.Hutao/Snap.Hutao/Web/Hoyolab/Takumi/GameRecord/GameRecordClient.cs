@@ -1,12 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Web.Geetest;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;

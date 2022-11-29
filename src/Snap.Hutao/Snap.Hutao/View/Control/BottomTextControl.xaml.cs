@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Control;
 
 namespace Snap.Hutao.View.Control;
@@ -15,7 +16,8 @@ namespace Snap.Hutao.View.Control;
 public sealed partial class BottomTextControl : ContentControl
 {
     private static readonly DependencyProperty TextProperty = Property<BottomTextControl>.Depend(nameof(Text), string.Empty, OnTextChanged);
-    private static readonly DependencyProperty TopContentProperty = Property<BottomTextControl>.Depend<UIElement>(nameof(TopContent), default!, OnContentChanged2);
+    private static readonly DependencyProperty TopContentProperty = Property<BottomTextControl>.Depend<UIElement>(nameof(TopContent), default!, OnContentChanged);
+    private static readonly DependencyProperty FillProperty = Property<BottomTextControl>.Depend(nameof(Fill), default(Brush), OnFillChanged);
 
     /// <summary>
     /// 构造一个新的底部带有文本的控件
@@ -43,13 +45,27 @@ public sealed partial class BottomTextControl : ContentControl
         set => SetValue(TextProperty, value);
     }
 
-    private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs dp)
+    /// <summary>
+    /// 填充
+    /// </summary>
+    public Brush Fill
     {
-        ((BottomTextControl)sender).TextHost.Text = (string)dp.NewValue;
+        get => (Brush)GetValue(FillProperty);
+        set => SetValue(FillProperty, value);
     }
 
-    private static void OnContentChanged2(DependencyObject sender, DependencyPropertyChangedEventArgs dp)
+    private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
-        ((BottomTextControl)sender).ContentHost.Content = dp.NewValue;
+        ((BottomTextControl)sender).TextHost.Text = (string)args.NewValue;
+    }
+
+    private static void OnContentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    {
+        ((BottomTextControl)sender).ContentHost.Content = args.NewValue;
+    }
+
+    private static void OnFillChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    {
+        ((BottomTextControl)sender).BackgroundStack.Background = (Brush)args.NewValue;
     }
 }

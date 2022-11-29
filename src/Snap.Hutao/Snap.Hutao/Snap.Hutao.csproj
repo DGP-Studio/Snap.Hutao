@@ -43,6 +43,7 @@
     <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <None Remove="Resource\Icon\UI_ChapterIcon_Hutao.png" />
+    <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <None Remove="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
     <None Remove="Resource\Icon\UI_Icon_BoostUp.png" />
@@ -66,6 +67,7 @@
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
     <None Remove="View\Dialog\AvatarInfoQueryDialog.xaml" />
     <None Remove="View\Dialog\DailyNoteNotificationDialog.xaml" />
+    <None Remove="View\Dialog\DailyNoteVerificationDialog.xaml" />
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
@@ -86,6 +88,7 @@
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
+    <None Remove="View\Page\WikiWeaponPage.xaml" />
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
   </ItemGroup>
@@ -110,6 +113,7 @@
     <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
     <Content Include="Resource\Icon\UI_ChapterIcon_Hutao.png" />
+    <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <Content Include="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
     <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
     <Content Include="Resource\Icon\UI_Icon_BoostUp.png" />
@@ -169,6 +173,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\WikiWeaponPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\DailyNoteVerificationDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\SignInWebViewDialog.xaml">

@@ -6,11 +6,11 @@ using Snap.Hutao.Control;
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
-/// 武器图片转换器
+/// 武器祈愿图片转换器
 /// </summary>
-internal class EquipIconConverter : ValueConverterBase<string, Uri>
+internal class GachaEquipIconConverter : ValueConverterBase<string, Uri>
 {
-    private const string BaseUrl = "https://static.snapgenshin.com/EquipIcon/{0}.png";
+    private const string BaseUrl = "https://static.snapgenshin.com/GachaEquipIcon/UI_Gacha_{0}.png";
 
     /// <summary>
     /// 名称转Uri
@@ -19,6 +19,7 @@ internal class EquipIconConverter : ValueConverterBase<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
+        name = name["UI_".Length..];
         return new Uri(string.Format(BaseUrl, name));
     }
 
