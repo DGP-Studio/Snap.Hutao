@@ -32,7 +32,7 @@ public class Reliquary
     /// 部位
     /// </summary>
     [JsonPropertyName("pos")]
-    public ReliquaryPosition Position { get; set; }
+    public EquipType Position { get; set; }
 
     /// <summary>
     /// 稀有度

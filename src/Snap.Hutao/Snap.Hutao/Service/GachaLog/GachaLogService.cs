@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
@@ -201,7 +202,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
-    public Task RemoveArchiveAsync(GachaArchive archive)
+    public async Task RemoveArchiveAsync(GachaArchive archive)
     {
         Must.NotNull(archiveCollection!);
 
@@ -209,8 +210,11 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
         archiveCollection.Remove(archive);
 
         // Sync database
+        await appDbContext.GachaItems
+            .Where(item => item.ArchiveId == archive.InnerId)
+            .ExecuteDeleteAsync()
+            .ConfigureAwait(false);
         appDbContext.GachaArchives.RemoveAndSave(archive);
-        return Task.CompletedTask;
     }
 
     private static Task RandomDelayAsync(CancellationToken token)
@@ -234,9 +238,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
             .Where(i => i.Id < trimId)
             .Select(i => GachaItem.Create(archiveId, i, GetItemId(i)));
 
-        appDbContext.GachaItems.AddRange(toAdd);
-        appDbContext.SaveChanges();
-
+        appDbContext.GachaItems.AddRangeAndSave(toAdd);
         CurrentArchive = archive;
     }
 
@@ -335,14 +337,14 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
 
         if (archive != null)
         {
+            // TODO: replace with MaxBy
+            // https://github.com/dotnet/efcore/issues/25566
+            // .MaxBy(i => i.Id);
             item = appDbContext.GachaItems
                 .Where(i => i.ArchiveId == archive.InnerId)
                 .Where(i => i.QueryType == configType)
                 .OrderByDescending(i => i.Id)
                 .FirstOrDefault();
-
-            // TODO MaxBy should be supported by .NET 7
-            // .MaxBy(i => i.Id);
         }
 
         return item?.Id ?? 0L;
@@ -389,18 +391,16 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     {
         if (itemsToAdd.Count > 0)
         {
+            // 全量刷新
             if ((!isLazy) && archive != null)
             {
-                IQueryable<GachaItem> toRemove = appDbContext.GachaItems
+                appDbContext.GachaItems
                     .Where(i => i.ArchiveId == archive.InnerId)
-                    .Where(i => i.Id >= endId);
-
-                appDbContext.GachaItems.RemoveRange(toRemove);
-                appDbContext.SaveChanges();
+                    .Where(i => i.Id >= endId)
+                    .ExecuteDelete();
             }
 
-            appDbContext.GachaItems.AddRange(itemsToAdd);
-            appDbContext.SaveChanges();
+            appDbContext.GachaItems.AddRangeAndSave(itemsToAdd);
         }
     }
 }

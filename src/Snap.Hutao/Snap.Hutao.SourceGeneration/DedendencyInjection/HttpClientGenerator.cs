@@ -81,7 +81,7 @@ internal static partial class IocHttpClientConfiguration
 
         foreach (INamedTypeSymbol classSymbol in receiver.Classes)
         {
-            lineBuilder.Clear().Append(Environment.NewLine);
+            lineBuilder.Clear().Append("\r\n");
             lineBuilder.Append(@"        services.AddHttpClient<");
             lineBuilder.Append($"{classSymbol.ToDisplayString()}>(");
 

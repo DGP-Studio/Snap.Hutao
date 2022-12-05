@@ -19,6 +19,11 @@ public class Reliquary : EquipBase
     public List<ReliquarySubProperty> SecondarySubProperties { get; set; } = default!;
 
     /// <summary>
+    /// 合成的副属性
+    /// </summary>
+    public List<ReliquarySubProperty> ComposedSubProperties { get; set; } = default!;
+
+    /// <summary>
     /// 评分
     /// </summary>
     public double Score { get; set; }

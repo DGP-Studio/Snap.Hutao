@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Core.IO.DataTransfer;
 
@@ -31,8 +32,21 @@ internal static class Clipboard
     /// <param name="text">文本</param>
     public static void SetText(string text)
     {
-        DataPackage content = new();
+        DataPackage content = new() { RequestedOperation = DataPackageOperation.Copy };
         content.SetText(text);
+        Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(content);
+        Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+    }
+
+    /// <summary>
+    /// 设置位图
+    /// </summary>
+    /// <param name="stream">位图流</param>
+    public static void SetBitmapStream(IRandomAccessStream stream)
+    {
+        RandomAccessStreamReference reference = RandomAccessStreamReference.CreateFromStream(stream);
+        DataPackage content = new() { RequestedOperation = DataPackageOperation.Copy };
+        content.SetBitmap(reference);
         Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(content);
         Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
     }

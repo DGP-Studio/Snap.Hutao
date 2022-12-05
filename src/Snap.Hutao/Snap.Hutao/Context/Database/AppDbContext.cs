@@ -88,6 +88,21 @@ public sealed class AppDbContext : DbContext
     public DbSet<ObjectCacheEntry> ObjectCache { get; set; } = default!;
 
     /// <summary>
+    /// 培养计划
+    /// </summary>
+    public DbSet<CultivateProject> CultivateProjects { get; set; } = default!;
+
+    /// <summary>
+    /// 培养入口点
+    /// </summary>
+    public DbSet<CultivateEntry> CultivateEntries { get; set; } = default!;
+
+    /// <summary>
+    /// 培养消耗物品
+    /// </summary>
+    public DbSet<CultivateItem> CultivateItems { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个临时的应用程序数据库上下文
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>

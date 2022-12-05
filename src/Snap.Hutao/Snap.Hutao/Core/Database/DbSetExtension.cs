@@ -65,6 +65,20 @@ public static class DbSetExtension
     }
 
     /// <summary>
+    /// 添加列表并保存
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="dbSet">数据库集</param>
+    /// <param name="entities">实体</param>
+    /// <returns>影响条数</returns>
+    public static int AddRangeAndSave<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities)
+        where TEntity : class
+    {
+        dbSet.AddRange(entities);
+        return dbSet.Context().SaveChanges();
+    }
+
+    /// <summary>
     /// 移除并保存
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
@@ -75,6 +89,20 @@ public static class DbSetExtension
         where TEntity : class
     {
         dbSet.Remove(entity);
+        return dbSet.Context().SaveChanges();
+    }
+
+    /// <summary>
+    /// 移除并保存
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="dbSet">数据库集</param>
+    /// <param name="entities">实体列表</param>
+    /// <returns>影响条数</returns>
+    public static int RemoveRangeAndSave<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities)
+        where TEntity : class
+    {
+        dbSet.RemoveRange(entities);
         return dbSet.Context().SaveChanges();
     }
 

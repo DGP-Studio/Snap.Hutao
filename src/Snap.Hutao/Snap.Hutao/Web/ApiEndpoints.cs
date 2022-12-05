@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Web;
@@ -154,6 +155,73 @@ internal static class ApiEndpoints
     }
     #endregion
 
+    #region ApiTakumiEventCalculate
+
+    /// <summary>
+    /// 计算器角色列表 size 20
+    /// </summary>
+    public const string CalculateAvatarList = $"{ApiTakumiEventCalculate}/v1/avatar/list";
+
+    /// <summary>
+    /// 计算器角色技能列表
+    /// </summary>
+    /// <param name="avatarId">角色Id</param>
+    /// <param name="avatar">元素类型</param>
+    /// <returns>技能列表</returns>
+    public static string CalculateAvatarSkillList(Hoyolab.Takumi.Event.Calculate.Avatar avatar)
+    {
+        return $"{ApiTakumiEventCalculate}/v1/avatarSkill/list?avatar_id={avatar.Id}&element_attr_id={(int)avatar.ElementAttrId}";
+    }
+
+    /// <summary>
+    /// 计算器结果
+    /// </summary>
+    public const string CalculateCompute = $"{ApiTakumiEventCalculate}/v2/compute";
+
+    /// <summary>
+    /// 计算器洞天摹本
+    /// </summary>
+    /// <param name="shareCode">分享码</param>
+    /// <returns>洞天摹本</returns>
+    public static string CalculateFurnitureBlueprint(string shareCode)
+    {
+        // &region=cn_gf01
+        // ignored
+        return $"{ApiTakumiEventCalculate}/v1/furniture/blueprint?share_code={shareCode}";
+    }
+
+    /// <summary>
+    /// 计算器家具计算
+    /// </summary>
+    public const string CalculateFurnitureCompute = $"{ApiTakumiEventCalculate}/v1/furniture/compute";
+
+    /// <summary>
+    /// 计算器家具列表 size 32
+    /// </summary>
+    public const string CalculateFurnitureList = $"{ApiTakumiEventCalculate}/v1/furniture/list";
+
+    /// <summary>
+    /// 计算器同步角色详情 size 20
+    /// </summary>
+    /// <param name="avatarId">角色Id</param>
+    /// <param name="uid">uid</param>
+    /// <returns>角色详情</returns>
+    public static string CalculateSyncAvatarDetail(AvatarId avatarId, PlayerUid uid)
+    {
+        return $"{ApiTakumiEventCalculate}/v1/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}";
+    }
+
+    /// <summary>
+    /// 计算器同步角色列表 size 20
+    /// </summary>
+    public const string CalculateSyncAvatarList = $"{ApiTakumiEventCalculate}/v1/sync/avatar/list";
+
+    /// <summary>
+    /// 计算器武器列表 size 20
+    /// </summary>
+    public const string CalculateWeaponList = $"{ApiTakumiEventCalculate}/v1/weapon/list";
+    #endregion
+
     #region AppAuthApi
 
     /// <summary>
@@ -262,7 +330,7 @@ internal static class ApiEndpoints
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?key=eYd89JmJ&language=zh-cn&launcher_id=18
     #endregion
 
-    // consts
+    #region Hosts | Queries
     private const string ApiGeetest = "https://api.geetest.com";
     private const string ApiV6Geetest = "https://apiv6.geetest.com";
 
@@ -272,6 +340,9 @@ internal static class ApiEndpoints
 
     private const string ApiTakumiCardApi = $"{ApiTakumiRecord}/game_record/app/card/api";
     private const string ApiTakumiCardWApi = $"{ApiTakumiRecord}/game_record/app/card/wapi";
+
+    private const string ApiTakumiEvent = $"{ApiTakumi}/event";
+    private const string ApiTakumiEventCalculate = $"{ApiTakumiEvent}/e20200928calculate";
 
     private const string ApiTakumiRecord = "https://api-takumi-record.mihoyo.com";
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";
@@ -294,4 +365,5 @@ internal static class ApiEndpoints
     private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";
 
     private const string AnnouncementQuery = "game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000";
+    #endregion
 }

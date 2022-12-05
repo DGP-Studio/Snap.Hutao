@@ -1,32 +1,29 @@
 ﻿<UserControl
     x:Class="Snap.Hutao.View.Control.ItemIcon"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
-    mc:Ignorable="d"
     Width="80"
-    Height="80">
+    Height="80"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <shmmc:QualityConverter x:Key="QualityConverter"/>
     </UserControl.Resources>
     <Grid>
         <Grid CornerRadius="{StaticResource CompatCornerRadius}">
+            <shci:CachedImage Source="{x:Bind Quality, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
+            <shci:CachedImage Source="https://static.snapgenshin.com/Bg/UI_ImgSign_ItemIcon.png"/>
+            <shci:CachedImage Source="{x:Bind Icon, Mode=OneWay}"/>
             <shci:CachedImage
-                Source="{x:Bind Quality,Converter={StaticResource QualityConverter},Mode=OneWay}"/>
-            <shci:CachedImage
-                Source="https://static.snapgenshin.com/Bg/UI_ImgSign_ItemIcon.png"/>
-            <shci:CachedImage
-                Source="{x:Bind Icon,Mode=OneWay}"/>
-            <shci:CachedImage
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Margin="2"
                 Width="16"
                 Height="16"
-                Source="{x:Bind Badge,Mode=OneWay}"/>
+                Margin="2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Source="{x:Bind Badge, Mode=OneWay}"/>
         </Grid>
     </Grid>
 </UserControl>

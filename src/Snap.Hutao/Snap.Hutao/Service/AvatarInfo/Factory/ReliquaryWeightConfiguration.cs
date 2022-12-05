@@ -18,7 +18,6 @@ internal static partial class ReliquaryWeightConfiguration
 
     /// <summary>
     /// 词条权重
-    /// https://docs.qq.com/sheet/DUG52SFJlTUN3cmNL?tab=BB08J2
     /// </summary>
     public static readonly List<AffixWeight> AffixWeights = new()
     {
@@ -78,7 +77,7 @@ internal static partial class ReliquaryWeightConfiguration
         new(AvatarIds.Ayato, 50, 75, 0, 100, 100, 0, 0, 0) { { FightProperty.FIGHT_PROP_WATER_ADD_HURT, 100 } },
         new(AvatarIds.Collei, 0, 75, 0, 100, 100, 0, 55, 0) { { FightProperty.FIGHT_PROP_GRASS_ADD_HURT, 100 } },
         new(AvatarIds.Dori, 100, 75, 0, 100, 100, 0, 55, 0) { { FightProperty.FIGHT_PROP_ELEC_ADD_HURT, 100 } },
-        new(AvatarIds.Tighnari, 0, 75, 0, 100, 100, 0, 55, 0) { { FightProperty.FIGHT_PROP_GRASS_ADD_HURT, 100 } },
+        new(AvatarIds.Tighnari, 0, 75, 0, 100, 100, 75, 55, 0) { { FightProperty.FIGHT_PROP_GRASS_ADD_HURT, 100 } },
         new(AvatarIds.Nilou, 100, 75, 0, 100, 100, 0, 55, 0, "直伤流") { { FightProperty.FIGHT_PROP_WATER_ADD_HURT, 100 } },
         new(AvatarIds.Nilou, 100, 75, 0, 100, 100, 0, 55, 0, "反应流") { { FightProperty.FIGHT_PROP_WATER_ADD_HURT, 100 } },
         new(AvatarIds.Cyno, 0, 75, 0, 100, 100, 75, 55, 0) { { FightProperty.FIGHT_PROP_ELEC_ADD_HURT, 100 } },

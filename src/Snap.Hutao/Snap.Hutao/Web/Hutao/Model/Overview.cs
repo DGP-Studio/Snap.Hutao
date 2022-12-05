@@ -34,6 +34,12 @@ public class Overview
     public long Timestamp { get; set; }
 
     /// <summary>
+    /// 数据刷新的时间
+    /// </summary>
+    [JsonIgnore]
+    public DateTimeOffset RefreshTime { get => DateTimeOffset.FromUnixTimeSeconds(Timestamp); }
+
+    /// <summary>
     /// 总时间
     /// </summary>
     public double TimeTotal { get; set; }

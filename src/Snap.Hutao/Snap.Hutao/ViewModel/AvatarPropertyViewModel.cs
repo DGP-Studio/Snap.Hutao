@@ -2,17 +2,25 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Control;
+using Snap.Hutao.Control.Image;
+using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Snap.Hutao.Win32;
+using Snap.Hutao.WinRT;
+using Windows.Foundation;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
+using Windows.UI;
+using WinRT;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -46,8 +54,10 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         this.infoBarService = infoBarService;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        RefreshByUserGameRoleCommand = asyncRelayCommandFactory.Create(RefreshByUserGameRoleAsync);
-        RefreshByInputUidCommand = asyncRelayCommandFactory.Create(RefreshByInputUidAsync);
+        RefreshFromEnkaApiCommand = asyncRelayCommandFactory.Create(RefreshByEnkaApiAsync);
+        RefreshFromHoyolabGameRecordCommand = asyncRelayCommandFactory.Create(RefreshByHoyolabGameRecordAsync);
+        RefreshFromHoyolabCalculateCommand = asyncRelayCommandFactory.Create(RefreshByHoyolabCalculateAsync);
+        ExportAsImageCommand = asyncRelayCommandFactory.Create<UIElement>(ExportAsImageAsync);
     }
 
     /// <inheritdoc/>
@@ -66,17 +76,48 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
     /// <summary>
     /// 加载界面命令
     /// </summary>
-    public ICommand OpenUICommand { get; set; }
+    public ICommand OpenUICommand { get; }
 
     /// <summary>
-    /// 按当前角色刷新命令
+    /// 从 Enka Api 同步命令
     /// </summary>
-    public ICommand RefreshByUserGameRoleCommand { get; set; }
+    public ICommand RefreshFromEnkaApiCommand { get; }
 
     /// <summary>
-    /// 按UID刷新命令
+    /// 从游戏记录同步命令
     /// </summary>
-    public ICommand RefreshByInputUidCommand { get; set; }
+    public ICommand RefreshFromHoyolabGameRecordCommand { get; set; }
+
+    /// <summary>
+    /// 从养成计算同步命令
+    /// </summary>
+    public ICommand RefreshFromHoyolabCalculateCommand { get; }
+
+    /// <summary>
+    /// 导出图片命令
+    /// </summary>
+    public ICommand ExportAsImageCommand { get; }
+
+    private static unsafe void ProcessSoftwareBitmap(SoftwareBitmap softwareBitmap, Bgra8 tint)
+    {
+        using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
+        {
+            using (IMemoryBufferReference reference = buffer.CreateReference())
+            {
+                reference.As<IMemoryBufferByteAccess>().GetBuffer(out byte* data, out uint length);
+
+                for (int i = 0; i < length; i += 4)
+                {
+                    Bgra8* pixel = (Bgra8*)(data + i);
+
+                    pixel->B = (byte)(((pixel->B * pixel->A) + (tint.B * (0xFF - pixel->A))) / 0xFF);
+                    pixel->G = (byte)(((pixel->G * pixel->A) + (tint.G * (0xFF - pixel->A))) / 0xFF);
+                    pixel->R = (byte)(((pixel->R * pixel->A) + (tint.R * (0xFF - pixel->A))) / 0xFF);
+                    pixel->A = 0xFF;
+                }
+            }
+        }
+    }
 
     private Task OpenUIAsync()
     {
@@ -84,49 +125,61 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
-                return RefreshCoreAsync((PlayerUid)role, RefreshOption.DatabaseOnly, CancellationToken);
+                UserAndRole userAndRole = new(user.Entity, role);
+                return RefreshCoreAsync(userAndRole, RefreshOption.None, CancellationToken);
             }
         }
 
         return Task.CompletedTask;
     }
 
-    private Task RefreshByUserGameRoleAsync()
+    private Task RefreshByEnkaApiAsync()
     {
         if (userService.Current is User user)
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
-                return RefreshCoreAsync((PlayerUid)role, RefreshOption.Standard, CancellationToken);
+                UserAndRole userAndRole = new(user.Entity, role);
+                return RefreshCoreAsync(userAndRole, RefreshOption.RequestFromEnkaAPI, CancellationToken);
             }
         }
 
         return Task.CompletedTask;
     }
 
-    private async Task RefreshByInputUidAsync()
+    private Task RefreshByHoyolabGameRecordAsync()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, PlayerUid uid) = await new AvatarInfoQueryDialog(mainWindow).GetPlayerUidAsync().ConfigureAwait(false);
-
-        if (isOk)
+        if (userService.Current is User user)
         {
-            if (StructMarshal.IsDefault(uid))
+            if (user.SelectedUserGameRole is UserGameRole role)
             {
-                infoBarService.Information("请输入正确的UID");
-            }
-            else
-            {
-                await RefreshCoreAsync(uid, RefreshOption.RequestFromAPI, CancellationToken).ConfigureAwait(false);
+                UserAndRole userAndRole = new(user.Entity, role);
+                return RefreshCoreAsync(userAndRole, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken);
             }
         }
+
+        return Task.CompletedTask;
     }
 
-    private async Task RefreshCoreAsync(PlayerUid uid, RefreshOption option, CancellationToken token)
+    private Task RefreshByHoyolabCalculateAsync()
+    {
+        if (userService.Current is User user)
+        {
+            if (user.SelectedUserGameRole is UserGameRole role)
+            {
+                UserAndRole userAndRole = new(user.Entity, role);
+                return RefreshCoreAsync(userAndRole, RefreshOption.RequestFromHoyolabCalculate, CancellationToken);
+            }
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task RefreshCoreAsync(UserAndRole userAndRole, RefreshOption option, CancellationToken token)
     {
         try
         {
-            (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(uid, option, token).ConfigureAwait(false);
+            (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(userAndRole, option, token).ConfigureAwait(false);
 
             if (result == RefreshResult.Ok)
             {
@@ -149,6 +202,31 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         }
         catch (OperationCanceledException)
         {
+        }
+    }
+
+    private async Task ExportAsImageAsync(UIElement? element)
+    {
+        if (element == null)
+        {
+            return;
+        }
+
+        RenderTargetBitmap bitmap = new();
+        await bitmap.RenderAsync(element);
+
+        IBuffer buffer = await bitmap.GetPixelsAsync();
+        SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight, BitmapAlphaMode.Ignore);
+        Color systemAltHighColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
+        Bgra8 tint = Bgra8.FromColor(systemAltHighColor);
+        ProcessSoftwareBitmap(softwareBitmap, tint);
+
+        using (InMemoryRandomAccessStream memory = new())
+        {
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, memory);
+            encoder.SetSoftwareBitmap(softwareBitmap);
+            await encoder.FlushAsync();
+            Clipboard.SetBitmapStream(memory);
         }
     }
 }

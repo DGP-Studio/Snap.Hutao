@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
@@ -41,7 +42,7 @@ internal class AffixWeight : Dictionary<FightProperty, double>
     /// <summary>
     /// 角色Id
     /// </summary>
-    public int AvatarId { get; }
+    public AvatarId AvatarId { get; }
 
     /// <summary>
     /// 名称

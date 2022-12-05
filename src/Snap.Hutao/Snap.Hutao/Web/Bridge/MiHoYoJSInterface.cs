@@ -244,6 +244,17 @@ public class MiHoYoJSInterface
         return null;
     }
 
+    /// <summary>
+    /// 获取状态栏高度
+    /// </summary>
+    /// <param name="param">参数</param>
+    /// <returns>结果</returns>
+    [JsMethod("getStatusBarHeight")]
+    public virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
+    {
+        return new() { Data = new() { { "statusBarHeight", 0 } } };
+    }
+
     [JsMethod("showAlertDialog")]
     public virtual Task<IJsResult?> ShowAlertDialogAsync(JsParam param)
     {
@@ -270,12 +281,6 @@ public class MiHoYoJSInterface
 
     [JsMethod("genAppAuthKey")]
     public virtual IJsResult? GenAppAuthKey(JsParam param)
-    {
-        throw new NotImplementedException();
-    }
-
-    [JsMethod("getStatusBarHeight")]
-    public virtual IJsResult? GetStatusBarHeight(JsParam param)
     {
         throw new NotImplementedException();
     }
@@ -353,8 +358,11 @@ public class MiHoYoJSInterface
             "getDS" => GetDynamicSecrectV1(param),
             "getDS2" => GetDynamicSecrectV2(param),
             "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
+            "getStatusBarHeight" => GetStatusBarHeight(param),
             "getUserInfo" => GetUserInfo(param),
+            "hideLoading" => null,
             "login" => null,
+            "showLoading" => null,
             _ => logger.LogWarning<IJsResult>("Unhandled Message Type: {method}", param.Method),
         };
 

@@ -4,6 +4,7 @@
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata.Annotation;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Primitive;
@@ -65,9 +66,26 @@ internal class SummaryReliquaryFactory
         List<ReliquarySubProperty> subProperty = equip.Reliquary!.AppendPropIdList.EmptyIfNull().Select(CreateSubProperty).ToList();
 
         int affixCount = GetAffixCount(reliquary);
+        if (subProperty.Count == 0)
+        {
+            return new()
+            {
+                // NameIconDescription
+                Name = reliquary.Name,
+                Icon = RelicIconConverter.IconNameToUri(reliquary.Icon),
+                Description = reliquary.Description,
+
+                // EquipBase
+                Level = $"+{equip.Reliquary.Level - 1}",
+                Quality = reliquary.RankLevel,
+            };
+        }
+
         Span<ReliquarySubProperty> span = CollectionsMarshal.AsSpan(subProperty);
         List<ReliquarySubProperty> primary = new(span[..^affixCount].ToArray());
         List<ReliquarySubProperty> secondary = new(span[^affixCount..].ToArray());
+
+        List<ReliquarySubProperty> composed = equip.Flat.ReliquarySubstats!.Select(CreateComposedSubProperty).ToList();
 
         ReliquaryLevel relicLevel = reliqueryLevels.Single(r => r.Level == equip.Reliquary!.Level && r.Quality == reliquary.RankLevel);
         FightProperty property = idRelicMainPropMap[equip.Reliquary.MainPropId];
@@ -85,7 +103,7 @@ internal class SummaryReliquaryFactory
             MainProperty = new(property.GetDescription(), PropertyInfoDescriptor.FormatValue(property, relicLevel.Properties[property])),
 
             // Reliquary
-            // SubProperties = subProperty,
+            ComposedSubProperties = composed,
             PrimarySubProperties = primary,
             SecondarySubProperties = secondary,
             Score = ScoreReliquary(property, reliquary, relicLevel, subProperty),
@@ -148,6 +166,19 @@ internal class SummaryReliquaryFactory
     private AffixWeight GetAffixWeightForAvatarId()
     {
         return ReliquaryWeightConfiguration.AffixWeights.FirstOrDefault(w => w.AvatarId == avatarInfo.AvatarId, ReliquaryWeightConfiguration.Default);
+    }
+
+    private ReliquarySubProperty CreateComposedSubProperty(ReliquarySubstat substat)
+    {
+        FormatMethod method = substat.AppendPropId.GetFormatMethod();
+        string valueFormatted = method switch
+        {
+            FormatMethod.Integer => Math.Round((double)substat.StatValue, MidpointRounding.AwayFromZero).ToString(),
+            FormatMethod.Percent => $"{substat.StatValue}%",
+            _ => substat.StatValue.ToString(),
+        };
+
+        return new(substat.AppendPropId.GetDescription(), valueFormatted, 0);
     }
 
     private ReliquarySubProperty CreateSubProperty(int appendPropId)

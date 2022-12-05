@@ -40,7 +40,6 @@ public sealed partial class SignInWebViewDialog : ContentDialog
         await WebView.EnsureCoreWebView2Async();
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;
         IUserService userService = scope.ServiceProvider.GetRequiredService<IUserService>();
-
         User? user = userService.Current;
 
         if (user == null)

@@ -1,22 +1,22 @@
 ﻿<Page
     x:Class="Snap.Hutao.View.Page.SettingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sc="using:SettingsUI.Controls"
     xmlns:shv="using:Snap.Hutao.ViewModel"
-    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance shv:SettingViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:DataContext="{d:DesignInstance shv:SettingViewModel}">
+    mc:Ignorable="d">
     <Page.Resources>
-        <Style TargetType="Button" BasedOn="{StaticResource SettingButtonStyle}">
+        <Style BasedOn="{StaticResource SettingButtonStyle}" TargetType="Button">
             <Setter Property="MinWidth" Value="160"/>
         </Style>
-        <Style TargetType="HyperlinkButton" BasedOn="{StaticResource HyperlinkButtonStyle}">
+        <Style BasedOn="{StaticResource HyperlinkButtonStyle}" TargetType="HyperlinkButton">
             <Setter Property="MinWidth" Value="160"/>
         </Style>
-        <Style TargetType="ComboBox" BasedOn="{StaticResource DefaultComboBoxStyle}">
+        <Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="ComboBox">
             <Setter Property="MinWidth" Value="160"/>
         </Style>
     </Page.Resources>
@@ -35,67 +35,59 @@
                         </Grid.ColumnDefinitions>
                         <Border
                             Width="80"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource CompatCornerRadius}"
+                            Background="{StaticResource CardBackgroundFillColorDefault}"
                             BorderBrush="{StaticResource CardStrokeColorDefault}"
-                            Background="{StaticResource CardBackgroundFillColorDefault}">
+                            BorderThickness="1"
+                            CornerRadius="{StaticResource CompatCornerRadius}">
                             <Image Source="ms-appx:///Assets/Square150x150Logo.scale-200.png"/>
                         </Border>
 
-                        <Grid
-                            Margin="16,0,0,0"
-                            Grid.Column="1">
+                        <Grid Grid.Column="1" Margin="16,0,0,0">
                             <TextBlock TextWrapping="Wrap">
-                                <Run>胡桃 图标由 </Run>
+                                <Run>胡桃 图标由</Run>
                                 <Hyperlink NavigateUri="https://dieqi32894.lofter.com/post/4b58ce16_2b6b2d365">LOFTER@夙夜</Hyperlink>
-                                <Run>纸绘，并由 </Run>
+                                <Run>纸绘，并由</Run>
                                 <Hyperlink NavigateUri="https://github.com/DGP-Studio">DGP Studio</Hyperlink>
-                                <Run> 后期处理后，授权使用。</Run>
+                                <Run>后期处理后，授权使用。</Run>
                             </TextBlock>
-                            <TextBlock
-                                VerticalAlignment="Bottom"
-                                Text="Copyright © 2022 DGP Studio. All Rights Reserved."/>
+                            <TextBlock VerticalAlignment="Bottom" Text="Copyright © 2022 DGP Studio. All Rights Reserved."/>
                         </Grid>
                     </Grid>
                     <sc:Setting
-                        Icon="&#xECAA;"
+                        Description="{Binding AppVersion}"
                         Header="胡桃"
-                        Description="{Binding AppVersion}"/>
-                    <sc:Setting
-                        Icon="&#xE975;"
-                        Header="设备ID">
+                        Icon="&#xECAA;"/>
+                    <sc:Setting Header="设备ID" Icon="&#xE975;">
                         <sc:Setting.Description>
                             <TextBlock
                                 IsTextSelectionEnabled="True"
-                                Text="{Binding DeviceId}"
-                                Style="{StaticResource CaptionTextBlockStyle}"/>
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding DeviceId}"/>
                         </sc:Setting.Description>
                     </sc:Setting>
                     <sc:Setting
-                        Icon="&#xED15;"
+                        Description="Github 上反馈的问题会优先处理"
                         Header="反馈"
-                        Description="Github 上反馈的问题会优先处理">
-                        <HyperlinkButton
-                            Content="前往反馈"
-                            NavigateUri="https://hut.ao/statements/bug-report.html"/>
+                        Icon="&#xED15;">
+                        <HyperlinkButton Content="前往反馈" NavigateUri="https://hut.ao/statements/bug-report.html"/>
                     </sc:Setting>
                     <sc:SettingExpander>
                         <sc:SettingExpander.Header>
                             <sc:Setting
-                                Icon="&#xE117;"
+                                Description="根本没有检查更新选项"
                                 Header="检查更新"
-                                Description="根本没有检查更新选项"/>
+                                Icon="&#xE117;"/>
                         </sc:SettingExpander.Header>
                         <InfoBar
+                            CornerRadius="0,0,4,4"
                             IsClosable="False"
-                            Severity="Informational"
-                            Message="都说了没有了"
                             IsOpen="True"
-                            CornerRadius="0,0,4,4">
+                            Message="都说了没有了"
+                            Severity="Informational">
                             <InfoBar.ActionButton>
                                 <Button
-                                    HorizontalAlignment="Right"
                                     Width="1"
+                                    HorizontalAlignment="Right"
                                     Command="{Binding DebugExceptionCommand}"
                                     Content="没用的按钮"/>
                             </InfoBar.ActionButton>
@@ -105,110 +97,102 @@
 
                 <sc:SettingsGroup Header="外观">
                     <sc:Setting
-                        Icon="&#xE7F7;"
+                        Description="更改窗体的背景材质"
                         Header="背景材质"
-                        Description="更改窗体的背景材质">
+                        Icon="&#xE7F7;">
                         <ComboBox
-                            SelectedItem="{Binding SelectedBackdropType,Mode=TwoWay}"
+                            DisplayMemberPath="Name"
                             ItemsSource="{Binding BackdropTypes}"
-                            DisplayMemberPath="Name"/>
+                            SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                     </sc:Setting>
 
                 </sc:SettingsGroup>
 
                 <sc:SettingsGroup Header="祈愿记录">
                     <sc:Setting
-                        Icon="&#xE81C;"
+                        Description="在祈愿记录页面显示或隐藏无记录的历史祈愿活动"
                         Header="无记录的历史祈愿活动"
-                        Description="在祈愿记录页面显示或隐藏无记录的历史祈愿活动">
+                        Icon="&#xE81C;">
                         <ToggleSwitch
-                            Style="{StaticResource ToggleSwitchSettingStyle}"
-                            OnContent="显示"
+                            IsOn="{Binding IsEmptyHistoryWishVisible, Mode=TwoWay}"
                             OffContent="隐藏"
-                            IsOn="{Binding IsEmptyHistoryWishVisible,Mode=TwoWay}"/>
+                            OnContent="显示"
+                            Style="{StaticResource ToggleSwitchSettingStyle}"/>
                     </sc:Setting>
 
                 </sc:SettingsGroup>
 
                 <sc:SettingsGroup Header="游戏">
-                    <sc:Setting
-                        Icon="&#xE7FC;"
-                        Header="游戏路径"
-                        Description="{Binding GamePath}">
+                    <sc:Setting Header="游戏路径" Icon="&#xE7FC;">
+                        <sc:Setting.Description>
+                            <StackPanel>
+                                <TextBlock
+                                    Foreground="{StaticResource SystemFillColorCautionBrush}"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="请选择游戏本体而不是启动器！"/>
+                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding GamePath}"/>
+                            </StackPanel>
+                        </sc:Setting.Description>
                         <sc:Setting.ActionContent>
-                            <Button Content="设置路径" Command="{Binding SetGamePathCommand}"/>
+                            <Button Command="{Binding SetGamePathCommand}" Content="设置路径"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
                     <sc:Setting
-                        Icon="&#xE74D;"
+                        Description="若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作"
                         Header="删除游戏内网页缓存"
-                        Description="若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作">
+                        Icon="&#xE74D;">
                         <sc:Setting.ActionContent>
-                            <Button Content="删除" Command="{Binding DeleteGameWebCacheCommand}"/>
+                            <Button Command="{Binding DeleteGameWebCacheCommand}" Content="删除"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
                 </sc:SettingsGroup>
 
                 <sc:SettingsGroup Header="测试功能">
                     <sc:Setting
-                        Icon="&#xEC25;"
+                        Description="用户数据/日志/元数据在此处存放"
                         Header="打开 数据 文件夹"
-                        Description="用户数据/日志/元数据在此处存放">
+                        Icon="&#xEC25;">
                         <sc:Setting.ActionContent>
-                            <Button Content="打开" Command="{Binding Experimental.OpenDataFolderCommand}"/>
+                            <Button Command="{Binding Experimental.OpenDataFolderCommand}" Content="打开"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
 
                     <sc:Setting
-                        Icon="&#xE8B7;"
+                        Description="图片缓存在此处存放"
                         Header="打开 缓存 文件夹"
-                        Description="图片缓存在此处存放">
+                        Icon="&#xE8B7;">
                         <sc:Setting.ActionContent>
-                            <Button Content="打开" Command="{Binding Experimental.OpenCacheFolderCommand}"/>
+                            <Button Command="{Binding Experimental.OpenCacheFolderCommand}" Content="打开"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
 
                     <sc:Setting
-                        Icon="&#xE9D5;"
-                        Header="米游社每日签到">
-                        <sc:Setting.Description>
-                            <StackPanel>
-                                <TextBlock
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="对当前选中的账号进行签到"/>
-                                <TextBlock
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Foreground="{StaticResource SystemFillColorCautionBrush}"
-                                    Text="可能需要重启应用以对其他账号签到"/>
-                            </StackPanel>
-                        </sc:Setting.Description>
+                        Description="对当前选中的账号进行签到"
+                        Header="米游社每日签到"
+                        Icon="&#xE9D5;">
                         <sc:Setting.ActionContent>
-                            <Button
-                                Content="打开签到对话框"
-                                Command="{Binding ShowSignInWebViewDialogCommand}"/>
+                            <Button Command="{Binding ShowSignInWebViewDialogCommand}" Content="打开签到对话框"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
 
                     <sc:Setting
-                        Icon="&#xE898;"
+                        Description="将当前账号的深渊数据上传到胡桃数据库"
                         Header="上传深渊数据"
-                        Description="将当前账号的深渊数据上传到胡桃数据库">
+                        Icon="&#xE898;">
                         <sc:Setting.ActionContent>
-                            <Button Content="上传" Command="{Binding Experimental.UploadSpiralAbyssRecordCommand}"/>
+                            <Button Command="{Binding Experimental.UploadSpiralAbyssRecordCommand}" Content="上传"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
                 </sc:SettingsGroup>
 
-                <sc:SettingsGroup Header="危险功能" Foreground="{StaticResource SystemFillColorCriticalBrush}">
+                <sc:SettingsGroup Foreground="{StaticResource SystemFillColorCriticalBrush}" Header="危险功能">
                     <sc:Setting
-                        Icon="&#xE756;"
-                        Header="删除所有用户"
+                        Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
                         Description="直接删除用户表的所有记录，用于修复特定的账号冲突问题"
-                        Background="{StaticResource SystemFillColorCriticalBackgroundBrush}">
+                        Header="删除所有用户"
+                        Icon="&#xE756;">
                         <sc:Setting.ActionContent>
-                            <Button
-                                Content="执行"
-                                Command="{Binding Experimental.DeleteUsersCommand}"/>
+                            <Button Command="{Binding Experimental.DeleteUsersCommand}" Content="执行"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
                 </sc:SettingsGroup>

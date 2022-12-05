@@ -26,9 +26,19 @@ public class Avatar
     public Uri SideIcon { get; set; } = default!;
 
     /// <summary>
+    /// 名片
+    /// </summary>
+    public Uri NameCard { get; set; } = default!;
+
+    /// <summary>
     /// 星级
     /// </summary>
     public ItemQuality Quality { get; set; }
+
+    /// <summary>
+    /// 元素类型
+    /// </summary>
+    public ElementType Element { get; set; }
 
     /// <summary>
     /// 等级

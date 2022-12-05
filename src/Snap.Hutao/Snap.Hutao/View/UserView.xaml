@@ -1,17 +1,17 @@
 ﻿<UserControl
     x:Class="Snap.Hutao.View.UserView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
-    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvm="using:Snap.Hutao.ViewModel"
-    mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance shvm:UserViewModel}">
+    d:DataContext="{d:DesignInstance shvm:UserViewModel}"
+    mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
         <mxic:EventTriggerBehavior EventName="Loaded">
             <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
@@ -19,14 +19,12 @@
     </mxi:Interaction.Behaviors>
     <StackPanel>
         <Button
-            Background="Transparent"
-            BorderBrush="{x:Null}"
             Grid.Column="2"
-            Margin="4,4,4,6">
+            Margin="4,4,4,6"
+            Background="Transparent"
+            BorderBrush="{x:Null}">
             <Button.Resources>
-                <shc:BindingProxy
-                    x:Key="ViewModelBindingProxy"
-                    DataContext="{Binding}"/>
+                <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
             </Button.Resources>
             <Button.Content>
                 <Grid>
@@ -36,35 +34,31 @@
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
                     <PersonPicture
-                        ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl,Mode=OneWay}"
-                        HorizontalAlignment="Left"
-                        Margin="1,1,6,1"
+                        Width="36"
                         Height="36"
-                        Width="36"/>
+                        Margin="1,1,6,1"
+                        HorizontalAlignment="Left"
+                        ProfilePicture="{Binding SelectedUser.UserInfo.AvatarUrl, Mode=OneWay}"/>
                     <TextBlock
-                        VerticalAlignment="Center"
-                        Margin="0,0,0,2"
                         Grid.Column="1"
-                        Text="{Binding SelectedUser.UserInfo.Nickname,Mode=OneWay}"
+                        Margin="0,0,0,2"
+                        VerticalAlignment="Center"
+                        Text="{Binding SelectedUser.UserInfo.Nickname, Mode=OneWay}"
                         TextTrimming="CharacterEllipsis"/>
                     <FontIcon
                         Grid.Column="2"
-                        Glyph="&#xE76C;"
-                        FontSize="12"
+                        Margin="0,0,8,0"
                         VerticalAlignment="Center"
-                        Margin="0,0,8,0"/>
+                        FontSize="12"
+                        Glyph="&#xE76C;"/>
                 </Grid>
             </Button.Content>
             <Button.Flyout>
-                <Flyout
-                    Placement="LeftEdgeAlignedBottom"
-                    LightDismissOverlayMode="On">
+                <Flyout LightDismissOverlayMode="On" Placement="LeftEdgeAlignedBottom">
                     <Flyout.FlyoutPresenterStyle>
-                        <Style
-                            TargetType="FlyoutPresenter"
-                            BasedOn="{StaticResource DefaultFlyoutPresenterStyle}">
+                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                             <Setter Property="Padding" Value="0,2,0,2"/>
-                            <Setter Property="Background" Value="{ThemeResource FlyoutPresenterBackground}" />
+                            <Setter Property="Background" Value="{ThemeResource FlyoutPresenterBackground}"/>
                         </Style>
                     </Flyout.FlyoutPresenterStyle>
                     <StackPanel>
@@ -75,10 +69,10 @@
                         <ListView
                             Grid.Row="1"
                             Margin="4"
-                            SelectionMode="Single"
                             CanReorderItems="True"
                             ItemsSource="{Binding SelectedUser.UserGameRoles}"
-                            SelectedItem="{Binding SelectedUser.SelectedUserGameRole,Mode=TwoWay}">
+                            SelectedItem="{Binding SelectedUser.SelectedUserGameRole, Mode=TwoWay}"
+                            SelectionMode="Single">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Padding="0,6">
@@ -86,8 +80,8 @@
                                         <TextBlock
                                             Margin="0,2,0,0"
                                             Opacity="0.6"
-                                            Text="{Binding Description}"
-                                            Style="{StaticResource CaptionTextBlockStyle}"/>
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding Description}"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -98,12 +92,12 @@
                             Style="{StaticResource BaseTextBlockStyle}"
                             Text="账号"/>
                         <ListView
-                            MaxHeight="224"
                             Grid.Row="1"
+                            MaxHeight="224"
                             Margin="4"
-                            SelectionMode="Single"
                             ItemsSource="{Binding Users}"
-                            SelectedItem="{Binding SelectedUser,Mode=TwoWay}">
+                            SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                            SelectionMode="Single">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid
@@ -116,10 +110,10 @@
                                             <ColumnDefinition Width="auto"/>
                                         </Grid.ColumnDefinitions>
                                         <PersonPicture
-                                            ProfilePicture="{Binding UserInfo.AvatarUrl,Mode=OneWay}"
-                                            HorizontalAlignment="Left"
+                                            Height="32"
                                             Margin="0,0"
-                                            Height="32"/>
+                                            HorizontalAlignment="Left"
+                                            ProfilePicture="{Binding UserInfo.AvatarUrl, Mode=OneWay}"/>
                                         <TextBlock
                                             Grid.Column="1"
                                             Margin="12,0,0,0"
@@ -128,39 +122,37 @@
 
                                         <StackPanel
                                             x:Name="ButtonPanel"
-                                            Orientation="Horizontal"
                                             Grid.Column="2"
+                                            Orientation="Horizontal"
                                             Visibility="Collapsed">
                                             <Button
-                                                Content="&#xE8C8;" 
-                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                Margin="12,0,0,0"
                                                 VerticalAlignment="Stretch"
                                                 Background="Transparent"
-                                                BorderThickness="0"
                                                 BorderBrush="{x:Null}"
-                                                Margin="12,0,0,0"
-                                                Command="{Binding DataContext.CopyCookieCommand,Source={StaticResource ViewModelBindingProxy}}"
+                                                BorderThickness="0"
+                                                Command="{Binding DataContext.CopyCookieCommand, Source={StaticResource ViewModelBindingProxy}}"
                                                 CommandParameter="{Binding}"
+                                                Content="&#xE8C8;"
+                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                 ToolTipService.ToolTip="复制 Cookie"/>
                                             <Button
-                                                Content="&#xE74D;"
-                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                Margin="6,0,0,0"
                                                 HorizontalAlignment="Right"
                                                 VerticalAlignment="Stretch"
                                                 Background="Transparent"
-                                                BorderThickness="0"
                                                 BorderBrush="{x:Null}"
-                                                Margin="6,0,0,0"
-                                                Command="{Binding DataContext.RemoveUserCommand,Source={StaticResource ViewModelBindingProxy}}"
+                                                BorderThickness="0"
+                                                Command="{Binding DataContext.RemoveUserCommand, Source={StaticResource ViewModelBindingProxy}}"
                                                 CommandParameter="{Binding}"
+                                                Content="&#xE74D;"
+                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                 ToolTipService.ToolTip="移除用户"/>
                                         </StackPanel>
 
                                         <Grid.Resources>
                                             <Storyboard x:Name="ButtonPanelVisibleStoryboard">
-                                                <ObjectAnimationUsingKeyFrames
-                                                        Storyboard.TargetName="ButtonPanel"
-                                                        Storyboard.TargetProperty="Visibility">
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
                                                     <DiscreteObjectKeyFrame KeyTime="0">
                                                         <DiscreteObjectKeyFrame.Value>
                                                             <Visibility>Visible</Visibility>
@@ -170,9 +162,7 @@
                                             </Storyboard>
 
                                             <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
-                                                <ObjectAnimationUsingKeyFrames
-                                                        Storyboard.TargetName="ButtonPanel"
-                                                        Storyboard.TargetProperty="Visibility">
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
                                                     <DiscreteObjectKeyFrame KeyTime="0">
                                                         <DiscreteObjectKeyFrame.Value>
                                                             <Visibility>Collapsed</Visibility>
@@ -199,17 +189,20 @@
                             Style="{StaticResource BaseTextBlockStyle}"
                             Text="Cookie 操作"/>
                         <CommandBar DefaultLabelPosition="Right">
-                            <AppBarButton Label="登录米哈游通行证" Icon="{shcm:FontIcon Glyph=&#xEB41;}" Command="{Binding LoginMihoyoUserCommand}"/>
                             <AppBarButton
+                                Command="{Binding LoginMihoyoUserCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xEB41;}"
+                                Label="登录米哈游通行证"/>
+                            <AppBarButton
+                                Command="{Binding AddUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                                Label="手动输入"
-                                Command="{Binding AddUserCommand}"/>
+                                Label="手动输入"/>
                         </CommandBar>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
             <Button.Style>
-                <Style TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+                <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

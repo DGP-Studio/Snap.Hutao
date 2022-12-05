@@ -12,6 +12,23 @@ namespace Snap.Hutao.Win32;
 internal static class MemoryExtensions
 {
     /// <summary>
+    /// 暂时固定 <see cref="Span{T}"/> 以读取偏移量位置处的内存内容
+    /// </summary>
+    /// <typeparam name="T">输出类型</typeparam>
+    /// <param name="span">内存</param>
+    /// <param name="offset">偏移量</param>
+    /// <returns>内容</returns>
+    public static unsafe T Fixed<T>(this ref Span<byte> span, int offset)
+        where T : unmanaged
+    {
+        fixed (byte* pSpan = span)
+        {
+            T result = *(T*)(pSpan + offset);
+            return result;
+        }
+    }
+
+    /// <summary>
     /// 将 __winmdroot_Foundation_CHAR_256 转换到 字符串
     /// </summary>
     /// <param name="char256">目标字符数组</param>

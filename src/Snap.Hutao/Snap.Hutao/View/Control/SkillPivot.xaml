@@ -1,8 +1,8 @@
 ﻿<UserControl
     x:Class="Snap.Hutao.View.Control.SkillPivot"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
@@ -11,34 +11,33 @@
     <UserControl.Resources>
         <shmmc:SkillIconConverter x:Key="SkillIconConverter"/>
         <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
-        
+
         <Thickness x:Key="PivotHeaderItemMargin">0,0,16,0</Thickness>
         <Thickness x:Key="PivotItemMargin">0</Thickness>
-        
-        <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource DefaultPivotHeaderItemStyle}">
+
+        <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
             <Setter Property="Height" Value="80"/>
         </Style>
     </UserControl.Resources>
 
     <Pivot
         x:Name="ItemHost"
-        ItemsSource="{x:Bind Skills,Mode=OneWay}"
-        SelectedItem="{x:Bind Selected}"
         ItemTemplate="{x:Bind ItemTemplate}"
-        Style="{StaticResource DefaultPivotStyle}"
-        >
+        ItemsSource="{x:Bind Skills, Mode=OneWay}"
+        SelectedItem="{x:Bind Selected}"
+        Style="{StaticResource DefaultPivotStyle}">
         <Pivot.HeaderTemplate>
             <DataTemplate>
                 <StackPanel>
                     <shci:MonoChrome
                         Width="36"
                         Height="36"
-                        Source="{Binding Icon,Converter={StaticResource SkillIconConverter}}"/>
+                        Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
                     <TextBlock
                         Margin="0,8,0,0"
-                        Text="{Binding Name}"
                         HorizontalAlignment="Center"
-                        Style="{StaticResource CaptionTextBlockStyle}"/>
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding Name}"/>
                 </StackPanel>
             </DataTemplate>
         </Pivot.HeaderTemplate>

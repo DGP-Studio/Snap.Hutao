@@ -16,7 +16,7 @@ public enum RefreshResult
     /// <summary>
     /// 元数据加载失败
     /// </summary>
-    MetadataUninitialized,
+    MetadataNotInitialized,
 
     /// <summary>
     /// API 不可用

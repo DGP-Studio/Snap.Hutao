@@ -5,7 +5,6 @@ using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Win32;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32.System.Diagnostics.ToolHelp;
 using static Windows.Win32.PInvoke;
@@ -152,7 +151,7 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
         Must.Range(adr >= 0, "未匹配到FPS字节");
 
         int rip = adr + 2;
-        int rel = Unsafe.ReadUnaligned<int>(ref image[rip + 2]);
+        int rel = image.Fixed<int>(rip + 2); // Unsafe.ReadUnaligned<int>(ref image[rip + 2]);
         int ofs = rip + rel + 6;
         fpsAddress = (nuint)((long)unityPlayer.modBaseAddr + ofs);
     }

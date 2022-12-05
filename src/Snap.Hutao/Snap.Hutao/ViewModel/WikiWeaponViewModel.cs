@@ -21,8 +21,8 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
 {
     private readonly List<WeaponId> skippedWeapons = new()
     {
-        11419, 11420, 11421, // 「一心传」名刀
         12304, 14306, 15306, 13304, // 石英大剑, 琥珀玥, 黑檀弓, 「旗杆」
+        11419, 11420, 11421, // 「一心传」名刀
     };
 
     private readonly IMetadataService metadataService;

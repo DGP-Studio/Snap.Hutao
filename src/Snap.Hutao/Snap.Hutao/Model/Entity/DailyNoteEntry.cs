@@ -28,12 +28,12 @@ public class DailyNoteEntry : INotifyPropertyChanged
     /// <summary>
     /// 用户Id
     /// </summary>
-    [ForeignKey(nameof(UserId))]
     public Guid UserId { get; set; }
 
     /// <summary>
     /// 用户
     /// </summary>
+    [ForeignKey(nameof(UserId))]
     public User User { get; set; } = default!;
 
     /// <summary>

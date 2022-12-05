@@ -60,7 +60,8 @@ public class User : ISelectable
     {
         _ = cookie.TryGetAsStoken(out Cookie? stoken);
         _ = cookie.TryGetAsLtoken(out Cookie? ltoken);
+        _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
 
-        return new() { Stoken = stoken, Ltoken = ltoken };
+        return new() { Stoken = stoken, Ltoken = ltoken, CookieToken = cookieToken };
     }
 }

@@ -3,7 +3,9 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
@@ -45,7 +47,7 @@ internal class GameRecordClient
     /// <param name="token">取消令牌</param>
     /// <returns>实时便笺</returns>
     [ApiInformation(Cookie = CookieType.CookieToken | CookieType.Ltoken | CookieType.Mid, Salt = SaltType.X4)]
-    public async Task<DailyNote.DailyNote?> GetDailyNoteAsync(User user, PlayerUid uid, CancellationToken token = default)
+    public async Task<DailyNote.DailyNote?> GetDailyNoteAsync(Model.Entity.User user, PlayerUid uid, CancellationToken token = default)
     {
         Response<DailyNote.DailyNote>? resp = await httpClient
             .SetUser(user, CookieType.CookieToken | CookieType.Ltoken)
@@ -81,12 +83,23 @@ internal class GameRecordClient
     /// <summary>
     /// 获取玩家基础信息
     /// </summary>
+    /// <param name="userAndRole">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>玩家的基础信息</returns>
+    public Task<PlayerInfo?> GetPlayerInfoAsync(UserAndRole userAndRole, CancellationToken token = default)
+    {
+        return GetPlayerInfoAsync(userAndRole.User, userAndRole.Role, token);
+    }
+
+    /// <summary>
+    /// 获取玩家基础信息
+    /// </summary>
     /// <param name="user">用户</param>
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>玩家的基础信息</returns>
     [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
-    public async Task<PlayerInfo?> GetPlayerInfoAsync(User user, PlayerUid uid, CancellationToken token = default)
+    public async Task<PlayerInfo?> GetPlayerInfoAsync(Model.Entity.User user, PlayerUid uid, CancellationToken token = default)
     {
         Response<PlayerInfo>? resp = await httpClient
             .SetUser(user, CookieType.Ltoken)
@@ -106,7 +119,7 @@ internal class GameRecordClient
     /// <param name="token">取消令牌</param>
     /// <returns>深渊信息</returns>
     [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
-    public async Task<SpiralAbyss.SpiralAbyss?> GetSpiralAbyssAsync(User user, PlayerUid uid, SpiralAbyssSchedule schedule, CancellationToken token = default)
+    public async Task<SpiralAbyss.SpiralAbyss?> GetSpiralAbyssAsync(Model.Entity.User user, PlayerUid uid, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
             .SetUser(user, CookieType.Ltoken)
@@ -125,7 +138,7 @@ internal class GameRecordClient
     /// <param name="token">取消令牌</param>
     /// <returns>角色基本信息</returns>
     [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
-    public async Task<BasicRoleInfo?> GetRoleBasicInfoAsync(User user, PlayerUid uid, CancellationToken token = default)
+    public async Task<BasicRoleInfo?> GetRoleBasicInfoAsync(Model.Entity.User user, PlayerUid uid, CancellationToken token = default)
     {
         Response<BasicRoleInfo>? resp = await httpClient
             .SetUser(user, CookieType.Ltoken)
@@ -139,13 +152,25 @@ internal class GameRecordClient
     /// <summary>
     /// 获取玩家角色详细信息
     /// </summary>
+    /// <param name="userAndRole">用户与角色</param>
+    /// <param name="playerInfo">玩家的基础信息</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>角色列表</returns>
+    public Task<List<Character>> GetCharactersAsync(UserAndRole userAndRole, PlayerInfo playerInfo, CancellationToken token = default)
+    {
+        return GetCharactersAsync(userAndRole.User, userAndRole.Role, playerInfo, token);
+    }
+
+    /// <summary>
+    /// 获取玩家角色详细信息
+    /// </summary>
     /// <param name="user">用户</param>
     /// <param name="uid">uid</param>
     /// <param name="playerInfo">玩家的基础信息</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
     [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
-    public async Task<List<Character>> GetCharactersAsync(User user, PlayerUid uid, PlayerInfo playerInfo, CancellationToken token = default)
+    public async Task<List<Character>> GetCharactersAsync(Model.Entity.User user, PlayerUid uid, PlayerInfo playerInfo, CancellationToken token = default)
     {
         CharacterData data = new(uid, playerInfo.Avatars.Select(x => x.Id));
 
@@ -160,7 +185,7 @@ internal class GameRecordClient
 
     private class CharacterData
     {
-        public CharacterData(PlayerUid uid, IEnumerable<int> characterIds)
+        public CharacterData(PlayerUid uid, IEnumerable<AvatarId> characterIds)
         {
             CharacterIds = characterIds;
             Uid = uid.Value;
@@ -168,7 +193,7 @@ internal class GameRecordClient
         }
 
         [JsonPropertyName("character_ids")]
-        public IEnumerable<int> CharacterIds { get; }
+        public IEnumerable<AvatarId> CharacterIds { get; }
 
         [JsonPropertyName("role_id")]
         public string Uid { get; }

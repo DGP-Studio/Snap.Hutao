@@ -20,13 +20,13 @@ public class ReliquarySubProperty
         Value = value;
         Score = score;
 
-        // only 0.2 | 0.4 | 0.6 | 0.8 | 1.0
+        // only 0.25 | 0.50 | 0.75 | 1.00
         Opacity = score switch
         {
-            < 25 => 0.25,
-            < 50 => 0.5,
-            < 75 => 0.75,
-            _ => 1,
+            <= 25 => 0.25,
+            <= 50 => 0.50,
+            <= 75 => 0.75,
+            _ => 1.00,
         };
     }
 

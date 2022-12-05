@@ -1,25 +1,25 @@
 ﻿<shc:ScopedPage
     x:Class="Snap.Hutao.View.Page.AchievementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
-    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance shv:AchievementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    d:DataContext="{d:DesignInstance shv:AchievementViewModel}">
+    mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <Grid Visibility="{Binding IsInitialized,Converter={StaticResource BoolToVisibilityConverter}}">
+    <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>
@@ -29,27 +29,23 @@
                 <ColumnDefinition Width="252"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            
-            <CommandBar
-                Grid.Column="1"
-                DefaultLabelPosition="Right">
-                
+
+            <CommandBar Grid.Column="1" DefaultLabelPosition="Right">
+
                 <CommandBar.Content>
                     <AutoSuggestBox
-                        Text="{Binding SearchText,Mode=TwoWay}"
-                        Height="36"
-                        PlaceholderText="搜索成就名称，描述或编号"
-                        HorizontalAlignment="Stretch"
-                        Margin="12,6,12,0"
                         Width="240"
+                        Height="36"
+                        Margin="12,6,12,0"
+                        HorizontalAlignment="Stretch"
                         VerticalContentAlignment="Center"
+                        PlaceholderText="搜索成就名称，描述或编号"
+                        QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
                         Style="{StaticResource DefaultAutoSuggestBoxStyle}"
-                        QueryIcon="{shcm:FontIcon Glyph=&#xE721;}">
+                        Text="{Binding SearchText, Mode=TwoWay}">
                         <mxi:Interaction.Behaviors>
                             <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                <mxic:InvokeCommandAction
-                                    Command="{Binding SearchAchievementCommand}"
-                                    CommandParameter="{Binding SearchText}"/>
+                                <mxic:InvokeCommandAction Command="{Binding SearchAchievementCommand}" CommandParameter="{Binding SearchText}"/>
                             </mxic:EventTriggerBehavior>
                         </mxi:Interaction.Behaviors>
                     </AutoSuggestBox>
@@ -57,64 +53,62 @@
 
                 <AppBarElementContainer>
                     <ComboBox
-                        MinWidth="120"
                         Height="36"
+                        MinWidth="120"
                         Margin="2,6,3,6"
                         DisplayMemberPath="Name"
-                        ItemsSource="{Binding Archives,Mode=OneWay}"
-                        SelectedItem="{Binding SelectedArchive,Mode=TwoWay}"/>
+                        ItemsSource="{Binding Archives, Mode=OneWay}"
+                        SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"/>
                 </AppBarElementContainer>
                 <AppBarButton
-                    Label="创建新存档"
+                    Command="{Binding AddArchiveCommand}"
                     Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                    Command="{Binding AddArchiveCommand}"/>
+                    Label="创建新存档"/>
                 <AppBarButton
-                    Label="删除当前存档"
+                    Command="{Binding RemoveArchiveCommand}"
                     Icon="{shcm:FontIcon Glyph=&#xE74D;}"
-                    Command="{Binding RemoveArchiveCommand}"/>
-                
+                    Label="删除当前存档"/>
+
                 <AppBarSeparator/>
-                
-                <AppBarButton
-                    Label="导入"
-                    Icon="{shcm:FontIcon Glyph=&#xE8B5;}">
+
+                <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="导入">
                     <AppBarButton.Flyout>
                         <MenuFlyout Placement="BottomEdgeAlignedRight">
                             <MenuFlyoutItem
-                                Text="从剪贴板导入"
+                                Command="{Binding ImportUIAFFromClipboardCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE77F;}"
-                                Command="{Binding ImportUIAFFromClipboardCommand}"/>
+                                Text="从剪贴板导入"/>
                             <MenuFlyoutItem
-                                Text="从 UIAF 文件导入"
+                                Command="{Binding ImportUIAFFromFileCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE8E5;}"
-                                Command="{Binding ImportUIAFFromFileCommand}"/>
+                                Text="从 UIAF 文件导入"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
-                    Label="导出"
+                    Command="{Binding ExportAsUIAFToFileCommand}"
                     Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
-                    Command="{Binding ExportAsUIAFToFileCommand}"/>
+                    Label="导出"/>
                 <AppBarSeparator/>
                 <AppBarToggleButton
-                    Label="优先未完成"
+                    Command="{Binding SortIncompletedSwitchCommand}"
                     Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
                     IsChecked="{Binding IsIncompletedItemsFirst}"
-                    Command="{Binding SortIncompletedSwitchCommand}"/>
+                    Label="优先未完成"/>
             </CommandBar>
         </Grid>
-        
+
         <SplitView
             Grid.Row="1"
-            IsPaneOpen="True"
             DisplayMode="Inline"
+            IsPaneOpen="True"
             OpenPaneLength="252"
             PaneBackground="Transparent">
             <SplitView.Pane>
                 <ListView
-                    SelectionMode="Single"
-                    SelectedItem="{Binding SelectedAchievementGoal,Mode=TwoWay}"
-                    ItemsSource="{Binding AchievementGoals}">
+                    ItemsSource="{Binding AchievementGoals}"
+                    SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
+                    SelectionMode="Single">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -123,14 +117,14 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <shci:CachedImage
+                                    Grid.Column="0"
                                     Width="24"
                                     Height="24"
-                                    Grid.Column="0"
-                                    Source="{Binding Icon,Converter={StaticResource AchievementIconConverter}}"/>
+                                    Source="{Binding Icon, Converter={StaticResource AchievementIconConverter}}"/>
                                 <TextBlock
-                                    VerticalAlignment="Center"
                                     Grid.Column="1"
                                     Margin="12,0,0,2"
+                                    VerticalAlignment="Center"
                                     Text="{Binding Name}"/>
                             </Grid>
                         </DataTemplate>
@@ -142,20 +136,20 @@
                 <ScrollViewer Padding="0,0,16,0">
                     <ItemsControl
                         Margin="16,0,0,16"
-                        ItemsSource="{Binding Achievements}"
-                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}">
+                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
+                        ItemsSource="{Binding Achievements}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Grid
-                                    CornerRadius="{ThemeResource ControlCornerRadius}"
-                                    Background="{ThemeResource CardBackgroundBrush}"
-                                    BorderThickness="{ThemeResource CardBorderThickness}"
-                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                    Padding="8"
+                                    MinHeight="48"
                                     Margin="0,8,0,0"
+                                    Padding="8"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    MinHeight="48">
+                                    Background="{ThemeResource CardBackgroundBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="{ThemeResource CardBorderThickness}"
+                                    CornerRadius="{ThemeResource ControlCornerRadius}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
@@ -163,19 +157,19 @@
                                     </Grid.ColumnDefinitions>
 
                                     <CheckBox
-                                        IsChecked="{Binding IsChecked,Mode=TwoWay}"
+                                        Grid.Column="1"
                                         Margin="6,0,12,0"
-                                        Style="{StaticResource DefaultCheckBoxStyle}"
                                         Padding="16,0,0,0"
-                                        Grid.Column="1">
+                                        IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                        Style="{StaticResource DefaultCheckBoxStyle}">
                                         <CheckBox.Content>
                                             <StackPanel>
                                                 <TextBlock Text="{Binding Inner.Title}"/>
                                                 <TextBlock
                                                     Margin="0,2,0,0"
                                                     Style="{StaticResource SecondaryTextStyle}"
-                                                    TextTrimming="CharacterEllipsis"
-                                                    Text="{Binding Inner.Description}"/>
+                                                    Text="{Binding Inner.Description}"
+                                                    TextTrimming="CharacterEllipsis"/>
                                             </StackPanel>
                                         </CheckBox.Content>
                                     </CheckBox>
@@ -186,19 +180,19 @@
                                             <ColumnDefinition Width="32"/>
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
+                                            Grid.Column="0"
                                             Margin="12,0,12,0"
                                             VerticalAlignment="Center"
-                                            Grid.Column="0"
                                             Text="{Binding Time}"
-                                            Visibility="{Binding IsChecked,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                            Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                         <Image
                                             Grid.Column="1"
                                             Height="32"
                                             Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
                                         <TextBlock
+                                            Grid.Column="2"
                                             Margin="12,0,0,0"
                                             VerticalAlignment="Center"
-                                            Grid.Column="2"
                                             Text="{Binding Inner.FinishReward.Count}"/>
                                     </Grid>
                                 </Grid>

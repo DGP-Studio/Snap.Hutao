@@ -82,6 +82,68 @@ namespace Snap.Hutao.Migrations
                     b.ToTable("avatar_infos");
                 });
 
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateEntry", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("InnerId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("cultivate_entries");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateItem", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("EntryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("InnerId");
+
+                    b.HasIndex("EntryId");
+
+                    b.ToTable("cultivate_items");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateProject", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsSelected")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InnerId");
+
+                    b.ToTable("cultivate_projects");
+                });
+
             modelBuilder.Entity("Snap.Hutao.Model.Entity.DailyNoteEntry", b =>
                 {
                     b.Property<Guid>("InnerId")
@@ -273,12 +335,34 @@ namespace Snap.Hutao.Migrations
             modelBuilder.Entity("Snap.Hutao.Model.Entity.Achievement", b =>
                 {
                     b.HasOne("Snap.Hutao.Model.Entity.AchievementArchive", "Archive")
-                        .WithMany()
+                        .WithMany("Achievements")
                         .HasForeignKey("ArchiveId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Archive");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateEntry", b =>
+                {
+                    b.HasOne("Snap.Hutao.Model.Entity.CultivateProject", "Project")
+                        .WithMany("Entries")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateItem", b =>
+                {
+                    b.HasOne("Snap.Hutao.Model.Entity.CultivateEntry", "Entry")
+                        .WithMany("Items")
+                        .HasForeignKey("EntryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Entry");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.DailyNoteEntry", b =>
@@ -295,12 +379,32 @@ namespace Snap.Hutao.Migrations
             modelBuilder.Entity("Snap.Hutao.Model.Entity.GachaItem", b =>
                 {
                     b.HasOne("Snap.Hutao.Model.Entity.GachaArchive", "Archive")
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("ArchiveId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Archive");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.AchievementArchive", b =>
+                {
+                    b.Navigation("Achievements");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateEntry", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.CultivateProject", b =>
+                {
+                    b.Navigation("Entries");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.GachaArchive", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

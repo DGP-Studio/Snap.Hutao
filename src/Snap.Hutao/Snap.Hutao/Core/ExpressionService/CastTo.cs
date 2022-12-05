@@ -3,7 +3,7 @@
 
 using System.Linq.Expressions;
 
-namespace Snap.Hutao.Core.Convert;
+namespace Snap.Hutao.Core.ExpressionService;
 
 /// <summary>
 /// Class to cast to type <see cref="TTo"/>

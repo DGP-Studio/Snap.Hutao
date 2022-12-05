@@ -5,7 +5,6 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 物品类型
-/// https://github.com/Grasscutters/Grasscutter/tree/development/src/main/java/emu/grasscutter/game/inventory/ItemType.java
 /// </summary>
 public enum ItemType
 {

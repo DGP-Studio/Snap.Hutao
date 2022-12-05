@@ -12,8 +12,12 @@ internal class AvatarNameCardPicConverter : ValueConverterBase<Avatar.Avatar?, U
 {
     private const string BaseUrl = "https://static.snapgenshin.com/NameCardPic/UI_NameCardPic_{0}_P.png";
 
-    /// <inheritdoc/>
-    public override Uri Convert(Avatar.Avatar? avatar)
+    /// <summary>
+    /// 从角色转换到名片
+    /// </summary>
+    /// <param name="avatar">角色</param>
+    /// <returns>名片</returns>
+    public static Uri AvatarToUri(Avatar.Avatar? avatar)
     {
         if (avatar == null)
         {
@@ -22,6 +26,12 @@ internal class AvatarNameCardPicConverter : ValueConverterBase<Avatar.Avatar?, U
 
         string avatarName = ReplaceSpecialCaseNaming(avatar.Icon["UI_AvatarIcon_".Length..]);
         return new Uri(string.Format(BaseUrl, avatarName));
+    }
+
+    /// <inheritdoc/>
+    public override Uri Convert(Avatar.Avatar? avatar)
+    {
+        return AvatarToUri(avatar);
     }
 
     private static string ReplaceSpecialCaseNaming(string avatarName)

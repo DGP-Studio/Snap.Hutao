@@ -5,7 +5,6 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 装备类型
-/// https://github.com/Grasscutters/Grasscutter/blob/development/src/main/java/emu/grasscutter/game/inventory/EquipType.java
 /// </summary>
 public enum EquipType
 {

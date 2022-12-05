@@ -13,6 +13,15 @@
                 <ResourceDictionary Source="ms-appx:///SettingsUI/Themes/SettingsUI.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="CompatBackgroundColor">#FFF4F4F4</Color>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="CompatBackgroundColor">#FF272727</Color>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            
             <!--Modify Window title bar color-->
             <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush"/>
             <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>

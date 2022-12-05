@@ -5,7 +5,6 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 成就信息状态
-/// https://github.com/Grasscutters/Grasscutter/blob/development/src/generated/main/java/emu/grasscutter/net/proto/AchievementInfoOuterClass.java#L163
 /// </summary>
 public enum AchievementInfoStatus
 {

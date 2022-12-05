@@ -74,7 +74,9 @@ internal class SummaryAvatarFactory
             Name = avatar.Name,
             Icon = AvatarIconConverter.IconNameToUri(avatar.Icon),
             SideIcon = AvatarIconConverter.IconNameToUri(avatar.SideIcon),
+            NameCard = AvatarNameCardPicConverter.AvatarToUri(avatar),
             Quality = avatar.Quality,
+            Element = ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore),
             Level = $"Lv.{avatarInfo.PropMap[PlayerProperty.PROP_LEVEL].Value}",
             FetterLevel = avatarInfo.FetterInfo.ExpLevel,
             Weapon = reliquaryAndWeapon.Weapon,
@@ -117,7 +119,7 @@ internal class SummaryAvatarFactory
         KeyValuePair<string, int>? idLevel = equip.Weapon!.AffixMap?.Single();
         int affixLevel = idLevel.HasValue ? idLevel.Value.Value : 0;
 
-        WeaponStat mainStat = equip.Flat.WeaponStats![0];
+        WeaponStat? mainStat = equip.Flat.WeaponStats?[0];
         WeaponStat? subStat = equip.Flat.WeaponStats?.Count > 1 ? equip.Flat.WeaponStats![1] : null;
 
         Pair<string, string> subProperty;
@@ -141,7 +143,7 @@ internal class SummaryAvatarFactory
             // EquipBase
             Level = $"Lv.{equip.Weapon!.Level}",
             Quality = weapon.Quality,
-            MainProperty = new(mainStat.AppendPropId.GetDescription(), mainStat.StatValue.ToString()),
+            MainProperty = mainStat == null ? default! : new(mainStat.AppendPropId.GetDescription(), mainStat.StatValue.ToString()),
 
             // Weapon
             SubProperty = subProperty,

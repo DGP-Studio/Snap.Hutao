@@ -5,7 +5,6 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 元素类型
-/// https://github.com/Grasscutters/Grasscutter/blob/development/src/main/java/emu/grasscutter/game/props/ElementType.java
 /// </summary>
 public enum ElementType
 {
@@ -55,7 +54,7 @@ public enum ElementType
     Rock = 8,
 
     /// <summary>
-    /// 抗火元素
+    /// 燃元素
     /// </summary>
     AntiFire = 9,
 

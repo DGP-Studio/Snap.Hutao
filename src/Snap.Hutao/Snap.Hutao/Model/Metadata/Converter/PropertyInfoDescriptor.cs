@@ -29,12 +29,12 @@ internal class PropertyInfoDescriptor : ValueConverterBase<PropertyInfo, IList<L
     /// </summary>
     /// <param name="name">属性名称</param>
     /// <param name="method">方法</param>
-    /// <param name="value1">值1</param>
-    /// <param name="value2">值2</param>
+    /// <param name="baseValue">值1</param>
+    /// <param name="addValue">值2</param>
     /// <returns>对2</returns>
-    public static Pair2<string, string, string?> FormatIntegerPair2(string name, FormatMethod method, double value1, double value2)
+    public static Pair2<string, string, string?> FormatIntegerPair2(string name, FormatMethod method, double baseValue, double addValue)
     {
-        return new(name, FormatValue(method, value1), $"[+{FormatValue(method, value2)}]");
+        return new(name, FormatValue(method, baseValue + addValue), $"[{FormatValue(method, baseValue)}+{FormatValue(method, addValue)}]");
     }
 
     /// <summary>

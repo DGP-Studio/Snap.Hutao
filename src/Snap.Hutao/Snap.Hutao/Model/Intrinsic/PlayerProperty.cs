@@ -5,7 +5,6 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 玩家属性
-/// https://github.com/Grasscutters/Grasscutter/tree/development/src/main/java/emu/grasscutter/game/props/PlayerProperty.java
 /// </summary>
 public enum PlayerProperty
 {
@@ -217,7 +216,7 @@ public enum PlayerProperty
     PROP_PLAYER_LEGENDARY_DAILY_TASK_NUM = 10041,
 
     /// <summary>
-    /// Realm currency [0, +inf
+    /// Realm currency [0, +inf)
     /// </summary>
     PROP_PLAYER_HOME_COIN = 10042,
 

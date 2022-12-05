@@ -34,7 +34,10 @@ public class DescriptionTextBlock : ContentControl
     public DescriptionTextBlock()
     {
         IsTabStop = false;
-        Content = new TextBlock();
+        Content = new TextBlock()
+        {
+            TextWrapping = TextWrapping.Wrap,
+        };
 
         ActualThemeChanged += OnActualThemeChanged;
     }

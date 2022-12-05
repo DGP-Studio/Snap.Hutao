@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
@@ -14,7 +15,7 @@ public class Weapon
     /// Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public WeaponId Id { get; set; }
 
     /// <summary>
     /// 名称

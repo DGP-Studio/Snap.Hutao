@@ -92,7 +92,6 @@ internal static class Activation
         {
             if (args.TryGetProtocolActivatedUri(out Uri? uri))
             {
-                Ioc.Default.GetRequiredService<IInfoBarService>().Information(uri.ToString());
                 await HandleUrlActivationAsync(uri).ConfigureAwait(false);
             }
         }

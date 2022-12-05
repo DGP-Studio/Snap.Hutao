@@ -94,6 +94,11 @@ public enum KnownReturnCode : int
     NotDefined = 7,
 
     /// <summary>
+    /// 登录状态已失效，请重新登录
+    /// </summary>
+    LoginStateInvalid = 1004,
+
+    /// <summary>
     /// 账号有风险
     /// </summary>
     CODE1034 = 1034,

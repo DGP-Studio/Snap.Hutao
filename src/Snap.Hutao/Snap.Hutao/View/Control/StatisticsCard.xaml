@@ -1,17 +1,16 @@
 ﻿<UserControl
     x:Class="Snap.Hutao.View.Control.StatisticsCard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shmbg="using:Snap.Hutao.Model.Binding.Gacha"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    mc:Ignorable="d"
-    d:DataContext="{d:DesignInstance shmbg:TypedWishSummary}">
+    d:DataContext="{d:DesignInstance shmbg:TypedWishSummary}"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="BlueBrush" Color="#FF5180CB"/>
@@ -19,46 +18,45 @@
         <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
 
         <DataTemplate x:Key="OrangeListTemplate" x:DataType="shmbg:SummaryItem">
-            <Grid Margin="0,4,4,0" Background="Transparent" >
+            <Grid Margin="0,4,4,0" Background="Transparent">
                 <ToolTipService.ToolTip>
                     <TextBlock Text="{Binding TimeFormatted}"/>
                 </ToolTipService.ToolTip>
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <shci:CachedImage
-                        Source="{Binding Icon}"
-                        Height="32" Width="32"/>
+                        Width="32"
+                        Height="32"
+                        Source="{Binding Icon}"/>
                     <TextBlock
-                        Text="{Binding Name}"
                         Margin="8,0,0,0"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Center"
+                        Text="{Binding Name}">
                         <TextBlock.Foreground>
                             <SolidColorBrush Color="{Binding Color}"/>
                         </TextBlock.Foreground>
                     </TextBlock>
                 </StackPanel>
 
-                <StackPanel
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                     <TextBlock
                         Margin="0,0,8,0"
+                        VerticalAlignment="Center"
                         Foreground="#FF0063FF"
                         Text="保底"
-                        VerticalAlignment="Center"
-                        Visibility="{Binding IsGuarentee,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        Visibility="{Binding IsGuarentee, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <TextBlock
                         Margin="0,0,8,0"
-                        Text="UP"  
-                        Foreground="#FFFFA400"
                         VerticalAlignment="Center"
-                        Visibility="{Binding IsUp,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        Foreground="#FFFFA400"
+                        Text="UP"
+                        Visibility="{Binding IsUp, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                     <TextBlock
                         Width="20"
-                        TextAlignment="Center"
-                        Text="{Binding LastPull}"
                         VerticalAlignment="Center"
-                        Style="{StaticResource BodyTextBlockStyle}"/>
+                        Style="{StaticResource BodyTextBlockStyle}"
+                        Text="{Binding LastPull}"
+                        TextAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -66,23 +64,24 @@
         <DataTemplate x:Key="OrangeGridTemplate" x:DataType="shmbg:SummaryItem">
             <Grid Width="40" Margin="0,4,4,0">
                 <Border
+                    Background="{StaticResource CardBackgroundFillColorDefault}"
+                    BorderBrush="{StaticResource CardStrokeColorDefault}"
                     BorderThickness="1"
                     CornerRadius="{StaticResource CompatCornerRadius}"
-                    BorderBrush="{StaticResource CardStrokeColorDefault}"
-                    Background="{StaticResource CardBackgroundFillColorDefault}"
                     ToolTipService.ToolTip="{Binding TimeFormatted}">
                     <StackPanel>
                         <shvc:ItemIcon
+                            Width="40"
+                            Height="40"
                             Icon="{Binding Icon}"
-                            Quality="QUALITY_ORANGE"
-                            Height="40" Width="40"/>
+                            Quality="QUALITY_ORANGE"/>
                         <!--<shci:CachedImage
                         Source="{Binding Icon}"
                         Height="40" Width="40"/>-->
                         <TextBlock
-                            Text="{Binding LastPull}"
-                            Style="{StaticResource CaptionTextBlockStyle}"
                             HorizontalAlignment="Center"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding LastPull}"
                             TextWrapping="NoWrap">
                             <TextBlock.Foreground>
                                 <SolidColorBrush Color="{Binding Color}"/>
@@ -95,9 +94,7 @@
 
     </UserControl.Resources>
 
-    <Border 
-        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-        CornerRadius="{StaticResource CompatCornerRadius}">
+    <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}" CornerRadius="{StaticResource CompatCornerRadius}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -106,37 +103,42 @@
             </Grid.RowDefinitions>
             <Expander
                 x:Name="DetailExpander"
+                Padding="16,0,16,0"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 Background="Transparent"
-                Padding="16,0,16,0"
                 BorderBrush="{x:Null}"
                 IsExpanded="True">
                 <Expander.Header>
                     <Grid Grid.Row="0">
                         <TextBlock
                             VerticalAlignment="Center"
-                            Text="{Binding Name}" 
-                            Style="{StaticResource SubtitleTextBlockStyle}"/>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            Style="{StaticResource SubtitleTextBlockStyle}"
+                            Text="{Binding Name}"/>
+                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                             <TextBlock
-                                VerticalAlignment="Bottom"
                                 Margin="0,4,12,2"
+                                VerticalAlignment="Bottom"
                                 FontFamily="Consolas"
+                                FontSize="24"
                                 Text="{Binding TotalCount}"
-                                Visibility="{Binding ElementName=DetailExpander,Path=IsExpanded,Converter={StaticResource BoolToVisibilityRevertConverter}}"
-                                FontSize="24"/>
-                            <shcp:PanelSelector
-                                Margin="6,0,6,0"
-                                x:Name="ItemsPanelSelector"/>
+                                Visibility="{Binding ElementName=DetailExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                            <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,0,6,0"/>
                         </StackPanel>
                     </Grid>
                 </Expander.Header>
                 <StackPanel>
                     <StackPanel Grid.Row="1" Margin="0,0,0,12">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Margin="0,4,0,4" FontFamily="Consolas" Text="{Binding TotalCount}" FontSize="48"/>
-                            <TextBlock Margin="12,0,0,12" Text="抽" VerticalAlignment="Bottom"/>
+                            <TextBlock
+                                Margin="0,4,0,4"
+                                FontFamily="Consolas"
+                                FontSize="48"
+                                Text="{Binding TotalCount}"/>
+                            <TextBlock
+                                Margin="12,0,0,12"
+                                VerticalAlignment="Bottom"
+                                Text="抽"/>
                         </StackPanel>
 
                         <Grid ColumnSpacing="4">
@@ -146,102 +148,102 @@
                             </Grid.ColumnDefinitions>
                             <Border
                                 Grid.Column="0"
-                                BorderThickness="1"
-                                CornerRadius="{StaticResource CompatCornerRadius}"
+                                Background="{StaticResource CardBackgroundFillColorDefault}"
                                 BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                Background="{StaticResource CardBackgroundFillColorDefault}">
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource CompatCornerRadius}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <ProgressRing
-                                        Margin="4"
-                                        Height="40"
-                                        Width="40"
                                         Grid.Column="0"
+                                        Width="40"
+                                        Height="40"
+                                        Margin="4"
+                                        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                        Foreground="{StaticResource OrangeBrush}"
                                         IsIndeterminate="False"
                                         Maximum="{Binding GuarenteeOrangeThreshold}"
-                                        Value="{Binding LastOrangePull}"
-                                        Foreground="{StaticResource OrangeBrush}"
-                                        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"/>
+                                        Value="{Binding LastOrangePull}"/>
                                     <TextBlock
-                                        Margin="0,0,0,2"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
                                         Grid.Column="0"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding LastOrangePull}"
-                                        Foreground="{StaticResource OrangeBrush}"/>
-                                    <TextBlock
                                         Margin="0,0,0,2"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
+                                        Foreground="{StaticResource OrangeBrush}"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{Binding LastOrangePull}"/>
+                                    <TextBlock
                                         Grid.Column="1"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource OrangeBrush}"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="五星"
-                                        Foreground="{StaticResource OrangeBrush}"/>
+                                        Text="五星"/>
                                 </Grid>
                             </Border>
                             <Border
                                 Grid.Column="1"
-                                BorderThickness="1"
-                                CornerRadius="{StaticResource CompatCornerRadius}"
+                                Background="{StaticResource CardBackgroundFillColorDefault}"
                                 BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                Background="{StaticResource CardBackgroundFillColorDefault}">
+                                BorderThickness="1"
+                                CornerRadius="{StaticResource CompatCornerRadius}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <ProgressRing
-                                        Margin="4"
-                                        Height="40"
-                                        Width="40"
                                         Grid.Column="0"
+                                        Width="40"
+                                        Height="40"
+                                        Margin="4"
+                                        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                        Foreground="{StaticResource PurpleBrush}"
                                         IsIndeterminate="False"
                                         Maximum="{Binding GuarenteePurpleThreshold}"
-                                        Value="{Binding LastPurplePull}"
-                                        Foreground="{StaticResource PurpleBrush}"
-                                        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"/>
+                                        Value="{Binding LastPurplePull}"/>
                                     <TextBlock
-                                        Margin="0,0,0,2"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
                                         Grid.Column="0"
-                                        Style="{StaticResource BodyTextBlockStyle}"
-                                        Text="{Binding LastPurplePull}"
-                                        Foreground="{StaticResource PurpleBrush}"/>
-                                    <TextBlock
                                         Margin="0,0,0,2"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
+                                        Foreground="{StaticResource PurpleBrush}"
+                                        Style="{StaticResource BodyTextBlockStyle}"
+                                        Text="{Binding LastPurplePull}"/>
+                                    <TextBlock
                                         Grid.Column="1"
+                                        Margin="0,0,0,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="{StaticResource PurpleBrush}"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="四星"
-                                        Foreground="{StaticResource PurpleBrush}"/>
+                                        Text="四星"/>
                                 </Grid>
                             </Border>
                         </Grid>
 
-                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                        <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
                             <TextBlock
-                                Opacity="0.6"
-                                FontFamily="Consolas"
                                 HorizontalAlignment="Left"
+                                FontFamily="Consolas"
+                                Opacity="0.6"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding FromFormatted}"/>
                             <TextBlock
-                                Opacity="0.6"
-                                FontFamily="Consolas"
-                                Text="-"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                HorizontalAlignment="Left"
-                                Style="{StaticResource CaptionTextBlockStyle}"/>
-                            <TextBlock
-                                Opacity="0.6"
                                 FontFamily="Consolas"
+                                Opacity="0.6"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="-"/>
+                            <TextBlock
                                 HorizontalAlignment="Left"
+                                FontFamily="Consolas"
+                                Opacity="0.6"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding ToFormatted}"/>
                         </StackPanel>
@@ -249,73 +251,69 @@
                     <MenuFlyoutSeparator Margin="-12,0"/>
                     <StackPanel Grid.Row="3" Margin="0,12,0,0">
                         <Grid>
-                            <TextBlock 
-                                Text="五星" 
+                            <TextBlock
+                                Foreground="{StaticResource OrangeBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Foreground="{StaticResource OrangeBrush}"/>
-                            <TextBlock 
+                                Text="五星"/>
+                            <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas" 
-                                Foreground="{StaticResource OrangeBrush}" 
+                                FontFamily="Consolas"
+                                Foreground="{StaticResource OrangeBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding TotalOrangeFormatted}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
-                            <TextBlock 
-                                Text="四星" 
+                            <TextBlock
+                                Foreground="{StaticResource PurpleBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Foreground="{StaticResource PurpleBrush}"/>
-                            <TextBlock 
+                                Text="四星"/>
+                            <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas" 
-                                Foreground="{StaticResource PurpleBrush}" 
+                                FontFamily="Consolas"
+                                Foreground="{StaticResource PurpleBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding TotalPurpleFormatted}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
-                            <TextBlock 
-                                Text="三星" 
+                            <TextBlock
+                                Foreground="{StaticResource BlueBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Foreground="{StaticResource BlueBrush}"/>
-                            <TextBlock 
+                                Text="三星"/>
+                            <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas" 
-                                Foreground="{StaticResource BlueBrush}" 
+                                FontFamily="Consolas"
+                                Foreground="{StaticResource BlueBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding TotalBlueFormatted}"/>
                         </Grid>
-                        
+
                         <Grid Margin="0,2,0,0">
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="五星平均抽数"/>
                             <TextBlock
-                                Text="五星平均抽数"
-                                Style="{StaticResource BodyTextBlockStyle}"/>
-                            <TextBlock 
-                                HorizontalAlignment="Right"
-                                FontFamily="Consolas,MicroSoft YaHei UI" 
-                                Text="{Binding AverageOrangePullFormatted}"
-                                Style="{StaticResource BodyTextBlockStyle}"/>
-                        </Grid>
-                        <Grid Margin="0,2,0,0">
-                            <TextBlock
-                                Text="UP 平均抽数"
-                                Style="{StaticResource BodyTextBlockStyle}"/>
-                            <TextBlock 
                                 HorizontalAlignment="Right"
                                 FontFamily="Consolas,MicroSoft YaHei UI"
-                                Text="{Binding AverageUpOrangePullFormatted}"
-                                Style="{StaticResource BodyTextBlockStyle}"/>
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{Binding AverageOrangePullFormatted}"/>
+                        </Grid>
+                        <Grid Margin="0,2,0,0">
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="UP 平均抽数"/>
+                            <TextBlock
+                                HorizontalAlignment="Right"
+                                FontFamily="Consolas,MicroSoft YaHei UI"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{Binding AverageUpOrangePullFormatted}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
                             <TextBlock
                                 HorizontalAlignment="Left"
-                                FontFamily="Consolas,MicroSoft YaHei UI" 
-                                Text="{Binding MaxOrangePullFormatted}"
-                                Style="{StaticResource BodyTextBlockStyle}"/>
+                                FontFamily="Consolas,MicroSoft YaHei UI"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{Binding MaxOrangePullFormatted}"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas,MicroSoft YaHei UI" 
-                                Text="{Binding MinOrangePullFormatted}"
-                                Style="{StaticResource BodyTextBlockStyle}"/>
+                                FontFamily="Consolas,MicroSoft YaHei UI"
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{Binding MinOrangePullFormatted}"/>
                         </Grid>
                     </StackPanel>
                     <MenuFlyoutSeparator Margin="-12,12,-12,0"/>
@@ -325,20 +323,18 @@
                 Grid.Row="2"
                 Margin="12,6,12,12"
                 VerticalScrollBarVisibility="Hidden">
-                <cwucont:SwitchPresenter Value="{Binding ElementName=ItemsPanelSelector,Path=Current}">
+                <cwucont:SwitchPresenter Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
                     <cwucont:SwitchPresenter.ContentTransitions>
                         <ContentThemeTransition/>
                     </cwucont:SwitchPresenter.ContentTransitions>
                     <cwucont:Case Value="List">
-                        <ItemsControl
-                            ItemsSource="{Binding OrangeList}"
-                            ItemTemplate="{StaticResource OrangeListTemplate}"/>
+                        <ItemsControl ItemTemplate="{StaticResource OrangeListTemplate}" ItemsSource="{Binding OrangeList}"/>
                     </cwucont:Case>
                     <cwucont:Case Value="Grid">
                         <ItemsControl
                             Margin="0,0,-4,0"
-                            ItemsSource="{Binding OrangeList}"
-                            ItemTemplate="{StaticResource OrangeGridTemplate}">
+                            ItemTemplate="{StaticResource OrangeGridTemplate}"
+                            ItemsSource="{Binding OrangeList}">
                             <ItemsControl.Transitions>
                                 <ReorderThemeTransition/>
                             </ItemsControl.Transitions>

@@ -45,8 +45,10 @@
     <None Remove="Resource\Icon\UI_ChapterIcon_Hutao.png" />
     <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <None Remove="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
+    <None Remove="Resource\Icon\UI_HomeWorldTabIcon_2_Team.png" />
     <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
     <None Remove="Resource\Icon\UI_Icon_BoostUp.png" />
+    <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_None.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
@@ -65,6 +67,7 @@
     <None Remove="View\Control\StatisticsCard.xaml" />
     <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
+    <None Remove="View\Dialog\AdoptCalculatorDialog.xaml" />
     <None Remove="View\Dialog\AvatarInfoQueryDialog.xaml" />
     <None Remove="View\Dialog\DailyNoteNotificationDialog.xaml" />
     <None Remove="View\Dialog\DailyNoteVerificationDialog.xaml" />
@@ -80,11 +83,11 @@
     <None Remove="View\Page\AnnouncementContentPage.xaml" />
     <None Remove="View\Page\AnnouncementPage.xaml" />
     <None Remove="View\Page\AvatarPropertyPage.xaml" />
+    <None Remove="View\Page\CultivationPage.xaml" />
     <None Remove="View\Page\DailyNotePage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\HutaoDatabasePage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
-    <None Remove="View\Page\LoginMihoyoBBSPage.xaml" />
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
@@ -115,8 +118,10 @@
     <Content Include="Resource\Icon\UI_ChapterIcon_Hutao.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
     <Content Include="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
+    <Content Include="Resource\Icon\UI_HomeWorldTabIcon_2_Team.png" />
     <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
     <Content Include="Resource\Icon\UI_Icon_BoostUp.png" />
+    <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
     <Content Include="Resource\Icon\UI_Icon_None.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
@@ -175,6 +180,16 @@
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="View\Page\CultivationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\AdoptCalculatorDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="View\Page\WikiWeaponPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -211,11 +226,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\GameAccountNameDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\LoginMihoyoBBSPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

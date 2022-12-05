@@ -29,6 +29,11 @@ public class GachaArchive : ISelectable
     public bool IsSelected { get; set; }
 
     /// <summary>
+    /// 卡池物品
+    /// </summary>
+    public virtual ICollection<GachaItem> Items { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个新的卡池存档
     /// </summary>
     /// <param name="uid">uid</param>

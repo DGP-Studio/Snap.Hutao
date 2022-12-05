@@ -1,11 +1,11 @@
 ﻿<Page
     x:Class="Snap.Hutao.View.Page.LoginMihoyoUserPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
     <Grid Loaded="OnRootLoaded">
         <Grid.RowDefinitions>
@@ -13,18 +13,18 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock
+            Grid.Row="0"
             Margin="12,0,0,0"
             VerticalAlignment="Center"
-            Text="在下方米哈游通行证"
-            Grid.Row="0"/>
+            Text="在下方米哈游通行证"/>
         <Button
-            HorizontalAlignment="Right"
             Margin="16"
-            Content="我已登录"
-            Click="CookieButtonClick"/>
+            HorizontalAlignment="Right"
+            Click="CookieButtonClick"
+            Content="我已登录"/>
         <WebView2
+            x:Name="WebView"
             Grid.Row="2"
-            Margin="0,0,0,0"
-            x:Name="WebView"/>
+            Margin="0,0,0,0"/>
     </Grid>
 </Page>

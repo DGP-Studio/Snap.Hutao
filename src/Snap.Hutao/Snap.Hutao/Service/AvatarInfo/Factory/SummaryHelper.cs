@@ -60,6 +60,11 @@ internal static class SummaryHelper
     /// <returns>技能</returns>
     public static List<Skill> CreateSkills(IDictionary<string, int> skillLevelMap, IDictionary<string, int>? proudSkillExtraLevelMap, IEnumerable<ProudableSkill> proudSkills)
     {
+        if (skillLevelMap == null)
+        {
+            return new();
+        }
+
         Dictionary<string, int> skillLevelMapCopy = new(skillLevelMap);
 
         if (proudSkillExtraLevelMap != null)
@@ -98,28 +103,28 @@ internal static class SummaryHelper
     /// <returns>列表</returns>
     public static List<Pair2<string, string, string?>> CreateAvatarProperties(IDictionary<FightProperty, double> fightPropMap)
     {
-        List<Pair2<string, string, string?>> properties;
+        if (fightPropMap == null)
+        {
+            return new();
+        }
 
         double baseHp = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_BASE_HP);                 // 1
         double hp = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_HP);                          // 2
         double hpPercent = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_HP_PERCENT);           // 3
         double hpAdd = hp + (baseHp * hpPercent);
-        double maxHp = baseHp + hpAdd;
-        Pair2<string, string, string?> hpPair2 = PropertyInfoDescriptor.FormatIntegerPair2("生命值", FormatMethod.Integer, maxHp, hpAdd);
+        Pair2<string, string, string?> hpPair2 = PropertyInfoDescriptor.FormatIntegerPair2("生命值", FormatMethod.Integer, baseHp, hpAdd);
 
         double baseAtk = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_BASE_ATTACK);            // 4
         double atk = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_ATTACK);                     // 5
         double atkPrecent = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_ATTACK_PERCENT);      // 6
         double atkAdd = atk + (baseAtk * atkPrecent);
-        double maxAtk = baseAtk + atkAdd;
-        Pair2<string, string, string?> atkPair2 = PropertyInfoDescriptor.FormatIntegerPair2("攻击力", FormatMethod.Integer, maxAtk, atkAdd);
+        Pair2<string, string, string?> atkPair2 = PropertyInfoDescriptor.FormatIntegerPair2("攻击力", FormatMethod.Integer, baseAtk, atkAdd);
 
         double baseDef = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_BASE_DEFENSE);           // 7
         double def = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_DEFENSE);                    // 8
         double defPercent = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_DEFENSE_PERCENT);     // 9
         double defAdd = def + (baseDef * defPercent);
-        double maxDef = baseDef + defAdd;
-        Pair2<string, string, string?> defPair2 = PropertyInfoDescriptor.FormatIntegerPair2("防御力", FormatMethod.Integer, maxDef, defAdd);
+        Pair2<string, string, string?> defPair2 = PropertyInfoDescriptor.FormatIntegerPair2("防御力", FormatMethod.Integer, baseDef, defAdd);
 
         double em = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_ELEMENT_MASTERY);             // 28
         Pair2<string, string, string?> emPair2 = PropertyInfoDescriptor.FormatIntegerPair2("元素精通", FormatMethod.Integer, em);
@@ -133,7 +138,7 @@ internal static class SummaryHelper
         double chargeEff = fightPropMap.GetValueOrDefault2(FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY);    // 23
         Pair2<string, string, string?> chargeEffPair2 = PropertyInfoDescriptor.FormatIntegerPair2("元素充能效率", FormatMethod.Percent, chargeEff);
 
-        properties = new() { hpPair2, atkPair2, defPair2, emPair2, critRatePair2, critDMGPair2, chargeEffPair2 };
+        List<Pair2<string, string, string?>> properties = new() { hpPair2, atkPair2, defPair2, emPair2, critRatePair2, critDMGPair2, chargeEffPair2 };
 
         FightProperty bonusProperty = GetBonusFightProperty(fightPropMap);
         if (bonusProperty != FightProperty.FIGHT_PROP_NONE)
@@ -220,6 +225,11 @@ internal static class SummaryHelper
     /// <returns>评分</returns>
     public static double ScoreCrit(IDictionary<FightProperty, double> fightPropMap)
     {
+        if (fightPropMap == null)
+        {
+            return 0.0;
+        }
+
         double cr = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL];
         double cd = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL_HURT];
 

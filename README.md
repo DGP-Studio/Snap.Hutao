@@ -22,6 +22,7 @@
 
 * [biuuu/genshin-wish-export](https://github.com/biuuu/genshin-wish-export)
 * [HolographicHat/YaeAchievement](https://github.com/HolographicHat/YaeAchievement)
+* [HolographicHat/MiHoYoWebBridge](https://github.com/HolographicHat/MiHoYoWebBridge)
 * [xunkong/xunkong](https://github.com/xunkong/xunkong)
 * [YuehaiTeam/cocogoat](https://github.com/YuehaiTeam/cocogoat)
 

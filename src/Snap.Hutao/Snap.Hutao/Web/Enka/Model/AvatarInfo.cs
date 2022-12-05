@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Json.Converter;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Web.Enka.Model;
 
@@ -16,7 +17,7 @@ public class AvatarInfo
     /// Character ID
     /// </summary>
     [JsonPropertyName("avatarId")]
-    public int AvatarId { get; set; }
+    public AvatarId AvatarId { get; set; }
 
     /// <summary>
     /// 基础属性
@@ -34,7 +35,7 @@ public class AvatarInfo
     public IList<int>? TalentIdList { get; set; }
 
     /// <summary>
-    /// 属性Map
+    /// 属性 Map
     /// Map of Character's Combat Properties.
     /// </summary>
     [JsonPropertyName("fightPropMap")]
@@ -64,10 +65,10 @@ public class AvatarInfo
     /// <summary>
     /// 装备列表
     /// 最后一个为武器
-    /// List of Equipments: Weapon, Ariftacts
+    /// List of Equipments: Weapon, Artifacts
     /// </summary>
     [JsonPropertyName("equipList")]
-    public IList<Equip> EquipList { get; set; } = default!;
+    public List<Equip> EquipList { get; set; } = default!;
 
     /// <summary>
     /// 好感度信息
