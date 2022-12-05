@@ -1,7 +1,5 @@
-
 blank_issues_enabled: false
 contact_links:
-  - name: 问题与操作指南文档
-    url: https://www.snapgenshin.com/documents/
-    about: |
-    [暂不可用]在发起 Issue 前 请查阅此文档确认文档中尚未包含你的问题的解决方案
+  - name: 胡桃工具箱 - 官方文档
+    url: https://hut.ao
+    about: 请在提出问题前阅读文档
