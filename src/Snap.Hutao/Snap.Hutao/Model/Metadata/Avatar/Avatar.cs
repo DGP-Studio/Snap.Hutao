@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Json.Annotation;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Binding.Hutao;
@@ -29,7 +30,8 @@ public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
     /// <summary>
     /// 体型
     /// </summary>
-    public string Body { get; set; } = default!;
+    [JsonEnum(JsonSerializeType.String)]
+    public BodyType Body { get; set; } = default!;
 
     /// <summary>
     /// 正面图标

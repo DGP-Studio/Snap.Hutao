@@ -9,7 +9,6 @@ using Snap.Hutao.Context.FileSystem.Location;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model.Post;
 using Windows.Storage;

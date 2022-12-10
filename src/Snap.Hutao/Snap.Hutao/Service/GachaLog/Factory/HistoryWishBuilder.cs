@@ -56,79 +56,47 @@ internal class HistoryWishBuilder
     public GachaConfigType ConfigType { get => configType; }
 
     /// <inheritdoc cref="GachaEvent.From"/>
-    public DateTimeOffset From
-    {
-        get => gachaEvent.From;
-    }
+    public DateTimeOffset From { get => gachaEvent.From; }
 
     /// <inheritdoc cref="GachaEvent.To"/>
-    public DateTimeOffset To
-    {
-        get => gachaEvent.To;
-    }
+    public DateTimeOffset To { get => gachaEvent.To; }
 
     /// <summary>
     /// 卡池是否为空
     /// </summary>
-    public bool IsEmpty
-    {
-        get => totalCountTracker <= 0;
-    }
+    public bool IsEmpty { get => totalCountTracker <= 0; }
 
     /// <summary>
-    /// 计数五星角色
+    /// 计数五星物品
     /// </summary>
-    /// <param name="avatar">角色</param>
-    /// <returns>是否为Up角色</returns>
-    public bool IncreaseOrangeAvatar(Avatar avatar)
+    /// <param name="item">物品</param>
+    /// <returns>是否为Up物品</returns>
+    public bool IncreaseOrange(IStatisticsItemSource item)
     {
-        orangeCounter.Increase(avatar);
+        orangeCounter.Increase(item);
         ++totalCountTracker;
 
-        return orangeUpCounter.TryIncrease(avatar);
+        return orangeUpCounter.TryIncrease(item);
     }
 
     /// <summary>
-    /// 计数四星角色
+    /// 计数四星物品
     /// </summary>
-    /// <param name="avatar">角色</param>
-    public void IncreasePurpleAvatar(Avatar avatar)
+    /// <param name="item">物品</param>
+    public void IncreasePurple(IStatisticsItemSource item)
     {
-        purpleUpCounter.TryIncrease(avatar);
-        purpleCounter.Increase(avatar);
-        ++totalCountTracker;
-    }
-
-    /// <summary>
-    /// 计数五星武器
-    /// </summary>
-    /// <param name="weapon">武器</param>
-    /// <returns>是否为Up武器</returns>
-    public bool IncreaseOrangeWeapon(Weapon weapon)
-    {
-        orangeCounter.Increase(weapon);
-        ++totalCountTracker;
-        return orangeUpCounter.TryIncrease(weapon);
-    }
-
-    /// <summary>
-    /// 计数四星武器
-    /// </summary>
-    /// <param name="weapon">武器</param>
-    public void IncreasePurpleWeapon(Weapon weapon)
-    {
-        purpleUpCounter.TryIncrease(weapon);
-        purpleCounter.Increase(weapon);
+        purpleUpCounter.TryIncrease(item);
+        purpleCounter.Increase(item);
         ++totalCountTracker;
     }
 
     /// <summary>
     /// 计数三星武器
     /// </summary>
-    /// <param name="weapon">武器</param>
-    public void IncreaseBlueWeapon(Weapon weapon)
+    /// <param name="item">武器</param>
+    public void IncreaseBlue(IStatisticsItemSource item)
     {
-        blueCounter.Increase(weapon);
+        blueCounter.Increase(item);
         ++totalCountTracker;
     }
 

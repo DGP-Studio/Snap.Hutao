@@ -40,7 +40,6 @@ internal readonly struct ValueStopwatch
     /// 获取经过的时间
     /// </summary>
     /// <returns>经过的时间</returns>
-    /// <exception cref="InvalidOperationException">当前的停表未合理的初始化</exception>
     public long GetElapsedTimestamp()
     {
         // Start timestamp can't be zero in an initialized ValueStopwatch.
@@ -59,7 +58,6 @@ internal readonly struct ValueStopwatch
     /// 获取经过的时间
     /// </summary>
     /// <returns>经过的时间</returns>
-    /// <exception cref="InvalidOperationException">当前的停表未合理的初始化</exception>
     public TimeSpan GetElapsedTime()
     {
         return new TimeSpan(GetElapsedTimestamp());

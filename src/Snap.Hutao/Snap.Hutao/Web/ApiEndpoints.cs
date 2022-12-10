@@ -165,7 +165,6 @@ internal static class ApiEndpoints
     /// <summary>
     /// 计算器角色技能列表
     /// </summary>
-    /// <param name="avatarId">角色Id</param>
     /// <param name="avatar">元素类型</param>
     /// <returns>技能列表</returns>
     public static string CalculateAvatarSkillList(Hoyolab.Takumi.Event.Calculate.Avatar avatar)

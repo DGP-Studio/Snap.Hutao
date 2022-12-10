@@ -27,6 +27,7 @@ public sealed partial class GachaLogUrlDialog : ContentDialog
     /// <returns>输入的结果</returns>
     public async Task<ValueResult<bool, string>> GetInputUrlAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         string url = InputText.Text;
 

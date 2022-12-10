@@ -87,19 +87,17 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task RemoveUserAsync(BindingUser user)
     {
-        await Task.Yield();
-
         // Sync cache
+        await ThreadHelper.SwitchToMainThreadAsync();
         userCollection!.Remove(user);
         roleCollection?.RemoveWhere(r => r.User.InnerId == user.Entity.InnerId);
 
         // Sync database
+        await ThreadHelper.SwitchToBackgroundAsync();
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
             // Note: cascade deleted dailynotes
-            appDbContext.Users.RemoveAndSave(user.Entity);
+            await scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.RemoveAndSaveAsync(user.Entity).ConfigureAwait(false);
         }
 
         messenger.Send(new UserRemovedMessage(user.Entity));
@@ -108,6 +106,7 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<ObservableCollection<BindingUser>> GetUserCollectionAsync()
     {
+        await ThreadHelper.SwitchToBackgroundAsync();
         if (userCollection == null)
         {
             List<BindingUser> users = new();
@@ -118,9 +117,7 @@ internal class UserService : IUserService
 
                 foreach (Model.Entity.User entity in appDbContext.Users)
                 {
-                    BindingUser? initialized = await BindingUser
-                        .ResumeAsync(entity)
-                        .ConfigureAwait(false);
+                    BindingUser? initialized = await BindingUser.ResumeAsync(entity).ConfigureAwait(false);
 
                     if (initialized != null)
                     {
@@ -129,7 +126,7 @@ internal class UserService : IUserService
                     else
                     {
                         // User is unable to be initialized, remove it.
-                        appDbContext.Users.RemoveAndSave(entity);
+                        await appDbContext.Users.RemoveAndSaveAsync(entity).ConfigureAwait(false);
                     }
                 }
             }
@@ -144,6 +141,7 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<ObservableCollection<Model.Binding.User.UserAndRole>> GetRoleCollectionAsync()
     {
+        await ThreadHelper.SwitchToBackgroundAsync();
         if (roleCollection == null)
         {
             List<Model.Binding.User.UserAndRole> userAndRoles = new();
@@ -178,8 +176,7 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie)
     {
-        Must.NotNull(userCollection!);
-
+        await ThreadHelper.SwitchToBackgroundAsync();
         string? mid = cookie.GetValueOrDefault(Cookie.MID);
 
         if (mid == null)
@@ -188,7 +185,7 @@ internal class UserService : IUserService
         }
 
         // 检查 mid 对应用户是否存在
-        if (UserHelper.TryGetUser(userCollection, mid, out BindingUser? user))
+        if (UserHelper.TryGetUser(userCollection!, mid, out BindingUser? user))
         {
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
@@ -200,7 +197,7 @@ internal class UserService : IUserService
                     user.Ltoken = cookie.TryGetAsLtoken(out Cookie? ltoken) ? ltoken : user.Ltoken;
                     user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
-                    appDbContext.Users.UpdateAndSave(user.Entity);
+                    await appDbContext.Users.UpdateAndSaveAsync(user.Entity).ConfigureAwait(false);
                     return new(UserOptionResult.Updated, mid);
                 }
                 else
@@ -217,6 +214,7 @@ internal class UserService : IUserService
 
     private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie)
     {
+        await ThreadHelper.SwitchToBackgroundAsync();
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -228,19 +226,22 @@ internal class UserService : IUserService
                 if (userCollection != null)
                 {
                     await ThreadHelper.SwitchToMainThreadAsync();
-                    userCollection!.Add(newUser);
-
-                    if (roleCollection != null)
                     {
-                        foreach (UserGameRole role in newUser.UserGameRoles)
+                        userCollection!.Add(newUser);
+
+                        if (roleCollection != null)
                         {
-                            roleCollection.Add(new(newUser.Entity, role));
+                            foreach (UserGameRole role in newUser.UserGameRoles)
+                            {
+                                roleCollection.Add(new(newUser.Entity, role));
+                            }
                         }
                     }
                 }
 
                 // Sync database
-                appDbContext.Users.AddAndSave(newUser.Entity);
+                await ThreadHelper.SwitchToBackgroundAsync();
+                await appDbContext.Users.AddAndSaveAsync(newUser.Entity).ConfigureAwait(false);
                 return new(UserOptionResult.Added, newUser.UserInfo!.Uid);
             }
             else

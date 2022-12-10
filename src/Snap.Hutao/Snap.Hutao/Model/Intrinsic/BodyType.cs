@@ -4,32 +4,37 @@
 namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
-/// 成就信息状态
+/// 体型
 /// </summary>
-public enum AchievementInfoStatus
+public enum BodyType
 {
     /// <summary>
-    /// 未识别
+    /// 无
     /// </summary>
-    UNRECOGNIZED = -1,
+    BODY_NONE,
 
     /// <summary>
-    /// 非法值
+    /// 男孩
     /// </summary>
-    STATUS_INVALID = 0,
+    BODY_BOY,
 
     /// <summary>
-    /// 未完成
+    /// 女孩
     /// </summary>
-    STATUS_UNFINISHED = 1,
+    BODY_GIRL,
 
     /// <summary>
-    /// 已完成
+    /// 成女
     /// </summary>
-    STATUS_FINISHED = 2,
+    BODY_LADY,
 
     /// <summary>
-    /// 奖励已领取
+    /// 成男
     /// </summary>
-    STATUS_REWARD_TAKEN = 3,
+    BODY_MALE,
+
+    /// <summary>
+    /// 萝莉
+    /// </summary>
+    BODY_LOLI,
 }

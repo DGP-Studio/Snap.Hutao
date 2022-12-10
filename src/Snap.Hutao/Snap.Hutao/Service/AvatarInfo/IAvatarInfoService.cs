@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Binding.User;
-using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 

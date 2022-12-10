@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Context.Database;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
@@ -45,20 +46,13 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<string, Weapon> nameWeaponMap = await metadataService.GetNameToWeaponMapAsync().ConfigureAwait(false);
 
         List<GachaEvent> gachaevents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
+
         List<HistoryWishBuilder> historyWishBuilders = gachaevents.Select(g => new HistoryWishBuilder(g, nameAvatarMap, nameWeaponMap)).ToList();
 
-        SettingEntry? entry = await appDbContext.Settings
-            .SingleOrDefaultAsync(e => e.Key == SettingEntry.IsEmptyHistoryWishVisible)
+        SettingEntry entry = await appDbContext.Settings
+            .SingleOrAddAsync(SettingEntry.IsEmptyHistoryWishVisible, SettingEntryHelper.TrueString)
             .ConfigureAwait(false);
-
-        if (entry == null)
-        {
-            entry = new(SettingEntry.IsEmptyHistoryWishVisible, true.ToString());
-            appDbContext.Settings.Add(entry);
-            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        bool isEmptyHistoryWishVisible = bool.Parse(entry.Value!);
+        bool isEmptyHistoryWishVisible = entry.GetBoolean();
 
         IOrderedEnumerable<GachaItem> orderedItems = items.OrderBy(i => i.Id);
         return await Task.Run(() => CreateCore(orderedItems, historyWishBuilders, idAvatarMap, idWeaponMap, isEmptyHistoryWishVisible)).ConfigureAwait(false);
@@ -71,9 +65,9 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<WeaponId, Weapon> weaponMap,
         bool isEmptyHistoryWishVisible)
     {
-        TypedWishSummaryBuilder permanentWishBuilder = new("奔行世间", TypedWishSummaryBuilder.PermanentWish, 90, 10);
-        TypedWishSummaryBuilder avatarWishBuilder = new("角色活动", TypedWishSummaryBuilder.AvatarEventWish, 90, 10);
-        TypedWishSummaryBuilder weaponWishBuilder = new("神铸赋形", TypedWishSummaryBuilder.WeaponEventWish, 80, 10);
+        TypedWishSummaryBuilder permanentWishBuilder = new("奔行世间", TypedWishSummaryBuilder.IsPermanentWish, 90, 10);
+        TypedWishSummaryBuilder avatarWishBuilder = new("角色活动", TypedWishSummaryBuilder.IsAvatarEventWish, 90, 10);
+        TypedWishSummaryBuilder weaponWishBuilder = new("神铸赋形", TypedWishSummaryBuilder.IsWeaponEventWish, 80, 10);
 
         Dictionary<Avatar, int> orangeAvatarCounter = new();
         Dictionary<Avatar, int> purpleAvatarCounter = new();
@@ -86,7 +80,6 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         foreach (GachaItem item in items)
         {
             // Find target history wish to operate.
-            // TODO: improve performance.
             HistoryWishBuilder? targetHistoryWishBuilder = historyWishBuilders
                 .Where(w => w.ConfigType == item.GachaType)
                 .SingleOrDefault(w => w.From <= item.Time && w.To >= item.Time);
@@ -101,11 +94,11 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
                 {
                     case ItemQuality.QUALITY_ORANGE:
                         orangeAvatarCounter.Increase(avatar);
-                        isUp = targetHistoryWishBuilder?.IncreaseOrangeAvatar(avatar) ?? false;
+                        isUp = targetHistoryWishBuilder?.IncreaseOrange(avatar) ?? false;
                         break;
                     case ItemQuality.QUALITY_PURPLE:
                         purpleAvatarCounter.Increase(avatar);
-                        targetHistoryWishBuilder?.IncreasePurpleAvatar(avatar);
+                        targetHistoryWishBuilder?.IncreasePurple(avatar);
                         break;
                 }
 
@@ -123,15 +116,15 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
                 switch (weapon.RankLevel)
                 {
                     case ItemQuality.QUALITY_ORANGE:
-                        isUp = targetHistoryWishBuilder?.IncreaseOrangeWeapon(weapon) ?? false;
+                        isUp = targetHistoryWishBuilder?.IncreaseOrange(weapon) ?? false;
                         orangeWeaponCounter.Increase(weapon);
                         break;
                     case ItemQuality.QUALITY_PURPLE:
-                        targetHistoryWishBuilder?.IncreasePurpleWeapon(weapon);
+                        targetHistoryWishBuilder?.IncreasePurple(weapon);
                         purpleWeaponCounter.Increase(weapon);
                         break;
                     case ItemQuality.QUALITY_BLUE:
-                        targetHistoryWishBuilder?.IncreaseBlueWeapon(weapon);
+                        targetHistoryWishBuilder?.IncreaseBlue(weapon);
                         blueWeaponCounter.Increase(weapon);
                         break;
                 }
@@ -153,8 +146,9 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
             HistoryWishes = historyWishBuilders
                 .Where(b => isEmptyHistoryWishVisible || (!b.IsEmpty))
                 .OrderByDescending(builder => builder.From)
-                .ThenBy(builder => builder.ConfigType, new GachaConfigTypeComparar())
-                .Select(builder => builder.ToHistoryWish()).ToList(),
+                .ThenBy(builder => builder.ConfigType, GachaConfigTypeComparar.Shared)
+                .Select(builder => builder.ToHistoryWish())
+                .ToList(),
 
             // avatars
             OrangeAvatars = orangeAvatarCounter.ToStatisticsList(),

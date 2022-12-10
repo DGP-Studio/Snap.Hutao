@@ -65,7 +65,7 @@ internal static class SummaryHelper
             return new();
         }
 
-        Dictionary<string, int> skillLevelMapCopy = new(skillLevelMap);
+        Dictionary<string, int> skillExtraLeveledMap = new(skillLevelMap);
 
         if (proudSkillExtraLevelMap != null)
         {
@@ -74,7 +74,7 @@ internal static class SummaryHelper
                 int skillGroupIdInt32 = int.Parse(skillGroupId);
                 int skillId = proudSkills.Single(p => p.GroupId == skillGroupIdInt32).Id;
 
-                skillLevelMapCopy.Increase($"{skillId}", extraLevel);
+                skillExtraLeveledMap.Increase(skillId.ToString(), extraLevel);
             }
         }
 
@@ -87,7 +87,9 @@ internal static class SummaryHelper
                 Name = proudableSkill.Name,
                 Icon = SkillIconConverter.IconNameToUri(proudableSkill.Icon),
                 Description = proudableSkill.Description,
-                Info = DescParamDescriptor.Convert(proudableSkill.Proud, skillLevelMapCopy[$"{proudableSkill.Id}"]),
+
+                Level = skillLevelMap[proudableSkill.Id.ToString()],
+                Info = DescParamDescriptor.Convert(proudableSkill.Proud, skillExtraLeveledMap[proudableSkill.Id.ToString()]),
             };
 
             skills.Add(skill);

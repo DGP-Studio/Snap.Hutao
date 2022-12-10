@@ -4,12 +4,12 @@
 namespace Snap.Hutao.Core.Json.Annotation;
 
 /// <summary>
-/// Json 文本字符串序列化类型
+/// Json 序列化类型
 /// </summary>
 public enum JsonSerializeType
 {
     /// <summary>
-    /// 数字
+    /// Int32
     /// </summary>
     Int32,
 

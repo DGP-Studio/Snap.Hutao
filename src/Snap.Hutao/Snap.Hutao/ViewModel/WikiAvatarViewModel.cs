@@ -25,10 +25,10 @@ internal class WikiAvatarViewModel : ObservableObject
 
     // filters
     private readonly List<Selectable<string>> filterElementInfos;
-    private readonly List<Selectable<Pair<string, string>>> filterAssociationInfos;
+    private readonly List<Selectable<Pair<string, AssociationType>>> filterAssociationInfos;
     private readonly List<Selectable<Pair<string, WeaponType>>> filterWeaponTypeInfos;
     private readonly List<Selectable<Pair<string, ItemQuality>>> filterQualityInfos;
-    private readonly List<Selectable<Pair<string, string>>> filterBodyInfos;
+    private readonly List<Selectable<Pair<string, BodyType>>> filterBodyInfos;
 
     private AdvancedCollectionView? avatars;
     private Avatar? selected;
@@ -58,12 +58,12 @@ internal class WikiAvatarViewModel : ObservableObject
 
         filterAssociationInfos = new()
         {
-            new(new("蒙德", "ASSOC_TYPE_MONDSTADT"), OnFilterChanged),
-            new(new("璃月", "ASSOC_TYPE_LIYUE"), OnFilterChanged),
-            new(new("稻妻", "ASSOC_TYPE_INAZUMA"), OnFilterChanged),
-            new(new("须弥", "ASSOC_TYPE_SUMERU"), OnFilterChanged),
-            new(new("愚人众", "ASSOC_TYPE_FATUI"), OnFilterChanged),
-            new(new("游侠", "ASSOC_TYPE_RANGER"), OnFilterChanged),
+            new(new("蒙德", AssociationType.ASSOC_TYPE_MONDSTADT), OnFilterChanged),
+            new(new("璃月", AssociationType.ASSOC_TYPE_LIYUE), OnFilterChanged),
+            new(new("稻妻", AssociationType.ASSOC_TYPE_INAZUMA), OnFilterChanged),
+            new(new("须弥", AssociationType.ASSOC_TYPE_SUMERU), OnFilterChanged),
+            new(new("愚人众", AssociationType.ASSOC_TYPE_FATUI), OnFilterChanged),
+            new(new("游侠", AssociationType.ASSOC_TYPE_RANGER), OnFilterChanged),
         };
 
         filterWeaponTypeInfos = new()
@@ -84,11 +84,11 @@ internal class WikiAvatarViewModel : ObservableObject
 
         filterBodyInfos = new()
         {
-            new(new("成女", "BODY_LADY"), OnFilterChanged),
-            new(new("少女", "BODY_GIRL"), OnFilterChanged),
-            new(new("幼女", "BODY_LOLI"), OnFilterChanged),
-            new(new("成男", "BODY_MALE"), OnFilterChanged),
-            new(new("少男", "BODY_BOY"), OnFilterChanged),
+            new(new("成女", BodyType.BODY_LADY), OnFilterChanged),
+            new(new("少女", BodyType.BODY_GIRL), OnFilterChanged),
+            new(new("幼女", BodyType.BODY_LOLI), OnFilterChanged),
+            new(new("成男", BodyType.BODY_MALE), OnFilterChanged),
+            new(new("少男", BodyType.BODY_BOY), OnFilterChanged),
         };
     }
 
@@ -113,7 +113,7 @@ internal class WikiAvatarViewModel : ObservableObject
     /// <summary>
     /// 筛选用所属国家集合
     /// </summary>
-    public IList<Selectable<Pair<string, string>>> FilterAssociationInfos
+    public IList<Selectable<Pair<string, AssociationType>>> FilterAssociationInfos
     {
         get => filterAssociationInfos;
     }
@@ -137,7 +137,7 @@ internal class WikiAvatarViewModel : ObservableObject
     /// <summary>
     /// 筛选用体型信息集合
     /// </summary>
-    public IList<Selectable<Pair<string, string>>> FilterBodyInfos
+    public IList<Selectable<Pair<string, BodyType>>> FilterBodyInfos
     {
         get => filterBodyInfos;
     }
@@ -189,7 +189,7 @@ internal class WikiAvatarViewModel : ObservableObject
                 .Select(e => e.Value)
                 .ToList();
 
-            List<string> targetAssociations = filterAssociationInfos
+            List<AssociationType> targetAssociations = filterAssociationInfos
                 .Where(e => e.IsSelected)
                 .Select(e => e.Value.Value)
                 .ToList();
@@ -204,7 +204,7 @@ internal class WikiAvatarViewModel : ObservableObject
                 .Select(e => e.Value.Value)
                 .ToList();
 
-            List<string> targetBodies = filterBodyInfos
+            List<BodyType> targetBodies = filterBodyInfos
                 .Where(e => e.IsSelected)
                 .Select(e => e.Value.Value)
                 .ToList();

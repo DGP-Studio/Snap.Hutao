@@ -48,18 +48,13 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
         {
             string cacheFile = GetCacheFile(path);
 
-            TemporaryFile tempFile;
-            try
+            using (TemporaryFile? tempFile = TemporaryFile.CreateFromFileCopy(cacheFile))
             {
-                tempFile = TemporaryFile.CreateFromFileCopy(cacheFile);
-            }
-            catch (DirectoryNotFoundException)
-            {
-                return new(false, $"找不到原神内置浏览器缓存路径：\n{cacheFile}");
-            }
+                if (tempFile == null)
+                {
+                    return new(false, $"找不到原神内置浏览器缓存路径：\n{cacheFile}");
+                }
 
-            using (tempFile)
-            {
                 using (FileStream fileStream = new(tempFile.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
                     using (MemoryStream memoryStream = new())
@@ -80,8 +75,8 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
     private static string? Match(MemoryStream stream)
     {
         ReadOnlySpan<byte> span = stream.ToArray();
-        ReadOnlySpan<byte> match = Encoding.UTF8.GetBytes("https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html");
-        ReadOnlySpan<byte> zero = Encoding.UTF8.GetBytes("\0");
+        ReadOnlySpan<byte> match = "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
+        ReadOnlySpan<byte> zero = "\0"u8;
 
         int index = span.LastIndexOf(match);
         if (index >= 0)

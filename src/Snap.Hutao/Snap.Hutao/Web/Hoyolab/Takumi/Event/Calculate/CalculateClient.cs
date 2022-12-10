@@ -39,10 +39,10 @@ internal class CalculateClient
     /// <param name="delta">差异</param>
     /// <param name="token">取消令牌</param>
     /// <returns>消耗结果</returns>
-    public async Task<Consumption> ComputeAsync(User user, AvatarPromotionDelta delta, CancellationToken token)
+    public async Task<Consumption?> ComputeAsync(User user, AvatarPromotionDelta delta, CancellationToken token)
     {
         Response<Consumption>? resp = await httpClient
-            .SetUser(user,CookieType.CookieToken)
+            .SetUser(user, CookieType.CookieToken)
             .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(ApiEndpoints.CalculateCompute, delta, options, logger, token)
             .ConfigureAwait(false);
         return resp?.Data;
@@ -53,7 +53,6 @@ internal class CalculateClient
     /// </summary>
     /// <param name="user">用户</param>
     /// <param name="uid">Uid</param>
-    /// <param name="sync">同步</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
     public async Task<List<Avatar>> GetAvatarsAsync(User user, PlayerUid uid, CancellationToken token = default)

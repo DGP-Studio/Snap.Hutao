@@ -5,7 +5,6 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 武器类型
-/// https://github.com/Grasscutters/Grasscutter/blob/development/src/main/java/emu/grasscutter/game/props/WeaponType.java
 /// </summary>
 [SuppressMessage("", "SA1124")]
 public enum WeaponType

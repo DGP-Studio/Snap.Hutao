@@ -24,6 +24,12 @@ public class ObjectCacheEntry
     public DateTimeOffset ExpireTime { get; set; }
 
     /// <summary>
+    /// 获取该对象是否过期
+    /// </summary>
+    [NotMapped]
+    public bool IsExpired { get => ExpireTime > DateTimeOffset.Now; }
+
+    /// <summary>
     /// 值字符串
     /// </summary>
     public string? Value { get; set; }

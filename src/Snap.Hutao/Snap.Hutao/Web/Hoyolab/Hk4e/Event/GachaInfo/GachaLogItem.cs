@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Converter;
+using Snap.Hutao.Core.Json.Annotation;
 using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -21,13 +21,13 @@ public class GachaLogItem
     /// 祈愿类型
     /// </summary>
     [JsonPropertyName("gacha_type")]
-    [JsonConverter(typeof(EnumStringValueConverter<GachaConfigType>))]
+    [JsonEnum(JsonSerializeType.Int32AsString)]
     public GachaConfigType GachaType { get; set; } = default!;
 
     /// <summary>
     /// 总为 <see cref="string.Empty"/>
     /// </summary>
-    [Obsolete("API clear this property")]
+    [Obsolete("API set this property empty")]
     [JsonPropertyName("item_id")]
     public string ItemId { get; set; } = string.Empty;
 
@@ -67,7 +67,7 @@ public class GachaLogItem
     /// 物品稀有等级
     /// </summary>
     [JsonPropertyName("rank_type")]
-    [JsonConverter(typeof(EnumStringValueConverter<ItemQuality>))]
+    [JsonEnum(JsonSerializeType.Int32AsString)]
     public ItemQuality Rank { get; set; } = default!;
 
     /// <summary>

@@ -11,6 +11,7 @@ namespace Snap.Hutao.Model.Metadata;
 [SuppressMessage("", "SA1600")]
 public static class AvatarIds
 {
+    public static readonly AvatarId Kate = 10000001;
     public static readonly AvatarId Ayaka = 10000002;
     public static readonly AvatarId Qin = 10000003;
 

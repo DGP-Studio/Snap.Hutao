@@ -14,7 +14,6 @@ namespace Snap.Hutao.Core.Json;
 internal static class JsonTypeInfoResolvers
 {
     private static readonly Type JsonEnumAttributeType = typeof(JsonEnumAttribute);
-    private static readonly Type ConfigurableEnumConverterType = typeof(ConfigurableEnumConverter<>);
 
     /// <summary>
     /// 解析枚举类型
@@ -32,10 +31,9 @@ internal static class JsonTypeInfoResolvers
 
         foreach (JsonPropertyInfo enumProperty in enumProperties)
         {
-            JsonEnumAttribute attr = enumProperty.PropertyType.GetCustomAttribute<JsonEnumAttribute>()!;
-            Type converterType = ConfigurableEnumConverterType.MakeGenericType(enumProperty.PropertyType);
+            JsonEnumAttribute attr = enumProperty.AttributeProvider!.GetCustomAttributes(false).OfType<JsonEnumAttribute>().Single();
 
-            enumProperty.CustomConverter = (JsonConverter)Activator.CreateInstance(converterType, attr.ReadAs, attr.WriteAs)!;
+            enumProperty.CustomConverter = attr.CreateConverter(enumProperty);
         }
     }
 }

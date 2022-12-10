@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.Threading;
 
 /// <summary>
 /// 调度器队列切换操作
+/// 等待此类型对象后上下文会被切换至主线程
 /// </summary>
 public readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOperation>, IAwaiter
 {
@@ -29,9 +30,9 @@ public readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueue
     }
 
     /// <inheritdoc/>
-    public void OnCompleted(Action continuation)
+    public DispatherQueueSwitchOperation GetAwaiter()
     {
-        dispatherQueue.TryEnqueue(() => { continuation(); });
+        return this;
     }
 
     /// <inheritdoc/>
@@ -40,8 +41,8 @@ public readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueue
     }
 
     /// <inheritdoc/>
-    public DispatherQueueSwitchOperation GetAwaiter()
+    public void OnCompleted(Action continuation)
     {
-        return this;
+        dispatherQueue.TryEnqueue(() => { continuation(); });
     }
 }

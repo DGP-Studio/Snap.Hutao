@@ -228,6 +228,11 @@ internal class AvatarInfoService : IAvatarInfoService
 
             AvatarDetail? detailAvatar = await calculateClient.GetAvatarDetailAsync(userAndRole.User, userAndRole.Role, avatar).ConfigureAwait(false);
 
+            if (detailAvatar == null)
+            {
+                continue;
+            }
+
             ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == avatar.Id);
 
             if (entity == null)

@@ -21,28 +21,28 @@
                     <Color x:Key="CompatBackgroundColor">#FF272727</Color>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-            
-            <!--Modify Window title bar color-->
+
+            <!--  Modify Window title bar color  -->
             <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush"/>
             <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
-            <!--Page Transparent Background-->
+            <!--  Page Transparent Background  -->
             <StaticResource x:Key="ApplicationPageBackgroundThemeBrush" ResourceKey="ControlFillColorTransparentBrush"/>
-            <!--IconFont-->
+            <!--  IconFont  -->
             <FontFamily x:Key="SymbolThemeFontFamily">ms-appx:///Resource/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
-            <!--InfoBar Resource-->
+            <!--  InfoBar Resource  -->
             <Thickness x:Key="InfoBarIconMargin">6,16,16,16</Thickness>
             <Thickness x:Key="InfoBarContentRootPadding">16,0,0,0</Thickness>
-            <!--Pivot Resource-->
+            <!--  Pivot Resource  -->
             <x:Double x:Key="PivotHeaderItemFontSize">16</x:Double>
             <Thickness x:Key="PivotHeaderItemMargin">16,0,0,0</Thickness>
             <Thickness x:Key="PivotItemMargin">0</Thickness>
-            <!--CornerRadius-->
+            <!--  CornerRadius  -->
             <CornerRadius x:Key="CompatCornerRadius">6</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusTop">6,6,0,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusRight">0,6,6,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,6,6</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusSmall">2</CornerRadius>
-            <!--Converters-->
+            <!--  Converters  -->
             <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <shmmc:AchievementIconConverter x:Key="AchievementIconConverter"/>
             <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>
@@ -59,15 +59,15 @@
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
             <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
             <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
-            
-            <!--Styles-->
+
+            <!--  Styles  -->
             <Style
                 x:Key="LargeGridViewItemStyle"
-                TargetType="GridViewItem"
-                BasedOn="{StaticResource DefaultGridViewItemStyle}">
+                BasedOn="{StaticResource DefaultGridViewItemStyle}"
+                TargetType="GridViewItem">
                 <Setter Property="Margin" Value="0,0,12,12"/>
             </Style>
-            <!--ItemsPanelTemplate-->
+            <!--  ItemsPanelTemplate  -->
             <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">
                 <ItemsStackPanel/>
             </ItemsPanelTemplate>

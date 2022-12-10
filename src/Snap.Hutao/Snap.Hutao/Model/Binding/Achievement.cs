@@ -57,7 +57,7 @@ public class Achievement : ObservableObject
             // Only update state when checked
             if (value)
             {
-                Entity.Status = Intrinsic.AchievementInfoStatus.ACHIEVEMENT_POINT_TAKEN;
+                Entity.Status = Intrinsic.AchievementInfoStatus.STATUS_REWARD_TAKEN;
                 Entity.Time = DateTimeOffset.Now;
                 OnPropertyChanged(nameof(Time));
             }

@@ -37,6 +37,7 @@ internal partial class AnnouncementService : IAnnouncementService
             return Must.NotNull((AnnouncementWrapper)cache!);
         }
 
+        await ThreadHelper.SwitchToBackgroundAsync();
         AnnouncementWrapper? wrapper = await announcementClient
             .GetAnnouncementsAsync(cancellationToken)
             .ConfigureAwait(false);

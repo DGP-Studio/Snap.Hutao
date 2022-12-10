@@ -16,12 +16,4 @@ internal interface IGameLocator : INamed
     /// </summary>
     /// <returns>游戏位置</returns>
     Task<ValueResult<bool, string>> LocateGamePathAsync();
-
-    /// <summary>
-    /// 异步获取游戏启动器位置
-    /// 路径应当包含启动器文件名称
-    /// </summary>
-    /// <returns>游戏启动器位置</returns>
-    [Obsolete("不应定位启动器位置")]
-    Task<ValueResult<bool, string>> LocateLauncherPathAsync();
 }

@@ -6,8 +6,8 @@ using Snap.Hutao.Model.Entity;
 namespace Snap.Hutao.Message;
 
 /// <summary>
-/// 成就存档切换消息
+/// 养成计划切换消息
 /// </summary>
-internal class AchievementArchiveChangedMessage : ValueChangedMessage<AchievementArchive>
+internal class CultivateProjectChangedMessage : ValueChangedMessage<CultivateProject>
 {
 }

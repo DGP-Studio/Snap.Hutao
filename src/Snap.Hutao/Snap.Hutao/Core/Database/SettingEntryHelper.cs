@@ -12,6 +12,16 @@ namespace Snap.Hutao.Core.Database;
 public static class SettingEntryHelper
 {
     /// <summary>
+    /// "True"
+    /// </summary>
+    public static readonly string TrueString = true.ToString();
+
+    /// <summary>
+    /// "False"
+    /// </summary>
+    public static readonly string FalseString = false.ToString();
+
+    /// <summary>
     /// 获取或添加一个对应的设置
     /// </summary>
     /// <param name="dbSet">设置集</param>
@@ -37,17 +47,16 @@ public static class SettingEntryHelper
     /// </summary>
     /// <param name="dbSet">设置集</param>
     /// <param name="key">键</param>
-    /// <param name="valueFactory">值工厂</param>
+    /// <param name="value">值</param>
     /// <returns>设置</returns>
-    public static SettingEntry SingleOrAdd(this DbSet<SettingEntry> dbSet, string key, Func<string> valueFactory)
+    public static async Task<SettingEntry> SingleOrAddAsync(this DbSet<SettingEntry> dbSet, string key, string value)
     {
-        SettingEntry? entry = dbSet.SingleOrDefault(entry => key == entry.Key);
+        SettingEntry? entry = await dbSet.SingleOrDefaultAsync(entry => key == entry.Key).ConfigureAwait(false);
 
         if (entry == null)
         {
-            entry = new(key, valueFactory());
-            dbSet.Add(entry);
-            dbSet.Context().SaveChanges();
+            entry = new(key, value);
+            await dbSet.AddAndSaveAsync(entry).ConfigureAwait(false);
         }
 
         return entry;

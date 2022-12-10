@@ -4,7 +4,6 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.User;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Annotation;

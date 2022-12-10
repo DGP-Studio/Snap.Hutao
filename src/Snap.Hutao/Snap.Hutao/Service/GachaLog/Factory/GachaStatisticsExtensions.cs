@@ -3,8 +3,6 @@
 
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Metadata.Abstraction;
-using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Weapon;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.UI;
@@ -62,35 +60,11 @@ public static class GachaStatisticsExtensions
     /// <summary>
     /// 将计数器转换为统计物品列表
     /// </summary>
+    /// <typeparam name="TItem">物品类型</typeparam>
     /// <param name="dict">计数器</param>
     /// <returns>统计物品列表</returns>
-    public static List<StatisticsItem> ToStatisticsList(this Dictionary<IStatisticsItemSource, int> dict)
-    {
-        return dict
-            .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
-            .OrderByDescending(item => item.Count)
-            .ToList();
-    }
-
-    /// <summary>
-    /// 将计数器转换为统计物品列表
-    /// </summary>
-    /// <param name="dict">计数器</param>
-    /// <returns>统计物品列表</returns>
-    public static List<StatisticsItem> ToStatisticsList(this Dictionary<Avatar, int> dict)
-    {
-        return dict
-            .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))
-            .OrderByDescending(item => item.Count)
-            .ToList();
-    }
-
-    /// <summary>
-    /// 将计数器转换为统计物品列表
-    /// </summary>
-    /// <param name="dict">计数器</param>
-    /// <returns>统计物品列表</returns>
-    public static List<StatisticsItem> ToStatisticsList(this Dictionary<Weapon, int> dict)
+    public static List<StatisticsItem> ToStatisticsList<TItem>(this Dictionary<TItem, int> dict)
+        where TItem : IStatisticsItemSource
     {
         return dict
             .Select(kvp => kvp.Key.ToStatisticsItem(kvp.Value))

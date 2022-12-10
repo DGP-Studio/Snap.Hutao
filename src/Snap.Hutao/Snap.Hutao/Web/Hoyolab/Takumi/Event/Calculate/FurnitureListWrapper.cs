@@ -1,11 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Response;
-using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 

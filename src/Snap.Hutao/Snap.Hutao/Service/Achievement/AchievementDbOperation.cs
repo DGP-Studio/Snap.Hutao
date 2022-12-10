@@ -10,6 +10,7 @@ namespace Snap.Hutao.Service.Achievement;
 
 /// <summary>
 /// 成就数据库操作
+/// 双指针操作
 /// </summary>
 public class AchievementDbOperation
 {
@@ -39,7 +40,6 @@ public class AchievementDbOperation
 
         int add = 0;
         int update = 0;
-        int remove = 0;
 
         using (IEnumerator<EntityAchievement> entityEnumerator = oldData.GetEnumerator())
         {
@@ -105,7 +105,7 @@ public class AchievementDbOperation
             }
         }
 
-        return new(add, update, remove);
+        return new(add, update, 0);
     }
 
     /// <summary>

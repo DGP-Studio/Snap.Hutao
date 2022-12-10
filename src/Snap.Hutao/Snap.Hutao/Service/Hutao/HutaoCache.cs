@@ -70,23 +70,18 @@ internal class HutaoCache : IHutaoCache
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
+            List<Task> tasks = new(5)
+            {
+                AvatarAppearanceRankAsync(idAvatarMap),
+                AvatarUsageRanksAsync(idAvatarMap),
+                AvatarConstellationInfosAsync(idAvatarMap),
+                TeamAppearancesAsync(idAvatarMap),
+                OverviewAsync(),
+            };
 
-            Task avatarAppearanceRankTask = AvatarAppearanceRankAsync(idAvatarMap);
-            Task avatarUsageRank = AvatarUsageRanksAsync(idAvatarMap);
-            Task avatarConstellationInfoTask = AvatarConstellationInfosAsync(idAvatarMap);
-            Task teamAppearanceTask = TeamAppearancesAsync(idAvatarMap);
-            Task ovewviewTask = OverviewAsync();
+            await Task.WhenAll(tasks).ConfigureAwait(false);
 
-            await Task.WhenAll(
-                avatarAppearanceRankTask,
-                avatarUsageRank,
-                avatarConstellationInfoTask,
-                teamAppearanceTask,
-                ovewviewTask)
-                .ConfigureAwait(false);
-
-            isDatabaseViewModelInitialized = true;
-            return true;
+            return isDatabaseViewModelInitialized = true;
         }
 
         return false;

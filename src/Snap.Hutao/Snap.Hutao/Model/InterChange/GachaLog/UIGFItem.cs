@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Converter;
+using Snap.Hutao.Core.Json.Annotation;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.Model.InterChange.GachaLog;
@@ -15,6 +15,6 @@ public class UIGFItem : GachaLogItem
     /// 额外祈愿映射
     /// </summary>
     [JsonPropertyName("uigf_gacha_type")]
-    [JsonConverter(typeof(EnumStringValueConverter<GachaConfigType>))]
+    [JsonEnum(JsonSerializeType.Int32AsString)]
     public GachaConfigType UIGFGachaType { get; set; } = default!;
 }

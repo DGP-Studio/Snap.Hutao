@@ -14,4 +14,9 @@ public class Skill : NameIconDescription
     /// 技能属性
     /// </summary>
     public LevelParam<string, ParameterInfo> Info { get; set; } = default!;
+
+    /// <summary>
+    /// 技能等级，仅用于养成计算
+    /// </summary>
+    internal int Level { get; set; }
 }

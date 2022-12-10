@@ -33,13 +33,13 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     /// <summary>
     /// 祈愿记录查询的类型
     /// </summary>
-    private static readonly ImmutableList<GachaConfigType> QueryTypes = ImmutableList.Create(new GachaConfigType[]
+    private static readonly ImmutableList<GachaConfigType> QueryTypes = new List<GachaConfigType>
     {
         GachaConfigType.NoviceWish,
         GachaConfigType.PermanentWish,
         GachaConfigType.AvatarEventWish,
         GachaConfigType.WeaponEventWish,
-    });
+    }.ToImmutableList();
 
     private readonly AppDbContext appDbContext;
     private readonly IEnumerable<IGachaLogUrlProvider> urlProviders;
@@ -56,6 +56,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
 
     private Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? idAvatarMap;
     private Dictionary<WeaponId, Model.Metadata.Weapon.Weapon>? idWeaponMap;
+
     private ObservableCollection<GachaArchive>? archiveCollection;
 
     /// <summary>
@@ -100,8 +101,6 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     /// <inheritdoc/>
     public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
     {
-        Verify.Operation(IsInitialized, "祈愿记录服务未能正常初始化");
-
         List<UIGFItem> list = appDbContext.GachaItems
             .Where(i => i.ArchiveId == archive.InnerId)
             .AsEnumerable()
@@ -179,16 +178,31 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
-    public Task ImportFromUIGFAsync(List<UIGFItem> list, string uid)
+    public async Task ImportFromUIGFAsync(List<UIGFItem> list, string uid)
     {
-        return Task.Run(() => ImportFromUIGF(list, uid));
+        await ThreadHelper.SwitchToBackgroundAsync();
+
+        GachaArchive? archive = null;
+        SkipOrInitArchive(ref archive, uid);
+        Guid archiveId = Must.NotNull(archive!).InnerId;
+
+        long trimId = appDbContext.GachaItems
+            .Where(i => i.ArchiveId == archiveId)
+            .OrderBy(i => i.Id)
+            .FirstOrDefault()?.Id ?? long.MaxValue;
+
+        IEnumerable<GachaItem> toAdd = list
+            .OrderByDescending(i => i.Id)
+            .Where(i => i.Id < trimId)
+            .Select(i => GachaItem.Create(archiveId, i, GetItemId(i)));
+
+        await appDbContext.GachaItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
+        CurrentArchive = archive;
     }
 
     /// <inheritdoc/>
     public async Task<bool> RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token)
     {
-        Verify.Operation(IsInitialized, "祈愿记录服务未能正常初始化");
-
         bool isLazy = strategy switch
         {
             RefreshStrategy.AggressiveMerge => false,
@@ -204,42 +218,22 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     /// <inheritdoc/>
     public async Task RemoveArchiveAsync(GachaArchive archive)
     {
-        Must.NotNull(archiveCollection!);
-
         // Sync cache
-        archiveCollection.Remove(archive);
+        await ThreadHelper.SwitchToMainThreadAsync();
+        archiveCollection!.Remove(archive);
 
         // Sync database
+        await ThreadHelper.SwitchToBackgroundAsync();
         await appDbContext.GachaItems
             .Where(item => item.ArchiveId == archive.InnerId)
             .ExecuteDeleteAsync()
             .ConfigureAwait(false);
-        appDbContext.GachaArchives.RemoveAndSave(archive);
+        await appDbContext.GachaArchives.RemoveAndSaveAsync(archive).ConfigureAwait(false);
     }
 
     private static Task RandomDelayAsync(CancellationToken token)
     {
         return Task.Delay(TimeSpan.FromSeconds(Random.Shared.NextDouble() + 1), token);
-    }
-
-    private void ImportFromUIGF(List<UIGFItem> list, string uid)
-    {
-        GachaArchive? archive = null;
-        SkipOrInitArchive(ref archive, uid);
-        Guid archiveId = Must.NotNull(archive!).InnerId;
-
-        long trimId = appDbContext.GachaItems
-            .Where(i => i.ArchiveId == archiveId)
-            .OrderBy(i => i.Id)
-            .FirstOrDefault()?.Id ?? long.MaxValue;
-
-        IEnumerable<GachaItem> toAdd = list
-            .OrderByDescending(i => i.Id)
-            .Where(i => i.Id < trimId)
-            .Select(i => GachaItem.Create(archiveId, i, GetItemId(i)));
-
-        appDbContext.GachaItems.AddRangeAndSave(toAdd);
-        CurrentArchive = archive;
     }
 
     private async Task<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(string query, bool isLazy, IProgress<FetchState> progress, CancellationToken token)

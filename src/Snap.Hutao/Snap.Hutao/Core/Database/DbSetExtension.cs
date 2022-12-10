@@ -65,6 +65,20 @@ public static class DbSetExtension
     }
 
     /// <summary>
+    /// 异步添加并保存
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="dbSet">数据库集</param>
+    /// <param name="entity">实体</param>
+    /// <returns>影响条数</returns>
+    public static Task<int> AddAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+        where TEntity : class
+    {
+        dbSet.Add(entity);
+        return dbSet.Context().SaveChangesAsync();
+    }
+
+    /// <summary>
     /// 添加列表并保存
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
@@ -76,6 +90,20 @@ public static class DbSetExtension
     {
         dbSet.AddRange(entities);
         return dbSet.Context().SaveChanges();
+    }
+
+    /// <summary>
+    /// 异步添加列表并保存
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="dbSet">数据库集</param>
+    /// <param name="entities">实体</param>
+    /// <returns>影响条数</returns>
+    public static Task<int> AddRangeAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities)
+        where TEntity : class
+    {
+        dbSet.AddRange(entities);
+        return dbSet.Context().SaveChangesAsync();
     }
 
     /// <summary>
@@ -93,17 +121,17 @@ public static class DbSetExtension
     }
 
     /// <summary>
-    /// 移除并保存
+    /// 异步移除并保存
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <param name="dbSet">数据库集</param>
-    /// <param name="entities">实体列表</param>
+    /// <param name="entity">实体</param>
     /// <returns>影响条数</returns>
-    public static int RemoveRangeAndSave<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities)
+    public static Task<int> RemoveAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
         where TEntity : class
     {
-        dbSet.RemoveRange(entities);
-        return dbSet.Context().SaveChanges();
+        dbSet.Remove(entity);
+        return dbSet.Context().SaveChangesAsync();
     }
 
     /// <summary>
@@ -118,5 +146,19 @@ public static class DbSetExtension
     {
         dbSet.Update(entity);
         return dbSet.Context().SaveChanges();
+    }
+
+    /// <summary>
+    /// 异步更新并保存
+    /// </summary>
+    /// <typeparam name="TEntity">实体类型</typeparam>
+    /// <param name="dbSet">数据库集</param>
+    /// <param name="entity">实体</param>
+    /// <returns>影响条数</returns>
+    public static Task<int> UpdateAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+        where TEntity : class
+    {
+        dbSet.Update(entity);
+        return dbSet.Context().SaveChangesAsync();
     }
 }

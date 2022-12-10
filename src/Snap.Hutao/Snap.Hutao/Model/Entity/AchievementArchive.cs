@@ -31,11 +31,6 @@ public class AchievementArchive : ISelectable
     public bool IsSelected { get; set; }
 
     /// <summary>
-    /// 成就
-    /// </summary>
-    public virtual ICollection<Achievement> Achievements { get; set; } = default!;
-
-    /// <summary>
     /// 创建一个新的存档
     /// </summary>
     /// <param name="name">名称</param>

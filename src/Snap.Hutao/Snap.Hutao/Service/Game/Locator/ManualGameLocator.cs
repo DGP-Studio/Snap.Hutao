@@ -33,12 +33,6 @@ internal class ManualGameLocator : IGameLocator
         return LocateInternalAsync("YuanShen.exe");
     }
 
-    /// <inheritdoc/>
-    public Task<ValueResult<bool, string>> LocateLauncherPathAsync()
-    {
-        return LocateInternalAsync("launcher.exe");
-    }
-
     private async Task<ValueResult<bool, string>> LocateInternalAsync(string fileName)
     {
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "选择游戏本体", ".exe");

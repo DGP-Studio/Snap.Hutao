@@ -88,14 +88,14 @@ internal class HutaoService : IHutaoService
 
         if (appDbContext.ObjectCache.SingleOrDefault(e => e.Key == key) is ObjectCacheEntry entry)
         {
-            if (entry.ExpireTime > DateTimeOffset.Now)
+            if (entry.IsExpired)
             {
-                T value = JsonSerializer.Deserialize<T>(entry.Value!, options)!;
-                return memoryCache.Set(key, value, TimeSpan.FromMinutes(30));
+                await appDbContext.ObjectCache.RemoveAndSaveAsync(entry).ConfigureAwait(false);
             }
             else
             {
-                appDbContext.ObjectCache.RemoveAndSave(entry);
+                T value = JsonSerializer.Deserialize<T>(entry.Value!, options)!;
+                return memoryCache.Set(key, value, TimeSpan.FromMinutes(30));
             }
         }
 

@@ -27,6 +27,7 @@ public sealed partial class GameAccountNameDialog : ContentDialog
     /// <returns>输入的结果</returns>
     public async Task<ValueResult<bool, string>> GetInputNameAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         string text = InputText.Text;
         return new(result == ContentDialogResult.Primary && (!string.IsNullOrEmpty(text)), text);

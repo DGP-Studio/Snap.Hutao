@@ -18,17 +18,17 @@ internal class TypedWishSummaryBuilder
     /// <summary>
     /// 常驻祈愿
     /// </summary>
-    public static readonly Func<GachaConfigType, bool> PermanentWish = type => type is GachaConfigType.PermanentWish;
+    public static readonly Func<GachaConfigType, bool> IsPermanentWish = type => type is GachaConfigType.PermanentWish;
 
     /// <summary>
     /// 角色活动
     /// </summary>
-    public static readonly Func<GachaConfigType, bool> AvatarEventWish = type => type is GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2;
+    public static readonly Func<GachaConfigType, bool> IsAvatarEventWish = type => type is GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2;
 
     /// <summary>
     /// 武器活动
     /// </summary>
-    public static readonly Func<GachaConfigType, bool> WeaponEventWish = type => type is GachaConfigType.WeaponEventWish;
+    public static readonly Func<GachaConfigType, bool> IsWeaponEventWish = type => type is GachaConfigType.WeaponEventWish;
 
     private readonly string name;
     private readonly int guarenteeOrangeThreshold;
@@ -37,7 +37,7 @@ internal class TypedWishSummaryBuilder
 
     private readonly List<int> averageOrangePullTracker = new();
     private readonly List<int> averageUpOrangePullTracker = new();
-    private readonly List<SummaryItem> summaryItemCache = new();
+    private readonly List<SummaryItem> summaryItems = new();
 
     private int maxOrangePullTracker;
     private int minOrangePullTracker;
@@ -98,7 +98,7 @@ internal class TypedWishSummaryBuilder
                             lastUpOrangePullTracker = 0;
                         }
 
-                        summaryItemCache.Add(source.ToSummaryItem(lastOrangePullTracker, item.Time, isUp));
+                        summaryItems.Add(source.ToSummaryItem(lastOrangePullTracker, item.Time, isUp));
 
                         lastOrangePullTracker = 0;
                         ++totalOrangePullTracker;
@@ -127,8 +127,8 @@ internal class TypedWishSummaryBuilder
     /// <returns>类型化祈愿统计信息</returns>
     public TypedWishSummary ToTypedWishSummary()
     {
-        summaryItemCache.CompleteAdding();
-        double totalCountDouble = totalCountTracker;
+        summaryItems.CompleteAdding();
+        double totalCount = totalCountTracker;
 
         return new()
         {
@@ -148,12 +148,12 @@ internal class TypedWishSummaryBuilder
             TotalOrangePull = totalOrangePullTracker,
             TotalPurplePull = totalPurplePullTracker,
             TotalBluePull = totalBluePullTracker,
-            TotalOrangePercent = totalOrangePullTracker / totalCountDouble,
-            TotalPurplePercent = totalPurplePullTracker / totalCountDouble,
-            TotalBluePercent = totalBluePullTracker / totalCountDouble,
+            TotalOrangePercent = totalOrangePullTracker / totalCount,
+            TotalPurplePercent = totalPurplePullTracker / totalCount,
+            TotalBluePercent = totalBluePullTracker / totalCount,
             AverageOrangePull = averageOrangePullTracker.AverageNoThrow(),
             AverageUpOrangePull = averageUpOrangePullTracker.AverageNoThrow(),
-            OrangeList = summaryItemCache,
+            OrangeList = summaryItems,
         };
     }
 

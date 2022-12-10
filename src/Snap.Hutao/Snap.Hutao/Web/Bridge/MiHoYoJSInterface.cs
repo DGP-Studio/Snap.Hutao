@@ -22,6 +22,7 @@ namespace Snap.Hutao.Web.Bridge;
 /// <summary>
 /// 调用桥
 /// </summary>
+[SuppressMessage("", "SA1600")]
 public class MiHoYoJSInterface
 {
     private const string InitializeJsInterfaceScript2 = """

@@ -57,30 +57,28 @@ internal class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public Task RemoveArchiveAsync(EntityArchive archive)
+    public async Task RemoveArchiveAsync(EntityArchive archive)
     {
-        Must.NotNull(archiveCollection!);
-
         // Sync cache
-        archiveCollection.Remove(archive);
+        // Keep this on main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
+        archiveCollection!.Remove(archive);
 
         // Sync database
-        appDbContext.AchievementArchives.Remove(archive);
-        return appDbContext.SaveChangesAsync();
+        await ThreadHelper.SwitchToBackgroundAsync();
+        await appDbContext.AchievementArchives.RemoveAndSaveAsync(archive).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public async Task<ArchiveAddResult> TryAddArchiveAsync(EntityArchive newArchive)
     {
-        if (string.IsNullOrEmpty(newArchive.Name))
+        if (string.IsNullOrWhiteSpace(newArchive.Name))
         {
             return ArchiveAddResult.InvalidName;
         }
 
-        Must.NotNull(archiveCollection!);
-
         // 查找是否有相同的名称
-        if (archiveCollection.SingleOrDefault(a => a.Name == newArchive.Name) is EntityArchive userWithSameUid)
+        if (archiveCollection!.SingleOrDefault(a => a.Name == newArchive.Name) is EntityArchive userWithSameUid)
         {
             return ArchiveAddResult.AlreadyExists;
         }
@@ -88,11 +86,11 @@ internal class AchievementService : IAchievementService
         {
             // Sync cache
             await ThreadHelper.SwitchToMainThreadAsync();
-            archiveCollection.Add(newArchive);
+            archiveCollection!.Add(newArchive);
 
             // Sync database
-            appDbContext.AchievementArchives.Add(newArchive);
-            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
+            await ThreadHelper.SwitchToBackgroundAsync();
+            await appDbContext.AchievementArchives.AddAndSaveAsync(newArchive).ConfigureAwait(false);
 
             return ArchiveAddResult.Added;
         }
@@ -104,15 +102,12 @@ internal class AchievementService : IAchievementService
         Guid archiveId = archive.InnerId;
         List<EntityAchievement> entities = appDbContext.Achievements
             .Where(a => a.ArchiveId == archiveId)
-
-            // Important! Prevent multiple sql command for SingleOrDefault below.
             .ToList();
 
         List<BindingAchievement> results = new();
         foreach (MetadataAchievement meta in metadata)
         {
-            EntityAchievement entity = entities.SingleOrDefault(e => e.Id == meta.Id)
-                ?? EntityAchievement.Create(archiveId, meta.Id);
+            EntityAchievement entity = entities.SingleOrDefault(e => e.Id == meta.Id) ?? EntityAchievement.Create(archiveId, meta.Id);
 
             results.Add(new(meta, entity));
         }
@@ -121,8 +116,9 @@ internal class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public Task<UIAF> ExportToUIAFAsync(EntityArchive archive)
+    public async Task<UIAF> ExportToUIAFAsync(EntityArchive archive)
     {
+        await ThreadHelper.SwitchToBackgroundAsync();
         List<UIAFItem> list = appDbContext.Achievements
             .Where(i => i.ArchiveId == archive.InnerId)
             .AsEnumerable()
@@ -135,12 +131,15 @@ internal class AchievementService : IAchievementService
             List = list,
         };
 
-        return Task.FromResult(uigf);
+        return uigf;
     }
 
     /// <inheritdoc/>
-    public ImportResult ImportFromUIAF(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy)
+    public async Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy)
     {
+        // return Task.Run(() => ImportFromUIAF(archive, list, strategy));
+        await ThreadHelper.SwitchToBackgroundAsync();
+
         Guid archiveId = archive.InnerId;
 
         switch (strategy)
@@ -168,12 +167,6 @@ internal class AchievementService : IAchievementService
             default:
                 throw Must.NeverHappen();
         }
-    }
-
-    /// <inheritdoc/>
-    public Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy)
-    {
-        return Task.Run(() => ImportFromUIAF(archive, list, strategy));
     }
 
     /// <inheritdoc/>

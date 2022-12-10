@@ -47,35 +47,31 @@ internal partial class RegistryLauncherLocator : IGameLocator
         return Task.FromResult<ValueResult<bool, string>>(new(false, null!));
     }
 
-    /// <inheritdoc/>
-    public Task<ValueResult<bool, string>> LocateLauncherPathAsync()
-    {
-        return Task.FromResult(LocateInternal("DisplayIcon"));
-    }
-
     private static ValueResult<bool, string> LocateInternal(string key)
     {
-        RegistryKey? uninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神");
-        if (uninstallKey != null)
+        using (RegistryKey? uninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神"))
         {
-            if (uninstallKey.GetValue(key) is string path)
+            if (uninstallKey != null)
             {
-                return new(true, path);
+                if (uninstallKey.GetValue(key) is string path)
+                {
+                    return new(true, path);
+                }
+                else
+                {
+                    return new(false, null!);
+                }
             }
             else
             {
                 return new(false, null!);
             }
         }
-        else
-        {
-            return new(false, null!);
-        }
     }
 
     private static string Unescape(string str)
     {
-        string? hex4Result = Utf16Regex().Replace(str, @"\u$1");
+        string? hex4Result = UTF16Regex().Replace(str, @"\u$1");
 
         // 不包含中文
         if (!hex4Result.Contains(@"\u"))
@@ -88,5 +84,5 @@ internal partial class RegistryLauncherLocator : IGameLocator
     }
 
     [GeneratedRegex("\\\\x([0-9a-f]{4})")]
-    private static partial Regex Utf16Regex();
+    private static partial Regex UTF16Regex();
 }

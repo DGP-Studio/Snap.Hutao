@@ -23,8 +23,7 @@ namespace Snap.Hutao.Service.Game;
 /// 游戏服务
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IGameService))]
-[SuppressMessage("", "CA1001")]
-internal class GameService : IGameService
+internal class GameService : IGameService, IDisposable
 {
     private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
     private const string ConfigFile = "config.ini";
@@ -59,21 +58,21 @@ internal class GameService : IGameService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                SettingEntry entry = appDbContext.Settings.SingleOrAdd(e => e.Key == SettingEntry.GamePath, () => new(SettingEntry.GamePath, string.Empty), out bool added);
+                SettingEntry entry = await appDbContext.Settings.SingleOrAddAsync(SettingEntry.GamePath, string.Empty).ConfigureAwait(false);
 
                 // Cannot find in setting
-                if (added)
+                if (string.IsNullOrEmpty(entry.Value))
                 {
                     IEnumerable<IGameLocator> gameLocators = scope.ServiceProvider.GetRequiredService<IEnumerable<IGameLocator>>();
 
                     // Try locate by registry
-                    IGameLocator locator = gameLocators.Single(l => l.Name == nameof(RegistryLauncherLocator));
+                    IGameLocator locator = gameLocators.Single(l => l.Name == nameof(UnityLogGameLocator));
                     ValueResult<bool, string> result = await locator.LocateGamePathAsync().ConfigureAwait(false);
 
                     if (!result.IsOk)
                     {
                         // Try locate manually
-                        locator = gameLocators.Single(l => l.Name == nameof(ManualGameLocator));
+                        locator = gameLocators.Single(l => l.Name == nameof(RegistryLauncherLocator));
                         result = await locator.LocateGamePathAsync().ConfigureAwait(false);
                     }
 
@@ -85,7 +84,7 @@ internal class GameService : IGameService
                     }
                     else
                     {
-                        return new(false, null!);
+                        return new(false, "请启动游戏后再次尝试");
                     }
                 }
 
@@ -95,7 +94,7 @@ internal class GameService : IGameService
                 }
 
                 // Set cache and return.
-                string path = memoryCache.Set(GamePathKey, Must.NotNull(entry.Value!));
+                string path = memoryCache.Set(GamePathKey, entry.Value);
                 return new(true, path);
             }
         }
@@ -113,13 +112,10 @@ internal class GameService : IGameService
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                SettingEntry entry = appDbContext.Settings.SingleOrAdd(e => e.Key == SettingEntry.GamePath, () => new(SettingEntry.GamePath, null), out bool added);
-
-                entry.Value ??= string.Empty;
-                appDbContext.Settings.UpdateAndSave(entry);
+                SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.GamePath, string.Empty);
 
                 // Set cache and return.
-                return memoryCache.Set(GamePathKey, entry.Value);
+                return memoryCache.Set(GamePathKey, entry.Value!);
             }
         }
     }
@@ -134,7 +130,7 @@ internal class GameService : IGameService
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            SettingEntry entry = appDbContext.Settings.SingleOrAdd(e => e.Key == SettingEntry.GamePath, () => new(SettingEntry.GamePath, null), out _);
+            SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.GamePath, string.Empty);
             entry.Value = path;
             appDbContext.Settings.UpdateAndSave(entry);
         }
@@ -222,7 +218,7 @@ internal class GameService : IGameService
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                gameAccounts = new(appDbContext.GameAccounts.ToList());
+                gameAccounts = new(appDbContext.GameAccounts.AsNoTracking().ToList());
             }
         }
 
@@ -290,6 +286,7 @@ internal class GameService : IGameService
             }
             catch (Win32Exception)
             {
+                // 通常是用户取消了UAC
             }
         }
     }
@@ -318,10 +315,14 @@ internal class GameService : IGameService
                     gameAccounts.Add(GameAccount.Create(name, registrySdk));
 
                     // sync database
+                    await ThreadHelper.SwitchToBackgroundAsync();
                     using (IServiceScope scope = scopeFactory.CreateScope())
                     {
-                        AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                        appDbContext.GameAccounts.AddAndSave(account);
+                        await scope.ServiceProvider
+                            .GetRequiredService<AppDbContext>()
+                            .GameAccounts
+                            .AddAndSaveAsync(account)
+                            .ConfigureAwait(false);
                     }
                 }
             }
@@ -339,9 +340,8 @@ internal class GameService : IGameService
     {
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             gameAccount.UpdateAttachUid(uid);
-            appDbContext.GameAccounts.UpdateAndSave(gameAccount);
+            scope.ServiceProvider.GetRequiredService<AppDbContext>().GameAccounts.UpdateAndSave(gameAccount);
         }
     }
 
@@ -349,18 +349,18 @@ internal class GameService : IGameService
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
         MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, string name) = await new GameAccountNameDialog(mainWindow).GetInputNameAsync().ConfigureAwait(false);
+        (bool isOk, string name) = await new GameAccountNameDialog(mainWindow).GetInputNameAsync().ConfigureAwait(true);
 
         if (isOk)
         {
-            await ThreadHelper.SwitchToMainThreadAsync();
             gameAccount.UpdateName(name);
 
             // sync database
+            await ThreadHelper.SwitchToBackgroundAsync();
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                appDbContext.GameAccounts.UpdateAndSave(gameAccount);
+                await appDbContext.GameAccounts.UpdateAndSaveAsync(gameAccount).ConfigureAwait(false);
             }
         }
     }
@@ -368,20 +368,19 @@ internal class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
     {
-        Must.NotNull(gameAccounts!).Remove(gameAccount);
+        await ThreadHelper.SwitchToMainThreadAsync();
+        gameAccounts!.Remove(gameAccount);
 
-        await Task.Yield();
+        await ThreadHelper.SwitchToBackgroundAsync();
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            try
-            {
-                appDbContext.GameAccounts.RemoveAndSave(gameAccount);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                // This gameAccount has already been deleted.
-            }
+            await scope.ServiceProvider.GetRequiredService<AppDbContext>().GameAccounts.RemoveAndSaveAsync(gameAccount).ConfigureAwait(false);
         }
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        gameSemaphore?.Dispose();
     }
 }

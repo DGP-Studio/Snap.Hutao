@@ -28,12 +28,18 @@ internal sealed class TemporaryFile : IDisposable
     /// </summary>
     /// <param name="file">源文件</param>
     /// <returns>临时文件</returns>
-    public static TemporaryFile CreateFromFileCopy(string file)
+    public static TemporaryFile? CreateFromFileCopy(string file)
     {
         TemporaryFile temporaryFile = new();
-        File.Copy(file, temporaryFile.Path, true);
-
-        return temporaryFile;
+        try
+        {
+            File.Copy(file, temporaryFile.Path, true);
+            return temporaryFile;
+        }
+        catch (System.Exception)
+        {
+            return null;
+        }
     }
 
     /// <summary>

@@ -1,6 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Json.Annotation;
+using Snap.Hutao.Model.Intrinsic;
+
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 /// <summary>
@@ -21,7 +24,8 @@ public class FetterInfo
     /// <summary>
     /// 地区
     /// </summary>
-    public string Association { get; set; } = default!;
+    [JsonEnum(JsonSerializeType.String)]
+    public AssociationType Association { get; set; } = default!;
 
     /// <summary>
     /// 属于组织
