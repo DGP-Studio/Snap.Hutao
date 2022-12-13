@@ -28,7 +28,7 @@ jobs:
           
       # Upload to Drive
       - name: Upload Drive
-        timeout-minutes: 5
+        timeout-minutes: 15
         env:
           RCCONF: ${{ secrets.RCCONF }}
         run: |
