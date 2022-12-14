@@ -46,6 +46,16 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: deviceid
+    attributes:
+      label: 设备 ID
+      description: | 
+        在胡桃工具箱的设置界面，你可以找到并复制你的设备 ID
+        如果你的问题涉及程序崩溃，请填写该项，这将有助于我们定位问题
+    validations:
+      required: false
+
   - type: dropdown
     id: user-set-category
     attributes:
@@ -55,7 +65,7 @@ body:
         - 安装和环境
         - 成就管理
         - 角色信息面板
-        - 游戏启动
+        - 游戏启动器
         - 实时便笺
         - 养成计算
         - 文件缓存
@@ -63,6 +73,8 @@ body:
         - 玩家查询
         - 胡桃数据库
         - 用户界面
+        - 签到
+        - Wiki
         - 公告
         - 其它
     validations:
