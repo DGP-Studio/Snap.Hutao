@@ -31,7 +31,18 @@ public class CultivateProject : ISelectable
     public string Name { get; set; } = default!;
 
     /// <summary>
-    /// 入口集合
+    /// 所属的Uid
     /// </summary>
-    public virtual ICollection<CultivateEntry> Entries { get; set; } = default!;
+    public string? AttachedUid { get; set; }
+
+    /// <summary>
+    /// 创建新的养成计划
+    /// </summary>
+    /// <param name="name">名称</param>
+    /// <param name="attachedUid">绑定的Uid</param>
+    /// <returns>新的养成计划</returns>
+    public static CultivateProject Create(string name, string? attachedUid = null)
+    {
+        return new() { Name = name, AttachedUid = attachedUid };
+    }
 }

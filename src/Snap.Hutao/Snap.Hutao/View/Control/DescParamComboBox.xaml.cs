@@ -16,6 +16,9 @@ public sealed partial class DescParamComboBox : UserControl
     private static readonly DependencyProperty SourceProperty = Property<DescParamComboBox>
         .Depend<IList<LevelParam<string, ParameterInfo>>>(nameof(Source), default!, OnSourceChanged);
 
+    private static readonly DependencyProperty PreferredSelectedIndexProperty = Property<DescParamComboBox>
+        .Depend<int>(nameof(PreferredSelectedIndex), 0);
+
     /// <summary>
     /// 构造一个新的描述参数组合框
     /// </summary>
@@ -33,6 +36,15 @@ public sealed partial class DescParamComboBox : UserControl
         set => SetValue(SourceProperty, value);
     }
 
+    /// <summary>
+    /// 期望的选中索引
+    /// </summary>
+    public int PreferredSelectedIndex
+    {
+        get { return (int)GetValue(PreferredSelectedIndexProperty); }
+        set { SetValue(PreferredSelectedIndexProperty, value); }
+    }
+
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         // Some of the {x:Bind} feature is not working properly,
@@ -42,7 +54,7 @@ public sealed partial class DescParamComboBox : UserControl
             if (args.NewValue != args.OldValue && args.NewValue is IList<LevelParam<string, ParameterInfo>> list)
             {
                 descParamComboBox.ItemHost.ItemsSource = list;
-                descParamComboBox.ItemHost.SelectedIndex = 0;
+                descParamComboBox.ItemHost.SelectedIndex = Math.Min(descParamComboBox.PreferredSelectedIndex, list.Count);
             }
         }
     }

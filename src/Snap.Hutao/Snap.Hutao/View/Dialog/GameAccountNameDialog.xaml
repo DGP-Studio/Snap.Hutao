@@ -16,6 +16,6 @@
             x:Name="InputText"
             Margin="0,0,0,0"
             VerticalAlignment="Top"
-            PlaceholderText="在此处输入"/>
+            PlaceholderText="在此处输入名称"/>
     </Grid>
 </ContentDialog>

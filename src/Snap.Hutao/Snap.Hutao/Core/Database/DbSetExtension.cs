@@ -24,33 +24,6 @@ public static class DbSetExtension
     }
 
     /// <summary>
-    /// 获取或添加一个对应的实体
-    /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <param name="dbSet">数据库集</param>
-    /// <param name="predicate">谓词</param>
-    /// <param name="entityFactory">实体工厂</param>
-    /// <param name="added">是否添加</param>
-    /// <returns>实体</returns>
-    public static TEntity SingleOrAdd<TEntity>(this DbSet<TEntity> dbSet, Func<TEntity, bool> predicate, Func<TEntity> entityFactory, out bool added)
-        where TEntity : class
-    {
-        added = false;
-        TEntity? entry = dbSet.SingleOrDefault(predicate);
-
-        if (entry == null)
-        {
-            entry = entityFactory();
-            dbSet.Add(entry);
-            dbSet.Context().SaveChanges();
-
-            added = true;
-        }
-
-        return entry;
-    }
-
-    /// <summary>
     /// 添加并保存
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>

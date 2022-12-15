@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Control;
 using Snap.Hutao.Core.Database;
@@ -27,11 +28,17 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 {
+    /// <summary>
+    /// 启动游戏目标 Uid
+    /// </summary>
+    public const string DesiredUid = nameof(DesiredUid);
+
     private static readonly string TrueString = true.ToString();
     private static readonly string FalseString = false.ToString();
 
     private readonly IGameService gameService;
     private readonly AppDbContext appDbContext;
+    private readonly IMemoryCache memoryCache;
 
     private readonly List<LaunchScheme> knownSchemes = new()
     {
@@ -55,12 +62,18 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     /// 构造一个新的启动游戏视图模型
     /// </summary>
     /// <param name="gameService">游戏服务</param>
+    /// <param name="memoryCache">内存缓存</param>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public LaunchGameViewModel(IGameService gameService, AppDbContext appDbContext, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public LaunchGameViewModel(
+        IGameService gameService,
+        IMemoryCache memoryCache,
+        AppDbContext appDbContext,
+        IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
         this.gameService = gameService;
         this.appDbContext = appDbContext;
+        this.memoryCache = memoryCache;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         LaunchCommand = asyncRelayCommandFactory.Create(LaunchAsync);
@@ -169,13 +182,21 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
             SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
             GameAccounts = gameService.GetGameAccountCollection();
 
+            // Sync uid
+            if (memoryCache.TryGetValue(DesiredUid, out object? value) && value is string uid)
+            {
+                SelectedGameAccount = GameAccounts.SingleOrDefault(g => g.AttachUid == uid);
+            }
+
             // Sync from Settings
             RetiveSetting();
         }
         else
         {
             Ioc.Default.GetRequiredService<IInfoBarService>().Warning("游戏路径不正确，前往设置更改游戏路径。");
-            await Ioc.Default.GetRequiredService<INavigationService>().NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
+            await Ioc.Default.GetRequiredService<INavigationService>()
+                .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
+                .ConfigureAwait(false);
         }
     }
 

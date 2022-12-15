@@ -140,4 +140,11 @@ internal interface IMetadataService
     /// <param name="token">取消令牌</param>
     /// <returns>圣遗物套装列表</returns>
     ValueTask<List<ReliquarySet>> GetReliquarySetsAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取材料列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>材料列表</returns>
+    ValueTask<List<Material>> GetMaterialsAsync(CancellationToken token = default(CancellationToken));
 }

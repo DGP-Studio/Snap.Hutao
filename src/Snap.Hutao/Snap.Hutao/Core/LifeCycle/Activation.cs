@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Notifications;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
@@ -192,9 +193,9 @@ internal static class Activation
 
     private static async Task HandleLaunchGameActionAsync(string? uid = null)
     {
+        Ioc.Default.GetRequiredService<IMemoryCache>().Set(ViewModel.LaunchGameViewModel.DesiredUid, uid);
         await ThreadHelper.SwitchToMainThreadAsync();
 
-        // TODO auto switch to account
         if (!MainWindow.IsPresent)
         {
             _ = Ioc.Default.GetRequiredService<LaunchGameWindow>();

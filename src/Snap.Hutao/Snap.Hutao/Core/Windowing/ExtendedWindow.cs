@@ -23,7 +23,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// </summary>
 /// <typeparam name="TWindow">窗体类型</typeparam>
 [SuppressMessage("", "CA1001")]
-internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMessage>
+internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMessage>, IRecipient<FlyoutOpenCloseMessage>
     where TWindow : Window, IExtendedWindowSource
 {
     private readonly HWND handle;
@@ -82,6 +82,12 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         }
     }
 
+    /// <inheritdoc/>
+    public void Receive(FlyoutOpenCloseMessage message)
+    {
+        UpdateDragRectangles(appWindow.TitleBar, message.IsOpen);
+    }
+
     private static void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
     {
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
@@ -137,7 +143,9 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         bool subClassApplied = subclassManager.TrySetWindowSubclass();
         logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(WindowSubclassManager<TWindow>), subClassApplied ? "succeed" : "failed");
 
-        Ioc.Default.GetRequiredService<IMessenger>().Register(this);
+        IMessenger messenger = Ioc.Default.GetRequiredService<IMessenger>();
+        messenger.Register<BackdropTypeChangedMessage>(this);
+        messenger.Register<FlyoutOpenCloseMessage>(this);
         window.Closed += OnWindowClosed;
     }
 
@@ -172,17 +180,25 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         }
     }
 
-    private unsafe void UpdateDragRectangles(AppWindowTitleBar appTitleBar)
+    private void UpdateDragRectangles(AppWindowTitleBar appTitleBar, bool isFlyoutOpened = false)
     {
-        double scale = Persistence.GetScaleForWindow(handle);
+        if (isFlyoutOpened)
+        {
+            // set to 0
+            appTitleBar.SetDragRectangles(default(RectInt32).Enumerate().ToArray());
+        }
+        else
+        {
+            double scale = Persistence.GetScaleForWindow(handle);
 
-        // 48 is the navigation button leftInset
-        RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), titleBar.ActualSize).Scale(scale);
-        appTitleBar.SetDragRectangles(dragRect.Enumerate().ToArray());
+            // 48 is the navigation button leftInset
+            RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), titleBar.ActualSize).Scale(scale);
+            appTitleBar.SetDragRectangles(dragRect.Enumerate().ToArray());
 
-        // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
-        SizeInt32 size = appWindow.ClientSize;
-        size.Height -= (int)(31 * scale);
-        appWindow.ResizeClient(size);
+            // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
+            SizeInt32 size = appWindow.ClientSize;
+            size.Height -= (int)(31 * scale);
+            appWindow.ResizeClient(size);
+        }
     }
 }

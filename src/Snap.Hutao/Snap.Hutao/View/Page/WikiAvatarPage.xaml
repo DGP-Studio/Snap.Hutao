@@ -33,6 +33,7 @@
                     <shvc:DescParamComboBox
                         Grid.Column="0"
                         HorizontalAlignment="Stretch"
+                        PreferredSelectedIndex="9"
                         Source="{Binding Proud, Mode=OneWay, Converter={StaticResource DescParamDescriptor}}"/>
                 </StackPanel>
 
@@ -40,7 +41,10 @@
         </DataTemplate>
 
         <DataTemplate x:Key="PropertyDataTemplate">
-            <shvc:DescParamComboBox HorizontalAlignment="Stretch" Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
+            <shvc:DescParamComboBox
+                HorizontalAlignment="Stretch"
+                PreferredSelectedIndex="13"
+                Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="TalentDataTemplate">
@@ -68,7 +72,11 @@
             <CommandBar.Content>
                 <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
             </CommandBar.Content>
-            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8EF;}" Label="养成计算"/>
+            <AppBarButton
+                Command="{Binding CultivateCommand}"
+                CommandParameter="{Binding Selected}"
+                Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
+                Label="养成计算"/>
         </CommandBar>
         <SplitView
             Grid.Row="1"

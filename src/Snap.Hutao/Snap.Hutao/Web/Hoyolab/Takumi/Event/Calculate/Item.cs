@@ -37,6 +37,6 @@ public class Item
     /// <summary>
     /// 物品星级 仅有家具为有效值
     /// </summary>
-    [JsonPropertyName("num")]
+    [JsonPropertyName("level")]
     public ItemQuality Level { get; set; }
 }

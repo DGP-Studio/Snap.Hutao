@@ -7,7 +7,7 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 
 /// <summary>
 /// 统一可交换祈愿格式
-/// https://www.snapgenshin.com/development/UIGF.html
+/// https://uigf.org/standards/UIGF.html
 /// </summary>
 public class UIGF
 {

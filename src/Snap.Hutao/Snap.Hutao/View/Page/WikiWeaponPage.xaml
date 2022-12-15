@@ -23,7 +23,10 @@
 
     <Page.Resources>
         <DataTemplate x:Key="PropertyDataTemplate">
-            <shvc:DescParamComboBox HorizontalAlignment="Stretch" Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
+            <shvc:DescParamComboBox
+                HorizontalAlignment="Stretch"
+                PreferredSelectedIndex="13"
+                Source="{Binding Converter={StaticResource PropertyDescriptor}}"/>
         </DataTemplate>
     </Page.Resources>
 

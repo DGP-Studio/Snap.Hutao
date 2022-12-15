@@ -25,7 +25,11 @@ public sealed partial class TitleView : UserControl
     [SuppressMessage("", "CA1822")]
     public string Title
     {
+#if DEBUG
+        get => $"胡桃 Dev Build";
+#else
         get => $"胡桃 {Core.CoreEnvironment.Version}";
+#endif
     }
 
     /// <summary>

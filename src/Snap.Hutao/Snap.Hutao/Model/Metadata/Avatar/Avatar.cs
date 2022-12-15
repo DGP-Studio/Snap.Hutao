@@ -2,12 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Json.Annotation;
-using Snap.Hutao.Model.Binding.Gacha;
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
-using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Abstraction;
-using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
@@ -15,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 角色
 /// </summary>
-public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
+public partial class Avatar
 {
     /// <summary>
     /// Id
@@ -87,65 +82,4 @@ public class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality
     /// 皮肤
     /// </summary>
     public IEnumerable<Costume> Costumes { get; set; } = default!;
-
-    /// <summary>
-    /// [非元数据] 搭配数据
-    /// </summary>
-    [JsonIgnore]
-    public ComplexAvatarCollocation? Collocation { get; set; }
-
-    /// <summary>
-    /// 转换为基础物品
-    /// </summary>
-    /// <returns>基础物品</returns>
-    public ItemBase ToItemBase()
-    {
-        return new()
-        {
-            Name = Name,
-            Icon = AvatarIconConverter.IconNameToUri(Icon),
-            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
-            Quality = Quality,
-        };
-    }
-
-    /// <summary>
-    /// 转换到统计物品
-    /// </summary>
-    /// <param name="count">个数</param>
-    /// <returns>统计物品</returns>
-    public StatisticsItem ToStatisticsItem(int count)
-    {
-        return new()
-        {
-            Name = Name,
-            Icon = AvatarIconConverter.IconNameToUri(Icon),
-            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
-            Quality = Quality,
-
-            Count = count,
-        };
-    }
-
-    /// <summary>
-    /// 转换到简述统计物品
-    /// </summary>
-    /// <param name="lastPull">距上个五星</param>
-    /// <param name="time">时间</param>
-    /// <param name="isUp">是否为Up物品</param>
-    /// <returns>简述统计物品</returns>
-    public SummaryItem ToSummaryItem(int lastPull, DateTimeOffset time, bool isUp)
-    {
-        return new()
-        {
-            Name = Name,
-            Icon = AvatarIconConverter.IconNameToUri(Icon),
-            Badge = ElementNameIconConverter.ElementNameToIconUri(FetterInfo.VisionBefore),
-            Quality = Quality,
-
-            Time = time,
-            LastPull = lastPull,
-            IsUp = isUp,
-        };
-    }
 }

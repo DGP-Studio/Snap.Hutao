@@ -54,6 +54,11 @@ public enum KnownReturnCode : int
     PleaseOpenInBbsApp = -1104,
 
     /// <summary>
+    /// 天赋等级超出限制~
+    /// </summary>
+    SkillLevelLimitExcceed = -1009,
+
+    /// <summary>
     /// 登录信息已失效，请重新登录
     /// </summary>
     LoginDataOutdated = -262,

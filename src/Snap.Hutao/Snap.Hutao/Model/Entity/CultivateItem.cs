@@ -39,4 +39,21 @@ public class CultivateItem
     /// 物品个数
     /// </summary>
     public int Count { get; set; }
+
+    /// <summary>
+    /// 创建一个新的养成物品
+    /// </summary>
+    /// <param name="entryId">入口点 Id</param>
+    /// <param name="itemId">物品 Id</param>
+    /// <param name="count">个数</param>
+    /// <returns>养成物品</returns>
+    public static CultivateItem Create(Guid entryId, int itemId, int count)
+    {
+        return new()
+        {
+            EntryId = entryId,
+            ItemId = itemId,
+            Count = count,
+        };
+    }
 }

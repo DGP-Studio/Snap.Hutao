@@ -15,7 +15,7 @@ public static class JumpListHelper
     /// 异步配置跳转列表
     /// </summary>
     /// <returns>任务</returns>
-    public static async Task ConfigAsync()
+    public static async Task ConfigureAsync()
     {
         if (JumpList.IsSupported())
         {

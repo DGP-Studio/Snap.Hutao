@@ -42,7 +42,18 @@ public class CultivateEntry
     public int Id { get; set; }
 
     /// <summary>
-    /// 物品
+    /// 创建一个新的养成入口点
     /// </summary>
-    public virtual ICollection<CultivateItem> Items { get; set; } = default!;
+    /// <param name="type">类型</param>
+    /// <param name="id">主Id</param>
+    /// <returns>养成入口点</returns>
+    public static CultivateEntry Create(Guid projectId,CultivateType type, int id)
+    {
+        return new()
+        {
+            ProjectId = projectId,
+            Type = type,
+            Id = id,
+        };
+    }
 }

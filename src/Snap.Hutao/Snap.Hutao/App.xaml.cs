@@ -36,28 +36,35 @@ public partial class App : Application
     }
 
     /// <inheritdoc/>
-    [SuppressMessage("", "VSTHRD100")]
-    protected override async void OnLaunched(LaunchActivatedEventArgs args)
+    protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
-        AppInstance firstInstance = AppInstance.FindOrRegisterForKey("main");
-
-        if (firstInstance.IsCurrent)
+        try
         {
-            // manually invoke
-            Activation.Activate(firstInstance, activatedEventArgs);
-            firstInstance.Activated += Activation.Activate;
-            ToastNotificationManagerCompat.OnActivated += Activation.NotificationActivate;
+            AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+            AppInstance firstInstance = AppInstance.FindOrRegisterForKey("main");
 
-            logger.LogInformation(EventIds.CommonLog, "Snap Hutao | {name} : {version}", CoreEnvironment.FamilyName, CoreEnvironment.Version);
-            logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.TemporaryFolder.Path);
+            if (firstInstance.IsCurrent)
+            {
+                // manually invoke
+                Activation.Activate(firstInstance, activatedEventArgs);
+                firstInstance.Activated += Activation.Activate;
+                ToastNotificationManagerCompat.OnActivated += Activation.NotificationActivate;
 
-            JumpListHelper.ConfigAsync().SafeForget(logger);
+                logger.LogInformation(EventIds.CommonLog, "Snap Hutao | {name} : {version}", CoreEnvironment.FamilyName, CoreEnvironment.Version);
+                logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.TemporaryFolder.Path);
+
+                JumpListHelper.ConfigureAsync().SafeForget(logger);
+            }
+            else
+            {
+                // Redirect the activation (and args) to the "main" instance, and exit.
+                firstInstance.RedirectActivationTo(activatedEventArgs);
+                Process.GetCurrentProcess().Kill();
+            }
         }
-        else
+        catch (Exception)
         {
-            // Redirect the activation (and args) to the "main" instance, and exit.
-            await firstInstance.RedirectActivationToAsync(activatedEventArgs);
+            // AppInstance.GetCurrent() calls failed
             Process.GetCurrentProcess().Kill();
         }
     }

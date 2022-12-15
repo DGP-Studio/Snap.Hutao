@@ -101,7 +101,7 @@ internal class HomaClient
     public async Task<List<AvatarAppearanceRank>> GetAvatarAttendanceRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarAppearanceRank>>? resp = await httpClient
-            .GetFromJsonAsync<Response<List<AvatarAppearanceRank>>>($"{HutaoAPI}/Statistics/Avatar/AttendanceRate", token)
+            .TryCatchGetFromJsonAsync<Response<List<AvatarAppearanceRank>>>($"{HutaoAPI}/Statistics/Avatar/AttendanceRate", options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -116,7 +116,7 @@ internal class HomaClient
     public async Task<List<AvatarUsageRank>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarUsageRank>>? resp = await httpClient
-            .GetFromJsonAsync<Response<List<AvatarUsageRank>>>($"{HutaoAPI}/Statistics/Avatar/UtilizationRate", token)
+            .TryCatchGetFromJsonAsync<Response<List<AvatarUsageRank>>>($"{HutaoAPI}/Statistics/Avatar/UtilizationRate", options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -131,7 +131,7 @@ internal class HomaClient
     public async Task<List<AvatarCollocation>> GetAvatarCollocationsAsync(CancellationToken token = default)
     {
         Response<List<AvatarCollocation>>? resp = await httpClient
-            .GetFromJsonAsync<Response<List<AvatarCollocation>>>($"{HutaoAPI}/Statistics/Avatar/AvatarCollocation", token)
+            .TryCatchGetFromJsonAsync<Response<List<AvatarCollocation>>>($"{HutaoAPI}/Statistics/Avatar/AvatarCollocation", options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -146,7 +146,7 @@ internal class HomaClient
     public async Task<List<WeaponCollocation>> GetWeaponCollocationsAsync(CancellationToken token = default)
     {
         Response<List<WeaponCollocation>>? resp = await httpClient
-            .GetFromJsonAsync<Response<List<WeaponCollocation>>>($"{HutaoAPI}/Statistics/Weapon/WeaponCollocation", token)
+            .TryCatchGetFromJsonAsync<Response<List<WeaponCollocation>>>($"{HutaoAPI}/Statistics/Weapon/WeaponCollocation", options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -161,7 +161,7 @@ internal class HomaClient
     public async Task<List<AvatarConstellationInfo>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarConstellationInfo>>? resp = await httpClient
-            .GetFromJsonAsync<Response<List<AvatarConstellationInfo>>>($"{HutaoAPI}/Statistics/Avatar/HoldingRate", token)
+            .TryCatchGetFromJsonAsync<Response<List<AvatarConstellationInfo>>>($"{HutaoAPI}/Statistics/Avatar/HoldingRate", options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);
@@ -176,7 +176,7 @@ internal class HomaClient
     public async Task<List<TeamAppearance>> GetTeamCombinationsAsync(CancellationToken token = default)
     {
         Response<List<TeamAppearance>>? resp = await httpClient
-            .GetFromJsonAsync<Response<List<TeamAppearance>>>($"{HutaoAPI}/Statistics/Team/Combination", token)
+            .TryCatchGetFromJsonAsync<Response<List<TeamAppearance>>>($"{HutaoAPI}/Statistics/Team/Combination", options, logger, token)
             .ConfigureAwait(false);
 
         return EnumerableExtension.EmptyIfNull(resp?.Data);

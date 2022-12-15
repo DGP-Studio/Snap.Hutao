@@ -59,6 +59,7 @@
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
             <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
             <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+            <shvc:EmptyObjectToVisibilityConverter x:Key="EmptyObjectToVisibilityConverter"/>
 
             <!--  Styles  -->
             <Style
@@ -66,6 +67,13 @@
                 BasedOn="{StaticResource DefaultGridViewItemStyle}"
                 TargetType="GridViewItem">
                 <Setter Property="Margin" Value="0,0,12,12"/>
+            </Style>
+
+            <Style x:Key="BorderCardStyle" TargetType="Border">
+                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="CornerRadius" Value="{StaticResource CompatCornerRadius}"/>
             </Style>
             <!--  ItemsPanelTemplate  -->
             <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">

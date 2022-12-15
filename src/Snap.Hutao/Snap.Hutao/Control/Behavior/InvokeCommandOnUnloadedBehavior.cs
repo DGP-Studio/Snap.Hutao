@@ -25,6 +25,7 @@ internal class InvokeCommandOnUnloadedBehavior : BehaviorBase<UIElement>
     /// <inheritdoc/>
     protected override void OnDetaching()
     {
+        // 由于卸载顺序问题，必须重写此方法才能正确触发命令
         if (Command != null && Command.CanExecute(null))
         {
             Command.Execute(null);

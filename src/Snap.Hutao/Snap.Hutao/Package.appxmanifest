@@ -12,7 +12,7 @@
   <Identity
     Name="7f0db578-026f-4e0b-a75b-d5d06bb0a74d"
     Publisher="CN=DGP Studio"
-    Version="1.2.7.0" />
+    Version="1.2.10.0" />
 
   <Properties>
     <DisplayName>胡桃</DisplayName>

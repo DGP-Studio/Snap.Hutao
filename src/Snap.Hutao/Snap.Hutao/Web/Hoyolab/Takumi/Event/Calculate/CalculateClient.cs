@@ -39,7 +39,7 @@ internal class CalculateClient
     /// <param name="delta">差异</param>
     /// <param name="token">取消令牌</param>
     /// <returns>消耗结果</returns>
-    public async Task<Consumption?> ComputeAsync(User user, AvatarPromotionDelta delta, CancellationToken token)
+    public async Task<Consumption?> ComputeAsync(User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
         Response<Consumption>? resp = await httpClient
             .SetUser(user, CookieType.CookieToken)

@@ -1,24 +1,31 @@
 ﻿// Const value
+INFINITE
 WM_GETMINMAXINFO
 WM_NCRBUTTONDOWN
 WM_NCRBUTTONUP
 
 // Type definition
+CWMO_FLAGS
 HRESULT
 MINMAXINFO
 
-// Comctl32
+// COMCTL32
 DefSubclassProc
 SetWindowSubclass
 RemoveWindowSubclass
 
-// Kernel32
+// KERNEL32
+CreateEvent
 CreateToolhelp32Snapshot
 Module32First
 Module32Next
 ReadProcessMemory
+SetEvent
 WriteProcessMemory
 
-// User32
+// OLE32
+CoWaitForMultipleObjects
+
+// USER32
 FindWindowEx
 GetDpiForWindow

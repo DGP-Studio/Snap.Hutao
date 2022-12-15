@@ -23,8 +23,9 @@
         <Rectangle
             Height="48"
             VerticalAlignment="Top"
-            Fill="{StaticResource CardBackgroundFillColorDefaultBrush}"/>
-        <Pivot Grid.RowSpan="2">
+            Fill="{StaticResource CardBackgroundFillColorDefaultBrush}"
+            IsHitTestVisible="False"/>
+        <Pivot>
             <Pivot.LeftHeader>
                 <ComboBox
                     Height="36"
@@ -32,7 +33,11 @@
                     Margin="16,6,0,6"
                     DisplayMemberPath="Uid"
                     ItemsSource="{Binding Archives}"
-                    SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"/>
+                    SelectedItem="{Binding SelectedArchive, Mode=TwoWay}">
+                    <mxi:Interaction.Behaviors>
+                        <shcb:ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior/>
+                    </mxi:Interaction.Behaviors>
+                </ComboBox>
             </Pivot.LeftHeader>
             <Pivot.RightHeader>
                 <CommandBar DefaultLabelPosition="Right">

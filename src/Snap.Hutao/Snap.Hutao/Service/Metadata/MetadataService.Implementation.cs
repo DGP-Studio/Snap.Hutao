@@ -39,6 +39,12 @@ internal partial class MetadataService
     }
 
     /// <inheritdoc/>
+    public ValueTask<List<Material>> GetMaterialsAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<Material>>("Material", token);
+    }
+
+    /// <inheritdoc/>
     public ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default)
     {
         return FromCacheOrFileAsync<List<Reliquary>>("Reliquary", token);

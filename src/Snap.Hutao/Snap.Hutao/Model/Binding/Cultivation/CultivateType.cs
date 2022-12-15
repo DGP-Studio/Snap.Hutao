@@ -14,14 +14,9 @@ public enum CultivateType
     None,
 
     /// <summary>
-    /// 角色
+    /// 角色与技能
     /// </summary>
-    Avatar,
-
-    /// <summary>
-    /// 角色技能
-    /// </summary>
-    Skill,
+    AvatarAndSkill,
 
     /// <summary>
     /// 武器

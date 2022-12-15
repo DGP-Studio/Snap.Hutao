@@ -244,6 +244,10 @@ public class ImageCache : IImageCache
                     logger.LogInformation("Retry after {delay}.", delay);
                     await Task.Delay(delay).ConfigureAwait(false);
                 }
+                else
+                {
+                    return;
+                }
             }
 
             if (retryCount == 3)

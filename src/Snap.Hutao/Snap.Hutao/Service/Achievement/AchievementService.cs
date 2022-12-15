@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
@@ -53,7 +54,7 @@ internal class AchievementService : IAchievementService
     /// <inheritdoc/>
     public ObservableCollection<EntityArchive> GetArchiveCollection()
     {
-        return archiveCollection ??= new(appDbContext.AchievementArchives.ToList());
+        return archiveCollection ??= new(appDbContext.AchievementArchives.AsNoTracking().ToList());
     }
 
     /// <inheritdoc/>
@@ -78,7 +79,7 @@ internal class AchievementService : IAchievementService
         }
 
         // 查找是否有相同的名称
-        if (archiveCollection!.SingleOrDefault(a => a.Name == newArchive.Name) is EntityArchive userWithSameUid)
+        if (archiveCollection!.SingleOrDefault(a => a.Name == newArchive.Name) != null)
         {
             return ArchiveAddResult.AlreadyExists;
         }

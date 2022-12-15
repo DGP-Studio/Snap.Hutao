@@ -3,13 +3,15 @@
 
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Request;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Net.Sockets;
 using System.Text;
 
-namespace Snap.Hutao.Web.Hoyolab;
+namespace Snap.Hutao.Web;
 
 /// <summary>
 /// <see cref="HttpClient"/> 扩展
@@ -30,6 +32,16 @@ internal static class HttpClientExtensions
             return null;
         }
         catch (SocketException ex)
+        {
+            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            return null;
+        }
+        catch (JsonException ex)
+        {
+            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            return null;
+        }
+        catch (IOException ex)
         {
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
@@ -55,6 +67,16 @@ internal static class HttpClientExtensions
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
         }
+        catch (JsonException ex)
+        {
+            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            return null;
+        }
+        catch (IOException ex)
+        {
+            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            return null;
+        }
     }
 
     /// <inheritdoc cref="HttpClientJsonExtensions.PostAsJsonAsync{TValue}(HttpClient, string?, TValue, JsonSerializerOptions?, CancellationToken)"/>
@@ -74,78 +96,13 @@ internal static class HttpClientExtensions
         {
             return null;
         }
-    }
-
-    /// <summary>
-    /// 设置用户的 Cookie
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="user">实体用户</param>
-    /// <param name="cookie">Cookie类型</param>
-    /// <returns>客户端</returns>
-    internal static HttpClient SetUser(this HttpClient httpClient, Model.Entity.User user, CookieType cookie)
-    {
-        httpClient.DefaultRequestHeaders.Remove("Cookie");
-        StringBuilder stringBuilder = new();
-
-        if ((cookie & CookieType.CookieToken) == CookieType.CookieToken)
+        catch (JsonException)
         {
-            stringBuilder.Append(user.CookieToken).AppendIf(user.CookieToken != null, ';');
+            return null;
         }
-
-        if ((cookie & CookieType.Ltoken) == CookieType.Ltoken)
+        catch (IOException)
         {
-            stringBuilder.Append(user.Ltoken).AppendIf(user.Ltoken != null, ';');
+            return null;
         }
-
-        if ((cookie & CookieType.Stoken) == CookieType.Stoken)
-        {
-            stringBuilder.Append(user.Stoken).AppendIf(user.Stoken != null, ';');
-        }
-
-        if ((cookie & CookieType.Mid) == CookieType.Mid)
-        {
-            stringBuilder.Append("mid=").Append(user.Mid).Append(';');
-        }
-
-        httpClient.DefaultRequestHeaders.Set("Cookie", stringBuilder.ToString());
-        return httpClient;
-    }
-
-    /// <summary>
-    /// 设置Referer
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="referer">用户</param>
-    /// <returns>客户端</returns>
-    internal static HttpClient SetReferer(this HttpClient httpClient, string referer)
-    {
-        httpClient.DefaultRequestHeaders.Set("Referer", referer);
-        return httpClient;
-    }
-
-    /// <summary>
-    /// 设置验证流水号
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="challenge">验证流水号</param>
-    /// <returns>客户端</returns>
-    internal static HttpClient SetXrpcChallenge(this HttpClient httpClient, string challenge)
-    {
-        httpClient.DefaultRequestHeaders.Set("x-rpc-challenge", challenge);
-        return httpClient;
-    }
-
-    /// <summary>
-    /// 设置头
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="key">键</param>
-    /// <param name="value">值</param>
-    /// <returns>客户端</returns>
-    internal static HttpClient SetHeader(this HttpClient httpClient, string key, string value)
-    {
-        httpClient.DefaultRequestHeaders.Set(key, value);
-        return httpClient;
     }
 }

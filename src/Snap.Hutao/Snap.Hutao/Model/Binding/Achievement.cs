@@ -15,9 +15,6 @@ public class Achievement : ObservableObject
     /// </summary>
     public const int FullProgressPlaceholder = int.MaxValue;
 
-    private readonly Metadata.Achievement.Achievement inner;
-    private readonly Entity.Achievement entity;
-
     private bool isChecked;
 
     /// <summary>
@@ -27,22 +24,21 @@ public class Achievement : ObservableObject
     /// <param name="entity">实体部分</param>
     public Achievement(Metadata.Achievement.Achievement inner, Entity.Achievement entity)
     {
-        this.inner = inner;
-        this.entity = entity;
+        Inner = inner;
+        Entity = entity;
 
-        // Property should only be set when it's user checking.
         isChecked = (int)entity.Status >= 2;
     }
 
     /// <summary>
     /// 实体
     /// </summary>
-    public Entity.Achievement Entity { get => entity; }
+    public Entity.Achievement Entity { get; }
 
     /// <summary>
     /// 元数据
     /// </summary>
-    public Metadata.Achievement.Achievement Inner { get => inner; }
+    public Metadata.Achievement.Achievement Inner { get; }
 
     /// <summary>
     /// 是否选中
@@ -69,6 +65,6 @@ public class Achievement : ObservableObject
     /// </summary>
     public string Time
     {
-        get => entity.Time.ToString("yyyy.MM.dd HH:mm:ss");
+        get => Entity.Time.ToString("yyyy.MM.dd HH:mm:ss");
     }
 }

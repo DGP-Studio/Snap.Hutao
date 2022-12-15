@@ -24,7 +24,8 @@ public class SkillDepot
     public IList<ProudableSkill> Inherents { get; set; } = default!;
 
     /// <summary>
-    /// 全部天赋,包括固有天赋
+    /// 全部天赋，包括固有天赋
+    /// 在 Wiki 中使用
     /// </summary>
     public IList<ProudableSkill> CompositeSkills
     {

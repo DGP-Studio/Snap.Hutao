@@ -5,12 +5,22 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.UI;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
+using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Dialog;
+using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
+using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
+using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
+using CalcItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
+using CalcItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemHelper;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -44,6 +54,7 @@ internal class WikiAvatarViewModel : ObservableObject
         this.metadataService = metadataService;
         this.hutaoCache = hutaoCache;
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+        CultivateCommand = asyncRelayCommandFactory.Create<Avatar>(CultivateAsync);
 
         filterElementInfos = new()
         {
@@ -147,6 +158,11 @@ internal class WikiAvatarViewModel : ObservableObject
     /// </summary>
     public ICommand OpenUICommand { get; }
 
+    /// <summary>
+    /// 养成命令
+    /// </summary>
+    public ICommand CultivateCommand { get; }
+
     private async Task OpenUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
@@ -160,8 +176,6 @@ internal class WikiAvatarViewModel : ObservableObject
             await CombineWithAvatarCollocationsAsync(sorted).ConfigureAwait(false);
 
             await ThreadHelper.SwitchToMainThreadAsync();
-
-            // RPC_E_WRONG_THREAD ?
             Avatars = new AdvancedCollectionView(sorted, true);
             Selected = Avatars.Cast<Avatar>().FirstOrDefault();
         }
@@ -219,6 +233,49 @@ internal class WikiAvatarViewModel : ObservableObject
             if (!Avatars.Contains(Selected))
             {
                 Avatars.MoveCurrentToFirst();
+            }
+        }
+    }
+
+    private async Task CultivateAsync(Avatar? avatar)
+    {
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        if (avatar != null)
+        {
+            IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
+            if (userService.Current != null)
+            {
+                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(mainWindow, avatar.ToCalculable(), null)
+                    .GetPromotionDeltaAsync()
+                    .ConfigureAwait(false);
+
+                if (isOk)
+                {
+                    CalcClient calculateClient = Ioc.Default.GetRequiredService<CalcClient>();
+                    CalcConsumption? consumption = await calculateClient.ComputeAsync(userService.Current.Entity, delta).ConfigureAwait(false);
+                    if (consumption != null)
+                    {
+                        List<CalcItem> items = CalcItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
+                        bool saved = await Ioc.Default
+                            .GetRequiredService<ICultivationService>()
+                            .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
+                            .ConfigureAwait(false);
+
+                        if (saved)
+                        {
+                            infoBarService.Success("已成功添加至当前养成计划");
+                        }
+                        else
+                        {
+                            infoBarService.Warning("请先前往养成计划页面创建计划并选中");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                infoBarService.Warning("必须先选择一个用户与角色");
             }
         }
     }

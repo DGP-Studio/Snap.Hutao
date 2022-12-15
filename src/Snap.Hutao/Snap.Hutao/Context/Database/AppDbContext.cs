@@ -103,6 +103,21 @@ public sealed class AppDbContext : DbContext
     public DbSet<CultivateItem> CultivateItems { get; set; } = default!;
 
     /// <summary>
+    /// 背包内物品
+    /// </summary>
+    public DbSet<InventoryItem> InventoryItems { get; set; } = default!;
+
+    /// <summary>
+    /// 背包内武器
+    /// </summary>
+    public DbSet<InventoryWeapon> InventoryWeapons { get; set; } = default!;
+
+    /// <summary>
+    /// 背包内圣遗物
+    /// </summary>
+    public DbSet<InventoryReliquary> InventoryReliquaries { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个临时的应用程序数据库上下文
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>
@@ -125,6 +140,7 @@ public sealed class AppDbContext : DbContext
         modelBuilder
             .ApplyConfiguration(new AvatarInfoConfiguration())
             .ApplyConfiguration(new UserConfiguration())
-            .ApplyConfiguration(new DailyNoteEntryConfiguration());
+            .ApplyConfiguration(new DailyNoteEntryConfiguration())
+            .ApplyConfiguration(new InventoryReliquaryConfiguration());
     }
 }

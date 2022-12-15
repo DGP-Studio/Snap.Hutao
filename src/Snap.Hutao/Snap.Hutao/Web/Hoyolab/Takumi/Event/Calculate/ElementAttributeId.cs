@@ -9,6 +9,11 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 public enum ElementAttributeId
 {
     /// <summary>
+    /// 无
+    /// </summary>
+    None = 0,
+
+    /// <summary>
     /// 火元素
     /// </summary>
     Fire = 1,

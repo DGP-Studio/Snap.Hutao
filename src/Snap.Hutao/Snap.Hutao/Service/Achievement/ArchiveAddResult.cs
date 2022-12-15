@@ -19,7 +19,7 @@ public enum ArchiveAddResult
     InvalidName,
 
     /// <summary>
-    /// 已经存在该用户
+    /// 已经存在该存档
     /// </summary>
     AlreadyExists,
 }

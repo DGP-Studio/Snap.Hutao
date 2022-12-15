@@ -51,7 +51,9 @@ public partial class Cookie
             string name = parts[0].Trim();
             string value = parts.Length == 1 ? string.Empty : parts[1].Trim();
 
-            cookieMap.Add(name, value);
+            // System.ArgumentException: An item with the same key has already been added.
+            // cookieMap.Add(name, value);
+            cookieMap[name] = value;
         }
 
         return new(cookieMap);
