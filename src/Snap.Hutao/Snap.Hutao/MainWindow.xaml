@@ -1,18 +1,18 @@
 ﻿<Window
     x:Class="Snap.Hutao.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shv="using:Snap.Hutao.View"
     mc:Ignorable="d">
 
     <Grid>
         <shv:TitleView
-            Margin="48,0,0,0"
+            x:Name="TitleBarView"
             Height="44"
-            x:Name="TitleBarView"/>
-        
+            Margin="48,0,0,0"/>
+
         <shv:MainView/>
     </Grid>
 </Window>

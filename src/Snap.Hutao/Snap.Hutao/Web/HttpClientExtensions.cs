@@ -80,13 +80,13 @@ internal static class HttpClientExtensions
     }
 
     /// <inheritdoc cref="HttpClientJsonExtensions.PostAsJsonAsync{TValue}(HttpClient, string?, TValue, JsonSerializerOptions?, CancellationToken)"/>
-    internal static async Task<TResult?> TryCatchPostAsJsonAsync<TValue, TResult>(this HttpClient httpClient, string requestUri, TValue value, JsonSerializerOptions options, CancellationToken token = default)
+    internal static async Task<TResult?> TryCatchPostAsJsonAsync<TValue, TResult>(this HttpClient httpClient, string requestUri, TValue value, CancellationToken token = default)
         where TResult : class
     {
         try
         {
-            HttpResponseMessage message = await httpClient.PostAsJsonAsync(requestUri, value, options, token).ConfigureAwait(false);
-            return await message.Content.ReadFromJsonAsync<TResult>(options, token).ConfigureAwait(false);
+            HttpResponseMessage message = await httpClient.PostAsJsonAsync(requestUri, value, token).ConfigureAwait(false);
+            return await message.Content.ReadFromJsonAsync<TResult>(cancellationToken: token).ConfigureAwait(false);
         }
         catch (HttpRequestException)
         {

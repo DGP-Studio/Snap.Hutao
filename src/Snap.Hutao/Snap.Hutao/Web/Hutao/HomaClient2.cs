@@ -16,17 +16,14 @@ internal class HomaClient2
 {
     private const string HutaoAPI = "https://homa.snapgenshin.com";
     private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
 
     /// <summary>
     /// 构造一个新的胡桃日志客户端
     /// </summary>
     /// <param name="httpClient">Http客户端</param>
-    /// <param name="options">Json序列化选项</param>
-    public HomaClient2(HttpClient httpClient, JsonSerializerOptions options)
+    public HomaClient2(HttpClient httpClient)
     {
         this.httpClient = httpClient;
-        this.options = options;
     }
 
     /// <summary>
@@ -44,7 +41,7 @@ internal class HomaClient2
         };
 
         Response<string>? a = await httpClient
-            .TryCatchPostAsJsonAsync<HutaoLog, Response<string>>($"{HutaoAPI}/HutaoLog/Upload", log, options)
+            .TryCatchPostAsJsonAsync<HutaoLog, Response<string>>($"{HutaoAPI}/HutaoLog/Upload", log)
             .ConfigureAwait(false);
         return a?.Data;
     }

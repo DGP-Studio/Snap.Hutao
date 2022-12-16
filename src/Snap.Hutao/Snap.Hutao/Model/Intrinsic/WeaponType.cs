@@ -17,6 +17,7 @@ public enum WeaponType
     /// <summary>
     /// 单手剑
     /// </summary>
+    [Description("单手剑")]
     WEAPON_SWORD_ONE_HAND = 1,
 
     #region Not Used
@@ -73,20 +74,24 @@ public enum WeaponType
     /// <summary>
     /// 法器
     /// </summary>
+    [Description("单手剑")]
     WEAPON_CATALYST = 10,
 
     /// <summary>
     /// 双手剑
     /// </summary>
+    [Description("单手剑")]
     WEAPON_CLAYMORE = 11,
 
     /// <summary>
     /// 弓
     /// </summary>
+    [Description("单手剑")]
     WEAPON_BOW = 12,
 
     /// <summary>
     /// 长柄武器
     /// </summary>
+    [Description("单手剑")]
     WEAPON_POLE = 13,
 }

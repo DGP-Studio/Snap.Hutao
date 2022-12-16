@@ -19,9 +19,24 @@ public static class EnumExtension
     public static string GetDescription<TEnum>(this TEnum @enum)
         where TEnum : struct, Enum
     {
-        string enumName = Must.NotNull(Enum.GetName(@enum)!);
+        string enumName = Enum.GetName(@enum)!;
         FieldInfo? field = @enum.GetType().GetField(enumName);
         DescriptionAttribute? attr = field?.GetCustomAttribute<DescriptionAttribute>();
         return attr?.Description ?? enumName;
+    }
+
+    /// <summary>
+    /// 获取枚举的描述
+    /// </summary>
+    /// <typeparam name="TEnum">枚举的类型</typeparam>
+    /// <param name="enum">枚举值</param>
+    /// <returns>描述</returns>
+    public static string? GetDescriptionOrNull<TEnum>(this TEnum @enum)
+        where TEnum : struct, Enum
+    {
+        string enumName = Enum.GetName(@enum)!;
+        FieldInfo? field = @enum.GetType().GetField(enumName);
+        DescriptionAttribute? attr = field?.GetCustomAttribute<DescriptionAttribute>();
+        return attr?.Description;
     }
 }

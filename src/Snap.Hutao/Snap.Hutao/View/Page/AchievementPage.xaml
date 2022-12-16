@@ -36,12 +36,11 @@
                     <AutoSuggestBox
                         Width="240"
                         Height="36"
-                        Margin="12,6,12,0"
+                        Margin="12,6,6,0"
                         HorizontalAlignment="Stretch"
                         VerticalContentAlignment="Center"
                         PlaceholderText="搜索成就名称，描述或编号"
                         QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                        Style="{StaticResource DefaultAutoSuggestBoxStyle}"
                         Text="{Binding SearchText, Mode=TwoWay}">
                         <mxi:Interaction.Behaviors>
                             <mxic:EventTriggerBehavior EventName="QuerySubmitted">

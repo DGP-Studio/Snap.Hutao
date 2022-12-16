@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.ObjectModel;
@@ -136,43 +135,45 @@ internal class CultivationService : ICultivationService
         Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap,
         Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap)
     {
-        // TODO: cache the collection
         await ThreadHelper.SwitchToBackgroundAsync();
-        Guid projectId = cultivateProject.InnerId;
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            List<BindingCultivateEntry> bindingEntries = new();
-            foreach (Model.Entity.CultivateEntry? entry in await appDbContext.CultivateEntries.ToListAsync().ConfigureAwait(false))
+
+            Guid projectId = cultivateProject.InnerId;
+
+            List<BindingCultivateEntry> results = new();
+            List<CultivateEntry> entries = await appDbContext.CultivateEntries
+                .Where(e => e.ProjectId == projectId)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            foreach (CultivateEntry? entry in entries)
             {
                 Guid entryId = entry.InnerId;
 
-                List<BindingCultivateItem> items = new();
-                foreach (Model.Entity.CultivateItem? item in await appDbContext.CultivateItems.Where(i => i.EntryId == entryId).OrderBy(i => i.ItemId).ToListAsync().ConfigureAwait(false))
+                List<BindingCultivateItem> resultItems = new();
+                List<CultivateItem> items = await appDbContext.CultivateItems
+                    .Where(i => i.EntryId == entryId)
+                    .OrderBy(i => i.ItemId).ToListAsync()
+                    .ConfigureAwait(false);
+
+                foreach (CultivateItem item in items)
                 {
-                    items.Add(new(metadata.Single(m => m.Id == item.ItemId), item));
+                    resultItems.Add(new(metadata.Single(m => m.Id == item.ItemId), item));
                 }
 
                 Model.Binding.Gacha.Abstraction.ItemBase itemBase = entry.Type switch
                 {
-                    CultivateType.AvatarAndSkill => idAvatarMap[entry.Id].ToItemBase(),
-                    CultivateType.Weapon => idWeaponMap[entry.Id].ToItemBase(),
+                    Model.Binding.Cultivation.CultivateType.AvatarAndSkill => idAvatarMap[entry.Id].ToItemBase(),
+                    Model.Binding.Cultivation.CultivateType.Weapon => idWeaponMap[entry.Id].ToItemBase(),
                     _ => null!, // TODO: support furniture calc
                 };
 
-                bindingEntries.Add(new()
-                {
-                    Id = entry.Id,
-                    EntryId = entryId,
-                    Name = itemBase.Name,
-                    Icon = itemBase.Icon,
-                    Badge = itemBase.Badge,
-                    Quality = itemBase.Quality,
-                    Items = items,
-                });
+                results.Add(new(entry, itemBase, resultItems));
             }
 
-            return new(bindingEntries);
+            return new(results);
         }
     }
 
@@ -197,7 +198,7 @@ internal class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> SaveConsumptionAsync(CultivateType type, int itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
+    public async Task<bool> SaveConsumptionAsync(Model.Binding.Cultivation.CultivateType type, int itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
     {
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
@@ -210,19 +211,20 @@ internal class CultivationService : ICultivationService
             }
 
             Guid projectId = Current!.InnerId;
-            Model.Entity.CultivateEntry? entry = await appDbContext.CultivateEntries
+            CultivateEntry? entry = await appDbContext.CultivateEntries
                 .SingleOrDefaultAsync(e => e.ProjectId == projectId && e.Id == itemId)
                 .ConfigureAwait(false);
 
             if (entry == null)
             {
-                entry = Model.Entity.CultivateEntry.Create(projectId, type, itemId);
+                entry = CultivateEntry.Create(projectId, type, itemId);
                 await appDbContext.CultivateEntries.AddAndSaveAsync(entry).ConfigureAwait(false);
             }
 
             Guid entryId = entry.InnerId;
             await appDbContext.CultivateItems.Where(i => i.EntryId == entryId).ExecuteDeleteAsync().ConfigureAwait(false);
-            IEnumerable<Model.Entity.CultivateItem> toAdd = items.Select(i => Model.Entity.CultivateItem.Create(entryId, i.Id, i.Num));
+
+            IEnumerable<CultivateItem> toAdd = items.Select(i => CultivateItem.Create(entryId, i.Id, i.Num));
             await appDbContext.CultivateItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
         }
 

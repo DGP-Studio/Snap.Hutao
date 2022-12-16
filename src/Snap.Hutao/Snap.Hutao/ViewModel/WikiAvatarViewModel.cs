@@ -2,9 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Microsoft.Extensions.Primitives;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Model;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
@@ -16,6 +18,7 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using System.Collections.Immutable;
 using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -33,15 +36,9 @@ internal class WikiAvatarViewModel : ObservableObject
     private readonly IMetadataService metadataService;
     private readonly IHutaoCache hutaoCache;
 
-    // filters
-    private readonly List<Selectable<string>> filterElementInfos;
-    private readonly List<Selectable<Pair<string, AssociationType>>> filterAssociationInfos;
-    private readonly List<Selectable<Pair<string, WeaponType>>> filterWeaponTypeInfos;
-    private readonly List<Selectable<Pair<string, ItemQuality>>> filterQualityInfos;
-    private readonly List<Selectable<Pair<string, BodyType>>> filterBodyInfos;
-
     private AdvancedCollectionView? avatars;
     private Avatar? selected;
+    private string? filterText;
 
     /// <summary>
     /// 构造一个新的角色资料视图模型
@@ -55,52 +52,7 @@ internal class WikiAvatarViewModel : ObservableObject
         this.hutaoCache = hutaoCache;
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         CultivateCommand = asyncRelayCommandFactory.Create<Avatar>(CultivateAsync);
-
-        filterElementInfos = new()
-        {
-            new("火", OnFilterChanged),
-            new("水", OnFilterChanged),
-            new("草", OnFilterChanged),
-            new("雷", OnFilterChanged),
-            new("冰", OnFilterChanged),
-            new("风", OnFilterChanged),
-            new("岩", OnFilterChanged),
-        };
-
-        filterAssociationInfos = new()
-        {
-            new(new("蒙德", AssociationType.ASSOC_TYPE_MONDSTADT), OnFilterChanged),
-            new(new("璃月", AssociationType.ASSOC_TYPE_LIYUE), OnFilterChanged),
-            new(new("稻妻", AssociationType.ASSOC_TYPE_INAZUMA), OnFilterChanged),
-            new(new("须弥", AssociationType.ASSOC_TYPE_SUMERU), OnFilterChanged),
-            new(new("愚人众", AssociationType.ASSOC_TYPE_FATUI), OnFilterChanged),
-            new(new("游侠", AssociationType.ASSOC_TYPE_RANGER), OnFilterChanged),
-        };
-
-        filterWeaponTypeInfos = new()
-        {
-            new(new("单手剑", WeaponType.WEAPON_SWORD_ONE_HAND), OnFilterChanged),
-            new(new("法器", WeaponType.WEAPON_CATALYST), OnFilterChanged),
-            new(new("双手剑", WeaponType.WEAPON_CLAYMORE), OnFilterChanged),
-            new(new("弓", WeaponType.WEAPON_BOW), OnFilterChanged),
-            new(new("长柄武器", WeaponType.WEAPON_POLE), OnFilterChanged),
-        };
-
-        filterQualityInfos = new()
-        {
-            new(new("限定五星", ItemQuality.QUALITY_ORANGE_SP), OnFilterChanged),
-            new(new("五星", ItemQuality.QUALITY_ORANGE), OnFilterChanged),
-            new(new("四星", ItemQuality.QUALITY_PURPLE), OnFilterChanged),
-        };
-
-        filterBodyInfos = new()
-        {
-            new(new("成女", BodyType.BODY_LADY), OnFilterChanged),
-            new(new("少女", BodyType.BODY_GIRL), OnFilterChanged),
-            new(new("幼女", BodyType.BODY_LOLI), OnFilterChanged),
-            new(new("成男", BodyType.BODY_MALE), OnFilterChanged),
-            new(new("少男", BodyType.BODY_BOY), OnFilterChanged),
-        };
+        FilterCommand = new RelayCommand<string>(ApplyFilter);
     }
 
     /// <summary>
@@ -114,44 +66,9 @@ internal class WikiAvatarViewModel : ObservableObject
     public Avatar? Selected { get => selected; set => SetProperty(ref selected, value); }
 
     /// <summary>
-    /// 筛选用元素信息集合
+    /// 筛选文本
     /// </summary>
-    public IList<Selectable<string>> FilterElementInfos
-    {
-        get => filterElementInfos;
-    }
-
-    /// <summary>
-    /// 筛选用所属国家集合
-    /// </summary>
-    public IList<Selectable<Pair<string, AssociationType>>> FilterAssociationInfos
-    {
-        get => filterAssociationInfos;
-    }
-
-    /// <summary>
-    /// 筛选用武器信息集合
-    /// </summary>
-    public IList<Selectable<Pair<string, WeaponType>>> FilterWeaponTypeInfos
-    {
-        get => filterWeaponTypeInfos;
-    }
-
-    /// <summary>
-    /// 筛选用星级信息集合
-    /// </summary>
-    public IList<Selectable<Pair<string, ItemQuality>>> FilterQualityInfos
-    {
-        get => filterQualityInfos;
-    }
-
-    /// <summary>
-    /// 筛选用体型信息集合
-    /// </summary>
-    public IList<Selectable<Pair<string, BodyType>>> FilterBodyInfos
-    {
-        get => filterBodyInfos;
-    }
+    public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
 
     /// <summary>
     /// 打开页面命令
@@ -162,6 +79,11 @@ internal class WikiAvatarViewModel : ObservableObject
     /// 养成命令
     /// </summary>
     public ICommand CultivateCommand { get; }
+
+    /// <summary>
+    /// 筛选命令
+    /// </summary>
+    public ICommand FilterCommand { get; }
 
     private async Task OpenUIAsync()
     {
@@ -194,55 +116,13 @@ internal class WikiAvatarViewModel : ObservableObject
         }
     }
 
-    private void OnFilterChanged()
-    {
-        if (Avatars is not null)
-        {
-            List<string> targetElements = filterElementInfos
-                .Where(e => e.IsSelected)
-                .Select(e => e.Value)
-                .ToList();
-
-            List<AssociationType> targetAssociations = filterAssociationInfos
-                .Where(e => e.IsSelected)
-                .Select(e => e.Value.Value)
-                .ToList();
-
-            List<WeaponType> targetWeaponTypes = filterWeaponTypeInfos
-                .Where(e => e.IsSelected)
-                .Select(e => e.Value.Value)
-                .ToList();
-
-            List<ItemQuality> targetQualities = FilterQualityInfos
-                .Where(e => e.IsSelected)
-                .Select(e => e.Value.Value)
-                .ToList();
-
-            List<BodyType> targetBodies = filterBodyInfos
-                .Where(e => e.IsSelected)
-                .Select(e => e.Value.Value)
-                .ToList();
-
-            Avatars.Filter = (object o) => o is Avatar avatar
-                && targetElements.Contains(avatar.FetterInfo.VisionBefore)
-                && targetAssociations.Contains(avatar.FetterInfo.Association)
-                && targetWeaponTypes.Contains(avatar.Weapon)
-                && targetQualities.Contains(avatar.Quality)
-                && targetBodies.Contains(avatar.Body);
-
-            if (!Avatars.Contains(Selected))
-            {
-                Avatars.MoveCurrentToFirst();
-            }
-        }
-    }
-
     private async Task CultivateAsync(Avatar? avatar)
     {
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         if (avatar != null)
         {
+            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
             IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
+
             if (userService.Current != null)
             {
                 MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
@@ -252,8 +132,11 @@ internal class WikiAvatarViewModel : ObservableObject
 
                 if (isOk)
                 {
-                    CalcClient calculateClient = Ioc.Default.GetRequiredService<CalcClient>();
-                    CalcConsumption? consumption = await calculateClient.ComputeAsync(userService.Current.Entity, delta).ConfigureAwait(false);
+                    CalcConsumption? consumption = await Ioc.Default
+                        .GetRequiredService<CalcClient>()
+                        .ComputeAsync(userService.Current.Entity, delta)
+                        .ConfigureAwait(false);
+
                     if (consumption != null)
                     {
                         List<CalcItem> items = CalcItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
@@ -277,6 +160,86 @@ internal class WikiAvatarViewModel : ObservableObject
             {
                 infoBarService.Warning("必须先选择一个用户与角色");
             }
+        }
+    }
+
+    private void ApplyFilter(string? input)
+    {
+        if (Avatars != null)
+        {
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                Avatars.Filter = AvatarFilter.Compile(input);
+
+                if (!Avatars.Contains(Selected))
+                {
+                    Avatars.MoveCurrentToFirst();
+                }
+            }
+            else
+            {
+                Avatars.Filter = null!;
+            }
+        }
+    }
+
+    private static class AvatarFilter
+    {
+        private static readonly ImmutableList<string> AssociationTypes = Enum.GetValues<AssociationType>().Select(e => e.GetDescriptionOrNull()).OfType<string>().ToImmutableList();
+        private static readonly ImmutableList<string> WeaponTypes = Enum.GetValues<WeaponType>().Select(e => e.GetDescriptionOrNull()).OfType<string>().ToImmutableList();
+        private static readonly ImmutableList<string> ItemQualities = Enum.GetValues<ItemQuality>().Select(e => e.GetDescriptionOrNull()).OfType<string>().ToImmutableList();
+        private static readonly ImmutableList<string> BodyTypes = Enum.GetValues<BodyType>().Select(e => e.GetDescriptionOrNull()).OfType<string>().ToImmutableList();
+
+        public static Predicate<object> Compile(string input)
+        {
+            return (object o) => o is Avatar avatar && DoFilter(input, avatar);
+        }
+
+        private static bool DoFilter(string input, Avatar avatar)
+        {
+            bool keep = false;
+
+            foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
+            {
+                string value = segment.ToString();
+
+                if (value == "火" || value == "水" || value == "草" || value == "雷" || value == "冰" || value == "风" || value == "岩")
+                {
+                    keep = keep || avatar.FetterInfo.VisionBefore == value;
+                    continue;
+                }
+
+                if (AssociationTypes.Contains(value))
+                {
+                    keep = keep || avatar.FetterInfo.Association.GetDescriptionOrNull() == value;
+                    continue;
+                }
+
+                if (WeaponTypes.Contains(value))
+                {
+                    keep = keep || avatar.Weapon.GetDescriptionOrNull() == value;
+                    continue;
+                }
+
+                if (ItemQualities.Contains(value))
+                {
+                    keep = keep || avatar.Quality.GetDescriptionOrNull() == value;
+                    continue;
+                }
+
+                if (BodyTypes.Contains(value))
+                {
+                    keep = keep || avatar.Body.GetDescriptionOrNull() == value;
+                    continue;
+                }
+
+                if (avatar.Name == value)
+                {
+                    keep = true;
+                }
+            }
+
+            return keep;
         }
     }
 }
