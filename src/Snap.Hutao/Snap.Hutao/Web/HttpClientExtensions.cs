@@ -3,13 +3,10 @@
 
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Request;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Net.Sockets;
-using System.Text;
 
 namespace Snap.Hutao.Web;
 

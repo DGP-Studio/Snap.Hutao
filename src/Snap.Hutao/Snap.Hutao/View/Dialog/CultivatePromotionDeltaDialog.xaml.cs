@@ -36,8 +36,8 @@ public sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// </summary>
     public ICalculableAvatar? Avatar
     {
-        get { return (ICalculableAvatar?)GetValue(AvatarProperty); }
-        set { SetValue(AvatarProperty, value); }
+        get => (ICalculableAvatar?)GetValue(AvatarProperty);
+        set => SetValue(AvatarProperty, value);
     }
 
     /// <summary>
@@ -45,8 +45,8 @@ public sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// </summary>
     public ICalculableWeapon? Weapon
     {
-        get { return (ICalculableWeapon?)GetValue(WeaponProperty); }
-        set { SetValue(WeaponProperty, value); }
+        get => (ICalculableWeapon?)GetValue(WeaponProperty);
+        set => SetValue(WeaponProperty, value);
     }
 
     /// <summary>

@@ -23,7 +23,7 @@ internal partial class UnityLogGameLocator : IGameLocator
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string logFilePath = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\原神\output_log.txt");
 
-        using (var tempFile = TemporaryFile.CreateFromFileCopy(logFilePath))
+        using (TemporaryFile? tempFile = TemporaryFile.CreateFromFileCopy(logFilePath))
         {
             if (tempFile == null)
             {
@@ -32,7 +32,7 @@ internal partial class UnityLogGameLocator : IGameLocator
 
             string content = File.ReadAllText(tempFile.Path);
 
-            var matchResult = WarmupFileLine().Match(content);
+            Match matchResult = WarmupFileLine().Match(content);
             if (!matchResult.Success)
             {
                 return new(false, $"在 Unity 日志文件中找不到游戏路径");

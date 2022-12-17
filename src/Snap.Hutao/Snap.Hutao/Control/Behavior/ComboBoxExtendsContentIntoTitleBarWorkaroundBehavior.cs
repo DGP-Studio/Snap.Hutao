@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.UI.Behaviors;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.Control.Behavior;

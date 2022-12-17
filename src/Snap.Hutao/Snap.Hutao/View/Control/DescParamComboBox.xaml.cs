@@ -41,8 +41,8 @@ public sealed partial class DescParamComboBox : UserControl
     /// </summary>
     public int PreferredSelectedIndex
     {
-        get { return (int)GetValue(PreferredSelectedIndexProperty); }
-        set { SetValue(PreferredSelectedIndexProperty, value); }
+        get => (int)GetValue(PreferredSelectedIndexProperty);
+        set => SetValue(PreferredSelectedIndexProperty, value);
     }
 
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
