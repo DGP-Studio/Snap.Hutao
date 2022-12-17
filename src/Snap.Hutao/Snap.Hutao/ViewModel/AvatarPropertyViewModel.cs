@@ -14,11 +14,12 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Snap.Hutao.WinRT;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
+using Windows.Win32;
+using Windows.Win32.System.WinRT;
 using WinRT;
 
 namespace Snap.Hutao.ViewModel;
@@ -97,7 +98,7 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
     /// </summary>
     public ICommand ExportAsImageCommand { get; }
 
-    private static unsafe void ProcessSoftwareBitmap(SoftwareBitmap softwareBitmap, Bgra8 tint)
+    private static unsafe void NormalBlend(SoftwareBitmap softwareBitmap, Bgra8 tint)
     {
         using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
         {
@@ -108,10 +109,10 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
                 for (int i = 0; i < length; i += 4)
                 {
                     Bgra8* pixel = (Bgra8*)(data + i);
-
-                    pixel->B = (byte)(((pixel->B * pixel->A) + (tint.B * (0xFF - pixel->A))) / 0xFF);
-                    pixel->G = (byte)(((pixel->G * pixel->A) + (tint.G * (0xFF - pixel->A))) / 0xFF);
-                    pixel->R = (byte)(((pixel->R * pixel->A) + (tint.R * (0xFF - pixel->A))) / 0xFF);
+                    byte baseAlpha = pixel->A;
+                    pixel->B = (byte)(((pixel->B * baseAlpha) + (tint.B * (0xFF - baseAlpha))) / 0xFF);
+                    pixel->G = (byte)(((pixel->G * baseAlpha) + (tint.G * (0xFF - baseAlpha))) / 0xFF);
+                    pixel->R = (byte)(((pixel->R * baseAlpha) + (tint.R * (0xFF - baseAlpha))) / 0xFF);
                     pixel->A = 0xFF;
                 }
             }
@@ -191,7 +192,7 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
                 switch (result)
                 {
                     case RefreshResult.APIUnavailable:
-                        infoBarService.Warning("角色信息服务当前不可用");
+                        infoBarService.Warning("角色信息服务 [Enak API] 当前不可用");
                         break;
                     case RefreshResult.ShowcaseNotOpen:
                         infoBarService.Warning("角色橱窗尚未开启，请前往游戏操作后重试");
@@ -216,16 +217,18 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
         IBuffer buffer = await bitmap.GetPixelsAsync();
         SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight, BitmapAlphaMode.Ignore);
-        Color systemAltHighColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
-        Bgra8 tint = Bgra8.FromColor(systemAltHighColor);
-        ProcessSoftwareBitmap(softwareBitmap, tint);
+        Color tintColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
+        Bgra8 tint = Bgra8.FromColor(tintColor);
+        NormalBlend(softwareBitmap, tint);
 
         using (InMemoryRandomAccessStream memory = new())
         {
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, memory);
+            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
             encoder.SetSoftwareBitmap(softwareBitmap);
             await encoder.FlushAsync();
             Clipboard.SetBitmapStream(memory);
         }
+
+        infoBarService.Success("已导出到剪贴板");
     }
 }

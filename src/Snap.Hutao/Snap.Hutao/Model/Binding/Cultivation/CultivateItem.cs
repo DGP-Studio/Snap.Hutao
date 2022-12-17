@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Service.Cultivation;
 
 namespace Snap.Hutao.Model.Binding.Cultivation;
 
@@ -11,6 +13,8 @@ namespace Snap.Hutao.Model.Binding.Cultivation;
 /// </summary>
 public class CultivateItem : ObservableObject
 {
+    private bool isFinished;
+
     /// <summary>
     /// 养成物品
     /// </summary>
@@ -20,6 +24,9 @@ public class CultivateItem : ObservableObject
     {
         Inner = inner;
         Entity = entity;
+        isFinished = Entity.IsFinished;
+
+        FinishStateCommand = new RelayCommand(FlipIsFinished);
     }
 
     /// <summary>
@@ -31,4 +38,29 @@ public class CultivateItem : ObservableObject
     /// 实体
     /// </summary>
     public Entity.CultivateItem Entity { get; }
+
+    /// <summary>
+    /// 调整完成状态命令
+    /// </summary>
+    public ICommand FinishStateCommand { get; }
+
+    /// <summary>
+    /// 是否完成此项
+    /// </summary>
+    public bool IsFinished
+    {
+        get => isFinished; set
+        {
+            if (SetProperty(ref isFinished, value))
+            {
+                Entity.IsFinished = value;
+                Ioc.Default.GetRequiredService<ICultivationService>().SaveCultivateItem(Entity);
+            }
+        }
+    }
+
+    private void FlipIsFinished()
+    {
+        IsFinished = !IsFinished;
+    }
 }

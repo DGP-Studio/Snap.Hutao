@@ -44,7 +44,11 @@
             <CommandBar.Content>
                 <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
             </CommandBar.Content>
-            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8EF;}" Label="养成计算"/>
+            <AppBarButton
+                Command="{Binding CultivateCommand}"
+                CommandParameter="{Binding Selected}"
+                Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
+                Label="养成计算"/>
         </CommandBar>
         <SplitView
             Grid.Row="1"

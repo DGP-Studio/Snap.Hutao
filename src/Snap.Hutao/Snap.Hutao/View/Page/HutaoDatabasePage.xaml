@@ -31,6 +31,7 @@
                                     MinWidth="240"
                                     Margin="0,-32,0,0"
                                     Header="数据来自「胡桃数据库」">
+                                    <sc:Setting Content="{Binding Overview.RefreshTime}" Header="数据刷新时间"/>
                                     <sc:Setting Content="{Binding Overview.RecordTotal}" Header="上传记录总数"/>
                                     <sc:Setting Content="{Binding Overview.SpiralAbyssTotal}" Header="深渊记录总数"/>
                                     <sc:Setting Content="{Binding Overview.SpiralAbyssFullStar}" Header="深渊记录满星数"/>

@@ -1,4 +1,7 @@
-﻿using Snap.Hutao.Core;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using Snap.Hutao.Core;
 using Snap.Hutao.Extension;
 using System;
 using System.Collections.Generic;

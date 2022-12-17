@@ -20,4 +20,3 @@ public interface INameQuality
     /// </summary>
     ItemQuality Quality { get; }
 }
-

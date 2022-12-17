@@ -68,6 +68,12 @@ internal interface ICultivationService
     Task<bool> SaveConsumptionAsync(CultivateType type, int itemId, List<Item> items);
 
     /// <summary>
+    /// 保存养成物品状态
+    /// </summary>
+    /// <param name="item">养成物品</param>
+    void SaveCultivateItem(Model.Entity.CultivateItem item);
+
+    /// <summary>
     /// 保存单个物品
     /// </summary>
     /// <param name="item">物品</param>

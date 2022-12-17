@@ -29,3 +29,6 @@ CoWaitForMultipleObjects
 // USER32
 FindWindowEx
 GetDpiForWindow
+
+// WinRT
+IMemoryBufferByteAccess

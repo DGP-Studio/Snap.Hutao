@@ -75,21 +75,4 @@ public struct Bgra8
     {
         return new(b, g, r, 0xFF);
     }
-
-    /// <summary>
-    /// 加入噪声
-    /// </summary>
-    /// <param name="source">源</param>
-    /// <returns>噪声</returns>
-    public static Bgra8 Noise(Bgra8 source)
-    {
-        Bgra8 target = new(0, 0, 0, 0)
-        {
-            B = (byte)Math.Max(0, Math.Min(255, source.B + Random.Shared.Next(-20, 20))),
-            G = (byte)Math.Max(0, Math.Min(255, source.G + Random.Shared.Next(-20, 20))),
-            R = (byte)Math.Max(0, Math.Min(255, source.R + Random.Shared.Next(-20, 20))),
-            A = source.A,
-        };
-        return target;
-    }
 }

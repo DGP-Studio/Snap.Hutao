@@ -44,10 +44,11 @@ public class CultivateEntry
     /// <summary>
     /// 创建一个新的养成入口点
     /// </summary>
+    /// <param name="projectId">项目Id</param>
     /// <param name="type">类型</param>
     /// <param name="id">主Id</param>
     /// <returns>养成入口点</returns>
-    public static CultivateEntry Create(Guid projectId,CultivateType type, int id)
+    public static CultivateEntry Create(Guid projectId, CultivateType type, int id)
     {
         return new()
         {

@@ -41,6 +41,11 @@ public class CultivateItem
     public int Count { get; set; }
 
     /// <summary>
+    /// 是否完成此项
+    /// </summary>
+    public bool IsFinished { get; set; }
+
+    /// <summary>
     /// 创建一个新的养成物品
     /// </summary>
     /// <param name="entryId">入口点 Id</param>

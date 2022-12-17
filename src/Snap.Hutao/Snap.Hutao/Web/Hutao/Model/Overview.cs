@@ -37,7 +37,7 @@ public class Overview
     /// 数据刷新的时间
     /// </summary>
     [JsonIgnore]
-    public DateTimeOffset RefreshTime { get => DateTimeOffset.FromUnixTimeSeconds(Timestamp); }
+    public string RefreshTime { get => $"{DateTimeOffset.FromUnixTimeMilliseconds(Timestamp).ToLocalTime():MM.dd HH:mm}"; }
 
     /// <summary>
     /// 总时间

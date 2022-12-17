@@ -18,7 +18,7 @@
                     <Color x:Key="CompatBackgroundColor">#FFF4F4F4</Color>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <Color x:Key="CompatBackgroundColor">#FF272727</Color>
+                    <Color x:Key="CompatBackgroundColor">#FF242424</Color>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 

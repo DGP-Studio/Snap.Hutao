@@ -4,12 +4,21 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.WinUI.UI;
 using Snap.Hutao.Control;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Dialog;
+using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
+using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
+using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -43,6 +52,7 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
         this.hutaoCache = hutaoCache;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+        CultivateCommand = asyncRelayCommandFactory.Create<Weapon>(CultivateAsync);
     }
 
     /// <inheritdoc/>
@@ -62,6 +72,11 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
     /// 打开界面命令
     /// </summary>
     public ICommand OpenUICommand { get; }
+
+    /// <summary>
+    /// 养成命令
+    /// </summary>
+    public ICommand CultivateCommand { get; }
 
     private async Task OpenUIAsync()
     {
@@ -89,6 +104,52 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
         {
             Dictionary<WeaponId, ComplexWeaponCollocation> idCollocations = hutaoCache.WeaponCollocations!.ToDictionary(a => a.WeaponId);
             weapons.ForEach(w => w.Collocation = idCollocations.GetValueOrDefault(w.Id));
+        }
+    }
+
+    private async Task CultivateAsync(Weapon? weapon)
+    {
+        if (weapon != null)
+        {
+            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+            IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
+
+            if (userService.Current != null)
+            {
+                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(mainWindow, null, weapon.ToCalculable())
+                    .GetPromotionDeltaAsync()
+                    .ConfigureAwait(false);
+
+                if (isOk)
+                {
+                    CalcConsumption? consumption = await Ioc.Default
+                        .GetRequiredService<CalcClient>()
+                        .ComputeAsync(userService.Current.Entity, delta)
+                        .ConfigureAwait(false);
+
+                    if (consumption != null)
+                    {
+                        bool saved = await Ioc.Default
+                            .GetRequiredService<ICultivationService>()
+                            .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull())
+                            .ConfigureAwait(false);
+
+                        if (saved)
+                        {
+                            infoBarService.Success("已成功添加至当前养成计划");
+                        }
+                        else
+                        {
+                            infoBarService.Warning("请先前往养成计划页面创建计划并选中");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                infoBarService.Warning("必须先选择一个用户与角色");
+            }
         }
     }
 }

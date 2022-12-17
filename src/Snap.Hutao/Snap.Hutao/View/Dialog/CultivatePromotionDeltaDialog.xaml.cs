@@ -14,7 +14,7 @@ namespace Snap.Hutao.View.Dialog;
 public sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 {
     private static readonly DependencyProperty AvatarProperty = Property<CultivatePromotionDeltaDialog>.Depend<ICalculableAvatar?>(nameof(Avatar));
-    private static readonly DependencyProperty WeaponProperty = Property<CultivatePromotionDeltaDialog>.Depend<ICalculableAvatar?>(nameof(Weapon));
+    private static readonly DependencyProperty WeaponProperty = Property<CultivatePromotionDeltaDialog>.Depend<ICalculableWeapon?>(nameof(Weapon));
 
     /// <summary>
     /// 构造一个新的养成计算对话框

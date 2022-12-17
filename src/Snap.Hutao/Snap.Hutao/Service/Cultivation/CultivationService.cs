@@ -198,6 +198,15 @@ internal class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
+    public void SaveCultivateItem(CultivateItem item)
+    {
+        using (IServiceScope scope = scopeFactory.CreateScope())
+        {
+            scope.ServiceProvider.GetRequiredService<AppDbContext>().CultivateItems.UpdateAndSave(item);
+        }
+    }
+
+    /// <inheritdoc/>
     public async Task<bool> SaveConsumptionAsync(Model.Binding.Cultivation.CultivateType type, int itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
     {
         using (IServiceScope scope = scopeFactory.CreateScope())

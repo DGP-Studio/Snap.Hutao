@@ -68,7 +68,7 @@ internal class UIIFReliquary : UIIFItem
     /// 副属性列表
     /// </summary>
     [JsonPropertyName("appendPropIdList")]
-    public List<int> AppendPropIdList { get; set; }
+    public List<int> AppendPropIdList { get; set; } = default!;
 }
 
 /// <summary>
