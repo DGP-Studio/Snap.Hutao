@@ -11,6 +11,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
@@ -67,6 +68,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
         RefreshCommand = asyncRelayCommandFactory.Create(RefreshAsync);
         RemoveDailyNoteCommand = new RelayCommand<DailyNoteEntry>(RemoveDailyNote);
         ModifyNotificationCommand = asyncRelayCommandFactory.Create<DailyNoteEntry>(ModifyDailyNoteNotificationAsync);
+        DailyNoteVerificationCommand = asyncRelayCommandFactory.Create(VerifyDailyNoteVerificationAsync);
     }
 
     /// <inheritdoc/>
@@ -148,6 +150,11 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
     /// </summary>
     public ICommand ModifyNotificationCommand { get; }
 
+    /// <summary>
+    /// 验证实时便笺命令
+    /// </summary>
+    public ICommand DailyNoteVerificationCommand { get; }
+
     private async Task OpenUIAsync()
     {
         UserAndRoles = await userService.GetRoleCollectionAsync().ConfigureAwait(true);
@@ -192,6 +199,19 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
             MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
             await new DailyNoteNotificationDialog(mainWindow, entry).ShowAsync();
             appDbContext.DailyNotes.UpdateAndSave(entry);
+        }
+    }
+
+    private async Task VerifyDailyNoteVerificationAsync()
+    {
+        if (userService.Current != null && userService.Current.SelectedUserGameRole != null)
+        {
+            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+            await new DailyNoteVerificationDialog(mainWindow, userService.Current.Entity, userService.Current.SelectedUserGameRole).ShowAsync();
+        }
+        else
+        {
+            Ioc.Default.GetRequiredService<IInfoBarService>().Warning("请先选中账号与角色");
         }
     }
 }

@@ -19,14 +19,13 @@ internal static class AppInstanceExtension
     /// </summary>
     /// <param name="appInstance">app实例</param>
     /// <param name="args">参数</param>
-    [SuppressMessage("", "VSTHRD002")]
     [SuppressMessage("", "VSTHRD110")]
-    public static unsafe void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
+    public static void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
     {
-        HANDLE redirectEventHandle = CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, null);
-        Task.Run(() =>
+        HANDLE redirectEventHandle = UnsafeCreateEvent();
+        Task.Run(async () =>
         {
-            appInstance.RedirectActivationToAsync(args).AsTask().Wait();
+            await appInstance.RedirectActivationToAsync(args);
             SetEvent(redirectEventHandle);
         });
 
@@ -34,5 +33,10 @@ internal static class AppInstanceExtension
 
         // non-blocking
         CoWaitForMultipleObjects((uint)CWMO_FLAGS.CWMO_DEFAULT, INFINITE, handles, out uint _);
+    }
+
+    private static unsafe HANDLE UnsafeCreateEvent()
+    {
+        return CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, null);
     }
 }

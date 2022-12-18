@@ -20,7 +20,7 @@ internal class Team : List<ComplexAvatar>
     public Team(ItemRate<string, int> team, Dictionary<AvatarId, Avatar> idAvatarMap)
         : base(4)
     {
-        IEnumerable<int> ids = team.Item.Split(',').Select(int.Parse);
+        IOrderedEnumerable<int> ids = team.Item.Split(',').Select(int.Parse).OrderByDescending(x => x);
 
         foreach (int id in ids)
         {

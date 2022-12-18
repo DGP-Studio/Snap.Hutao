@@ -45,4 +45,30 @@ internal static class TaskSchedulerHelper
             return false;
         }
     }
+
+    /// <summary>
+    /// 卸载全部注册的任务
+    /// </summary>
+    /// <returns>是否卸载成功</returns>
+    public static bool UnregisterAllTasks()
+    {
+        try
+        {
+            SchedulerTask? targetTask = TaskService.Instance.GetTask(DailyNoteRefreshTaskName);
+            if (targetTask != null)
+            {
+                TaskService.Instance.RootFolder.DeleteTask(DailyNoteRefreshTaskName);
+            }
+
+            return true;
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return false;
+        }
+        catch (COMException)
+        {
+            return false;
+        }
+    }
 }

@@ -46,7 +46,7 @@ public partial class App : Application
             if (firstInstance.IsCurrent)
             {
                 // manually invoke
-                Activation.Activate(firstInstance, activatedEventArgs);
+                Activation.NonRedirectToActivate(firstInstance, activatedEventArgs);
                 firstInstance.Activated += Activation.Activate;
                 ToastNotificationManagerCompat.OnActivated += Activation.NotificationActivate;
 

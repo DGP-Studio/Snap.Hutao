@@ -49,10 +49,6 @@ public sealed partial class SignInWebViewDialog : ContentDialog
 
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
         signInJsInterface = new(coreWebView2, scope.ServiceProvider);
-
-#if DEBUG
-        coreWebView2.OpenDevToolsWindow();
-#endif
         coreWebView2.Navigate("https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?act_id=e202009291139501");
     }
 

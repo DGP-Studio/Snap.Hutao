@@ -50,9 +50,6 @@ public sealed partial class DailyNoteVerificationDialog : ContentDialog
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
         dailyNoteJsInterface = new(coreWebView2, scope.ServiceProvider);
 
-#if DEBUG
-        coreWebView2.OpenDevToolsWindow();
-#endif
         string query = $"?role_id={uid.Value}&server={uid.Region}";
         coreWebView2.Navigate($"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/{query}");
     }

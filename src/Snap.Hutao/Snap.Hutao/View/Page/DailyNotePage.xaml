@@ -87,6 +87,10 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
+            <AppBarButton
+                Command="{Binding DailyNoteVerificationCommand}"
+                Icon="{shcm:FontIcon Glyph=&#xE9D5;}"
+                Label="验证当前账号角色"/>
             <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE713;}" Label="通知设置">
                 <AppBarButton.Flyout>
                     <Flyout Placement="BottomEdgeAlignedRight">

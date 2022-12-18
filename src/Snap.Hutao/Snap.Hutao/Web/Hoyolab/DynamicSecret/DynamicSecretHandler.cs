@@ -21,8 +21,8 @@ public class DynamicSecretHandler : DelegatingHandler
     // https://github.com/UIGF-org/Hoyolab.Salt
     public static readonly ImmutableDictionary<string, string> DynamicSecrets = new Dictionary<string, string>()
     {
-        [nameof(SaltType.K2)] = "TsmyHpZg8gFAVKTtlPaL6YwMldzxZJxQ",
-        [nameof(SaltType.LK2)] = "osgT0DljLarYxgebPPHJFjdaxPfoiHGt",
+        [nameof(SaltType.K2)] = "jrU9ULHGZdM9Os3uGHOpjyRELYxby5cg",
+        [nameof(SaltType.LK2)] = "9gaxOdeeY2W9dw5x62pywhik8cxy5TIJ",
         [nameof(SaltType.X4)] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
         [nameof(SaltType.X6)] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
         [nameof(SaltType.PROD)] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",

@@ -49,7 +49,21 @@ internal static class Activation
         _ = sender;
         if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
         {
-            HandleActivationAsync(args).SafeForget();
+            HandleActivationAsync(args, true).SafeForget();
+        }
+    }
+
+    /// <summary>
+    /// 触发激活事件
+    /// </summary>
+    /// <param name="sender">发送方</param>
+    /// <param name="args">激活参数</param>
+    public static void NonRedirectToActivate(object? sender, AppActivationArguments args)
+    {
+        _ = sender;
+        if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
+        {
+            HandleActivationAsync(args, false).SafeForget();
         }
     }
 
@@ -76,24 +90,24 @@ internal static class Activation
     /// 异步响应激活事件
     /// </summary>
     /// <returns>任务</returns>
-    private static async Task HandleActivationAsync(AppActivationArguments args)
+    private static async Task HandleActivationAsync(AppActivationArguments args, bool isRedirected)
     {
         if (ActivateSemaphore.CurrentCount > 0)
         {
             using (await ActivateSemaphore.EnterAsync().ConfigureAwait(false))
             {
-                await HandleActivationCoreAsync(args).ConfigureAwait(false);
+                await HandleActivationCoreAsync(args, isRedirected).ConfigureAwait(false);
             }
         }
     }
 
-    private static async Task HandleActivationCoreAsync(AppActivationArguments args)
+    private static async Task HandleActivationCoreAsync(AppActivationArguments args, bool isRedirected)
     {
         if (args.Kind == ExtendedActivationKind.Protocol)
         {
             if (args.TryGetProtocolActivatedUri(out Uri? uri))
             {
-                await HandleUrlActivationAsync(uri).ConfigureAwait(false);
+                await HandleUrlActivationAsync(uri, isRedirected).ConfigureAwait(false);
             }
         }
         else if (args.Kind == ExtendedActivationKind.Launch)
@@ -131,7 +145,7 @@ internal static class Activation
             .SafeForget();
     }
 
-    private static async Task HandleUrlActivationAsync(Uri uri)
+    private static async Task HandleUrlActivationAsync(Uri uri, bool isRedirected)
     {
         UriBuilder builder = new(uri);
 
@@ -144,21 +158,22 @@ internal static class Activation
             case "achievement":
                 {
                     await WaitMainWindowAsync().ConfigureAwait(false);
-                    await HandleAchievementActionAsync(action, parameter).ConfigureAwait(false);
+                    await HandleAchievementActionAsync(action, parameter, isRedirected).ConfigureAwait(false);
                     break;
                 }
 
             case "dailynote":
                 {
-                    await HandleDailyNoteActionAsync(action, parameter).ConfigureAwait(false);
+                    await HandleDailyNoteActionAsync(action, parameter, isRedirected).ConfigureAwait(false);
                     break;
                 }
         }
     }
 
-    private static async Task HandleAchievementActionAsync(string action, string parameter)
+    private static async Task HandleAchievementActionAsync(string action, string parameter, bool isRedirected)
     {
         _ = parameter;
+        _ = isRedirected;
         switch (action)
         {
             case "/import":
@@ -175,7 +190,7 @@ internal static class Activation
         }
     }
 
-    private static async Task HandleDailyNoteActionAsync(string action, string parameter)
+    private static async Task HandleDailyNoteActionAsync(string action, string parameter, bool isRedirected)
     {
         _ = parameter;
         switch (action)
@@ -186,6 +201,14 @@ internal static class Activation
                         .GetRequiredService<IDailyNoteService>()
                         .RefreshDailyNotesAsync(true)
                         .ConfigureAwait(false);
+
+                    // Check if it's redirected.
+                    if (!isRedirected)
+                    {
+                        // It's a direct open process, should exit immediately.
+                        Environment.Exit(0);
+                    }
+
                     break;
                 }
         }

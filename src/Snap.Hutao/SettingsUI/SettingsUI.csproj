@@ -6,8 +6,9 @@
     <Platforms>x64</Platforms>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
-	  <LangVersion>latest</LangVersion>
+	<LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+    <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
 
   <ItemGroup>

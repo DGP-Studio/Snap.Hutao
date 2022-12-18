@@ -28,7 +28,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
-    public const string HoyolabXrpcVersion = "2.41.0";
+    public const string HoyolabXrpcVersion = "2.42.1";
 
     /// <summary>
     /// 标准UA

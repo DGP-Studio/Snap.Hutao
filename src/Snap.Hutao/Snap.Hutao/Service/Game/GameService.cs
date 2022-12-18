@@ -246,7 +246,7 @@ internal class GameService : IGameService, IDisposable
             .Append("-screen-fullscreen", configuration.IsFullScreen ? 1 : 0)
             .Append("-screen-width", configuration.ScreenWidth)
             .Append("-screen-height", configuration.ScreenHeight)
-            .Build();
+            .ToString();
 
         Process game = new()
         {
@@ -310,10 +310,6 @@ internal class GameService : IGameService, IDisposable
                 {
                     account = GameAccount.Create(name, registrySdk);
 
-                    // sync cache
-                    await ThreadHelper.SwitchToMainThreadAsync();
-                    gameAccounts.Add(GameAccount.Create(name, registrySdk));
-
                     // sync database
                     await ThreadHelper.SwitchToBackgroundAsync();
                     using (IServiceScope scope = scopeFactory.CreateScope())
@@ -324,6 +320,10 @@ internal class GameService : IGameService, IDisposable
                             .AddAndSaveAsync(account)
                             .ConfigureAwait(false);
                     }
+
+                    // sync cache
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    gameAccounts.Add(account);
                 }
             }
         }

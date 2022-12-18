@@ -37,12 +37,6 @@ public class CommandLineBuilder
         return this;
     }
 
-    /// <inheritdoc cref="ToString"/>
-    public string Build()
-    {
-        return ToString();
-    }
-
     /// <inheritdoc/>
     public override string ToString()
     {

@@ -8,12 +8,20 @@ body:
   - type: markdown
     attributes:
       value: |
-        请按下方的要求填写完整的问题表单，以便我们更快的定位问题。
+        请按下方的要求填写完整的问题表单。
 
   - type: textarea
     id: req
     attributes:
-      label: 你想要实现或优化的功能？
-      description: 详细的描述一下你想要的功能
+      label: 背景与动机
+      description: 添加此功能的理由
+    validations:
+      required: true
+
+  - type: textarea
+    id: req
+    attributes:
+      label: 想要实现或优化的功能
+      description: 详细的描述一下你想要的功能，描述的越具体，采纳的可能性越高
     validations:
       required: true
