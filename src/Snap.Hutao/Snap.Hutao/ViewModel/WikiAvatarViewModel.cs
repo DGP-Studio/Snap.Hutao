@@ -185,11 +185,6 @@ internal class WikiAvatarViewModel : ObservableObject
 
     private static class AvatarFilter
     {
-        private static readonly ImmutableList<string> AssociationTypes = Enum.GetValues<AssociationType>().Select(e => e.GetDescriptionOrNull()).OfType<string>().ToImmutableList();
-        private static readonly ImmutableList<string> WeaponTypes = Enum.GetValues<WeaponType>().Select(e => e.GetDescriptionOrNull()).OfType<string>().ToImmutableList();
-        private static readonly ImmutableList<string> ItemQualities = Enum.GetValues<ItemQuality>().Select(e => e.GetDescriptionOrNull()).OfType<string>().ToImmutableList();
-        private static readonly ImmutableList<string> BodyTypes = Enum.GetValues<BodyType>().Select(e => e.GetDescriptionOrNull()).OfType<string>().ToImmutableList();
-
         public static Predicate<object> Compile(string input)
         {
             return (object o) => o is Avatar avatar && DoFilter(input, avatar);
@@ -209,25 +204,25 @@ internal class WikiAvatarViewModel : ObservableObject
                     continue;
                 }
 
-                if (AssociationTypes.Contains(value))
+                if (ImmutableIntrinsics.AssociationTypes.Contains(value))
                 {
                     keep = keep || avatar.FetterInfo.Association.GetDescriptionOrNull() == value;
                     continue;
                 }
 
-                if (WeaponTypes.Contains(value))
+                if (ImmutableIntrinsics.WeaponTypes.Contains(value))
                 {
                     keep = keep || avatar.Weapon.GetDescriptionOrNull() == value;
                     continue;
                 }
 
-                if (ItemQualities.Contains(value))
+                if (ImmutableIntrinsics.ItemQualities.Contains(value))
                 {
                     keep = keep || avatar.Quality.GetDescriptionOrNull() == value;
                     continue;
                 }
 
-                if (BodyTypes.Contains(value))
+                if (ImmutableIntrinsics.BodyTypes.Contains(value))
                 {
                     keep = keep || avatar.Body.GetDescriptionOrNull() == value;
                     continue;

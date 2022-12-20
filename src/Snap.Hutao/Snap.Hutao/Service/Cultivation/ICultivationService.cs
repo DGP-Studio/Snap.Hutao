@@ -24,11 +24,11 @@ internal interface ICultivationService
     /// 获取绑定用的养成列表
     /// </summary>
     /// <param name="cultivateProject">养成计划</param>
-    /// <param name="metadata">材料</param>
+    /// <param name="materials">材料</param>
     /// <param name="idAvatarMap">Id角色映射</param>
     /// <param name="idWeaponMap">Id武器映射</param>
     /// <returns>绑定用的养成列表</returns>
-    Task<ObservableCollection<Model.Binding.Cultivation.CultivateEntry>> GetCultivateEntriesAsync(CultivateProject cultivateProject, List<Material> metadata, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap, Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap);
+    Task<ObservableCollection<Model.Binding.Cultivation.CultivateEntry>> GetCultivateEntriesAsync(CultivateProject cultivateProject, List<Material> materials, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap, Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap);
 
     /// <summary>
     /// 获取物品列表

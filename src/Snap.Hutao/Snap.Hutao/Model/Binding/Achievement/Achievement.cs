@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Snap.Hutao.Model.Binding;
+namespace Snap.Hutao.Model.Binding.Achievement;
 
 /// <summary>
 /// 用于视图绑定的成就

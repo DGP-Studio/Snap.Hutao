@@ -93,7 +93,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
                 {
                     refreshSecondsEntry!.SetInt32(value.Value);
                     appDbContext.Settings.UpdateAndSave(refreshSecondsEntry!);
-                    TaskSchedulerHelper.RegisterForDailyNoteRefresh(value.Value);
+                    ScheduleTaskHelper.RegisterForDailyNoteRefresh(value.Value);
                 }
             }
         }
@@ -161,7 +161,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
 
         refreshSecondsEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteRefreshSeconds, "480");
         selectedRefreshTime = refreshTimes.Single(t => t.Value == refreshSecondsEntry.GetInt32());
-        TaskSchedulerHelper.RegisterForDailyNoteRefresh(480);
+        ScheduleTaskHelper.RegisterForDailyNoteRefresh(480);
         OnPropertyChanged(nameof(SelectedRefreshTime));
 
         reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, false.ToString());

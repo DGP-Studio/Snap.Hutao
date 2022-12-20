@@ -3,10 +3,11 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-namespace Snap.Hutao.Model.Metadata.Avatar;
+namespace Snap.Hutao.Model.Calculable;
 
 /// <summary>
 /// 可计算的技能
@@ -28,6 +29,24 @@ internal class CalculableSkill : ObservableObject, ICalculableSkill
         Name = skill.Name;
         Icon = SkillIconConverter.IconNameToUri(skill.Icon);
         Quality = ItemQuality.QUALITY_NONE;
+
+        LevelCurrent = LevelMin;
+        LevelTarget = LevelMax;
+    }
+
+    /// <summary>
+    /// 构造一个新的可计算的技能
+    /// </summary>
+    /// <param name="skill">技能</param>
+    public CalculableSkill(Binding.AvatarProperty.Skill skill)
+    {
+        GruopId = skill.GroupId;
+        LevelMin = skill.LevelNumber;
+        LevelMax = 10; // hard coded 10 here
+        Name = skill.Name;
+        Icon = skill.Icon;
+        Quality = ItemQuality.QUALITY_NONE;
+
         LevelCurrent = LevelMin;
         LevelTarget = LevelMax;
     }

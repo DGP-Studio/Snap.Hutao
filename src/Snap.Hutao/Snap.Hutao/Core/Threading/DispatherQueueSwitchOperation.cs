@@ -43,6 +43,9 @@ public readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueue
     /// <inheritdoc/>
     public void OnCompleted(Action continuation)
     {
-        dispatherQueue.TryEnqueue(() => { continuation(); });
+        dispatherQueue.TryEnqueue(() =>
+        {
+            continuation();
+        });
     }
 }

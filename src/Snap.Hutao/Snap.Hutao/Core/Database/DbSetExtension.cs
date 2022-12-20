@@ -44,11 +44,11 @@ public static class DbSetExtension
     /// <param name="dbSet">数据库集</param>
     /// <param name="entity">实体</param>
     /// <returns>影响条数</returns>
-    public static Task<int> AddAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+    public static async ValueTask<int> AddAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
         where TEntity : class
     {
         dbSet.Add(entity);
-        return dbSet.Context().SaveChangesAsync();
+        return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -72,11 +72,11 @@ public static class DbSetExtension
     /// <param name="dbSet">数据库集</param>
     /// <param name="entities">实体</param>
     /// <returns>影响条数</returns>
-    public static Task<int> AddRangeAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities)
+    public static async ValueTask<int> AddRangeAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities)
         where TEntity : class
     {
         dbSet.AddRange(entities);
-        return dbSet.Context().SaveChangesAsync();
+        return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,11 +100,11 @@ public static class DbSetExtension
     /// <param name="dbSet">数据库集</param>
     /// <param name="entity">实体</param>
     /// <returns>影响条数</returns>
-    public static Task<int> RemoveAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+    public static async ValueTask<int> RemoveAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
         where TEntity : class
     {
         dbSet.Remove(entity);
-        return dbSet.Context().SaveChangesAsync();
+        return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -128,10 +128,10 @@ public static class DbSetExtension
     /// <param name="dbSet">数据库集</param>
     /// <param name="entity">实体</param>
     /// <returns>影响条数</returns>
-    public static Task<int> UpdateAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+    public static async ValueTask<int> UpdateAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
         where TEntity : class
     {
         dbSet.Update(entity);
-        return dbSet.Context().SaveChangesAsync();
+        return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
     }
 }

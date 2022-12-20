@@ -4,7 +4,7 @@
 using System.Runtime.InteropServices;
 using Windows.UI;
 
-namespace Snap.Hutao.Control.Image;
+namespace Snap.Hutao.Control.Media;
 
 /// <summary>
 /// BGRA8 结构

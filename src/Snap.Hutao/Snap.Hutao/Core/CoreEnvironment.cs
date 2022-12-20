@@ -5,8 +5,10 @@ using Microsoft.Win32;
 using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Extension;
+using System.Runtime.InteropServices;
 using System.Text.Json.Serialization.Metadata;
 using Windows.ApplicationModel;
+using Windows.Win32.Foundation;
 
 namespace Snap.Hutao.Core;
 

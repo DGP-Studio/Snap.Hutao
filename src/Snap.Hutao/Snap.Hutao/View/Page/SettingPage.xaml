@@ -66,6 +66,10 @@
                         </sc:Setting.Description>
                     </sc:Setting>
                     <sc:Setting
+                        Description="{Binding WebView2Version}"
+                        Header="Webview2 Runtime"
+                        Icon="&#xECAA;"/>
+                    <sc:Setting
                         Description="Github 上反馈的问题会优先处理"
                         Header="反馈"
                         Icon="&#xED15;">
@@ -186,6 +190,16 @@
                 </sc:SettingsGroup>
 
                 <sc:SettingsGroup Foreground="{StaticResource SystemFillColorCriticalBrush}" Header="危险功能">
+                    <sc:Setting
+                        Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
+                        Description="删除注册的计划任务，卸载前务必点击此项"
+                        Header="删除所有计划任务"
+                        Icon="&#xE7C4;">
+                        <sc:Setting.ActionContent>
+                            <Button Command="{Binding Experimental.DeleteAllScheduleTasksCommand}" Content="执行"/>
+                        </sc:Setting.ActionContent>
+                    </sc:Setting>
+
                     <sc:Setting
                         Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
                         Description="直接删除用户表的所有记录，用于修复特定的账号冲突问题"

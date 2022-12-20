@@ -9,7 +9,7 @@ using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.InterChange.Achievement;
 using System.Collections.ObjectModel;
-using BindingAchievement = Snap.Hutao.Model.Binding.Achievement;
+using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;

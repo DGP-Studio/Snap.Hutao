@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
@@ -44,6 +45,23 @@
             <CommandBar.Content>
                 <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
             </CommandBar.Content>
+            <AppBarElementContainer>
+                <AutoSuggestBox
+                    Width="240"
+                    Height="36"
+                    Margin="16,6,6,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalContentAlignment="Center"
+                    PlaceholderText="筛选武器"
+                    QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
+                    Text="{Binding FilterText, Mode=TwoWay}">
+                    <mxi:Interaction.Behaviors>
+                        <mxic:EventTriggerBehavior EventName="QuerySubmitted">
+                            <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
+                        </mxic:EventTriggerBehavior>
+                    </mxi:Interaction.Behaviors>
+                </AutoSuggestBox>
+            </AppBarElementContainer>
             <AppBarButton
                 Command="{Binding CultivateCommand}"
                 CommandParameter="{Binding Selected}"

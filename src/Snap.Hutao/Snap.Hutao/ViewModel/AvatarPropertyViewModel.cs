@@ -5,22 +5,27 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Control;
-using Snap.Hutao.Control.Image;
+using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.AvatarProperty;
+using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
+using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
-using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
-using Windows.Win32;
-using Windows.Win32.System.WinRT;
-using WinRT;
+using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
+using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
+using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
+using CalcItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
+using CalcItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemHelper;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -58,6 +63,7 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         RefreshFromHoyolabGameRecordCommand = asyncRelayCommandFactory.Create(RefreshByHoyolabGameRecordAsync);
         RefreshFromHoyolabCalculateCommand = asyncRelayCommandFactory.Create(RefreshByHoyolabCalculateAsync);
         ExportAsImageCommand = asyncRelayCommandFactory.Create<UIElement>(ExportAsImageAsync);
+        CultivateCommand = asyncRelayCommandFactory.Create<Avatar>(CultivateAsync);
     }
 
     /// <inheritdoc/>
@@ -98,26 +104,10 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
     /// </summary>
     public ICommand ExportAsImageCommand { get; }
 
-    private static unsafe void NormalBlend(SoftwareBitmap softwareBitmap, Bgra8 tint)
-    {
-        using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
-        {
-            using (IMemoryBufferReference reference = buffer.CreateReference())
-            {
-                reference.As<IMemoryBufferByteAccess>().GetBuffer(out byte* data, out uint length);
-
-                for (int i = 0; i < length; i += 4)
-                {
-                    Bgra8* pixel = (Bgra8*)(data + i);
-                    byte baseAlpha = pixel->A;
-                    pixel->B = (byte)(((pixel->B * baseAlpha) + (tint.B * (0xFF - baseAlpha))) / 0xFF);
-                    pixel->G = (byte)(((pixel->G * baseAlpha) + (tint.G * (0xFF - baseAlpha))) / 0xFF);
-                    pixel->R = (byte)(((pixel->R * baseAlpha) + (tint.R * (0xFF - baseAlpha))) / 0xFF);
-                    pixel->A = 0xFF;
-                }
-            }
-        }
-    }
+    /// <summary>
+    /// 养成命令
+    /// </summary>
+    public ICommand CultivateCommand { get; }
 
     private Task OpenUIAsync()
     {
@@ -205,6 +195,58 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         }
     }
 
+    private async Task CultivateAsync(Avatar? avatar)
+    {
+        if (avatar != null)
+        {
+            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+            IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
+
+            if (userService.Current != null)
+            {
+                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(mainWindow, avatar.ToCalculable(), avatar.Weapon.ToCalculable())
+                    .GetPromotionDeltaAsync()
+                    .ConfigureAwait(false);
+
+                if (isOk)
+                {
+                    CalcConsumption? consumption = await Ioc.Default
+                        .GetRequiredService<CalcClient>()
+                        .ComputeAsync(userService.Current.Entity, delta)
+                        .ConfigureAwait(false);
+
+                    if (consumption != null)
+                    {
+                        List<CalcItem> items = CalcItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
+                        bool avatarSaved = await Ioc.Default
+                            .GetRequiredService<ICultivationService>()
+                            .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
+                            .ConfigureAwait(false);
+
+                        bool weaponSaved = await Ioc.Default
+                            .GetRequiredService<ICultivationService>()
+                            .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
+                            .ConfigureAwait(false);
+
+                        if (avatarSaved && weaponSaved)
+                        {
+                            infoBarService.Success("已成功添加至当前养成计划");
+                        }
+                        else
+                        {
+                            infoBarService.Warning("请先前往养成计划页面创建计划并选中");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                infoBarService.Warning("必须先选择一个用户与角色");
+            }
+        }
+    }
+
     private async Task ExportAsImageAsync(UIElement? element)
     {
         if (element == null)
@@ -219,7 +261,7 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight, BitmapAlphaMode.Ignore);
         Color tintColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
         Bgra8 tint = Bgra8.FromColor(tintColor);
-        NormalBlend(softwareBitmap, tint);
+        softwareBitmap.NormalBlend(tint);
 
         using (InMemoryRandomAccessStream memory = new())
         {

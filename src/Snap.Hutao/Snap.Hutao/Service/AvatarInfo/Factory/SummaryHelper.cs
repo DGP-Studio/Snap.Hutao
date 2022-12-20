@@ -88,7 +88,8 @@ internal static class SummaryHelper
                 Icon = SkillIconConverter.IconNameToUri(proudableSkill.Icon),
                 Description = proudableSkill.Description,
 
-                Level = skillLevelMap[proudableSkill.Id.ToString()],
+                GroupId = proudableSkill.GroupId,
+                LevelNumber = skillLevelMap[proudableSkill.Id.ToString()],
                 Info = DescParamDescriptor.Convert(proudableSkill.Proud, skillExtraLeveledMap[proudableSkill.Id.ToString()]),
             };
 

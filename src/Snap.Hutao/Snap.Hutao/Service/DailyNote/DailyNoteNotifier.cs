@@ -17,7 +17,6 @@ namespace Snap.Hutao.Service.DailyNote;
 internal class DailyNoteNotifier
 {
     private readonly IServiceScopeFactory scopeFactory;
-    private readonly BindingClient bindingClient;
     private readonly DailyNoteEntry entry;
 
     /// <summary>
@@ -26,10 +25,9 @@ internal class DailyNoteNotifier
     /// <param name="scopeFactory">范围工厂</param>
     /// <param name="bindingClient">绑定客户端</param>
     /// <param name="entry">实时便笺入口</param>
-    public DailyNoteNotifier(IServiceScopeFactory scopeFactory, BindingClient bindingClient, DailyNoteEntry entry)
+    public DailyNoteNotifier(IServiceScopeFactory scopeFactory, DailyNoteEntry entry)
     {
         this.scopeFactory = scopeFactory;
-        this.bindingClient = bindingClient;
         this.entry = entry;
     }
 
@@ -119,37 +117,39 @@ internal class DailyNoteNotifier
             return;
         }
 
-        List<UserGameRole> roles = await bindingClient.GetUserGameRolesByCookieAsync(entry.User).ConfigureAwait(false);
-        string attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "未知角色";
-
-        ToastContentBuilder builder = new ToastContentBuilder()
-            .AddHeader("DAILYNOTE", "实时便笺提醒", "DAILYNOTE")
-            .AddAttributionText(attribution)
-            .AddButton(new ToastButton().SetContent("开始游戏").AddArgument("Action", "LaunchGame").AddArgument("Uid", entry.Uid))
-            .AddButton(new ToastButtonDismiss("我知道了"));
-
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
+
+            List<UserGameRole> roles = await bindingClient.GetUserGameRolesByCookieAsync(entry.User).ConfigureAwait(false);
+            string attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "未知角色";
+
+            ToastContentBuilder builder = new ToastContentBuilder()
+                .AddHeader("DAILYNOTE", "实时便笺提醒", "DAILYNOTE")
+                .AddAttributionText(attribution)
+                .AddButton(new ToastButton().SetContent("开始游戏").AddArgument("Action", "LaunchGame").AddArgument("Uid", entry.Uid))
+                .AddButton(new ToastButtonDismiss("我知道了"));
+
             if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, SettingEntryHelper.FalseString).GetBoolean())
             {
                 builder.SetToastScenario(ToastScenario.Reminder);
             }
-        }
 
-        if (hints.Count > 2)
-        {
-            builder.AddText("多个提醒项达到设定值");
-        }
-        else
-        {
-            foreach (string hint in hints)
+            if (hints.Count > 2)
             {
-                builder.AddText(hint);
+                builder.AddText("多个提醒项达到设定值");
             }
-        }
+            else
+            {
+                foreach (string hint in hints)
+                {
+                    builder.AddText(hint);
+                }
+            }
 
-        await ThreadHelper.SwitchToMainThreadAsync();
-        builder.Show();
+            await ThreadHelper.SwitchToMainThreadAsync();
+            builder.Show();
+        }
     }
 }

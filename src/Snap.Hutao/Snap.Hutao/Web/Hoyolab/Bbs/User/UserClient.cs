@@ -11,7 +11,6 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 用户信息客户端
 /// </summary>
-[IgnoreSetCookie]
 [HttpClient(HttpClientConfigration.XRpc)]
 internal class UserClient
 {

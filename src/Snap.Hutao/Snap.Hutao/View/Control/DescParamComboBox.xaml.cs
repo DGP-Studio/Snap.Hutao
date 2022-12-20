@@ -54,7 +54,7 @@ public sealed partial class DescParamComboBox : UserControl
             if (args.NewValue != args.OldValue && args.NewValue is IList<LevelParam<string, ParameterInfo>> list)
             {
                 descParamComboBox.ItemHost.ItemsSource = list;
-                descParamComboBox.ItemHost.SelectedIndex = Math.Min(descParamComboBox.PreferredSelectedIndex, list.Count);
+                descParamComboBox.ItemHost.SelectedIndex = Math.Min(descParamComboBox.PreferredSelectedIndex, list.Count - 1);
             }
         }
     }

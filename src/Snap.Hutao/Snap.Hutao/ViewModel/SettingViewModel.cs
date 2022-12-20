@@ -94,6 +94,15 @@ internal class SettingViewModel : ObservableObject
     }
 
     /// <summary>
+    /// Webview2 版本
+    /// </summary>
+    [SuppressMessage("", "CA1822")]
+    public string WebView2Version
+    {
+        get => Core.WebView2Helper.Version;
+    }
+
+    /// <summary>
     /// 设备Id
     /// </summary>
     [SuppressMessage("", "CA1822")]

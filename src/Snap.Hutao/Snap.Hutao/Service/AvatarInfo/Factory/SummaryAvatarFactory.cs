@@ -5,11 +5,8 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
-using Snap.Hutao.Model.Metadata.Reliquary;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Enka.Model;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
-using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 using PropertyAvatar = Snap.Hutao.Model.Binding.AvatarProperty.Avatar;
@@ -23,40 +20,17 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// </summary>
 internal class SummaryAvatarFactory
 {
-    private readonly Dictionary<AvatarId, MetadataAvatar> idAvatarMap;
-    private readonly Dictionary<WeaponId, MetadataWeapon> idWeaponMap;
-    private readonly Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap;
-    private readonly Dictionary<ReliquaryAffixId, ReliquaryAffix> idReliquaryAffixMap;
-    private readonly List<ReliquaryLevel> reliqueryLevels;
-    private readonly List<MetadataReliquary> reliquaries;
-
     private readonly ModelAvatarInfo avatarInfo;
+    private readonly SummaryMetadataContext metadataContext;
 
     /// <summary>
     /// 构造一个新的角色工厂
     /// </summary>
-    /// <param name="idAvatarMap">角色映射</param>
-    /// <param name="idWeaponMap">武器映射</param>
-    /// <param name="idRelicMainPropMap">圣遗物主属性映射</param>
-    /// <param name="idReliquaryAffixMap">圣遗物副词条映射</param>
-    /// <param name="reliqueryLevels">圣遗物主属性等级</param>
-    /// <param name="reliquaries">圣遗物</param>
+    /// <param name="metadataContext">元数据上下文</param>
     /// <param name="avatarInfo">角色信息</param>
-    public SummaryAvatarFactory(
-        Dictionary<AvatarId, MetadataAvatar> idAvatarMap,
-        Dictionary<WeaponId, MetadataWeapon> idWeaponMap,
-        Dictionary<ReliquaryMainAffixId, FightProperty> idRelicMainPropMap,
-        Dictionary<ReliquaryAffixId, ReliquaryAffix> idReliquaryAffixMap,
-        List<ReliquaryLevel> reliqueryLevels,
-        List<MetadataReliquary> reliquaries,
-        ModelAvatarInfo avatarInfo)
+    public SummaryAvatarFactory(SummaryMetadataContext metadataContext, ModelAvatarInfo avatarInfo)
     {
-        this.idAvatarMap = idAvatarMap;
-        this.idWeaponMap = idWeaponMap;
-        this.idRelicMainPropMap = idRelicMainPropMap;
-        this.idReliquaryAffixMap = idReliquaryAffixMap;
-        this.reliqueryLevels = reliqueryLevels;
-        this.reliquaries = reliquaries;
+        this.metadataContext = metadataContext;
         this.avatarInfo = avatarInfo;
     }
 
@@ -67,10 +41,11 @@ internal class SummaryAvatarFactory
     public PropertyAvatar CreateAvatar()
     {
         ReliquaryAndWeapon reliquaryAndWeapon = ProcessEquip(avatarInfo.EquipList);
-        MetadataAvatar avatar = idAvatarMap[avatarInfo.AvatarId];
+        MetadataAvatar avatar = metadataContext.IdAvatarMap[avatarInfo.AvatarId];
 
         return new()
         {
+            Id = avatar.Id,
             Name = avatar.Name,
             Icon = AvatarIconConverter.IconNameToUri(avatar.Icon),
             SideIcon = AvatarIconConverter.IconNameToUri(avatar.SideIcon),
@@ -78,6 +53,7 @@ internal class SummaryAvatarFactory
             Quality = avatar.Quality,
             Element = ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore),
             Level = $"Lv.{avatarInfo.PropMap[PlayerProperty.PROP_LEVEL].Value}",
+            LevelNumber = int.Parse(avatarInfo.PropMap[PlayerProperty.PROP_LEVEL].Value ?? string.Empty),
             FetterLevel = avatarInfo.FetterInfo.ExpLevel,
             Weapon = reliquaryAndWeapon.Weapon,
             Reliquaries = reliquaryAndWeapon.Reliquaries,
@@ -99,7 +75,7 @@ internal class SummaryAvatarFactory
             switch (equip.Flat.ItemType)
             {
                 case ItemType.ITEM_RELIQUARY:
-                    SummaryReliquaryFactory summaryReliquaryFactory = new(idReliquaryAffixMap, idRelicMainPropMap, reliqueryLevels, reliquaries, avatarInfo, equip);
+                    SummaryReliquaryFactory summaryReliquaryFactory = new(metadataContext, avatarInfo, equip);
                     reliquaryList.Add(summaryReliquaryFactory.CreateReliquary());
                     break;
                 case ItemType.ITEM_WEAPON:
@@ -113,7 +89,7 @@ internal class SummaryAvatarFactory
 
     private PropertyWeapon CreateWeapon(Equip equip)
     {
-        MetadataWeapon weapon = idWeaponMap[equip.ItemId];
+        MetadataWeapon weapon = metadataContext.IdWeaponMap[equip.ItemId];
 
         // AffixMap can be empty when it's a white weapon.
         KeyValuePair<string, int>? idLevel = equip.Weapon!.AffixMap?.Single();
@@ -146,6 +122,8 @@ internal class SummaryAvatarFactory
             MainProperty = mainStat == null ? default! : new(mainStat.AppendPropId.GetDescription(), mainStat.StatValue.ToString()),
 
             // Weapon
+            Id = weapon.Id,
+            LevelNumber = equip.Weapon!.Level,
             SubProperty = subProperty,
             AffixLevel = $"精炼{affixLevel + 1}",
             AffixName = weapon.Affix?.Name ?? string.Empty,

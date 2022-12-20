@@ -66,9 +66,7 @@ public static partial class Program
         ServiceProvider services = new ServiceCollection()
 
             // Microsoft extension
-            .AddLogging(builder => builder
-                .AddDebug()
-                .AddDatabase())
+            .AddLogging(builder => builder.AddDebug().AddDatabase())
             .AddMemoryCache()
 
             // Hutao extensions

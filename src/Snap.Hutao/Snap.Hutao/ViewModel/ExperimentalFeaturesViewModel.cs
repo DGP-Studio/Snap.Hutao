@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
@@ -38,7 +39,8 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
         OpenCacheFolderCommand = asyncRelayCommandFactory.Create(OpenCacheFolderAsync);
         OpenDataFolderCommand = asyncRelayCommandFactory.Create(OpenDataFolderAsync);
         UploadSpiralAbyssRecordCommand = asyncRelayCommandFactory.Create(UploadSpiralAbyssRecordAsync);
-        DeleteUsersCommand = asyncRelayCommandFactory.Create(DeleteUsersAsync);
+        DeleteUsersCommand = asyncRelayCommandFactory.Create(DangerousDeleteUsersAsync);
+        DeleteAllScheduleTasksCommand = new RelayCommand(DangerousDeleteAllScheduleTasks);
     }
 
     /// <summary>
@@ -60,6 +62,11 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// 清空用户命令
     /// </summary>
     public ICommand DeleteUsersCommand { get; }
+
+    /// <summary>
+    /// 删除所有计划任务命令
+    /// </summary>
+    public ICommand DeleteAllScheduleTasksCommand { get; }
 
     private Task OpenCacheFolderAsync()
     {
@@ -94,7 +101,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
         }
     }
 
-    private async Task DeleteUsersAsync()
+    private async Task DangerousDeleteUsersAsync()
     {
         using (IServiceScope scope = Ioc.Default.CreateScope())
         {
@@ -103,6 +110,19 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
             IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
             infoBarService.Success("清除用户数据成功,请重启胡桃");
+        }
+    }
+
+    private void DangerousDeleteAllScheduleTasks()
+    {
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        if (Core.ScheduleTaskHelper.UnregisterAllTasks())
+        {
+            infoBarService.Success("清除任务计划成功");
+        }
+        else
+        {
+            infoBarService.Warning("清除任务计划失败");
         }
     }
 }

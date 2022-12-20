@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Control;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
@@ -16,6 +19,7 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using System.Collections.Immutable;
 using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -39,6 +43,7 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
 
     private AdvancedCollectionView? weapons;
     private Weapon? selected;
+    private string? filterText;
 
     /// <summary>
     /// 构造一个新的武器资料视图模型
@@ -53,6 +58,7 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         CultivateCommand = asyncRelayCommandFactory.Create<Weapon>(CultivateAsync);
+        FilterCommand = new RelayCommand<string>(ApplyFilter);
     }
 
     /// <inheritdoc/>
@@ -69,6 +75,11 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
     public Weapon? Selected { get => selected; set => SetProperty(ref selected, value); }
 
     /// <summary>
+    /// 筛选文本
+    /// </summary>
+    public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
+
+    /// <summary>
     /// 打开界面命令
     /// </summary>
     public ICommand OpenUICommand { get; }
@@ -77,6 +88,11 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
     /// 养成命令
     /// </summary>
     public ICommand CultivateCommand { get; }
+
+    /// <summary>
+    /// 筛选命令
+    /// </summary>
+    public ICommand FilterCommand { get; }
 
     private async Task OpenUIAsync()
     {
@@ -150,6 +166,69 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
             {
                 infoBarService.Warning("必须先选择一个用户与角色");
             }
+        }
+    }
+
+    private void ApplyFilter(string? input)
+    {
+        if (Weapons != null)
+        {
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                Weapons.Filter = WeaponFilter.Compile(input);
+
+                if (!Weapons.Contains(Selected))
+                {
+                    Weapons.MoveCurrentToFirst();
+                }
+            }
+            else
+            {
+                Weapons.Filter = null!;
+            }
+        }
+    }
+
+    private static class WeaponFilter
+    {
+        public static Predicate<object> Compile(string input)
+        {
+            return (object o) => o is Weapon weapon && DoFilter(input, weapon);
+        }
+
+        private static bool DoFilter(string input, Weapon weapon)
+        {
+            bool keep = false;
+
+            foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
+            {
+                string value = segment.ToString();
+
+                if (ImmutableIntrinsics.WeaponTypes.Contains(value))
+                {
+                    keep = keep || weapon.WeaponType.GetDescriptionOrNull() == value;
+                    continue;
+                }
+
+                if (ImmutableIntrinsics.ItemQualities.Contains(value))
+                {
+                    keep = keep || weapon.Quality.GetDescriptionOrNull() == value;
+                    continue;
+                }
+
+                if (ImmutableIntrinsics.FightProperties.Contains(value))
+                {
+                    keep = keep || weapon.Property.Properties.ElementAtOrDefault(1).GetDescriptionOrNull() == value;
+                    continue;
+                }
+
+                if (weapon.Name == value)
+                {
+                    keep = true;
+                }
+            }
+
+            return keep;
         }
     }
 }

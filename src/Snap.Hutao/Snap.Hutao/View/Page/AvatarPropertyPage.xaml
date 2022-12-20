@@ -58,6 +58,11 @@
                 CommandParameter="{Binding ElementName=ImageExportPanel}"
                 Icon="{shcm:FontIcon Glyph=&#xE91B;}"
                 Label="导出图片"/>
+            <AppBarButton
+                Command="{Binding CultivateCommand}"
+                CommandParameter="{Binding SelectedAvatar}"
+                Icon="{shcm:FontIcon Glyph=&#xE91B;}"
+                Label="养成计算"/>
             <AppBarSeparator/>
             <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="同步角色信息">
                 <AppBarButton.Flyout>
@@ -129,7 +134,7 @@
                 </cwucont:SwitchPresenter>
             </SplitView.Pane>
             <SplitView.Content>
-                <ScrollViewer Padding="0,0,0,-88">
+                <ScrollViewer Padding="0,0,0,0">
                     <StackPanel
                         Name="ImageExportPanel"
                         MaxWidth="800"
@@ -551,30 +556,6 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Border
-                            Margin="16,0,16,16"
-                            Background="{StaticResource CardBackgroundFillColorDefault}"
-                            BorderBrush="{StaticResource CardStrokeColorDefault}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource CompatCornerRadius}">
-                            <Grid Margin="16">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{Binding Summary.Player.Nickname}"/>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="Created by Snap Hutao"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="官网 hut.ao"/>
-                                </StackPanel>
-                            </Grid>
-                        </Border>
                     </StackPanel>
                 </ScrollViewer>
             </SplitView.Content>

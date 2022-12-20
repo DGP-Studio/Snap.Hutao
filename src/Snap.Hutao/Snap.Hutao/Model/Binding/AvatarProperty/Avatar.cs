@@ -1,14 +1,17 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.Model.Binding.AvatarProperty;
 
 /// <summary>
 /// 角色信息
 /// </summary>
-public class Avatar
+public class Avatar : ICalculableSource<ICalculableAvatar>
 {
     /// <summary>
     /// 名称
@@ -46,11 +49,6 @@ public class Avatar
     public string Level { get; set; } = default!;
 
     /// <summary>
-    /// 好感度等级
-    /// </summary>
-    public int FetterLevel { get; set; }
-
-    /// <summary>
     /// 武器
     /// </summary>
     public Weapon Weapon { get; set; } = default!;
@@ -84,4 +82,25 @@ public class Avatar
     /// 双爆评分
     /// </summary>
     public string CritScore { get; set; } = default!;
+
+    /// <summary>
+    /// 好感度等级
+    /// </summary>
+    public int FetterLevel { get; set; }
+
+    /// <summary>
+    /// Id
+    /// </summary>
+    internal AvatarId Id { get; set; }
+
+    /// <summary>
+    /// 等级数字
+    /// </summary>
+    internal int LevelNumber { get; set; }
+
+    /// <inheritdoc/>
+    public ICalculableAvatar ToCalculable()
+    {
+        return new CalculableAvatar(this);
+    }
 }

@@ -80,6 +80,8 @@ public static class AvatarIds
     public static readonly AvatarId Layla = 10000074;
     public static readonly AvatarId Wanderer = 10000075;
     public static readonly AvatarId Faruzan = 10000076;
+    public static readonly AvatarId Yaoyao = 10000077;
+    public static readonly AvatarId Alhaitham = 10000078;
 
     /// <summary>
     /// 检查该角色是否为主角

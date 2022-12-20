@@ -50,6 +50,10 @@ internal abstract class WebView2Helper
     /// </summary>
     public static string Version
     {
-        get => version;
+        get
+        {
+            _ = IsSupported;
+            return version;
+        }
     }
 }

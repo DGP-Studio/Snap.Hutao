@@ -249,7 +249,7 @@
                                     Margin="0,16,0,8"
                                     Style="{StaticResource BaseTextBlockStyle}"
                                     Text="五星"/>
-                                <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}">
+                                <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}" SelectionMode="None">
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
@@ -276,7 +276,7 @@
                                     Margin="0,0,0,8"
                                     Style="{StaticResource BaseTextBlockStyle}"
                                     Text="四星"/>
-                                <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}">
+                                <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}" SelectionMode="None">
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>
@@ -303,7 +303,7 @@
                                     Margin="0,0,0,8"
                                     Style="{StaticResource BaseTextBlockStyle}"
                                     Text="三星"/>
-                                <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}">
+                                <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}" SelectionMode="None">
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid>

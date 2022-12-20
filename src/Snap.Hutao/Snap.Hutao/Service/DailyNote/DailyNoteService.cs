@@ -61,9 +61,9 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
             {
                 DailyNoteEntry newEntry = DailyNoteEntry.Create(role);
                 newEntry.DailyNote = await gameRecordClient.GetDailyNoteAsync(role.User, newEntry.Uid).ConfigureAwait(false);
-                appDbContext.DailyNotes.AddAndSave(newEntry);
-
                 newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
+                await appDbContext.DailyNotes.AddAndSaveAsync(newEntry).ConfigureAwait(false);
+
                 await ThreadHelper.SwitchToMainThreadAsync();
                 entries?.Add(newEntry);
             }
@@ -82,7 +82,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 List<DailyNoteEntry> entryList = appDbContext.DailyNotes.AsNoTracking().ToList();
                 entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
-                entries = new(appDbContext.DailyNotes);
+                entries = new(entryList);
             }
         }
 
@@ -96,7 +96,6 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
-            BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
 
             foreach (DailyNoteEntry entry in appDbContext.DailyNotes.Include(n => n.User))
             {
@@ -111,7 +110,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
 
                 if (notify)
                 {
-                    await new DailyNoteNotifier(scopeFactory, bindingClient, entry).NotifyAsync().ConfigureAwait(false);
+                    await new DailyNoteNotifier(scopeFactory, entry).NotifyAsync().ConfigureAwait(false);
                 }
             }
 

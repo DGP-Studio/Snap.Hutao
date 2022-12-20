@@ -131,7 +131,7 @@ internal class CultivationService : ICultivationService
     /// <inheritdoc/>
     public async Task<ObservableCollection<BindingCultivateEntry>> GetCultivateEntriesAsync(
         CultivateProject cultivateProject,
-        List<Model.Metadata.Material> metadata,
+        List<Model.Metadata.Material> materials,
         Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap,
         Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap)
     {
@@ -160,7 +160,7 @@ internal class CultivationService : ICultivationService
 
                 foreach (CultivateItem item in items)
                 {
-                    resultItems.Add(new(metadata.Single(m => m.Id == item.ItemId), item));
+                    resultItems.Add(new(materials.Single(m => m.Id == item.ItemId), item));
                 }
 
                 Model.Binding.Gacha.Abstraction.ItemBase itemBase = entry.Type switch
@@ -209,6 +209,11 @@ internal class CultivationService : ICultivationService
     /// <inheritdoc/>
     public async Task<bool> SaveConsumptionAsync(Model.Binding.Cultivation.CultivateType type, int itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
     {
+        if (items.Count == 0)
+        {
+            return true;
+        }
+
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();

@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Binding.Hutao;
+using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;

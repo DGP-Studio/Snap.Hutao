@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// <see cref="AppWindow"/> 扩展
 /// </summary>
-public static class AppWindowExtensions
+public static class AppWindowExtension
 {
     /// <summary>
     /// 获取当前 <see cref="AppWindow"/> 的呈现矩形

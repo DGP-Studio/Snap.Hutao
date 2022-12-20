@@ -31,5 +31,5 @@ public class AchievementGoal
     /// <summary>
     /// 图标
     /// </summary>
-    public string? Icon { get; set; }
+    public string Icon { get; set; } = default!;
 }

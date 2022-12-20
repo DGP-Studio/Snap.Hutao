@@ -7,7 +7,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
-namespace Snap.Hutao.Model.Metadata.Weapon;
+namespace Snap.Hutao.Model.Calculable;
 
 /// <summary>
 /// 可计算武器
@@ -21,7 +21,7 @@ public class CalculableWeapon : ObservableObject, ICalculableWeapon
     /// 构造一个新的可计算武器
     /// </summary>
     /// <param name="weapon">武器</param>
-    public CalculableWeapon(Weapon weapon)
+    public CalculableWeapon(Metadata.Weapon.Weapon weapon)
     {
         WeaponId = weapon.Id;
         LevelMin = 1;
@@ -29,6 +29,24 @@ public class CalculableWeapon : ObservableObject, ICalculableWeapon
         Name = weapon.Name;
         Icon = EquipIconConverter.IconNameToUri(weapon.Icon);
         Quality = weapon.RankLevel;
+
+        LevelCurrent = LevelMin;
+        LevelTarget = LevelMax;
+    }
+
+    /// <summary>
+    /// 构造一个新的可计算武器
+    /// </summary>
+    /// <param name="weapon">武器</param>
+    public CalculableWeapon(Binding.AvatarProperty.Weapon weapon)
+    {
+        WeaponId = weapon.Id;
+        LevelMin = weapon.LevelNumber;
+        LevelMax = (int)weapon.Quality >= 3 ? 90 : 70;
+        Name = weapon.Name;
+        Icon = weapon.Icon;
+        Quality = weapon.Quality;
+
         LevelCurrent = LevelMin;
         LevelTarget = LevelMax;
     }

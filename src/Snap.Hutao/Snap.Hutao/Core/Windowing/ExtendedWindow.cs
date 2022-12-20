@@ -134,7 +134,8 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         (string pos, string size) = GetPostionAndSize(appWindow);
         logger.LogInformation(EventIds.WindowState, "Postion: [{pos}], Size: [{size}]", pos, size);
 
-        appWindow.Show(true);
+        // appWindow.Show(true);
+        window.Activate();
 
         systemBackdrop = new(window);
         bool micaApplied = systemBackdrop.TryApply();

@@ -71,7 +71,7 @@
             <PivotItem Header="材料清单">
                 <cwucont:AdaptiveGridView
                     Padding="16,16,4,4"
-                    DesiredWidth="360"
+                    DesiredWidth="320"
                     ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                     ItemsSource="{Binding CultivateEntries}"
                     SelectionMode="None">

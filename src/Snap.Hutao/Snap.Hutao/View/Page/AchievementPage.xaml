@@ -30,6 +30,12 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
+            <TextBlock
+                Margin="16,0,0,2"
+                VerticalAlignment="Center"
+                Style="{StaticResource SubtitleTextBlockStyle}"
+                Text="{Binding FinishDescription}"/>
+
             <CommandBar Grid.Column="1" DefaultLabelPosition="Right">
 
                 <CommandBar.Content>
@@ -73,7 +79,10 @@
                     Label="删除当前存档"/>
 
                 <AppBarSeparator/>
-
+                <AppBarButton
+                    Command="{Binding RefreshFinishPercentCommand}"
+                    Icon="{shcm:FontIcon Glyph=&#xE72C;}"
+                    Label="刷新成就进度"/>
                 <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="导入">
                     <AppBarButton.Flyout>
                         <MenuFlyout Placement="BottomEdgeAlignedRight">
@@ -114,21 +123,31 @@
                     SelectionMode="Single">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="0,6">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="24"/>
+                                    <ColumnDefinition Width="36"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <shci:CachedImage
                                     Grid.Column="0"
-                                    Width="24"
-                                    Height="24"
-                                    Source="{Binding Icon, Converter={StaticResource AchievementIconConverter}}"/>
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Margin="12,0,0,2"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding Name}"/>
+                                    Width="36"
+                                    Height="36"
+                                    Source="{Binding Icon}"/>
+                                <StackPanel Grid.Column="1" Margin="12,0,0,2">
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                    <TextBlock
+                                        Margin="0,2,0,0"
+                                        VerticalAlignment="Center"
+                                        Opacity="0.7"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding FinishDescription}"/>
+                                    <ProgressBar
+                                        Height="1"
+                                        MinHeight="1"
+                                        Margin="0,4,0,0"
+                                        Maximum="1"
+                                        Value="{Binding FinishPercent}"/>
+                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
