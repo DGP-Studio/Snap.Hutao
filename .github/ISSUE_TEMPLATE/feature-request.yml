@@ -11,7 +11,7 @@ body:
         请按下方的要求填写完整的问题表单。
 
   - type: textarea
-    id: req
+    id: back
     attributes:
       label: 背景与动机
       description: 添加此功能的理由
