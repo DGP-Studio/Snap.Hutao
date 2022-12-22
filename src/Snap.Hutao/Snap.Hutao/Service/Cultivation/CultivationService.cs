@@ -155,7 +155,8 @@ internal class CultivationService : ICultivationService
                 List<BindingCultivateItem> resultItems = new();
                 List<CultivateItem> items = await appDbContext.CultivateItems
                     .Where(i => i.EntryId == entryId)
-                    .OrderBy(i => i.ItemId).ToListAsync()
+                    .OrderBy(i => i.ItemId)
+                    .ToListAsync()
                     .ConfigureAwait(false);
 
                 foreach (CultivateItem item in items)
@@ -173,7 +174,7 @@ internal class CultivationService : ICultivationService
                 results.Add(new(entry, itemBase, resultItems));
             }
 
-            return new(results);
+            return new(results.OrderByDescending(e => e.Items.Any(i => i.IsToday)));
         }
     }
 

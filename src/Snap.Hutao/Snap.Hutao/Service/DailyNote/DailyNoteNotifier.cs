@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 
@@ -23,7 +24,6 @@ internal class DailyNoteNotifier
     /// 构造一个新的实时便笺通知器
     /// </summary>
     /// <param name="scopeFactory">范围工厂</param>
-    /// <param name="bindingClient">绑定客户端</param>
     /// <param name="entry">实时便笺入口</param>
     public DailyNoteNotifier(IServiceScopeFactory scopeFactory, DailyNoteEntry entry)
     {
@@ -121,8 +121,17 @@ internal class DailyNoteNotifier
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
+            AuthClient authClient = scope.ServiceProvider.GetRequiredService<AuthClient>();
 
-            List<UserGameRole> roles = await bindingClient.GetUserGameRolesByCookieAsync(entry.User).ConfigureAwait(false);
+            string? actionTicket = await authClient
+                .GetActionTicketByStokenAsync("game_role", entry.User)
+                .ConfigureAwait(false);
+
+            List<UserGameRole> roles = await scope.ServiceProvider
+                .GetRequiredService<BindingClient>()
+                .GetUserGameRolesByActionTicketAsync(actionTicket!, entry.User)
+                .ConfigureAwait(false);
+
             string attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "未知角色";
 
             ToastContentBuilder builder = new ToastContentBuilder()

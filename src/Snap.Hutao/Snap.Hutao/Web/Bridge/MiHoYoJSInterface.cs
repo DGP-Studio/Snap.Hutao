@@ -48,7 +48,7 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="webView">webview2</param>
     /// <param name="serviceProvider">服务提供器</param>
-    protected MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
+    public MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
     {
         this.webView = webView;
         this.serviceProvider = serviceProvider;
@@ -159,7 +159,7 @@ public class MiHoYoJSInterface
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int r = GetRandom();
         string b = param.Payload.Body;
-        string q = string.Join('&', param.Payload.Query.OrderBy(x => x.Key).Select(x => $"{x.Key}={x.Value}"));
+        string q = param.Payload.GetQueryParam();
         string check = Md5Convert.ToHexString($"salt={salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
 
         return new() { Data = new() { ["DS"] = $"{t},{r},{check}", }, };
@@ -256,6 +256,13 @@ public class MiHoYoJSInterface
         return new() { Data = new() { { "statusBarHeight", 0 } } };
     }
 
+    [JsMethod("pushPage")]
+    public virtual IJsResult? PushPage(JsParam<PushPagePayload> param)
+    {
+        webView.Navigate(param.Payload.Page);
+        return null;
+    }
+
     [JsMethod("showAlertDialog")]
     public virtual Task<IJsResult?> ShowAlertDialogAsync(JsParam param)
     {
@@ -282,12 +289,6 @@ public class MiHoYoJSInterface
 
     [JsMethod("genAppAuthKey")]
     public virtual IJsResult? GenAppAuthKey(JsParam param)
-    {
-        throw new NotImplementedException();
-    }
-
-    [JsMethod("pushPage")]
-    public virtual IJsResult? PushPage(JsParam param)
     {
         throw new NotImplementedException();
     }
@@ -344,7 +345,7 @@ public class MiHoYoJSInterface
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
     {
         string message = args.TryGetWebMessageAsString();
-
+        logger.LogInformation("[OnRawMessage]\n{message}", message);
         JsParam param = JsonSerializer.Deserialize<JsParam>(message)!;
 
         logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);
@@ -363,6 +364,7 @@ public class MiHoYoJSInterface
             "getUserInfo" => GetUserInfo(param),
             "hideLoading" => null,
             "login" => null,
+            "pushPage" => PushPage(param),
             "showLoading" => null,
             _ => logger.LogWarning<IJsResult>("Unhandled Message Type: {method}", param.Method),
         };

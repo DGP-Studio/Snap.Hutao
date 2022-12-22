@@ -178,13 +178,13 @@
                                         </Grid.ColumnDefinitions>
                                         <shci:MonoChrome
                                             Grid.Column="0"
-                                            Width="27.2"
-                                            Height="27.2"
+                                            Width="32"
+                                            Height="32"
                                             Source="{Binding Selected.FetterInfo.VisionBefore, Converter={StaticResource ElementNameIconConverter}}"/>
                                         <shci:MonoChrome
                                             Grid.Column="1"
-                                            Width="27.2"
-                                            Height="27.2"
+                                            Width="32"
+                                            Height="32"
                                             Source="{Binding Selected.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
                                     </Grid>
                                     <shvc:ItemIcon
@@ -196,9 +196,14 @@
 
                                 <StackPanel Grid.Column="1" Margin="16,0,0,0">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Selected.Name}"/>
                                         <TextBlock
-                                            Margin="24,0,0,0"
+                                            Margin="0,0,0,2"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                            Text="{Binding Selected.Name}"/>
+                                        <TextBlock
+                                            Margin="24,0,0,2"
+                                            VerticalAlignment="Center"
                                             Style="{StaticResource SubtitleTextBlockStyle}"
                                             Text="{Binding Selected.FetterInfo.Title}"/>
                                     </StackPanel>
@@ -289,6 +294,24 @@
                             <TextBlock
                                 Margin="16,32,0,0"
                                 Style="{StaticResource BaseTextBlockStyle}"
+                                Text="养成材料"/>
+                            <GridView
+                                Margin="16,16,0,0"
+                                ItemsPanel="{StaticResource HorizontalStackPanelTemplate}"
+                                ItemsSource="{Binding Selected.CultivationItemsView}"
+                                SelectionMode="None">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <shvc:BottomTextControl Text="{Binding Name}">
+                                            <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
+                                        </shvc:BottomTextControl>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </GridView>
+
+                            <TextBlock
+                                Margin="16,32,0,0"
+                                Style="{StaticResource BaseTextBlockStyle}"
                                 Text="天赋"/>
                             <shvc:SkillPivot
                                 Margin="16,16,0,0"
@@ -311,8 +334,6 @@
                                 Text="搭配角色"/>
                             <GridView
                                 Margin="16,16,0,0"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
                                 ItemsSource="{Binding Selected.Collocation.Avatars}"
                                 SelectionMode="None">
                                 <GridView.ItemTemplate>
@@ -405,12 +426,7 @@
                                 Margin="16,32,0,0"
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="其他"/>
-                            <Border
-                                Margin="16,16,0,0"
-                                Background="{StaticResource CardBackgroundFillColorDefault}"
-                                BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                BorderThickness="1"
-                                CornerRadius="{StaticResource CompatCornerRadius}">
+                            <Border Margin="16,16,0,0" Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
@@ -443,7 +459,7 @@
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
                                 Header="料理">
-                                <Grid>
+                                <Grid DataContext="{Binding Selected.CookBonusView}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition Height="auto"/>
@@ -451,7 +467,6 @@
                                         <RowDefinition Height="auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
@@ -465,8 +480,8 @@
                                         Grid.Row="1"
                                         Grid.Column="0"
                                         Margin="16,16,0,16"
-                                        Text="{Binding Selected.FetterInfo.CookBonus.Name}">
-                                        <shvc:ItemIcon Icon="{Binding Selected.FetterInfo.CookBonus.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Selected.FetterInfo.CookBonus.RankLevel}"/>
+                                        Text="{Binding Item.Name}">
+                                        <shvc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
                                     </shvc:BottomTextControl>
                                     <TextBlock
                                         Grid.Column="1"
@@ -477,48 +492,26 @@
                                         Grid.Row="1"
                                         Grid.Column="1"
                                         Margin="16,16,0,16"
-                                        Text="{Binding Selected.FetterInfo.CookBonus.OriginName}">
-                                        <shvc:ItemIcon Icon="{Binding Selected.FetterInfo.CookBonus.OriginIcon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Selected.FetterInfo.CookBonus.RankLevel}"/>
+                                        Text="{Binding OriginItem.Name}">
+                                        <shvc:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
                                     </shvc:BottomTextControl>
-                                    <Rectangle
-                                        Grid.RowSpan="2"
+                                    <StackPanel
+                                        Grid.RowSpan="4"
                                         Grid.Column="2"
-                                        Width="1"
-                                        Margin="16,16,0,16"
-                                        Fill="{StaticResource SystemChromeHighColor}"/>
-                                    <TextBlock
-                                        Grid.Column="3"
-                                        Margin="16,16,0,0"
-                                        Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="材料"/>
-                                    <ItemsControl
-                                        Grid.Row="1"
-                                        Grid.Column="3"
-                                        ItemsPanel="{StaticResource HorizontalStackPanelTemplate}"
-                                        ItemsSource="{Binding Selected.FetterInfo.CookBonus.InputList}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <shvc:BottomTextControl
-                                                    Margin="16,16,0,16"
-                                                    Text="{Binding Count}"
-                                                    ToolTipService.ToolTip="{Binding Name}">
-                                                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
-                                                </shvc:BottomTextControl>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.ColumnSpan="4"
-                                        Margin="16,0,16,16"
-                                        Text="{Binding Selected.FetterInfo.CookBonus.Description}"
-                                        TextWrapping="Wrap"/>
-                                    <TextBlock
-                                        Grid.Row="3"
-                                        Grid.ColumnSpan="4"
-                                        Margin="16,0,16,16"
-                                        Text="{Binding Selected.FetterInfo.CookBonus.EffectDescription}"
-                                        TextWrapping="Wrap"/>
+                                        Margin="16">
+                                        <TextBlock
+                                            Grid.Row="2"
+                                            Grid.ColumnSpan="4"
+                                            Text="{Binding Item.Description}"
+                                            TextWrapping="Wrap"/>
+                                        <TextBlock
+                                            Grid.Row="3"
+                                            Grid.ColumnSpan="4"
+                                            Margin="0,16,0,0"
+                                            Text="{Binding Item.EffectDescription}"
+                                            TextWrapping="Wrap"/>
+                                    </StackPanel>
+
                                 </Grid>
                             </Expander>
                             <!--  衣装  -->

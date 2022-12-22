@@ -59,6 +59,7 @@ internal class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
+    [Obsolete("Set-Cookie 冲突")]
     [ApiInformation(Cookie = CookieType.Ltoken)]
     public async Task<List<UserGameRole>> GetUserGameRolesByCookieAsync(User user, CancellationToken token = default)
     {

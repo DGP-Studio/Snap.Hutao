@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata;
 
@@ -13,7 +14,7 @@ public class Material
     /// <summary>
     /// 物品Id
     /// </summary>
-    public int Id { get; set; }
+    public MaterialId Id { get; set; }
 
     /// <summary>
     /// 等级
@@ -24,6 +25,11 @@ public class Material
     /// 物品类型
     /// </summary>
     public ItemType ItemType { get; set; }
+
+    /// <summary>
+    /// 材料类型
+    /// </summary>
+    public MaterialType MaterialType { get; set; }
 
     /// <summary>
     /// 图标
@@ -44,4 +50,9 @@ public class Material
     /// 类型描述
     /// </summary>
     public string TypeDescription { get; set; } = default!;
+
+    /// <summary>
+    /// 效果描述
+    /// </summary>
+    public string? EffectDescription { get; set; }
 }

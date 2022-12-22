@@ -142,6 +142,13 @@
     <Grid>
         <ScrollViewer Padding="0,0,4,0">
             <StackPanel>
+                <ItemsControl>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <InfoBar/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <Pivot>
                     <PivotItem
                         Content="{Binding Announcement.List[0]}"

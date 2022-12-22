@@ -83,7 +83,7 @@ public class FetterInfo
     /// <summary>
     /// 料理
     /// </summary>
-    public CookBonus? CookBonus { get; set; }
+    public CookBonus? CookBonus2 { get; set; }
 
     /// <summary>
     /// 好感语音

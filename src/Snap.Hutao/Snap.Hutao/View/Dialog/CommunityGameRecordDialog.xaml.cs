@@ -1,7 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See LICENSE in the project root for license information.
+// Copyright (c) Microsoft Corporation and Contributors.
+// Licensed under the MIT License.
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Model.Binding.User;
@@ -11,26 +12,26 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// 签到网页视图对话框
+/// 社区游戏记录对话框
 /// </summary>
-public sealed partial class SignInWebViewDialog : ContentDialog
+public sealed partial class CommunityGameRecordDialog : ContentDialog
 {
     private readonly IServiceScope scope;
     [SuppressMessage("", "IDE0052")]
-    private SignInJsInterface? signInJsInterface;
+    private MiHoYoJSInterface? jsInterface;
 
     /// <summary>
-    /// 构造一个新的签到网页视图对话框
+    /// 构造一个新的社区游戏记录对话框
     /// </summary>
-    /// <param name="window">窗口</param>
-    public SignInWebViewDialog(MainWindow window)
+    /// <param name="window">窗体</param>
+    public CommunityGameRecordDialog(MainWindow window)
     {
         InitializeComponent();
         XamlRoot = window.Content.XamlRoot;
         scope = Ioc.Default.CreateScope();
     }
 
-    private void OnGridLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void OnGridLoaded(object sender, RoutedEventArgs e)
     {
         InitializeAsync().SafeForget();
     }
@@ -47,13 +48,13 @@ public sealed partial class SignInWebViewDialog : ContentDialog
         }
 
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
-        signInJsInterface = new(coreWebView2, scope.ServiceProvider);
-        coreWebView2.Navigate("https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?act_id=e202009291139501");
+        jsInterface = new(coreWebView2, scope.ServiceProvider);
+        coreWebView2.Navigate("https://webstatic.mihoyo.com/app/community-game-records/index.html");
     }
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        signInJsInterface = null;
+        jsInterface = null;
         scope.Dispose();
     }
 }

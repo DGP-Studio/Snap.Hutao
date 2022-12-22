@@ -10,6 +10,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
@@ -89,13 +90,14 @@ internal class WikiAvatarViewModel : ObservableObject
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
+            Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
             List<Avatar> avatars = await metadataService.GetAvatarsAsync().ConfigureAwait(false);
             List<Avatar> sorted = avatars
                 .OrderByDescending(avatar => avatar.BeginTime)
                 .ThenByDescending(avatar => avatar.Sort)
                 .ToList();
 
-            await CombineWithAvatarCollocationsAsync(sorted).ConfigureAwait(false);
+            await CombineComplexDataAsync(sorted, idMaterialMap).ConfigureAwait(false);
 
             await ThreadHelper.SwitchToMainThreadAsync();
             Avatars = new AdvancedCollectionView(sorted, true);
@@ -103,7 +105,7 @@ internal class WikiAvatarViewModel : ObservableObject
         }
     }
 
-    private async Task CombineWithAvatarCollocationsAsync(List<Avatar> avatars)
+    private async Task CombineComplexDataAsync(List<Avatar> avatars, Dictionary<MaterialId, Material> idMaterialMap)
     {
         if (await hutaoCache.InitializeForWikiAvatarViewModelAsync().ConfigureAwait(false))
         {
@@ -112,6 +114,8 @@ internal class WikiAvatarViewModel : ObservableObject
             foreach (Avatar avatar in avatars)
             {
                 avatar.Collocation = idCollocations.GetValueOrDefault(avatar.Id);
+                avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus2, idMaterialMap);
+                avatar.CultivationItemsView ??= avatar.CultivationItems.Select(i => idMaterialMap[i]).ToList();
             }
         }
     }

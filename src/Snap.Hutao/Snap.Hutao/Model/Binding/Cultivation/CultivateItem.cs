@@ -25,6 +25,7 @@ public class CultivateItem : ObservableObject
         Inner = inner;
         Entity = entity;
         isFinished = Entity.IsFinished;
+        IsToday = CultivateItemHelper.IsTodaysMaterial(inner.Id, DateTimeOffset.Now);
 
         FinishStateCommand = new RelayCommand(FlipIsFinished);
     }
@@ -58,6 +59,11 @@ public class CultivateItem : ObservableObject
             }
         }
     }
+
+    /// <summary>
+    /// 是否为今日物品
+    /// </summary>
+    public bool IsToday { get; }
 
     private void FlipIsFinished()
     {

@@ -81,5 +81,10 @@ public partial class Avatar
     /// <summary>
     /// 皮肤
     /// </summary>
-    public IEnumerable<Costume> Costumes { get; set; } = default!;
+    public List<Costume> Costumes { get; set; } = default!;
+
+    /// <summary>
+    /// 养成物品
+    /// </summary>
+    public List<MaterialId> CultivationItems { get; set; } = default!;
 }

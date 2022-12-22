@@ -22,6 +22,17 @@ public partial class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQu
     [JsonIgnore]
     public ComplexAvatarCollocation? Collocation { get; set; }
 
+    /// <summary>
+    /// [非元数据] 烹饪奖励
+    /// </summary>
+    [JsonIgnore]
+    public CookBonusView? CookBonusView { get; set; }
+
+    /// <summary>
+    /// 养成物品视图
+    /// </summary>
+    public List<Material>? CultivationItemsView { get; set; }
+
     /// <inheritdoc/>
     public ICalculableAvatar ToCalculable()
     {

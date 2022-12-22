@@ -65,6 +65,13 @@ internal interface IMetadataService
     ValueTask<Dictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default);
 
     /// <summary>
+    /// 异步获取Id到材料的字典
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>Id到材料的字典</returns>
+    ValueTask<Dictionary<MaterialId, Material>> GetIdToMaterialMapAsync(CancellationToken token = default(CancellationToken));
+
+    /// <summary>
     /// 异步获取ID到圣遗物副词条的字典
     /// </summary>
     /// <param name="token">取消令牌</param>

@@ -19,7 +19,6 @@ namespace Snap.Hutao.Web.Hutao;
 /// <summary>
 /// 胡桃API客户端
 /// </summary>
-// [Injection(InjectAs.Transient)]
 [HttpClient(HttpClientConfigration.Default)]
 internal class HomaClient
 {

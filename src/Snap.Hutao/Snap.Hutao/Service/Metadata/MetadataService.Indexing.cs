@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -24,6 +25,12 @@ internal partial class MetadataService
     public ValueTask<Dictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
     {
         return FromCacheAsDictionaryAsync<AvatarId, Avatar>("Avatar", a => a.Id, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<MaterialId, Material>> GetIdToMaterialMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<MaterialId, Material>("Material", a => a.Id, token);
     }
 
     /// <inheritdoc/>

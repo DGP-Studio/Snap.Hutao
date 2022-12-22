@@ -6,10 +6,10 @@ using Snap.Hutao.Model.Primitive.Converter;
 namespace Snap.Hutao.Model.Primitive;
 
 /// <summary>
-/// 5位 武器Id
+/// 3-6位 材料Id
 /// </summary>
-[JsonConverter(typeof(IdentityConverter<WeaponId>))]
-public readonly struct WeaponId : IEquatable<WeaponId>
+[JsonConverter(typeof(IdentityConverter<MaterialId>))]
+public readonly struct MaterialId : IEquatable<MaterialId>, IComparable<MaterialId>
 {
     /// <summary>
     /// 值
@@ -17,36 +17,42 @@ public readonly struct WeaponId : IEquatable<WeaponId>
     public readonly int Value;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WeaponId"/> struct.
+    /// Initializes a new instance of the <see cref="MaterialId"/> struct.
     /// </summary>
     /// <param name="value">value</param>
-    public WeaponId(int value)
+    public MaterialId(int value)
     {
         Value = value;
     }
 
-    public static implicit operator int(WeaponId value)
+    public static implicit operator int(MaterialId value)
     {
         return value.Value;
     }
 
-    public static implicit operator WeaponId(int value)
+    public static implicit operator MaterialId(int value)
     {
         return new(value);
     }
 
-    public static bool operator ==(WeaponId left, WeaponId right)
+    public static bool operator ==(MaterialId left, MaterialId right)
     {
         return left.Value == right.Value;
     }
 
-    public static bool operator !=(WeaponId left, WeaponId right)
+    public static bool operator !=(MaterialId left, MaterialId right)
     {
         return !(left == right);
     }
 
     /// <inheritdoc/>
-    public bool Equals(WeaponId other)
+    public int CompareTo(MaterialId other)
+    {
+        return Value.CompareTo(other.Value);
+    }
+
+    /// <inheritdoc/>
+    public bool Equals(MaterialId other)
     {
         return Value == other.Value;
     }
@@ -54,7 +60,7 @@ public readonly struct WeaponId : IEquatable<WeaponId>
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
-        return obj is WeaponId other && Equals(other);
+        return obj is MaterialId other && Equals(other);
     }
 
     /// <inheritdoc/>

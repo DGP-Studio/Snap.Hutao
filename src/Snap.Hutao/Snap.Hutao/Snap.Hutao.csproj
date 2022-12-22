@@ -71,6 +71,7 @@
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
     <None Remove="View\Dialog\AdoptCalculatorDialog.xaml" />
     <None Remove="View\Dialog\AvatarInfoQueryDialog.xaml" />
+    <None Remove="View\Dialog\CommunityGameRecordDialog.xaml" />
     <None Remove="View\Dialog\CultivateProjectDialog.xaml" />
     <None Remove="View\Dialog\CultivatePromotionDeltaDialog.xaml" />
     <None Remove="View\Dialog\DailyNoteNotificationDialog.xaml" />
@@ -182,6 +183,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\CommunityGameRecordDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\CultivatePromotionDeltaDialog.xaml">

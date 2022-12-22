@@ -41,12 +41,12 @@ internal class BindingClient2
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Stoken)]
+    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.LK2)]
     public async Task<List<UserGameRole>> GetUserGameRolesByStokenAsync(User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, true)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRolesByStoken, options, logger, token)
             .ConfigureAwait(false);
 
