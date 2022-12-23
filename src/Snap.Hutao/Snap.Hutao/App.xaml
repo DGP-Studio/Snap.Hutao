@@ -43,8 +43,10 @@
             <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,6,6</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusSmall">2</CornerRadius>
             <!--  Converters  -->
+            <cwuc:BoolNegationConverter x:Key="BoolNegationConverter"/>
             <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <shmmc:AchievementIconConverter x:Key="AchievementIconConverter"/>
+            <shmmc:AvatarCardConverter x:Key="AvatarCardConverter"/>
             <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>
             <shmmc:AvatarNameCardPicConverter x:Key="AvatarNameCardPicConverter"/>
             <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>

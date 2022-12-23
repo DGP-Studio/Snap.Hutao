@@ -57,4 +57,15 @@ internal readonly struct LaunchConfiguration
         UnlockFPS = unlockFps;
         TargetFPS = targetFps;
     }
+
+    /// <summary>
+    /// 窗口模式字符串
+    /// </summary>
+    public string? WindowMode
+    {
+        get
+        {
+            return IsFullScreen ? "exclusive" : IsBorderless ? "borderless" : null;
+        }
+    }
 }

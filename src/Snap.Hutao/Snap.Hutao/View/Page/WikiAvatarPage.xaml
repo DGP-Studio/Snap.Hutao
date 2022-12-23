@@ -381,7 +381,11 @@
                                                         <x:Int32>0</x:Int32>
                                                     </cwuc:Case.Value>
                                                     <Grid>
-                                                        <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
+                                                        <shvc:ItemIcon
+                                                            Width="80"
+                                                            Height="80"
+                                                            Icon="https://static.snapgenshin.com/Bg/UI_ItemIcon_None.png"
+                                                            Quality="QUALITY_ORANGE"/>
                                                     </Grid>
                                                 </cwuc:Case>
                                                 <cwuc:Case>
@@ -389,11 +393,11 @@
                                                         <x:Int32>1</x:Int32>
                                                     </cwuc:Case.Value>
                                                     <Grid>
-                                                        <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
-                                                        <shci:CachedImage
+                                                        <shvc:ItemIcon
                                                             Width="80"
-                                                            Margin="0,0,0,0"
-                                                            Source="{Binding Icons[0]}"/>
+                                                            Height="80"
+                                                            Icon="{Binding Icons[0]}"
+                                                            Quality="QUALITY_ORANGE"/>
                                                     </Grid>
                                                 </cwuc:Case>
                                                 <cwuc:Case>
@@ -520,17 +524,32 @@
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
                                 Header="衣装">
-                                <ItemsControl ItemsSource="{Binding Selected.Costumes}">
+                                <ItemsControl Margin="0,16,0,0" ItemsSource="{Binding Selected.Costumes}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <StackPanel Margin="0,0,0,-4">
-                                                <TextBlock Margin="16,16,16,0" Text="{Binding Name}"/>
-                                                <TextBlock
-                                                    Margin="16,8,16,16"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Description}"/>
-                                                <MenuFlyoutSeparator Margin="16,0"/>
-                                            </StackPanel>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <shci:CachedImage
+                                                    Width="80"
+                                                    Height="80"
+                                                    Margin="16,0,16,16"
+                                                    Source="https://static.snapgenshin.com/AvatarCard/UI_AvatarIcon_Costume_Card.png"/>
+                                                <shci:CachedImage
+                                                    Width="80"
+                                                    Height="80"
+                                                    Margin="16,0,16,16"
+                                                    Source="{Binding Icon, Converter={StaticResource AvatarCardConverter}}"/>
+                                                <StackPanel Grid.Column="1" Margin="0,0,16,-4">
+                                                    <TextBlock Text="{Binding Name}"/>
+                                                    <TextBlock
+                                                        Margin="0,8,0,16"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding Description}"/>
+                                                </StackPanel>
+                                            </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>

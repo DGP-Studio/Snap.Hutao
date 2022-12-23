@@ -244,6 +244,7 @@ internal class GameService : IGameService, IDisposable
         string commandLine = new CommandLineBuilder()
             .AppendIf("-popupwindow", configuration.IsBorderless)
             .Append("-screen-fullscreen", configuration.IsFullScreen ? 1 : 0)
+            .AppendIfNotNull("-window-mode", configuration.WindowMode)
             .Append("-screen-width", configuration.ScreenWidth)
             .Append("-screen-height", configuration.ScreenHeight)
             .ToString();

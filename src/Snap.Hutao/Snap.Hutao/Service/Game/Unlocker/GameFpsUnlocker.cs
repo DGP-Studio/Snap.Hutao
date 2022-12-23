@@ -150,9 +150,12 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
 
         Must.Range(adr >= 0, "未匹配到FPS字节");
 
-        int rip = adr + 2;
-        int rel = image.Fixed<int>(rip + 2); // Unsafe.ReadUnaligned<int>(ref image[rip + 2]);
-        int ofs = rip + rel + 6;
-        fpsAddress = (nuint)((long)unityPlayer.modBaseAddr + ofs);
+        fixed (byte* pSpan = image)
+        {
+            int rip = adr + 2;
+            int rel = *(int*)(pSpan + rip + 2); // Unsafe.ReadUnaligned<int>(ref image[rip + 2]);
+            int ofs = rip + rel + 6;
+            fpsAddress = (nuint)((long)unityPlayer.modBaseAddr + ofs);
+        }
     }
 }
