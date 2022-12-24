@@ -30,13 +30,11 @@ internal static class AppInstanceExtension
         });
 
         ReadOnlySpan<HANDLE> handles = new(in redirectEventHandle);
-
-        // non-blocking
         CoWaitForMultipleObjects((uint)CWMO_FLAGS.CWMO_DEFAULT, INFINITE, handles, out uint _);
     }
 
     private static unsafe HANDLE UnsafeCreateEvent()
     {
-        return CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, null);
+        return CreateEvent(default(SECURITY_ATTRIBUTES*), true, false, null);
     }
 }

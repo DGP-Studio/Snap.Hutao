@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.IO;
+using Windows.ApplicationModel;
 
 namespace Snap.Hutao.Context.FileSystem.Location;
 
@@ -19,7 +20,10 @@ internal class HutaoLocation : IFileSystemLocation
         if (string.IsNullOrEmpty(path))
         {
             string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            path = Path.GetFullPath(Path.Combine(myDocument, "Hutao"));
+
+            // 将测试版与正式版的文件目录分离
+            string folderName = Package.Current.PublisherDisplayName == "DGP Studio CI" ? "HutaoAlpha" : "Hutao";
+            path = Path.GetFullPath(Path.Combine(myDocument, folderName));
         }
 
         return path;

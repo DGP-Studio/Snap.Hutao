@@ -24,9 +24,24 @@ public class Overview
     public int SpiralAbyssTotal { get; set; }
 
     /// <summary>
+    /// 通关玩家总数
+    /// </summary>
+    public int SpiralAbyssPassed { get; set; }
+
+    /// <summary>
+    /// 总星数
+    /// </summary>
+    public int SpiralAbyssStarTotal { get; set; }
+
+    /// <summary>
     /// 满星数
     /// </summary>
     public int SpiralAbyssFullStar { get; set; }
+
+    /// <summary>
+    /// 总战斗次数
+    /// </summary>
+    public long SpiralAbyssBattleTotal { get; set; }
 
     /// <summary>
     /// 统计时间

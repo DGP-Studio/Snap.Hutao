@@ -17,6 +17,8 @@ public class SimpleSpiralAbyss
     public SimpleSpiralAbyss(SpiralAbyss spiralAbyss)
     {
         ScheduleId = spiralAbyss.ScheduleId;
+        TotalBattleTimes = spiralAbyss.TotalBattleTimes;
+        TotalWinTimes = spiralAbyss.TotalWinTimes;
         Damage = SimpleRank.FromRank(spiralAbyss.DamageRank.SingleOrDefault());
         TakeDamage = SimpleRank.FromRank(spiralAbyss.TakeDamageRank.SingleOrDefault());
         Floors = spiralAbyss.Floors.Select(f => new SimpleFloor(f));
@@ -26,6 +28,16 @@ public class SimpleSpiralAbyss
     /// 计划Id
     /// </summary>
     public int ScheduleId { get; set; }
+
+    /// <summary>
+    /// 总战斗次数
+    /// </summary>
+    public int TotalBattleTimes { get; set; }
+
+    /// <summary>
+    /// 总战斗胜利次数
+    /// </summary>
+    public int TotalWinTimes { get; set; }
 
     /// <summary>
     /// 造成伤害
