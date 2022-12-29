@@ -8,7 +8,16 @@
 # 6. Run
 
 trigger:
-- main
+  branches:
+    include:
+    - main
+  paths:
+    exclude:
+    - *.md
+    - *.yml
+    - .github/ISSUE_TEMPLATE/*.yml
+    - .github/workflows/*.yml
+    
 
 pool:
   vmImage: 'windows-2022'
