@@ -23,6 +23,11 @@ internal static class Activation
     /// </summary>
     public const string LaunchGame = "LaunchGame";
 
+    /// <summary>
+    /// 从剪贴板导入成就
+    /// </summary>
+    public const string ImportUIAFFromClipBoard = "ImportUIAFFromClipBoard";
+
     private static readonly SemaphoreSlim ActivateSemaphore = new(1);
 
     /// <summary>
@@ -180,7 +185,7 @@ internal static class Activation
                 {
                     await ThreadHelper.SwitchToMainThreadAsync();
 
-                    INavigationAwaiter navigationAwaiter = new NavigationExtra("InvokeByUri");
+                    INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipBoard);
                     await Ioc.Default
                         .GetRequiredService<INavigationService>()
                         .NavigateAsync<View.Page.AchievementPage>(navigationAwaiter, true)

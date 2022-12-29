@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Threading.CodeAnalysis;
 using Snap.Hutao.Model.InterChange.Achievement;
 using System.Collections.ObjectModel;
 using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
@@ -58,6 +57,12 @@ internal interface IAchievementService
     Task RemoveArchiveAsync(EntityArchive archive);
 
     /// <summary>
+    /// 保存单个成就
+    /// </summary>
+    /// <param name="achievement">成就</param>
+    void SaveAchievement(BindingAchievement achievement);
+
+    /// <summary>
     /// 保存成就
     /// </summary>
     /// <param name="archive">用户</param>
@@ -69,6 +74,5 @@ internal interface IAchievementService
     /// </summary>
     /// <param name="newArchive">新存档</param>
     /// <returns>存档添加结果</returns>
-    [ThreadAccess(ThreadAccessState.AnyThread)]
     Task<ArchiveAddResult> TryAddArchiveAsync(EntityArchive newArchive);
 }

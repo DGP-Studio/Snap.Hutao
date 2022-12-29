@@ -159,6 +159,17 @@
                     </sc:SettingsGroup>
                     <sc:SettingsGroup Header="外观">
                         <sc:Setting
+                            Description="与游戏内浏览器不兼容，切屏等操作也能使游戏闪退"
+                            Header="独占全屏"
+                            Icon="&#xE740;">
+                            <sc:Setting.ActionContent>
+                                <ToggleSwitch
+                                    Width="120"
+                                    IsOn="{Binding IsExclusive, Mode=TwoWay}"
+                                    Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                            </sc:Setting.ActionContent>
+                        </sc:Setting>
+                        <sc:Setting
                             Description="覆盖默认的全屏状态"
                             Header="全屏"
                             Icon="&#xE740;">

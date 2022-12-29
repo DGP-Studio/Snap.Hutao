@@ -10,6 +10,7 @@
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:shmbh="using:Snap.Hutao.Model.Binding.Hutao"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shv:HutaoDatabaseViewModel}"
@@ -19,6 +20,47 @@
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
+
+    <Page.Resources>
+        <DataTemplate x:Key="TeamItemTemplate" x:DataType="shmbh:Team">
+            <Border Margin="12,0,12,12" Style="{StaticResource BorderCardStyle}">
+                <Grid Margin="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <cwuc:UniformGrid ColumnSpacing="6" Columns="4"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <shvc:ItemIcon
+                                    Width="48"
+                                    Height="48"
+                                    Icon="{Binding Icon}"
+                                    Quality="{Binding Quality}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <StackPanel
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Rate}"/>
+                        <TextBlock
+                            Margin="0,2,0,0"
+                            Opacity="0.6"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding Name}"/>
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
 
     <Grid>
         <Pivot>
@@ -93,6 +135,39 @@
                                     </ItemsControl.ItemTemplate>
                                 </GridView>
                             </ScrollViewer>
+                        </DataTemplate>
+                    </Pivot.ItemTemplate>
+                </Pivot>
+            </PivotItem>
+            <PivotItem Header="队伍出场">
+                <Pivot ItemsSource="{Binding TeamAppearances}">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Floor}"/>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <Pivot.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ScrollViewer Grid.Column="0" Margin="0,12,0,0">
+                                    <ItemsControl
+                                        ItemTemplate="{StaticResource TeamItemTemplate}"
+                                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
+                                        ItemsSource="{Binding Up}"/>
+                                </ScrollViewer>
+
+                                <ScrollViewer Grid.Column="1" Margin="0,12,0,0">
+                                    <ItemsControl
+                                        ItemTemplate="{StaticResource TeamItemTemplate}"
+                                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
+                                        ItemsSource="{Binding Down}"/>
+                                </ScrollViewer>
+                            </Grid>
                         </DataTemplate>
                     </Pivot.ItemTemplate>
                 </Pivot>
@@ -230,117 +305,6 @@
                         </ItemsControl>
                     </ScrollViewer>
                 </Grid>
-            </PivotItem>
-            <PivotItem Header="队伍出场">
-                <Pivot ItemsSource="{Binding TeamAppearances}">
-                    <Pivot.HeaderTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Floor}"/>
-                        </DataTemplate>
-                    </Pivot.HeaderTemplate>
-                    <Pivot.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <ScrollViewer Grid.Column="0" Margin="0,12,0,0">
-                                    <ItemsControl ItemsSource="{Binding Up}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsStackPanel/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border
-                                                    Margin="12,0,12,12"
-                                                    Background="{StaticResource CardBackgroundFillColorDefault}"
-                                                    CornerRadius="{StaticResource CompatCornerRadius}">
-                                                    <Grid Margin="6">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition Width="120"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding}">
-                                                            <ItemsControl.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <cwuc:UniformGrid ColumnSpacing="6" Columns="4"/>
-                                                                </ItemsPanelTemplate>
-                                                            </ItemsControl.ItemsPanel>
-                                                            <ItemsControl.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <shvc:ItemIcon
-                                                                        Width="48"
-                                                                        Height="48"
-                                                                        Icon="{Binding Icon}"
-                                                                        Quality="{Binding Quality}"/>
-                                                                </DataTemplate>
-                                                            </ItemsControl.ItemTemplate>
-                                                        </ItemsControl>
-                                                        <TextBlock
-                                                            Grid.Column="1"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Text="{Binding Rate}"/>
-                                                    </Grid>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-
-                                <ScrollViewer Grid.Column="1" Margin="0,12,0,0">
-                                    <ItemsControl ItemsSource="{Binding Down}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <ItemsStackPanel/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border
-                                                    Margin="12,0,12,12"
-                                                    Background="{StaticResource CardBackgroundFillColorDefault}"
-                                                    CornerRadius="{StaticResource CompatCornerRadius}">
-                                                    <Grid Margin="6">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition Width="120"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding}">
-                                                            <ItemsControl.ItemsPanel>
-                                                                <ItemsPanelTemplate>
-                                                                    <cwuc:UniformGrid ColumnSpacing="6" Columns="4"/>
-                                                                </ItemsPanelTemplate>
-                                                            </ItemsControl.ItemsPanel>
-                                                            <ItemsControl.ItemTemplate>
-                                                                <DataTemplate>
-                                                                    <shvc:ItemIcon
-                                                                        Width="48"
-                                                                        Height="48"
-                                                                        Icon="{Binding Icon}"
-                                                                        Quality="{Binding Quality}"/>
-                                                                </DataTemplate>
-                                                            </ItemsControl.ItemTemplate>
-                                                        </ItemsControl>
-                                                        <TextBlock
-                                                            Grid.Column="1"
-                                                            HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Text="{Binding Rate}"/>
-                                                    </Grid>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>
-                            </Grid>
-                        </DataTemplate>
-                    </Pivot.ItemTemplate>
-                </Pivot>
             </PivotItem>
         </Pivot>
     </Grid>

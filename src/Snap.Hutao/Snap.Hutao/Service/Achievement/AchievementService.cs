@@ -22,6 +22,7 @@ namespace Snap.Hutao.Service.Achievement;
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal class AchievementService : IAchievementService
 {
+    private readonly object saveAchievementLocker = new();
     private readonly AppDbContext appDbContext;
     private readonly ILogger<AchievementService> logger;
     private readonly DbCurrent<EntityArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
@@ -186,5 +187,20 @@ internal class AchievementService : IAchievementService
         double time = stopwatch.GetElapsedTime().TotalMilliseconds;
         logger.LogInformation(EventIds.Achievement, "{add} added, {update} updated, {remove} removed", result.Add, result.Update, result.Remove);
         logger.LogInformation(EventIds.Achievement, "Save achievements for [{name}] completed in {time}ms", name, time);
+    }
+
+    /// <inheritdoc/>
+    public void SaveAchievement(BindingAchievement achievement)
+    {
+        if (achievement.IsChecked)
+        {
+            // set to default allow multiple time add
+            achievement.Entity.InnerId = default;
+            appDbContext.Achievements.UpdateAndSave(achievement.Entity);
+        }
+        else
+        {
+            appDbContext.Achievements.RemoveAndSave(achievement.Entity);
+        }
     }
 }

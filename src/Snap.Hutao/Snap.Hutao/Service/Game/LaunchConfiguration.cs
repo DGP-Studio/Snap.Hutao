@@ -9,6 +9,11 @@ namespace Snap.Hutao.Service.Game;
 internal readonly struct LaunchConfiguration
 {
     /// <summary>
+    /// 是否为独占全屏
+    /// </summary>
+    public readonly bool IsExclusive;
+
+    /// <summary>
     /// 是否全屏，全屏时无边框设置将被覆盖
     /// </summary>
     public readonly bool IsFullScreen;
@@ -41,14 +46,16 @@ internal readonly struct LaunchConfiguration
     /// <summary>
     /// 构造一个新的启动配置
     /// </summary>
+    /// <param name="isExclusive">独占全屏</param>
     /// <param name="isFullScreen">全屏</param>
     /// <param name="isBorderless">无边框</param>
     /// <param name="screenWidth">宽度</param>
     /// <param name="screenHeight">高度</param>
     /// <param name="unlockFps">解锁帧率</param>
     /// <param name="targetFps">目标帧率</param>
-    public LaunchConfiguration(bool isFullScreen, bool isBorderless, int screenWidth, int screenHeight, bool unlockFps, int targetFps)
+    public LaunchConfiguration(bool isExclusive, bool isFullScreen, bool isBorderless, int screenWidth, int screenHeight, bool unlockFps, int targetFps)
     {
+        IsExclusive = isExclusive;
         IsFullScreen = isFullScreen;
         IsBorderless = isBorderless;
         ScreenHeight = screenHeight;
@@ -56,16 +63,5 @@ internal readonly struct LaunchConfiguration
         ScreenHeight = screenHeight;
         UnlockFPS = unlockFps;
         TargetFPS = targetFps;
-    }
-
-    /// <summary>
-    /// 窗口模式字符串
-    /// </summary>
-    public string? WindowMode
-    {
-        get
-        {
-            return IsFullScreen ? "exclusive" : IsBorderless ? "borderless" : null;
-        }
     }
 }

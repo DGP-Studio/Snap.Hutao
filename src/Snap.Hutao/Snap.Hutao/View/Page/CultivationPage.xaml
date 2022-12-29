@@ -49,6 +49,54 @@
         <Pivot>
             <Pivot.RightHeader>
                 <CommandBar DefaultLabelPosition="Right">
+                    <AppBarButton
+                        Command="{Binding UpdateStatisticsItemsCommand}"
+                        Icon="{shcm:FontIcon Glyph=&#xEB05;}"
+                        Label="材料统计">
+                        <AppBarButton.Flyout>
+                            <Flyout Placement="Bottom">
+                                <Flyout.FlyoutPresenterStyle>
+                                    <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                        <Setter Property="MaxHeight" Value="480"/>
+                                        <Setter Property="Padding" Value="0,2,0,2"/>
+                                        <Setter Property="Background" Value="{ThemeResource FlyoutPresenterBackground}"/>
+                                    </Style>
+                                </Flyout.FlyoutPresenterStyle>
+                                <ItemsControl Margin="16,0,16,16" ItemsSource="{Binding StatisticsItems}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="0,16,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="160"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <shvc:ItemIcon
+                                                    Grid.Column="0"
+                                                    Width="32"
+                                                    Height="32"
+                                                    Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                                    Quality="{Binding Inner.RankLevel}"/>
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="16,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Inner.Name}"
+                                                    TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    Margin="16,0,4,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding CountFormatted}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Flyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarSeparator/>
                     <AppBarElementContainer>
                         <ComboBox
                             Height="36"

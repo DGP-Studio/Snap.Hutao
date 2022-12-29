@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Control;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
+using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Cultivation;
@@ -20,7 +21,7 @@ namespace Snap.Hutao.ViewModel;
 /// 养成视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class CultivationViewModel : ObservableObject, ISupportCancellation, IRecipient<CultivateProjectChangedMessage>
+internal class CultivationViewModel : ObservableObject, ISupportCancellation
 {
     private readonly ICultivationService cultivationService;
     private readonly IInfoBarService infoBarService;
@@ -31,6 +32,7 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation, IR
     private CultivateProject? selectedProject;
     private List<Model.Binding.Inventory.InventoryItem>? inventoryItems;
     private ObservableCollection<Model.Binding.Cultivation.CultivateEntry>? cultivateEntries;
+    private List<StatisticsCultivateItem>? statisticsItems;
 
     /// <summary>
     /// 构造一个新的养成视图模型
@@ -40,14 +42,12 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation, IR
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="logger">日志器</param>
-    /// <param name="messenger">消息器</param>
     public CultivationViewModel(
         ICultivationService cultivationService,
         IInfoBarService infoBarService,
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
         IMetadataService metadataService,
-        ILogger<CultivationViewModel> logger,
-        IMessenger messenger)
+        ILogger<CultivationViewModel> logger)
     {
         this.cultivationService = cultivationService;
         this.infoBarService = infoBarService;
@@ -59,8 +59,7 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation, IR
         RemoveProjectCommand = asyncRelayCommandFactory.Create<CultivateProject>(RemoveProjectAsync);
         RemoveEntryCommand = asyncRelayCommandFactory.Create<Model.Binding.Cultivation.CultivateEntry>(RemoveEntryAsync);
         SaveInventoryItemCommand = new RelayCommand<Model.Binding.Inventory.InventoryItem>(SaveInventoryItem);
-
-        messenger.Register(this);
+        UpdateStatisticsItemsCommand = asyncRelayCommandFactory.Create(UpdateStatisticsItemsAsync);
     }
 
     /// <inheritdoc/>
@@ -81,6 +80,10 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation, IR
             if (SetProperty(ref selectedProject, value))
             {
                 cultivationService.Current = value;
+                if (value != null)
+                {
+                    UpdateCultivateEntriesAndInventoryItemsAsync(value).SafeForget(logger);
+                }
             }
         }
     }
@@ -94,6 +97,11 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation, IR
     /// 养成列表
     /// </summary>
     public ObservableCollection<Model.Binding.Cultivation.CultivateEntry>? CultivateEntries { get => cultivateEntries; set => SetProperty(ref cultivateEntries, value); }
+
+    /// <summary>
+    /// 统计列表
+    /// </summary>
+    public List<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
     /// <summary>
     /// 打开界面命令
@@ -120,11 +128,10 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation, IR
     /// </summary>
     public ICommand SaveInventoryItemCommand { get; }
 
-    /// <inheritdoc/>
-    public void Receive(CultivateProjectChangedMessage message)
-    {
-        UpdateCultivateEntriesAndInventoryItemsAsync(message.NewValue).SafeForget(logger);
-    }
+    /// <summary>
+    /// 展示统计物品命令
+    /// </summary>
+    public ICommand UpdateStatisticsItemsCommand { get; }
 
     private async Task OpenUIAsync()
     {
@@ -207,6 +214,20 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation, IR
         if (inventoryItem != null)
         {
             cultivationService.SaveInventoryItem(inventoryItem);
+        }
+    }
+
+    private async Task UpdateStatisticsItemsAsync()
+    {
+        if (await metadataService.InitializeAsync().ConfigureAwait(true))
+        {
+            if (SelectedProject != null)
+            {
+                List<Model.Metadata.Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
+                List<StatisticsCultivateItem> temp = await cultivationService.GetStatisticsCultivateItemsAsync(SelectedProject, materials).ConfigureAwait(false);
+                await ThreadHelper.SwitchToMainThreadAsync();
+                StatisticsItems = temp;
+            }
         }
     }
 }

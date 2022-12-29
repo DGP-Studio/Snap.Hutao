@@ -45,6 +45,14 @@ internal interface ICultivationService
     ObservableCollection<CultivateProject> GetProjectCollection();
 
     /// <summary>
+    /// 异步获取统计物品列表
+    /// </summary>
+    /// <param name="cultivateProject">养成计划</param>
+    /// <param name="materials">元数据</param>
+    /// <returns>统计物品列表</returns>
+    Task<List<StatisticsCultivateItem>> GetStatisticsCultivateItemsAsync(CultivateProject cultivateProject, List<Material> materials);
+
+    /// <summary>
     /// 删除养成清单
     /// </summary>
     /// <param name="entryId">入口Id</param>

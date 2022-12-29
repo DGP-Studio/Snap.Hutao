@@ -65,6 +65,11 @@ public class CultivateItem : ObservableObject
     /// </summary>
     public bool IsToday { get; }
 
+    /// <summary>
+    /// 对应背包物品的个数
+    /// </summary>
+    public uint InventoryItemCount { get; set; }
+
     private void FlipIsFinished()
     {
         IsFinished = !IsFinished;

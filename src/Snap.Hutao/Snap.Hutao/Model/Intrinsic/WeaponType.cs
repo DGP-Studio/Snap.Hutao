@@ -74,24 +74,24 @@ public enum WeaponType
     /// <summary>
     /// 法器
     /// </summary>
-    [Description("单手剑")]
+    [Description("法器")]
     WEAPON_CATALYST = 10,
 
     /// <summary>
     /// 双手剑
     /// </summary>
-    [Description("单手剑")]
+    [Description("双手剑")]
     WEAPON_CLAYMORE = 11,
 
     /// <summary>
     /// 弓
     /// </summary>
-    [Description("单手剑")]
+    [Description("弓")]
     WEAPON_BOW = 12,
 
     /// <summary>
     /// 长柄武器
     /// </summary>
-    [Description("单手剑")]
+    [Description("长柄武器")]
     WEAPON_POLE = 13,
 }

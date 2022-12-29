@@ -59,6 +59,11 @@ internal class UserViewModel : ObservableObject
             if (SetProperty(ref selectedUser, value))
             {
                 userService.Current = value;
+
+                if (value != null)
+                {
+                    value.SelectedUserGameRole = value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
+                }
             }
         }
     }

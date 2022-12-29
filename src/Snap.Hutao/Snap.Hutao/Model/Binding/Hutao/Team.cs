@@ -28,7 +28,13 @@ internal class Team : List<ComplexAvatar>
         }
 
         Rate = $"上场 {team.Rate} 次";
+        Name = TeamPopularNameParser.GetName(ids.ToHashSet());
     }
+
+    /// <summary>
+    /// 队伍俗名
+    /// </summary>
+    public string Name { get; set; }
 
     /// <summary>
     /// 上场次数

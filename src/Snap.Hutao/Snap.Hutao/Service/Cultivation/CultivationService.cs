@@ -148,7 +148,7 @@ internal class CultivationService : ICultivationService
                 .ToListAsync()
                 .ConfigureAwait(false);
 
-            foreach (CultivateEntry? entry in entries)
+            foreach (CultivateEntry entry in entries)
             {
                 Guid entryId = entry.InnerId;
 
@@ -175,6 +175,70 @@ internal class CultivationService : ICultivationService
             }
 
             return new(results.OrderByDescending(e => e.Items.Any(i => i.IsToday)));
+        }
+    }
+
+    /// <inheritdoc/>
+    public async Task<List<Model.Binding.Cultivation.StatisticsCultivateItem>> GetStatisticsCultivateItemsAsync(CultivateProject cultivateProject, List<Model.Metadata.Material> materials)
+    {
+        using (IServiceScope scope = scopeFactory.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Guid projectId = cultivateProject.InnerId;
+
+            List<Model.Binding.Cultivation.StatisticsCultivateItem> resultItems = new();
+
+            List<CultivateEntry> entries = await appDbContext.CultivateEntries
+                .AsNoTracking()
+                .Where(e => e.ProjectId == projectId)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            foreach (CultivateEntry entry in entries)
+            {
+                Guid entryId = entry.InnerId;
+
+                List<CultivateItem> items = await appDbContext.CultivateItems
+                    .AsNoTracking()
+                    .Where(i => i.EntryId == entryId)
+                    .OrderBy(i => i.ItemId)
+                    .ToListAsync()
+                    .ConfigureAwait(false);
+
+                foreach (CultivateItem item in items)
+                {
+                    if (item.IsFinished)
+                    {
+                        continue;
+                    }
+
+                    if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is Model.Binding.Cultivation.StatisticsCultivateItem inPlaceItem)
+                    {
+                        inPlaceItem.Count += item.Count;
+                    }
+                    else
+                    {
+                        resultItems.Add(new(materials.Single(m => m.Id == item.ItemId), item));
+                    }
+                }
+            }
+
+            List<InventoryItem> inventoryItems = await appDbContext.InventoryItems
+                .AsNoTracking()
+                .Where(e => e.ProjectId == projectId)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            foreach (InventoryItem inventoryItem in inventoryItems)
+            {
+                if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is Model.Binding.Cultivation.StatisticsCultivateItem inPlaceItem)
+                {
+                    inPlaceItem.TotalCount += inventoryItem.Count;
+                }
+            }
+
+            return resultItems.OrderByDescending(i => i.Count).ToList();
         }
     }
 

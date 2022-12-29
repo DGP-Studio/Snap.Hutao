@@ -51,6 +51,7 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     private LaunchScheme? selectedScheme;
     private ObservableCollection<GameAccount>? gameAccounts;
     private GameAccount? selectedGameAccount;
+    private bool isExclusive;
     private bool isFullScreen;
     private bool isBorderless;
     private int screenWidth;
@@ -107,14 +108,56 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
     /// <summary>
+    /// 是否为独占全屏
+    /// </summary>
+    public bool IsExclusive
+    {
+        get => isExclusive; set
+        {
+            if (SetProperty(ref isExclusive, value))
+            {
+                if (value)
+                {
+                    IsFullScreen = true;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// 全屏
     /// </summary>
-    public bool IsFullScreen { get => isFullScreen; set => SetProperty(ref isFullScreen, value); }
+    public bool IsFullScreen
+    {
+        get => isFullScreen; set
+        {
+            if (SetProperty(ref isFullScreen, value))
+            {
+                if (value)
+                {
+                    IsBorderless = false;
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// 无边框
     /// </summary>
-    public bool IsBorderless { get => isBorderless; set => SetProperty(ref isBorderless, value); }
+    public bool IsBorderless
+    {
+        get => isBorderless; set
+        {
+            if (SetProperty(ref isBorderless, value))
+            {
+                if (value)
+                {
+                    IsExclusive = false;
+                    IsFullScreen = false;
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// 宽度
@@ -270,7 +313,7 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 
         SaveSetting();
 
-        LaunchConfiguration configuration = new(IsFullScreen, IsBorderless, ScreenWidth, ScreenHeight, IsElevated && UnlockFps, TargetFps);
+        LaunchConfiguration configuration = new(IsExclusive, IsFullScreen, IsBorderless, ScreenWidth, ScreenHeight, IsElevated && UnlockFps, TargetFps);
         await gameService.LaunchAsync(configuration).ConfigureAwait(false);
     }
 

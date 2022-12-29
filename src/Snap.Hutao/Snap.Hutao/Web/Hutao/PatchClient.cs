@@ -40,10 +40,10 @@ internal class PatchClient
     }
 
     /// <summary>
-    /// 更新信息
+    /// 异步获取更新信息
     /// </summary>
-    /// <param name="token"></param>
-    /// <returns></returns>
+    /// <param name="token">取消令牌</param>
+    /// <returns>更新信息</returns>
     public Task<Patch.PatchInformation?> GetPatchInformationAsync(CancellationToken token = default)
     {
         return httpClient.TryCatchGetFromJsonAsync<Patch.PatchInformation>(ApiEndpoints.PatcherHutaoStable, options, logger, token);
