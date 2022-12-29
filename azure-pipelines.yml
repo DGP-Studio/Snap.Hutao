@@ -13,8 +13,8 @@ trigger:
     - main
   paths:
     exclude:
-    - *.md
-    - *.yml
+    - README.md
+    - azure-pipelines.yml
     - .github/ISSUE_TEMPLATE/*.yml
     - .github/workflows/*.yml
     
