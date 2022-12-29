@@ -1,10 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Service.Cultivation;
 
 namespace Snap.Hutao.Model.Binding.Cultivation;
 

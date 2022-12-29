@@ -3,9 +3,6 @@
 
 using Snap.Hutao.Factory.Abstraction;
 using Windows.Storage.Pickers;
-using Windows.Win32;
-using Windows.Win32.UI.Shell;
-using WinRT;
 using WinRT.Interop;
 
 namespace Snap.Hutao.Factory;

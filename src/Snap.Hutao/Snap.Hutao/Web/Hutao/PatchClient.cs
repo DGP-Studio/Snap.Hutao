@@ -2,17 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Binding.User;
-using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
-using Snap.Hutao.Web.Hutao.Model;
-using Snap.Hutao.Web.Hutao.Model.Post;
-using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hutao;
 

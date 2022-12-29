@@ -1,16 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.Metadata;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
-using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using ModelPlayerInfo = Snap.Hutao.Web.Enka.Model.PlayerInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
