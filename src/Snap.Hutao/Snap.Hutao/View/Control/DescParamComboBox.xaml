@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:sc="using:SettingsUI.Controls"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="ComboBox">
@@ -12,9 +12,9 @@
         </Style>
     </UserControl.Resources>
     <StackPanel>
-        <sc:SettingsGroup Margin="0,-64,0,0" VerticalAlignment="Top">
-            <sc:Setting Padding="12,0,6,0" Header="等级">
-                <sc:Setting.ActionContent>
+        <wsc:SettingsGroup Margin="0,-64,0,0" VerticalAlignment="Top">
+            <wsc:Setting Padding="12,0,6,0" Header="等级">
+                <wsc:Setting.ActionContent>
                     <ComboBox x:Name="ItemHost" SelectionChanged="ItemHostSelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -22,9 +22,9 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </sc:Setting.ActionContent>
-            </sc:Setting>
-        </sc:SettingsGroup>
+                </wsc:Setting.ActionContent>
+            </wsc:Setting>
+        </wsc:SettingsGroup>
 
         <ItemsControl x:Name="DetailsHost" VerticalAlignment="Top">
             <ItemsControl.ItemContainerTransitions>
@@ -32,14 +32,14 @@
             </ItemsControl.ItemContainerTransitions>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <sc:Setting
+                    <wsc:Setting
                         Margin="0,2,0,0"
                         Padding="12,0"
                         Header="{Binding Description}">
-                        <sc:Setting.ActionContent>
+                        <wsc:Setting.ActionContent>
                             <TextBlock Text="{Binding Parameter}"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

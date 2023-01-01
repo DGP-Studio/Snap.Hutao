@@ -8,7 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:sc="using:SettingsUI.Controls"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
@@ -17,6 +16,7 @@
     xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shv:AvatarPropertyViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -240,18 +240,18 @@
                                             <Button.Flyout>
                                                 <Flyout Placement="BottomEdgeAlignedLeft">
                                                     <StackPanel>
-                                                        <sc:Setting
+                                                        <wsc:Setting
                                                             Margin="0,2,0,0"
                                                             Padding="12,0"
                                                             Header="{Binding MainProperty.Key}">
                                                             <TextBlock Text="{Binding MainProperty.Value}"/>
-                                                        </sc:Setting>
-                                                        <sc:Setting
+                                                        </wsc:Setting>
+                                                        <wsc:Setting
                                                             Margin="0,2,0,0"
                                                             Padding="12,0"
                                                             Header="{Binding SubProperty.Key}">
                                                             <TextBlock Text="{Binding SubProperty.Value}"/>
-                                                        </sc:Setting>
+                                                        </wsc:Setting>
                                                         <shct:DescriptionTextBlock
                                                             MaxWidth="320"
                                                             Margin="0,12,0,0"
@@ -400,14 +400,14 @@
                                                             <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Info.Parameters}">
                                                                 <ItemsControl.ItemTemplate>
                                                                     <DataTemplate>
-                                                                        <sc:Setting
+                                                                        <wsc:Setting
                                                                             Margin="0,2,0,0"
                                                                             Padding="12,0"
                                                                             Header="{Binding Description}">
-                                                                            <sc:Setting.ActionContent>
+                                                                            <wsc:Setting.ActionContent>
                                                                                 <TextBlock Text="{Binding Parameter}"/>
-                                                                            </sc:Setting.ActionContent>
-                                                                        </sc:Setting>
+                                                                            </wsc:Setting.ActionContent>
+                                                                        </wsc:Setting>
                                                                     </DataTemplate>
                                                                 </ItemsControl.ItemTemplate>
                                                             </ItemsControl>
@@ -429,7 +429,7 @@
                             <ItemsControl ItemsSource="{Binding SelectedAvatar.Properties}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <sc:Setting
+                                        <wsc:Setting
                                             Margin="0,2,0,0"
                                             BorderBrush="{x:Null}"
                                             BorderThickness="0"
@@ -450,7 +450,7 @@
                                                     Foreground="#FF90E800"
                                                     Text="{Binding Value2}"/>
                                             </Grid>
-                                        </sc:Setting>
+                                        </wsc:Setting>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

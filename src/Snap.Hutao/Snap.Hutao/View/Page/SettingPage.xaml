@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:sc="using:SettingsUI.Controls"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shv:SettingViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -27,7 +27,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="16,-16,24,16">
-                <sc:SettingsGroup Header="关于 胡桃">
+                <wsc:SettingsGroup Header="关于 胡桃">
                     <Grid Margin="0,4,0,16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -53,35 +53,35 @@
                             <TextBlock VerticalAlignment="Bottom" Text="Copyright © 2022 DGP Studio. All Rights Reserved."/>
                         </Grid>
                     </Grid>
-                    <sc:Setting
+                    <wsc:Setting
                         Description="{Binding AppVersion}"
                         Header="胡桃"
                         Icon="&#xECAA;"/>
-                    <sc:Setting Header="设备ID" Icon="&#xE975;">
-                        <sc:Setting.Description>
+                    <wsc:Setting Header="设备ID" Icon="&#xE975;">
+                        <wsc:Setting.Description>
                             <TextBlock
                                 IsTextSelectionEnabled="True"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding DeviceId}"/>
-                        </sc:Setting.Description>
-                    </sc:Setting>
-                    <sc:Setting
+                        </wsc:Setting.Description>
+                    </wsc:Setting>
+                    <wsc:Setting
                         Description="{Binding WebView2Version}"
                         Header="Webview2 Runtime"
                         Icon="&#xECAA;"/>
-                    <sc:Setting
+                    <wsc:Setting
                         Description="Github 上反馈的问题会优先处理"
                         Header="反馈"
                         Icon="&#xED15;">
                         <HyperlinkButton Content="前往反馈" NavigateUri="https://hut.ao/statements/bug-report.html"/>
-                    </sc:Setting>
-                    <sc:SettingExpander>
-                        <sc:SettingExpander.Header>
-                            <sc:Setting
+                    </wsc:Setting>
+                    <wsc:SettingExpander>
+                        <wsc:SettingExpander.Header>
+                            <wsc:Setting
                                 Description="根本没有检查更新选项"
                                 Header="检查更新"
                                 Icon="&#xE117;"/>
-                        </sc:SettingExpander.Header>
+                        </wsc:SettingExpander.Header>
                         <InfoBar
                             CornerRadius="0,0,4,4"
                             IsClosable="False"
@@ -96,11 +96,11 @@
                                     Content="没用的按钮"/>
                             </InfoBar.ActionButton>
                         </InfoBar>
-                    </sc:SettingExpander>
-                </sc:SettingsGroup>
+                    </wsc:SettingExpander>
+                </wsc:SettingsGroup>
 
-                <sc:SettingsGroup Header="外观">
-                    <sc:Setting
+                <wsc:SettingsGroup Header="外观">
+                    <wsc:Setting
                         Description="更改窗体的背景材质"
                         Header="背景材质"
                         Icon="&#xE7F7;">
@@ -108,12 +108,12 @@
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding BackdropTypes}"
                             SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
-                    </sc:Setting>
+                    </wsc:Setting>
 
-                </sc:SettingsGroup>
+                </wsc:SettingsGroup>
 
-                <sc:SettingsGroup Header="祈愿记录">
-                    <sc:Setting
+                <wsc:SettingsGroup Header="祈愿记录">
+                    <wsc:Setting
                         Description="在祈愿记录页面显示或隐藏无记录的历史祈愿活动"
                         Header="无记录的历史祈愿活动"
                         Icon="&#xE81C;">
@@ -122,13 +122,13 @@
                             OffContent="隐藏"
                             OnContent="显示"
                             Style="{StaticResource ToggleSwitchSettingStyle}"/>
-                    </sc:Setting>
+                    </wsc:Setting>
 
-                </sc:SettingsGroup>
+                </wsc:SettingsGroup>
 
-                <sc:SettingsGroup Header="游戏">
-                    <sc:Setting Header="游戏路径" Icon="&#xE7FC;">
-                        <sc:Setting.Description>
+                <wsc:SettingsGroup Header="游戏">
+                    <wsc:Setting Header="游戏路径" Icon="&#xE7FC;">
+                        <wsc:Setting.Description>
                             <StackPanel>
                                 <TextBlock
                                     Foreground="{StaticResource SystemFillColorCautionBrush}"
@@ -136,71 +136,71 @@
                                     Text="请选择游戏本体而不是启动器！"/>
                                 <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding GamePath}"/>
                             </StackPanel>
-                        </sc:Setting.Description>
-                        <sc:Setting.ActionContent>
+                        </wsc:Setting.Description>
+                        <wsc:Setting.ActionContent>
                             <Button Command="{Binding SetGamePathCommand}" Content="设置路径"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
-                    <sc:Setting
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+                    <wsc:Setting
                         Description="若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作"
                         Header="删除游戏内网页缓存"
                         Icon="&#xE74D;">
-                        <sc:Setting.ActionContent>
+                        <wsc:Setting.ActionContent>
                             <Button Command="{Binding DeleteGameWebCacheCommand}" Content="删除"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
-                </sc:SettingsGroup>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+                </wsc:SettingsGroup>
 
-                <sc:SettingsGroup Header="测试功能">
-                    <sc:Setting
+                <wsc:SettingsGroup Header="测试功能">
+                    <wsc:Setting
                         Description="用户数据/日志/元数据在此处存放"
                         Header="打开 数据 文件夹"
                         Icon="&#xEC25;">
-                        <sc:Setting.ActionContent>
+                        <wsc:Setting.ActionContent>
                             <Button Command="{Binding Experimental.OpenDataFolderCommand}" Content="打开"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
 
-                    <sc:Setting
+                    <wsc:Setting
                         Description="图片缓存在此处存放"
                         Header="打开 缓存 文件夹"
                         Icon="&#xE8B7;">
-                        <sc:Setting.ActionContent>
+                        <wsc:Setting.ActionContent>
                             <Button Command="{Binding Experimental.OpenCacheFolderCommand}" Content="打开"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
 
-                    <sc:Setting
+                    <wsc:Setting
                         Description="对当前选中的账号进行签到"
                         Header="米游社每日签到"
                         Icon="&#xE9D5;">
-                        <sc:Setting.ActionContent>
+                        <wsc:Setting.ActionContent>
                             <Button Command="{Binding ShowSignInWebViewDialogCommand}" Content="打开签到对话框"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
-                </sc:SettingsGroup>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+                </wsc:SettingsGroup>
 
-                <sc:SettingsGroup Foreground="{StaticResource SystemFillColorCriticalBrush}" Header="危险功能">
-                    <sc:Setting
+                <wsc:SettingsGroup Foreground="{StaticResource SystemFillColorCriticalBrush}" Header="危险功能">
+                    <wsc:Setting
                         Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
                         Description="删除注册的计划任务，卸载前务必点击此项"
                         Header="删除所有计划任务"
                         Icon="&#xE7C4;">
-                        <sc:Setting.ActionContent>
+                        <wsc:Setting.ActionContent>
                             <Button Command="{Binding Experimental.DeleteAllScheduleTasksCommand}" Content="执行"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
 
-                    <sc:Setting
+                    <wsc:Setting
                         Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
                         Description="直接删除用户表的所有记录，用于修复特定的账号冲突问题"
                         Header="删除所有用户"
                         Icon="&#xE756;">
-                        <sc:Setting.ActionContent>
+                        <wsc:Setting.ActionContent>
                             <Button Command="{Binding Experimental.DeleteUsersCommand}" Content="执行"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
-                </sc:SettingsGroup>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+                </wsc:SettingsGroup>
             </StackPanel>
         </Grid>
     </ScrollViewer>

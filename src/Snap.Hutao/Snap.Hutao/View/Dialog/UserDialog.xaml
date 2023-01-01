@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settings="using:SettingsUI.Controls"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     Title="设置 Cookie"
     CloseButtonText="取消"
     DefaultButton="Primary"
@@ -20,8 +20,8 @@
             VerticalAlignment="Top"
             PlaceholderText="在此处输入包含 Stoken 的字符串"
             TextChanged="InputTextChanged"/>
-        <settings:SettingsGroup Margin="0,-48,0,0">
-            <settings:Setting
+        <wsc:SettingsGroup Margin="0,-48,0,0">
+            <wsc:Setting
                 HorizontalAlignment="Stretch"
                 Description="HolographicHat/GetToken"
                 Header="Github 上的第三方工具"
@@ -31,8 +31,8 @@
                     Padding="6"
                     Content="前往下载"
                     NavigateUri="https://github.com/HolographicHat/GetToken/releases/latest"/>
-            </settings:Setting>
-            <settings:Setting
+            </wsc:Setting>
+            <wsc:Setting
                 HorizontalAlignment="Stretch"
                 Description="进入文档页面并按指示操作"
                 Header="操作文档"
@@ -42,7 +42,7 @@
                     Padding="6"
                     Content="立即前往"
                     NavigateUri="https://hut.ao/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie"/>
-            </settings:Setting>
-        </settings:SettingsGroup>
+            </wsc:Setting>
+        </wsc:SettingsGroup>
     </StackPanel>
 </ContentDialog>

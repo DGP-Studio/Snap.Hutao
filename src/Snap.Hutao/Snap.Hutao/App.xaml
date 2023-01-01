@@ -10,7 +10,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <muxc:XamlControlsResources/>
-                <ResourceDictionary Source="ms-appx:///SettingsUI/Themes/SettingsUI.xaml"/>
+                <ResourceDictionary Source="ms-appx:///SettingsUI/Themes/Generic.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ResourceDictionary.ThemeDictionaries>
@@ -69,6 +69,17 @@
                 BasedOn="{StaticResource DefaultGridViewItemStyle}"
                 TargetType="GridViewItem">
                 <Setter Property="Margin" Value="0,0,12,12"/>
+            </Style>
+
+            <Style
+                x:Key="SettingButtonStyle"
+                BasedOn="{StaticResource DefaultButtonStyle}"
+                TargetType="Button">
+                <Setter Property="BorderBrush" Value="{ThemeResource CardBorderBrush}"/>
+                <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}"/>
+                <Setter Property="Padding" Value="16,6,16,6"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
 
             <Style x:Key="BorderCardStyle" TargetType="Border">

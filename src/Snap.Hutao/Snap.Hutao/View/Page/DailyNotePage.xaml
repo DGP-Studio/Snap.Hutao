@@ -8,12 +8,12 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
-    xmlns:sc="using:SettingsUI.Controls"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shv:DailyNoteViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -105,8 +105,8 @@
                                     </DataTemplate>
                                 </RadioButtons.ItemTemplate>
                             </RadioButtons>
-                            <sc:SettingsGroup Margin="0,-16,0,0" Header="通知">
-                                <sc:Setting
+                            <wsc:SettingsGroup Margin="0,-16,0,0" Header="通知">
+                                <wsc:Setting
                                     Description="防止通知自动收入操作中心"
                                     Header="提醒通知"
                                     Icon="&#xEA8F;">
@@ -114,8 +114,8 @@
                                         Margin="24,0,0,0"
                                         IsOn="{Binding IsReminderNotification, Mode=TwoWay}"
                                         Style="{StaticResource ToggleSwitchSettingStyle}"/>
-                                </sc:Setting>
-                            </sc:SettingsGroup>
+                                </wsc:Setting>
+                            </wsc:SettingsGroup>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>

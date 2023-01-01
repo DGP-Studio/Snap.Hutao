@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:sc="using:SettingsUI.Controls"
     xmlns:shme="using:Snap.Hutao.Model.Entity"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     Title="设置实时便笺通知"
     d:DataContext="{d:DesignInstance shme:DailyNoteEntry}"
     DefaultButton="Primary"
@@ -13,34 +13,34 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ScrollViewer>
-        <sc:SettingsGroup Margin="0,-24,0,0" Header="{Binding UserGameRole}">
-            <sc:Setting Padding="16,8" Header="原粹树脂提醒阈值">
+        <wsc:SettingsGroup Margin="0,-24,0,0" Header="{Binding UserGameRole}">
+            <wsc:Setting Padding="16,8" Header="原粹树脂提醒阈值">
                 <Slider
                     MinWidth="160"
                     Margin="32,0,0,0"
                     Maximum="160"
                     Minimum="0"
                     Value="{Binding ResinNotifyThreshold, Mode=TwoWay}"/>
-            </sc:Setting>
-            <sc:Setting Padding="16,8" Header="洞天宝钱提醒阈值">
+            </wsc:Setting>
+            <wsc:Setting Padding="16,8" Header="洞天宝钱提醒阈值">
                 <Slider
                     MinWidth="160"
                     Maximum="2400"
                     Minimum="0"
                     Value="{Binding HomeCoinNotifyThreshold, Mode=TwoWay}"/>
-            </sc:Setting>
-            <sc:Setting Padding="16,8" Header="参量质变仪提醒">
+            </wsc:Setting>
+            <wsc:Setting Padding="16,8" Header="参量质变仪提醒">
                 <ToggleSwitch IsOn="{Binding TransformerNotify, Mode=TwoWay}" Style="{StaticResource ToggleSwitchSettingStyle}"/>
-            </sc:Setting>
-            <sc:Setting Padding="16,8" Header="每日委托上线提醒">
+            </wsc:Setting>
+            <wsc:Setting Padding="16,8" Header="每日委托上线提醒">
                 <ToggleSwitch IsOn="{Binding DailyTaskNotify, Mode=TwoWay}" Style="{StaticResource ToggleSwitchSettingStyle}"/>
-            </sc:Setting>
-            <sc:Setting Padding="16,8" Header="探索派遣完成提醒">
+            </wsc:Setting>
+            <wsc:Setting Padding="16,8" Header="探索派遣完成提醒">
                 <ToggleSwitch IsOn="{Binding ExpeditionNotify, Mode=TwoWay}" Style="{StaticResource ToggleSwitchSettingStyle}"/>
-            </sc:Setting>
-            <sc:Setting Padding="16,8" Header="在主页显示卡片">
+            </wsc:Setting>
+            <wsc:Setting Padding="16,8" Header="在主页显示卡片">
                 <ToggleSwitch IsOn="{Binding ShowInHomeWidget, Mode=TwoWay}" Style="{StaticResource ToggleSwitchSettingStyle}"/>
-            </sc:Setting>
-        </sc:SettingsGroup>
+            </wsc:Setting>
+        </wsc:SettingsGroup>
     </ScrollViewer>
 </ContentDialog>

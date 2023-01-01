@@ -6,13 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:sc="using:SettingsUI.Controls"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shv:SpiralAbyssRecordViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -67,12 +67,12 @@
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Margin="16,0,8,16">
-                                        <sc:SettingsGroup Margin="0,-48,16,0">
-                                            <sc:Setting Content="{Binding TotalBattleTimes}" Header="战斗次数"/>
-                                            <sc:Setting Content="{Binding TotalStar}" Header="获得渊星"/>
-                                            <sc:Setting Content="{Binding MaxFloor}" Header="最深抵达"/>
-                                        </sc:SettingsGroup>
-                                        <sc:SettingsGroup Margin="0,0,16,0" Header="出战次数">
+                                        <wsc:SettingsGroup Margin="0,-48,16,0">
+                                            <wsc:Setting Content="{Binding TotalBattleTimes}" Header="战斗次数"/>
+                                            <wsc:Setting Content="{Binding TotalStar}" Header="获得渊星"/>
+                                            <wsc:Setting Content="{Binding MaxFloor}" Header="最深抵达"/>
+                                        </wsc:SettingsGroup>
+                                        <wsc:SettingsGroup Margin="0,0,16,0" Header="出战次数">
                                             <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Reveals}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
@@ -88,9 +88,9 @@
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
 
-                                        </sc:SettingsGroup>
-                                        <sc:SettingsGroup Margin="0,0,16,0" Header="战斗数据">
-                                            <sc:Setting Header="最多击破">
+                                        </wsc:SettingsGroup>
+                                        <wsc:SettingsGroup Margin="0,0,16,0" Header="战斗数据">
+                                            <wsc:Setting Header="最多击破">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -102,9 +102,9 @@
                                                         Margin="-8,-24,-8,-8"
                                                         Source="{Binding Defeat.SideIcon}"/>
                                                 </StackPanel>
-                                            </sc:Setting>
+                                            </wsc:Setting>
 
-                                            <sc:Setting Header="最强一击">
+                                            <wsc:Setting Header="最强一击">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -116,9 +116,9 @@
                                                         Margin="-8,-24,-8,-8"
                                                         Source="{Binding Damage.SideIcon}"/>
                                                 </StackPanel>
-                                            </sc:Setting>
+                                            </wsc:Setting>
 
-                                            <sc:Setting Header="最多承伤">
+                                            <wsc:Setting Header="最多承伤">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -130,8 +130,8 @@
                                                         Margin="-8,-24,-8,-8"
                                                         Source="{Binding TakeDamage.SideIcon}"/>
                                                 </StackPanel>
-                                            </sc:Setting>
-                                            <sc:Setting Header="元素战技">
+                                            </wsc:Setting>
+                                            <wsc:Setting Header="元素战技">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -143,8 +143,8 @@
                                                         Margin="-8,-24,-8,-8"
                                                         Source="{Binding NormalSkill.SideIcon}"/>
                                                 </StackPanel>
-                                            </sc:Setting>
-                                            <sc:Setting Header="元素爆发">
+                                            </wsc:Setting>
+                                            <wsc:Setting Header="元素爆发">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -156,8 +156,8 @@
                                                         Margin="-8,-24,-8,-8"
                                                         Source="{Binding EnergySkill.SideIcon}"/>
                                                 </StackPanel>
-                                            </sc:Setting>
-                                        </sc:SettingsGroup>
+                                            </wsc:Setting>
+                                        </wsc:SettingsGroup>
                                     </StackPanel>
                                 </Grid>
 
