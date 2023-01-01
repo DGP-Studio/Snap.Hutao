@@ -207,7 +207,7 @@ internal class GameService : IGameService, IDisposable
             return true;
         }
 
-        return Process.GetProcessesByName("YuanShen.exe").Any();
+        return Process.GetProcessesByName("YuanShen.exe").Any() || Process.GetProcessesByName("GenshinImpact.exe").Any();
     }
 
     /// <inheritdoc/>
