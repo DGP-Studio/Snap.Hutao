@@ -18,19 +18,12 @@ public class Battle
     /// 时间戳
     /// </summary>
     [JsonPropertyName("timestamp")]
-    public string Timestamp { get; set; } = default!;
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public long Timestamp { get; set; } = default!;
 
     /// <summary>
     /// 参战角色
     /// </summary>
     [JsonPropertyName("avatars")]
     public List<Avatar> Avatars { get; set; } = default!;
-
-    /// <summary>
-    /// 时间
-    /// </summary>
-    public DateTime Time
-    {
-        get => DateTimeOffset.FromUnixTimeSeconds(int.Parse(Timestamp)).LocalDateTime;
-    }
 }

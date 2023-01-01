@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Snap.Hutao.Context.Database;
+using Snap.Hutao.Model.Entity.Database;
 
 #nullable disable
 

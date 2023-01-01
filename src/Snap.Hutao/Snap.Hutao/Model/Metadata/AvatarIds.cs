@@ -92,4 +92,13 @@ public static class AvatarIds
     {
         return avatarId == PlayerBoy || avatarId == PlayerGirl;
     }
+
+    public static Dictionary<AvatarId, Avatar.Avatar> ExtendAvatars(Dictionary<AvatarId, Avatar.Avatar> idAvatarMap)
+    {
+        return new(idAvatarMap)
+        {
+            [PlayerBoy] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerBoy", Quality = Intrinsic.ItemQuality.QUALITY_ORANGE },
+            [PlayerGirl] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerGirl", Quality = Intrinsic.ItemQuality.QUALITY_ORANGE },
+        };
+    }
 }

@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model;
 

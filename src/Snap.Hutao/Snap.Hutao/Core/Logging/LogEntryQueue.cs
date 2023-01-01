@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem;
+using Snap.Hutao.Model.Entity.Database;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 

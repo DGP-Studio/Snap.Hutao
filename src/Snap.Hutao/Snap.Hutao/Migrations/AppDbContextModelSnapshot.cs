@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Snap.Hutao.Context.Database;
+using Snap.Hutao.Model.Entity.Database;
 
 #nullable disable
 
@@ -383,6 +383,28 @@ namespace Snap.Hutao.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("settings");
+                });
+
+            modelBuilder.Entity("Snap.Hutao.Model.Entity.SpiralAbyssEntry", b =>
+                {
+                    b.Property<Guid>("InnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SpiralAbyss")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Uid")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("InnerId");
+
+                    b.ToTable("spiral_abysses");
                 });
 
             modelBuilder.Entity("Snap.Hutao.Model.Entity.User", b =>

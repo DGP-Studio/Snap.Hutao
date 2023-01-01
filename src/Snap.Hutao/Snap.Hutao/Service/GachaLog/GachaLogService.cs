@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
@@ -12,6 +11,7 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Primitive;

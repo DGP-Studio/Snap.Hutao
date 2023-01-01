@@ -69,15 +69,38 @@
                     <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="详情">
                         <AppBarButton.Flyout>
                             <Flyout Placement="BottomEdgeAlignedRight">
-                                <sc:SettingsGroup
-                                    MinWidth="240"
-                                    Margin="0,-32,0,0"
-                                    Header="数据来自「胡桃数据库」">
-                                    <sc:Setting Content="{Binding Overview.RefreshTime}" Header="数据刷新时间"/>
-                                    <sc:Setting Content="{Binding Overview.RecordTotal}" Header="上传记录总数"/>
-                                    <sc:Setting Content="{Binding Overview.SpiralAbyssTotal}" Header="深渊记录总数"/>
-                                    <sc:Setting Content="{Binding Overview.SpiralAbyssFullStar}" Header="深渊记录满星数"/>
-                                </sc:SettingsGroup>
+                                <StackPanel MinWidth="260">
+                                    <sc:SettingsGroup Margin="0,-32,0,0" Header="数据收集统计">
+                                        <sc:Setting Content="{Binding Overview.RefreshTime}" Header="数据刷新时间"/>
+                                        <sc:Setting Content="{Binding Overview.RecordTotal}" Header="上传记录总数"/>
+                                    </sc:SettingsGroup>
+                                    <sc:SettingsGroup Margin="0,-16,0,0" Header="深渊数据统计">
+                                        <sc:Setting Content="{Binding Overview.SpiralAbyssTotal}" Header="总计深渊记录"/>
+                                        <sc:Setting Padding="16,8" Header="通关深渊记录">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Overview.SpiralAbyssPassedPercent}"/>
+                                                <TextBlock
+                                                    HorizontalAlignment="Right"
+                                                    Opacity="0.7"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding Overview.SpiralAbyssPassed}"/>
+                                            </StackPanel>
+                                        </sc:Setting>
+                                        <sc:Setting Padding="16,8" Header="满星深渊记录">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Overview.SpiralAbyssFullStarPercent}"/>
+                                                <TextBlock
+                                                    HorizontalAlignment="Right"
+                                                    Opacity="0.7"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding Overview.SpiralAbyssFullStar}"/>
+                                            </StackPanel>
+                                        </sc:Setting>
+                                        <sc:Setting Content="{Binding Overview.SpiralAbyssStarAverage}" Header="平均获取渊星"/>
+                                        <sc:Setting Content="{Binding Overview.SpiralAbyssBattleAverage}" Header="平均战斗次数"/>
+                                    </sc:SettingsGroup>
+                                </StackPanel>
+
                             </Flyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>

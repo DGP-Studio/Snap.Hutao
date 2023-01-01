@@ -4,7 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Logging;
 
-namespace Snap.Hutao.Context.Database;
+namespace Snap.Hutao.Model.Entity.Database;
 
 /// <summary>
 /// 日志数据库上下文

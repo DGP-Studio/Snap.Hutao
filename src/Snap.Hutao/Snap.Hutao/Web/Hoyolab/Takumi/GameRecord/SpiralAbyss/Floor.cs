@@ -30,7 +30,8 @@ public class Floor
     /// 结束时间
     /// </summary>
     [JsonPropertyName("settle_time")]
-    public string SettleTime { get; set; } = default!;
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public long SettleTime { get; set; } = default!;
 
     /// <summary>
     /// 星数

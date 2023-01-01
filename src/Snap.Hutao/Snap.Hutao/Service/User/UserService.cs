@@ -3,10 +3,10 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;

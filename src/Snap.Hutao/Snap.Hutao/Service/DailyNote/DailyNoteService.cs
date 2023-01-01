@@ -4,12 +4,12 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using System.Collections.ObjectModel;

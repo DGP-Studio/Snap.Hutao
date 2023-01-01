@@ -18,14 +18,14 @@ public class SpiralAbyss
     /// 开始时间
     /// </summary>
     [JsonPropertyName("start_time")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long StartTime { get; set; }
 
     /// <summary>
     /// 结束时间
     /// </summary>
     [JsonPropertyName("end_time")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long EndTime { get; set; }
 
     /// <summary>

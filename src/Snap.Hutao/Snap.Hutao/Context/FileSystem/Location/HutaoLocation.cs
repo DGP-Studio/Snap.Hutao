@@ -20,9 +20,13 @@ internal class HutaoLocation : IFileSystemLocation
         if (string.IsNullOrEmpty(path))
         {
             string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
+#if RELEASE
             // 将测试版与正式版的文件目录分离
             string folderName = Package.Current.PublisherDisplayName == "DGP Studio CI" ? "HutaoAlpha" : "Hutao";
+#else
+            // 使得迁移能正常生成
+            string folderName = "Hutao";
+#endif
             path = Path.GetFullPath(Path.Combine(myDocument, folderName));
         }
 

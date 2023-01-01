@@ -29,9 +29,21 @@ public class Overview
     public int SpiralAbyssPassed { get; set; }
 
     /// <summary>
+    /// 通关玩家比例
+    /// </summary>
+    [JsonIgnore]
+    public string SpiralAbyssPassedPercent { get => $"{(double)SpiralAbyssPassed / SpiralAbyssTotal:P2}"; }
+
+    /// <summary>
     /// 总星数
     /// </summary>
     public int SpiralAbyssStarTotal { get; set; }
+
+    /// <summary>
+    /// 平均星数
+    /// </summary>
+    [JsonIgnore]
+    public string SpiralAbyssStarAverage { get => $"{(double)SpiralAbyssStarTotal / SpiralAbyssTotal:F2}"; }
 
     /// <summary>
     /// 满星数
@@ -39,9 +51,21 @@ public class Overview
     public int SpiralAbyssFullStar { get; set; }
 
     /// <summary>
+    /// 满星比例
+    /// </summary>
+    [JsonIgnore]
+    public string SpiralAbyssFullStarPercent { get => $"{(double)SpiralAbyssFullStar / SpiralAbyssTotal:P2}"; }
+
+    /// <summary>
     /// 总战斗次数
     /// </summary>
     public long SpiralAbyssBattleTotal { get; set; }
+
+    /// <summary>
+    /// 平均战斗次数
+    /// </summary>
+    [JsonIgnore]
+    public string SpiralAbyssBattleAverage { get => $"{(double)SpiralAbyssBattleTotal / SpiralAbyssTotal:F2}"; }
 
     /// <summary>
     /// 统计时间

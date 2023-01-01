@@ -178,15 +178,6 @@
                             <Button Command="{Binding ShowSignInWebViewDialogCommand}" Content="打开签到对话框"/>
                         </sc:Setting.ActionContent>
                     </sc:Setting>
-
-                    <sc:Setting
-                        Description="将当前账号的深渊数据上传到胡桃数据库"
-                        Header="上传深渊数据"
-                        Icon="&#xE898;">
-                        <sc:Setting.ActionContent>
-                            <Button Command="{Binding Experimental.UploadSpiralAbyssRecordCommand}" Content="上传"/>
-                        </sc:Setting.ActionContent>
-                    </sc:Setting>
                 </sc:SettingsGroup>
 
                 <sc:SettingsGroup Foreground="{StaticResource SystemFillColorCriticalBrush}" Header="危险功能">

@@ -39,14 +39,15 @@
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
 
                 <NavigationViewItem
-                    shvh:NavHelper.NavigateTo="shvp:DailyNotePage"
-                    Content="实时便笺"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ItemIcon_210.png}"/>
-
-                <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
                     Content="成就管理"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
+
+                <NavigationViewItem
+                    shvh:NavHelper.NavigateTo="shvp:DailyNotePage"
+                    Content="实时便笺"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ItemIcon_210.png,
+                                           ShowAsMonochrome=False}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AvatarPropertyPage"
@@ -54,16 +55,22 @@
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}"/>
 
                 <NavigationViewItem
+                    shvh:NavHelper.NavigateTo="shvp:SpiralAbyssRecordPage"
+                    Content="深渊记录"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_MarkTower_Tower.png,
+                                           ShowAsMonochrome=False}"/>
+
+                <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:CultivationPage"
                     Content="养成计划"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_HomeWorldTabIcon_2_Team.png}"/>
+
+                <NavigationViewItemHeader Content="数据"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:HutaoDatabasePage"
                     Content="深渊统计"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ChapterIcon_Hutao.png}"/>
-
-                <NavigationViewItemHeader Content="WIKI"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"

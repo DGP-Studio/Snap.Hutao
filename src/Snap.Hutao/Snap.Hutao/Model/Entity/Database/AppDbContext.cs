@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Configuration;
 
-namespace Snap.Hutao.Context.Database;
+namespace Snap.Hutao.Model.Entity.Database;
 
 /// <summary>
 /// 应用程序数据库上下文
@@ -118,6 +118,11 @@ public sealed class AppDbContext : DbContext
     public DbSet<InventoryReliquary> InventoryReliquaries { get; set; } = default!;
 
     /// <summary>
+    /// 深渊记录
+    /// </summary>
+    public DbSet<SpiralAbyssEntry> SpiralAbysses { get; set; } = default!;
+
+    /// <summary>
     /// 构造一个临时的应用程序数据库上下文
     /// </summary>
     /// <param name="sqlConnectionString">连接字符串</param>
@@ -139,8 +144,9 @@ public sealed class AppDbContext : DbContext
     {
         modelBuilder
             .ApplyConfiguration(new AvatarInfoConfiguration())
-            .ApplyConfiguration(new UserConfiguration())
             .ApplyConfiguration(new DailyNoteEntryConfiguration())
-            .ApplyConfiguration(new InventoryReliquaryConfiguration());
+            .ApplyConfiguration(new InventoryReliquaryConfiguration())
+            .ApplyConfiguration(new SpiralAbyssEntryConfiguration())
+            .ApplyConfiguration(new UserConfiguration());
     }
 }

@@ -31,4 +31,14 @@ public class UserAndRole
     /// 角色
     /// </summary>
     public UserGameRole Role { get; private set; }
+
+    /// <summary>
+    /// 从用户与选中的角色转换
+    /// </summary>
+    /// <param name="user">角色</param>
+    /// <returns>用户与角色</returns>
+    public static UserAndRole FromUser(User user)
+    {
+        return new UserAndRole(user.Entity, user.SelectedUserGameRole!);
+    }
 }

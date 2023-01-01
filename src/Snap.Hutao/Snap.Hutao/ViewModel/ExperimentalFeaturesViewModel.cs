@@ -5,9 +5,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem.Location;
 using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hutao;
@@ -38,7 +38,6 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
         OpenCacheFolderCommand = asyncRelayCommandFactory.Create(OpenCacheFolderAsync);
         OpenDataFolderCommand = asyncRelayCommandFactory.Create(OpenDataFolderAsync);
-        UploadSpiralAbyssRecordCommand = asyncRelayCommandFactory.Create(UploadSpiralAbyssRecordAsync);
         DeleteUsersCommand = asyncRelayCommandFactory.Create(DangerousDeleteUsersAsync);
         DeleteAllScheduleTasksCommand = new RelayCommand(DangerousDeleteAllScheduleTasks);
     }
@@ -53,10 +52,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// </summary>
     public ICommand OpenDataFolderCommand { get; }
 
-    /// <summary>
-    /// 上传深渊记录命令
-    /// </summary>
-    public ICommand UploadSpiralAbyssRecordCommand { get; }
+
 
     /// <summary>
     /// 清空用户命令
@@ -78,28 +74,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
         return Launcher.LaunchFolderPathAsync(hutaoLocation.GetPath()).AsTask();
     }
 
-    private async Task UploadSpiralAbyssRecordAsync()
-    {
-        HomaClient homaClient = Ioc.Default.GetRequiredService<HomaClient>();
-        IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
-        if (userService.Current is Model.Binding.User.User user)
-        {
-            if (user.SelectedUserGameRole == null)
-            {
-                infoBarService.Warning("尚未选择角色");
-            }
-
-            SimpleRecord record = await homaClient.GetPlayerRecordAsync(user).ConfigureAwait(false);
-            Web.Response.Response<string>? response = await homaClient.UploadRecordAsync(record).ConfigureAwait(false);
-
-            if (response != null && response.IsOk())
-            {
-                infoBarService.Success(response.Message);
-            }
-        }
-    }
 
     private async Task DangerousDeleteUsersAsync()
     {

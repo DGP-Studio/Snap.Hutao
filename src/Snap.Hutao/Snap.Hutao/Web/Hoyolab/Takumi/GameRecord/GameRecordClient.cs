@@ -112,6 +112,18 @@ internal class GameRecordClient
     /// <summary>
     /// 获取玩家深渊信息
     /// </summary>
+    /// <param name="userAndRole">用户</param>
+    /// <param name="schedule">1：当期，2：上期</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>深渊信息</returns>
+    public Task<SpiralAbyss.SpiralAbyss?> GetSpiralAbyssAsync(UserAndRole userAndRole, SpiralAbyssSchedule schedule, CancellationToken token = default)
+    {
+        return GetSpiralAbyssAsync(userAndRole.User, userAndRole.Role, schedule, token);
+    }
+
+    /// <summary>
+    /// 获取玩家深渊信息
+    /// </summary>
     /// <param name="user">用户</param>
     /// <param name="uid">uid</param>
     /// <param name="schedule">1：当期，2：上期</param>

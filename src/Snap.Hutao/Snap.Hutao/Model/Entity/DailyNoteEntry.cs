@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -13,11 +14,8 @@ namespace Snap.Hutao.Model.Entity;
 /// 实时便笺入口
 /// </summary>
 [Table("daily_notes")]
-public class DailyNoteEntry : INotifyPropertyChanged
+public class DailyNoteEntry : ObservableObject
 {
-    /// <inheritdoc/>
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     /// <summary>
     /// 内部Id
     /// </summary>
@@ -130,6 +128,6 @@ public class DailyNoteEntry : INotifyPropertyChanged
     public void UpdateDailyNote(DailyNote? dailyNote)
     {
         DailyNote = dailyNote;
-        PropertyChanged?.Invoke(this, new(nameof(DailyNote)));
+        OnPropertyChanged(nameof(DailyNote));
     }
 }

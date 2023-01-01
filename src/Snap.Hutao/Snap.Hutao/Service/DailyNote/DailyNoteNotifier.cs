@@ -3,12 +3,14 @@
 
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
+using Windows.Foundation.Metadata;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -42,7 +44,7 @@ internal class DailyNoteNotifier
             return;
         }
 
-        List<string> hints = new();
+        List<NotifyInfo> notifyInfos = new();
 
         // NotifySuppressed judge
         {
@@ -50,7 +52,11 @@ internal class DailyNoteNotifier
             {
                 if (!entry.ResinNotifySuppressed)
                 {
-                    hints.Add($"当前原粹树脂：{entry.DailyNote.CurrentResin}");
+                    notifyInfos.Add(new(
+                        "原粹树脂",
+                        "ms-appx:///Resource/Icon/UI_ItemIcon_210_256.png",
+                        $"{entry.DailyNote.CurrentResin}",
+                        $"当前原粹树脂：{entry.DailyNote.CurrentResin}"));
                     entry.ResinNotifySuppressed = true;
                 }
             }
@@ -63,7 +69,11 @@ internal class DailyNoteNotifier
             {
                 if (!entry.HomeCoinNotifySuppressed)
                 {
-                    hints.Add($"当前洞天宝钱：{entry.DailyNote.CurrentHomeCoin}");
+                    notifyInfos.Add(new(
+                        "洞天宝钱",
+                        "ms-appx:///Resource/Icon/UI_ItemIcon_204.png",
+                        $"{entry.DailyNote.CurrentHomeCoin}",
+                        $"当前洞天宝钱：{entry.DailyNote.CurrentHomeCoin}"));
                     entry.HomeCoinNotifySuppressed = true;
                 }
             }
@@ -76,7 +86,11 @@ internal class DailyNoteNotifier
             {
                 if (!entry.DailyTaskNotifySuppressed)
                 {
-                    hints.Add(entry.DailyNote.ExtraTaskRewardDescription);
+                    notifyInfos.Add(new(
+                        "每日委托",
+                        "ms-appx:///Resource/Icon/UI_MarkQuest_Events_Proce.png",
+                        $"奖励待领取",
+                        entry.DailyNote.ExtraTaskRewardDescription));
                     entry.DailyTaskNotifySuppressed = true;
                 }
             }
@@ -89,7 +103,11 @@ internal class DailyNoteNotifier
             {
                 if (!entry.TransformerNotifySuppressed)
                 {
-                    hints.Add("参量质变仪已准备完成");
+                    notifyInfos.Add(new(
+                        "参量质变仪",
+                        "ms-appx:///Resource/Icon/UI_ItemIcon_220021.png",
+                        $"准备完成",
+                        "参量质变仪已准备完成"));
                     entry.TransformerNotifySuppressed = true;
                 }
             }
@@ -102,7 +120,11 @@ internal class DailyNoteNotifier
             {
                 if (!entry.ExpeditionNotifySuppressed)
                 {
-                    hints.Add("探索派遣已完成");
+                    notifyInfos.Add(new(
+                        "探索派遣",
+                        AvatarIconConverter.IconNameToUri("UI_AvatarIcon_Side_None.png").ToString(),
+                        $"已完成",
+                        "探索派遣已完成"));
                     entry.ExpeditionNotifySuppressed = true;
                 }
             }
@@ -112,7 +134,7 @@ internal class DailyNoteNotifier
             }
         }
 
-        if (hints.Count <= 0)
+        if (notifyInfos.Count <= 0)
         {
             return;
         }
@@ -145,20 +167,62 @@ internal class DailyNoteNotifier
                 builder.SetToastScenario(ToastScenario.Reminder);
             }
 
-            if (hints.Count > 2)
+            // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
             {
-                builder.AddText("多个提醒项达到设定值");
+                AdaptiveGroup group = new();
+                foreach (NotifyInfo info in notifyInfos)
+                {
+                    AdaptiveSubgroup subgroup = new()
+                    {
+                        HintWeight = 1,
+                        Children =
+                        {
+                            new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
+                            new AdaptiveText() { Text = info.AdaptiveHint, HintAlign = AdaptiveTextAlign.Center,  },
+                            new AdaptiveText() { Text = info.Title, HintAlign = AdaptiveTextAlign.Center, HintStyle = AdaptiveTextStyle.CaptionSubtle, },
+                        },
+                    };
+
+                    group.Children.Add(subgroup);
+                }
+
+                builder.AddVisualChild(group);
+                builder.AddText("一个或多个提醒项达到设定值");
             }
             else
             {
-                foreach (string hint in hints)
+                if (notifyInfos.Count > 2)
                 {
-                    builder.AddText(hint);
+                    builder.AddText("多个提醒项达到设定值");
+                }
+                else
+                {
+                    foreach (NotifyInfo info in notifyInfos)
+                    {
+                        builder.AddText(info.Hint);
+                    }
                 }
             }
 
             await ThreadHelper.SwitchToMainThreadAsync();
             builder.Show();
+        }
+    }
+
+    private struct NotifyInfo
+    {
+        public string Title;
+        public string AdaptiveIcon;
+        public string AdaptiveHint;
+        public string Hint;
+
+        public NotifyInfo(string title, string adaptiveIcon, string adaptiveHint, string hint)
+        {
+            Title = title;
+            AdaptiveIcon = adaptiveIcon;
+            AdaptiveHint = adaptiveHint;
+            Hint = hint;
         }
     }
 }

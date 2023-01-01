@@ -3,8 +3,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Context.FileSystem;
+using Snap.Hutao.Model.Entity.Database;
 using System.Diagnostics;
 
 namespace Snap.Hutao.Core.DependencyInjection;

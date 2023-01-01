@@ -4,9 +4,9 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Primitive;
 using System.Collections.ObjectModel;
 using BindingCultivateEntry = Snap.Hutao.Model.Binding.Cultivation.CultivateEntry;
@@ -335,6 +335,7 @@ internal class CultivationService : ICultivationService
             "角色培养素材" => true,
             "天赋培养素材" => true,
             "武器强化素材" => true,
+            "武器突破素材" => true,
             _ => false,
         };
     }

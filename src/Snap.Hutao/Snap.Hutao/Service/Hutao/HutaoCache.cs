@@ -160,11 +160,7 @@ internal class HutaoCache : IHutaoCache
         if (idAvatarExtendedMap == null)
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            idAvatarExtendedMap = new(idAvatarMap)
-            {
-                [AvatarIds.PlayerBoy] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerBoy", Quality = Model.Intrinsic.ItemQuality.QUALITY_ORANGE },
-                [AvatarIds.PlayerGirl] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerGirl", Quality = Model.Intrinsic.ItemQuality.QUALITY_ORANGE },
-            };
+            idAvatarExtendedMap = AvatarIds.ExtendAvatars(idAvatarMap);
         }
 
         return idAvatarExtendedMap;

@@ -22,7 +22,7 @@
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <PackageCertificateThumbprint>F8C2255969BEA4A681CED102771BF807856AEC02</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
@@ -53,6 +53,7 @@
     <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
     <None Remove="Resource\Icon\UI_Icon_None.png" />
+    <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_204.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_210.png" />
@@ -60,6 +61,7 @@
     <None Remove="Resource\Icon\UI_ItemIcon_220021.png" />
     <None Remove="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
     <None Remove="Resource\Icon\UI_MarkTower.png" />
+    <None Remove="Resource\Icon\UI_MarkTower_Tower.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
     <None Remove="stylecop.json" />
     <None Remove="View\Control\BottomTextControl.xaml" />
@@ -95,6 +97,7 @@
     <None Remove="View\Page\LaunchGamePage.xaml" />
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
+    <None Remove="View\Page\SpiralAbyssRecordPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
     <None Remove="View\Page\WikiWeaponPage.xaml" />
     <None Remove="View\TitleView.xaml" />
@@ -129,6 +132,7 @@
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
     <Content Include="Resource\Icon\UI_Icon_None.png" />
+    <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_204.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
@@ -136,6 +140,7 @@
     <Content Include="Resource\Icon\UI_ItemIcon_220021.png" />
     <Content Include="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
     <Content Include="Resource\Icon\UI_MarkTower.png" />
+    <Content Include="Resource\Icon\UI_MarkTower_Tower.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -183,6 +188,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\SpiralAbyssRecordPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\CommunityGameRecordDialog.xaml">

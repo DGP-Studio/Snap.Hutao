@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Context.Database;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
