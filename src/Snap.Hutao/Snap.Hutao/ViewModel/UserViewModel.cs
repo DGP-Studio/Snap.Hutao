@@ -120,6 +120,12 @@ internal class UserViewModel : ObservableObject
             switch (optionResult)
             {
                 case UserOptionResult.Added:
+                    if (Users!.Count == 1)
+                    {
+                        await ThreadHelper.SwitchToMainThreadAsync();
+                        SelectedUser = Users.Single();
+                    }
+
                     infoBarService.Success($"用户 [{uid}] 添加成功");
                     break;
                 case UserOptionResult.Incomplete:

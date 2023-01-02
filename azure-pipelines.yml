@@ -28,7 +28,7 @@ variables:
   project: $(Build.SourcesDirectory)/src/Snap.Hutao/Snap.Hutao/Snap.Hutao.csproj'
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
-  build_date: $[ format('{0:yyyy}.{0:MM}.{0:dd}', pipeline.startTime) ]
+  build_date: $[ format('{0:yyyy}.{0:M}.{0:d}', pipeline.startTime) ]
 
 
 steps:
