@@ -52,6 +52,7 @@
             <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
             <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
             <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
+            <shmmc:EmotionIconConverter x:Key="EmotionIconConverter"/>
             <shmmc:EquipIconConverter x:Key="EquipIconConverter"/>
             <shmmc:GachaAvatarImgConverter x:Key="GachaAvatarImgConverter"/>
             <shmmc:GachaAvatarIconConverter x:Key="GachaAvatarIconConverter"/>
@@ -61,8 +62,14 @@
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
             <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
             <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+            <shvc:EmptyCollectionToBoolConverter x:Key="EmptyCollectionToBoolConverter"/>
+            <shvc:EmptyCollectionToBoolRevertConverter x:Key="EmptyCollectionToBoolRevertConverter"/>
+            <shvc:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter"/>
+            <shvc:EmptyCollectionToVisibilityRevertConverter x:Key="EmptyCollectionToVisibilityRevertConverter"/>
+            <shvc:EmptyObjectToBoolConverter x:Key="EmptyObjectToBoolConverter"/>
+            <shvc:EmptyObjectToBoolRevertConverter x:Key="EmptyObjectToBoolRevertConverter"/>
             <shvc:EmptyObjectToVisibilityConverter x:Key="EmptyObjectToVisibilityConverter"/>
-
+            <shvc:EmptyObjectToVisibilityRevertConverter x:Key="EmptyObjectToVisibilityRevertConverter"/>
             <!--  Styles  -->
             <Style
                 x:Key="LargeGridViewItemStyle"
@@ -70,7 +77,6 @@
                 TargetType="GridViewItem">
                 <Setter Property="Margin" Value="0,0,12,12"/>
             </Style>
-
             <Style
                 x:Key="SettingButtonStyle"
                 BasedOn="{StaticResource DefaultButtonStyle}"
@@ -81,7 +87,6 @@
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
-
             <Style x:Key="BorderCardStyle" TargetType="Border">
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
@@ -92,7 +97,6 @@
             <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">
                 <ItemsStackPanel/>
             </ItemsPanelTemplate>
-
             <ItemsPanelTemplate x:Key="HorizontalStackPanelTemplate">
                 <StackPanel Orientation="Horizontal"/>
             </ItemsPanelTemplate>

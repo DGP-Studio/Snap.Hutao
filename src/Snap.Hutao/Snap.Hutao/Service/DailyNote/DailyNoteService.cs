@@ -10,6 +10,7 @@ using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using System.Collections.ObjectModel;
@@ -95,6 +96,13 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
+
+            if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString).GetBoolean()
+                && Ioc.Default.GetRequiredService<IGameService>().IsGameRunning())
+            {
+                // Prevent notify when we are in silent mode.
+                notify = false;
+            }
 
             foreach (DailyNoteEntry entry in appDbContext.DailyNotes.Include(n => n.User))
             {

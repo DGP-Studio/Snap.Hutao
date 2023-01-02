@@ -32,215 +32,230 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <CommandBar
-            Grid.Row="0"
-            Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{x:Null}"
-            BorderThickness="0"
-            DefaultLabelPosition="Right">
-            <CommandBar.Content>
-                <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
-            </CommandBar.Content>
-            <AppBarElementContainer>
-                <AutoSuggestBox
-                    Width="240"
-                    Height="36"
-                    Margin="16,6,6,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalContentAlignment="Center"
-                    PlaceholderText="筛选武器"
-                    QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                    Text="{Binding FilterText, Mode=TwoWay}">
-                    <mxi:Interaction.Behaviors>
-                        <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                            <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
-                        </mxic:EventTriggerBehavior>
-                    </mxi:Interaction.Behaviors>
-                </AutoSuggestBox>
-            </AppBarElementContainer>
-            <AppBarButton
-                Command="{Binding CultivateCommand}"
-                CommandParameter="{Binding Selected}"
-                Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
-                Label="养成计算"/>
-        </CommandBar>
-        <SplitView
-            Grid.Row="1"
-            DisplayMode="Inline"
-            IsPaneOpen="True"
-            OpenPaneLength="200"
-            PaneBackground="{StaticResource CardBackgroundFillColorSecondary}">
-            <SplitView.Pane>
-                <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                    <cwuc:Case Value="List">
-                        <ListView
-                            Grid.Row="1"
-                            ItemsSource="{Binding Weapons}"
-                            SelectedItem="{Binding Selected, Mode=TwoWay}"
-                            SelectionMode="Single">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
+        <Grid Visibility="{Binding Weapons, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <CommandBar
+                Grid.Row="0"
+                Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{x:Null}"
+                BorderThickness="0"
+                DefaultLabelPosition="Right">
+                <CommandBar.Content>
+                    <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
+                </CommandBar.Content>
+                <AppBarElementContainer>
+                    <AutoSuggestBox
+                        Width="240"
+                        Height="36"
+                        Margin="16,6,6,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalContentAlignment="Center"
+                        PlaceholderText="筛选武器"
+                        QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
+                        Text="{Binding FilterText, Mode=TwoWay}">
+                        <mxi:Interaction.Behaviors>
+                            <mxic:EventTriggerBehavior EventName="QuerySubmitted">
+                                <mxic:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding FilterText}"/>
+                            </mxic:EventTriggerBehavior>
+                        </mxi:Interaction.Behaviors>
+                    </AutoSuggestBox>
+                </AppBarElementContainer>
+                <AppBarButton
+                    Command="{Binding CultivateCommand}"
+                    CommandParameter="{Binding Selected}"
+                    Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
+                    Label="养成计算"/>
+            </CommandBar>
+            <SplitView
+                Grid.Row="1"
+                DisplayMode="Inline"
+                IsPaneOpen="True"
+                OpenPaneLength="200"
+                PaneBackground="{StaticResource CardBackgroundFillColorSecondary}">
+                <SplitView.Pane>
+                    <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                        <cwuc:Case Value="List">
+                            <ListView
+                                Grid.Row="1"
+                                ItemsSource="{Binding Weapons}"
+                                SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <shci:CachedImage
+                                                Grid.Column="0"
+                                                Width="48"
+                                                Height="48"
+                                                Margin="0,0,12,6"
+                                                Source="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Name}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </cwuc:Case>
+                        <cwuc:Case Value="Grid">
+                            <GridView
+                                Margin="6,6,0,0"
+                                HorizontalAlignment="Left"
+                                HorizontalContentAlignment="Left"
+                                ItemsSource="{Binding Weapons}"
+                                SelectedItem="{Binding Selected, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <shci:CachedImage
+                                            Grid.Column="0"
+                                            Width="40"
+                                            Height="40"
+                                            Margin="0"
+                                            Source="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"/>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </cwuc:Case>
+                    </cwuc:SwitchPresenter>
+                </SplitView.Pane>
+                <SplitView.Content>
+                    <ScrollViewer>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MaxWidth="800"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,0,20,0">
+                                <Border
+                                    Margin="16,16,0,0"
+                                    BorderBrush="{StaticResource CardStrokeColorDefault}"
+                                    BorderThickness="1"
+                                    CornerRadius="{StaticResource CompatCornerRadius}">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="ms-appx:///Resource/Icon/UI_GachaShowPanel_Bg_Weapon.png"/>
+                                    </Border.Background>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <shci:CachedImage
-                                            Grid.Column="0"
-                                            Width="48"
-                                            Height="48"
-                                            Margin="0,0,12,6"
-                                            Source="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"/>
+                                        <mxi:Interaction.Behaviors>
+                                            <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
+                                        </mxi:Interaction.Behaviors>
+                                        <ScrollViewer Grid.Column="0" Margin="16">
+                                            <StackPanel>
+                                                <shvc:BottomTextControl RequestedTheme="Light" Text="突破前">
+                                                    <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                </shvc:BottomTextControl>
+
+                                                <shvc:BottomTextControl
+                                                    Margin="0,16,0,0"
+                                                    RequestedTheme="Light"
+                                                    Text="突破后">
+                                                    <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                                </shvc:BottomTextControl>
+                                            </StackPanel>
+                                        </ScrollViewer>
+
+                                        <Grid Grid.ColumnSpan="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="176*"/>
+                                                <ColumnDefinition Width="848*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <shci:CachedImage
+                                                Grid.Column="1"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Stretch"
+                                                Source="{Binding Selected.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
+                                        </Grid>
                                         <TextBlock
                                             Grid.Column="1"
-                                            Margin="12,0,0,0"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Name}"/>
+                                            Margin="16"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                            Text="{Binding Selected.Name}"/>
                                     </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </cwuc:Case>
-                    <cwuc:Case Value="Grid">
-                        <GridView
-                            Margin="6,6,0,0"
-                            HorizontalAlignment="Left"
-                            HorizontalContentAlignment="Left"
-                            ItemsSource="{Binding Weapons}"
-                            SelectedItem="{Binding Selected, Mode=TwoWay}"
-                            SelectionMode="Single">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <shci:CachedImage
-                                        Grid.Column="0"
-                                        Width="40"
-                                        Height="40"
-                                        Margin="0"
-                                        Source="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"/>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </cwuc:Case>
-                </cwuc:SwitchPresenter>
-            </SplitView.Pane>
-            <SplitView.Content>
-                <ScrollViewer>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition MaxWidth="800"/>
-                            <ColumnDefinition Width="auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Margin="0,0,20,0">
-                            <Border
-                                Margin="16,16,0,0"
-                                BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                BorderThickness="1"
-                                CornerRadius="{StaticResource CompatCornerRadius}">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="ms-appx:///Resource/Icon/UI_GachaShowPanel_Bg_Weapon.png"/>
-                                </Border.Background>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <mxi:Interaction.Behaviors>
-                                        <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
-                                    </mxi:Interaction.Behaviors>
-                                    <ScrollViewer Grid.Column="0" Margin="16">
-                                        <StackPanel>
-                                            <shvc:BottomTextControl RequestedTheme="Light" Text="突破前">
-                                                <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
+                                </Border>
+                                <TextBlock
+                                    Margin="16,16,0,0"
+                                    Text="{Binding Selected.Description}"
+                                    TextWrapping="Wrap"/>
+                                <ContentControl
+                                    Margin="16,16,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    Content="{Binding Selected.Property, Mode=OneWay}"
+                                    ContentTemplate="{StaticResource PropertyDataTemplate}"/>
+                                <TextBlock
+                                    Margin="16,32,0,0"
+                                    Style="{StaticResource BaseTextBlockStyle}"
+                                    Text="{Binding Selected.Affix.Name}"/>
+                                <Pivot ItemsSource="{Binding Selected.Affix.Descriptions}">
+                                    <Pivot.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LevelFormatted}"/>
+                                        </DataTemplate>
+                                    </Pivot.HeaderTemplate>
+                                    <Pivot.ItemTemplate>
+                                        <DataTemplate>
+                                            <shct:DescriptionTextBlock Margin="16,16,0,0" Description="{Binding Description}">
+                                                <shct:DescriptionTextBlock.Resources>
+                                                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                                                        <Setter Property="TextWrapping" Value="Wrap"/>
+                                                    </Style>
+                                                </shct:DescriptionTextBlock.Resources>
+                                            </shct:DescriptionTextBlock>
+                                        </DataTemplate>
+                                    </Pivot.ItemTemplate>
+                                </Pivot>
+                                <TextBlock
+                                    Margin="16,32,0,0"
+                                    Style="{StaticResource BaseTextBlockStyle}"
+                                    Text="搭配角色"/>
+                                <GridView
+                                    Margin="16,16,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    ItemsSource="{Binding Selected.Collocation.Avatars}"
+                                    SelectionMode="None">
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
+                                                <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
                                             </shvc:BottomTextControl>
-
-                                            <shvc:BottomTextControl
-                                                Margin="0,16,0,0"
-                                                RequestedTheme="Light"
-                                                Text="突破后">
-                                                <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
-                                            </shvc:BottomTextControl>
-                                        </StackPanel>
-                                    </ScrollViewer>
-
-                                    <Grid Grid.ColumnSpan="2">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="176*"/>
-                                            <ColumnDefinition Width="848*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <shci:CachedImage
-                                            Grid.Column="1"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Stretch"
-                                            Source="{Binding Selected.Icon, Converter={StaticResource GachaEquipIconConverter}}"/>
-                                    </Grid>
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        Margin="16"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        Style="{StaticResource SubtitleTextBlockStyle}"
-                                        Text="{Binding Selected.Name}"/>
-                                </Grid>
-                            </Border>
-                            <TextBlock
-                                Margin="16,16,0,0"
-                                Text="{Binding Selected.Description}"
-                                TextWrapping="Wrap"/>
-                            <ContentControl
-                                Margin="16,16,0,0"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                Content="{Binding Selected.Property, Mode=OneWay}"
-                                ContentTemplate="{StaticResource PropertyDataTemplate}"/>
-                            <TextBlock
-                                Margin="16,32,0,0"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{Binding Selected.Affix.Name}"/>
-                            <Pivot ItemsSource="{Binding Selected.Affix.Descriptions}">
-                                <Pivot.HeaderTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LevelFormatted}"/>
-                                    </DataTemplate>
-                                </Pivot.HeaderTemplate>
-                                <Pivot.ItemTemplate>
-                                    <DataTemplate>
-                                        <shct:DescriptionTextBlock Margin="16,16,0,0" Description="{Binding Description}">
-                                            <shct:DescriptionTextBlock.Resources>
-                                                <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                                </Style>
-                                            </shct:DescriptionTextBlock.Resources>
-                                        </shct:DescriptionTextBlock>
-                                    </DataTemplate>
-                                </Pivot.ItemTemplate>
-                            </Pivot>
-                            <TextBlock
-                                Margin="16,32,0,0"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="搭配角色"/>
-                            <GridView
-                                Margin="16,16,0,0"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                ItemsSource="{Binding Selected.Collocation.Avatars}"
-                                SelectionMode="None">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
-                                            <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
-                                        </shvc:BottomTextControl>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </StackPanel>
-                    </Grid>
-                </ScrollViewer>
-            </SplitView.Content>
-        </SplitView>
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                </SplitView.Content>
+            </SplitView>
+        </Grid>
+        <cwuc:Loading IsLoading="{Binding Weapons, Converter={StaticResource EmptyCollectionToBoolRevertConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <shci:CachedImage
+                    Width="120"
+                    Height="120"
+                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon272.png"/>
+                <TextBlock
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="加载中，请稍候"/>
+                <ProgressRing Margin="0,16,0,0" IsActive="True"/>
+            </StackPanel>
+        </cwuc:Loading>
     </Grid>
-
 </shc:ScopedPage>

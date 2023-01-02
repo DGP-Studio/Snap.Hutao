@@ -41,6 +41,11 @@ public class SettingEntry
     public const string DailyNoteReminderNotify = "DailyNote.ReminderNotify";
 
     /// <summary>
+    /// 实时便笺免打扰模式
+    /// </summary>
+    public const string DailyNoteSilentWhenPlayingGame = "DailyNote.SilentWhenPlayingGame";
+
+    /// <summary>
     /// 启动游戏 全屏
     /// </summary>
     public const string LaunchIsFullScreen = "Launch.IsFullScreen";

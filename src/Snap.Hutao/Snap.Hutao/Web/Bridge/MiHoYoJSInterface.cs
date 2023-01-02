@@ -124,7 +124,7 @@ public class MiHoYoJSInterface
     [JsMethod("getDS")]
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
-        string salt = DynamicSecretHandler.DynamicSecrets[nameof(SaltType.LK2)];
+        string salt = Core.CoreEnvironment.DynamicSecrets[nameof(SaltType.LK2)];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         string r = GetRandomString();
         string check = Md5Convert.ToHexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
@@ -155,7 +155,7 @@ public class MiHoYoJSInterface
     [JsMethod("getDS2")]
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
-        string salt = DynamicSecretHandler.DynamicSecrets[nameof(SaltType.X4)];
+        string salt = Core.CoreEnvironment.DynamicSecrets[nameof(SaltType.X4)];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int r = GetRandom();
         string b = param.Payload.Body;

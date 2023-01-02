@@ -5,6 +5,8 @@ using Microsoft.Win32;
 using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using System.Collections.Immutable;
 using System.Text.Json.Serialization.Metadata;
 using Windows.ApplicationModel;
 
@@ -28,7 +30,20 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
-    public const string HoyolabXrpcVersion = "2.42.1";
+    public const string HoyolabXrpcVersion = "2.43.1";
+
+    /// <summary>
+    /// 盐
+    /// </summary>
+    // https://github.com/UIGF-org/Hoyolab.Salt
+    public static readonly ImmutableDictionary<string, string> DynamicSecrets = new Dictionary<string, string>()
+    {
+        [nameof(SaltType.K2)] = "ODzG1Jrn6zebX19VRmaJwjFI2CDvBUGq",
+        [nameof(SaltType.LK2)] = "V1PYbXKQY7ysdx3MNCcNbsE1LtY2QZpW",
+        [nameof(SaltType.X4)] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
+        [nameof(SaltType.X6)] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
+        [nameof(SaltType.PROD)] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
+    }.ToImmutableDictionary();
 
     /// <summary>
     /// 标准UA

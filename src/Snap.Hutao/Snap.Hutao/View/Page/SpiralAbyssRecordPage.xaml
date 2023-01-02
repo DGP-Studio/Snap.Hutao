@@ -22,31 +22,13 @@
     </mxi:Interaction.Behaviors>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-
-        <CommandBar
-            Grid.Row="0"
-            Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
-            DefaultLabelPosition="Right">
-            <AppBarButton
-                Command="{Binding UploadSpiralAbyssRecordCommand}"
-                Icon="{shcm:FontIcon Glyph=&#xE898;}"
-                Label="上传数据"/>
-            <AppBarButton
-                Command="{Binding RefreshCommand}"
-                Icon="{shcm:FontIcon Glyph=&#xE72C;}"
-                Label="刷新数据"/>
-        </CommandBar>
-
         <SplitView
             Grid.Row="1"
             DisplayMode="Inline"
             IsPaneOpen="True"
             OpenPaneLength="96"
-            PaneBackground="Transparent">
+            PaneBackground="Transparent"
+            Visibility="{Binding SpiralAbyssEntries, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
             <SplitView.Pane>
                 <ListView ItemsSource="{Binding SpiralAbyssEntries}" SelectedItem="{Binding SelectedEntry, Mode=TwoWay}">
                     <ListView.ItemTemplate>
@@ -57,9 +39,21 @@
                 </ListView>
             </SplitView.Pane>
             <SplitView.Content>
-                <Grid DataContext="{Binding SpiralAbyssView}">
+                <Grid>
                     <Pivot>
-                        <PivotItem Header="统计数据">
+                        <Pivot.RightHeader>
+                            <CommandBar Grid.Row="0" DefaultLabelPosition="Right">
+                                <AppBarButton
+                                    Command="{Binding UploadSpiralAbyssRecordCommand}"
+                                    Icon="{shcm:FontIcon Glyph=&#xE898;}"
+                                    Label="上传数据"/>
+                                <AppBarButton
+                                    Command="{Binding RefreshCommand}"
+                                    Icon="{shcm:FontIcon Glyph=&#xE72C;}"
+                                    Label="刷新数据"/>
+                            </CommandBar>
+                        </Pivot.RightHeader>
+                        <PivotItem DataContext="{Binding SpiralAbyssView}" Header="统计数据">
                             <ScrollViewer>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -163,7 +157,7 @@
 
                             </ScrollViewer>
                         </PivotItem>
-                        <PivotItem Header="详细数据">
+                        <PivotItem DataContext="{Binding SpiralAbyssView}" Header="详细数据">
                             <ScrollViewer HorizontalScrollBarVisibility="Auto">
                                 <ItemsControl
                                     Margin="16,16,0,0"
@@ -287,5 +281,27 @@
                 </Grid>
             </SplitView.Content>
         </SplitView>
+        <Grid Visibility="{Binding SpiralAbyssEntries, Converter={StaticResource EmptyCollectionToVisibilityRevertConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <shci:CachedImage
+                    Width="120"
+                    Height="120"
+                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon25.png"/>
+                <TextBlock
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="尚未获取任何挑战记录"/>
+                <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
+                    <wsc:Setting
+                        Description="同步米游社的深渊挑战记录"
+                        Header="刷新数据"
+                        Icon="&#xE72c;">
+                        <Button Command="{Binding RefreshCommand}" Content="刷新"/>
+                    </wsc:Setting>
+                </wsc:SettingsGroup>
+            </StackPanel>
+        </Grid>
     </Grid>
+
 </shc:ScopedPage>

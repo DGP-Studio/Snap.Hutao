@@ -167,41 +167,38 @@ internal class DailyNoteNotifier
                 builder.SetToastScenario(ToastScenario.Reminder);
             }
 
-            // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
+            if (notifyInfos.Count > 2)
             {
-                AdaptiveGroup group = new();
-                foreach (NotifyInfo info in notifyInfos)
+                builder.AddText("多个提醒项达到设定值");
+
+                // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
                 {
-                    AdaptiveSubgroup subgroup = new()
+                    AdaptiveGroup group = new();
+                    foreach (NotifyInfo info in notifyInfos)
                     {
-                        HintWeight = 1,
-                        Children =
+                        AdaptiveSubgroup subgroup = new()
+                        {
+                            HintWeight = 1,
+                            Children =
                         {
                             new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
                             new AdaptiveText() { Text = info.AdaptiveHint, HintAlign = AdaptiveTextAlign.Center,  },
                             new AdaptiveText() { Text = info.Title, HintAlign = AdaptiveTextAlign.Center, HintStyle = AdaptiveTextStyle.CaptionSubtle, },
                         },
-                    };
+                        };
 
-                    group.Children.Add(subgroup);
+                        group.Children.Add(subgroup);
+                    }
+
+                    builder.AddVisualChild(group);
                 }
-
-                builder.AddVisualChild(group);
-                builder.AddText("一个或多个提醒项达到设定值");
             }
             else
             {
-                if (notifyInfos.Count > 2)
+                foreach (NotifyInfo info in notifyInfos)
                 {
-                    builder.AddText("多个提醒项达到设定值");
-                }
-                else
-                {
-                    foreach (NotifyInfo info in notifyInfos)
-                    {
-                        builder.AddText(info.Hint);
-                    }
+                    builder.AddText(info.Hint);
                 }
             }
 

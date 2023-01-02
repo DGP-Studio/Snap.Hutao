@@ -286,11 +286,6 @@ internal class AchievementViewModel
 
                 Archives = achievementService.GetArchiveCollection();
                 SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
-
-                if (SelectedArchive == null)
-                {
-                    infoBarService.Warning("请创建一个成就存档");
-                }
             }
             catch (TaskCanceledException)
             {

@@ -44,7 +44,9 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
 
     private SettingEntry? refreshSecondsEntry;
     private SettingEntry? reminderNotifyEntry;
+    private SettingEntry? silentModeEntry;
     private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
+    private bool isSilentWhenPlayingGame;
 
     /// <summary>
     /// 构造一个新的实时便笺视图模型
@@ -116,6 +118,22 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
     }
 
     /// <summary>
+    /// 是否开启免打扰模式
+    /// </summary>
+    public bool IsSilentWhenPlayingGame
+    {
+        get => isSilentWhenPlayingGame;
+        set
+        {
+            if (SetProperty(ref isSilentWhenPlayingGame, value))
+            {
+                silentModeEntry!.SetBoolean(value);
+                appDbContext.Settings.UpdateAndSave(silentModeEntry!);
+            }
+        }
+    }
+
+    /// <summary>
     /// 用户与角色集合
     /// </summary>
     public ObservableCollection<UserAndRole>? UserAndRoles { get => userAndRoles; set => userAndRoles = value; }
@@ -164,11 +182,17 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
         ScheduleTaskHelper.RegisterForDailyNoteRefresh(480);
         OnPropertyChanged(nameof(SelectedRefreshTime));
 
-        reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, false.ToString());
+        reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, SettingEntryHelper.FalseString);
         isReminderNotification = reminderNotifyEntry.GetBoolean();
         OnPropertyChanged(nameof(IsReminderNotification));
 
-        DailyNoteEntries = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(true);
+        silentModeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString);
+        isSilentWhenPlayingGame = silentModeEntry.GetBoolean();
+        OnPropertyChanged(nameof(IsSilentWhenPlayingGame));
+
+        ObservableCollection<DailyNoteEntry> temp = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
+        await ThreadHelper.SwitchToMainThreadAsync();
+        DailyNoteEntries = temp;
     }
 
     private async Task TrackRoleAsync(UserAndRole? role)

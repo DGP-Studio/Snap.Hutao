@@ -6,11 +6,11 @@ using Snap.Hutao.Control;
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
-/// 武器图片转换器
+/// 表情图片转换器
 /// </summary>
-internal class EquipIconConverter : ValueConverterBase<string, Uri>
+internal class EmotionIconConverter : ValueConverterBase<string, Uri>
 {
-    private const string BaseUrl = "https://static.snapgenshin.com/EquipIcon/{0}.png";
+    private const string BaseUrl = "https://static.snapgenshin.com/EmotionIcon/{0}.png";
 
     /// <summary>
     /// 名称转Uri

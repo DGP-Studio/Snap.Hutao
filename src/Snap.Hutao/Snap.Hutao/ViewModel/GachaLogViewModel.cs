@@ -184,11 +184,6 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
             Archives = gachaLogService.GetArchiveCollection();
             SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
 
-            if (SelectedArchive == null)
-            {
-                infoBarService.Information("请刷新或导入祈愿记录");
-            }
-
             await ThreadHelper.SwitchToMainThreadAsync();
             IsInitialized = true;
         }

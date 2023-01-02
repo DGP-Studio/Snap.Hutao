@@ -15,19 +15,6 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 [Injection(InjectAs.Transient)]
 public class DynamicSecretHandler : DelegatingHandler
 {
-    /// <summary>
-    /// 盐
-    /// </summary>
-    // https://github.com/UIGF-org/Hoyolab.Salt
-    public static readonly ImmutableDictionary<string, string> DynamicSecrets = new Dictionary<string, string>()
-    {
-        [nameof(SaltType.K2)] = "jrU9ULHGZdM9Os3uGHOpjyRELYxby5cg",
-        [nameof(SaltType.LK2)] = "9gaxOdeeY2W9dw5x62pywhik8cxy5TIJ",
-        [nameof(SaltType.X4)] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
-        [nameof(SaltType.X6)] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
-        [nameof(SaltType.PROD)] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
-    }.ToImmutableDictionary();
-
     private const string RandomRange = "abcdefghijklmnopqrstuvwxyz1234567890";
 
     /// <inheritdoc/>
@@ -40,7 +27,7 @@ public class DynamicSecretHandler : DelegatingHandler
             string saltType = definations[1];
             bool includeChars = definations[2] == "true";
 
-            string salt = DynamicSecrets[saltType];
+            string salt = Core.CoreEnvironment.DynamicSecrets[saltType];
 
             long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 

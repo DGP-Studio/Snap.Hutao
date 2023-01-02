@@ -8,6 +8,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shmbh="using:Snap.Hutao.Model.Binding.Hutao"
     xmlns:shv="using:Snap.Hutao.ViewModel"
@@ -63,7 +64,7 @@
     </Page.Resources>
 
     <Grid>
-        <Pivot>
+        <Pivot Visibility="{Binding Overview, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Pivot.RightHeader>
                 <CommandBar DefaultLabelPosition="Right">
                     <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="详情">
@@ -330,5 +331,19 @@
                 </Grid>
             </PivotItem>
         </Pivot>
+        <cwuc:Loading IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <shci:CachedImage
+                    Width="120"
+                    Height="120"
+                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon272.png"/>
+                <TextBlock
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="加载中，请稍候"/>
+                <ProgressRing Margin="0,16,0,0" IsActive="True"/>
+            </StackPanel>
+        </cwuc:Loading>
     </Grid>
 </shc:ScopedPage>

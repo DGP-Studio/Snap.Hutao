@@ -71,7 +71,7 @@ internal class GameService : IGameService, IDisposable
 
                     if (!result.IsOk)
                     {
-                        // Try locate manually
+                        // Try locate by registry
                         locator = gameLocators.Single(l => l.Name == nameof(RegistryLauncherLocator));
                         result = await locator.LocateGamePathAsync().ConfigureAwait(false);
                     }
