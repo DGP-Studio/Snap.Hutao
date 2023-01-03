@@ -36,7 +36,16 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
     public static string GetCacheFile(string path)
     {
         string folder = Path.GetDirectoryName(path) ?? string.Empty;
-        return Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
+        var cacheDataPath = Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
+        var cacheDataPathIntl = Path.Combine(folder, @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2");
+        if (File.Exists(cacheDataPath))
+        {
+            return cacheDataPath;
+        }
+        else
+        {
+            return cacheDataPathIntl;
+        }
     }
 
     /// <inheritdoc/>
