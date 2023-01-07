@@ -273,18 +273,11 @@
                         <ItemsControl
                             Margin="0,0,0,8"
                             HorizontalContentAlignment="Stretch"
+                            ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                             ItemsSource="{Binding AvatarConstellationInfos}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsStackPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border
-                                        Margin="16,0,16,8"
-                                        Background="{StaticResource CardBackgroundFillColorDefault}"
-                                        CornerRadius="{StaticResource CompatCornerRadius}">
+                                    <Border Margin="16,0,16,8" Style="{StaticResource BorderCardStyle}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>
@@ -331,19 +324,6 @@
                 </Grid>
             </PivotItem>
         </Pivot>
-        <cwuc:Loading IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <shci:CachedImage
-                    Width="120"
-                    Height="120"
-                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon272.png"/>
-                <TextBlock
-                    Margin="0,16,0,0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="加载中，请稍候"/>
-                <ProgressRing Margin="0,16,0,0" IsActive="True"/>
-            </StackPanel>
-        </cwuc:Loading>
+        <shvc:LoadingView IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
 </shc:ScopedPage>

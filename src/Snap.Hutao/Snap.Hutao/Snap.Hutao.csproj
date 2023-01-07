@@ -64,10 +64,12 @@
     <None Remove="Resource\Icon\UI_MarkTower.png" />
     <None Remove="Resource\Icon\UI_MarkTower_Tower.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
+    <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
     <None Remove="View\Control\BottomTextControl.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
     <None Remove="View\Control\ItemIcon.xaml" />
+    <None Remove="View\Control\LoadingView.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
     <None Remove="View\Control\StatisticsCard.xaml" />
     <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
@@ -99,10 +101,12 @@
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\SpiralAbyssRecordPage.xaml" />
+    <None Remove="View\Page\TestPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
     <None Remove="View\Page\WikiWeaponPage.xaml" />
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
+    <None Remove="View\WelcomeView.xaml" />
   </ItemGroup>
   
   <ItemGroup>
@@ -143,6 +147,7 @@
     <Content Include="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
     <Content Include="Resource\Icon\UI_MarkTower.png" />
     <Content Include="Resource\Icon\UI_MarkTower_Tower.png" />
+    <Content Include="Resource\WelcomeView_Background.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -190,6 +195,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\WelcomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\TestPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\LoadingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\SpiralAbyssRecordPage.xaml">

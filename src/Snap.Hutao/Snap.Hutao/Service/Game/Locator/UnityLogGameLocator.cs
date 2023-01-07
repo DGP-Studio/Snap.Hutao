@@ -23,7 +23,7 @@ internal partial class UnityLogGameLocator : IGameLocator
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string logFilePath = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\原神\output_log.txt");
 
-        using (TemporaryFile? tempFile = TemporaryFile.CreateFromFileCopy(logFilePath))
+        using (TempFile? tempFile = TempFile.CreateFromFileCopy(logFilePath))
         {
             if (tempFile == null)
             {

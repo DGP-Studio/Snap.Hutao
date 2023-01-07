@@ -11,8 +11,6 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal class QualityConverter : ValueConverterBase<ItemQuality, Uri>
 {
-    private const string BaseUrl = "https://static.snapgenshin.com/Bg/UI_{0}.png";
-
     /// <inheritdoc/>
     public override Uri Convert(ItemQuality from)
     {
@@ -22,6 +20,6 @@ internal class QualityConverter : ValueConverterBase<ItemQuality, Uri>
             name = "QUALITY_RED";
         }
 
-        return new Uri(string.Format(BaseUrl, name));
+        return new Uri(Web.HutaoEndpoints.StaticFile("Bg", $"UI_{name}.png"));
     }
 }

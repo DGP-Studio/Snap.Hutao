@@ -52,11 +52,12 @@
                         Visibility="{Binding IsUp, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                     <TextBlock
-                        Width="20"
+                        Width="24"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyTextBlockStyle}"
                         Text="{Binding LastPull}"
-                        TextAlignment="Center"/>
+                        TextAlignment="Center"
+                        TextWrapping="NoWrap"/>
                 </StackPanel>
             </Grid>
         </DataTemplate>

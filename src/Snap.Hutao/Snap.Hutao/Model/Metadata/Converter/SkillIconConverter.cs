@@ -10,11 +10,6 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal class SkillIconConverter : ValueConverterBase<string, Uri>
 {
-    private const string SkillUrl = "https://static.snapgenshin.com/Skill/{0}.png";
-    private const string TalentUrl = "https://static.snapgenshin.com/Talent/{0}.png";
-
-    private static readonly Uri UIIconNone = new("https://static.snapgenshin.com/Bg/UI_Icon_None.png");
-
     /// <summary>
     /// 名称转Uri
     /// </summary>
@@ -24,16 +19,16 @@ internal class SkillIconConverter : ValueConverterBase<string, Uri>
     {
         if (string.IsNullOrWhiteSpace(name))
         {
-            return UIIconNone;
+            return Web.HutaoEndpoints.UIIconNone;
         }
 
         if (name.StartsWith("UI_Talent_"))
         {
-            return new Uri(string.Format(TalentUrl, name));
+            return new Uri(Web.HutaoEndpoints.StaticFile("Talent", $"{name}.png"));
         }
         else
         {
-            return new Uri(string.Format(SkillUrl, name));
+            return new Uri(Web.HutaoEndpoints.StaticFile("Skill", $"{name}.png"));
         }
     }
 

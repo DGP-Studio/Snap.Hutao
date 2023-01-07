@@ -28,7 +28,7 @@
             IsPaneOpen="True"
             OpenPaneLength="96"
             PaneBackground="Transparent"
-            Visibility="{Binding SpiralAbyssEntries, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+            Visibility="{Binding SpiralAbyssView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <SplitView.Pane>
                 <ListView ItemsSource="{Binding SpiralAbyssEntries}" SelectedItem="{Binding SelectedEntry, Mode=TwoWay}">
                     <ListView.ItemTemplate>
@@ -158,17 +158,20 @@
                             </ScrollViewer>
                         </PivotItem>
                         <PivotItem DataContext="{Binding SpiralAbyssView}" Header="详细数据">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <ScrollViewer VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto">
                                 <ItemsControl
                                     Margin="16,16,0,0"
                                     ItemsPanel="{StaticResource HorizontalStackPanelTemplate}"
                                     ItemsSource="{Binding Floors}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <Border Margin="0,0,16,16" Style="{StaticResource BorderCardStyle}">
-                                                <Grid VerticalAlignment="Top">
+                                            <Border
+                                                Margin="0,0,16,16"
+                                                VerticalAlignment="Top"
+                                                Style="{StaticResource BorderCardStyle}">
+                                                <Grid>
                                                     <Grid.RowDefinitions>
-                                                        <RowDefinition/>
+                                                        <RowDefinition Height="auto"/>
                                                         <RowDefinition/>
                                                     </Grid.RowDefinitions>
                                                     <Grid Grid.Row="0" Margin="8,8,8,0">
@@ -281,12 +284,12 @@
                 </Grid>
             </SplitView.Content>
         </SplitView>
-        <Grid Visibility="{Binding SpiralAbyssEntries, Converter={StaticResource EmptyCollectionToVisibilityRevertConverter}}">
+        <Grid Visibility="{Binding SpiralAbyssView, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <shci:CachedImage
                     Width="120"
                     Height="120"
-                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon25.png"/>
+                    Source="{StaticResource UI_EmotionIcon25}"/>
                 <TextBlock
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"

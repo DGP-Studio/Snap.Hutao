@@ -14,7 +14,6 @@ namespace Snap.Hutao.Web.Hutao;
 [HttpClient(HttpClientConfigration.Default)]
 internal class HomaClient2
 {
-    private const string HutaoAPI = "https://homa.snapgenshin.com";
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -41,7 +40,7 @@ internal class HomaClient2
         };
 
         Response<string>? a = await httpClient
-            .TryCatchPostAsJsonAsync<HutaoLog, Response<string>>($"{HutaoAPI}/HutaoLog/Upload", log)
+            .TryCatchPostAsJsonAsync<HutaoLog, Response<string>>(HutaoEndpoints.HutaoLogUpload, log)
             .ConfigureAwait(false);
         return a?.Data;
     }

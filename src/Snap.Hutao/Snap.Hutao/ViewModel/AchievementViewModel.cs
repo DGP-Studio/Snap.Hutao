@@ -301,26 +301,32 @@ internal class AchievementViewModel
     #region 存档操作
     private async Task AddArchiveAsync()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, string name) = await new AchievementArchiveCreateDialog(mainWindow).GetInputAsync().ConfigureAwait(false);
-
-        if (isOk)
+        if (Archives != null)
         {
-            ArchiveAddResult result = await achievementService.TryAddArchiveAsync(Model.Entity.AchievementArchive.Create(name)).ConfigureAwait(false);
+            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+            (bool isOk, string name) = await new AchievementArchiveCreateDialog(mainWindow).GetInputAsync().ConfigureAwait(false);
 
-            switch (result)
+            if (isOk)
             {
-                case ArchiveAddResult.Added:
-                    infoBarService.Success($"存档 [{name}] 添加成功");
-                    break;
-                case ArchiveAddResult.InvalidName:
-                    infoBarService.Information($"不能添加名称无效的存档");
-                    break;
-                case ArchiveAddResult.AlreadyExists:
-                    infoBarService.Information($"不能添加名称重复的存档 [{name}]");
-                    break;
-                default:
-                    throw Must.NeverHappen();
+                ArchiveAddResult result = await achievementService.TryAddArchiveAsync(Model.Entity.AchievementArchive.Create(name)).ConfigureAwait(false);
+
+                switch (result)
+                {
+                    case ArchiveAddResult.Added:
+                        await ThreadHelper.SwitchToMainThreadAsync();
+                        SelectedArchive = Archives.SingleOrDefault(a => a.Name == name);
+
+                        infoBarService.Success($"存档 [{name}] 添加成功");
+                        break;
+                    case ArchiveAddResult.InvalidName:
+                        infoBarService.Information($"不能添加名称无效的存档");
+                        break;
+                    case ArchiveAddResult.AlreadyExists:
+                        infoBarService.Information($"不能添加名称重复的存档 [{name}]");
+                        break;
+                    default:
+                        throw Must.NeverHappen();
+                }
             }
         }
     }
@@ -345,7 +351,8 @@ internal class AchievementViewModel
             {
                 await achievementService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
 
-                // reselect first archive
+                // Re-select first archive
+                await ThreadHelper.SwitchToMainThreadAsync();
                 SelectedArchive = Archives.FirstOrDefault();
             }
         }

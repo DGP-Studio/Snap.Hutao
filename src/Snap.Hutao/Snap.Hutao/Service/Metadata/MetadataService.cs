@@ -23,7 +23,6 @@ namespace Snap.Hutao.Service.Metadata;
 [HttpClient(HttpClientConfigration.Default)]
 internal partial class MetadataService : IMetadataService, IMetadataInitializer, ISupportAsyncInitialization
 {
-    private const string MetaAPIHost = "http://hutao-metadata.snapgenshin.com";
     private const string MetaFileName = "Meta.json";
 
     private readonly IInfoBarService infoBarService;
@@ -89,12 +88,12 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
 
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token)
     {
-        IDictionary<string, string>? metaMd5Map = null;
+        IDictionary<string, string>? metaMd5Map;
         try
         {
             // download meta check file
             metaMd5Map = await httpClient
-                .GetFromJsonAsync<IDictionary<string, string>>($"{MetaAPIHost}/{MetaFileName}", options, token)
+                .GetFromJsonAsync<IDictionary<string, string>>(Web.HutaoEndpoints.HutaoMetadataFile(MetaFileName), options, token)
                 .ConfigureAwait(false);
 
             if (metaMd5Map is null)
@@ -166,7 +165,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
     private async Task DownloadMetadataAsync(string fileFullName, CancellationToken token)
     {
         Stream sourceStream = await httpClient
-            .GetStreamAsync($"{MetaAPIHost}/{fileFullName}", token)
+            .GetStreamAsync(Web.HutaoEndpoints.HutaoMetadataFile(fileFullName), token)
             .ConfigureAwait(false);
 
         // Write stream while convert LF to CRLF

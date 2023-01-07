@@ -43,7 +43,7 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid>
-        <Grid Visibility="{Binding Projects, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+        <Grid Visibility="{Binding Projects.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
             <Rectangle
                 Height="48"
                 VerticalAlignment="Top"
@@ -351,12 +351,12 @@
             </Pivot>
         </Grid>
 
-        <Grid Visibility="{Binding Projects, Converter={StaticResource EmptyCollectionToVisibilityRevertConverter}}">
+        <Grid Visibility="{Binding Projects.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <shci:CachedImage
                     Width="120"
                     Height="120"
-                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon293.png"/>
+                    Source="{StaticResource UI_EmotionIcon293}"/>
                 <TextBlock
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"

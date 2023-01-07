@@ -30,7 +30,7 @@
                     Margin="12,0,0,0"
                     Padding="6"
                     Content="前往下载"
-                    NavigateUri="https://github.com/HolographicHat/GetToken/releases/latest"/>
+                    NavigateUri="{StaticResource HolographicHat_GetToken_Release}"/>
             </wsc:Setting>
             <wsc:Setting
                 HorizontalAlignment="Stretch"
@@ -41,7 +41,7 @@
                     Margin="12,0,0,0"
                     Padding="6"
                     Content="立即前往"
-                    NavigateUri="https://hut.ao/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie"/>
+                    NavigateUri="{StaticResource DocumentLink_MhyAccountSwitch}"/>
             </wsc:Setting>
         </wsc:SettingsGroup>
     </StackPanel>

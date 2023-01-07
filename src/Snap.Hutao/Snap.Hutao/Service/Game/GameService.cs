@@ -65,7 +65,7 @@ internal class GameService : IGameService, IDisposable
                 {
                     IEnumerable<IGameLocator> gameLocators = scope.ServiceProvider.GetRequiredService<IEnumerable<IGameLocator>>();
 
-                    // Try locate by registry
+                    // Try locate by unity log
                     IGameLocator locator = gameLocators.Single(l => l.Name == nameof(UnityLogGameLocator));
                     ValueResult<bool, string> result = await locator.LocateGamePathAsync().ConfigureAwait(false);
 

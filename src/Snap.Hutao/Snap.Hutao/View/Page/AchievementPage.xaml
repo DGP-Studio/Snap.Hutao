@@ -31,7 +31,7 @@
             </Grid.RowDefinitions>
             <Grid Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="252"/>
+                    <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
@@ -116,7 +116,7 @@
                 Grid.Row="1"
                 DisplayMode="Inline"
                 IsPaneOpen="True"
-                OpenPaneLength="252"
+                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
                 PaneBackground="Transparent">
                 <SplitView.Pane>
                     <ListView

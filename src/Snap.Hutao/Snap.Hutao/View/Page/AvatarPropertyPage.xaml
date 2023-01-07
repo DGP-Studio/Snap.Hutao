@@ -79,7 +79,7 @@
                 Grid.Row="1"
                 DisplayMode="Inline"
                 IsPaneOpen="True"
-                OpenPaneLength="200"
+                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
                 PaneBackground="Transparent">
                 <SplitView.Pane>
                     <cwucont:SwitchPresenter Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
@@ -117,17 +117,17 @@
                         <cwucont:Case Value="Grid">
                             <GridView
                                 Margin="6,6,0,0"
+                                HorizontalAlignment="Stretch"
                                 ItemsSource="{Binding Summary.Avatars}"
                                 SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"
                                 SelectionMode="Single">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <shci:CachedImage
-                                            Grid.Column="0"
-                                            Width="40"
-                                            Height="40"
-                                            Margin="0"
-                                            Source="{Binding Icon, Mode=OneWay}"/>
+                                        <shvcont:ItemIcon
+                                            Width="44"
+                                            Height="44"
+                                            Icon="{Binding Icon}"
+                                            Quality="{Binding Quality}"/>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>
@@ -567,7 +567,7 @@
                 <shci:CachedImage
                     Width="120"
                     Height="120"
-                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon250.png"/>
+                    Source="{StaticResource UI_EmotionIcon250}"/>
                 <TextBlock
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"

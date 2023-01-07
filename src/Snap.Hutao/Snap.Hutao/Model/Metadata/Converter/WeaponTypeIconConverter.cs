@@ -11,8 +11,6 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal class WeaponTypeIconConverter : ValueConverterBase<WeaponType, Uri>
 {
-    private const string BaseUrl = "https://static.snapgenshin.com/Skill/Skill_A_{0}.png";
-
     /// <summary>
     /// 将武器类型转换为图标链接
     /// </summary>
@@ -30,7 +28,7 @@ internal class WeaponTypeIconConverter : ValueConverterBase<WeaponType, Uri>
             _ => throw Must.NeverHappen(),
         };
 
-        return new Uri(string.Format(BaseUrl, element));
+        return new Uri(Web.HutaoEndpoints.StaticFile("Skill", $"Skill_A_{element}.png"));
     }
 
     /// <inheritdoc/>

@@ -73,7 +73,7 @@
                 Grid.Row="1"
                 DisplayMode="Inline"
                 IsPaneOpen="True"
-                OpenPaneLength="200"
+                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
                 PaneBackground="{StaticResource CardBackgroundFillColorSecondary}">
                 <SplitView.Pane>
                     <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
@@ -109,19 +109,18 @@
                         <cwuc:Case Value="Grid">
                             <GridView
                                 Margin="6,6,0,0"
-                                HorizontalAlignment="Left"
+                                HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Left"
                                 ItemsSource="{Binding Weapons}"
                                 SelectedItem="{Binding Selected, Mode=TwoWay}"
                                 SelectionMode="Single">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <shci:CachedImage
-                                            Grid.Column="0"
-                                            Width="40"
-                                            Height="40"
-                                            Margin="0"
-                                            Source="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"/>
+                                        <shvc:ItemIcon
+                                            Width="44"
+                                            Height="44"
+                                            Icon="{Binding Icon, Converter={StaticResource EquipIconConverter}, Mode=OneWay}"
+                                            Quality="{Binding Quality}"/>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>
@@ -243,19 +242,6 @@
                 </SplitView.Content>
             </SplitView>
         </Grid>
-        <cwuc:Loading IsLoading="{Binding Weapons, Converter={StaticResource EmptyCollectionToBoolRevertConverter}}">
-            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <shci:CachedImage
-                    Width="120"
-                    Height="120"
-                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon272.png"/>
-                <TextBlock
-                    Margin="0,16,0,0"
-                    HorizontalAlignment="Center"
-                    Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="加载中，请稍候"/>
-                <ProgressRing Margin="0,16,0,0" IsActive="True"/>
-            </StackPanel>
-        </cwuc:Loading>
+        <shvc:LoadingView IsLoading="{Binding Weapons, Converter={StaticResource EmptyCollectionToBoolRevertConverter}}"/>
     </Grid>
 </shc:ScopedPage>

@@ -1,8 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.Message;
 using Windows.Graphics;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -13,7 +16,7 @@ namespace Snap.Hutao;
 /// </summary>
 [Injection(InjectAs.Singleton)]
 [SuppressMessage("", "CA1001")]
-public sealed partial class MainWindow : Window, IExtendedWindowSource
+public sealed partial class MainWindow : Window, IExtendedWindowSource, IRecipient<WelcomeStateCompleteMessage>
 {
     private const int MinWidth = 848;
     private const int MinHeight = 524;
@@ -27,6 +30,12 @@ public sealed partial class MainWindow : Window, IExtendedWindowSource
         ExtendedWindow<MainWindow>.Initialize(this);
         IsPresent = true;
         Closed += (s, e) => IsPresent = false;
+
+        Ioc.Default.GetRequiredService<IMessenger>().Register(this);
+
+        // Query the StaticResourceV1Contract.
+        // If not complete we should present the welcome view.
+        ContentSwitchPresenter.Value = !LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false);
     }
 
     /// <summary>
@@ -48,5 +57,11 @@ public sealed partial class MainWindow : Window, IExtendedWindowSource
     {
         pInfo->ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo->ptMinTrackSize.X);
         pInfo->ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo->ptMinTrackSize.Y);
+    }
+
+    /// <inheritdoc/>
+    public void Receive(WelcomeStateCompleteMessage message)
+    {
+        ContentSwitchPresenter.Value = false;
     }
 }

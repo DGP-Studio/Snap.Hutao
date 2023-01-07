@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.DailyNote;
@@ -123,6 +124,9 @@ internal static class Activation
                 {
                     case "":
                         {
+                            // Increase launch times
+                            LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
+
                             await WaitMainWindowAsync().ConfigureAwait(false);
                             break;
                         }

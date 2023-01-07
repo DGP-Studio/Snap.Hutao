@@ -234,7 +234,8 @@
                                     <TextBlock
                                         Margin="0,16,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="五星"/>
+                                        Text="五星"
+                                        Visibility="{Binding SelectedHistoryWish.OrangeList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
@@ -261,7 +262,8 @@
                                     <TextBlock
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="四星"/>
+                                        Text="四星"
+                                        Visibility="{Binding SelectedHistoryWish.PurpleList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
@@ -288,7 +290,8 @@
                                     <TextBlock
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="三星"/>
+                                        Text="三星"
+                                        Visibility="{Binding SelectedHistoryWish.BlueList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
@@ -468,7 +471,7 @@
                 <shci:CachedImage
                     Width="120"
                     Height="120"
-                    Source="https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon71.png"/>
+                    Source="{StaticResource UI_EmotionIcon71}"/>
                 <TextBlock
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"

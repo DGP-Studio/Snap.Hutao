@@ -52,8 +52,6 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// </summary>
     public ICommand OpenDataFolderCommand { get; }
 
-
-
     /// <summary>
     /// 清空用户命令
     /// </summary>
@@ -66,15 +64,13 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
     private Task OpenCacheFolderAsync()
     {
-        return Launcher.LaunchFolderAsync(ApplicationData.Current.TemporaryFolder).AsTask();
+        return Launcher.LaunchFolderAsync(ApplicationData.Current.LocalCacheFolder).AsTask();
     }
 
     private Task OpenDataFolderAsync()
     {
         return Launcher.LaunchFolderPathAsync(hutaoLocation.GetPath()).AsTask();
     }
-
-
 
     private async Task DangerousDeleteUsersAsync()
     {
