@@ -92,7 +92,6 @@
                 </Border>
             </Grid>
         </DataTemplate>
-
     </UserControl.Resources>
 
     <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}" CornerRadius="{StaticResource CompatCornerRadius}">
@@ -124,7 +123,10 @@
                                 FontSize="24"
                                 Text="{Binding TotalCount}"
                                 Visibility="{Binding ElementName=DetailExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                            <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,0,6,0"/>
+                            <shcp:PanelSelector
+                                x:Name="ItemsPanelSelector"
+                                Margin="6,0"
+                                Current="Grid"/>
                         </StackPanel>
                     </Grid>
                 </Expander.Header>

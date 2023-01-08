@@ -94,7 +94,7 @@ public class Response<TData> : Response, IJsResult
     }
 
     /// <inheritdoc/>
-    string IJsResult.ToString(JsonSerializerOptions options)
+    string IJsResult.ToString()
     {
         return JsonSerializer.Serialize(this);
     }

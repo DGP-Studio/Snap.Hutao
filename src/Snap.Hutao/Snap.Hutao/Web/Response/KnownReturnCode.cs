@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Response;
 /// <summary>
 /// 已知的返回代码
 /// </summary>
-public enum KnownReturnCode : int
+public enum KnownReturnCode
 {
     /// <summary>
     /// 无效请求

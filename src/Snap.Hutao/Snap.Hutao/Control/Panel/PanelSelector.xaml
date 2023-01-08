@@ -5,12 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    Loaded="OnRootControlLoaded"
     mc:Ignorable="d">
 
     <SplitButton
+        Name="RootSplitButton"
         Padding="0,6"
-        Click="SplitButtonClick"
-        Loaded="SplitButtonLoaded">
+        Click="SplitButtonClick">
         <SplitButton.Content>
             <FontIcon Name="IconPresenter" Glyph="&#xE8FD;"/>
         </SplitButton.Content>

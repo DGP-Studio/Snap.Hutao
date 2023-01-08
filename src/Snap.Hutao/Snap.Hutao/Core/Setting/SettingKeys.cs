@@ -27,4 +27,9 @@ internal static class SettingKeys
     /// 静态资源合约V1
     /// </summary>
     public const string StaticResourceV1Contract = "StaticResourceV1Contract";
+
+    /// <summary>
+    /// 静态资源合约V2 成就图标与物品图标
+    /// </summary>
+    public const string StaticResourceV2Contract = "StaticResourceV2Contract";
 }

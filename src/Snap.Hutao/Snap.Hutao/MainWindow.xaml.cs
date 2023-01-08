@@ -33,9 +33,11 @@ public sealed partial class MainWindow : Window, IExtendedWindowSource, IRecipie
 
         Ioc.Default.GetRequiredService<IMessenger>().Register(this);
 
-        // Query the StaticResourceV1Contract.
+        // Query the StaticResourceV1Contract & StaticResourceV2Contract.
         // If not complete we should present the welcome view.
-        ContentSwitchPresenter.Value = !LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false);
+        ContentSwitchPresenter.Value =
+            !LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false)
+            || (!LocalSetting.Get(SettingKeys.StaticResourceV2Contract, false));
     }
 
     /// <summary>

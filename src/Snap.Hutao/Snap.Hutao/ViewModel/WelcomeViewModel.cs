@@ -51,18 +51,27 @@ internal class WelcomeViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        List<DownloadSummary> downloadSummaries = new()
+        List<DownloadSummary> downloadSummaries = new();
+
+        if (!LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false))
         {
-            new(serviceProvider, "基础图标", "Bg"),
-            new(serviceProvider, "角色图标", "AvatarIcon"),
-            new(serviceProvider, "角色立绘图标", "GachaAvatarIcon"),
-            new(serviceProvider, "角色立绘图像", "GachaAvatarImg"),
-            new(serviceProvider, "武器图标", "EquipIcon"),
-            new(serviceProvider, "武器立绘图标", "GachaEquipIcon"),
-            new(serviceProvider, "名片图像", "NameCardPic"),
-            new(serviceProvider, "天赋图标", "Skill"),
-            new(serviceProvider, "命之座图标", "Talent"),
-        };
+            downloadSummaries.Add(new(serviceProvider, "基础图标", "Bg"));
+            downloadSummaries.Add(new(serviceProvider, "角色图标", "AvatarIcon"));
+            downloadSummaries.Add(new(serviceProvider, "角色立绘图标", "GachaAvatarIcon"));
+            downloadSummaries.Add(new(serviceProvider, "角色立绘图像", "GachaAvatarImg"));
+            downloadSummaries.Add(new(serviceProvider, "武器图标", "EquipIcon"));
+            downloadSummaries.Add(new(serviceProvider, "武器立绘图标", "GachaEquipIcon"));
+            downloadSummaries.Add(new(serviceProvider, "名片图像", "NameCardPic"));
+            downloadSummaries.Add(new(serviceProvider, "天赋图标", "Skill"));
+            downloadSummaries.Add(new(serviceProvider, "命之座图标", "Talent"));
+        }
+
+        if (!LocalSetting.Get(SettingKeys.StaticResourceV2Contract, false))
+        {
+            downloadSummaries.Add(new(serviceProvider, "成就图标", "AchievementIcon"));
+            downloadSummaries.Add(new(serviceProvider, "物品图标", "ItemIcon"));
+            downloadSummaries.Add(new(serviceProvider, "元素图标", "IconElement"));
+        }
 
         DownloadSummaries = new(downloadSummaries);
 
@@ -70,8 +79,9 @@ internal class WelcomeViewModel : ObservableObject
 
         serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
 
-        // Complete the StaticResourceV1Contract
+        // Complete StaticResourceContracts
         LocalSetting.Set(SettingKeys.StaticResourceV1Contract, true);
+        LocalSetting.Set(SettingKeys.StaticResourceV2Contract, true);
 
         new ToastContentBuilder()
             .AddText("下载完成")
