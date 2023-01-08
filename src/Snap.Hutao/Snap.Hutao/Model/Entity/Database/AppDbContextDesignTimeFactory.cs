@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore.Design;
-using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Model.Entity.Database;
 
 namespace Snap.Hutao.Context.Database;
@@ -17,7 +16,7 @@ public class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbCo
     [EditorBrowsable(EditorBrowsableState.Never)]
     public AppDbContext CreateDbContext(string[] args)
     {
-        HutaoContext myDocument = new(new());
-        return AppDbContext.Create($"Data Source={myDocument.Locate("Userdata.db")}");
+        string userdataDbName = System.IO.Path.Combine(Core.CoreEnvironment.DataFolder, "Userdata.db");
+        return AppDbContext.Create($"Data Source={userdataDbName}");
     }
 }

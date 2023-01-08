@@ -2,11 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Core.IO;
-using System.IO;
-using System.Runtime.InteropServices;
-using Windows.Win32;
-using Windows.Win32.Foundation;
 using Windows.Win32.Networking.BackgroundIntelligentTransferService;
 
 namespace Snap.Hutao.Core.IO.Bits;

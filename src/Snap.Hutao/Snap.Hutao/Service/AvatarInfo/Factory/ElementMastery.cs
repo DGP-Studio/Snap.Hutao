@@ -1,15 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
-using Snap.Hutao.Model;
-using Snap.Hutao.Model.Binding.AvatarProperty;
-using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Annotation;
-using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Converter;
-using ModelPlayerInfo = Snap.Hutao.Web.Enka.Model.PlayerInfo;
-
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 /// <summary>

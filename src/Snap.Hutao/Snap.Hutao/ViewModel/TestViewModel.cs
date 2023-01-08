@@ -2,33 +2,17 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Control;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Model.Binding.Cultivation;
-using Snap.Hutao.Model.Binding.Hutao;
-using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Metadata.Weapon;
-using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Cultivation;
-using Snap.Hutao.Service.Hutao;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Response;
-using System.Collections.Immutable;
-using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
-using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
-using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 
 namespace Snap.Hutao.ViewModel;
 

@@ -6,9 +6,7 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using System.IO;
-using System.Numerics;
 using Windows.Graphics.Imaging;
-using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Control.Image;
@@ -28,8 +26,8 @@ public class Gradient : CompositionImage
     /// </summary>
     public GradientDirection BackgroundDirection
     {
-        get { return (GradientDirection)GetValue(BackgroundDirectionProperty); }
-        set { SetValue(BackgroundDirectionProperty, value); }
+        get => (GradientDirection)GetValue(BackgroundDirectionProperty);
+        set => SetValue(BackgroundDirectionProperty, value);
     }
 
     /// <summary>
@@ -37,8 +35,8 @@ public class Gradient : CompositionImage
     /// </summary>
     public GradientDirection ForegroundDirection
     {
-        get { return (GradientDirection)GetValue(ForegroundDirectionProperty); }
-        set { SetValue(ForegroundDirectionProperty, value); }
+        get => (GradientDirection)GetValue(ForegroundDirectionProperty);
+        set => SetValue(ForegroundDirectionProperty, value);
     }
 
     /// <inheritdoc/>

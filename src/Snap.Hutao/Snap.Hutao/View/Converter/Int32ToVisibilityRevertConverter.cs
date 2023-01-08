@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI.Converters;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
 

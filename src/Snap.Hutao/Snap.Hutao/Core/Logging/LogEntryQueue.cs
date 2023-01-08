@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Model.Entity.Database;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -61,8 +60,8 @@ public sealed class LogEntryQueue : IDisposable
 
     private static LogDbContext InitializeDbContext()
     {
-        HutaoContext myDocument = new(new());
-        LogDbContext logDbContext = LogDbContext.Create($"Data Source={myDocument.Locate("Log.db")}");
+        string logDbName = System.IO.Path.Combine(CoreEnvironment.DataFolder, "Log.db");
+        LogDbContext logDbContext = LogDbContext.Create($"Data Source={logDbName}");
         if (logDbContext.Database.GetPendingMigrations().Any())
         {
             Debug.WriteLine("[Debug] Performing LogDbContext Migrations");
@@ -70,7 +69,7 @@ public sealed class LogEntryQueue : IDisposable
         }
 
         // only raw sql can pass
-        logDbContext.Database.ExecuteSqlRaw("DELETE FROM logs WHERE Exception IS NULL");
+        logDbContext.Logs.Where(log => log.Exception == null).ExecuteDelete();
         return logDbContext;
     }
 

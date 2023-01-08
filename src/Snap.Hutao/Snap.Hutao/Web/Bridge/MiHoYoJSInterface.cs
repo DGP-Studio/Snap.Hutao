@@ -371,7 +371,7 @@ public class MiHoYoJSInterface
 
         if (result != null && param.Callback != null)
         {
-            await ExecuteCallbackScriptAsync(param.Callback, result.ToString(options)).ConfigureAwait(false);
+            await ExecuteCallbackScriptAsync(param.Callback, result.ToString()).ConfigureAwait(false);
         }
     }
 

@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Web.Request;
-using System.Collections.Immutable;
 using System.Net.Http;
 using System.Text;
 

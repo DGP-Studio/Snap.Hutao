@@ -12,8 +12,6 @@ using Snap.Hutao.Service.Abstraction;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
-using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Control.Image;
 

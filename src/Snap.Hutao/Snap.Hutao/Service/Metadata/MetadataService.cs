@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
@@ -25,9 +24,9 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
 {
     private const string MetaFileName = "Meta.json";
 
+    private readonly string metadataFolderPath;
     private readonly IInfoBarService infoBarService;
     private readonly HttpClient httpClient;
-    private readonly FileSystemContext metadataContext;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<MetadataService> logger;
     private readonly IMemoryCache memoryCache;
@@ -44,24 +43,24 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
     /// </summary>
     /// <param name="infoBarService">信息条服务</param>
     /// <param name="httpClientFactory">http客户端工厂</param>
-    /// <param name="metadataContext">我的文档上下文</param>
     /// <param name="options">json序列化选项</param>
     /// <param name="logger">日志器</param>
     /// <param name="memoryCache">内存缓存</param>
     public MetadataService(
         IInfoBarService infoBarService,
         IHttpClientFactory httpClientFactory,
-        MetadataContext metadataContext,
         JsonSerializerOptions options,
         ILogger<MetadataService> logger,
         IMemoryCache memoryCache)
     {
         this.infoBarService = infoBarService;
-        this.metadataContext = metadataContext;
         this.options = options;
         this.logger = logger;
         this.memoryCache = memoryCache;
         httpClient = httpClientFactory.CreateClient(nameof(MetadataService));
+
+        metadataFolderPath = Path.Combine(Core.CoreEnvironment.DataFolder, "Metadata");
+        Directory.CreateDirectory(metadataFolderPath);
     }
 
     /// <inheritdoc/>
@@ -111,7 +110,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
         await CheckMetadataAsync(metaMd5Map, token).ConfigureAwait(false);
 
         // save metadataFile
-        using (FileStream metaFileStream = metadataContext.Create(MetaFileName))
+        using (FileStream metaFileStream = File.Create(Path.Combine(metadataFolderPath, MetaFileName)))
         {
             await JsonSerializer
                 .SerializeAsync(metaFileStream, metaMd5Map, options, token)
@@ -136,7 +135,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
             string fileFullName = $"{fileName}.json";
 
             bool skip = false;
-            if (metadataContext.FileExists(fileFullName))
+            if (File.Exists(Path.Combine(metadataFolderPath, fileFullName)))
             {
                 skip = md5 == await GetFileMd5Async(fileFullName, token).ConfigureAwait(false);
             }
@@ -152,7 +151,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
 
     private async Task<string> GetFileMd5Async(string fileFullName, CancellationToken token)
     {
-        using (FileStream stream = metadataContext.OpenRead(fileFullName))
+        using (FileStream stream = File.OpenRead(Path.Combine(metadataFolderPath, fileFullName)))
         {
             byte[] bytes = await MD5.Create()
                 .ComputeHashAsync(stream, token)
@@ -171,7 +170,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
         // Write stream while convert LF to CRLF
         using (StreamReader streamReader = new(sourceStream))
         {
-            using (StreamWriter streamWriter = new(metadataContext.Create(fileFullName)))
+            using (StreamWriter streamWriter = new(File.Create(Path.Combine(metadataFolderPath, fileFullName))))
             {
                 while (await streamReader.ReadLineAsync(token).ConfigureAwait(false) is string line)
                 {
@@ -195,7 +194,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
             return Must.NotNull((T)value!);
         }
 
-        using (Stream fileStream = metadataContext.OpenRead($"{fileName}.json"))
+        using (Stream fileStream = File.OpenRead(Path.Combine(metadataFolderPath, $"{fileName}.json")))
         {
             T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
             return memoryCache.Set(cacheKey, Must.NotNull(result!));
