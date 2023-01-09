@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.Control.Extension;
@@ -11,19 +10,6 @@ namespace Snap.Hutao.Control.Extension;
 /// </summary>
 internal static class ContentDialogExtensions
 {
-    /// <summary>
-    /// 针对窗口进行初始化
-    /// </summary>
-    /// <param name="contentDialog">对话框</param>
-    /// <param name="window">窗口</param>
-    /// <returns>初始化完成的对话框</returns>
-    public static ContentDialog InitializeWithWindow(this ContentDialog contentDialog, Window window)
-    {
-        contentDialog.XamlRoot = window.Content.XamlRoot;
-
-        return contentDialog;
-    }
-
     /// <summary>
     /// 阻止用户交互
     /// </summary>

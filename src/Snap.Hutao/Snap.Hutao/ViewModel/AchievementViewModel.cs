@@ -42,6 +42,7 @@ internal class AchievementViewModel
     private readonly IAchievementService achievementService;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly JsonSerializerOptions options;
 
     private readonly TaskCompletionSource<bool> openUICompletionSource = new();
@@ -64,7 +65,7 @@ internal class AchievementViewModel
     /// <param name="infoBarService">信息条服务</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    /// <param name="scopeFactory">范围工厂</param>
+    /// <param name="contentDialogFactory">内容对话框工厂</param>
     /// <param name="messenger">消息器</param>
     public AchievementViewModel(
         IMetadataService metadataService,
@@ -72,11 +73,13 @@ internal class AchievementViewModel
         IInfoBarService infoBarService,
         JsonSerializerOptions options,
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
+        IContentDialogFactory contentDialogFactory,
         IMessenger messenger)
     {
         this.metadataService = metadataService;
         this.achievementService = achievementService;
         this.infoBarService = infoBarService;
+        this.contentDialogFactory = contentDialogFactory;
         this.options = options;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
@@ -241,36 +244,6 @@ internal class AchievementViewModel
         return false;
     }
 
-    private static Task<ContentDialogResult> ShowImportResultDialogAsync(string title, string message)
-    {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        ContentDialog dialog = new()
-        {
-            Title = title,
-            Content = message,
-            PrimaryButtonText = "确认",
-            DefaultButton = ContentDialogButton.Primary,
-            XamlRoot = mainWindow.Content.XamlRoot,
-        };
-
-        return dialog.ShowAsync().AsTask();
-    }
-
-    private static Task<ContentDialogResult> ShowImportFailDialogAsync(string message)
-    {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        ContentDialog dialog = new()
-        {
-            Title = "导入失败",
-            Content = message,
-            PrimaryButtonText = "确认",
-            DefaultButton = ContentDialogButton.Primary,
-            XamlRoot = mainWindow.Content.XamlRoot,
-        };
-
-        return dialog.ShowAsync().AsTask();
-    }
-
     private async Task OpenUIAsync()
     {
         bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(false);
@@ -303,8 +276,7 @@ internal class AchievementViewModel
     {
         if (Archives != null)
         {
-            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-            (bool isOk, string name) = await new AchievementArchiveCreateDialog(mainWindow).GetInputAsync().ConfigureAwait(false);
+            (bool isOk, string name) = await new AchievementArchiveCreateDialog().GetInputAsync().ConfigureAwait(false);
 
             if (isOk)
             {
@@ -335,17 +307,9 @@ internal class AchievementViewModel
     {
         if (Archives != null && SelectedArchive != null)
         {
-            ContentDialog dialog = new()
-            {
-                Title = $"确定要删除存档 {SelectedArchive.Name} 吗？",
-                Content = "该操作是不可逆的，该存档和其内的所有成就状态会丢失。",
-                PrimaryButtonText = "确认",
-                CloseButtonText = "取消",
-                DefaultButton = ContentDialogButton.Close,
-            };
-
-            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-            ContentDialogResult result = await dialog.InitializeWithWindow(mainWindow).ShowAsync();
+            ContentDialogResult result = await contentDialogFactory
+                .CreateForConfirmCancel($"确定要删除存档 {SelectedArchive.Name} 吗？", "该操作是不可逆的，该存档和其内的所有成就状态会丢失。")
+                .ShowAsync();
 
             if (result == ContentDialogResult.Primary)
             {
@@ -408,11 +372,11 @@ internal class AchievementViewModel
             await ThreadHelper.SwitchToMainThreadAsync();
             if (isOk)
             {
-                await ShowImportResultDialogAsync("导出成功", "成功保存到指定位置").ConfigureAwait(false);
+                await contentDialogFactory.CreateForConfirm("导出成功", "成功保存到指定位置").ShowAsync();
             }
             else
             {
-                await ShowImportResultDialogAsync("导出失败", "写入文件时遇到问题").ConfigureAwait(false);
+                await contentDialogFactory.CreateForConfirm("导出失败", "写入文件时遇到问题").ShowAsync();
             }
         }
     }
@@ -432,7 +396,7 @@ internal class AchievementViewModel
         else
         {
             await ThreadHelper.SwitchToMainThreadAsync();
-            await ShowImportFailDialogAsync("数据格式不正确").ConfigureAwait(false);
+            await contentDialogFactory.CreateForConfirm("导入失败", "数据格式不正确").ShowAsync();
         }
     }
 
@@ -444,8 +408,8 @@ internal class AchievementViewModel
             return;
         }
 
-        IPickerFactory pickerFactory = Ioc.Default.GetRequiredService<IPickerFactory>();
-        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "导入", ".json");
+        FileOpenPicker picker = Ioc.Default.GetRequiredService<IPickerFactory>()
+            .GetFileOpenPicker(PickerLocationId.Desktop, "导入", ".json");
 
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {
@@ -459,7 +423,7 @@ internal class AchievementViewModel
             else
             {
                 await ThreadHelper.SwitchToMainThreadAsync();
-                await ShowImportFailDialogAsync("文件的数据格式不正确").ConfigureAwait(false);
+                await contentDialogFactory.CreateForConfirm("导入失败", "文件的数据格式不正确").ShowAsync();
             }
         }
     }
@@ -481,20 +445,12 @@ internal class AchievementViewModel
     {
         if (uiaf.IsCurrentVersionSupported())
         {
-            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-            await ThreadHelper.SwitchToMainThreadAsync();
-            (bool isOk, ImportStrategy strategy) = await new AchievementImportDialog(mainWindow, uiaf).GetImportStrategyAsync().ConfigureAwait(true);
+            (bool isOk, ImportStrategy strategy) = await new AchievementImportDialog(uiaf).GetImportStrategyAsync().ConfigureAwait(true);
 
             if (isOk)
             {
-                ContentDialog importingDialog = new()
-                {
-                    Title = "导入成就中",
-                    Content = new ProgressBar() { IsIndeterminate = true },
-                };
-
                 ImportResult result;
-                await using (await importingDialog.InitializeWithWindow(mainWindow).BlockAsync().ConfigureAwait(false))
+                await using (await contentDialogFactory.CreateForIndeterminateProgress("导入成就中").BlockAsync().ConfigureAwait(false))
                 {
                     result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
                 }
@@ -507,7 +463,7 @@ internal class AchievementViewModel
         else
         {
             await ThreadHelper.SwitchToMainThreadAsync();
-            await ShowImportFailDialogAsync("数据的 UIAF 版本过低，无法导入").ConfigureAwait(false);
+            await contentDialogFactory.CreateForConfirm("导入失败", "数据的 UIAF 版本过低，无法导入").ShowAsync();
         }
 
         return false;

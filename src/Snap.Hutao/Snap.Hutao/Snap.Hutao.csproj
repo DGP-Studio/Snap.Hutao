@@ -75,7 +75,6 @@
     <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
     <None Remove="View\Dialog\AdoptCalculatorDialog.xaml" />
-    <None Remove="View\Dialog\AvatarInfoQueryDialog.xaml" />
     <None Remove="View\Dialog\CommunityGameRecordDialog.xaml" />
     <None Remove="View\Dialog\CultivateProjectDialog.xaml" />
     <None Remove="View\Dialog\CultivatePromotionDeltaDialog.xaml" />
@@ -303,11 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\GachaLogUrlDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\AvatarInfoQueryDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

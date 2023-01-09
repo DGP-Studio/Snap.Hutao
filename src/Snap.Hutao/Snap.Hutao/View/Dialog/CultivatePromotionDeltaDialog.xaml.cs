@@ -19,13 +19,12 @@ public sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// <summary>
     /// 构造一个新的养成计算对话框
     /// </summary>
-    /// <param name="window">窗体</param>
     /// <param name="avatar">角色</param>
     /// <param name="weapon">武器</param>
-    public CultivatePromotionDeltaDialog(Window window, ICalculableAvatar? avatar, ICalculableWeapon? weapon)
+    public CultivatePromotionDeltaDialog(ICalculableAvatar? avatar, ICalculableWeapon? weapon)
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
         DataContext = this;
         Avatar = avatar;
         Weapon = weapon;
@@ -55,6 +54,7 @@ public sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// <returns>提升差异</returns>
     public async Task<ValueResult<bool, AvatarPromotionDelta>> GetPromotionDeltaAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
 
         if (result == ContentDialogResult.Primary)

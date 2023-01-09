@@ -144,8 +144,6 @@
                                             Style="{StaticResource CaptionTextBlockStyle}"
                                             Text="{Binding FinishDescription}"/>
                                         <ProgressBar
-                                            Height="1"
-                                            MinHeight="1"
                                             Margin="0,4,0,0"
                                             Maximum="1"
                                             Value="{Binding FinishPercent}"/>

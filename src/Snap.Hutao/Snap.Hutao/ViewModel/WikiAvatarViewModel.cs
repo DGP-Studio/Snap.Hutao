@@ -129,8 +129,7 @@ internal class WikiAvatarViewModel : ObservableObject
 
             if (userService.Current != null)
             {
-                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(mainWindow, avatar.ToCalculable(), null)
+                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(avatar.ToCalculable(), null)
                     .GetPromotionDeltaAsync()
                     .ConfigureAwait(false);
 

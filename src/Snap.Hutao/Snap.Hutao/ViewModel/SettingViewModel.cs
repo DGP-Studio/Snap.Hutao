@@ -207,10 +207,9 @@ internal class SettingViewModel : ObservableObject
         }
     }
 
-    private async Task ShowSignInWebViewDialogAsync()
+    private Task ShowSignInWebViewDialogAsync()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        await new SignInWebViewDialog(mainWindow).ShowAsync();
+        return new SignInWebViewDialog().ShowAsync().AsTask();
     }
 
     private async Task DebugThrowExceptionAsync()

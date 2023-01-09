@@ -18,12 +18,12 @@ public sealed partial class GachaLogImportDialog : ContentDialog
     /// <summary>
     /// 构造一个新的祈愿记录导入对话框
     /// </summary>
-    /// <param name="window">呈现的父窗口</param>
     /// <param name="uigf">uigf数据</param>
-    public GachaLogImportDialog(Window window, UIGF uigf)
+    /// 
+    public GachaLogImportDialog(UIGF uigf)
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
         UIGF = uigf;
     }
 
@@ -42,6 +42,7 @@ public sealed partial class GachaLogImportDialog : ContentDialog
     /// <returns>是否导入</returns>
     public async Task<bool> GetShouldImportAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         return await ShowAsync() == ContentDialogResult.Primary;
     }
 }

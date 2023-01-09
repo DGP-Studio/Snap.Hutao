@@ -29,6 +29,7 @@ internal class TestViewModel : ObservableObject, ISupportCancellation
     public TestViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
         ShowCommunityGameRecordDialogCommand = asyncRelayCommandFactory.Create(ShowCommunityGameRecordDialogAsync);
+        ShowAdoptCalculatorDialogCommand = asyncRelayCommandFactory.Create(ShowAdoptCalculatorDialogAsync);
         DangerousLoginMihoyoBbsCommand = asyncRelayCommandFactory.Create(DangerousLoginMihoyoBbsAsync);
         DownloadStaticFileCommand = asyncRelayCommandFactory.Create(DownloadStaticFileAsync);
     }
@@ -42,6 +43,11 @@ internal class TestViewModel : ObservableObject, ISupportCancellation
     public ICommand ShowCommunityGameRecordDialogCommand { get; }
 
     /// <summary>
+    /// 打开养成计算对话框命令
+    /// </summary>
+    public ICommand ShowAdoptCalculatorDialogCommand { get; }
+
+    /// <summary>
     /// Dangerous 登录米游社命令
     /// </summary>
     public ICommand DangerousLoginMihoyoBbsCommand { get; }
@@ -53,14 +59,17 @@ internal class TestViewModel : ObservableObject, ISupportCancellation
 
     private async Task ShowCommunityGameRecordDialogAsync()
     {
-        CommunityGameRecordDialog dialog = ActivatorUtilities.CreateInstance<CommunityGameRecordDialog>(Ioc.Default);
-        await dialog.ShowAsync();
+        await new CommunityGameRecordDialog().ShowAsync();
+    }
+
+    private async Task ShowAdoptCalculatorDialogAsync()
+    {
+        await new AdoptCalculatorDialog().ShowAsync();
     }
 
     private async Task DangerousLoginMihoyoBbsAsync()
     {
-        LoginMihoyoBBSDialog dialog = ActivatorUtilities.CreateInstance<LoginMihoyoBBSDialog>(Ioc.Default);
-        (bool isOk, Dictionary<string, string>? data) = await dialog.GetInputAccountPasswordAsync().ConfigureAwait(false);
+        (bool isOk, Dictionary<string, string>? data) = await new LoginMihoyoBBSDialog().GetInputAccountPasswordAsync().ConfigureAwait(false);
 
         if (isOk)
         {

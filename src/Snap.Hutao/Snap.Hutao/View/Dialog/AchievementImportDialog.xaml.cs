@@ -19,12 +19,11 @@ public sealed partial class AchievementImportDialog : ContentDialog
     /// <summary>
     /// 构造一个新的成就对话框
     /// </summary>
-    /// <param name="window">呈现的父窗口</param>
     /// <param name="uiaf">uiaf数据</param>
-    public AchievementImportDialog(Window window, UIAF uiaf)
+    public AchievementImportDialog(UIAF uiaf)
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
         UIAF = uiaf;
     }
 
@@ -43,6 +42,7 @@ public sealed partial class AchievementImportDialog : ContentDialog
     /// <returns>导入选项</returns>
     public async Task<ValueResult<bool, ImportStrategy>> GetImportStrategyAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         ImportStrategy strategy = (ImportStrategy)ImportModeSelector.SelectedIndex;
 

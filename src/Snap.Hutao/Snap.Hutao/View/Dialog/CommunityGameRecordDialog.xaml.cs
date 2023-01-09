@@ -24,11 +24,11 @@ public sealed partial class CommunityGameRecordDialog : ContentDialog
     /// 构造一个新的社区游戏记录对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public CommunityGameRecordDialog(MainWindow window)
+    public CommunityGameRecordDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
         scope = Ioc.Default.CreateScope();
+        XamlRoot = scope.ServiceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     private void OnGridLoaded(object sender, RoutedEventArgs e)

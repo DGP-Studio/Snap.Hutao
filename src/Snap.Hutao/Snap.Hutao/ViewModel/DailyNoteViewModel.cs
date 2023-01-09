@@ -220,18 +220,16 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
     {
         if (entry != null)
         {
-            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-            await new DailyNoteNotificationDialog(mainWindow, entry).ShowAsync();
+            await new DailyNoteNotificationDialog(entry).ShowAsync();
             appDbContext.DailyNotes.UpdateAndSave(entry);
         }
     }
 
     private async Task VerifyDailyNoteVerificationAsync()
     {
-        if (userService.Current != null && userService.Current.SelectedUserGameRole != null)
+        if (UserAndRole.TryFromUser(userService.Current, out UserAndRole? userAndRole))
         {
-            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-            await new DailyNoteVerificationDialog(mainWindow, userService.Current.Entity, userService.Current.SelectedUserGameRole).ShowAsync();
+            await new DailyNoteVerificationDialog(userAndRole).ShowAsync();
         }
         else
         {

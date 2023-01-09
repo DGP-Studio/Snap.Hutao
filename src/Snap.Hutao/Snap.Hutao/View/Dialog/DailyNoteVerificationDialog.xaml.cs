@@ -5,9 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Web.Bridge;
-using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.View.Dialog;
 
@@ -17,23 +16,20 @@ namespace Snap.Hutao.View.Dialog;
 public sealed partial class DailyNoteVerificationDialog : ContentDialog
 {
     private readonly IServiceScope scope;
-    private readonly User user;
-    private readonly PlayerUid uid;
+    private readonly UserAndRole userAndRole;
+
     [SuppressMessage("", "IDE0052")]
     private DailyNoteJsInterface? dailyNoteJsInterface;
 
     /// <summary>
     /// 构造一个新的实时便笺认证对话框
     /// </summary>
-    /// <param name="window">窗口</param>
-    /// <param name="user">用户</param>
-    /// <param name="uid">uid</param>
-    public DailyNoteVerificationDialog(Window window, User user, PlayerUid uid)
+    /// <param name="userAndRole">用户与角色</param>
+    public DailyNoteVerificationDialog(UserAndRole userAndRole)
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
-        this.user = user;
-        this.uid = uid;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        this.userAndRole = userAndRole;
         scope = Ioc.Default.CreateScope();
     }
 
@@ -47,10 +43,11 @@ public sealed partial class DailyNoteVerificationDialog : ContentDialog
         await WebView.EnsureCoreWebView2Async();
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;
 
+        Model.Entity.User user = userAndRole.User;
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
         dailyNoteJsInterface = new(coreWebView2, scope.ServiceProvider);
 
-        string query = $"?role_id={uid.Value}&server={uid.Region}";
+        string query = $"?role_id={userAndRole.Role.GameUid}&server={userAndRole.Role.Region}";
         coreWebView2.Navigate($"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/{query}");
     }
 

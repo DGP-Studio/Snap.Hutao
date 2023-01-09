@@ -150,8 +150,7 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
 
     private async Task AddProjectAsync()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, CultivateProject project) = await new CultivateProjectDialog(mainWindow).CreateProjectAsync().ConfigureAwait(false);
+        (bool isOk, CultivateProject project) = await new CultivateProjectDialog().CreateProjectAsync().ConfigureAwait(false);
 
         if (isOk)
         {

@@ -25,6 +25,10 @@
                 <Button Command="{Binding ShowCommunityGameRecordDialogCommand}" Content="Open"/>
             </wsc:Setting>
 
+            <wsc:Setting Header="AdoptCalculatorDialogTest">
+                <Button Command="{Binding ShowAdoptCalculatorDialogCommand}" Content="Open"/>
+            </wsc:Setting>
+
             <wsc:Setting Header="DownloadStaticFileTest">
                 <Button Command="{Binding DownloadStaticFileCommand}" Content="Download"/>
             </wsc:Setting>

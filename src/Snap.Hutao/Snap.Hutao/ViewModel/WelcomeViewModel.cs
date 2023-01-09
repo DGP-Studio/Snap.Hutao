@@ -71,6 +71,7 @@ internal class WelcomeViewModel : ObservableObject
             downloadSummaries.Add(new(serviceProvider, "成就图标", "AchievementIcon"));
             downloadSummaries.Add(new(serviceProvider, "物品图标", "ItemIcon"));
             downloadSummaries.Add(new(serviceProvider, "元素图标", "IconElement"));
+            downloadSummaries.Add(new(serviceProvider, "圣遗物图标", "RelicIcon"));
         }
 
         DownloadSummaries = new(downloadSummaries);

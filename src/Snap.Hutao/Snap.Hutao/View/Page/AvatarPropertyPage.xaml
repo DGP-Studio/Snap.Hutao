@@ -62,7 +62,7 @@
                 <AppBarButton
                     Command="{Binding CultivateCommand}"
                     CommandParameter="{Binding SelectedAvatar}"
-                    Icon="{shcm:FontIcon Glyph=&#xE91B;}"
+                    Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
                     Label="养成计算"/>
                 <AppBarSeparator/>
                 <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="同步角色信息">
@@ -141,12 +141,7 @@
                             MaxWidth="800"
                             HorizontalAlignment="Left"
                             Background="Transparent">
-                            <Border
-                                Margin="16"
-                                Background="{StaticResource CardBackgroundFillColorDefault}"
-                                BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                BorderThickness="1"
-                                CornerRadius="{StaticResource CompatCornerRadius}">
+                            <Border Margin="16" Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -483,35 +478,63 @@
                                                         <Grid.ColumnDefinitions>
                                                             <ColumnDefinition Width="1*"/>
                                                             <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition Width="4*"/>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition Width="1*"/>
+                                                            <ColumnDefinition Width="2*"/>
                                                         </Grid.ColumnDefinitions>
+
                                                         <StackPanel Grid.Column="0">
-                                                            <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding MainProperty.Key}"/>
-                                                            <TextBlock Text="{Binding MainProperty.Value}"/>
+                                                            <!--  主属性  -->
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                                    Text="{Binding MainProperty.Key}"
+                                                                    TextTrimming="CharacterEllipsis"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding MainProperty.Value}"/>
+                                                            </Grid>
+                                                            <!--  评分  -->
+                                                            <Grid Margin="0,8,0,0">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                                    Text="评分"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="NoWrap"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding ScoreFormatted}"/>
+                                                            </Grid>
                                                         </StackPanel>
                                                         <AppBarSeparator Grid.Column="1"/>
                                                         <ItemsControl Grid.Column="2" ItemsSource="{Binding ComposedSubProperties}">
                                                             <ItemsControl.ItemsPanel>
                                                                 <ItemsPanelTemplate>
-                                                                    <cwucont:UniformGrid Columns="4"/>
+                                                                    <cwucont:UniformGrid
+                                                                        ColumnSpacing="16"
+                                                                        Columns="2"
+                                                                        RowSpacing="8"/>
                                                                 </ItemsPanelTemplate>
                                                             </ItemsControl.ItemsPanel>
                                                             <ItemsControl.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <StackPanel>
-                                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
-                                                                        <TextBlock Text="{Binding Value}"/>
-                                                                    </StackPanel>
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition/>
+                                                                            <ColumnDefinition Width="auto"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock
+                                                                            Style="{StaticResource BaseTextBlockStyle}"
+                                                                            Text="{Binding Name}"
+                                                                            TextTrimming="CharacterEllipsis"
+                                                                            TextWrapping="NoWrap"/>
+                                                                        <TextBlock Grid.Column="1" Text="{Binding Value}"/>
+                                                                    </Grid>
                                                                 </DataTemplate>
                                                             </ItemsControl.ItemTemplate>
                                                         </ItemsControl>
-                                                        <AppBarSeparator Grid.Column="3"/>
-                                                        <StackPanel Grid.Column="4">
-                                                            <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="评分"/>
-                                                            <TextBlock Text="{Binding ScoreFormatted}"/>
-                                                        </StackPanel>
                                                     </Grid>
                                                 </Grid>
                                             </Expander.Header>
@@ -526,9 +549,16 @@
                                                     </ItemsControl.ItemsPanel>
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Grid Padding="2" Opacity="{Binding Opacity}">
-                                                                <TextBlock Text="{Binding Name}"/>
-                                                                <TextBlock HorizontalAlignment="Right" Text="{Binding Value}"/>
+                                                            <Grid Opacity="{Binding Opacity}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Text="{Binding Name}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="NoWrap"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding Value}"/>
                                                             </Grid>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
@@ -545,9 +575,16 @@
                                                     </ItemsControl.ItemsPanel>
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Grid Padding="2" Opacity="{Binding Opacity}">
-                                                                <TextBlock Text="{Binding Name}"/>
-                                                                <TextBlock HorizontalAlignment="Right" Text="{Binding Value}"/>
+                                                            <Grid Opacity="{Binding Opacity}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Text="{Binding Name}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="NoWrap"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding Value}"/>
                                                             </Grid>
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>

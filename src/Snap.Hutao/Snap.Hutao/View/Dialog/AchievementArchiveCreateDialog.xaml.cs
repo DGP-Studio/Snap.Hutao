@@ -15,10 +15,10 @@ public sealed partial class AchievementArchiveCreateDialog : ContentDialog
     /// 构造一个新的成就存档创建对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public AchievementArchiveCreateDialog(Window window)
+    public AchievementArchiveCreateDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     /// <summary>
@@ -27,6 +27,7 @@ public sealed partial class AchievementArchiveCreateDialog : ContentDialog
     /// <returns>输入的结果</returns>
     public async Task<ValueResult<bool, string>> GetInputAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         string text = InputText.Text ?? string.Empty;
 

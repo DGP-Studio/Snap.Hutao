@@ -132,8 +132,7 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
 
             if (userService.Current != null)
             {
-                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(mainWindow, null, weapon.ToCalculable())
+                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(null, weapon.ToCalculable())
                     .GetPromotionDeltaAsync()
                     .ConfigureAwait(false);
 

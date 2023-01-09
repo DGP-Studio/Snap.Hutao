@@ -304,8 +304,7 @@ internal class GameService : IGameService, IDisposable
 
             if (account == null)
             {
-                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-                (bool isOk, string name) = await new GameAccountNameDialog(mainWindow).GetInputNameAsync().ConfigureAwait(false);
+                (bool isOk, string name) = await new GameAccountNameDialog().GetInputNameAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {
@@ -349,8 +348,7 @@ internal class GameService : IGameService, IDisposable
     /// <inheritdoc/>
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, string name) = await new GameAccountNameDialog(mainWindow).GetInputNameAsync().ConfigureAwait(true);
+        (bool isOk, string name) = await new GameAccountNameDialog().GetInputNameAsync().ConfigureAwait(true);
 
         if (isOk)
         {

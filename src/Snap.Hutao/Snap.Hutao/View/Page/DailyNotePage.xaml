@@ -143,11 +143,8 @@
                         <Border
                             Margin="16,16,16,0"
                             Padding="8"
-                            Background="{StaticResource CardBackgroundFillColorSecondary}"
-                            BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource CompatCornerRadius}">
-                            <Grid Background="Transparent">
+                            Style="{StaticResource BorderCardStyle}">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>

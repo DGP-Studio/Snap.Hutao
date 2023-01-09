@@ -17,8 +17,7 @@ internal class GachaLogUrlManualInputProvider : IGachaLogUrlProvider
     /// <inheritdoc/>
     public async Task<ValueResult<bool, string>> GetQueryAsync()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        ValueResult<bool, string> result = await new GachaLogUrlDialog(mainWindow).GetInputUrlAsync().ConfigureAwait(false);
+        ValueResult<bool, string> result = await new GachaLogUrlDialog().GetInputUrlAsync().ConfigureAwait(false);
 
         if (result.IsOk)
         {
