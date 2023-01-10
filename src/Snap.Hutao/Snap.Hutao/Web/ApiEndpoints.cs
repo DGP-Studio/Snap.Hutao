@@ -274,7 +274,14 @@ internal static class ApiEndpoints
     /// <returns>祈愿记录信息Url</returns>
     public static string GachaInfoGetGachaLog(string query)
     {
-        return $"{Hk4eApiGachaInfoApi}/getGachaLog?{query}";
+        if (query.Contains("mihoyo.com"))
+        {
+            return $"{Hk4eApiGachaInfoApi}/getGachaLog?{query}";
+        }
+        else
+        {
+            return $"{Hk4eIntlApiGachaInfoApi}/getGachaLog?{query}";
+        }
     }
     #endregion
 
@@ -355,6 +362,10 @@ internal static class ApiEndpoints
     private const string Hk4eApi = "https://hk4e-api.mihoyo.com";
     private const string Hk4eApiAnnouncementApi = $"{Hk4eApi}/common/hk4e_cn/announcement/api";
     private const string Hk4eApiGachaInfoApi = $"{Hk4eApi}/event/gacha_info/api";
+
+    private const string Hk4eIntlApi = "https://hk4e-api-os.hoyoverse.com";
+    private const string Hk4eIntlApiAnnouncementApi = $"{Hk4eIntlApi}/common/hk4e_cn/announcement/api";
+    private const string Hk4eIntlApiGachaInfoApi = $"{Hk4eIntlApi}/event/gacha_info/api";
 
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";
