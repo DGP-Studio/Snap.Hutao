@@ -14,27 +14,26 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// </summary>
 internal static class AppInstanceExtension
 {
+    // Hold the reference here to prevent memory corruption.
+    private static HANDLE redirectEventHandle = HANDLE.Null;
+
     /// <summary>
     /// 同步非阻塞重定向
     /// </summary>
     /// <param name="appInstance">app实例</param>
     /// <param name="args">参数</param>
+    [SuppressMessage("", "VSTHRD002")]
     [SuppressMessage("", "VSTHRD110")]
-    public static void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
+    public static unsafe void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
     {
-        HANDLE redirectEventHandle = UnsafeCreateEvent();
-        Task.Run(async () =>
+        redirectEventHandle = CreateEvent(default(SECURITY_ATTRIBUTES*), true, false, null);
+        Task.Run(() =>
         {
-            await appInstance.RedirectActivationToAsync(args);
+            appInstance.RedirectActivationToAsync(args).AsTask().Wait();
             SetEvent(redirectEventHandle);
         });
 
         ReadOnlySpan<HANDLE> handles = new(in redirectEventHandle);
         CoWaitForMultipleObjects((uint)CWMO_FLAGS.CWMO_DEFAULT, INFINITE, handles, out uint _);
-    }
-
-    private static unsafe HANDLE UnsafeCreateEvent()
-    {
-        return CreateEvent(default(SECURITY_ATTRIBUTES*), true, false, null);
     }
 }

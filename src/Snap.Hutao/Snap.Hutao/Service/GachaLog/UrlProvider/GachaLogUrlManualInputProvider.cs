@@ -17,6 +17,8 @@ internal class GachaLogUrlManualInputProvider : IGachaLogUrlProvider
     /// <inheritdoc/>
     public async Task<ValueResult<bool, string>> GetQueryAsync()
     {
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
         ValueResult<bool, string> result = await new GachaLogUrlDialog().GetInputUrlAsync().ConfigureAwait(false);
 
         if (result.IsOk)

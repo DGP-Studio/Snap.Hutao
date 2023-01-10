@@ -129,6 +129,8 @@ internal class WikiAvatarViewModel : ObservableObject
 
             if (userService.Current != null)
             {
+                // ContentDialog must be created by main thread.
+                await ThreadHelper.SwitchToMainThreadAsync();
                 (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(avatar.ToCalculable(), null)
                     .GetPromotionDeltaAsync()
                     .ConfigureAwait(false);

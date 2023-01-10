@@ -207,9 +207,11 @@ internal class SettingViewModel : ObservableObject
         }
     }
 
-    private Task ShowSignInWebViewDialogAsync()
+    private async Task ShowSignInWebViewDialogAsync()
     {
-        return new SignInWebViewDialog().ShowAsync().AsTask();
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
+        await new SignInWebViewDialog().ShowAsync().AsTask().ConfigureAwait(false);
     }
 
     private async Task DebugThrowExceptionAsync()

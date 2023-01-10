@@ -48,7 +48,7 @@ public class UserAndRole
     /// <param name="user">用户</param>
     /// <param name="userAndRole">用户与角色</param>
     /// <returns>是否转换成功</returns>
-    public static bool TryFromUser(User? user, [NotNullWhen(true)]out UserAndRole? userAndRole)
+    public static bool TryFromUser(User? user, [NotNullWhen(true)] out UserAndRole? userAndRole)
     {
         if (user != null && user.SelectedUserGameRole != null)
         {

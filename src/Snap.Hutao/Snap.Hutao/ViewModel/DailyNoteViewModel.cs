@@ -220,6 +220,8 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
     {
         if (entry != null)
         {
+            // ContentDialog must be created by main thread.
+            await ThreadHelper.SwitchToMainThreadAsync();
             await new DailyNoteNotificationDialog(entry).ShowAsync();
             appDbContext.DailyNotes.UpdateAndSave(entry);
         }
@@ -229,6 +231,8 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
     {
         if (UserAndRole.TryFromUser(userService.Current, out UserAndRole? userAndRole))
         {
+            // ContentDialog must be created by main thread.
+            await ThreadHelper.SwitchToMainThreadAsync();
             await new DailyNoteVerificationDialog(userAndRole).ShowAsync();
         }
         else

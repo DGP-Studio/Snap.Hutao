@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Data.Sqlite;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
@@ -100,12 +101,23 @@ internal class UserViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        Users = await userService.GetUserCollectionAsync().ConfigureAwait(true);
-        SelectedUser = userService.Current;
+        try
+        {
+            Users = await userService.GetUserCollectionAsync().ConfigureAwait(true);
+            SelectedUser = userService.Current;
+        }
+        catch (SqliteException ex)
+        {
+            // SQLite Error 11: 'database disk image is malformed'.
+            infoBarService.Error(ex, "用户数据文件已损坏");
+        }
     }
 
     private async Task AddUserAsync()
     {
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
+
         // Get cookie from user input
         ValueResult<bool, string> result = await new UserDialog().GetInputCookieAsync().ConfigureAwait(false);
 

@@ -132,6 +132,8 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
 
             if (userService.Current != null)
             {
+                // ContentDialog must be created by main thread.
+                await ThreadHelper.SwitchToMainThreadAsync();
                 (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(null, weapon.ToCalculable())
                     .GetPromotionDeltaAsync()
                     .ConfigureAwait(false);

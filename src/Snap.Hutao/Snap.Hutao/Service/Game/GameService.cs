@@ -304,6 +304,8 @@ internal class GameService : IGameService, IDisposable
 
             if (account == null)
             {
+                // ContentDialog must be created by main thread.
+                await ThreadHelper.SwitchToMainThreadAsync();
                 (bool isOk, string name) = await new GameAccountNameDialog().GetInputNameAsync().ConfigureAwait(false);
 
                 if (isOk)

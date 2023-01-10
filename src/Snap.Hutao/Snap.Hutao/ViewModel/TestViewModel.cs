@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Control;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;
@@ -59,16 +58,22 @@ internal class TestViewModel : ObservableObject, ISupportCancellation
 
     private async Task ShowCommunityGameRecordDialogAsync()
     {
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
         await new CommunityGameRecordDialog().ShowAsync();
     }
 
     private async Task ShowAdoptCalculatorDialogAsync()
     {
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
         await new AdoptCalculatorDialog().ShowAsync();
     }
 
     private async Task DangerousLoginMihoyoBbsAsync()
     {
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
         (bool isOk, Dictionary<string, string>? data) = await new LoginMihoyoBBSDialog().GetInputAccountPasswordAsync().ConfigureAwait(false);
 
         if (isOk)

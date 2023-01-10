@@ -19,7 +19,6 @@ public sealed partial class GachaLogImportDialog : ContentDialog
     /// 构造一个新的祈愿记录导入对话框
     /// </summary>
     /// <param name="uigf">uigf数据</param>
-    /// 
     public GachaLogImportDialog(UIGF uigf)
     {
         InitializeComponent();

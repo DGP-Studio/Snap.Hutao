@@ -32,8 +32,6 @@ GetDpiForWindow
 // COM BITS
 BackgroundCopyManager
 IBackgroundCopyCallback
-IBackgroundCopyFile5
-IBackgroundCopyJobHttpOptions
 IBackgroundCopyManager
 
 // WinRT

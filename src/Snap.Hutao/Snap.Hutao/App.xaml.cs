@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Exception;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using System.Diagnostics;

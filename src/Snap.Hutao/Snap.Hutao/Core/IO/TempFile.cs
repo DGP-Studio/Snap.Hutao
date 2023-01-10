@@ -42,7 +42,7 @@ internal sealed class TempFile : IDisposable
             File.Copy(file, temporaryFile.Path, true);
             return temporaryFile;
         }
-        catch (System.Exception)
+        catch (Exception)
         {
             return null;
         }

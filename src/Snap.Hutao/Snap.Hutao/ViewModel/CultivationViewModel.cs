@@ -150,6 +150,8 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
 
     private async Task AddProjectAsync()
     {
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
         (bool isOk, CultivateProject project) = await new CultivateProjectDialog().CreateProjectAsync().ConfigureAwait(false);
 
         if (isOk)

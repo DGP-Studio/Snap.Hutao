@@ -21,7 +21,6 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel;
@@ -276,6 +275,8 @@ internal class AchievementViewModel
     {
         if (Archives != null)
         {
+            // ContentDialog must be created by main thread.
+            await ThreadHelper.SwitchToMainThreadAsync();
             (bool isOk, string name) = await new AchievementArchiveCreateDialog().GetInputAsync().ConfigureAwait(false);
 
             if (isOk)
@@ -308,8 +309,8 @@ internal class AchievementViewModel
         if (Archives != null && SelectedArchive != null)
         {
             ContentDialogResult result = await contentDialogFactory
-                .CreateForConfirmCancel($"确定要删除存档 {SelectedArchive.Name} 吗？", "该操作是不可逆的，该存档和其内的所有成就状态会丢失。")
-                .ShowAsync();
+                .ConfirmCancelAsync($"确定要删除存档 {SelectedArchive.Name} 吗？", "该操作是不可逆的，该存档和其内的所有成就状态会丢失。")
+                .ConfigureAwait(false);
 
             if (result == ContentDialogResult.Primary)
             {
@@ -352,32 +353,25 @@ internal class AchievementViewModel
     {
         if (SelectedArchive == null || Achievements == null)
         {
-            infoBarService.Information("必须选择一个存档才能导出成就");
             return;
         }
 
-        await ThreadHelper.SwitchToMainThreadAsync();
-        IPickerFactory pickerFactory = Ioc.Default.GetRequiredService<IPickerFactory>();
-        FileSavePicker picker = pickerFactory.GetFileSavePicker();
+        FileSavePicker picker = Ioc.Default.GetRequiredService<IPickerFactory>().GetFileSavePicker();
         picker.FileTypeChoices.Add("UIAF 文件", ".json".Enumerate().ToList());
         picker.SuggestedStartLocation = PickerLocationId.Desktop;
         picker.CommitButtonText = "导出";
         picker.SuggestedFileName = $"{achievementService.CurrentArchive?.Name}.json";
 
-        if (await picker.PickSaveFileAsync() is StorageFile file)
+        (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
+        if (isPickerOk)
         {
             UIAF uiaf = await achievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);
             bool isOk = await file.SerializeToJsonAsync(uiaf, options).ConfigureAwait(false);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
-            if (isOk)
-            {
-                await contentDialogFactory.CreateForConfirm("导出成功", "成功保存到指定位置").ShowAsync();
-            }
-            else
-            {
-                await contentDialogFactory.CreateForConfirm("导出失败", "写入文件时遇到问题").ShowAsync();
-            }
+            ValueTask<ContentDialogResult> dialogTask = isOk
+                ? contentDialogFactory.ConfirmAsync("导出成功", "成功保存到指定位置")
+                : contentDialogFactory.ConfirmAsync("导出失败", "写入文件时遇到问题");
+            await dialogTask.ConfigureAwait(false);
         }
     }
 
@@ -395,8 +389,7 @@ internal class AchievementViewModel
         }
         else
         {
-            await ThreadHelper.SwitchToMainThreadAsync();
-            await contentDialogFactory.CreateForConfirm("导入失败", "数据格式不正确").ShowAsync();
+            await contentDialogFactory.ConfirmAsync("导入失败", "数据格式不正确").ConfigureAwait(false);
         }
     }
 
@@ -410,20 +403,19 @@ internal class AchievementViewModel
 
         FileOpenPicker picker = Ioc.Default.GetRequiredService<IPickerFactory>()
             .GetFileOpenPicker(PickerLocationId.Desktop, "导入", ".json");
+        (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
 
-        if (await picker.PickSingleFileAsync() is StorageFile file)
+        if (isPickerOk)
         {
             (bool isOk, UIAF? uiaf) = await file.DeserializeFromJsonAsync<UIAF>(options).ConfigureAwait(false);
 
             if (isOk)
             {
-                Must.NotNull(uiaf!);
-                await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf).ConfigureAwait(false);
+                await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf!).ConfigureAwait(false);
             }
             else
             {
-                await ThreadHelper.SwitchToMainThreadAsync();
-                await contentDialogFactory.CreateForConfirm("导入失败", "文件的数据格式不正确").ShowAsync();
+                await contentDialogFactory.ConfirmAsync("导入失败", "文件的数据格式不正确").ConfigureAwait(false);
             }
         }
     }
@@ -445,12 +437,15 @@ internal class AchievementViewModel
     {
         if (uiaf.IsCurrentVersionSupported())
         {
+            // ContentDialog must be created by main thread.
+            await ThreadHelper.SwitchToMainThreadAsync();
             (bool isOk, ImportStrategy strategy) = await new AchievementImportDialog(uiaf).GetImportStrategyAsync().ConfigureAwait(true);
 
             if (isOk)
             {
                 ImportResult result;
-                await using (await contentDialogFactory.CreateForIndeterminateProgress("导入成就中").BlockAsync().ConfigureAwait(false))
+                ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync("导入成就中").ConfigureAwait(false);
+                await using (await dialog.BlockAsync().ConfigureAwait(false))
                 {
                     result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
                 }
@@ -462,8 +457,7 @@ internal class AchievementViewModel
         }
         else
         {
-            await ThreadHelper.SwitchToMainThreadAsync();
-            await contentDialogFactory.CreateForConfirm("导入失败", "数据的 UIAF 版本过低，无法导入").ShowAsync();
+            await contentDialogFactory.ConfirmAsync("导入失败", "数据的 UIAF 版本过低，无法导入").ConfigureAwait(false);
         }
 
         return false;
