@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
@@ -14,11 +13,7 @@ using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
-using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
-using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hoyolab.Passport;
-using Snap.Hutao.Web.Response;
 using System.IO;
 
 namespace Snap.Hutao.ViewModel;
@@ -185,37 +180,6 @@ internal class SettingViewModel : ObservableObject
     /// </summary>
     public ICommand ShowSignInWebViewDialogCommand { get; }
 
-    private static async Task DangerousUnusedLoginMethodAsync()
-    {
-        LoginMihoyoBBSDialog dialog = ActivatorUtilities.CreateInstance<LoginMihoyoBBSDialog>(Ioc.Default);
-        (bool isOk, Dictionary<string, string>? data) = await dialog.GetInputAccountPasswordAsync().ConfigureAwait(false);
-
-        if (isOk)
-        {
-            (Response<LoginResult>? resp, Aigis? aigis) = await Ioc.Default
-                .GetRequiredService<PassportClient2>()
-                .LoginByPasswordAsync(data, CancellationToken.None)
-                .ConfigureAwait(false);
-
-            if (resp != null)
-            {
-                if (resp.IsOk())
-                {
-                    Cookie cookie = Cookie.FromLoginResult(resp.Data);
-
-                    await Ioc.Default
-                        .GetRequiredService<IUserService>()
-                        .ProcessInputCookieAsync(cookie)
-                        .ConfigureAwait(false);
-                }
-
-                if (resp.ReturnCode == (int)KnownReturnCode.RET_NEED_AIGIS)
-                {
-                }
-            }
-        }
-    }
-
     private async Task SetGamePathAsync()
     {
         IGameLocator locator = Ioc.Default.GetRequiredService<IEnumerable<IGameLocator>>()
@@ -245,15 +209,18 @@ internal class SettingViewModel : ObservableObject
 
     private async Task ShowSignInWebViewDialogAsync()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        await new SignInWebViewDialog(mainWindow).ShowAsync();
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
+        await new SignInWebViewDialog().ShowAsync().AsTask().ConfigureAwait(false);
     }
 
     private async Task DebugThrowExceptionAsync()
     {
 #if DEBUG
-        CommunityGameRecordDialog dialog = ActivatorUtilities.CreateInstance<CommunityGameRecordDialog>(Ioc.Default);
-        await dialog.ShowAsync();
+        await Ioc.Default
+            .GetRequiredService<Service.Navigation.INavigationService>()
+            .NavigateAsync<View.Page.TestPage>(Service.Navigation.INavigationAwaiter.Default)
+            .ConfigureAwait(false);
 #else
         await Task.Yield();
 #endif

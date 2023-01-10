@@ -22,7 +22,7 @@
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <PackageCertificateThumbprint>F8C2255969BEA4A681CED102771BF807856AEC02</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Never</AppxBundle>
@@ -40,6 +40,7 @@
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="NativeMethods.json" />
     <None Remove="NativeMethods.txt" />
+    <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <None Remove="Resource\Icon\UI_BagTabIcon_Avatar.png" />
     <None Remove="Resource\Icon\UI_BagTabIcon_Weapon.png" />
     <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
@@ -63,16 +64,17 @@
     <None Remove="Resource\Icon\UI_MarkTower.png" />
     <None Remove="Resource\Icon\UI_MarkTower_Tower.png" />
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
+    <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
     <None Remove="View\Control\BottomTextControl.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
     <None Remove="View\Control\ItemIcon.xaml" />
+    <None Remove="View\Control\LoadingView.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
     <None Remove="View\Control\StatisticsCard.xaml" />
     <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
     <None Remove="View\Dialog\AdoptCalculatorDialog.xaml" />
-    <None Remove="View\Dialog\AvatarInfoQueryDialog.xaml" />
     <None Remove="View\Dialog\CommunityGameRecordDialog.xaml" />
     <None Remove="View\Dialog\CultivateProjectDialog.xaml" />
     <None Remove="View\Dialog\CultivatePromotionDeltaDialog.xaml" />
@@ -98,10 +100,12 @@
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
     <None Remove="View\Page\SpiralAbyssRecordPage.xaml" />
+    <None Remove="View\Page\TestPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
     <None Remove="View\Page\WikiWeaponPage.xaml" />
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
+    <None Remove="View\WelcomeView.xaml" />
   </ItemGroup>
   
   <ItemGroup>
@@ -119,6 +123,7 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Resource\Font\Segoe Fluent Icons.ttf" />
+    <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <Content Include="Resource\Icon\UI_BagTabIcon_Avatar.png" />
     <Content Include="Resource\Icon\UI_BagTabIcon_Weapon.png" />
     <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
@@ -141,6 +146,7 @@
     <Content Include="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
     <Content Include="Resource\Icon\UI_MarkTower.png" />
     <Content Include="Resource\Icon\UI_MarkTower_Tower.png" />
+    <Content Include="Resource\WelcomeView_Background.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -156,11 +162,11 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.4.27">
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.5.10-alpha">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.0.64" />
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.0.65" />
     <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.138-beta">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -188,6 +194,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\WelcomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\TestPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\LoadingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Page\SpiralAbyssRecordPage.xaml">
@@ -281,11 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\GachaLogUrlDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\AvatarInfoQueryDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

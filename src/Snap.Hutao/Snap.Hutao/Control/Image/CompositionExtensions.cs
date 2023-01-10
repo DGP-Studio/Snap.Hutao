@@ -152,19 +152,17 @@ internal static class CompositionExtensions
     /// 创建一个线性渐变画刷
     /// </summary>
     /// <param name="compositor">合成器</param>
-    /// <param name="start">起点</param>
-    /// <param name="end">终点</param>
+    /// <param name="direction">方向</param>
     /// <param name="stops">锚点</param>
     /// <returns>线性渐变画刷</returns>
     public static CompositionLinearGradientBrush CompositeLinearGradientBrush(
         this Compositor compositor,
-        Vector2 start,
-        Vector2 end,
+        GradientDirection direction,
         params GradientStop[] stops)
     {
         CompositionLinearGradientBrush brush = compositor.CreateLinearGradientBrush();
-        brush.StartPoint = start;
-        brush.EndPoint = end;
+        brush.StartPoint = GetStartPointOfDirection(direction);
+        brush.EndPoint = GetEndPointOfDirection(direction);
 
         foreach (GradientStop stop in stops)
         {
@@ -191,6 +189,32 @@ internal static class CompositionExtensions
         brush.Mask = mask;
 
         return brush;
+    }
+
+    private static Vector2 GetStartPointOfDirection(GradientDirection direction)
+    {
+        return direction switch
+        {
+            GradientDirection.BottomToTop => Vector2.UnitY,
+            GradientDirection.LeftBottomToRightTop => Vector2.UnitY,
+            GradientDirection.RightBottomToLeftTop => Vector2.One,
+            GradientDirection.RightToLeft => Vector2.UnitX,
+            GradientDirection.RightTopToLeftBottom => Vector2.UnitX,
+            _ => Vector2.Zero,
+        };
+    }
+
+    private static Vector2 GetEndPointOfDirection(GradientDirection direction)
+    {
+        return direction switch
+        {
+            GradientDirection.LeftBottomToRightTop => Vector2.UnitX,
+            GradientDirection.LeftToRight => Vector2.UnitX,
+            GradientDirection.LeftTopToRightBottom => Vector2.One,
+            GradientDirection.RightTopToLeftBottom => Vector2.UnitY,
+            GradientDirection.TopToBottom => Vector2.UnitY,
+            _ => Vector2.Zero,
+        };
     }
 
     public record struct GradientStop(float Offset, Windows.UI.Color Color);

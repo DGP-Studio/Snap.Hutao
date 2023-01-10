@@ -1,0 +1,37 @@
+<shc:ScopedPage
+    x:Class="Snap.Hutao.View.Page.TestPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
+    d:DataContext="{d:DesignInstance shv:TestViewModel}"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style BasedOn="{StaticResource SettingButtonStyle}" TargetType="Button">
+            <Setter Property="MinWidth" Value="160"/>
+        </Style>
+    </Page.Resources>
+    <ScrollViewer>
+        <wsc:SettingsGroup Margin="16,0,16,16" Header="This page is only for the test purpose.">
+            <wsc:Setting Header="DangerousLoginMihoyoBbsTest">
+                <Button Command="{Binding DangerousLoginMihoyoBbsCommand}" Content="Login"/>
+            </wsc:Setting>
+
+            <wsc:Setting Header="CommunityGameRecordDialogTest">
+                <Button Command="{Binding ShowCommunityGameRecordDialogCommand}" Content="Open"/>
+            </wsc:Setting>
+
+            <wsc:Setting Header="AdoptCalculatorDialogTest">
+                <Button Command="{Binding ShowAdoptCalculatorDialogCommand}" Content="Open"/>
+            </wsc:Setting>
+
+            <wsc:Setting Header="DownloadStaticFileTest">
+                <Button Command="{Binding DownloadStaticFileCommand}" Content="Download"/>
+            </wsc:Setting>
+        </wsc:SettingsGroup>
+    </ScrollViewer>
+</shc:ScopedPage>

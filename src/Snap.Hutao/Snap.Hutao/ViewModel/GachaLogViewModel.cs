@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.Threading.CodeAnalysis;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
@@ -15,7 +14,6 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel;
@@ -29,6 +27,7 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
     private readonly IPickerFactory pickerFactory;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly JsonSerializerOptions options;
 
     private ObservableCollection<GachaArchive>? archives;
@@ -45,26 +44,27 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     /// <param name="infoBarService">信息</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
+    /// <param name="contentDialogFactory">内容对话框工厂</param>
     /// <param name="pickerFactory">文件选择器工厂</param>
     public GachaLogViewModel(
         IGachaLogService gachaLogService,
         IInfoBarService infoBarService,
         JsonSerializerOptions options,
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
+        IContentDialogFactory contentDialogFactory,
         IPickerFactory pickerFactory)
     {
         this.gachaLogService = gachaLogService;
         this.infoBarService = infoBarService;
         this.pickerFactory = pickerFactory;
+        this.contentDialogFactory = contentDialogFactory;
         this.options = options;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         RefreshByWebCacheCommand = asyncRelayCommandFactory.Create(RefreshByWebCacheAsync);
         RefreshByStokenCommand = asyncRelayCommandFactory.Create(RefreshByStokenAsync);
         RefreshByManualInputCommand = asyncRelayCommandFactory.Create(RefreshByManualInputAsync);
-        ImportFromUIGFExcelCommand = asyncRelayCommandFactory.Create(ImportFromUIGFExcelAsync);
         ImportFromUIGFJsonCommand = asyncRelayCommandFactory.Create(ImportFromUIGFJsonAsync);
-        ExportToUIGFExcelCommand = asyncRelayCommandFactory.Create(ExportToUIGFExcelAsync);
         ExportToUIGFJsonCommand = asyncRelayCommandFactory.Create(ExportToUIGFJsonAsync);
         RemoveArchiveCommand = asyncRelayCommandFactory.Create(RemoveArchiveAsync);
     }
@@ -138,19 +138,9 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     public ICommand RefreshByManualInputCommand { get; }
 
     /// <summary>
-    /// 从 UIGF Excel 导入命令
-    /// </summary>
-    public ICommand ImportFromUIGFExcelCommand { get; }
-
-    /// <summary>
     /// 从 UIGF Json 导入命令
     /// </summary>
     public ICommand ImportFromUIGFJsonCommand { get; }
-
-    /// <summary>
-    /// 导出到 UIGF Excel 命令
-    /// </summary>
-    public ICommand ExportToUIGFExcelCommand { get; }
 
     /// <summary>
     /// 导出到 UIGF Json 命令
@@ -162,32 +152,12 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     /// </summary>
     public ICommand RemoveArchiveCommand { get; }
 
-    [ThreadAccess(ThreadAccessState.MainThread)]
-    private static Task<ContentDialogResult> ShowImportResultDialogAsync(string title, string message)
-    {
-        ContentDialog dialog = new()
-        {
-            Title = title,
-            Content = message,
-            PrimaryButtonText = "确认",
-            DefaultButton = ContentDialogButton.Primary,
-        };
-
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        return dialog.InitializeWithWindow(mainWindow).ShowAsync().AsTask();
-    }
-
     private async Task OpenUIAsync()
     {
         if (await gachaLogService.InitializeAsync().ConfigureAwait(true))
         {
             Archives = gachaLogService.GetArchiveCollection();
             SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
-
-            if (SelectedArchive == null)
-            {
-                infoBarService.Information("请刷新或导入祈愿记录");
-            }
 
             await ThreadHelper.SwitchToMainThreadAsync();
             IsInitialized = true;
@@ -221,9 +191,9 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
             {
                 RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
 
-                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+                // ContentDialog must be created by main thread.
                 await ThreadHelper.SwitchToMainThreadAsync();
-                GachaLogRefreshProgressDialog dialog = new(mainWindow);
+                GachaLogRefreshProgressDialog dialog = new();
                 IAsyncDisposable dialogHider = await dialog.BlockAsync().ConfigureAwait(false);
                 Progress<FetchState> progress = new(dialog.OnReport);
                 bool authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, default).ConfigureAwait(false);
@@ -251,34 +221,22 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
         }
     }
 
-    private async Task ImportFromUIGFExcelAsync()
-    {
-        await Task.Yield();
-    }
-
     private async Task ImportFromUIGFJsonAsync()
     {
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "导入", ".json");
-
-        if (await picker.PickSingleFileAsync() is StorageFile file)
+        (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
+        if (isPickerOk)
         {
             (bool isOk, UIGF? uigf) = await file.DeserializeFromJsonAsync<UIGF>(options).ConfigureAwait(false);
             if (isOk)
             {
-                Must.NotNull(uigf!);
-                await TryImportUIGFInternalAsync(uigf).ConfigureAwait(false);
+                await TryImportUIGFInternalAsync(uigf!).ConfigureAwait(false);
             }
             else
             {
-                await ThreadHelper.SwitchToMainThreadAsync();
-                await ShowImportResultDialogAsync("导入失败", "文件的数据格式不正确").ConfigureAwait(false);
+                await contentDialogFactory.ConfirmAsync("导入失败", "文件的数据格式不正确").ConfigureAwait(false);
             }
         }
-    }
-
-    private async Task ExportToUIGFExcelAsync()
-    {
-        await Task.Yield();
     }
 
     private async Task ExportToUIGFJsonAsync()
@@ -294,20 +252,17 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
         picker.CommitButtonText = "导出";
         picker.FileTypeChoices.Add("UIGF Json 文件", new List<string>() { ".json" });
 
-        if (await picker.PickSaveFileAsync() is StorageFile file)
+        (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
+
+        if (isPickerOk)
         {
             UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
             bool isOk = await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
-            if (isOk)
-            {
-                await ShowImportResultDialogAsync("导出成功", "成功保存到指定位置").ConfigureAwait(false);
-            }
-            else
-            {
-                await ShowImportResultDialogAsync("导出失败", "写入文件时遇到问题").ConfigureAwait(false);
-            }
+            ValueTask<ContentDialogResult> dialogTask = isOk
+                ? contentDialogFactory.ConfirmAsync("导出成功", "成功保存到指定位置")
+                : contentDialogFactory.ConfirmAsync("导出失败", "写入文件时遇到问题");
+            await dialogTask.ConfigureAwait(false);
         }
     }
 
@@ -315,17 +270,9 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     {
         if (Archives != null && SelectedArchive != null)
         {
-            ContentDialog dialog = new()
-            {
-                Title = $"确定要删除存档 {SelectedArchive.Uid} 吗？",
-                Content = "该操作是不可逆的，该存档和其内的所有祈愿数据会丢失。",
-                PrimaryButtonText = "确认",
-                CloseButtonText = "取消",
-                DefaultButton = ContentDialogButton.Close,
-            };
-
-            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-            ContentDialogResult result = await dialog.InitializeWithWindow(mainWindow).ShowAsync();
+            ContentDialogResult result = await contentDialogFactory
+                .ConfirmCancelAsync($"确定要删除存档 {SelectedArchive.Uid} 吗？", "该操作是不可逆的，该存档和其内的所有祈愿数据会丢失。")
+                .ConfigureAwait(false);
 
             if (result == ContentDialogResult.Primary)
             {
@@ -337,7 +284,6 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
         }
     }
 
-    [ThreadAccess(ThreadAccessState.MainThread)]
     private void SetSelectedArchiveAndUpdateStatistics(GachaArchive? archive, bool forceUpdate = false)
     {
         bool changed = false;
@@ -362,7 +308,6 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
         }
     }
 
-    [ThreadAccess(ThreadAccessState.MainThread)]
     private async Task UpdateStatisticsAsync(GachaArchive? archive)
     {
         GachaStatistics temp = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
@@ -370,22 +315,16 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
         Statistics = temp;
     }
 
-    [ThreadAccess(ThreadAccessState.AnyThread)]
     private async Task<bool> TryImportUIGFInternalAsync(UIGF uigf)
     {
         if (uigf.IsCurrentVersionSupported())
         {
-            MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
+            // ContentDialog must be created by main thread.
             await ThreadHelper.SwitchToMainThreadAsync();
-            if (await new GachaLogImportDialog(mainWindow, uigf).GetShouldImportAsync().ConfigureAwait(true))
+            if (await new GachaLogImportDialog(uigf).GetShouldImportAsync().ConfigureAwait(true))
             {
-                ContentDialog importingDialog = new()
-                {
-                    Title = "导入祈愿记录中",
-                    Content = new ProgressBar() { IsIndeterminate = true },
-                };
-
-                await using (await importingDialog.InitializeWithWindow(mainWindow).BlockAsync().ConfigureAwait(false))
+                ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync("导入祈愿记录中").ConfigureAwait(true);
+                await using (await dialog.BlockAsync().ConfigureAwait(false))
                 {
                     await gachaLogService.ImportFromUIGFAsync(uigf.List, uigf.Info.Uid).ConfigureAwait(false);
                 }
@@ -398,8 +337,7 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
         }
         else
         {
-            await ThreadHelper.SwitchToMainThreadAsync();
-            await ShowImportResultDialogAsync("导入失败", "数据的 UIGF 版本过低，无法导入").ConfigureAwait(false);
+            await contentDialogFactory.ConfirmAsync("导入失败", "数据的 UIGF 版本过低，无法导入").ConfigureAwait(false);
         }
 
         return false;

@@ -2,35 +2,22 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
-using Microsoft.Extensions.Primitives;
+using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Control;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Model.Binding.Cultivation;
-using Snap.Hutao.Model.Binding.Hutao;
+using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.SpiralAbyss;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Cultivation;
-using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model.Post;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
-using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
-using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
-using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -38,7 +25,7 @@ namespace Snap.Hutao.ViewModel;
 /// 深渊记录视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellation
+internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellation, IRecipient<UserChangedMessage>
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IMetadataService metadataService;
@@ -56,11 +43,13 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
     /// <param name="metadataService">元数据服务</param>
     /// <param name="userService">用户服务</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
+    /// <param name="messenger">消息器</param>
     public SpiralAbyssRecordViewModel(
         ISpiralAbyssRecordService spiralAbyssRecordService,
         IMetadataService metadataService,
         IUserService userService,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory)
+        IAsyncRelayCommandFactory asyncRelayCommandFactory,
+        IMessenger messenger)
     {
         this.spiralAbyssRecordService = spiralAbyssRecordService;
         this.metadataService = metadataService;
@@ -69,6 +58,8 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         RefreshCommand = asyncRelayCommandFactory.Create(RefreshAsync);
         UploadSpiralAbyssRecordCommand = asyncRelayCommandFactory.Create(UploadSpiralAbyssRecordAsync);
+
+        messenger.Register(this);
     }
 
     /// <inheritdoc/>
@@ -116,18 +107,44 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
     /// </summary>
     public ICommand UploadSpiralAbyssRecordCommand { get; }
 
+    /// <inheritdoc/>
+    public void Receive(UserChangedMessage message)
+    {
+        if (message.NewValue != null)
+        {
+            UserAndRole userAndRole = UserAndRole.FromUser(message.NewValue);
+            if (userAndRole.Role != null)
+            {
+                UpdateSpiralAbyssCollectionAsync(UserAndRole.FromUser(message.NewValue)).SafeForget();
+                return;
+            }
+        }
+
+        SpiralAbyssView = null;
+    }
+
     private async Task OpenUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             idAvatarMap = AvatarIds.ExtendAvatars(idAvatarMap);
-            ObservableCollection<SpiralAbyssEntry> temp = await spiralAbyssRecordService.GetSpiralAbyssCollectionAsync().ConfigureAwait(false);
-
-            await ThreadHelper.SwitchToMainThreadAsync();
-            SpiralAbyssEntries = temp;
-            SelectedEntry = SpiralAbyssEntries.FirstOrDefault();
+            if (userService.Current?.SelectedUserGameRole != null)
+            {
+                await UpdateSpiralAbyssCollectionAsync(UserAndRole.FromUser(userService.Current)).ConfigureAwait(false);
+            }
         }
+    }
+
+    private async Task UpdateSpiralAbyssCollectionAsync(UserAndRole userAndRole)
+    {
+        ObservableCollection<SpiralAbyssEntry> temp = await spiralAbyssRecordService
+            .GetSpiralAbyssCollectionAsync(userAndRole)
+            .ConfigureAwait(false);
+
+        await ThreadHelper.SwitchToMainThreadAsync();
+        SpiralAbyssEntries = temp;
+        SelectedEntry = SpiralAbyssEntries.FirstOrDefault();
     }
 
     private async Task RefreshAsync()
@@ -139,6 +156,9 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
                 await spiralAbyssRecordService
                     .RefreshSpiralAbyssAsync(UserAndRole.FromUser(userService.Current))
                     .ConfigureAwait(false);
+
+                await ThreadHelper.SwitchToMainThreadAsync();
+                SelectedEntry = SpiralAbyssEntries?.FirstOrDefault();
             }
         }
     }

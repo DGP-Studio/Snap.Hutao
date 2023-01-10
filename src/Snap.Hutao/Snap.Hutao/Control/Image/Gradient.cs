@@ -3,10 +3,10 @@
 
 using Microsoft.UI;
 using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System.Numerics;
+using System.IO;
 using Windows.Graphics.Imaging;
-using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Control.Image;
@@ -16,7 +16,28 @@ namespace Snap.Hutao.Control.Image;
 /// </summary>
 public class Gradient : CompositionImage
 {
+    private static readonly DependencyProperty BackgroundDirectionProperty = Property<Gradient>.Depend(nameof(BackgroundDirection), GradientDirection.TopToBottom);
+    private static readonly DependencyProperty ForegroundDirectionProperty = Property<Gradient>.Depend(nameof(ForegroundDirection), GradientDirection.TopToBottom);
+
     private double imageAspectRatio;
+
+    /// <summary>
+    /// 背景方向
+    /// </summary>
+    public GradientDirection BackgroundDirection
+    {
+        get => (GradientDirection)GetValue(BackgroundDirectionProperty);
+        set => SetValue(BackgroundDirectionProperty, value);
+    }
+
+    /// <summary>
+    /// 前景方向
+    /// </summary>
+    public GradientDirection ForegroundDirection
+    {
+        get => (GradientDirection)GetValue(ForegroundDirectionProperty);
+        set => SetValue(ForegroundDirectionProperty, value);
+    }
 
     /// <inheritdoc/>
     protected override void OnUpdateVisual(SpriteVisual spriteVisual)
@@ -29,15 +50,22 @@ public class Gradient : CompositionImage
     }
 
     /// <inheritdoc/>
-    protected override async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
+    protected override async Task<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
     {
-        using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token).ConfigureAwait(true))
+        using (FileStream fileStream = new(file, FileMode.Open, FileAccess.Read, FileShare.Read))
         {
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream).AsTask(token).ConfigureAwait(true);
-            imageAspectRatio = decoder.PixelWidth / (double)decoder.PixelHeight;
-
-            return LoadedImageSurface.StartLoadFromStream(imageStream);
+            using (IRandomAccessStream imageStream = fileStream.AsRandomAccessStream())
+            {
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
+                imageAspectRatio = decoder.PixelWidth / (double)decoder.PixelHeight;
+            }
         }
+
+        TaskCompletionSource loadCompleteTaskSource = new();
+        LoadedImageSurface surface = LoadedImageSurface.StartLoadFromUri(new(file));
+        surface.LoadCompleted += (s, e) => loadCompleteTaskSource.TrySetResult();
+        await loadCompleteTaskSource.Task.ConfigureAwait(true);
+        return surface;
     }
 
     /// <inheritdoc/>
@@ -45,8 +73,8 @@ public class Gradient : CompositionImage
     {
         CompositionSurfaceBrush imageSurfaceBrush = compositor.CompositeSurfaceBrush(imageSurface, stretch: CompositionStretch.UniformToFill, vRatio: 0f);
 
-        CompositionLinearGradientBrush backgroundBrush = compositor.CompositeLinearGradientBrush(new(1f, 0), Vector2.UnitY, new(0, Colors.White), new(1, Colors.Black));
-        CompositionLinearGradientBrush foregroundBrush = compositor.CompositeLinearGradientBrush(Vector2.Zero, Vector2.UnitY, new(0, Colors.White), new(0.95f, Colors.Black));
+        CompositionLinearGradientBrush backgroundBrush = compositor.CompositeLinearGradientBrush(BackgroundDirection, new(0, Colors.White), new(1, Colors.Black));
+        CompositionLinearGradientBrush foregroundBrush = compositor.CompositeLinearGradientBrush(ForegroundDirection, new(0, Colors.White), new(1, Colors.Black));
 
         CompositionEffectBrush gradientEffectBrush = compositor.CompositeBlendEffectBrush(backgroundBrush, foregroundBrush);
         CompositionEffectBrush opacityMaskEffectBrush = compositor.CompositeLuminanceToAlphaEffectBrush(gradientEffectBrush);

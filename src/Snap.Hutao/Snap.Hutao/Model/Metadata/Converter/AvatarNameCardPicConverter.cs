@@ -10,8 +10,6 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal class AvatarNameCardPicConverter : ValueConverterBase<Avatar.Avatar?, Uri>
 {
-    private const string BaseUrl = "https://static.snapgenshin.com/NameCardPic/UI_NameCardPic_{0}_P.png";
-
     /// <summary>
     /// 从角色转换到名片
     /// </summary>
@@ -25,7 +23,7 @@ internal class AvatarNameCardPicConverter : ValueConverterBase<Avatar.Avatar?, U
         }
 
         string avatarName = ReplaceSpecialCaseNaming(avatar.Icon["UI_AvatarIcon_".Length..]);
-        return new Uri(string.Format(BaseUrl, avatarName));
+        return new Uri(Web.HutaoEndpoints.StaticFile("NameCardPic", $"UI_NameCardPic_{avatarName}_P.png"));
     }
 
     /// <inheritdoc/>

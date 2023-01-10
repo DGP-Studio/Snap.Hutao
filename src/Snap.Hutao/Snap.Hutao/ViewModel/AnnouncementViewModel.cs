@@ -74,7 +74,6 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
         }
         catch (OperationCanceledException)
         {
-            logger.LogInformation($"{nameof(OpenUIAsync)} cancelled");
         }
     }
 

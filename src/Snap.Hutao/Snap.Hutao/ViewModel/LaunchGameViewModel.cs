@@ -269,7 +269,8 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     private void SaveSetting()
     {
         DbSet<SettingEntry> settings = appDbContext.Settings;
-        settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, TrueString).SetBoolean(IsFullScreen);
+        settings.SingleOrAdd(SettingEntry.LaunchIsExclusive, FalseString).SetBoolean(IsExclusive);
+        settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, FalseString).SetBoolean(IsFullScreen);
         settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, FalseString).SetBoolean(IsBorderless);
         settings.SingleOrAdd(SettingEntry.LaunchScreenWidth, "1920").SetInt32(ScreenWidth);
         settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, "1080").SetInt32(ScreenHeight);

@@ -20,6 +20,7 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
     private readonly AppDbContext appDbContext;
     private readonly GameRecordClient gameRecordClient;
 
+    private string? uid;
     private ObservableCollection<SpiralAbyssEntry>? spiralAbysses;
 
     /// <summary>
@@ -34,12 +35,19 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssCollectionAsync()
+    public async Task<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssCollectionAsync(UserAndRole userAndRole)
     {
+        if (uid != userAndRole.Role.GameUid)
+        {
+            spiralAbysses = null;
+        }
+
+        uid = userAndRole.Role.GameUid;
         if (spiralAbysses == null)
         {
             List<SpiralAbyssEntry> entries = await appDbContext.SpiralAbysses
                 .AsNoTracking()
+                .Where(s => s.Uid == userAndRole.Role.GameUid)
                 .OrderByDescending(s => s.ScheduleId)
                 .ToListAsync()
                 .ConfigureAwait(false);
@@ -73,10 +81,11 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
             {
                 SpiralAbyssEntry entry = SpiralAbyssEntry.Create(userAndRole.Role.GameUid, last);
 
-                await appDbContext.SpiralAbysses.AddAndSaveAsync(entry).ConfigureAwait(false);
-
                 await ThreadHelper.SwitchToMainThreadAsync();
                 spiralAbysses!.Insert(0, entry);
+
+                await ThreadHelper.SwitchToBackgroundAsync();
+                await appDbContext.SpiralAbysses.AddAndSaveAsync(entry).ConfigureAwait(false);
             }
         }
 
@@ -99,10 +108,11 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
             {
                 SpiralAbyssEntry entry = SpiralAbyssEntry.Create(userAndRole.Role.GameUid, current);
 
-                await appDbContext.SpiralAbysses.AddAndSaveAsync(entry).ConfigureAwait(false);
-
                 await ThreadHelper.SwitchToMainThreadAsync();
                 spiralAbysses!.Insert(0, entry);
+
+                await ThreadHelper.SwitchToBackgroundAsync();
+                await appDbContext.SpiralAbysses.AddAndSaveAsync(entry).ConfigureAwait(false);
             }
         }
     }

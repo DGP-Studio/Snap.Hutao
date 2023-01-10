@@ -9,10 +9,9 @@ using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
+using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
-using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Control.Image;
 
@@ -60,15 +59,16 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     /// <summary>
     /// 异步加载图像表面
     /// </summary>
-    /// <param name="storageFile">文件</param>
+    /// <param name="file">文件</param>
     /// <param name="token">取消令牌</param>
     /// <returns>加载的图像表面</returns>
-    protected virtual async Task<LoadedImageSurface> LoadImageSurfaceAsync(StorageFile storageFile, CancellationToken token)
+    protected virtual async Task<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
     {
-        using (IRandomAccessStream imageStream = await storageFile.OpenAsync(FileAccessMode.Read).AsTask(token).ConfigureAwait(true))
-        {
-            return LoadedImageSurface.StartLoadFromStream(imageStream);
-        }
+        TaskCompletionSource loadCompleteTaskSource = new();
+        LoadedImageSurface surface = LoadedImageSurface.StartLoadFromUri(new(file));
+        surface.LoadCompleted += (s, e) => loadCompleteTaskSource.TrySetResult();
+        await loadCompleteTaskSource.Task.ConfigureAwait(true);
+        return surface;
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
             }
             else
             {
-                StorageFile storageFile = await imageCache.GetFileFromCacheAsync(uri).ConfigureAwait(true);
+                string storageFile = await imageCache.GetFileFromCacheAsync(uri).ConfigureAwait(true);
 
                 try
                 {
@@ -138,7 +138,11 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
                 }
                 catch (COMException)
                 {
-                    await imageCache.RemoveAsync(uri.Enumerate()).ConfigureAwait(true);
+                    imageCache.Remove(uri.Enumerate());
+                }
+                catch (IOException)
+                {
+                    imageCache.Remove(uri.Enumerate());
                 }
             }
 

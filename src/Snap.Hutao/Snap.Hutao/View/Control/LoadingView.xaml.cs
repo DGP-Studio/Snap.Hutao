@@ -1,0 +1,20 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using CommunityToolkit.WinUI.UI.Controls;
+
+namespace Snap.Hutao.View.Control;
+
+/// <summary>
+/// 加载视图
+/// </summary>
+public sealed partial class LoadingView : Loading
+{
+    /// <summary>
+    /// 构造一个新的加载视图
+    /// </summary>
+    public LoadingView()
+    {
+        InitializeComponent();
+    }
+}

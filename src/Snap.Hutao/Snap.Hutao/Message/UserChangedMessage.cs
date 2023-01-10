@@ -8,7 +8,6 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 用户切换消息
 /// </summary>
-[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
 internal class UserChangedMessage : ValueChangedMessage<User>
 {
 }

@@ -22,7 +22,6 @@ namespace Snap.Hutao.Service.Achievement;
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal class AchievementService : IAchievementService
 {
-    private readonly object saveAchievementLocker = new();
     private readonly AppDbContext appDbContext;
     private readonly ILogger<AchievementService> logger;
     private readonly DbCurrent<EntityArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
@@ -196,7 +195,7 @@ internal class AchievementService : IAchievementService
         {
             // set to default allow multiple time add
             achievement.Entity.InnerId = default;
-            appDbContext.Achievements.UpdateAndSave(achievement.Entity);
+            appDbContext.Achievements.AddAndSave(achievement.Entity);
         }
         else
         {

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.User;
@@ -17,10 +16,10 @@ public sealed partial class CultivateProjectDialog : ContentDialog
     /// 构造一个新的养成计划对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public CultivateProjectDialog(Window window)
+    public CultivateProjectDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     /// <summary>

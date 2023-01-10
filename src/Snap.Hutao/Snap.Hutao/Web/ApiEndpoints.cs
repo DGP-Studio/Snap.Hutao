@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Hoyolab;
 namespace Snap.Hutao.Web;
 
 /// <summary>
-/// API端点
+/// API 端点
 /// </summary>
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1124")]
@@ -311,14 +311,6 @@ internal static class ApiEndpoints
     public const string AccountCreateActionTicket = $"{PassportApi}/account/ma-cn-verifier/app/createActionTicketByToken";
     #endregion
 
-    #region Patcher
-
-    /// <summary>
-    /// 胡桃检查更新
-    /// </summary>
-    public const string PatcherHutaoStable = $"{PatcherApi}/hutao/stable";
-    #endregion
-
     #region SdkStaticLauncherApi
 
     /// <summary>
@@ -367,8 +359,6 @@ internal static class ApiEndpoints
     private const string PassportApi = "https://passport-api.mihoyo.com";
     private const string PassportApiAuthApi = $"{PassportApi}/account/auth/api";
     private const string PassportApiV4 = "https://passport-api-v4.mihoyo.com";
-
-    private const string PatcherApi = "https://patcher.dgp-studio.cn";
 
     private const string SdkStatic = "https://sdk-static.mihoyo.com";
     private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";

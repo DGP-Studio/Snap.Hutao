@@ -8,6 +8,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shmbh="using:Snap.Hutao.Model.Binding.Hutao"
     xmlns:shv="using:Snap.Hutao.ViewModel"
@@ -63,7 +64,7 @@
     </Page.Resources>
 
     <Grid>
-        <Pivot>
+        <Pivot Visibility="{Binding Overview, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Pivot.RightHeader>
                 <CommandBar DefaultLabelPosition="Right">
                     <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="详情">
@@ -272,18 +273,11 @@
                         <ItemsControl
                             Margin="0,0,0,8"
                             HorizontalContentAlignment="Stretch"
+                            ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                             ItemsSource="{Binding AvatarConstellationInfos}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <ItemsStackPanel/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border
-                                        Margin="16,0,16,8"
-                                        Background="{StaticResource CardBackgroundFillColorDefault}"
-                                        CornerRadius="{StaticResource CompatCornerRadius}">
+                                    <Border Margin="16,0,16,8" Style="{StaticResource BorderCardStyle}">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>
@@ -330,5 +324,6 @@
                 </Grid>
             </PivotItem>
         </Pivot>
+        <shvc:LoadingView IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
 </shc:ScopedPage>

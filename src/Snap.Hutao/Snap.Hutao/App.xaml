@@ -42,6 +42,23 @@
             <CornerRadius x:Key="CompatCornerRadiusRight">0,6,6,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,6,6</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusSmall">2</CornerRadius>
+            <!--  OpenPaneLength  -->
+            <x:Double x:Key="CompatSplitViewOpenPaneLength">212</x:Double>
+            <x:Double x:Key="CompatSplitViewOpenPaneLength2">252</x:Double>
+            <GridLength x:Key="CompatGridLength2">252</GridLength>
+            <!--  Uris  -->
+            <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie</x:String>
+            <x:String x:Key="DocumentLink_BugReport">https://hut.ao/statements/bug-report.html</x:String>
+            <x:String x:Key="HolographicHat_GetToken_Release">https://github.com/HolographicHat/GetToken/releases/latest</x:String>
+
+            <x:String x:Key="UI_ItemIcon_None">https://static.snapgenshin.com/Bg/UI_ItemIcon_None.png</x:String>
+            <x:String x:Key="UI_ImgSign_ItemIcon">https://static.snapgenshin.com/Bg/UI_ImgSign_ItemIcon.png</x:String>
+            <x:String x:Key="UI_AvatarIcon_Costume_Card">https://static.snapgenshin.com/AvatarCard/UI_AvatarIcon_Costume_Card.png</x:String>
+            <x:String x:Key="UI_EmotionIcon25">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon25.png</x:String>
+            <x:String x:Key="UI_EmotionIcon71">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon71.png</x:String>
+            <x:String x:Key="UI_EmotionIcon250">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon250.png</x:String>
+            <x:String x:Key="UI_EmotionIcon272">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon272.png</x:String>
+            <x:String x:Key="UI_EmotionIcon293">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon293.png</x:String>
             <!--  Converters  -->
             <cwuc:BoolNegationConverter x:Key="BoolNegationConverter"/>
             <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -52,6 +69,7 @@
             <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
             <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
             <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
+            <shmmc:EmotionIconConverter x:Key="EmotionIconConverter"/>
             <shmmc:EquipIconConverter x:Key="EquipIconConverter"/>
             <shmmc:GachaAvatarImgConverter x:Key="GachaAvatarImgConverter"/>
             <shmmc:GachaAvatarIconConverter x:Key="GachaAvatarIconConverter"/>
@@ -61,8 +79,16 @@
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
             <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
             <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
+            <shvc:EmptyCollectionToBoolConverter x:Key="EmptyCollectionToBoolConverter"/>
+            <shvc:EmptyCollectionToBoolRevertConverter x:Key="EmptyCollectionToBoolRevertConverter"/>
+            <shvc:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter"/>
+            <shvc:EmptyCollectionToVisibilityRevertConverter x:Key="EmptyCollectionToVisibilityRevertConverter"/>
+            <shvc:EmptyObjectToBoolConverter x:Key="EmptyObjectToBoolConverter"/>
+            <shvc:EmptyObjectToBoolRevertConverter x:Key="EmptyObjectToBoolRevertConverter"/>
             <shvc:EmptyObjectToVisibilityConverter x:Key="EmptyObjectToVisibilityConverter"/>
-
+            <shvc:EmptyObjectToVisibilityRevertConverter x:Key="EmptyObjectToVisibilityRevertConverter"/>
+            <shvc:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
+            <shvc:Int32ToVisibilityRevertConverter x:Key="Int32ToVisibilityRevertConverter"/>
             <!--  Styles  -->
             <Style
                 x:Key="LargeGridViewItemStyle"
@@ -70,7 +96,6 @@
                 TargetType="GridViewItem">
                 <Setter Property="Margin" Value="0,0,12,12"/>
             </Style>
-
             <Style
                 x:Key="SettingButtonStyle"
                 BasedOn="{StaticResource DefaultButtonStyle}"
@@ -81,7 +106,6 @@
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
-
             <Style x:Key="BorderCardStyle" TargetType="Border">
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
@@ -92,7 +116,6 @@
             <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">
                 <ItemsStackPanel/>
             </ItemsPanelTemplate>
-
             <ItemsPanelTemplate x:Key="HorizontalStackPanelTemplate">
                 <StackPanel Orientation="Horizontal"/>
             </ItemsPanelTemplate>

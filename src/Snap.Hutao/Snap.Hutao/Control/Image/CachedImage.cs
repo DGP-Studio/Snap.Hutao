@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Extension;
 using System.Runtime.InteropServices;
-using Windows.Storage;
 
 namespace Snap.Hutao.Control.Image;
 
@@ -23,6 +22,7 @@ public class CachedImage : ImageEx
     {
         IsCacheEnabled = true;
         EnableLazyLoading = true;
+        LazyLoadingThreshold = 500;
     }
 
     /// <inheritdoc/>
@@ -33,18 +33,18 @@ public class CachedImage : ImageEx
         try
         {
             Verify.Operation(imageUri.Host != string.Empty, "无效的Uri");
-            StorageFile file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true);
+            string file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true);
 
             // check token state to determine whether the operation should be canceled.
             token.ThrowIfCancellationRequested();
 
             // BitmapImage initialize with a uri will increase image quality and loading speed.
-            return new BitmapImage(new(file.Path));
+            return new BitmapImage(new(file));
         }
         catch (COMException)
         {
             // The image is corrupted, remove it.
-            await imageCache.RemoveAsync(imageUri.Enumerate()).ConfigureAwait(false);
+            imageCache.Remove(imageUri.Enumerate());
             return null;
         }
         catch (OperationCanceledException)

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.View.Dialog;
@@ -15,10 +14,10 @@ public sealed partial class GameAccountNameDialog : ContentDialog
     /// 构造一个新的游戏账号命名对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public GameAccountNameDialog(Window window)
+    public GameAccountNameDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     /// <summary>

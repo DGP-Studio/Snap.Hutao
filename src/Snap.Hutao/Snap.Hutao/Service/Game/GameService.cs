@@ -65,13 +65,13 @@ internal class GameService : IGameService, IDisposable
                 {
                     IEnumerable<IGameLocator> gameLocators = scope.ServiceProvider.GetRequiredService<IEnumerable<IGameLocator>>();
 
-                    // Try locate by registry
+                    // Try locate by unity log
                     IGameLocator locator = gameLocators.Single(l => l.Name == nameof(UnityLogGameLocator));
                     ValueResult<bool, string> result = await locator.LocateGamePathAsync().ConfigureAwait(false);
 
                     if (!result.IsOk)
                     {
-                        // Try locate manually
+                        // Try locate by registry
                         locator = gameLocators.Single(l => l.Name == nameof(RegistryLauncherLocator));
                         result = await locator.LocateGamePathAsync().ConfigureAwait(false);
                     }
@@ -304,8 +304,9 @@ internal class GameService : IGameService, IDisposable
 
             if (account == null)
             {
-                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-                (bool isOk, string name) = await new GameAccountNameDialog(mainWindow).GetInputNameAsync().ConfigureAwait(false);
+                // ContentDialog must be created by main thread.
+                await ThreadHelper.SwitchToMainThreadAsync();
+                (bool isOk, string name) = await new GameAccountNameDialog().GetInputNameAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {
@@ -349,8 +350,7 @@ internal class GameService : IGameService, IDisposable
     /// <inheritdoc/>
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, string name) = await new GameAccountNameDialog(mainWindow).GetInputNameAsync().ConfigureAwait(true);
+        (bool isOk, string name) = await new GameAccountNameDialog().GetInputNameAsync().ConfigureAwait(true);
 
         if (isOk)
         {

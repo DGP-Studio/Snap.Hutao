@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab;
@@ -48,7 +49,15 @@ public class User : ObservableObject
     public UserGameRole? SelectedUserGameRole
     {
         get => selectedUserGameRole;
-        set => SetProperty(ref selectedUserGameRole, value);
+        set
+        {
+            if (SetProperty(ref selectedUserGameRole, value))
+            {
+                Ioc.Default
+                    .GetRequiredService<IMessenger>()
+                    .Send(new Message.UserChangedMessage() { OldValue = this, NewValue = this });
+            }
+        }
     }
 
     /// <inheritdoc cref="EntityUser.IsSelected"/>

@@ -14,8 +14,9 @@
     </UserControl.Resources>
     <Grid>
         <Grid CornerRadius="{StaticResource CompatCornerRadius}">
-            <shci:CachedImage Source="{x:Bind Quality, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
-            <shci:CachedImage Source="https://static.snapgenshin.com/Bg/UI_ImgSign_ItemIcon.png"/>
+            <!--  Disable some CachedImage's LazyLoading function here can increase response speed  -->
+            <shci:CachedImage EnableLazyLoading="False" Source="{x:Bind Quality, Converter={StaticResource QualityConverter}, Mode=OneWay}"/>
+            <shci:CachedImage EnableLazyLoading="False" Source="{StaticResource UI_ImgSign_ItemIcon}"/>
             <shci:CachedImage Source="{x:Bind Icon, Mode=OneWay}"/>
             <shci:CachedImage
                 Width="16"
@@ -23,6 +24,7 @@
                 Margin="2"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
+                EnableLazyLoading="False"
                 Source="{x:Bind Badge, Mode=OneWay}"/>
         </Grid>
     </Grid>

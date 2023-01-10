@@ -24,7 +24,7 @@ internal partial class UnityLogGameLocator : IGameLocator
         string logFilePath = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\原神\output_log.txt");
         string logFilePathIntl = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\Genshin Impact\output_log.txt");
 
-        using (TemporaryFile? tempFile = TemporaryFile.CreateFromFileCopy(logFilePath), tempFileIntl = TemporaryFile.CreateFromFileCopy(logFilePathIntl))
+        using (TempFile? tempFile = TempFile.CreateFromFileCopy(logFilePath), tempFileIntl = TempFile.CreateFromFileCopy(logFilePathIntl))
         {
             if (tempFile != null)
             {

@@ -1,0 +1,60 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.View.WelcomeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shv="using:Snap.Hutao.ViewModel"
+    d:DataContext="{d:DesignInstance shv:WelcomeViewModel}"
+    mc:Ignorable="d">
+
+    <mxi:Interaction.Behaviors>
+        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
+    </mxi:Interaction.Behaviors>
+
+    <Grid Margin="0,44,0,0">
+        <ScrollViewer>
+            <StackPanel Margin="32,0" HorizontalAlignment="Left">
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="欢迎使用 胡桃"/>
+                <TextBlock
+                    Margin="0,8,0,0"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="请勿关闭应用程序"/>
+                <TextBlock
+                    Margin="0,8,0,0"
+                    Style="{StaticResource BaseTextBlockStyle}"
+                    Text="我们将为你下载最基本的图像资源"/>
+                <TextBlock
+                    Margin="0,0,0,8"
+                    Style="{StaticResource BodyTextBlockStyle}"
+                    Text="你可以继续使用电脑，丝毫不受影响"/>
+                <ItemsControl Margin="0,0,0,32" ItemsSource="{Binding DownloadSummaries}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="0,8,0,0">
+                                <TextBlock Text="{Binding DisplayName}"/>
+                                <ProgressBar
+                                    Width="240"
+                                    Margin="0,4,0,0"
+                                    Maximum="1"
+                                    Value="{Binding ProgressValue}"/>
+                                <TextBlock
+                                    Opacity="0.6"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding Description}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+        <Image
+            MaxWidth="640"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Source="ms-appx:///Resource/WelcomeView_Background.png"/>
+    </Grid>
+</UserControl>

@@ -23,11 +23,11 @@ public sealed partial class SignInWebViewDialog : ContentDialog
     /// 构造一个新的签到网页视图对话框
     /// </summary>
     /// <param name="window">窗口</param>
-    public SignInWebViewDialog(MainWindow window)
+    public SignInWebViewDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
         scope = Ioc.Default.CreateScope();
+        XamlRoot = scope.ServiceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     private void OnGridLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shv="using:Snap.Hutao.View"
@@ -13,6 +14,19 @@
             Height="44"
             Margin="48,0,0,0"/>
 
-        <shv:MainView/>
+        <cwuc:SwitchPresenter x:Name="ContentSwitchPresenter">
+            <cwuc:Case>
+                <cwuc:Case.Value>
+                    <x:Boolean>False</x:Boolean>
+                </cwuc:Case.Value>
+                <shv:MainView/>
+            </cwuc:Case>
+            <cwuc:Case>
+                <cwuc:Case.Value>
+                    <x:Boolean>True</x:Boolean>
+                </cwuc:Case.Value>
+                <shv:WelcomeView/>
+            </cwuc:Case>
+        </cwuc:SwitchPresenter>
     </Grid>
 </Window>

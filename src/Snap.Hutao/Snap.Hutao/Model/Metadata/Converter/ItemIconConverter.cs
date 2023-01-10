@@ -10,10 +10,6 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal class ItemIconConverter : ValueConverterBase<string, Uri>
 {
-    private const string BaseUrl = "https://static.snapgenshin.com/ItemIcon/{0}.png";
-
-    private static readonly Uri UIItemIconNone = new("https://static.snapgenshin.com/Bg/UI_ItemIcon_None.png");
-
     /// <summary>
     /// 名称转Uri
     /// </summary>
@@ -21,7 +17,7 @@ internal class ItemIconConverter : ValueConverterBase<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        return new Uri(string.Format(BaseUrl, name));
+        return new Uri(Web.HutaoEndpoints.StaticFile("ItemIcon", $"{name}.png"));
     }
 
     /// <inheritdoc/>

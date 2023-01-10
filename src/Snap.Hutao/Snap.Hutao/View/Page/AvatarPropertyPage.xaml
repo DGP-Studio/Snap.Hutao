@@ -37,528 +37,591 @@
     </Page.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <CommandBar Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" DefaultLabelPosition="Right">
-            <CommandBar.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="240"/>
-                        <ColumnDefinition Width="72"/>
-                        <ColumnDefinition Width="72"/>
-                    </Grid.ColumnDefinitions>
-                    <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,6,0,0"/>
-                </Grid>
-            </CommandBar.Content>
-            <AppBarButton
-                Command="{Binding ExportAsImageCommand}"
-                CommandParameter="{Binding ElementName=ImageExportPanel}"
-                Icon="{shcm:FontIcon Glyph=&#xE91B;}"
-                Label="导出图片"/>
-            <AppBarButton
-                Command="{Binding CultivateCommand}"
-                CommandParameter="{Binding SelectedAvatar}"
-                Icon="{shcm:FontIcon Glyph=&#xE91B;}"
-                Label="养成计算"/>
-            <AppBarSeparator/>
-            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="同步角色信息">
-                <AppBarButton.Flyout>
-                    <MenuFlyout Placement="TopEdgeAlignedRight">
-                        <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="从 Enka API 同步"/>
-                        <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="从米游社我的角色同步"/>
-                        <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="从米游社养成计算同步"/>
-                    </MenuFlyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-        </CommandBar>
-        <SplitView
-            Grid.Row="1"
-            DisplayMode="Inline"
-            IsPaneOpen="True"
-            OpenPaneLength="200"
-            PaneBackground="Transparent">
-            <SplitView.Pane>
-                <cwucont:SwitchPresenter Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                    <cwucont:SwitchPresenter.ContentTransitions>
-                        <ContentThemeTransition/>
-                    </cwucont:SwitchPresenter.ContentTransitions>
-                    <cwucont:Case Value="List">
-                        <ListView ItemsSource="{Binding Summary.Avatars}" SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <shci:CachedImage
-                                            Grid.Column="0"
-                                            Width="48"
-                                            Height="48"
-                                            Margin="0,0,12,12"
-                                            Source="{Binding SideIcon, Mode=OneWay}"/>
-                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                            <TextBlock Margin="12,0,0,0" Text="{Binding Name}"/>
-                                            <TextBlock
-                                                Margin="12,0,0,0"
-                                                Opacity="0.7"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding Level}"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </cwucont:Case>
-                    <cwucont:Case Value="Grid">
-                        <GridView
-                            Margin="6,6,0,0"
-                            ItemsSource="{Binding Summary.Avatars}"
-                            SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"
-                            SelectionMode="Single">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <shci:CachedImage
-                                        Grid.Column="0"
-                                        Width="40"
-                                        Height="40"
-                                        Margin="0"
-                                        Source="{Binding Icon, Mode=OneWay}"/>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </cwucont:Case>
-                </cwucont:SwitchPresenter>
-            </SplitView.Pane>
-            <SplitView.Content>
-                <ScrollViewer Padding="0,0,0,0">
-                    <StackPanel
-                        Name="ImageExportPanel"
-                        MaxWidth="800"
-                        HorizontalAlignment="Left"
-                        Background="Transparent">
-                        <Border
-                            Margin="16"
-                            Background="{StaticResource CardBackgroundFillColorDefault}"
-                            BorderBrush="{StaticResource CardStrokeColorDefault}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource CompatCornerRadius}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
-                                <shci:CachedImage
-                                    Grid.RowSpan="2"
-                                    Grid.ColumnSpan="2"
-                                    Source="{Binding SelectedAvatar.NameCard}"
-                                    Stretch="UniformToFill"/>
-                                <Rectangle
-                                    Grid.RowSpan="2"
-                                    Grid.ColumnSpan="2"
-                                    Fill="#33000000"
-                                    Stroke="{x:Null}"/>
-                                <Border
-                                    x:Name="ShadowTarget"
-                                    Grid.RowSpan="2"
-                                    Grid.ColumnSpan="2"/>
-                                <StackPanel
-                                    Margin="16"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Top">
-                                    <Grid HorizontalAlignment="Left">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <shvcont:ItemIcon Icon="{Binding SelectedAvatar.Icon}" Quality="{Binding SelectedAvatar.Quality}">
-                                            <cwu:Effects.Shadow>
-                                                <cwu:AttachedDropShadow
-                                                    BlurRadius="16"
-                                                    CastTo="{Binding ElementName=ShadowTarget}"
-                                                    IsMasked="False"
-                                                    Opacity="0.6"
-                                                    Offset="4"/>
-                                            </cwu:Effects.Shadow>
-                                        </shvcont:ItemIcon>
-                                        <StackPanel Grid.Column="1" Margin="16,0,0,0">
-                                            <TextBlock
-                                                Foreground="#FFFFFFFF"
-                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{Binding SelectedAvatar.Name}"/>
-                                            <TextBlock
-                                                Margin="0,4,0,0"
-                                                Foreground="#FFFFFFFF"
-                                                Style="{StaticResource BaseTextBlockStyle}"
-                                                Text="{Binding SelectedAvatar.Level}"/>
-                                            <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
-                                                <Image
-                                                    Width="16"
-                                                    Height="16"
-                                                    Source="ms-appx:///Resource/Icon/UI_Icon_Fetter.png"/>
+        <Grid Visibility="{Binding Summary, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <CommandBar Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" DefaultLabelPosition="Right">
+                <CommandBar.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="240"/>
+                            <ColumnDefinition Width="72"/>
+                            <ColumnDefinition Width="72"/>
+                        </Grid.ColumnDefinitions>
+                        <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,6,0,0"/>
+                    </Grid>
+                </CommandBar.Content>
+                <AppBarButton
+                    Command="{Binding ExportAsImageCommand}"
+                    CommandParameter="{Binding ElementName=ImageExportPanel}"
+                    Icon="{shcm:FontIcon Glyph=&#xE91B;}"
+                    Label="导出图片"/>
+                <AppBarButton
+                    Command="{Binding CultivateCommand}"
+                    CommandParameter="{Binding SelectedAvatar}"
+                    Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
+                    Label="养成计算"/>
+                <AppBarSeparator/>
+                <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="同步角色信息">
+                    <AppBarButton.Flyout>
+                        <MenuFlyout Placement="TopEdgeAlignedRight">
+                            <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="从 Enka API 同步"/>
+                            <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="从米游社我的角色同步"/>
+                            <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="从米游社养成计算同步"/>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar>
+            <SplitView
+                Grid.Row="1"
+                DisplayMode="Inline"
+                IsPaneOpen="True"
+                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
+                PaneBackground="Transparent">
+                <SplitView.Pane>
+                    <cwucont:SwitchPresenter Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                        <cwucont:SwitchPresenter.ContentTransitions>
+                            <ContentThemeTransition/>
+                        </cwucont:SwitchPresenter.ContentTransitions>
+                        <cwucont:Case Value="List">
+                            <ListView ItemsSource="{Binding Summary.Avatars}" SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <shci:CachedImage
+                                                Grid.Column="0"
+                                                Width="48"
+                                                Height="48"
+                                                Margin="0,0,12,12"
+                                                Source="{Binding SideIcon, Mode=OneWay}"/>
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                <TextBlock Margin="12,0,0,0" Text="{Binding Name}"/>
                                                 <TextBlock
-                                                    Margin="4,0,0,2"
-                                                    VerticalAlignment="Center"
-                                                    Foreground="#FFFFFFFF"
+                                                    Margin="12,0,0,0"
+                                                    Opacity="0.7"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding SelectedAvatar.FetterLevel}"/>
+                                                    Text="{Binding Level}"/>
                                             </StackPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                    <Grid
-                                        Margin="0,16,0,0"
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </cwucont:Case>
+                        <cwucont:Case Value="Grid">
+                            <GridView
+                                Margin="6,6,0,0"
+                                HorizontalAlignment="Stretch"
+                                ItemsSource="{Binding Summary.Avatars}"
+                                SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}"
+                                SelectionMode="Single">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <shvcont:ItemIcon
+                                            Width="44"
+                                            Height="44"
+                                            Icon="{Binding Icon}"
+                                            Quality="{Binding Quality}"/>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </cwucont:Case>
+                    </cwucont:SwitchPresenter>
+                </SplitView.Pane>
+                <SplitView.Content>
+                    <ScrollViewer Padding="0,0,0,0">
+                        <StackPanel
+                            Name="ImageExportPanel"
+                            MaxWidth="800"
+                            HorizontalAlignment="Left"
+                            Background="Transparent">
+                            <Border Margin="16" Style="{StaticResource BorderCardStyle}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <shci:CachedImage
+                                        Grid.RowSpan="2"
+                                        Grid.ColumnSpan="2"
+                                        Source="{Binding SelectedAvatar.NameCard}"
+                                        Stretch="UniformToFill"/>
+                                    <Rectangle
+                                        Grid.RowSpan="2"
+                                        Grid.ColumnSpan="2"
+                                        Fill="#33000000"
+                                        Stroke="{x:Null}"/>
+                                    <Border
+                                        x:Name="ShadowTarget"
+                                        Grid.RowSpan="2"
+                                        Grid.ColumnSpan="2"/>
+                                    <StackPanel
+                                        Margin="16"
                                         HorizontalAlignment="Left"
-                                        DataContext="{Binding SelectedAvatar.Weapon}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Button
-                                            Padding="0"
-                                            BorderBrush="{x:Null}"
-                                            BorderThickness="0"
-                                            CornerRadius="{StaticResource CompatCornerRadius}">
-                                            <Button.Content>
-                                                <shvcont:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}">
-                                                    <cwu:Effects.Shadow>
-                                                        <cwu:AttachedDropShadow
-                                                            BlurRadius="16"
-                                                            CastTo="{Binding ElementName=ShadowTarget}"
-                                                            IsMasked="False"
-                                                            Opacity="0.6"
-                                                            Offset="4"/>
-                                                    </cwu:Effects.Shadow>
-                                                </shvcont:ItemIcon>
-                                            </Button.Content>
-                                            <Button.Flyout>
-                                                <Flyout Placement="BottomEdgeAlignedLeft">
-                                                    <StackPanel>
-                                                        <wsc:Setting
-                                                            Margin="0,2,0,0"
-                                                            Padding="12,0"
-                                                            Header="{Binding MainProperty.Key}">
-                                                            <TextBlock Text="{Binding MainProperty.Value}"/>
-                                                        </wsc:Setting>
-                                                        <wsc:Setting
-                                                            Margin="0,2,0,0"
-                                                            Padding="12,0"
-                                                            Header="{Binding SubProperty.Key}">
-                                                            <TextBlock Text="{Binding SubProperty.Value}"/>
-                                                        </wsc:Setting>
-                                                        <shct:DescriptionTextBlock
-                                                            MaxWidth="320"
-                                                            Margin="0,12,0,0"
-                                                            Description="{Binding AffixDescription}"/>
-                                                    </StackPanel>
-                                                </Flyout>
-                                            </Button.Flyout>
-                                        </Button>
-                                        <StackPanel Grid.Column="1" Margin="16,0,0,0">
-                                            <TextBlock
-                                                Foreground="#FFFFFFFF"
-                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{Binding Name}"/>
-                                            <TextBlock
-                                                Margin="0,4,0,0"
-                                                Foreground="#FFFFFFFF"
-                                                Style="{StaticResource BaseTextBlockStyle}"
-                                                Text="{Binding Level}"/>
-                                            <TextBlock
-                                                Margin="0,2,0,0"
-                                                Foreground="#FFFFFFFF"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding AffixLevel}"/>
-                                        </StackPanel>
-
-                                    </Grid>
-                                </StackPanel>
-
-                                <ItemsControl
-                                    Grid.Row="1"
-                                    Grid.Column="0"
-                                    Margin="16"
-                                    ItemsSource="{Binding SelectedAvatar.Constellations}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
+                                        VerticalAlignment="Top">
+                                        <Grid HorizontalAlignment="Left">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <shvcont:ItemIcon Icon="{Binding SelectedAvatar.Icon}" Quality="{Binding SelectedAvatar.Quality}">
+                                                <cwu:Effects.Shadow>
+                                                    <cwu:AttachedDropShadow
+                                                        BlurRadius="16"
+                                                        CastTo="{Binding ElementName=ShadowTarget}"
+                                                        IsMasked="False"
+                                                        Opacity="0.6"
+                                                        Offset="4"/>
+                                                </cwu:Effects.Shadow>
+                                            </shvcont:ItemIcon>
+                                            <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                                                <TextBlock
+                                                    Foreground="#FFFFFFFF"
+                                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                                    Text="{Binding SelectedAvatar.Name}"/>
+                                                <TextBlock
+                                                    Margin="0,4,0,0"
+                                                    Foreground="#FFFFFFFF"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{Binding SelectedAvatar.Level}"/>
+                                                <StackPanel Margin="0,2,0,0" Orientation="Horizontal">
+                                                    <Image
+                                                        Width="16"
+                                                        Height="16"
+                                                        Source="ms-appx:///Resource/Icon/UI_Icon_Fetter.png"/>
+                                                    <TextBlock
+                                                        Margin="4,0,0,2"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="#FFFFFFFF"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding SelectedAvatar.FetterLevel}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </Grid>
+                                        <Grid
+                                            Margin="0,16,0,0"
+                                            HorizontalAlignment="Left"
+                                            DataContext="{Binding SelectedAvatar.Weapon}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
                                             <Button
-                                                Margin="0,0,2,0"
-                                                Padding="2"
-                                                Background="Transparent"
-                                                BorderBrush="{x:Null}">
+                                                Padding="0"
+                                                BorderBrush="{x:Null}"
+                                                BorderThickness="0"
+                                                CornerRadius="{StaticResource CompatCornerRadius}">
                                                 <Button.Content>
-                                                    <Grid>
-                                                        <shci:CachedImage
-                                                            Width="36"
-                                                            Height="36"
-                                                            Opacity="{Binding IsActivated, Converter={StaticResource BoolToOpacityConverter}}"
-                                                            Source="{Binding Icon}"/>
-                                                        <Image
-                                                            Width="16"
-                                                            Height="16"
-                                                            Source="ms-appx:///Resource/Icon/UI_Icon_Locked.png"
-                                                            Visibility="{Binding IsActivated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                                    </Grid>
+                                                    <shvcont:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}">
+                                                        <cwu:Effects.Shadow>
+                                                            <cwu:AttachedDropShadow
+                                                                BlurRadius="16"
+                                                                CastTo="{Binding ElementName=ShadowTarget}"
+                                                                IsMasked="False"
+                                                                Opacity="0.6"
+                                                                Offset="4"/>
+                                                        </cwu:Effects.Shadow>
+                                                    </shvcont:ItemIcon>
                                                 </Button.Content>
                                                 <Button.Flyout>
-                                                    <Flyout Placement="Bottom">
-                                                        <shct:DescriptionTextBlock MaxWidth="320" Description="{Binding Description}">
-                                                            <shct:DescriptionTextBlock.Resources>
-                                                                <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                                                                    <Setter Property="TextWrapping" Value="Wrap"/>
-                                                                </Style>
-                                                            </shct:DescriptionTextBlock.Resources>
-                                                        </shct:DescriptionTextBlock>
+                                                    <Flyout Placement="BottomEdgeAlignedLeft">
+                                                        <StackPanel>
+                                                            <wsc:Setting
+                                                                Margin="0,2,0,0"
+                                                                Padding="12,0"
+                                                                Header="{Binding MainProperty.Key}">
+                                                                <TextBlock Text="{Binding MainProperty.Value}"/>
+                                                            </wsc:Setting>
+                                                            <wsc:Setting
+                                                                Margin="0,2,0,0"
+                                                                Padding="12,0"
+                                                                Header="{Binding SubProperty.Key}">
+                                                                <TextBlock Text="{Binding SubProperty.Value}"/>
+                                                            </wsc:Setting>
+                                                            <shct:DescriptionTextBlock
+                                                                MaxWidth="320"
+                                                                Margin="0,12,0,0"
+                                                                Description="{Binding AffixDescription}"/>
+                                                        </StackPanel>
                                                     </Flyout>
                                                 </Button.Flyout>
                                             </Button>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                            <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                                                <TextBlock
+                                                    Foreground="#FFFFFFFF"
+                                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                                    Text="{Binding Name}"/>
+                                                <TextBlock
+                                                    Margin="0,4,0,0"
+                                                    Foreground="#FFFFFFFF"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{Binding Level}"/>
+                                                <TextBlock
+                                                    Margin="0,2,0,0"
+                                                    Foreground="#FFFFFFFF"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding AffixLevel}"/>
+                                            </StackPanel>
 
-                                <StackPanel Grid.Column="1" Margin="16">
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        Foreground="#FFFFFFFF"
-                                        Style="{StaticResource TitleTextBlockStyle}"
-                                        Text="{Binding SelectedAvatar.Score}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        Foreground="#FFFFFFFF"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="圣遗物评分"/>
+                                        </Grid>
+                                    </StackPanel>
 
-                                    <TextBlock
-                                        Margin="0,8,0,0"
-                                        HorizontalAlignment="Right"
-                                        Foreground="#FFFFFFFF"
-                                        Style="{StaticResource TitleTextBlockStyle}"
-                                        Text="{Binding SelectedAvatar.CritScore}"/>
-                                    <TextBlock
-                                        HorizontalAlignment="Right"
-                                        Foreground="#FFFFFFFF"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="双暴评分"/>
-                                </StackPanel>
-
-                                <ItemsControl
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Grid.Column="1"
-                                    Margin="16"
-                                    VerticalAlignment="Bottom"
-                                    ItemsSource="{Binding SelectedAvatar.Skills}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Button
-                                                Margin="0,2,0,0"
-                                                Padding="4"
-                                                Background="Transparent"
-                                                BorderBrush="{x:Null}">
-                                                <Button.Content>
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="auto"/>
-                                                            <ColumnDefinition Width="48"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <shci:CachedImage
-                                                            Grid.Column="0"
-                                                            Width="36"
-                                                            Height="36"
-                                                            Source="{Binding Icon}"/>
-                                                        <TextBlock
-                                                            Grid.Column="1"
-                                                            Margin="6,0,0,2"
-                                                            HorizontalAlignment="Left"
-                                                            VerticalAlignment="Center"
-                                                            Foreground="#FFFFFFFF"
-                                                            Style="{StaticResource BaseTextBlockStyle}"
-                                                            Text="{Binding Info.Level}"/>
-                                                    </Grid>
-                                                </Button.Content>
-                                                <Button.Flyout>
-                                                    <Flyout Placement="Left">
-                                                        <StackPanel MaxWidth="320">
-                                                            <shct:DescriptionTextBlock Description="{Binding Description}">
+                                    <ItemsControl
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        Margin="16"
+                                        ItemsSource="{Binding SelectedAvatar.Constellations}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Margin="0,0,2,0"
+                                                    Padding="2"
+                                                    Background="Transparent"
+                                                    BorderBrush="{x:Null}">
+                                                    <Button.Content>
+                                                        <Grid>
+                                                            <shci:CachedImage
+                                                                Width="36"
+                                                                Height="36"
+                                                                Opacity="{Binding IsActivated, Converter={StaticResource BoolToOpacityConverter}}"
+                                                                Source="{Binding Icon}"/>
+                                                            <Image
+                                                                Width="16"
+                                                                Height="16"
+                                                                Source="ms-appx:///Resource/Icon/UI_Icon_Locked.png"
+                                                                Visibility="{Binding IsActivated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                                                        </Grid>
+                                                    </Button.Content>
+                                                    <Button.Flyout>
+                                                        <Flyout Placement="Bottom">
+                                                            <shct:DescriptionTextBlock MaxWidth="320" Description="{Binding Description}">
                                                                 <shct:DescriptionTextBlock.Resources>
                                                                     <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
                                                                         <Setter Property="TextWrapping" Value="Wrap"/>
                                                                     </Style>
                                                                 </shct:DescriptionTextBlock.Resources>
                                                             </shct:DescriptionTextBlock>
-                                                            <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Info.Parameters}">
-                                                                <ItemsControl.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <wsc:Setting
-                                                                            Margin="0,2,0,0"
-                                                                            Padding="12,0"
-                                                                            Header="{Binding Description}">
-                                                                            <wsc:Setting.ActionContent>
-                                                                                <TextBlock Text="{Binding Parameter}"/>
-                                                                            </wsc:Setting.ActionContent>
-                                                                        </wsc:Setting>
-                                                                    </DataTemplate>
-                                                                </ItemsControl.ItemTemplate>
-                                                            </ItemsControl>
-                                                        </StackPanel>
-                                                    </Flyout>
-                                                </Button.Flyout>
-                                            </Button>
+                                                        </Flyout>
+                                                    </Button.Flyout>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <StackPanel Grid.Column="1" Margin="16">
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            Foreground="#FFFFFFFF"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{Binding SelectedAvatar.Score}"/>
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            Foreground="#FFFFFFFF"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="圣遗物评分"/>
+
+                                        <TextBlock
+                                            Margin="0,8,0,0"
+                                            HorizontalAlignment="Right"
+                                            Foreground="#FFFFFFFF"
+                                            Style="{StaticResource TitleTextBlockStyle}"
+                                            Text="{Binding SelectedAvatar.CritScore}"/>
+                                        <TextBlock
+                                            HorizontalAlignment="Right"
+                                            Foreground="#FFFFFFFF"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="双暴评分"/>
+                                    </StackPanel>
+
+                                    <ItemsControl
+                                        Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1"
+                                        Margin="16"
+                                        VerticalAlignment="Bottom"
+                                        ItemsSource="{Binding SelectedAvatar.Skills}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Button
+                                                    Margin="0,2,0,0"
+                                                    Padding="4"
+                                                    Background="Transparent"
+                                                    BorderBrush="{x:Null}">
+                                                    <Button.Content>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition Width="48"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <shci:CachedImage
+                                                                Grid.Column="0"
+                                                                Width="36"
+                                                                Height="36"
+                                                                Source="{Binding Icon}"/>
+                                                            <TextBlock
+                                                                Grid.Column="1"
+                                                                Margin="6,0,0,2"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                Foreground="#FFFFFFFF"
+                                                                Style="{StaticResource BaseTextBlockStyle}"
+                                                                Text="{Binding Info.Level}"/>
+                                                        </Grid>
+                                                    </Button.Content>
+                                                    <Button.Flyout>
+                                                        <Flyout Placement="Left">
+                                                            <StackPanel MaxWidth="320">
+                                                                <shct:DescriptionTextBlock Description="{Binding Description}">
+                                                                    <shct:DescriptionTextBlock.Resources>
+                                                                        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                                                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                                                        </Style>
+                                                                    </shct:DescriptionTextBlock.Resources>
+                                                                </shct:DescriptionTextBlock>
+                                                                <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Info.Parameters}">
+                                                                    <ItemsControl.ItemTemplate>
+                                                                        <DataTemplate>
+                                                                            <wsc:Setting
+                                                                                Margin="0,2,0,0"
+                                                                                Padding="12,0"
+                                                                                Header="{Binding Description}">
+                                                                                <wsc:Setting.ActionContent>
+                                                                                    <TextBlock Text="{Binding Parameter}"/>
+                                                                                </wsc:Setting.ActionContent>
+                                                                            </wsc:Setting>
+                                                                        </DataTemplate>
+                                                                    </ItemsControl.ItemTemplate>
+                                                                </ItemsControl>
+                                                            </StackPanel>
+                                                        </Flyout>
+                                                    </Button.Flyout>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                            </Border>
+                            <Expander
+                                Margin="16,0,16,0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Background="{x:Null}"
+                                Header="角色属性">
+                                <ItemsControl ItemsSource="{Binding SelectedAvatar.Properties}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <wsc:Setting
+                                                Margin="0,2,0,0"
+                                                BorderBrush="{x:Null}"
+                                                BorderThickness="0"
+                                                Header="{Binding Key}">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition Width="100"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock
+                                                        Grid.Column="0"
+                                                        HorizontalAlignment="Right"
+                                                        Text="{Binding Value1}"/>
+                                                    <TextBlock
+                                                        Grid.Column="1"
+                                                        Margin="6,0,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        Foreground="#FF90E800"
+                                                        Text="{Binding Value2}"/>
+                                                </Grid>
+                                            </wsc:Setting>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                            </Grid>
-                        </Border>
-                        <Expander
-                            Margin="16,0,16,0"
-                            HorizontalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            Background="{x:Null}"
-                            Header="角色属性">
-                            <ItemsControl ItemsSource="{Binding SelectedAvatar.Properties}">
+                            </Expander>
+                            <ItemsControl Margin="16,16,16,0" ItemsSource="{Binding SelectedAvatar.Reliquaries}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <wsc:Setting
-                                            Margin="0,2,0,0"
-                                            BorderBrush="{x:Null}"
-                                            BorderThickness="0"
-                                            Header="{Binding Key}">
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition Width="100"/>
-                                                </Grid.ColumnDefinitions>
+                                        <Expander
+                                            Margin="0,0,0,16"
+                                            Padding="16"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch">
+                                            <Expander.Header>
+                                                <Grid Margin="0,16">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <shvcont:ItemIcon
+                                                        Grid.Column="0"
+                                                        Width="32"
+                                                        Height="32"
+                                                        Icon="{Binding Icon}"
+                                                        Quality="{Binding Quality}"/>
+                                                    <Grid
+                                                        Grid.Column="1"
+                                                        Margin="16,0,0,0"
+                                                        ColumnSpacing="8">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="1*"/>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition Width="2*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <StackPanel Grid.Column="0">
+                                                            <!--  主属性  -->
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                                    Text="{Binding MainProperty.Key}"
+                                                                    TextTrimming="CharacterEllipsis"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding MainProperty.Value}"/>
+                                                            </Grid>
+                                                            <!--  评分  -->
+                                                            <Grid Margin="0,8,0,0">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                                    Text="评分"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="NoWrap"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding ScoreFormatted}"/>
+                                                            </Grid>
+                                                        </StackPanel>
+                                                        <AppBarSeparator Grid.Column="1"/>
+                                                        <ItemsControl Grid.Column="2" ItemsSource="{Binding ComposedSubProperties}">
+                                                            <ItemsControl.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <cwucont:UniformGrid
+                                                                        ColumnSpacing="16"
+                                                                        Columns="2"
+                                                                        RowSpacing="8"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ItemsControl.ItemsPanel>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid>
+                                                                        <Grid.ColumnDefinitions>
+                                                                            <ColumnDefinition/>
+                                                                            <ColumnDefinition Width="auto"/>
+                                                                        </Grid.ColumnDefinitions>
+                                                                        <TextBlock
+                                                                            Style="{StaticResource BaseTextBlockStyle}"
+                                                                            Text="{Binding Name}"
+                                                                            TextTrimming="CharacterEllipsis"
+                                                                            TextWrapping="NoWrap"/>
+                                                                        <TextBlock Grid.Column="1" Text="{Binding Value}"/>
+                                                                    </Grid>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </Grid>
+                                                </Grid>
+                                            </Expander.Header>
+
+                                            <StackPanel>
+                                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="初始词条"/>
+                                                <ItemsControl ItemsSource="{Binding PrimarySubProperties}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <cwucont:UniformGrid ColumnSpacing="8" Columns="5"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Opacity="{Binding Opacity}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Text="{Binding Name}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="NoWrap"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding Value}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
                                                 <TextBlock
-                                                    Grid.Column="0"
-                                                    HorizontalAlignment="Right"
-                                                    Text="{Binding Value1}"/>
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Margin="6,0,0,0"
-                                                    HorizontalAlignment="Left"
-                                                    Foreground="#FF90E800"
-                                                    Text="{Binding Value2}"/>
-                                            </Grid>
-                                        </wsc:Setting>
+                                                    Margin="0,16,0,0"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="强化词条"/>
+                                                <ItemsControl ItemsSource="{Binding SecondarySubProperties}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <cwucont:UniformGrid ColumnSpacing="8" Columns="5"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Opacity="{Binding Opacity}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Text="{Binding Name}"
+                                                                    TextTrimming="CharacterEllipsis"
+                                                                    TextWrapping="NoWrap"/>
+                                                                <TextBlock Grid.Column="1" Text="{Binding Value}"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </StackPanel>
+                                        </Expander>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        </Expander>
-                        <ItemsControl Margin="16,16,16,0" ItemsSource="{Binding SelectedAvatar.Reliquaries}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Expander
-                                        Margin="0,0,0,16"
-                                        Padding="16"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch">
-                                        <Expander.Header>
-                                            <Grid Margin="0,16">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto"/>
-                                                    <ColumnDefinition/>
-                                                </Grid.ColumnDefinitions>
-                                                <shvcont:ItemIcon
-                                                    Grid.Column="0"
-                                                    Width="32"
-                                                    Height="32"
-                                                    Icon="{Binding Icon}"
-                                                    Quality="{Binding Quality}"/>
-                                                <Grid
-                                                    Grid.Column="1"
-                                                    Margin="16,0,0,0"
-                                                    ColumnSpacing="8">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="1*"/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition Width="4*"/>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition Width="1*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <StackPanel Grid.Column="0">
-                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding MainProperty.Key}"/>
-                                                        <TextBlock Text="{Binding MainProperty.Value}"/>
-                                                    </StackPanel>
-                                                    <AppBarSeparator Grid.Column="1"/>
-                                                    <ItemsControl Grid.Column="2" ItemsSource="{Binding ComposedSubProperties}">
-                                                        <ItemsControl.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <cwucont:UniformGrid Columns="4"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ItemsControl.ItemsPanel>
-                                                        <ItemsControl.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <StackPanel>
-                                                                    <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Name}"/>
-                                                                    <TextBlock Text="{Binding Value}"/>
-                                                                </StackPanel>
-                                                            </DataTemplate>
-                                                        </ItemsControl.ItemTemplate>
-                                                    </ItemsControl>
-                                                    <AppBarSeparator Grid.Column="3"/>
-                                                    <StackPanel Grid.Column="4">
-                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="评分"/>
-                                                        <TextBlock Text="{Binding ScoreFormatted}"/>
-                                                    </StackPanel>
-                                                </Grid>
-                                            </Grid>
-                                        </Expander.Header>
-
-                                        <StackPanel>
-                                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="初始词条"/>
-                                            <ItemsControl ItemsSource="{Binding PrimarySubProperties}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <cwucont:UniformGrid ColumnSpacing="8" Columns="5"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Padding="2" Opacity="{Binding Opacity}">
-                                                            <TextBlock Text="{Binding Name}"/>
-                                                            <TextBlock HorizontalAlignment="Right" Text="{Binding Value}"/>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                            <TextBlock
-                                                Margin="0,16,0,0"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="强化词条"/>
-                                            <ItemsControl ItemsSource="{Binding SecondarySubProperties}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <cwucont:UniformGrid ColumnSpacing="8" Columns="5"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Grid Padding="2" Opacity="{Binding Opacity}">
-                                                            <TextBlock Text="{Binding Name}"/>
-                                                            <TextBlock HorizontalAlignment="Right" Text="{Binding Value}"/>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </StackPanel>
-                                    </Expander>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </ScrollViewer>
-            </SplitView.Content>
-        </SplitView>
+                        </StackPanel>
+                    </ScrollViewer>
+                </SplitView.Content>
+            </SplitView>
+        </Grid>
+        <Grid Visibility="{Binding Summary, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <shci:CachedImage
+                    Width="120"
+                    Height="120"
+                    Source="{StaticResource UI_EmotionIcon250}"/>
+                <TextBlock
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="尚未获取任何角色信息"/>
+                <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
+                    <wsc:Setting Description="同步游戏内角色橱窗中的信息" Header="从 Enka API 同步">
+                        <Button Command="{Binding RefreshFromEnkaApiCommand}" Content="同步"/>
+                    </wsc:Setting>
+                    <wsc:Setting Description="同步角色天赋外的大部分信息" Header="从米游社我的角色同步">
+                        <Button Command="{Binding RefreshFromHoyolabGameRecordCommand}" Content="同步"/>
+                    </wsc:Setting>
+                    <wsc:Setting Description="同步角色天赋信息" Header="从米游社养成计算同步">
+                        <Button Command="{Binding RefreshFromHoyolabCalculateCommand}" Content="同步"/>
+                    </wsc:Setting>
+                </wsc:SettingsGroup>
+            </StackPanel>
+        </Grid>
     </Grid>
 </shc:ScopedPage>

@@ -5,13 +5,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Context.FileSystem.Location;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.User;
-using Snap.Hutao.Web.Hutao;
-using Snap.Hutao.Web.Hutao.Model.Post;
 using Windows.Storage;
 using Windows.System;
 
@@ -23,19 +19,12 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class ExperimentalFeaturesViewModel : ObservableObject
 {
-    private readonly IFileSystemLocation hutaoLocation;
-
     /// <summary>
     /// 构造一个新的实验性功能视图模型
     /// </summary>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    /// <param name="hutaoLocation">数据文件夹</param>
-    public ExperimentalFeaturesViewModel(
-        IAsyncRelayCommandFactory asyncRelayCommandFactory,
-        HutaoLocation hutaoLocation)
+    public ExperimentalFeaturesViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
-        this.hutaoLocation = hutaoLocation;
-
         OpenCacheFolderCommand = asyncRelayCommandFactory.Create(OpenCacheFolderAsync);
         OpenDataFolderCommand = asyncRelayCommandFactory.Create(OpenDataFolderAsync);
         DeleteUsersCommand = asyncRelayCommandFactory.Create(DangerousDeleteUsersAsync);
@@ -52,8 +41,6 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// </summary>
     public ICommand OpenDataFolderCommand { get; }
 
-
-
     /// <summary>
     /// 清空用户命令
     /// </summary>
@@ -66,15 +53,13 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
     private Task OpenCacheFolderAsync()
     {
-        return Launcher.LaunchFolderAsync(ApplicationData.Current.TemporaryFolder).AsTask();
+        return Launcher.LaunchFolderAsync(ApplicationData.Current.LocalCacheFolder).AsTask();
     }
 
     private Task OpenDataFolderAsync()
     {
-        return Launcher.LaunchFolderPathAsync(hutaoLocation.GetPath()).AsTask();
+        return Launcher.LaunchFolderPathAsync(Core.CoreEnvironment.DataFolder).AsTask();
     }
-
-
 
     private async Task DangerousDeleteUsersAsync()
     {

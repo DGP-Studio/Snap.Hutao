@@ -57,7 +57,7 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
         {
             string cacheFile = GetCacheFile(path);
 
-            using (TemporaryFile? tempFile = TemporaryFile.CreateFromFileCopy(cacheFile))
+            using (TempFile? tempFile = TempFile.CreateFromFileCopy(cacheFile))
             {
                 if (tempFile == null)
                 {

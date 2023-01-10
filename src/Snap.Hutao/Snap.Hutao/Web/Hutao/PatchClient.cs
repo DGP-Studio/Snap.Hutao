@@ -36,6 +36,6 @@ internal class PatchClient
     /// <returns>更新信息</returns>
     public Task<Patch.PatchInformation?> GetPatchInformationAsync(CancellationToken token = default)
     {
-        return httpClient.TryCatchGetFromJsonAsync<Patch.PatchInformation>(ApiEndpoints.PatcherHutaoStable, options, logger, token);
+        return httpClient.TryCatchGetFromJsonAsync<Patch.PatchInformation>(HutaoEndpoints.PatcherHutaoStable, options, logger, token);
     }
 }

@@ -103,7 +103,7 @@ internal class HutaoService : IHutaoService
         appDbContext.ObjectCache.AddAndSave(new()
         {
             Key = key,
-            ExpireTime = DateTimeOffset.Now.AddHours(6),
+            ExpireTime = DateTimeOffset.Now.AddHours(4),
             Value = JsonSerializer.Serialize(web, options),
         });
 

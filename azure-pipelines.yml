@@ -17,6 +17,16 @@ trigger:
     - azure-pipelines.yml
     - .github/ISSUE_TEMPLATE/*.yml
     - .github/workflows/*.yml
+pr:
+  branches:
+   include:
+   - main
+  paths:
+   exclude:
+     - README.md
+     - azure-pipelines.yml
+     - .github/ISSUE_TEMPLATE/*.yml
+     - .github/workflows/*.yml
     
 
 pool:
@@ -28,7 +38,7 @@ variables:
   project: $(Build.SourcesDirectory)/src/Snap.Hutao/Snap.Hutao/Snap.Hutao.csproj'
   buildPlatform: 'x64'
   buildConfiguration: 'Release'
-  build_date: $[ format('{0:yyyy}.{0:MM}.{0:dd}', pipeline.startTime) ]
+  build_date: $[ format('{0:yyyy}.{0:M}.{0:d}', pipeline.startTime) ]
 
 
 steps:
@@ -134,6 +144,7 @@ steps:
     secureFile: 'Snap.Hutao.CI.cer'
 
 - task: GitHubRelease@1
+  condition: or(eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'BatchedCI'))
   inputs:
     gitHubConnection: 'github.com_Masterain'
     repositoryName: 'DGP-Studio/Snap.Hutao'

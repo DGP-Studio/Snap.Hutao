@@ -5,7 +5,7 @@ using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Exception;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Logging;
 using System.Diagnostics;
@@ -51,7 +51,7 @@ public partial class App : Application
                 ToastNotificationManagerCompat.OnActivated += Activation.NotificationActivate;
 
                 logger.LogInformation(EventIds.CommonLog, "Snap Hutao | {name} : {version}", CoreEnvironment.FamilyName, CoreEnvironment.Version);
-                logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.TemporaryFolder.Path);
+                logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.LocalCacheFolder.Path);
 
                 JumpListHelper.ConfigureAsync().SafeForget(logger);
             }

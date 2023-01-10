@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Collections.ObjectModel;
+
 namespace Snap.Hutao.Extension;
 
 /// <summary>
@@ -8,26 +10,6 @@ namespace Snap.Hutao.Extension;
 /// </summary>
 public static partial class EnumerableExtension
 {
-    /// <summary>
-    /// 计数
-    /// </summary>
-    /// <typeparam name="TSource">源类型</typeparam>
-    /// <typeparam name="TKey">计数的键类型</typeparam>
-    /// <param name="source">源</param>
-    /// <param name="keySelector">键选择器</param>
-    /// <returns>计数表</returns>
-    public static IEnumerable<KeyValuePair<TKey, int>> CountBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        where TKey : notnull, IEquatable<TKey>
-    {
-        CounterInt32<TKey> counter = new();
-        foreach (TSource item in source)
-        {
-            counter.Increase(keySelector(item));
-        }
-
-        return counter;
-    }
-
     /// <summary>
     /// 如果传入集合不为空则原路返回，
     /// 如果传入集合为空返回一个集合的空集
@@ -64,56 +46,14 @@ public static partial class EnumerableExtension
         return source.FirstOrDefault(predicate) ?? source.FirstOrDefault();
     }
 
-    /// <inheritdoc cref="Enumerable.ToDictionary{TSource, TKey}(IEnumerable{TSource}, Func{TSource, TKey})"/>
-    public static Dictionary<TKey, TSource> ToDictionaryOverride<TKey, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
-        where TKey : notnull
-    {
-        Dictionary<TKey, TSource> dictionary = new();
-
-        foreach (TSource value in source)
-        {
-            dictionary[keySelector(value)] = value;
-        }
-
-        return dictionary;
-    }
-
-    /// <inheritdoc cref="Enumerable.ToDictionary{TSource, TKey, TElement}(IEnumerable{TSource}, Func{TSource, TKey}, Func{TSource, TElement})"/>
-    public static Dictionary<TKey, TValue> ToDictionaryOverride<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
-        where TKey : notnull
-    {
-        Dictionary<TKey, TValue> dictionary = new();
-
-        foreach (TSource value in source)
-        {
-            dictionary[keySelector(value)] = valueSelector(value);
-        }
-
-        return dictionary;
-    }
-
     /// <summary>
-    /// 表示一个对 <see cref="TItem"/> 类型的计数器
+    /// 转换到 <see cref="ObservableCollection{T}"/>
     /// </summary>
-    /// <typeparam name="TItem">待计数的类型</typeparam>
-    private class CounterInt32<TItem> : Dictionary<TItem, int>
-        where TItem : notnull, IEquatable<TItem>
+    /// <typeparam name="T">类型</typeparam>
+    /// <param name="source">源</param>
+    /// <returns><see cref="ObservableCollection{T}"/></returns>
+    public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)
     {
-        /// <summary>
-        /// 增加计数器
-        /// </summary>
-        /// <param name="item">物品</param>
-        public void Increase(TItem? item)
-        {
-            if (item != null)
-            {
-                if (!ContainsKey(item))
-                {
-                    this[item] = 0;
-                }
-
-                this[item] += 1;
-            }
-        }
+        return new ObservableCollection<T>(source);
     }
 }

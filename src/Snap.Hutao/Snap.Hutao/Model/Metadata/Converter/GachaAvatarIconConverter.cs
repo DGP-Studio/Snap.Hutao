@@ -10,8 +10,6 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// </summary>
 internal class GachaAvatarIconConverter : ValueConverterBase<string, Uri>
 {
-    private const string BaseUrl = "https://static.snapgenshin.com/GachaAvatarIcon/UI_Gacha_AvatarIcon_{0}.png";
-
     /// <summary>
     /// 名称转Uri
     /// </summary>
@@ -20,7 +18,7 @@ internal class GachaAvatarIconConverter : ValueConverterBase<string, Uri>
     public static Uri IconNameToUri(string name)
     {
         name = name["UI_AvatarIcon_".Length..];
-        return new Uri(string.Format(BaseUrl, name));
+        return new Uri(Web.HutaoEndpoints.StaticFile("GachaAvatarIcon", $"UI_Gacha_AvatarIcon_{name}.png"));
     }
 
     /// <inheritdoc/>

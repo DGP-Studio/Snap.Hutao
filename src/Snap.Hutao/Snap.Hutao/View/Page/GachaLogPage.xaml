@@ -11,6 +11,7 @@
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shv:GachaLogViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -20,461 +21,489 @@
     </mxi:Interaction.Behaviors>
 
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-        <Rectangle
-            Height="48"
-            VerticalAlignment="Top"
-            Fill="{StaticResource CardBackgroundFillColorDefaultBrush}"
-            IsHitTestVisible="False"/>
-        <Pivot>
-            <Pivot.LeftHeader>
-                <ComboBox
-                    Height="36"
-                    MinWidth="120"
-                    Margin="16,6,0,6"
-                    DisplayMemberPath="Uid"
-                    ItemsSource="{Binding Archives}"
-                    SelectedItem="{Binding SelectedArchive, Mode=TwoWay}">
-                    <mxi:Interaction.Behaviors>
-                        <shcb:ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior/>
-                    </mxi:Interaction.Behaviors>
-                </ComboBox>
-            </Pivot.LeftHeader>
-            <Pivot.RightHeader>
-                <CommandBar DefaultLabelPosition="Right">
-                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="刷新">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout Placement="Bottom">
-                                <MenuFlyoutItem
-                                    Command="{Binding RefreshByStokenCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xE192;}"
-                                    Text="Stoken刷新"/>
-                                <MenuFlyoutItem
-                                    Command="{Binding RefreshByWebCacheCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xE81E;}"
-                                    Text="从缓存刷新"/>
-                                <MenuFlyoutItem
-                                    Command="{Binding RefreshByManualInputCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xE765;}"
-                                    Text="手动输入Url"/>
-                                <ToggleMenuFlyoutItem
-                                    Icon="{shcm:FontIcon Glyph=&#xE1CD;}"
-                                    IsChecked="{Binding IsAggressiveRefresh}"
-                                    Text="全量刷新"/>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarSeparator/>
-                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="导入">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout Placement="Bottom">
-                                <MenuFlyoutItem Command="{Binding ImportFromUIGFJsonCommand}" Text="从 UIGF Json 文件导入"/>
-                                <MenuFlyoutItem
-                                    Command="{Binding ImportFromUIGFExcelCommand}"
-                                    IsEnabled="False"
-                                    Text="从 UIGF Excel 文件导入"
-                                    Visibility="Collapsed"/>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xEDE1;}" Label="导出">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout Placement="Bottom">
-                                <MenuFlyoutItem Command="{Binding ExportToUIGFJsonCommand}" Text="导出到 UIGF Json 文件"/>
-                                <MenuFlyoutItem
-                                    Command="{Binding ExportToUIGFExcelCommand}"
-                                    IsEnabled="False"
-                                    Text="导出到 UIGF Excel 文件"
-                                    Visibility="Collapsed"/>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <CommandBar.SecondaryCommands>
+        <Grid Visibility="{Binding Statistics, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+            <Rectangle
+                Height="48"
+                VerticalAlignment="Top"
+                Fill="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                IsHitTestVisible="False"/>
+            <Pivot>
+                <Pivot.LeftHeader>
+                    <ComboBox
+                        Height="36"
+                        MinWidth="120"
+                        Margin="16,6,0,6"
+                        DisplayMemberPath="Uid"
+                        ItemsSource="{Binding Archives}"
+                        SelectedItem="{Binding SelectedArchive, Mode=TwoWay}">
+                        <mxi:Interaction.Behaviors>
+                            <shcb:ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior/>
+                        </mxi:Interaction.Behaviors>
+                    </ComboBox>
+                </Pivot.LeftHeader>
+                <Pivot.RightHeader>
+                    <CommandBar DefaultLabelPosition="Right">
+                        <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="刷新">
+                            <AppBarButton.Flyout>
+                                <MenuFlyout Placement="Bottom">
+                                    <MenuFlyoutItem
+                                        Command="{Binding RefreshByStokenCommand}"
+                                        Icon="{shcm:FontIcon Glyph=&#xE192;}"
+                                        Text="Stoken 刷新"/>
+                                    <MenuFlyoutItem
+                                        Command="{Binding RefreshByWebCacheCommand}"
+                                        Icon="{shcm:FontIcon Glyph=&#xE81E;}"
+                                        Text="网页缓存刷新"/>
+                                    <MenuFlyoutItem
+                                        Command="{Binding RefreshByManualInputCommand}"
+                                        Icon="{shcm:FontIcon Glyph=&#xE765;}"
+                                        Text="手动输入 Url"/>
+                                    <ToggleMenuFlyoutItem
+                                        Icon="{shcm:FontIcon Glyph=&#xE1CD;}"
+                                        IsChecked="{Binding IsAggressiveRefresh}"
+                                        Text="全量刷新"/>
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                        <AppBarSeparator/>
                         <AppBarButton
-                            Command="{Binding RemoveArchiveCommand}"
-                            Icon="{shcm:FontIcon Glyph=&#xE74D;}"
-                            Label="删除当前存档"/>
-                    </CommandBar.SecondaryCommands>
-                </CommandBar>
-            </Pivot.RightHeader>
-            <PivotItem Header="总览">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition MaxWidth="388"/>
-                        <ColumnDefinition MaxWidth="388"/>
-                        <ColumnDefinition MaxWidth="388"/>
-                        <ColumnDefinition Width="auto" MinWidth="16"/>
-                    </Grid.ColumnDefinitions>
-                    <shvc:StatisticsCard
-                        Grid.Column="0"
-                        Margin="16,16,0,16"
-                        DataContext="{Binding Statistics.AvatarWish}"/>
-                    <shvc:StatisticsCard
-                        Grid.Column="1"
-                        Margin="16,16,0,16"
-                        DataContext="{Binding Statistics.WeaponWish}"/>
-                    <shvc:StatisticsCard
-                        Grid.Column="2"
-                        Margin="16,16,0,16"
-                        DataContext="{Binding Statistics.PermanentWish}"/>
-                </Grid>
-            </PivotItem>
-            <PivotItem Header="历史">
-                <SplitView
-                    DisplayMode="Inline"
-                    IsPaneOpen="True"
-                    OpenPaneLength="296"
-                    PaneBackground="Transparent">
-                    <SplitView.Pane>
-                        <ListView ItemsSource="{Binding Statistics.HistoryWishes}" SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                            Command="{Binding ImportFromUIGFJsonCommand}"
+                            Icon="{shcm:FontIcon Glyph=&#xE8B5;}"
+                            Label="导入"/>
+                        <AppBarButton
+                            Command="{Binding ExportToUIGFJsonCommand}"
+                            Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
+                            Label="导出"/>
+                        <CommandBar.SecondaryCommands>
+                            <AppBarButton
+                                Command="{Binding RemoveArchiveCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xE74D;}"
+                                Label="删除当前存档"/>
+                        </CommandBar.SecondaryCommands>
+                    </CommandBar>
+                </Pivot.RightHeader>
+                <PivotItem Header="总览">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MaxWidth="388"/>
+                            <ColumnDefinition MaxWidth="388"/>
+                            <ColumnDefinition MaxWidth="388"/>
+                            <ColumnDefinition Width="auto" MinWidth="16"/>
+                        </Grid.ColumnDefinitions>
+                        <shvc:StatisticsCard
+                            Grid.Column="0"
+                            Margin="16,16,0,16"
+                            DataContext="{Binding Statistics.AvatarWish}"/>
+                        <shvc:StatisticsCard
+                            Grid.Column="1"
+                            Margin="16,16,0,16"
+                            DataContext="{Binding Statistics.WeaponWish}"/>
+                        <shvc:StatisticsCard
+                            Grid.Column="2"
+                            Margin="16,16,0,16"
+                            DataContext="{Binding Statistics.PermanentWish}"/>
+                    </Grid>
+                </PivotItem>
+                <PivotItem Header="历史">
+                    <SplitView
+                        DisplayMode="Inline"
+                        IsPaneOpen="True"
+                        OpenPaneLength="296"
+                        PaneBackground="Transparent">
+                        <SplitView.Pane>
+                            <ListView ItemsSource="{Binding Statistics.HistoryWishes}" SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                                                <TextBlock
+                                                    Width="32"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{Binding Version}"/>
+                                                <TextBlock
+                                                    Margin="0,0,0,0"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{Binding Name}"/>
+                                            </StackPanel>
+
                                             <TextBlock
-                                                Width="32"
+                                                Margin="0,8,0,0"
+                                                HorizontalAlignment="Right"
                                                 Style="{StaticResource BaseTextBlockStyle}"
-                                                Text="{Binding Version}"/>
-                                            <TextBlock
-                                                Margin="0,0,0,0"
-                                                Style="{StaticResource BaseTextBlockStyle}"
-                                                Text="{Binding Name}"/>
-                                        </StackPanel>
-
-                                        <TextBlock
-                                            Margin="0,8,0,0"
-                                            HorizontalAlignment="Right"
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{Binding TotalCountFormatted}"/>
-                                        <Border
-                                            Grid.Row="1"
-                                            Margin="0,6,0,0"
-                                            Padding="2"
-                                            HorizontalAlignment="Left"
-                                            Background="{StaticResource CardBackgroundFillColorDefault}"
-                                            CornerRadius="{StaticResource CompatCornerRadiusSmall}">
-                                            <ItemsControl ItemsSource="{Binding OrangeUpList}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Margin="2">
-                                                            <shci:CachedImage
-                                                                Width="32"
-                                                                Height="32"
-                                                                Source="{Binding Icon}"/>
-                                                            <TextBlock
-                                                                Margin="0,2,0,0"
-                                                                HorizontalAlignment="Center"
-                                                                Text="{Binding Count}"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </Border>
-                                        <Border
-                                            Grid.Row="1"
-                                            Margin="0,6,0,0"
-                                            Padding="2"
-                                            HorizontalAlignment="Right"
-                                            Background="{StaticResource CardBackgroundFillColorDefault}"
-                                            CornerRadius="{StaticResource CompatCornerRadiusSmall}">
-                                            <ItemsControl ItemsSource="{Binding PurpleUpList}">
-                                                <ItemsControl.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ItemsControl.ItemsPanel>
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Margin="2">
-                                                            <shci:CachedImage
-                                                                Width="32"
-                                                                Height="32"
-                                                                Source="{Binding Icon}"/>
-                                                            <TextBlock
-                                                                Margin="0,2,0,0"
-                                                                HorizontalAlignment="Center"
-                                                                Text="{Binding Count}"/>
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </Border>
-                                        <StackPanel
-                                            Grid.Row="2"
-                                            Margin="0,6,0,8"
-                                            Opacity="0.6"
-                                            Orientation="Horizontal">
-                                            <TextBlock
+                                                Text="{Binding TotalCountFormatted}"/>
+                                            <Border
+                                                Grid.Row="1"
+                                                Margin="0,6,0,0"
+                                                Padding="2"
                                                 HorizontalAlignment="Left"
-                                                Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{Binding FromFormatted}"/>
-                                            <TextBlock
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                Style="{StaticResource BodyTextBlockStyle}"
-                                                Text=" - "/>
-                                            <TextBlock
-                                                HorizontalAlignment="Left"
-                                                Style="{StaticResource BodyTextBlockStyle}"
-                                                Text="{Binding ToFormatted}"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </SplitView.Pane>
-                    <SplitView.Content>
+                                                Background="{StaticResource CardBackgroundFillColorDefault}"
+                                                CornerRadius="{StaticResource CompatCornerRadiusSmall}">
+                                                <ItemsControl ItemsSource="{Binding OrangeUpList}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Margin="2">
+                                                                <shci:CachedImage
+                                                                    Width="32"
+                                                                    Height="32"
+                                                                    Source="{Binding Icon}"/>
+                                                                <TextBlock
+                                                                    Margin="0,2,0,0"
+                                                                    HorizontalAlignment="Center"
+                                                                    Text="{Binding Count}"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Border>
+                                            <Border
+                                                Grid.Row="1"
+                                                Margin="0,6,0,0"
+                                                Padding="2"
+                                                HorizontalAlignment="Right"
+                                                Background="{StaticResource CardBackgroundFillColorDefault}"
+                                                CornerRadius="{StaticResource CompatCornerRadiusSmall}">
+                                                <ItemsControl ItemsSource="{Binding PurpleUpList}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <StackPanel Orientation="Horizontal"/>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Margin="2">
+                                                                <shci:CachedImage
+                                                                    Width="32"
+                                                                    Height="32"
+                                                                    Source="{Binding Icon}"/>
+                                                                <TextBlock
+                                                                    Margin="0,2,0,0"
+                                                                    HorizontalAlignment="Center"
+                                                                    Text="{Binding Count}"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Border>
+                                            <StackPanel
+                                                Grid.Row="2"
+                                                Margin="0,6,0,8"
+                                                Opacity="0.6"
+                                                Orientation="Horizontal">
+                                                <TextBlock
+                                                    HorizontalAlignment="Left"
+                                                    Style="{StaticResource BodyTextBlockStyle}"
+                                                    Text="{Binding FromFormatted}"/>
+                                                <TextBlock
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Style="{StaticResource BodyTextBlockStyle}"
+                                                    Text=" - "/>
+                                                <TextBlock
+                                                    HorizontalAlignment="Left"
+                                                    Style="{StaticResource BodyTextBlockStyle}"
+                                                    Text="{Binding ToFormatted}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </SplitView.Pane>
+                        <SplitView.Content>
 
-                        <ScrollViewer>
-                            <StackPanel Margin="16,0,16,0">
-                                <Border
-                                    Margin="0,16,0,0"
-                                    HorizontalAlignment="Left"
-                                    BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                    BorderThickness="1"
-                                    CornerRadius="{StaticResource CompatCornerRadius}">
-                                    <shci:CachedImage MaxHeight="320" Source="{Binding SelectedHistoryWish.BannerImage}"/>
-                                </Border>
+                            <ScrollViewer>
+                                <StackPanel Margin="16,0,16,0">
+                                    <Border
+                                        Margin="0,16,0,0"
+                                        HorizontalAlignment="Left"
+                                        BorderBrush="{StaticResource CardStrokeColorDefault}"
+                                        BorderThickness="1"
+                                        CornerRadius="{StaticResource CompatCornerRadius}">
+                                        <shci:CachedImage MaxHeight="320" Source="{Binding SelectedHistoryWish.BannerImage}"/>
+                                    </Border>
 
-                                <TextBlock
-                                    Margin="0,16,0,8"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="五星"/>
-                                <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}" SelectionMode="None">
-                                    <GridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <shvc:ItemIcon
-                                                    Badge="{Binding Badge}"
-                                                    Icon="{Binding Icon}"
-                                                    Quality="{Binding Quality}"/>
-                                                <Border
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Background="#80000000"
-                                                    CornerRadius="0,6,0,6">
-                                                    <TextBlock
-                                                        Margin="6,0,6,2"
-                                                        Foreground="#FFFFFFFF"
-                                                        Text="{Binding Count}"/>
-                                                </Border>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GridView.ItemTemplate>
-                                </GridView>
+                                    <TextBlock
+                                        Margin="0,16,0,8"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="五星"
+                                        Visibility="{Binding SelectedHistoryWish.OrangeList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                                    <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}" SelectionMode="None">
+                                        <GridView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <shvc:ItemIcon
+                                                        Badge="{Binding Badge}"
+                                                        Icon="{Binding Icon}"
+                                                        Quality="{Binding Quality}"/>
+                                                    <Border
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        Background="#80000000"
+                                                        CornerRadius="0,6,0,6">
+                                                        <TextBlock
+                                                            Margin="6,0,6,2"
+                                                            Foreground="#FFFFFFFF"
+                                                            Text="{Binding Count}"/>
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
 
-                                <TextBlock
-                                    Margin="0,0,0,8"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="四星"/>
-                                <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}" SelectionMode="None">
-                                    <GridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <shvc:ItemIcon
-                                                    Badge="{Binding Badge}"
-                                                    Icon="{Binding Icon}"
-                                                    Quality="{Binding Quality}"/>
-                                                <Border
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Background="#80000000"
-                                                    CornerRadius="0,6,0,6">
-                                                    <TextBlock
-                                                        Margin="6,0,6,2"
-                                                        Foreground="#FFFFFFFF"
-                                                        Text="{Binding Count}"/>
-                                                </Border>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GridView.ItemTemplate>
-                                </GridView>
+                                    <TextBlock
+                                        Margin="0,0,0,8"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="四星"
+                                        Visibility="{Binding SelectedHistoryWish.PurpleList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                                    <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}" SelectionMode="None">
+                                        <GridView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <shvc:ItemIcon
+                                                        Badge="{Binding Badge}"
+                                                        Icon="{Binding Icon}"
+                                                        Quality="{Binding Quality}"/>
+                                                    <Border
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        Background="#80000000"
+                                                        CornerRadius="0,6,0,6">
+                                                        <TextBlock
+                                                            Margin="6,0,6,2"
+                                                            Foreground="#FFFFFFFF"
+                                                            Text="{Binding Count}"/>
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
 
-                                <TextBlock
-                                    Margin="0,0,0,8"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="三星"/>
-                                <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}" SelectionMode="None">
-                                    <GridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <shvc:ItemIcon
-                                                    Badge="{Binding Badge}"
-                                                    Icon="{Binding Icon}"
-                                                    Quality="{Binding Quality}"/>
-                                                <Border
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Top"
-                                                    Background="#80000000"
-                                                    CornerRadius="0,6,0,6">
-                                                    <TextBlock
-                                                        Margin="6,0,6,2"
-                                                        Foreground="#FFFFFFFF"
-                                                        Text="{Binding Count}"/>
-                                                </Border>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </GridView.ItemTemplate>
-                                </GridView>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </SplitView.Content>
-                </SplitView>
-            </PivotItem>
-            <PivotItem Header="角色">
-                <ScrollViewer>
-                    <StackPanel Margin="16,0,16,0">
-                        <TextBlock
-                            Margin="0,16,0,8"
-                            Style="{StaticResource BaseTextBlockStyle}"
-                            Text="五星"/>
-                        <GridView ItemsSource="{Binding Statistics.OrangeAvatars}" SelectionMode="None">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <shvc:ItemIcon
-                                            Badge="{Binding Badge}"
-                                            Icon="{Binding Icon}"
-                                            Quality="{Binding Quality}"/>
-                                        <Border
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
-                                            Background="#80000000"
-                                            CornerRadius="0,6,0,6">
-                                            <TextBlock
-                                                Margin="6,0,6,2"
-                                                Foreground="#FFFFFFFF"
-                                                Text="{Binding Count}"/>
-                                        </Border>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
+                                    <TextBlock
+                                        Margin="0,0,0,8"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="三星"
+                                        Visibility="{Binding SelectedHistoryWish.BlueList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                                    <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}" SelectionMode="None">
+                                        <GridView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <shvc:ItemIcon
+                                                        Badge="{Binding Badge}"
+                                                        Icon="{Binding Icon}"
+                                                        Quality="{Binding Quality}"/>
+                                                    <Border
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        Background="#80000000"
+                                                        CornerRadius="0,6,0,6">
+                                                        <TextBlock
+                                                            Margin="6,0,6,2"
+                                                            Foreground="#FFFFFFFF"
+                                                            Text="{Binding Count}"/>
+                                                    </Border>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </GridView.ItemTemplate>
+                                    </GridView>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </SplitView.Content>
+                    </SplitView>
+                </PivotItem>
+                <PivotItem Header="角色">
+                    <ScrollViewer>
+                        <StackPanel Margin="16,0,16,0">
+                            <TextBlock
+                                Margin="0,16,0,8"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="五星"/>
+                            <GridView ItemsSource="{Binding Statistics.OrangeAvatars}" SelectionMode="None">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <shvc:ItemIcon
+                                                Badge="{Binding Badge}"
+                                                Icon="{Binding Icon}"
+                                                Quality="{Binding Quality}"/>
+                                            <Border
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Background="#80000000"
+                                                CornerRadius="0,6,0,6">
+                                                <TextBlock
+                                                    Margin="6,0,6,2"
+                                                    Foreground="#FFFFFFFF"
+                                                    Text="{Binding Count}"/>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
 
-                        <TextBlock
-                            Margin="0,0,0,8"
-                            Style="{StaticResource BaseTextBlockStyle}"
-                            Text="四星"/>
-                        <GridView ItemsSource="{Binding Statistics.PurpleAvatars}" SelectionMode="None">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <shvc:ItemIcon
-                                            Badge="{Binding Badge}"
-                                            Icon="{Binding Icon}"
-                                            Quality="{Binding Quality}"/>
-                                        <Border
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
-                                            Background="#80000000"
-                                            CornerRadius="0,6,0,6">
-                                            <TextBlock
-                                                Margin="6,0,6,2"
-                                                Foreground="#FFFFFFFF"
-                                                Text="{Binding Count}"/>
-                                        </Border>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </StackPanel>
-                </ScrollViewer>
-            </PivotItem>
-            <PivotItem Header="武器">
-                <ScrollViewer>
-                    <StackPanel Margin="16,0,16,0">
-                        <TextBlock
-                            Margin="0,16,0,8"
-                            Style="{StaticResource BaseTextBlockStyle}"
-                            Text="五星"/>
-                        <GridView ItemsSource="{Binding Statistics.OrangeWeapons}" SelectionMode="None">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <shvc:ItemIcon
-                                            Badge="{Binding Badge}"
-                                            Icon="{Binding Icon}"
-                                            Quality="{Binding Quality}"/>
-                                        <Border
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
-                                            Background="#80000000"
-                                            CornerRadius="0,6,0,6">
-                                            <TextBlock
-                                                Margin="6,0,6,2"
-                                                Foreground="#FFFFFFFF"
-                                                Text="{Binding Count}"/>
-                                        </Border>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="四星"/>
+                            <GridView ItemsSource="{Binding Statistics.PurpleAvatars}" SelectionMode="None">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <shvc:ItemIcon
+                                                Badge="{Binding Badge}"
+                                                Icon="{Binding Icon}"
+                                                Quality="{Binding Quality}"/>
+                                            <Border
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Background="#80000000"
+                                                CornerRadius="0,6,0,6">
+                                                <TextBlock
+                                                    Margin="6,0,6,2"
+                                                    Foreground="#FFFFFFFF"
+                                                    Text="{Binding Count}"/>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </StackPanel>
+                    </ScrollViewer>
+                </PivotItem>
+                <PivotItem Header="武器">
+                    <ScrollViewer>
+                        <StackPanel Margin="16,0,16,0">
+                            <TextBlock
+                                Margin="0,16,0,8"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="五星"/>
+                            <GridView ItemsSource="{Binding Statistics.OrangeWeapons}" SelectionMode="None">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <shvc:ItemIcon
+                                                Badge="{Binding Badge}"
+                                                Icon="{Binding Icon}"
+                                                Quality="{Binding Quality}"/>
+                                            <Border
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Background="#80000000"
+                                                CornerRadius="0,6,0,6">
+                                                <TextBlock
+                                                    Margin="6,0,6,2"
+                                                    Foreground="#FFFFFFFF"
+                                                    Text="{Binding Count}"/>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
 
-                        <TextBlock
-                            Margin="0,0,0,8"
-                            Style="{StaticResource BaseTextBlockStyle}"
-                            Text="四星"/>
-                        <GridView ItemsSource="{Binding Statistics.PurpleWeapons}" SelectionMode="None">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <shvc:ItemIcon
-                                            Badge="{Binding Badge}"
-                                            Icon="{Binding Icon}"
-                                            Quality="{Binding Quality}"/>
-                                        <Border
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
-                                            Background="#80000000"
-                                            CornerRadius="0,6,0,6">
-                                            <TextBlock
-                                                Margin="6,0,6,2"
-                                                Foreground="#FFFFFFFF"
-                                                Text="{Binding Count}"/>
-                                        </Border>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="四星"/>
+                            <GridView ItemsSource="{Binding Statistics.PurpleWeapons}" SelectionMode="None">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <shvc:ItemIcon
+                                                Badge="{Binding Badge}"
+                                                Icon="{Binding Icon}"
+                                                Quality="{Binding Quality}"/>
+                                            <Border
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Background="#80000000"
+                                                CornerRadius="0,6,0,6">
+                                                <TextBlock
+                                                    Margin="6,0,6,2"
+                                                    Foreground="#FFFFFFFF"
+                                                    Text="{Binding Count}"/>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
 
-                        <TextBlock
-                            Margin="0,0,0,8"
-                            Style="{StaticResource BaseTextBlockStyle}"
-                            Text="三星"/>
-                        <GridView ItemsSource="{Binding Statistics.BlueWeapons}" SelectionMode="None">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <shvc:ItemIcon
-                                            Badge="{Binding Badge}"
-                                            Icon="{Binding Icon}"
-                                            Quality="{Binding Quality}"/>
-                                        <Border
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Top"
-                                            Background="#80000000"
-                                            CornerRadius="0,6,0,6">
-                                            <TextBlock
-                                                Margin="6,0,6,2"
-                                                Foreground="#FFFFFFFF"
-                                                Text="{Binding Count}"/>
-                                        </Border>
-                                    </Grid>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
-                    </StackPanel>
-                </ScrollViewer>
-            </PivotItem>
-        </Pivot>
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="三星"/>
+                            <GridView ItemsSource="{Binding Statistics.BlueWeapons}" SelectionMode="None">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <shvc:ItemIcon
+                                                Badge="{Binding Badge}"
+                                                Icon="{Binding Icon}"
+                                                Quality="{Binding Quality}"/>
+                                            <Border
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top"
+                                                Background="#80000000"
+                                                CornerRadius="0,6,0,6">
+                                                <TextBlock
+                                                    Margin="6,0,6,2"
+                                                    Foreground="#FFFFFFFF"
+                                                    Text="{Binding Count}"/>
+                                            </Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </StackPanel>
+                    </ScrollViewer>
+                </PivotItem>
+            </Pivot>
+        </Grid>
+        <Grid Visibility="{Binding Statistics, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <shci:CachedImage
+                    Width="120"
+                    Height="120"
+                    Source="{StaticResource UI_EmotionIcon71}"/>
+                <TextBlock
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="尚未获取任何祈愿记录"/>
+                <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
+                    <wsc:Setting
+                        Description="使用当前账号的Cookie信息刷新祈愿记录"
+                        Header="Stoken 刷新"
+                        Icon="{shcm:FontIcon Glyph=&#xE192;}">
+                        <Button Command="{Binding RefreshByStokenCommand}" Content="获取"/>
+                    </wsc:Setting>
+                    <wsc:Setting
+                        Description="使用游戏内浏览器的网页缓存刷新祈愿记录"
+                        Header="网页缓存刷新"
+                        Icon="{shcm:FontIcon Glyph=&#xE81E;}">
+                        <Button Command="{Binding RefreshByWebCacheCommand}" Content="获取"/>
+                    </wsc:Setting>
+                    <wsc:Setting
+                        Description="使用由你提供的 Url 刷新祈愿记录"
+                        Header="手动输入 Url"
+                        Icon="{shcm:FontIcon Glyph=&#xE765;}">
+                        <Button Command="{Binding RefreshByManualInputCommand}" Content="输入"/>
+                    </wsc:Setting>
+                    <wsc:Setting
+                        Description="导入从其他 App 中导出的数据"
+                        Header="导入 UIGF Json"
+                        Icon="{shcm:FontIcon Glyph=&#xE8B5;}">
+                        <Button Command="{Binding ImportFromUIGFJsonCommand}" Content="导入"/>
+                    </wsc:Setting>
+                </wsc:SettingsGroup>
+            </StackPanel>
+        </Grid>
     </Grid>
 </shc:ScopedPage>

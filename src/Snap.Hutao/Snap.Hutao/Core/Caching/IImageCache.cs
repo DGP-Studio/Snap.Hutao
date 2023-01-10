@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Windows.Storage;
-
 namespace Snap.Hutao.Core.Caching;
 
 /// <summary>
@@ -12,23 +10,20 @@ namespace Snap.Hutao.Core.Caching;
 internal interface IImageCache
 {
     /// <summary>
-    /// Gets the StorageFile containing cached item for given Uri
+    /// Gets the file path containing cached item for given Uri
     /// </summary>
     /// <param name="uri">Uri of the item.</param>
-    /// <returns>a StorageFile</returns>
-    Task<StorageFile> GetFileFromCacheAsync(Uri uri);
+    /// <returns>a string path</returns>
+    Task<string> GetFileFromCacheAsync(Uri uri);
 
     /// <summary>
     /// Removed items based on uri list passed
     /// </summary>
     /// <param name="uriForCachedItems">Enumerable uri list</param>
-    /// <returns>awaitable Task</returns>
-    Task RemoveAsync(IEnumerable<Uri> uriForCachedItems);
+    void Remove(IEnumerable<Uri> uriForCachedItems);
 
     /// <summary>
-    /// Removes cached files that have expired
+    /// Removes invalid cached files
     /// </summary>
-    /// <param name="duration">Optional timespan to compute whether file has expired or not. If no value is supplied, <see cref="CacheDuration"/> is used.</param>
-    /// <returns>awaitable task</returns>
-    Task RemoveExpiredAsync(TimeSpan? duration = null);
+    void RemoveInvalid();
 }

@@ -7,7 +7,6 @@ namespace Snap.Hutao.Message;
 /// 值变化消息
 /// </summary>
 /// <typeparam name="TValue">值的类型</typeparam>
-[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
 internal abstract class ValueChangedMessage<TValue>
     where TValue : class
 {

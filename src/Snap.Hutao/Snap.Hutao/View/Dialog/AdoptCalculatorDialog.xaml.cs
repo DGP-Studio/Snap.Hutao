@@ -24,11 +24,11 @@ public sealed partial class AdoptCalculatorDialog : ContentDialog
     /// 构造一个新的养成计算器对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public AdoptCalculatorDialog(Window window)
+    public AdoptCalculatorDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
         scope = Ioc.Default.CreateScope();
+        XamlRoot = scope.ServiceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     private void OnGridLoaded(object sender, RoutedEventArgs e)

@@ -204,8 +204,9 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
             if (userService.Current != null)
             {
-                MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(mainWindow, avatar.ToCalculable(), avatar.Weapon.ToCalculable())
+                // ContentDialog must be created by main thread.
+                await ThreadHelper.SwitchToMainThreadAsync();
+                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(avatar.ToCalculable(), avatar.Weapon.ToCalculable())
                     .GetPromotionDeltaAsync()
                     .ConfigureAwait(false);
 

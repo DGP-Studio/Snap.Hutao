@@ -107,6 +107,15 @@
                             </RadioButtons>
                             <wsc:SettingsGroup Margin="0,-16,0,0" Header="通知">
                                 <wsc:Setting
+                                    Description="在我游玩原神时不通知我"
+                                    Header="免打扰模式"
+                                    Icon="&#xE7ED;">
+                                    <ToggleSwitch
+                                        Margin="24,0,0,0"
+                                        IsOn="{Binding IsSilentWhenPlayingGame, Mode=TwoWay}"
+                                        Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                                </wsc:Setting>
+                                <wsc:Setting
                                     Description="防止通知自动收入操作中心"
                                     Header="提醒通知"
                                     Icon="&#xEA8F;">
@@ -134,11 +143,8 @@
                         <Border
                             Margin="16,16,16,0"
                             Padding="8"
-                            Background="{StaticResource CardBackgroundFillColorSecondary}"
-                            BorderBrush="{StaticResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="{StaticResource CompatCornerRadius}">
-                            <Grid Background="Transparent">
+                            Style="{StaticResource BorderCardStyle}">
+                            <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>

@@ -1,0 +1,23 @@
+﻿<cwuc:Loading
+    x:Class="Snap.Hutao.View.Control.LoadingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
+    mc:Ignorable="d">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <shci:CachedImage
+            Width="120"
+            Height="120"
+            Source="{StaticResource UI_EmotionIcon272}"/>
+        <TextBlock
+            Margin="0,16,0,0"
+            HorizontalAlignment="Center"
+            Style="{StaticResource SubtitleTextBlockStyle}"
+            Text="加载中，请稍候"/>
+        <ProgressRing Margin="0,16,0,0" IsActive="True"/>
+    </StackPanel>
+</cwuc:Loading>

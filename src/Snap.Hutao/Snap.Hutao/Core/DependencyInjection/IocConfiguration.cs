@@ -3,7 +3,6 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Context.FileSystem;
 using Snap.Hutao.Model.Entity.Database;
 using System.Diagnostics;
 
@@ -31,9 +30,7 @@ internal static class IocConfiguration
     /// <returns>可继续操作的集合</returns>
     public static IServiceCollection AddDatebase(this IServiceCollection services)
     {
-        HutaoContext myDocument = new(new());
-
-        string dbFile = myDocument.Locate("Userdata.db");
+        string dbFile = System.IO.Path.Combine(CoreEnvironment.DataFolder, "Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";
 
         // temporarily create a context

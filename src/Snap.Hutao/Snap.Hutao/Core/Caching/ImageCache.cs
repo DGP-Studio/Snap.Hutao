@@ -10,7 +10,6 @@ using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -20,11 +19,10 @@ namespace Snap.Hutao.Core.Caching;
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 [HttpClient(HttpClientConfigration.Default)]
-[PrimaryHttpMessageHandler(MaxConnectionsPerServer = 16)]
-[SuppressMessage("", "CA1001")]
-public class ImageCache : IImageCache
+[PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
+public class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
-    private const string DateAccessedProperty = "System.DateAccessed";
+    private const string CacheFolderName = nameof(ImageCache);
 
     private static readonly ImmutableDictionary<int, TimeSpan> RetryCountToDelay = new Dictionary<int, TimeSpan>()
     {
@@ -36,17 +34,13 @@ public class ImageCache : IImageCache
         [5] = TimeSpan.FromSeconds(64),
     }.ToImmutableDictionary();
 
-    private readonly List<string> extendedPropertyNames = new() { DateAccessedProperty };
-
-    private readonly SemaphoreSlim cacheFolderSemaphore = new(1);
     private readonly ILogger logger;
 
     // violate di rule
     private readonly HttpClient httpClient;
 
-    private StorageFolder? baseFolder;
-    private string? cacheFolderName;
-    private StorageFolder? cacheFolder;
+    private string? baseFolder;
+    private string? cacheFolder;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ImageCache"/> class.
@@ -57,115 +51,84 @@ public class ImageCache : IImageCache
     {
         this.logger = logger;
         httpClient = httpClientFactory.CreateClient(nameof(ImageCache));
-
-        CacheDuration = TimeSpan.FromDays(30);
-        RetryCount = 3;
     }
 
-    /// <summary>
-    /// Gets or sets the life duration of every cache entry.
-    /// </summary>
-    public TimeSpan CacheDuration { get; }
-
-    /// <summary>
-    /// Gets or sets the number of retries trying to ensure the file is cached.
-    /// </summary>
-    public uint RetryCount { get; }
-
-    /// <summary>
-    /// Clears all files in the cache
-    /// </summary>
-    /// <returns>awaitable task</returns>
-    public async Task ClearAsync()
+    /// <inheritdoc/>
+    public void RemoveInvalid()
     {
-        StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
-        IReadOnlyList<StorageFile> files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
+        string folder = GetCacheFolder();
+        string[] files = Directory.GetFiles(folder);
 
-        await RemoveAsync(files).ConfigureAwait(false);
-    }
+        List<string> filesToDelete = new();
 
-    /// <summary>
-    /// Removes cached files that have expired
-    /// </summary>
-    /// <param name="duration">Optional timespan to compute whether file has expired or not. If no value is supplied, <see cref="CacheDuration"/> is used.</param>
-    /// <returns>awaitable task</returns>
-    public async Task RemoveExpiredAsync(TimeSpan? duration = null)
-    {
-        TimeSpan expiryDuration = duration ?? CacheDuration;
-
-        StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
-        IReadOnlyList<StorageFile> files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
-
-        List<StorageFile> filesToDelete = new();
-
-        foreach (StorageFile file in files)
+        foreach (string file in files)
         {
-            if (file == null)
-            {
-                continue;
-            }
-
-            if (await IsFileOutOfDateAsync(file, expiryDuration, false).ConfigureAwait(false))
+            if (IsFileInvalid(file, false))
             {
                 filesToDelete.Add(file);
             }
         }
 
-        await RemoveAsync(filesToDelete).ConfigureAwait(false);
+        RemoveInternal(filesToDelete);
     }
 
-    /// <summary>
-    /// Removed items based on uri list passed
-    /// </summary>
-    /// <param name="uriForCachedItems">Enumerable uri list</param>
-    /// <returns>awaitable Task</returns>
-    public async Task RemoveAsync(IEnumerable<Uri> uriForCachedItems)
+    /// <inheritdoc/>
+    public void Remove(IEnumerable<Uri> uriForCachedItems)
     {
         if (uriForCachedItems == null || !uriForCachedItems.Any())
         {
             return;
         }
 
-        StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
-        IReadOnlyList<StorageFile> files = await folder.GetFilesAsync().AsTask().ConfigureAwait(false);
+        string folder = GetCacheFolder();
+        string[] files = Directory.GetFiles(folder);
 
-        List<StorageFile> filesToDelete = new();
-
-        Dictionary<string, StorageFile> cachedFiles = files.ToDictionary(file => file.Name);
+        List<string> filesToDelete = new();
 
         foreach (Uri uri in uriForCachedItems)
         {
-            string fileName = GetCacheFileName(uri);
-            if (cachedFiles.TryGetValue(fileName, out StorageFile? file))
+            string filePath = Path.Combine(folder, GetCacheFileName(uri));
+            if (files.Contains(filePath))
             {
-                filesToDelete.Add(file);
+                filesToDelete.Add(filePath);
             }
         }
 
-        await RemoveAsync(filesToDelete).ConfigureAwait(false);
+        RemoveInternal(filesToDelete);
     }
 
-    /// <summary>
-    /// Gets the StorageFile containing cached item for given Uri
-    /// </summary>
-    /// <param name="uri">Uri of the item.</param>
-    /// <returns>a StorageFile</returns>
-    public async Task<StorageFile> GetFileFromCacheAsync(Uri uri)
+    /// <inheritdoc/>
+    public async Task<string> GetFileFromCacheAsync(Uri uri)
     {
-        StorageFolder folder = await GetCacheFolderAsync().ConfigureAwait(false);
+        string filePath = Path.Combine(GetCacheFolder(), GetCacheFileName(uri));
 
-        string fileName = GetCacheFileName(uri);
-
-        IStorageItem? item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
-
-        if (item == null || (await item.GetBasicPropertiesAsync()).Size == 0)
+        if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
         {
-            StorageFile baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(false);
-            await DownloadFileAsync(uri, baseFile).ConfigureAwait(false);
-            item = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false);
+            await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
         }
 
-        return Must.NotNull((item as StorageFile)!);
+        return filePath;
+    }
+
+    /// <inheritdoc/>
+    public string GetFilePathFromCategoryAndFileName(string category, string fileName)
+    {
+        Uri dummyUri = new(Web.HutaoEndpoints.StaticFile(category, fileName));
+        return Path.Combine(GetCacheFolder(), GetCacheFileName(dummyUri));
+    }
+
+    private static void RemoveInternal(IEnumerable<string> filePaths)
+    {
+        foreach (string filePath in filePaths)
+        {
+            try
+            {
+                File.Delete(filePath);
+            }
+            catch
+            {
+            }
+        }
     }
 
     private static string GetCacheFileName(Uri uri)
@@ -176,48 +139,19 @@ public class ImageCache : IImageCache
         return System.Convert.ToHexString(hash);
     }
 
-    /// <summary>
-    /// Override-able method that checks whether file is valid or not.
-    /// </summary>
-    /// <param name="file">storage file</param>
-    /// <param name="duration">cache duration</param>
-    /// <param name="treatNullFileAsOutOfDate">option to mark uninitialized file as expired</param>
-    /// <returns>bool indicate whether file has expired or not</returns>
-    private async Task<bool> IsFileOutOfDateAsync(StorageFile file, TimeSpan duration, bool treatNullFileAsOutOfDate = true)
+    private static bool IsFileInvalid(string file, bool treatNullFileAsInvalid = true)
     {
-        if (file == null)
+        if (!File.Exists(file))
         {
-            return treatNullFileAsOutOfDate;
+            return treatNullFileAsInvalid;
         }
 
         // Get extended properties.
-        IDictionary<string, object> extraProperties = await file.Properties
-            .RetrievePropertiesAsync(extendedPropertyNames)
-            .AsTask()
-            .ConfigureAwait(false);
-
-        // Get date-accessed property.
-        object? propValue = extraProperties[DateAccessedProperty];
-
-        if (propValue != null)
-        {
-            DateTimeOffset? lastAccess = propValue as DateTimeOffset?;
-
-            if (lastAccess.HasValue)
-            {
-                return DateTime.Now.Subtract(lastAccess.Value.DateTime) > duration;
-            }
-        }
-
-        BasicProperties properties = await file
-            .GetBasicPropertiesAsync()
-            .AsTask()
-            .ConfigureAwait(false);
-
-        return properties.Size == 0 || DateTime.Now.Subtract(properties.DateModified.DateTime) > duration;
+        FileInfo fileInfo = new(file);
+        return fileInfo.Length == 0;
     }
 
-    private async Task DownloadFileAsync(Uri uri, StorageFile baseFile)
+    private async Task DownloadFileAsync(Uri uri, string baseFile)
     {
         logger.LogInformation(EventIds.FileCaching, "Begin downloading for {uri}", uri);
 
@@ -230,18 +164,23 @@ public class ImageCache : IImageCache
                 {
                     using (Stream httpStream = await message.Content.ReadAsStreamAsync().ConfigureAwait(false))
                     {
-                        using (FileStream fileStream = File.Create(baseFile.Path))
+                        using (FileStream fileStream = File.Create(baseFile))
                         {
                             await httpStream.CopyToAsync(fileStream).ConfigureAwait(false);
                             return;
                         }
                     }
                 }
+                else if (message.StatusCode == HttpStatusCode.NotFound)
+                {
+                    // directly goto https://static.hut.ao
+                    retryCount = 3;
+                }
                 else if (message.StatusCode == HttpStatusCode.TooManyRequests)
                 {
                     retryCount++;
                     TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
-                    logger.LogInformation("Retry after {delay}.", delay);
+                    logger.LogInformation("Retry {uri} after {delay}.", uri, delay);
                     await Task.Delay(delay).ConfigureAwait(false);
                 }
                 else
@@ -252,61 +191,20 @@ public class ImageCache : IImageCache
 
             if (retryCount == 3)
             {
-                uri = new UriBuilder(uri) { Host = "static.hut.ao", }.Uri;
+                uri = new UriBuilder(uri) { Host = Web.HutaoEndpoints.StaticHutao, }.Uri;
             }
         }
     }
 
-    /// <summary>
-    /// Initializes with default values if user has not initialized explicitly
-    /// </summary>
-    /// <returns>awaitable task</returns>
-    private async Task InitializeInternalAsync()
-    {
-        if (cacheFolder != null)
-        {
-            return;
-        }
-
-        using (await cacheFolderSemaphore.EnterAsync().ConfigureAwait(false))
-        {
-            baseFolder ??= ApplicationData.Current.TemporaryFolder;
-
-            if (string.IsNullOrWhiteSpace(cacheFolderName))
-            {
-                cacheFolderName = GetType().Name;
-            }
-
-            cacheFolder = await baseFolder
-                .CreateFolderAsync(cacheFolderName, CreationCollisionOption.OpenIfExists)
-                .AsTask()
-                .ConfigureAwait(false);
-        }
-    }
-
-    private async Task<StorageFolder> GetCacheFolderAsync()
+    private string GetCacheFolder()
     {
         if (cacheFolder == null)
         {
-            await InitializeInternalAsync().ConfigureAwait(false);
+            baseFolder ??= ApplicationData.Current.LocalCacheFolder.Path;
+            DirectoryInfo info = Directory.CreateDirectory(Path.Combine(baseFolder, CacheFolderName));
+            cacheFolder = info.FullName;
         }
 
-        return Must.NotNull(cacheFolder!);
-    }
-
-    private async Task RemoveAsync(IEnumerable<StorageFile> files)
-    {
-        foreach (StorageFile file in files)
-        {
-            try
-            {
-                logger.LogInformation(EventIds.CacheRemoveFile, "Removing file {file}", file.Path);
-                await file.DeleteAsync().AsTask().ConfigureAwait(false);
-            }
-            catch
-            {
-                logger.LogError(EventIds.CacheException, "Failed to delete file: {file}", file.Path);
-            }
-        }
+        return cacheFolder!;
     }
 }

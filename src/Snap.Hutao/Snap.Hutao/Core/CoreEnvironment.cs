@@ -5,6 +5,9 @@ using Microsoft.Win32;
 using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Web.Hoyolab.DynamicSecret;
+using System.Collections.Immutable;
+using System.IO;
 using System.Text.Json.Serialization.Metadata;
 using Windows.ApplicationModel;
 
@@ -28,7 +31,20 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
-    public const string HoyolabXrpcVersion = "2.42.1";
+    public const string HoyolabXrpcVersion = "2.43.1";
+
+    /// <summary>
+    /// 盐
+    /// </summary>
+    // https://github.com/UIGF-org/Hoyolab.Salt
+    public static readonly ImmutableDictionary<string, string> DynamicSecrets = new Dictionary<string, string>()
+    {
+        [nameof(SaltType.K2)] = "ODzG1Jrn6zebX19VRmaJwjFI2CDvBUGq",
+        [nameof(SaltType.LK2)] = "V1PYbXKQY7ysdx3MNCcNbsE1LtY2QZpW",
+        [nameof(SaltType.X4)] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
+        [nameof(SaltType.X6)] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
+        [nameof(SaltType.PROD)] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
+    }.ToImmutableDictionary();
 
     /// <summary>
     /// 标准UA
@@ -56,6 +72,11 @@ internal static class CoreEnvironment
     public static readonly string FamilyName;
 
     /// <summary>
+    /// 数据文件夹
+    /// </summary>
+    public static readonly string DataFolder;
+
+    /// <summary>
     /// 默认的Json序列化选项
     /// </summary>
     public static readonly JsonSerializerOptions JsonOptions = new()
@@ -78,6 +99,7 @@ internal static class CoreEnvironment
 
     static CoreEnvironment()
     {
+        DataFolder = GetDocumentsHutaoPath();
         Version = Package.Current.Id.Version.ToVersion();
         FamilyName = Package.Current.Id.FamilyName;
         CommonUA = $"Snap Hutao/{Version}";
@@ -92,5 +114,20 @@ internal static class CoreEnvironment
         string userName = Environment.UserName;
         object? machineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, userName);
         return Md5Convert.ToHexString($"{userName}{machineGuid}");
+    }
+
+    private static string GetDocumentsHutaoPath()
+    {
+        string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+#if RELEASE
+            // 将测试版与正式版的文件目录分离
+            string folderName = Package.Current.PublisherDisplayName == "DGP Studio CI" ? "HutaoAlpha" : "Hutao";
+#else
+        // 使得迁移能正常生成
+        string folderName = "Hutao";
+#endif
+        string path = Path.GetFullPath(Path.Combine(myDocument, folderName));
+        Directory.CreateDirectory(path);
+        return path;
     }
 }

@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 
@@ -58,6 +59,7 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
         RemoveEntryCommand = asyncRelayCommandFactory.Create<Model.Binding.Cultivation.CultivateEntry>(RemoveEntryAsync);
         SaveInventoryItemCommand = new RelayCommand<Model.Binding.Inventory.InventoryItem>(SaveInventoryItem);
         UpdateStatisticsItemsCommand = asyncRelayCommandFactory.Create(UpdateStatisticsItemsAsync);
+        NavigateToPageCommand = new RelayCommand<string>(NavigateToPage);
     }
 
     /// <inheritdoc/>
@@ -131,6 +133,11 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
     /// </summary>
     public ICommand UpdateStatisticsItemsCommand { get; }
 
+    /// <summary>
+    /// 导航到指定的页面命令
+    /// </summary>
+    public ICommand NavigateToPageCommand { get; set; }
+
     private async Task OpenUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(true))
@@ -143,8 +150,9 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
 
     private async Task AddProjectAsync()
     {
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        (bool isOk, CultivateProject project) = await new CultivateProjectDialog(mainWindow).CreateProjectAsync().ConfigureAwait(false);
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
+        (bool isOk, CultivateProject project) = await new CultivateProjectDialog().CreateProjectAsync().ConfigureAwait(false);
 
         if (isOk)
         {
@@ -154,6 +162,9 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
             {
                 case ProjectAddResult.Added:
                     infoBarService.Success($"添加成功");
+
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    SelectedProject = project;
                     break;
                 case ProjectAddResult.InvalidName:
                     infoBarService.Information($"不能添加名称无效的计划");
@@ -226,6 +237,15 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
                 await ThreadHelper.SwitchToMainThreadAsync();
                 StatisticsItems = temp;
             }
+        }
+    }
+
+    private void NavigateToPage(string? typeString)
+    {
+        if (typeString != null)
+        {
+            Type? pageType = Type.GetType(typeString);
+            Ioc.Default.GetRequiredService<INavigationService>().Navigate(pageType!, INavigationAwaiter.Default, true);
         }
     }
 }

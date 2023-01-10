@@ -107,7 +107,7 @@ internal class AvatarInfoService : IAvatarInfoService
                         EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndRole.Role.GameUid);
                         Summary summary = await GetSummaryCoreAsync(info, GetDbAvatarInfos(userAndRole.Role.GameUid), token).ConfigureAwait(false);
                         token.ThrowIfCancellationRequested();
-                        return new(RefreshResult.Ok, summary);
+                        return new(RefreshResult.Ok, summary.Avatars.Count == 0 ? null : summary);
                     }
             }
         }

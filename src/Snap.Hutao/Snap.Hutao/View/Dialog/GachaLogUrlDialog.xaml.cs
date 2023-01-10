@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.View.Dialog;
@@ -15,10 +14,10 @@ public sealed partial class GachaLogUrlDialog : ContentDialog
     /// 初始化一个新的祈愿记录Url对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public GachaLogUrlDialog(Window window)
+    public GachaLogUrlDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     /// <summary>

@@ -41,4 +41,22 @@ public class UserAndRole
     {
         return new UserAndRole(user.Entity, user.SelectedUserGameRole!);
     }
+
+    /// <summary>
+    /// 尝试转换到用户与角色
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="userAndRole">用户与角色</param>
+    /// <returns>是否转换成功</returns>
+    public static bool TryFromUser(User? user, [NotNullWhen(true)] out UserAndRole? userAndRole)
+    {
+        if (user != null && user.SelectedUserGameRole != null)
+        {
+            userAndRole = FromUser(user);
+            return true;
+        }
+
+        userAndRole = null;
+        return false;
+    }
 }

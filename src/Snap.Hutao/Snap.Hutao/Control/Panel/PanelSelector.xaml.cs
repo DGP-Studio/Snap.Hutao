@@ -11,7 +11,7 @@ namespace Snap.Hutao.Control.Panel;
 /// </summary>
 public sealed partial class PanelSelector : UserControl
 {
-    private static readonly DependencyProperty CurrentProperty = Property<PanelSelector>.Depend(nameof(Current), "List");
+    private static readonly DependencyProperty CurrentProperty = Property<PanelSelector>.Depend(nameof(Current), "List", OnCurrentChanged);
 
     /// <summary>
     /// 构造一个新的面板选择器
@@ -30,51 +30,60 @@ public sealed partial class PanelSelector : UserControl
         set => SetValue(CurrentProperty, value);
     }
 
-    private void SplitButtonLoaded(object sender, RoutedEventArgs e)
+    private static void OnCurrentChanged(PanelSelector sender, string current)
     {
-        MenuFlyout menuFlyout = (MenuFlyout)((SplitButton)sender).Flyout;
-        ((RadioMenuFlyoutItem)menuFlyout.Items[0]).IsChecked = true;
+        MenuFlyout menuFlyout = (MenuFlyout)sender.RootSplitButton.Flyout;
+        RadioMenuFlyoutItem targetItem = menuFlyout.Items
+            .Cast<RadioMenuFlyoutItem>()
+            .Single(i => (string)i.Tag == current);
+        targetItem.IsChecked = true;
+        sender.IconPresenter.Glyph = ((FontIcon)targetItem.Icon).Glyph;
+    }
+
+    private static void OnCurrentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+    {
+        OnCurrentChanged((PanelSelector)obj, (string)args.NewValue);
+    }
+
+    private void OnRootControlLoaded(object sender, RoutedEventArgs e)
+    {
+        // because the GroupName shares in global
+        // we have to impl a control scoped GroupName.
+        PanelSelector selector = (PanelSelector)sender;
+        MenuFlyout menuFlyout = (MenuFlyout)selector.RootSplitButton.Flyout;
+        int hash = GetHashCode();
+        foreach (RadioMenuFlyoutItem item in menuFlyout.Items.Cast<RadioMenuFlyoutItem>())
+        {
+            item.GroupName = $"PanelSelector{hash}Group";
+        }
+
+        OnCurrentChanged(selector, Current);
     }
 
     private void SplitButtonClick(SplitButton sender, SplitButtonClickEventArgs args)
     {
         MenuFlyout menuFlyout = (MenuFlyout)sender.Flyout;
+
         int i = 0;
         for (; i < menuFlyout.Items.Count; i++)
         {
-            RadioMenuFlyoutItem current = (RadioMenuFlyoutItem)menuFlyout.Items[i];
-            if (current.IsChecked)
+            if ((string)menuFlyout.Items[i].Tag == Current)
             {
                 break;
             }
         }
 
-        i++;
-
-        if (i > menuFlyout.Items.Count)
-        {
-            i = 1;
-        }
-
-        if (i == menuFlyout.Items.Count)
-        {
-            i = 0;
-        }
+        ++i;
+        i %= menuFlyout.Items.Count; // move the count index to 0
 
         RadioMenuFlyoutItem item = (RadioMenuFlyoutItem)menuFlyout.Items[i];
         item.IsChecked = true;
-        UpdateState(item);
+        Current = (string)item.Tag;
     }
 
     private void RadioMenuFlyoutItemClick(object sender, RoutedEventArgs e)
     {
         RadioMenuFlyoutItem item = (RadioMenuFlyoutItem)sender;
-        UpdateState(item);
-    }
-
-    private void UpdateState(RadioMenuFlyoutItem item)
-    {
         Current = (string)item.Tag;
-        IconPresenter.Glyph = ((FontIcon)item.Icon).Glyph;
     }
 }

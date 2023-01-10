@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.View.Dialog;
@@ -15,10 +14,10 @@ public sealed partial class UserDialog : ContentDialog
     /// 构造一个新的添加用户对话框
     /// </summary>
     /// <param name="window">呈现的父窗口</param>
-    public UserDialog(Window window)
+    public UserDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     /// <summary>
@@ -27,6 +26,7 @@ public sealed partial class UserDialog : ContentDialog
     /// <returns>输入的结果</returns>
     public async Task<ValueResult<bool, string>> GetInputCookieAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         string cookie = InputText.Text;
 

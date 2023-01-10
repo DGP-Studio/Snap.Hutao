@@ -6,7 +6,6 @@ WM_NCRBUTTONUP
 
 // Type definition
 CWMO_FLAGS
-HRESULT
 MINMAXINFO
 
 // COMCTL32
@@ -29,6 +28,11 @@ CoWaitForMultipleObjects
 // USER32
 FindWindowEx
 GetDpiForWindow
+
+// COM BITS
+BackgroundCopyManager
+IBackgroundCopyCallback
+IBackgroundCopyManager
 
 // WinRT
 IMemoryBufferByteAccess

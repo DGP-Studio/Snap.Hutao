@@ -73,7 +73,7 @@
                         Description="Github 上反馈的问题会优先处理"
                         Header="反馈"
                         Icon="&#xED15;">
-                        <HyperlinkButton Content="前往反馈" NavigateUri="https://hut.ao/statements/bug-report.html"/>
+                        <HyperlinkButton Content="前往反馈" NavigateUri="{StaticResource DocumentLink_BugReport}"/>
                     </wsc:Setting>
                     <wsc:SettingExpander>
                         <wsc:SettingExpander.Header>

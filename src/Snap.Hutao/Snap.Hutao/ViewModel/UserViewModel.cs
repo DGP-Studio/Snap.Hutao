@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Data.Sqlite;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
@@ -100,15 +101,25 @@ internal class UserViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        Users = await userService.GetUserCollectionAsync().ConfigureAwait(true);
-        SelectedUser = userService.Current;
+        try
+        {
+            Users = await userService.GetUserCollectionAsync().ConfigureAwait(true);
+            SelectedUser = userService.Current;
+        }
+        catch (SqliteException ex)
+        {
+            // SQLite Error 11: 'database disk image is malformed'.
+            infoBarService.Error(ex, "用户数据文件已损坏");
+        }
     }
 
     private async Task AddUserAsync()
     {
+        // ContentDialog must be created by main thread.
+        await ThreadHelper.SwitchToMainThreadAsync();
+
         // Get cookie from user input
-        MainWindow mainWindow = Ioc.Default.GetRequiredService<MainWindow>();
-        ValueResult<bool, string> result = await new UserDialog(mainWindow).GetInputCookieAsync().ConfigureAwait(false);
+        ValueResult<bool, string> result = await new UserDialog().GetInputCookieAsync().ConfigureAwait(false);
 
         // User confirms the input
         if (result.IsOk)
@@ -120,6 +131,12 @@ internal class UserViewModel : ObservableObject
             switch (optionResult)
             {
                 case UserOptionResult.Added:
+                    if (Users!.Count == 1)
+                    {
+                        await ThreadHelper.SwitchToMainThreadAsync();
+                        SelectedUser = Users.Single();
+                    }
+
                     infoBarService.Success($"用户 [{uid}] 添加成功");
                     break;
                 case UserOptionResult.Incomplete:

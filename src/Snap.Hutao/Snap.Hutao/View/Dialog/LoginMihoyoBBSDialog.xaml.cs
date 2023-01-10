@@ -15,10 +15,10 @@ public sealed partial class LoginMihoyoBBSDialog : ContentDialog
     /// 构造一个新的登录到米游社对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public LoginMihoyoBBSDialog(MainWindow window)
+    public LoginMihoyoBBSDialog()
     {
         InitializeComponent();
-        XamlRoot = window.Content.XamlRoot;
+        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     /// <summary>
@@ -27,6 +27,7 @@ public sealed partial class LoginMihoyoBBSDialog : ContentDialog
     /// <returns>账号密码</returns>
     public async Task<ValueResult<bool, Dictionary<string, string>>> GetInputAccountPasswordAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         bool result = await ShowAsync() == ContentDialogResult.Primary;
 
         Dictionary<string, string> data = new()

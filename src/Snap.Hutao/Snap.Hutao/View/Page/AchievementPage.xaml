@@ -24,208 +24,227 @@
     </mxi:Interaction.Behaviors>
 
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="252"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+        <Grid Visibility="{Binding SelectedArchive, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-            <TextBlock
-                Margin="16,0,0,2"
-                VerticalAlignment="Center"
-                Style="{StaticResource SubtitleTextBlockStyle}"
-                Text="{Binding FinishDescription}"/>
+                <TextBlock
+                    Margin="16,0,0,2"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="{Binding FinishDescription}"/>
 
-            <CommandBar Grid.Column="1" DefaultLabelPosition="Right">
+                <CommandBar Grid.Column="1" DefaultLabelPosition="Right">
 
-                <CommandBar.Content>
-                    <AutoSuggestBox
-                        Width="240"
-                        Height="36"
-                        Margin="12,6,6,0"
-                        HorizontalAlignment="Stretch"
-                        VerticalContentAlignment="Center"
-                        PlaceholderText="搜索成就名称，描述或编号"
-                        QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
-                        Text="{Binding SearchText, Mode=TwoWay}">
-                        <mxi:Interaction.Behaviors>
-                            <mxic:EventTriggerBehavior EventName="QuerySubmitted">
-                                <mxic:InvokeCommandAction Command="{Binding SearchAchievementCommand}" CommandParameter="{Binding SearchText}"/>
-                            </mxic:EventTriggerBehavior>
-                        </mxi:Interaction.Behaviors>
-                    </AutoSuggestBox>
-                </CommandBar.Content>
+                    <CommandBar.Content>
+                        <AutoSuggestBox
+                            Width="240"
+                            Height="36"
+                            Margin="12,6,6,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalContentAlignment="Center"
+                            PlaceholderText="搜索成就名称，描述或编号"
+                            QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
+                            Text="{Binding SearchText, Mode=TwoWay}">
+                            <mxi:Interaction.Behaviors>
+                                <mxic:EventTriggerBehavior EventName="QuerySubmitted">
+                                    <mxic:InvokeCommandAction Command="{Binding SearchAchievementCommand}" CommandParameter="{Binding SearchText}"/>
+                                </mxic:EventTriggerBehavior>
+                            </mxi:Interaction.Behaviors>
+                        </AutoSuggestBox>
+                    </CommandBar.Content>
 
-                <AppBarElementContainer>
-                    <ComboBox
-                        Height="36"
-                        MinWidth="120"
-                        Margin="2,6,3,6"
-                        DisplayMemberPath="Name"
-                        ItemsSource="{Binding Archives, Mode=OneWay}"
-                        SelectedItem="{Binding SelectedArchive, Mode=TwoWay}">
-                        <mxi:Interaction.Behaviors>
-                            <shcb:ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior/>
-                        </mxi:Interaction.Behaviors>
-                    </ComboBox>
-                </AppBarElementContainer>
-                <AppBarButton
-                    Command="{Binding AddArchiveCommand}"
-                    Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                    Label="创建新存档"/>
-                <AppBarButton
-                    Command="{Binding RemoveArchiveCommand}"
-                    Icon="{shcm:FontIcon Glyph=&#xE74D;}"
-                    Label="删除当前存档"/>
-                <AppBarSeparator/>
+                    <AppBarElementContainer>
+                        <ComboBox
+                            Height="36"
+                            MinWidth="120"
+                            Margin="2,6,3,6"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding Archives, Mode=OneWay}"
+                            SelectedItem="{Binding SelectedArchive, Mode=TwoWay}">
+                            <mxi:Interaction.Behaviors>
+                                <shcb:ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior/>
+                            </mxi:Interaction.Behaviors>
+                        </ComboBox>
+                    </AppBarElementContainer>
+                    <AppBarButton
+                        Command="{Binding AddArchiveCommand}"
+                        Icon="{shcm:FontIcon Glyph=&#xE710;}"
+                        Label="创建新存档"/>
+                    <AppBarButton
+                        Command="{Binding RemoveArchiveCommand}"
+                        Icon="{shcm:FontIcon Glyph=&#xE74D;}"
+                        Label="删除当前存档"/>
+                    <AppBarSeparator/>
 
-                <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="导入">
-                    <AppBarButton.Flyout>
-                        <MenuFlyout Placement="BottomEdgeAlignedRight">
-                            <MenuFlyoutItem
-                                Command="{Binding ImportUIAFFromClipboardCommand}"
-                                Icon="{shcm:FontIcon Glyph=&#xE77F;}"
-                                Text="从剪贴板导入"/>
-                            <MenuFlyoutItem
-                                Command="{Binding ImportUIAFFromFileCommand}"
-                                Icon="{shcm:FontIcon Glyph=&#xE8E5;}"
-                                Text="从 UIAF 文件导入"/>
-                        </MenuFlyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton
-                    Command="{Binding ExportAsUIAFToFileCommand}"
-                    Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
-                    Label="导出"/>
-                <AppBarSeparator/>
+                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="导入">
+                        <AppBarButton.Flyout>
+                            <MenuFlyout Placement="BottomEdgeAlignedRight">
+                                <MenuFlyoutItem
+                                    Command="{Binding ImportUIAFFromClipboardCommand}"
+                                    Icon="{shcm:FontIcon Glyph=&#xE77F;}"
+                                    Text="从剪贴板导入"/>
+                                <MenuFlyoutItem
+                                    Command="{Binding ImportUIAFFromFileCommand}"
+                                    Icon="{shcm:FontIcon Glyph=&#xE8E5;}"
+                                    Text="从 UIAF 文件导入"/>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton
+                        Command="{Binding ExportAsUIAFToFileCommand}"
+                        Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
+                        Label="导出"/>
+                    <AppBarSeparator/>
 
-                <AppBarToggleButton
-                    Command="{Binding SortIncompletedSwitchCommand}"
-                    Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
-                    IsChecked="{Binding IsIncompletedItemsFirst}"
-                    Label="优先未完成"/>
-            </CommandBar>
-        </Grid>
+                    <AppBarToggleButton
+                        Command="{Binding SortIncompletedSwitchCommand}"
+                        Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
+                        IsChecked="{Binding IsIncompletedItemsFirst}"
+                        Label="优先未完成"/>
+                </CommandBar>
+            </Grid>
 
-        <SplitView
-            Grid.Row="1"
-            DisplayMode="Inline"
-            IsPaneOpen="True"
-            OpenPaneLength="252"
-            PaneBackground="Transparent">
-            <SplitView.Pane>
-                <ListView
-                    ItemsSource="{Binding AchievementGoals}"
-                    SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
-                    SelectionMode="Single">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,6">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="36"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <shci:CachedImage
-                                    Grid.Column="0"
-                                    Width="36"
-                                    Height="36"
-                                    Source="{Binding Icon}"/>
-                                <StackPanel Grid.Column="1" Margin="12,0,0,2">
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                                    <TextBlock
-                                        Margin="0,2,0,0"
-                                        VerticalAlignment="Center"
-                                        Opacity="0.7"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding FinishDescription}"/>
-                                    <ProgressBar
-                                        Height="1"
-                                        MinHeight="1"
-                                        Margin="0,4,0,0"
-                                        Maximum="1"
-                                        Value="{Binding FinishPercent}"/>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </SplitView.Pane>
-
-            <SplitView.Content>
-                <ScrollViewer Padding="0,0,16,0">
-                    <ItemsControl
-                        Margin="16,0,0,16"
-                        ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
-                        ItemsSource="{Binding Achievements}">
-                        <ItemsControl.ItemTemplate>
+            <SplitView
+                Grid.Row="1"
+                DisplayMode="Inline"
+                IsPaneOpen="True"
+                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
+                PaneBackground="Transparent">
+                <SplitView.Pane>
+                    <ListView
+                        ItemsSource="{Binding AchievementGoals}"
+                        SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid
-                                    MinHeight="48"
-                                    Margin="0,8,0,0"
-                                    Padding="8"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Background="{ThemeResource CardBackgroundBrush}"
-                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                    BorderThickness="{ThemeResource CardBorderThickness}"
-                                    CornerRadius="{ThemeResource ControlCornerRadius}">
+                                <Grid Margin="0,6">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="36"/>
+                                        <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-
-                                    <CheckBox
-                                        Grid.Column="1"
-                                        Margin="6,0,12,0"
-                                        Padding="16,0,0,0"
-                                        Command="{Binding Path=DataContext.SaveAchievementCommand, Source={StaticResource BindingProxy}}"
-                                        CommandParameter="{Binding}"
-                                        IsChecked="{Binding IsChecked, Mode=TwoWay}"
-                                        Style="{StaticResource DefaultCheckBoxStyle}">
-                                        <CheckBox.Content>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Inner.Title}"/>
-                                                <TextBlock
-                                                    Margin="0,2,0,0"
-                                                    Style="{StaticResource SecondaryTextStyle}"
-                                                    Text="{Binding Inner.Description}"
-                                                    TextTrimming="CharacterEllipsis"/>
-                                            </StackPanel>
-                                        </CheckBox.Content>
-                                    </CheckBox>
-                                    <Grid Grid.Column="3">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="32"/>
-                                        </Grid.ColumnDefinitions>
+                                    <shci:CachedImage
+                                        Grid.Column="0"
+                                        Width="36"
+                                        Height="36"
+                                        Source="{Binding Icon}"/>
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,2">
+                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
                                         <TextBlock
-                                            Grid.Column="0"
-                                            Margin="12,0,12,0"
+                                            Margin="0,2,0,0"
                                             VerticalAlignment="Center"
-                                            Text="{Binding Time}"
-                                            Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                        <Image
-                                            Grid.Column="1"
-                                            Height="32"
-                                            Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
-                                        <TextBlock
-                                            Grid.Column="2"
-                                            Margin="12,0,0,0"
-                                            VerticalAlignment="Center"
-                                            Text="{Binding Inner.FinishReward.Count}"/>
-                                    </Grid>
+                                            Opacity="0.7"
+                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                            Text="{Binding FinishDescription}"/>
+                                        <ProgressBar
+                                            Margin="0,4,0,0"
+                                            Maximum="1"
+                                            Value="{Binding FinishPercent}"/>
+                                    </StackPanel>
                                 </Grid>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </SplitView.Content>
-        </SplitView>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </SplitView.Pane>
+
+                <SplitView.Content>
+                    <ScrollViewer Padding="0,0,16,0">
+                        <ItemsControl
+                            Margin="16,0,0,16"
+                            ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
+                            ItemsSource="{Binding Achievements}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid
+                                        MinHeight="48"
+                                        Margin="0,8,0,0"
+                                        Padding="8"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Center"
+                                        Background="{ThemeResource CardBackgroundBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="{ThemeResource CardBorderThickness}"
+                                        CornerRadius="{ThemeResource ControlCornerRadius}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <CheckBox
+                                            Grid.Column="1"
+                                            Margin="6,0,12,0"
+                                            Padding="16,0,0,0"
+                                            Command="{Binding Path=DataContext.SaveAchievementCommand, Source={StaticResource BindingProxy}}"
+                                            CommandParameter="{Binding}"
+                                            IsChecked="{Binding IsChecked, Mode=TwoWay}"
+                                            Style="{StaticResource DefaultCheckBoxStyle}">
+                                            <CheckBox.Content>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Inner.Title}"/>
+                                                    <TextBlock
+                                                        Margin="0,2,0,0"
+                                                        Style="{StaticResource SecondaryTextStyle}"
+                                                        Text="{Binding Inner.Description}"
+                                                        TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
+                                            </CheckBox.Content>
+                                        </CheckBox>
+                                        <Grid Grid.Column="3">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="32"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock
+                                                Grid.Column="0"
+                                                Margin="12,0,12,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Time}"
+                                                Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                            <Image
+                                                Grid.Column="1"
+                                                Height="32"
+                                                Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                Margin="12,0,0,0"
+                                                VerticalAlignment="Center"
+                                                Text="{Binding Inner.FinishReward.Count}"/>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </SplitView.Content>
+            </SplitView>
+        </Grid>
+        <Grid Visibility="{Binding SelectedArchive, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image
+                    Width="120"
+                    Height="120"
+                    Source="ms-appx:///Resource/Icon/UI_AchievementIcon_3_3.png"/>
+                <TextBlock
+                    Margin="0,16,0,0"
+                    HorizontalAlignment="Center"
+                    Style="{StaticResource SubtitleTextBlockStyle}"
+                    Text="创建新存档以继续"/>
+                <Button
+                    Margin="0,16,0,0"
+                    Padding="16"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding AddArchiveCommand}"
+                    Content="创建新存档"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </shc:ScopedPage>

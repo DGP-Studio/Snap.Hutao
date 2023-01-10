@@ -29,7 +29,7 @@ public class JsResult<TData> : IJsResult
     public TData Data { get; set; } = default!;
 
     /// <inheritdoc/>
-    string IJsResult.ToString(JsonSerializerOptions options)
+    string IJsResult.ToString()
     {
         return JsonSerializer.Serialize(this);
     }
