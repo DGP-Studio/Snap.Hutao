@@ -30,18 +30,26 @@ internal class ManualGameLocator : IGameLocator
     /// <inheritdoc/>
     public Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
-        return LocateInternalAsync("YuanShen.exe");
+        List<string> filenames = new List<string>()
+        {
+            "YuanShen.exe",
+            "GenshinImpact.exe",
+        };
+        return LocateInternalAsync(filenames);
     }
 
-    private async Task<ValueResult<bool, string>> LocateInternalAsync(string fileName)
+    private async Task<ValueResult<bool, string>> LocateInternalAsync(List<string> fileNames)
     {
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "选择游戏本体", ".exe");
         if (await picker.PickSingleFileAsync() is StorageFile file)
         {
             string path = file.Path;
-            if (path.Contains(fileName))
+            foreach (string fileName in fileNames)
             {
-                return new(true, path);
+                if (path.Contains(fileName))
+                {
+                    return new(true, path);
+                }
             }
         }
 
