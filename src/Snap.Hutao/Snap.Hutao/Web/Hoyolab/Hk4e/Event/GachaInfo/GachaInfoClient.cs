@@ -36,6 +36,11 @@ internal class GachaInfoClient
     /// <returns>单个祈愿记录页面</returns>
     public Task<Response<GachaLogPage>?> GetGachaLogPageAsync(GachaLogConfigration config, CancellationToken token = default)
     {
-        return httpClient.GetFromJsonAsync<Response<GachaLogPage>>(ApiEndpoints.GachaInfoGetGachaLog(config.AsQuery()), options, token);
+        string query = config.AsQuery();
+        string url = query.Contains("hoyoverse.com")
+            ? ApiOsEndpoints.GachaInfoGetGachaLog(query)
+            : ApiEndpoints.GachaInfoGetGachaLog(query);
+
+        return httpClient.GetFromJsonAsync<Response<GachaLogPage>>(url, options, token);
     }
 }

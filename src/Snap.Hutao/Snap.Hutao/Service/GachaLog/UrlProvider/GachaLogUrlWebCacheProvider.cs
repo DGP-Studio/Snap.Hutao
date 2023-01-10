@@ -25,6 +25,12 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
         this.gameService = gameService;
     }
 
+    private enum UrlMatch
+    {
+        Chinese,
+        Oversea,
+    }
+
     /// <inheritdoc/>
     public string Name { get => nameof(GachaLogUrlWebCacheProvider); }
 
@@ -38,7 +44,7 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
         string folder = Path.GetDirectoryName(path) ?? string.Empty;
         string cacheDataPathChinese = Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
         string cacheDataPathOversea = Path.Combine(folder, @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2");
-        
+
         return File.Exists(cacheDataPathChinese) ? cacheDataPathChinese : cacheDataPathOversea;
     }
 
@@ -63,17 +69,7 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
                     using (MemoryStream memoryStream = new())
                     {
                         await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
-                        string? result = null;
-
-                        if (tempFile.Path.Contains("YuanShen_Data"))
-                        {
-                            result = Match(memoryStream);
-                        }
-                        else
-                        {
-                            result = MatchIntl(memoryStream);
-                        }
-
+                        string? result = Match(memoryStream, !tempFile.Path.Contains("GenshinImpact_Data"));
                         return new(!string.IsNullOrEmpty(result), result!);
                     }
                 }
@@ -85,26 +81,12 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
         }
     }
 
-    private static string? Match(MemoryStream stream)
+    private static string? Match(MemoryStream stream, bool isOversea)
     {
         ReadOnlySpan<byte> span = stream.ToArray();
-        ReadOnlySpan<byte> match = "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
-        ReadOnlySpan<byte> zero = "\0"u8;
-
-        int index = span.LastIndexOf(match);
-        if (index >= 0)
-        {
-            int length = span[index..].IndexOf(zero);
-            return Encoding.UTF8.GetString(span.Slice(index, length));
-        }
-
-        return null;
-    }
-
-    private static string? MatchIntl(MemoryStream stream)
-    {
-        ReadOnlySpan<byte> span = stream.ToArray();
-        ReadOnlySpan<byte> match = "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8;
+        ReadOnlySpan<byte> match = isOversea
+            ? "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8
+            : "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
         ReadOnlySpan<byte> zero = "\0"u8;
 
         int index = span.LastIndexOf(match);
