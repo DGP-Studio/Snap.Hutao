@@ -63,7 +63,17 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
                     using (MemoryStream memoryStream = new())
                     {
                         await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
-                        string? result = Match(memoryStream);
+                        string? result = null;
+
+                        if (tempFile.Path.Contains("YuanShen_Data"))
+                        {
+                            result = Match(memoryStream);
+                        }
+                        else
+                        {
+                            result = MatchIntl(memoryStream);
+                        }
+
                         return new(!string.IsNullOrEmpty(result), result!);
                     }
                 }
@@ -79,6 +89,22 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
     {
         ReadOnlySpan<byte> span = stream.ToArray();
         ReadOnlySpan<byte> match = "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
+        ReadOnlySpan<byte> zero = "\0"u8;
+
+        int index = span.LastIndexOf(match);
+        if (index >= 0)
+        {
+            int length = span[index..].IndexOf(zero);
+            return Encoding.UTF8.GetString(span.Slice(index, length));
+        }
+
+        return null;
+    }
+
+    private static string? MatchIntl(MemoryStream stream)
+    {
+        ReadOnlySpan<byte> span = stream.ToArray();
+        ReadOnlySpan<byte> match = "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8;
         ReadOnlySpan<byte> zero = "\0"u8;
 
         int index = span.LastIndexOf(match);
