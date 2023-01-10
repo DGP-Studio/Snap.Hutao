@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Abstraction;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -30,26 +31,21 @@ internal class ManualGameLocator : IGameLocator
     /// <inheritdoc/>
     public Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
-        List<string> filenames = new List<string>()
-        {
-            "YuanShen.exe",
-            "GenshinImpact.exe",
-        };
+        List<string> filenames = new(2) { "YuanShen.exe", "GenshinImpact.exe", };
         return LocateInternalAsync(filenames);
     }
 
     private async Task<ValueResult<bool, string>> LocateInternalAsync(List<string> fileNames)
     {
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "选择游戏本体", ".exe");
-        if (await picker.PickSingleFileAsync() is StorageFile file)
+        (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
+
+        if (isPickerOk)
         {
-            string path = file.Path;
-            foreach (string fileName in fileNames)
+            string fileName = System.IO.Path.GetFileName(file);
+            if (fileNames.Contains(fileName))
             {
-                if (path.Contains(fileName))
-                {
-                    return new(true, path);
-                }
+                return new(true, file);
             }
         }
 

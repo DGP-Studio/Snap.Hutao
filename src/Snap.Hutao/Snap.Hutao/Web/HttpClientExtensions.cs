@@ -28,7 +28,7 @@ internal static class HttpClientExtensions
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
         }
-        catch (SocketException ex)
+        catch (IOException ex)
         {
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
@@ -38,7 +38,7 @@ internal static class HttpClientExtensions
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
         }
-        catch (IOException ex)
+        catch (SocketException ex)
         {
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
@@ -59,7 +59,7 @@ internal static class HttpClientExtensions
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
         }
-        catch (SocketException ex)
+        catch (IOException ex)
         {
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
@@ -69,7 +69,7 @@ internal static class HttpClientExtensions
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
         }
-        catch (IOException ex)
+        catch (SocketException ex)
         {
             logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
             return null;
@@ -89,7 +89,7 @@ internal static class HttpClientExtensions
         {
             return null;
         }
-        catch (SocketException)
+        catch (IOException)
         {
             return null;
         }
@@ -97,7 +97,7 @@ internal static class HttpClientExtensions
         {
             return null;
         }
-        catch (IOException)
+        catch (SocketException)
         {
             return null;
         }

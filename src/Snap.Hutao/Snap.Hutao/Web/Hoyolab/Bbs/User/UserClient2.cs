@@ -40,7 +40,7 @@ internal class UserClient2
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
     [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
-    public async Task<UserInfo?> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
+    public async Task<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
@@ -49,6 +49,6 @@ internal class UserClient2
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data?.UserInfo;
+        return Response.Response.DefaultIfNull(resp);
     }
 }

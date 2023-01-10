@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using Snap.Hutao.Web.Response;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service;
@@ -34,29 +35,39 @@ internal partial class AnnouncementService : IAnnouncementService
         // 缓存中存在记录，直接返回
         if (memoryCache.TryGetValue(CacheKey, out object? cache))
         {
-            return Must.NotNull((AnnouncementWrapper)cache!);
+            return (AnnouncementWrapper)cache!;
         }
 
         await ThreadHelper.SwitchToBackgroundAsync();
-        AnnouncementWrapper? wrapper = await announcementClient
+        Response<AnnouncementWrapper> announcementWrapperResponse = await announcementClient
             .GetAnnouncementsAsync(cancellationToken)
             .ConfigureAwait(false);
-        List<AnnouncementContent> contents = await announcementClient
-            .GetAnnouncementContentsAsync(cancellationToken)
-            .ConfigureAwait(false);
 
-        Dictionary<int, string> contentMap = contents
-            .ToDictionary(id => id.AnnId, content => content.Content);
+        if (announcementWrapperResponse.IsOk())
+        {
+            AnnouncementWrapper wrapper = announcementWrapperResponse.Data;
+            Response<ListWrapper<AnnouncementContent>> announcementContentResponse = await announcementClient
+                .GetAnnouncementContentsAsync(cancellationToken)
+                .ConfigureAwait(false);
 
-        Must.NotNull(wrapper!);
+            if (announcementContentResponse.IsOk())
+            {
+                List<AnnouncementContent> contents = announcementContentResponse.Data.List;
 
-        // 将活动公告置于上方
-        wrapper.List.Reverse();
+                Dictionary<int, string> contentMap = contents
+                    .ToDictionary(id => id.AnnId, content => content.Content);
 
-        // 将公告内容联入公告列表
-        JoinAnnouncements(contentMap, wrapper.List);
+                // 将活动公告置于上方
+                wrapper.List.Reverse();
 
-        return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
+                // 将公告内容联入公告列表
+                JoinAnnouncements(contentMap, wrapper.List);
+
+                return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
+            }
+        }
+
+        return null!;
     }
 
     private static void JoinAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)

@@ -153,10 +153,11 @@ public class User : ObservableObject
 
         using (IServiceScope scope = Ioc.Default.CreateScope())
         {
-            UserInfo = await scope.ServiceProvider
+            Web.Response.Response<UserFullInfoWrapper> response = await scope.ServiceProvider
                 .GetRequiredService<UserClient2>()
                 .GetUserFullInfoAsync(Entity, token)
                 .ConfigureAwait(false);
+            UserInfo = response.Data?.UserInfo;
 
             // 自动填充 Ltoken
             if (Ltoken == null)

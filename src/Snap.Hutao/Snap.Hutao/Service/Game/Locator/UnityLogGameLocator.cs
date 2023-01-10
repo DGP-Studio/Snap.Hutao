@@ -21,10 +21,13 @@ internal partial class UnityLogGameLocator : IGameLocator
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        string logFilePath = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\原神\output_log.txt");
-        string logFilePathIntl = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\Genshin Impact\output_log.txt");
+        string logFilePathChinese = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\原神\output_log.txt");
+        string logFilePathOvsesea = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\Genshin Impact\output_log.txt");
 
-        using (TempFile? tempFile = TempFile.CreateFromFileCopy(logFilePath), tempFileIntl = TempFile.CreateFromFileCopy(logFilePathIntl))
+        // We need to fallback the the cn server rather than os server.
+        string logFilePathFinal = File.Exists(logFilePathOvsesea) ? logFilePathOvsesea : logFilePathChinese;
+
+        using (TempFile? tempFile = TempFile.CreateFromFileCopy(logFilePathFinal))
         {
             if (tempFile != null)
             {
@@ -40,30 +43,13 @@ internal partial class UnityLogGameLocator : IGameLocator
                 string fullPath = Path.GetFullPath(Path.Combine(matchResult.Value, "..", entryName));
                 return new(true, fullPath);
             }
-            else if (tempFileIntl != null)
-            {
-                string content = File.ReadAllText(tempFileIntl.Path);
-
-                Match matchResult = WarmupFileLineIntl().Match(content);
-                if (!matchResult.Success)
-                {
-                    return new(false, $"在 Unity 日志文件中找不到游戏路径");
-                }
-
-                string entryName = matchResult.Groups[0].Value.Replace("_Data", ".exe");
-                string fullPath = Path.GetFullPath(Path.Combine(matchResult.Value, "..", entryName));
-                return new(true, fullPath);
-            }
             else
             {
-                return new(false, $"找不到 Unity 日志文件：\n{logFilePath}\n{logFilePathIntl}");
+                return new(false, $"找不到 Unity 日志文件");
             }
         }
     }
 
-    [GeneratedRegex(@"(?m).:/.+YuanShen_Data")]
+    [GeneratedRegex(@"(?m).:/.+(GenshinImpact_Data|YuanShen_Data)")]
     private static partial Regex WarmupFileLine();
-
-    [GeneratedRegex(@"(?m).:/.+GenshinImpact_Data")]
-    private static partial Regex WarmupFileLineIntl();
 }

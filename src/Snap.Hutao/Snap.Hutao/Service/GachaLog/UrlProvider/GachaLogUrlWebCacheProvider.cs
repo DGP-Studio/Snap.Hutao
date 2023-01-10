@@ -36,16 +36,10 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
     public static string GetCacheFile(string path)
     {
         string folder = Path.GetDirectoryName(path) ?? string.Empty;
-        var cacheDataPath = Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
-        var cacheDataPathIntl = Path.Combine(folder, @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2");
-        if (File.Exists(cacheDataPath))
-        {
-            return cacheDataPath;
-        }
-        else
-        {
-            return cacheDataPathIntl;
-        }
+        string cacheDataPathChinese = Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
+        string cacheDataPathOversea = Path.Combine(folder, @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2");
+        
+        return File.Exists(cacheDataPathChinese) ? cacheDataPathChinese : cacheDataPathOversea;
     }
 
     /// <inheritdoc/>

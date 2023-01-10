@@ -43,7 +43,7 @@ internal class AccountClient
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
     [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
-    public async Task<GameAuthKey?> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
+    public async Task<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         Response<GameAuthKey>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
@@ -53,6 +53,6 @@ internal class AccountClient
             .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.AppAuthGenAuthKey, data, options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 }

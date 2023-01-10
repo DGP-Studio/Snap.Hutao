@@ -36,13 +36,13 @@ internal class AnnouncementClient
     /// </summary>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>公告列表</returns>
-    public async Task<AnnouncementWrapper?> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
+    public async Task<Response<AnnouncementWrapper>> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
     {
         Response<AnnouncementWrapper>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<AnnouncementWrapper>>(ApiEndpoints.AnnList, jsonSerializerOptions, logger, cancellationToken)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -50,13 +50,12 @@ internal class AnnouncementClient
     /// </summary>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>公告内容列表</returns>
-    public async Task<List<AnnouncementContent>> GetAnnouncementContentsAsync(CancellationToken cancellationToken = default)
+    public async Task<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(CancellationToken cancellationToken = default)
     {
-        // Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         Response<ListWrapper<AnnouncementContent>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<ListWrapper<AnnouncementContent>>>(ApiEndpoints.AnnContent, jsonSerializerOptions, logger, cancellationToken)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data?.List);
+        return Response.Response.DefaultIfNull(resp);
     }
 }

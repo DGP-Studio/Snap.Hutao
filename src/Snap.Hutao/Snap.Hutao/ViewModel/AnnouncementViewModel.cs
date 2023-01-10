@@ -87,7 +87,7 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
         else
         {
             IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
-            infoBarService.Warning("尚未安装 WebView2 运行时。");
+            infoBarService.Warning("尚未安装 WebView2 Runtime");
         }
     }
 }

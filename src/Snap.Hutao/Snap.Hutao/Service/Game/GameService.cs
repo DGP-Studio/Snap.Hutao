@@ -200,6 +200,7 @@ internal class GameService : IGameService, IDisposable
     }
 
     /// <inheritdoc/>
+    [SuppressMessage("", "IDE0046")]
     public bool IsGameRunning()
     {
         if (gameSemaphore.CurrentCount == 0)
@@ -207,7 +208,8 @@ internal class GameService : IGameService, IDisposable
             return true;
         }
 
-        return Process.GetProcessesByName("YuanShen.exe").Any() || Process.GetProcessesByName("GenshinImpact.exe").Any();
+        return Process.GetProcessesByName("YuanShen.exe").Any()
+            || Process.GetProcessesByName("GenshinImpact.exe").Any();
     }
 
     /// <inheritdoc/>

@@ -22,13 +22,9 @@ public class Response : ISupportValidation
     {
         ReturnCode = returnCode;
         Message = message;
-
-        if (!Validate())
-        {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ToString());
-        }
-
+#if DEBUG
         Ioc.Default.GetRequiredService<ILogger<Response>>().LogInformation("Response [{resp}]", ToString());
+#endif
     }
 
     /// <summary>
@@ -42,6 +38,18 @@ public class Response : ISupportValidation
     /// </summary>
     [JsonPropertyName("message")]
     public string Message { get; set; } = default!;
+
+    /// <summary>
+    /// 返回本体或带有消息提示的默认值
+    /// </summary>
+    /// <typeparam name="TData">类型</typeparam>
+    /// <param name="response">本体</param>
+    /// <returns>本体或默认值，当本体为 null 时 返回默认值</returns>
+    public static Response<TData> DefaultIfNull<TData>(Response<TData>? response)
+    {
+        // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
+        return response ?? new(0x26F19335, "请求异常", default);
+    }
 
     /// <inheritdoc/>
     public bool Validate()
@@ -90,7 +98,17 @@ public class Response<TData> : Response, IJsResult
     [MemberNotNullWhen(true, nameof(Data))]
     public bool IsOk()
     {
-        return ReturnCode == 0;
+        if (ReturnCode == 0)
+        {
+#pragma warning disable CS8775
+            return true;
+#pragma warning restore CS8775
+        }
+        else
+        {
+            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ToString());
+            return false;
+        }
     }
 
     /// <inheritdoc/>

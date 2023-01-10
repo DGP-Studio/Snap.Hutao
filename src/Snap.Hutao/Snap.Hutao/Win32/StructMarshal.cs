@@ -63,14 +63,4 @@ internal static class StructMarshal
     {
         return moduleEntry32.dwSize == 0;
     }
-
-    /// <summary>
-    /// 判断结构实例是否为默认结构
-    /// </summary>
-    /// <param name="uid">待测试的结构</param>
-    /// <returns>是否为默认结构</returns>
-    public static bool IsDefault(PlayerUid uid)
-    {
-        return uid.Value == default;
-    }
 }
