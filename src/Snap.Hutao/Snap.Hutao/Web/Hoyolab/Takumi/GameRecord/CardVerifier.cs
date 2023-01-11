@@ -34,18 +34,25 @@ internal class CardVerifier
     /// <returns>流水号</returns>
     public async Task<string?> TryGetXrpcChallengeAsync(User user, CancellationToken token)
     {
-        if (await cardClient.CreateVerificationAsync(user, token).ConfigureAwait(false) is VerificationRegistration registration)
+        Response.Response<VerificationRegistration> registrationResponse = await cardClient.CreateVerificationAsync(user, token).ConfigureAwait(false);
+        if (registrationResponse.IsOk())
         {
-            _ = await geetestClient.GetTypeAsync(registration.Gt).ConfigureAwait(false);
+            VerificationRegistration registration = registrationResponse.Data;
+
+            await geetestClient.GetTypeAsync(registration.Gt).ConfigureAwait(false);
             GeetestResult<GeetestData>? ajax = await geetestClient.GetAjaxAsync(registration).ConfigureAwait(false);
 
             if (ajax?.Data.Validate is string validate)
             {
-                VerificationResult? result = await cardClient.VerifyVerificationAsync(registration.Challenge, validate, token).ConfigureAwait(false);
-
-                if (result?.Challenge != null)
+                Response.Response<VerificationResult> verifyResponse = await cardClient.VerifyVerificationAsync(registration.Challenge, validate, token).ConfigureAwait(false);
+                if (verifyResponse.IsOk())
                 {
-                    return result.Challenge;
+                    VerificationResult result = verifyResponse.Data;
+
+                    if (result.Challenge != null)
+                    {
+                        return result.Challenge;
+                    }
                 }
             }
         }

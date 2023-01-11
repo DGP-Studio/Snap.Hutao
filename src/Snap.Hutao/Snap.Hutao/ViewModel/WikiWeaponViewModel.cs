@@ -19,6 +19,7 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
@@ -140,13 +141,15 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
 
                 if (isOk)
                 {
-                    CalcConsumption? consumption = await Ioc.Default
+                    Response<CalcConsumption> consumptionResponse = await Ioc.Default
                         .GetRequiredService<CalcClient>()
                         .ComputeAsync(userService.Current.Entity, delta)
                         .ConfigureAwait(false);
 
-                    if (consumption != null)
+                    if (consumptionResponse.IsOk())
                     {
+                        CalcConsumption consumption = consumptionResponse.Data;
+
                         bool saved = await Ioc.Default
                             .GetRequiredService<ICultivationService>()
                             .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull())

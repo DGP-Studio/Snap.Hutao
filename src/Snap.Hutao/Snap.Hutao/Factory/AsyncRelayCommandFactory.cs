@@ -83,7 +83,6 @@ internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
         return command;
     }
 
-    [SuppressMessage("", "VSTHRD002")]
     private void ReportException(IAsyncRelayCommand command)
     {
         command.PropertyChanged += (sender, args) =>
@@ -96,7 +95,6 @@ internal class AsyncRelayCommandFactory : IAsyncRelayCommandFactory
                     {
                         Exception baseException = exception.GetBaseException();
                         logger.LogError(EventIds.AsyncCommandException, baseException, "{name} Exception", nameof(AsyncRelayCommand));
-                        Ioc.Default.GetRequiredService<HomaClient2>().UploadLogAsync(baseException).GetAwaiter().GetResult();
                     }
                 }
             }

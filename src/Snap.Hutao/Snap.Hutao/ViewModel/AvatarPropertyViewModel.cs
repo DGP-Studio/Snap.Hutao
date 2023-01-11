@@ -18,6 +18,7 @@ using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.Web.Response;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
@@ -115,8 +116,8 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
-                UserAndRole userAndRole = new(user.Entity, role);
-                return RefreshCoreAsync(userAndRole, RefreshOption.None, CancellationToken);
+                UserAndUid userAndUid = new(user.Entity, role);
+                return RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken);
             }
         }
 
@@ -129,8 +130,8 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
-                UserAndRole userAndRole = new(user.Entity, role);
-                return RefreshCoreAsync(userAndRole, RefreshOption.RequestFromEnkaAPI, CancellationToken);
+                UserAndUid userAndUid = new(user.Entity, role);
+                return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromEnkaAPI, CancellationToken);
             }
         }
 
@@ -143,8 +144,8 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
-                UserAndRole userAndRole = new(user.Entity, role);
-                return RefreshCoreAsync(userAndRole, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken);
+                UserAndUid userAndUid = new(user.Entity, role);
+                return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken);
             }
         }
 
@@ -157,19 +158,19 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         {
             if (user.SelectedUserGameRole is UserGameRole role)
             {
-                UserAndRole userAndRole = new(user.Entity, role);
-                return RefreshCoreAsync(userAndRole, RefreshOption.RequestFromHoyolabCalculate, CancellationToken);
+                UserAndUid userAndUid = new(user.Entity, role);
+                return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabCalculate, CancellationToken);
             }
         }
 
         return Task.CompletedTask;
     }
 
-    private async Task RefreshCoreAsync(UserAndRole userAndRole, RefreshOption option, CancellationToken token)
+    private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOption option, CancellationToken token)
     {
         try
         {
-            (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(userAndRole, option, token).ConfigureAwait(false);
+            (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(userAndUid, option, token).ConfigureAwait(false);
 
             if (result == RefreshResult.Ok)
             {
@@ -212,25 +213,27 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
                 if (isOk)
                 {
-                    CalcConsumption? consumption = await Ioc.Default
+                    Response<CalcConsumption> consumptionResponse = await Ioc.Default
                         .GetRequiredService<CalcClient>()
                         .ComputeAsync(userService.Current.Entity, delta)
                         .ConfigureAwait(false);
 
-                    if (consumption != null)
+                    if (consumptionResponse.IsOk())
                     {
+                        ICultivationService cultivationService = Ioc.Default.GetRequiredService<ICultivationService>();
+                        CalcConsumption consumption = consumptionResponse.Data;
+
                         List<CalcItem> items = CalcItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
-                        bool avatarSaved = await Ioc.Default
-                            .GetRequiredService<ICultivationService>()
+                        bool avatarSaved = await cultivationService
                             .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
                             .ConfigureAwait(false);
 
-                        bool weaponSaved = await Ioc.Default
-                            .GetRequiredService<ICultivationService>()
+                        // take a short path if avatar is not saved.
+                        bool avatarAndWeaponSaved = avatarSaved && await cultivationService
                             .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
                             .ConfigureAwait(false);
 
-                        if (avatarSaved && weaponSaved)
+                        if (avatarAndWeaponSaved)
                         {
                             infoBarService.Success("已成功添加至当前养成计划");
                         }

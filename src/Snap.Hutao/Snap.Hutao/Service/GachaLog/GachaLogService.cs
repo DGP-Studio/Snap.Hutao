@@ -119,7 +119,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     /// <inheritdoc/>
     public ObservableCollection<GachaArchive> GetArchiveCollection()
     {
-        return archiveCollection ??= new(appDbContext.GachaArchives.ToList());
+        return archiveCollection ??= new(appDbContext.GachaArchives.AsNoTracking().ToList());
     }
 
     /// <inheritdoc/>
@@ -224,11 +224,10 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
 
         // Sync database
         await ThreadHelper.SwitchToBackgroundAsync();
-        await appDbContext.GachaItems
-            .Where(item => item.ArchiveId == archive.InnerId)
+        await appDbContext.GachaArchives
+            .Where(a => a.InnerId == archive.InnerId)
             .ExecuteDeleteAsync()
             .ConfigureAwait(false);
-        await appDbContext.GachaArchives.RemoveAndSaveAsync(archive).ConfigureAwait(false);
     }
 
     private static Task RandomDelayAsync(CancellationToken token)
@@ -250,13 +249,15 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
 
             do
             {
-                Response<GachaLogPage>? response = await gachaInfoClient.GetGachaLogPageAsync(configration, token).ConfigureAwait(false);
+                Response<GachaLogPage> response = await gachaInfoClient.GetGachaLogPageAsync(configration, token).ConfigureAwait(false);
 
-                if (response?.Data is GachaLogPage page)
+                if (response.IsOk())
                 {
+                    GachaLogPage page = response.Data;
+
                     state.Items.Clear();
                     List<GachaLogItem> items = page.List;
-                    bool completedCurrentTypeAdding = false;
+                    bool currentTypeAddingCompleted = false;
 
                     foreach (GachaLogItem item in items)
                     {
@@ -271,14 +272,14 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
                         }
                         else
                         {
-                            completedCurrentTypeAdding = true;
+                            currentTypeAddingCompleted = true;
                             break;
                         }
                     }
 
                     progress.Report(state);
 
-                    if (completedCurrentTypeAdding || items.Count < GachaLogConfigration.Size)
+                    if (currentTypeAddingCompleted || items.Count < GachaLogConfigration.Size)
                     {
                         // exit current type fetch loop
                         break;
@@ -320,7 +321,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
 
                 archive = appDbContext.GachaArchives.Single(a => a.Uid == uid);
                 GachaArchive temp = archive;
-                Program.DispatcherQueue!.TryEnqueue(() => archiveCollection!.Add(temp));
+                Program.DispatcherQueue!.Invoke(() => archiveCollection!.Add(temp));
             }
         }
     }

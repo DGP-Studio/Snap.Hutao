@@ -259,10 +259,9 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
             UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
             bool isOk = await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false);
 
-            ValueTask<ContentDialogResult> dialogTask = isOk
-                ? contentDialogFactory.ConfirmAsync("导出成功", "成功保存到指定位置")
-                : contentDialogFactory.ConfirmAsync("导出失败", "写入文件时遇到问题");
-            await dialogTask.ConfigureAwait(false);
+            _ = isOk
+                ? await contentDialogFactory.ConfirmAsync("导出成功", "成功保存到指定位置").ConfigureAwait(false)
+                : await contentDialogFactory.ConfirmAsync("导出失败", "写入文件时遇到问题").ConfigureAwait(false);
         }
     }
 
@@ -279,6 +278,7 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
                 await gachaLogService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
 
                 // reselect first archive
+                await ThreadHelper.SwitchToMainThreadAsync();
                 SelectedArchive = Archives.FirstOrDefault();
             }
         }

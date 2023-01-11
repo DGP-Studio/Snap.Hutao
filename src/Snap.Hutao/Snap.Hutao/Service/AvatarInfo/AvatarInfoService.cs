@@ -16,6 +16,7 @@ using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
+using Snap.Hutao.Web.Response;
 using CalculateAvatar = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Avatar;
 using EnkaAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 using EnkaPlayerInfo = Snap.Hutao.Web.Enka.Model.PlayerInfo;
@@ -56,7 +57,7 @@ internal class AvatarInfoService : IAvatarInfoService
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(UserAndRole userAndRole, RefreshOption refreshOption, CancellationToken token = default)
+    public async Task<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default)
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -66,7 +67,7 @@ internal class AvatarInfoService : IAvatarInfoService
             {
                 case RefreshOption.RequestFromEnkaAPI:
                     {
-                        EnkaResponse? resp = await GetEnkaResponseAsync(userAndRole.Role, token).ConfigureAwait(false);
+                        EnkaResponse? resp = await GetEnkaResponseAsync(userAndUid.Uid, token).ConfigureAwait(false);
                         token.ThrowIfCancellationRequested();
                         if (resp == null)
                         {
@@ -75,7 +76,7 @@ internal class AvatarInfoService : IAvatarInfoService
 
                         if (resp.IsValid)
                         {
-                            IList<EnkaAvatarInfo> list = UpdateDbAvatarInfos(userAndRole.Role.GameUid, resp.AvatarInfoList);
+                            IList<EnkaAvatarInfo> list = UpdateDbAvatarInfos(userAndUid.Uid.Value, resp.AvatarInfoList);
                             Summary summary = await GetSummaryCoreAsync(resp.PlayerInfo, list, token).ConfigureAwait(false);
                             token.ThrowIfCancellationRequested();
                             return new(RefreshResult.Ok, summary);
@@ -88,24 +89,24 @@ internal class AvatarInfoService : IAvatarInfoService
 
                 case RefreshOption.RequestFromHoyolabGameRecord:
                     {
-                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndRole.Role.GameUid);
-                        IList<EnkaAvatarInfo> list = await UpdateDbAvatarInfosByGameRecordCharacterAsync(userAndRole).ConfigureAwait(false);
+                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndUid.Uid.Value);
+                        IList<EnkaAvatarInfo> list = await UpdateDbAvatarInfosByGameRecordCharacterAsync(userAndUid).ConfigureAwait(false);
                         Summary summary = await GetSummaryCoreAsync(info, list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
 
                 case RefreshOption.RequestFromHoyolabCalculate:
                     {
-                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndRole.Role.GameUid);
-                        IList<EnkaAvatarInfo> list = await UpdateDbAvatarInfosByCalculateAvatarDetailAsync(userAndRole).ConfigureAwait(false);
+                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndUid.Uid.Value);
+                        IList<EnkaAvatarInfo> list = await UpdateDbAvatarInfosByCalculateAvatarDetailAsync(userAndUid).ConfigureAwait(false);
                         Summary summary = await GetSummaryCoreAsync(info, list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
 
                 default:
                     {
-                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndRole.Role.GameUid);
-                        Summary summary = await GetSummaryCoreAsync(info, GetDbAvatarInfos(userAndRole.Role.GameUid), token).ConfigureAwait(false);
+                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndUid.Uid.Value);
+                        Summary summary = await GetSummaryCoreAsync(info, GetDbAvatarInfos(userAndUid.Uid.Value), token).ConfigureAwait(false);
                         token.ThrowIfCancellationRequested();
                         return new(RefreshResult.Ok, summary.Avatars.Count == 0 ? null : summary);
                     }
@@ -164,58 +165,68 @@ internal class AvatarInfoService : IAvatarInfoService
         return GetDbAvatarInfos(uid);
     }
 
-    private async Task<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndRole userAndRole)
+    private async Task<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid)
     {
-        string uid = userAndRole.Role.GameUid;
+        string uid = userAndUid.Uid.Value;
         List<ModelAvatarInfo> dbInfos = appDbContext.AvatarInfos
             .Where(i => i.Uid == uid)
             .ToList();
 
         GameRecordClient gameRecordClient = Ioc.Default.GetRequiredService<GameRecordClient>();
-        RecordPlayerInfo? playerInfo = await gameRecordClient
-            .GetPlayerInfoAsync(userAndRole)
-            .ConfigureAwait(false);
-        List<RecordCharacter> characters = await gameRecordClient
-            .GetCharactersAsync(userAndRole, playerInfo!)
+        Response<RecordPlayerInfo> playerInfoResponse = await gameRecordClient
+            .GetPlayerInfoAsync(userAndUid)
             .ConfigureAwait(false);
 
-        GameRecordCharacterAvatarInfoComposer composer = Ioc.Default.GetRequiredService<GameRecordCharacterAvatarInfoComposer>();
-
-        foreach (RecordCharacter character in characters)
+        // TODO: We should not refresh if response is not correct here.
+        if (playerInfoResponse.IsOk())
         {
-            if (AvatarIds.IsPlayer(character.Id))
-            {
-                continue;
-            }
+            Response<Web.Hoyolab.Takumi.GameRecord.Avatar.CharacterWrapper> charactersResponse = await gameRecordClient
+                .GetCharactersAsync(userAndUid, playerInfoResponse.Data)
+                .ConfigureAwait(false);
 
-            ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
+            if (charactersResponse.IsOk())
+            {
+                List<RecordCharacter> characters = charactersResponse.Data.Avatars;
 
-            if (entity == null)
-            {
-                EnkaAvatarInfo avatarInfo = new() { AvatarId = character.Id };
-                avatarInfo = await composer.ComposeAsync(avatarInfo, character).ConfigureAwait(false);
-                entity = ModelAvatarInfo.Create(uid, avatarInfo);
-                appDbContext.AvatarInfos.AddAndSave(entity);
-            }
-            else
-            {
-                entity.Info = await composer.ComposeAsync(entity.Info, character).ConfigureAwait(false);
-                appDbContext.AvatarInfos.UpdateAndSave(entity);
+                GameRecordCharacterAvatarInfoComposer composer = Ioc.Default.GetRequiredService<GameRecordCharacterAvatarInfoComposer>();
+
+                foreach (RecordCharacter character in characters)
+                {
+                    if (AvatarIds.IsPlayer(character.Id))
+                    {
+                        continue;
+                    }
+
+                    ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
+
+                    if (entity == null)
+                    {
+                        EnkaAvatarInfo avatarInfo = new() { AvatarId = character.Id };
+                        avatarInfo = await composer.ComposeAsync(avatarInfo, character).ConfigureAwait(false);
+                        entity = ModelAvatarInfo.Create(uid, avatarInfo);
+                        appDbContext.AvatarInfos.AddAndSave(entity);
+                    }
+                    else
+                    {
+                        entity.Info = await composer.ComposeAsync(entity.Info, character).ConfigureAwait(false);
+                        appDbContext.AvatarInfos.UpdateAndSave(entity);
+                    }
+                }
             }
         }
 
         return GetDbAvatarInfos(uid);
     }
 
-    private async Task<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndRole userAndRole)
+    private async Task<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid)
     {
-        string uid = userAndRole.Role.GameUid;
+        string uid = userAndUid.Uid.Value;
         List<ModelAvatarInfo> dbInfos = appDbContext.AvatarInfos
             .Where(i => i.Uid == uid)
             .ToList();
 
         CalculateClient calculateClient = Ioc.Default.GetRequiredService<CalculateClient>();
-        List<CalculateAvatar> avatars = await calculateClient.GetAvatarsAsync(userAndRole.User, userAndRole.Role).ConfigureAwait(false);
+        List<CalculateAvatar> avatars = await calculateClient.GetAvatarsAsync(userAndUid).ConfigureAwait(false);
 
         CalculateAvatarDetailAvatarInfoComposer composer = Ioc.Default.GetRequiredService<CalculateAvatarDetailAvatarInfoComposer>();
 
@@ -226,14 +237,15 @@ internal class AvatarInfoService : IAvatarInfoService
                 continue;
             }
 
-            AvatarDetail? detailAvatar = await calculateClient.GetAvatarDetailAsync(userAndRole.User, userAndRole.Role, avatar).ConfigureAwait(false);
+            Response<AvatarDetail> detailAvatarResponse = await calculateClient.GetAvatarDetailAsync(userAndUid, avatar).ConfigureAwait(false);
 
-            if (detailAvatar == null)
+            if (!detailAvatarResponse.IsOk())
             {
                 continue;
             }
 
             ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == avatar.Id);
+            AvatarDetail detailAvatar = detailAvatarResponse.Data;
 
             if (entity == null)
             {

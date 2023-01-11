@@ -38,7 +38,7 @@ internal interface IHutaoService
     /// 异步获取统计数据
     /// </summary>
     /// <returns>统计数据</returns>
-    ValueTask<Overview?> GetOverviewAsync();
+    ValueTask<Overview> GetOverviewAsync();
 
     /// <summary>
     /// 异步获取队伍上场

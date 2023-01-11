@@ -11,25 +11,25 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// ÊµÊ±±ã¼ãÈÏÖ¤¶Ô»°¿ò
+/// ÊµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½Ô»ï¿½ï¿½ï¿½
 /// </summary>
 public sealed partial class DailyNoteVerificationDialog : ContentDialog
 {
     private readonly IServiceScope scope;
-    private readonly UserAndRole userAndRole;
+    private readonly UserAndUid userAndUid;
 
     [SuppressMessage("", "IDE0052")]
     private DailyNoteJsInterface? dailyNoteJsInterface;
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öÐÂµÄÊµÊ±±ã¼ãÈÏÖ¤¶Ô»°¿ò
+    /// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Âµï¿½ÊµÊ±ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½Ô»ï¿½ï¿½ï¿½
     /// </summary>
-    /// <param name="userAndRole">ÓÃ»§Óë½ÇÉ«</param>
-    public DailyNoteVerificationDialog(UserAndRole userAndRole)
+    /// <param name="userAndUid">ï¿½Ã»ï¿½ï¿½ï¿½ï¿½É«</param>
+    public DailyNoteVerificationDialog(UserAndUid userAndUid)
     {
         InitializeComponent();
         XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
-        this.userAndRole = userAndRole;
+        this.userAndUid = userAndUid;
         scope = Ioc.Default.CreateScope();
     }
 
@@ -43,11 +43,11 @@ public sealed partial class DailyNoteVerificationDialog : ContentDialog
         await WebView.EnsureCoreWebView2Async();
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;
 
-        Model.Entity.User user = userAndRole.User;
+        Model.Entity.User user = userAndUid.User;
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
         dailyNoteJsInterface = new(coreWebView2, scope.ServiceProvider);
 
-        string query = $"?role_id={userAndRole.Role.GameUid}&server={userAndRole.Role.Region}";
+        string query = $"?role_id={userAndUid.Uid.Value}&server={userAndUid.Uid.Region}";
         coreWebView2.Navigate($"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/{query}");
     }
 

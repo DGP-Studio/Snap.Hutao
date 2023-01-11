@@ -28,14 +28,6 @@ internal interface IContentDialogFactory
     ValueTask<ContentDialogResult> ConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close);
 
     /// <summary>
-    /// 在主线程异步创建一个新的内容对话框
-    /// </summary>
-    /// <typeparam name="TContentDialog">对话框类型</typeparam>
-    /// <returns>一个新的内容对话框</returns>
-    ValueTask<TContentDialog> CreateAsync<TContentDialog>()
-        where TContentDialog : ContentDialog, new();
-
-    /// <summary>
     /// 异步创建一个新的内容对话框，用于提示未知的进度
     /// </summary>
     /// <param name="title">标题</param>

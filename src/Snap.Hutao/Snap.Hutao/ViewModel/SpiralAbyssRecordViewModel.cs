@@ -110,17 +110,14 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
     /// <inheritdoc/>
     public void Receive(UserChangedMessage message)
     {
-        if (message.NewValue != null)
+        if (UserAndUid.TryFromUser(message.NewValue, out UserAndUid? userAndUid))
         {
-            UserAndRole userAndRole = UserAndRole.FromUser(message.NewValue);
-            if (userAndRole.Role != null)
-            {
-                UpdateSpiralAbyssCollectionAsync(UserAndRole.FromUser(message.NewValue)).SafeForget();
-                return;
-            }
+            UpdateSpiralAbyssCollectionAsync(userAndUid).SafeForget();
         }
-
-        SpiralAbyssView = null;
+        else
+        {
+            SpiralAbyssView = null;
+        }
     }
 
     private async Task OpenUIAsync()
@@ -131,15 +128,15 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
             idAvatarMap = AvatarIds.ExtendAvatars(idAvatarMap);
             if (userService.Current?.SelectedUserGameRole != null)
             {
-                await UpdateSpiralAbyssCollectionAsync(UserAndRole.FromUser(userService.Current)).ConfigureAwait(false);
+                await UpdateSpiralAbyssCollectionAsync(UserAndUid.FromUser(userService.Current)).ConfigureAwait(false);
             }
         }
     }
 
-    private async Task UpdateSpiralAbyssCollectionAsync(UserAndRole userAndRole)
+    private async Task UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
         ObservableCollection<SpiralAbyssEntry> temp = await spiralAbyssRecordService
-            .GetSpiralAbyssCollectionAsync(userAndRole)
+            .GetSpiralAbyssCollectionAsync(userAndUid)
             .ConfigureAwait(false);
 
         await ThreadHelper.SwitchToMainThreadAsync();
@@ -154,7 +151,7 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
             if (userService.Current?.SelectedUserGameRole != null)
             {
                 await spiralAbyssRecordService
-                    .RefreshSpiralAbyssAsync(UserAndRole.FromUser(userService.Current))
+                    .RefreshSpiralAbyssAsync(UserAndUid.FromUser(userService.Current))
                     .ConfigureAwait(false);
 
                 await ThreadHelper.SwitchToMainThreadAsync();
@@ -168,27 +165,22 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
         HomaClient homaClient = Ioc.Default.GetRequiredService<HomaClient>();
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
-        if (userService.Current is Model.Binding.User.User user)
+        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            if (user.SelectedUserGameRole == null)
+            SimpleRecord? record = await homaClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
+            if (record != null)
             {
-                infoBarService.Warning("尚未选择角色");
-            }
+                Web.Response.Response<string> response = await homaClient.UploadRecordAsync(record).ConfigureAwait(false);
 
-            SimpleRecord record = await homaClient.GetPlayerRecordAsync(user).ConfigureAwait(false);
-            Web.Response.Response<string>? response = await homaClient.UploadRecordAsync(record).ConfigureAwait(false);
-
-            if (response != null)
-            {
                 if (response.IsOk())
                 {
                     infoBarService.Success(response.Message);
                 }
-                else
-                {
-                    infoBarService.Information(response.Message);
-                }
             }
+        }
+        else
+        {
+            infoBarService.Warning("请先选择账号与角色");
         }
     }
 }

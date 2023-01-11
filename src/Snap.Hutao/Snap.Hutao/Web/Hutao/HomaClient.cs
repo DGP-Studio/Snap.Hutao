@@ -49,13 +49,13 @@ internal class HomaClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>当前是否上传了数据</returns>
-    public async Task<bool> CheckRecordUploadedAsync(PlayerUid uid, CancellationToken token = default)
+    public async Task<Response<bool>> CheckRecordUploadedAsync(PlayerUid uid, CancellationToken token = default)
     {
         Response<bool>? resp = await httpClient
             .GetFromJsonAsync<Response<bool>>(HutaoEndpoints.RecordCheck(uid.Value), token)
             .ConfigureAwait(false);
 
-        return resp?.Data == true;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -65,13 +65,13 @@ internal class HomaClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>排行信息</returns>
-    public async Task<RankInfo?> GetRankAsync(PlayerUid uid, CancellationToken token = default)
+    public async Task<Response<RankInfo>> GetRankAsync(PlayerUid uid, CancellationToken token = default)
     {
         Response<RankInfo>? resp = await httpClient
             .GetFromJsonAsync<Response<RankInfo>>(HutaoEndpoints.RecordRank(uid.Value), token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -80,13 +80,13 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>总览信息</returns>
-    public async Task<Overview?> GetOverviewAsync(CancellationToken token = default)
+    public async Task<Response<Overview>> GetOverviewAsync(CancellationToken token = default)
     {
         Response<Overview>? resp = await httpClient
             .GetFromJsonAsync<Response<Overview>>(HutaoEndpoints.StatisticsOverview, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -95,13 +95,13 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色出场率</returns>
-    public async Task<List<AvatarAppearanceRank>> GetAvatarAttendanceRatesAsync(CancellationToken token = default)
+    public async Task<Response<List<AvatarAppearanceRank>>> GetAvatarAttendanceRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarAppearanceRank>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<AvatarAppearanceRank>>>(HutaoEndpoints.StatisticsAvatarAttendanceRate, options, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data);
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -110,13 +110,13 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色出场率</returns>
-    public async Task<List<AvatarUsageRank>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
+    public async Task<Response<List<AvatarUsageRank>>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarUsageRank>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<AvatarUsageRank>>>(HutaoEndpoints.StatisticsAvatarUtilizationRate, options, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data);
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -125,13 +125,13 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色/武器/圣遗物搭配</returns>
-    public async Task<List<AvatarCollocation>> GetAvatarCollocationsAsync(CancellationToken token = default)
+    public async Task<Response<List<AvatarCollocation>>> GetAvatarCollocationsAsync(CancellationToken token = default)
     {
         Response<List<AvatarCollocation>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<AvatarCollocation>>>(HutaoEndpoints.StatisticsAvatarAvatarCollocation, options, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data);
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -140,13 +140,13 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色/武器/圣遗物搭配</returns>
-    public async Task<List<WeaponCollocation>> GetWeaponCollocationsAsync(CancellationToken token = default)
+    public async Task<Response<List<WeaponCollocation>>> GetWeaponCollocationsAsync(CancellationToken token = default)
     {
         Response<List<WeaponCollocation>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<WeaponCollocation>>>(HutaoEndpoints.StatisticsWeaponWeaponCollocation, options, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data);
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -155,13 +155,13 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色图片列表</returns>
-    public async Task<List<AvatarConstellationInfo>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
+    public async Task<Response<List<AvatarConstellationInfo>>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarConstellationInfo>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<AvatarConstellationInfo>>>(HutaoEndpoints.StatisticsAvatarHoldingRate, options, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data);
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -170,40 +170,51 @@ internal class HomaClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>队伍出场列表</returns>
-    public async Task<List<TeamAppearance>> GetTeamCombinationsAsync(CancellationToken token = default)
+    public async Task<Response<List<TeamAppearance>>> GetTeamCombinationsAsync(CancellationToken token = default)
     {
         Response<List<TeamAppearance>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<TeamAppearance>>>(HutaoEndpoints.StatisticsTeamCombination, options, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data);
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
     /// 异步获取角色的深渊记录
     /// </summary>
-    /// <param name="user">用户</param>
+    /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>玩家记录</returns>
-    public async Task<SimpleRecord> GetPlayerRecordAsync(User user, CancellationToken token = default)
+    public async Task<SimpleRecord?> GetPlayerRecordAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        Must.NotNull(user.SelectedUserGameRole!);
-
-        PlayerInfo? playerInfo = await gameRecordClient
-            .GetPlayerInfoAsync(user.Entity, user.SelectedUserGameRole, token)
-            .ConfigureAwait(false);
-        Must.NotNull(playerInfo!);
-
-        List<Character> characters = await gameRecordClient
-            .GetCharactersAsync(user.Entity, user.SelectedUserGameRole, playerInfo, token)
+        Response<PlayerInfo> playerInfoResponse = await gameRecordClient
+            .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        SpiralAbyss? spiralAbyssInfo = await gameRecordClient
-            .GetSpiralAbyssAsync(user.Entity, user.SelectedUserGameRole, SpiralAbyssSchedule.Current, token)
-            .ConfigureAwait(false);
-        Must.NotNull(spiralAbyssInfo!);
+        if (!playerInfoResponse.IsOk())
+        {
+            return null;
+        }
 
-        return new(user.SelectedUserGameRole.GameUid, characters, spiralAbyssInfo);
+        Response<CharacterWrapper> charactersResponse = await gameRecordClient
+            .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+            .ConfigureAwait(false);
+
+        if (!charactersResponse.IsOk())
+        {
+            return null;
+        }
+
+        Response<SpiralAbyss> spiralAbyssResponse = await gameRecordClient
+            .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
+            .ConfigureAwait(false);
+
+        if (!spiralAbyssResponse.IsOk())
+        {
+            return null;
+        }
+
+        return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data);
     }
 
     /// <summary>
@@ -213,8 +224,12 @@ internal class HomaClient
     /// <param name="playerRecord">玩家记录</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public Task<Response<string>?> UploadRecordAsync(SimpleRecord playerRecord, CancellationToken token = default)
+    public async Task<Response<string>> UploadRecordAsync(SimpleRecord playerRecord, CancellationToken token = default)
     {
-        return httpClient.TryCatchPostAsJsonAsync<SimpleRecord, Response<string>>(HutaoEndpoints.RecordUpload, playerRecord, options, logger, token);
+        Response<string>? resp = await httpClient
+            .TryCatchPostAsJsonAsync<SimpleRecord, Response<string>>(HutaoEndpoints.RecordUpload, playerRecord, options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
     }
 }

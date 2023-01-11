@@ -49,9 +49,9 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
     }
 
     /// <inheritdoc/>
-    public async Task AddDailyNoteAsync(UserAndRole role)
+    public async Task AddDailyNoteAsync(UserAndUid role)
     {
-        string roleUid = role.Role.GameUid;
+        string roleUid = role.Uid.Value;
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -60,7 +60,16 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
             if (!appDbContext.DailyNotes.Any(n => n.Uid == roleUid))
             {
                 DailyNoteEntry newEntry = DailyNoteEntry.Create(role);
-                newEntry.DailyNote = await gameRecordClient.GetDailyNoteAsync(role.User, newEntry.Uid).ConfigureAwait(false);
+
+                Web.Response.Response<WebDailyNote> dailyNoteResponse = await gameRecordClient
+                    .GetDailyNoteAsync(role)
+                    .ConfigureAwait(false);
+
+                if (dailyNoteResponse.IsOk())
+                {
+                    newEntry.DailyNote = dailyNoteResponse.Data;
+                }
+
                 newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
                 await appDbContext.DailyNotes.AddAndSaveAsync(newEntry).ConfigureAwait(false);
 
@@ -106,18 +115,25 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
 
             foreach (DailyNoteEntry entry in appDbContext.DailyNotes.Include(n => n.User))
             {
-                WebDailyNote? dailyNote = await gameRecordClient.GetDailyNoteAsync(entry.User, entry.Uid).ConfigureAwait(false);
+                Web.Response.Response<WebDailyNote> dailyNoteResponse = await gameRecordClient
+                    .GetDailyNoteAsync(new(entry.User, entry.Uid))
+                    .ConfigureAwait(false);
 
-                // database
-                entry.DailyNote = dailyNote;
-
-                // cache
-                await ThreadHelper.SwitchToMainThreadAsync();
-                entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
-
-                if (notify)
+                if (dailyNoteResponse.IsOk())
                 {
-                    await new DailyNoteNotifier(scopeFactory, entry).NotifyAsync().ConfigureAwait(false);
+                    WebDailyNote dailyNote = dailyNoteResponse.Data;
+
+                    // database
+                    entry.DailyNote = dailyNote;
+
+                    // cache
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
+
+                    if (notify)
+                    {
+                        await new DailyNoteNotifier(scopeFactory, entry).NotifyAsync().ConfigureAwait(false);
+                    }
                 }
             }
 

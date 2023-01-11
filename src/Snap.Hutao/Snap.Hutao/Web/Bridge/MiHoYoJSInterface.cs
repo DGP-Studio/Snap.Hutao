@@ -41,7 +41,6 @@ public class MiHoYoJSInterface
     private readonly CoreWebView2 webView;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<MiHoYoJSInterface> logger;
-    private readonly JsonSerializerOptions options;
 
     /// <summary>
     /// 构造一个新的调用桥
@@ -54,7 +53,6 @@ public class MiHoYoJSInterface
         this.serviceProvider = serviceProvider;
 
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
-        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
 
         webView.WebMessageReceived += OnWebMessageReceived;
         webView.DOMContentLoaded += OnDOMContentLoaded;
@@ -72,7 +70,7 @@ public class MiHoYoJSInterface
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
         return await serviceProvider
             .GetRequiredService<AuthClient>()
-            .GetActionTicketWrapperByStokenAsync(jsParam.Payload!.ActionType, user.Entity)
+            .GetActionTicketByStokenAsync(jsParam.Payload!.ActionType, user.Entity)
             .ConfigureAwait(false);
     }
 
@@ -204,14 +202,19 @@ public class MiHoYoJSInterface
     public virtual async Task<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
-        string? cookieToken;
+        string cookieToken = string.Empty;
         if (param.Payload!.ForceRefresh)
         {
-            cookieToken = await Ioc.Default
+            Response.Response<UidCookieToken> cookieTokenResponse = await Ioc.Default
                 .GetRequiredService<PassportClient2>()
                 .GetCookieAccountInfoBySTokenAsync(user.Entity, default)
                 .ConfigureAwait(false);
+            if (cookieTokenResponse.IsOk())
+            {
+                cookieToken = cookieTokenResponse.Data.CookieToken;
+            }
 
+            // sync ui and database
             user.CookieToken![Cookie.COOKIE_TOKEN] = cookieToken!;
             Ioc.Default.GetRequiredService<AppDbContext>().Users.UpdateAndSave(user.Entity);
         }

@@ -9,6 +9,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.View.Page;
 
@@ -46,11 +47,34 @@ public sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Pag
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
 
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
-        Dictionary<string, string> multiToken = await Ioc.Default.GetRequiredService<AuthClient>().GetMultiTokenByLoginTicketAsync(loginTicketCookie, token).ConfigureAwait(false);
-        Cookie stokenV1 = Cookie.Parse($"stuid={loginTicketCookie["login_uid"]};stoken={multiToken["stoken"]}");
-        LoginResult? loginResult = await Ioc.Default.GetRequiredService<PassportClient2>().LoginByStokenAsync(stokenV1, token).ConfigureAwait(false);
-        Cookie stokenV2 = Cookie.FromLoginResult(loginResult);
-        (UserOptionResult result, string nickname) = await Ioc.Default.GetRequiredService<IUserService>().ProcessInputCookieAsync(stokenV2).ConfigureAwait(false);
+        Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
+            .GetRequiredService<AuthClient>()
+            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, token)
+            .ConfigureAwait(false);
+
+        if (!multiTokenResponse.IsOk())
+        {
+            return;
+        }
+
+        Dictionary<string, string> multiTokenMap = multiTokenResponse.Data.List.ToDictionary(n => n.Name, n => n.Token);
+
+        Cookie stokenV1 = Cookie.Parse($"stuid={loginTicketCookie["login_uid"]};stoken={multiTokenMap["stoken"]}");
+        Response<LoginResult> loginResultResponse = await Ioc.Default
+            .GetRequiredService<PassportClient2>()
+            .LoginByStokenAsync(stokenV1, token)
+            .ConfigureAwait(false);
+
+        if (!loginResultResponse.IsOk())
+        {
+            return;
+        }
+
+        Cookie stokenV2 = Cookie.FromLoginResult(loginResultResponse.Data);
+        (UserOptionResult result, string nickname) = await Ioc.Default
+            .GetRequiredService<IUserService>()
+            .ProcessInputCookieAsync(stokenV2)
+            .ConfigureAwait(false);
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();

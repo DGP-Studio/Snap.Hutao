@@ -33,9 +33,4 @@ public enum CookieType
     /// 需要 Stoken
     /// </summary>
     Stoken = 0B0100,
-
-    /// <summary>
-    /// 需要 Mid
-    /// </summary>
-    Mid = 0B1000,
 }

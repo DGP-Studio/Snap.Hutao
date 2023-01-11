@@ -42,10 +42,10 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
                 PlayerUid uid = (PlayerUid)user.SelectedUserGameRole;
                 GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(uid);
 
-                GameAuthKey? authkey = await bindingClient2.GenerateAuthenticationKeyAsync(user.Entity, data).ConfigureAwait(false);
-                if (authkey != null)
+                Web.Response.Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(user.Entity, data).ConfigureAwait(false);
+                if (authkeyResponse.IsOk())
                 {
-                    return new(true, GachaLogConfigration.AsQuery(data, authkey));
+                    return new(true, GachaLogConfigration.AsQuery(data, authkeyResponse.Data));
                 }
                 else
                 {

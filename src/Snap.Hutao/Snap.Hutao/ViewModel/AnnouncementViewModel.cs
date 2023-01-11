@@ -20,7 +20,6 @@ namespace Snap.Hutao.ViewModel;
 internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
 {
     private readonly IAnnouncementService announcementService;
-    private readonly ILogger<AnnouncementViewModel> logger;
 
     private AnnouncementWrapper? announcement;
 
@@ -32,13 +31,9 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="infoBarService">信息条服务</param>
     /// <param name="logger">日志器</param>
-    public AnnouncementViewModel(
-        IAnnouncementService announcementService,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory,
-        ILogger<AnnouncementViewModel> logger)
+    public AnnouncementViewModel(IAnnouncementService announcementService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
         this.announcementService = announcementService;
-        this.logger = logger;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         OpenAnnouncementUICommand = new RelayCommand<string>(OpenAnnouncementUI);

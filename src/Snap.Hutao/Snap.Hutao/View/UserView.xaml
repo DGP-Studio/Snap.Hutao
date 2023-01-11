@@ -62,7 +62,7 @@
                         </Style>
                     </Flyout.FlyoutPresenterStyle>
                     <StackPanel>
-                        <StackPanel Visibility="{Binding Users, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+                        <StackPanel Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                             <TextBlock
                                 Margin="10,6,0,6"
                                 Style="{StaticResource BaseTextBlockStyle}"
@@ -190,7 +190,7 @@
                             Margin="10,6,0,6"
                             Style="{StaticResource SubtitleTextBlockStyle}"
                             Text="请先登录"
-                            Visibility="{Binding Users, Converter={StaticResource EmptyCollectionToVisibilityRevertConverter}}"/>
+                            Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
                         <TextBlock
                             Margin="10,6,0,6"
                             Style="{StaticResource BaseTextBlockStyle}"

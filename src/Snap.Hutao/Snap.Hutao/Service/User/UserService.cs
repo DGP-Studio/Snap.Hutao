@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Extension;
@@ -27,7 +28,7 @@ internal class UserService : IUserService
 
     private BindingUser? currentUser;
     private ObservableCollection<BindingUser>? userCollection;
-    private ObservableCollection<Model.Binding.User.UserAndRole>? roleCollection;
+    private ObservableCollection<Model.Binding.User.UserAndUid>? roleCollection;
 
     /// <summary>
     /// 构造一个新的用户服务
@@ -115,23 +116,14 @@ internal class UserService : IUserService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                foreach (Model.Entity.User entity in appDbContext.Users)
+                foreach (Model.Entity.User entity in appDbContext.Users.AsNoTracking())
                 {
-                    BindingUser? initialized = await BindingUser.ResumeAsync(entity).ConfigureAwait(false);
-
-                    if (initialized != null)
-                    {
-                        users.Add(initialized);
-                    }
-                    else
-                    {
-                        // User is unable to be initialized, remove it.
-                        await appDbContext.Users.RemoveAndSaveAsync(entity).ConfigureAwait(false);
-                    }
+                    BindingUser initialized = await BindingUser.ResumeAsync(entity).ConfigureAwait(false);
+                    users.Add(initialized);
                 }
             }
 
-            userCollection = new(users);
+            userCollection = users.ToObservableCollection();
             Current = users.SingleOrDefault(user => user.IsSelected);
         }
 
@@ -139,22 +131,22 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<Model.Binding.User.UserAndRole>> GetRoleCollectionAsync()
+    public async Task<ObservableCollection<Model.Binding.User.UserAndUid>> GetRoleCollectionAsync()
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         if (roleCollection == null)
         {
-            List<Model.Binding.User.UserAndRole> userAndRoles = new();
+            List<Model.Binding.User.UserAndUid> userAndUids = new();
             ObservableCollection<BindingUser> observableUsers = await GetUserCollectionAsync().ConfigureAwait(false);
             foreach (BindingUser user in observableUsers.ToList())
             {
                 foreach (UserGameRole role in user.UserGameRoles)
                 {
-                    userAndRoles.Add(new(user.Entity, role));
+                    userAndUids.Add(new(user.Entity, role));
                 }
             }
 
-            roleCollection = new(userAndRoles);
+            roleCollection = new(userAndUids);
         }
 
         return roleCollection;
@@ -163,11 +155,10 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public UserGameRole? GetUserGameRoleByUid(string uid)
     {
-        if (roleCollection != null)
+        if (userCollection != null)
         {
-            // System.InvalidOperationException: Sequence contains no matching element
-            // Not quiet sure why this happen when its Single()
-            return roleCollection.SingleOrDefault(r => r.Role.GameUid == uid)?.Role;
+            // TODO: optimize match speed.
+            return userCollection.SelectMany(u => u.UserGameRoles).SingleOrDefault(r => r.GameUid == uid);
         }
 
         return null;

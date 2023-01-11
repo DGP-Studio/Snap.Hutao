@@ -41,7 +41,7 @@ public class CardClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>注册结果</returns>
-    public async Task<VerificationRegistration?> CreateVerificationAsync(User user, CancellationToken token)
+    public async Task<Response<VerificationRegistration>> CreateVerificationAsync(User user, CancellationToken token)
     {
         Response<VerificationRegistration>? resp = await httpClient
             .SetUser(user, CookieType.Ltoken)
@@ -49,7 +49,7 @@ public class CardClient
             .TryCatchGetFromJsonAsync<Response<VerificationRegistration>>(ApiEndpoints.CardCreateVerification, options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ public class CardClient
     /// <param name="validate">验证</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证结果</returns>
-    public async Task<VerificationResult?> VerifyVerificationAsync(string challenge, string validate, CancellationToken token)
+    public async Task<Response<VerificationResult>> VerifyVerificationAsync(string challenge, string validate, CancellationToken token)
     {
         VerificationData data = new(challenge, validate);
 
@@ -67,7 +67,7 @@ public class CardClient
             .TryCatchPostAsJsonAsync<VerificationData, Response<VerificationResult>>(ApiEndpoints.CardVerifyVerification, data, options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class CardClient
     /// <param name="token">取消令牌</param>
     /// <returns>桌面小组件数据</returns>
     [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.X6)]
-    public async Task<WidgetData?> GetWidgetDataAsync(User user, CancellationToken token)
+    public async Task<Response<DataWrapper<WidgetData>>> GetWidgetDataAsync(User user, CancellationToken token)
     {
         Response<DataWrapper<WidgetData>>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
@@ -85,7 +85,7 @@ public class CardClient
             .TryCatchGetFromJsonAsync<Response<DataWrapper<WidgetData>>>(ApiEndpoints.CardWidgetData, options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     private class VerificationData

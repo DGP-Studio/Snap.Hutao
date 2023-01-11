@@ -108,14 +108,14 @@ public class DailyNoteEntry : ObservableObject
     /// <summary>
     /// 构造一个新的实时便笺
     /// </summary>
-    /// <param name="userAndRole">用户与角色</param>
+    /// <param name="userAndUid">用户与角色</param>
     /// <returns>新的实时便笺</returns>
-    public static DailyNoteEntry Create(UserAndRole userAndRole)
+    public static DailyNoteEntry Create(UserAndUid userAndUid)
     {
         return new()
         {
-            UserId = userAndRole.User.InnerId,
-            Uid = userAndRole.Role.GameUid,
+            UserId = userAndUid.User.InnerId,
+            Uid = userAndUid.Uid.Value,
             ResinNotifyThreshold = 160,
             HomeCoinNotifyThreshold = 2400,
         };

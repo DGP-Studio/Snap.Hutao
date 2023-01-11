@@ -15,14 +15,14 @@ internal interface ISpiralAbyssRecordService
     /// <summary>
     /// 异步获取深渊记录集合
     /// </summary>
-    /// <param name="userAndRole">当前角色</param>
+    /// <param name="userAndUid">当前角色</param>
     /// <returns>深渊记录集合</returns>
-    Task<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssCollectionAsync(UserAndRole userAndRole);
+    Task<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssCollectionAsync(UserAndUid userAndUid);
 
     /// <summary>
     /// 异步刷新深渊记录
     /// </summary>
-    /// <param name="userAndRole">当前角色</param>
+    /// <param name="userAndUid">当前角色</param>
     /// <returns>任务</returns>
-    Task RefreshSpiralAbyssAsync(UserAndRole userAndRole);
+    Task RefreshSpiralAbyssAsync(UserAndUid userAndUid);
 }

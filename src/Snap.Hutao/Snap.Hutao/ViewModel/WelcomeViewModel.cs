@@ -15,6 +15,7 @@ using Snap.Hutao.Factory.Abstraction;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -84,10 +85,17 @@ internal class WelcomeViewModel : ObservableObject
         LocalSetting.Set(SettingKeys.StaticResourceV1Contract, true);
         LocalSetting.Set(SettingKeys.StaticResourceV2Contract, true);
 
-        new ToastContentBuilder()
-            .AddText("下载完成")
-            .AddText("现在可以开始使用胡桃了")
-            .Show();
+        try
+        {
+            new ToastContentBuilder()
+                .AddText("下载完成")
+                .AddText("现在可以开始使用胡桃了")
+                .Show();
+        }
+        catch (COMException)
+        {
+            // 0x803E0105
+        }
     }
 
     /// <summary>

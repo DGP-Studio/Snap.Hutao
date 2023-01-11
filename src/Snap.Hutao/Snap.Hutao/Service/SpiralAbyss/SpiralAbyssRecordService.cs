@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
+using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.SpiralAbyss;
@@ -35,19 +36,19 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssCollectionAsync(UserAndRole userAndRole)
+    public async Task<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
-        if (uid != userAndRole.Role.GameUid)
+        if (uid != userAndUid.Uid.Value)
         {
             spiralAbysses = null;
         }
 
-        uid = userAndRole.Role.GameUid;
+        uid = userAndUid.Uid.Value;
         if (spiralAbysses == null)
         {
             List<SpiralAbyssEntry> entries = await appDbContext.SpiralAbysses
                 .AsNoTracking()
-                .Where(s => s.Uid == userAndRole.Role.GameUid)
+                .Where(s => s.Uid == userAndUid.Uid.Value)
                 .OrderByDescending(s => s.ScheduleId)
                 .ToListAsync()
                 .ConfigureAwait(false);
@@ -60,14 +61,16 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
     }
 
     /// <inheritdoc/>
-    public async Task RefreshSpiralAbyssAsync(UserAndRole userAndRole)
+    public async Task RefreshSpiralAbyssAsync(UserAndUid userAndUid)
     {
-        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? last = await gameRecordClient
-            .GetSpiralAbyssAsync(userAndRole, SpiralAbyssSchedule.Last)
+        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> lastResponse = await gameRecordClient
+            .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Last)
             .ConfigureAwait(false);
 
-        if (last != null)
+        if (lastResponse.IsOk())
         {
+            Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss last = lastResponse.Data;
+
             SpiralAbyssEntry? lastEntry = spiralAbysses!.SingleOrDefault(s => s.ScheduleId == last.ScheduleId);
             if (lastEntry != null)
             {
@@ -79,7 +82,7 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
             }
             else
             {
-                SpiralAbyssEntry entry = SpiralAbyssEntry.Create(userAndRole.Role.GameUid, last);
+                SpiralAbyssEntry entry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, last);
 
                 await ThreadHelper.SwitchToMainThreadAsync();
                 spiralAbysses!.Insert(0, entry);
@@ -89,12 +92,14 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
             }
         }
 
-        Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss? current = await gameRecordClient
-            .GetSpiralAbyssAsync(userAndRole, SpiralAbyssSchedule.Current)
+        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> currentResponse = await gameRecordClient
+            .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current)
             .ConfigureAwait(false);
 
-        if (current != null)
+        if (currentResponse.IsOk())
         {
+            Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss current = currentResponse.Data;
+
             SpiralAbyssEntry? currentEntry = spiralAbysses!.SingleOrDefault(s => s.ScheduleId == current.ScheduleId);
             if (currentEntry != null)
             {
@@ -106,7 +111,7 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
             }
             else
             {
-                SpiralAbyssEntry entry = SpiralAbyssEntry.Create(userAndRole.Role.GameUid, current);
+                SpiralAbyssEntry entry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, current);
 
                 await ThreadHelper.SwitchToMainThreadAsync();
                 spiralAbysses!.Insert(0, entry);

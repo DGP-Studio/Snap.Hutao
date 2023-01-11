@@ -22,5 +22,8 @@ public class RankAvatar : Avatar
         Value = value;
     }
 
+    /// <summary>
+    /// 排行
+    /// </summary>
     public int Value { get; set; }
 }

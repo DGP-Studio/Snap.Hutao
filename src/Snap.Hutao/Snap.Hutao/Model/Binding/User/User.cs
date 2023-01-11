@@ -10,6 +10,7 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.Web.Response;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Model.Binding.User;
@@ -98,8 +99,8 @@ public class User : ObservableObject
     /// </summary>
     /// <param name="inner">数据库实体</param>
     /// <param name="token">取消令牌</param>
-    /// <returns>用户是否初始化完成，若Cookie失效会返回 <see langword="false"/> </returns>
-    internal static async Task<User?> ResumeAsync(EntityUser inner, CancellationToken token = default)
+    /// <returns>用户</returns>
+    internal static async Task<User> ResumeAsync(EntityUser inner, CancellationToken token = default)
     {
         User user = new(inner);
         bool isOk = await user.InitializeCoreAsync(token).ConfigureAwait(false);
@@ -107,6 +108,7 @@ public class User : ObservableObject
         if (!isOk)
         {
             user.UserInfo = new UserInfo() { Nickname = "网络异常" };
+            user.UserGameRoles = new();
         }
 
         return user;
@@ -117,7 +119,7 @@ public class User : ObservableObject
     /// </summary>
     /// <param name="cookie">cookie</param>
     /// <param name="token">取消令牌</param>
-    /// <returns>用户是否初始化完成，若Cookie失效会返回 <see langword="null"/> </returns>
+    /// <returns>用户</returns>
     internal static async Task<User?> CreateAsync(Cookie cookie, CancellationToken token = default)
     {
         // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
@@ -153,7 +155,7 @@ public class User : ObservableObject
 
         using (IServiceScope scope = Ioc.Default.CreateScope())
         {
-            Web.Response.Response<UserFullInfoWrapper> response = await scope.ServiceProvider
+            Response<UserFullInfoWrapper> response = await scope.ServiceProvider
                 .GetRequiredService<UserClient2>()
                 .GetUserFullInfoAsync(Entity, token)
                 .ConfigureAwait(false);
@@ -162,39 +164,49 @@ public class User : ObservableObject
             // 自动填充 Ltoken
             if (Ltoken == null)
             {
-                string? ltoken = await scope.ServiceProvider
+                Response<LtokenWrapper> ltokenResponse = await scope.ServiceProvider
                     .GetRequiredService<PassportClient2>()
                     .GetLtokenBySTokenAsync(Entity, token)
                     .ConfigureAwait(false);
 
-                if (ltoken != null)
+                if (ltokenResponse.IsOk())
                 {
-                    Cookie ltokenCookie = Cookie.Parse($"ltuid={Entity.Aid};ltoken={ltoken}");
+                    Cookie ltokenCookie = Cookie.Parse($"ltuid={Entity.Aid};ltoken={ltokenResponse.Data.Ltoken}");
                     Entity.Ltoken = ltokenCookie;
                 }
             }
 
-            string? actionTicket = await scope.ServiceProvider
+            Response<ActionTicketWrapper> actionTicketResponse = await scope.ServiceProvider
                 .GetRequiredService<AuthClient>()
                 .GetActionTicketByStokenAsync("game_role", Entity)
                 .ConfigureAwait(false);
 
-            UserGameRoles = await scope.ServiceProvider
-                .GetRequiredService<BindingClient>()
-                .GetUserGameRolesByActionTicketAsync(actionTicket!, Entity, token)
-                .ConfigureAwait(false);
+            if (actionTicketResponse.IsOk())
+            {
+                string actionTicket = actionTicketResponse.Data.Ticket;
+
+                Response<ListWrapper<UserGameRole>> userGameRolesResponse = await scope.ServiceProvider
+                    .GetRequiredService<BindingClient>()
+                    .GetUserGameRolesByActionTicketAsync(actionTicket, Entity, token)
+                    .ConfigureAwait(false);
+
+                if (userGameRolesResponse.IsOk())
+                {
+                    UserGameRoles = userGameRolesResponse.Data.List;
+                }
+            }
 
             // 自动填充 CookieToken
             if (CookieToken == null)
             {
-                string? cookieToken = await scope.ServiceProvider
+                Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
                     .GetRequiredService<PassportClient2>()
                     .GetCookieAccountInfoBySTokenAsync(Entity, token)
                     .ConfigureAwait(false);
 
-                if (cookieToken != null)
+                if (cookieTokenResponse.IsOk())
                 {
-                    Cookie cookieTokenCookie = Cookie.Parse($"account_id={Entity.Aid};cookie_token={cookieToken}");
+                    Cookie cookieTokenCookie = Cookie.Parse($"account_id={Entity.Aid};cookie_token={cookieTokenResponse.Data.CookieToken}");
                     Entity.CookieToken = cookieTokenCookie;
                 }
             }

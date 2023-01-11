@@ -10,6 +10,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
@@ -203,7 +204,17 @@ internal class SettingViewModel : ObservableObject
         {
             string cacheFilePath = GachaLogUrlWebCacheProvider.GetCacheFile(gamePath);
             string cacheFolder = Path.GetDirectoryName(cacheFilePath)!;
-            Directory.Delete(cacheFolder, true);
+
+            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+            if (Directory.Exists(cacheFolder))
+            {
+                Directory.Delete(cacheFolder, true);
+                infoBarService.Success("清除完成");
+            }
+            else
+            {
+                infoBarService.Warning($"清除失败，找不到目录：{cacheFolder}");
+            }
         }
     }
 

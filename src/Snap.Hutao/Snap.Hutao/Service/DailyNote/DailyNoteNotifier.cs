@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
+using Snap.Hutao.Web.Response;
 using Windows.Foundation.Metadata;
 
 namespace Snap.Hutao.Service.DailyNote;
@@ -145,16 +146,24 @@ internal class DailyNoteNotifier
             BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
             AuthClient authClient = scope.ServiceProvider.GetRequiredService<AuthClient>();
 
-            string? actionTicket = await authClient
+            Response<ActionTicketWrapper> actionTicketResponse = await authClient
                 .GetActionTicketByStokenAsync("game_role", entry.User)
                 .ConfigureAwait(false);
 
-            List<UserGameRole> roles = await scope.ServiceProvider
-                .GetRequiredService<BindingClient>()
-                .GetUserGameRolesByActionTicketAsync(actionTicket!, entry.User)
-                .ConfigureAwait(false);
+            string? attribution = "请求异常";
+            if (actionTicketResponse.IsOk())
+            {
+                Response<ListWrapper<UserGameRole>> rolesResponse = await scope.ServiceProvider
+                    .GetRequiredService<BindingClient>()
+                    .GetUserGameRolesByActionTicketAsync(actionTicketResponse.Data.Ticket, entry.User)
+                    .ConfigureAwait(false);
 
-            string attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "未知角色";
+                if (rolesResponse.IsOk())
+                {
+                    List<UserGameRole> roles = rolesResponse.Data.List;
+                    attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "未知角色";
+                }
+            }
 
             ToastContentBuilder builder = new ToastContentBuilder()
                 .AddHeader("DAILYNOTE", "实时便笺提醒", "DAILYNOTE")
@@ -181,11 +190,11 @@ internal class DailyNoteNotifier
                         {
                             HintWeight = 1,
                             Children =
-                        {
-                            new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
-                            new AdaptiveText() { Text = info.AdaptiveHint, HintAlign = AdaptiveTextAlign.Center,  },
-                            new AdaptiveText() { Text = info.Title, HintAlign = AdaptiveTextAlign.Center, HintStyle = AdaptiveTextStyle.CaptionSubtle, },
-                        },
+                            {
+                                new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
+                                new AdaptiveText() { Text = info.AdaptiveHint, HintAlign = AdaptiveTextAlign.Center,  },
+                                new AdaptiveText() { Text = info.Title, HintAlign = AdaptiveTextAlign.Center, HintStyle = AdaptiveTextStyle.CaptionSubtle, },
+                            },
                         };
 
                         group.Children.Add(subgroup);

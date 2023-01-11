@@ -43,6 +43,13 @@ internal static class IocConfiguration
             }
         }
 
-        return services.AddDbContext<AppDbContext>(builder => builder.UseSqlite(sqlConnectionString));
+        return services.AddDbContext<AppDbContext>(builder =>
+        {
+            builder
+#if DEBUG
+                .EnableSensitiveDataLogging()
+#endif
+                .UseSqlite(sqlConnectionString);
+        });
     }
 }

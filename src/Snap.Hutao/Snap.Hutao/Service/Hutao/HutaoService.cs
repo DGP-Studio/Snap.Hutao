@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -37,7 +38,7 @@ internal class HutaoService : IHutaoService
     }
 
     /// <inheritdoc/>
-    public ValueTask<Overview?> GetOverviewAsync()
+    public ValueTask<Overview> GetOverviewAsync()
     {
         return FromCacheOrWebAsync(nameof(Overview), homaClient.GetOverviewAsync);
     }
@@ -78,7 +79,8 @@ internal class HutaoService : IHutaoService
         return FromCacheOrWebAsync(nameof(TeamAppearance), homaClient.GetTeamCombinationsAsync);
     }
 
-    private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, Func<CancellationToken, Task<T>> taskFunc)
+    private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, Func<CancellationToken, Task<Response<T>>> taskFunc)
+        where T : new()
     {
         string key = $"{nameof(HutaoService)}.Cache.{typeName}";
         if (memoryCache.TryGetValue(key, out object? cache))
@@ -99,7 +101,9 @@ internal class HutaoService : IHutaoService
             }
         }
 
-        T web = await taskFunc(default).ConfigureAwait(false);
+        Response<T> webResponse = await taskFunc(default).ConfigureAwait(false);
+        T web = webResponse.IsOk() ? webResponse.Data : new();
+
         appDbContext.ObjectCache.AddAndSave(new()
         {
             Key = key,

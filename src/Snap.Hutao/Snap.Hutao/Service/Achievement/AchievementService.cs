@@ -67,7 +67,10 @@ internal class AchievementService : IAchievementService
 
         // Sync database
         await ThreadHelper.SwitchToBackgroundAsync();
-        await appDbContext.AchievementArchives.RemoveAndSaveAsync(archive).ConfigureAwait(false);
+        await appDbContext.AchievementArchives
+            .Where(a => a.InnerId == archive.InnerId)
+            .ExecuteDeleteAsync()
+            .ConfigureAwait(false);
     }
 
     /// <inheritdoc/>

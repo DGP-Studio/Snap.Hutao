@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -39,30 +38,30 @@ internal class CalculateClient
     /// <param name="delta">差异</param>
     /// <param name="token">取消令牌</param>
     /// <returns>消耗结果</returns>
-    public async Task<Consumption?> ComputeAsync(User user, AvatarPromotionDelta delta, CancellationToken token = default)
+    public async Task<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
         Response<Consumption>? resp = await httpClient
             .SetUser(user, CookieType.CookieToken)
             .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(ApiEndpoints.CalculateCompute, delta, options, logger, token)
             .ConfigureAwait(false);
-        return resp?.Data;
+
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
     /// 异步获取角色列表
     /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="uid">Uid</param>
+    /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public async Task<List<Avatar>> GetAvatarsAsync(User user, PlayerUid uid, CancellationToken token = default)
+    public async Task<List<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         int currentPage = 1;
-        SyncAvatarFilter filter = new() { Uid = uid.Value, Region = uid.Region };
+        SyncAvatarFilter filter = new() { Uid = userAndUid.Uid.Value, Region = userAndUid.Uid.Region };
 
         List<Avatar> avatars = new();
         Response<ListWrapper<Avatar>>? resp;
-        httpClient.SetUser(user, CookieType.CookieToken);
+        httpClient.SetUser(userAndUid.User, CookieType.CookieToken);
 
         do
         {
@@ -71,43 +70,14 @@ internal class CalculateClient
                 .TryCatchPostAsJsonAsync<SyncAvatarFilter, Response<ListWrapper<Avatar>>>(ApiEndpoints.CalculateSyncAvatarList, filter, options, logger, token)
                 .ConfigureAwait(false);
 
-            if (resp?.Data?.List is not null)
+            if (resp != null && resp.IsOk())
             {
                 avatars.AddRange(resp.Data.List);
             }
-
-            await Task.Delay(Random.Shared.Next(0, 1000), token).ConfigureAwait(false);
-        }
-        while (resp?.Data?.List?.Count == 20);
-
-        return avatars;
-    }
-
-    /// <summary>
-    /// 异步获取角色列表
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色列表</returns>
-    public async Task<List<Avatar>> GetAvatarsAsync(User user, CancellationToken token = default)
-    {
-        int currentPage = 1;
-        AvatarFilter filter = new();
-
-        List<Avatar> avatars = new();
-        Response<ListWrapper<Avatar>>? resp;
-        httpClient.SetUser(user, CookieType.CookieToken);
-
-        do
-        {
-            filter.Page = currentPage++;
-            resp = await httpClient
-                .TryCatchPostAsJsonAsync<AvatarFilter, Response<ListWrapper<Avatar>>>(ApiEndpoints.CalculateAvatarList, filter, options, logger, token)
-                .ConfigureAwait(false);
-
-            if (resp?.Data?.List is not null)
+            else
             {
-                avatars.AddRange(resp.Data.List);
+                // Hot path to exit loop
+                break;
             }
 
             await Task.Delay(Random.Shared.Next(0, 1000), token).ConfigureAwait(false);
@@ -120,70 +90,18 @@ internal class CalculateClient
     /// <summary>
     /// 异步获取角色详情
     /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="uid">uid</param>
+    /// <param name="userAndUid">用户与角色</param>
     /// <param name="avatar">角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色详情</returns>
-    public async Task<AvatarDetail?> GetAvatarDetailAsync(User user, PlayerUid uid, Avatar avatar, CancellationToken token = default)
+    public async Task<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)
     {
         Response<AvatarDetail>? resp = await httpClient
-            .SetUser(user, CookieType.CookieToken)
-            .TryCatchGetFromJsonAsync<Response<AvatarDetail>>(ApiEndpoints.CalculateSyncAvatarDetail(avatar.Id, uid), options, logger, token)
+            .SetUser(userAndUid.User, CookieType.CookieToken)
+            .TryCatchGetFromJsonAsync<Response<AvatarDetail>>(ApiEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value), options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
-    }
-
-    /// <summary>
-    /// 异步获取角色技能列表
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="avatar">角色</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色技能列表</returns>
-    public async Task<List<Skill>> GetAvatarSkillsAsync(User user, Avatar avatar, CancellationToken token)
-    {
-        Response<ListWrapper<Skill>>? resp = await httpClient
-            .SetUser(user, CookieType.CookieToken)
-            .TryCatchGetFromJsonAsync<Response<ListWrapper<Skill>>>(ApiEndpoints.CalculateAvatarSkillList(avatar), options, logger, token)
-            .ConfigureAwait(false);
-
-        return EnumerableExtension.EmptyIfNull(resp?.Data?.List);
-    }
-
-    /// <summary>
-    /// 异步获取角色列表
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色列表</returns>
-    public async Task<List<Weapon>> GetWeaponsAsync(User user, CancellationToken token)
-    {
-        int currentPage = 1;
-        WeaponFilter filter = new();
-
-        List<Weapon> weapons = new();
-        Response<ListWrapper<Weapon>>? resp;
-        httpClient.SetUser(user, CookieType.CookieToken);
-
-        do
-        {
-            filter.Page = currentPage++;
-            resp = await httpClient
-                .TryCatchPostAsJsonAsync<WeaponFilter, Response<ListWrapper<Weapon>>>(ApiEndpoints.CalculateWeaponList, filter, options, logger, token)
-                .ConfigureAwait(false);
-
-            if (resp?.Data?.List is not null)
-            {
-                weapons.AddRange(resp.Data.List);
-            }
-
-            await Task.Delay(Random.Shared.Next(0, 1000), token).ConfigureAwait(false);
-        }
-        while (resp?.Data?.List?.Count == 20);
-
-        return weapons;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -193,14 +111,14 @@ internal class CalculateClient
     /// <param name="shareCode">摹本码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>家具列表</returns>
-    public async Task<FurnitureListWrapper?> FurnitureBlueprintAsync(User user, string shareCode, CancellationToken token)
+    public async Task<Response<FurnitureListWrapper>> FurnitureBlueprintAsync(Model.Entity.User user, string shareCode, CancellationToken token)
     {
         Response<FurnitureListWrapper>? resp = await httpClient
             .SetUser(user, CookieType.CookieToken)
             .TryCatchGetFromJsonAsync<Response<FurnitureListWrapper>>(ApiEndpoints.CalculateFurnitureBlueprint(shareCode), options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -210,7 +128,7 @@ internal class CalculateClient
     /// <param name="items">物品</param>
     /// <param name="token">取消令牌</param>
     /// <returns>消耗</returns>
-    public async Task<List<Item>> FurnitureComputeAsync(User user, List<Item> items, CancellationToken token)
+    public async Task<Response<ListWrapper<Item>>> FurnitureComputeAsync(Model.Entity.User user, List<Item> items, CancellationToken token)
     {
         ListWrapper<IdCount> data = new() { List = items.Select(i => new IdCount { Id = i.Id, Count = i.Num }).ToList() };
 
@@ -219,25 +137,7 @@ internal class CalculateClient
             .TryCatchPostAsJsonAsync<ListWrapper<IdCount>, Response<ListWrapper<Item>>>(ApiEndpoints.CalculateFurnitureCompute, data, options, logger, token)
             .ConfigureAwait(false);
 
-        return EnumerableExtension.EmptyIfNull(resp?.Data?.List);
-    }
-
-    private class AvatarFilter
-    {
-        [JsonPropertyName("element_attr_ids")]
-        public List<int>? ElementAttrIds { get; set; } = new();
-
-        [JsonPropertyName("weapon_cat_ids")]
-        public List<int>? WeaponCatIds { get; set; } = new();
-
-        [JsonPropertyName("page")]
-        public int Page { get; set; }
-
-        [JsonPropertyName("size")]
-        public int Size { get; set; } = 20;
-
-        [JsonPropertyName("is_all")]
-        public bool IsAll { get; set; } = true;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     private class SyncAvatarFilter
@@ -259,21 +159,6 @@ internal class CalculateClient
 
         [JsonPropertyName("region")]
         public string Region { get; set; } = default!;
-    }
-
-    private class WeaponFilter
-    {
-        [JsonPropertyName("weapon_levels")]
-        public List<int> WeaponLevels { get; set; } = new();
-
-        [JsonPropertyName("weapon_cat_ids")]
-        public List<int> WeaponCatIds { get; set; } = new();
-
-        [JsonPropertyName("page")]
-        public int Page { get; set; }
-
-        [JsonPropertyName("size")]
-        public int Size { get; set; } = 20;
     }
 
     private class IdCount

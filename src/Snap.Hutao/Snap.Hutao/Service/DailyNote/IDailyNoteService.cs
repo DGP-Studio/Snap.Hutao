@@ -17,7 +17,7 @@ public interface IDailyNoteService
     /// </summary>
     /// <param name="role">角色</param>
     /// <returns>任务</returns>
-    Task AddDailyNoteAsync(UserAndRole role);
+    Task AddDailyNoteAsync(UserAndUid role);
 
     /// <summary>
     /// 异步获取实时便笺列表

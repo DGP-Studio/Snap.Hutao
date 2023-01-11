@@ -40,7 +40,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
 
     private bool isReminderNotification;
     private NamedValue<int>? selectedRefreshTime;
-    private ObservableCollection<UserAndRole>? userAndRoles;
+    private ObservableCollection<UserAndUid>? userAndUids;
 
     private SettingEntry? refreshSecondsEntry;
     private SettingEntry? reminderNotifyEntry;
@@ -66,7 +66,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
         this.appDbContext = appDbContext;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        TrackRoleCommand = asyncRelayCommandFactory.Create<UserAndRole>(TrackRoleAsync);
+        TrackRoleCommand = asyncRelayCommandFactory.Create<UserAndUid>(TrackRoleAsync);
         RefreshCommand = asyncRelayCommandFactory.Create(RefreshAsync);
         RemoveDailyNoteCommand = new RelayCommand<DailyNoteEntry>(RemoveDailyNote);
         ModifyNotificationCommand = asyncRelayCommandFactory.Create<DailyNoteEntry>(ModifyDailyNoteNotificationAsync);
@@ -136,7 +136,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
     /// <summary>
     /// 用户与角色集合
     /// </summary>
-    public ObservableCollection<UserAndRole>? UserAndRoles { get => userAndRoles; set => userAndRoles = value; }
+    public ObservableCollection<UserAndUid>? UserAndRoles { get => userAndUids; set => userAndUids = value; }
 
     /// <summary>
     /// 实时便笺集合
@@ -195,7 +195,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
         DailyNoteEntries = temp;
     }
 
-    private async Task TrackRoleAsync(UserAndRole? role)
+    private async Task TrackRoleAsync(UserAndUid? role)
     {
         if (role != null)
         {
@@ -229,11 +229,11 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
 
     private async Task VerifyDailyNoteVerificationAsync()
     {
-        if (UserAndRole.TryFromUser(userService.Current, out UserAndRole? userAndRole))
+        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
             // ContentDialog must be created by main thread.
             await ThreadHelper.SwitchToMainThreadAsync();
-            await new DailyNoteVerificationDialog(userAndRole).ShowAsync();
+            await new DailyNoteVerificationDialog(userAndUid).ShowAsync();
         }
         else
         {

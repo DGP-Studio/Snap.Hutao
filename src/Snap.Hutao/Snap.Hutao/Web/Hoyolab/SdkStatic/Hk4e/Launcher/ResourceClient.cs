@@ -37,13 +37,13 @@ internal class ResourceClient
     /// <param name="scheme">方案</param>
     /// <param name="token">取消令牌</param>
     /// <returns>游戏资源</returns>
-    public async Task<GameResource?> GetResourceAsync(LaunchScheme scheme, CancellationToken token = default)
+    public async Task<Response<GameResource>> GetResourceAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = ApiEndpoints.SdkStaticLauncherResource(scheme.LauncherId, scheme.Channel, scheme.SubChannel);
         Response<GameResource>? response = await httpClient
             .TryCatchGetFromJsonAsync<Response<GameResource>>(url, options, logger, token)
             .ConfigureAwait(false);
 
-        return response?.Data;
+        return Response.Response.DefaultIfNull(response);
     }
 }

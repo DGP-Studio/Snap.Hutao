@@ -22,7 +22,7 @@ public interface IUserService
     /// 异步获取角色与用户集合
     /// </summary>
     /// <returns>角色与用户集合</returns>
-    Task<ObservableCollection<Model.Binding.User.UserAndRole>> GetRoleCollectionAsync();
+    Task<ObservableCollection<Model.Binding.User.UserAndUid>> GetRoleCollectionAsync();
 
     /// <summary>
     /// 初始化用户服务及所有用户

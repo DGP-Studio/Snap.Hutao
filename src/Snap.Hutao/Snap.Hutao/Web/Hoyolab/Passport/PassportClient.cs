@@ -39,19 +39,19 @@ internal class PassportClient
     /// <param name="token">取消令牌</param>
     /// <returns>验证信息</returns>
     [ApiInformation(Cookie = CookieType.Ltoken)]
-    public async Task<UserInformation?> VerifyLtokenAsync(User user, CancellationToken token)
+    public async Task<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token)
     {
         Response<UserInfoWrapper>? response = await httpClient
             .SetUser(user, CookieType.Ltoken)
             .TryCatchPostAsJsonAsync<Timestamp, Response<UserInfoWrapper>>(ApiEndpoints.AccountVerifyLtoken, new(), options, logger, token)
             .ConfigureAwait(false);
 
-        return response?.Data?.UserInfo;
+        return Response.Response.DefaultIfNull(response);
     }
 
     private class Timestamp
     {
         [JsonPropertyName("t")]
-        public long T { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        public long Time { get; set; } = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
     }
 }

@@ -27,10 +27,13 @@ internal class ExceptionRecorder
         application.DebugSettings.BindingFailed += OnXamlBindingFailed;
     }
 
-    [SuppressMessage("", "VSTHRD002")]
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
-        Ioc.Default.GetRequiredService<HomaClient2>().UploadLogAsync(e.Exception).GetAwaiter().GetResult();
+#if RELEASE
+        #pragma warning disable VSTHRD002
+        Ioc.Default.GetRequiredService<Web.Hutao.HomaClient2>().UploadLogAsync(e.Exception).GetAwaiter().GetResult();
+        #pragma warning restore VSTHRD002
+#endif
         logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
 
         foreach (ILoggerProvider provider in Ioc.Default.GetRequiredService<IEnumerable<ILoggerProvider>>())

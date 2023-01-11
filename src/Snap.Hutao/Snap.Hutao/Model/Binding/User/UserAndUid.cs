@@ -1,25 +1,27 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.Web.Hoyolab;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
 namespace Snap.Hutao.Model.Binding.User;
 
 /// <summary>
-/// 角色与实体用户
+/// 实体用户与角色
+/// 由于许多操作需要同时用到ck与uid
+/// 抽象此类用于简化这类调用
 /// </summary>
-public class UserAndRole
+public class UserAndUid
 {
     /// <summary>
     /// 构造一个新的实体用户与角色
     /// </summary>
     /// <param name="user">实体用户</param>
     /// <param name="role">角色</param>
-    public UserAndRole(EntityUser user, UserGameRole role)
+    public UserAndUid(EntityUser user, PlayerUid role)
     {
         User = user;
-        Role = role;
+        Uid = role;
     }
 
     /// <summary>
@@ -30,33 +32,33 @@ public class UserAndRole
     /// <summary>
     /// 角色
     /// </summary>
-    public UserGameRole Role { get; private set; }
+    public PlayerUid Uid { get; private set; }
 
     /// <summary>
     /// 从用户与选中的角色转换
     /// </summary>
     /// <param name="user">角色</param>
     /// <returns>用户与角色</returns>
-    public static UserAndRole FromUser(User user)
+    public static UserAndUid FromUser(User user)
     {
-        return new UserAndRole(user.Entity, user.SelectedUserGameRole!);
+        return new UserAndUid(user.Entity, user.SelectedUserGameRole!);
     }
 
     /// <summary>
     /// 尝试转换到用户与角色
     /// </summary>
     /// <param name="user">用户</param>
-    /// <param name="userAndRole">用户与角色</param>
+    /// <param name="userAndUid">用户与角色</param>
     /// <returns>是否转换成功</returns>
-    public static bool TryFromUser(User? user, [NotNullWhen(true)] out UserAndRole? userAndRole)
+    public static bool TryFromUser(User? user, [NotNullWhen(true)] out UserAndUid? userAndUid)
     {
         if (user != null && user.SelectedUserGameRole != null)
         {
-            userAndRole = FromUser(user);
+            userAndUid = FromUser(user);
             return true;
         }
 
-        userAndRole = null;
+        userAndUid = null;
         return false;
     }
 }

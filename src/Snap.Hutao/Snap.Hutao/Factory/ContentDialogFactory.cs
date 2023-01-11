@@ -22,24 +22,18 @@ internal class ContentDialogFactory : IContentDialogFactory
     }
 
     /// <inheritdoc/>
-    public async ValueTask<TContentDialog> CreateAsync<TContentDialog>()
-        where TContentDialog : ContentDialog, new()
-    {
-        await ThreadHelper.SwitchToMainThreadAsync();
-        return new();
-    }
-
-    /// <inheritdoc/>
     public async ValueTask<ContentDialogResult> ConfirmAsync(string title, string content)
     {
-        ContentDialog dialog = await CreateForConfirmAsync(title, content).ConfigureAwait(true);
+        ContentDialog dialog = await CreateForConfirmAsync(title, content).ConfigureAwait(false);
+        await ThreadHelper.SwitchToMainThreadAsync();
         return await dialog.ShowAsync();
     }
 
     /// <inheritdoc/>
     public async ValueTask<ContentDialogResult> ConfirmCancelAsync(string title, string content, ContentDialogButton defaultButton = ContentDialogButton.Close)
     {
-        ContentDialog dialog = await CreateForConfirmCancelAsync(title, content, defaultButton).ConfigureAwait(true);
+        ContentDialog dialog = await CreateForConfirmCancelAsync(title, content, defaultButton).ConfigureAwait(false);
+        await ThreadHelper.SwitchToMainThreadAsync();
         return await dialog.ShowAsync();
     }
 

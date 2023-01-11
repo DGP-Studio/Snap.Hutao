@@ -64,7 +64,7 @@ internal class PassportClient2
     /// <param name="token">取消令牌</param>
     /// <returns>登录数据</returns>
     [ApiInformation(Salt = SaltType.PROD)]
-    public async Task<LoginResult?> LoginByStokenAsync(Cookie stokenV1, CancellationToken token)
+    public async Task<Response<LoginResult>> LoginByStokenAsync(Cookie stokenV1, CancellationToken token)
     {
         HttpResponseMessage message = await httpClient
             .SetHeader("Cookie", stokenV1.ToString())
@@ -76,7 +76,7 @@ internal class PassportClient2
             .ReadFromJsonAsync<Response<LoginResult>>(options, token)
             .ConfigureAwait(false);
 
-        return resp?.Data;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ internal class PassportClient2
     /// <param name="token">取消令牌</param>
     /// <returns>cookie token</returns>
     [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.PROD)]
-    public async Task<string?> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token)
+    public async Task<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token)
     {
         Response<UidCookieToken>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
@@ -94,7 +94,7 @@ internal class PassportClient2
             .TryCatchGetFromJsonAsync<Response<UidCookieToken>>(ApiEndpoints.AccountGetCookieTokenBySToken, options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data?.CookieToken;
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ internal class PassportClient2
     /// <param name="token">取消令牌</param>
     /// <returns>uid 与 cookie token</returns>
     [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.PROD)]
-    public async Task<string?> GetLtokenBySTokenAsync(User user, CancellationToken token)
+    public async Task<Response<LtokenWrapper>> GetLtokenBySTokenAsync(User user, CancellationToken token)
     {
         Response<LtokenWrapper>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
@@ -112,6 +112,6 @@ internal class PassportClient2
             .TryCatchGetFromJsonAsync<Response<LtokenWrapper>>(ApiEndpoints.AccountGetLtokenByStoken, options, logger, token)
             .ConfigureAwait(false);
 
-        return resp?.Data?.Ltoken;
+        return Response.Response.DefaultIfNull(resp);
     }
 }
