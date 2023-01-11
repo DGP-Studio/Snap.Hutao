@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Abstraction;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.Service.Game.Locator;

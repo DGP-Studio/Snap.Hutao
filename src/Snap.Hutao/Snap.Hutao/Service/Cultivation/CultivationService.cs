@@ -118,7 +118,7 @@ internal class CultivationService : ICultivationService
                 .ToList();
 
             List<BindingInventoryItem> results = new();
-            foreach (Model.Metadata.Material meta in metadata.Where(IsInventoryItem).OrderBy(m => m.Id))
+            foreach (Model.Metadata.Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id))
             {
                 InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.Create(projectId, meta.Id);
                 results.Add(new(meta, entity));
@@ -308,35 +308,5 @@ internal class CultivationService : ICultivationService
         }
 
         return true;
-    }
-
-    private bool IsInventoryItem(Model.Metadata.Material material)
-    {
-        // 原质
-        if (material.Id == 112001)
-        {
-            return false;
-        }
-
-        // 摩拉
-        if (material.Id == 202)
-        {
-            return true;
-        }
-
-        if (material.TypeDescription.EndsWith("区域特产"))
-        {
-            return true;
-        }
-
-        return material.TypeDescription switch
-        {
-            "角色经验素材" => true,
-            "角色培养素材" => true,
-            "天赋培养素材" => true,
-            "武器强化素材" => true,
-            "武器突破素材" => true,
-            _ => false,
-        };
     }
 }

@@ -55,4 +55,38 @@ public class Material
     /// 效果描述
     /// </summary>
     public string? EffectDescription { get; set; }
+
+    /// <summary>
+    /// 判断是否为物品栏物品
+    /// </summary>
+    /// <returns>是否为物品栏物品</returns>
+    public bool IsInventoryItem()
+    {
+        // 原质
+        if (Id == 112001)
+        {
+            return false;
+        }
+
+        // 摩拉
+        if (Id == 202)
+        {
+            return true;
+        }
+
+        if (TypeDescription.EndsWith("区域特产"))
+        {
+            return true;
+        }
+
+        return TypeDescription switch
+        {
+            "角色经验素材" => true,
+            "角色培养素材" => true,
+            "天赋培养素材" => true,
+            "武器强化素材" => true,
+            "武器突破素材" => true,
+            _ => false,
+        };
+    }
 }

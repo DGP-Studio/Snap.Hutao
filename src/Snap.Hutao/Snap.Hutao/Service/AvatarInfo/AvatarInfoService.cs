@@ -76,7 +76,7 @@ internal class AvatarInfoService : IAvatarInfoService
 
                         if (resp.IsValid)
                         {
-                            IList<EnkaAvatarInfo> list = UpdateDbAvatarInfos(userAndUid.Uid.Value, resp.AvatarInfoList);
+                            IList<EnkaAvatarInfo> list = UpdateDbAvatarInfos(userAndUid.Uid.Value, resp.AvatarInfoList, token);
                             Summary summary = await GetSummaryCoreAsync(resp.PlayerInfo, list, token).ConfigureAwait(false);
                             token.ThrowIfCancellationRequested();
                             return new(RefreshResult.Ok, summary);
@@ -90,7 +90,7 @@ internal class AvatarInfoService : IAvatarInfoService
                 case RefreshOption.RequestFromHoyolabGameRecord:
                     {
                         EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndUid.Uid.Value);
-                        IList<EnkaAvatarInfo> list = await UpdateDbAvatarInfosByGameRecordCharacterAsync(userAndUid).ConfigureAwait(false);
+                        IList<EnkaAvatarInfo> list = await UpdateDbAvatarInfosByGameRecordCharacterAsync(userAndUid, token).ConfigureAwait(false);
                         Summary summary = await GetSummaryCoreAsync(info, list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
@@ -98,7 +98,7 @@ internal class AvatarInfoService : IAvatarInfoService
                 case RefreshOption.RequestFromHoyolabCalculate:
                     {
                         EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndUid.Uid.Value);
-                        IList<EnkaAvatarInfo> list = await UpdateDbAvatarInfosByCalculateAvatarDetailAsync(userAndUid).ConfigureAwait(false);
+                        IList<EnkaAvatarInfo> list = await UpdateDbAvatarInfosByCalculateAvatarDetailAsync(userAndUid, token).ConfigureAwait(false);
                         Summary summary = await GetSummaryCoreAsync(info, list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
@@ -135,8 +135,9 @@ internal class AvatarInfoService : IAvatarInfoService
         return summary;
     }
 
-    private List<EnkaAvatarInfo> UpdateDbAvatarInfos(string uid, IEnumerable<EnkaAvatarInfo> webInfos)
+    private List<EnkaAvatarInfo> UpdateDbAvatarInfos(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
     {
+        token.ThrowIfCancellationRequested();
         List<ModelAvatarInfo> dbInfos = appDbContext.AvatarInfos
             .Where(i => i.Uid == uid)
             .ToList();
@@ -148,8 +149,10 @@ internal class AvatarInfoService : IAvatarInfoService
                 continue;
             }
 
-            ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == webInfo.AvatarId);
+            token.ThrowIfCancellationRequested();
 
+            // TODO: ensure the operation executes atomically
+            ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == webInfo.AvatarId);
             if (entity == null)
             {
                 entity = ModelAvatarInfo.Create(uid, webInfo);
@@ -162,10 +165,11 @@ internal class AvatarInfoService : IAvatarInfoService
             }
         }
 
+        token.ThrowIfCancellationRequested();
         return GetDbAvatarInfos(uid);
     }
 
-    private async Task<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid)
+    private async Task<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid, CancellationToken token)
     {
         string uid = userAndUid.Uid.Value;
         List<ModelAvatarInfo> dbInfos = appDbContext.AvatarInfos
@@ -218,7 +222,7 @@ internal class AvatarInfoService : IAvatarInfoService
         return GetDbAvatarInfos(uid);
     }
 
-    private async Task<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid)
+    private async Task<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
     {
         string uid = userAndUid.Uid.Value;
         List<ModelAvatarInfo> dbInfos = appDbContext.AvatarInfos

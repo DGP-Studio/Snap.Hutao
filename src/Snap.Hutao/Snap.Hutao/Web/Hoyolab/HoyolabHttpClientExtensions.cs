@@ -40,7 +40,12 @@ internal static class HoyolabHttpClientExtensions
             stringBuilder.Append(user.Stoken).AppendIf(user.Stoken != null, ';');
         }
 
-        httpClient.DefaultRequestHeaders.Set("Cookie", stringBuilder.ToString());
+        string result = stringBuilder.ToString();
+        if (!string.IsNullOrWhiteSpace(result))
+        {
+            httpClient.DefaultRequestHeaders.Set("Cookie", result);
+        }
+
         return httpClient;
     }
 

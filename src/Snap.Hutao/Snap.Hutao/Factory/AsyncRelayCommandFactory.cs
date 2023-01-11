@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Web.Hutao;
 
 namespace Snap.Hutao.Factory;
 

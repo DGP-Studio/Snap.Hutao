@@ -32,6 +32,7 @@ namespace Snap.Hutao.ViewModel;
 
 /// <summary>
 /// 角色属性视图模型
+/// TODO: support page unload as cancellation
 /// </summary>
 [Injection(InjectAs.Scoped)]
 internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation

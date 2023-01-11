@@ -27,6 +27,7 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
     private readonly IMetadataService metadataService;
     private readonly ILogger<CultivationViewModel> logger;
 
+    private bool isInitialized;
     private ObservableCollection<CultivateProject>? projects;
     private CultivateProject? selectedProject;
     private List<Model.Binding.Inventory.InventoryItem>? inventoryItems;
@@ -64,6 +65,11 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
 
     /// <inheritdoc/>
     public CancellationToken CancellationToken { get; set; }
+
+    /// <summary>
+    /// 是否初始化完成
+    /// </summary>
+    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
 
     /// <summary>
     /// 项目
@@ -140,12 +146,15 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
 
     private async Task OpenUIAsync()
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(true))
+        bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(true);
+        if (metaInitialized)
         {
             Projects = cultivationService.GetProjectCollection();
             SelectedProject = cultivationService.Current;
-            await UpdateCultivateEntriesAndInventoryItemsAsync(SelectedProject).ConfigureAwait(false);
+            await UpdateCultivateEntriesAndInventoryItemsAsync(SelectedProject).ConfigureAwait(true);
         }
+
+        IsInitialized = metaInitialized;
     }
 
     private async Task AddProjectAsync()

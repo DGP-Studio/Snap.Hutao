@@ -267,7 +267,7 @@ internal class AchievementViewModel
         }
 
         openUICompletionSource.TrySetResult(metaInitialized);
-        IsInitialized = true;
+        IsInitialized = metaInitialized;
     }
 
     #region 存档操作

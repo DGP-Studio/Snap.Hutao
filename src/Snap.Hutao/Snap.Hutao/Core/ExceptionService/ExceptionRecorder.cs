@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Web.Hutao;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -30,9 +29,9 @@ internal class ExceptionRecorder
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
 #if RELEASE
-        #pragma warning disable VSTHRD002
+#pragma warning disable VSTHRD002
         Ioc.Default.GetRequiredService<Web.Hutao.HomaClient2>().UploadLogAsync(e.Exception).GetAwaiter().GetResult();
-        #pragma warning restore VSTHRD002
+#pragma warning restore VSTHRD002
 #endif
         logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
 
