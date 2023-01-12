@@ -3,24 +3,15 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.AvatarInfo.Composer;
-using Snap.Hutao.Service.AvatarInfo.Factory;
-using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Web.Enka;
-using Snap.Hutao.Web.Enka.Model;
-using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Response;
 using CalculateAvatar = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Avatar;
 using EnkaAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using EnkaPlayerInfo = Snap.Hutao.Web.Enka.Model.PlayerInfo;
 using ModelAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using RecordCharacter = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar.Character;
 using RecordPlayerInfo = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.PlayerInfo;

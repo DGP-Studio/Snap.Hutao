@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
@@ -14,7 +13,6 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.ViewModel.Abstraction;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model.Post;
 using System.Collections.ObjectModel;
