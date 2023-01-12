@@ -165,3 +165,14 @@ steps:
     isPreRelease: true
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
+
+- task: DownloadSecureFile@1
+  name: cerFile
+  displayName: Download Rclone Config
+  inputs:
+    secureFile: 'rclone.conf'
+
+- task: rclone@1
+  inputs:
+    arguments: 'copy $(Build.ArtifactStagingDirectory)/* downloadDGPCN:/releases/Alpha/'
+    configPath: '$(cerFile.secureFilePath)/rclone.conf'
