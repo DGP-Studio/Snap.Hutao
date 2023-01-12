@@ -40,7 +40,7 @@ internal class SummaryAvatarFactory
     /// <returns>角色</returns>
     public PropertyAvatar CreateAvatar()
     {
-        ReliquaryAndWeapon reliquaryAndWeapon = ProcessEquip(avatarInfo.EquipList);
+        ReliquaryAndWeapon reliquaryAndWeapon = ProcessEquip(avatarInfo.EquipList.EmptyIfNull());
         MetadataAvatar avatar = metadataContext.IdAvatarMap[avatarInfo.AvatarId];
 
         return new()
@@ -65,11 +65,12 @@ internal class SummaryAvatarFactory
         };
     }
 
-    private ReliquaryAndWeapon ProcessEquip(IList<Equip> equipments)
+    private ReliquaryAndWeapon ProcessEquip(List<Equip> equipments)
     {
         List<PropertyReliquary> reliquaryList = new();
         PropertyWeapon? weapon = null;
 
+        // equipments can be null
         foreach (Equip equip in equipments)
         {
             switch (equip.Flat.ItemType)
@@ -134,9 +135,9 @@ internal class SummaryAvatarFactory
     private struct ReliquaryAndWeapon
     {
         public List<PropertyReliquary> Reliquaries;
-        public PropertyWeapon Weapon;
+        public PropertyWeapon? Weapon;
 
-        public ReliquaryAndWeapon(List<PropertyReliquary> reliquaries, PropertyWeapon weapon)
+        public ReliquaryAndWeapon(List<PropertyReliquary> reliquaries, PropertyWeapon? weapon)
         {
             Reliquaries = reliquaries;
             Weapon = weapon;

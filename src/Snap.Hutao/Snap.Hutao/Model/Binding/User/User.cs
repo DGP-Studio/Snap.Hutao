@@ -174,6 +174,10 @@ public class User : ObservableObject
                     Cookie ltokenCookie = Cookie.Parse($"ltuid={Entity.Aid};ltoken={ltokenResponse.Data.Ltoken}");
                     Entity.Ltoken = ltokenCookie;
                 }
+                else
+                {
+                    return false;
+                }
             }
 
             Response<ActionTicketWrapper> actionTicketResponse = await scope.ServiceProvider
@@ -194,6 +198,14 @@ public class User : ObservableObject
                 {
                     UserGameRoles = userGameRolesResponse.Data.List;
                 }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
             }
 
             // 自动填充 CookieToken
@@ -208,6 +220,10 @@ public class User : ObservableObject
                 {
                     Cookie cookieTokenCookie = Cookie.Parse($"account_id={Entity.Aid};cookie_token={cookieTokenResponse.Data.CookieToken}");
                     Entity.CookieToken = cookieTokenCookie;
+                }
+                else
+                {
+                    return false;
                 }
             }
         }

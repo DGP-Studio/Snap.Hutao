@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 品质颜色转换器
 /// </summary>
-internal class QualityColorConverter : ValueConverterBase<ItemQuality, Color>
+internal class QualityColorConverter : ValueConverter<ItemQuality, Color>
 {
     /// <inheritdoc/>
     public override Color Convert(ItemQuality from)

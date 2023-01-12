@@ -12,10 +12,19 @@ public static class SemaphoreSlimExtensions
     /// 异步进入信号量
     /// </summary>
     /// <param name="semaphoreSlim">信号量</param>
+    /// <param name="token">取消令牌</param>
     /// <returns>可释放的对象，用于释放信号量</returns>
-    public static async Task<IDisposable> EnterAsync(this SemaphoreSlim semaphoreSlim)
+    public static async Task<IDisposable> EnterAsync(this SemaphoreSlim semaphoreSlim, CancellationToken token = default)
     {
-        await semaphoreSlim.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            await semaphoreSlim.WaitAsync(token).ConfigureAwait(false);
+        }
+        catch (ObjectDisposedException ex)
+        {
+            throw new OperationCanceledException("信号量已经被释放，操作取消", ex);
+        }
+
         return new SemaphoreSlimReleaser(semaphoreSlim);
     }
 

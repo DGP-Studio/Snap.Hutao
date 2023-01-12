@@ -26,10 +26,10 @@ internal interface IGachaLogService
     Task<UIGF> ExportToUIGFAsync(GachaArchive archive);
 
     /// <summary>
-    /// 获取可用于绑定的存档集合
+    /// 异步获取可用于绑定的存档集合
     /// </summary>
     /// <returns>存档集合</returns>
-    ObservableCollection<GachaArchive> GetArchiveCollection();
+    Task<ObservableCollection<GachaArchive>> GetArchiveCollectionAsync();
 
     /// <summary>
     /// 获取祈愿日志Url提供器
@@ -58,7 +58,7 @@ internal interface IGachaLogService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>是否初始化成功</returns>
-    ValueTask<bool> InitializeAsync();
+    ValueTask<bool> InitializeAsync(CancellationToken token);
 
     /// <summary>
     /// 刷新祈愿记录

@@ -51,7 +51,7 @@ public class Avatar : ICalculableSource<ICalculableAvatar>
     /// <summary>
     /// 武器
     /// </summary>
-    public Weapon Weapon { get; set; } = default!;
+    public Weapon? Weapon { get; set; } = default!;
 
     /// <summary>
     /// 圣遗物列表

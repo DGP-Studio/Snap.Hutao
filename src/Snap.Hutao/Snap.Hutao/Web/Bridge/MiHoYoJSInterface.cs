@@ -352,29 +352,42 @@ public class MiHoYoJSInterface
         JsParam param = JsonSerializer.Deserialize<JsParam>(message)!;
 
         logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);
-        IJsResult? result = param.Method switch
-        {
-            "closePage" => ClosePage(param),
-            "configure_share" => ConfigureShare(param),
-            "eventTrack" => null,
-            "getActionTicket" => await GetActionTicketAsync(param).ConfigureAwait(false),
-            "getCookieInfo" => GetCookieInfo(param),
-            "getCookieToken" => await GetCookieTokenAsync(param).ConfigureAwait(false),
-            "getDS" => GetDynamicSecrectV1(param),
-            "getDS2" => GetDynamicSecrectV2(param),
-            "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
-            "getStatusBarHeight" => GetStatusBarHeight(param),
-            "getUserInfo" => GetUserInfo(param),
-            "hideLoading" => null,
-            "login" => null,
-            "pushPage" => PushPage(param),
-            "showLoading" => null,
-            _ => logger.LogWarning<IJsResult>("Unhandled Message Type: {method}", param.Method),
-        };
+        IJsResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
 
         if (result != null && param.Callback != null)
         {
             await ExecuteCallbackScriptAsync(param.Callback, result.ToString()).ConfigureAwait(false);
+        }
+    }
+
+    private async Task<IJsResult?> TryGetJsResultFromJsParamAsync(JsParam param)
+    {
+        try
+        {
+            return param.Method switch
+            {
+                "closePage" => ClosePage(param),
+                "configure_share" => ConfigureShare(param),
+                "eventTrack" => null,
+                "getActionTicket" => await GetActionTicketAsync(param).ConfigureAwait(false),
+                "getCookieInfo" => GetCookieInfo(param),
+                "getCookieToken" => await GetCookieTokenAsync(param).ConfigureAwait(false),
+                "getDS" => GetDynamicSecrectV1(param),
+                "getDS2" => GetDynamicSecrectV2(param),
+                "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
+                "getStatusBarHeight" => GetStatusBarHeight(param),
+                "getUserInfo" => GetUserInfo(param),
+                "hideLoading" => null,
+                "login" => null,
+                "pushPage" => PushPage(param),
+                "showLoading" => null,
+                _ => logger.LogWarning<IJsResult>("Unhandled Message Type: {method}", param.Method),
+            };
+        }
+        catch (ObjectDisposedException)
+        {
+            // The dialog is already closed.
+            return null;
         }
     }
 

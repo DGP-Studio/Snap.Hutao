@@ -23,9 +23,9 @@ internal class HutaoCache : IHutaoCache
 
     private Dictionary<AvatarId, Avatar>? idAvatarExtendedMap;
 
-    private bool isDatabaseViewModelInitialized;
-    private bool isWikiAvatarViewModelInitiaized;
-    private bool isWikiWeaponViewModelInitiaized;
+    private TaskCompletionSource<bool>? databaseViewModelTaskSource;
+    private TaskCompletionSource<bool>? wikiAvatarViewModelTaskSource;
+    private TaskCompletionSource<bool>? wikiWeaponViewModelTaskSource;
 
     /// <summary>
     /// 构造一个新的胡桃 API 缓存
@@ -62,11 +62,12 @@ internal class HutaoCache : IHutaoCache
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeForDatabaseViewModelAsync()
     {
-        if (isDatabaseViewModelInitialized)
+        if (databaseViewModelTaskSource != null)
         {
-            return true;
+            return await databaseViewModelTaskSource.Task.ConfigureAwait(false);
         }
 
+        databaseViewModelTaskSource = new();
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
@@ -81,20 +82,23 @@ internal class HutaoCache : IHutaoCache
 
             await Task.WhenAll(tasks).ConfigureAwait(false);
 
-            return isDatabaseViewModelInitialized = true;
+            databaseViewModelTaskSource.TrySetResult(true);
+            return true;
         }
 
+        databaseViewModelTaskSource.TrySetResult(false);
         return false;
     }
 
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeForWikiAvatarViewModelAsync()
     {
-        if (isWikiAvatarViewModelInitiaized)
+        if (wikiAvatarViewModelTaskSource != null)
         {
-            return true;
+            return await wikiAvatarViewModelTaskSource.Task.ConfigureAwait(false);
         }
 
+        wikiAvatarViewModelTaskSource = new();
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
@@ -116,21 +120,23 @@ internal class HutaoCache : IHutaoCache
                 ReliquarySets = co.Reliquaries.Select(r => new ComplexReliquarySet(r, idReliquarySetMap)).ToList(),
             }).ToList();
 
-            isWikiAvatarViewModelInitiaized = true;
+            wikiAvatarViewModelTaskSource.TrySetResult(true);
             return true;
         }
 
+        wikiAvatarViewModelTaskSource.TrySetResult(false);
         return false;
     }
 
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeForWikiWeaponViewModelAsync()
     {
-        if (isWikiWeaponViewModelInitiaized)
+        if (wikiWeaponViewModelTaskSource != null)
         {
-            return true;
+            return await wikiWeaponViewModelTaskSource.Task.ConfigureAwait(false);
         }
 
+        wikiWeaponViewModelTaskSource = new();
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
@@ -148,10 +154,11 @@ internal class HutaoCache : IHutaoCache
                 Avatars = co.Avatars.Select(a => new ComplexAvatar(idAvatarMap[a.Item], a.Rate)).ToList(),
             }).ToList();
 
-            isWikiWeaponViewModelInitiaized = true;
+            wikiWeaponViewModelTaskSource.TrySetResult(true);
             return true;
         }
 
+        wikiWeaponViewModelTaskSource.TrySetResult(false);
         return false;
     }
 

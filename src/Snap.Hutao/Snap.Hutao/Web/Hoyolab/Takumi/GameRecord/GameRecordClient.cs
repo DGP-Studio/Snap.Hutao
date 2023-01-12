@@ -55,6 +55,7 @@ internal class GameRecordClient
         // We hava a verification procedure to handle
         if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
         {
+            resp.Message = "请求失败，请前往「米游社-我的角色-实时便笺」页面查看";
             CardVerifier cardVerifier = Ioc.Default.GetRequiredService<CardVerifier>();
 
             if (await cardVerifier.TryGetXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is string challenge)
@@ -70,7 +71,7 @@ internal class GameRecordClient
             }
         }
 
-        return Response.Response.DefaultIfNull(resp, "请求失败，请前往「米游社-我的角色-实时便笺」页面查看");
+        return Response.Response.DefaultIfNull(resp);
     }
 
     /// <summary>

@@ -1,12 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
@@ -30,10 +28,7 @@ namespace Snap.Hutao.ViewModel;
 /// </summary>
 [Injection(InjectAs.Scoped)]
 [SuppressMessage("", "SA1124")]
-internal class AchievementViewModel
-    : ObservableObject,
-    ISupportCancellation,
-    INavigationRecipient
+internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
     private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(Model.Binding.Achievement.Achievement.IsChecked), SortDirection.Ascending);
     private static readonly SortDescription CompletionTimeSortDescription = new(nameof(Model.Binding.Achievement.Achievement.Time), SortDirection.Descending);
@@ -53,7 +48,6 @@ internal class AchievementViewModel
     private Model.Entity.AchievementArchive? selectedArchive;
     private bool isIncompletedItemsFirst = true;
     private string searchText = string.Empty;
-    private bool isInitialized;
     private string? finishDescription;
 
     /// <summary>
@@ -91,14 +85,6 @@ internal class AchievementViewModel
         SortIncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
         SaveAchievementCommand = new RelayCommand<Model.Binding.Achievement.Achievement>(SaveAchievement);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
-
-    /// <summary>
-    /// 是否初始化完成
-    /// </summary>
-    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
 
     /// <summary>
     /// 成就存档集合
@@ -251,23 +237,38 @@ internal class AchievementViewModel
         {
             try
             {
-                List<Model.Metadata.Achievement.AchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
+                List<Model.Binding.Achievement.AchievementGoal> sortedGoals;
+                ObservableCollection<Model.Entity.AchievementArchive> archives;
+
+                ThrowIfViewDisposed();
+                using (await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false))
+                {
+                    ThrowIfViewDisposed();
+
+                    List<Model.Metadata.Achievement.AchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
+                    sortedGoals = goals
+                        .OrderBy(goal => goal.Order)
+                        .Select(goal => new Model.Binding.Achievement.AchievementGoal(goal))
+                        .ToList();
+                    archives = await achievementService.GetArchiveCollectionAsync().ConfigureAwait(false);
+                }
 
                 await ThreadHelper.SwitchToMainThreadAsync();
-                AchievementGoals = goals.OrderBy(goal => goal.Order).Select(goal => new Model.Binding.Achievement.AchievementGoal(goal)).ToList();
-
-                Archives = achievementService.GetArchiveCollection();
+                AchievementGoals = sortedGoals;
+                Archives = archives;
                 SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
+
+                IsInitialized = true;
             }
-            catch (TaskCanceledException)
+            catch (OperationCanceledException)
             {
-                // Indicate initialization not succeed
+                // User canceled the loading operation,
+                // Indicate initialization not succeed.
                 openUICompletionSource.TrySetResult(false);
             }
         }
 
         openUICompletionSource.TrySetResult(metaInitialized);
-        IsInitialized = metaInitialized;
     }
 
     #region 存档操作

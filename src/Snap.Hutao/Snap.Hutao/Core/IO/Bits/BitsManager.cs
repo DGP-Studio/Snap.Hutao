@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
+using System.Runtime.InteropServices;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 using Windows.Win32.Networking.BackgroundIntelligentTransferService;
 
 namespace Snap.Hutao.Core.IO.Bits;
@@ -40,6 +43,41 @@ internal class BitsManager
         return new(result, tempFile);
     }
 
+    /// <summary>
+    /// 取消所有先前创建的任务
+    /// </summary>
+    public void CancelAllJobs()
+    {
+        IBackgroundCopyManager value;
+        try
+        {
+            value = lazyBackgroundCopyManager.Value;
+        }
+        catch (Exception ex)
+        {
+            logger?.LogWarning("BITS download engine not supported: {message}", ex.Message);
+            return;
+        }
+
+        value.EnumJobs(0, out IEnumBackgroundCopyJobs pJobs);
+        pJobs.GetCount(out uint count);
+
+        List<IBackgroundCopyJob> jobsToCancel = new();
+
+        for (int i = 0; i < count; i++)
+        {
+            uint actualFetched = 0;
+            pJobs.Next(1, out IBackgroundCopyJob pJob, ref actualFetched);
+            pJob.GetDisplayName(out PWSTR name);
+            if (name.AsSpan().StartsWith(BitsJob.JobNamePrefix))
+            {
+                jobsToCancel.Add(pJob);
+            }
+        }
+
+        jobsToCancel.ForEach(job => job.Cancel());
+    }
+
     private bool DownloadCore(Uri uri, string tempFile, Action<ProgressUpdateStatus> progress, CancellationToken token)
     {
         IBackgroundCopyManager value;
@@ -48,28 +86,36 @@ internal class BitsManager
         {
             value = lazyBackgroundCopyManager.Value;
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             logger?.LogWarning("BITS download engine not supported: {message}", ex.Message);
             return false;
         }
 
-        using (BitsJob bitsJob = BitsJob.CreateJob(serviceProvider, value, uri, tempFile))
+        try
         {
-            try
+            using (BitsJob bitsJob = BitsJob.CreateJob(serviceProvider, value, uri, tempFile))
             {
-                bitsJob.WaitForCompletion(progress, token);
-            }
-            catch (System.Exception ex)
-            {
-                logger?.LogWarning(ex, "BITS download failed:");
-                return false;
-            }
+                try
+                {
+                    bitsJob.WaitForCompletion(progress, token);
+                }
+                catch (Exception ex)
+                {
+                    logger?.LogWarning(ex, "BITS download failed:");
+                    return false;
+                }
 
-            if (bitsJob.ErrorCode != 0)
-            {
-                return false;
+                if (bitsJob.ErrorCode != 0)
+                {
+                    return false;
+                }
             }
+        }
+        catch (COMException)
+        {
+            // BITS job creation failed
+            return false;
         }
 
         return true;

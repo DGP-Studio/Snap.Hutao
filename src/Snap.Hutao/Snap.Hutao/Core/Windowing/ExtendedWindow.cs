@@ -135,6 +135,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         logger.LogInformation(EventIds.WindowState, "Postion: [{pos}], Size: [{size}]", pos, size);
 
         // appWindow.Show(true);
+        // appWindow.Show can't bring window to top.
         window.Activate();
 
         systemBackdrop = new(window);
@@ -190,7 +191,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         }
         else
         {
-            double scale = Persistence.GetScaleForWindow(handle);
+            double scale = Persistence.GetScaleForWindowHandle(handle);
 
             // 48 is the navigation button leftInset
             RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), titleBar.ActualSize).Scale(scale);

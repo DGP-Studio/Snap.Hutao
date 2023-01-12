@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 武器图片转换器
 /// </summary>
-internal class RelicIconConverter : ValueConverterBase<string, Uri>
+internal class RelicIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri

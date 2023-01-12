@@ -35,10 +35,10 @@ internal interface IAchievementService
     List<BindingAchievement> GetAchievements(EntityArchive archive, IList<MetadataAchievement> metadata);
 
     /// <summary>
-    /// 获取用于绑定的成就存档集合
+    /// 异步获取用于绑定的成就存档集合
     /// </summary>
     /// <returns>成就存档集合</returns>
-    ObservableCollection<EntityArchive> GetArchiveCollection();
+    Task<ObservableCollection<EntityArchive>> GetArchiveCollectionAsync();
 
     /// <summary>
     /// 异步导入UIAF数据

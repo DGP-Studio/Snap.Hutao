@@ -11,7 +11,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 基础属性翻译器
 /// </summary>
-internal class PropertyInfoDescriptor : ValueConverterBase<PropertyInfo, IList<LevelParam<string, ParameterInfo>>?>
+internal class PropertyInfoDescriptor : ValueConverter<PropertyInfo, IList<LevelParam<string, ParameterInfo>>?>
 {
     /// <summary>
     /// 格式化对

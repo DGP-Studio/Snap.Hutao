@@ -8,6 +8,7 @@ using Snap.Hutao.Win32;
 using System.Runtime.InteropServices;
 using Windows.Graphics;
 using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Windowing;
@@ -22,28 +23,24 @@ internal static class Persistence
     /// </summary>
     /// <param name="appWindow">应用窗体</param>
     /// <param name="persistSize">持久化尺寸</param>
-    /// <param name="size">初始尺寸</param>
-    public static void RecoverOrInit(AppWindow appWindow, bool persistSize, SizeInt32 size)
+    /// <param name="initialSize">初始尺寸</param>
+    public static unsafe void RecoverOrInit(AppWindow appWindow, bool persistSize, SizeInt32 initialSize)
     {
         // Set first launch size.
         HWND hwnd = (HWND)Win32Interop.GetWindowFromWindowId(appWindow.Id);
-        SizeInt32 transformedSize = TransformSizeForWindow(size, hwnd);
+        SizeInt32 transformedSize = TransformSizeForWindow(initialSize, hwnd);
         RectInt32 rect = StructMarshal.RectInt32(transformedSize);
 
         if (persistSize)
         {
-            RectInt32 persistedSize = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (ulong)(CompactRect)rect);
-            if (persistedSize.Width * persistedSize.Height > 848 * 524)
+            RectInt32 persistedRect = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (ulong)(CompactRect)rect);
+            if (persistedRect.Size() >= initialSize.Size())
             {
-                rect = persistedSize;
+                rect = persistedRect;
             }
         }
 
-        unsafe
-        {
-            TransformToCenterScreen(&rect);
-        }
-
+        TransformToCenterScreen(&rect);
         appWindow.MoveAndResize(rect);
     }
 
@@ -53,7 +50,15 @@ internal static class Persistence
     /// <param name="appWindow">应用窗体</param>
     public static void Save(AppWindow appWindow)
     {
-        LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)appWindow.GetRect());
+        HWND hwnd = (HWND)Win32Interop.GetWindowFromWindowId(appWindow.Id);
+        WINDOWPLACEMENT windowPlacement = StructMarshal.WINDOWPLACEMENT();
+        GetWindowPlacement(hwnd, ref windowPlacement);
+
+        // prevent save value when we are maximized.
+        if (!windowPlacement.showCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
+        {
+            LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)appWindow.GetRect());
+        }
     }
 
     /// <summary>
@@ -61,7 +66,7 @@ internal static class Persistence
     /// </summary>
     /// <param name="hwnd">窗体句柄</param>
     /// <returns>缩放比</returns>
-    public static double GetScaleForWindow(HWND hwnd)
+    public static double GetScaleForWindowHandle(HWND hwnd)
     {
         uint dpi = GetDpiForWindow(hwnd);
         return Math.Round(dpi / 96d, 2, MidpointRounding.AwayFromZero);
@@ -69,7 +74,7 @@ internal static class Persistence
 
     private static SizeInt32 TransformSizeForWindow(SizeInt32 size, HWND hwnd)
     {
-        double scale = GetScaleForWindow(hwnd);
+        double scale = GetScaleForWindowHandle(hwnd);
         return new((int)(size.Width * scale), (int)(size.Height * scale));
     }
 

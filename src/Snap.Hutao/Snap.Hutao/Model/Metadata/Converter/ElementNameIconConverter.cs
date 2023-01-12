@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 元素名称图标转换器
 /// </summary>
-internal class ElementNameIconConverter : ValueConverterBase<string, Uri>
+internal class ElementNameIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 将中文元素名称转换为图标链接

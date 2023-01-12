@@ -77,6 +77,8 @@ internal class WelcomeViewModel : ObservableObject
 
         DownloadSummaries = new(downloadSummaries);
 
+        // Cancel all previous created jobs
+        serviceProvider.GetRequiredService<BitsManager>().CancelAllJobs();
         await Task.WhenAll(downloadSummaries.Select(d => d.DownloadAndExtractAsync())).ConfigureAwait(true);
 
         serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
@@ -173,7 +175,7 @@ internal class WelcomeViewModel : ObservableObject
         private void UpdateProgressStatus(ProgressUpdateStatus status)
         {
             Description = $"{Converters.ToFileSizeString(status.BytesRead)}/{Converters.ToFileSizeString(status.TotalBytes)}";
-            ProgressValue = (double)status.BytesRead / status.TotalBytes;
+            ProgressValue = status.TotalBytes == 0 ? 0 : (double)status.BytesRead / status.TotalBytes;
         }
 
         private void ExtractFiles(string file)

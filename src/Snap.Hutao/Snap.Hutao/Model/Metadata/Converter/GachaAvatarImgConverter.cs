@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 立绘转换器
 /// </summary>
-internal class GachaAvatarImgConverter : ValueConverterBase<string, Uri>
+internal class GachaAvatarImgConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri

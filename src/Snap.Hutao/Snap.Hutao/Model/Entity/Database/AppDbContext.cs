@@ -3,15 +3,16 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model.Entity.Configuration;
+using System.Diagnostics;
 
 namespace Snap.Hutao.Model.Entity.Database;
 
 /// <summary>
 /// 应用程序数据库上下文
 /// </summary>
+[DebuggerDisplay("Id = {ContextId}")]
 public sealed class AppDbContext : DbContext
 {
-    private readonly Guid contextId;
     private readonly ILogger<AppDbContext>? logger;
 
     /// <summary>
@@ -31,9 +32,8 @@ public sealed class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options, ILogger<AppDbContext> logger)
         : this(options)
     {
-        contextId = Guid.NewGuid();
         this.logger = logger;
-        logger.LogInformation("AppDbContext[{id}] created.", contextId);
+        logger.LogInformation("AppDbContext[{id}] created.", ContextId);
     }
 
     /// <summary>
@@ -135,7 +135,7 @@ public sealed class AppDbContext : DbContext
     public override void Dispose()
     {
         base.Dispose();
-        logger?.LogInformation("AppDbContext[{id}] disposed.", contextId);
+        logger?.LogInformation("AppDbContext[{id}] disposed.", ContextId);
     }
 
     /// <inheritdoc/>

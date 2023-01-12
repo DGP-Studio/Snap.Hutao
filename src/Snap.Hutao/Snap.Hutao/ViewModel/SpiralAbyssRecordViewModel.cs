@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using Snap.Hutao.Control;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.SpiralAbyss;
@@ -15,6 +14,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.ViewModel.Abstraction;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model.Post;
 using System.Collections.ObjectModel;
@@ -25,7 +25,7 @@ namespace Snap.Hutao.ViewModel;
 /// 深渊记录视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellation, IRecipient<UserChangedMessage>
+internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IMetadataService metadataService;
@@ -61,9 +61,6 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
 
         messenger.Register(this);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 深渊记录
@@ -126,33 +123,61 @@ internal class SpiralAbyssRecordViewModel : ObservableObject, ISupportCancellati
         {
             idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             idAvatarMap = AvatarIds.ExtendAvatars(idAvatarMap);
-            if (userService.Current?.SelectedUserGameRole != null)
+
+            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
-                await UpdateSpiralAbyssCollectionAsync(UserAndUid.FromUser(userService.Current)).ConfigureAwait(false);
+                await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
+            }
+            else
+            {
+                Ioc.Default.GetRequiredService<IInfoBarService>().Warning("请先选中角色与账号");
             }
         }
     }
 
     private async Task UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
-        ObservableCollection<SpiralAbyssEntry> temp = await spiralAbyssRecordService
-            .GetSpiralAbyssCollectionAsync(userAndUid)
-            .ConfigureAwait(false);
+        ObservableCollection<SpiralAbyssEntry>? temp = null;
+        try
+        {
+            ThrowIfViewDisposed();
+            using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+            {
+                ThrowIfViewDisposed();
+                temp = await spiralAbyssRecordService
+                    .GetSpiralAbyssCollectionAsync(userAndUid)
+                    .ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
 
         await ThreadHelper.SwitchToMainThreadAsync();
         SpiralAbyssEntries = temp;
-        SelectedEntry = SpiralAbyssEntries.FirstOrDefault();
+        SelectedEntry = SpiralAbyssEntries?.FirstOrDefault();
     }
 
     private async Task RefreshAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            if (userService.Current?.SelectedUserGameRole != null)
+            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
-                await spiralAbyssRecordService
-                    .RefreshSpiralAbyssAsync(UserAndUid.FromUser(userService.Current))
-                    .ConfigureAwait(false);
+                try
+                {
+                    ThrowIfViewDisposed();
+                    using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+                    {
+                        ThrowIfViewDisposed();
+                        await spiralAbyssRecordService
+                            .RefreshSpiralAbyssAsync(userAndUid)
+                            .ConfigureAwait(false);
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                }
 
                 await ThreadHelper.SwitchToMainThreadAsync();
                 SelectedEntry = SpiralAbyssEntries?.FirstOrDefault();

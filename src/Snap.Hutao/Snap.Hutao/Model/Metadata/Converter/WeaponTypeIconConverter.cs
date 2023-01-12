@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 元素名称图标转换器
 /// </summary>
-internal class WeaponTypeIconConverter : ValueConverterBase<WeaponType, Uri>
+internal class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
 {
     /// <summary>
     /// 将武器类型转换为图标链接

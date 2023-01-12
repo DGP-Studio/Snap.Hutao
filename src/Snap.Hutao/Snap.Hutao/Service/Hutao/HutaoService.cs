@@ -104,12 +104,22 @@ internal class HutaoService : IHutaoService
         Response<T> webResponse = await taskFunc(default).ConfigureAwait(false);
         T web = webResponse.IsOk() ? webResponse.Data : new();
 
-        appDbContext.ObjectCache.AddAndSave(new()
+        try
         {
-            Key = key,
-            ExpireTime = DateTimeOffset.Now.AddHours(4),
-            Value = JsonSerializer.Serialize(web, options),
-        });
+            appDbContext.ObjectCache.AddAndSave(new()
+            {
+                Key = key,
+
+                // we hold the cache for 4 hours, then just expire it.
+                ExpireTime = DateTimeOffset.Now.AddHours(4),
+                Value = JsonSerializer.Serialize(web, options),
+            });
+        }
+        catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+        {
+            // DbUpdateException: An error occurred while saving the entity changes.
+            // TODO: Not ignore it.
+        }
 
         return memoryCache.Set(key, web, TimeSpan.FromMinutes(30));
     }

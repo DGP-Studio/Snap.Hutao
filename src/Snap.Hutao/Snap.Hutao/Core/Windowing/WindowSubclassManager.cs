@@ -87,7 +87,7 @@ internal class WindowSubclassManager<TWindow> : IDisposable
         {
             case WM_GETMINMAXINFO:
                 {
-                    double scalingFactor = Persistence.GetScaleForWindow(hwnd);
+                    double scalingFactor = Persistence.GetScaleForWindowHandle(hwnd);
                     window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
                     break;
                 }

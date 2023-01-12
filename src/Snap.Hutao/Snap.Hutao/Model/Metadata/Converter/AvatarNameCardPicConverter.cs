@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 角色名片转换器
 /// </summary>
-internal class AvatarNameCardPicConverter : ValueConverterBase<Avatar.Avatar?, Uri>
+internal class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
 {
     /// <summary>
     /// 从角色转换到名片

@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 描述参数解析器
 /// </summary>
-internal sealed partial class DescParamDescriptor : ValueConverterBase<DescParam, IList<LevelParam<string, ParameterInfo>>>
+internal sealed partial class DescParamDescriptor : ValueConverter<DescParam, IList<LevelParam<string, ParameterInfo>>>
 {
     /// <summary>
     /// 获取特定等级的解释

@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Snap.Hutao.Control;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Factory.Abstraction;
@@ -23,7 +21,7 @@ namespace Snap.Hutao.ViewModel;
 /// 实时便笺视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
+internal class DailyNoteViewModel : Abstraction.ViewModel
 {
     private readonly IUserService userService;
     private readonly IDailyNoteService dailyNoteService;
@@ -72,9 +70,6 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
         ModifyNotificationCommand = asyncRelayCommandFactory.Create<DailyNoteEntry>(ModifyDailyNoteNotificationAsync);
         DailyNoteVerificationCommand = asyncRelayCommandFactory.Create(VerifyDailyNoteVerificationAsync);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 刷新时间
@@ -136,7 +131,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
     /// <summary>
     /// 用户与角色集合
     /// </summary>
-    public ObservableCollection<UserAndUid>? UserAndRoles { get => userAndUids; set => userAndUids = value; }
+    public ObservableCollection<UserAndUid>? UserAndUids { get => userAndUids; set => userAndUids = value; }
 
     /// <summary>
     /// 实时便笺集合
@@ -175,7 +170,7 @@ internal class DailyNoteViewModel : ObservableObject, ISupportCancellation
 
     private async Task OpenUIAsync()
     {
-        UserAndRoles = await userService.GetRoleCollectionAsync().ConfigureAwait(true);
+        UserAndUids = await userService.GetRoleCollectionAsync().ConfigureAwait(true);
 
         refreshSecondsEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteRefreshSeconds, "480");
         selectedRefreshTime = refreshTimes.Single(t => t.Value == refreshSecondsEntry.GetInt32());

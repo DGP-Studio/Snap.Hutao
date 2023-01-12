@@ -17,6 +17,11 @@ namespace Snap.Hutao.Core.IO.Bits;
 [SuppressMessage("", "SA1600")]
 internal class BitsJob : DisposableObject, IBackgroundCopyCallback
 {
+    /// <summary>
+    /// 任务名称前缀
+    /// </summary>
+    public const string JobNamePrefix = "SnapHutaoBitsJob";
+
     private const uint BitsEngineNoProgressTimeout = 120;
     private const int MaxResumeAttempts = 10;
 
@@ -43,12 +48,14 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
     public static BitsJob CreateJob(IServiceProvider serviceProvider, IBackgroundCopyManager backgroundCopyManager, Uri uri, string filePath)
     {
         ILogger<BitsJob> service = serviceProvider.GetRequiredService<ILogger<BitsJob>>();
-        string text = $"BitsDownloadJob - {uri}";
+        string text = $"{JobNamePrefix} - {uri}";
         IBackgroundCopyJob ppJob;
         try
         {
             backgroundCopyManager.CreateJob(text, BG_JOB_TYPE.BG_JOB_TYPE_DOWNLOAD, out Guid _, out ppJob);
-            ppJob.SetNotifyFlags(11u);
+
+            // BG_NOTIFY_JOB_TRANSFERRED & BG_NOTIFY_JOB_ERROR & BG_NOTIFY_JOB_MODIFICATION
+            ppJob.SetNotifyFlags(0b1011);
             ppJob.SetNoProgressTimeout(BitsEngineNoProgressTimeout);
             ppJob.SetPriority(BG_JOB_PRIORITY.BG_JOB_PRIORITY_FOREGROUND);
             ppJob.SetProxySettings(BG_JOB_PROXY_USAGE.BG_JOB_PROXY_USAGE_AUTODETECT, null, null);

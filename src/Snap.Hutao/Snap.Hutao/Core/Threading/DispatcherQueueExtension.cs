@@ -20,10 +20,10 @@ public static class DispatcherQueueExtension
         using (ManualResetEventSlim blockEvent = new())
         {
             dispatcherQueue.TryEnqueue(() =>
-                {
-                    action();
-                    blockEvent.Set();
-                });
+            {
+                action();
+                blockEvent.Set();
+            });
 
             blockEvent.Wait();
         }

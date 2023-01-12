@@ -32,7 +32,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <CommandBar Background="{StaticResource CardBackgroundFillColorDefaultBrush}" DefaultLabelPosition="Right">
+        <CommandBar Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" DefaultLabelPosition="Right">
             <AppBarButton
                 Command="{Binding RefreshCommand}"
                 Icon="{shcm:FontIcon Glyph=&#xE72C;}"
@@ -52,37 +52,27 @@
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="添加角色以定时刷新"/>
                             <ScrollViewer MaxHeight="320" Padding="16,0">
-                                <ItemsControl ItemsSource="{Binding UserAndRoles}">
+                                <ItemsControl ItemsSource="{Binding UserAndUids}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Padding="0,0,0,16">
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding Role.Nickname}"/>
-                                                    <TextBlock
-                                                        Margin="0,2,0,0"
-                                                        Opacity="0.6"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding Role.Description}"/>
-                                                </StackPanel>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding Uid}"/>
                                                 <Button
                                                     Margin="16,0,0,0"
-                                                    Padding="12"
+                                                    Padding="6"
                                                     HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
-                                                    Background="Transparent"
-                                                    BorderBrush="{x:Null}"
-                                                    BorderThickness="0"
                                                     Command="{Binding DataContext.TrackRoleCommand, Source={StaticResource ViewModelBindingProxy}}"
                                                     CommandParameter="{Binding}"
                                                     Content="&#xE710;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                    Style="{StaticResource ButtonRevealStyle}"
                                                     ToolTipService.ToolTip="添加"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </ScrollViewer>
-
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>

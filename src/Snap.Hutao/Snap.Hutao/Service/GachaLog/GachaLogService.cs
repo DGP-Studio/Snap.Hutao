@@ -28,7 +28,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// 祈愿记录服务
 /// </summary>
 [Injection(InjectAs.Scoped, typeof(IGachaLogService))]
-internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
+internal class GachaLogService : IGachaLogService
 {
     /// <summary>
     /// 祈愿记录查询的类型
@@ -96,9 +96,6 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
-    public bool IsInitialized { get; set; }
-
-    /// <inheritdoc/>
     public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
     {
         List<UIGFItem> list = appDbContext.GachaItems
@@ -117,30 +114,29 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
     }
 
     /// <inheritdoc/>
-    public ObservableCollection<GachaArchive> GetArchiveCollection()
+    public async Task<ObservableCollection<GachaArchive>> GetArchiveCollectionAsync()
     {
-        return archiveCollection ??= new(appDbContext.GachaArchives.AsNoTracking().ToList());
+        await ThreadHelper.SwitchToMainThreadAsync();
+        return archiveCollection ??= appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> InitializeAsync()
+    public async ValueTask<bool> InitializeAsync(CancellationToken token)
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            nameAvatarMap = await metadataService.GetNameToAvatarMapAsync().ConfigureAwait(false);
-            nameWeaponMap = await metadataService.GetNameToWeaponMapAsync().ConfigureAwait(false);
+            nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
+            nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
 
-            idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
+            idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
+            idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
 
-            IsInitialized = true;
+            return true;
         }
         else
         {
-            IsInitialized = false;
+            return false;
         }
-
-        return IsInitialized;
     }
 
     /// <inheritdoc/>
@@ -321,7 +317,7 @@ internal class GachaLogService : IGachaLogService, ISupportAsyncInitialization
 
                 archive = appDbContext.GachaArchives.Single(a => a.Uid == uid);
                 GachaArchive temp = archive;
-                Program.DispatcherQueue!.Invoke(() => archiveCollection!.Add(temp));
+                ThreadHelper.InvokeOnMainThread(() => archiveCollection!.Add(temp));
             }
         }
     }

@@ -33,7 +33,7 @@ namespace Snap.Hutao.ViewModel;
 /// 角色资料视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class WikiAvatarViewModel : ObservableObject
+internal class WikiAvatarViewModel : Abstraction.ViewModel
 {
     private readonly IMetadataService metadataService;
     private readonly IHutaoCache hutaoCache;

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;
 using Snap.Hutao.Extension;
@@ -19,7 +17,7 @@ namespace Snap.Hutao.ViewModel;
 /// 测试视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class TestViewModel : ObservableObject, ISupportCancellation
+internal class TestViewModel : Abstraction.ViewModel
 {
     /// <summary>
     /// 构造一个新的测试视图模型
@@ -32,9 +30,6 @@ internal class TestViewModel : ObservableObject, ISupportCancellation
         DangerousLoginMihoyoBbsCommand = asyncRelayCommandFactory.Create(DangerousLoginMihoyoBbsAsync);
         DownloadStaticFileCommand = asyncRelayCommandFactory.Create(DownloadStaticFileAsync);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 打开游戏社区记录对话框命令

@@ -1,10 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Snap.Hutao.Control;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Extension;
@@ -19,6 +19,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
+using System.Runtime.InteropServices;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
@@ -35,11 +36,12 @@ namespace Snap.Hutao.ViewModel;
 /// TODO: support page unload as cancellation
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
+internal class AvatarPropertyViewModel : Abstraction.ViewModel
 {
     private readonly IUserService userService;
     private readonly IAvatarInfoService avatarInfoService;
     private readonly IInfoBarService infoBarService;
+    private readonly IContentDialogFactory contentDialogFactory;
     private Summary? summary;
     private Avatar? selectedAvatar;
 
@@ -48,17 +50,20 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
     /// </summary>
     /// <param name="userService">用户服务</param>
     /// <param name="avatarInfoService">角色信息服务</param>
+    /// <param name="contentDialogFactory">对话框工厂</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="infoBarService">信息条服务</param>
     public AvatarPropertyViewModel(
         IUserService userService,
         IAvatarInfoService avatarInfoService,
+        IContentDialogFactory contentDialogFactory,
         IAsyncRelayCommandFactory asyncRelayCommandFactory,
         IInfoBarService infoBarService)
     {
         this.userService = userService;
         this.avatarInfoService = avatarInfoService;
         this.infoBarService = infoBarService;
+        this.contentDialogFactory = contentDialogFactory;
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         RefreshFromEnkaApiCommand = asyncRelayCommandFactory.Create(RefreshByEnkaApiAsync);
@@ -67,9 +72,6 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         ExportAsImageCommand = asyncRelayCommandFactory.Create<UIElement>(ExportAsImageAsync);
         CultivateCommand = asyncRelayCommandFactory.Create<Avatar>(CultivateAsync);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 简述对象
@@ -171,8 +173,21 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
     {
         try
         {
-            (RefreshResult result, Summary? summary) = await avatarInfoService.GetSummaryAsync(userAndUid, option, token).ConfigureAwait(false);
+            ValueResult<RefreshResult, Summary?> summaryResult;
+            ThrowIfViewDisposed();
+            using (await DisposeLock.EnterAsync(token).ConfigureAwait(false))
+            {
+                ThrowIfViewDisposed();
+                ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync("获取数据中").ConfigureAwait(false);
 
+                await ThreadHelper.SwitchToMainThreadAsync();
+                await using (await dialog.BlockAsync().ConfigureAwait(false))
+                {
+                    summaryResult = await avatarInfoService.GetSummaryAsync(userAndUid, option, token).ConfigureAwait(false);
+                }
+            }
+
+            (RefreshResult result, Summary? summary) = summaryResult;
             if (result == RefreshResult.Ok)
             {
                 await ThreadHelper.SwitchToMainThreadAsync();
@@ -206,6 +221,12 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
 
             if (userService.Current != null)
             {
+                if (avatar.Weapon == null)
+                {
+                    infoBarService.Warning("当前角色无法计算，请同步信息后再试");
+                    return;
+                }
+
                 // ContentDialog must be created by main thread.
                 await ThreadHelper.SwitchToMainThreadAsync();
                 (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(avatar.ToCalculable(), avatar.Weapon.ToCalculable())
@@ -268,14 +289,31 @@ internal class AvatarPropertyViewModel : ObservableObject, ISupportCancellation
         Bgra8 tint = Bgra8.FromColor(tintColor);
         softwareBitmap.NormalBlend(tint);
 
+        bool clipboardOpened = false;
         using (InMemoryRandomAccessStream memory = new())
         {
             BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
             encoder.SetSoftwareBitmap(softwareBitmap);
             await encoder.FlushAsync();
-            Clipboard.SetBitmapStream(memory);
+
+            try
+            {
+                Clipboard.SetBitmapStream(memory);
+                clipboardOpened = true;
+            }
+            catch (COMException)
+            {
+                // CLIPBRD_E_CANT_OPEN
+            }
         }
 
-        infoBarService.Success("已导出到剪贴板");
+        if (clipboardOpened)
+        {
+            infoBarService.Success("已导出到剪贴板");
+        }
+        else
+        {
+            infoBarService.Warning("打开剪贴板失败");
+        }
     }
 }

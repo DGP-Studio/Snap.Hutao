@@ -27,10 +27,10 @@ internal interface IGameService
     ValueTask DetectGameAccountAsync();
 
     /// <summary>
-    /// 获取游戏内账号集合
+    /// 异步获取游戏内账号集合
     /// </summary>
     /// <returns>游戏内账号集合</returns>
-    ObservableCollection<GameAccount> GetGameAccountCollection();
+    Task<ObservableCollection<GameAccount>> GetGameAccountCollectionAsync();
 
     /// <summary>
     /// 异步获取游戏路径

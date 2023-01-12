@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 物品等级转换器
 /// </summary>
-internal class QualityConverter : ValueConverterBase<ItemQuality, Uri>
+internal class QualityConverter : ValueConverter<ItemQuality, Uri>
 {
     /// <inheritdoc/>
     public override Uri Convert(ItemQuality from)

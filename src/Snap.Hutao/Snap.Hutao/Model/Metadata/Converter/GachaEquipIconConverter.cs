@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 武器祈愿图片转换器
 /// </summary>
-internal class GachaEquipIconConverter : ValueConverterBase<string, Uri>
+internal class GachaEquipIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri

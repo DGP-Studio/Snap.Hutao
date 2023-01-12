@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Abstraction;
@@ -22,7 +20,7 @@ namespace Snap.Hutao.ViewModel;
 /// 祈愿记录视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class GachaLogViewModel : ObservableObject, ISupportCancellation
+internal class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
@@ -35,7 +33,6 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     private GachaStatistics? statistics;
     private bool isAggressiveRefresh;
     private HistoryWish? selectedHistoryWish;
-    private bool isInitialized;
 
     /// <summary>
     /// 构造一个新的祈愿记录视图模型
@@ -68,9 +65,6 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
         ExportToUIGFJsonCommand = asyncRelayCommandFactory.Create(ExportToUIGFJsonAsync);
         RemoveArchiveCommand = asyncRelayCommandFactory.Create(RemoveArchiveAsync);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 存档集合
@@ -113,11 +107,6 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
     public bool IsAggressiveRefresh { get => isAggressiveRefresh; set => SetProperty(ref isAggressiveRefresh, value); }
 
     /// <summary>
-    /// 初始化是否完成
-    /// </summary>
-    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
-
-    /// <summary>
     /// 页面加载命令
     /// </summary>
     public ICommand OpenUICommand { get; }
@@ -154,13 +143,27 @@ internal class GachaLogViewModel : ObservableObject, ISupportCancellation
 
     private async Task OpenUIAsync()
     {
-        if (await gachaLogService.InitializeAsync().ConfigureAwait(true))
+        try
         {
-            Archives = gachaLogService.GetArchiveCollection();
-            SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
+            if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(true))
+            {
+                ObservableCollection<GachaArchive> archives;
 
-            await ThreadHelper.SwitchToMainThreadAsync();
-            IsInitialized = true;
+                ThrowIfViewDisposed();
+                using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+                {
+                    ThrowIfViewDisposed();
+                    archives = await gachaLogService.GetArchiveCollectionAsync().ConfigureAwait(false);
+                }
+
+                await ThreadHelper.SwitchToMainThreadAsync();
+                Archives = archives;
+                SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
+                IsInitialized = true;
+            }
+        }
+        catch (OperationCanceledException)
+        {
         }
     }
 

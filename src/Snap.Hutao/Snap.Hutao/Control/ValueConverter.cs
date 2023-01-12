@@ -10,7 +10,7 @@ namespace Snap.Hutao.Control;
 /// </summary>
 /// <typeparam name="TFrom">源类型</typeparam>
 /// <typeparam name="TTo">目标类型</typeparam>
-public abstract class ValueConverterBase<TFrom, TTo> : IValueConverter
+public abstract class ValueConverter<TFrom, TTo> : IValueConverter
 {
     /// <inheritdoc/>
     public object? Convert(object value, Type targetType, object parameter, string language)
@@ -23,7 +23,7 @@ public abstract class ValueConverterBase<TFrom, TTo> : IValueConverter
         catch (Exception ex)
         {
             Ioc.Default
-                .GetRequiredService<ILogger<ValueConverterBase<TFrom, TTo>>>()
+                .GetRequiredService<ILogger<ValueConverter<TFrom, TTo>>>()
                 .LogError(ex, "值转换器异常");
         }
 

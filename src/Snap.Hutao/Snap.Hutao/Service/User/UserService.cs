@@ -138,7 +138,7 @@ internal class UserService : IUserService
         {
             List<Model.Binding.User.UserAndUid> userAndUids = new();
             ObservableCollection<BindingUser> observableUsers = await GetUserCollectionAsync().ConfigureAwait(false);
-            foreach (BindingUser user in observableUsers.ToList())
+            foreach (BindingUser user in observableUsers)
             {
                 foreach (UserGameRole role in user.UserGameRoles)
                 {
@@ -146,7 +146,7 @@ internal class UserService : IUserService
                 }
             }
 
-            roleCollection = new(userAndUids);
+            roleCollection = userAndUids.ToObservableCollection();
         }
 
         return roleCollection;

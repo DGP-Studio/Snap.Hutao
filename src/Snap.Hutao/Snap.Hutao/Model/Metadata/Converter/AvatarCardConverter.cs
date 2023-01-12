@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 角色卡片转换器
 /// </summary>
-internal class AvatarCardConverter : ValueConverterBase<string, Uri>
+internal class AvatarCardConverter : ValueConverter<string, Uri>
 {
     private const string CostumeCard = "UI_AvatarIcon_Costume_Card.png";
     private static readonly Uri UIAvatarIconCostumeCard = new(Web.HutaoEndpoints.StaticFile("AvatarCard", CostumeCard));

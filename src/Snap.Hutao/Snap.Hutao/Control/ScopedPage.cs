@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.ViewModel.Abstraction;
 
 namespace Snap.Hutao.Control;
 
@@ -33,9 +34,9 @@ public class ScopedPage : Page
     /// </summary>
     /// <typeparam name="TViewModel">视图模型类型</typeparam>
     public void InitializeWith<TViewModel>()
-        where TViewModel : class, ISupportCancellation
+        where TViewModel : class, IViewModel
     {
-        ISupportCancellation viewModel = serviceScope.ServiceProvider.GetRequiredService<TViewModel>();
+        IViewModel viewModel = serviceScope.ServiceProvider.GetRequiredService<TViewModel>();
         viewModel.CancellationToken = viewLoadingCancellationTokenSource.Token;
         DataContext = viewModel;
     }
@@ -59,11 +60,22 @@ public class ScopedPage : Page
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
         base.OnNavigatingFrom(e);
-        viewLoadingCancellationTokenSource.Cancel();
+        using (viewLoadingCancellationTokenSource)
+        {
+            // Cancel tasks executed by the view model
+            viewLoadingCancellationTokenSource.Cancel();
+            IViewModel viewModel = (IViewModel)DataContext;
 
-        // Try dispose scope when page is not presented
-        serviceScope.Dispose();
-        viewLoadingCancellationTokenSource.Dispose();
+            using (SemaphoreSlim locker = viewModel.DisposeLock)
+            {
+                // Wait to ensure viewmodel operation is completed
+                locker.Wait();
+                viewModel.IsViewDisposed = true;
+
+                // Dispose the scope
+                serviceScope.Dispose();
+            }
+        }
     }
 
     /// <inheritdoc/>

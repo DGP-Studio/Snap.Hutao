@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 表情图片转换器
 /// </summary>
-internal class EmotionIconConverter : ValueConverterBase<string, Uri>
+internal class EmotionIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri

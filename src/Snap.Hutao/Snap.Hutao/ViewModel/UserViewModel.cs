@@ -156,7 +156,14 @@ internal class UserViewModel : ObservableObject
 
     private void LoginMihoyoUser()
     {
-        Ioc.Default.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+        if (Core.WebView2Helper.IsSupported)
+        {
+            Ioc.Default.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+        }
+        else
+        {
+            infoBarService.Warning("尚未安装 WebView2 Runtime");
+        }
     }
 
     private async Task RemoveUserAsync(User? user)

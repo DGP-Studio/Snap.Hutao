@@ -1,11 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.Abstraction;
@@ -26,7 +24,7 @@ namespace Snap.Hutao.ViewModel;
 /// 启动游戏视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
+internal class LaunchGameViewModel : Abstraction.ViewModel
 {
     /// <summary>
     /// 启动游戏目标 Uid
@@ -44,8 +42,7 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
     {
         new LaunchScheme(name: "官方服 | 天空岛", channel: "1", subChannel: "1", launcherId: "18"),
         new LaunchScheme(name: "渠道服 | 世界树", channel: "14", subChannel: "0", launcherId: "17"),
-
-        // new LaunchScheme(name: "国际服 | 暂不支持", channel: "1", subChannel: "0"),
+        new LaunchScheme(name: "国际服 | 部分支持", channel: "1", subChannel: "0", launcherId: "unknown"),
     };
 
     private LaunchScheme? selectedScheme;
@@ -83,9 +80,6 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
         RemoveGameAccountCommand = asyncRelayCommandFactory.Create<GameAccount>(RemoveGameAccountAsync);
         AttachGameAccountCommand = new RelayCommand<GameAccount>(AttachGameAccountToCurrentUserGameRole);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 已知的服务器方案
@@ -217,22 +211,32 @@ internal class LaunchGameViewModel : ObservableObject, ISupportCancellation
 
     private async Task OpenUIAsync()
     {
-        bool gameExists = File.Exists(gameService.GetGamePathSkipLocator());
-
-        if (gameExists)
+        if (File.Exists(gameService.GetGamePathSkipLocator()))
         {
-            MultiChannel multi = gameService.GetMultiChannel();
-            SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
-            GameAccounts = gameService.GetGameAccountCollection();
-
-            // Sync uid
-            if (memoryCache.TryGetValue(DesiredUid, out object? value) && value is string uid)
+            try
             {
-                SelectedGameAccount = GameAccounts.SingleOrDefault(g => g.AttachUid == uid);
-            }
+                ThrowIfViewDisposed();
+                using (await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(true))
+                {
+                    ThrowIfViewDisposed();
 
-            // Sync from Settings
-            RetiveSetting();
+                    MultiChannel multi = gameService.GetMultiChannel();
+                    SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
+                    GameAccounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(true);
+
+                    // Sync uid
+                    if (memoryCache.TryGetValue(DesiredUid, out object? value) && value is string uid)
+                    {
+                        SelectedGameAccount = GameAccounts.SingleOrDefault(g => g.AttachUid == uid);
+                    }
+
+                    // Sync from Settings
+                    RetiveSetting();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
         }
         else
         {

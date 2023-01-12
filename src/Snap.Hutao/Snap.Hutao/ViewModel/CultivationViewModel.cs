@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Snap.Hutao.Control;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
@@ -20,14 +18,13 @@ namespace Snap.Hutao.ViewModel;
 /// 养成视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class CultivationViewModel : ObservableObject, ISupportCancellation
+internal class CultivationViewModel : Abstraction.ViewModel
 {
     private readonly ICultivationService cultivationService;
     private readonly IInfoBarService infoBarService;
     private readonly IMetadataService metadataService;
     private readonly ILogger<CultivationViewModel> logger;
 
-    private bool isInitialized;
     private ObservableCollection<CultivateProject>? projects;
     private CultivateProject? selectedProject;
     private List<Model.Binding.Inventory.InventoryItem>? inventoryItems;
@@ -62,14 +59,6 @@ internal class CultivationViewModel : ObservableObject, ISupportCancellation
         UpdateStatisticsItemsCommand = asyncRelayCommandFactory.Create(UpdateStatisticsItemsAsync);
         NavigateToPageCommand = new RelayCommand<string>(NavigateToPage);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
-
-    /// <summary>
-    /// 是否初始化完成
-    /// </summary>
-    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
 
     /// <summary>
     /// 项目

@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.Primitives;
-using Snap.Hutao.Control;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Cultivation;
@@ -19,6 +18,7 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.ViewModel.Abstraction;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
@@ -31,7 +31,7 @@ namespace Snap.Hutao.ViewModel;
 /// 武器资料视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
+internal class WikiWeaponViewModel : Abstraction.ViewModel
 {
     private readonly List<WeaponId> skippedWeapons = new()
     {
@@ -61,9 +61,6 @@ internal class WikiWeaponViewModel : ObservableObject, ISupportCancellation
         CultivateCommand = asyncRelayCommandFactory.Create<Weapon>(CultivateAsync);
         FilterCommand = new RelayCommand<string>(ApplyFilter);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 角色列表

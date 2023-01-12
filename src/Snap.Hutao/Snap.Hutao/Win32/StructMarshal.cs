@@ -4,6 +4,7 @@
 using System.Numerics;
 using Windows.Graphics;
 using Windows.Win32.System.Diagnostics.ToolHelp;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Snap.Hutao.Win32;
 
@@ -19,6 +20,15 @@ internal static class StructMarshal
     public static unsafe MODULEENTRY32 MODULEENTRY32()
     {
         return new() { dwSize = (uint)sizeof(MODULEENTRY32) };
+    }
+
+    /// <summary>
+    /// 构造一个新的 <see cref="Windows.Win32.UI.WindowsAndMessaging.WINDOWPLACEMENT"/>
+    /// </summary>
+    /// <returns>新的实例</returns>
+    public static unsafe WINDOWPLACEMENT WINDOWPLACEMENT()
+    {
+        return new() { length = (uint)sizeof(WINDOWPLACEMENT) };
     }
 
     /// <summary>

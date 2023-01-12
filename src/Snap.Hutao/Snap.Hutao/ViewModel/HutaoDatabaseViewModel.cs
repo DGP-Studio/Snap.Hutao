@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Control;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Service.Hutao;
@@ -14,7 +12,7 @@ namespace Snap.Hutao.ViewModel;
 /// 胡桃数据库视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
+internal class HutaoDatabaseViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoCache hutaoCache;
 
@@ -28,7 +26,6 @@ internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
     /// 构造一个新的胡桃数据库视图模型
     /// </summary>
     /// <param name="hutaoCache">胡桃服务缓存</param>
-    /// <param name="metadataService">元数据服务</param>
     /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     public HutaoDatabaseViewModel(IHutaoCache hutaoCache, IAsyncRelayCommandFactory asyncRelayCommandFactory)
     {
@@ -36,9 +33,6 @@ internal class HutaoDatabaseViewModel : ObservableObject, ISupportCancellation
 
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 角色使用率

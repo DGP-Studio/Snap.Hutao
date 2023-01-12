@@ -28,6 +28,7 @@ CoWaitForMultipleObjects
 // USER32
 FindWindowEx
 GetDpiForWindow
+GetWindowPlacement
 
 // COM BITS
 BackgroundCopyManager

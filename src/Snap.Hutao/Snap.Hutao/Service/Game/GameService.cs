@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO.Ini;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -213,14 +214,15 @@ internal class GameService : IGameService, IDisposable
     }
 
     /// <inheritdoc/>
-    public ObservableCollection<GameAccount> GetGameAccountCollection()
+    public async Task<ObservableCollection<GameAccount>> GetGameAccountCollectionAsync()
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         if (gameAccounts == null)
         {
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                gameAccounts = new(appDbContext.GameAccounts.AsNoTracking().ToList());
+                gameAccounts = appDbContext.GameAccounts.AsNoTracking().ToObservableCollection();
             }
         }
 

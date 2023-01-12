@@ -45,7 +45,10 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
     /// <inheritdoc/>
     public void Receive(UserRemovedMessage message)
     {
-        entries?.RemoveWhere(n => n.UserId == message.RemovedUserId);
+        ThreadHelper.InvokeOnMainThread(() =>
+        {
+            entries?.RemoveWhere(n => n.UserId == message.RemovedUserId);
+        });
     }
 
     /// <inheritdoc/>

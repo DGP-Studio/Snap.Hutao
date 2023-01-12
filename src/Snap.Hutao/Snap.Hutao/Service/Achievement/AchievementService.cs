@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
 using System.Collections.ObjectModel;
@@ -52,21 +53,23 @@ internal class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public ObservableCollection<EntityArchive> GetArchiveCollection()
+    public async Task<ObservableCollection<EntityArchive>> GetArchiveCollectionAsync()
     {
-        return archiveCollection ??= new(appDbContext.AchievementArchives.AsNoTracking().ToList());
+        await ThreadHelper.SwitchToMainThreadAsync();
+        return archiveCollection ??= appDbContext.AchievementArchives.AsNoTracking().ToObservableCollection();
     }
 
     /// <inheritdoc/>
     public async Task RemoveArchiveAsync(EntityArchive archive)
     {
         // Sync cache
-        // Keep this on main thread.
         await ThreadHelper.SwitchToMainThreadAsync();
         archiveCollection!.Remove(archive);
 
         // Sync database
         await ThreadHelper.SwitchToBackgroundAsync();
+
+        // Cascade deleted the achievements.
         await appDbContext.AchievementArchives
             .Where(a => a.InnerId == archive.InnerId)
             .ExecuteDeleteAsync()

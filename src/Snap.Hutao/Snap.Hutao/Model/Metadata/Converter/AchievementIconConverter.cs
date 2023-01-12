@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 角色头像转换器
 /// </summary>
-internal class AchievementIconConverter : ValueConverterBase<string, Uri>
+internal class AchievementIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
@@ -23,7 +22,7 @@ namespace Snap.Hutao.ViewModel;
 /// 设置视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class SettingViewModel : ObservableObject
+internal class SettingViewModel : Abstraction.ViewModel
 {
     private readonly AppDbContext appDbContext;
     private readonly IGameService gameService;

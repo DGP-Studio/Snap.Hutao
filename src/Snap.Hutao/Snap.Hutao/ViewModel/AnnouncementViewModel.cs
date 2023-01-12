@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Snap.Hutao.Control;
 using Snap.Hutao.Core;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
@@ -17,7 +15,7 @@ namespace Snap.Hutao.ViewModel;
 /// 公告视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
+internal class AnnouncementViewModel : Abstraction.ViewModel
 {
     private readonly IAnnouncementService announcementService;
 
@@ -38,9 +36,6 @@ internal class AnnouncementViewModel : ObservableObject, ISupportCancellation
         OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
         OpenAnnouncementUICommand = new RelayCommand<string>(OpenAnnouncementUI);
     }
-
-    /// <inheritdoc/>
-    public CancellationToken CancellationToken { get; set; }
 
     /// <summary>
     /// 公告

@@ -31,4 +31,14 @@ internal static class ThreadHelper
     {
         return new(Program.DispatcherQueue!);
     }
+
+    /// <summary>
+    /// 在主线程上同步等待执行操作
+    /// </summary>
+    /// <param name="action">操作</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void InvokeOnMainThread(Action action)
+    {
+        Program.DispatcherQueue!.Invoke(action);
+    }
 }
