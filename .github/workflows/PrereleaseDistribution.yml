@@ -2,7 +2,7 @@ name: PublishDistribution
 
 on:
   release:
-    types: [published]
+    types: [prereleased]
 
   workflow_dispatch:
 
@@ -23,7 +23,7 @@ jobs:
         with: 
           repository: "DGP-Studio/Snap.Hutao"
           latest: true
-          fileName: "*.zip"
+          fileName: "*.msix"
           out-file-path: ./release-download
           
       # Upload to Drive
@@ -38,4 +38,4 @@ jobs:
           $RCCONF
           EOF
           
-          rclone copy ./release-download/* dgpODCN:/releases/
+          rclone copy ./release-download/* dgpODCN:/releases/Alpha/
