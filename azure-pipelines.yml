@@ -91,7 +91,8 @@ steps:
         "Package/Identity/@Publisher": "CN=DGP Studio CI",
         "Package/Identity/@Version": "$(build_date).$(rev_number)",
         "Package/Properties/DisplayName": "胡桃 Alpha",
-        "Package/Properties/PublisherDisplayName":"DGP Studio CI"
+        "Package/Properties/PublisherDisplayName":"DGP Studio CI",
+        "Package/Applications/Application/uap:VisualElements/@DisplayName": "胡桃 Alpha"
       }
 
 - task: CmdLine@2
@@ -167,12 +168,13 @@ steps:
     changeLogType: 'commitBased'
 
 - task: DownloadSecureFile@1
-  name: cerFile
+  name: RcloneCerFile
   displayName: Download Rclone Config
   inputs:
     secureFile: 'rclone.conf'
 
 - task: rclone@1
+  displayName: Upload CI via Rclone
   inputs:
     arguments: 'copy $(Build.ArtifactStagingDirectory)/* downloadDGPCN:/releases/Alpha/'
     configPath: '$(cerFile.secureFilePath)/rclone.conf'
