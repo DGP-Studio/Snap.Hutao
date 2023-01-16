@@ -52,7 +52,7 @@ internal class WelcomeViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        HashSet<DownloadSummary> downloadSummaries = GenerateStaticResourceDownloadTasks();
+        IEnumerable<DownloadSummary> downloadSummaries = GenerateStaticResourceDownloadTasks();
 
         DownloadSummaries = downloadSummaries.ToObservableCollection();
 
@@ -85,38 +85,38 @@ internal class WelcomeViewModel : ObservableObject
         }
     }
 
-    private HashSet<DownloadSummary> GenerateStaticResourceDownloadTasks()
+    private IEnumerable<DownloadSummary> GenerateStaticResourceDownloadTasks()
     {
-        HashSet<DownloadSummary> downloadSummaries = new(EqualityComparer<DownloadSummary>.Default);
+        Dictionary<string, DownloadSummary> downloadSummaries = new();
 
         if (!LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false))
         {
-            downloadSummaries.Add(new(serviceProvider, "基础图标", "Bg"));
-            downloadSummaries.Add(new(serviceProvider, "角色图标", "AvatarIcon"));
-            downloadSummaries.Add(new(serviceProvider, "角色立绘图标", "GachaAvatarIcon"));
-            downloadSummaries.Add(new(serviceProvider, "角色立绘图像", "GachaAvatarImg"));
-            downloadSummaries.Add(new(serviceProvider, "武器图标", "EquipIcon"));
-            downloadSummaries.Add(new(serviceProvider, "武器立绘图标", "GachaEquipIcon"));
-            downloadSummaries.Add(new(serviceProvider, "名片图像", "NameCardPic"));
-            downloadSummaries.Add(new(serviceProvider, "天赋图标", "Skill"));
-            downloadSummaries.Add(new(serviceProvider, "命之座图标", "Talent"));
+            downloadSummaries.TryAdd("Bg", new(serviceProvider, "基础图标", "Bg"));
+            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "角色图标", "AvatarIcon"));
+            downloadSummaries.TryAdd("GachaAvatarIcon", new(serviceProvider, "角色立绘图标", "GachaAvatarIcon"));
+            downloadSummaries.TryAdd("GachaAvatarImg", new(serviceProvider, "角色立绘图像", "GachaAvatarImg"));
+            downloadSummaries.TryAdd("EquipIcon", new(serviceProvider, "武器图标", "EquipIcon"));
+            downloadSummaries.TryAdd("GachaEquipIcon", new(serviceProvider, "武器立绘图标", "GachaEquipIcon"));
+            downloadSummaries.TryAdd("NameCardPic", new(serviceProvider, "名片图像", "NameCardPic"));
+            downloadSummaries.TryAdd("Skill", new(serviceProvider, "天赋图标", "Skill"));
+            downloadSummaries.TryAdd("Talent", new(serviceProvider, "命之座图标", "Talent"));
         }
 
         if (!LocalSetting.Get(SettingKeys.StaticResourceV2Contract, false))
         {
-            downloadSummaries.Add(new(serviceProvider, "成就图标", "AchievementIcon"));
-            downloadSummaries.Add(new(serviceProvider, "物品图标", "ItemIcon"));
-            downloadSummaries.Add(new(serviceProvider, "元素图标", "IconElement"));
-            downloadSummaries.Add(new(serviceProvider, "圣遗物图标", "RelicIcon"));
+            downloadSummaries.TryAdd("AchievementIcon", new(serviceProvider, "成就图标", "AchievementIcon"));
+            downloadSummaries.TryAdd("ItemIcon", new(serviceProvider, "物品图标", "ItemIcon"));
+            downloadSummaries.TryAdd("IconElement", new(serviceProvider, "元素图标", "IconElement"));
+            downloadSummaries.TryAdd("RelicIcon", new(serviceProvider, "圣遗物图标", "RelicIcon"));
         }
 
         if (!LocalSetting.Get(SettingKeys.StaticResourceV3Contract, false))
         {
-            downloadSummaries.Add(new(serviceProvider, "天赋图标更新", "Skill"));
-            downloadSummaries.Add(new(serviceProvider, "命之座图标更新", "Talent"));
+            downloadSummaries.TryAdd("Skill", new(serviceProvider, "天赋图标更新", "Skill"));
+            downloadSummaries.TryAdd("Talent", new(serviceProvider, "命之座图标更新", "Talent"));
         }
 
-        return downloadSummaries;
+        return downloadSummaries.Select(x => x.Value);
     }
 
     /// <summary>
