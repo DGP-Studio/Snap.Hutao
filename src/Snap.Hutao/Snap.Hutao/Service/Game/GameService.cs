@@ -143,6 +143,11 @@ internal class GameService : IGameService, IDisposable
         string gamePath = GetGamePathSkipLocator();
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFile);
 
+        if (!File.Exists(configPath))
+        {
+            return new(null, null, configPath);
+        }
+
         using (FileStream stream = File.OpenRead(configPath))
         {
             List<IniElement> elements = IniSerializer.Deserialize(stream).ToList();

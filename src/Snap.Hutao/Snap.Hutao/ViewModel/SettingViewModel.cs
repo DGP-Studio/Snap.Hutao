@@ -207,7 +207,16 @@ internal class SettingViewModel : Abstraction.ViewModel
             IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
             if (Directory.Exists(cacheFolder))
             {
-                Directory.Delete(cacheFolder, true);
+                try
+                {
+                    Directory.Delete(cacheFolder, true);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    infoBarService.Warning($"清除失败，文件目录权限不足，请使用管理员模式重试");
+                    return;
+                }
+
                 infoBarService.Success("清除完成");
             }
             else

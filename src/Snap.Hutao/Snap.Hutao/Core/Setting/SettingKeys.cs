@@ -32,4 +32,9 @@ internal static class SettingKeys
     /// 静态资源合约V2 成就图标与物品图标
     /// </summary>
     public const string StaticResourceV2Contract = "StaticResourceV2Contract";
+
+    /// <summary>
+    /// 静态资源合约V3 刷新 Skill Talent
+    /// </summary>
+    public const string StaticResourceV3Contract = "StaticResourceV3Contract";
 }

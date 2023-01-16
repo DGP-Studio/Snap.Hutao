@@ -10,7 +10,8 @@ namespace Snap.Hutao.Core.DependencyInjection;
 /// </summary>
 public static class ServiceScopeExtension
 {
-    private static IServiceScope? scopeReference;
+    // Allow GC to Collect the IServiceScope
+    private static readonly WeakReference<IServiceScope> ScopeReference = new(null!);
 
     /// <summary>
     /// 追踪服务范围
@@ -19,7 +20,7 @@ public static class ServiceScopeExtension
     public static void Track(this IServiceScope scope)
     {
         DisposeLast();
-        scopeReference = scope;
+        ScopeReference.SetTarget(scope);
     }
 
     /// <summary>
@@ -27,6 +28,9 @@ public static class ServiceScopeExtension
     /// </summary>
     public static void DisposeLast()
     {
-        scopeReference?.Dispose();
+        if (ScopeReference.TryGetTarget(out IServiceScope? scope))
+        {
+            scope.Dispose();
+        }
     }
 }

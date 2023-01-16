@@ -39,6 +39,13 @@ internal static class ThreadHelper
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void InvokeOnMainThread(Action action)
     {
-        Program.DispatcherQueue!.Invoke(action);
+        if (Program.DispatcherQueue!.HasThreadAccess)
+        {
+            action();
+        }
+        else
+        {
+            Program.DispatcherQueue.Invoke(action);
+        }
     }
 }

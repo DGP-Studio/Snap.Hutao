@@ -64,25 +64,18 @@
 
         <DataTemplate x:Key="OrangeGridTemplate" x:DataType="shmbg:SummaryItem">
             <Grid Width="40" Margin="0,4,4,0">
-                <Border
-                    Background="{StaticResource CardBackgroundFillColorDefault}"
-                    BorderBrush="{StaticResource CardStrokeColorDefault}"
-                    BorderThickness="1"
-                    CornerRadius="{StaticResource CompatCornerRadius}"
-                    ToolTipService.ToolTip="{Binding TimeFormatted}">
+                <Border Style="{StaticResource BorderCardStyle}" ToolTipService.ToolTip="{Binding TimeFormatted}">
                     <StackPanel>
                         <shvc:ItemIcon
                             Width="40"
                             Height="40"
                             Icon="{Binding Icon}"
                             Quality="QUALITY_ORANGE"/>
-                        <!--<shci:CachedImage
-                        Source="{Binding Icon}"
-                        Height="40" Width="40"/>-->
                         <TextBlock
-                            HorizontalAlignment="Center"
+                            HorizontalTextAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
                             Text="{Binding LastPull}"
+                            TextTrimming="None"
                             TextWrapping="NoWrap">
                             <TextBlock.Foreground>
                                 <SolidColorBrush Color="{Binding Color}"/>
@@ -94,7 +87,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Border Background="{StaticResource CardBackgroundFillColorDefaultBrush}" CornerRadius="{StaticResource CompatCornerRadius}">
+    <Border Style="{StaticResource BorderCardStyle}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -108,19 +101,23 @@
                 HorizontalContentAlignment="Stretch"
                 Background="Transparent"
                 BorderBrush="{x:Null}"
+                BorderThickness="0"
+                CornerRadius="4,4,0,0"
                 IsExpanded="True">
+                <Expander.Resources>
+                    <Thickness x:Key="ExpanderHeaderBorderThickness">0,0,0,1</Thickness>
+                </Expander.Resources>
                 <Expander.Header>
-                    <Grid Grid.Row="0">
+                    <Grid>
                         <TextBlock
                             VerticalAlignment="Center"
                             Style="{StaticResource SubtitleTextBlockStyle}"
                             Text="{Binding Name}"/>
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                             <TextBlock
-                                Margin="0,4,12,2"
-                                VerticalAlignment="Bottom"
-                                FontFamily="Consolas"
-                                FontSize="24"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Center"
+                                FontSize="20"
                                 Text="{Binding TotalCount}"
                                 Visibility="{Binding ElementName=DetailExpander, Path=IsExpanded, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                             <shcp:PanelSelector
@@ -135,7 +132,7 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
                                 Margin="0,4,0,4"
-                                FontFamily="Consolas"
+                                FontFamily="{StaticResource CascadiaMonoAndMiSans}"
                                 FontSize="48"
                                 Text="{Binding TotalCount}"/>
                             <TextBlock
@@ -149,12 +146,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Border
-                                Grid.Column="0"
-                                Background="{StaticResource CardBackgroundFillColorDefault}"
-                                BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                BorderThickness="1"
-                                CornerRadius="{StaticResource CompatCornerRadius}">
+                            <Border Grid.Column="0" Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
@@ -165,14 +157,13 @@
                                         Width="40"
                                         Height="40"
                                         Margin="4"
-                                        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                         Foreground="{StaticResource OrangeBrush}"
                                         IsIndeterminate="False"
                                         Maximum="{Binding GuarenteeOrangeThreshold}"
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="0,0,0,2"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
@@ -180,7 +171,6 @@
                                         Text="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="1"
-                                        Margin="0,0,0,2"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
@@ -188,12 +178,7 @@
                                         Text="五星"/>
                                 </Grid>
                             </Border>
-                            <Border
-                                Grid.Column="1"
-                                Background="{StaticResource CardBackgroundFillColorDefault}"
-                                BorderBrush="{StaticResource CardStrokeColorDefault}"
-                                BorderThickness="1"
-                                CornerRadius="{StaticResource CompatCornerRadius}">
+                            <Border Grid.Column="1" Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
@@ -204,14 +189,13 @@
                                         Width="40"
                                         Height="40"
                                         Margin="4"
-                                        Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                         Foreground="{StaticResource PurpleBrush}"
                                         IsIndeterminate="False"
                                         Maximum="{Binding GuarenteePurpleThreshold}"
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="0,0,0,2"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
@@ -219,7 +203,6 @@
                                         Text="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="1"
-                                        Margin="0,0,0,2"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
@@ -232,20 +215,17 @@
                         <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
                             <TextBlock
                                 HorizontalAlignment="Left"
-                                FontFamily="Consolas"
                                 Opacity="0.6"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding FromFormatted}"/>
                             <TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                FontFamily="Consolas"
                                 Opacity="0.6"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="-"/>
                             <TextBlock
                                 HorizontalAlignment="Left"
-                                FontFamily="Consolas"
                                 Opacity="0.6"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding ToFormatted}"/>
@@ -260,7 +240,7 @@
                                 Text="五星"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas"
+                                FontFamily="{StaticResource CascadiaMonoAndMiSans}"
                                 Foreground="{StaticResource OrangeBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding TotalOrangeFormatted}"/>
@@ -272,7 +252,7 @@
                                 Text="四星"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas"
+                                FontFamily="{StaticResource CascadiaMonoAndMiSans}"
                                 Foreground="{StaticResource PurpleBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding TotalPurpleFormatted}"/>
@@ -284,7 +264,7 @@
                                 Text="三星"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas"
+                                FontFamily="{StaticResource CascadiaMonoAndMiSans}"
                                 Foreground="{StaticResource BlueBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding TotalBlueFormatted}"/>
@@ -294,7 +274,6 @@
                             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="五星平均抽数"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas,MicroSoft YaHei UI"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding AverageOrangePullFormatted}"/>
                         </Grid>
@@ -302,19 +281,16 @@
                             <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="UP 平均抽数"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas,MicroSoft YaHei UI"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding AverageUpOrangePullFormatted}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
                             <TextBlock
                                 HorizontalAlignment="Left"
-                                FontFamily="Consolas,MicroSoft YaHei UI"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding MaxOrangePullFormatted}"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
-                                FontFamily="Consolas,MicroSoft YaHei UI"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding MinOrangePullFormatted}"/>
                         </Grid>

@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// 插件项
 /// </summary>
-public class PluginItem : LocalFile
+public class PluginItem : NameMd5
 {
     /// <summary>
     /// 版本 一般为空

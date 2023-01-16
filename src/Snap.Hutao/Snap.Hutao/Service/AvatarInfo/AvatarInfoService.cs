@@ -22,7 +22,6 @@ namespace Snap.Hutao.Service.AvatarInfo;
 [Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
 internal class AvatarInfoService : IAvatarInfoService
 {
-    private readonly AppDbContext appDbContext;
     private readonly ISummaryFactory summaryFactory;
     private readonly IMetadataService metadataService;
     private readonly ILogger<AvatarInfoService> logger;
@@ -42,7 +41,6 @@ internal class AvatarInfoService : IAvatarInfoService
         ISummaryFactory summaryFactory,
         ILogger<AvatarInfoService> logger)
     {
-        this.appDbContext = appDbContext;
         this.metadataService = metadataService;
         this.summaryFactory = summaryFactory;
         this.logger = logger;

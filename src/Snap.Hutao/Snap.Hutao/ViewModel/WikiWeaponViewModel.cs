@@ -203,19 +203,19 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
             {
                 string value = segment.ToString();
 
-                if (ImmutableIntrinsics.WeaponTypes.Contains(value))
+                if (IntrinsicImmutables.WeaponTypes.Contains(value))
                 {
                     keep = keep || weapon.WeaponType.GetDescriptionOrNull() == value;
                     continue;
                 }
 
-                if (ImmutableIntrinsics.ItemQualities.Contains(value))
+                if (IntrinsicImmutables.ItemQualities.Contains(value))
                 {
                     keep = keep || weapon.Quality.GetDescriptionOrNull() == value;
                     continue;
                 }
 
-                if (ImmutableIntrinsics.FightProperties.Contains(value))
+                if (IntrinsicImmutables.FightProperties.Contains(value))
                 {
                     keep = keep || weapon.Property.Properties.ElementAtOrDefault(1).GetDescriptionOrNull() == value;
                     continue;

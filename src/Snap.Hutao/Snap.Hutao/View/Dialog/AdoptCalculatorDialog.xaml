@@ -4,17 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="米游社养成计算"
     Closed="OnContentDialogClosed"
-    DefaultButton="Primary"
-    PrimaryButtonText="完成"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
-
+    <ContentControl.Resources>
+        <Thickness x:Key="ContentDialogPadding">0</Thickness>
+        <CornerRadius x:Key="OverlayCornerRadius">0</CornerRadius>
+    </ContentControl.Resources>
     <Grid Loaded="OnGridLoaded">
         <WebView2
             Name="WebView"
             Width="380"
-            Height="500"/>
+            Height="500"
+            AllowFocusOnInteraction="False"/>
     </Grid>
 </ContentDialog>

@@ -15,8 +15,8 @@ public class Game
     public Package Latest { get; set; } = default!;
 
     /// <summary>
-    /// 差异文件
+    /// 相对于当前版本的之前版本的差异文件（非预下载）
     /// </summary>
     [JsonPropertyName("diffs")]
-    public IList<DiffPackage> Diffs { get; set; } = default!;
+    public List<DiffPackage> Diffs { get; set; } = default!;
 }

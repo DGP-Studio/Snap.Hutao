@@ -181,7 +181,7 @@ internal class NavigationService : INavigationService
     /// <inheritdoc/>
     public void GoBack()
     {
-        Program.DispatcherQueue!.TryEnqueue(() =>
+        ThreadHelper.InvokeOnMainThread(() =>
         {
             bool canGoBack = Frame?.CanGoBack ?? false;
 

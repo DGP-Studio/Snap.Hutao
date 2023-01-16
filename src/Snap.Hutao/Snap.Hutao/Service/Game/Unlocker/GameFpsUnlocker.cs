@@ -6,6 +6,7 @@ using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Win32;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Windows.Win32.Foundation;
 using Windows.Win32.System.Diagnostics.ToolHelp;
 using static Windows.Win32.PInvoke;
 
@@ -75,21 +76,24 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
 
     private static unsafe MODULEENTRY32 FindModule(int processId, string moduleName)
     {
-        using (SafeFileHandle snapshot = CreateToolhelp32Snapshot_SafeHandle(CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE, (uint)processId))
+        HANDLE snapshot = CreateToolhelp32Snapshot(CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE, (uint)processId);
+        using (snapshot.AutoClose())
         {
             Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
             MODULEENTRY32 entry = StructMarshal.MODULEENTRY32();
             bool found = false;
 
-            // First module must be exe. Ignoring it.
-            for (Module32First(snapshot, ref entry); Module32Next(snapshot, ref entry);)
+            bool loop = Module32First(snapshot, &entry);
+            while (loop)
             {
                 if (entry.th32ProcessID == processId && entry.szModule.AsString() == moduleName)
                 {
                     found = true;
                     break;
                 }
+
+                loop = Module32Next(snapshot, &entry);
             }
 
             return found ? entry : default;

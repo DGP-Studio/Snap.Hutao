@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.TaskScheduler;
+using System.IO;
 using System.Runtime.InteropServices;
 using SchedulerTask = Microsoft.Win32.TaskScheduler.Task;
 
@@ -23,6 +24,7 @@ internal static class ScheduleTaskHelper
     {
         try
         {
+            // TODO: 似乎可以不删除任务，直接注册已经包含了更新功能
             SchedulerTask? targetTask = TaskService.Instance.GetTask(DailyNoteRefreshTaskName);
             if (targetTask != null)
             {
@@ -36,12 +38,9 @@ internal static class ScheduleTaskHelper
             TaskService.Instance.RootFolder.RegisterTaskDefinition(DailyNoteRefreshTaskName, task);
             return true;
         }
-        catch (UnauthorizedAccessException)
+        catch (Exception ex)
         {
-            return false;
-        }
-        catch (COMException)
-        {
+            _ = ex;
             return false;
         }
     }

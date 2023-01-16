@@ -468,7 +468,16 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     private async Task UpdateAchievementsAsync(Model.Entity.AchievementArchive archive)
     {
         List<Model.Metadata.Achievement.Achievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
-        List<Model.Binding.Achievement.Achievement> combined = achievementService.GetAchievements(archive, rawAchievements);
+        List<Model.Binding.Achievement.Achievement> combined;
+        try
+        {
+            combined = achievementService.GetAchievements(archive, rawAchievements);
+        }
+        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        {
+            infoBarService.Error(ex);
+            return;
+        }
 
         // Assemble achievements on the UI thread.
         await ThreadHelper.SwitchToMainThreadAsync();

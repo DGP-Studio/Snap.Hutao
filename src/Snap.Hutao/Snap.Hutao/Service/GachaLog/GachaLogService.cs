@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
@@ -296,6 +297,7 @@ internal class GachaLogService : IGachaLogService
                 break;
             }
 
+            token.ThrowIfCancellationRequested();
             SaveGachaItems(itemsToAdd, isLazy, archive, configration.EndId);
             await RandomDelayAsync(token).ConfigureAwait(false);
         }
@@ -327,14 +329,21 @@ internal class GachaLogService : IGachaLogService
 
         if (archive != null)
         {
-            // TODO: replace with MaxBy
-            // https://github.com/dotnet/efcore/issues/25566
-            // .MaxBy(i => i.Id);
-            item = appDbContext.GachaItems
-                .Where(i => i.ArchiveId == archive.InnerId)
-                .Where(i => i.QueryType == configType)
-                .OrderByDescending(i => i.Id)
-                .FirstOrDefault();
+            try
+            {
+                // TODO: replace with MaxBy
+                // https://github.com/dotnet/efcore/issues/25566
+                // .MaxBy(i => i.Id);
+                item = appDbContext.GachaItems
+                    .Where(i => i.ArchiveId == archive.InnerId)
+                    .Where(i => i.QueryType == configType)
+                    .OrderByDescending(i => i.Id)
+                    .FirstOrDefault();
+            }
+            catch (SqliteException ex)
+            {
+                throw new Core.ExceptionService.UserdataCorruptedException("无法获取祈愿记录 End Id", ex);
+            }
         }
 
         return item?.Id ?? 0L;
@@ -369,11 +378,12 @@ internal class GachaLogService : IGachaLogService
 
     private INameQuality GetNameQualityByItemId(int id)
     {
-        return id.Place() switch
+        int place = id.Place();
+        return place switch
         {
             8 => idAvatarMap![id],
             5 => idWeaponMap![id],
-            _ => throw Must.NeverHappen(),
+            _ => throw Must.NeverHappen($"Id places: {place}"),
         };
     }
 

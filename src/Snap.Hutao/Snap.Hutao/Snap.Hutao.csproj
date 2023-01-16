@@ -37,9 +37,12 @@
   
   <ItemGroup>
     <None Remove="Control\Panel\PanelSelector.xaml" />
+    <None Remove="Control\Theme\FontStyle.xaml" />
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="NativeMethods.json" />
     <None Remove="NativeMethods.txt" />
+    <None Remove="Resource\Font\CascadiaMono.ttf" />
+    <None Remove="Resource\Font\MiSans-Regular.ttf" />
     <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <None Remove="Resource\Icon\UI_BagTabIcon_Avatar.png" />
     <None Remove="Resource\Icon\UI_BagTabIcon_Weapon.png" />
@@ -122,7 +125,8 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="Resource\Font\Segoe Fluent Icons.ttf" />
+    <Content Include="Resource\Font\CascadiaMono.ttf" />
+    <Content Include="Resource\Font\MiSans-Regular.ttf" />
     <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
     <Content Include="Resource\Icon\UI_BagTabIcon_Avatar.png" />
     <Content Include="Resource\Icon\UI_BagTabIcon_Weapon.png" />
@@ -154,8 +158,8 @@
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.1">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -171,14 +175,14 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25267-preview" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25276-preview" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="TaskScheduler" Version="2.10.1" />
-    <PackageReference Include="WinUICommunity.SettingsUI" Version="3.0.0" />
+    <PackageReference Include="WinUICommunity.SettingsUI" Version="3.0.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -412,6 +416,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Control\Panel\PanelSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Style\FontStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

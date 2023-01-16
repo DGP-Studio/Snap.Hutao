@@ -45,7 +45,7 @@ public partial class Cookie
     {
         SortedDictionary<string, string> cookieMap = new();
         cookieString = cookieString.Replace(" ", string.Empty);
-        string[] values = cookieString.TrimEnd(';').Split(';');
+        string[] values = cookieString.Split(';', StringSplitOptions.RemoveEmptyEntries);
         foreach (string[] parts in values.Select(c => c.Split('=', 2)))
         {
             string name = parts[0].Trim();

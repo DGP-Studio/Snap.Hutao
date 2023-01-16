@@ -11,6 +11,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <muxc:XamlControlsResources/>
                 <ResourceDictionary Source="ms-appx:///SettingsUI/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="Control/Theme/FontStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <ResourceDictionary.ThemeDictionaries>
@@ -27,8 +28,6 @@
             <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
             <!--  Page Transparent Background  -->
             <StaticResource x:Key="ApplicationPageBackgroundThemeBrush" ResourceKey="ControlFillColorTransparentBrush"/>
-            <!--  IconFont  -->
-            <FontFamily x:Key="SymbolThemeFontFamily">ms-appx:///Resource/Font/Segoe Fluent Icons.ttf#Segoe Fluent Icons</FontFamily>
             <!--  InfoBar Resource  -->
             <Thickness x:Key="InfoBarIconMargin">6,16,16,16</Thickness>
             <Thickness x:Key="InfoBarContentRootPadding">16,0,0,0</Thickness>
@@ -90,6 +89,7 @@
             <shvc:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
             <shvc:Int32ToVisibilityRevertConverter x:Key="Int32ToVisibilityRevertConverter"/>
             <!--  Styles  -->
+
             <Style
                 x:Key="LargeGridViewItemStyle"
                 BasedOn="{StaticResource DefaultGridViewItemStyle}"

@@ -47,6 +47,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
     {
         ThreadHelper.InvokeOnMainThread(() =>
         {
+            // Database items have been deleted by cascade deleting.
             entries?.RemoveWhere(n => n.UserId == message.RemovedUserId);
         });
     }
@@ -151,6 +152,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
 
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
+            // DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s)
             scope.ServiceProvider.GetRequiredService<AppDbContext>().DailyNotes.RemoveAndSave(entry);
         }
     }

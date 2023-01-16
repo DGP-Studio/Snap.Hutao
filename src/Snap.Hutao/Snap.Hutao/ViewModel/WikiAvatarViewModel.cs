@@ -211,25 +211,25 @@ internal class WikiAvatarViewModel : Abstraction.ViewModel
                     continue;
                 }
 
-                if (ImmutableIntrinsics.AssociationTypes.Contains(value))
+                if (IntrinsicImmutables.AssociationTypes.Contains(value))
                 {
                     keep = keep || avatar.FetterInfo.Association.GetDescriptionOrNull() == value;
                     continue;
                 }
 
-                if (ImmutableIntrinsics.WeaponTypes.Contains(value))
+                if (IntrinsicImmutables.WeaponTypes.Contains(value))
                 {
                     keep = keep || avatar.Weapon.GetDescriptionOrNull() == value;
                     continue;
                 }
 
-                if (ImmutableIntrinsics.ItemQualities.Contains(value))
+                if (IntrinsicImmutables.ItemQualities.Contains(value))
                 {
                     keep = keep || avatar.Quality.GetDescriptionOrNull() == value;
                     continue;
                 }
 
-                if (ImmutableIntrinsics.BodyTypes.Contains(value))
+                if (IntrinsicImmutables.BodyTypes.Contains(value))
                 {
                     keep = keep || avatar.Body.GetDescriptionOrNull() == value;
                     continue;

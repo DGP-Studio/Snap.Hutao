@@ -52,7 +52,42 @@ internal class WelcomeViewModel : ObservableObject
 
     private async Task OpenUIAsync()
     {
-        List<DownloadSummary> downloadSummaries = new();
+        HashSet<DownloadSummary> downloadSummaries = GenerateStaticResourceDownloadTasks();
+
+        DownloadSummaries = downloadSummaries.ToObservableCollection();
+
+        // Cancel all previous created jobs
+        serviceProvider.GetRequiredService<BitsManager>().CancelAllJobs();
+        await Task.WhenAll(downloadSummaries.Select(async d =>
+        {
+            await d.DownloadAndExtractAsync().ConfigureAwait(false);
+            await ThreadHelper.SwitchToMainThreadAsync();
+            DownloadSummaries.Remove(d);
+        })).ConfigureAwait(true);
+
+        serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
+
+        // Complete StaticResourceContracts
+        LocalSetting.Set(SettingKeys.StaticResourceV1Contract, true);
+        LocalSetting.Set(SettingKeys.StaticResourceV2Contract, true);
+        LocalSetting.Set(SettingKeys.StaticResourceV3Contract, true);
+
+        try
+        {
+            new ToastContentBuilder()
+                .AddText("下载完成")
+                .AddText("现在可以开始使用胡桃了")
+                .Show();
+        }
+        catch (COMException)
+        {
+            // 0x803E0105
+        }
+    }
+
+    private HashSet<DownloadSummary> GenerateStaticResourceDownloadTasks()
+    {
+        HashSet<DownloadSummary> downloadSummaries = new(EqualityComparer<DownloadSummary>.Default);
 
         if (!LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false))
         {
@@ -75,35 +110,20 @@ internal class WelcomeViewModel : ObservableObject
             downloadSummaries.Add(new(serviceProvider, "圣遗物图标", "RelicIcon"));
         }
 
-        DownloadSummaries = new(downloadSummaries);
-
-        // Cancel all previous created jobs
-        serviceProvider.GetRequiredService<BitsManager>().CancelAllJobs();
-        await Task.WhenAll(downloadSummaries.Select(d => d.DownloadAndExtractAsync())).ConfigureAwait(true);
-
-        serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
-
-        // Complete StaticResourceContracts
-        LocalSetting.Set(SettingKeys.StaticResourceV1Contract, true);
-        LocalSetting.Set(SettingKeys.StaticResourceV2Contract, true);
-
-        try
+        if (!LocalSetting.Get(SettingKeys.StaticResourceV3Contract, false))
         {
-            new ToastContentBuilder()
-                .AddText("下载完成")
-                .AddText("现在可以开始使用胡桃了")
-                .Show();
+            downloadSummaries.Add(new(serviceProvider, "天赋图标更新", "Skill"));
+            downloadSummaries.Add(new(serviceProvider, "命之座图标更新", "Talent"));
         }
-        catch (COMException)
-        {
-            // 0x803E0105
-        }
+
+        return downloadSummaries;
     }
 
     /// <summary>
     /// 下载信息
     /// </summary>
-    public class DownloadSummary : ObservableObject
+    [SuppressMessage("", "CA1067")]
+    public class DownloadSummary : ObservableObject, IEquatable<DownloadSummary>
     {
         private readonly IServiceProvider serviceProvider;
         private readonly BitsManager bitsManager;
@@ -144,6 +164,12 @@ internal class WelcomeViewModel : ObservableObject
         /// 进度值，最大1
         /// </summary>
         public double ProgressValue { get => progressValue; set => SetProperty(ref progressValue, value); }
+
+        /// <inheritdoc/>
+        public bool Equals(DownloadSummary? other)
+        {
+            return fileName == other?.fileName;
+        }
 
         /// <summary>
         /// 异步下载并解压

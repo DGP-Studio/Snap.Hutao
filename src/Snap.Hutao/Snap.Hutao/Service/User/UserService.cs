@@ -124,7 +124,14 @@ internal class UserService : IUserService
             }
 
             userCollection = users.ToObservableCollection();
-            Current = users.SingleOrDefault(user => user.IsSelected);
+            try
+            {
+                Current = users.SingleOrDefault(user => user.IsSelected);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Core.ExceptionService.UserdataCorruptedException("无法设置当前用户", ex);
+            }
         }
 
         return userCollection;
@@ -157,8 +164,16 @@ internal class UserService : IUserService
     {
         if (userCollection != null)
         {
-            // TODO: optimize match speed.
-            return userCollection.SelectMany(u => u.UserGameRoles).SingleOrDefault(r => r.GameUid == uid);
+            try
+            {
+                // TODO: optimize match speed.
+                return userCollection.SelectMany(u => u.UserGameRoles).SingleOrDefault(r => r.GameUid == uid);
+            }
+            catch (InvalidOperationException)
+            {
+                // Sequence contains more than one matching element
+                // TODO: return a specialize UserGameRole to indicate error
+            }
         }
 
         return null;

@@ -221,13 +221,21 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     ThrowIfViewDisposed();
 
                     MultiChannel multi = gameService.GetMultiChannel();
-                    SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
+                    if (string.IsNullOrEmpty(multi.ConfigFilePath))
+                    {
+                        SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
+                    }
+                    else
+                    {
+                        Ioc.Default.GetRequiredService<IInfoBarService>().Warning("无法读取游戏配置文件");
+                    }
+
                     GameAccounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(true);
 
                     // Sync uid
                     if (memoryCache.TryGetValue(DesiredUid, out object? value) && value is string uid)
                     {
-                        SelectedGameAccount = GameAccounts.SingleOrDefault(g => g.AttachUid == uid);
+                        SelectedGameAccount = GameAccounts.FirstOrDefault(g => g.AttachUid == uid);
                     }
 
                     // Sync from Settings

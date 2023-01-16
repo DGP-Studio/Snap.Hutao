@@ -21,13 +21,13 @@ public class GameResource
     public Plugin Plugin { get; set; } = default!;
 
     /// <summary>
-    /// 官网地址
+    /// 官网地址 https://ys.mihoyo.com/launcher
     /// </summary>
     [JsonPropertyName("web_url")]
     public Uri WebUrl { get; set; } = default!;
 
     /// <summary>
-    /// 强制更新文件
+    /// 强制更新文件 null
     /// </summary>
     [JsonPropertyName("force_update")]
     public object? ForceUpdate { get; set; }
@@ -36,17 +36,23 @@ public class GameResource
     /// 预下载
     /// </summary>
     [JsonPropertyName("pre_download_game")]
-    public object? PreDownloadGame { get; set; }
+    public Game? PreDownloadGame { get; set; }
 
     /// <summary>
     /// 过期更新包
     /// </summary>
     [JsonPropertyName("deprecated_packages")]
-    public List<LocalFile> DeprecatedPackages { get; set; } = default!;
+    public List<NameMd5> DeprecatedPackages { get; set; } = default!;
+
+    /// <summary>
+    /// 渠道服sdk
+    /// </summary>
+    [JsonPropertyName("sdk")]
+    public object? Sdk { get; set; }
 
     /// <summary>
     /// 过期的单个文件
     /// </summary>
     [JsonPropertyName("deprecated_files")]
-    public List<LocalFile>? DeprecatedFiles { get; set; }
+    public List<NameMd5>? DeprecatedFiles { get; set; }
 }

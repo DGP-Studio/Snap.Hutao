@@ -1,11 +1,12 @@
 # [Snap.Hutao](https://hut.ao)
+
+![](https://repository-images.githubusercontent.com/482734649/5f8cf574-2ef0-43e9-aa8d-6cf094b54dd9)
+
 > 唷，找本堂主有何贵干呀？
 
 ![Snap.Hutao](https://repobeats.axiom.co/api/embed/f029553fbe0c60689b1710476ec8512452163fc9.svg)
 
 # 特别感谢
-
-### 原神组织与个人
 
 * [HolographicHat](https://github.com/HolographicHat)
 * [UIGF organization](https://uigf.org)

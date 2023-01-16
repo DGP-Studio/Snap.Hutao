@@ -41,6 +41,7 @@ public class MiHoYoJSInterface
     private readonly CoreWebView2 webView;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<MiHoYoJSInterface> logger;
+    private readonly SemaphoreSlim webMessageSemaphore = new(1);
 
     /// <summary>
     /// 构造一个新的调用桥
@@ -58,6 +59,8 @@ public class MiHoYoJSInterface
         webView.DOMContentLoaded += OnDOMContentLoaded;
         webView.NavigationStarting += OnNavigationStarting;
     }
+
+    public event Action? ClosePageRequested;
 
     /// <summary>
     /// 获取ActionTicket
@@ -160,7 +163,7 @@ public class MiHoYoJSInterface
         string q = param.Payload.GetQueryParam();
         string check = Md5Convert.ToHexString($"salt={salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
 
-        return new() { Data = new() { ["DS"] = $"{t},{r},{check}", }, };
+        return new() { Data = new() { ["DS"] = $"{t},{r},{check}" } };
 
         static int GetRandom()
         {
@@ -214,9 +217,12 @@ public class MiHoYoJSInterface
                 cookieToken = cookieTokenResponse.Data.CookieToken;
             }
 
+            // Check null and create a new one to avoid System.NullReferenceException
+            user.CookieToken ??= new();
+
             // sync ui and database
-            user.CookieToken![Cookie.COOKIE_TOKEN] = cookieToken!;
-            Ioc.Default.GetRequiredService<AppDbContext>().Users.UpdateAndSave(user.Entity);
+            user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken!;
+            serviceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(user.Entity);
         }
         else
         {
@@ -234,6 +240,7 @@ public class MiHoYoJSInterface
     [JsMethod("closePage")]
     public virtual IJsResult? ClosePage(JsParam param)
     {
+        ClosePageRequested?.Invoke();
         return null;
     }
 
@@ -256,7 +263,7 @@ public class MiHoYoJSInterface
     [JsMethod("getStatusBarHeight")]
     public virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
     {
-        return new() { Data = new() { { "statusBarHeight", 0 } } };
+        return new() { Data = new() { ["statusBarHeight"] = 0 } };
     }
 
     [JsMethod("pushPage")]
@@ -352,11 +359,14 @@ public class MiHoYoJSInterface
         JsParam param = JsonSerializer.Deserialize<JsParam>(message)!;
 
         logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);
-        IJsResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
-
-        if (result != null && param.Callback != null)
+        using (await webMessageSemaphore.EnterAsync().ConfigureAwait(false))
         {
-            await ExecuteCallbackScriptAsync(param.Callback, result.ToString()).ConfigureAwait(false);
+            IJsResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
+
+            if (result != null && param.Callback != null)
+            {
+                await ExecuteCallbackScriptAsync(param.Callback, result.ToString()).ConfigureAwait(false);
+            }
         }
     }
 

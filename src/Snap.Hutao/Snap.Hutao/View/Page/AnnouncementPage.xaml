@@ -149,7 +149,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Pivot>
+                <Pivot Style="{StaticResource DefaultPivotStyle}">
                     <PivotItem
                         Content="{Binding Announcement.List[0]}"
                         ContentTemplate="{StaticResource AnnouncementTemplate}"

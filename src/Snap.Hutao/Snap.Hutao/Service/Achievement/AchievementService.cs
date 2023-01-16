@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity.Database;
@@ -114,7 +115,17 @@ internal class AchievementService : IAchievementService
         List<BindingAchievement> results = new();
         foreach (MetadataAchievement meta in metadata)
         {
-            EntityAchievement entity = entities.SingleOrDefault(e => e.Id == meta.Id) ?? EntityAchievement.Create(archiveId, meta.Id);
+            EntityAchievement? entity;
+            try
+            {
+                entity = entities.SingleOrDefault(e => e.Id == meta.Id);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new UserdataCorruptedException("单个成就存档内发现多个相同的成就 Id", ex);
+            }
+
+            entity ??= EntityAchievement.Create(archiveId, meta.Id);
 
             results.Add(new(meta, entity));
         }

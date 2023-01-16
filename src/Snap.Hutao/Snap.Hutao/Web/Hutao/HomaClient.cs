@@ -51,7 +51,7 @@ internal class HomaClient
     public async Task<Response<bool>> CheckRecordUploadedAsync(PlayerUid uid, CancellationToken token = default)
     {
         Response<bool>? resp = await httpClient
-            .GetFromJsonAsync<Response<bool>>(HutaoEndpoints.RecordCheck(uid.Value), token)
+            .TryCatchGetFromJsonAsync<Response<bool>>(HutaoEndpoints.RecordCheck(uid.Value), options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -67,7 +67,7 @@ internal class HomaClient
     public async Task<Response<RankInfo>> GetRankAsync(PlayerUid uid, CancellationToken token = default)
     {
         Response<RankInfo>? resp = await httpClient
-            .GetFromJsonAsync<Response<RankInfo>>(HutaoEndpoints.RecordRank(uid.Value), token)
+            .TryCatchGetFromJsonAsync<Response<RankInfo>>(HutaoEndpoints.RecordRank(uid.Value), options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -82,7 +82,7 @@ internal class HomaClient
     public async Task<Response<Overview>> GetOverviewAsync(CancellationToken token = default)
     {
         Response<Overview>? resp = await httpClient
-            .GetFromJsonAsync<Response<Overview>>(HutaoEndpoints.StatisticsOverview, token)
+            .TryCatchGetFromJsonAsync<Response<Overview>>(HutaoEndpoints.StatisticsOverview, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Logging;
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.IO;
 using System.Net;
@@ -24,7 +25,7 @@ public class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private const string CacheFolderName = nameof(ImageCache);
 
-    private static readonly ImmutableDictionary<int, TimeSpan> RetryCountToDelay = new Dictionary<int, TimeSpan>()
+    private static readonly Dictionary<int, TimeSpan> RetryCountToDelay = new Dictionary<int, TimeSpan>()
     {
         [0] = TimeSpan.FromSeconds(4),
         [1] = TimeSpan.FromSeconds(16),
@@ -32,12 +33,12 @@ public class ImageCache : IImageCache, IImageCacheFilePathOperation
         [3] = TimeSpan.FromSeconds(4),
         [4] = TimeSpan.FromSeconds(16),
         [5] = TimeSpan.FromSeconds(64),
-    }.ToImmutableDictionary();
+    };
 
     private readonly ILogger logger;
-
-    // violate di rule
     private readonly HttpClient httpClient;
+
+    private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
 
     private string? baseFolder;
     private string? cacheFolder;
@@ -100,11 +101,30 @@ public class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// <inheritdoc/>
     public async Task<string> GetFileFromCacheAsync(Uri uri)
     {
-        string filePath = Path.Combine(GetCacheFolder(), GetCacheFileName(uri));
+        string fileName = GetCacheFileName(uri);
+        string filePath = Path.Combine(GetCacheFolder(), fileName);
 
         if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
         {
-            await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
+            TaskCompletionSource taskCompletionSource = new();
+            try
+            {
+                if (concurrentTasks.TryAdd(fileName, taskCompletionSource.Task))
+                {
+                    await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
+                }
+                else
+                {
+                    if (concurrentTasks.TryGetValue(fileName, out Task? task))
+                    {
+                        await task.ConfigureAwait(false);
+                    }
+                }
+            }
+            finally
+            {
+                taskCompletionSource.TrySetResult();
+            }
         }
 
         return filePath;
@@ -191,7 +211,7 @@ public class ImageCache : IImageCache, IImageCacheFilePathOperation
 
             if (retryCount == 3)
             {
-                uri = new UriBuilder(uri) { Host = Web.HutaoEndpoints.StaticHutao, }.Uri;
+                uri = new UriBuilder(uri) { Host = Web.HutaoEndpoints.StaticHutao }.Uri;
             }
         }
     }

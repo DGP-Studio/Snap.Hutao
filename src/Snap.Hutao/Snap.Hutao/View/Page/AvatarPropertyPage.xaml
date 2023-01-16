@@ -203,8 +203,12 @@
                                                         Margin="4,0,0,2"
                                                         VerticalAlignment="Center"
                                                         Foreground="#FFFFFFFF"
+                                                        HorizontalTextAlignment="Center"
                                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding SelectedAvatar.FetterLevel}"/>
+                                                        Text="{Binding SelectedAvatar.FetterLevel}"
+                                                        TextAlignment="Center"
+                                                        TextTrimming="None"
+                                                        TextWrapping="NoWrap"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </Grid>

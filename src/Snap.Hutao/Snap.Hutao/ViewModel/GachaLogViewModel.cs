@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Data.Sqlite;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
@@ -199,7 +200,26 @@ internal class GachaLogViewModel : Abstraction.ViewModel
                 GachaLogRefreshProgressDialog dialog = new();
                 IAsyncDisposable dialogHider = await dialog.BlockAsync().ConfigureAwait(false);
                 Progress<FetchState> progress = new(dialog.OnReport);
-                bool authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, default).ConfigureAwait(false);
+                bool authkeyValid;
+
+                using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+                {
+                    try
+                    {
+                        authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // We set true here in order to hide the dialog.
+                        authkeyValid = true;
+                        infoBarService.Warning("祈愿记录刷新操作被异常取消");
+                    }
+                    catch (Core.ExceptionService.UserdataCorruptedException ex)
+                    {
+                        authkeyValid = false;
+                        infoBarService.Error(ex);
+                    }
+                }
 
                 await ThreadHelper.SwitchToMainThreadAsync();
                 if (authkeyValid)

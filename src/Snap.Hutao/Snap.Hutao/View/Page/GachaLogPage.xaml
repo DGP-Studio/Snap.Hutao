@@ -481,7 +481,8 @@
                     <wsc:Setting
                         Description="使用当前账号的Cookie信息刷新祈愿记录"
                         Header="Stoken 刷新"
-                        Icon="{shcm:FontIcon Glyph=&#xE192;}">
+                        Icon="{shcm:FontIcon Glyph=&#xE192;}"
+                        Style="{StaticResource DefaultSettingStyle}">
                         <Button Command="{Binding RefreshByStokenCommand}" Content="获取"/>
                     </wsc:Setting>
                     <wsc:Setting

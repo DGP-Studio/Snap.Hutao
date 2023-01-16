@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;

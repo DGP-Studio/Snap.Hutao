@@ -88,9 +88,15 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
             {
                 if (value != null)
                 {
-                    refreshSecondsEntry!.SetInt32(value.Value);
-                    appDbContext.Settings.UpdateAndSave(refreshSecondsEntry!);
-                    ScheduleTaskHelper.RegisterForDailyNoteRefresh(value.Value);
+                    if (!ScheduleTaskHelper.RegisterForDailyNoteRefresh(value.Value))
+                    {
+                        Ioc.Default.GetRequiredService<IInfoBarService>().Warning("注册计划任务失败，请使用管理员模式重试");
+                    }
+                    else
+                    {
+                        refreshSecondsEntry!.SetInt32(value.Value);
+                        appDbContext.Settings.UpdateAndSave(refreshSecondsEntry!);
+                    }
                 }
             }
         }
@@ -170,24 +176,38 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
 
     private async Task OpenUIAsync()
     {
-        UserAndUids = await userService.GetRoleCollectionAsync().ConfigureAwait(true);
+        UserAndUids = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
+        try
+        {
+            ThrowIfViewDisposed();
+            using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+            {
+                ThrowIfViewDisposed();
+                await ThreadHelper.SwitchToMainThreadAsync();
 
-        refreshSecondsEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteRefreshSeconds, "480");
-        selectedRefreshTime = refreshTimes.Single(t => t.Value == refreshSecondsEntry.GetInt32());
-        ScheduleTaskHelper.RegisterForDailyNoteRefresh(480);
-        OnPropertyChanged(nameof(SelectedRefreshTime));
+                refreshSecondsEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteRefreshSeconds, "480");
+                selectedRefreshTime = refreshTimes.Single(t => t.Value == refreshSecondsEntry.GetInt32());
+                OnPropertyChanged(nameof(SelectedRefreshTime));
+                ScheduleTaskHelper.RegisterForDailyNoteRefresh(480);
 
-        reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, SettingEntryHelper.FalseString);
-        isReminderNotification = reminderNotifyEntry.GetBoolean();
-        OnPropertyChanged(nameof(IsReminderNotification));
+                reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, SettingEntryHelper.FalseString);
+                isReminderNotification = reminderNotifyEntry.GetBoolean();
+                OnPropertyChanged(nameof(IsReminderNotification));
 
-        silentModeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString);
-        isSilentWhenPlayingGame = silentModeEntry.GetBoolean();
-        OnPropertyChanged(nameof(IsSilentWhenPlayingGame));
+                silentModeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString);
+                isSilentWhenPlayingGame = silentModeEntry.GetBoolean();
+                OnPropertyChanged(nameof(IsSilentWhenPlayingGame));
 
-        ObservableCollection<DailyNoteEntry> temp = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
-        await ThreadHelper.SwitchToMainThreadAsync();
-        DailyNoteEntries = temp;
+                await ThreadHelper.SwitchToBackgroundAsync();
+            }
+
+            ObservableCollection<DailyNoteEntry> temp = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
+            await ThreadHelper.SwitchToMainThreadAsync();
+            DailyNoteEntries = temp;
+        }
+        catch (OperationCanceledException)
+        {
+        }
     }
 
     private async Task TrackRoleAsync(UserAndUid? role)

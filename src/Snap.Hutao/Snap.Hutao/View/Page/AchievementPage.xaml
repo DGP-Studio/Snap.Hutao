@@ -160,6 +160,9 @@
                             Margin="16,0,0,16"
                             ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                             ItemsSource="{Binding Achievements}">
+                            <ItemsControl.ItemContainerTransitions>
+                                <ContentThemeTransition/>
+                            </ItemsControl.ItemContainerTransitions>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid

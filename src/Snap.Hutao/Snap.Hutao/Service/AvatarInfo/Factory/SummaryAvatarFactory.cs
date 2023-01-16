@@ -43,7 +43,7 @@ internal class SummaryAvatarFactory
         ReliquaryAndWeapon reliquaryAndWeapon = ProcessEquip(avatarInfo.EquipList.EmptyIfNull());
         MetadataAvatar avatar = metadataContext.IdAvatarMap[avatarInfo.AvatarId];
 
-        return new()
+        PropertyAvatar propertyAvatar = new()
         {
             Id = avatar.Id,
             Name = avatar.Name,
@@ -52,8 +52,6 @@ internal class SummaryAvatarFactory
             NameCard = AvatarNameCardPicConverter.AvatarToUri(avatar),
             Quality = avatar.Quality,
             Element = ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore),
-            Level = $"Lv.{avatarInfo.PropMap[PlayerProperty.PROP_LEVEL].Value}",
-            LevelNumber = int.Parse(avatarInfo.PropMap[PlayerProperty.PROP_LEVEL].Value ?? string.Empty),
             FetterLevel = avatarInfo.FetterInfo.ExpLevel,
             Weapon = reliquaryAndWeapon.Weapon,
             Reliquaries = reliquaryAndWeapon.Reliquaries,
@@ -62,7 +60,11 @@ internal class SummaryAvatarFactory
             Properties = SummaryHelper.CreateAvatarProperties(avatarInfo.FightPropMap),
             Score = reliquaryAndWeapon.Reliquaries.Sum(r => r.Score).ToString("F2"),
             CritScore = $"{SummaryHelper.ScoreCrit(avatarInfo.FightPropMap):F2}",
+            LevelNumber = int.Parse(avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].Value ?? string.Empty),
         };
+
+        propertyAvatar.Level = $"Lv.{propertyAvatar.LevelNumber}";
+        return propertyAvatar;
     }
 
     private ReliquaryAndWeapon ProcessEquip(List<Equip> equipments)
@@ -85,7 +87,7 @@ internal class SummaryAvatarFactory
             }
         }
 
-        return new(reliquaryList, weapon!);
+        return new(reliquaryList, weapon);
     }
 
     private PropertyWeapon CreateWeapon(Equip equip)

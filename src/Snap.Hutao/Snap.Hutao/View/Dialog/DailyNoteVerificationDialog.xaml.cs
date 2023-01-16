@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
@@ -11,20 +11,19 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// ʵʱ�����֤�Ի���
+/// 实时便笺验证对话框
 /// </summary>
 public sealed partial class DailyNoteVerificationDialog : ContentDialog
 {
     private readonly IServiceScope scope;
     private readonly UserAndUid userAndUid;
 
-    [SuppressMessage("", "IDE0052")]
     private DailyNoteJsInterface? dailyNoteJsInterface;
 
     /// <summary>
-    /// ����һ���µ�ʵʱ�����֤�Ի���
+    /// 构造一个新的实时便笺验证对话框
     /// </summary>
-    /// <param name="userAndUid">�û����ɫ</param>
+    /// <param name="userAndUid">用户与角色</param>
     public DailyNoteVerificationDialog(UserAndUid userAndUid)
     {
         InitializeComponent();
@@ -46,13 +45,20 @@ public sealed partial class DailyNoteVerificationDialog : ContentDialog
         Model.Entity.User user = userAndUid.User;
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
         dailyNoteJsInterface = new(coreWebView2, scope.ServiceProvider);
+        dailyNoteJsInterface.ClosePageRequested += OnClosePageRequested;
 
         string query = $"?role_id={userAndUid.Uid.Value}&server={userAndUid.Uid.Region}";
         coreWebView2.Navigate($"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/{query}");
     }
 
+    private void OnClosePageRequested()
+    {
+        ThreadHelper.InvokeOnMainThread(Hide);
+    }
+
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
+        dailyNoteJsInterface.ClosePageRequested -= OnClosePageRequested;
         dailyNoteJsInterface = null;
         scope.Dispose();
     }

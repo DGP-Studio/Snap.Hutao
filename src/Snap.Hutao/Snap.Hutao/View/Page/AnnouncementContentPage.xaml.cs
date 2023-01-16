@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.View.Extension;
+using System.Diagnostics;
 using Windows.System;
 
 namespace Snap.Hutao.View.Page;
@@ -34,10 +36,12 @@ public sealed partial class AnnouncementContentPage : Microsoft.UI.Xaml.Controls
     private const string DarkAccentColor2 = "background-color: rgb(254, 245, 231);";
 
     // support click open browser.
-    private const string MihoyoSDKDefinition =
-        @"window.miHoYoGameJSSDK = {
-openInBrowser: function(url){ window.chrome.webview.postMessage(url); },
-openInWebview: function(url){ location.href = url }}";
+    private const string MihoyoSDKDefinition = """
+        window.miHoYoGameJSSDK = {
+            openInBrowser: function(url){ window.chrome.webview.postMessage(url); },
+            openInWebview: function(url){ location.href = url }
+        }
+        """;
 
     private string? targetContent;
 
@@ -59,6 +63,13 @@ openInWebview: function(url){ location.href = url }}";
             targetContent = extra.Data as string;
             LoadAnnouncementAsync(extra).SafeForget();
         }
+    }
+
+    /// <inheritdoc/>
+    protected override void OnNavigatedFrom(NavigationEventArgs e)
+    {
+        base.OnNavigatedFrom(e);
+        //WebView.CoreWebView2.Environment.Exit();
     }
 
     private static string? ReplaceForeground(string? rawContent, ElementTheme theme)
