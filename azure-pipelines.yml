@@ -168,7 +168,7 @@ steps:
     changeLogType: 'commitBased'
 
 - task: DownloadSecureFile@1
-  name: RcloneCerFile
+  name: RcloneConfigFile
   displayName: Download Rclone Config
   inputs:
     secureFile: 'rclone.conf'
@@ -177,4 +177,4 @@ steps:
   displayName: Upload CI via Rclone
   inputs:
     arguments: 'copy $(Build.ArtifactStagingDirectory)/* downloadDGPCN:/releases/Alpha/'
-    configPath: '$(cerFile.secureFilePath)/rclone.conf'
+    configPath: '$(RcloneConfigFile.secureFilePath)/rclone.conf'
