@@ -176,5 +176,5 @@ steps:
 - task: rclone@1
   displayName: Upload CI via Rclone
   inputs:
-    arguments: 'copy $(Build.ArtifactStagingDirectory)/* downloadDGPCN:/releases/Alpha/'
+    arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/Alpha/'
     configPath: '$(RcloneConfigFile.secureFilePath)'
