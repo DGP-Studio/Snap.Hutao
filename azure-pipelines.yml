@@ -177,4 +177,4 @@ steps:
   displayName: Upload CI via Rclone
   inputs:
     arguments: 'copy $(Build.ArtifactStagingDirectory)/* downloadDGPCN:/releases/Alpha/'
-    configPath: '$(RcloneConfigFile.secureFilePath)/rclone.conf'
+    configPath: '$(RcloneConfigFile.secureFilePath)'
