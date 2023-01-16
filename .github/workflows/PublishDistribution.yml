@@ -2,7 +2,7 @@ name: PublishDistribution
 
 on:
   release:
-    types: [published]
+    types: [released]
 
   workflow_dispatch:
 
