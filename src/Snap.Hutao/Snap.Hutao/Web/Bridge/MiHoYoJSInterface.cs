@@ -22,6 +22,7 @@ namespace Snap.Hutao.Web.Bridge;
 /// <summary>
 /// 调用桥
 /// </summary>
+[SuppressMessage("", "CA1001")]
 [SuppressMessage("", "SA1600")]
 public class MiHoYoJSInterface
 {
@@ -67,7 +68,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="jsParam">参数</param>
     /// <returns>响应</returns>
-    [JsMethod("getActionTicket")]
     public virtual async Task<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
@@ -82,7 +82,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>Http请求头</returns>
-    [JsMethod("getHTTPRequestHeaders")]
     public virtual JsResult<Dictionary<string, string>> GetHttpRequestHeader(JsParam param)
     {
         return new()
@@ -101,7 +100,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [JsMethod("getCookieInfo")]
     public virtual JsResult<Dictionary<string, string>> GetCookieInfo(JsParam param)
     {
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
@@ -122,7 +120,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [JsMethod("getDS")]
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
         string salt = Core.CoreEnvironment.DynamicSecrets[nameof(SaltType.LK2)];
@@ -153,7 +150,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [JsMethod("getDS2")]
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
         string salt = Core.CoreEnvironment.DynamicSecrets[nameof(SaltType.X4)];
@@ -177,7 +173,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [JsMethod("getUserInfo")]
     public virtual JsResult<Dictionary<string, object>> GetUserInfo(JsParam param)
     {
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
@@ -201,7 +196,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [JsMethod("getCookieToken")]
     public virtual async Task<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
@@ -237,7 +231,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [JsMethod("closePage")]
     public virtual IJsResult? ClosePage(JsParam param)
     {
         ClosePageRequested?.Invoke();
@@ -249,7 +242,6 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [JsMethod("configure_share")]
     public virtual IJsResult? ConfigureShare(JsParam param)
     {
         return null;
@@ -260,68 +252,57 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>结果</returns>
-    [JsMethod("getStatusBarHeight")]
     public virtual JsResult<Dictionary<string, object>> GetStatusBarHeight(JsParam param)
     {
         return new() { Data = new() { ["statusBarHeight"] = 0 } };
     }
 
-    [JsMethod("pushPage")]
     public virtual IJsResult? PushPage(JsParam<PushPagePayload> param)
     {
         webView.Navigate(param.Payload.Page);
         return null;
     }
 
-    [JsMethod("showAlertDialog")]
     public virtual Task<IJsResult?> ShowAlertDialogAsync(JsParam param)
     {
         return Task.FromException<IJsResult?>(new NotImplementedException());
     }
 
-    [JsMethod("startRealPersonValidation")]
     public virtual IJsResult? StartRealPersonValidation(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    [JsMethod("startRealnameAuth")]
     public virtual IJsResult? StartRealnameAuth(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    [JsMethod("genAuthKey")]
     public virtual IJsResult? GenAuthKey(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    [JsMethod("genAppAuthKey")]
     public virtual IJsResult? GenAppAuthKey(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    [JsMethod("openSystemBrowser")]
     public virtual IJsResult? OpenSystemBrowser(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    [JsMethod("saveLoginTicket")]
     public virtual IJsResult? SaveLoginTicket(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    [JsMethod("getNotificationSettings")]
     public virtual Task<IJsResult?> GetNotificationSettingsAsync(JsParam param)
     {
         throw new NotImplementedException();
     }
 
-    [JsMethod("showToast")]
     public virtual IJsResult? ShowToast(JsParam param)
     {
         throw new NotImplementedException();

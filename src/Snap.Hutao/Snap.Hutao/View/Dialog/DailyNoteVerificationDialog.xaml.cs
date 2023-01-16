@@ -13,6 +13,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 实时便笺验证对话框
 /// </summary>
+[SuppressMessage("", "CA1001")]
 public sealed partial class DailyNoteVerificationDialog : ContentDialog
 {
     private readonly IServiceScope scope;
@@ -58,8 +59,12 @@ public sealed partial class DailyNoteVerificationDialog : ContentDialog
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        dailyNoteJsInterface.ClosePageRequested -= OnClosePageRequested;
-        dailyNoteJsInterface = null;
+        if (dailyNoteJsInterface != null)
+        {
+            dailyNoteJsInterface!.ClosePageRequested -= OnClosePageRequested;
+            dailyNoteJsInterface = null;
+        }
+
         scope.Dispose();
     }
 }

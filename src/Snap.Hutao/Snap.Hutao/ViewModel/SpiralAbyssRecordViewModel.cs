@@ -72,12 +72,12 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
     {
         get => selectedEntry; set
         {
-            if (SetProperty(ref selectedEntry, value))
+            // We dont need to check the result here,
+            // just refresh the view anyway.
+            SetProperty(ref selectedEntry, value);
+            if (value != null && idAvatarMap != null)
             {
-                if (value != null && idAvatarMap != null)
-                {
-                    SpiralAbyssView = new(value.SpiralAbyss, idAvatarMap);
-                }
+                SpiralAbyssView = new(value.SpiralAbyss, idAvatarMap);
             }
         }
     }

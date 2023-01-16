@@ -115,13 +115,9 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
     private Task OpenUIAsync()
     {
-        if (userService.Current is User user)
+        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            if (user.SelectedUserGameRole is UserGameRole role)
-            {
-                UserAndUid userAndUid = new(user.Entity, role);
-                return RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken);
-            }
+            return RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken);
         }
 
         return Task.CompletedTask;

@@ -89,7 +89,7 @@ internal class WelcomeViewModel : ObservableObject
     {
         Dictionary<string, DownloadSummary> downloadSummaries = new();
 
-        if (!LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false))
+        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV1Contract))
         {
             downloadSummaries.TryAdd("Bg", new(serviceProvider, "基础图标", "Bg"));
             downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "角色图标", "AvatarIcon"));
@@ -102,7 +102,7 @@ internal class WelcomeViewModel : ObservableObject
             downloadSummaries.TryAdd("Talent", new(serviceProvider, "命之座图标", "Talent"));
         }
 
-        if (!LocalSetting.Get(SettingKeys.StaticResourceV2Contract, false))
+        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV2Contract))
         {
             downloadSummaries.TryAdd("AchievementIcon", new(serviceProvider, "成就图标", "AchievementIcon"));
             downloadSummaries.TryAdd("ItemIcon", new(serviceProvider, "物品图标", "ItemIcon"));
@@ -110,7 +110,7 @@ internal class WelcomeViewModel : ObservableObject
             downloadSummaries.TryAdd("RelicIcon", new(serviceProvider, "圣遗物图标", "RelicIcon"));
         }
 
-        if (!LocalSetting.Get(SettingKeys.StaticResourceV3Contract, false))
+        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV3Contract))
         {
             downloadSummaries.TryAdd("Skill", new(serviceProvider, "天赋图标更新", "Skill"));
             downloadSummaries.TryAdd("Talent", new(serviceProvider, "命之座图标更新", "Talent"));
