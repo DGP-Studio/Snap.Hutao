@@ -97,8 +97,18 @@ public static class AvatarIds
     {
         return new(idAvatarMap)
         {
-            [PlayerBoy] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerBoy", Quality = Intrinsic.ItemQuality.QUALITY_ORANGE },
-            [PlayerGirl] = new() { Name = "旅行者", Icon = "UI_AvatarIcon_PlayerGirl", Quality = Intrinsic.ItemQuality.QUALITY_ORANGE },
+            [PlayerBoy] = new()
+            {
+                Name = "旅行者",
+                Icon = "UI_AvatarIcon_PlayerBoy",
+                Quality = Intrinsic.ItemQuality.QUALITY_ORANGE,
+            },
+            [PlayerGirl] = new()
+            {
+                Name = "旅行者",
+                Icon = "UI_AvatarIcon_PlayerGirl",
+                Quality = Intrinsic.ItemQuality.QUALITY_ORANGE,
+            },
         };
     }
 }

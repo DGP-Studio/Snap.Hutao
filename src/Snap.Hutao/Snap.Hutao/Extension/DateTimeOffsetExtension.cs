@@ -18,7 +18,7 @@ public static class DateTimeOffsetExtension
     {
         if (keepTicks)
         {
-            dateTimeOffset += TimeZoneInfo.Local.GetUtcOffset(DateTimeOffset.Now).Negate();
+            dateTimeOffset -= TimeZoneInfo.Local.GetUtcOffset(DateTimeOffset.Now);
         }
 
         return dateTimeOffset.ToLocalTime();

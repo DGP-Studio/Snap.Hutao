@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
@@ -46,13 +45,12 @@ internal class WikiAvatarViewModel : Abstraction.ViewModel
     /// </summary>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="hutaoCache">胡桃缓存</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public WikiAvatarViewModel(IMetadataService metadataService, IHutaoCache hutaoCache, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public WikiAvatarViewModel(IMetadataService metadataService, IHutaoCache hutaoCache)
     {
         this.metadataService = metadataService;
         this.hutaoCache = hutaoCache;
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        CultivateCommand = asyncRelayCommandFactory.Create<Avatar>(CultivateAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        CultivateCommand = new AsyncRelayCommand<Avatar>(CultivateAsync);
         FilterCommand = new RelayCommand<string>(ApplyFilter);
     }
 
@@ -199,7 +197,7 @@ internal class WikiAvatarViewModel : Abstraction.ViewModel
 
         private static bool DoFilter(string input, Avatar avatar)
         {
-            bool keep = false;
+            bool keep = true;
 
             foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
             {
@@ -207,31 +205,31 @@ internal class WikiAvatarViewModel : Abstraction.ViewModel
 
                 if (value == "火" || value == "水" || value == "草" || value == "雷" || value == "冰" || value == "风" || value == "岩")
                 {
-                    keep = keep || avatar.FetterInfo.VisionBefore == value;
+                    keep = keep && avatar.FetterInfo.VisionBefore == value;
                     continue;
                 }
 
                 if (IntrinsicImmutables.AssociationTypes.Contains(value))
                 {
-                    keep = keep || avatar.FetterInfo.Association.GetDescriptionOrNull() == value;
+                    keep = keep && avatar.FetterInfo.Association.GetDescriptionOrNull() == value;
                     continue;
                 }
 
                 if (IntrinsicImmutables.WeaponTypes.Contains(value))
                 {
-                    keep = keep || avatar.Weapon.GetDescriptionOrNull() == value;
+                    keep = keep && avatar.Weapon.GetDescriptionOrNull() == value;
                     continue;
                 }
 
                 if (IntrinsicImmutables.ItemQualities.Contains(value))
                 {
-                    keep = keep || avatar.Quality.GetDescriptionOrNull() == value;
+                    keep = keep && avatar.Quality.GetDescriptionOrNull() == value;
                     continue;
                 }
 
                 if (IntrinsicImmutables.BodyTypes.Contains(value))
                 {
-                    keep = keep || avatar.Body.GetDescriptionOrNull() == value;
+                    keep = keep && avatar.Body.GetDescriptionOrNull() == value;
                     continue;
                 }
 

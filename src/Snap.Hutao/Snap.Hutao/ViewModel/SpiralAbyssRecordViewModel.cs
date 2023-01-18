@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.SpiralAbyss;
 using Snap.Hutao.Model.Binding.User;
@@ -40,22 +40,20 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
     /// <param name="spiralAbyssRecordService">深渊记录服务</param>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="userService">用户服务</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="messenger">消息器</param>
     public SpiralAbyssRecordViewModel(
         ISpiralAbyssRecordService spiralAbyssRecordService,
         IMetadataService metadataService,
         IUserService userService,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory,
         IMessenger messenger)
     {
         this.spiralAbyssRecordService = spiralAbyssRecordService;
         this.metadataService = metadataService;
         this.userService = userService;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        RefreshCommand = asyncRelayCommandFactory.Create(RefreshAsync);
-        UploadSpiralAbyssRecordCommand = asyncRelayCommandFactory.Create(UploadSpiralAbyssRecordAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        RefreshCommand = new AsyncRelayCommand(RefreshAsync);
+        UploadSpiralAbyssRecordCommand = new AsyncRelayCommand(UploadSpiralAbyssRecordAsync);
 
         messenger.Register(this);
     }

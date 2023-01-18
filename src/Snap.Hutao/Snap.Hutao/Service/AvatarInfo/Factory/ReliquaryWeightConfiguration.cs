@@ -6,7 +6,7 @@ using Snap.Hutao.Model.Metadata;
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 /// <summary>
-/// 权重配置
+/// 圣遗物评分权重配置
 /// </summary>
 internal static partial class ReliquaryWeightConfiguration
 {

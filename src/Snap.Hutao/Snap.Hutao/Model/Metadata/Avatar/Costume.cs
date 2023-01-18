@@ -31,10 +31,10 @@ public class Costume
     /// <summary>
     /// 图标
     /// </summary>
-    public string? Icon { get; set; }
+    public string Icon { get; set; } = default!;
 
     /// <summary>
     /// 侧面图标
     /// </summary>
-    public string? SideIcon { get; set; }
+    public string SideIcon { get; set; } = default!;
 }

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Data.Sqlite;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
@@ -41,14 +41,12 @@ internal class GachaLogViewModel : Abstraction.ViewModel
     /// <param name="gachaLogService">祈愿记录服务</param>
     /// <param name="infoBarService">信息</param>
     /// <param name="options">Json序列化选项</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="contentDialogFactory">内容对话框工厂</param>
     /// <param name="pickerFactory">文件选择器工厂</param>
     public GachaLogViewModel(
         IGachaLogService gachaLogService,
         IInfoBarService infoBarService,
         JsonSerializerOptions options,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory,
         IContentDialogFactory contentDialogFactory,
         IPickerFactory pickerFactory)
     {
@@ -58,13 +56,13 @@ internal class GachaLogViewModel : Abstraction.ViewModel
         this.contentDialogFactory = contentDialogFactory;
         this.options = options;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        RefreshByWebCacheCommand = asyncRelayCommandFactory.Create(RefreshByWebCacheAsync);
-        RefreshByStokenCommand = asyncRelayCommandFactory.Create(RefreshByStokenAsync);
-        RefreshByManualInputCommand = asyncRelayCommandFactory.Create(RefreshByManualInputAsync);
-        ImportFromUIGFJsonCommand = asyncRelayCommandFactory.Create(ImportFromUIGFJsonAsync);
-        ExportToUIGFJsonCommand = asyncRelayCommandFactory.Create(ExportToUIGFJsonAsync);
-        RemoveArchiveCommand = asyncRelayCommandFactory.Create(RemoveArchiveAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        RefreshByWebCacheCommand = new AsyncRelayCommand(RefreshByWebCacheAsync);
+        RefreshByStokenCommand = new AsyncRelayCommand(RefreshByStokenAsync);
+        RefreshByManualInputCommand = new AsyncRelayCommand(RefreshByManualInputAsync);
+        ImportFromUIGFJsonCommand = new AsyncRelayCommand(ImportFromUIGFJsonAsync);
+        ExportToUIGFJsonCommand = new AsyncRelayCommand(ExportToUIGFJsonAsync);
+        RemoveArchiveCommand = new AsyncRelayCommand(RemoveArchiveAsync);
     }
 
     /// <summary>
@@ -202,23 +200,26 @@ internal class GachaLogViewModel : Abstraction.ViewModel
                 Progress<FetchState> progress = new(dialog.OnReport);
                 bool authkeyValid;
 
-                using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+                try
                 {
-                    try
+                    using (await DisposeLock.EnterAsync().ConfigureAwait(false))
                     {
-                        authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
+                        try
+                        {
+                            authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
+                        }
+                        catch (Core.ExceptionService.UserdataCorruptedException ex)
+                        {
+                            authkeyValid = false;
+                            infoBarService.Error(ex);
+                        }
                     }
-                    catch (OperationCanceledException)
-                    {
-                        // We set true here in order to hide the dialog.
-                        authkeyValid = true;
-                        infoBarService.Warning("祈愿记录刷新操作被异常取消");
-                    }
-                    catch (Core.ExceptionService.UserdataCorruptedException ex)
-                    {
-                        authkeyValid = false;
-                        infoBarService.Error(ex);
-                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    // We set true here in order to hide the dialog.
+                    authkeyValid = true;
+                    infoBarService.Warning("祈愿记录刷新操作被异常取消");
                 }
 
                 await ThreadHelper.SwitchToMainThreadAsync();

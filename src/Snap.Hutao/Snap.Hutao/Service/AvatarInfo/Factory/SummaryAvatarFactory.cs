@@ -45,26 +45,51 @@ internal class SummaryAvatarFactory
 
         PropertyAvatar propertyAvatar = new()
         {
+            // metadata part
             Id = avatar.Id,
             Name = avatar.Name,
-            Icon = AvatarIconConverter.IconNameToUri(avatar.Icon),
-            SideIcon = AvatarIconConverter.IconNameToUri(avatar.SideIcon),
             NameCard = AvatarNameCardPicConverter.AvatarToUri(avatar),
             Quality = avatar.Quality,
             Element = ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore),
-            FetterLevel = avatarInfo.FetterInfo.ExpLevel,
-            Weapon = reliquaryAndWeapon.Weapon,
-            Reliquaries = reliquaryAndWeapon.Reliquaries,
+
+            // webinfo & metadata mixed part
             Constellations = SummaryHelper.CreateConstellations(avatarInfo.TalentIdList, avatar.SkillDepot.Talents),
             Skills = SummaryHelper.CreateSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.GetCompositeSkillsNoInherents()),
+
+            // webinfo part
+            FetterLevel = avatarInfo.FetterInfo?.ExpLevel ?? 0,
             Properties = SummaryHelper.CreateAvatarProperties(avatarInfo.FightPropMap),
-            Score = reliquaryAndWeapon.Reliquaries.Sum(r => r.Score).ToString("F2"),
             CritScore = $"{SummaryHelper.ScoreCrit(avatarInfo.FightPropMap):F2}",
             LevelNumber = int.Parse(avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].Value ?? string.Empty),
+
+            // processed webinfo part
+            Weapon = reliquaryAndWeapon.Weapon,
+            Reliquaries = reliquaryAndWeapon.Reliquaries,
+            Score = reliquaryAndWeapon.Reliquaries.Sum(r => r.Score).ToString("F2"),
         };
+
+        TryApplyCostumeIconToAvatar(ref propertyAvatar, avatar);
 
         propertyAvatar.Level = $"Lv.{propertyAvatar.LevelNumber}";
         return propertyAvatar;
+    }
+
+    private void TryApplyCostumeIconToAvatar(ref PropertyAvatar propertyAvatar, MetadataAvatar avatar)
+    {
+        // Set to costume icon
+        if (avatarInfo.CostumeId.HasValue)
+        {
+            int costumeId = avatarInfo.CostumeId.Value;
+            Model.Metadata.Avatar.Costume costume = avatar.Costumes.Single(c => c.Id == costumeId);
+
+            propertyAvatar.Icon = AvatarIconConverter.IconNameToUri(costume.Icon);
+            propertyAvatar.SideIcon = AvatarIconConverter.IconNameToUri(costume.SideIcon);
+        }
+        else
+        {
+            propertyAvatar.Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
+            propertyAvatar.SideIcon = AvatarIconConverter.IconNameToUri(avatar.SideIcon);
+        }
     }
 
     private ReliquaryAndWeapon ProcessEquip(List<Equip> equipments)

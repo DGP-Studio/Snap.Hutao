@@ -97,8 +97,15 @@ internal class UserService : IUserService
         await ThreadHelper.SwitchToBackgroundAsync();
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            // Note: cascade deleted dailynotes
-            await scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.RemoveAndSaveAsync(user.Entity).ConfigureAwait(false);
+            try
+            {
+                // Note: cascade deleted dailynotes
+                await scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.RemoveAndSaveAsync(user.Entity).ConfigureAwait(false);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                throw new Core.ExceptionService.UserdataCorruptedException("用户已被其他功能删除", ex);
+            }
         }
 
         messenger.Send(new UserRemovedMessage(user.Entity));

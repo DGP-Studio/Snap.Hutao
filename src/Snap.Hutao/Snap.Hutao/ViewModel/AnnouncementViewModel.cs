@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Page;
@@ -25,15 +24,11 @@ internal class AnnouncementViewModel : Abstraction.ViewModel
     /// 构造一个公告视图模型
     /// </summary>
     /// <param name="announcementService">公告服务</param>
-    /// <param name="navigationService">导航服务</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    /// <param name="infoBarService">信息条服务</param>
-    /// <param name="logger">日志器</param>
-    public AnnouncementViewModel(IAnnouncementService announcementService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public AnnouncementViewModel(IAnnouncementService announcementService)
     {
         this.announcementService = announcementService;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         OpenAnnouncementUICommand = new RelayCommand<string>(OpenAnnouncementUI);
     }
 

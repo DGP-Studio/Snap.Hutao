@@ -17,15 +17,13 @@ public static class DispatcherQueueExtension
     /// <param name="action">执行的回调</param>
     public static void Invoke(this DispatcherQueue dispatcherQueue, Action action)
     {
-        using (ManualResetEventSlim blockEvent = new())
+        ManualResetEventSlim blockEvent = new();
+        dispatcherQueue.TryEnqueue(() =>
         {
-            dispatcherQueue.TryEnqueue(() =>
-            {
-                action();
-                blockEvent.Set();
-            });
+            action();
+            blockEvent.Set();
+        });
 
-            blockEvent.Wait();
-        }
+        blockEvent.Wait();
     }
 }

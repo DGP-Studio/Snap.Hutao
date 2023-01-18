@@ -3,10 +3,9 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Data.Sqlite;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
@@ -36,16 +35,15 @@ internal class UserViewModel : ObservableObject
     /// </summary>
     /// <param name="userService">用户服务</param>
     /// <param name="infoBarService">信息条服务</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public UserViewModel(IUserService userService, IInfoBarService infoBarService, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public UserViewModel(IUserService userService, IInfoBarService infoBarService)
     {
         this.userService = userService;
         this.infoBarService = infoBarService;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        AddUserCommand = asyncRelayCommandFactory.Create(AddUserAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        AddUserCommand = new AsyncRelayCommand(AddUserAsync);
         LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
-        RemoveUserCommand = asyncRelayCommandFactory.Create<User>(RemoveUserAsync);
+        RemoveUserCommand = new AsyncRelayCommand<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
     }
 
@@ -106,10 +104,9 @@ internal class UserViewModel : ObservableObject
             Users = await userService.GetUserCollectionAsync().ConfigureAwait(true);
             SelectedUser = userService.Current;
         }
-        catch (SqliteException ex)
+        catch (UserdataCorruptedException ex)
         {
-            // SQLite Error 11: 'database disk image is malformed'.
-            infoBarService.Error(ex, "用户数据文件已损坏");
+            infoBarService.Error(ex);
         }
     }
 
@@ -168,9 +165,18 @@ internal class UserViewModel : ObservableObject
 
     private async Task RemoveUserAsync(User? user)
     {
-        Verify.Operation(user != null, "待删除的用户不应为 null");
-        await userService.RemoveUserAsync(user).ConfigureAwait(false);
-        infoBarService.Success($"用户 [{user.UserInfo?.Nickname}] 成功移除");
+        if (user != null)
+        {
+            try
+            {
+                await userService.RemoveUserAsync(user!).ConfigureAwait(false);
+                infoBarService.Success($"用户 [{user.UserInfo?.Nickname}] 成功移除");
+            }
+            catch (UserdataCorruptedException ex)
+            {
+                infoBarService.Error(ex);
+            }
+        }
     }
 
     private void CopyCookie(User? user)

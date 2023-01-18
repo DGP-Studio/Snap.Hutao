@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -62,22 +61,20 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
     /// <param name="gameService">游戏服务</param>
     /// <param name="memoryCache">内存缓存</param>
     /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     public LaunchGameViewModel(
         IGameService gameService,
         IMemoryCache memoryCache,
-        AppDbContext appDbContext,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory)
+        AppDbContext appDbContext)
     {
         this.gameService = gameService;
         this.appDbContext = appDbContext;
         this.memoryCache = memoryCache;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        LaunchCommand = asyncRelayCommandFactory.Create(LaunchAsync);
-        DetectGameAccountCommand = asyncRelayCommandFactory.Create(DetectGameAccountAsync);
-        ModifyGameAccountCommand = asyncRelayCommandFactory.Create<GameAccount>(ModifyGameAccountAsync);
-        RemoveGameAccountCommand = asyncRelayCommandFactory.Create<GameAccount>(RemoveGameAccountAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        LaunchCommand = new AsyncRelayCommand(LaunchAsync);
+        DetectGameAccountCommand = new AsyncRelayCommand(DetectGameAccountAsync);
+        ModifyGameAccountCommand = new AsyncRelayCommand<GameAccount>(ModifyGameAccountAsync);
+        RemoveGameAccountCommand = new AsyncRelayCommand<GameAccount>(RemoveGameAccountAsync);
         AttachGameAccountCommand = new RelayCommand<GameAccount>(AttachGameAccountToCurrentUserGameRole);
     }
 

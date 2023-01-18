@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.TaskScheduler;
-using System.IO;
 using System.Runtime.InteropServices;
 using SchedulerTask = Microsoft.Win32.TaskScheduler.Task;
 

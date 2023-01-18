@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Bridge.Model;
 
@@ -10,7 +9,7 @@ namespace Snap.Hutao.Web.Response;
 /// <summary>
 /// 提供 <see cref="Response{T}"/> 的非泛型基类
 /// </summary>
-public class Response : ISupportValidation
+public class Response
 {
     /// <summary>
     /// 构造一个新的响应
@@ -62,12 +61,6 @@ public class Response : ISupportValidation
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
         return response ?? new(0x26F19335, message, default);
-    }
-
-    /// <inheritdoc/>
-    public bool Validate()
-    {
-        return Enum.IsDefined(typeof(KnownReturnCode), ReturnCode);
     }
 
     /// <inheritdoc/>

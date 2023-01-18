@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Factory.Abstraction;
+using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Hutao.Model;
@@ -26,12 +26,11 @@ internal class HutaoDatabaseViewModel : Abstraction.ViewModel
     /// 构造一个新的胡桃数据库视图模型
     /// </summary>
     /// <param name="hutaoCache">胡桃服务缓存</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public HutaoDatabaseViewModel(IHutaoCache hutaoCache, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public HutaoDatabaseViewModel(IHutaoCache hutaoCache)
     {
         this.hutaoCache = hutaoCache;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
     }
 
     /// <summary>

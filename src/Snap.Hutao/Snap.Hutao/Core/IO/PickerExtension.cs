@@ -36,7 +36,7 @@ internal static class PickerExtension
             {
                 Ioc.Default
                     .GetRequiredService<Service.Abstraction.IInfoBarService>()
-                    .Warning($"无法打开文件选择器 {exception.Message}");
+                    .Warning("无法打开文件选择器", $"请勿在管理员模式下使用此功能 {exception.Message}");
             }
 
             return new(false, null!);
@@ -68,7 +68,7 @@ internal static class PickerExtension
             {
                 Ioc.Default
                     .GetRequiredService<Service.Abstraction.IInfoBarService>()
-                    .Warning($"无法打开文件选择器 {exception.Message}");
+                    .Warning("无法打开文件选择器", $"请勿在管理员模式下使用此功能 {exception.Message}");
             }
 
             return new(false, null!);

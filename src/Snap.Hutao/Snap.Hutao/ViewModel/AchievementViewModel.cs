@@ -57,7 +57,6 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     /// <param name="achievementService">成就服务</param>
     /// <param name="infoBarService">信息条服务</param>
     /// <param name="options">Json序列化选项</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="contentDialogFactory">内容对话框工厂</param>
     /// <param name="messenger">消息器</param>
     public AchievementViewModel(
@@ -65,7 +64,6 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         IAchievementService achievementService,
         IInfoBarService infoBarService,
         JsonSerializerOptions options,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory,
         IContentDialogFactory contentDialogFactory,
         IMessenger messenger)
     {
@@ -75,12 +73,12 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         this.contentDialogFactory = contentDialogFactory;
         this.options = options;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        ImportUIAFFromClipboardCommand = asyncRelayCommandFactory.Create(ImportUIAFFromClipboardAsync);
-        ImportUIAFFromFileCommand = asyncRelayCommandFactory.Create(ImportUIAFFromFileAsync);
-        ExportAsUIAFToFileCommand = asyncRelayCommandFactory.Create(ExportAsUIAFToFileAsync);
-        AddArchiveCommand = asyncRelayCommandFactory.Create(AddArchiveAsync);
-        RemoveArchiveCommand = asyncRelayCommandFactory.Create(RemoveArchiveAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        ImportUIAFFromClipboardCommand = new AsyncRelayCommand(ImportUIAFFromClipboardAsync);
+        ImportUIAFFromFileCommand = new AsyncRelayCommand(ImportUIAFFromFileAsync);
+        ExportAsUIAFToFileCommand = new AsyncRelayCommand(ExportAsUIAFToFileAsync);
+        AddArchiveCommand = new AsyncRelayCommand(AddArchiveAsync);
+        RemoveArchiveCommand = new AsyncRelayCommand(RemoveArchiveAsync);
         SearchAchievementCommand = new RelayCommand<string>(SearchAchievement);
         SortIncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
         SaveAchievementCommand = new RelayCommand<Model.Binding.Achievement.Achievement>(SaveAchievement);

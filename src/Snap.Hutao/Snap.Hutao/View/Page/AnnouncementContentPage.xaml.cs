@@ -6,8 +6,6 @@ using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core;
 using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.View.Extension;
-using System.Diagnostics;
 using Windows.System;
 
 namespace Snap.Hutao.View.Page;
@@ -69,7 +67,8 @@ public sealed partial class AnnouncementContentPage : Microsoft.UI.Xaml.Controls
     protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
         base.OnNavigatedFrom(e);
-        //WebView.CoreWebView2.Environment.Exit();
+
+        // WebView.CoreWebView2.Environment.Exit();
     }
 
     private static string? ReplaceForeground(string? rawContent, ElementTheme theme)

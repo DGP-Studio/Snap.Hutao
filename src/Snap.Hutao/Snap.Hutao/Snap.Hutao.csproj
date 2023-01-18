@@ -154,7 +154,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview3" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
@@ -182,7 +182,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="TaskScheduler" Version="2.10.1" />
-    <PackageReference Include="WinUICommunity.SettingsUI" Version="3.0.1" />
+    <PackageReference Include="WinUICommunity.SettingsUI" Version="3.0.2" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 

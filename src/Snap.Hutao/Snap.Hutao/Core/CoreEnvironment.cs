@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32;
-using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
@@ -31,7 +30,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
-    public const string HoyolabXrpcVersion = "2.43.1";
+    public const string HoyolabXrpcVersion = "2.44.1";
 
     /// <summary>
     /// 盐
@@ -39,8 +38,8 @@ internal static class CoreEnvironment
     // https://github.com/UIGF-org/Hoyolab.Salt
     public static readonly ImmutableDictionary<string, string> DynamicSecrets = new Dictionary<string, string>()
     {
-        [nameof(SaltType.K2)] = "ODzG1Jrn6zebX19VRmaJwjFI2CDvBUGq",
-        [nameof(SaltType.LK2)] = "V1PYbXKQY7ysdx3MNCcNbsE1LtY2QZpW",
+        [nameof(SaltType.K2)] = "dZAwGk4e9aC0MXXItkwnHamjA1x30IYw",
+        [nameof(SaltType.LK2)] = "IEIZiKYaput2OCKQprNuGsog1NZc1FkS",
         [nameof(SaltType.X4)] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
         [nameof(SaltType.X6)] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
         [nameof(SaltType.PROD)] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
@@ -113,7 +112,7 @@ internal static class CoreEnvironment
     {
         string userName = Environment.UserName;
         object? machineGuid = Registry.GetValue(CryptographyKey, MachineGuidValue, userName);
-        return Md5Convert.ToHexString($"{userName}{machineGuid}");
+        return Convert.ToMd5HexString($"{userName}{machineGuid}");
     }
 
     private static string GetDocumentsHutaoPath()

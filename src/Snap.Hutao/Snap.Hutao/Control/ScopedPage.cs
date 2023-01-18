@@ -16,7 +16,7 @@ namespace Snap.Hutao.Control;
 [SuppressMessage("", "CA1001")]
 public class ScopedPage : Page
 {
-    private readonly CancellationTokenSource viewLoadingCancellationTokenSource = new();
+    private readonly CancellationTokenSource viewCancellationTokenSource = new();
     private readonly IServiceScope serviceScope;
 
     /// <summary>
@@ -37,7 +37,7 @@ public class ScopedPage : Page
         where TViewModel : class, IViewModel
     {
         IViewModel viewModel = serviceScope.ServiceProvider.GetRequiredService<TViewModel>();
-        viewModel.CancellationToken = viewLoadingCancellationTokenSource.Token;
+        viewModel.CancellationToken = viewCancellationTokenSource.Token;
         DataContext = viewModel;
     }
 
@@ -60,10 +60,10 @@ public class ScopedPage : Page
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
         base.OnNavigatingFrom(e);
-        using (viewLoadingCancellationTokenSource)
+        using (viewCancellationTokenSource)
         {
-            // Cancel tasks executed by the view model
-            viewLoadingCancellationTokenSource.Cancel();
+            // Cancel all tasks executed by the view model
+            viewCancellationTokenSource.Cancel();
             IViewModel viewModel = (IViewModel)DataContext;
 
             using (SemaphoreSlim locker = viewModel.DisposeLock)
@@ -79,14 +79,13 @@ public class ScopedPage : Page
     }
 
     /// <inheritdoc/>
-    [SuppressMessage("", "VSTHRD100")]
-    protected override async void OnNavigatedTo(NavigationEventArgs e)
+    protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         base.OnNavigatedTo(e);
 
         if (e.Parameter is INavigationData extra)
         {
-            await NotifyRecipentAsync(extra).ConfigureAwait(false);
+            NotifyRecipentAsync(extra).SafeForget();
         }
     }
 }

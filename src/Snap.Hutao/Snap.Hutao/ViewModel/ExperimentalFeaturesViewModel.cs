@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Windows.Storage;
@@ -22,12 +21,11 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// <summary>
     /// 构造一个新的实验性功能视图模型
     /// </summary>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public ExperimentalFeaturesViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public ExperimentalFeaturesViewModel()
     {
-        OpenCacheFolderCommand = asyncRelayCommandFactory.Create(OpenCacheFolderAsync);
-        OpenDataFolderCommand = asyncRelayCommandFactory.Create(OpenDataFolderAsync);
-        DeleteUsersCommand = asyncRelayCommandFactory.Create(DangerousDeleteUsersAsync);
+        OpenCacheFolderCommand = new AsyncRelayCommand(OpenCacheFolderAsync);
+        OpenDataFolderCommand = new AsyncRelayCommand(OpenDataFolderAsync);
+        DeleteUsersCommand = new AsyncRelayCommand(DangerousDeleteUsersAsync);
         DeleteAllScheduleTasksCommand = new RelayCommand(DangerousDeleteAllScheduleTasks);
     }
 

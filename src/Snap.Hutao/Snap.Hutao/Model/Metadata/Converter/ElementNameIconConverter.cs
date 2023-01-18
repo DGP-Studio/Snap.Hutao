@@ -34,6 +34,8 @@ internal class ElementNameIconConverter : ValueConverter<string, Uri>
         return string.IsNullOrEmpty(element)
             ? Web.HutaoEndpoints.UIIconNone
             : new Uri(Web.HutaoEndpoints.StaticFile("IconElement", $"UI_Icon_Element_{element}.png"));
+
+        // $"UI_Icon_Element_{element}.png"
     }
 
     /// <summary>

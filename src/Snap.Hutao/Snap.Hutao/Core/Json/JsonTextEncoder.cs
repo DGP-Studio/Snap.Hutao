@@ -10,6 +10,8 @@ namespace Snap.Hutao.Core.Json;
 /// </summary>
 internal class JsonTextEncoder : JavaScriptEncoder
 {
+    private static readonly string BackSlashDoubleQuote = "\\\"";
+
     /// <inheritdoc/>
     public override int MaxOutputCharactersPerInputCharacter { get => 6; }
 
@@ -27,7 +29,7 @@ internal class JsonTextEncoder : JavaScriptEncoder
         if (unicodeScalar == '"')
         {
             numberOfCharactersWritten = 2;
-            return "\\\"".AsSpan().TryCopyTo(new Span<char>(buffer, bufferLength));
+            return BackSlashDoubleQuote.AsSpan().TryCopyTo(new Span<char>(buffer, bufferLength));
         }
 
         string encoded = $"\\u{(uint)unicodeScalar:x4}";

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
-using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.Logging;
@@ -20,7 +19,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfigration.Default)]
-internal partial class MetadataService : IMetadataService, IMetadataInitializer, ISupportAsyncInitialization
+internal partial class MetadataService : IMetadataService, IMetadataInitializer
 {
     private const string MetaFileName = "Meta.json";
 
@@ -64,13 +63,10 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
     }
 
     /// <inheritdoc/>
-    public bool IsInitialized { get => isInitialized; private set => isInitialized = value; }
-
-    /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync()
     {
         await initializeCompletionSource.Task.ConfigureAwait(false);
-        return IsInitialized;
+        return isInitialized;
     }
 
     /// <inheritdoc/>
@@ -79,7 +75,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
         logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion begin");
 
-        IsInitialized = await TryUpdateMetadataAsync(token).ConfigureAwait(false);
+        isInitialized = await TryUpdateMetadataAsync(token).ConfigureAwait(false);
         initializeCompletionSource.SetResult();
 
         logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
@@ -186,7 +182,7 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
     private async ValueTask<T> FromCacheOrFileAsync<T>(string fileName, CancellationToken token)
         where T : class
     {
-        Verify.Operation(IsInitialized, "元数据服务尚未初始化，或初始化失败");
+        Verify.Operation(isInitialized, "元数据服务尚未初始化，或初始化失败");
         string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}";
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
@@ -204,7 +200,6 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
     private async ValueTask<Dictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TKey, TValue>(string fileName, Func<TValue, TKey> keySelector, CancellationToken token)
         where TKey : notnull
     {
-        Verify.Operation(IsInitialized, "元数据服务尚未初始化，或初始化失败");
         string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}.Map.{typeof(TKey).Name}";
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
@@ -218,9 +213,8 @@ internal partial class MetadataService : IMetadataService, IMetadataInitializer,
     }
 
     private async ValueTask<Dictionary<TKey, TValue>> FromCacheAsDictionaryAsync<TKey, TValue, TData>(string fileName, Func<TData, TKey> keySelector, Func<TData, TValue> valueSelector, CancellationToken token)
-    where TKey : notnull
+        where TKey : notnull
     {
-        Verify.Operation(IsInitialized, "元数据服务尚未初始化，或初始化失败");
         string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}.Map.{typeof(TKey).Name}.{typeof(TValue).Name}";
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))

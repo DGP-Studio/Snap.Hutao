@@ -25,7 +25,7 @@ public class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private const string CacheFolderName = nameof(ImageCache);
 
-    private static readonly Dictionary<int, TimeSpan> RetryCountToDelay = new Dictionary<int, TimeSpan>()
+    private static readonly Dictionary<int, TimeSpan> RetryCountToDelay = new()
     {
         [0] = TimeSpan.FromSeconds(4),
         [1] = TimeSpan.FromSeconds(16),

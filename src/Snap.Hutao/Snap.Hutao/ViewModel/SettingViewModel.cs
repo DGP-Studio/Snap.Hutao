@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Windowing;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -45,13 +44,11 @@ internal class SettingViewModel : Abstraction.ViewModel
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="gameService">游戏服务</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="experimental">实验性功能</param>
     /// <param name="logger">日志器</param>
     public SettingViewModel(
         AppDbContext appDbContext,
         IGameService gameService,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory,
         ExperimentalFeaturesViewModel experimental,
         ILogger<SettingViewModel> logger)
     {
@@ -73,10 +70,10 @@ internal class SettingViewModel : Abstraction.ViewModel
 
         GamePath = gameService.GetGamePathSkipLocator();
 
-        SetGamePathCommand = asyncRelayCommandFactory.Create(SetGamePathAsync);
-        DebugExceptionCommand = asyncRelayCommandFactory.Create(DebugThrowExceptionAsync);
+        SetGamePathCommand = new AsyncRelayCommand(SetGamePathAsync);
+        DebugExceptionCommand = new AsyncRelayCommand(DebugThrowExceptionAsync);
         DeleteGameWebCacheCommand = new RelayCommand(DeleteGameWebCache);
-        ShowSignInWebViewDialogCommand = asyncRelayCommandFactory.Create(ShowSignInWebViewDialogAsync);
+        ShowSignInWebViewDialogCommand = new AsyncRelayCommand(ShowSignInWebViewDialogAsync);
     }
 
     /// <summary>

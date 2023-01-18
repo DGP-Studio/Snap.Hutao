@@ -11,8 +11,8 @@ internal class SeparatorCommaInt32EnumerableConverter : JsonConverter<IEnumerabl
     /// <inheritdoc/>
     public override IEnumerable<int> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        string? team = reader.GetString();
-        IEnumerable<int>? ids = team?.Split(',').Select(x => int.Parse(x));
+        string? source = reader.GetString();
+        IEnumerable<int>? ids = source?.Split(',').Select(int.Parse);
         return ids ?? Enumerable.Empty<int>();
     }
 

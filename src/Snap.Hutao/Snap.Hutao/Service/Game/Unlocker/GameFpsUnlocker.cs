@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Win32.SafeHandles;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Win32;
 using System.Diagnostics;

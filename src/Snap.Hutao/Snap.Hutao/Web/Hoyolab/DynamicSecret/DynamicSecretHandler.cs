@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Web.Request;
 using System.Net.Http;
 using System.Text;
@@ -46,7 +45,7 @@ public class DynamicSecretHandler : DelegatingHandler
                 dsContent = $"{dsContent}&b={b}&q={q}";
             }
 
-            string check = Md5Convert.ToHexString(dsContent).ToLowerInvariant();
+            string check = Core.Convert.ToMd5HexString(dsContent).ToLowerInvariant();
 
             request.Headers.Remove("DS-Option");
             request.Headers.Set("DS", $"{t},{r},{check}");

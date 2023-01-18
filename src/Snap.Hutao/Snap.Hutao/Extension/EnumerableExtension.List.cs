@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Extension;
@@ -37,6 +38,7 @@ public static partial class EnumerableExtension
     /// <typeparam name="TSource">源类型</typeparam>
     /// <param name="source">源</param>
     /// <returns>源列表或空列表</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static List<TSource> EmptyIfNull<TSource>(this List<TSource>? source)
     {
         return source ?? new();

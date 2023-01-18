@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Intrinsic;
@@ -49,14 +48,13 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     /// </summary>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="hutaoCache">胡桃缓存</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public WikiWeaponViewModel(IMetadataService metadataService, IHutaoCache hutaoCache, IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public WikiWeaponViewModel(IMetadataService metadataService, IHutaoCache hutaoCache)
     {
         this.metadataService = metadataService;
         this.hutaoCache = hutaoCache;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        CultivateCommand = asyncRelayCommandFactory.Create<Weapon>(CultivateAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        CultivateCommand = new AsyncRelayCommand<Weapon>(CultivateAsync);
         FilterCommand = new RelayCommand<string>(ApplyFilter);
     }
 
@@ -197,7 +195,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
 
         private static bool DoFilter(string input, Weapon weapon)
         {
-            bool keep = false;
+            bool keep = true;
 
             foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
             {
@@ -205,19 +203,19 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
 
                 if (IntrinsicImmutables.WeaponTypes.Contains(value))
                 {
-                    keep = keep || weapon.WeaponType.GetDescriptionOrNull() == value;
+                    keep = keep && weapon.WeaponType.GetDescriptionOrNull() == value;
                     continue;
                 }
 
                 if (IntrinsicImmutables.ItemQualities.Contains(value))
                 {
-                    keep = keep || weapon.Quality.GetDescriptionOrNull() == value;
+                    keep = keep && weapon.Quality.GetDescriptionOrNull() == value;
                     continue;
                 }
 
                 if (IntrinsicImmutables.FightProperties.Contains(value))
                 {
-                    keep = keep || weapon.Property.Properties.ElementAtOrDefault(1).GetDescriptionOrNull() == value;
+                    keep = keep && weapon.Property.Properties.ElementAtOrDefault(1).GetDescriptionOrNull() == value;
                     continue;
                 }
 

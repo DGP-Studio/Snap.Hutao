@@ -148,6 +148,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         IMessenger messenger = Ioc.Default.GetRequiredService<IMessenger>();
         messenger.Register<BackdropTypeChangedMessage>(this);
         messenger.Register<FlyoutOpenCloseMessage>(this);
+
         window.Closed += OnWindowClosed;
     }
 

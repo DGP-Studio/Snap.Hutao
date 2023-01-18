@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;
-using Snap.Hutao.Extension;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab;
@@ -22,13 +21,12 @@ internal class TestViewModel : Abstraction.ViewModel
     /// <summary>
     /// 构造一个新的测试视图模型
     /// </summary>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
-    public TestViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory)
+    public TestViewModel()
     {
-        ShowCommunityGameRecordDialogCommand = asyncRelayCommandFactory.Create(ShowCommunityGameRecordDialogAsync);
-        ShowAdoptCalculatorDialogCommand = asyncRelayCommandFactory.Create(ShowAdoptCalculatorDialogAsync);
-        DangerousLoginMihoyoBbsCommand = asyncRelayCommandFactory.Create(DangerousLoginMihoyoBbsAsync);
-        DownloadStaticFileCommand = asyncRelayCommandFactory.Create(DownloadStaticFileAsync);
+        ShowCommunityGameRecordDialogCommand = new AsyncRelayCommand(ShowCommunityGameRecordDialogAsync);
+        ShowAdoptCalculatorDialogCommand = new AsyncRelayCommand(ShowAdoptCalculatorDialogAsync);
+        DangerousLoginMihoyoBbsCommand = new AsyncRelayCommand(DangerousLoginMihoyoBbsAsync);
+        DownloadStaticFileCommand = new AsyncRelayCommand(DownloadStaticFileAsync);
     }
 
     /// <summary>

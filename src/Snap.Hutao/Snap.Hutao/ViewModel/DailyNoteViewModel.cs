@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
@@ -52,23 +51,21 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
     /// <param name="userService">用户服务</param>
     /// <param name="dailyNoteService">实时便笺服务</param>
     /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     public DailyNoteViewModel(
         IUserService userService,
         IDailyNoteService dailyNoteService,
-        AppDbContext appDbContext,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory)
+        AppDbContext appDbContext)
     {
         this.userService = userService;
         this.dailyNoteService = dailyNoteService;
         this.appDbContext = appDbContext;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        TrackRoleCommand = asyncRelayCommandFactory.Create<UserAndUid>(TrackRoleAsync);
-        RefreshCommand = asyncRelayCommandFactory.Create(RefreshAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        TrackRoleCommand = new AsyncRelayCommand<UserAndUid>(TrackRoleAsync);
+        RefreshCommand = new AsyncRelayCommand(RefreshAsync);
         RemoveDailyNoteCommand = new RelayCommand<DailyNoteEntry>(RemoveDailyNote);
-        ModifyNotificationCommand = asyncRelayCommandFactory.Create<DailyNoteEntry>(ModifyDailyNoteNotificationAsync);
-        DailyNoteVerificationCommand = asyncRelayCommandFactory.Create(VerifyDailyNoteVerificationAsync);
+        ModifyNotificationCommand = new AsyncRelayCommand<DailyNoteEntry>(ModifyDailyNoteNotificationAsync);
+        DailyNoteVerificationCommand = new AsyncRelayCommand(VerifyDailyNoteVerificationAsync);
     }
 
     /// <summary>
@@ -176,7 +173,16 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
 
     private async Task OpenUIAsync()
     {
-        UserAndUids = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
+        try
+        {
+            UserAndUids = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
+        }
+        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        {
+            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ex);
+            return;
+        }
+
         try
         {
             ThrowIfViewDisposed();

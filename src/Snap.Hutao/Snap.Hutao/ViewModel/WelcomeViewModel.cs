@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,7 +12,6 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Factory.Abstraction;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
@@ -32,12 +32,11 @@ internal class WelcomeViewModel : ObservableObject
     /// <summary>
     /// 构造一个新的欢迎视图模型
     /// </summary>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="serviceProvider">服务提供器</param>
-    public WelcomeViewModel(IAsyncRelayCommandFactory asyncRelayCommandFactory, IServiceProvider serviceProvider)
+    public WelcomeViewModel(IServiceProvider serviceProvider)
     {
         this.serviceProvider = serviceProvider;
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
     }
 
     /// <summary>

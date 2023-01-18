@@ -11,7 +11,7 @@ public enum BackdropType
     /// <summary>
     /// 无
     /// </summary>
-    None = 0,
+    None,
 
     /// <summary>
     /// 亚克力

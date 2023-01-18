@@ -3,7 +3,6 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Core.Convert;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.User;
@@ -125,7 +124,7 @@ public class MiHoYoJSInterface
         string salt = Core.CoreEnvironment.DynamicSecrets[nameof(SaltType.LK2)];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         string r = GetRandomString();
-        string check = Md5Convert.ToHexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
+        string check = Core.Convert.ToMd5HexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
 
         return new() { Data = new() { ["DS"] = $"{t},{r},{check}", }, };
 
@@ -157,7 +156,7 @@ public class MiHoYoJSInterface
         int r = GetRandom();
         string b = param.Payload.Body;
         string q = param.Payload.GetQueryParam();
-        string check = Md5Convert.ToHexString($"salt={salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
+        string check = Core.Convert.ToMd5HexString($"salt={salt}&t={t}&r={r}&b={b}&q={q}").ToLowerInvariant();
 
         return new() { Data = new() { ["DS"] = $"{t},{r},{check}" } };
 
@@ -257,8 +256,9 @@ public class MiHoYoJSInterface
         return new() { Data = new() { ["statusBarHeight"] = 0 } };
     }
 
-    public virtual IJsResult? PushPage(JsParam<PushPagePayload> param)
+    public virtual async Task<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         webView.Navigate(param.Payload.Page);
         return null;
     }
@@ -370,7 +370,7 @@ public class MiHoYoJSInterface
                 "getUserInfo" => GetUserInfo(param),
                 "hideLoading" => null,
                 "login" => null,
-                "pushPage" => PushPage(param),
+                "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
                 "showLoading" => null,
                 _ => logger.LogWarning<IJsResult>("Unhandled Message Type: {method}", param.Method),
             };

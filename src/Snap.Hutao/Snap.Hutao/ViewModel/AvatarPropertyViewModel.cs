@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -51,13 +52,11 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
     /// <param name="userService">用户服务</param>
     /// <param name="avatarInfoService">角色信息服务</param>
     /// <param name="contentDialogFactory">对话框工厂</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="infoBarService">信息条服务</param>
     public AvatarPropertyViewModel(
         IUserService userService,
         IAvatarInfoService avatarInfoService,
         IContentDialogFactory contentDialogFactory,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory,
         IInfoBarService infoBarService)
     {
         this.userService = userService;
@@ -65,12 +64,12 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
         this.infoBarService = infoBarService;
         this.contentDialogFactory = contentDialogFactory;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        RefreshFromEnkaApiCommand = asyncRelayCommandFactory.Create(RefreshByEnkaApiAsync);
-        RefreshFromHoyolabGameRecordCommand = asyncRelayCommandFactory.Create(RefreshByHoyolabGameRecordAsync);
-        RefreshFromHoyolabCalculateCommand = asyncRelayCommandFactory.Create(RefreshByHoyolabCalculateAsync);
-        ExportAsImageCommand = asyncRelayCommandFactory.Create<UIElement>(ExportAsImageAsync);
-        CultivateCommand = asyncRelayCommandFactory.Create<Avatar>(CultivateAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        RefreshFromEnkaApiCommand = new AsyncRelayCommand(RefreshByEnkaApiAsync);
+        RefreshFromHoyolabGameRecordCommand = new AsyncRelayCommand(RefreshByHoyolabGameRecordAsync);
+        RefreshFromHoyolabCalculateCommand = new AsyncRelayCommand(RefreshByHoyolabCalculateAsync);
+        ExportAsImageCommand = new AsyncRelayCommand<UIElement>(ExportAsImageAsync);
+        CultivateCommand = new AsyncRelayCommand<Avatar>(CultivateAsync);
     }
 
     /// <summary>

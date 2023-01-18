@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
@@ -36,13 +35,11 @@ internal class CultivationViewModel : Abstraction.ViewModel
     /// </summary>
     /// <param name="cultivationService">养成服务</param>
     /// <param name="infoBarService">信息服务</param>
-    /// <param name="asyncRelayCommandFactory">异步命令工厂</param>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="logger">日志器</param>
     public CultivationViewModel(
         ICultivationService cultivationService,
         IInfoBarService infoBarService,
-        IAsyncRelayCommandFactory asyncRelayCommandFactory,
         IMetadataService metadataService,
         ILogger<CultivationViewModel> logger)
     {
@@ -51,12 +48,12 @@ internal class CultivationViewModel : Abstraction.ViewModel
         this.metadataService = metadataService;
         this.logger = logger;
 
-        OpenUICommand = asyncRelayCommandFactory.Create(OpenUIAsync);
-        AddProjectCommand = asyncRelayCommandFactory.Create(AddProjectAsync);
-        RemoveProjectCommand = asyncRelayCommandFactory.Create<CultivateProject>(RemoveProjectAsync);
-        RemoveEntryCommand = asyncRelayCommandFactory.Create<Model.Binding.Cultivation.CultivateEntry>(RemoveEntryAsync);
+        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        AddProjectCommand = new AsyncRelayCommand(AddProjectAsync);
+        RemoveProjectCommand = new AsyncRelayCommand<CultivateProject>(RemoveProjectAsync);
+        RemoveEntryCommand = new AsyncRelayCommand<Model.Binding.Cultivation.CultivateEntry>(RemoveEntryAsync);
         SaveInventoryItemCommand = new RelayCommand<Model.Binding.Inventory.InventoryItem>(SaveInventoryItem);
-        UpdateStatisticsItemsCommand = asyncRelayCommandFactory.Create(UpdateStatisticsItemsAsync);
+        UpdateStatisticsItemsCommand = new AsyncRelayCommand(UpdateStatisticsItemsAsync);
         NavigateToPageCommand = new RelayCommand<string>(NavigateToPage);
     }
 
