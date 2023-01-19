@@ -16,7 +16,7 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
             return false;
         }
 
-        if (typeToConvert.GetGenericTypeDefinition() != typeof(IDictionary<,>))
+        if (typeToConvert.GetGenericTypeDefinition() != typeof(Dictionary<,>))
         {
             return false;
         }
@@ -27,8 +27,9 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
     /// <inheritdoc/>
     public override JsonConverter CreateConverter(Type type, JsonSerializerOptions options)
     {
-        Type keyType = type.GetGenericArguments()[0];
-        Type valueType = type.GetGenericArguments()[1];
+        Type[] arguments = type.GetGenericArguments();
+        Type keyType = arguments[0];
+        Type valueType = arguments[1];
 
         Type innerConverterType = typeof(StringEnumDictionaryConverterInner<,>).MakeGenericType(keyType, valueType);
         JsonConverter converter = (JsonConverter)Activator.CreateInstance(innerConverterType)!;

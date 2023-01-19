@@ -48,8 +48,8 @@ internal class SummaryAvatarFactory
             // metadata part
             Id = avatar.Id,
             Name = avatar.Name,
-            NameCard = AvatarNameCardPicConverter.AvatarToUri(avatar),
             Quality = avatar.Quality,
+            NameCard = AvatarNameCardPicConverter.AvatarToUri(avatar),
             Element = ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore),
 
             // webinfo & metadata mixed part
@@ -76,12 +76,12 @@ internal class SummaryAvatarFactory
 
     private void TryApplyCostumeIconToAvatar(ref PropertyAvatar propertyAvatar, MetadataAvatar avatar)
     {
-        // Set to costume icon
         if (avatarInfo.CostumeId.HasValue)
         {
             int costumeId = avatarInfo.CostumeId.Value;
             Model.Metadata.Avatar.Costume costume = avatar.Costumes.Single(c => c.Id == costumeId);
 
+            // Set to costume icon
             propertyAvatar.Icon = AvatarIconConverter.IconNameToUri(costume.Icon);
             propertyAvatar.SideIcon = AvatarIconConverter.IconNameToUri(costume.SideIcon);
         }

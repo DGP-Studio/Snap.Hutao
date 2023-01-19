@@ -74,6 +74,6 @@ public class GachaLogItem
     /// Id
     /// </summary>
     [JsonPropertyName("id")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long Id { get; set; } = default!;
 }

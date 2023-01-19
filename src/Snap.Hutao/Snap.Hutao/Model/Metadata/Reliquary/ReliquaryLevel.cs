@@ -25,5 +25,5 @@ public class ReliquaryLevel
     /// 属性
     /// </summary>
     [JsonConverter(typeof(StringEnumKeyDictionaryConverter))]
-    public IDictionary<FightProperty, double> Properties { get; set; } = default!;
+    public Dictionary<FightProperty, double> Properties { get; set; } = default!;
 }

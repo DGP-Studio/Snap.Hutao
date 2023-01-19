@@ -26,13 +26,13 @@ public class AvatarInfo
     /// </summary>
     [JsonPropertyName("propMap")]
     [JsonConverter(typeof(StringEnumKeyDictionaryConverter))]
-    public IDictionary<PlayerProperty, TypeValue> PropMap { get; set; } = default!;
+    public Dictionary<PlayerProperty, TypeValue> PropMap { get; set; } = default!;
 
     /// <summary>
     /// 命座 Id
     /// </summary>
     [JsonPropertyName("talentIdList")]
-    public IList<int>? TalentIdList { get; set; }
+    public List<int>? TalentIdList { get; set; }
 
     /// <summary>
     /// 属性 Map
@@ -40,7 +40,7 @@ public class AvatarInfo
     /// </summary>
     [JsonPropertyName("fightPropMap")]
     [JsonConverter(typeof(StringEnumKeyDictionaryConverter))]
-    public IDictionary<FightProperty, double> FightPropMap { get; set; } = default!;
+    public Dictionary<FightProperty, double> FightPropMap { get; set; } = default!;
 
     /// <summary>
     /// 技能组Id
@@ -60,7 +60,7 @@ public class AvatarInfo
     /// Map of Skill Levels
     /// </summary>
     [JsonPropertyName("skillLevelMap")]
-    public IDictionary<string, int> SkillLevelMap { get; set; } = default!;
+    public Dictionary<string, int> SkillLevelMap { get; set; } = default!;
 
     /// <summary>
     /// 装备列表
@@ -87,5 +87,5 @@ public class AvatarInfo
     /// 命座额外技能等级
     /// </summary>
     [JsonPropertyName("proudSkillExtraLevelMap")]
-    public IDictionary<string, int>? ProudSkillExtraLevelMap { get; set; } = default!;
+    public Dictionary<string, int>? ProudSkillExtraLevelMap { get; set; } = default!;
 }
