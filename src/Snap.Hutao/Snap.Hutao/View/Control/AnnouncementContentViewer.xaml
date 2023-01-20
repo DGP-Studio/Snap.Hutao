@@ -1,21 +1,20 @@
-﻿<Page
-    x:Class="Snap.Hutao.View.Page.AnnouncementContentPage"
+﻿<UserControl
+    x:Class="Snap.Hutao.View.Control.AnnouncementContentViewer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    ActualThemeChanged="PageActualThemeChanged"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="OnLoaded"
     mc:Ignorable="d">
-    <Page.Transitions>
+    <UserControl.Transitions>
         <TransitionCollection>
-            <NavigationThemeTransition>
-                <DrillInNavigationTransitionInfo/>
-            </NavigationThemeTransition>
+            <EntranceThemeTransition/>
         </TransitionCollection>
-    </Page.Transitions>
+    </UserControl.Transitions>
     <WebView2
         x:Name="WebView"
+        Margin="0,0,0,0"
         DefaultBackgroundColor="Transparent"
         IsRightTapEnabled="False"/>
-</Page>
+</UserControl>

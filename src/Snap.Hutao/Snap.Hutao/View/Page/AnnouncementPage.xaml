@@ -15,6 +15,7 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shv:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -122,9 +123,21 @@
                                     </StackPanel>
                                 </Border>
                             </Grid>
+                            <FlyoutBase.AttachedFlyout>
+                                <Flyout LightDismissOverlayMode="On" Placement="Full">
+                                    <Flyout.FlyoutPresenterStyle>
+                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="CornerRadius" Value="0"/>
+                                            <Setter Property="MaxWidth" Value="560"/>
+                                        </Style>
+                                    </Flyout.FlyoutPresenterStyle>
+                                    <shvc:AnnouncementContentViewer Announcement="{Binding}"/>
+                                </Flyout>
+                            </FlyoutBase.AttachedFlyout>
                             <mxi:Interaction.Behaviors>
                                 <mxic:EventTriggerBehavior EventName="Tapped">
-                                    <mxic:InvokeCommandAction Command="{Binding DataContext.OpenAnnouncementUICommand, Source={StaticResource BindingProxy}}" CommandParameter="{Binding Content}"/>
+                                    <shcb:OpenAttachedFlyoutAction/>
                                 </mxic:EventTriggerBehavior>
                                 <mxic:EventTriggerBehavior EventName="PointerEntered">
                                     <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}"/>

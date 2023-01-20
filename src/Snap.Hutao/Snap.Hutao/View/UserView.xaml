@@ -58,7 +58,6 @@
                     <Flyout.FlyoutPresenterStyle>
                         <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                             <Setter Property="Padding" Value="0,2,0,2"/>
-                            <Setter Property="Background" Value="{ThemeResource FlyoutPresenterBackground}"/>
                         </Style>
                     </Flyout.FlyoutPresenterStyle>
                     <StackPanel>

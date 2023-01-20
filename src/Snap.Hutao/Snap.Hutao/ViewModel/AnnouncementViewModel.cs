@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using Snap.Hutao.Core;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.View.Page;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
 namespace Snap.Hutao.ViewModel;
@@ -29,7 +26,6 @@ internal class AnnouncementViewModel : Abstraction.ViewModel
         this.announcementService = announcementService;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
-        OpenAnnouncementUICommand = new RelayCommand<string>(OpenAnnouncementUI);
     }
 
     /// <summary>
@@ -46,11 +42,6 @@ internal class AnnouncementViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand OpenUICommand { get; }
 
-    /// <summary>
-    /// 打开公告UI触发的命令
-    /// </summary>
-    public ICommand OpenAnnouncementUICommand { get; }
-
     private async Task OpenUIAsync()
     {
         try
@@ -59,20 +50,6 @@ internal class AnnouncementViewModel : Abstraction.ViewModel
         }
         catch (OperationCanceledException)
         {
-        }
-    }
-
-    private void OpenAnnouncementUI(string? content)
-    {
-        if (WebView2Helper.IsSupported)
-        {
-            INavigationService navigationService = Ioc.Default.GetRequiredService<INavigationService>();
-            navigationService.Navigate<AnnouncementContentPage>(data: new NavigationExtra(content));
-        }
-        else
-        {
-            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
-            infoBarService.Warning("尚未安装 WebView2 Runtime");
         }
     }
 }
