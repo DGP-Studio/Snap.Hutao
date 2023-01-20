@@ -111,7 +111,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
             GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
 
             if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString).GetBoolean()
-                && Ioc.Default.GetRequiredService<IGameService>().IsGameRunning())
+                && scope.ServiceProvider.GetRequiredService<IGameService>().IsGameRunning())
             {
                 // Prevent notify when we are in silent mode.
                 notify = false;

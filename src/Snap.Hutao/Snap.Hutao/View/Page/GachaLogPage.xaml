@@ -238,7 +238,7 @@
                                         Margin="0,16,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="五星"
-                                        Visibility="{Binding SelectedHistoryWish.OrangeList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                                        Visibility="{Binding SelectedHistoryWish.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
@@ -266,7 +266,7 @@
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="四星"
-                                        Visibility="{Binding SelectedHistoryWish.PurpleList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                                        Visibility="{Binding SelectedHistoryWish.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>
@@ -294,7 +294,7 @@
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
                                         Text="三星"
-                                        Visibility="{Binding SelectedHistoryWish.BlueList, Converter={StaticResource EmptyCollectionToVisibilityConverter}}"/>
+                                        Visibility="{Binding SelectedHistoryWish.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
                                             <DataTemplate>

@@ -32,7 +32,7 @@
     </Page.Resources>
 
     <Grid>
-        <Grid Visibility="{Binding Weapons, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+        <Grid Visibility="{Binding Weapons, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -242,6 +242,6 @@
                 </SplitView.Content>
             </SplitView>
         </Grid>
-        <shvc:LoadingView IsLoading="{Binding Weapons, Converter={StaticResource EmptyCollectionToBoolRevertConverter}}"/>
+        <shvc:LoadingView IsLoading="{Binding Weapons, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
 </shc:ScopedPage>

@@ -36,10 +36,7 @@
                 SelectionMode="None">
                 <cwucont:AdaptiveGridView.ItemTemplate>
                     <DataTemplate>
-                        <Border
-                            cwu:UIElementExtensions.ClipToBounds="True"
-                            Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
-                            CornerRadius="{StaticResource CompatCornerRadius}">
+                        <Border cwu:UIElementExtensions.ClipToBounds="True" Style="{StaticResource BorderCardStyle}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -48,10 +45,11 @@
                                 <!--  Image Layer  -->
                                 <Border cwu:UIElementExtensions.ClipToBounds="True">
                                     <Border VerticalAlignment="Top" cwu:VisualExtensions.NormalizedCenterPoint="0.5">
+                                        <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
+
                                         <mxi:Interaction.Behaviors>
                                             <shcb:AutoHeightBehavior TargetHeight="390" TargetWidth="1080"/>
                                         </mxi:Interaction.Behaviors>
-                                        <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
                                         <cwua:Explicit.Animations>
                                             <cwua:AnimationSet x:Name="ImageZoomInAnimation">
                                                 <shca:ImageZoomInAnimation/>
@@ -129,7 +127,7 @@
                                         <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
                                             <Setter Property="Padding" Value="0"/>
                                             <Setter Property="CornerRadius" Value="0"/>
-                                            <Setter Property="MaxWidth" Value="560"/>
+                                            <Setter Property="MaxWidth" Value="640"/>
                                         </Style>
                                     </Flyout.FlyoutPresenterStyle>
                                     <shvc:AnnouncementContentViewer Announcement="{Binding}"/>

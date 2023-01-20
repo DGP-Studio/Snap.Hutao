@@ -14,7 +14,7 @@ public class Int32ToVisibilityConverter : IValueConverter
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)
     {
-        return (int)value == 0 ? Visibility.Collapsed : Visibility.Visible;
+        return value != null && ((int)value != 0) ? Visibility.Visible : Visibility.Collapsed;
     }
 
     /// <inheritdoc/>

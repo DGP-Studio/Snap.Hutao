@@ -127,16 +127,15 @@
                 </wsc:SettingsGroup>
 
                 <wsc:SettingsGroup Header="游戏">
-                    <wsc:Setting Header="游戏路径" Icon="&#xE7FC;">
-                        <wsc:Setting.Description>
-                            <StackPanel>
-                                <TextBlock
-                                    Foreground="{StaticResource SystemFillColorCautionBrush}"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="请选择游戏本体而不是启动器！"/>
-                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding GamePath}"/>
-                            </StackPanel>
-                        </wsc:Setting.Description>
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="True"
+                        Message="设置游戏路径时，请选择游戏本体（YuanShen.exe 或 Genshin Impact.exe）而不是启动器（launcher.exe）"
+                        Severity="Informational"/>
+                    <wsc:Setting
+                        Description="{Binding GamePath}"
+                        Header="游戏路径"
+                        Icon="&#xE7FC;">
                         <wsc:Setting.ActionContent>
                             <Button Command="{Binding SetGamePathCommand}" Content="设置路径"/>
                         </wsc:Setting.ActionContent>
@@ -152,6 +151,12 @@
                 </wsc:SettingsGroup>
 
                 <wsc:SettingsGroup Header="测试功能">
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="True"
+                        Message="测试功能是尚未完善，仅用于 Pollyfill 的功能，未来可能会存在更合理的位置放置这些功能"
+                        Severity="Warning"/>
+
                     <wsc:Setting
                         Description="用户数据/日志/元数据在此处存放"
                         Header="打开 数据 文件夹"
@@ -181,6 +186,12 @@
                 </wsc:SettingsGroup>
 
                 <wsc:SettingsGroup Foreground="{StaticResource SystemFillColorCriticalBrush}" Header="危险功能">
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="True"
+                        Message="除非开发人员明确要求你这么做，否则不应尝试执行下方的操作！"
+                        Severity="Error"/>
+
                     <wsc:Setting
                         Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
                         Description="删除注册的计划任务，卸载前务必点击此项"

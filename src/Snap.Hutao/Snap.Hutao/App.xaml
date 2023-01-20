@@ -78,10 +78,6 @@
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
             <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
             <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>
-            <shvc:EmptyCollectionToBoolConverter x:Key="EmptyCollectionToBoolConverter"/>
-            <shvc:EmptyCollectionToBoolRevertConverter x:Key="EmptyCollectionToBoolRevertConverter"/>
-            <shvc:EmptyCollectionToVisibilityConverter x:Key="EmptyCollectionToVisibilityConverter"/>
-            <shvc:EmptyCollectionToVisibilityRevertConverter x:Key="EmptyCollectionToVisibilityRevertConverter"/>
             <shvc:EmptyObjectToBoolConverter x:Key="EmptyObjectToBoolConverter"/>
             <shvc:EmptyObjectToBoolRevertConverter x:Key="EmptyObjectToBoolRevertConverter"/>
             <shvc:EmptyObjectToVisibilityConverter x:Key="EmptyObjectToVisibilityConverter"/>

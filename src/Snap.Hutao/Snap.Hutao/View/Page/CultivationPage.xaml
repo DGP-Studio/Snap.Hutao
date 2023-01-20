@@ -134,7 +134,7 @@
                             ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                             ItemsSource="{Binding CultivateEntries}"
                             SelectionMode="None"
-                            Visibility="{Binding CultivateEntries, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+                            Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                             <cwucont:AdaptiveGridView.ItemTemplate>
                                 <DataTemplate>
                                     <Border Style="{StaticResource BorderCardStyle}">
@@ -273,7 +273,7 @@
                         <StackPanel
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Visibility="{Binding CultivateEntries, Converter={StaticResource EmptyCollectionToVisibilityRevertConverter}}">
+                            Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
                             <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
                                 <wsc:Setting
                                     Description="添加任意角色到养成计划"

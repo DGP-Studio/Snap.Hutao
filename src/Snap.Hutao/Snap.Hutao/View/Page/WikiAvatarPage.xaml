@@ -59,7 +59,7 @@
     </Page.Resources>
 
     <Grid>
-        <Grid Visibility="{Binding Avatars, Converter={StaticResource EmptyCollectionToVisibilityConverter}}">
+        <Grid Visibility="{Binding Avatars, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
@@ -600,6 +600,6 @@
                 </SplitView.Content>
             </SplitView>
         </Grid>
-        <shvc:LoadingView IsLoading="{Binding Avatars, Converter={StaticResource EmptyCollectionToBoolRevertConverter}}"/>
+        <shvc:LoadingView IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
 </Page>
