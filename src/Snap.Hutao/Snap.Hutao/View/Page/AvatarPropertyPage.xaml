@@ -151,6 +151,11 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
+                                    <shcp:AspectRatio
+                                        Grid.RowSpan="2"
+                                        Grid.ColumnSpan="2"
+                                        TargetHeight="400"
+                                        TargetWidth="840"/>
                                     <shci:CachedImage
                                         Grid.RowSpan="2"
                                         Grid.ColumnSpan="2"
@@ -447,7 +452,7 @@
                                                         Grid.Column="1"
                                                         Margin="6,0,0,0"
                                                         HorizontalAlignment="Left"
-                                                        Foreground="#FF90E800"
+                                                        Foreground="{StaticResource AvatarPropertyAddValueBrush}"
                                                         Text="{Binding Value2}"/>
                                                 </Grid>
                                             </wsc:Setting>

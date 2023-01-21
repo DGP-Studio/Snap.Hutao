@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Windows.Graphics;
-using Windows.Win32.Foundation;
-using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Win32;
 
@@ -41,30 +39,5 @@ internal static class StructExtension
     public static int Size(this SizeInt32 sizeInt32)
     {
         return sizeInt32.Width * sizeInt32.Height;
-    }
-
-    /// <summary>
-    /// 使用完成后自动关闭句柄
-    /// </summary>
-    /// <param name="handle">句柄</param>
-    /// <returns>用于关闭句柄的对象</returns>
-    public static IDisposable AutoClose(this HANDLE handle)
-    {
-        return new HandleCloser(handle);
-    }
-
-    private readonly struct HandleCloser : IDisposable
-    {
-        private readonly HANDLE handle;
-
-        public HandleCloser(HANDLE handle)
-        {
-            this.handle = handle;
-        }
-
-        public void Dispose()
-        {
-            CloseHandle(handle);
-        }
     }
 }

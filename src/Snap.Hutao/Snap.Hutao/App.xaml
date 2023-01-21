@@ -16,13 +16,14 @@
 
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
+                    <Color x:Key="AvatarPropertyAddValueColor">#FF74BF00</Color>
                     <Color x:Key="CompatBackgroundColor">#FFF4F4F4</Color>
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
+                    <Color x:Key="AvatarPropertyAddValueColor">#FF90E800</Color>
                     <Color x:Key="CompatBackgroundColor">#FF242424</Color>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-
             <!--  Modify Window title bar color  -->
             <StaticResource x:Key="WindowCaptionBackground" ResourceKey="ControlFillColorTransparentBrush"/>
             <StaticResource x:Key="WindowCaptionBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush"/>
@@ -45,6 +46,8 @@
             <x:Double x:Key="CompatSplitViewOpenPaneLength">212</x:Double>
             <x:Double x:Key="CompatSplitViewOpenPaneLength2">268</x:Double>
             <GridLength x:Key="CompatGridLength2">268</GridLength>
+            <!--  Brushes  -->
+            <SolidColorBrush x:Key="AvatarPropertyAddValueBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
             <!--  Uris  -->
             <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie</x:String>
             <x:String x:Key="DocumentLink_BugReport">https://hut.ao/statements/bug-report.html</x:String>

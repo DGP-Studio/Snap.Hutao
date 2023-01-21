@@ -279,26 +279,28 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
         await bitmap.RenderAsync(element);
 
         IBuffer buffer = await bitmap.GetPixelsAsync();
-        SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight, BitmapAlphaMode.Ignore);
-        Color tintColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
-        Bgra8 tint = Bgra8.FromColor(tintColor);
-        softwareBitmap.NormalBlend(tint);
-
         bool clipboardOpened = false;
-        using (InMemoryRandomAccessStream memory = new())
+        using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight, BitmapAlphaMode.Ignore))
         {
-            BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
-            encoder.SetSoftwareBitmap(softwareBitmap);
-            await encoder.FlushAsync();
+            Color tintColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
+            Bgra8 tint = Bgra8.FromColor(tintColor);
+            softwareBitmap.NormalBlend(tint);
 
-            try
+            using (InMemoryRandomAccessStream memory = new())
             {
-                Clipboard.SetBitmapStream(memory);
-                clipboardOpened = true;
-            }
-            catch (COMException)
-            {
-                // CLIPBRD_E_CANT_OPEN
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
+                encoder.SetSoftwareBitmap(softwareBitmap);
+                await encoder.FlushAsync();
+
+                try
+                {
+                    Clipboard.SetBitmapStream(memory);
+                    clipboardOpened = true;
+                }
+                catch (COMException)
+                {
+                    // CLIPBRD_E_CANT_OPEN
+                }
             }
         }
 

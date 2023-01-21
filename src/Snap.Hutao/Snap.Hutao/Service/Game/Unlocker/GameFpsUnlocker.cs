@@ -76,7 +76,7 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
     private static unsafe MODULEENTRY32 FindModule(int processId, string moduleName)
     {
         HANDLE snapshot = CreateToolhelp32Snapshot(CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE, (uint)processId);
-        using (snapshot.AutoClose())
+        try
         {
             Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
@@ -96,6 +96,10 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
             }
 
             return found ? entry : default;
+        }
+        finally
+        {
+            CloseHandle(snapshot);
         }
     }
 

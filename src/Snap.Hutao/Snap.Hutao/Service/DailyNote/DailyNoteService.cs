@@ -10,6 +10,7 @@ using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -123,9 +124,9 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
                     .GetDailyNoteAsync(new(entry.User, entry.Uid))
                     .ConfigureAwait(false);
 
-                if (dailyNoteResponse.IsOk())
+                if (dailyNoteResponse.ReturnCode == 0)
                 {
-                    WebDailyNote dailyNote = dailyNoteResponse.Data;
+                    WebDailyNote dailyNote = dailyNoteResponse.Data!;
 
                     // database
                     entry.DailyNote = dailyNote;
@@ -138,6 +139,16 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
                     {
                         await new DailyNoteNotifier(scopeFactory, entry).NotifyAsync().ConfigureAwait(false);
                     }
+                }
+
+                // special retcode handling for dailynote
+                else if (dailyNoteResponse.ReturnCode == (int)Web.Response.KnownReturnCode.CODE1034)
+                {
+                    scope.ServiceProvider.GetRequiredService<IInfoBarService>().Warning(dailyNoteResponse.ToString());
+                }
+                else
+                {
+                    scope.ServiceProvider.GetRequiredService<IInfoBarService>().Error(dailyNoteResponse.ToString());
                 }
             }
 

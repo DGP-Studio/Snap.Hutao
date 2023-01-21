@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Logging;
@@ -17,14 +16,6 @@ namespace Snap.Hutao;
 /// </summary>
 public static partial class Program
 {
-    /// <summary>
-    /// 主线程队列
-    /// </summary>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    [SuppressMessage("", "SA1401")]
-    internal static volatile DispatcherQueue? DispatcherQueue;
-
     [LibraryImport("Microsoft.ui.xaml.dll")]
     private static partial void XamlCheckProcessRequirements();
 
@@ -50,10 +41,7 @@ public static partial class Program
 
     private static void InitializeApp(ApplicationInitializationCallbackParams param)
     {
-        DispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        DispatcherQueueSynchronizationContext context = new(DispatcherQueue);
-        SynchronizationContext.SetSynchronizationContext(context);
-
+        ThreadHelper.Initialize();
         _ = Ioc.Default.GetRequiredService<App>();
     }
 
