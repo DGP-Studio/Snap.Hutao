@@ -42,6 +42,7 @@
     <mxi:Interaction.Behaviors>
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
+
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid Visibility="{Binding Projects.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
             <Rectangle
@@ -52,54 +53,6 @@
             <Pivot>
                 <Pivot.RightHeader>
                     <CommandBar DefaultLabelPosition="Right">
-                        <AppBarButton
-                            Command="{Binding UpdateStatisticsItemsCommand}"
-                            Icon="{shcm:FontIcon Glyph=&#xEB05;}"
-                            Label="材料统计">
-                            <AppBarButton.Flyout>
-                                <Flyout Placement="Bottom">
-                                    <Flyout.FlyoutPresenterStyle>
-                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                            <Setter Property="MaxHeight" Value="480"/>
-                                            <Setter Property="Padding" Value="0,2,0,2"/>
-                                            <Setter Property="Background" Value="{ThemeResource FlyoutPresenterBackground}"/>
-                                        </Style>
-                                    </Flyout.FlyoutPresenterStyle>
-                                    <ItemsControl Margin="16,0,16,16" ItemsSource="{Binding StatisticsItems}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid Margin="0,16,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="auto"/>
-                                                        <ColumnDefinition Width="160"/>
-                                                        <ColumnDefinition/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <shvc:ItemIcon
-                                                        Grid.Column="0"
-                                                        Width="32"
-                                                        Height="32"
-                                                        Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
-                                                        Quality="{Binding Inner.RankLevel}"/>
-                                                    <TextBlock
-                                                        Grid.Column="1"
-                                                        Margin="16,0,0,0"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding Inner.Name}"
-                                                        TextTrimming="CharacterEllipsis"/>
-                                                    <TextBlock
-                                                        Grid.Column="2"
-                                                        Margin="16,0,4,0"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Center"
-                                                        Text="{Binding CountFormatted}"/>
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Flyout>
-                            </AppBarButton.Flyout>
-                        </AppBarButton>
-                        <AppBarSeparator/>
                         <AppBarElementContainer>
                             <ComboBox
                                 Height="36"
@@ -127,149 +80,195 @@
 
                 <PivotItem Header="材料清单">
                     <Grid>
-                        <cwucont:AdaptiveGridView
-                            Padding="16,16,4,4"
-                            cwua:ItemsReorderAnimation.Duration="0:0:0.1"
-                            DesiredWidth="320"
-                            ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
-                            ItemsSource="{Binding CultivateEntries}"
-                            SelectionMode="None"
-                            Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                            <cwucont:AdaptiveGridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Style="{StaticResource BorderCardStyle}">
-                                        <Grid Background="Transparent">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="auto"/>
-                                                <RowDefinition Height="auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Grid Margin="8">
+                        <Pivot Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                            <PivotItem Header="材料统计">
+                                <cwucont:AdaptiveGridView
+                                    Padding="16,16,4,4"
+                                    cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                                    DesiredWidth="320"
+                                    ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                                    ItemsSource="{Binding StatisticsItems}"
+                                    SelectionMode="None">
+                                    <cwucont:AdaptiveGridView.Resources>
+                                        <x:Double x:Key="GridViewItemMinHeight">0</x:Double>
+                                    </cwucont:AdaptiveGridView.Resources>
+                                    <cwucont:AdaptiveGridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="auto"/>
                                                     <ColumnDefinition/>
                                                     <ColumnDefinition Width="auto"/>
                                                 </Grid.ColumnDefinitions>
                                                 <shvc:ItemIcon
-                                                    Width="48"
-                                                    Height="48"
-                                                    Icon="{Binding Icon}"
-                                                    Quality="{Binding Quality}"/>
+                                                    Grid.Column="0"
+                                                    Width="32"
+                                                    Height="32"
+                                                    Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                                    Quality="{Binding Inner.RankLevel}"/>
                                                 <TextBlock
                                                     Grid.Column="1"
-                                                    Margin="8,0,0,0"
+                                                    Margin="16,0,0,0"
                                                     VerticalAlignment="Center"
-                                                    Text="{Binding Name}"/>
-                                                <StackPanel
-                                                    x:Name="ButtonPanel"
+                                                    Text="{Binding Inner.Name}"
+                                                    TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock
                                                     Grid.Column="2"
-                                                    Orientation="Horizontal"
-                                                    Visibility="Collapsed">
-                                                    <Button
-                                                        Width="48"
-                                                        Height="48"
-                                                        Margin="8,0,0,0"
-                                                        Command="{Binding Path=DataContext.RemoveEntryCommand, Source={StaticResource BindingProxy}}"
-                                                        CommandParameter="{Binding}"
-                                                        Content="&#xE74D;"
-                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                        ToolTipService.ToolTip="删除清单"/>
-                                                </StackPanel>
+                                                    Margin="16,0,4,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding CountFormatted}"/>
                                             </Grid>
-                                            <ScrollViewer Grid.Row="1" Height="240">
-                                                <ItemsControl Margin="8,0,8,8" ItemsSource="{Binding Items}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <Grid Margin="0,4,0,0">
-                                                                <Grid.ColumnDefinitions>
-                                                                    <ColumnDefinition Width="auto"/>
-                                                                    <ColumnDefinition/>
-                                                                </Grid.ColumnDefinitions>
-                                                                <Grid>
-                                                                    <shvc:ItemIcon
-                                                                        Width="32"
-                                                                        Height="32"
-                                                                        Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
-                                                                        Opacity="{Binding IsFinished, Converter={StaticResource BoolToOpacityConverter}}"
-                                                                        Quality="{Binding Inner.RankLevel}"/>
-                                                                    <FontIcon
-                                                                        HorizontalAlignment="Center"
-                                                                        VerticalAlignment="Center"
-                                                                        FontSize="24"
-                                                                        Glyph="&#xE73E;"
-                                                                        Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                                                </Grid>
-                                                                <Button
-                                                                    Grid.Column="1"
-                                                                    Height="32"
-                                                                    Margin="6,0,0,0"
-                                                                    HorizontalAlignment="Stretch"
-                                                                    HorizontalContentAlignment="Stretch"
-                                                                    Background="Transparent"
-                                                                    BorderBrush="{x:Null}"
-                                                                    BorderThickness="0"
-                                                                    Command="{Binding FinishStateCommand}">
-                                                                    <Grid Opacity="{Binding IsFinished, Converter={StaticResource BoolToOpacityConverter}}">
+                                        </DataTemplate>
+                                    </cwucont:AdaptiveGridView.ItemTemplate>
+                                </cwucont:AdaptiveGridView>
+                            </PivotItem>
+                            <PivotItem Header="养成物品">
+                                <cwucont:AdaptiveGridView
+                                    Padding="16,16,4,4"
+                                    cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                                    DesiredWidth="320"
+                                    ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                                    ItemsSource="{Binding CultivateEntries}"
+                                    SelectionMode="None">
+                                    <cwucont:AdaptiveGridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Style="{StaticResource BorderCardStyle}">
+                                                <Grid Background="Transparent">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="auto"/>
+                                                        <RowDefinition Height="auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid Margin="8">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="auto"/>
+                                                            <ColumnDefinition/>
+                                                            <ColumnDefinition Width="auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <shvc:ItemIcon
+                                                            Width="48"
+                                                            Height="48"
+                                                            Icon="{Binding Icon}"
+                                                            Quality="{Binding Quality}"/>
+                                                        <TextBlock
+                                                            Grid.Column="1"
+                                                            Margin="8,0,0,0"
+                                                            VerticalAlignment="Center"
+                                                            Text="{Binding Name}"/>
+                                                        <StackPanel
+                                                            x:Name="ButtonPanel"
+                                                            Grid.Column="2"
+                                                            Orientation="Horizontal"
+                                                            Visibility="Collapsed">
+                                                            <Button
+                                                                Width="48"
+                                                                Height="48"
+                                                                Margin="8,0,0,0"
+                                                                Command="{Binding Path=DataContext.RemoveEntryCommand, Source={StaticResource BindingProxy}}"
+                                                                CommandParameter="{Binding}"
+                                                                Content="&#xE74D;"
+                                                                FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                                ToolTipService.ToolTip="删除清单"/>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                    <ScrollViewer Grid.Row="1" Height="240">
+                                                        <ItemsControl Margin="8,0,8,8" ItemsSource="{Binding Items}">
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Grid Margin="0,4,0,0">
                                                                         <Grid.ColumnDefinitions>
                                                                             <ColumnDefinition Width="auto"/>
                                                                             <ColumnDefinition/>
                                                                         </Grid.ColumnDefinitions>
-                                                                        <TextBlock
-                                                                            Grid.Column="0"
-                                                                            Margin="0,0,0,0"
-                                                                            VerticalAlignment="Center"
-                                                                            Style="{Binding IsToday, Converter={StaticResource BoolToStyleSelector}}"
-                                                                            Text="{Binding Inner.Name}"
-                                                                            TextTrimming="CharacterEllipsis"/>
-                                                                        <TextBlock
+                                                                        <Grid>
+                                                                            <shvc:ItemIcon
+                                                                                Width="32"
+                                                                                Height="32"
+                                                                                Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                                                                Opacity="{Binding IsFinished, Converter={StaticResource BoolToOpacityConverter}}"
+                                                                                Quality="{Binding Inner.RankLevel}"/>
+                                                                            <FontIcon
+                                                                                HorizontalAlignment="Center"
+                                                                                VerticalAlignment="Center"
+                                                                                FontSize="24"
+                                                                                Glyph="&#xE73E;"
+                                                                                Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                                        </Grid>
+                                                                        <Button
                                                                             Grid.Column="1"
-                                                                            HorizontalAlignment="Right"
-                                                                            VerticalAlignment="Center"
-                                                                            Style="{Binding IsToday, Converter={StaticResource BoolToStyleSelector}}"
-                                                                            Text="{Binding Entity.Count}"/>
+                                                                            Height="32"
+                                                                            Margin="6,0,0,0"
+                                                                            HorizontalAlignment="Stretch"
+                                                                            HorizontalContentAlignment="Stretch"
+                                                                            Background="Transparent"
+                                                                            BorderBrush="{x:Null}"
+                                                                            BorderThickness="0"
+                                                                            Command="{Binding Path=DataContext.FinishStateCommand, Source={StaticResource BindingProxy}}"
+                                                                            CommandParameter="{Binding}">
+                                                                            <Grid Opacity="{Binding IsFinished, Converter={StaticResource BoolToOpacityConverter}}">
+                                                                                <Grid.ColumnDefinitions>
+                                                                                    <ColumnDefinition Width="auto"/>
+                                                                                    <ColumnDefinition/>
+                                                                                </Grid.ColumnDefinitions>
+                                                                                <TextBlock
+                                                                                    Grid.Column="0"
+                                                                                    Margin="0,0,0,0"
+                                                                                    VerticalAlignment="Center"
+                                                                                    Style="{Binding IsToday, Converter={StaticResource BoolToStyleSelector}}"
+                                                                                    Text="{Binding Inner.Name}"
+                                                                                    TextTrimming="CharacterEllipsis"/>
+                                                                                <TextBlock
+                                                                                    Grid.Column="1"
+                                                                                    HorizontalAlignment="Right"
+                                                                                    VerticalAlignment="Center"
+                                                                                    Style="{Binding IsToday, Converter={StaticResource BoolToStyleSelector}}"
+                                                                                    Text="{Binding Entity.Count}"/>
+                                                                            </Grid>
+                                                                        </Button>
+
                                                                     </Grid>
-                                                                </Button>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                        </ItemsControl>
+                                                    </ScrollViewer>
 
-                                                            </Grid>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </ScrollViewer>
+                                                    <Grid.Resources>
+                                                        <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                        <Visibility>Visible</Visibility>
+                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                </DiscreteObjectKeyFrame>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
 
-                                            <Grid.Resources>
-                                                <Storyboard x:Name="ButtonPanelVisibleStoryboard">
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                            <DiscreteObjectKeyFrame.Value>
-                                                                <Visibility>Visible</Visibility>
-                                                            </DiscreteObjectKeyFrame.Value>
-                                                        </DiscreteObjectKeyFrame>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
+                                                        <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                        <Visibility>Collapsed</Visibility>
+                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                </DiscreteObjectKeyFrame>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </Grid.Resources>
 
-                                                <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                            <DiscreteObjectKeyFrame.Value>
-                                                                <Visibility>Collapsed</Visibility>
-                                                            </DiscreteObjectKeyFrame.Value>
-                                                        </DiscreteObjectKeyFrame>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </Grid.Resources>
-
-                                            <mxi:Interaction.Behaviors>
-                                                <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
-                                                </mxic:EventTriggerBehavior>
-                                                <mxic:EventTriggerBehavior EventName="PointerExited">
-                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
-                                                </mxic:EventTriggerBehavior>
-                                            </mxi:Interaction.Behaviors>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </cwucont:AdaptiveGridView.ItemTemplate>
-                        </cwucont:AdaptiveGridView>
+                                                    <mxi:Interaction.Behaviors>
+                                                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                            <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                                                        </mxic:EventTriggerBehavior>
+                                                        <mxic:EventTriggerBehavior EventName="PointerExited">
+                                                            <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                                                        </mxic:EventTriggerBehavior>
+                                                    </mxi:Interaction.Behaviors>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </cwucont:AdaptiveGridView.ItemTemplate>
+                                </cwucont:AdaptiveGridView>
+                            </PivotItem>
+                        </Pivot>
                         <StackPanel
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -305,7 +304,6 @@
                             </wsc:SettingsGroup>
                         </StackPanel>
                     </Grid>
-
                 </PivotItem>
                 <PivotItem Header="背包物品">
                     <cwucont:AdaptiveGridView

@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Model.Metadata;
-using Snap.Hutao.Service.Cultivation;
 
 namespace Snap.Hutao.Model.Binding.Cultivation;
 
@@ -25,7 +24,7 @@ public class CultivateItem : ObservableObject
         Inner = inner;
         Entity = entity;
         isFinished = Entity.IsFinished;
-        IsToday = CultivateItemHelper.IsTodaysMaterial(inner.Id, DateTimeOffset.Now);
+        IsToday = inner.IsTodaysItem();
 
         FinishStateCommand = new RelayCommand(FlipIsFinished);
     }
@@ -55,7 +54,6 @@ public class CultivateItem : ObservableObject
             if (SetProperty(ref isFinished, value))
             {
                 Entity.IsFinished = value;
-                Ioc.Default.GetRequiredService<ICultivationService>().SaveCultivateItem(Entity);
             }
         }
     }

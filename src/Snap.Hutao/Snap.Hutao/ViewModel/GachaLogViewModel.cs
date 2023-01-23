@@ -77,7 +77,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
     public GachaArchive? SelectedArchive
     {
         get => selectedArchive;
-        set => SetSelectedArchiveAndUpdateStatistics(value, false);
+        set => SetSelectedArchiveAndUpdateStatistics(value);
     }
 
     /// <summary>
@@ -158,7 +158,6 @@ internal class GachaLogViewModel : Abstraction.ViewModel
                 await ThreadHelper.SwitchToMainThreadAsync();
                 Archives = archives;
                 SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
-                IsInitialized = true;
             }
         }
         catch (OperationCanceledException)
@@ -323,9 +322,14 @@ internal class GachaLogViewModel : Abstraction.ViewModel
             OnPropertyChanged(nameof(SelectedArchive));
         }
 
-        if (changed || forceUpdate)
+        if (forceUpdate || changed)
         {
-            if (archive != null)
+            if (archive == null)
+            {
+                // no gachalog
+                IsInitialized = true;
+            }
+            else
             {
                 UpdateStatisticsAsync(archive).SafeForget();
             }
@@ -337,6 +341,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
         GachaStatistics temp = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
         await ThreadHelper.SwitchToMainThreadAsync();
         Statistics = temp;
+        IsInitialized = true;
     }
 
     private async Task<bool> TryImportUIGFInternalAsync(UIGF uigf)

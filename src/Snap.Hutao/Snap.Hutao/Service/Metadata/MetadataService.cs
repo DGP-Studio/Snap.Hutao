@@ -19,7 +19,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfigration.Default)]
-internal partial class MetadataService : IMetadataService, IMetadataInitializer
+internal partial class MetadataService : IMetadataService, IMetadataServiceInitialization
 {
     private const string MetaFileName = "Meta.json";
 

@@ -24,11 +24,13 @@ internal class CultivationViewModel : Abstraction.ViewModel
     private readonly IMetadataService metadataService;
     private readonly ILogger<CultivationViewModel> logger;
 
+    private readonly ConcurrentCancellationTokenSource statisticsCancellationTokenSource = new();
+
     private ObservableCollection<CultivateProject>? projects;
     private CultivateProject? selectedProject;
     private List<Model.Binding.Inventory.InventoryItem>? inventoryItems;
     private ObservableCollection<Model.Binding.Cultivation.CultivateEntry>? cultivateEntries;
-    private List<StatisticsCultivateItem>? statisticsItems;
+    private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
 
     /// <summary>
     /// 构造一个新的养成视图模型
@@ -53,8 +55,8 @@ internal class CultivationViewModel : Abstraction.ViewModel
         RemoveProjectCommand = new AsyncRelayCommand<CultivateProject>(RemoveProjectAsync);
         RemoveEntryCommand = new AsyncRelayCommand<Model.Binding.Cultivation.CultivateEntry>(RemoveEntryAsync);
         SaveInventoryItemCommand = new RelayCommand<Model.Binding.Inventory.InventoryItem>(SaveInventoryItem);
-        UpdateStatisticsItemsCommand = new AsyncRelayCommand(UpdateStatisticsItemsAsync);
         NavigateToPageCommand = new RelayCommand<string>(NavigateToPage);
+        FinishStateCommand = new RelayCommand<Model.Binding.Cultivation.CultivateItem>(FlipFinishedState);
     }
 
     /// <summary>
@@ -74,7 +76,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
                 cultivationService.Current = value;
                 if (value != null)
                 {
-                    UpdateCultivateEntriesAndInventoryItemsAsync(value).SafeForget(logger);
+                    UpdateEntryCollectionAsync(value).SafeForget(logger);
                 }
             }
         }
@@ -93,7 +95,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
     /// <summary>
     /// 统计列表
     /// </summary>
-    public List<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
+    public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
     /// <summary>
     /// 打开界面命令
@@ -121,14 +123,14 @@ internal class CultivationViewModel : Abstraction.ViewModel
     public ICommand SaveInventoryItemCommand { get; }
 
     /// <summary>
-    /// 展示统计物品命令
-    /// </summary>
-    public ICommand UpdateStatisticsItemsCommand { get; }
-
-    /// <summary>
     /// 导航到指定的页面命令
     /// </summary>
     public ICommand NavigateToPageCommand { get; set; }
+
+    /// <summary>
+    /// 调整完成状态命令
+    /// </summary>
+    public ICommand FinishStateCommand { get; }
 
     private async Task OpenUIAsync()
     {
@@ -137,7 +139,6 @@ internal class CultivationViewModel : Abstraction.ViewModel
         {
             Projects = cultivationService.GetProjectCollection();
             SelectedProject = cultivationService.Current;
-            await UpdateCultivateEntriesAndInventoryItemsAsync(SelectedProject).ConfigureAwait(true);
         }
 
         IsInitialized = metaInitialized;
@@ -184,7 +185,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task UpdateCultivateEntriesAndInventoryItemsAsync(CultivateProject? project)
+    private async Task UpdateEntryCollectionAsync(CultivateProject? project)
     {
         if (project != null)
         {
@@ -193,24 +194,25 @@ internal class CultivationViewModel : Abstraction.ViewModel
             Dictionary<Model.Primitive.WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
             ObservableCollection<Model.Binding.Cultivation.CultivateEntry> entries = await cultivationService
-                .GetCultivateEntriesAsync(project, materials, idAvatarMap, idWeaponMap)
+                .GetCultivateEntriesAsync(project)
                 .ConfigureAwait(false);
 
             await ThreadHelper.SwitchToMainThreadAsync();
             CultivateEntries = entries;
             InventoryItems = cultivationService.GetInventoryItems(project, materials);
+
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
     }
 
-    private Task RemoveEntryAsync(Model.Binding.Cultivation.CultivateEntry? entry)
+    private async Task RemoveEntryAsync(Model.Binding.Cultivation.CultivateEntry? entry)
     {
         if (entry != null)
         {
             CultivateEntries!.Remove(entry);
-            return cultivationService.RemoveCultivateEntryAsync(entry.EntryId);
+            await cultivationService.RemoveCultivateEntryAsync(entry.EntryId).ConfigureAwait(false);
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
-
-        return Task.CompletedTask;
     }
 
     private void SaveInventoryItem(Model.Binding.Inventory.InventoryItem? inventoryItem)
@@ -218,20 +220,39 @@ internal class CultivationViewModel : Abstraction.ViewModel
         if (inventoryItem != null)
         {
             cultivationService.SaveInventoryItem(inventoryItem);
+            UpdateStatisticsItemsAsync().SafeForget();
+        }
+    }
+
+    private void FlipFinishedState(Model.Binding.Cultivation.CultivateItem? item)
+    {
+        if (item != null)
+        {
+            item.IsFinished = !item.IsFinished;
+            cultivationService.SaveCultivateItem(item.Entity);
+            UpdateStatisticsItemsAsync().SafeForget();
         }
     }
 
     private async Task UpdateStatisticsItemsAsync()
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(true))
+        logger.LogInformation("UpdateStatisticsItemsAsync");
+        if (SelectedProject != null)
         {
-            if (SelectedProject != null)
+            await ThreadHelper.SwitchToBackgroundAsync();
+            CancellationToken token = statisticsCancellationTokenSource.Register();
+            ObservableCollection<StatisticsCultivateItem> statistics;
+            try
             {
-                List<Model.Metadata.Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
-                List<StatisticsCultivateItem> temp = await cultivationService.GetStatisticsCultivateItemsAsync(SelectedProject, materials).ConfigureAwait(false);
-                await ThreadHelper.SwitchToMainThreadAsync();
-                StatisticsItems = temp;
+                statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(SelectedProject, token).ConfigureAwait(false);
             }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            await ThreadHelper.SwitchToMainThreadAsync();
+            StatisticsItems = statistics;
         }
     }
 

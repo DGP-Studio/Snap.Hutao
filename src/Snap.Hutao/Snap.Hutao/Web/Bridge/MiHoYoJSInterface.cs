@@ -230,9 +230,18 @@ public class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual IJsResult? ClosePage(JsParam param)
+    public virtual async Task<IJsResult?> ClosePageAsync(JsParam param)
     {
-        ClosePageRequested?.Invoke();
+        await ThreadHelper.SwitchToMainThreadAsync();
+        if (webView.CanGoBack)
+        {
+            webView.GoBack();
+        }
+        else
+        {
+            ClosePageRequested?.Invoke();
+        }
+
         return null;
     }
 
@@ -357,7 +366,7 @@ public class MiHoYoJSInterface
         {
             return param.Method switch
             {
-                "closePage" => ClosePage(param),
+                "closePage" => await ClosePageAsync(param).ConfigureAwait(false),
                 "configure_share" => ConfigureShare(param),
                 "eventTrack" => null,
                 "getActionTicket" => await GetActionTicketAsync(param).ConfigureAwait(false),

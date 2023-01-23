@@ -149,7 +149,7 @@ internal static class Activation
 
         Ioc.Default
             .GetRequiredService<IMetadataService>()
-            .ImplictAs<IMetadataInitializer>()?
+            .ImplictAs<IMetadataServiceInitialization>()?
             .InitializeInternalAsync()
             .SafeForget();
     }

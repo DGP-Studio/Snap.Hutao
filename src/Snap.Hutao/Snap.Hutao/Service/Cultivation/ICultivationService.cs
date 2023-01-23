@@ -24,11 +24,8 @@ internal interface ICultivationService
     /// 获取绑定用的养成列表
     /// </summary>
     /// <param name="cultivateProject">养成计划</param>
-    /// <param name="materials">材料</param>
-    /// <param name="idAvatarMap">Id角色映射</param>
-    /// <param name="idWeaponMap">Id武器映射</param>
     /// <returns>绑定用的养成列表</returns>
-    Task<ObservableCollection<Model.Binding.Cultivation.CultivateEntry>> GetCultivateEntriesAsync(CultivateProject cultivateProject, List<Material> materials, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap, Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap);
+    Task<ObservableCollection<Model.Binding.Cultivation.CultivateEntry>> GetCultivateEntriesAsync(CultivateProject cultivateProject);
 
     /// <summary>
     /// 获取物品列表
@@ -48,9 +45,9 @@ internal interface ICultivationService
     /// 异步获取统计物品列表
     /// </summary>
     /// <param name="cultivateProject">养成计划</param>
-    /// <param name="materials">元数据</param>
+    /// <param name="token">取消令牌</param>
     /// <returns>统计物品列表</returns>
-    Task<List<StatisticsCultivateItem>> GetStatisticsCultivateItemsAsync(CultivateProject cultivateProject, List<Material> materials);
+    Task<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, CancellationToken token);
 
     /// <summary>
     /// 删除养成清单
