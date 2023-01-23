@@ -157,7 +157,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
 
                 await ThreadHelper.SwitchToMainThreadAsync();
                 Archives = archives;
-                SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
+                SetSelectedArchiveAndUpdateStatistics(Archives.SingleOrDefault(a => a.IsSelected == true), true);
             }
         }
         catch (OperationCanceledException)
