@@ -316,13 +316,11 @@ internal static class ApiEndpoints
     /// <summary>
     /// 启动器资源
     /// </summary>
-    /// <param name="launcherId">启动器Id</param>
-    /// <param name="channel">通道</param>
-    /// <param name="subChannel">子通道</param>
+    /// <param name="scheme">启动方案</param>
     /// <returns>启动器资源字符串</returns>
-    public static string SdkStaticLauncherResource(string launcherId, string channel, string subChannel)
+    public static string SdkStaticLauncherResource(Model.Binding.LaunchGame.LaunchScheme scheme)
     {
-        return $"{SdkStaticLauncherApi}/resource?key=eYd89JmJ&launcher_id={launcherId}&channel_id={channel}&sub_channel_id={subChannel}";
+        return $"{SdkStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel}&sub_channel_id={scheme.SubChannel}";
     }
 
     // https://sdk-static.mihoyo.com/hk4e_cn/mdk/launcher/api/content?filter_adv=true&key=eYd89JmJ&language=zh-cn&launcher_id=18

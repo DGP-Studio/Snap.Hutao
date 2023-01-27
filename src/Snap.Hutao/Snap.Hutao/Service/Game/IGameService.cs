@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Game.Package;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Game;
@@ -84,6 +85,14 @@ internal interface IGameService
     ValueTask RemoveGameAccountAsync(GameAccount gameAccount);
 
     /// <summary>
+    /// 替换游戏资源
+    /// </summary>
+    /// <param name="launchScheme">目标启动方案</param>
+    /// <param name="progress">进度</param>
+    /// <returns>是否替换成功</returns>
+    Task<bool> ReplaceGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress);
+
+    /// <summary>
     /// 修改注册表中的账号信息
     /// </summary>
     /// <param name="account">账号</param>
@@ -94,5 +103,6 @@ internal interface IGameService
     /// 设置多通道值
     /// </summary>
     /// <param name="scheme">方案</param>
-    void SetMultiChannel(LaunchScheme scheme);
+    /// <returns>是否更改了ini文件</returns>
+    bool SetMultiChannel(LaunchScheme scheme);
 }

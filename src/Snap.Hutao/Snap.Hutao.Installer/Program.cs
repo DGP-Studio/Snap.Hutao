@@ -8,7 +8,7 @@ namespace Snap.Hutao.Installer;
 
 internal class Program
 {
-    private const string AppxKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Appx";
+    private const string AppxKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock";
     private const string ValueName = "AllowDevelopmentWithoutDevLicense";
 
     public static async Task Main(string[] args)

@@ -38,8 +38,14 @@ public class Package : PathMd5
     [JsonPropertyName("voice_packs")]
     public List<VoicePackage> VoicePacks { get; set; } = default!;
 
-    // We don't want to support
-    // decompressed_path & segments
+    /// <summary>
+    /// 松散文件
+    /// 用于校验完整性
+    /// </summary>
+    [JsonPropertyName("decompressed_path")]
+    public string DecompressedPath { get; set; } = default!;
+
+    // We don't want to support `segments` downloading
 
     /// <summary>
     /// 包大小 bytes

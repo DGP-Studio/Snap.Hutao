@@ -45,10 +45,10 @@ public class GameResource
     public List<NameMd5> DeprecatedPackages { get; set; } = default!;
 
     /// <summary>
-    /// 渠道服sdk
+    /// 渠道服 sdk
     /// </summary>
     [JsonPropertyName("sdk")]
-    public object? Sdk { get; set; }
+    public Sdk? Sdk { get; set; }
 
     /// <summary>
     /// 过期的单个文件

@@ -9,6 +9,17 @@ namespace Snap.Hutao.Core.Setting;
 internal static class StaticResource
 {
     /// <summary>
+    /// 完成所有合约
+    /// </summary>
+    public static void FulfillAllContracts()
+    {
+        LocalSetting.Set(SettingKeys.StaticResourceV1Contract, true);
+        LocalSetting.Set(SettingKeys.StaticResourceV2Contract, true);
+        LocalSetting.Set(SettingKeys.StaticResourceV3Contract, true);
+        LocalSetting.Set(SettingKeys.StaticResourceV4Contract, true);
+    }
+
+    /// <summary>
     /// 提供的合约是否未完成
     /// </summary>
     /// <param name="contractKey">合约的键</param>
@@ -26,6 +37,7 @@ internal static class StaticResource
     {
         return !LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false)
             || (!LocalSetting.Get(SettingKeys.StaticResourceV2Contract, false))
-            || (!LocalSetting.Get(SettingKeys.StaticResourceV3Contract, false));
+            || (!LocalSetting.Get(SettingKeys.StaticResourceV3Contract, false))
+            || (!LocalSetting.Get(SettingKeys.StaticResourceV4Contract, false));
     }
 }

@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Binding.LaunchGame;
@@ -13,6 +14,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -37,12 +39,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
     private readonly AppDbContext appDbContext;
     private readonly IMemoryCache memoryCache;
 
-    private readonly List<LaunchScheme> knownSchemes = new()
-    {
-        new LaunchScheme(name: "官方服 | 天空岛", channel: "1", subChannel: "1", launcherId: "18"),
-        new LaunchScheme(name: "渠道服 | 世界树", channel: "14", subChannel: "0", launcherId: "17"),
-        new LaunchScheme(name: "国际服 | 部分支持", channel: "1", subChannel: "0", launcherId: "unknown"),
-    };
+    private readonly List<LaunchScheme> knownSchemes = LaunchScheme.KnownSchemes.ToList();
 
     private LaunchScheme? selectedScheme;
     private ObservableCollection<GameAccount>? gameAccounts;
@@ -301,30 +298,38 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
         {
             try
             {
-                gameService.SetMultiChannel(SelectedScheme);
+                if (gameService.SetMultiChannel(SelectedScheme))
+                {
+                    // Channel changed, we need to change local file.
+                    // Note that if channel changed successfully, the
+                    // access level is already high enough.
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    LaunchGamePackageConvertDialog dialog = new();
+                    await using (await dialog.BlockAsync().ConfigureAwait(false))
+                    {
+                        Progress<Service.Game.Package.PackageReplaceStatus> progress = new(s => dialog.Description = s.Description);
+                        await gameService.ReplaceGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false);
+                    }
+                }
+
+                if (SelectedGameAccount != null)
+                {
+                    if (!gameService.SetGameAccount(SelectedGameAccount))
+                    {
+                        infoBarService.Warning("切换账号失败");
+                    }
+                }
+
+                SaveSetting();
+
+                LaunchConfiguration configuration = new(IsExclusive, IsFullScreen, IsBorderless, ScreenWidth, ScreenHeight, IsElevated && UnlockFps, TargetFps);
+                await gameService.LaunchAsync(configuration).ConfigureAwait(false);
             }
-            catch (DirectoryNotFoundException)
+            catch (GameFileOperationException ex)
             {
-                infoBarService.Warning("找不到游戏配置文件 config.ini");
-            }
-            catch (UnauthorizedAccessException)
-            {
-                infoBarService.Warning("无法读取或保存配置文件，请以管理员模式启动胡桃。");
+                infoBarService.Error(ex);
             }
         }
-
-        if (SelectedGameAccount != null)
-        {
-            if (!gameService.SetGameAccount(SelectedGameAccount))
-            {
-                infoBarService.Warning("切换账号失败");
-            }
-        }
-
-        SaveSetting();
-
-        LaunchConfiguration configuration = new(IsExclusive, IsFullScreen, IsBorderless, ScreenWidth, ScreenHeight, IsElevated && UnlockFps, TargetFps);
-        await gameService.LaunchAsync(configuration).ConfigureAwait(false);
     }
 
     private async Task DetectGameAccountAsync()

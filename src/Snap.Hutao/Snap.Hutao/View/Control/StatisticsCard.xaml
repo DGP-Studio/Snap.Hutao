@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Control.StatisticsCard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -62,9 +63,17 @@
             </Grid>
         </DataTemplate>
 
+        <converters:BoolToObjectConverter
+            x:Key="BoolToBrushConverter"
+            FalseValue="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+            TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+
         <DataTemplate x:Key="OrangeGridTemplate" x:DataType="shmbg:SummaryItem">
             <Grid Width="40" Margin="0,4,4,0">
-                <Border Style="{StaticResource BorderCardStyle}" ToolTipService.ToolTip="{Binding TimeFormatted}">
+                <Border
+                    Background="{Binding IsUp, Converter={StaticResource BoolToBrushConverter}}"
+                    Style="{StaticResource BorderCardStyle}"
+                    ToolTipService.ToolTip="{Binding TimeFormatted}">
                     <StackPanel>
                         <shvc:ItemIcon
                             Width="40"

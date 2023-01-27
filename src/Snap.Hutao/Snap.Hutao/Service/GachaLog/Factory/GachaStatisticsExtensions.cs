@@ -74,11 +74,8 @@ public static class GachaStatisticsExtensions
 
     private static Color GetColorByName(string name)
     {
-        byte[] codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
-        Span<byte> first = new(codes, 0, 5);
-        Span<byte> second = new(codes, 5, 5);
-        Span<byte> third = new(codes, 10, 5);
-        Color color = Color.FromArgb(255, first.Average(), second.Average(), third.Average());
+        Span<byte> codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
+        Color color = Color.FromArgb(255, codes.Slice(0, 5).Average(), codes.Slice(5, 5).Average(), codes.Slice(10, 5).Average());
         return color;
     }
 }

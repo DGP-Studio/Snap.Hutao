@@ -65,11 +65,7 @@ internal class WelcomeViewModel : ObservableObject
         })).ConfigureAwait(true);
 
         serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
-
-        // Complete StaticResourceContracts
-        LocalSetting.Set(SettingKeys.StaticResourceV1Contract, true);
-        LocalSetting.Set(SettingKeys.StaticResourceV2Contract, true);
-        LocalSetting.Set(SettingKeys.StaticResourceV3Contract, true);
+        StaticResource.FulfillAllContracts();
 
         try
         {
@@ -113,6 +109,11 @@ internal class WelcomeViewModel : ObservableObject
         {
             downloadSummaries.TryAdd("Skill", new(serviceProvider, "天赋图标更新", "Skill"));
             downloadSummaries.TryAdd("Talent", new(serviceProvider, "命之座图标更新", "Talent"));
+        }
+
+        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV4Contract))
+        {
+            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "角色图标更新", "AvatarIcon"));
         }
 
         return downloadSummaries.Select(x => x.Value);

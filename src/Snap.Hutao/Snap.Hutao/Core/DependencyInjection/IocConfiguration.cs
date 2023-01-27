@@ -38,7 +38,9 @@ internal static class IocConfiguration
         {
             if (context.Database.GetPendingMigrations().Any())
             {
+#if DEBUG
                 Debug.WriteLine("[Debug] Performing AppDbContext Migrations");
+#endif
                 context.Database.Migrate();
             }
         }

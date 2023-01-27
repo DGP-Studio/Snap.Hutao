@@ -64,6 +64,11 @@ public enum KnownReturnCode
     LoginDataOutdated = -262,
 
     /// <summary>
+    /// 无效的 Key
+    /// </summary>
+    InvalidKey = -205,
+
+    /// <summary>
     /// 访问过于频繁
     /// </summary>
     VisitTooFrequently = -110,
@@ -117,6 +122,11 @@ public enum KnownReturnCode
     /// 数据未公开
     /// </summary>
     DataIsNotPublicForTheUser = 10102,
+
+    /// <summary>
+    /// 实时便笺
+    /// </summary>
+    CODE10103 = 10103,
 
     /// <summary>
     /// 实时便笺

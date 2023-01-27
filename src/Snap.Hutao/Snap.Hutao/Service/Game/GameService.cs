@@ -12,8 +12,11 @@ using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Game.Locator;
+using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
+using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -24,13 +27,15 @@ namespace Snap.Hutao.Service.Game;
 /// 游戏服务
 /// </summary>
 [Injection(InjectAs.Singleton, typeof(IGameService))]
-internal class GameService : IGameService, IDisposable
+[SuppressMessage("", "CA1001")]
+internal class GameService : IGameService
 {
     private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
     private const string ConfigFile = "config.ini";
 
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IMemoryCache memoryCache;
+    private readonly PackageConverter packageConverter;
     private readonly SemaphoreSlim gameSemaphore = new(1);
 
     private ObservableCollection<GameAccount>? gameAccounts;
@@ -40,10 +45,12 @@ internal class GameService : IGameService, IDisposable
     /// </summary>
     /// <param name="scopeFactory">范围工厂</param>
     /// <param name="memoryCache">内存缓存</param>
-    public GameService(IServiceScopeFactory scopeFactory, IMemoryCache memoryCache)
+    /// <param name="packageConverter">游戏文件包转换器</param>
+    public GameService(IServiceScopeFactory scopeFactory, IMemoryCache memoryCache, PackageConverter packageConverter)
     {
         this.scopeFactory = scopeFactory;
         this.memoryCache = memoryCache;
+        this.packageConverter = packageConverter;
     }
 
     /// <inheritdoc/>
@@ -159,15 +166,26 @@ internal class GameService : IGameService, IDisposable
     }
 
     /// <inheritdoc/>
-    public void SetMultiChannel(LaunchScheme scheme)
+    public bool SetMultiChannel(LaunchScheme scheme)
     {
         string gamePath = GetGamePathSkipLocator();
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFile);
 
         List<IniElement> elements;
-        using (FileStream readStream = File.OpenRead(configPath))
+        try
         {
-            elements = IniSerializer.Deserialize(readStream).ToList();
+            using (FileStream readStream = File.OpenRead(configPath))
+            {
+                elements = IniSerializer.Deserialize(readStream).ToList();
+            }
+        }
+        catch (DirectoryNotFoundException dnfEx)
+        {
+            throw new GameFileOperationException($"找不到游戏配置文件 {configPath}", dnfEx);
+        }
+        catch (UnauthorizedAccessException uaEx)
+        {
+            throw new GameFileOperationException($"无法读取或保存配置文件，请以管理员模式重试。", uaEx);
         }
 
         bool changed = false;
@@ -203,10 +221,36 @@ internal class GameService : IGameService, IDisposable
                 IniSerializer.Serialize(writeStream, elements);
             }
         }
+
+        return changed;
     }
 
     /// <inheritdoc/>
-    [SuppressMessage("", "IDE0046")]
+    public async Task<bool> ReplaceGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
+    {
+        string gamePath = GetGamePathSkipLocator();
+        string gameFolder = Path.GetDirectoryName(gamePath)!;
+        string gameFileName = Path.GetFileName(gamePath);
+
+        if (launchScheme.IsOversea && gameFileName == "GenshinImpact.exe")
+        {
+            // Already that scheme, no need to replace files
+            return true;
+        }
+        else if (!launchScheme.IsOversea && gameFileName == "YuanShen.exe")
+        {
+            // Already that scheme, no need to replace files
+            return true;
+        }
+
+        // TODO: we still need to handle the Bilibili scheme.
+        await packageConverter.ReplaceGameResourceAsync(launchScheme, gameFolder, progress).ConfigureAwait(false);
+        // We need to change the gamePath if we switch.
+
+        return true;
+    }
+
+    /// <inheritdoc/>
     public bool IsGameRunning()
     {
         if (gameSemaphore.CurrentCount == 0)
@@ -386,11 +430,5 @@ internal class GameService : IGameService, IDisposable
         {
             await scope.ServiceProvider.GetRequiredService<AppDbContext>().GameAccounts.RemoveAndSaveAsync(gameAccount).ConfigureAwait(false);
         }
-    }
-
-    /// <inheritdoc/>
-    public void Dispose()
-    {
-        gameSemaphore?.Dispose();
     }
 }

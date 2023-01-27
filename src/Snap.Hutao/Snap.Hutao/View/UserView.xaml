@@ -129,24 +129,22 @@
                                                     Margin="12,0,0,0"
                                                     VerticalAlignment="Stretch"
                                                     Background="Transparent"
-                                                    BorderBrush="{x:Null}"
-                                                    BorderThickness="0"
                                                     Command="{Binding DataContext.CopyCookieCommand, Source={StaticResource ViewModelBindingProxy}}"
                                                     CommandParameter="{Binding}"
                                                     Content="&#xE8C8;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                    Style="{StaticResource ButtonRevealStyle}"
                                                     ToolTipService.ToolTip="复制 Cookie"/>
                                                 <Button
                                                     Margin="6,0,0,0"
                                                     HorizontalAlignment="Right"
                                                     VerticalAlignment="Stretch"
                                                     Background="Transparent"
-                                                    BorderBrush="{x:Null}"
-                                                    BorderThickness="0"
                                                     Command="{Binding DataContext.RemoveUserCommand, Source={StaticResource ViewModelBindingProxy}}"
                                                     CommandParameter="{Binding}"
                                                     Content="&#xE74D;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                    Style="{StaticResource ButtonRevealStyle}"
                                                     ToolTipService.ToolTip="移除用户"/>
                                             </StackPanel>
 

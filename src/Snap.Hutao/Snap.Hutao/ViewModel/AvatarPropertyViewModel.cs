@@ -280,7 +280,7 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
         IBuffer buffer = await bitmap.GetPixelsAsync();
         bool clipboardOpened = false;
-        using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight, BitmapAlphaMode.Ignore))
+        using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
         {
             Color tintColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
             Bgra8 tint = Bgra8.FromColor(tintColor);

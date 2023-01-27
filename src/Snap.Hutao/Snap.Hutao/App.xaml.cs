@@ -25,7 +25,6 @@ public partial class App : Application
     /// Initializes the singleton application object.
     /// </summary>
     /// <param name="logger">日志器</param>
-    /// <param name="appCenter">App Center</param>
     public App(ILogger<App> logger)
     {
         // load app resource

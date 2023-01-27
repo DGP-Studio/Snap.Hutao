@@ -24,7 +24,10 @@ internal static class SettingKeys
     public const string LaunchTimes = "LaunchTimes";
 
     /// <summary>
-    /// 静态资源合约V1
+    /// 静态资源合约
+    /// 新增合约时 请注意
+    /// <see cref="StaticResource.FulfillAllContracts"/>
+    /// 与 <see cref="StaticResource.IsAnyUnfulfilledContractPresent"/>
     /// </summary>
     public const string StaticResourceV1Contract = "StaticResourceV1Contract";
 
@@ -37,4 +40,9 @@ internal static class SettingKeys
     /// 静态资源合约V3 刷新 Skill Talent
     /// </summary>
     public const string StaticResourceV3Contract = "StaticResourceV3Contract";
+
+    /// <summary>
+    /// 静态资源合约V4 刷新 AvatarIcon
+    /// </summary>
+    public const string StaticResourceV4Contract = "StaticResourceV4Contract";
 }

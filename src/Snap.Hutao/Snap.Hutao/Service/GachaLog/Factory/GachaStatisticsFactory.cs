@@ -54,7 +54,8 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         bool isEmptyHistoryWishVisible = entry.GetBoolean();
 
         IOrderedEnumerable<GachaItem> orderedItems = items.OrderBy(i => i.Id);
-        return await Task.Run(() => CreateCore(orderedItems, historyWishBuilders, idAvatarMap, idWeaponMap, isEmptyHistoryWishVisible)).ConfigureAwait(false);
+        await ThreadHelper.SwitchToBackgroundAsync();
+        return CreateCore(orderedItems, historyWishBuilders, idAvatarMap, idWeaponMap, isEmptyHistoryWishVisible);
     }
 
     private static GachaStatistics CreateCore(

@@ -26,7 +26,7 @@
             <Rectangle
                 Height="48"
                 VerticalAlignment="Top"
-                Fill="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 IsHitTestVisible="False"/>
             <Pivot>
                 <Pivot.LeftHeader>
@@ -86,9 +86,9 @@
                 <PivotItem Header="总览">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition MaxWidth="388"/>
-                            <ColumnDefinition MaxWidth="388"/>
-                            <ColumnDefinition MaxWidth="388"/>
+                            <ColumnDefinition MaxWidth="390"/>
+                            <ColumnDefinition MaxWidth="390"/>
+                            <ColumnDefinition MaxWidth="390"/>
                             <ColumnDefinition Width="auto" MinWidth="16"/>
                         </Grid.ColumnDefinitions>
                         <shvc:StatisticsCard

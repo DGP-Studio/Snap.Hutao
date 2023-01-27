@@ -2,9 +2,15 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Hutao.Model;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -31,6 +37,7 @@ internal class HutaoDatabaseViewModel : Abstraction.ViewModel
         this.hutaoCache = hutaoCache;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
+        ExportAsImageCommand = new AsyncRelayCommand<UIElement>(ExportAsImageAsync);
     }
 
     /// <summary>
@@ -46,7 +53,7 @@ internal class HutaoDatabaseViewModel : Abstraction.ViewModel
     /// <summary>
     /// 角色命座信息
     /// </summary>
-    public List<ComplexAvatarConstellationInfo>? AvatarConstellationInfos { get => avatarConstellationInfos; set => avatarConstellationInfos = value; }
+    public List<ComplexAvatarConstellationInfo>? AvatarConstellationInfos { get => avatarConstellationInfos; set => SetProperty(ref avatarConstellationInfos, value); }
 
     /// <summary>
     /// 队伍出场
@@ -63,6 +70,11 @@ internal class HutaoDatabaseViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand OpenUICommand { get; }
 
+    /// <summary>
+    /// 导出为图片命令
+    /// </summary>
+    public ICommand ExportAsImageCommand { get; }
+
     private async Task OpenUIAsync()
     {
         if (await hutaoCache.InitializeForDatabaseViewModelAsync().ConfigureAwait(true))
@@ -72,6 +84,29 @@ internal class HutaoDatabaseViewModel : Abstraction.ViewModel
             AvatarConstellationInfos = hutaoCache.AvatarConstellationInfos;
             TeamAppearances = hutaoCache.TeamAppearances;
             Overview = hutaoCache.Overview;
+        }
+    }
+
+    private async Task ExportAsImageAsync(UIElement? element)
+    {
+        if (element == null)
+        {
+            return;
+        }
+
+        RenderTargetBitmap bitmap = new();
+        await bitmap.RenderAsync(element);
+
+        IBuffer buffer = await bitmap.GetPixelsAsync();
+        string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        using (FileStream file = File.Create(Path.Combine(desktop, "hutao-database.png")))
+        {
+            using (IRandomAccessStream randomFileStream = file.AsRandomAccessStream())
+            {
+                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, randomFileStream);
+                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, (uint)bitmap.PixelWidth, (uint)bitmap.PixelHeight, 96, 96, buffer.ToArray());
+                await encoder.FlushAsync();
+            }
         }
     }
 }

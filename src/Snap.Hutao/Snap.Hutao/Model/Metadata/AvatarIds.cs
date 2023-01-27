@@ -101,12 +101,14 @@ public static class AvatarIds
             {
                 Name = "旅行者",
                 Icon = "UI_AvatarIcon_PlayerBoy",
+                SideIcon = "UI_AvatarIcon_Side_PlayerBoy",
                 Quality = Intrinsic.ItemQuality.QUALITY_ORANGE,
             },
             [PlayerGirl] = new()
             {
                 Name = "旅行者",
                 Icon = "UI_AvatarIcon_PlayerGirl",
+                SideIcon = "UI_AvatarIcon_Side_PlayerGirl",
                 Quality = Intrinsic.ItemQuality.QUALITY_ORANGE,
             },
         };

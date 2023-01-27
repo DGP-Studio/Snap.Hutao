@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
@@ -131,9 +132,10 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
             string fileFullName = $"{fileName}.json";
 
             bool skip = false;
-            if (File.Exists(Path.Combine(metadataFolderPath, fileFullName)))
+            string fileFullPath = Path.Combine(metadataFolderPath, fileFullName);
+            if (File.Exists(fileFullPath))
             {
-                skip = md5 == await GetFileMd5Async(fileFullName, token).ConfigureAwait(false);
+                skip = md5 == await FileDigest.GetMd5Async(fileFullPath, token).ConfigureAwait(false);
             }
 
             if (!skip)
@@ -143,18 +145,6 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
                 await DownloadMetadataAsync(fileFullName, token).ConfigureAwait(false);
             }
         });
-    }
-
-    private async Task<string> GetFileMd5Async(string fileFullName, CancellationToken token)
-    {
-        using (FileStream stream = File.OpenRead(Path.Combine(metadataFolderPath, fileFullName)))
-        {
-            byte[] bytes = await MD5.Create()
-                .ComputeHashAsync(stream, token)
-                .ConfigureAwait(false);
-
-            return Convert.ToHexString(bytes);
-        }
     }
 
     private async Task DownloadMetadataAsync(string fileFullName, CancellationToken token)

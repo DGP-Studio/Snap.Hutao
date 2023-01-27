@@ -32,7 +32,7 @@
             <Setter Property="MinWidth" Value="156"/>
         </Style>
         <Style TargetType="NumberBox">
-            <Setter Property="MinWidth" Value="158"/>
+            <Setter Property="MinWidth" Value="156"/>
         </Style>
     </Page.Resources>
     <Grid>
@@ -46,7 +46,12 @@
                     <ColumnDefinition MaxWidth="800"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Margin="16,-16,16,16">
+                <StackPanel Margin="16">
+                    <InfoBar
+                        IsClosable="False"
+                        IsOpen="True"
+                        Message="所有选项仅会在启动游戏成功后保存"
+                        Severity="Informational"/>
                     <wsc:SettingsGroup Margin="0,0,0,0" Header="常规">
                         <wsc:Setting
                             Description="切换游戏服务器，B服用户需要自备额外的 PCGameSDK.dll 文件"
@@ -54,7 +59,7 @@
                             Icon="&#xE8AB;">
                             <wsc:Setting.ActionContent>
                                 <ComboBox
-                                    DisplayMemberPath="Name"
+                                    DisplayMemberPath="DisplayName"
                                     ItemsSource="{Binding KnownSchemes}"
                                     SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"/>
                             </wsc:Setting.ActionContent>
@@ -198,7 +203,7 @@
                             Header="宽度"
                             Icon="&#xE76F;">
                             <wsc:Setting.ActionContent>
-                                <NumberBox Width="160" Value="{Binding ScreenWidth, Mode=TwoWay}"/>
+                                <NumberBox Width="156" Value="{Binding ScreenWidth, Mode=TwoWay}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
                         <wsc:Setting
@@ -206,26 +211,54 @@
                             Header="高度"
                             Icon="&#xE784;">
                             <wsc:Setting.ActionContent>
-                                <NumberBox Width="160" Value="{Binding ScreenHeight, Mode=TwoWay}"/>
+                                <NumberBox Width="156" Value="{Binding ScreenHeight, Mode=TwoWay}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
                     </wsc:SettingsGroup>
 
-                    <wsc:SettingsGroup Header="Dangerous Feature" IsEnabled="{Binding IsElevated}">
+                    <wsc:SettingsGroup Header="高级功能" IsEnabled="{Binding IsElevated}">
+                        <InfoBar
+                            IsClosable="False"
+                            IsOpen="True"
+                            Message="需要读写游戏进程或与游戏窗体交互，因此只在管理员模式下生效！"
+                            Severity="Warning"/>
                         <wsc:Setting
-                            Description="Requires administrator privilege. Otherwise the option will be disabled."
-                            Header="Unlock frame rate limit"
+                            Description="在启动游戏前尝试终止运行中的游戏进程"
+                            Header="快速切换账号"
+                            Icon="&#xE8BB;"
+                            Visibility="Collapsed">
+                            <wsc:Setting.ActionContent>
+                                <ToggleSwitch
+                                    Width="120"
+                                    IsOn="False"
+                                    Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                            </wsc:Setting.ActionContent>
+                        </wsc:Setting>
+                        <InfoBar
+                            IsClosable="False"
+                            IsOpen="True"
+                            Message="下面的功能十分危险，如果您不愿承担因此可能带来的后果，请勿启用！"
+                            Severity="Error"/>
+                        <wsc:Setting
+                            Description="请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率"
+                            Header="解锁帧率限制"
                             Icon="&#xE785;">
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
                                     Width="120"
                                     IsOn="{Binding UnlockFps, Mode=TwoWay}"
-                                    OffContent="Disable"
-                                    OnContent="Enable"
+                                    OffContent="禁用"
+                                    OnContent="启用"
                                     Style="{StaticResource ToggleSwitchSettingStyle}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
-                        <wsc:Setting Description="{Binding TargetFps}" Header="Set frame rate">
+                        <wsc:Setting Header="设置当前帧率">
+                            <wsc:Setting.Description>
+                                <StackPanel>
+                                    <TextBlock Text="在游戏时可以随时调整"/>
+                                    <TextBlock Text="{Binding TargetFps}"/>
+                                </StackPanel>
+                            </wsc:Setting.Description>
                             <wsc:Setting.ActionContent>
                                 <Slider
                                     Width="400"
