@@ -20,6 +20,7 @@ using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -31,7 +32,6 @@ namespace Snap.Hutao.Service.Game;
 internal class GameService : IGameService
 {
     private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
-    private const string ConfigFile = "config.ini";
 
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IMemoryCache memoryCache;
@@ -148,7 +148,7 @@ internal class GameService : IGameService
     public MultiChannel GetMultiChannel()
     {
         string gamePath = GetGamePathSkipLocator();
-        string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFile);
+        string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFileName);
 
         if (!File.Exists(configPath))
         {
@@ -169,7 +169,7 @@ internal class GameService : IGameService
     public bool SetMultiChannel(LaunchScheme scheme)
     {
         string gamePath = GetGamePathSkipLocator();
-        string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFile);
+        string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFileName);
 
         List<IniElement> elements;
         try
@@ -226,28 +226,39 @@ internal class GameService : IGameService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> ReplaceGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
+    public async Task<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
     {
         string gamePath = GetGamePathSkipLocator();
         string gameFolder = Path.GetDirectoryName(gamePath)!;
         string gameFileName = Path.GetFileName(gamePath);
 
-        if (launchScheme.IsOversea && gameFileName == "GenshinImpact.exe")
+        progress.Report(new("查询游戏资源信息"));
+        Response<GameResource> response = await Ioc.Default
+            .GetRequiredService<ResourceClient>()
+            .GetResourceAsync(launchScheme)
+            .ConfigureAwait(false);
+
+        if (response.IsOk())
         {
-            // Already that scheme, no need to replace files
-            return true;
-        }
-        else if (!launchScheme.IsOversea && gameFileName == "YuanShen.exe")
-        {
-            // Already that scheme, no need to replace files
+            GameResource resource = response.Data;
+
+            if (!LaunchSchemeMatchesExecutable(launchScheme, gameFileName))
+            {
+                await packageConverter.EnsureGameResourceAsync(launchScheme, resource, gameFolder, progress).ConfigureAwait(false);
+
+                // We need to change the gamePath if we switched.
+                OverwriteGamePath(Path.Combine(gameFolder, launchScheme.IsOversea ? GenshinImpactFileName : YuanShenFileName));
+            }
+
+            if (!launchScheme.IsOversea)
+            {
+                await packageConverter.EnsureDeprecatedFilesAndSdkAsync(resource, gameFolder).ConfigureAwait(false);
+            }
+
             return true;
         }
 
-        // TODO: we still need to handle the Bilibili scheme.
-        await packageConverter.ReplaceGameResourceAsync(launchScheme, gameFolder, progress).ConfigureAwait(false);
-        // We need to change the gamePath if we switch.
-
-        return true;
+        return false;
     }
 
     /// <inheritdoc/>
@@ -258,19 +269,19 @@ internal class GameService : IGameService
             return true;
         }
 
-        return Process.GetProcessesByName("YuanShen.exe").Any()
-            || Process.GetProcessesByName("GenshinImpact.exe").Any();
+        return Process.GetProcessesByName(YuanShenFileName).Any()
+            || Process.GetProcessesByName(GenshinImpactFileName).Any();
     }
 
     /// <inheritdoc/>
     public async Task<ObservableCollection<GameAccount>> GetGameAccountCollectionAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
         if (gameAccounts == null)
         {
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await ThreadHelper.SwitchToMainThreadAsync();
                 gameAccounts = appDbContext.GameAccounts.AsNoTracking().ToObservableCollection();
             }
         }
@@ -430,5 +441,11 @@ internal class GameService : IGameService
         {
             await scope.ServiceProvider.GetRequiredService<AppDbContext>().GameAccounts.RemoveAndSaveAsync(gameAccount).ConfigureAwait(false);
         }
+    }
+
+    private static bool LaunchSchemeMatchesExecutable(LaunchScheme launchScheme, string gameFileName)
+    {
+        return (launchScheme.IsOversea && gameFileName == GenshinImpactFileName)
+            || (!launchScheme.IsOversea && gameFileName == YuanShenFileName);
     }
 }

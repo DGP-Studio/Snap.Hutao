@@ -90,7 +90,7 @@ internal interface IGameService
     /// <param name="launchScheme">目标启动方案</param>
     /// <param name="progress">进度</param>
     /// <returns>是否替换成功</returns>
-    Task<bool> ReplaceGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress);
+    Task<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress);
 
     /// <summary>
     /// 修改注册表中的账号信息

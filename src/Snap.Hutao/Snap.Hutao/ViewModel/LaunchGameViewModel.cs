@@ -308,7 +308,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     await using (await dialog.BlockAsync().ConfigureAwait(false))
                     {
                         Progress<Service.Game.Package.PackageReplaceStatus> progress = new(s => dialog.Description = s.Description);
-                        await gameService.ReplaceGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false);
+                        await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false);
                     }
                 }
 

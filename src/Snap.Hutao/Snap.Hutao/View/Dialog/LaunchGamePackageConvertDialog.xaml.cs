@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -8,14 +8,14 @@ using Snap.Hutao.Control;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// Æô¶¯ÓÎÏ·¿Í»§¶Ë×ª»»¶Ô»°¿ò
+/// å¯åŠ¨æ¸¸æˆå®¢æˆ·ç«¯è½¬æ¢å¯¹è¯æ¡†
 /// </summary>
 public sealed partial class LaunchGamePackageConvertDialog : ContentDialog
 {
-    private static readonly DependencyProperty DescriptionProperty = Property<LaunchGamePackageConvertDialog>.Depend(nameof(Description), "ÇëÉÔºò");
+    private static readonly DependencyProperty DescriptionProperty = Property<LaunchGamePackageConvertDialog>.Depend(nameof(Description), "è¯·ç¨å€™");
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÆô¶¯ÓÎÏ·¿Í»§¶Ë×ª»»¶Ô»°¿ò
+    /// æ„é€ ä¸€ä¸ªæ–°çš„å¯åŠ¨æ¸¸æˆå®¢æˆ·ç«¯è½¬æ¢å¯¹è¯æ¡†
     /// </summary>
     public LaunchGamePackageConvertDialog()
     {
@@ -25,7 +25,7 @@ public sealed partial class LaunchGamePackageConvertDialog : ContentDialog
     }
 
     /// <summary>
-    /// ÃèÊö
+    /// æè¿°
     /// </summary>
     public string Description
     {

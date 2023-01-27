@@ -52,11 +52,23 @@
                         IsOpen="True"
                         Message="所有选项仅会在启动游戏成功后保存"
                         Severity="Informational"/>
+                    <InfoBar
+                        Margin="0,2,0,0"
+                        IsClosable="False"
+                        IsOpen="{Binding IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                        Message="某些选项处于禁用状态，它们只在管理员模式下生效！"
+                        Severity="Warning"/>
                     <wsc:SettingsGroup Margin="0,0,0,0" Header="常规">
+                        <InfoBar
+                            IsClosable="False"
+                            IsOpen="{Binding IsElevated}"
+                            Message="切换国际服功能尚处于测试阶段，可能出现未预料的问题，请注意备份游戏资源!"
+                            Severity="Error"/>
                         <wsc:Setting
-                            Description="切换游戏服务器，B服用户需要自备额外的 PCGameSDK.dll 文件"
+                            Description="切换游戏服务器（国服/渠道服/国际服）"
                             Header="服务器"
-                            Icon="&#xE8AB;">
+                            Icon="&#xE8AB;"
+                            IsEnabled="{Binding IsElevated}">
                             <wsc:Setting.ActionContent>
                                 <ComboBox
                                     DisplayMemberPath="DisplayName"
@@ -217,11 +229,6 @@
                     </wsc:SettingsGroup>
 
                     <wsc:SettingsGroup Header="高级功能" IsEnabled="{Binding IsElevated}">
-                        <InfoBar
-                            IsClosable="False"
-                            IsOpen="True"
-                            Message="需要读写游戏进程或与游戏窗体交互，因此只在管理员模式下生效！"
-                            Severity="Warning"/>
                         <wsc:Setting
                             Description="在启动游戏前尝试终止运行中的游戏进程"
                             Header="快速切换账号"
@@ -236,7 +243,7 @@
                         </wsc:Setting>
                         <InfoBar
                             IsClosable="False"
-                            IsOpen="True"
+                            IsOpen="{Binding IsElevated}"
                             Message="下面的功能十分危险，如果您不愿承担因此可能带来的后果，请勿启用！"
                             Severity="Error"/>
                         <wsc:Setting

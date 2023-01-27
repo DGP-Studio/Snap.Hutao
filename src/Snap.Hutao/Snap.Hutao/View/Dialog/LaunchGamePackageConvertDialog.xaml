@@ -1,4 +1,4 @@
-<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+ï»¿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
 <!--  Licensed under the MIT License.  -->
 
 <ContentDialog
@@ -8,16 +8,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shvd="using:Snap.Hutao.View.Dialog"
-    Title="×ª»»¿Í»§¶Ë"
+    Title="è½¬æ¢å®¢æˆ·ç«¯"
     d:DataContext="{d:DesignInstance shvd:LaunchGamePackageConvertDialog}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <StackPanel>
-        <TextBlock Text="×ª»»¿ÉÄÜÐèÒª»¨·ÑÒ»¶ÎÊ±¼ä"/>
+        <TextBlock Text="è½¬æ¢å¯èƒ½éœ€è¦èŠ±è´¹ä¸€æ®µæ—¶é—´ï¼Œè¯·å‹¿å…³é—­èƒ¡æ¡ƒ"/>
         <TextBlock
-            MinWidth="480"
-            Margin="0,8,0,2"
+            MinWidth="360"
+            Margin="0,8,0,16"
             Style="{StaticResource CaptionTextBlockStyle}"
             Text="{Binding Description}"/>
         <ProgressBar IsIndeterminate="True"/>

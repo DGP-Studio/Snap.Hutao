@@ -21,7 +21,7 @@ internal class ItemOperationInfo
     {
         Type = type;
         Target = target.RemoteName;
-        Cache = cache.RemoteName;
+        MoveTo = cache.RemoteName;
         Md5 = target.Md5;
         TotalBytes = target.FileSize;
     }
@@ -39,7 +39,7 @@ internal class ItemOperationInfo
     /// <summary>
     /// 移动至中时的名称
     /// </summary>
-    public string Cache { get; set; }
+    public string MoveTo { get; set; }
 
     /// <summary>
     /// 文件的目标Md5
