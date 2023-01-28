@@ -25,12 +25,6 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
         this.gameService = gameService;
     }
 
-    private enum UrlMatch
-    {
-        Chinese,
-        Oversea,
-    }
-
     /// <inheritdoc/>
     public string Name { get => nameof(GachaLogUrlWebCacheProvider); }
 
@@ -41,11 +35,12 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
     /// <returns>缓存文件路径</returns>
     public static string GetCacheFile(string path)
     {
-        string folder = Path.GetDirectoryName(path) ?? string.Empty;
-        string cacheDataPathChinese = Path.Combine(folder, @"YuanShen_Data\webCaches\Cache\Cache_Data\data_2");
-        string cacheDataPathOversea = Path.Combine(folder, @"GenshinImpact_Data\webCaches\Cache\Cache_Data\data_2");
+        string exeName = Path.GetFileName(path);
+        string dataFolder = exeName == GameConstants.GenshinImpactFileName
+            ? GameConstants.GenshinImpactData
+            : GameConstants.YuanShenData;
 
-        return File.Exists(cacheDataPathChinese) ? cacheDataPathChinese : cacheDataPathOversea;
+        return Path.Combine(Path.GetDirectoryName(path)!, dataFolder, @"webCaches\Cache\Cache_Data\data_2");
     }
 
     /// <inheritdoc/>

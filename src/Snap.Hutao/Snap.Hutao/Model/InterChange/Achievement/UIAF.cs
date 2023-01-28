@@ -22,12 +22,14 @@ public class UIAF
     /// <summary>
     /// 信息
     /// </summary>
+    [JsonPropertyName("info")]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public UIAFInfo Info { get; set; } = default!;
 
     /// <summary>
     /// 列表
     /// </summary>
+    [JsonPropertyName("list")]
     public List<UIAFItem> List { get; set; } = default!;
 
     /// <summary>
