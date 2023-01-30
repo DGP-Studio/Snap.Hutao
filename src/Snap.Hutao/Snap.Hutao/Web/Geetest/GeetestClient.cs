@@ -59,8 +59,15 @@ internal class GeetestClient
     /// </summary>
     /// <param name="registration">验证注册</param>
     /// <returns>验证方式</returns>
-    public Task<GeetestResult<GeetestData>?> GetAjaxAsync(VerificationRegistration registration)
+    public async Task<GeetestResult<GeetestData>?> GetAjaxAsync(VerificationRegistration registration)
     {
-        return GetAjaxAsync(registration.Gt, registration.Challenge);
+        try
+        {
+            return await GetAjaxAsync(registration.Gt, registration.Challenge).ConfigureAwait(false);
+        }
+        catch (HttpRequestException)
+        {
+            return null;
+        }
     }
 }

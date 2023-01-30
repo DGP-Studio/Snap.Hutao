@@ -63,7 +63,7 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         TrackRoleCommand = new AsyncRelayCommand<UserAndUid>(TrackRoleAsync);
         RefreshCommand = new AsyncRelayCommand(RefreshAsync);
-        RemoveDailyNoteCommand = new RelayCommand<DailyNoteEntry>(RemoveDailyNote);
+        RemoveDailyNoteCommand = new AsyncRelayCommand<DailyNoteEntry>(RemoveDailyNoteAsync);
         ModifyNotificationCommand = new AsyncRelayCommand<DailyNoteEntry>(ModifyDailyNoteNotificationAsync);
         DailyNoteVerificationCommand = new AsyncRelayCommand(VerifyDailyNoteVerificationAsync);
     }
@@ -229,11 +229,11 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
         await dailyNoteService.RefreshDailyNotesAsync(false).ConfigureAwait(false);
     }
 
-    private void RemoveDailyNote(DailyNoteEntry? entry)
+    private async Task RemoveDailyNoteAsync(DailyNoteEntry? entry)
     {
         if (entry != null)
         {
-            dailyNoteService.RemoveDailyNote(entry);
+            await dailyNoteService.RemoveDailyNoteAsync(entry).ConfigureAwait(false);
         }
     }
 

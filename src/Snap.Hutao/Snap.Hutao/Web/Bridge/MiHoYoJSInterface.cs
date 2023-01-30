@@ -14,6 +14,7 @@ using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Snap.Hutao.Web.Bridge;
@@ -338,7 +339,16 @@ public class MiHoYoJSInterface
         logger?.LogInformation("[ExecuteScript: {callback}]\n{payload}", callback, payload);
 
         await ThreadHelper.SwitchToMainThreadAsync();
-        return await webView.ExecuteScriptAsync(js);
+        try
+        {
+            return await webView.ExecuteScriptAsync(js);
+        }
+        catch (COMException)
+        {
+            // COMException (0x8007139F): 组或资源的状态不是执行请求操作的正确状态。 (0x8007139F)
+            // webview is disposing or disposed
+            return string.Empty;
+        }
     }
 
     [SuppressMessage("", "VSTHRD100")]

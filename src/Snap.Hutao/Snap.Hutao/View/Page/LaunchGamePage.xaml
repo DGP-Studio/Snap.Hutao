@@ -62,8 +62,8 @@
                         <InfoBar
                             IsClosable="False"
                             IsOpen="{Binding IsElevated}"
-                            Message="切换国际服功能尚处于测试阶段，可能出现未预料的问题，请注意备份游戏资源!"
-                            Severity="Error"/>
+                            Message="切换国际服功能会在游戏截图文件创建缓存文件夹"
+                            Severity="Informational"/>
                         <wsc:Setting
                             Description="切换游戏服务器（国服/渠道服/国际服）"
                             Header="服务器"

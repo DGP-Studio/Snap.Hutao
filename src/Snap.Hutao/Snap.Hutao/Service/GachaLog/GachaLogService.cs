@@ -117,7 +117,14 @@ internal class GachaLogService : IGachaLogService
     public async Task<ObservableCollection<GachaArchive>> GetArchiveCollectionAsync()
     {
         await ThreadHelper.SwitchToMainThreadAsync();
-        return archiveCollection ??= appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
+        try
+        {
+            return archiveCollection ??= appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
+        }
+        catch (SqliteException ex)
+        {
+            throw new Core.ExceptionService.UserdataCorruptedException($"无法获取祈愿记录: {ex.Message}", ex);
+        }
     }
 
     /// <inheritdoc/>

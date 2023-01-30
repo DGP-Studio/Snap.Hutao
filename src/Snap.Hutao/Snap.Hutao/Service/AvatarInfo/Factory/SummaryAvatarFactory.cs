@@ -60,7 +60,7 @@ internal class SummaryAvatarFactory
             FetterLevel = avatarInfo.FetterInfo?.ExpLevel ?? 0,
             Properties = SummaryHelper.CreateAvatarProperties(avatarInfo.FightPropMap),
             CritScore = $"{SummaryHelper.ScoreCrit(avatarInfo.FightPropMap):F2}",
-            LevelNumber = int.Parse(avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].Value ?? string.Empty),
+            LevelNumber = avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].ValueInt32 ?? 0,
 
             // processed webinfo part
             Weapon = reliquaryAndWeapon.Weapon,

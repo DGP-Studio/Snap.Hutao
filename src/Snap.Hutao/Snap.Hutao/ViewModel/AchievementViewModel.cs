@@ -313,11 +313,22 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
 
             if (result == ContentDialogResult.Primary)
             {
-                await achievementService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
+                try
+                {
+                    ThrowIfViewDisposed();
+                    using (await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false))
+                    {
+                        ThrowIfViewDisposed();
+                        await achievementService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
+                    }
 
-                // Re-select first archive
-                await ThreadHelper.SwitchToMainThreadAsync();
-                SelectedArchive = Archives.FirstOrDefault();
+                    // Re-select first archive
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    SelectedArchive = Archives.FirstOrDefault();
+                }
+                catch (OperationCanceledException)
+                {
+                }
             }
         }
     }

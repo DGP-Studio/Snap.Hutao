@@ -72,8 +72,7 @@ internal class AchievementService : IAchievementService
 
         // Cascade deleted the achievements.
         await appDbContext.AchievementArchives
-            .Where(a => a.InnerId == archive.InnerId)
-            .ExecuteDeleteAsync()
+            .ExecuteDeleteWhereAsync(a => a.InnerId == archive.InnerId)
             .ConfigureAwait(false);
     }
 

@@ -12,6 +12,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
@@ -305,10 +306,13 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     // access level is already high enough.
                     await ThreadHelper.SwitchToMainThreadAsync();
                     LaunchGamePackageConvertDialog dialog = new();
+                    Progress<Service.Game.Package.PackageReplaceStatus> progress = new(state => dialog.State = state.Clone());
                     await using (await dialog.BlockAsync().ConfigureAwait(false))
                     {
-                        Progress<Service.Game.Package.PackageReplaceStatus> progress = new(s => dialog.Description = s.Description);
-                        await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false);
+                        if (!await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false))
+                        {
+                            infoBarService.Warning("切换服务器失败");
+                        }
                     }
                 }
 
@@ -325,7 +329,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                 LaunchConfiguration configuration = new(IsExclusive, IsFullScreen, IsBorderless, ScreenWidth, ScreenHeight, IsElevated && UnlockFps, TargetFps);
                 await gameService.LaunchAsync(configuration).ConfigureAwait(false);
             }
-            catch (GameFileOperationException ex)
+            catch (Exception ex)
             {
                 infoBarService.Error(ex);
             }
@@ -334,7 +338,14 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
 
     private async Task DetectGameAccountAsync()
     {
-        await gameService.DetectGameAccountAsync().ConfigureAwait(false);
+        try
+        {
+            await gameService.DetectGameAccountAsync().ConfigureAwait(false);
+        }
+        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        {
+            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ex);
+        }
     }
 
     private void AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)

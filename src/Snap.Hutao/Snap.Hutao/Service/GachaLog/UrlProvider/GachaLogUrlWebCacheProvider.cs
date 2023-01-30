@@ -64,8 +64,8 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
                     using (MemoryStream memoryStream = new())
                     {
                         await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
-                        string? result = Match(memoryStream, !tempFile.Path.Contains("GenshinImpact_Data"));
-                        return new(!string.IsNullOrEmpty(result), result!);
+                        string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData));
+                        return new(!string.IsNullOrEmpty(result), result ?? "未找到可用的 Url");
                     }
                 }
             }

@@ -3,10 +3,8 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
-using Snap.Hutao.Web.Response;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
@@ -20,7 +18,6 @@ namespace Snap.Hutao.Service.Game.Package;
 [HttpClient(HttpClientConfigration.Default)]
 internal class PackageConverter
 {
-    private readonly ResourceClient resourceClient;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
 
@@ -30,9 +27,8 @@ internal class PackageConverter
     /// <param name="resourceClient">资源客户端</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="httpClient">http客户端</param>
-    public PackageConverter(ResourceClient resourceClient, JsonSerializerOptions options, HttpClient httpClient)
+    public PackageConverter(JsonSerializerOptions options, HttpClient httpClient)
     {
-        this.resourceClient = resourceClient;
         this.options = options;
         this.httpClient = httpClient;
     }
@@ -46,18 +42,25 @@ internal class PackageConverter
     /// <param name="gameFolder">游戏目录</param>
     /// <param name="progress">进度</param>
     /// <returns>替换结果与资源</returns>
-    public async Task EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResouce, string gameFolder, IProgress<PackageReplaceStatus> progress)
+    public async Task<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResouce, string gameFolder, IProgress<PackageReplaceStatus> progress)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         string scatteredFilesUrl = gameResouce.Game.Latest.DecompressedPath;
         Uri pkgVersionUri = new($"{scatteredFilesUrl}/pkg_version");
         ConvertDirection direction = targetScheme.IsOversea ? ConvertDirection.ChineseToOversea : ConvertDirection.OverseaToChinese;
 
-        progress.Report(new("下载包版本信息"));
+        progress.Report(new("获取 Package Version"));
         Dictionary<string, VersionItem> remoteItems;
-        using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUri).ConfigureAwait(false))
+        try
         {
-            remoteItems = await GetVersionItemsAsync(remoteSteam).ConfigureAwait(false);
+            using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUri).ConfigureAwait(false))
+            {
+                remoteItems = await GetVersionItemsAsync(remoteSteam).ConfigureAwait(false);
+            }
+        }
+        catch (IOException ex)
+        {
+            throw new PackageConvertException("下载 Package Version 失败", ex);
         }
 
         Dictionary<string, VersionItem> localItems;
@@ -67,7 +70,7 @@ internal class PackageConverter
         }
 
         IEnumerable<ItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems);
-        await ReplaceGameResourceAsync(diffOperations, gameFolder, scatteredFilesUrl, direction, progress).ConfigureAwait(false);
+        return await ReplaceGameResourceAsync(diffOperations, gameFolder, scatteredFilesUrl, direction, progress).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -100,8 +103,8 @@ internal class PackageConverter
         {
             if (File.Exists(sdkDllBackup) && File.Exists(sdkVersionBackup))
             {
-                File.Move(sdkDllBackup, sdkDll, false);
-                File.Move(sdkVersionBackup, sdkVersion, false);
+                FileOperation.Move(sdkDllBackup, sdkDll, false);
+                FileOperation.Move(sdkVersionBackup, sdkVersion, false);
             }
             else
             {
@@ -124,15 +127,9 @@ internal class PackageConverter
         }
         else
         {
-            if (File.Exists(sdkDll))
-            {
-                File.Move(sdkDll, sdkDllBackup, true);
-            }
-
-            if (File.Exists(sdkVersion))
-            {
-                File.Move(sdkVersion, sdkVersionBackup, true);
-            }
+            // backup
+            FileOperation.Move(sdkDll, sdkDllBackup, true);
+            FileOperation.Move(sdkVersion, sdkVersionBackup, true);
         }
     }
 
@@ -190,11 +187,17 @@ internal class PackageConverter
         // so we assume the data folder is present
         if (direction == ConvertDirection.ChineseToOversea)
         {
-            Directory.Move(yuanShenData, genshinImpactData);
+            if (Directory.Exists(yuanShenData))
+            {
+                Directory.Move(yuanShenData, genshinImpactData);
+            }
         }
         else
         {
-            Directory.Move(genshinImpactData, yuanShenData);
+            if (Directory.Exists(genshinImpactData))
+            {
+                Directory.Move(genshinImpactData, yuanShenData);
+            }
         }
     }
 
@@ -204,10 +207,42 @@ internal class PackageConverter
         File.Move(targetFullPath, cacheFilePath, true);
     }
 
-    private async Task ReplaceGameResourceAsync(IEnumerable<ItemOperationInfo> operations, string gameFolder, string scatteredFilesUrl, ConvertDirection direction, IProgress<PackageReplaceStatus> progress)
+    private static async Task CopyToWithProgressAsync(Stream source, Stream target, string name, long totalBytes, IProgress<PackageReplaceStatus> progress)
+    {
+        const int bufferSize = 81920;
+
+        long totalBytesRead = 0;
+        int bytesRead;
+        Memory<byte> buffer = new byte[bufferSize];
+        do
+        {
+            bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
+            await target.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
+
+            totalBytesRead += bytesRead;
+            progress.Report(new(name, totalBytesRead, totalBytes));
+
+            if (bytesRead <= 0)
+            {
+                break;
+            }
+        }
+        while (bytesRead > 0);
+    }
+
+    private async Task<bool> ReplaceGameResourceAsync(IEnumerable<ItemOperationInfo> operations, string gameFolder, string scatteredFilesUrl, ConvertDirection direction, IProgress<PackageReplaceStatus> progress)
     {
         // 重命名 _Data 目录
-        RenameDataFolder(gameFolder, direction);
+        try
+        {
+            RenameDataFolder(gameFolder, direction);
+        }
+        catch (IOException)
+        {
+            // Access to the path is denied.
+            // When user install the game in special folder like 'Program Files'
+            return false;
+        }
 
         // Ensure cache folder
         string cacheFolder = Path.Combine(gameFolder, "Screenshot", "HutaoCache");
@@ -224,13 +259,12 @@ internal class PackageConverter
             switch (info.Type)
             {
                 case ItemOperationType.Add:
-                    await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info).ConfigureAwait(false);
+                    await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info, progress).ConfigureAwait(false);
                     break;
                 case ItemOperationType.Replace:
                     {
                         MoveToCache(moveToFilePath, targetFilePath);
-                        await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info).ConfigureAwait(false);
-
+                        await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info, progress).ConfigureAwait(false);
                         break;
                     }
 
@@ -245,17 +279,18 @@ internal class PackageConverter
 
         // 重新下载所有 *pkg_version 文件
         await ReplacePackageVersionsAsync(scatteredFilesUrl, gameFolder).ConfigureAwait(false);
+        return true;
     }
 
-    private async Task ReplaceFromCacheOrWebAsync(string cacheFilePath, string targetFilePath, string scatteredFilesUrl, ItemOperationInfo info)
+    private async Task ReplaceFromCacheOrWebAsync(string cacheFilePath, string targetFilePath, string scatteredFilesUrl, ItemOperationInfo info, IProgress<PackageReplaceStatus> progress)
     {
         if (File.Exists(cacheFilePath))
         {
-            string remoteMd5 = await FileDigest.GetMd5Async(cacheFilePath, CancellationToken.None).ConfigureAwait(false);
+            string remoteMd5 = await Digest.GetFileMd5Async(cacheFilePath).ConfigureAwait(false);
             if (info.Md5 == remoteMd5.ToLowerInvariant() && new FileInfo(cacheFilePath).Length == info.TotalBytes)
             {
                 // Valid, move it to target path
-                // There shouldn't be any file in the same name
+                // There shouldn't be any file in the path/name
                 File.Move(cacheFilePath, targetFilePath, false);
                 return;
             }
@@ -269,9 +304,32 @@ internal class PackageConverter
         // Cache no item, download it anyway.
         using (FileStream fileStream = File.Create(targetFilePath))
         {
-            using (Stream webStream = await httpClient.GetStreamAsync($"{scatteredFilesUrl}/{info.Target}").ConfigureAwait(false))
+            while (true)
             {
-                await webStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                using (HttpResponseMessage response = await httpClient.GetAsync($"{scatteredFilesUrl}/{info.Target}", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                {
+                    long totalBytes = response.Content.Headers.ContentLength ?? 0;
+                    using (Stream webStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    {
+                        try
+                        {
+                            await CopyToWithProgressAsync(webStream, fileStream, info.Target, totalBytes, progress).ConfigureAwait(false);
+                            fileStream.Seek(0, SeekOrigin.Begin);
+                            string remoteMd5 = await Digest.GetStreamMd5Async(fileStream).ConfigureAwait(false);
+                            if (info.Md5 == remoteMd5.ToLowerInvariant())
+                            {
+                                return;
+                            }
+                        }
+                        catch
+                        {
+                            // System.IO.IOException: The response ended prematurely.
+                            // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+
+                            // We want to retry forever.
+                        }
+                    }
+                }
             }
         }
     }
@@ -320,6 +378,7 @@ internal class PackageConverter
     private async Task<Dictionary<string, VersionItem>> GetVersionItemsAsync(Stream stream, ConvertDirection direction, Func<string, ConvertDirection, string> nameConverter)
     {
         Dictionary<string, VersionItem> results = new();
+
         using (StreamReader reader = new(stream))
         {
             while (await reader.ReadLineAsync().ConfigureAwait(false) is string raw)

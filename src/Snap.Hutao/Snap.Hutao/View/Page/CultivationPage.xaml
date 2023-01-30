@@ -81,48 +81,6 @@
                 <PivotItem Header="材料清单">
                     <Grid>
                         <Pivot Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                            <PivotItem Header="材料统计">
-                                <cwucont:AdaptiveGridView
-                                    Padding="16,16,4,4"
-                                    cwua:ItemsReorderAnimation.Duration="0:0:0.1"
-                                    DesiredWidth="320"
-                                    ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
-                                    ItemsSource="{Binding StatisticsItems}"
-                                    SelectionMode="None">
-                                    <cwucont:AdaptiveGridView.Resources>
-                                        <x:Double x:Key="GridViewItemMinHeight">0</x:Double>
-                                    </cwucont:AdaptiveGridView.Resources>
-                                    <cwucont:AdaptiveGridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="auto"/>
-                                                    <ColumnDefinition/>
-                                                    <ColumnDefinition Width="auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                <shvc:ItemIcon
-                                                    Grid.Column="0"
-                                                    Width="32"
-                                                    Height="32"
-                                                    Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
-                                                    Quality="{Binding Inner.RankLevel}"/>
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Margin="16,0,0,0"
-                                                    VerticalAlignment="Center"
-                                                    Text="{Binding Inner.Name}"
-                                                    TextTrimming="CharacterEllipsis"/>
-                                                <TextBlock
-                                                    Grid.Column="2"
-                                                    Margin="16,0,4,0"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Center"
-                                                    Text="{Binding CountFormatted}"/>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </cwucont:AdaptiveGridView.ItemTemplate>
-                                </cwucont:AdaptiveGridView>
-                            </PivotItem>
                             <PivotItem Header="养成物品">
                                 <cwucont:AdaptiveGridView
                                     Padding="16,16,4,4"
@@ -269,6 +227,48 @@
                                                     </mxi:Interaction.Behaviors>
                                                 </Grid>
                                             </Border>
+                                        </DataTemplate>
+                                    </cwucont:AdaptiveGridView.ItemTemplate>
+                                </cwucont:AdaptiveGridView>
+                            </PivotItem>
+                            <PivotItem Header="材料统计">
+                                <cwucont:AdaptiveGridView
+                                    Padding="16,16,4,4"
+                                    cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                                    DesiredWidth="320"
+                                    ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                                    ItemsSource="{Binding StatisticsItems}"
+                                    SelectionMode="None">
+                                    <cwucont:AdaptiveGridView.Resources>
+                                        <x:Double x:Key="GridViewItemMinHeight">0</x:Double>
+                                    </cwucont:AdaptiveGridView.Resources>
+                                    <cwucont:AdaptiveGridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <shvc:ItemIcon
+                                                    Grid.Column="0"
+                                                    Width="32"
+                                                    Height="32"
+                                                    Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
+                                                    Quality="{Binding Inner.RankLevel}"/>
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="16,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Inner.Name}"
+                                                    TextTrimming="CharacterEllipsis"/>
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    Margin="16,0,4,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding CountFormatted}"/>
+                                            </Grid>
                                         </DataTemplate>
                                     </cwucont:AdaptiveGridView.ItemTemplate>
                                 </cwucont:AdaptiveGridView>

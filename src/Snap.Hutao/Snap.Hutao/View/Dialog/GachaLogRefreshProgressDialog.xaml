@@ -22,7 +22,6 @@
     </ContentDialog.Resources>
 
     <StackPanel>
-        <TextBlock Text="祈愿记录Url已失效，请重新获取" Visibility="{x:Bind State.AuthKeyTimeout, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
         <cwucont:HeaderedItemsControl
             x:Name="GachaItemsPresenter"
             Padding="0,8,0,0"

@@ -18,6 +18,7 @@ using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
 using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
@@ -176,7 +177,13 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
 
                 if (!Weapons.Contains(Selected))
                 {
-                    Weapons.MoveCurrentToFirst();
+                    try
+                    {
+                        Weapons.MoveCurrentToFirst();
+                    }
+                    catch (COMException)
+                    {
+                    }
                 }
             }
             else

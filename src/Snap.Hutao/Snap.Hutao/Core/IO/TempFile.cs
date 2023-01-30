@@ -53,6 +53,12 @@ internal sealed class TempFile : IDisposable
     /// </summary>
     public void Dispose()
     {
-        File.Delete(Path);
+        try
+        {
+            File.Delete(Path);
+        }
+        catch (IOException)
+        {
+        }
     }
 }

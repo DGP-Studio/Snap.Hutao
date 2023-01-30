@@ -76,7 +76,14 @@ internal class UserService : IUserService
                     if (currentUser != null)
                     {
                         currentUser.IsSelected = true;
-                        appDbContext.Users.UpdateAndSave(currentUser.Entity);
+                        try
+                        {
+                            appDbContext.Users.UpdateAndSave(currentUser.Entity);
+                        }
+                        catch (InvalidOperationException ex)
+                        {
+                            throw new Core.ExceptionService.UserdataCorruptedException($"用户 {currentUser.UserInfo?.Uid} 状态保存失败", ex);
+                        }
                     }
 
                     messenger.Send(message);

@@ -179,13 +179,17 @@ internal class GameService : IGameService
                 elements = IniSerializer.Deserialize(readStream).ToList();
             }
         }
-        catch (DirectoryNotFoundException dnfEx)
+        catch (FileNotFoundException ex)
         {
-            throw new GameFileOperationException($"找不到游戏配置文件 {configPath}", dnfEx);
+            throw new GameFileOperationException($"找不到游戏配置文件 {configPath}", ex);
         }
-        catch (UnauthorizedAccessException uaEx)
+        catch (DirectoryNotFoundException ex)
         {
-            throw new GameFileOperationException($"无法读取或保存配置文件，请以管理员模式重试。", uaEx);
+            throw new GameFileOperationException($"找不到游戏配置文件 {configPath}", ex);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            throw new GameFileOperationException($"无法读取或保存配置文件，请以管理员模式重试。", ex);
         }
 
         bool changed = false;
@@ -244,10 +248,22 @@ internal class GameService : IGameService
 
             if (!LaunchSchemeMatchesExecutable(launchScheme, gameFileName))
             {
-                await packageConverter.EnsureGameResourceAsync(launchScheme, resource, gameFolder, progress).ConfigureAwait(false);
+                bool replaced = await packageConverter
+                    .EnsureGameResourceAsync(launchScheme, resource, gameFolder, progress)
+                    .ConfigureAwait(false);
 
-                // We need to change the gamePath if we switched.
-                OverwriteGamePath(Path.Combine(gameFolder, launchScheme.IsOversea ? GenshinImpactFileName : YuanShenFileName));
+                if (replaced)
+                {
+                    // We need to change the gamePath if we switched.
+                    string exeName = launchScheme.IsOversea ? GenshinImpactFileName : YuanShenFileName;
+                    OverwriteGamePath(Path.Combine(gameFolder, exeName));
+                }
+                else
+                {
+                    // We can't start the game
+                    // when we failed to convert game
+                    return false;
+                }
             }
 
             if (!launchScheme.IsOversea)
@@ -364,7 +380,15 @@ internal class GameService : IGameService
         string? registrySdk = GameAccountRegistryInterop.Get();
         if (!string.IsNullOrEmpty(registrySdk))
         {
-            GameAccount? account = gameAccounts.SingleOrDefault(a => a.MihoyoSDK == registrySdk);
+            GameAccount? account;
+            try
+            {
+                account = gameAccounts.SingleOrDefault(a => a.MihoyoSDK == registrySdk);
+            }
+            catch (InvalidOperationException ex)
+            {
+                throw new Core.ExceptionService.UserdataCorruptedException("已存在多个匹配账号，请先删除重复的账号", ex);
+            }
 
             if (account == null)
             {

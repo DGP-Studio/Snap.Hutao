@@ -82,6 +82,13 @@ public sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Pag
         switch (result)
         {
             case UserOptionResult.Added:
+                ViewModel.UserViewModel vm = Ioc.Default.GetRequiredService<ViewModel.UserViewModel>();
+                if (vm.Users!.Count == 1)
+                {
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    vm.SelectedUser = vm.Users.Single();
+                }
+
                 infoBarService.Success($"用户 [{nickname}] 添加成功");
                 break;
             case UserOptionResult.Incomplete:

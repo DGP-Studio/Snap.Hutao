@@ -135,7 +135,7 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
             string fileFullPath = Path.Combine(metadataFolderPath, fileFullName);
             if (File.Exists(fileFullPath))
             {
-                skip = md5 == await FileDigest.GetMd5Async(fileFullPath, token).ConfigureAwait(false);
+                skip = md5 == await Digest.GetFileMd5Async(fileFullPath, token).ConfigureAwait(false);
             }
 
             if (!skip)

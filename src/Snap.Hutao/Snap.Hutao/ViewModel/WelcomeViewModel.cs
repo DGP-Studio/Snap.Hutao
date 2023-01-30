@@ -57,11 +57,11 @@ internal class WelcomeViewModel : ObservableObject
 
         // Cancel all previous created jobs
         serviceProvider.GetRequiredService<BitsManager>().CancelAllJobs();
-        await Task.WhenAll(downloadSummaries.Select(async d =>
+        await Task.WhenAll(downloadSummaries.Select(async downloadTask =>
         {
-            await d.DownloadAndExtractAsync().ConfigureAwait(false);
+            await downloadTask.DownloadAndExtractAsync().ConfigureAwait(false);
             await ThreadHelper.SwitchToMainThreadAsync();
-            DownloadSummaries.Remove(d);
+            DownloadSummaries.Remove(downloadTask);
         })).ConfigureAwait(true);
 
         serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());

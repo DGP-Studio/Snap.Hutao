@@ -21,4 +21,17 @@ public class TypeValue
     /// </summary>
     [JsonPropertyName("val")]
     public string? Value { get; set; }
+
+    /// <summary>
+    /// 值 Int32
+    /// </summary>
+    [JsonIgnore]
+    public int ValueInt32
+    {
+        get
+        {
+            _ = int.TryParse(Value, out int result);
+            return result;
+        }
+    }
 }

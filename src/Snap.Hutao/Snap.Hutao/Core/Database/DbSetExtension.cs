@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 namespace Snap.Hutao.Core.Database;
 
 /// <summary>
-/// 数据库集合上下文
+/// 数据库集合扩展
 /// </summary>
 public static class DbSetExtension
 {

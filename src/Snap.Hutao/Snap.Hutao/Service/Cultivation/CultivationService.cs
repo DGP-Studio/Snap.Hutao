@@ -105,7 +105,10 @@ internal class CultivationService : ICultivationService
         await ThreadHelper.SwitchToBackgroundAsync();
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            await scope.ServiceProvider.GetRequiredService<AppDbContext>().CultivateProjects.RemoveAndSaveAsync(project).ConfigureAwait(false);
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.CultivateProjects
+                .ExecuteDeleteWhereAsync(p => p.InnerId == project.InnerId)
+                .ConfigureAwait(false);
         }
     }
 

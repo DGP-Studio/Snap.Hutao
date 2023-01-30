@@ -36,5 +36,6 @@ public interface IDailyNoteService
     /// 移除指定的实时便笺
     /// </summary>
     /// <param name="entry">指定的实时便笺</param>
-    void RemoveDailyNote(DailyNoteEntry entry);
+    /// <returns>任务</returns>
+    Task RemoveDailyNoteAsync(DailyNoteEntry entry);
 }

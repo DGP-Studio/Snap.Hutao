@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
+using Snap.Hutao.Service.Game.Package;
 
 namespace Snap.Hutao.View.Dialog;
 
@@ -12,7 +13,7 @@ namespace Snap.Hutao.View.Dialog;
 /// </summary>
 public sealed partial class LaunchGamePackageConvertDialog : ContentDialog
 {
-    private static readonly DependencyProperty DescriptionProperty = Property<LaunchGamePackageConvertDialog>.Depend(nameof(Description), "请稍候");
+    private static readonly DependencyProperty StateProperty = Property<LaunchGamePackageConvertDialog>.Depend<PackageReplaceStatus>(nameof(State));
 
     /// <summary>
     /// 构造一个新的启动游戏客户端转换对话框
@@ -27,9 +28,9 @@ public sealed partial class LaunchGamePackageConvertDialog : ContentDialog
     /// <summary>
     /// 描述
     /// </summary>
-    public string Description
+    public PackageReplaceStatus State
     {
-        get { return (string)GetValue(DescriptionProperty); }
-        set { SetValue(DescriptionProperty, value); }
+        get { return (PackageReplaceStatus)GetValue(StateProperty); }
+        set { SetValue(StateProperty, value); }
     }
 }

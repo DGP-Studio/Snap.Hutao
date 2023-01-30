@@ -157,14 +157,14 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
     }
 
     /// <inheritdoc/>
-    public void RemoveDailyNote(DailyNoteEntry entry)
+    public async Task RemoveDailyNoteAsync(DailyNoteEntry entry)
     {
         entries!.Remove(entry);
 
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            // DbUpdateConcurrencyException: The database operation was expected to affect 1 row(s), but actually affected 0 row(s)
-            scope.ServiceProvider.GetRequiredService<AppDbContext>().DailyNotes.RemoveAndSave(entry);
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.DailyNotes.ExecuteDeleteWhereAsync(d => d.InnerId == entry.InnerId).ConfigureAwait(false);
         }
     }
 }

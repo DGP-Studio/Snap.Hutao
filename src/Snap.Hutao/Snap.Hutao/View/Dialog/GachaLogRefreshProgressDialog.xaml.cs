@@ -45,12 +45,14 @@ public sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     {
         State = state;
         GachaItemsPresenter.Header = state.AuthKeyTimeout
-            ? null
+            ? "祈愿记录Url已失效，请重新获取"
             : (object)$"正在获取 {state.ConfigType.GetDescription()}";
 
         // Binding not working here.
         GachaItemsPresenter.Items.Clear();
-        foreach (ItemBase item in state.Items)
+
+        // System.InvalidOperationException: Collection was modified; enumeration operation may not execute.
+        foreach (ItemBase item in state.Items.ToList())
         {
             GachaItemsPresenter.Items.Add(new ItemIcon
             {
