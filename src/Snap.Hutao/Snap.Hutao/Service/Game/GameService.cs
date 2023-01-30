@@ -377,7 +377,7 @@ internal class GameService : IGameService
     {
         Must.NotNull(gameAccounts!);
 
-        string? registrySdk = GameAccountRegistryInterop.Get();
+        string? registrySdk = RegistryInterop.Get();
         if (!string.IsNullOrEmpty(registrySdk))
         {
             GameAccount? account;
@@ -422,7 +422,7 @@ internal class GameService : IGameService
     /// <inheritdoc/>
     public bool SetGameAccount(GameAccount account)
     {
-        return GameAccountRegistryInterop.Set(account);
+        return RegistryInterop.Set(account);
     }
 
     /// <inheritdoc/>

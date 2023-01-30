@@ -19,11 +19,12 @@
       },
       "fileToFile": {
         "add": {
+          ".filenesting.json": [ "App.xaml.cs" ],
           "app.manifest": [ "App.xaml.cs" ],
           "Package.appxmanifest": [ "App.xaml.cs" ],
-          "GlobalUsing.cs": [ "Program.cs" ],
-          ".filenesting.json": [ "Program.cs" ],
-          ".editorconfig": [ "Program.cs" ]
+          "Package.StoreAssociation.xml": [ "App.xaml.cs" ],
+          ".editorconfig": [ "Program.cs" ],
+          "GlobalUsing.cs": [ "Program.cs" ]
         }
       }
     }

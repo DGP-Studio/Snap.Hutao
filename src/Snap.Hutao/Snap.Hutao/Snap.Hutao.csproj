@@ -20,12 +20,12 @@
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>F8C2255969BEA4A681CED102771BF807856AEC02</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>D15C4474363D2AF157C5CC6F230C7BFF2CF19B25</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Never</AppxBundle>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <StartupObject>Snap.Hutao.Program</StartupObject>
     <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN;DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION;DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT</DefineConstants>
@@ -33,6 +33,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>embedded</DebugType>
     <ApplicationIcon>Assets\Logo.ico</ApplicationIcon>
+    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
   </PropertyGroup>
   
   <ItemGroup>
@@ -177,7 +179,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.25281-preview" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.221209.1" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
       <PrivateAssets>all</PrivateAssets>

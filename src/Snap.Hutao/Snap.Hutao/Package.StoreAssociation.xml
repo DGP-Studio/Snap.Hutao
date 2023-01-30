@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StoreAssociation xmlns="http://schemas.microsoft.com/appx/2010/storeassociation">
+  <Publisher>CN=35C8E923-85DF-49A7-9172-B39DC6312C52</Publisher>
+  <PublisherDisplayName>DGP Studio</PublisherDisplayName>
+  <DeveloperAccountType>MSA</DeveloperAccountType>
+  <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
+  <SupportedLocales>
+    <Language Code="zh-cn" InMinimumRequirementSet="true" />
+  </SupportedLocales>
+  <ProductReservedInfo>
+    <MainPackageIdentityName>60568DGPStudio.SnapHutao</MainPackageIdentityName>
+    <ReservedNames>
+      <ReservedName>Snap Hutao</ReservedName>
+      <ReservedName>胡桃工具箱</ReservedName>
+    </ReservedNames>
+  </ProductReservedInfo>
+  <AccountPackageIdentityNames>
+    <MainPackageIdentityName>60568DGPStudio.SnapGenshinResin</MainPackageIdentityName>
+  </AccountPackageIdentityNames>
+  <PackageInfoList LandingUrl="https://developer.microsoft.com/dashboard/Application?appId=9PH4NXJ2JN52" />
+</StoreAssociation>

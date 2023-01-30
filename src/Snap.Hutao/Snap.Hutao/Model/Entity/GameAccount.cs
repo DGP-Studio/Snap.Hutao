@@ -40,7 +40,6 @@ public class GameAccount : INotifyPropertyChanged
 
     /// <summary>
     /// [MIHOYOSDK_ADL_PROD_CN_h3123967166]
-    /// see <see cref="Service.Game.GameAccountRegistryInterop.SdkKey"/>
     /// </summary>
     public string MihoyoSDK { get; set; } = default!;
 

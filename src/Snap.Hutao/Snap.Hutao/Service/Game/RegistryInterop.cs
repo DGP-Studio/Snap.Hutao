@@ -3,14 +3,15 @@
 
 using Microsoft.Win32;
 using Snap.Hutao.Model.Entity;
+using System.Diagnostics;
 using System.Text;
 
 namespace Snap.Hutao.Service.Game;
 
 /// <summary>
-/// 定义了对注册表的操作
+/// 注册表操作
 /// </summary>
-internal static class GameAccountRegistryInterop
+internal static class RegistryInterop
 {
     private const string GenshinKey = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
     private const string SdkKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
@@ -24,8 +25,25 @@ internal static class GameAccountRegistryInterop
     {
         if (account != null)
         {
-            Registry.SetValue(GenshinKey, SdkKey, Encoding.UTF8.GetBytes(account.MihoyoSDK));
-            return true;
+            string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(account.MihoyoSDK));
+            string path = $"HKCU:{GenshinKey[@"HKEY_CURRENT_USER\".Length..]}";
+            string command = $"""
+                $value = [Convert]::FromBase64String('{base64}');
+                Set-ItemProperty -Path '{path}' -Name '{SdkKey}' -Value $value -Force;
+                """;
+
+            ProcessStartInfo startInfo = new()
+            {
+                Arguments = command,
+                CreateNoWindow = true,
+                FileName = "PowerShell",
+            };
+
+            Process.Start(startInfo)?.WaitForExit();
+            if (Get() == account.MihoyoSDK)
+            {
+                return true;
+            }
         }
 
         return false;
