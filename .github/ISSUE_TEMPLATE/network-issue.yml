@@ -21,7 +21,7 @@ body:
         **在填写下面的问题之前请先使用我们的网络诊断工具**
         **这个工具将会生成一份报告，请将这份报告拖入下面的框中，让其与你的工单一起被上传提交**
         - 你可以点击下面的链接以下载网络诊断工具：
-          - [胡桃资源站](https://d.hut.ao/d/tools/network-diagnosis-tool.exe)
+          - [胡桃资源站](https://d.hut.ao/d/tools/network-diagnosis-hutao.exe)
           - [GitHub](https://github.com/Masterain98/network-diagnosis-tool/releases/latest/download/network-diagnosis-hutao.exe)
     validations:
       required: true
