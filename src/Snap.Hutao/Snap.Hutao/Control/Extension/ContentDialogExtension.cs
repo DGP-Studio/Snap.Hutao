@@ -8,7 +8,7 @@ namespace Snap.Hutao.Control.Extension;
 /// <summary>
 /// 对话框扩展
 /// </summary>
-internal static class ContentDialogExtensions
+internal static class ContentDialogExtension
 {
     /// <summary>
     /// 阻止用户交互

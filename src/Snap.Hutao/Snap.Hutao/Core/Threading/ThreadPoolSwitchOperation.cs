@@ -30,13 +30,13 @@ public readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOp
     /// <inheritdoc/>
     public void OnCompleted(Action continuation)
     {
-        QueueContinuation(continuation, flowContext: true);
+        QueueContinuation(continuation, true);
     }
 
     /// <inheritdoc/>
     public void UnsafeOnCompleted(Action continuation)
     {
-        QueueContinuation(continuation, flowContext: false);
+        QueueContinuation(continuation, false);
     }
 
     private static void QueueContinuation(Action continuation, bool flowContext)

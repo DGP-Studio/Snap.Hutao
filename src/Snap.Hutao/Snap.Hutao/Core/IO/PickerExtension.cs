@@ -32,13 +32,7 @@ internal static class PickerExtension
         }
         else
         {
-            if (exception != null)
-            {
-                Ioc.Default
-                    .GetRequiredService<Service.Abstraction.IInfoBarService>()
-                    .Warning("无法打开文件选择器", $"请勿在管理员模式下使用此功能 {exception.Message}");
-            }
-
+            InfoBarWaringPickerException(exception);
             return new(false, null!);
         }
     }
@@ -64,14 +58,20 @@ internal static class PickerExtension
         }
         else
         {
-            if (exception != null)
-            {
-                Ioc.Default
-                    .GetRequiredService<Service.Abstraction.IInfoBarService>()
-                    .Warning("无法打开文件选择器", $"请勿在管理员模式下使用此功能 {exception.Message}");
-            }
-
+            InfoBarWaringPickerException(exception);
             return new(false, null!);
+        }
+    }
+
+    private static void InfoBarWaringPickerException(Exception? exception)
+    {
+        if (exception != null)
+        {
+            Ioc.Default
+                .GetRequiredService<Service.Abstraction.IInfoBarService>()
+                .Warning(
+                    SH.CoreIOPickerExtensionPickerExceptionInfoBarTitle,
+                    string.Format(SH.CoreIOPickerExtensionPickerExceptionInfoBarMessage, exception.Message));
         }
     }
 }

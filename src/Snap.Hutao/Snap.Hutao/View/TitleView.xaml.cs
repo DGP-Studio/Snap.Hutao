@@ -26,9 +26,9 @@ public sealed partial class TitleView : UserControl
     public string Title
     {
 #if DEBUG
-        get => $"胡桃 Dev Build";
+        get => string.Format(SH.AppDevNameAndVersion, Core.CoreEnvironment.Version);
 #else
-        get => $"胡桃 {Core.CoreEnvironment.Version}";
+        get => string.Format(SH.AppNameAndVersion, Core.CoreEnvironment.Version);
 #endif
     }
 

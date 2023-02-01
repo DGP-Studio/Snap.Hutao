@@ -124,8 +124,8 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
 
     private void InitializeWindow()
     {
-        appWindow.Title = "胡桃";
-        appWindow.SetIcon(Path.Combine(Package.Current.InstalledLocation.Path, "Assets/Logos/Logo.ico"));
+        appWindow.Title = string.Format(SH.AppNameAndVersion, CoreEnvironment.Version);
+        appWindow.SetIcon(Path.Combine(CoreEnvironment.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
         Persistence.RecoverOrInit(appWindow, window.PersistSize, window.InitSize);

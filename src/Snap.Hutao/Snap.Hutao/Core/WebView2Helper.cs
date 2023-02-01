@@ -16,7 +16,7 @@ internal abstract class WebView2Helper
 {
     private static bool hasEverDetected;
     private static bool isSupported;
-    private static string version = "未检测到 WebView2 运行时";
+    private static string version = SH.CoreWebView2HelperVersionUndetected;
 
     /// <summary>
     /// 检测 WebView2 是否存在
@@ -36,7 +36,7 @@ internal abstract class WebView2Helper
                 catch (FileNotFoundException ex)
                 {
                     ILogger<WebView2Helper> logger = Ioc.Default.GetRequiredService<ILogger<WebView2Helper>>();
-                    logger.LogError(EventIds.WebView2EnvironmentException, ex, "WebView2 运行时未安装");
+                    logger.LogError(EventIds.WebView2EnvironmentException, ex, "WebView2 Runtime not installed.");
                     isSupported = false;
                 }
             }

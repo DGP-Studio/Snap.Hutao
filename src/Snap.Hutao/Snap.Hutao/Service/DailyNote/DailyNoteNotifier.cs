@@ -54,10 +54,10 @@ internal class DailyNoteNotifier
                 if (!entry.ResinNotifySuppressed)
                 {
                     notifyInfos.Add(new(
-                        "原粹树脂",
+                        SH.ServiceDailyNoteNotifierResin,
                         "ms-appx:///Resource/Icon/UI_ItemIcon_210_256.png",
                         $"{entry.DailyNote.CurrentResin}",
-                        $"当前原粹树脂：{entry.DailyNote.CurrentResin}"));
+                        string.Format(SH.ServiceDailyNoteNotifierResinCurrent, entry.DailyNote.CurrentResin)));
                     entry.ResinNotifySuppressed = true;
                 }
             }
@@ -71,10 +71,10 @@ internal class DailyNoteNotifier
                 if (!entry.HomeCoinNotifySuppressed)
                 {
                     notifyInfos.Add(new(
-                        "洞天宝钱",
+                        SH.ServiceDailyNoteNotifierHomeCoin,
                         "ms-appx:///Resource/Icon/UI_ItemIcon_204.png",
                         $"{entry.DailyNote.CurrentHomeCoin}",
-                        $"当前洞天宝钱：{entry.DailyNote.CurrentHomeCoin}"));
+                        string.Format(SH.ServiceDailyNoteNotifierHomeCoinCurrent, entry.DailyNote.CurrentHomeCoin)));
                     entry.HomeCoinNotifySuppressed = true;
                 }
             }
@@ -88,9 +88,9 @@ internal class DailyNoteNotifier
                 if (!entry.DailyTaskNotifySuppressed)
                 {
                     notifyInfos.Add(new(
-                        "每日委托",
+                        SH.ServiceDailyNoteNotifierDailyTask,
                         "ms-appx:///Resource/Icon/UI_MarkQuest_Events_Proce.png",
-                        $"奖励待领取",
+                        SH.ServiceDailyNoteNotifierDailyTaskHint,
                         entry.DailyNote.ExtraTaskRewardDescription));
                     entry.DailyTaskNotifySuppressed = true;
                 }
@@ -105,10 +105,10 @@ internal class DailyNoteNotifier
                 if (!entry.TransformerNotifySuppressed)
                 {
                     notifyInfos.Add(new(
-                        "参量质变仪",
+                        SH.ServiceDailyNoteNotifierTransformer,
                         "ms-appx:///Resource/Icon/UI_ItemIcon_220021.png",
-                        $"准备完成",
-                        "参量质变仪已准备完成"));
+                        SH.ServiceDailyNoteNotifierTransformerAdaptiveHint,
+                        SH.ServiceDailyNoteNotifierTransformerHint));
                     entry.TransformerNotifySuppressed = true;
                 }
             }
@@ -122,10 +122,10 @@ internal class DailyNoteNotifier
                 if (!entry.ExpeditionNotifySuppressed)
                 {
                     notifyInfos.Add(new(
-                        "探索派遣",
-                        AvatarIconConverter.IconNameToUri("UI_AvatarIcon_Side_None.png").ToString(),
-                        $"已完成",
-                        "探索派遣已完成"));
+                        SH.ServiceDailyNoteNotifierExpedition,
+                        Web.HutaoEndpoints.UIAvatarIconSideNone.ToString(), // TODO: embed this
+                        SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint,
+                        SH.ServiceDailyNoteNotifierExpeditionHint));
                     entry.ExpeditionNotifySuppressed = true;
                 }
             }
@@ -150,7 +150,7 @@ internal class DailyNoteNotifier
                 .GetActionTicketByStokenAsync("game_role", entry.User)
                 .ConfigureAwait(false);
 
-            string? attribution = "请求异常";
+            string? attribution = SH.ServiceDailyNoteNotifierAttribution;
             if (actionTicketResponse.IsOk())
             {
                 Response<ListWrapper<UserGameRole>> rolesResponse = await scope.ServiceProvider
@@ -166,10 +166,13 @@ internal class DailyNoteNotifier
             }
 
             ToastContentBuilder builder = new ToastContentBuilder()
-                .AddHeader("DAILYNOTE", "实时便笺提醒", "DAILYNOTE")
+                .AddHeader("DAILYNOTE", SH.ServiceDailyNoteNotifierTitle, "DAILYNOTE")
                 .AddAttributionText(attribution)
-                .AddButton(new ToastButton().SetContent("开始游戏").AddArgument("Action", "LaunchGame").AddArgument("Uid", entry.Uid))
-                .AddButton(new ToastButtonDismiss("我知道了"));
+                .AddButton(new ToastButton()
+                    .SetContent(SH.ServiceDailyNoteNotifierActionLaunchGameButton)
+                    .AddArgument("Action", Core.LifeCycle.Activation.LaunchGame)
+                    .AddArgument("Uid", entry.Uid))
+                .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
 
             if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, SettingEntryHelper.FalseString).GetBoolean())
             {
@@ -178,7 +181,7 @@ internal class DailyNoteNotifier
 
             if (notifyInfos.Count > 2)
             {
-                builder.AddText("多个提醒项达到设定值");
+                builder.AddText(SH.ServiceDailyNoteNotifierMultiValueReached);
 
                 // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))

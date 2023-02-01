@@ -48,6 +48,7 @@ public interface INavigationService
 
     /// <summary>
     /// 导航到指定类型的页面
+    /// 若已经处于当前页面不会向页面发送消息
     /// </summary>
     /// <typeparam name="T">指定的页面类型</typeparam>
     /// <param name="data">要传递的数据</param>
@@ -58,6 +59,7 @@ public interface INavigationService
 
     /// <summary>
     /// 异步的导航到指定类型的页面
+    /// 若已经处于当前页面则会向页面发送消息
     /// </summary>
     /// <typeparam name="TPage">指定的页面类型</typeparam>
     /// <param name="data">要传递的数据</param>

@@ -39,7 +39,8 @@ internal class BitsManager
     public async Task<ValueResult<bool, TempFile>> DownloadAsync(Uri uri, IProgress<ProgressUpdateStatus> progress, CancellationToken token = default)
     {
         TempFile tempFile = new(true);
-        bool result = await Task.Run(() => DownloadCore(uri, tempFile.Path, progress.Report, token), token).ConfigureAwait(false);
+        await ThreadHelper.SwitchToBackgroundAsync();
+        bool result = DownloadCore(uri, tempFile.Path, progress.Report, token);
         return new(result, tempFile);
     }
 

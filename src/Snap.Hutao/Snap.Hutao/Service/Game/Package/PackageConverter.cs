@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
@@ -49,8 +50,8 @@ internal class PackageConverter
         Uri pkgVersionUri = new($"{scatteredFilesUrl}/pkg_version");
         ConvertDirection direction = targetScheme.IsOversea ? ConvertDirection.ChineseToOversea : ConvertDirection.OverseaToChinese;
 
-        progress.Report(new("获取 Package Version"));
-        Dictionary<string, VersionItem> remoteItems;
+        progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));
+        Dictionary<string, VersionItem> remoteItems = default!;
         try
         {
             using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUri).ConfigureAwait(false))
@@ -60,7 +61,7 @@ internal class PackageConverter
         }
         catch (IOException ex)
         {
-            throw new PackageConvertException("下载 Package Version 失败", ex);
+            ThrowHelper.PackageConvert(SH.ServiceGamePackageRequestPackageVerionFailed, ex);
         }
 
         Dictionary<string, VersionItem> localItems;

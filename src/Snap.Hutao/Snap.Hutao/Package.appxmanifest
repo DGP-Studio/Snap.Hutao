@@ -25,7 +25,8 @@
   </Dependencies>
 
   <Resources>
-    <Resource Language="zh-CN"/>
+    <Resource Language="en-us"/>
+    <Resource Language="zh-cn"/>
   </Resources>
   
   <Applications>

@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Control.Media;
-using Snap.Hutao.Core;
+using Snap.Hutao.Control.Theme;
 using Windows.UI;
 
 namespace Snap.Hutao.Control.Text;

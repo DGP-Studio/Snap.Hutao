@@ -35,11 +35,10 @@ internal class SummaryFactoryImplementation
         return new()
         {
             Player = SummaryHelper.CreatePlayer(playerInfo),
-            Avatars = avatarInfos.Where(a => !AvatarIds.IsPlayer(a.AvatarId)).Select(a =>
-            {
-                SummaryAvatarFactory summaryAvatarFactory = new(metadataContext, a);
-                return summaryAvatarFactory.CreateAvatar();
-            }).ToList(),
+            Avatars = avatarInfos
+                .Where(a => !AvatarIds.IsPlayer(a.AvatarId))
+                .Select(a => new SummaryAvatarFactory(metadataContext, a).CreateAvatar())
+                .ToList(),
         };
     }
 }

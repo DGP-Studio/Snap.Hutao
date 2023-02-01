@@ -22,7 +22,7 @@ public static class TaskExtensions
         {
             await task.ConfigureAwait(false);
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine(ex);
         }
@@ -39,11 +39,11 @@ public static class TaskExtensions
         {
             await task.ConfigureAwait(false);
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
             // Do nothing
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
         }
@@ -55,17 +55,17 @@ public static class TaskExtensions
     /// <param name="task">任务</param>
     /// <param name="logger">日志器</param>
     /// <param name="onException">发生异常时调用</param>
-    public static async void SafeForget(this Task task, ILogger? logger = null, Action<System.Exception>? onException = null)
+    public static async void SafeForget(this Task task, ILogger? logger = null, Action<Exception>? onException = null)
     {
         try
         {
             await task.ConfigureAwait(false);
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
             // Do nothing
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
             onException?.Invoke(e);
@@ -79,17 +79,17 @@ public static class TaskExtensions
     /// <param name="logger">日志器</param>
     /// <param name="onCanceled">任务取消时调用</param>
     /// <param name="onException">发生异常时调用</param>
-    public static async void SafeForget(this Task task, ILogger? logger = null, Action? onCanceled = null, Action<System.Exception>? onException = null)
+    public static async void SafeForget(this Task task, ILogger? logger = null, Action? onCanceled = null, Action<Exception>? onException = null)
     {
         try
         {
             await task.ConfigureAwait(false);
         }
-        catch (TaskCanceledException)
+        catch (OperationCanceledException)
         {
             onCanceled?.Invoke();
         }
-        catch (System.Exception e)
+        catch (Exception e)
         {
             logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
             onException?.Invoke(e);

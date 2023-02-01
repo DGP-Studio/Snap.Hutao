@@ -56,7 +56,7 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
             {
                 if (tempFile == null)
                 {
-                    return new(false, $"找不到原神内置浏览器缓存路径：\n{cacheFile}");
+                    return new(false, string.Format(SH.ServiceGachaLogUrlProviderCachePathNotFound, cacheFile));
                 }
 
                 using (FileStream fileStream = new(tempFile.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -65,14 +65,14 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
                     {
                         await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
                         string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData));
-                        return new(!string.IsNullOrEmpty(result), result ?? "未找到可用的 Url");
+                        return new(!string.IsNullOrEmpty(result), result ?? SH.ServiceGachaLogUrlProviderCacheUrlNotFound);
                     }
                 }
             }
         }
         else
         {
-            return new(false, "未正确提供原神路径，或当前设置的路径不正确");
+            return new(false, SH.ServiceGachaLogUrlProviderCachePathInvalid);
         }
     }
 

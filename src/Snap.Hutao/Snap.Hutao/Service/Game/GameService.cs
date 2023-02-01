@@ -6,6 +6,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.LaunchGame;
@@ -92,7 +93,7 @@ internal class GameService : IGameService
                     }
                     else
                     {
-                        return new(false, "请启动游戏后再次尝试");
+                        return new(false, SH.ServiceGamePathLocateFailed);
                     }
                 }
 
@@ -181,15 +182,15 @@ internal class GameService : IGameService
         }
         catch (FileNotFoundException ex)
         {
-            throw new GameFileOperationException($"找不到游戏配置文件 {configPath}", ex);
+            throw new GameFileOperationException(string.Format(SH.ServiceGameSetMultiChannelConfigFileNotFound, configPath), ex);
         }
         catch (DirectoryNotFoundException ex)
         {
-            throw new GameFileOperationException($"找不到游戏配置文件 {configPath}", ex);
+            throw new GameFileOperationException(string.Format(SH.ServiceGameSetMultiChannelConfigFileNotFound, configPath), ex);
         }
         catch (UnauthorizedAccessException ex)
         {
-            throw new GameFileOperationException($"无法读取或保存配置文件，请以管理员模式重试。", ex);
+            throw new GameFileOperationException(SH.ServiceGameSetMultiChannelUnauthorizedAccess, ex);
         }
 
         bool changed = false;
@@ -236,7 +237,7 @@ internal class GameService : IGameService
         string gameFolder = Path.GetDirectoryName(gamePath)!;
         string gameFileName = Path.GetFileName(gamePath);
 
-        progress.Report(new("查询游戏资源信息"));
+        progress.Report(new(SH.ServiceGameEnsureGameResourceQueryResourceInformation));
         Response<GameResource> response = await Ioc.Default
             .GetRequiredService<ResourceClient>()
             .GetResourceAsync(launchScheme)
@@ -321,6 +322,7 @@ internal class GameService : IGameService
         }
 
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
+        // TODO: impl monitor option.
         string commandLine = new CommandLineBuilder()
             .AppendIf("-popupwindow", configuration.IsBorderless)
             .Append("-screen-fullscreen", configuration.IsFullScreen ? 1 : 0)
@@ -343,31 +345,24 @@ internal class GameService : IGameService
 
         using (await gameSemaphore.EnterAsync().ConfigureAwait(false))
         {
-            try
+            if (configuration.UnlockFPS)
             {
-                if (configuration.UnlockFPS)
-                {
-                    IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, configuration.TargetFPS);
+                IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, configuration.TargetFPS);
 
-                    TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
-                    TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
-                    TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
-                    if (game.Start())
-                    {
-                        await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
-                    }
-                }
-                else
+                TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
+                TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
+                TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
+                if (game.Start())
                 {
-                    if (game.Start())
-                    {
-                        await game.WaitForExitAsync().ConfigureAwait(false);
-                    }
+                    await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
                 }
             }
-            catch (Win32Exception)
+            else
             {
-                // 通常是用户取消了UAC
+                if (game.Start())
+                {
+                    await game.WaitForExitAsync().ConfigureAwait(false);
+                }
             }
         }
     }
@@ -380,14 +375,14 @@ internal class GameService : IGameService
         string? registrySdk = RegistryInterop.Get();
         if (!string.IsNullOrEmpty(registrySdk))
         {
-            GameAccount? account;
+            GameAccount? account = null;
             try
             {
                 account = gameAccounts.SingleOrDefault(a => a.MihoyoSDK == registrySdk);
             }
             catch (InvalidOperationException ex)
             {
-                throw new Core.ExceptionService.UserdataCorruptedException("已存在多个匹配账号，请先删除重复的账号", ex);
+                ThrowHelper.UserdataCorrupted(SH.ServiceGameDetectGameAccountMultiMatched, ex);
             }
 
             if (account == null)

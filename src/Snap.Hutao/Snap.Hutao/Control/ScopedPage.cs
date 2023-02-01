@@ -16,16 +16,34 @@ namespace Snap.Hutao.Control;
 [SuppressMessage("", "CA1001")]
 public class ScopedPage : Page
 {
+    // Allow GC to Collect the IServiceScope
+    private static readonly WeakReference<IServiceScope> PreviousScopeReference = new(null!);
+
     private readonly CancellationTokenSource viewCancellationTokenSource = new();
-    private readonly IServiceScope serviceScope;
+    private readonly IServiceScope currentScope;
 
     /// <summary>
     /// 构造一个新的页面
     /// </summary>
     public ScopedPage()
     {
-        serviceScope = Ioc.Default.CreateScope();
-        serviceScope.Track();
+        Unloaded += OnScopedPageUnloaded;
+        currentScope = Ioc.Default.CreateScope();
+        DisposePreviousScope();
+
+        // track current
+        PreviousScopeReference.SetTarget(currentScope);
+    }
+
+    /// <summary>
+    /// 释放上个范围
+    /// </summary>
+    public static void DisposePreviousScope()
+    {
+        if (PreviousScopeReference.TryGetTarget(out IServiceScope? scope))
+        {
+            scope.Dispose();
+        }
     }
 
     /// <summary>
@@ -36,7 +54,7 @@ public class ScopedPage : Page
     public void InitializeWith<TViewModel>()
         where TViewModel : class, IViewModel
     {
-        IViewModel viewModel = serviceScope.ServiceProvider.GetRequiredService<TViewModel>();
+        IViewModel viewModel = currentScope.ServiceProvider.GetRequiredService<TViewModel>();
         viewModel.CancellationToken = viewCancellationTokenSource.Token;
         DataContext = viewModel;
     }
@@ -59,7 +77,6 @@ public class ScopedPage : Page
     /// <inheritdoc/>
     protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
     {
-        base.OnNavigatingFrom(e);
         using (viewCancellationTokenSource)
         {
             // Cancel all tasks executed by the view model
@@ -73,7 +90,7 @@ public class ScopedPage : Page
                 viewModel.IsViewDisposed = true;
 
                 // Dispose the scope
-                serviceScope.Dispose();
+                currentScope.Dispose();
             }
         }
     }
@@ -81,11 +98,15 @@ public class ScopedPage : Page
     /// <inheritdoc/>
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        base.OnNavigatedTo(e);
-
         if (e.Parameter is INavigationData extra)
         {
             NotifyRecipentAsync(extra).SafeForget();
         }
+    }
+
+    private void OnScopedPageUnloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        DataContext = null;
+        Unloaded -= OnScopedPageUnloaded;
     }
 }

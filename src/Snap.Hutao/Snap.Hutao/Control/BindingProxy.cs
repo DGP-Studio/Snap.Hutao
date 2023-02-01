@@ -8,6 +8,8 @@ namespace Snap.Hutao.Control;
 /// <summary>
 /// 绑定探针
 /// 用于处理特定情况下需要穿透数据上下文的工作
+/// DependencyObject will dispose inner ReferenceTracker in any time
+/// when object is not used anymore.
 /// </summary>
 public class BindingProxy : DependencyObject
 {

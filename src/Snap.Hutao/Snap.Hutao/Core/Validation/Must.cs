@@ -44,7 +44,7 @@ public static class Must
     /// <param name="context">上下文</param>
     /// <returns>Nothing. This method always throws.</returns>
     [DoesNotReturn]
-    public static System.Exception NeverHappen(string? context = null)
+    public static Exception NeverHappen(string? context = null)
     {
         throw new NotSupportedException(context);
     }
@@ -61,22 +61,5 @@ public static class Must
         where T : class // ensures value-types aren't passed to a null checking method
     {
         return value ?? throw new ArgumentNullException(parameterName);
-    }
-
-    /// <summary>
-    /// Throws an <see cref="ArgumentNullException"/> if the specified parameter's value is IntPtr.Zero.
-    /// </summary>
-    /// <param name="value">The value of the argument.</param>
-    /// <param name="parameterName">The name of the parameter to include in any thrown exception.</param>
-    /// <returns>The value of the parameter.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see cref="IntPtr.Zero"/>.</exception>
-    public static Windows.Win32.Foundation.HWND NotNull(Windows.Win32.Foundation.HWND value, [CallerArgumentExpression("value")] string? parameterName = null)
-    {
-        if (value == default)
-        {
-            throw new ArgumentNullException(parameterName);
-        }
-
-        return value;
     }
 }

@@ -57,7 +57,7 @@ internal partial class AnnouncementService : IAnnouncementService
                 Dictionary<int, string> contentMap = contents
                     .ToDictionary(id => id.AnnId, content => content.Content);
 
-                // 将活动公告置于上方
+                // 将活动公告置于前方
                 wrapper.List.Reverse();
 
                 // 将公告内容联入公告列表

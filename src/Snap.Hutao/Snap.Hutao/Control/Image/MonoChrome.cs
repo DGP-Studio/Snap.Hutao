@@ -6,6 +6,7 @@ using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Snap.Hutao.Control.Theme;
 
 namespace Snap.Hutao.Control.Image;
 
@@ -49,12 +50,7 @@ public class MonoChrome : CompositionImage
 
     private void SetBackgroundColor(CompositionColorBrush backgroundBrush)
     {
-        ApplicationTheme theme = ActualTheme switch
-        {
-            ElementTheme.Light => ApplicationTheme.Light,
-            ElementTheme.Dark => ApplicationTheme.Dark,
-            _ => Ioc.Default.GetRequiredService<App>().RequestedTheme,
-        };
+        ApplicationTheme theme = ThemeHelper.ElementToApplication(ActualTheme);
 
         backgroundBrush.Color = theme switch
         {

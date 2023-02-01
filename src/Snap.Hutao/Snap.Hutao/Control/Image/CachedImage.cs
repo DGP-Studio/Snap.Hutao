@@ -32,7 +32,7 @@ public class CachedImage : ImageEx
 
         try
         {
-            Verify.Operation(imageUri.Host != string.Empty, "无效的Uri");
+            Verify.Operation(imageUri.Host != string.Empty, SH.ControlImageCachedImageInvalidResourceUri);
             string file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true);
 
             // check token state to determine whether the operation should be canceled.

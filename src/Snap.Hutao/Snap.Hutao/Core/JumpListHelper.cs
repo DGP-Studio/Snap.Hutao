@@ -23,8 +23,8 @@ public static class JumpListHelper
 
             list.Items.Clear();
 
-            JumpListItem launchGameItem = JumpListItem.CreateWithArguments(Activation.LaunchGame, "启动游戏");
-            launchGameItem.GroupName = "快捷操作";
+            JumpListItem launchGameItem = JumpListItem.CreateWithArguments(Activation.LaunchGame, SH.CoreJumpListHelperLaunchGameItemDisplayName);
+            launchGameItem.GroupName = SH.CoreJumpListHelperLaunchGameItemGroupName;
             launchGameItem.Logo = new("ms-appx:///Resource/Icon/UI_GuideIcon_PlayMethod.png");
 
             list.Items.Add(launchGameItem);

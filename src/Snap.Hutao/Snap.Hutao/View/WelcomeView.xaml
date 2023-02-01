@@ -8,6 +8,7 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     d:DataContext="{d:DesignInstance shv:WelcomeViewModel}"
+    Unloaded="OnUnloaded"
     mc:Ignorable="d">
 
     <mxi:Interaction.Behaviors>
@@ -34,6 +35,7 @@
                     <ItemsControl.ItemContainerTransitions>
                         <EntranceThemeTransition IsStaggeringEnabled="False"/>
                         <AddDeleteThemeTransition/>
+                        <RepositionThemeTransition/>
                     </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

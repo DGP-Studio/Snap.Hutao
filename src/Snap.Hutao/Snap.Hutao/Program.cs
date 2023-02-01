@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using Snap.Hutao.Core.Logging;
 using System.Runtime.InteropServices;
 using WinRT;
 
@@ -33,7 +32,7 @@ public static partial class Program
             // In a Desktop app this runs a message pump internally,
             // and does not return until the application shuts down.
             Application.Start(InitializeApp);
-            ServiceScopeExtension.DisposeLast();
+            Control.ScopedPage.DisposePreviousScope();
         }
 
         AppInstance.GetCurrent().UnregisterKey();
@@ -54,11 +53,11 @@ public static partial class Program
         ServiceProvider services = new ServiceCollection()
 
             // Microsoft extension
-            .AddLogging(builder => builder.AddDebug().AddDatabase())
+            .AddLogging(builder => builder.AddDebug())
             .AddMemoryCache()
 
             // Hutao extensions
-            .AddJsonSerializerOptions()
+            .AddJsonOptions()
             .AddDatebase()
             .AddInjections()
             .AddHttpClients()
@@ -66,7 +65,7 @@ public static partial class Program
             // Discrete services
             .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
 
-            .BuildServiceProvider();
+            .BuildServiceProvider(true);
 
         Ioc.Default.ConfigureServices(services);
         return services;

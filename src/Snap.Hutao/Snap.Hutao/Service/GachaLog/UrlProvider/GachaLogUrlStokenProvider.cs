@@ -1,10 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -34,32 +35,23 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
     /// <inheritdoc/>
     public async Task<ValueResult<bool, string>> GetQueryAsync()
     {
-        Model.Binding.User.User? user = userService.Current;
-        if (user != null && user.SelectedUserGameRole != null)
+        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            if (user.Stoken != null)
-            {
-                PlayerUid uid = (PlayerUid)user.SelectedUserGameRole;
-                GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(uid);
+            GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
+            Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
 
-                Web.Response.Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(user.Entity, data).ConfigureAwait(false);
-                if (authkeyResponse.IsOk())
-                {
-                    return new(true, GachaLogConfigration.AsQuery(data, authkeyResponse.Data));
-                }
-                else
-                {
-                    return new(false, "请求验证密钥失败");
-                }
+            if (authkeyResponse.IsOk())
+            {
+                return new(true, GachaLogConfigration.AsQuery(data, authkeyResponse.Data));
             }
             else
             {
-                return new(false, "当前用户的 Cookie 不包含 Stoken");
+                return new(false, SH.ServiceGachaLogUrlProviderAuthkeyRequestFailed);
             }
         }
         else
         {
-            return new(false, "尚未选择要刷新的用户以及角色");
+            return new(false, SH.ServiceUserAndRoleUnselected);
         }
     }
 }

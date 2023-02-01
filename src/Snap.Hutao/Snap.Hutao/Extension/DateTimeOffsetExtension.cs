@@ -9,22 +9,6 @@ namespace Snap.Hutao.Extension;
 public static class DateTimeOffsetExtension
 {
     /// <summary>
-    /// Converts the current <see cref="DateTimeOffset"/> to a <see cref="DateTimeOffset"/> that represents the local time.
-    /// </summary>
-    /// <param name="dateTimeOffset">时间偏移</param>
-    /// <param name="keepTicks">保留主时间部分</param>
-    /// <returns>A <see cref="DateTimeOffset"/> that represents the local time.</returns>
-    public static DateTimeOffset ToLocalTime(this DateTimeOffset dateTimeOffset, bool keepTicks)
-    {
-        if (keepTicks)
-        {
-            dateTimeOffset -= TimeZoneInfo.Local.GetUtcOffset(DateTimeOffset.Now);
-        }
-
-        return dateTimeOffset.ToLocalTime();
-    }
-
-    /// <summary>
     /// 从Unix时间戳转换
     /// </summary>
     /// <param name="timestamp">时间戳</param>

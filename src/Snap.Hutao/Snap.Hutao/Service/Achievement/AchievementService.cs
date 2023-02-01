@@ -114,14 +114,14 @@ internal class AchievementService : IAchievementService
         List<BindingAchievement> results = new();
         foreach (MetadataAchievement meta in metadata)
         {
-            EntityAchievement? entity;
+            EntityAchievement? entity = null;
             try
             {
                 entity = entities.SingleOrDefault(e => e.Id == meta.Id);
             }
             catch (InvalidOperationException ex)
             {
-                throw new UserdataCorruptedException("单个成就存档内发现多个相同的成就 Id", ex);
+                ThrowHelper.UserdataCorrupted(SH.ServiceAchievementUserdataCorruptedInnerIdNotUnique, ex);
             }
 
             entity ??= EntityAchievement.Create(archiveId, meta.Id);
@@ -154,7 +154,6 @@ internal class AchievementService : IAchievementService
     /// <inheritdoc/>
     public async Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy)
     {
-        // return Task.Run(() => ImportFromUIAF(archive, list, strategy));
         await ThreadHelper.SwitchToBackgroundAsync();
 
         Guid archiveId = archive.InnerId;
@@ -190,7 +189,7 @@ internal class AchievementService : IAchievementService
     public void SaveAchievements(EntityArchive archive, IList<BindingAchievement> achievements)
     {
         string name = archive.Name;
-        logger.LogInformation(EventIds.Achievement, "Begin saving achievements for [{name}]", name);
+        logger.LogInformation("Begin saving achievements for [{name}]", name);
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
 
         IEnumerable<EntityAchievement> newData = achievements
@@ -200,8 +199,8 @@ internal class AchievementService : IAchievementService
         ImportResult result = achievementDbOperation.Overwrite(archive.InnerId, newData);
 
         double time = stopwatch.GetElapsedTime().TotalMilliseconds;
-        logger.LogInformation(EventIds.Achievement, "{add} added, {update} updated, {remove} removed", result.Add, result.Update, result.Remove);
-        logger.LogInformation(EventIds.Achievement, "Save achievements for [{name}] completed in {time}ms", name, time);
+        logger.LogInformation("{add} added, {update} updated, {remove} removed", result.Add, result.Update, result.Remove);
+        logger.LogInformation("Save achievements for [{name}] completed in {time}ms", name, time);
     }
 
     /// <inheritdoc/>

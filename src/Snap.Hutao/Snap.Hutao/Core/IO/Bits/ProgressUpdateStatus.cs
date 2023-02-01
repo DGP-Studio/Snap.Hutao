@@ -1,11 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics;
+
 namespace Snap.Hutao.Core.IO.Bits;
 
 /// <summary>
 /// 进度更新状态
 /// </summary>
+[DebuggerDisplay("{BytesRead}/{TotalBytes}")]
 public class ProgressUpdateStatus
 {
     /// <summary>

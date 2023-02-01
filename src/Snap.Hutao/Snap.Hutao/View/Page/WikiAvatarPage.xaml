@@ -1,4 +1,4 @@
-﻿<Page
+﻿<shc:ScopedPage
     x:Class="Snap.Hutao.View.Page.WikiAvatarPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
@@ -602,4 +603,4 @@
         </Grid>
         <shvc:LoadingView IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
-</Page>
+</shc:ScopedPage>

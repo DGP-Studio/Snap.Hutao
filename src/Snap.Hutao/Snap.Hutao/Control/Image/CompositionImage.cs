@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.UI.Animations;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
@@ -11,6 +12,7 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using System.IO;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control.Image;
@@ -24,7 +26,7 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     private static readonly DependencyProperty SourceProperty = Property<CompositionImage>.Depend(nameof(Source), default(Uri), OnSourceChanged);
     private static readonly ConcurrentCancellationTokenSource<CompositionImage> LoadingTokenSource = new();
 
-    private readonly IImageCache imageCache;
+    private readonly IServiceProvider serviceProvider;
 
     private SpriteVisual? spriteVisual;
     private bool isShow = true;
@@ -34,8 +36,15 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     /// </summary>
     public CompositionImage()
     {
-        imageCache = Ioc.Default.GetRequiredService<IImageCache>();
+        serviceProvider = Ioc.Default.GetRequiredService<IServiceProvider>();
+
+        AllowFocusOnInteraction = false;
+        IsDoubleTapEnabled = false;
+        IsHitTestVisible = false;
+        IsHoldingEnabled = false;
+        IsRightTapEnabled = false;
         IsTabStop = false;
+
         SizeChanged += OnSizeChanged;
     }
 
@@ -86,11 +95,11 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
         if (exception is HttpRequestException httpRequestException)
         {
-            infoBarService.Error(httpRequestException, $"GET {uri}");
+            infoBarService.Error(httpRequestException, string.Format(SH.ControlImageCompositionImageHttpRequest, uri));
         }
         else
         {
-            infoBarService.Error(exception, $"应用 {nameof(CompositionImage)} 的源时发生异常");
+            infoBarService.Error(exception.GetBaseException(), SH.ControlImageCompositionImageSystemException);
         }
     }
 
@@ -124,26 +133,20 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
         if (uri != null)
         {
-            if (uri.Scheme == "ms-appx")
-            {
-                imageSurface = LoadedImageSurface.StartLoadFromUri(uri);
-            }
-            else
-            {
-                string storageFile = await imageCache.GetFileFromCacheAsync(uri).ConfigureAwait(true);
+            IImageCache imageCache = serviceProvider.GetRequiredService<IImageCache>();
+            string file = await imageCache.GetFileFromCacheAsync(uri).ConfigureAwait(true);
 
-                try
-                {
-                    imageSurface = await LoadImageSurfaceAsync(storageFile, token).ConfigureAwait(true);
-                }
-                catch (COMException)
-                {
-                    imageCache.Remove(uri.Enumerate());
-                }
-                catch (IOException)
-                {
-                    imageCache.Remove(uri.Enumerate());
-                }
+            try
+            {
+                imageSurface = await LoadImageSurfaceAsync(file, token).ConfigureAwait(true);
+            }
+            catch (COMException)
+            {
+                imageCache.Remove(uri.Enumerate());
+            }
+            catch (IOException)
+            {
+                imageCache.Remove(uri.Enumerate());
             }
 
             if (imageSurface != null)

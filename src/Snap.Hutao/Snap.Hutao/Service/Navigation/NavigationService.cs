@@ -102,7 +102,7 @@ internal class NavigationService : INavigationService
 
         if (currentType == pageType)
         {
-            logger.LogInformation(EventIds.NavigationHistory, "Navigate to {pageType} : succeed, already in", pageType);
+            logger.LogInformation("Navigate to {pageType} : succeed, already in", pageType);
             return NavigationResult.AlreadyNavigatedTo;
         }
 
@@ -112,11 +112,11 @@ internal class NavigationService : INavigationService
         try
         {
             navigated = Frame?.Navigate(pageType, data) ?? false;
-            logger.LogInformation(EventIds.NavigationHistory, "Navigate to {pageType} : {result}", pageType, navigated ? "succeed" : "failed");
+            logger.LogInformation("Navigate to {pageType} : {result}", pageType, navigated ? "succeed" : "failed");
         }
         catch (Exception ex)
         {
-            logger.LogError(EventIds.NavigationFailed, ex, "An error occurred while navigating to {pageType}", pageType);
+            logger.LogError(ex, "An error occurred while navigating to {pageType}", pageType);
             infoBarService.Error(ex);
         }
 
@@ -148,7 +148,7 @@ internal class NavigationService : INavigationService
                     }
                     catch (Exception ex)
                     {
-                        logger.LogError(EventIds.NavigationFailed, ex, "异步导航时发生异常");
+                        logger.LogError(ex, "异步导航时发生异常");
                         return NavigationResult.Failed;
                     }
                 }

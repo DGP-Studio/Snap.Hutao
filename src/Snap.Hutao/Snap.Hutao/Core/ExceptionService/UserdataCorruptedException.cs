@@ -14,7 +14,7 @@ internal class UserdataCorruptedException : Exception
     /// <param name="message">消息</param>
     /// <param name="innerException">内部错误</param>
     public UserdataCorruptedException(string message, Exception innerException)
-        : base($"用户数据已损坏: {message}", innerException)
+        : base(string.Format(SH.CoreExceptionServiceUserdataCorruptedMessage, message), innerException)
     {
     }
 }

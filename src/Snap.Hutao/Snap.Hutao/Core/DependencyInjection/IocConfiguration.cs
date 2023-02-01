@@ -18,7 +18,7 @@ internal static class IocConfiguration
     /// </summary>
     /// <param name="services">集合</param>
     /// <returns>可继续操作的集合</returns>
-    public static IServiceCollection AddJsonSerializerOptions(this IServiceCollection services)
+    public static IServiceCollection AddJsonOptions(this IServiceCollection services)
     {
         return services.AddSingleton(CoreEnvironment.JsonOptions);
     }

@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control;
-using Snap.Hutao.Core;
+using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Windows.System;

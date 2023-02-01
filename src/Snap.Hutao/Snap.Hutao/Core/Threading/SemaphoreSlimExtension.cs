@@ -1,12 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Core.Threading;
 
 /// <summary>
 /// 信号量扩展
 /// </summary>
-public static class SemaphoreSlimExtensions
+public static class SemaphoreSlimExtension
 {
     /// <summary>
     /// 异步进入信号量
@@ -22,7 +24,7 @@ public static class SemaphoreSlimExtensions
         }
         catch (ObjectDisposedException ex)
         {
-            throw new OperationCanceledException("信号量已经被释放，操作取消", ex);
+            ThrowHelper.OperationCanceled(SH.CoreThreadingSemaphoreSlimDisposed, ex);
         }
 
         return new SemaphoreSlimReleaser(semaphoreSlim);

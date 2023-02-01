@@ -31,7 +31,7 @@ internal static class ScheduleTaskHelper
             }
 
             TaskDefinition task = TaskService.Instance.NewTask();
-            task.RegistrationInfo.Description = "胡桃实时便笺刷新任务 | 请勿编辑或删除。";
+            task.RegistrationInfo.Description = SH.CoreScheduleTaskHelperDailyNoteRefreshTaskDescription;
             task.Triggers.Add(new TimeTrigger() { Repetition = new(TimeSpan.FromSeconds(interval), TimeSpan.Zero), });
             task.Actions.Add("explorer", "hutao://DailyNote/Refresh");
             TaskService.Instance.RootFolder.RegisterTaskDefinition(DailyNoteRefreshTaskName, task);

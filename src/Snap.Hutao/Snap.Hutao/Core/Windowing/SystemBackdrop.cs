@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -140,7 +141,7 @@ public class SystemBackdrop
         /// <summary>
         /// 确保系统调度队列控制器存在
         /// </summary>
-        public void Ensure()
+        public unsafe void Ensure()
         {
             if (DispatcherQueue.GetForCurrentThread() != null)
             {
@@ -152,7 +153,7 @@ public class SystemBackdrop
             {
                 DispatcherQueueOptions options = new()
                 {
-                    DwSize = Marshal.SizeOf<DispatcherQueueOptions>(),
+                    DwSize = sizeof(DispatcherQueueOptions),
                     ThreadType = 2,    // DQTYPE_THREAD_CURRENT
                     ApartmentType = 2, // DQTAT_COM_STA
                 };

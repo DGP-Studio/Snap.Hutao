@@ -4,7 +4,7 @@
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Control.Theme;
 
 /// <summary>
 /// 主题帮助工具类
@@ -39,6 +39,21 @@ public static class ThemeHelper
             ApplicationTheme.Light => ElementTheme.Light,
             ApplicationTheme.Dark => ElementTheme.Dark,
             _ => throw Must.NeverHappen(),
+        };
+    }
+
+    /// <summary>
+    /// 从 <see cref="ElementTheme"/> 转换到 <see cref="ApplicationTheme"/>
+    /// </summary>
+    /// <param name="applicationTheme">元素主题</param>
+    /// <returns>应用主题</returns>
+    public static ApplicationTheme ElementToApplication(ElementTheme applicationTheme)
+    {
+        return applicationTheme switch
+        {
+            ElementTheme.Light => ApplicationTheme.Light,
+            ElementTheme.Dark => ApplicationTheme.Dark,
+            _ => Ioc.Default.GetRequiredService<App>().RequestedTheme,
         };
     }
 

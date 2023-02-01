@@ -370,6 +370,12 @@ public class MiHoYoJSInterface
         }
     }
 
+    private IJsResult? LogUnhandledMessage([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string message, params object?[] param)
+    {
+        logger.LogWarning(message, param);
+        return default;
+    }
+
     private async Task<IJsResult?> TryGetJsResultFromJsParamAsync(JsParam param)
     {
         try
@@ -391,7 +397,7 @@ public class MiHoYoJSInterface
                 "login" => null,
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
                 "showLoading" => null,
-                _ => logger.LogWarning<IJsResult>("Unhandled Message Type: {method}", param.Method),
+                _ => LogUnhandledMessage("Unhandled Message Type: {method}", param.Method),
             };
         }
         catch (ObjectDisposedException)

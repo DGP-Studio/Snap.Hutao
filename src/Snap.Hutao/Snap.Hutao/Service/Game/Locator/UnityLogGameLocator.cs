@@ -20,6 +20,7 @@ internal partial class UnityLogGameLocator : IGameLocator
     public async Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
         await ThreadHelper.SwitchToBackgroundAsync();
+
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string logFilePathChinese = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\原神\output_log.txt");
         string logFilePathOvsesea = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\Genshin Impact\output_log.txt");
@@ -36,7 +37,7 @@ internal partial class UnityLogGameLocator : IGameLocator
                 Match matchResult = WarmupFileLine().Match(content);
                 if (!matchResult.Success)
                 {
-                    return new(false, $"在 Unity 日志文件中找不到游戏路径");
+                    return new(false, SH.ServiceGameLocatorUnityLogGamePathNotFound);
                 }
 
                 string entryName = matchResult.Groups[0].Value.Replace("_Data", ".exe");
@@ -45,7 +46,7 @@ internal partial class UnityLogGameLocator : IGameLocator
             }
             else
             {
-                return new(false, $"找不到 Unity 日志文件");
+                return new(false, SH.ServiceGameLocatorUnityLogFileNotFound);
             }
         }
     }

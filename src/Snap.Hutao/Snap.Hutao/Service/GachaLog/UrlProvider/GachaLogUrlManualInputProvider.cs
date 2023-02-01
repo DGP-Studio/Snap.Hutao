@@ -29,7 +29,7 @@ internal class GachaLogUrlManualInputProvider : IGachaLogUrlProvider
             }
             else
             {
-                return new(false, "提供的Url无效");
+                return new(false, SH.ServiceGachaLogUrlProviderManualInputInvalid);
             }
         }
         else

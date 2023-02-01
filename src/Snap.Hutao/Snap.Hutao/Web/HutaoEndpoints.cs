@@ -117,6 +117,11 @@ internal static class HutaoEndpoints
     public static readonly Uri UIItemIconNone = new(StaticFile("Bg", "UI_ItemIcon_None.png"));
 
     /// <summary>
+    /// UI_AvatarIcon_Side_None
+    /// </summary>
+    public static readonly Uri UIAvatarIconSideNone = new(StaticFile("AvatarIcon", "UI_AvatarIcon_Side_None.png"));
+
+    /// <summary>
     /// 压缩包资源
     /// </summary>
     /// <param name="category">分类</param>

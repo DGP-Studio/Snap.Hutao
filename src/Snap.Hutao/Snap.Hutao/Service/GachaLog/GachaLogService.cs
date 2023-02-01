@@ -6,6 +6,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
@@ -119,12 +120,14 @@ internal class GachaLogService : IGachaLogService
         await ThreadHelper.SwitchToMainThreadAsync();
         try
         {
-            return archiveCollection ??= appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
+             archiveCollection ??= appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
         }
         catch (SqliteException ex)
         {
-            throw new Core.ExceptionService.UserdataCorruptedException($"无法获取祈愿记录: {ex.Message}", ex);
+            ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaLogArchiveCollectionUserdataCorruptedMessage, ex.Message), ex);
         }
+
+        return archiveCollection;
     }
 
     /// <inheritdoc/>
@@ -349,7 +352,7 @@ internal class GachaLogService : IGachaLogService
             }
             catch (SqliteException ex)
             {
-                throw new Core.ExceptionService.UserdataCorruptedException("无法获取祈愿记录 End Id", ex);
+                ThrowHelper.UserdataCorrupted(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
             }
         }
 

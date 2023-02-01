@@ -30,7 +30,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
     private readonly object lockObj = new();
 
     private IBackgroundCopyJob? nativeJob;
-    private System.Exception? jobException;
+    private Exception? jobException;
     private BG_JOB_PROGRESS progress;
     private BG_JOB_STATE state;
     private bool isJobComplete;
@@ -79,7 +79,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
             UpdateJobState();
             CompleteOrCancel();
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             log.LogInformation("Failed to job transfer: {message}", ex.Message);
         }
@@ -101,7 +101,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
             CompleteOrCancel();
             log.LogInformation(jobException, "Job Exception:");
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             log?.LogInformation("Failed to handle job error: {message}", ex.Message);
         }
@@ -141,7 +141,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
                 CompleteOrCancel();
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             log.LogInformation(ex, "message");
         }
@@ -283,7 +283,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
         {
             action();
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             log.LogInformation("{name} failed. {exception}", displayName, ex);
             if (throwOnFailure)

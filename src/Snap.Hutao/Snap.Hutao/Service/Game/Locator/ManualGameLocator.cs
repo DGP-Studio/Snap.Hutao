@@ -36,7 +36,11 @@ internal class ManualGameLocator : IGameLocator
 
     private async Task<ValueResult<bool, string>> LocateInternalAsync(List<string> fileNames)
     {
-        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "选择游戏本体", ".exe");
+        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(
+            PickerLocationId.Desktop,
+            SH.ServiceGameLocatorFileOpenPickerCommitText,
+            ".exe");
+
         (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
 
         if (isPickerOk)

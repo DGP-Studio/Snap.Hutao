@@ -60,7 +60,7 @@ internal class ContentDialogFactory : IContentDialogFactory
             Title = title,
             Content = content,
             DefaultButton = ContentDialogButton.Primary,
-            PrimaryButtonText = "确认",
+            PrimaryButtonText = SH.FactoryContentDialogFactoryConfirmPrimaryButtonText,
         };
 
         return dialog;
@@ -75,8 +75,8 @@ internal class ContentDialogFactory : IContentDialogFactory
             Title = title,
             Content = content,
             DefaultButton = defaultButton,
-            PrimaryButtonText = "确认",
-            CloseButtonText = "取消",
+            PrimaryButtonText = SH.FactoryContentDialogFactoryConfirmPrimaryButtonText,
+            CloseButtonText = SH.FactoryContentDialogFactoryCancelCloseButtonText,
         };
 
         return dialog;

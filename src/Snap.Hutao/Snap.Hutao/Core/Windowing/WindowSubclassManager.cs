@@ -37,7 +37,7 @@ internal class WindowSubclassManager<TWindow> : IDisposable
     public WindowSubclassManager(TWindow window, HWND hwnd, bool isLegacyDragBar)
     {
         this.window = window;
-        this.hwnd = Must.NotNull(hwnd);
+        this.hwnd = hwnd;
         this.isLegacyDragBar = isLegacyDragBar;
     }
 
@@ -45,7 +45,7 @@ internal class WindowSubclassManager<TWindow> : IDisposable
     /// 尝试设置窗体子类
     /// </summary>
     /// <returns>是否设置成功</returns>
-    public bool TrySetWindowSubclass()
+    public unsafe bool TrySetWindowSubclass()
     {
         windowProc = new(OnSubclassProcedure);
         bool windowHooked = SetWindowSubclass(hwnd, windowProc, WindowSubclassId, 0);

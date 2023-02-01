@@ -71,6 +71,11 @@ internal static class CoreEnvironment
     public static readonly string FamilyName;
 
     /// <summary>
+    /// 安装位置
+    /// </summary>
+    public static readonly string InstalledLocation;
+
+    /// <summary>
     /// 数据文件夹
     /// </summary>
     public static readonly string DataFolder;
@@ -98,9 +103,10 @@ internal static class CoreEnvironment
 
     static CoreEnvironment()
     {
-        DataFolder = GetDocumentsHutaoPath();
+        DataFolder = GetDatafolderPath();
         Version = Package.Current.Id.Version.ToVersion();
         FamilyName = Package.Current.Id.FamilyName;
+        InstalledLocation = Package.Current.InstalledLocation.Path;
         CommonUA = $"Snap Hutao/{Version}";
 
         // simply assign a random guid
@@ -115,7 +121,7 @@ internal static class CoreEnvironment
         return Convert.ToMd5HexString($"{userName}{machineGuid}");
     }
 
-    private static string GetDocumentsHutaoPath()
+    private static string GetDatafolderPath()
     {
         string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 #if RELEASE

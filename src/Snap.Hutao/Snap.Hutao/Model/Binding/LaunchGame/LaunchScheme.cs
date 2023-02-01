@@ -15,9 +15,9 @@ public class LaunchScheme
     /// </summary>
     public static readonly ImmutableList<LaunchScheme> KnownSchemes = new List<LaunchScheme>()
     {
-        new LaunchScheme("官方服 | 天空岛", "eYd89JmJ", "18", "1", "1"),
-        new LaunchScheme("渠道服 | 世界树", "KAtdSsoQ", "17", "14", "0"),
-        new LaunchScheme("国际服 | 部分支持", "gcStgarh", "10", "1", "0"),
+        new LaunchScheme("官方服", "eYd89JmJ", "18", "1", "1"),
+        new LaunchScheme("渠道服", "KAtdSsoQ", "17", "14", "0"),
+        new LaunchScheme("国际服", "gcStgarh", "10", "1", "0"),
     }.ToImmutableList();
 
     /// <summary>

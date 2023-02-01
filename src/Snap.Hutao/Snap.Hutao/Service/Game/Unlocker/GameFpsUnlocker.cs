@@ -33,7 +33,7 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
     /// <param name="targetFPS">目标fps</param>
     public GameFpsUnlocker(Process gameProcess, int targetFPS)
     {
-        Must.Range(targetFPS >= 30 && targetFPS <= 2000, "目标FPS超过允许值");
+        Must.Range(targetFPS >= 30 && targetFPS <= 2000, "Target FPS threshold exceeded");
 
         TargetFps = targetFPS;
         this.gameProcess = gameProcess;
@@ -45,12 +45,12 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
     /// <inheritdoc/>
     public async Task UnlockAsync(TimeSpan findModuleDelay, TimeSpan findModuleLimit, TimeSpan adjustFpsDelay)
     {
-        Verify.Operation(isValid, "此解锁器已经失效");
+        Verify.Operation(isValid, "This Unlocker is invalid");
 
         MODULEENTRY32 unityPlayer = await FindModuleAsync(findModuleDelay, findModuleLimit).ConfigureAwait(false);
 
         // Read UnityPlayer.dll
-        TryReadModuleMemoryFindFpsAddress(unityPlayer);
+        UnsafeTryReadModuleMemoryFindFpsAddress(unityPlayer);
 
         // When player switch between scenes, we have to re adjust the fps
         // So we keep a loop here
@@ -73,7 +73,7 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
         return WriteProcessMemory(process.SafeHandle, (void*)baseAddress, lpBuffer, sizeof(int), null);
     }
 
-    private static unsafe MODULEENTRY32 FindModule(int processId, string moduleName)
+    private static unsafe MODULEENTRY32 UnsafeFindModule(int processId, string moduleName)
     {
         HANDLE snapshot = CreateToolhelp32Snapshot(CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE, (uint)processId);
         try
@@ -109,7 +109,7 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
 
         while (true)
         {
-            MODULEENTRY32 module = FindModule(gameProcess.Id, "UnityPlayer.dll");
+            MODULEENTRY32 module = UnsafeFindModule(gameProcess.Id, "UnityPlayer.dll");
             if (!StructMarshal.IsDefault(module))
             {
                 return module;
@@ -145,7 +145,7 @@ internal class GameFpsUnlocker : IGameFpsUnlocker
         }
     }
 
-    private unsafe void TryReadModuleMemoryFindFpsAddress(MODULEENTRY32 unityPlayer)
+    private unsafe void UnsafeTryReadModuleMemoryFindFpsAddress(MODULEENTRY32 unityPlayer)
     {
         bool readOk = UnsafeReadModuleMemory(gameProcess, unityPlayer, out Span<byte> image);
         Verify.Operation(readOk, "读取内存失败");

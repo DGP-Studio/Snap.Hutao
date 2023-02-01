@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity.Database;
@@ -82,7 +83,7 @@ internal class UserService : IUserService
                         }
                         catch (InvalidOperationException ex)
                         {
-                            throw new Core.ExceptionService.UserdataCorruptedException($"用户 {currentUser.UserInfo?.Uid} 状态保存失败", ex);
+                            ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceUserCurrentUpdateAndSaveFailed, currentUser.UserInfo?.Uid), ex);
                         }
                     }
 
@@ -104,15 +105,10 @@ internal class UserService : IUserService
         await ThreadHelper.SwitchToBackgroundAsync();
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            try
-            {
-                // Note: cascade deleted dailynotes
-                await scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.RemoveAndSaveAsync(user.Entity).ConfigureAwait(false);
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                throw new Core.ExceptionService.UserdataCorruptedException("用户已被其他功能删除", ex);
-            }
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.Users
+                .ExecuteDeleteWhereAsync(u => u.InnerId == user.Entity.InnerId)
+                .ConfigureAwait(false);
         }
 
         messenger.Send(new UserRemovedMessage(user.Entity));
@@ -144,7 +140,7 @@ internal class UserService : IUserService
             }
             catch (InvalidOperationException ex)
             {
-                throw new Core.ExceptionService.UserdataCorruptedException("无法设置当前用户", ex);
+                throw new UserdataCorruptedException(SH.ServiceUserCurrentMultiMatched, ex);
             }
         }
 
@@ -201,7 +197,7 @@ internal class UserService : IUserService
 
         if (mid == null)
         {
-            return new(UserOptionResult.Invalid, "输入的Cookie无法获取用户信息");
+            return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoMid);
         }
 
         // 检查 mid 对应用户是否存在
@@ -222,7 +218,7 @@ internal class UserService : IUserService
                 }
                 else
                 {
-                    return new(UserOptionResult.Invalid, "必须包含 Stoken");
+                    return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoStoken);
                 }
             }
         }
@@ -266,7 +262,7 @@ internal class UserService : IUserService
             }
             else
             {
-                return new(UserOptionResult.Invalid, "输入的 Cookie 无法获取用户信息");
+                return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieRequestUserInfoFailed);
             }
         }
     }

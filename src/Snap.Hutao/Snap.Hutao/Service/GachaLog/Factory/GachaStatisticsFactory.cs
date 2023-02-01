@@ -65,9 +65,9 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<WeaponId, Weapon> weaponMap,
         bool isEmptyHistoryWishVisible)
     {
-        TypedWishSummaryBuilder permanentWishBuilder = new("奔行世间", TypedWishSummaryBuilder.IsPermanentWish, 90, 10);
-        TypedWishSummaryBuilder avatarWishBuilder = new("角色活动", TypedWishSummaryBuilder.IsAvatarEventWish, 90, 10);
-        TypedWishSummaryBuilder weaponWishBuilder = new("神铸赋形", TypedWishSummaryBuilder.IsWeaponEventWish, 80, 10);
+        TypedWishSummaryBuilder permanentWishBuilder = new(SH.ServiceGachaLogFactoryPermanentWishName, TypedWishSummaryBuilder.IsPermanentWish, 90, 10);
+        TypedWishSummaryBuilder avatarWishBuilder = new(SH.ServiceGachaLogFactoryAvatarWishName, TypedWishSummaryBuilder.IsAvatarEventWish, 90, 10);
+        TypedWishSummaryBuilder weaponWishBuilder = new(SH.ServiceGachaLogFactoryWeaponWishName, TypedWishSummaryBuilder.IsWeaponEventWish, 80, 10);
 
         Dictionary<Avatar, int> orangeAvatarCounter = new();
         Dictionary<Avatar, int> purpleAvatarCounter = new();
@@ -136,6 +136,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
             else
             {
                 // ItemId place not correct.
+                // TODO: check items id when importing
                 Must.NeverHappen();
             }
         }

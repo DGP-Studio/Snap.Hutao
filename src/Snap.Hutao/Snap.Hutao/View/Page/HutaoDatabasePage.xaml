@@ -100,7 +100,6 @@
                                         <wsc:Setting Content="{Binding Overview.SpiralAbyssBattleAverage}" Header="平均战斗次数"/>
                                     </wsc:SettingsGroup>
                                 </StackPanel>
-
                             </Flyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>

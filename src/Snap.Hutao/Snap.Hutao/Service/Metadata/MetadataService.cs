@@ -94,13 +94,13 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
 
             if (metaMd5Map is null)
             {
-                infoBarService.Error("元数据校验文件解析失败");
+                infoBarService.Error(SH.ServiceMetadataParseFailed);
                 return false;
             }
         }
         catch (HttpRequestException ex)
         {
-            infoBarService.Error(ex, "元数据校验文件下载失败");
+            infoBarService.Error(ex, SH.ServiceMetadataRequestFailed);
             return false;
         }
 
@@ -140,7 +140,7 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
 
             if (!skip)
             {
-                logger.LogInformation(EventIds.MetadataFileMD5Check, "MD5 of {file} not matched, begin downloading", fileFullName);
+                logger.LogInformation("MD5 of {file} not matched, begin downloading", fileFullName);
 
                 await DownloadMetadataAsync(fileFullName, token).ConfigureAwait(false);
             }
@@ -172,7 +172,7 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
     private async ValueTask<T> FromCacheOrFileAsync<T>(string fileName, CancellationToken token)
         where T : class
     {
-        Verify.Operation(isInitialized, "元数据服务尚未初始化，或初始化失败");
+        Verify.Operation(isInitialized, SH.ServiceMetadataNotInitialized);
         string cacheKey = $"{nameof(MetadataService)}.Cache.{fileName}";
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))

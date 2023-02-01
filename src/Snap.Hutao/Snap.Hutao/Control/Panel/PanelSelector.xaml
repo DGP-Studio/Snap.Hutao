@@ -21,12 +21,12 @@
                     Click="RadioMenuFlyoutItemClick"
                     Icon="{shcm:FontIcon Glyph=&#xE8FD;}"
                     Tag="List"
-                    Text="列表"/>
+                    Text="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownListName}"/>
                 <RadioMenuFlyoutItem
                     Click="RadioMenuFlyoutItemClick"
                     Icon="{shcm:FontIcon Glyph=&#xF0E2;}"
                     Tag="Grid"
-                    Text="网格"/>
+                    Text="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownGridName}"/>
             </MenuFlyout>
         </SplitButton.Flyout>
     </SplitButton>
