@@ -45,12 +45,6 @@
             <CommandBar Background="{StaticResource CardBackgroundFillColorSecondaryBrush}" DefaultLabelPosition="Right">
                 <CommandBar.Content>
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="240"/>
-                            <ColumnDefinition Width="72"/>
-                            <ColumnDefinition Width="72"/>
-                        </Grid.ColumnDefinitions>
                         <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,6,0,0"/>
                     </Grid>
                 </CommandBar.Content>
@@ -58,19 +52,19 @@
                     Command="{Binding ExportAsImageCommand}"
                     CommandParameter="{Binding ElementName=ImageExportPanel}"
                     Icon="{shcm:FontIcon Glyph=&#xE91B;}"
-                    Label="导出图片"/>
+                    Label="{shcm:ResourceString Name=ViewPageAvatarPropertyExportAsImage}"/>
                 <AppBarButton
                     Command="{Binding CultivateCommand}"
                     CommandParameter="{Binding SelectedAvatar}"
                     Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
-                    Label="养成计算"/>
+                    Label="{shcm:ResourceString Name=ViewPageCultivateCalculate}"/>
                 <AppBarSeparator/>
                 <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="同步角色信息">
                     <AppBarButton.Flyout>
                         <MenuFlyout Placement="TopEdgeAlignedRight">
-                            <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="从 Enka API 同步"/>
-                            <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="从米游社我的角色同步"/>
-                            <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="从米游社养成计算同步"/>
+                            <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"/>
+                            <MenuFlyoutItem Command="{Binding RefreshFromHoyolabGameRecordCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"/>
+                            <MenuFlyoutItem Command="{Binding RefreshFromHoyolabCalculateCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"/>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
@@ -342,7 +336,7 @@
                                             HorizontalAlignment="Right"
                                             Foreground="#FFFFFFFF"
                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="圣遗物评分"/>
+                                            Text="{shcm:ResourceString Name=ViewPageAvatarPropertyArtifactScore}"/>
 
                                         <TextBlock
                                             Margin="0,8,0,0"
@@ -354,7 +348,7 @@
                                             HorizontalAlignment="Right"
                                             Foreground="#FFFFFFFF"
                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="双暴评分"/>
+                                            Text="{shcm:ResourceString Name=ViewPageAvatarPropertyCritScore}"/>
                                     </StackPanel>
 
                                     <ItemsControl
@@ -430,7 +424,7 @@
                                 HorizontalAlignment="Stretch"
                                 HorizontalContentAlignment="Stretch"
                                 Background="{x:Null}"
-                                Header="角色属性">
+                                Header="{shcm:ResourceString Name=ViewPageAvatarPropertyHeader}">
                                 <ItemsControl ItemsSource="{Binding SelectedAvatar.Properties}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -511,7 +505,7 @@
                                                                 </Grid.ColumnDefinitions>
                                                                 <TextBlock
                                                                     Style="{StaticResource BaseTextBlockStyle}"
-                                                                    Text="评分"
+                                                                    Text="{shcm:ResourceString Name=ViewPageAvatarPropertyScore}"
                                                                     TextTrimming="CharacterEllipsis"
                                                                     TextWrapping="NoWrap"/>
                                                                 <TextBlock Grid.Column="1" Text="{Binding ScoreFormatted}"/>
@@ -549,7 +543,7 @@
                                             </Expander.Header>
 
                                             <StackPanel>
-                                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="初始词条"/>
+                                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyPrimaryProperties}"/>
                                                 <ItemsControl ItemsSource="{Binding PrimarySubProperties}">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
@@ -575,7 +569,7 @@
                                                 <TextBlock
                                                     Margin="0,16,0,0"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="强化词条"/>
+                                                    Text="{shcm:ResourceString Name=ViewPageAvatarPropertySecondaryProperties}"/>
                                                 <ItemsControl ItemsSource="{Binding SecondarySubProperties}">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
@@ -618,16 +612,16 @@
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="尚未获取任何角色信息"/>
+                    Text="{shcm:ResourceString Name=ViewPageAvatarPropertyDefaultDescription}"/>
                 <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
-                    <wsc:Setting Description="同步游戏内角色橱窗中的信息" Header="从 Enka API 同步">
-                        <Button Command="{Binding RefreshFromEnkaApiCommand}" Content="同步"/>
+                    <wsc:Setting Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApiDescription}" Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}">
+                        <Button Command="{Binding RefreshFromEnkaApiCommand}" Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"/>
                     </wsc:Setting>
-                    <wsc:Setting Description="同步角色天赋外的大部分信息" Header="从米游社我的角色同步">
-                        <Button Command="{Binding RefreshFromHoyolabGameRecordCommand}" Content="同步"/>
+                    <wsc:Setting Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}" Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}">
+                        <Button Command="{Binding RefreshFromHoyolabGameRecordCommand}" Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"/>
                     </wsc:Setting>
-                    <wsc:Setting Description="同步角色天赋信息" Header="从米游社养成计算同步">
-                        <Button Command="{Binding RefreshFromHoyolabCalculateCommand}" Content="同步"/>
+                    <wsc:Setting Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription}" Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}">
+                        <Button Command="{Binding RefreshFromHoyolabCalculateCommand}" Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"/>
                     </wsc:Setting>
                 </wsc:SettingsGroup>
             </StackPanel>

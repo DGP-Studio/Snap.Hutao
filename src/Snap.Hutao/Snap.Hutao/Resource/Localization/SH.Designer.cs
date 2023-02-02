@@ -664,6 +664,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 我的角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewAvatarPropertyHeader {
+            get {
+                return ResourceManager.GetString("ViewAvatarPropertyHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 加载中，请稍候 的本地化字符串。
         /// </summary>
         internal static string ViewControlLoadingText {
@@ -1164,6 +1173,312 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageAchievementSortIncompletedItemsFirst {
             get {
                 return ResourceManager.GetString("ViewPageAchievementSortIncompletedItemsFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 活动公告 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAnnouncementActivity {
+            get {
+                return ResourceManager.GetString("ViewPageAnnouncementActivity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 游戏公告 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAnnouncementGame {
+            get {
+                return ResourceManager.GetString("ViewPageAnnouncementGame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 圣遗物评分 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyArtifactScore {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyArtifactScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 双暴评分 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyCritScore {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyCritScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 尚未获取任何角色信息 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyDefaultDescription {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyDefaultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导出图片 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyExportAsImage {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyExportAsImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色属性 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyHeader {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 初始词条 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyPrimaryProperties {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyPrimaryProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 同步 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshAction {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 从 Enka API 同步 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshFromEnkaApi {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshFromEnkaApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 同步游戏内角色橱窗中的信息 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshFromEnkaApiDescription {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshFromEnkaApiDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 从米游社养成计算同步 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshFromHoyolabCalculate {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshFromHoyolabCalculate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 同步角色天赋信息 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 从米游社我的角色同步 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshFromHoyolabGameRecord {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshFromHoyolabGameRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 同步角色天赋外的大部分信息 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 评分 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyScore {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 强化词条 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertySecondaryProperties {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertySecondaryProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 养成计算 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivateCalculate {
+            get {
+                return ResourceManager.GetString("ViewPageCultivateCalculate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationAddAction {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationAddAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationAddProject {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationAddProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建养成计划以继续 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationAddProjectContinue {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationAddProjectContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 稍后可以前往其他页面添加养成计划项 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationAddProjectDescription {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationAddProjectDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加我的角色与武器到养成计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationAvatarPropertyDescription {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationAvatarPropertyDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 养成物品 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationCultivateEntry {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationCultivateEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 背包物品 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationInventoryItem {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationInventoryItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 材料清单 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationMaterialList {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationMaterialList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 材料统计 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationMaterialStatistics {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationMaterialStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 前往 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationNavigateAction {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationNavigateAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除清单 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationRemoveEntry {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationRemoveEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除当前计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationRemoveProject {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationRemoveProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加任意角色到养成计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationWikiAvatarDescription {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationWikiAvatarDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加任意武器到养成计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationWikiWeaponDescription {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationWikiWeaponDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色资料 的本地化字符串。
+        /// </summary>
+        internal static string ViewWikiAvatarHeader {
+            get {
+                return ResourceManager.GetString("ViewWikiAvatarHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 武器资料 的本地化字符串。
+        /// </summary>
+        internal static string ViewWikiWeaponHeader {
+            get {
+                return ResourceManager.GetString("ViewWikiWeaponHeader", resourceCulture);
             }
         }
     }

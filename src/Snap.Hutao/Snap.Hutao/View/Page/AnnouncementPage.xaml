@@ -14,6 +14,7 @@
     xmlns:shca="using:Snap.Hutao.Control.Animation"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shv:AnnouncementViewModel}"
@@ -164,11 +165,11 @@
                     <PivotItem
                         Content="{Binding Announcement.List[0]}"
                         ContentTemplate="{StaticResource AnnouncementTemplate}"
-                        Header="活动公告"/>
+                        Header="{shcm:ResourceString Name=ViewPageAnnouncementActivity}"/>
                     <PivotItem
                         Content="{Binding Announcement.List[1]}"
                         ContentTemplate="{StaticResource AnnouncementTemplate}"
-                        Header="游戏公告"/>
+                        Header="{shcm:ResourceString Name=ViewPageAnnouncementGame}"/>
                 </Pivot>
             </StackPanel>
         </ScrollViewer>

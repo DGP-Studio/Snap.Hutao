@@ -69,19 +69,19 @@
                         <AppBarButton
                             Command="{Binding AddProjectCommand}"
                             Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                            Label="新建计划"/>
+                            Label="{shcm:ResourceString Name=ViewPageCultivationAddProject}"/>
                         <AppBarButton
                             Command="{Binding RemoveProjectCommand}"
                             CommandParameter="{Binding SelectedProject, Mode=OneWay}"
                             Icon="{shcm:FontIcon Glyph=&#xE74D;}"
-                            Label="删除当前计划"/>
+                            Label="{shcm:ResourceString Name=ViewPageCultivationRemoveProject}"/>
                     </CommandBar>
                 </Pivot.RightHeader>
 
-                <PivotItem Header="材料清单">
+                <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationMaterialList}">
                     <Grid>
                         <Pivot Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                            <PivotItem Header="养成物品">
+                            <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationCultivateEntry}">
                                 <cwucont:AdaptiveGridView
                                     Padding="16,16,4,4"
                                     cwua:ItemsReorderAnimation.Duration="0:0:0.1"
@@ -129,7 +129,7 @@
                                                                 Content="&#xE74D;"
                                                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                                 Style="{StaticResource ButtonRevealStyle}"
-                                                                ToolTipService.ToolTip="删除清单"/>
+                                                                ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageCultivationRemoveEntry}"/>
                                                         </StackPanel>
                                                     </Grid>
                                                     <MenuFlyoutSeparator Grid.Row="1"/>
@@ -231,7 +231,7 @@
                                     </cwucont:AdaptiveGridView.ItemTemplate>
                                 </cwucont:AdaptiveGridView>
                             </PivotItem>
-                            <PivotItem Header="材料统计">
+                            <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationMaterialStatistics}">
                                 <cwucont:AdaptiveGridView
                                     Padding="16,16,4,4"
                                     cwua:ItemsReorderAnimation.Duration="0:0:0.1"
@@ -280,37 +280,37 @@
                             Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
                             <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
                                 <wsc:Setting
-                                    Description="添加任意角色到养成计划"
-                                    Header="角色资料"
+                                    Description="{shcm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
+                                    Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
                                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}">
                                     <Button
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="Snap.Hutao.View.Page.WikiAvatarPage"
-                                        Content="前往"/>
+                                        Content="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"/>
                                 </wsc:Setting>
                                 <wsc:Setting
-                                    Description="添加任意武器到养成计划"
-                                    Header="武器资料"
+                                    Description="{shcm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
+                                    Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
                                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}">
                                     <Button
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="Snap.Hutao.View.Page.WikiWeaponPage"
-                                        Content="前往"/>
+                                        Content="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"/>
                                 </wsc:Setting>
                                 <wsc:Setting
-                                    Description="添加我的角色与武器到养成计划"
-                                    Header="我的角色"
+                                    Description="{shcm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
+                                    Header="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
                                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}">
                                     <Button
                                         Command="{Binding NavigateToPageCommand}"
                                         CommandParameter="Snap.Hutao.View.Page.AvatarPropertyPage"
-                                        Content="前往"/>
+                                        Content="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"/>
                                 </wsc:Setting>
                             </wsc:SettingsGroup>
                         </StackPanel>
                     </Grid>
                 </PivotItem>
-                <PivotItem Header="背包物品">
+                <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationInventoryItem}">
                     <cwucont:AdaptiveGridView
                         Padding="16,16,4,4"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
@@ -364,11 +364,11 @@
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="新建养成计划以继续"/>
+                    Text="{shcm:ResourceString Name=ViewPageCultivationAddProjectContinue}"/>
                 <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
                     <wsc:Setting
-                        Description="稍后可以前往其他页面添加养成计划项"
-                        Header="新建计划"
+                        Description="{shcm:ResourceString Name=ViewPageCultivationAddProjectDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageCultivationAddProject}"
                         Icon="{shcm:FontIcon Glyph=&#xE710;}">
                         <Button Command="{Binding AddProjectCommand}" Content="新建"/>
                     </wsc:Setting>
