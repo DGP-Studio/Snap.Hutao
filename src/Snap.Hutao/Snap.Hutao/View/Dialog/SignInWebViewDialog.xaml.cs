@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See LICENSE in the project root for license information.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
@@ -11,7 +11,7 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// Ç©µ½ÍøÒ³ÊÓÍ¼¶Ô»°¿ò
+/// ç­¾åˆ°ç½‘é¡µè§†å›¾å¯¹è¯æ¡†
 /// </summary>
 public sealed partial class SignInWebViewDialog : ContentDialog
 {
@@ -20,9 +20,9 @@ public sealed partial class SignInWebViewDialog : ContentDialog
     private SignInJsInterface? signInJsInterface;
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÇ©µ½ÍøÒ³ÊÓÍ¼¶Ô»°¿ò
+    /// æ„é€ ä¸€ä¸ªæ–°çš„ç­¾åˆ°ç½‘é¡µè§†å›¾å¯¹è¯æ¡†
     /// </summary>
-    /// <param name="window">´°¿Ú</param>
+    /// <param name="window">çª—å£</param>
     public SignInWebViewDialog()
     {
         InitializeComponent();

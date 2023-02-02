@@ -5,8 +5,9 @@
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    Title="获取祈愿物品中"
+    Title="{shcm:ResourceString Name=ViewDialogGachaLogRefreshProgressTitle}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 

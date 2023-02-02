@@ -17,6 +17,7 @@ internal static class CoreWebView2EnvironmentExtension
     /// <param name="environment">环境</param>
     public static void Exit(this CoreWebView2Environment environment)
     {
+        // 暂不支持
         IReadOnlyList<CoreWebView2ProcessInfo> processInfos = environment.GetProcessInfos();
 
         foreach (CoreWebView2ProcessInfo processInfo in processInfos)

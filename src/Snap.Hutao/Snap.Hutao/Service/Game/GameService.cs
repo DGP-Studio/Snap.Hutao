@@ -389,7 +389,7 @@ internal class GameService : IGameService
             {
                 // ContentDialog must be created by main thread.
                 await ThreadHelper.SwitchToMainThreadAsync();
-                (bool isOk, string name) = await new GameAccountNameDialog().GetInputNameAsync().ConfigureAwait(false);
+                (bool isOk, string name) = await new LaunchGameAccountNameDialog().GetInputNameAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {
@@ -433,7 +433,7 @@ internal class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
-        (bool isOk, string name) = await new GameAccountNameDialog().GetInputNameAsync().ConfigureAwait(true);
+        (bool isOk, string name) = await new LaunchGameAccountNameDialog().GetInputNameAsync().ConfigureAwait(true);
 
         if (isOk)
         {

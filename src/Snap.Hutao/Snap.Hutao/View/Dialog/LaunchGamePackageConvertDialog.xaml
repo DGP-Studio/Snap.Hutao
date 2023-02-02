@@ -7,14 +7,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvd="using:Snap.Hutao.View.Dialog"
-    Title="转换客户端"
+    Title="{shcm:ResourceString Name=ViewDialogLaunchGamePackageConvertTitle}"
     d:DataContext="{d:DesignInstance shvd:LaunchGamePackageConvertDialog}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
     <StackPanel>
-        <TextBlock Text="转换可能需要花费一段时间，请勿关闭胡桃"/>
+        <TextBlock Text="{shcm:ResourceString Name=ViewDialogLaunchGamePackageConvertHint}"/>
         <TextBlock
             MinWidth="360"
             Margin="0,16,0,8"

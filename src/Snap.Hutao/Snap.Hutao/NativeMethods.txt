@@ -4,7 +4,7 @@ WM_GETMINMAXINFO
 WM_NCRBUTTONDOWN
 WM_NCRBUTTONUP
 
-// Type definition
+// Type & Enum definition
 CWMO_FLAGS
 MINMAXINFO
 

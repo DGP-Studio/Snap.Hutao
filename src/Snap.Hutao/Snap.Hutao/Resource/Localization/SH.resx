@@ -123,6 +123,18 @@
   <data name="AppNameAndVersion" xml:space="preserve">
     <value>胡桃 {0}</value>
   </data>
+  <data name="ContentDialogCancelCloseButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ContentDialogCompletePrimaryButtonText" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="ContentDialogConfirmPrimaryButtonText" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="ContentDialogSavePrimaryButtonText" xml:space="preserve">
+    <value>保存</value>
+  </data>
   <data name="ControlImageCachedImageInvalidResourceUri" xml:space="preserve">
     <value>无效的 Uri</value>
   </data>
@@ -161,12 +173,6 @@
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>未检测到 WebView2 运行时</value>
-  </data>
-  <data name="FactoryContentDialogFactoryCancelCloseButtonText" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="FactoryContentDialogFactoryConfirmPrimaryButtonText" xml:space="preserve">
-    <value>确认</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>单个成就存档内发现多个相同的成就 Id</value>
@@ -250,7 +256,7 @@
     <value>未找到可用的 Url</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
-    <value>提供的Url无效</value>
+    <value>提供的 Url 无效</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多个匹配账号，请删除重复的账号</value>
@@ -311,5 +317,173 @@
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>输入的 Cookie 无法获取用户信息</value>
+  </data>
+  <data name="ViewControlLoadingText" xml:space="preserve">
+    <value>加载中，请稍候</value>
+  </data>
+  <data name="ViewControlStatisticsCardBlueText" xml:space="preserve">
+    <value>三星</value>
+  </data>
+  <data name="ViewControlStatisticsCardGuarenteeText" xml:space="preserve">
+    <value>保底</value>
+  </data>
+  <data name="ViewControlStatisticsCardOrangeAveragePullText" xml:space="preserve">
+    <value>五星平均抽数</value>
+  </data>
+  <data name="ViewControlStatisticsCardOrangeText" xml:space="preserve">
+    <value>五星</value>
+  </data>
+  <data name="ViewControlStatisticsCardPullText" xml:space="preserve">
+    <value>抽</value>
+  </data>
+  <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
+    <value>四星</value>
+  </data>
+  <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
+    <value>UP 平均抽数</value>
+  </data>
+  <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
+    <value>UP</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveCreateInputPlaceholder" xml:space="preserve">
+    <value>在此处输入</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveCreateTitle" xml:space="preserve">
+    <value>设置成就存档的名称</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategy" xml:space="preserve">
+    <value>导入模式</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
+    <value>贪婪（添加新数据，更新已完成项）</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
+    <value>懒惰（添加新数据，跳过已完成项）</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportStrategyOverwrite" xml:space="preserve">
+    <value>覆盖（删除老数据，添加新的数据）</value>
+  </data>
+  <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
+    <value>为当前存档导入成就</value>
+  </data>
+  <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
+    <value>绑定当前用户与角色</value>
+  </data>
+  <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
+    <value>在此处输入计划名称</value>
+  </data>
+  <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
+    <value>创建新的养成计划</value>
+  </data>
+  <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
+    <value>添加到当前养成计划</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
+    <value>每日委托上线提醒</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
+    <value>探索派遣完成提醒</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
+    <value>洞天宝钱提醒阈值</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
+    <value>原粹树脂提醒阈值</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
+    <value>在主页显示卡片</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
+    <value>设置实时便笺通知</value>
+  </data>
+  <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
+    <value>参量质变仪提醒</value>
+  </data>
+  <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
+    <value>导入祈愿记录</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressTitle" xml:space="preserve">
+    <value>获取祈愿物品中</value>
+  </data>
+  <data name="ViewDialogGachaLogUrlInputPlaceholder" xml:space="preserve">
+    <value>请输入 Url</value>
+  </data>
+  <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
+    <value>手动输入祈愿记录 Url</value>
+  </data>
+  <data name="ViewDialogImportExportApp" xml:space="preserve">
+    <value>导出 App</value>
+  </data>
+  <data name="ViewDialogImportExportAppVersion" xml:space="preserve">
+    <value>导出 App 版本</value>
+  </data>
+  <data name="ViewDialogImportExportTime" xml:space="preserve">
+    <value>导出时间</value>
+  </data>
+  <data name="ViewDialogImportUIAFExportListCount" xml:space="preserve">
+    <value>成就个数</value>
+  </data>
+  <data name="ViewDialogImportUIAFExportUIAFVersion" xml:space="preserve">
+    <value>UIAF 版本</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportListCount" xml:space="preserve">
+    <value>记录条数</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportUid" xml:space="preserve">
+    <value>UID</value>
+  </data>
+  <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
+    <value>UIGF 版本</value>
+  </data>
+  <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
+    <value>在此处输入名称</value>
+  </data>
+  <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
+    <value>为账号命名</value>
+  </data>
+  <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
+    <value>转换可能需要花费一段时间，请勿关闭胡桃</value>
+  </data>
+  <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
+    <value>转换客户端</value>
+  </data>
+  <data name="ViewDialogUserDocumentAction" xml:space="preserve">
+    <value>立即前往</value>
+  </data>
+  <data name="ViewDialogUserDocumentDescription" xml:space="preserve">
+    <value>进入文档页面并按指示操作</value>
+  </data>
+  <data name="ViewDialogUserDocumentHeader" xml:space="preserve">
+    <value>操作文档</value>
+  </data>
+  <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
+    <value>在此处输入包含 Stoken 的 Cookie</value>
+  </data>
+  <data name="ViewPageAchievementAddArchive" xml:space="preserve">
+    <value>创建新存档</value>
+  </data>
+  <data name="ViewPageAchievementAddArchiveHint" xml:space="preserve">
+    <value>创建新存档以继续</value>
+  </data>
+  <data name="ViewPageAchievementExportLabel" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
+    <value>从剪贴板导入</value>
+  </data>
+  <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
+    <value>从 UIAF 文件导入</value>
+  </data>
+  <data name="ViewPageAchievementImportLabel" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="ViewPageAchievementRemoveArchive" xml:space="preserve">
+    <value>删除当前存档</value>
+  </data>
+  <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
+    <value>搜索成就名称，描述或编号</value>
+  </data>
+  <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
+    <value>优先未完成</value>
   </data>
 </root>

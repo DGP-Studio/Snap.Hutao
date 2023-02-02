@@ -50,7 +50,7 @@
                             Margin="12,6,6,0"
                             HorizontalAlignment="Stretch"
                             VerticalContentAlignment="Center"
-                            PlaceholderText="搜索成就名称，描述或编号"
+                            PlaceholderText="{shcm:ResourceString Name=ViewPageAchievementSearchPlaceholder}"
                             QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
                             Text="{Binding SearchText, Mode=TwoWay}">
                             <mxi:Interaction.Behaviors>
@@ -77,38 +77,38 @@
                     <AppBarButton
                         Command="{Binding AddArchiveCommand}"
                         Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                        Label="创建新存档"/>
+                        Label="{shcm:ResourceString Name=ViewPageAchievementAddArchive}"/>
                     <AppBarButton
                         Command="{Binding RemoveArchiveCommand}"
                         Icon="{shcm:FontIcon Glyph=&#xE74D;}"
-                        Label="删除当前存档"/>
+                        Label="{shcm:ResourceString Name=ViewPageAchievementRemoveArchive}"/>
                     <AppBarSeparator/>
 
-                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="导入">
+                    <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE8B5;}" Label="{shcm:ResourceString Name=ViewPageAchievementImportLabel}">
                         <AppBarButton.Flyout>
                             <MenuFlyout Placement="BottomEdgeAlignedRight">
                                 <MenuFlyoutItem
                                     Command="{Binding ImportUIAFFromClipboardCommand}"
                                     Icon="{shcm:FontIcon Glyph=&#xE77F;}"
-                                    Text="从剪贴板导入"/>
+                                    Text="{shcm:ResourceString Name=ViewPageAchievementImportFromClipboard}"/>
                                 <MenuFlyoutItem
                                     Command="{Binding ImportUIAFFromFileCommand}"
                                     Icon="{shcm:FontIcon Glyph=&#xE8E5;}"
-                                    Text="从 UIAF 文件导入"/>
+                                    Text="{shcm:ResourceString Name=ViewPageAchievementImportFromFile}"/>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
                     <AppBarButton
                         Command="{Binding ExportAsUIAFToFileCommand}"
                         Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
-                        Label="导出"/>
+                        Label="{shcm:ResourceString Name=ViewPageAchievementExportLabel}"/>
                     <AppBarSeparator/>
 
                     <AppBarToggleButton
                         Command="{Binding SortIncompletedSwitchCommand}"
                         Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
                         IsChecked="{Binding IsIncompletedItemsFirst}"
-                        Label="优先未完成"/>
+                        Label="{shcm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
                 </CommandBar>
             </Grid>
 
@@ -240,13 +240,13 @@
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="创建新存档以继续"/>
+                    Text="{shcm:ResourceString Name=ViewPageAchievementAddArchiveHint}"/>
                 <Button
                     Margin="0,16,0,0"
                     Padding="16"
                     HorizontalAlignment="Stretch"
                     Command="{Binding AddArchiveCommand}"
-                    Content="创建新存档"/>
+                    Content="{shcm:ResourceString Name=ViewPageAchievementAddArchive}"/>
             </StackPanel>
         </Grid>
     </Grid>

@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="创建新的养成计划"
-    CloseButtonText="取消"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    Title="{shcm:ResourceString Name=ViewDialogCultivateProjectTitle}"
+    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="确认"
+    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -15,10 +16,10 @@
         <TextBox
             x:Name="InputText"
             VerticalAlignment="Top"
-            PlaceholderText="在此处输入计划名称"/>
+            PlaceholderText="{shcm:ResourceString Name=ViewDialogCultivateProjectInputPlaceholder}"/>
         <CheckBox
             x:Name="AttachUidBox"
             Margin="0,8,0,0"
-            Content="绑定当前选中的账号角色"/>
+            Content="{shcm:ResourceString Name=ViewDialogCultivateProjectAttachUid}"/>
     </StackPanel>
 </ContentDialog>

@@ -88,7 +88,7 @@
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
-    <None Remove="View\Dialog\GameAccountNameDialog.xaml" />
+    <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
     <None Remove="View\Dialog\LoginMihoyoBBSDialog.xaml" />
     <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
@@ -294,7 +294,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="View\Dialog\GameAccountNameDialog.xaml">
+    <Page Update="View\Dialog\LaunchGameAccountNameDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

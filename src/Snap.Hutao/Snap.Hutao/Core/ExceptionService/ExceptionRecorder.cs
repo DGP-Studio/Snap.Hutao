@@ -3,6 +3,8 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Logging;
+using System.Collections;
+using System.Text;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -33,12 +35,16 @@ internal class ExceptionRecorder
         Ioc.Default.GetRequiredService<Web.Hutao.HomaClient2>().UploadLogAsync(e.Exception).GetAwaiter().GetResult();
 #pragma warning restore VSTHRD002
 #endif
-        logger.LogError(EventIds.UnhandledException, e.Exception, "未经处理的异常");
-
-        foreach (ILoggerProvider provider in Ioc.Default.GetRequiredService<IEnumerable<ILoggerProvider>>())
+        StringBuilder dataDetailBuilder = new();
+        foreach (DictionaryEntry entry in e.Exception.Data)
         {
-            provider.Dispose();
+            string key = $"{entry.Key}";
+            string value = $"{entry.Value}";
+
+            dataDetailBuilder.Append(key).Append(':').Append(value).Append("\r\n");
         }
+
+        logger.LogError(e.Exception, "未经处理的异常\r\n{detail}", dataDetailBuilder.ToString());
     }
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)

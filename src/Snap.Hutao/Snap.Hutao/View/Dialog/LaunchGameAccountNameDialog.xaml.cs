@@ -8,13 +8,13 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 游戏账号命名对话框
 /// </summary>
-public sealed partial class GameAccountNameDialog : ContentDialog
+public sealed partial class LaunchGameAccountNameDialog : ContentDialog
 {
     /// <summary>
     /// 构造一个新的游戏账号命名对话框
     /// </summary>
     /// <param name="window">窗体</param>
-    public GameAccountNameDialog()
+    public LaunchGameAccountNameDialog()
     {
         InitializeComponent();
         XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;

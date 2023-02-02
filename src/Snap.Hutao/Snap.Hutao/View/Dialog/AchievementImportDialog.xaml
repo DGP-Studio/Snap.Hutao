@@ -5,10 +5,11 @@
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="为当前存档导入成就"
-    CloseButtonText="取消"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    Title="{shcm:ResourceString Name=ViewDialogAchievementArchiveImportTitle}"
+    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
-    PrimaryButtonText="确认"
+    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -22,51 +23,51 @@
             ColumnSpacing="16"
             Columns="3"
             RowSpacing="16">
-            <cwuc:HeaderedContentControl Header="导出App">
+            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportApp}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind UIAF.Info.ExportApp, Mode=OneWay, TargetNullValue=未知}"/>
+                    Text="{x:Bind UIAF.Info.ExportApp, Mode=OneWay, TargetNullValue=Unknown}"/>
             </cwuc:HeaderedContentControl>
-            <cwuc:HeaderedContentControl Header="导出时间">
+            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportTime}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind UIAF.Info.ExportDateTime.LocalDateTime, Mode=OneWay, TargetNullValue=未知}"/>
+                    Text="{x:Bind UIAF.Info.ExportDateTime.LocalDateTime, Mode=OneWay, TargetNullValue=Unknown}"/>
             </cwuc:HeaderedContentControl>
-            <cwuc:HeaderedContentControl Header="导出App版本">
+            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportAppVersion}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind UIAF.Info.ExportAppVersion, Mode=OneWay, TargetNullValue=未知}"/>
+                    Text="{x:Bind UIAF.Info.ExportAppVersion, Mode=OneWay, TargetNullValue=Unknown}"/>
             </cwuc:HeaderedContentControl>
-            <cwuc:HeaderedContentControl Header="UIAF 版本">
+            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportUIAFExportUIAFVersion}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind UIAF.Info.UIAFVersion, Mode=OneWay, TargetNullValue=未知}"/>
+                    Text="{x:Bind UIAF.Info.UIAFVersion, Mode=OneWay, TargetNullValue=Unknown}"/>
             </cwuc:HeaderedContentControl>
-            <cwuc:HeaderedContentControl Header="成就个数">
+            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportUIAFExportListCount}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="{x:Bind UIAF.List.Count, Mode=OneWay, TargetNullValue=未知}"/>
+                    Text="{x:Bind UIAF.List.Count, Mode=OneWay, TargetNullValue=Unknown}"/>
             </cwuc:HeaderedContentControl>
         </cwuc:UniformGrid>
         <RadioButtons
             Name="ImportModeSelector"
             Grid.Row="1"
             Margin="0,16,0,0"
-            Header="导入模式"
+            Header="{shcm:ResourceString Name=ViewDialogAchievementArchiveImportStrategy}"
             SelectedIndex="0">
-            <RadioButton Content="贪婪（添加新数据，更新已完成项）"/>
-            <RadioButton Content="懒惰（添加新数据，跳过已完成项）"/>
-            <RadioButton Content="覆盖（删除老数据，添加新的数据）"/>
+            <RadioButton Content="{shcm:ResourceString Name=ViewDialogAchievementArchiveImportStrategyAggressive}"/>
+            <RadioButton Content="{shcm:ResourceString Name=ViewDialogAchievementArchiveImportStrategyLazy}"/>
+            <RadioButton Content="{shcm:ResourceString Name=ViewDialogAchievementArchiveImportStrategyOverwrite}"/>
         </RadioButtons>
     </Grid>
 </ContentDialog>

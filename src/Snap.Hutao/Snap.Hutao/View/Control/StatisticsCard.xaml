@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shci="using:Snap.Hutao.Control.Image"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shmbg="using:Snap.Hutao.Model.Binding.Gacha"
     xmlns:shvc="using:Snap.Hutao.View.Control"
@@ -43,13 +44,13 @@
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
                         Foreground="#FF0063FF"
-                        Text="保底"
+                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardGuarenteeText}"
                         Visibility="{Binding IsGuarentee, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <TextBlock
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
                         Foreground="#FFFFA400"
-                        Text="UP"
+                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"
                         Visibility="{Binding IsUp, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                     <TextBlock
@@ -147,7 +148,7 @@
                             <TextBlock
                                 Margin="12,0,0,12"
                                 VerticalAlignment="Bottom"
-                                Text="抽"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardPullText}"/>
                         </StackPanel>
 
                         <Grid ColumnSpacing="4">
@@ -184,7 +185,7 @@
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="五星"/>
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                                 </Grid>
                             </Border>
                             <Border Grid.Column="1" Style="{StaticResource BorderCardStyle}">
@@ -216,7 +217,7 @@
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="四星"/>
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                                 </Grid>
                             </Border>
                         </Grid>
@@ -246,7 +247,7 @@
                             <TextBlock
                                 Foreground="{StaticResource OrangeBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="五星"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
                                 FontFamily="{StaticResource CascadiaMonoAndMiSans}"
@@ -258,7 +259,7 @@
                             <TextBlock
                                 Foreground="{StaticResource PurpleBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="四星"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
                                 FontFamily="{StaticResource CascadiaMonoAndMiSans}"
@@ -270,7 +271,7 @@
                             <TextBlock
                                 Foreground="{StaticResource BlueBrush}"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="三星"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
                                 FontFamily="{StaticResource CascadiaMonoAndMiSans}"
@@ -280,14 +281,14 @@
                         </Grid>
 
                         <Grid Margin="0,2,0,0">
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="五星平均抽数"/>
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeAveragePullText}"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding AverageOrangePullFormatted}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="UP 平均抽数"/>
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpAveragePullText}"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
                                 Style="{StaticResource BodyTextBlockStyle}"

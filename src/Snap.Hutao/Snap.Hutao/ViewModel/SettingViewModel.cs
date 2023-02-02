@@ -143,7 +143,7 @@ internal class SettingViewModel : Abstraction.ViewModel
         [MemberNotNull(nameof(selectedBackdropType))]
         set
         {
-            if (SetProperty(ref selectedBackdropType, value))
+            if (SetProperty(ref selectedBackdropType, value) && value != null)
             {
                 selectedBackdropTypeEntry.Value = value.Value.ToString();
                 appDbContext.Settings.UpdateAndSave(selectedBackdropTypeEntry);
@@ -238,7 +238,7 @@ internal class SettingViewModel : Abstraction.ViewModel
             .NavigateAsync<View.Page.TestPage>(Service.Navigation.INavigationAwaiter.Default)
             .ConfigureAwait(false);
 #else
-        await Task.Yield();
+        await Windows.System.Launcher.LaunchUriAsync(new(@"ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
 #endif
     }
 }

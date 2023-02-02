@@ -4,12 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     Title="设置 Cookie"
-    CloseButtonText="取消"
+    CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
     IsPrimaryButtonEnabled="False"
-    PrimaryButtonText="请输入Cookie"
+    PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
 
@@ -18,29 +19,18 @@
             x:Name="InputText"
             Margin="0,0,0,8"
             VerticalAlignment="Top"
-            PlaceholderText="在此处输入包含 Stoken 的字符串"
+            PlaceholderText="{shcm:ResourceString Name=ViewDialogUserInputPlaceholder}"
             TextChanged="InputTextChanged"/>
         <wsc:SettingsGroup Margin="0,-48,0,0">
             <wsc:Setting
                 HorizontalAlignment="Stretch"
-                Description="HolographicHat/GetToken"
-                Header="Github 上的第三方工具"
-                Icon="&#xEC7A;">
-                <HyperlinkButton
-                    Margin="12,0,0,0"
-                    Padding="6"
-                    Content="前往下载"
-                    NavigateUri="{StaticResource HolographicHat_GetToken_Release}"/>
-            </wsc:Setting>
-            <wsc:Setting
-                HorizontalAlignment="Stretch"
-                Description="进入文档页面并按指示操作"
-                Header="操作文档"
+                Description="{shcm:ResourceString Name=ViewDialogUserDocumentDescription}"
+                Header="{shcm:ResourceString Name=ViewDialogUserDocumentHeader}"
                 Icon="&#xEB41;">
                 <HyperlinkButton
                     Margin="12,0,0,0"
                     Padding="6"
-                    Content="立即前往"
+                    Content="{shcm:ResourceString Name=ViewDialogUserDocumentAction}"
                     NavigateUri="{StaticResource DocumentLink_MhyAccountSwitch}"/>
             </wsc:Setting>
         </wsc:SettingsGroup>
