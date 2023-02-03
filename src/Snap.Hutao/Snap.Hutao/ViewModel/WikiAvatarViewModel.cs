@@ -204,49 +204,52 @@ internal class WikiAvatarViewModel : Abstraction.ViewModel
 
         private static bool DoFilter(string input, Avatar avatar)
         {
-            bool keep = true;
+            List<bool> matches = new();
 
             foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
             {
                 string value = segment.ToString();
 
+                if (avatar.Name == value)
+                {
+                    matches.Add(true);
+                    continue;
+                }
+
                 if (value == "火" || value == "水" || value == "草" || value == "雷" || value == "冰" || value == "风" || value == "岩")
                 {
-                    keep = keep && avatar.FetterInfo.VisionBefore == value;
+                    matches.Add(avatar.FetterInfo.VisionBefore == value);
                     continue;
                 }
 
                 if (IntrinsicImmutables.AssociationTypes.Contains(value))
                 {
-                    keep = keep && avatar.FetterInfo.Association.GetDescriptionOrNull() == value;
+                    matches.Add(avatar.FetterInfo.Association.GetDescriptionOrNull() == value);
                     continue;
                 }
 
                 if (IntrinsicImmutables.WeaponTypes.Contains(value))
                 {
-                    keep = keep && avatar.Weapon.GetDescriptionOrNull() == value;
+                    matches.Add(avatar.Weapon.GetDescriptionOrNull() == value);
                     continue;
                 }
 
                 if (IntrinsicImmutables.ItemQualities.Contains(value))
                 {
-                    keep = keep && avatar.Quality.GetDescriptionOrNull() == value;
+                    matches.Add(avatar.Quality.GetDescriptionOrNull() == value);
                     continue;
                 }
 
                 if (IntrinsicImmutables.BodyTypes.Contains(value))
                 {
-                    keep = keep && avatar.Body.GetDescriptionOrNull() == value;
+                    matches.Add(avatar.Body.GetDescriptionOrNull() == value);
                     continue;
                 }
 
-                if (avatar.Name == value)
-                {
-                    keep = true;
-                }
+                matches.Add(false);
             }
 
-            return keep;
+            return matches.Count > 0 && matches.Aggregate((a, b) => a && b);
         }
     }
 }

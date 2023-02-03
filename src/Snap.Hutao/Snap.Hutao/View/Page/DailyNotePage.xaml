@@ -36,8 +36,8 @@
             <AppBarButton
                 Command="{Binding RefreshCommand}"
                 Icon="{shcm:FontIcon Glyph=&#xE72C;}"
-                Label="立即刷新"/>
-            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE710;}" Label="添加角色">
+                Label="{shcm:ResourceString Name=ViewPageDailyNoteRefresh}"/>
+            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE710;}" Label="{shcm:ResourceString Name=ViewPageDailyNoteAddEntry}">
                 <AppBarButton.Flyout>
                     <Flyout LightDismissOverlayMode="On" Placement="Bottom">
                         <Flyout.FlyoutPresenterStyle>
@@ -50,7 +50,7 @@
                             <TextBlock
                                 Margin="16,12,16,16"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="添加角色以定时刷新"/>
+                                Text="{shcm:ResourceString Name=ViewPageDailyNoteAddEntryHint}"/>
                             <ScrollViewer MaxHeight="320" Padding="16,0">
                                 <ItemsControl ItemsSource="{Binding UserAndUids}">
                                     <ItemsControl.ItemTemplate>
@@ -67,7 +67,7 @@
                                                     Content="&#xE710;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                     Style="{StaticResource ButtonRevealStyle}"
-                                                    ToolTipService.ToolTip="添加"/>
+                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageDailyNoteAddEntryToolTip}"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -80,14 +80,14 @@
             <AppBarButton
                 Command="{Binding DailyNoteVerificationCommand}"
                 Icon="{shcm:FontIcon Glyph=&#xE9D5;}"
-                Label="验证当前账号角色"/>
-            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE713;}" Label="通知设置">
+                Label="{shcm:ResourceString Name=ViewPageDailyNoteVerify}"/>
+            <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE713;}" Label="{shcm:ResourceString Name=ViewPageDailyNoteNotificationSetting}">
                 <AppBarButton.Flyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <StackPanel>
                             <RadioButtons ItemsSource="{Binding RefreshTimes}" SelectedItem="{Binding SelectedRefreshTime, Mode=TwoWay}">
                                 <RadioButtons.Header>
-                                    <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="刷新间隔时间"/>
+                                    <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteRefreshTime}"/>
                                 </RadioButtons.Header>
                                 <RadioButtons.ItemTemplate>
                                     <DataTemplate>
@@ -95,10 +95,10 @@
                                     </DataTemplate>
                                 </RadioButtons.ItemTemplate>
                             </RadioButtons>
-                            <wsc:SettingsGroup Margin="0,-16,0,0" Header="通知">
+                            <wsc:SettingsGroup Margin="0,-16,0,0" Header="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}">
                                 <wsc:Setting
-                                    Description="在我游玩原神时不通知我"
-                                    Header="免打扰模式"
+                                    Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
                                     Icon="&#xE7ED;">
                                     <ToggleSwitch
                                         Margin="24,0,0,0"
@@ -106,8 +106,8 @@
                                         Style="{StaticResource ToggleSwitchSettingStyle}"/>
                                 </wsc:Setting>
                                 <wsc:Setting
-                                    Description="防止通知自动收入操作中心"
-                                    Header="提醒通知"
+                                    Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
                                     Icon="&#xEA8F;">
                                     <ToggleSwitch
                                         Margin="24,0,0,0"
@@ -163,7 +163,7 @@
                                             CommandParameter="{Binding}"
                                             Content="&#xE74D;"
                                             FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                            ToolTipService.ToolTip="移除用户"/>
+                                            ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageDailyNoteRemoveToolTip}"/>
                                         <Button
                                             MinHeight="36.8"
                                             Margin="8,0,0,0"
@@ -175,7 +175,7 @@
                                             CommandParameter="{Binding}"
                                             Content="&#xE713;"
                                             FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                            ToolTipService.ToolTip="通知设置"/>
+                                            ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageDailyNoteNotificationSetting}"/>
                                     </StackPanel>
                                 </Grid>
 
@@ -337,7 +337,7 @@
                                             Margin="4,4,0,0"
                                             Opacity="0.6"
                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="本周已消耗减半次数"/>
+                                            Text="{shcm:ResourceString Name=ViewPageDailyNoteResinDiscountUsed}"/>
                                     </Grid>
 
                                     <Grid>

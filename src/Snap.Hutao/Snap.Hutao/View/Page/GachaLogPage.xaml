@@ -44,25 +44,25 @@
                 </Pivot.LeftHeader>
                 <Pivot.RightHeader>
                     <CommandBar DefaultLabelPosition="Right">
-                        <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="刷新">
+                        <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="{shcm:ResourceString Name=ViewPageGachaLogRefresh}">
                             <AppBarButton.Flyout>
                                 <MenuFlyout Placement="Bottom">
                                     <MenuFlyoutItem
                                         Command="{Binding RefreshByStokenCommand}"
                                         Icon="{shcm:FontIcon Glyph=&#xE192;}"
-                                        Text="Stoken 刷新"/>
+                                        Text="{shcm:ResourceString Name=ViewPageGachaLogRefreshByStoken}"/>
                                     <MenuFlyoutItem
                                         Command="{Binding RefreshByWebCacheCommand}"
                                         Icon="{shcm:FontIcon Glyph=&#xE81E;}"
-                                        Text="网页缓存刷新"/>
+                                        Text="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCache}"/>
                                     <MenuFlyoutItem
                                         Command="{Binding RefreshByManualInputCommand}"
                                         Icon="{shcm:FontIcon Glyph=&#xE765;}"
-                                        Text="手动输入 Url"/>
+                                        Text="{shcm:ResourceString Name=ViewPageGachaLogRefreshBymanualInput}"/>
                                     <ToggleMenuFlyoutItem
                                         Icon="{shcm:FontIcon Glyph=&#xE1CD;}"
                                         IsChecked="{Binding IsAggressiveRefresh}"
-                                        Text="全量刷新"/>
+                                        Text="{shcm:ResourceString Name=ViewPageGachaLogAggressiveRefresh}"/>
                                 </MenuFlyout>
                             </AppBarButton.Flyout>
                         </AppBarButton>
@@ -70,20 +70,20 @@
                         <AppBarButton
                             Command="{Binding ImportFromUIGFJsonCommand}"
                             Icon="{shcm:FontIcon Glyph=&#xE8B5;}"
-                            Label="导入"/>
+                            Label="{shcm:ResourceString Name=ViewPageGachaLogImportAction}"/>
                         <AppBarButton
                             Command="{Binding ExportToUIGFJsonCommand}"
                             Icon="{shcm:FontIcon Glyph=&#xEDE1;}"
-                            Label="导出"/>
+                            Label="{shcm:ResourceString Name=ViewPageGachaLogExportAction}"/>
                         <CommandBar.SecondaryCommands>
                             <AppBarButton
                                 Command="{Binding RemoveArchiveCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE74D;}"
-                                Label="删除当前存档"/>
+                                Label="{shcm:ResourceString Name=ViewPageGachaLogRemoveArchiveAction}"/>
                         </CommandBar.SecondaryCommands>
                     </CommandBar>
                 </Pivot.RightHeader>
-                <PivotItem Header="总览">
+                <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotOverview}">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition MaxWidth="390"/>
@@ -105,7 +105,7 @@
                             DataContext="{Binding Statistics.PermanentWish}"/>
                     </Grid>
                 </PivotItem>
-                <PivotItem Header="历史">
+                <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotHistory}">
                     <SplitView
                         DisplayMode="Inline"
                         IsPaneOpen="True"
@@ -237,7 +237,7 @@
                                     <TextBlock
                                         Margin="0,16,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="五星"
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"
                                         Visibility="{Binding SelectedHistoryWish.OrangeList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.OrangeList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
@@ -265,7 +265,7 @@
                                     <TextBlock
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="四星"
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"
                                         Visibility="{Binding SelectedHistoryWish.PurpleList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.PurpleList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
@@ -293,7 +293,7 @@
                                     <TextBlock
                                         Margin="0,0,0,8"
                                         Style="{StaticResource BaseTextBlockStyle}"
-                                        Text="三星"
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"
                                         Visibility="{Binding SelectedHistoryWish.BlueList.Count, Converter={StaticResource Int32ToVisibilityConverter}}"/>
                                     <GridView ItemsSource="{Binding SelectedHistoryWish.BlueList}" SelectionMode="None">
                                         <GridView.ItemTemplate>
@@ -322,13 +322,13 @@
                         </SplitView.Content>
                     </SplitView>
                 </PivotItem>
-                <PivotItem Header="角色">
+                <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotAvatar}">
                     <ScrollViewer>
                         <StackPanel Margin="16,0,16,0">
                             <TextBlock
                                 Margin="0,16,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="五星"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                             <GridView ItemsSource="{Binding Statistics.OrangeAvatars}" SelectionMode="None">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
@@ -355,7 +355,7 @@
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="四星"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                             <GridView ItemsSource="{Binding Statistics.PurpleAvatars}" SelectionMode="None">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
@@ -381,13 +381,13 @@
                         </StackPanel>
                     </ScrollViewer>
                 </PivotItem>
-                <PivotItem Header="武器">
+                <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotWeapon}">
                     <ScrollViewer>
                         <StackPanel Margin="16,0,16,0">
                             <TextBlock
                                 Margin="0,16,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="五星"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                             <GridView ItemsSource="{Binding Statistics.OrangeWeapons}" SelectionMode="None">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
@@ -414,7 +414,7 @@
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="四星"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                             <GridView ItemsSource="{Binding Statistics.PurpleWeapons}" SelectionMode="None">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
@@ -441,7 +441,7 @@
                             <TextBlock
                                 Margin="0,0,0,8"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="三星"/>
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
                             <GridView ItemsSource="{Binding Statistics.BlueWeapons}" SelectionMode="None">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
@@ -479,32 +479,32 @@
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="尚未获取任何祈愿记录"/>
+                    Text="{shcm:ResourceString Name=ViewPageGachaLogHint}"/>
                 <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
                     <wsc:Setting
-                        Description="使用当前账号的Cookie信息刷新祈愿记录"
-                        Header="Stoken 刷新"
+                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByStokenDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByStoken}"
                         Icon="{shcm:FontIcon Glyph=&#xE192;}"
                         Style="{StaticResource DefaultSettingStyle}">
-                        <Button Command="{Binding RefreshByStokenCommand}" Content="获取"/>
+                        <Button Command="{Binding RefreshByStokenCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"/>
                     </wsc:Setting>
                     <wsc:Setting
-                        Description="使用游戏内浏览器的网页缓存刷新祈愿记录"
-                        Header="网页缓存刷新"
+                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCacheDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCache}"
                         Icon="{shcm:FontIcon Glyph=&#xE81E;}">
-                        <Button Command="{Binding RefreshByWebCacheCommand}" Content="获取"/>
+                        <Button Command="{Binding RefreshByWebCacheCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"/>
                     </wsc:Setting>
                     <wsc:Setting
-                        Description="使用由你提供的 Url 刷新祈愿记录"
-                        Header="手动输入 Url"
+                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshBymanualInputDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshBymanualInput}"
                         Icon="{shcm:FontIcon Glyph=&#xE765;}">
-                        <Button Command="{Binding RefreshByManualInputCommand}" Content="输入"/>
+                        <Button Command="{Binding RefreshByManualInputCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogInputAction}"/>
                     </wsc:Setting>
                     <wsc:Setting
-                        Description="导入从其他 App 中导出的数据"
-                        Header="导入 UIGF Json"
+                        Description="{shcm:ResourceString Name=ViewPageGachaLogImportDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageGachaLogImportHeader}"
                         Icon="{shcm:FontIcon Glyph=&#xE8B5;}">
-                        <Button Command="{Binding ImportFromUIGFJsonCommand}" Content="导入"/>
+                        <Button Command="{Binding ImportFromUIGFJsonCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogExportAction}"/>
                     </wsc:Setting>
                 </wsc:SettingsGroup>
             </StackPanel>

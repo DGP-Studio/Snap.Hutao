@@ -21,8 +21,8 @@
         "add": {
           ".filenesting.json": [ "App.xaml.cs" ],
           "app.manifest": [ "App.xaml.cs" ],
-          "Package.appxmanifest": [ "App.xaml.cs" ],
-          "Package.StoreAssociation.xml": [ "App.xaml.cs" ],
+          "Package.appxmanifest": [ "App.xaml" ],
+          "Package.StoreAssociation.xml": [ "App.xaml" ],
           ".editorconfig": [ "Program.cs" ],
           "GlobalUsing.cs": [ "Program.cs" ]
         }

@@ -27,7 +27,6 @@ internal class TestViewModel : Abstraction.ViewModel
         ShowAdoptCalculatorDialogCommand = new AsyncRelayCommand(ShowAdoptCalculatorDialogAsync);
         DangerousLoginMihoyoBbsCommand = new AsyncRelayCommand(DangerousLoginMihoyoBbsAsync);
         DownloadStaticFileCommand = new AsyncRelayCommand(DownloadStaticFileAsync);
-        HutaoDatabasePresentCommand = new RelayCommand(HutaoDatabasePresent);
     }
 
     /// <summary>
@@ -49,11 +48,6 @@ internal class TestViewModel : Abstraction.ViewModel
     /// 下载资源文件命令
     /// </summary>
     public ICommand DownloadStaticFileCommand { get; }
-
-    /// <summary>
-    /// 胡桃数据库呈现命令
-    /// </summary>
-    public ICommand HutaoDatabasePresentCommand { get; }
 
     private async Task ShowCommunityGameRecordDialogAsync()
     {
@@ -120,12 +114,5 @@ internal class TestViewModel : Abstraction.ViewModel
                 logger.LogInformation("Download failed.");
             }
         }
-    }
-
-    private void HutaoDatabasePresent()
-    {
-        Ioc.Default
-            .GetRequiredService<Service.Navigation.INavigationService>()
-            .Navigate<View.Page.HutaoDatabasePresentPage>(Service.Navigation.INavigationAwaiter.Default);
     }
 }

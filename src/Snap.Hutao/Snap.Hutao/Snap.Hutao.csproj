@@ -102,7 +102,6 @@
     <None Remove="View\Page\DailyNotePage.xaml" />
     <None Remove="View\Page\GachaLogPage.xaml" />
     <None Remove="View\Page\HutaoDatabasePage.xaml" />
-    <None Remove="View\Page\HutaoDatabasePresentPage.xaml" />
     <None Remove="View\Page\LaunchGamePage.xaml" />
     <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
     <None Remove="View\Page\SettingPage.xaml" />
@@ -205,11 +204,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\LaunchGamePackageConvertDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Page\HutaoDatabasePresentPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -32,10 +32,6 @@
             <wsc:Setting Header="DownloadStaticFileTest">
                 <Button Command="{Binding DownloadStaticFileCommand}" Content="Download"/>
             </wsc:Setting>
-
-            <wsc:Setting Header="HutaoDatabasePresentTest">
-                <Button Command="{Binding HutaoDatabasePresentCommand}" Content="Navigate"/>
-            </wsc:Setting>
         </wsc:SettingsGroup>
     </ScrollViewer>
 </shc:ScopedPage>

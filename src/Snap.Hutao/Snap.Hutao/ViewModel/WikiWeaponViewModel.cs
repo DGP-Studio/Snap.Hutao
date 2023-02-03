@@ -202,37 +202,38 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
 
         private static bool DoFilter(string input, Weapon weapon)
         {
-            bool keep = true;
+            List<bool> matches = new();
 
             foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
             {
                 string value = segment.ToString();
 
+                if (weapon.Name == value)
+                {
+                    matches.Add(true);
+                    continue;
+                }
+
                 if (IntrinsicImmutables.WeaponTypes.Contains(value))
                 {
-                    keep = keep && weapon.WeaponType.GetDescriptionOrNull() == value;
+                    matches.Add(weapon.WeaponType.GetDescriptionOrNull() == value);
                     continue;
                 }
 
                 if (IntrinsicImmutables.ItemQualities.Contains(value))
                 {
-                    keep = keep && weapon.Quality.GetDescriptionOrNull() == value;
+                    matches.Add(weapon.Quality.GetDescriptionOrNull() == value);
                     continue;
                 }
 
                 if (IntrinsicImmutables.FightProperties.Contains(value))
                 {
-                    keep = keep && weapon.Property.Properties.ElementAtOrDefault(1).GetDescriptionOrNull() == value;
+                    matches.Add(weapon.Property.Properties.ElementAtOrDefault(1).GetDescriptionOrNull() == value);
                     continue;
-                }
-
-                if (weapon.Name == value)
-                {
-                    keep = true;
                 }
             }
 
-            return keep;
+            return matches.Count > 0 && matches.Aggregate((a, b) => a && b);
         }
     }
 }
