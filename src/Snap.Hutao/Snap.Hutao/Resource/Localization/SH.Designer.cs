@@ -70,6 +70,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 胡桃 的本地化字符串。
+        /// </summary>
+        internal static string AppName {
+            get {
+                return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 胡桃 {0} 的本地化字符串。
         /// </summary>
         internal static string AppNameAndVersion {
@@ -228,6 +237,33 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string CoreWebView2HelperVersionUndetected {
             get {
                 return ResourceManager.GetString("CoreWebView2HelperVersionUndetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导出 的本地化字符串。
+        /// </summary>
+        internal static string FilePickerExportCommit {
+            get {
+                return ResourceManager.GetString("FilePickerExportCommit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入 的本地化字符串。
+        /// </summary>
+        internal static string FilePickerImportCommit {
+            get {
+                return ResourceManager.GetString("FilePickerImportCommit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 必须先选择一个用户与角色 的本地化字符串。
+        /// </summary>
+        internal static string MustSelectUserAndUid {
+            get {
+                return ResourceManager.GetString("MustSelectUserAndUid", resourceCulture);
             }
         }
         
@@ -664,6 +700,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 成就管理 的本地化字符串。
+        /// </summary>
+        internal static string ViewAchievementHeader {
+            get {
+                return ResourceManager.GetString("ViewAchievementHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主页 的本地化字符串。
+        /// </summary>
+        internal static string ViewAnnouncementHeader {
+            get {
+                return ResourceManager.GetString("ViewAnnouncementHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 我的角色 的本地化字符串。
         /// </summary>
         internal static string ViewAvatarPropertyHeader {
@@ -750,6 +804,33 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewControlStatisticsCardUpText {
             get {
                 return ResourceManager.GetString("ViewControlStatisticsCardUpText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 养成计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewCultivationHeader {
+            get {
+                return ResourceManager.GetString("ViewCultivationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 实时便笺 的本地化字符串。
+        /// </summary>
+        internal static string ViewDailyNoteHeader {
+            get {
+                return ResourceManager.GetString("ViewDailyNoteHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewDataHeader {
+            get {
+                return ResourceManager.GetString("ViewDataHeader", resourceCulture);
             }
         }
         
@@ -1092,6 +1173,591 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewDialogUserInputPlaceholder {
             get {
                 return ResourceManager.GetString("ViewDialogUserInputPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 祈愿记录 的本地化字符串。
+        /// </summary>
+        internal static string ViewGachaLogHeader {
+            get {
+                return ResourceManager.GetString("ViewGachaLogHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 深渊统计 的本地化字符串。
+        /// </summary>
+        internal static string ViewHutaoDatabaseHeader {
+            get {
+                return ResourceManager.GetString("ViewHutaoDatabaseHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启动游戏 的本地化字符串。
+        /// </summary>
+        internal static string ViewLaunchGameHeader {
+            get {
+                return ResourceManager.GetString("ViewLaunchGameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 存档 [{0}] 添加成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAchievementArchiveAdded {
+            get {
+                return ResourceManager.GetString("ViewModelAchievementArchiveAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 不能添加名称重复的存档 [{0}] 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAchievementArchiveAlreadyExists {
+            get {
+                return ResourceManager.GetString("ViewModelAchievementArchiveAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 不能添加名称无效的存档 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAchievementArchiveInvalidName {
+            get {
+                return ResourceManager.GetString("ViewModelAchievementArchiveInvalidName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 UIAF 文件 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAchievementExportFileType {
+            get {
+                return ResourceManager.GetString("ViewModelAchievementExportFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入成就中 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAchievementImportProgress {
+            get {
+                return ResourceManager.GetString("ViewModelAchievementImportProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据的 UIAF 版本过低，无法导入 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAchievementImportWarningMessage {
+            get {
+                return ResourceManager.GetString("ViewModelAchievementImportWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 该操作是不可逆的，该存档和其内的所有成就状态会丢失。 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAchievementRemoveArchiveContent {
+            get {
+                return ResourceManager.GetString("ViewModelAchievementRemoveArchiveContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 确定要删除存档 {0} 吗？ 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAchievementRemoveArchiveTitle {
+            get {
+                return ResourceManager.GetString("ViewModelAchievementRemoveArchiveTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 当前角色无法计算，请同步信息后再试 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAvatarPropertyCalculateWeaponNull {
+            get {
+                return ResourceManager.GetString("ViewModelAvatarPropertyCalculateWeaponNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色信息服务 [Enak API] 当前不可用 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAvatarPropertyEnkaApiUnavailable {
+            get {
+                return ResourceManager.GetString("ViewModelAvatarPropertyEnkaApiUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已导出到剪贴板 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAvatarPropertyExportImageSuccess {
+            get {
+                return ResourceManager.GetString("ViewModelAvatarPropertyExportImageSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获取数据中 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAvatarPropertyFetch {
+            get {
+                return ResourceManager.GetString("ViewModelAvatarPropertyFetch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打开剪贴板失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAvatarPropertyOpenClipboardFail {
+            get {
+                return ResourceManager.GetString("ViewModelAvatarPropertyOpenClipboardFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色橱窗尚未开启，请前往游戏操作后重试 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelAvatarPropertyShowcaseNotOpen {
+            get {
+                return ResourceManager.GetString("ViewModelAvatarPropertyShowcaseNotOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已成功添加至当前养成计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelCultivationEntryAddSuccess {
+            get {
+                return ResourceManager.GetString("ViewModelCultivationEntryAddSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请先前往养成计划页面创建计划并选中 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelCultivationEntryAddWarning {
+            get {
+                return ResourceManager.GetString("ViewModelCultivationEntryAddWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelCultivationProjectAdded {
+            get {
+                return ResourceManager.GetString("ViewModelCultivationProjectAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 不能添加名称重复的计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelCultivationProjectAlreadyExists {
+            get {
+                return ResourceManager.GetString("ViewModelCultivationProjectAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 不能添加名称无效的计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelCultivationProjectInvalidName {
+            get {
+                return ResourceManager.GetString("ViewModelCultivationProjectInvalidName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 30 分钟 | 3.75 树脂 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteRefreshTime30 {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteRefreshTime30", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 4 分钟 | 0.5 树脂 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteRefreshTime4 {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteRefreshTime4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 40 分钟 | 5 树脂 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteRefreshTime40 {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteRefreshTime40", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 60 分钟 | 7.5 树脂 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteRefreshTime60 {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteRefreshTime60", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 8 分钟 | 1 树脂 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteRefreshTime8 {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteRefreshTime8", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注册计划任务失败，请使用管理员模式重试 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteRegisterTaskFail {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteRegisterTaskFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清除任务计划成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelExperimentalDeleteTaskSuccess {
+            get {
+                return ResourceManager.GetString("ViewModelExperimentalDeleteTaskSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清除任务计划失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelExperimentalDeleteTaskWarning {
+            get {
+                return ResourceManager.GetString("ViewModelExperimentalDeleteTaskWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清除用户数据成功,请立即重启胡桃 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelExperimentalDeleteUserSuccess {
+            get {
+                return ResourceManager.GetString("ViewModelExperimentalDeleteUserSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成功保存到指定位置 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelExportSuccessMessage {
+            get {
+                return ResourceManager.GetString("ViewModelExportSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导出成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelExportSuccessTitle {
+            get {
+                return ResourceManager.GetString("ViewModelExportSuccessTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 写入文件时遇到问题 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelExportWarningMessage {
+            get {
+                return ResourceManager.GetString("ViewModelExportWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导出失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelExportWarningTitle {
+            get {
+                return ResourceManager.GetString("ViewModelExportWarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 UIGF Json 文件 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogExportFileType {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogExportFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入完成 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogImportComplete {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogImportComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入祈愿记录中 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogImportProgress {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogImportProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据的 UIGF 版本过低，无法导入 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogImportWarningMessage {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogImportWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogImportWarningTitle {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogImportWarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获取祈愿记录失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogRefreshFail {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogRefreshFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 祈愿记录刷新操作被异常取消 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogRefreshOperationCancel {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogRefreshOperationCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 该操作是不可逆的，该存档和其内的所有祈愿数据会丢失 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogRemoveArchiveDescription {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogRemoveArchiveDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 确定要删除存档 {0} 吗？ 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogRemoveArchiveTitle {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogRemoveArchiveTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据格式不正确 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelImportWarningMessage {
+            get {
+                return ResourceManager.GetString("ViewModelImportWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelImportWarningTitle {
+            get {
+                return ResourceManager.GetString("ViewModelImportWarningTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 切换服务器失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelLaunchGameEnsureGameResourceFail {
+            get {
+                return ResourceManager.GetString("ViewModelLaunchGameEnsureGameResourceFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无法读取游戏配置文件 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelLaunchGameMultiChannelReadFail {
+            get {
+                return ResourceManager.GetString("ViewModelLaunchGameMultiChannelReadFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 游戏路径不正确，前往设置更改游戏路径 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelLaunchGamePathInvalid {
+            get {
+                return ResourceManager.GetString("ViewModelLaunchGamePathInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 切换账号失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelLaunchGameSwitchGameAccountFail {
+            get {
+                return ResourceManager.GetString("ViewModelLaunchGameSwitchGameAccountFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清除失败，文件目录权限不足，请使用管理员模式重试 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingClearWebCacheFail {
+            get {
+                return ResourceManager.GetString("ViewModelSettingClearWebCacheFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清除失败，找不到目录：{0} 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingClearWebCachePathInvalid {
+            get {
+                return ResourceManager.GetString("ViewModelSettingClearWebCachePathInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清除完成 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingClearWebCacheSuccess {
+            get {
+                return ResourceManager.GetString("ViewModelSettingClearWebCacheSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户 [{0}] 添加成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelUserAdded {
+            get {
+                return ResourceManager.GetString("ViewModelUserAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户 [{0}] 的 Cookie 复制成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelUserCookieCopied {
+            get {
+                return ResourceManager.GetString("ViewModelUserCookieCopied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 此 Cookie 不完整，操作失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelUserIncomplete {
+            get {
+                return ResourceManager.GetString("ViewModelUserIncomplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 此 Cookie 无效，操作失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelUserInvalid {
+            get {
+                return ResourceManager.GetString("ViewModelUserInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户 [{0}] 成功移除 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelUserRemoved {
+            get {
+                return ResourceManager.GetString("ViewModelUserRemoved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户 [{0}] 的 Cookie 更新成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelUserUpdated {
+            get {
+                return ResourceManager.GetString("ViewModelUserUpdated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 页面资源已经被释放，操作取消 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelViewDisposedOperationCancel {
+            get {
+                return ResourceManager.GetString("ViewModelViewDisposedOperationCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 现在可以开始使用胡桃了 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelWelcomeDownloadCompleteMessage {
+            get {
+                return ResourceManager.GetString("ViewModelWelcomeDownloadCompleteMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载完成 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelWelcomeDownloadCompleteTitle {
+            get {
+                return ResourceManager.GetString("ViewModelWelcomeDownloadCompleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完成 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelWelcomeDownloadSummaryComplete {
+            get {
+                return ResourceManager.GetString("ViewModelWelcomeDownloadSummaryComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待中 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelWelcomeDownloadSummaryDefault {
+            get {
+                return ResourceManager.GetString("ViewModelWelcomeDownloadSummaryDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文件下载异常 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelWelcomeDownloadSummaryException {
+            get {
+                return ResourceManager.GetString("ViewModelWelcomeDownloadSummaryException", resourceCulture);
             }
         }
         
@@ -1582,7 +2248,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 验证当前账号角色 的本地化字符串。
+        ///   查找类似 验证当前用户与角色 的本地化字符串。
         /// </summary>
         internal static string ViewPageDailyNoteVerify {
             get {
@@ -1699,7 +2365,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 使用当前账号的 Cookie 信息刷新祈愿记录 的本地化字符串。
+        ///   查找类似 使用当前用户的 Cookie 信息刷新祈愿记录 的本地化字符串。
         /// </summary>
         internal static string ViewPageGachaLogRefreshByStokenDescription {
             get {
@@ -1807,6 +2473,87 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 0 命 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellation0 {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellation0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 1 命 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellation1 {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellation1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 2 命 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellation2 {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellation2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 3 命 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellation3 {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellation3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 4 命 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellation4 {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellation4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 5 命 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellation5 {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellation5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 6 命 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellation6 {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellation6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellationAvatar {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellationAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 持有 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoDatabaseOverviewConstellationHolding {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoDatabaseOverviewConstellationHolding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 数据收集统计 的本地化字符串。
         /// </summary>
         internal static string ViewPageHutaoDatabaseOverviewDataCollect {
@@ -1897,6 +2644,933 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 启动游戏 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAction {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 高级功能 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAdvanceHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAdvanceHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下面的功能十分危险，如果您不愿承担因此可能带来的后果，请勿启用！ 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAdvanceHint {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAdvanceHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 将窗口创建为弹出窗口，不带框架 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceBorderlessDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceBorderlessDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无边框 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceBorderlessHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceBorderlessHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 与游戏内浏览器不兼容，切屏等操作也能使游戏闪退 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceExclusiveDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceExclusiveDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 独占全屏 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceExclusiveHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceExclusiveHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 覆盖默认的全屏状态 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceFullscreenDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceFullscreenDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 全屏 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceFullscreenHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceFullscreenHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 外观 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 覆盖默认屏幕高度 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceScreenHeightDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceScreenHeightDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 高度 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceScreenHeightHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceScreenHeightHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 覆盖默认屏幕宽度 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceScreenWidthDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceScreenWidthDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 宽度 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameAppearanceScreenWidthHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameAppearanceScreenWidthHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 常规 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameCommonHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameCommonHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 所有选项仅会在启动游戏成功后保存 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameConfigurationSaveHint {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameConfigurationSaveHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 某些选项处于禁用状态，它们只在管理员模式下生效！ 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameElevationHint {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameElevationHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在游戏时可以随时调整 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSetFpsDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSetFpsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设置当前帧率 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSetFpsHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSetFpsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 该账号尚未绑定 UID 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchAccountAttachUidNull {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchAccountAttachUidNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 绑定当前用户的角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchAccountAttachUidToolTip {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchAccountAttachUidToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在游戏内切换账号,网络环境发生变化后需要重新手动检测 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchAccountDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchAccountDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 检测 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchAccountDetectAction {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchAccountDetectAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 账号 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchAccountHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchAccountHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchAccountRemoveToolTip {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchAccountRemoveToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重命名 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchAccountRenameToolTip {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchAccountRenameToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 切换游戏服务器（国服/渠道服/国际服） 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchSchemeDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchSchemeDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服务器 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchSchemeHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchSchemeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 切换国际服功能会在游戏截图文件夹内创建缓存文件夹 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameSwitchSchemeHint {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameSwitchSchemeHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameUnlockFpsDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameUnlockFpsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 解锁帧率限制 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameUnlockFpsHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameUnlockFpsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 禁用 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameUnlockFpsOff {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameUnlockFpsOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启用 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameUnlockFpsOn {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameUnlockFpsOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我已登录 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLoginMihoyoUserLoggedInAction {
+            get {
+                return ResourceManager.GetString("ViewPageLoginMihoyoUserLoggedInAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在下方登录米哈游通行证 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLoginMihoyoUserTitle {
+            get {
+                return ResourceManager.GetString("ViewPageLoginMihoyoUserTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 关于 胡桃 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingAboutHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingAboutHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 外观 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingApperanceHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingApperanceHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更改窗体的背景材质 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingBackdropMaterialDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingBackdropMaterialDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 背景材质 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingBackdropMaterialHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingBackdropMaterialHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 图片缓存 在此处存放 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingCacheFolderDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingCacheFolderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打开 缓存 文件夹 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingCacheFolderHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingCacheFolderHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 执行 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDangerousAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDangerousAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 危险功能 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDangerousHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDangerousHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 除非开发人员明确要求你这么做，否则不应尝试执行下方的操作！ 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDangerousHint {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDangerousHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户数据/元数据 在此处存放 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDataFolderDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDataFolderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打开 数据 文件夹 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDataFolderHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDataFolderHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDeleteCacheAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDeleteCacheAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDeleteCacheDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDeleteCacheDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除游戏内网页缓存 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDeleteCacheHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDeleteCacheHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除注册的计划任务，卸载前务必点击此项 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDeleteTaskDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDeleteTaskDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除所有计划任务 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDeleteTaskHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDeleteTaskHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 直接删除用户表的所有记录，用于修复特定的账号冲突问题 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDeleteUserDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDeleteUserDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除所有用户 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDeleteUserHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDeleteUserHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设备 ID 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingDeviceIdHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingDeviceIdHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在祈愿记录页面显示或隐藏无记录的历史祈愿活动 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingEmptyHistoryVisibleDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingEmptyHistoryVisibleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无记录的历史祈愿活动 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingEmptyHistoryVisibleHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingEmptyHistoryVisibleHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 隐藏 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingEmptyHistoryVisibleOff {
+            get {
+                return ResourceManager.GetString("ViewPageSettingEmptyHistoryVisibleOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingEmptyHistoryVisibleOn {
+            get {
+                return ResourceManager.GetString("ViewPageSettingEmptyHistoryVisibleOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Github 上反馈的问题会优先处理 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingFeedbackDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingFeedbackDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 反馈 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingFeedbackHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingFeedbackHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 前往反馈 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingFeedbackNavigate {
+            get {
+                return ResourceManager.GetString("ViewPageSettingFeedbackNavigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 祈愿记录 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGachaLogHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGachaLogHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 游戏 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGameHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设置路径 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetGamePathAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetGamePathAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 游戏路径 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetGamePathHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetGamePathHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设置游戏路径时，请选择游戏本体（YuanShen.exe 或 GenshinImpact.exe）而不是启动器（launcher.exe） 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetGamePathHint {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetGamePathHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 存储空间 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingStorageHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingStorageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 打开 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingStorageOpenAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingStorageOpenAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 前往商店 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingUpdateCheckAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingUpdateCheckAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 前往微软商店查看 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingUpdateCheckDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingUpdateCheckDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 检查更新 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingUpdateCheckHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingUpdateCheckHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Webview2 运行时 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingWebview2Header {
+            get {
+                return ResourceManager.GetString("ViewPageSettingWebview2Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 战斗数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssBattleHeader {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssBattleHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 战斗次数 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssBattleTimes {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssBattleTimes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最强一击 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssDamage {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssDamage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 尚未获取任何挑战记录 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssDefaultDescription {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssDefaultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最多击破 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssDefeat {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssDefeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 详细数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssDetail {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 元素爆发 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssEnergySkill {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssEnergySkill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 深渊记录 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssHeader {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最深抵达 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssMaxFloor {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssMaxFloor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 元素战技 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssNormalSkill {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssNormalSkill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssRefresh {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssRefreshAction {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssRefreshAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 同步米游社的深渊挑战记录 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssRefreshDescription {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssRefreshDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 出战次数 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssReveal {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssReveal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 统计数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssStatistics {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最多承伤 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssTakeDamage {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssTakeDamage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获得渊星 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssTotalStar {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssTotalStar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewSpiralAbyssUploadRecord {
+            get {
+                return ResourceManager.GetString("ViewSpiralAbyssUploadRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 工具 的本地化字符串。
+        /// </summary>
+        internal static string ViewToolHeader {
+            get {
+                return ResourceManager.GetString("ViewToolHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Cookie 操作 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserCookieOperation {
+            get {
+                return ResourceManager.GetString("ViewUserCookieOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录米哈游通行证 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserCookieOperationLoginMihoyoUserAction {
+            get {
+                return ResourceManager.GetString("ViewUserCookieOperationLoginMihoyoUserAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 手动输入 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserCookieOperationManualInputAction {
+            get {
+                return ResourceManager.GetString("ViewUserCookieOperationManualInputAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 复制 Cookie 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserCopyCookieAction {
+            get {
+                return ResourceManager.GetString("ViewUserCopyCookieAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请先登录 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserDefaultDescription {
+            get {
+                return ResourceManager.GetString("ViewUserDefaultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 移除用户 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserRemoveAction {
+            get {
+                return ResourceManager.GetString("ViewUserRemoveAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserRole {
+            get {
+                return ResourceManager.GetString("ViewUserRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserUser {
+            get {
+                return ResourceManager.GetString("ViewUserUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我们将为你下载最基本的图像资源 的本地化字符串。
+        /// </summary>
+        internal static string ViewWelcomeBase {
+            get {
+                return ResourceManager.GetString("ViewWelcomeBase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 你可以继续使用电脑，丝毫不受影响 的本地化字符串。
+        /// </summary>
+        internal static string ViewWelcomeBody {
+            get {
+                return ResourceManager.GetString("ViewWelcomeBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请勿关闭应用程序 的本地化字符串。
+        /// </summary>
+        internal static string ViewWelcomeSubtitle {
+            get {
+                return ResourceManager.GetString("ViewWelcomeSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 欢迎使用 胡桃 的本地化字符串。
+        /// </summary>
+        internal static string ViewWelcomeTitle {
+            get {
+                return ResourceManager.GetString("ViewWelcomeTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 角色资料 的本地化字符串。
         /// </summary>
         internal static string ViewWikiAvatarHeader {
@@ -1911,6 +3585,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewWikiWeaponHeader {
             get {
                 return ResourceManager.GetString("ViewWikiWeaponHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 状态：{0} | 信息：{1} 的本地化字符串。
+        /// </summary>
+        internal static string WebResponseFormat {
+            get {
+                return ResourceManager.GetString("WebResponseFormat", resourceCulture);
             }
         }
     }

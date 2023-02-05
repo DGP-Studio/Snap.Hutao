@@ -287,14 +287,13 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
                     case ArchiveAddResult.Added:
                         await ThreadHelper.SwitchToMainThreadAsync();
                         SelectedArchive = Archives.SingleOrDefault(a => a.Name == name);
-
-                        infoBarService.Success($"存档 [{name}] 添加成功");
+                        infoBarService.Success(string.Format(SH.ViewModelAchievementArchiveAdded, name));
                         break;
                     case ArchiveAddResult.InvalidName:
-                        infoBarService.Information($"不能添加名称无效的存档");
+                        infoBarService.Information(SH.ViewModelAchievementArchiveInvalidName);
                         break;
                     case ArchiveAddResult.AlreadyExists:
-                        infoBarService.Information($"不能添加名称重复的存档 [{name}]");
+                        infoBarService.Information(string.Format(SH.ViewModelAchievementArchiveAlreadyExists, name));
                         break;
                     default:
                         throw Must.NeverHappen();
@@ -308,7 +307,9 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         if (Archives != null && SelectedArchive != null)
         {
             ContentDialogResult result = await contentDialogFactory
-                .ConfirmCancelAsync($"确定要删除存档 {SelectedArchive.Name} 吗？", "该操作是不可逆的，该存档和其内的所有成就状态会丢失。")
+                .ConfirmCancelAsync(
+                    string.Format(SH.ViewModelAchievementRemoveArchiveTitle, SelectedArchive.Name),
+                    SH.ViewModelAchievementRemoveArchiveContent)
                 .ConfigureAwait(false);
 
             if (result == ContentDialogResult.Primary)
@@ -367,9 +368,9 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
 
         FileSavePicker picker = Ioc.Default.GetRequiredService<IPickerFactory>().GetFileSavePicker();
-        picker.FileTypeChoices.Add("UIAF 文件", ".json".Enumerate().ToList());
+        picker.FileTypeChoices.Add(SH.ViewModelAchievementExportFileType, ".json".Enumerate().ToList());
         picker.SuggestedStartLocation = PickerLocationId.Desktop;
-        picker.CommitButtonText = "导出";
+        picker.CommitButtonText = SH.FilePickerExportCommit;
         picker.SuggestedFileName = $"{achievementService.CurrentArchive?.Name}.json";
 
         (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
@@ -378,10 +379,14 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
             UIAF uiaf = await achievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);
             bool isOk = await file.SerializeToJsonAsync(uiaf, options).ConfigureAwait(false);
 
-            ValueTask<ContentDialogResult> dialogTask = isOk
-                ? contentDialogFactory.ConfirmAsync("导出成功", "成功保存到指定位置")
-                : contentDialogFactory.ConfirmAsync("导出失败", "写入文件时遇到问题");
-            await dialogTask.ConfigureAwait(false);
+            if (isOk)
+            {
+                infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
+            }
+            else
+            {
+                infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+            }
         }
     }
 
@@ -389,7 +394,8 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     {
         if (achievementService.CurrentArchive == null)
         {
-            infoBarService.Information("必须选择一个存档才能导入成就");
+            // Basically can't happen now
+            // infoBarService.Information("必须选择一个存档才能导入成就");
             return;
         }
 
@@ -399,7 +405,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
         else
         {
-            await contentDialogFactory.ConfirmAsync("导入失败", "数据格式不正确").ConfigureAwait(false);
+            infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
         }
     }
 
@@ -407,12 +413,13 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     {
         if (achievementService.CurrentArchive == null)
         {
-            infoBarService.Information("必须选择一个存档才能导入成就");
+            // Basically can't happen now
+            // infoBarService.Information("必须选择一个存档才能导入成就");
             return;
         }
 
         FileOpenPicker picker = Ioc.Default.GetRequiredService<IPickerFactory>()
-            .GetFileOpenPicker(PickerLocationId.Desktop, "导入", ".json");
+            .GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json");
         (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
 
         if (isPickerOk)
@@ -425,7 +432,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
             }
             else
             {
-                await contentDialogFactory.ConfirmAsync("导入失败", "文件的数据格式不正确").ConfigureAwait(false);
+                infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
             }
         }
     }
@@ -454,7 +461,10 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
             if (isOk)
             {
                 ImportResult result;
-                ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync("导入成就中").ConfigureAwait(false);
+                ContentDialog dialog = await contentDialogFactory
+                    .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
+                    .ConfigureAwait(false);
+
                 await using (await dialog.BlockAsync().ConfigureAwait(false))
                 {
                     result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
@@ -467,7 +477,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
         else
         {
-            await contentDialogFactory.ConfirmAsync("导入失败", "数据的 UIAF 版本过低，无法导入").ConfigureAwait(false);
+            infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelAchievementImportWarningMessage);
         }
 
         return false;
@@ -518,7 +528,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         if (Achievements != null)
         {
             Achievements.Filter = goal != null
-                ? ((object o) => o is Snap.Hutao.Model.Binding.Achievement.Achievement achi && achi.Inner.Goal == goal.Id)
+                ? ((object o) => o is Model.Binding.Achievement.Achievement achi && achi.Inner.Goal == goal.Id)
                 : null;
         }
     }

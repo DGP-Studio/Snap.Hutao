@@ -134,16 +134,16 @@ internal class UserViewModel : ObservableObject
                         SelectedUser = Users.Single();
                     }
 
-                    infoBarService.Success($"用户 [{uid}] 添加成功");
+                    infoBarService.Success(string.Format(SH.ViewModelUserAdded, uid));
                     break;
                 case UserOptionResult.Incomplete:
-                    infoBarService.Information($"此 Cookie 不完整，操作失败");
+                    infoBarService.Information(SH.ViewModelUserIncomplete);
                     break;
                 case UserOptionResult.Invalid:
-                    infoBarService.Information($"此 Cookie 无效，操作失败");
+                    infoBarService.Information(SH.ViewModelUserInvalid);
                     break;
                 case UserOptionResult.Updated:
-                    infoBarService.Success($"用户 [{uid}] 更新成功");
+                    infoBarService.Success(string.Format(SH.ViewModelUserUpdated, uid));
                     break;
                 default:
                     throw Must.NeverHappen();
@@ -159,7 +159,7 @@ internal class UserViewModel : ObservableObject
         }
         else
         {
-            infoBarService.Warning("尚未安装 WebView2 Runtime");
+            infoBarService.Warning(SH.CoreWebView2HelperVersionUndetected);
         }
     }
 
@@ -170,7 +170,7 @@ internal class UserViewModel : ObservableObject
             try
             {
                 await userService.RemoveUserAsync(user!).ConfigureAwait(false);
-                infoBarService.Success($"用户 [{user.UserInfo?.Nickname}] 成功移除");
+                infoBarService.Success(string.Format(SH.ViewModelUserRemoved, user.UserInfo?.Nickname));
             }
             catch (UserdataCorruptedException ex)
             {
@@ -181,11 +181,10 @@ internal class UserViewModel : ObservableObject
 
     private void CopyCookie(User? user)
     {
-        Verify.Operation(user != null, "待复制 Cookie 的用户不应为 null");
         try
         {
             string cookieString = new StringBuilder()
-                .Append(user.Stoken)
+                .Append(user!.Stoken)
                 .AppendIf(user.Stoken != null, ';')
                 .Append(user.Ltoken)
                 .AppendIf(user.Ltoken != null, ';')
@@ -193,7 +192,7 @@ internal class UserViewModel : ObservableObject
                 .ToString();
 
             Clipboard.SetText(cookieString);
-            infoBarService.Success($"{user.UserInfo!.Nickname} 的 Cookie 复制成功");
+            infoBarService.Success(string.Format(SH.ViewModelUserCookieCopied, user.UserInfo!.Nickname));
         }
         catch (Exception e)
         {

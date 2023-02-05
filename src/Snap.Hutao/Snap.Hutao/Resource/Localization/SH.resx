@@ -120,6 +120,9 @@
   <data name="AppDevNameAndVersion" xml:space="preserve">
     <value>胡桃 Dev {0}</value>
   </data>
+  <data name="AppName" xml:space="preserve">
+    <value>胡桃</value>
+  </data>
   <data name="AppNameAndVersion" xml:space="preserve">
     <value>胡桃 {0}</value>
   </data>
@@ -173,6 +176,15 @@
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>未检测到 WebView2 运行时</value>
+  </data>
+  <data name="FilePickerExportCommit" xml:space="preserve">
+    <value>导出</value>
+  </data>
+  <data name="FilePickerImportCommit" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="MustSelectUserAndUid" xml:space="preserve">
+    <value>必须先选择一个用户与角色</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>单个成就存档内发现多个相同的成就 Id</value>
@@ -318,6 +330,12 @@
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>输入的 Cookie 无法获取用户信息</value>
   </data>
+  <data name="ViewAchievementHeader" xml:space="preserve">
+    <value>成就管理</value>
+  </data>
+  <data name="ViewAnnouncementHeader" xml:space="preserve">
+    <value>主页</value>
+  </data>
   <data name="ViewAvatarPropertyHeader" xml:space="preserve">
     <value>我的角色</value>
   </data>
@@ -347,6 +365,15 @@
   </data>
   <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
     <value>UP</value>
+  </data>
+  <data name="ViewCultivationHeader" xml:space="preserve">
+    <value>养成计划</value>
+  </data>
+  <data name="ViewDailyNoteHeader" xml:space="preserve">
+    <value>实时便笺</value>
+  </data>
+  <data name="ViewDataHeader" xml:space="preserve">
+    <value>数据</value>
   </data>
   <data name="ViewDialogAchievementArchiveCreateInputPlaceholder" xml:space="preserve">
     <value>在此处输入</value>
@@ -461,6 +488,201 @@
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
     <value>在此处输入包含 Stoken 的 Cookie</value>
+  </data>
+  <data name="ViewGachaLogHeader" xml:space="preserve">
+    <value>祈愿记录</value>
+  </data>
+  <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
+    <value>深渊统计</value>
+  </data>
+  <data name="ViewLaunchGameHeader" xml:space="preserve">
+    <value>启动游戏</value>
+  </data>
+  <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
+    <value>存档 [{0}] 添加成功</value>
+  </data>
+  <data name="ViewModelAchievementArchiveAlreadyExists" xml:space="preserve">
+    <value>不能添加名称重复的存档 [{0}]</value>
+  </data>
+  <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
+    <value>不能添加名称无效的存档</value>
+  </data>
+  <data name="ViewModelAchievementExportFileType" xml:space="preserve">
+    <value>UIAF 文件</value>
+  </data>
+  <data name="ViewModelAchievementImportProgress" xml:space="preserve">
+    <value>导入成就中</value>
+  </data>
+  <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
+    <value>数据的 UIAF 版本过低，无法导入</value>
+  </data>
+  <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
+    <value>该操作是不可逆的，该存档和其内的所有成就状态会丢失。</value>
+  </data>
+  <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
+    <value>确定要删除存档 {0} 吗？</value>
+  </data>
+  <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
+    <value>当前角色无法计算，请同步信息后再试</value>
+  </data>
+  <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
+    <value>角色信息服务 [Enak API] 当前不可用</value>
+  </data>
+  <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
+    <value>已导出到剪贴板</value>
+  </data>
+  <data name="ViewModelAvatarPropertyFetch" xml:space="preserve">
+    <value>获取数据中</value>
+  </data>
+  <data name="ViewModelAvatarPropertyOpenClipboardFail" xml:space="preserve">
+    <value>打开剪贴板失败</value>
+  </data>
+  <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
+    <value>角色橱窗尚未开启，请前往游戏操作后重试</value>
+  </data>
+  <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
+    <value>已成功添加至当前养成计划</value>
+  </data>
+  <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
+    <value>请先前往养成计划页面创建计划并选中</value>
+  </data>
+  <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
+    <value>添加成功</value>
+  </data>
+  <data name="ViewModelCultivationProjectAlreadyExists" xml:space="preserve">
+    <value>不能添加名称重复的计划</value>
+  </data>
+  <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
+    <value>不能添加名称无效的计划</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
+    <value>30 分钟 | 3.75 树脂</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime4" xml:space="preserve">
+    <value>4 分钟 | 0.5 树脂</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime40" xml:space="preserve">
+    <value>40 分钟 | 5 树脂</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime60" xml:space="preserve">
+    <value>60 分钟 | 7.5 树脂</value>
+  </data>
+  <data name="ViewModelDailyNoteRefreshTime8" xml:space="preserve">
+    <value>8 分钟 | 1 树脂</value>
+  </data>
+  <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
+    <value>注册计划任务失败，请使用管理员模式重试</value>
+  </data>
+  <data name="ViewModelExperimentalDeleteTaskSuccess" xml:space="preserve">
+    <value>清除任务计划成功</value>
+  </data>
+  <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
+    <value>清除任务计划失败</value>
+  </data>
+  <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
+    <value>清除用户数据成功,请立即重启胡桃</value>
+  </data>
+  <data name="ViewModelExportSuccessMessage" xml:space="preserve">
+    <value>成功保存到指定位置</value>
+  </data>
+  <data name="ViewModelExportSuccessTitle" xml:space="preserve">
+    <value>导出成功</value>
+  </data>
+  <data name="ViewModelExportWarningMessage" xml:space="preserve">
+    <value>写入文件时遇到问题</value>
+  </data>
+  <data name="ViewModelExportWarningTitle" xml:space="preserve">
+    <value>导出失败</value>
+  </data>
+  <data name="ViewModelGachaLogExportFileType" xml:space="preserve">
+    <value>UIGF Json 文件</value>
+  </data>
+  <data name="ViewModelGachaLogImportComplete" xml:space="preserve">
+    <value>导入完成</value>
+  </data>
+  <data name="ViewModelGachaLogImportProgress" xml:space="preserve">
+    <value>导入祈愿记录中</value>
+  </data>
+  <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
+    <value>数据的 UIGF 版本过低，无法导入</value>
+  </data>
+  <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
+    <value>导入失败</value>
+  </data>
+  <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
+    <value>获取祈愿记录失败</value>
+  </data>
+  <data name="ViewModelGachaLogRefreshOperationCancel" xml:space="preserve">
+    <value>祈愿记录刷新操作被异常取消</value>
+  </data>
+  <data name="ViewModelGachaLogRemoveArchiveDescription" xml:space="preserve">
+    <value>该操作是不可逆的，该存档和其内的所有祈愿数据会丢失</value>
+  </data>
+  <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
+    <value>确定要删除存档 {0} 吗？</value>
+  </data>
+  <data name="ViewModelImportWarningMessage" xml:space="preserve">
+    <value>数据格式不正确</value>
+  </data>
+  <data name="ViewModelImportWarningTitle" xml:space="preserve">
+    <value>导入失败</value>
+  </data>
+  <data name="ViewModelLaunchGameEnsureGameResourceFail" xml:space="preserve">
+    <value>切换服务器失败</value>
+  </data>
+  <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
+    <value>无法读取游戏配置文件</value>
+  </data>
+  <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
+    <value>游戏路径不正确，前往设置更改游戏路径</value>
+  </data>
+  <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
+    <value>切换账号失败</value>
+  </data>
+  <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
+    <value>清除失败，文件目录权限不足，请使用管理员模式重试</value>
+  </data>
+  <data name="ViewModelSettingClearWebCachePathInvalid" xml:space="preserve">
+    <value>清除失败，找不到目录：{0}</value>
+  </data>
+  <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
+    <value>清除完成</value>
+  </data>
+  <data name="ViewModelUserAdded" xml:space="preserve">
+    <value>用户 [{0}] 添加成功</value>
+  </data>
+  <data name="ViewModelUserCookieCopied" xml:space="preserve">
+    <value>用户 [{0}] 的 Cookie 复制成功</value>
+  </data>
+  <data name="ViewModelUserIncomplete" xml:space="preserve">
+    <value>此 Cookie 不完整，操作失败</value>
+  </data>
+  <data name="ViewModelUserInvalid" xml:space="preserve">
+    <value>此 Cookie 无效，操作失败</value>
+  </data>
+  <data name="ViewModelUserRemoved" xml:space="preserve">
+    <value>用户 [{0}] 成功移除</value>
+  </data>
+  <data name="ViewModelUserUpdated" xml:space="preserve">
+    <value>用户 [{0}] 的 Cookie 更新成功</value>
+  </data>
+  <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
+    <value>页面资源已经被释放，操作取消</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadCompleteMessage" xml:space="preserve">
+    <value>现在可以开始使用胡桃了</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadCompleteTitle" xml:space="preserve">
+    <value>下载完成</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
+    <value>等待中</value>
+  </data>
+  <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
+    <value>文件下载异常</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
     <value>创建新存档</value>
@@ -625,7 +847,7 @@
     <value>免打扰模式</value>
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
-    <value>验证当前账号角色</value>
+    <value>验证当前用户与角色</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>全量刷新</value>
@@ -664,7 +886,7 @@
     <value>Stoken 刷新</value>
   </data>
   <data name="ViewPageGachaLogRefreshByStokenDescription" xml:space="preserve">
-    <value>使用当前账号的 Cookie 信息刷新祈愿记录</value>
+    <value>使用当前用户的 Cookie 信息刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
     <value>网页缓存刷新</value>
@@ -699,6 +921,33 @@
   <data name="ViewPageHutaoDatabaseOverviewAvatarUsageRank" xml:space="preserve">
     <value>角色使用</value>
   </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation0" xml:space="preserve">
+    <value>0 命</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation1" xml:space="preserve">
+    <value>1 命</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation2" xml:space="preserve">
+    <value>2 命</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation3" xml:space="preserve">
+    <value>3 命</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation4" xml:space="preserve">
+    <value>4 命</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation5" xml:space="preserve">
+    <value>5 命</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellation6" xml:space="preserve">
+    <value>6 命</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellationAvatar" xml:space="preserve">
+    <value>角色</value>
+  </data>
+  <data name="ViewPageHutaoDatabaseOverviewConstellationHolding" xml:space="preserve">
+    <value>持有</value>
+  </data>
   <data name="ViewPageHutaoDatabaseOverviewDataCollect" xml:space="preserve">
     <value>数据收集统计</value>
   </data>
@@ -729,10 +978,322 @@
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>队伍出场</value>
   </data>
+  <data name="ViewPageLaunchGameAction" xml:space="preserve">
+    <value>启动游戏</value>
+  </data>
+  <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
+    <value>高级功能</value>
+  </data>
+  <data name="ViewPageLaunchGameAdvanceHint" xml:space="preserve">
+    <value>下面的功能十分危险，如果您不愿承担因此可能带来的后果，请勿启用！</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
+    <value>将窗口创建为弹出窗口，不带框架</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceBorderlessHeader" xml:space="preserve">
+    <value>无边框</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
+    <value>与游戏内浏览器不兼容，切屏等操作也能使游戏闪退</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
+    <value>独占全屏</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
+    <value>覆盖默认的全屏状态</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceFullscreenHeader" xml:space="preserve">
+    <value>全屏</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceHeader" xml:space="preserve">
+    <value>外观</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
+    <value>覆盖默认屏幕高度</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenHeightHeader" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenWidthDescription" xml:space="preserve">
+    <value>覆盖默认屏幕宽度</value>
+  </data>
+  <data name="ViewPageLaunchGameAppearanceScreenWidthHeader" xml:space="preserve">
+    <value>宽度</value>
+  </data>
+  <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
+    <value>所有选项仅会在启动游戏成功后保存</value>
+  </data>
+  <data name="ViewPageLaunchGameElevationHint" xml:space="preserve">
+    <value>某些选项处于禁用状态，它们只在管理员模式下生效！</value>
+  </data>
+  <data name="ViewPageLaunchGameSetFpsDescription" xml:space="preserve">
+    <value>在游戏时可以随时调整</value>
+  </data>
+  <data name="ViewPageLaunchGameSetFpsHeader" xml:space="preserve">
+    <value>设置当前帧率</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
+    <value>该账号尚未绑定 UID</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
+    <value>绑定当前用户的角色</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
+    <value>在游戏内切换账号,网络环境发生变化后需要重新手动检测</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
+    <value>检测</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
+    <value>账号</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchAccountRenameToolTip" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
+    <value>切换游戏服务器（国服/渠道服/国际服）</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
+    <value>服务器</value>
+  </data>
+  <data name="ViewPageLaunchGameSwitchSchemeHint" xml:space="preserve">
+    <value>切换国际服功能会在游戏截图文件夹内创建缓存文件夹</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
+    <value>请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
+    <value>解锁帧率限制</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
+    <value>我已登录</value>
+  </data>
+  <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
+    <value>在下方登录米哈游通行证</value>
+  </data>
+  <data name="ViewPageSettingAboutHeader" xml:space="preserve">
+    <value>关于 胡桃</value>
+  </data>
+  <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
+    <value>外观</value>
+  </data>
+  <data name="ViewPageSettingBackdropMaterialDescription" xml:space="preserve">
+    <value>更改窗体的背景材质</value>
+  </data>
+  <data name="ViewPageSettingBackdropMaterialHeader" xml:space="preserve">
+    <value>背景材质</value>
+  </data>
+  <data name="ViewPageSettingCacheFolderDescription" xml:space="preserve">
+    <value>图片缓存 在此处存放</value>
+  </data>
+  <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
+    <value>打开 缓存 文件夹</value>
+  </data>
+  <data name="ViewPageSettingDangerousAction" xml:space="preserve">
+    <value>执行</value>
+  </data>
+  <data name="ViewPageSettingDangerousHeader" xml:space="preserve">
+    <value>危险功能</value>
+  </data>
+  <data name="ViewPageSettingDangerousHint" xml:space="preserve">
+    <value>除非开发人员明确要求你这么做，否则不应尝试执行下方的操作！</value>
+  </data>
+  <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
+    <value>用户数据/元数据 在此处存放</value>
+  </data>
+  <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
+    <value>打开 数据 文件夹</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheDescription" xml:space="preserve">
+    <value>若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作</value>
+  </data>
+  <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
+    <value>删除游戏内网页缓存</value>
+  </data>
+  <data name="ViewPageSettingDeleteTaskDescription" xml:space="preserve">
+    <value>删除注册的计划任务，卸载前务必点击此项</value>
+  </data>
+  <data name="ViewPageSettingDeleteTaskHeader" xml:space="preserve">
+    <value>删除所有计划任务</value>
+  </data>
+  <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
+    <value>直接删除用户表的所有记录，用于修复特定的账号冲突问题</value>
+  </data>
+  <data name="ViewPageSettingDeleteUserHeader" xml:space="preserve">
+    <value>删除所有用户</value>
+  </data>
+  <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
+    <value>设备 ID</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleDescription" xml:space="preserve">
+    <value>在祈愿记录页面显示或隐藏无记录的历史祈愿活动</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleHeader" xml:space="preserve">
+    <value>无记录的历史祈愿活动</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleOff" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="ViewPageSettingEmptyHistoryVisibleOn" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="ViewPageSettingFeedbackDescription" xml:space="preserve">
+    <value>Github 上反馈的问题会优先处理</value>
+  </data>
+  <data name="ViewPageSettingFeedbackHeader" xml:space="preserve">
+    <value>反馈</value>
+  </data>
+  <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
+    <value>前往反馈</value>
+  </data>
+  <data name="ViewPageSettingGachaLogHeader" xml:space="preserve">
+    <value>祈愿记录</value>
+  </data>
+  <data name="ViewPageSettingGameHeader" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
+    <value>设置路径</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathHeader" xml:space="preserve">
+    <value>游戏路径</value>
+  </data>
+  <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
+    <value>设置游戏路径时，请选择游戏本体（YuanShen.exe 或 GenshinImpact.exe）而不是启动器（launcher.exe）</value>
+  </data>
+  <data name="ViewPageSettingStorageHeader" xml:space="preserve">
+    <value>存储空间</value>
+  </data>
+  <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
+    <value>前往商店</value>
+  </data>
+  <data name="ViewPageSettingUpdateCheckDescription" xml:space="preserve">
+    <value>前往微软商店查看</value>
+  </data>
+  <data name="ViewPageSettingUpdateCheckHeader" xml:space="preserve">
+    <value>检查更新</value>
+  </data>
+  <data name="ViewPageSettingWebview2Header" xml:space="preserve">
+    <value>Webview2 运行时</value>
+  </data>
+  <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
+    <value>战斗数据</value>
+  </data>
+  <data name="ViewSpiralAbyssBattleTimes" xml:space="preserve">
+    <value>战斗次数</value>
+  </data>
+  <data name="ViewSpiralAbyssDamage" xml:space="preserve">
+    <value>最强一击</value>
+  </data>
+  <data name="ViewSpiralAbyssDefaultDescription" xml:space="preserve">
+    <value>尚未获取任何挑战记录</value>
+  </data>
+  <data name="ViewSpiralAbyssDefeat" xml:space="preserve">
+    <value>最多击破</value>
+  </data>
+  <data name="ViewSpiralAbyssDetail" xml:space="preserve">
+    <value>详细数据</value>
+  </data>
+  <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
+    <value>元素爆发</value>
+  </data>
+  <data name="ViewSpiralAbyssHeader" xml:space="preserve">
+    <value>深渊记录</value>
+  </data>
+  <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
+    <value>最深抵达</value>
+  </data>
+  <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
+    <value>元素战技</value>
+  </data>
+  <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
+    <value>刷新数据</value>
+  </data>
+  <data name="ViewSpiralAbyssRefreshAction" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
+    <value>同步米游社的深渊挑战记录</value>
+  </data>
+  <data name="ViewSpiralAbyssReveal" xml:space="preserve">
+    <value>出战次数</value>
+  </data>
+  <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
+    <value>统计数据</value>
+  </data>
+  <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
+    <value>最多承伤</value>
+  </data>
+  <data name="ViewSpiralAbyssTotalStar" xml:space="preserve">
+    <value>获得渊星</value>
+  </data>
+  <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
+    <value>上传数据</value>
+  </data>
+  <data name="ViewToolHeader" xml:space="preserve">
+    <value>工具</value>
+  </data>
+  <data name="ViewUserCookieOperation" xml:space="preserve">
+    <value>Cookie 操作</value>
+  </data>
+  <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
+    <value>登录米哈游通行证</value>
+  </data>
+  <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
+    <value>手动输入</value>
+  </data>
+  <data name="ViewUserCopyCookieAction" xml:space="preserve">
+    <value>复制 Cookie</value>
+  </data>
+  <data name="ViewUserDefaultDescription" xml:space="preserve">
+    <value>请先登录</value>
+  </data>
+  <data name="ViewUserRemoveAction" xml:space="preserve">
+    <value>移除用户</value>
+  </data>
+  <data name="ViewUserRole" xml:space="preserve">
+    <value>角色</value>
+  </data>
+  <data name="ViewUserUser" xml:space="preserve">
+    <value>用户</value>
+  </data>
+  <data name="ViewWelcomeBase" xml:space="preserve">
+    <value>我们将为你下载最基本的图像资源</value>
+  </data>
+  <data name="ViewWelcomeBody" xml:space="preserve">
+    <value>你可以继续使用电脑，丝毫不受影响</value>
+  </data>
+  <data name="ViewWelcomeSubtitle" xml:space="preserve">
+    <value>请勿关闭应用程序</value>
+  </data>
+  <data name="ViewWelcomeTitle" xml:space="preserve">
+    <value>欢迎使用 胡桃</value>
+  </data>
   <data name="ViewWikiAvatarHeader" xml:space="preserve">
     <value>角色资料</value>
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器资料</value>
+  </data>
+  <data name="WebResponseFormat" xml:space="preserve">
+    <value>状态：{0} | 信息：{1}</value>
   </data>
 </root>

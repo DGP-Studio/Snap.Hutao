@@ -34,7 +34,7 @@ public abstract class ViewModel : ObservableObject, IViewModel
     {
         if (IsViewDisposed)
         {
-            throw new OperationCanceledException("页面资源已经被释放，操作取消");
+            throw new OperationCanceledException(SH.ViewModelViewDisposedOperationCancel);
         }
     }
 }

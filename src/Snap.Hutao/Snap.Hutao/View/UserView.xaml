@@ -65,7 +65,7 @@
                             <TextBlock
                                 Margin="10,6,0,6"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="角色"/>
+                                Text="{shcm:ResourceString Name=ViewUserRole}"/>
                             <ListView
                                 Grid.Row="1"
                                 Margin="4"
@@ -90,7 +90,7 @@
                             <TextBlock
                                 Margin="10,6,0,6"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="账号"/>
+                                Text="{shcm:ResourceString Name=ViewUserUser}"/>
                             <ListView
                                 Grid.Row="1"
                                 MaxHeight="224"
@@ -134,7 +134,7 @@
                                                     Content="&#xE8C8;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                     Style="{StaticResource ButtonRevealStyle}"
-                                                    ToolTipService.ToolTip="复制 Cookie"/>
+                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserCopyCookieAction}"/>
                                                 <Button
                                                     Margin="6,0,0,0"
                                                     HorizontalAlignment="Right"
@@ -145,7 +145,7 @@
                                                     Content="&#xE74D;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                     Style="{StaticResource ButtonRevealStyle}"
-                                                    ToolTipService.ToolTip="移除用户"/>
+                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserRemoveAction}"/>
                                             </StackPanel>
 
                                             <Grid.Resources>
@@ -186,21 +186,21 @@
                         <TextBlock
                             Margin="10,6,0,6"
                             Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="请先登录"
+                            Text="{shcm:ResourceString Name=ViewUserDefaultDescription}"
                             Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
                         <TextBlock
                             Margin="10,6,0,6"
                             Style="{StaticResource BaseTextBlockStyle}"
-                            Text="Cookie 操作"/>
+                            Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
                         <CommandBar DefaultLabelPosition="Right">
                             <AppBarButton
                                 Command="{Binding LoginMihoyoUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xEB41;}"
-                                Label="登录米哈游通行证"/>
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
                             <AppBarButton
                                 Command="{Binding AddUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                                Label="手动输入"/>
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
                         </CommandBar>
                     </StackPanel>
                 </Flyout>

@@ -217,55 +217,55 @@
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="角色"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellationAvatar}"/>
                         <TextBlock
                             Grid.Column="1"
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="持有"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellationHolding}"/>
                         <TextBlock
                             Grid.Column="2"
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="0 命"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation0}"/>
                         <TextBlock
                             Grid.Column="3"
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="1 命"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation1}"/>
                         <TextBlock
                             Grid.Column="4"
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="2 命"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation2}"/>
                         <TextBlock
                             Grid.Column="5"
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="3 命"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation3}"/>
                         <TextBlock
                             Grid.Column="6"
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="4 命"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation4}"/>
                         <TextBlock
                             Grid.Column="7"
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="5 命"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation5}"/>
                         <TextBlock
                             Grid.Column="8"
                             Margin="6"
                             HorizontalAlignment="Center"
                             Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="6 命"/>
+                            Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewConstellation6}"/>
                     </Grid>
                     <ScrollViewer Grid.Row="1">
                         <ItemsControl

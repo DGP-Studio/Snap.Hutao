@@ -126,7 +126,7 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
             }
             else
             {
-                Ioc.Default.GetRequiredService<IInfoBarService>().Warning("请先选中角色与账号");
+                Ioc.Default.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
             }
         }
     }
@@ -201,7 +201,7 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
         }
         else
         {
-            infoBarService.Warning("请先选择账号与角色");
+            infoBarService.Warning(SH.MustSelectUserAndUid);
         }
     }
 }

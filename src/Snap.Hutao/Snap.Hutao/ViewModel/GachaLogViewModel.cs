@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
@@ -218,7 +219,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
                 {
                     // We set true here in order to hide the dialog.
                     authkeyValid = true;
-                    infoBarService.Warning("祈愿记录刷新操作被异常取消");
+                    infoBarService.Warning(SH.ViewModelGachaLogRefreshOperationCancel);
                 }
 
                 await ThreadHelper.SwitchToMainThreadAsync();
@@ -229,8 +230,8 @@ internal class GachaLogViewModel : Abstraction.ViewModel
                 }
                 else
                 {
-                    dialog.Title = "获取祈愿记录失败";
-                    dialog.PrimaryButtonText = "确认";
+                    dialog.Title = SH.ViewModelGachaLogRefreshFail;
+                    dialog.PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText;
                     dialog.DefaultButton = ContentDialogButton.Primary;
                 }
             }
@@ -246,7 +247,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
 
     private async Task ImportFromUIGFJsonAsync()
     {
-        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, "导入", ".json");
+        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json");
         (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
         if (isPickerOk)
         {
@@ -257,7 +258,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
             }
             else
             {
-                await contentDialogFactory.ConfirmAsync("导入失败", "文件的数据格式不正确").ConfigureAwait(false);
+                await contentDialogFactory.ConfirmAsync(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage).ConfigureAwait(false);
             }
         }
     }
@@ -272,8 +273,8 @@ internal class GachaLogViewModel : Abstraction.ViewModel
         FileSavePicker picker = pickerFactory.GetFileSavePicker();
         picker.SuggestedStartLocation = PickerLocationId.Desktop;
         picker.SuggestedFileName = SelectedArchive.Uid;
-        picker.CommitButtonText = "导出";
-        picker.FileTypeChoices.Add("UIGF Json 文件", new List<string>() { ".json" });
+        picker.CommitButtonText = SH.FilePickerExportCommit;
+        picker.FileTypeChoices.Add(SH.ViewModelGachaLogExportFileType, ".json".Enumerate().ToList());
 
         (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
 
@@ -282,9 +283,14 @@ internal class GachaLogViewModel : Abstraction.ViewModel
             UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
             bool isOk = await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false);
 
-            _ = isOk
-                ? await contentDialogFactory.ConfirmAsync("导出成功", "成功保存到指定位置").ConfigureAwait(false)
-                : await contentDialogFactory.ConfirmAsync("导出失败", "写入文件时遇到问题").ConfigureAwait(false);
+            if (isOk)
+            {
+                infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
+            }
+            else
+            {
+                infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+            }
         }
     }
 
@@ -293,7 +299,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
         if (Archives != null && SelectedArchive != null)
         {
             ContentDialogResult result = await contentDialogFactory
-                .ConfirmCancelAsync($"确定要删除存档 {SelectedArchive.Uid} 吗？", "该操作是不可逆的，该存档和其内的所有祈愿数据会丢失。")
+                .ConfirmCancelAsync(string.Format(SH.ViewModelGachaLogRemoveArchiveTitle, SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
                 .ConfigureAwait(false);
 
             if (result == ContentDialogResult.Primary)
@@ -352,13 +358,13 @@ internal class GachaLogViewModel : Abstraction.ViewModel
             await ThreadHelper.SwitchToMainThreadAsync();
             if (await new GachaLogImportDialog(uigf).GetShouldImportAsync().ConfigureAwait(true))
             {
-                ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync("导入祈愿记录中").ConfigureAwait(true);
+                ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
                 await using (await dialog.BlockAsync().ConfigureAwait(false))
                 {
                     await gachaLogService.ImportFromUIGFAsync(uigf.List, uigf.Info.Uid).ConfigureAwait(false);
                 }
 
-                infoBarService.Success($"导入完成");
+                infoBarService.Success(SH.ViewModelGachaLogImportComplete);
                 await ThreadHelper.SwitchToMainThreadAsync();
                 SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
                 return true;
@@ -366,7 +372,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
         }
         else
         {
-            await contentDialogFactory.ConfirmAsync("导入失败", "数据的 UIGF 版本过低，无法导入").ConfigureAwait(false);
+            infoBarService.Warning(SH.ViewModelGachaLogImportWarningTitle, SH.ViewModelGachaLogImportWarningMessage);
         }
 
         return false;

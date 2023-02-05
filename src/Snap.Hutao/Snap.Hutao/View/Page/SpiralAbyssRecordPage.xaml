@@ -46,14 +46,14 @@
                                 <AppBarButton
                                     Command="{Binding UploadSpiralAbyssRecordCommand}"
                                     Icon="{shcm:FontIcon Glyph=&#xE898;}"
-                                    Label="上传数据"/>
+                                    Label="{shcm:ResourceString Name=ViewSpiralAbyssUploadRecord}"/>
                                 <AppBarButton
                                     Command="{Binding RefreshCommand}"
                                     Icon="{shcm:FontIcon Glyph=&#xE72C;}"
-                                    Label="刷新数据"/>
+                                    Label="{shcm:ResourceString Name=ViewSpiralAbyssRefresh}"/>
                             </CommandBar>
                         </Pivot.RightHeader>
-                        <PivotItem DataContext="{Binding SpiralAbyssView}" Header="统计数据">
+                        <PivotItem DataContext="{Binding SpiralAbyssView}" Header="{shcm:ResourceString Name=ViewSpiralAbyssStatistics}">
                             <ScrollViewer>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -62,11 +62,11 @@
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Margin="16,0,8,16">
                                         <wsc:SettingsGroup Margin="0,-48,16,0">
-                                            <wsc:Setting Content="{Binding TotalBattleTimes}" Header="战斗次数"/>
-                                            <wsc:Setting Content="{Binding TotalStar}" Header="获得渊星"/>
-                                            <wsc:Setting Content="{Binding MaxFloor}" Header="最深抵达"/>
+                                            <wsc:Setting Content="{Binding TotalBattleTimes}" Header="{shcm:ResourceString Name=ViewSpiralAbyssBattleTimes}"/>
+                                            <wsc:Setting Content="{Binding TotalStar}" Header="{shcm:ResourceString Name=ViewSpiralAbyssTotalStar}"/>
+                                            <wsc:Setting Content="{Binding MaxFloor}" Header="{shcm:ResourceString Name=ViewSpiralAbyssMaxFloor}"/>
                                         </wsc:SettingsGroup>
-                                        <wsc:SettingsGroup Margin="0,0,16,0" Header="出战次数">
+                                        <wsc:SettingsGroup Margin="0,0,16,0" Header="{shcm:ResourceString Name=ViewSpiralAbyssReveal}">
                                             <ItemsControl HorizontalAlignment="Left" ItemsSource="{Binding Reveals}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
@@ -83,8 +83,8 @@
                                             </ItemsControl>
 
                                         </wsc:SettingsGroup>
-                                        <wsc:SettingsGroup Margin="0,0,16,0" Header="战斗数据">
-                                            <wsc:Setting Header="最多击破">
+                                        <wsc:SettingsGroup Margin="0,0,16,0" Header="{shcm:ResourceString Name=ViewSpiralAbyssBattleHeader}">
+                                            <wsc:Setting Header="{shcm:ResourceString Name=ViewSpiralAbyssDefeat}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -98,7 +98,7 @@
                                                 </StackPanel>
                                             </wsc:Setting>
 
-                                            <wsc:Setting Header="最强一击">
+                                            <wsc:Setting Header="{shcm:ResourceString Name=ViewSpiralAbyssDamage}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -112,7 +112,7 @@
                                                 </StackPanel>
                                             </wsc:Setting>
 
-                                            <wsc:Setting Header="最多承伤">
+                                            <wsc:Setting Header="{shcm:ResourceString Name=ViewSpiralAbyssTakeDamage}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -125,7 +125,8 @@
                                                         Source="{Binding TakeDamage.SideIcon}"/>
                                                 </StackPanel>
                                             </wsc:Setting>
-                                            <wsc:Setting Header="元素战技">
+
+                                            <wsc:Setting Header="{shcm:ResourceString Name=ViewSpiralAbyssNormalSkill}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -138,7 +139,8 @@
                                                         Source="{Binding NormalSkill.SideIcon}"/>
                                                 </StackPanel>
                                             </wsc:Setting>
-                                            <wsc:Setting Header="元素爆发">
+
+                                            <wsc:Setting Header="{shcm:ResourceString Name=ViewSpiralAbyssEnergySkill}">
                                                 <StackPanel Orientation="Horizontal">
                                                     <TextBlock
                                                         Margin="0,0,16,0"
@@ -157,7 +159,7 @@
 
                             </ScrollViewer>
                         </PivotItem>
-                        <PivotItem DataContext="{Binding SpiralAbyssView}" Header="详细数据">
+                        <PivotItem DataContext="{Binding SpiralAbyssView}" Header="{shcm:ResourceString Name=ViewSpiralAbyssDetail}">
                             <ScrollViewer VerticalAlignment="Top" HorizontalScrollBarVisibility="Auto">
                                 <ItemsControl
                                     Margin="16,16,0,0"
@@ -294,13 +296,13 @@
                     Margin="0,16,0,0"
                     HorizontalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="尚未获取任何挑战记录"/>
+                    Text="{shcm:ResourceString Name=ViewSpiralAbyssDefaultDescription}"/>
                 <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
                     <wsc:Setting
-                        Description="同步米游社的深渊挑战记录"
-                        Header="刷新数据"
+                        Description="{shcm:ResourceString Name=ViewSpiralAbyssRefreshDescription}"
+                        Header="{shcm:ResourceString Name=ViewSpiralAbyssRefresh}"
                         Icon="&#xE72c;">
-                        <Button Command="{Binding RefreshCommand}" Content="刷新"/>
+                        <Button Command="{Binding RefreshCommand}" Content="{shcm:ResourceString Name=ViewSpiralAbyssRefreshAction}"/>
                     </wsc:Setting>
                 </wsc:SettingsGroup>
             </StackPanel>

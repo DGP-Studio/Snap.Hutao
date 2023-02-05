@@ -153,18 +153,18 @@ internal class WikiAvatarViewModel : Abstraction.ViewModel
 
                         if (saved)
                         {
-                            infoBarService.Success("已成功添加至当前养成计划");
+                            infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
                         }
                         else
                         {
-                            infoBarService.Warning("请先前往养成计划页面创建计划并选中");
+                            infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
                         }
                     }
                 }
             }
             else
             {
-                infoBarService.Warning("必须先选择一个用户与角色");
+                infoBarService.Warning(SH.MustSelectUserAndUid);
             }
         }
     }

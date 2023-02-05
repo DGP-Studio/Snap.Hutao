@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shv:SettingViewModel}"
@@ -28,7 +29,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="16,-16,24,16">
-                <wsc:SettingsGroup Header="关于 胡桃">
+                <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageSettingAboutHeader}">
                     <Grid Margin="0,4,0,16">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -44,21 +45,14 @@
                         </Border>
 
                         <Grid Grid.Column="1" Margin="16,0,0,0">
-                            <TextBlock TextWrapping="Wrap">
-                                <Run>胡桃 图标由</Run>
-                                <Hyperlink NavigateUri="https://dieqi32894.lofter.com/post/4b58ce16_2b6b2d365">LOFTER@夙夜</Hyperlink>
-                                <Run>纸绘，并由</Run>
-                                <Hyperlink NavigateUri="https://github.com/DGP-Studio">DGP Studio</Hyperlink>
-                                <Run>后期处理后，授权使用。</Run>
-                            </TextBlock>
-                            <TextBlock VerticalAlignment="Bottom" Text="Copyright © 2022 DGP Studio. All Rights Reserved."/>
+                            <TextBlock Text="Copyright © 2022 - 2023 DGP Studio. All Rights Reserved." TextWrapping="Wrap"/>
                         </Grid>
                     </Grid>
                     <wsc:Setting
                         Description="{Binding AppVersion}"
-                        Header="胡桃"
+                        Header="{shcm:ResourceString Name=AppName}"
                         Icon="&#xECAA;"/>
-                    <wsc:Setting Header="设备ID" Icon="&#xE975;">
+                    <wsc:Setting Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}" Icon="&#xE975;">
                         <wsc:Setting.Description>
                             <TextBlock
                                 IsTextSelectionEnabled="True"
@@ -68,42 +62,28 @@
                     </wsc:Setting>
                     <wsc:Setting
                         Description="{Binding WebView2Version}"
-                        Header="Webview2 Runtime"
+                        Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
                         Icon="&#xECAA;"/>
                     <wsc:Setting
-                        Description="Github 上反馈的问题会优先处理"
-                        Header="反馈"
+                        Description="{shcm:ResourceString Name=ViewPageSettingFeedbackDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingFeedbackHeader}"
                         Icon="&#xED15;">
-                        <HyperlinkButton Content="前往反馈" NavigateUri="{StaticResource DocumentLink_BugReport}"/>
+                        <HyperlinkButton Content="{shcm:ResourceString Name=ViewPageSettingFeedbackNavigate}" NavigateUri="{StaticResource DocumentLink_BugReport}"/>
                     </wsc:Setting>
-                    <wsc:SettingExpander>
-                        <wsc:SettingExpander.Header>
-                            <wsc:Setting
-                                Description="根本没有检查更新选项"
-                                Header="检查更新"
-                                Icon="&#xE117;"/>
-                        </wsc:SettingExpander.Header>
-                        <InfoBar
-                            CornerRadius="0,0,4,4"
-                            IsClosable="False"
-                            IsOpen="True"
-                            Message="都说了没有了"
-                            Severity="Informational">
-                            <InfoBar.ActionButton>
-                                <Button
-                                    Width="1"
-                                    HorizontalAlignment="Right"
-                                    Command="{Binding DebugExceptionCommand}"
-                                    Content="没用的按钮"/>
-                            </InfoBar.ActionButton>
-                        </InfoBar>
-                    </wsc:SettingExpander>
+                    <wsc:Setting
+                        Description="{shcm:ResourceString Name=ViewPageSettingUpdateCheckDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingUpdateCheckHeader}"
+                        Icon="&#xE117;">
+                        <wsc:Setting.ActionContent>
+                            <HyperlinkButton Command="{Binding UpdateCheckCommand}" Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
                 </wsc:SettingsGroup>
 
-                <wsc:SettingsGroup Header="外观">
+                <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}">
                     <wsc:Setting
-                        Description="更改窗体的背景材质"
-                        Header="背景材质"
+                        Description="{shcm:ResourceString Name=ViewPageSettingBackdropMaterialDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingBackdropMaterialHeader}"
                         Icon="&#xE7F7;">
                         <ComboBox
                             DisplayMemberPath="Name"
@@ -112,40 +92,59 @@
                     </wsc:Setting>
                 </wsc:SettingsGroup>
 
-                <wsc:SettingsGroup Header="祈愿记录">
+                <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageSettingGachaLogHeader}">
                     <wsc:Setting
-                        Description="在祈愿记录页面显示或隐藏无记录的历史祈愿活动"
-                        Header="无记录的历史祈愿活动"
+                        Description="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleHeader}"
                         Icon="&#xE81C;">
                         <ToggleSwitch
                             IsOn="{Binding IsEmptyHistoryWishVisible, Mode=TwoWay}"
-                            OffContent="隐藏"
-                            OnContent="显示"
+                            OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
+                            OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"
                             Style="{StaticResource ToggleSwitchSettingStyle}"/>
                     </wsc:Setting>
-
                 </wsc:SettingsGroup>
 
-                <wsc:SettingsGroup Header="游戏">
+                <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageSettingGameHeader}">
                     <InfoBar
                         IsClosable="False"
                         IsOpen="True"
-                        Message="设置游戏路径时，请选择游戏本体（YuanShen.exe 或 GenshinImpact.exe）而不是启动器（launcher.exe）"
+                        Message="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"
                         Severity="Informational"/>
                     <wsc:Setting
                         Description="{Binding GamePath}"
-                        Header="游戏路径"
+                        Header="{shcm:ResourceString Name=ViewPageSettingSetGamePathHeader}"
                         Icon="&#xE7FC;">
                         <wsc:Setting.ActionContent>
-                            <Button Command="{Binding SetGamePathCommand}" Content="设置路径"/>
+                            <Button Command="{Binding SetGamePathCommand}" Content="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"/>
                         </wsc:Setting.ActionContent>
                     </wsc:Setting>
                     <wsc:Setting
-                        Description="若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作"
-                        Header="删除游戏内网页缓存"
+                        Description="{shcm:ResourceString Name=ViewPageSettingDeleteCacheDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingDeleteCacheHeader}"
                         Icon="&#xE74D;">
                         <wsc:Setting.ActionContent>
-                            <Button Command="{Binding DeleteGameWebCacheCommand}" Content="删除"/>
+                            <Button Command="{Binding DeleteGameWebCacheCommand}" Content="{shcm:ResourceString Name=ViewPageSettingDeleteCacheAction}"/>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+                </wsc:SettingsGroup>
+
+                <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageSettingStorageHeader}">
+                    <wsc:Setting
+                        Description="{shcm:ResourceString Name=ViewPageSettingDataFolderDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingDataFolderHeader}"
+                        Icon="&#xEC25;">
+                        <wsc:Setting.ActionContent>
+                            <Button Command="{Binding Experimental.OpenDataFolderCommand}" Content="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"/>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+
+                    <wsc:Setting
+                        Description="{shcm:ResourceString Name=ViewPageSettingCacheFolderDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingCacheFolderHeader}"
+                        Icon="&#xE8B7;">
+                        <wsc:Setting.ActionContent>
+                            <Button Command="{Binding Experimental.OpenCacheFolderCommand}" Content="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"/>
                         </wsc:Setting.ActionContent>
                     </wsc:Setting>
                 </wsc:SettingsGroup>
@@ -156,25 +155,6 @@
                         IsOpen="True"
                         Message="测试功能是尚未完善，仅用于 Pollyfill 的功能，未来可能会存在更合理的位置放置这些功能"
                         Severity="Warning"/>
-
-                    <wsc:Setting
-                        Description="用户数据/日志/元数据在此处存放"
-                        Header="打开 数据 文件夹"
-                        Icon="&#xEC25;">
-                        <wsc:Setting.ActionContent>
-                            <Button Command="{Binding Experimental.OpenDataFolderCommand}" Content="打开"/>
-                        </wsc:Setting.ActionContent>
-                    </wsc:Setting>
-
-                    <wsc:Setting
-                        Description="图片缓存在此处存放"
-                        Header="打开 缓存 文件夹"
-                        Icon="&#xE8B7;">
-                        <wsc:Setting.ActionContent>
-                            <Button Command="{Binding Experimental.OpenCacheFolderCommand}" Content="打开"/>
-                        </wsc:Setting.ActionContent>
-                    </wsc:Setting>
-
                     <wsc:Setting
                         Description="对当前选中的账号进行签到"
                         Header="米游社每日签到"
@@ -185,30 +165,30 @@
                     </wsc:Setting>
                 </wsc:SettingsGroup>
 
-                <wsc:SettingsGroup Foreground="{ThemeResource SystemFillColorCriticalBrush}" Header="危险功能">
+                <wsc:SettingsGroup Foreground="{ThemeResource SystemFillColorCriticalBrush}" Header="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}">
                     <InfoBar
                         IsClosable="False"
                         IsOpen="True"
-                        Message="除非开发人员明确要求你这么做，否则不应尝试执行下方的操作！"
+                        Message="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
                         Severity="Error"/>
 
                     <wsc:Setting
                         Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-                        Description="删除注册的计划任务，卸载前务必点击此项"
-                        Header="删除所有计划任务"
+                        Description="{shcm:ResourceString Name=ViewPageSettingDeleteTaskDescription}"
+                        Header="{shcm:ResourceString ViewPageSettingDeleteTaskHeader}"
                         Icon="&#xE7C4;">
                         <wsc:Setting.ActionContent>
-                            <Button Command="{Binding Experimental.DeleteAllScheduleTasksCommand}" Content="执行"/>
+                            <Button Command="{Binding Experimental.DeleteAllScheduleTasksCommand}" Content="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"/>
                         </wsc:Setting.ActionContent>
                     </wsc:Setting>
 
                     <wsc:Setting
                         Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
-                        Description="直接删除用户表的所有记录，用于修复特定的账号冲突问题"
-                        Header="删除所有用户"
+                        Description="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingDeleteUserHeader}"
                         Icon="&#xE756;">
                         <wsc:Setting.ActionContent>
-                            <Button Command="{Binding Experimental.DeleteUsersCommand}" Content="执行"/>
+                            <Button Command="{Binding Experimental.DeleteUsersCommand}" Content="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"/>
                         </wsc:Setting.ActionContent>
                     </wsc:Setting>
                 </wsc:SettingsGroup>

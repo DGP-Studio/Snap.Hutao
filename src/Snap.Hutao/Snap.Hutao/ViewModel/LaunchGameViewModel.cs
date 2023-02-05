@@ -222,7 +222,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     }
                     else
                     {
-                        Ioc.Default.GetRequiredService<IInfoBarService>().Warning("无法读取游戏配置文件");
+                        Ioc.Default.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGameMultiChannelReadFail);
                     }
 
                     GameAccounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(true);
@@ -243,7 +243,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
         }
         else
         {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Warning("游戏路径不正确，前往设置更改游戏路径。");
+            Ioc.Default.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGamePathInvalid);
             await Ioc.Default.GetRequiredService<INavigationService>()
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
@@ -311,7 +311,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     {
                         if (!await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false))
                         {
-                            infoBarService.Warning("切换服务器失败");
+                            infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
                         }
                     }
                 }
@@ -320,7 +320,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                 {
                     if (!gameService.SetGameAccount(SelectedGameAccount))
                     {
-                        infoBarService.Warning("切换账号失败");
+                        infoBarService.Warning(SH.ViewModelLaunchGameSwitchGameAccountFail);
                     }
                 }
 
@@ -361,7 +361,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
             }
             else
             {
-                infoBarService.Warning("当前未选择角色");
+                infoBarService.Warning(SH.MustSelectUserAndUid);
             }
         }
     }

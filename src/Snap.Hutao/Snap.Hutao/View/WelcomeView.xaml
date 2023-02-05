@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     d:DataContext="{d:DesignInstance shv:WelcomeViewModel}"
     Unloaded="OnUnloaded"
@@ -18,19 +19,19 @@
     <Grid Margin="0,44,0,0">
         <ScrollViewer>
             <StackPanel Margin="32,0" HorizontalAlignment="Left">
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="欢迎使用 胡桃"/>
+                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="{shcm:ResourceString Name=ViewWelcomeTitle}"/>
                 <TextBlock
                     Margin="0,8,0,0"
                     Style="{StaticResource SubtitleTextBlockStyle}"
-                    Text="请勿关闭应用程序"/>
+                    Text="{shcm:ResourceString Name=ViewWelcomeSubtitle}"/>
                 <TextBlock
                     Margin="0,8,0,0"
                     Style="{StaticResource BaseTextBlockStyle}"
-                    Text="我们将为你下载最基本的图像资源"/>
+                    Text="{shcm:ResourceString Name=ViewWelcomeBase}"/>
                 <TextBlock
                     Margin="0,0,0,8"
                     Style="{StaticResource BodyTextBlockStyle}"
-                    Text="你可以继续使用电脑，丝毫不受影响"/>
+                    Text="{shcm:ResourceString Name=ViewWelcomeBody}"/>
                 <ItemsControl Margin="0,0,0,32" ItemsSource="{Binding DownloadSummaries}">
                     <ItemsControl.ItemContainerTransitions>
                         <EntranceThemeTransition IsStaggeringEnabled="False"/>

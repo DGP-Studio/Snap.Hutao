@@ -9,6 +9,7 @@
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shv:LaunchGameViewModel}"
@@ -50,23 +51,23 @@
                     <InfoBar
                         IsClosable="False"
                         IsOpen="True"
-                        Message="所有选项仅会在启动游戏成功后保存"
+                        Message="{shcm:ResourceString Name=ViewPageLaunchGameConfigurationSaveHint}"
                         Severity="Informational"/>
                     <InfoBar
                         Margin="0,2,0,0"
                         IsClosable="False"
                         IsOpen="{Binding IsElevated, Converter={StaticResource BoolNegationConverter}}"
-                        Message="某些选项处于禁用状态，它们只在管理员模式下生效！"
+                        Message="{shcm:ResourceString Name=ViewPageLaunchGameElevationHint}"
                         Severity="Warning"/>
-                    <wsc:SettingsGroup Margin="0,0,0,0" Header="常规">
+                    <wsc:SettingsGroup Margin="0,0,0,0" Header="{shcm:ResourceString Name=ViewPageLaunchGameCommonHeader}">
                         <InfoBar
                             IsClosable="False"
                             IsOpen="{Binding IsElevated}"
-                            Message="切换国际服功能会在游戏截图文件创建缓存文件夹"
+                            Message="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHint}"
                             Severity="Informational"/>
                         <wsc:Setting
-                            Description="切换游戏服务器（国服/渠道服/国际服）"
-                            Header="服务器"
+                            Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
                             Icon="&#xE8AB;"
                             IsEnabled="{Binding IsElevated}">
                             <wsc:Setting.ActionContent>
@@ -79,8 +80,8 @@
                         <wsc:SettingExpander IsExpanded="True">
                             <wsc:SettingExpander.Header>
                                 <wsc:Setting
-                                    Description="在游戏内切换账号,网络环境发生变化后需要重新手动检测"
-                                    Header="账号"
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountHeader}"
                                     Icon="&#xE748;">
                                     <wsc:Setting.ActionContent>
                                         <Button
@@ -89,7 +90,7 @@
                                             Margin="0,0,8,0"
                                             HorizontalAlignment="Right"
                                             Command="{Binding DetectGameAccountCommand}"
-                                            Content="检测"/>
+                                            Content="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDetectAction}"/>
                                     </wsc:Setting.ActionContent>
                                 </wsc:Setting>
                             </wsc:SettingExpander.Header>
@@ -102,7 +103,7 @@
                                                 <TextBlock
                                                     Opacity="0.8"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding AttachUid, TargetNullValue=该账号尚未绑定 UID}"/>
+                                                    Text="{Binding AttachUid, TargetNullValue={shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidNull}}"/>
                                             </StackPanel>
                                             <StackPanel
                                                 x:Name="ButtonPanel"
@@ -117,7 +118,7 @@
                                                     CommandParameter="{Binding}"
                                                     Content="&#xE723;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    ToolTipService.ToolTip="绑定当前用户角色"/>
+                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidToolTip}"/>
                                                 <Button
                                                     MinWidth="48"
                                                     Margin="4,8"
@@ -126,7 +127,7 @@
                                                     CommandParameter="{Binding}"
                                                     Content="&#xE8AC;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    ToolTipService.ToolTip="重命名"/>
+                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRenameToolTip}"/>
                                                 <Button
                                                     MinWidth="48"
                                                     Margin="4,8,0,8"
@@ -135,7 +136,7 @@
                                                     CommandParameter="{Binding}"
                                                     Content="&#xE74D;"
                                                     FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    ToolTipService.ToolTip="删除"/>
+                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRemoveToolTip}"/>
                                             </StackPanel>
 
                                             <Grid.Resources>
@@ -174,10 +175,10 @@
                             </ListView>
                         </wsc:SettingExpander>
                     </wsc:SettingsGroup>
-                    <wsc:SettingsGroup Header="外观">
+                    <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceHeader}">
                         <wsc:Setting
-                            Description="与游戏内浏览器不兼容，切屏等操作也能使游戏闪退"
-                            Header="独占全屏"
+                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveHeader}"
                             Icon="&#xE740;">
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
@@ -187,8 +188,8 @@
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
                         <wsc:Setting
-                            Description="覆盖默认的全屏状态"
-                            Header="全屏"
+                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenHeader}"
                             Icon="&#xE740;">
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
@@ -198,8 +199,8 @@
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
                         <wsc:Setting
-                            Description="将窗口创建为弹出窗口，不带框架"
-                            Header="无边框"
+                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessHeader}"
                             Icon="&#xE737;">
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
@@ -211,16 +212,16 @@
 
                         <wsc:Setting
                             Margin="0,6,0,0"
-                            Description="覆盖默认屏幕宽度"
-                            Header="宽度"
+                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthHeader}"
                             Icon="&#xE76F;">
                             <wsc:Setting.ActionContent>
                                 <NumberBox Width="156" Value="{Binding ScreenWidth, Mode=TwoWay}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
                         <wsc:Setting
-                            Description="覆盖默认屏幕高度"
-                            Header="高度"
+                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightHeader}"
                             Icon="&#xE784;">
                             <wsc:Setting.ActionContent>
                                 <NumberBox Width="156" Value="{Binding ScreenHeight, Mode=TwoWay}"/>
@@ -228,41 +229,29 @@
                         </wsc:Setting>
                     </wsc:SettingsGroup>
 
-                    <wsc:SettingsGroup Header="高级功能" IsEnabled="{Binding IsElevated}">
-                        <wsc:Setting
-                            Description="在启动游戏前尝试终止运行中的游戏进程"
-                            Header="快速切换账号"
-                            Icon="&#xE8BB;"
-                            Visibility="Collapsed">
-                            <wsc:Setting.ActionContent>
-                                <ToggleSwitch
-                                    Width="120"
-                                    IsOn="False"
-                                    Style="{StaticResource ToggleSwitchSettingStyle}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
+                    <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}" IsEnabled="{Binding IsElevated}">
                         <InfoBar
                             IsClosable="False"
                             IsOpen="{Binding IsElevated}"
-                            Message="下面的功能十分危险，如果您不愿承担因此可能带来的后果，请勿启用！"
+                            Message="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHint}"
                             Severity="Error"/>
                         <wsc:Setting
-                            Description="请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率"
-                            Header="解锁帧率限制"
+                            Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
                             Icon="&#xE785;">
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
                                     Width="120"
                                     IsOn="{Binding UnlockFps, Mode=TwoWay}"
-                                    OffContent="禁用"
-                                    OnContent="启用"
+                                    OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
+                                    OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"
                                     Style="{StaticResource ToggleSwitchSettingStyle}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
-                        <wsc:Setting Header="设置当前帧率">
+                        <wsc:Setting Header="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsHeader}">
                             <wsc:Setting.Description>
                                 <StackPanel>
-                                    <TextBlock Text="在游戏时可以随时调整"/>
+                                    <TextBlock Text="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsDescription}"/>
                                     <TextBlock Text="{Binding TargetFps}"/>
                                 </StackPanel>
                             </wsc:Setting.Description>
@@ -290,7 +279,7 @@
                 Style="{StaticResource AccentButtonStyle}">
                 <StackPanel>
                     <FontIcon FontSize="36" Glyph="&#xE7FC;"/>
-                    <TextBlock Margin="0,4,0,0" Text="启动游戏"/>
+                    <TextBlock Margin="0,4,0,0" Text="{shcm:ResourceString Name=ViewPageLaunchGameAction}"/>
                 </StackPanel>
             </Button>
         </Grid>

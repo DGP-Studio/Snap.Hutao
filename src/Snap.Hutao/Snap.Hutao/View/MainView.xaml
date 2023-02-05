@@ -23,63 +23,61 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
-                    Content="活动公告"
+                    Content="{shcm:ResourceString ViewAnnouncementHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
 
-                <NavigationViewItemHeader Content="工具"/>
+                <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewToolHeader}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:LaunchGamePage"
-                    Content="启动游戏"
+                    Content="{shcm:ResourceString Name=ViewLaunchGameHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_GuideIcon_PlayMethod.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:GachaLogPage"
-                    Content="祈愿记录"
+                    Content="{shcm:ResourceString Name=ViewGachaLogHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
-                    Content="成就管理"
+                    Content="{shcm:ResourceString Name=ViewAchievementHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:DailyNotePage"
-                    Content="实时便笺"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ItemIcon_210.png,
-                                           ShowAsMonochrome=False}"/>
+                    Content="{shcm:ResourceString Name=ViewDailyNoteHeader}"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ItemIcon_210.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AvatarPropertyPage"
-                    Content="我的角色"
+                    Content="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:SpiralAbyssRecordPage"
-                    Content="深渊记录"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_MarkTower_Tower.png,
-                                           ShowAsMonochrome=False}"/>
+                    Content="{shcm:ResourceString Name=ViewSpiralAbyssHeader}"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_MarkTower_Tower.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:CultivationPage"
-                    Content="养成计划"
+                    Content="{shcm:ResourceString Name=ViewCultivationHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_HomeWorldTabIcon_2_Team.png}"/>
 
-                <NavigationViewItemHeader Content="数据"/>
+                <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewDataHeader}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:HutaoDatabasePage"
-                    Content="深渊统计"
+                    Content="{shcm:ResourceString Name=ViewHutaoDatabaseHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ChapterIcon_Hutao.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
-                    Content="角色资料"
+                    Content="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiWeaponPage"
-                    Content="武器资料"
+                    Content="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}"/>
             </NavigationView.MenuItems>
 

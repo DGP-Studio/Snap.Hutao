@@ -66,7 +66,7 @@ public class Response
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"状态：{ReturnCode} | 信息：{Message}";
+        return string.Format(SH.WebResponseFormat, ReturnCode, Message);
     }
 }
 

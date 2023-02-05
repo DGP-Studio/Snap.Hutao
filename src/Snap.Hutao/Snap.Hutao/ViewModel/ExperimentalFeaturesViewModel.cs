@@ -67,7 +67,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
             await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
 
             IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
-            infoBarService.Success("清除用户数据成功,请重启胡桃");
+            infoBarService.Success(SH.ViewModelExperimentalDeleteUserSuccess);
         }
     }
 
@@ -76,11 +76,11 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
         if (Core.ScheduleTaskHelper.UnregisterAllTasks())
         {
-            infoBarService.Success("清除任务计划成功");
+            infoBarService.Success(SH.ViewModelExperimentalDeleteTaskSuccess);
         }
         else
         {
-            infoBarService.Warning("清除任务计划失败");
+            infoBarService.Warning(SH.ViewModelExperimentalDeleteTaskWarning);
         }
     }
 }

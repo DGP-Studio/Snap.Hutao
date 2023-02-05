@@ -30,9 +30,9 @@ internal class SettingViewModel : Abstraction.ViewModel
     private readonly SettingEntry selectedBackdropTypeEntry;
     private readonly List<NamedValue<BackdropType>> backdropTypes = new()
     {
-        new("亚克力", BackdropType.Acrylic),
-        new("云母", BackdropType.Mica),
-        new("变种云母", BackdropType.MicaAlt),
+        new("Acrylic", BackdropType.Acrylic),
+        new("Mica", BackdropType.Mica),
+        new("MicaAlt", BackdropType.MicaAlt),
     };
 
     private bool isEmptyHistoryWishVisible;
@@ -71,7 +71,7 @@ internal class SettingViewModel : Abstraction.ViewModel
         GamePath = gameService.GetGamePathSkipLocator();
 
         SetGamePathCommand = new AsyncRelayCommand(SetGamePathAsync);
-        DebugExceptionCommand = new AsyncRelayCommand(DebugThrowExceptionAsync);
+        UpdateCheckCommand = new AsyncRelayCommand(CheckUpdateAsync);
         DeleteGameWebCacheCommand = new RelayCommand(DeleteGameWebCache);
         ShowSignInWebViewDialogCommand = new AsyncRelayCommand(ShowSignInWebViewDialogAsync);
     }
@@ -165,7 +165,7 @@ internal class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 调试异常命令
     /// </summary>
-    public ICommand DebugExceptionCommand { get; }
+    public ICommand UpdateCheckCommand { get; }
 
     /// <summary>
     /// 删除游戏网页缓存命令
@@ -210,15 +210,15 @@ internal class SettingViewModel : Abstraction.ViewModel
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    infoBarService.Warning($"清除失败，文件目录权限不足，请使用管理员模式重试");
+                    infoBarService.Warning(SH.ViewModelSettingClearWebCacheFail);
                     return;
                 }
 
-                infoBarService.Success("清除完成");
+                infoBarService.Success(SH.ViewModelSettingClearWebCacheSuccess);
             }
             else
             {
-                infoBarService.Warning($"清除失败，找不到目录：{cacheFolder}");
+                infoBarService.Warning(string.Format(SH.ViewModelSettingClearWebCachePathInvalid, cacheFolder));
             }
         }
     }
@@ -230,7 +230,7 @@ internal class SettingViewModel : Abstraction.ViewModel
         await new SignInWebViewDialog().ShowAsync().AsTask().ConfigureAwait(false);
     }
 
-    private async Task DebugThrowExceptionAsync()
+    private async Task CheckUpdateAsync()
     {
 #if DEBUG
         await Ioc.Default

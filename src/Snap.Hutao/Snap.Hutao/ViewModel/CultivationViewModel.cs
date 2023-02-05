@@ -157,16 +157,15 @@ internal class CultivationViewModel : Abstraction.ViewModel
             switch (result)
             {
                 case ProjectAddResult.Added:
-                    infoBarService.Success($"添加成功");
-
+                    infoBarService.Success(SH.ViewModelCultivationProjectAdded);
                     await ThreadHelper.SwitchToMainThreadAsync();
                     SelectedProject = project;
                     break;
                 case ProjectAddResult.InvalidName:
-                    infoBarService.Information($"不能添加名称无效的计划");
+                    infoBarService.Information(SH.ViewModelCultivationProjectInvalidName);
                     break;
                 case ProjectAddResult.AlreadyExists:
-                    infoBarService.Information($"不能添加名称重复的计划");
+                    infoBarService.Information(SH.ViewModelCultivationProjectAlreadyExists);
                     break;
                 default:
                     throw Must.NeverHappen();
@@ -236,7 +235,6 @@ internal class CultivationViewModel : Abstraction.ViewModel
 
     private async Task UpdateStatisticsItemsAsync()
     {
-        logger.LogInformation("UpdateStatisticsItemsAsync");
         if (SelectedProject != null)
         {
             await ThreadHelper.SwitchToBackgroundAsync();

@@ -70,8 +70,8 @@ internal class WelcomeViewModel : ObservableObject
         try
         {
             new ToastContentBuilder()
-                .AddText("下载完成")
-                .AddText("现在可以开始使用胡桃了")
+                .AddText(SH.ViewModelWelcomeDownloadCompleteTitle)
+                .AddText(SH.ViewModelWelcomeDownloadCompleteMessage)
                 .Show();
         }
         catch (COMException)
@@ -86,34 +86,34 @@ internal class WelcomeViewModel : ObservableObject
 
         if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV1Contract))
         {
-            downloadSummaries.TryAdd("Bg", new(serviceProvider, "基础图标", "Bg"));
-            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "角色图标", "AvatarIcon"));
-            downloadSummaries.TryAdd("GachaAvatarIcon", new(serviceProvider, "角色立绘图标", "GachaAvatarIcon"));
-            downloadSummaries.TryAdd("GachaAvatarImg", new(serviceProvider, "角色立绘图像", "GachaAvatarImg"));
-            downloadSummaries.TryAdd("EquipIcon", new(serviceProvider, "武器图标", "EquipIcon"));
-            downloadSummaries.TryAdd("GachaEquipIcon", new(serviceProvider, "武器立绘图标", "GachaEquipIcon"));
-            downloadSummaries.TryAdd("NameCardPic", new(serviceProvider, "名片图像", "NameCardPic"));
-            downloadSummaries.TryAdd("Skill", new(serviceProvider, "天赋图标", "Skill"));
-            downloadSummaries.TryAdd("Talent", new(serviceProvider, "命之座图标", "Talent"));
+            downloadSummaries.TryAdd("Bg", new(serviceProvider, "Bg"));
+            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
+            downloadSummaries.TryAdd("GachaAvatarIcon", new(serviceProvider, "GachaAvatarIcon"));
+            downloadSummaries.TryAdd("GachaAvatarImg", new(serviceProvider, "GachaAvatarImg"));
+            downloadSummaries.TryAdd("EquipIcon", new(serviceProvider, "EquipIcon"));
+            downloadSummaries.TryAdd("GachaEquipIcon", new(serviceProvider, "GachaEquipIcon"));
+            downloadSummaries.TryAdd("NameCardPic", new(serviceProvider, "NameCardPic"));
+            downloadSummaries.TryAdd("Skill", new(serviceProvider, "Skill"));
+            downloadSummaries.TryAdd("Talent", new(serviceProvider, "Talent"));
         }
 
         if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV2Contract))
         {
-            downloadSummaries.TryAdd("AchievementIcon", new(serviceProvider, "成就图标", "AchievementIcon"));
-            downloadSummaries.TryAdd("ItemIcon", new(serviceProvider, "物品图标", "ItemIcon"));
-            downloadSummaries.TryAdd("IconElement", new(serviceProvider, "元素图标", "IconElement"));
-            downloadSummaries.TryAdd("RelicIcon", new(serviceProvider, "圣遗物图标", "RelicIcon"));
+            downloadSummaries.TryAdd("AchievementIcon", new(serviceProvider, "AchievementIcon"));
+            downloadSummaries.TryAdd("ItemIcon", new(serviceProvider, "ItemIcon"));
+            downloadSummaries.TryAdd("IconElement", new(serviceProvider, "IconElement"));
+            downloadSummaries.TryAdd("RelicIcon", new(serviceProvider, "RelicIcon"));
         }
 
         if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV3Contract))
         {
-            downloadSummaries.TryAdd("Skill", new(serviceProvider, "天赋图标更新", "Skill"));
-            downloadSummaries.TryAdd("Talent", new(serviceProvider, "命之座图标更新", "Talent"));
+            downloadSummaries.TryAdd("Skill", new(serviceProvider, "Skill"));
+            downloadSummaries.TryAdd("Talent", new(serviceProvider, "Talent"));
         }
 
         if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV4Contract))
         {
-            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "角色图标更新", "AvatarIcon"));
+            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
         }
 
         return downloadSummaries.Select(x => x.Value);
@@ -130,20 +130,20 @@ internal class WelcomeViewModel : ObservableObject
         private readonly string fileName;
         private readonly Uri fileUri;
         private readonly Progress<ProgressUpdateStatus> progress;
-        private string description = "等待中";
+        private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
         private double progressValue;
 
         /// <summary>
         /// 构造一个新的下载信息
         /// </summary>
         /// <param name="serviceProvider">服务提供器</param>
-        /// <param name="displayName">显示名称</param>
         /// <param name="fileName">压缩文件名称</param>
-        public DownloadSummary(IServiceProvider serviceProvider, string displayName, string fileName)
+        /// 
+        public DownloadSummary(IServiceProvider serviceProvider, string fileName)
         {
             this.serviceProvider = serviceProvider;
             bitsManager = serviceProvider.GetRequiredService<BitsManager>();
-            DisplayName = displayName;
+            DisplayName = fileName;
             this.fileName = fileName;
             fileUri = new(Web.HutaoEndpoints.StaticZip(fileName));
 
@@ -188,12 +188,12 @@ internal class WelcomeViewModel : ObservableObject
                     await ThreadHelper.SwitchToBackgroundAsync();
                     ExtractFiles(file.Path);
                     await ThreadHelper.SwitchToMainThreadAsync();
-                    Description = "完成";
+                    Description = SH.ViewModelWelcomeDownloadSummaryComplete;
                 }
                 else
                 {
                     ProgressValue = 0;
-                    Description = "文件下载异常";
+                    Description = SH.ViewModelWelcomeDownloadSummaryException;
                 }
             }
         }

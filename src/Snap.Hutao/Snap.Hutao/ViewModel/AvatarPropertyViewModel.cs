@@ -173,7 +173,9 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
             using (await DisposeLock.EnterAsync(token).ConfigureAwait(false))
             {
                 ThrowIfViewDisposed();
-                ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync("获取数据中").ConfigureAwait(false);
+                ContentDialog dialog = await contentDialogFactory
+                    .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
+                    .ConfigureAwait(false);
 
                 await ThreadHelper.SwitchToMainThreadAsync();
                 await using (await dialog.BlockAsync().ConfigureAwait(false))
@@ -194,10 +196,10 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
                 switch (result)
                 {
                     case RefreshResult.APIUnavailable:
-                        infoBarService.Warning("角色信息服务 [Enak API] 当前不可用");
+                        infoBarService.Warning(SH.ViewModelAvatarPropertyEnkaApiUnavailable);
                         break;
                     case RefreshResult.ShowcaseNotOpen:
-                        infoBarService.Warning("角色橱窗尚未开启，请前往游戏操作后重试");
+                        infoBarService.Warning(SH.ViewModelAvatarPropertyShowcaseNotOpen);
                         break;
                 }
             }
@@ -218,7 +220,7 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
             {
                 if (avatar.Weapon == null)
                 {
-                    infoBarService.Warning("当前角色无法计算，请同步信息后再试");
+                    infoBarService.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull);
                     return;
                 }
 
@@ -252,18 +254,18 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
                         if (avatarAndWeaponSaved)
                         {
-                            infoBarService.Success("已成功添加至当前养成计划");
+                            infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
                         }
                         else
                         {
-                            infoBarService.Warning("请先前往养成计划页面创建计划并选中");
+                            infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
                         }
                     }
                 }
             }
             else
             {
-                infoBarService.Warning("必须先选择一个用户与角色");
+                infoBarService.Warning(SH.MustSelectUserAndUid);
             }
         }
     }
@@ -306,11 +308,11 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
         if (clipboardOpened)
         {
-            infoBarService.Success("已导出到剪贴板");
+            infoBarService.Success(SH.ViewModelAvatarPropertyExportImageSuccess);
         }
         else
         {
-            infoBarService.Warning("打开剪贴板失败");
+            infoBarService.Warning(SH.ViewModelAvatarPropertyOpenClipboardFail);
         }
     }
 }
