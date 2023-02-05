@@ -17,6 +17,7 @@ trigger:
     - azure-pipelines.yml
     - .github/ISSUE_TEMPLATE/*.yml
     - .github/workflows/*.yml
+    - src/Snap.Hutao/Snap.Hutao/Resource/Localization/*.resx
 pr:
   branches:
    include:
@@ -27,6 +28,7 @@ pr:
      - azure-pipelines.yml
      - .github/ISSUE_TEMPLATE/*.yml
      - .github/workflows/*.yml
+     - src/Snap.Hutao/Snap.Hutao/Resource/Localization/*.resx
     
 
 pool:
