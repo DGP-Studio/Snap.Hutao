@@ -48,6 +48,11 @@ public struct GachaLogConfigration
     }
 
     /// <summary>
+    /// 是否为国际服
+    /// </summary>
+    public bool IsOversea { get; set; }
+
+    /// <summary>
     /// 结束Id
     /// 控制API返回的分页
     /// 米哈游使用了 keyset pagination 来实现这一目标

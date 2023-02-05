@@ -39,6 +39,8 @@ internal class GachaInfoClient
     public async Task<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogConfigration config, CancellationToken token = default)
     {
         string query = config.AsQuery();
+
+        // TODO: fix oversea behavior
         string url = query.Contains("hoyoverse.com")
             ? ApiOsEndpoints.GachaInfoGetGachaLog(query)
             : ApiEndpoints.GachaInfoGetGachaLog(query);

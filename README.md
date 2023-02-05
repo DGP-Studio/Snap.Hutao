@@ -1,6 +1,13 @@
 ![](https://repository-images.githubusercontent.com/482734649/5f8cf574-2ef0-43e9-aa8d-6cf094b54dd9)
 
-现已上架 [微软商店](https://apps.microsoft.com/store/detail/snap-hutao/9PH4NXJ2JN52)
+## 下载使用
+
+[![](https://get.microsoft.com/images/zh-cn%20light.svg)](https://apps.microsoft.com/store/detail/snap-hutao/9PH4NXJ2JN52)
+
+## 贡献
+
+* [向我们提交 PR](https://github.com/DGP-Studio/Snap.Hutao/pulls)
+* [在 Crowdin 上进行本地化](https://crowdin.com/project/snap-hutao)
 
 ## 特别感谢
 
