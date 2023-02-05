@@ -127,11 +127,13 @@ steps:
     script: '"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\makeappx.exe" pack /d $(Build.SourcesDirectory)\src\Snap.Hutao\Snap.Hutao\bin\x64\Release\net7.0-windows10.0.18362.0\win10-x64 /p $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix'
 
 - task: MsixSigning@1
+  name: signMsix
   displayName: Sign MSIX package
   inputs:
     package: '$(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix'
     certificate: 'DGP_Studio_CI.pfx'
     passwordVariable: 'pw'
+  condition: succeeded()
 
 - task: PublishPipelineArtifact@1
   displayName: 'Upload Output'
@@ -147,7 +149,6 @@ steps:
     secureFile: 'Snap.Hutao.CI.cer'
 
 - task: GitHubRelease@1
-  condition: or(eq(variables['Build.Reason'], 'Manual'), eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'BatchedCI'))
   inputs:
     gitHubConnection: 'github.com_Masterain'
     repositoryName: 'DGP-Studio/Snap.Hutao'
