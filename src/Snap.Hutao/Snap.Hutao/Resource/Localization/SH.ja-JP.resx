@@ -535,7 +535,7 @@
     <value>打开剪贴板失败</value>
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
-    <value>角色橱窗尚未开启，请前往游戏操作后重试</value>
+    <value>角色展柜尚未开启，请前往游戏操作后重试</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功添加至当前养成计划</value>
