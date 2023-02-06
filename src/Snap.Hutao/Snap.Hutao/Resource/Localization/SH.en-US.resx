@@ -265,7 +265,7 @@
     <value>Can't find Genshin Impact embedded browser cache path: \n{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
-    <value>Can't find available Url</value>
+    <value>Can't find available URL</value>
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>Invalid URL provided</value>
@@ -577,7 +577,7 @@
     <value>清除计划任务失败</value>
   </data>
   <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
-    <value>Wipe user data successfully. Please restart Snap Hutao.</value>
+    <value>Delete users successfully. Please restart Snap Hutao immediately.</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>Successfully saved to selected patch</value>
@@ -631,7 +631,7 @@
     <value>Can't read game configuration file</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
-    <value>Game program path is incorrect. Change it in the settings.</value>
+    <value>Game program path is incorrect. Change it in the Settings Page.</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Switch game account failed</value>
@@ -670,10 +670,10 @@
     <value>Now Snap Hutao is ready to use</value>
   </data>
   <data name="ViewModelWelcomeDownloadCompleteTitle" xml:space="preserve">
-    <value>Download finished</value>
+    <value>Download completed</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
-    <value>Complete</value>
+    <value>Completed</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>Queued</value>
@@ -739,7 +739,7 @@
     <value>Sync from Enka API</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>Sync data from in-game Character Showcase</value>
+    <value>同步游戏内角色展柜中的信息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
     <value>Sync data from MiHoYo BBS Development Plan</value>
