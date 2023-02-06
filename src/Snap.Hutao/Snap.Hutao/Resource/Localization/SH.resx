@@ -739,7 +739,7 @@
     <value>从 Enka API 同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>同步游戏内角色橱窗中的信息</value>
+    <value>同步游戏内角色展柜中的信息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
     <value>从米游社养成计算同步</value>
