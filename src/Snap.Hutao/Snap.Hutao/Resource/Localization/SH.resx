@@ -424,7 +424,7 @@
     <value>在主页显示卡片</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
-    <value>设置实时便笺通知</value>
+    <value>实时便笺通知设置</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
     <value>参量质变仪提醒</value>
@@ -517,7 +517,7 @@
     <value>数据的 UIAF 版本过低，无法导入</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
-    <value>该操作是不可逆的，该存档和其内的所有成就状态会丢失。</value>
+    <value>该操作是不可逆的，该存档和其内的所有成就状态会丢失</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>确定要删除存档 {0} 吗？</value>
@@ -526,7 +526,7 @@
     <value>当前角色无法计算，请同步信息后再试</value>
   </data>
   <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
-    <value>角色信息服务 [Enak API] 当前不可用</value>
+    <value>角色信息服务 [Enka API] 当前不可用</value>
   </data>
   <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
     <value>已导出到剪贴板</value>
@@ -862,7 +862,7 @@
     <value>导入</value>
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
-    <value>导入从其他 App 中导出的数据</value>
+    <value>导入来自其它 App 的数据</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>导入 UIGF Json</value>
@@ -1033,7 +1033,7 @@
     <value>在游戏时可以随时调整</value>
   </data>
   <data name="ViewPageLaunchGameSetFpsHeader" xml:space="preserve">
-    <value>设置当前帧率</value>
+    <value>设置帧率上限</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>该账号尚未绑定 UID</value>
