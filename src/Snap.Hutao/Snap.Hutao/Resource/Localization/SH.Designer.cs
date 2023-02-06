@@ -1420,7 +1420,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 清除任务计划成功 的本地化字符串。
+        ///   查找类似 清除计划任务成功 的本地化字符串。
         /// </summary>
         internal static string ViewModelExperimentalDeleteTaskSuccess {
             get {
@@ -1429,7 +1429,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 清除任务计划失败 的本地化字符串。
+        ///   查找类似 清除计划任务失败 的本地化字符串。
         /// </summary>
         internal static string ViewModelExperimentalDeleteTaskWarning {
             get {
