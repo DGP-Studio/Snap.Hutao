@@ -571,10 +571,10 @@
     <value>注册计划任务失败，请使用管理员模式重试</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskSuccess" xml:space="preserve">
-    <value>清除任务计划成功</value>
+    <value>清除计划任务成功</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
-    <value>清除任务计划失败</value>
+    <value>清除计划任务失败</value>
   </data>
   <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
     <value>清除用户数据成功,请立即重启胡桃</value>
