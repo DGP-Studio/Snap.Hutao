@@ -1312,7 +1312,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 角色橱窗尚未开启，请前往游戏操作后重试 的本地化字符串。
+        ///   查找类似 角色展柜尚未开启，请前往游戏操作后重试 的本地化字符串。
         /// </summary>
         internal static string ViewModelAvatarPropertyShowcaseNotOpen {
             get {
