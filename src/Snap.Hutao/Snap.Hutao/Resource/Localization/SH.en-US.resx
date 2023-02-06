@@ -313,10 +313,10 @@
     <value>Failed to download Metadata validation file</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
-    <value>Multiple user records are selected</value>
+    <value>Multiple users recorded as selected</value>
   </data>
   <data name="ServiceUserCurrentUpdateAndSaveFailed" xml:space="preserve">
-    <value>Failed to save user {0} status</value>
+    <value>Failed to save user {0}'s status</value>
   </data>
   <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
     <value>Mid must be included in the entered Cookie</value>
@@ -361,7 +361,7 @@
     <value>Luckiness Avg</value>
   </data>
   <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
-    <value>Event-exclusive</value>
+    <value>UP</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>Development Plan</value>
@@ -418,7 +418,7 @@
     <value>Original Resin Alarm Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
-    <value>Show card on home page</value>
+    <value>Show widget on Home page</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
     <value>实时便笺通知设置</value>
@@ -535,7 +535,7 @@
     <value>Failed to open clipboard</value>
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
-    <value>Character showcase is disabled. Please activate it in the game.</value>
+    <value>角色展柜尚未开启，请前往游戏操作后重试</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Successfully added to current plan</value>
