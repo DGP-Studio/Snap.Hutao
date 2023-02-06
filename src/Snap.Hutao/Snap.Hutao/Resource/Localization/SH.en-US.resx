@@ -541,7 +541,7 @@
     <value>Successfully added to current plan</value>
   </data>
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
-    <value>Please create a plan and select it in the development plan feature</value>
+    <value>Please create a plan and select it in the Development Plan feature</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>Added successfully</value>
@@ -550,7 +550,7 @@
     <value>Can't add plan with duplicated name</value>
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
-    <value>Can't add archive with invalid name</value>
+    <value>Can't add plan with invalid name</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 min | 3.75 Resin</value>
@@ -568,13 +568,13 @@
     <value>8 min | 1 Resin</value>
   </data>
   <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>Failed to add Task Scheduler, please try again in administrator mode</value>
+    <value>Failed to add Schedule Task, please try again in administrator mode</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskSuccess" xml:space="preserve">
-    <value>Remove Task Scheduler successfully</value>
+    <value>清除计划任务成功</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
-    <value>Remove Task Scheduler failed</value>
+    <value>清除计划任务失败</value>
   </data>
   <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
     <value>Wipe user data successfully. Please restart Snap Hutao.</value>
