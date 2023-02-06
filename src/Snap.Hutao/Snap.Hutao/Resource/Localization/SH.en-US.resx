@@ -421,7 +421,7 @@
     <value>Show widget on Home page</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
-    <value>实时便笺通知设置</value>
+    <value>DailyNote Notification Settings</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
     <value>Parametric Transformer Notification</value>
@@ -514,7 +514,7 @@
     <value>UIAF version is too low to import</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
-    <value>该操作是不可逆的，该存档和其内的所有成就状态会丢失</value>
+    <value>This operation is irreversible. The achievement archive will be lost.</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>Are you sure you want to delete archive {0}?</value>
@@ -523,7 +523,7 @@
     <value>Can't calculate current character. Please try again after syncing data.</value>
   </data>
   <data name="ViewModelAvatarPropertyEnkaApiUnavailable" xml:space="preserve">
-    <value>角色信息服务 [Enka API] 当前不可用</value>
+    <value>Character data service [Enka API] is unavailable</value>
   </data>
   <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
     <value>Exported to clipboard</value>
@@ -535,7 +535,7 @@
     <value>Failed to open clipboard</value>
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
-    <value>角色展柜尚未开启，请前往游戏操作后重试</value>
+    <value>Character showcase is disabled. Please activate it in the game.</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Successfully added to current plan</value>
@@ -568,13 +568,13 @@
     <value>8 min | 1 Resin</value>
   </data>
   <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
-    <value>Failed to add Schedule Task, please try again in administrator mode</value>
+    <value>Failed to add Scheduled Task, please try again in administrator mode</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskSuccess" xml:space="preserve">
-    <value>清除计划任务成功</value>
+    <value>Clear scheduled task successful</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
-    <value>清除计划任务失败</value>
+    <value>Clear scheduled task failed</value>
   </data>
   <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
     <value>Delete users successfully. Please restart Snap Hutao immediately.</value>
@@ -664,7 +664,7 @@
     <value>Successfully update Cookie for user [{0}]</value>
   </data>
   <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
-    <value>页面资源已经被释放，操作取消</value>
+    <value>View Resource has been disposed, operation cancelled.</value>
   </data>
   <data name="ViewModelWelcomeDownloadCompleteMessage" xml:space="preserve">
     <value>Now Snap Hutao is ready to use</value>
@@ -730,7 +730,7 @@
     <value>Character Attributes</value>
   </data>
   <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
-    <value>初始词条</value>
+    <value>Primary Substat</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshAction" xml:space="preserve">
     <value>Sync</value>
@@ -739,7 +739,7 @@
     <value>Sync from Enka API</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>同步游戏内角色展柜中的信息</value>
+    <value>Sync data from in-game Character Showcase</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
     <value>Sync data from MiHoYo BBS Development Plan</value>
@@ -754,10 +754,10 @@
     <value>Sync most data other than character talent</value>
   </data>
   <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
-    <value>Ratings</value>
+    <value>Rating</value>
   </data>
   <data name="ViewPageAvatarPropertySecondaryProperties" xml:space="preserve">
-    <value>强化词条</value>
+    <value>Enhanced Substat</value>
   </data>
   <data name="ViewPageCultivateCalculate" xml:space="preserve">
     <value>Development Plan</value>
@@ -772,7 +772,7 @@
     <value>Create plan to continue</value>
   </data>
   <data name="ViewPageCultivationAddProjectDescription" xml:space="preserve">
-    <value>You can add development plan detail later from other pages</value>
+    <value>You can add development plan items later from other pages</value>
   </data>
   <data name="ViewPageCultivationAvatarPropertyDescription" xml:space="preserve">
     <value>Add my characters and weapons to Development Plan</value>
@@ -805,10 +805,10 @@
     <value>Add any weapon to Development Plan</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>Add character</value>
+    <value>Add role</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>Add character to DailyNote</value>
+    <value>Add role to DailyNote</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
     <value>Add</value>
@@ -826,10 +826,10 @@
     <value>Refresh Duration</value>
   </data>
   <data name="ViewPageDailyNoteReminderDescription" xml:space="preserve">
-    <value>防止通知自动收入操作中心</value>
+    <value>Causes the notification to stay on-screen and expanded until the user takes action</value>
   </data>
   <data name="ViewPageDailyNoteReminderHeader" xml:space="preserve">
-    <value>Alerting Notifications</value>
+    <value>Reminder Notifications</value>
   </data>
   <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
     <value>Remove User</value>
@@ -859,7 +859,7 @@
     <value>Import</value>
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
-    <value>导入来自其它 App 的数据</value>
+    <value>Import data from other Apps</value>
   </data>
   <data name="ViewPageGachaLogImportHeader" xml:space="preserve">
     <value>Import UIGF Json</value>
@@ -889,7 +889,7 @@
     <value>Web Cache Refresh</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
-    <value>Use in-game built-in browser cache to refresh wish history</value>
+    <value>Use embedded browser cache to refresh wish history</value>
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>Delete current archive</value>
@@ -991,7 +991,7 @@
     <value>Borderless</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveDescription" xml:space="preserve">
-    <value>Incompatible with in-game browsers; operations like switching window may cause the game to crash.</value>
+    <value>Incompatible with embedded browsers; operations like switching window may cause the game to crash.</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
     <value>Exclusive Fullscreen</value>
@@ -1030,7 +1030,7 @@
     <value>Can adjust at any time during game</value>
   </data>
   <data name="ViewPageLaunchGameSetFpsHeader" xml:space="preserve">
-    <value>设置帧率上限</value>
+    <value>Set Frame Rate Limit</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>No UID bound</value>
@@ -1054,7 +1054,7 @@
     <value>Rename</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>Switch game server (CN/BiliBili/Intl)</value>
+    <value>Switch game server (CN/BiliBili/OS)</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
@@ -1120,10 +1120,10 @@
     <value>You can try this, if authkey expiration error occurs frequently during the wish history refresh</value>
   </data>
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
-    <value>Delete In-game Web Cache</value>
+    <value>Delete game embedded browser web cache</value>
   </data>
   <data name="ViewPageSettingDeleteTaskDescription" xml:space="preserve">
-    <value>Deleted registered Task Scheduler. Execute this before uninstalling the software.</value>
+    <value>Deleted registered Schedule Tasks. Execute this before uninstalling the software.</value>
   </data>
   <data name="ViewPageSettingDeleteTaskHeader" xml:space="preserve">
     <value>Delete All Scheduled Tasks</value>
@@ -1189,7 +1189,7 @@
     <value>Check Update</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
-    <value>Webview 2 Runtime</value>
+    <value>Webview2 Runtime</value>
   </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
     <value>Battle Statistics</value>
@@ -1228,10 +1228,10 @@
     <value>Refresh</value>
   </data>
   <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
-    <value>Sync Spiral Abyss data from MiHoYo BBS</value>
+    <value>Sync Spiral Abyss data from Hoyolab</value>
   </data>
   <data name="ViewSpiralAbyssReveal" xml:space="preserve">
-    <value>出战次数</value>
+    <value>Picked Time</value>
   </data>
   <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
     <value>Statistics</value>
@@ -1240,7 +1240,7 @@
     <value>Most Damage Taken</value>
   </data>
   <data name="ViewSpiralAbyssTotalStar" xml:space="preserve">
-    <value>获得渊星</value>
+    <value>Stars Earned</value>
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
     <value>Upload Data</value>
@@ -1276,7 +1276,7 @@
     <value>We are downloading the required image resources</value>
   </data>
   <data name="ViewWelcomeBody" xml:space="preserve">
-    <value>你可以继续使用电脑，丝毫不受影响</value>
+    <value>You can continue to use your computer without any impact</value>
   </data>
   <data name="ViewWelcomeSubtitle" xml:space="preserve">
     <value>Please do not turn of the software</value>
@@ -1291,6 +1291,6 @@
     <value>Weapon WIKI</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
-    <value>Status: {0} | Information: {1}</value>
+    <value>Return Code: {0} | Message: {1}</value>
   </data>
 </root>
