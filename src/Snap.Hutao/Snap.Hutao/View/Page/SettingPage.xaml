@@ -175,7 +175,7 @@
                     <wsc:Setting
                         Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
                         Description="{shcm:ResourceString Name=ViewPageSettingDeleteTaskDescription}"
-                        Header="{shcm:ResourceString ViewPageSettingDeleteTaskHeader}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingDeleteTaskHeader}"
                         Icon="&#xE7C4;">
                         <wsc:Setting.ActionContent>
                             <Button Command="{Binding Experimental.DeleteAllScheduleTasksCommand}" Content="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"/>

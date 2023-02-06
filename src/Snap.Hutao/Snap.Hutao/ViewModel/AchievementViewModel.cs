@@ -20,6 +20,9 @@ using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using Windows.Storage.Pickers;
+using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoal;
+using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
+using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -42,10 +45,10 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     private readonly TaskCompletionSource<bool> openUICompletionSource = new();
 
     private AdvancedCollectionView? achievements;
-    private List<Model.Binding.Achievement.AchievementGoal>? achievementGoals;
-    private Model.Binding.Achievement.AchievementGoal? selectedAchievementGoal;
-    private ObservableCollection<Model.Entity.AchievementArchive>? archives;
-    private Model.Entity.AchievementArchive? selectedArchive;
+    private List<BindingAchievementGoal>? achievementGoals;
+    private BindingAchievementGoal? selectedAchievementGoal;
+    private ObservableCollection<EntityAchievementArchive>? archives;
+    private EntityAchievementArchive? selectedArchive;
     private bool isIncompletedItemsFirst = true;
     private string searchText = string.Empty;
     private string? finishDescription;
@@ -87,7 +90,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     /// <summary>
     /// 成就存档集合
     /// </summary>
-    public ObservableCollection<Model.Entity.AchievementArchive>? Archives
+    public ObservableCollection<EntityAchievementArchive>? Archives
     {
         get => archives;
         set => SetProperty(ref archives, value);
@@ -96,7 +99,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     /// <summary>
     /// 选中的成就存档
     /// </summary>
-    public Model.Entity.AchievementArchive? SelectedArchive
+    public EntityAchievementArchive? SelectedArchive
     {
         get => selectedArchive;
         set
@@ -124,7 +127,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     /// <summary>
     /// 成就分类
     /// </summary>
-    public List<Model.Binding.Achievement.AchievementGoal>? AchievementGoals
+    public List<BindingAchievementGoal>? AchievementGoals
     {
         get => achievementGoals;
         set => SetProperty(ref achievementGoals, value);
@@ -133,7 +136,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     /// <summary>
     /// 选中的成就分类
     /// </summary>
-    public Model.Binding.Achievement.AchievementGoal? SelectedAchievementGoal
+    public BindingAchievementGoal? SelectedAchievementGoal
     {
         get => selectedAchievementGoal;
         set
@@ -165,7 +168,11 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     /// <summary>
     /// 完成进度描述
     /// </summary>
-    public string? FinishDescription { get => finishDescription; set => SetProperty(ref finishDescription, value); }
+    public string? FinishDescription
+    {
+        get => finishDescription;
+        set => SetProperty(ref finishDescription, value);
+    }
 
     /// <summary>
     /// 打开页面命令
@@ -235,18 +242,18 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         {
             try
             {
-                List<Model.Binding.Achievement.AchievementGoal> sortedGoals;
-                ObservableCollection<Model.Entity.AchievementArchive> archives;
+                List<BindingAchievementGoal> sortedGoals;
+                ObservableCollection<EntityAchievementArchive> archives;
 
                 ThrowIfViewDisposed();
                 using (await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false))
                 {
                     ThrowIfViewDisposed();
 
-                    List<Model.Metadata.Achievement.AchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
+                    List<MetadataAchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
                     sortedGoals = goals
                         .OrderBy(goal => goal.Order)
-                        .Select(goal => new Model.Binding.Achievement.AchievementGoal(goal))
+                        .Select(goal => new BindingAchievementGoal(goal))
                         .ToList();
                     archives = await achievementService.GetArchiveCollectionAsync().ConfigureAwait(false);
                 }
@@ -280,7 +287,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
 
             if (isOk)
             {
-                ArchiveAddResult result = await achievementService.TryAddArchiveAsync(Model.Entity.AchievementArchive.Create(name)).ConfigureAwait(false);
+                ArchiveAddResult result = await achievementService.TryAddArchiveAsync(EntityAchievementArchive.Create(name)).ConfigureAwait(false);
 
                 switch (result)
                 {
@@ -450,7 +457,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
     }
 
-    private async Task<bool> TryImportUIAFInternalAsync(Model.Entity.AchievementArchive archive, UIAF uiaf)
+    private async Task<bool> TryImportUIAFInternalAsync(EntityAchievementArchive archive, UIAF uiaf)
     {
         if (uiaf.IsCurrentVersionSupported())
         {
@@ -484,7 +491,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     }
     #endregion
 
-    private async Task UpdateAchievementsAsync(Model.Entity.AchievementArchive archive)
+    private async Task UpdateAchievementsAsync(EntityAchievementArchive archive)
     {
         List<Model.Metadata.Achievement.Achievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
         List<Model.Binding.Achievement.Achievement> combined;
@@ -523,7 +530,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
     }
 
-    private void UpdateAchievementsFilter(Model.Binding.Achievement.AchievementGoal? goal)
+    private void UpdateAchievementsFilter(BindingAchievementGoal? goal)
     {
         if (Achievements != null)
         {
@@ -572,11 +579,11 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
 
     private struct GoalAggregation
     {
-        public readonly Model.Binding.Achievement.AchievementGoal AchievementGoal;
+        public readonly BindingAchievementGoal AchievementGoal;
         public int Finished;
         public int Count;
 
-        public GoalAggregation(Model.Binding.Achievement.AchievementGoal goal)
+        public GoalAggregation(BindingAchievementGoal goal)
         {
             AchievementGoal = goal;
         }

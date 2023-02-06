@@ -51,7 +51,7 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
         }
         else
         {
-            return new(false, SH.ServiceUserAndRoleUnselected);
+            return new(false, SH.MustSelectUserAndUid);
         }
     }
 }

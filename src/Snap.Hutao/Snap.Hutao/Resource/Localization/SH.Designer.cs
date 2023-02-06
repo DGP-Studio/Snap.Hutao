@@ -646,15 +646,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 尚未选择任何用户以及角色 的本地化字符串。
-        /// </summary>
-        internal static string ServiceUserAndRoleUnselected {
-            get {
-                return ResourceManager.GetString("ServiceUserAndRoleUnselected", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 多个用户记录为选中状态 的本地化字符串。
         /// </summary>
         internal static string ServiceUserCurrentMultiMatched {
@@ -979,7 +970,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 设置实时便笺通知 的本地化字符串。
+        ///   查找类似 实时便笺通知设置 的本地化字符串。
         /// </summary>
         internal static string ViewDialogDailyNoteNotificationTitle {
             get {
@@ -1258,7 +1249,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 该操作是不可逆的，该存档和其内的所有成就状态会丢失。 的本地化字符串。
+        ///   查找类似 该操作是不可逆的，该存档和其内的所有成就状态会丢失 的本地化字符串。
         /// </summary>
         internal static string ViewModelAchievementRemoveArchiveContent {
             get {
@@ -1285,7 +1276,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 角色信息服务 [Enak API] 当前不可用 的本地化字符串。
+        ///   查找类似 角色信息服务 [Enka API] 当前不可用 的本地化字符串。
         /// </summary>
         internal static string ViewModelAvatarPropertyEnkaApiUnavailable {
             get {
@@ -2293,7 +2284,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 导入从其他 App 中导出的数据 的本地化字符串。
+        ///   查找类似 导入来自其它 App 的数据 的本地化字符串。
         /// </summary>
         internal static string ViewPageGachaLogImportDescription {
             get {
@@ -2806,7 +2797,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 设置当前帧率 的本地化字符串。
+        ///   查找类似 设置帧率上限 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameSetFpsHeader {
             get {

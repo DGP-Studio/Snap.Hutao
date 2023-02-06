@@ -23,7 +23,7 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
-                    Content="{shcm:ResourceString ViewAnnouncementHeader}"
+                    Content="{shcm:ResourceString Name=ViewAnnouncementHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
 
                 <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewToolHeader}"/>

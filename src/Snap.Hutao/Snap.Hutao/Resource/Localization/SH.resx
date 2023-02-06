@@ -312,9 +312,6 @@
   <data name="ServiceMetadataRequestFailed" xml:space="preserve">
     <value>元数据校验文件下载失败</value>
   </data>
-  <data name="ServiceUserAndRoleUnselected" xml:space="preserve">
-    <value>尚未选择任何用户以及角色</value>
-  </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>多个用户记录为选中状态</value>
   </data>

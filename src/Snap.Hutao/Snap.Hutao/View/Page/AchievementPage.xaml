@@ -177,47 +177,49 @@
                                         CornerRadius="{ThemeResource ControlCornerRadius}">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
 
                                         <CheckBox
-                                            Grid.Column="1"
-                                            Margin="6,0,12,0"
-                                            Padding="16,0,0,0"
+                                            Grid.Column="0"
+                                            MinWidth="0"
+                                            MinHeight="0"
+                                            Margin="8,0"
+                                            Padding="0,0,0,0"
                                             Command="{Binding Path=DataContext.SaveAchievementCommand, Source={StaticResource BindingProxy}}"
                                             CommandParameter="{Binding}"
-                                            IsChecked="{Binding IsChecked, Mode=TwoWay}"
-                                            Style="{StaticResource DefaultCheckBoxStyle}">
-                                            <CheckBox.Content>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding Inner.Title}"/>
-                                                    <TextBlock
-                                                        Margin="0,2,0,0"
-                                                        Style="{StaticResource SecondaryTextStyle}"
-                                                        Text="{Binding Inner.Description}"
-                                                        TextTrimming="CharacterEllipsis"/>
-                                                </StackPanel>
-                                            </CheckBox.Content>
-                                        </CheckBox>
-                                        <Grid Grid.Column="3">
+                                            IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                                        <Grid Grid.Column="1" Margin="8,0,0,0">
                                             <Grid.ColumnDefinitions>
+                                                <!--  text  -->
                                                 <ColumnDefinition/>
-                                                <ColumnDefinition/>
+                                                <!--  time  -->
+                                                <ColumnDefinition Width="auto"/>
+                                                <!--  pic  -->
+                                                <ColumnDefinition Width="auto"/>
+                                                <!--  count  -->
                                                 <ColumnDefinition Width="32"/>
                                             </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding Inner.Title}"/>
+                                                <TextBlock
+                                                    Margin="0,2,0,0"
+                                                    Style="{StaticResource SecondaryTextStyle}"
+                                                    Text="{Binding Inner.Description}"
+                                                    TextTrimming="CharacterEllipsis"/>
+                                            </StackPanel>
                                             <TextBlock
-                                                Grid.Column="0"
+                                                Grid.Column="1"
                                                 Margin="12,0,12,0"
                                                 VerticalAlignment="Center"
                                                 Text="{Binding Time}"
                                                 Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                             <Image
-                                                Grid.Column="1"
+                                                Grid.Column="2"
                                                 Height="32"
                                                 Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
                                             <TextBlock
-                                                Grid.Column="2"
+                                                Grid.Column="3"
                                                 Margin="12,0,0,0"
                                                 VerticalAlignment="Center"
                                                 Text="{Binding Inner.FinishReward.Count}"/>
