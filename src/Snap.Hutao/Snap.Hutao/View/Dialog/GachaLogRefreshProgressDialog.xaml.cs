@@ -8,6 +8,7 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.View.Control;
+using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.View.Dialog;
 
@@ -45,8 +46,8 @@ public sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     {
         State = state;
         GachaItemsPresenter.Header = state.AuthKeyTimeout
-            ? "祈愿记录Url已失效，请重新获取"
-            : (object)$"正在获取 {state.ConfigType.GetDescription()}";
+            ? SH.ViewDialogGachaLogRefreshProgressAuthkeyTimeout
+            : string.Format(SH.ViewDialogGachaLogRefreshProgressDescription, state.ConfigType.GetLocalizedDescription());
 
         // Binding not working here.
         GachaItemsPresenter.Items.Clear();

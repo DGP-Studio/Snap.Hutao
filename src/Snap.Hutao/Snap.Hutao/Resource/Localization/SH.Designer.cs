@@ -268,6 +268,33 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 渠道服 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingLaunchGameLaunchSchemeBilibili {
+            get {
+                return ResourceManager.GetString("ModelBindingLaunchGameLaunchSchemeBilibili", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 官方服 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingLaunchGameLaunchSchemeChinese {
+            get {
+                return ResourceManager.GetString("ModelBindingLaunchGameLaunchSchemeChinese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 国际服 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingLaunchGameLaunchSchemeOversea {
+            get {
+                return ResourceManager.GetString("ModelBindingLaunchGameLaunchSchemeOversea", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0:f2} 抽 的本地化字符串。
         /// </summary>
         internal static string ModelBingGachaTypedWishSummaryAveragePullFormat {
@@ -1051,6 +1078,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 祈愿记录Url已失效，请重新获取 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGachaLogRefreshProgressAuthkeyTimeout {
+            get {
+                return ResourceManager.GetString("ViewDialogGachaLogRefreshProgressAuthkeyTimeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在获取 {0} 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGachaLogRefreshProgressDescription {
+            get {
+                return ResourceManager.GetString("ViewDialogGachaLogRefreshProgressDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 获取祈愿物品中 的本地化字符串。
         /// </summary>
         internal static string ViewDialogGachaLogRefreshProgressTitle {
@@ -1177,7 +1222,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 转换客户端 的本地化字符串。
+        ///   查找类似 正在转换客户端 的本地化字符串。
         /// </summary>
         internal static string ViewDialogLaunchGamePackageConvertTitle {
             get {
@@ -3639,6 +3684,51 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewWikiWeaponHeader {
             get {
                 return ResourceManager.GetString("ViewWikiWeaponHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色活动祈愿 的本地化字符串。
+        /// </summary>
+        internal static string WebGachaConfigTypeAvatarEventWish {
+            get {
+                return ResourceManager.GetString("WebGachaConfigTypeAvatarEventWish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色活动祈愿-2 的本地化字符串。
+        /// </summary>
+        internal static string WebGachaConfigTypeAvatarEventWish2 {
+            get {
+                return ResourceManager.GetString("WebGachaConfigTypeAvatarEventWish2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新手祈愿 的本地化字符串。
+        /// </summary>
+        internal static string WebGachaConfigTypeNoviceWish {
+            get {
+                return ResourceManager.GetString("WebGachaConfigTypeNoviceWish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 常驻祈愿 的本地化字符串。
+        /// </summary>
+        internal static string WebGachaConfigTypePermanentWish {
+            get {
+                return ResourceManager.GetString("WebGachaConfigTypePermanentWish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 武器活动祈愿 的本地化字符串。
+        /// </summary>
+        internal static string WebGachaConfigTypeWeaponEventWish {
+            get {
+                return ResourceManager.GetString("WebGachaConfigTypeWeaponEventWish", resourceCulture);
             }
         }
         

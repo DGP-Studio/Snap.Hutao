@@ -186,6 +186,15 @@
   <data name="ModelBindingHutaoComplexAvatarRankFloor" xml:space="preserve">
     <value>第 {0} 层</value>
   </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
+    <value>渠道服</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
+    <value>官方服</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
+    <value>国际服</value>
+  </data>
   <data name="ModelBingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
     <value>{0:f2} 抽</value>
   </data>
@@ -447,6 +456,12 @@
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>导入祈愿记录</value>
   </data>
+  <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
+    <value>祈愿记录Url已失效，请重新获取</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
+    <value>正在获取 {0}</value>
+  </data>
   <data name="ViewDialogGachaLogRefreshProgressTitle" xml:space="preserve">
     <value>获取祈愿物品中</value>
   </data>
@@ -490,7 +505,7 @@
     <value>转换可能需要花费一段时间，请勿关闭胡桃</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
-    <value>转换客户端</value>
+    <value>正在转换客户端</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
@@ -1310,6 +1325,21 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器资料</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
+    <value>角色活动祈愿</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
+    <value>角色活动祈愿-2</value>
+  </data>
+  <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
+    <value>新手祈愿</value>
+  </data>
+  <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
+    <value>常驻祈愿</value>
+  </data>
+  <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
+    <value>武器活动祈愿</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>状态：{0} | 信息：{1}</value>
