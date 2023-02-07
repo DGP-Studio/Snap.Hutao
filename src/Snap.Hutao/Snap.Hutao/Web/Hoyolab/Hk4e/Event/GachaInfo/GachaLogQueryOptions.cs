@@ -9,7 +9,7 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// <summary>
 /// 祈愿记录请求配置
 /// </summary>
-public struct GachaLogConfigration
+public struct GachaLogQueryOptions
 {
     /// <summary>
     /// 尺寸
@@ -17,12 +17,12 @@ public struct GachaLogConfigration
     public const int Size = 20;
 
     /// <summary>
-    /// Below keys are required:
+    /// Keys required:
     /// authkey_ver
     /// auth_appid
     /// authkey
     /// sign_type
-    /// Below keys used as control:
+    /// Keys used as control:
     /// lang
     /// gacha_type
     /// size
@@ -36,7 +36,7 @@ public struct GachaLogConfigration
     /// <param name="query">原始查询字符串</param>
     /// <param name="type">祈愿类型</param>
     /// <param name="endId">终止Id</param>
-    public GachaLogConfigration(string query, GachaConfigType type, long endId = 0L)
+    public GachaLogQueryOptions(string query, GachaConfigType type, long endId = 0L)
     {
         innerQuery = QueryString.Parse(query);
 

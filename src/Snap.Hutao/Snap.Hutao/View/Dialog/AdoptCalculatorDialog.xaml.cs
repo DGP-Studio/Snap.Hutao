@@ -18,7 +18,7 @@ public sealed partial class AdoptCalculatorDialog : ContentDialog
 {
     private readonly IServiceScope scope;
     [SuppressMessage("", "IDE0052")]
-    private CalculatorJsInterface? dailyNoteJsInterface;
+    private MiHoYoJSInterface? jsInterface;
 
     /// <summary>
     /// 构造一个新的养成计算器对话框
@@ -50,7 +50,7 @@ public sealed partial class AdoptCalculatorDialog : ContentDialog
         }
 
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
-        dailyNoteJsInterface = new(coreWebView2, scope.ServiceProvider);
+        jsInterface = new(coreWebView2, scope.ServiceProvider);
 
 #if DEBUG
         coreWebView2.OpenDevToolsWindow();
@@ -60,7 +60,7 @@ public sealed partial class AdoptCalculatorDialog : ContentDialog
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        dailyNoteJsInterface = null;
+        jsInterface = null;
         scope.Dispose();
     }
 }

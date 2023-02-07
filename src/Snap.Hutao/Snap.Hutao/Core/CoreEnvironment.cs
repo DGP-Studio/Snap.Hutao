@@ -36,13 +36,13 @@ internal static class CoreEnvironment
     /// 盐
     /// </summary>
     // https://github.com/UIGF-org/Hoyolab.Salt
-    public static readonly ImmutableDictionary<string, string> DynamicSecrets = new Dictionary<string, string>()
+    public static readonly ImmutableDictionary<SaltType, string> DynamicSecrets = new Dictionary<SaltType, string>()
     {
-        [nameof(SaltType.K2)] = "dZAwGk4e9aC0MXXItkwnHamjA1x30IYw",
-        [nameof(SaltType.LK2)] = "IEIZiKYaput2OCKQprNuGsog1NZc1FkS",
-        [nameof(SaltType.X4)] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
-        [nameof(SaltType.X6)] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
-        [nameof(SaltType.PROD)] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
+        [SaltType.K2] = "dZAwGk4e9aC0MXXItkwnHamjA1x30IYw",
+        [SaltType.LK2] = "IEIZiKYaput2OCKQprNuGsog1NZc1FkS",
+        [SaltType.X4] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
+        [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
+        [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
     }.ToImmutableDictionary();
 
     /// <summary>

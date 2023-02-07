@@ -20,6 +20,7 @@ using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using Windows.Storage.Pickers;
+using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
 using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoal;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
@@ -33,8 +34,8 @@ namespace Snap.Hutao.ViewModel;
 [SuppressMessage("", "SA1124")]
 internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
-    private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(Model.Binding.Achievement.Achievement.IsChecked), SortDirection.Ascending);
-    private static readonly SortDescription CompletionTimeSortDescription = new(nameof(Model.Binding.Achievement.Achievement.Time), SortDirection.Descending);
+    private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(BindingAchievement.IsChecked), SortDirection.Ascending);
+    private static readonly SortDescription CompletionTimeSortDescription = new(nameof(BindingAchievement.Time), SortDirection.Descending);
 
     private readonly IAchievementService achievementService;
     private readonly IMetadataService metadataService;
@@ -84,7 +85,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         RemoveArchiveCommand = new AsyncRelayCommand(RemoveArchiveAsync);
         SearchAchievementCommand = new RelayCommand<string>(SearchAchievement);
         SortIncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
-        SaveAchievementCommand = new RelayCommand<Model.Binding.Achievement.Achievement>(SaveAchievement);
+        SaveAchievementCommand = new RelayCommand<BindingAchievement>(SaveAchievement);
     }
 
     /// <summary>
@@ -352,13 +353,13 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
             {
                 if (search.Length == 5 && int.TryParse(search, out int achiId))
                 {
-                    Achievements.Filter = (object o) => ((Model.Binding.Achievement.Achievement)o).Inner.Id == achiId;
+                    Achievements.Filter = (object o) => ((BindingAchievement)o).Inner.Id == achiId;
                 }
                 else
                 {
                     Achievements.Filter = (object o) =>
                     {
-                        Model.Binding.Achievement.Achievement achi = (Model.Binding.Achievement.Achievement)o;
+                        BindingAchievement achi = (BindingAchievement)o;
                         return achi.Inner.Title.Contains(search) || achi.Inner.Description.Contains(search);
                     };
                 }
@@ -494,7 +495,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     private async Task UpdateAchievementsAsync(EntityAchievementArchive archive)
     {
         List<Model.Metadata.Achievement.Achievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
-        List<Model.Binding.Achievement.Achievement> combined;
+        List<BindingAchievement> combined;
         try
         {
             combined = achievementService.GetAchievements(archive, rawAchievements);
@@ -535,7 +536,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         if (Achievements != null)
         {
             Achievements.Filter = goal != null
-                ? ((object o) => o is Model.Binding.Achievement.Achievement achi && achi.Inner.Goal == goal.Id)
+                ? ((object o) => o is BindingAchievement achi && achi.Inner.Goal == goal.Id)
                 : null;
         }
     }
@@ -547,7 +548,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         if (Achievements != null && AchievementGoals != null)
         {
             Dictionary<int, GoalAggregation> counter = AchievementGoals.ToDictionary(x => x.Id, x => new GoalAggregation(x));
-            foreach (Model.Binding.Achievement.Achievement achievement in Achievements.SourceCollection.OfType<Model.Binding.Achievement.Achievement>())
+            foreach (BindingAchievement achievement in Achievements.SourceCollection.OfType<BindingAchievement>())
             {
                 ref GoalAggregation aggregation = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievement.Inner.Goal);
                 aggregation.Count += 1;
@@ -568,7 +569,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
     }
 
-    private void SaveAchievement(Model.Binding.Achievement.Achievement? achievement)
+    private void SaveAchievement(BindingAchievement? achievement)
     {
         if (achievement != null)
         {

@@ -2203,7 +2203,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 移除用户 的本地化字符串。
+        ///   查找类似 移除角色 的本地化字符串。
         /// </summary>
         internal static string ViewPageDailyNoteRemoveToolTip {
             get {

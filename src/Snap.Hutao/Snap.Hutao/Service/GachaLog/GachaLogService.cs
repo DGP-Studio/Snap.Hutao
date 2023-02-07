@@ -250,7 +250,7 @@ internal class GachaLogService : IGachaLogService
         {
             state.ConfigType = configType;
             long? dbEndId = null;
-            GachaLogConfigration configration = new(query, configType);
+            GachaLogQueryOptions configration = new(query, configType);
             List<GachaItem> itemsToAdd = new();
 
             do
@@ -285,7 +285,7 @@ internal class GachaLogService : IGachaLogService
 
                     progress.Report(state);
 
-                    if (currentTypeAddingCompleted || items.Count < GachaLogConfigration.Size)
+                    if (currentTypeAddingCompleted || items.Count < GachaLogQueryOptions.Size)
                     {
                         // exit current type fetch loop
                         break;

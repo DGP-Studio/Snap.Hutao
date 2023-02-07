@@ -165,66 +165,65 @@
                             </ItemsControl.ItemContainerTransitions>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid
-                                        MinHeight="48"
-                                        Margin="0,8,0,0"
-                                        Padding="8"
+                                    <Border
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
-                                        Background="{ThemeResource CardBackgroundBrush}"
-                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                        BorderThickness="{ThemeResource CardBorderThickness}"
-                                        CornerRadius="{ThemeResource ControlCornerRadius}">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-
-                                        <CheckBox
-                                            Grid.Column="0"
-                                            MinWidth="0"
-                                            MinHeight="0"
-                                            Margin="8,0"
-                                            Padding="0,0,0,0"
-                                            Command="{Binding Path=DataContext.SaveAchievementCommand, Source={StaticResource BindingProxy}}"
-                                            CommandParameter="{Binding}"
-                                            IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
-                                        <Grid Grid.Column="1" Margin="8,0,0,0">
+                                        Style="{StaticResource BorderCardStyle}">
+                                        <Grid
+                                            MinHeight="48"
+                                            Margin="0,8,0,0"
+                                            Padding="8">
                                             <Grid.ColumnDefinitions>
-                                                <!--  text  -->
+                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition/>
-                                                <!--  time  -->
-                                                <ColumnDefinition Width="auto"/>
-                                                <!--  pic  -->
-                                                <ColumnDefinition Width="auto"/>
-                                                <!--  count  -->
-                                                <ColumnDefinition Width="32"/>
                                             </Grid.ColumnDefinitions>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Inner.Title}"/>
+
+                                            <CheckBox
+                                                Grid.Column="0"
+                                                MinWidth="0"
+                                                MinHeight="0"
+                                                Margin="8,0"
+                                                Padding="0,0,0,0"
+                                                Command="{Binding Path=DataContext.SaveAchievementCommand, Source={StaticResource BindingProxy}}"
+                                                CommandParameter="{Binding}"
+                                                IsChecked="{Binding IsChecked, Mode=TwoWay}"/>
+                                            <Grid Grid.Column="1" Margin="8,0,0,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <!--  text  -->
+                                                    <ColumnDefinition/>
+                                                    <!--  time  -->
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <!--  pic  -->
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <!--  count  -->
+                                                    <ColumnDefinition Width="32"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Inner.Title}"/>
+                                                    <TextBlock
+                                                        Margin="0,2,0,0"
+                                                        Style="{StaticResource SecondaryTextStyle}"
+                                                        Text="{Binding Inner.Description}"
+                                                        TextTrimming="CharacterEllipsis"/>
+                                                </StackPanel>
                                                 <TextBlock
-                                                    Margin="0,2,0,0"
-                                                    Style="{StaticResource SecondaryTextStyle}"
-                                                    Text="{Binding Inner.Description}"
-                                                    TextTrimming="CharacterEllipsis"/>
-                                            </StackPanel>
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Margin="12,0,12,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Time}"
-                                                Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            <Image
-                                                Grid.Column="2"
-                                                Height="32"
-                                                Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
-                                            <TextBlock
-                                                Grid.Column="3"
-                                                Margin="12,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding Inner.FinishReward.Count}"/>
+                                                    Grid.Column="1"
+                                                    Margin="12,0,12,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Time}"
+                                                    Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                                <Image
+                                                    Grid.Column="2"
+                                                    Height="32"
+                                                    Source="ms-appx:///Resource/Icon/UI_ItemIcon_201.png"/>
+                                                <TextBlock
+                                                    Grid.Column="3"
+                                                    Margin="12,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Inner.FinishReward.Count}"/>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
+                                    </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

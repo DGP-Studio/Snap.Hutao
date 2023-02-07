@@ -19,7 +19,7 @@ public sealed partial class DailyNoteVerificationDialog : ContentDialog
     private readonly IServiceScope scope;
     private readonly UserAndUid userAndUid;
 
-    private DailyNoteJsInterface? dailyNoteJsInterface;
+    private MiHoYoJSInterface? jsInterface;
 
     /// <summary>
     /// 构造一个新的实时便笺验证对话框
@@ -45,8 +45,8 @@ public sealed partial class DailyNoteVerificationDialog : ContentDialog
 
         Model.Entity.User user = userAndUid.User;
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
-        dailyNoteJsInterface = new(coreWebView2, scope.ServiceProvider);
-        dailyNoteJsInterface.ClosePageRequested += OnClosePageRequested;
+        jsInterface = new(coreWebView2, scope.ServiceProvider);
+        jsInterface.ClosePageRequested += OnClosePageRequested;
 
         string query = $"?role_id={userAndUid.Uid.Value}&server={userAndUid.Uid.Region}";
         coreWebView2.Navigate($"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/{query}");
@@ -59,10 +59,10 @@ public sealed partial class DailyNoteVerificationDialog : ContentDialog
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)
     {
-        if (dailyNoteJsInterface != null)
+        if (jsInterface != null)
         {
-            dailyNoteJsInterface!.ClosePageRequested -= OnClosePageRequested;
-            dailyNoteJsInterface = null;
+            jsInterface!.ClosePageRequested -= OnClosePageRequested;
+            jsInterface = null;
         }
 
         scope.Dispose();

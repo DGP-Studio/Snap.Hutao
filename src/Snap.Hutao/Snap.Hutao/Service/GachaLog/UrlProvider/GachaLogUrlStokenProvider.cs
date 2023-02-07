@@ -42,7 +42,7 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
 
             if (authkeyResponse.IsOk())
             {
-                return new(true, GachaLogConfigration.AsQuery(data, authkeyResponse.Data));
+                return new(true, GachaLogQueryOptions.AsQuery(data, authkeyResponse.Data));
             }
             else
             {

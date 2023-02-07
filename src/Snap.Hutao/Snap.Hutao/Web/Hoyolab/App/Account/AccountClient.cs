@@ -47,8 +47,7 @@ internal class AccountClient
     {
         Response<GameAuthKey>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
-
-            // .SetReferer("https://app.mihoyo.com")
+            .SetReferer("https://app.mihoyo.com")
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, false)
             .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.AppAuthGenAuthKey, data, options, logger, token)
             .ConfigureAwait(false);

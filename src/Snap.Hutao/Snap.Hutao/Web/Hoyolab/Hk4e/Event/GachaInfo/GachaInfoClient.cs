@@ -36,7 +36,7 @@ internal class GachaInfoClient
     /// <param name="config">查询</param>
     /// <param name="token">取消令牌</param>
     /// <returns>单个祈愿记录页面</returns>
-    public async Task<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogConfigration config, CancellationToken token = default)
+    public async Task<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogQueryOptions config, CancellationToken token = default)
     {
         string query = config.AsQuery();
 

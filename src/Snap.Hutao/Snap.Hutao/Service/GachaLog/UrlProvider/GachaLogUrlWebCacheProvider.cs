@@ -82,12 +82,11 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
         ReadOnlySpan<byte> match = isOversea
             ? "https://webstatic-sea.hoyoverse.com/genshin/event/e20190909gacha-v2/index.html"u8
             : "https://webstatic.mihoyo.com/hk4e/event/e20190909gacha-v2/index.html"u8;
-        ReadOnlySpan<byte> zero = "\0"u8;
 
         int index = span.LastIndexOf(match);
         if (index >= 0)
         {
-            int length = span[index..].IndexOf(zero);
+            int length = span[index..].IndexOf("\0"u8);
             return Encoding.UTF8.GetString(span.Slice(index, length));
         }
 
