@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
@@ -343,10 +344,18 @@ internal class GachaLogViewModel : Abstraction.ViewModel
 
     private async Task UpdateStatisticsAsync(GachaArchive? archive)
     {
-        GachaStatistics temp = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
-        await ThreadHelper.SwitchToMainThreadAsync();
-        Statistics = temp;
-        IsInitialized = true;
+        try
+        {
+            GachaStatistics? temp = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
+
+            await ThreadHelper.SwitchToMainThreadAsync();
+            Statistics = temp;
+            IsInitialized = true;
+        }
+        catch (UserdataCorruptedException ex)
+        {
+            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ex);
+        }
     }
 
     private async Task<bool> TryImportUIGFInternalAsync(UIGF uigf)
@@ -357,16 +366,23 @@ internal class GachaLogViewModel : Abstraction.ViewModel
             await ThreadHelper.SwitchToMainThreadAsync();
             if (await new GachaLogImportDialog(uigf).GetShouldImportAsync().ConfigureAwait(true))
             {
-                ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
-                await using (await dialog.BlockAsync().ConfigureAwait(false))
+                if (uigf.IsValidList())
                 {
-                    await gachaLogService.ImportFromUIGFAsync(uigf.List, uigf.Info.Uid).ConfigureAwait(false);
-                }
+                    ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
+                    await using (await dialog.BlockAsync().ConfigureAwait(false))
+                    {
+                        await gachaLogService.ImportFromUIGFAsync(uigf.List, uigf.Info.Uid).ConfigureAwait(false);
+                    }
 
-                infoBarService.Success(SH.ViewModelGachaLogImportComplete);
-                await ThreadHelper.SwitchToMainThreadAsync();
-                SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
-                return true;
+                    infoBarService.Success(SH.ViewModelGachaLogImportComplete);
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
+                    return true;
+                }
+                else
+                {
+                    infoBarService.Warning(SH.ViewModelGachaLogImportWarningTitle, SH.ViewModelGachaLogImportWarningMessage2);
+                }
             }
         }
         else

@@ -601,6 +601,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 不支持的 Item Id: {0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGachaStatisticsFactoryItemIdInvalid {
+            get {
+                return ResourceManager.GetString("ServiceGachaStatisticsFactoryItemIdInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 存在多个匹配账号，请删除重复的账号 的本地化字符串。
         /// </summary>
         internal static string ServiceGameDetectGameAccountMultiMatched {
@@ -1614,6 +1623,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewModelGachaLogImportWarningMessage {
             get {
                 return ResourceManager.GetString("ViewModelGachaLogImportWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 导入数据中包含了不支持的物品 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogImportWarningMessage2 {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogImportWarningMessage2", resourceCulture);
             }
         }
         

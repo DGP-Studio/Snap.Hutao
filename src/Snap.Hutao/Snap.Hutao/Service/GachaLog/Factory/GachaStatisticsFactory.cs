@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
@@ -137,7 +138,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
             {
                 // ItemId place not correct.
                 // TODO: check items id when importing
-                Must.NeverHappen();
+                ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaStatisticsFactoryItemIdInvalid, item.ItemId), null!);
             }
         }
 

@@ -41,4 +41,21 @@ public class UIGF
     {
         return SupportedVersion.Contains(Info?.UIGFVersion ?? string.Empty);
     }
+
+    /// <summary>
+    /// 列表物品是否正常
+    /// </summary>
+    /// <returns>是否正常</returns>
+    public bool IsValidList()
+    {
+        foreach (UIGFItem item in List)
+        {
+            if (item.ItemType != "角色" || item.ItemType != "武器")
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

@@ -427,7 +427,6 @@
                                         </VisualState>
 
                                     </VisualStateGroup>
-
                                 </VisualStateManager.VisualStateGroups>
                             </Border>
                         </ControlTemplate>

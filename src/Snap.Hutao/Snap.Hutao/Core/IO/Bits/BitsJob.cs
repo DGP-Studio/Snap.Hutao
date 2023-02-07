@@ -22,7 +22,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
     /// </summary>
     public const string JobNamePrefix = "SnapHutaoBitsJob";
 
-    private const uint BitsEngineNoProgressTimeout = 120;
+    private const uint BitsEngineNoProgressTimeout = 30;
     private const int MaxResumeAttempts = 10;
 
     private readonly string displayName;

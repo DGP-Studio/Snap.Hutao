@@ -49,8 +49,8 @@ public partial class App : Application
                 firstInstance.Activated += Activation.Activate;
                 ToastNotificationManagerCompat.OnActivated += Activation.NotificationActivate;
 
-                logger.LogInformation(EventIds.CommonLog, "Snap Hutao | {name} : {version}", CoreEnvironment.FamilyName, CoreEnvironment.Version);
-                logger.LogInformation(EventIds.CommonLog, "Cache folder : {folder}", ApplicationData.Current.LocalCacheFolder.Path);
+                logger.LogInformation("Snap Hutao | {name} : {version}", CoreEnvironment.FamilyName, CoreEnvironment.Version);
+                logger.LogInformation("Cache folder : {folder}", ApplicationData.Current.LocalCacheFolder.Path);
 
                 JumpListHelper.ConfigureAsync().SafeForget(logger);
             }

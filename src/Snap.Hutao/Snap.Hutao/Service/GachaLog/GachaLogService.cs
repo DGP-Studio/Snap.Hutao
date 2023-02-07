@@ -16,6 +16,7 @@ using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Metadata;
@@ -163,6 +164,7 @@ internal class GachaLogService : IGachaLogService
                 .Where(i => i.ArchiveId == archive.InnerId);
 
             GachaStatistics statistics = await gachaStatisticsFactory.CreateAsync(items).ConfigureAwait(false);
+
             logger.LogInformation(EventIds.GachaStatisticGeneration, "GachaStatistic Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
             return statistics;
         }
