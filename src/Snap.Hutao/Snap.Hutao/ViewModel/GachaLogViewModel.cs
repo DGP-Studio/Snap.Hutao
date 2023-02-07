@@ -238,9 +238,9 @@ internal class GachaLogViewModel : Abstraction.ViewModel
             }
             else
             {
-                if (query is string message)
+                if (!string.IsNullOrEmpty(query.Message))
                 {
-                    infoBarService.Warning(message);
+                    infoBarService.Warning(query.Message);
                 }
             }
         }

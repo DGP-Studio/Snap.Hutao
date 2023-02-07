@@ -13,7 +13,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// 使用Stokn提供祈愿Url
 /// </summary>
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
-internal class GachaLogUrlStokenProvider : IGachaLogQueryProvider
+internal class GachaLogQueryStokenProvider : IGachaLogQueryProvider
 {
     private readonly IUserService userService;
     private readonly BindingClient2 bindingClient2;
@@ -23,14 +23,14 @@ internal class GachaLogUrlStokenProvider : IGachaLogQueryProvider
     /// </summary>
     /// <param name="userService">用户服务</param>
     /// <param name="bindingClient2">绑定客户端</param>
-    public GachaLogUrlStokenProvider(IUserService userService, BindingClient2 bindingClient2)
+    public GachaLogQueryStokenProvider(IUserService userService, BindingClient2 bindingClient2)
     {
         this.userService = userService;
         this.bindingClient2 = bindingClient2;
     }
 
     /// <inheritdoc/>
-    public string Name { get => nameof(GachaLogUrlStokenProvider); }
+    public string Name { get => nameof(GachaLogQueryStokenProvider); }
 
     /// <inheritdoc/>
     public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()

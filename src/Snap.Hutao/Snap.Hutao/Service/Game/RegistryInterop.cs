@@ -18,6 +18,8 @@ internal static class RegistryInterop
 
     /// <summary>
     /// 设置键值
+    /// 需要支持
+    /// https://learn.microsoft.com/zh-cn/windows/win32/fileio/maximum-file-path-limitation
     /// </summary>
     /// <param name="account">账户</param>
     /// <returns>账号是否设置</returns>

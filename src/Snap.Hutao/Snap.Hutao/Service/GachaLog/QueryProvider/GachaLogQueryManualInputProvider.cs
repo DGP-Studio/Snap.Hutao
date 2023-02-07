@@ -9,10 +9,10 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// 手动输入方法
 /// </summary>
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
-internal class GachaLogUrlManualInputProvider : IGachaLogQueryProvider
+internal class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
     /// <inheritdoc/>
-    public string Name { get => nameof(GachaLogUrlManualInputProvider); }
+    public string Name { get => nameof(GachaLogQueryManualInputProvider); }
 
     /// <inheritdoc/>
     public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()

@@ -259,6 +259,60 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 第 {0} 层 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingHutaoComplexAvatarRankFloor {
+            get {
+                return ResourceManager.GetString("ModelBindingHutaoComplexAvatarRankFloor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0:f2} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBingGachaTypedWishSummaryAveragePullFormat {
+            get {
+                return ResourceManager.GetString("ModelBingGachaTypedWishSummaryAveragePullFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已垫 {0} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBingGachaTypedWishSummaryLastPullFormat {
+            get {
+                return ResourceManager.GetString("ModelBingGachaTypedWishSummaryLastPullFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最非 {0} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBingGachaTypedWishSummaryMaxOrangePullFormat {
+            get {
+                return ResourceManager.GetString("ModelBingGachaTypedWishSummaryMaxOrangePullFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最欧 {0} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBingGachaTypedWishSummaryMinOrangePullFormat {
+            get {
+                return ResourceManager.GetString("ModelBingGachaTypedWishSummaryMinOrangePullFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBingGachaWishBaseTotalCountFormat {
+            get {
+                return ResourceManager.GetString("ModelBingGachaWishBaseTotalCountFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 必须先选择一个用户与角色 的本地化字符串。
         /// </summary>
         internal static string MustSelectUserAndUid {
@@ -2010,6 +2064,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageCultivationAddProject {
             get {
                 return ResourceManager.GetString("ViewPageCultivationAddProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新建 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageCultivationAddProjectAction {
+            get {
+                return ResourceManager.GetString("ViewPageCultivationAddProjectAction", resourceCulture);
             }
         }
         

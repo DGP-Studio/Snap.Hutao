@@ -370,7 +370,7 @@
                         Description="{shcm:ResourceString Name=ViewPageCultivationAddProjectDescription}"
                         Header="{shcm:ResourceString Name=ViewPageCultivationAddProject}"
                         Icon="{shcm:FontIcon Glyph=&#xE710;}">
-                        <Button Command="{Binding AddProjectCommand}" Content="新建"/>
+                        <Button Command="{Binding AddProjectCommand}" Content="{shcm:ResourceString Name=ViewPageCultivationAddProjectAction}"/>
                     </wsc:Setting>
                 </wsc:SettingsGroup>
             </StackPanel>

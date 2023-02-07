@@ -184,7 +184,7 @@ internal class HutaoCache : IHutaoCache
 
         AvatarAppearanceRanks = avatarAppearanceRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new ComplexAvatarRank
         {
-            Floor = $"第 {rank.Floor} 层",
+            Floor = string.Format(SH.ModelBindingHutaoComplexAvatarRankFloor, rank.Floor),
             Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new ComplexAvatar(idAvatarMap[rank.Item], rank.Rate)).ToList(),
         }).ToList();
     }
@@ -200,7 +200,7 @@ internal class HutaoCache : IHutaoCache
 
         AvatarUsageRanks = avatarUsageRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new ComplexAvatarRank
         {
-            Floor = $"第 {rank.Floor} 层",
+            Floor = string.Format(SH.ModelBindingHutaoComplexAvatarRankFloor, rank.Floor),
             Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new ComplexAvatar(idAvatarMap[rank.Item], rank.Rate)).ToList(),
         }).ToList();
     }

@@ -12,7 +12,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// 浏览器缓存方法
 /// </summary>
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
-internal class GachaLogUrlWebCacheProvider : IGachaLogQueryProvider
+internal class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IGameService gameService;
 
@@ -20,13 +20,13 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogQueryProvider
     /// 构造一个新的浏览器缓存方法提供器
     /// </summary>
     /// <param name="gameService">游戏服务</param>
-    public GachaLogUrlWebCacheProvider(IGameService gameService)
+    public GachaLogQueryWebCacheProvider(IGameService gameService)
     {
         this.gameService = gameService;
     }
 
     /// <inheritdoc/>
-    public string Name { get => nameof(GachaLogUrlWebCacheProvider); }
+    public string Name { get => nameof(GachaLogQueryWebCacheProvider); }
 
     /// <summary>
     /// 获取缓存文件路径

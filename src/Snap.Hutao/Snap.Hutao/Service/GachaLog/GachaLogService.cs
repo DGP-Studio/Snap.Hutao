@@ -177,9 +177,9 @@ internal class GachaLogService : IGachaLogService
     {
         return option switch
         {
-            RefreshOption.WebCache => urlProviders.Single(p => p.Name == nameof(GachaLogUrlWebCacheProvider)),
-            RefreshOption.Stoken => urlProviders.Single(p => p.Name == nameof(GachaLogUrlStokenProvider)),
-            RefreshOption.ManualInput => urlProviders.Single(p => p.Name == nameof(GachaLogUrlManualInputProvider)),
+            RefreshOption.WebCache => urlProviders.Single(p => p.Name == nameof(GachaLogQueryWebCacheProvider)),
+            RefreshOption.Stoken => urlProviders.Single(p => p.Name == nameof(GachaLogQueryStokenProvider)),
+            RefreshOption.ManualInput => urlProviders.Single(p => p.Name == nameof(GachaLogQueryManualInputProvider)),
             _ => null,
         };
     }

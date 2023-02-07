@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.View.Dialog;
@@ -198,7 +199,7 @@ internal class SettingViewModel : Abstraction.ViewModel
 
         if (!string.IsNullOrEmpty(gamePath))
         {
-            string cacheFilePath = GachaLogUrlWebCacheProvider.GetCacheFile(gamePath);
+            string cacheFilePath = GachaLogQueryWebCacheProvider.GetCacheFile(gamePath);
             string cacheFolder = Path.GetDirectoryName(cacheFilePath)!;
 
             IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();

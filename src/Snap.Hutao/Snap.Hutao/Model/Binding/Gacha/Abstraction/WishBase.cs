@@ -49,6 +49,6 @@ public abstract class WishBase
     /// </summary>
     public string TotalCountFormatted
     {
-        get => $"{TotalCount} 抽";
+        get => string.Format(SH.ModelBingGachaWishBaseTotalCountFormat, TotalCount);
     }
 }

@@ -183,6 +183,24 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>导入</value>
   </data>
+  <data name="ModelBindingHutaoComplexAvatarRankFloor" xml:space="preserve">
+    <value>第 {0} 层</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+    <value>{0:f2} 抽</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryLastPullFormat" xml:space="preserve">
+    <value>已垫 {0} 抽</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+    <value>最非 {0} 抽</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+    <value>最欧 {0} 抽</value>
+  </data>
+  <data name="ModelBingGachaWishBaseTotalCountFormat" xml:space="preserve">
+    <value>{0} 抽</value>
+  </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须先选择一个用户与角色</value>
   </data>
@@ -767,6 +785,9 @@
   </data>
   <data name="ViewPageCultivationAddProject" xml:space="preserve">
     <value>新建计划</value>
+  </data>
+  <data name="ViewPageCultivationAddProjectAction" xml:space="preserve">
+    <value>新建</value>
   </data>
   <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
     <value>新建养成计划以继续</value>

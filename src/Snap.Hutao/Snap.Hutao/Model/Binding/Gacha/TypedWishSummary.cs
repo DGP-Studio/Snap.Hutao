@@ -20,7 +20,7 @@ public class TypedWishSummary : WishBase
     /// </summary>
     public string MaxOrangePullFormatted
     {
-        get => $"最非 {MaxOrangePull} 抽";
+        get => string.Format(SH.ModelBingGachaTypedWishSummaryMaxOrangePullFormat, MaxOrangePull);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class TypedWishSummary : WishBase
     /// </summary>
     public string MinOrangePullFormatted
     {
-        get => $"最欧 {MinOrangePull} 抽";
+        get => string.Format(SH.ModelBingGachaTypedWishSummaryMinOrangePullFormat, MinOrangePull);
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ public class TypedWishSummary : WishBase
     /// </summary>
     public string LastOrangePullFormatted
     {
-        get => $"已垫 {LastOrangePull} 抽";
+        get => string.Format(SH.ModelBingGachaTypedWishSummaryLastPullFormat, LastOrangePull);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class TypedWishSummary : WishBase
     /// </summary>
     public string LastPurplePullFormatted
     {
-        get => $"已垫 {LastPurplePull} 抽";
+        get => string.Format(SH.ModelBingGachaTypedWishSummaryLastPullFormat, LastPurplePull);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ public class TypedWishSummary : WishBase
     /// </summary>
     public string AverageOrangePullFormatted
     {
-        get => $"{AverageOrangePull:f2} 抽";
+        get => string.Format(SH.ModelBingGachaTypedWishSummaryAveragePullFormat, AverageOrangePull);
     }
 
     /// <summary>
@@ -149,7 +149,7 @@ public class TypedWishSummary : WishBase
     /// </summary>
     public string AverageUpOrangePullFormatted
     {
-        get => $"{AverageUpOrangePull:f2} 抽";
+        get => string.Format(SH.ModelBingGachaTypedWishSummaryAveragePullFormat, AverageUpOrangePull);
     }
 
     /// <summary>
