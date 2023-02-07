@@ -124,13 +124,9 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
     private Task RefreshByEnkaApiAsync()
     {
-        if (userService.Current is User user)
+        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            if (user.SelectedUserGameRole is UserGameRole role)
-            {
-                UserAndUid userAndUid = new(user.Entity, role);
-                return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromEnkaAPI, CancellationToken);
-            }
+            return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromEnkaAPI, CancellationToken);
         }
 
         return Task.CompletedTask;
@@ -138,13 +134,9 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
     private Task RefreshByHoyolabGameRecordAsync()
     {
-        if (userService.Current is User user)
+        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            if (user.SelectedUserGameRole is UserGameRole role)
-            {
-                UserAndUid userAndUid = new(user.Entity, role);
-                return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken);
-            }
+            return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken);
         }
 
         return Task.CompletedTask;
@@ -152,13 +144,9 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
     private Task RefreshByHoyolabCalculateAsync()
     {
-        if (userService.Current is User user)
+        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            if (user.SelectedUserGameRole is UserGameRole role)
-            {
-                UserAndUid userAndUid = new(user.Entity, role);
-                return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabCalculate, CancellationToken);
-            }
+            return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabCalculate, CancellationToken);
         }
 
         return Task.CompletedTask;
@@ -169,10 +157,8 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
         try
         {
             ValueResult<RefreshResult, Summary?> summaryResult;
-            ThrowIfViewDisposed();
-            using (await DisposeLock.EnterAsync(token).ConfigureAwait(false))
+            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
-                ThrowIfViewDisposed();
                 ContentDialog dialog = await contentDialogFactory
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
                     .ConfigureAwait(false);

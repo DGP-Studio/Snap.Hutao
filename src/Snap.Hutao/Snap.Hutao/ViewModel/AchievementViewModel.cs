@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.LifeCycle;
@@ -23,6 +24,7 @@ using Windows.Storage.Pickers;
 using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
 using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoal;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
+using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
 
 namespace Snap.Hutao.ViewModel;
@@ -246,11 +248,8 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
                 List<BindingAchievementGoal> sortedGoals;
                 ObservableCollection<EntityAchievementArchive> archives;
 
-                ThrowIfViewDisposed();
-                using (await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false))
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                 {
-                    ThrowIfViewDisposed();
-
                     List<MetadataAchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
                     sortedGoals = goals
                         .OrderBy(goal => goal.Order)
@@ -262,7 +261,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
                 await ThreadHelper.SwitchToMainThreadAsync();
                 AchievementGoals = sortedGoals;
                 Archives = archives;
-                SelectedArchive = Archives.SingleOrDefault(a => a.IsSelected == true);
+                SelectedArchive = Archives.SelectedOrDefault();
 
                 IsInitialized = true;
             }
@@ -271,6 +270,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
                 // User canceled the loading operation,
                 // Indicate initialization not succeed.
                 openUICompletionSource.TrySetResult(false);
+                return;
             }
         }
 
@@ -342,30 +342,6 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
     }
     #endregion
-
-    private void SearchAchievement(string? search)
-    {
-        if (Achievements != null)
-        {
-            SetProperty(ref selectedAchievementGoal, null);
-
-            if (!string.IsNullOrEmpty(search))
-            {
-                if (search.Length == 5 && int.TryParse(search, out int achiId))
-                {
-                    Achievements.Filter = (object o) => ((BindingAchievement)o).Inner.Id == achiId;
-                }
-                else
-                {
-                    Achievements.Filter = (object o) =>
-                    {
-                        BindingAchievement achi = (BindingAchievement)o;
-                        return achi.Inner.Title.Contains(search) || achi.Inner.Description.Contains(search);
-                    };
-                }
-            }
-        }
-    }
 
     #region 导入导出
     private async Task ExportAsUIAFToFileAsync()
@@ -492,9 +468,33 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     }
     #endregion
 
+    private void SearchAchievement(string? search)
+    {
+        if (Achievements != null)
+        {
+            SetProperty(ref selectedAchievementGoal, null);
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                if (search.Length == 5 && int.TryParse(search, out int achiId))
+                {
+                    Achievements.Filter = obj => ((BindingAchievement)obj).Inner.Id == achiId;
+                }
+                else
+                {
+                    Achievements.Filter = obj =>
+                    {
+                        BindingAchievement achi = (BindingAchievement)obj;
+                        return achi.Inner.Title.Contains(search) || achi.Inner.Description.Contains(search);
+                    };
+                }
+            }
+        }
+    }
+
     private async Task UpdateAchievementsAsync(EntityAchievementArchive archive)
     {
-        List<Model.Metadata.Achievement.Achievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
+        List<MetadataAchievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
         List<BindingAchievement> combined;
         try
         {
@@ -547,22 +547,22 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         int count = 0;
         if (Achievements != null && AchievementGoals != null)
         {
-            Dictionary<int, GoalAggregation> counter = AchievementGoals.ToDictionary(x => x.Id, x => new GoalAggregation(x));
-            foreach (BindingAchievement achievement in Achievements.SourceCollection.OfType<BindingAchievement>())
+            Dictionary<int, GoalStatistics> counter = AchievementGoals.ToDictionary(x => x.Id, x => new GoalStatistics(x));
+            foreach (BindingAchievement achievement in Achievements.SourceCollection.Cast<BindingAchievement>())
             {
-                ref GoalAggregation aggregation = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievement.Inner.Goal);
-                aggregation.Count += 1;
+                ref GoalStatistics stat = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievement.Inner.Goal);
+                stat.Count += 1;
                 count += 1;
                 if (achievement.IsChecked)
                 {
-                    aggregation.Finished += 1;
+                    stat.Finished += 1;
                     finished += 1;
                 }
             }
 
-            foreach (GoalAggregation aggregation1 in counter.Values)
+            foreach (GoalStatistics statistics in counter.Values)
             {
-                aggregation1.AchievementGoal.UpdateFinishPercent(aggregation1.Finished, aggregation1.Count);
+                statistics.AchievementGoal.UpdateFinishPercent(statistics.Finished, statistics.Count);
             }
 
             FinishDescription = $"{finished}/{count} - {(double)finished / count:P2}";
@@ -578,13 +578,13 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
     }
 
-    private struct GoalAggregation
+    private struct GoalStatistics
     {
         public readonly BindingAchievementGoal AchievementGoal;
         public int Finished;
         public int Count;
 
-        public GoalAggregation(BindingAchievementGoal goal)
+        public GoalStatistics(BindingAchievementGoal goal)
         {
             AchievementGoal = goal;
         }

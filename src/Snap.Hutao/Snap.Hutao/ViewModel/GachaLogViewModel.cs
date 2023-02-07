@@ -12,6 +12,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using Windows.Storage.Pickers;
@@ -183,11 +184,11 @@ internal class GachaLogViewModel : Abstraction.ViewModel
 
     private async Task RefreshInternalAsync(RefreshOption option)
     {
-        IGachaLogUrlProvider? provider = gachaLogService.GetGachaLogUrlProvider(option);
+        IGachaLogQueryProvider? provider = gachaLogService.GetGachaLogQueryProvider(option);
 
         if (provider != null)
         {
-            (bool isOk, string query) = await provider.GetQueryAsync().ConfigureAwait(false);
+            (bool isOk, GachaLogQuery query) = await provider.GetQueryAsync().ConfigureAwait(false);
 
             if (isOk)
             {
@@ -265,31 +266,29 @@ internal class GachaLogViewModel : Abstraction.ViewModel
 
     private async Task ExportToUIGFJsonAsync()
     {
-        if (SelectedArchive == null)
+        if (SelectedArchive != null)
         {
-            return;
-        }
+            FileSavePicker picker = pickerFactory.GetFileSavePicker();
+            picker.SuggestedStartLocation = PickerLocationId.Desktop;
+            picker.SuggestedFileName = SelectedArchive.Uid;
+            picker.CommitButtonText = SH.FilePickerExportCommit;
+            picker.FileTypeChoices.Add(SH.ViewModelGachaLogExportFileType, ".json".Enumerate().ToList());
 
-        FileSavePicker picker = pickerFactory.GetFileSavePicker();
-        picker.SuggestedStartLocation = PickerLocationId.Desktop;
-        picker.SuggestedFileName = SelectedArchive.Uid;
-        picker.CommitButtonText = SH.FilePickerExportCommit;
-        picker.FileTypeChoices.Add(SH.ViewModelGachaLogExportFileType, ".json".Enumerate().ToList());
+            (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
 
-        (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
-
-        if (isPickerOk)
-        {
-            UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
-            bool isOk = await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false);
-
-            if (isOk)
+            if (isPickerOk)
             {
-                infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+                UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
+                bool isOk = await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false);
+
+                if (isOk)
+                {
+                    infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
+                }
+                else
+                {
+                    infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+                }
             }
         }
     }

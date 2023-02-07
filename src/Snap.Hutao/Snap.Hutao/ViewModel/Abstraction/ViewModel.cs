@@ -27,6 +27,19 @@ public abstract class ViewModel : ObservableObject, IViewModel
     public bool IsViewDisposed { get; set; }
 
     /// <summary>
+    /// 保证 using scope 内的代码运行完成
+    /// 防止 视图资源被回收
+    /// </summary>
+    /// <returns>解除执行限制</returns>
+    protected async Task<IDisposable> EnterCriticalExecutionAsync()
+    {
+        ThrowIfViewDisposed();
+        IDisposable disposable = await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false);
+        ThrowIfViewDisposed();
+        return disposable;
+    }
+
+    /// <summary>
     /// 当页面被释放后抛出异常
     /// </summary>
     /// <exception cref="OperationCanceledException">操作被用户取消</exception>

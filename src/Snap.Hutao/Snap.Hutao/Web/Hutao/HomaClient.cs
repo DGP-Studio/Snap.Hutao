@@ -189,30 +189,26 @@ internal class HomaClient
             .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-        if (!playerInfoResponse.IsOk())
+        if (playerInfoResponse.IsOk())
         {
-            return null;
+            Response<CharacterWrapper> charactersResponse = await gameRecordClient
+                .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+                .ConfigureAwait(false);
+
+            if (charactersResponse.IsOk())
+            {
+                Response<SpiralAbyss> spiralAbyssResponse = await gameRecordClient
+                .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
+                .ConfigureAwait(false);
+
+                if (spiralAbyssResponse.IsOk())
+                {
+                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data);
+                }
+            }
         }
 
-        Response<CharacterWrapper> charactersResponse = await gameRecordClient
-            .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
-            .ConfigureAwait(false);
-
-        if (!charactersResponse.IsOk())
-        {
-            return null;
-        }
-
-        Response<SpiralAbyss> spiralAbyssResponse = await gameRecordClient
-            .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
-            .ConfigureAwait(false);
-
-        if (!spiralAbyssResponse.IsOk())
-        {
-            return null;
-        }
-
-        return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data);
+        return null;
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Request.QueryString;
 
@@ -9,12 +10,17 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// <summary>
 /// 祈愿记录请求配置
 /// </summary>
-public struct GachaLogQueryOptions
+internal struct GachaLogQueryOptions
 {
     /// <summary>
     /// 尺寸
     /// </summary>
     public const int Size = 20;
+
+    /// <summary>
+    /// 是否为国际服
+    /// </summary>
+    public readonly bool IsOversea;
 
     /// <summary>
     /// Keys required:
@@ -36,9 +42,10 @@ public struct GachaLogQueryOptions
     /// <param name="query">原始查询字符串</param>
     /// <param name="type">祈愿类型</param>
     /// <param name="endId">终止Id</param>
-    public GachaLogQueryOptions(string query, GachaConfigType type, long endId = 0L)
+    public GachaLogQueryOptions(GachaLogQuery query, GachaConfigType type, long endId = 0L)
     {
-        innerQuery = QueryString.Parse(query);
+        IsOversea = query.IsOversea;
+        innerQuery = QueryString.Parse(query.Query);
 
         innerQuery.Set("lang", "zh-cn");
         innerQuery.Set("gacha_type", (int)type);
@@ -46,11 +53,6 @@ public struct GachaLogQueryOptions
 
         EndId = endId;
     }
-
-    /// <summary>
-    /// 是否为国际服
-    /// </summary>
-    public bool IsOversea { get; set; }
 
     /// <summary>
     /// 结束Id

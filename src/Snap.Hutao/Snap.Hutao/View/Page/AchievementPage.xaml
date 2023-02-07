@@ -166,13 +166,11 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Border
+                                        Margin="0,8,0,0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource BorderCardStyle}">
-                                        <Grid
-                                            MinHeight="48"
-                                            Margin="0,8,0,0"
-                                            Padding="8">
+                                        <Grid MinHeight="48" Padding="8">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition/>

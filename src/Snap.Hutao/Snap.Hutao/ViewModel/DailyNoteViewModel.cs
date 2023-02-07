@@ -175,7 +175,7 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
     {
         try
         {
-            UserAndUids = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
+            UserAndUids = await userService.GetRoleCollectionAsync().ConfigureAwait(true);
         }
         catch (Core.ExceptionService.UserdataCorruptedException ex)
         {
@@ -185,10 +185,8 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
 
         try
         {
-            ThrowIfViewDisposed();
-            using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
-                ThrowIfViewDisposed();
                 await ThreadHelper.SwitchToMainThreadAsync();
 
                 refreshSecondsEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteRefreshSeconds, "480");
@@ -203,10 +201,9 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
                 silentModeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString);
                 isSilentWhenPlayingGame = silentModeEntry.GetBoolean();
                 OnPropertyChanged(nameof(IsSilentWhenPlayingGame));
-
-                await ThreadHelper.SwitchToBackgroundAsync();
             }
 
+            await ThreadHelper.SwitchToBackgroundAsync();
             ObservableCollection<DailyNoteEntry> temp = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
             await ThreadHelper.SwitchToMainThreadAsync();
             DailyNoteEntries = temp;

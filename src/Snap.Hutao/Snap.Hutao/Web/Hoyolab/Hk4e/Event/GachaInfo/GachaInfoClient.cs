@@ -40,8 +40,7 @@ internal class GachaInfoClient
     {
         string query = config.AsQuery();
 
-        // TODO: fix oversea behavior
-        string url = query.Contains("hoyoverse.com")
+        string url = config.IsOversea
             ? ApiOsEndpoints.GachaInfoGetGachaLog(query)
             : ApiEndpoints.GachaInfoGetGachaLog(query);
 

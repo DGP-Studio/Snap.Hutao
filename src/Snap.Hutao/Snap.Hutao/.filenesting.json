@@ -9,7 +9,7 @@
       },
       "pathSegment": {
         "add": {
-          ".*": [ ".cs" ]
+          ".*": [ ".cs", ".resx" ]
         }
       },
       "fileSuffixToExtension": {

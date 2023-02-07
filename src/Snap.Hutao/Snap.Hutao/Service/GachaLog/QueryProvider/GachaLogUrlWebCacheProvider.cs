@@ -6,13 +6,13 @@ using Snap.Hutao.Service.Game;
 using System.IO;
 using System.Text;
 
-namespace Snap.Hutao.Service.GachaLog;
+namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 /// <summary>
 /// 浏览器缓存方法
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IGachaLogUrlProvider))]
-internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
+internal class GachaLogUrlWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IGameService gameService;
 
@@ -44,7 +44,7 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> GetQueryAsync()
+    public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         (bool isOk, string path) = await gameService.GetGamePathAsync().ConfigureAwait(false);
 
@@ -65,7 +65,15 @@ internal class GachaLogUrlWebCacheProvider : IGachaLogUrlProvider
                     {
                         await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
                         string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData));
-                        return new(!string.IsNullOrEmpty(result), result ?? SH.ServiceGachaLogUrlProviderCacheUrlNotFound);
+
+                        if (!string.IsNullOrEmpty(result))
+                        {
+                            return new(true, new(result, result.Contains("hoyoverse.com")));
+                        }
+                        else
+                        {
+                            return new(false, SH.ServiceGachaLogUrlProviderCacheUrlNotFound);
+                        }
                     }
                 }
             }

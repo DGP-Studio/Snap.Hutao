@@ -3,17 +3,17 @@
 
 using Snap.Hutao.Core.Abstraction;
 
-namespace Snap.Hutao.Service.GachaLog;
+namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 /// <summary>
 /// 祈愿记录Url提供器
 /// </summary>
-internal interface IGachaLogUrlProvider : INamed
+internal interface IGachaLogQueryProvider : INamed
 {
     /// <summary>
     /// 异步获取包含验证密钥的查询语句
     /// 查询语句可以仅包含?后的内容
     /// </summary>
     /// <returns>包含验证密钥的查询语句</returns>
-    Task<ValueResult<bool, string>> GetQueryAsync();
+    Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync();
 }

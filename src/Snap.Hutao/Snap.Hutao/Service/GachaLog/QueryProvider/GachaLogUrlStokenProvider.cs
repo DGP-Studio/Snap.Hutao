@@ -7,13 +7,13 @@ using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 
-namespace Snap.Hutao.Service.GachaLog;
+namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 /// <summary>
 /// 使用Stokn提供祈愿Url
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IGachaLogUrlProvider))]
-internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
+internal class GachaLogUrlStokenProvider : IGachaLogQueryProvider
 {
     private readonly IUserService userService;
     private readonly BindingClient2 bindingClient2;
@@ -33,7 +33,7 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
     public string Name { get => nameof(GachaLogUrlStokenProvider); }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> GetQueryAsync()
+    public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
@@ -42,7 +42,7 @@ internal class GachaLogUrlStokenProvider : IGachaLogUrlProvider
 
             if (authkeyResponse.IsOk())
             {
-                return new(true, GachaLogQueryOptions.AsQuery(data, authkeyResponse.Data));
+                return new(true, new(GachaLogQueryOptions.AsQuery(data, authkeyResponse.Data), false));
             }
             else
             {

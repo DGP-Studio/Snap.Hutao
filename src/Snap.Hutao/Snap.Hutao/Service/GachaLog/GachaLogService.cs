@@ -17,6 +17,7 @@ using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.GachaLog.Factory;
+using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Response;
@@ -43,7 +44,7 @@ internal class GachaLogService : IGachaLogService
     }.ToImmutableList();
 
     private readonly AppDbContext appDbContext;
-    private readonly IEnumerable<IGachaLogUrlProvider> urlProviders;
+    private readonly IEnumerable<IGachaLogQueryProvider> urlProviders;
     private readonly GachaInfoClient gachaInfoClient;
     private readonly IMetadataService metadataService;
     private readonly IGachaStatisticsFactory gachaStatisticsFactory;
@@ -72,7 +73,7 @@ internal class GachaLogService : IGachaLogService
     /// <param name="messenger">消息器</param>
     public GachaLogService(
         AppDbContext appDbContext,
-        IEnumerable<IGachaLogUrlProvider> urlProviders,
+        IEnumerable<IGachaLogQueryProvider> urlProviders,
         GachaInfoClient gachaInfoClient,
         IMetadataService metadataService,
         IGachaStatisticsFactory gachaStatisticsFactory,
@@ -172,7 +173,7 @@ internal class GachaLogService : IGachaLogService
     }
 
     /// <inheritdoc/>
-    public IGachaLogUrlProvider? GetGachaLogUrlProvider(RefreshOption option)
+    public IGachaLogQueryProvider? GetGachaLogQueryProvider(RefreshOption option)
     {
         return option switch
         {
@@ -207,7 +208,7 @@ internal class GachaLogService : IGachaLogService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token)
+    public async Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token)
     {
         bool isLazy = strategy switch
         {
@@ -241,7 +242,7 @@ internal class GachaLogService : IGachaLogService
         return Task.Delay(TimeSpan.FromSeconds(Random.Shared.NextDouble() + 1), token);
     }
 
-    private async Task<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(string query, bool isLazy, IProgress<FetchState> progress, CancellationToken token)
+    private async Task<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<FetchState> progress, CancellationToken token)
     {
         GachaArchive? archive = null;
         FetchState state = new();

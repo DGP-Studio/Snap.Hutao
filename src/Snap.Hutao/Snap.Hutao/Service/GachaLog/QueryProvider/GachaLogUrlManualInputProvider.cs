@@ -3,29 +3,29 @@
 
 using Snap.Hutao.View.Dialog;
 
-namespace Snap.Hutao.Service.GachaLog;
+namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 /// <summary>
 /// 手动输入方法
 /// </summary>
-[Injection(InjectAs.Transient, typeof(IGachaLogUrlProvider))]
-internal class GachaLogUrlManualInputProvider : IGachaLogUrlProvider
+[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
+internal class GachaLogUrlManualInputProvider : IGachaLogQueryProvider
 {
     /// <inheritdoc/>
     public string Name { get => nameof(GachaLogUrlManualInputProvider); }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> GetQueryAsync()
+    public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         // ContentDialog must be created by main thread.
         await ThreadHelper.SwitchToMainThreadAsync();
-        ValueResult<bool, string> result = await new GachaLogUrlDialog().GetInputUrlAsync().ConfigureAwait(false);
+        (bool isOk, string query) = await new GachaLogUrlDialog().GetInputUrlAsync().ConfigureAwait(false);
 
-        if (result.IsOk)
+        if (isOk)
         {
-            if (result.Value.Contains("&auth_appid=webview_gacha"))
+            if (query.Contains("&auth_appid=webview_gacha"))
             {
-                return result;
+                return new(true, new(query, query.Contains("hoyoverse.com")));
             }
             else
             {
@@ -34,7 +34,7 @@ internal class GachaLogUrlManualInputProvider : IGachaLogUrlProvider
         }
         else
         {
-            return new(false, null!);
+            return new(false, string.Empty);
         }
     }
 }

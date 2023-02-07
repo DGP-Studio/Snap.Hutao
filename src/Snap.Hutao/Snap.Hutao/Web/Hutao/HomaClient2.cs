@@ -32,16 +32,21 @@ internal class HomaClient2
     /// <returns>任务</returns>
     public async Task<string?> UploadLogAsync(Exception exception)
     {
-        HutaoLog log = new()
-        {
-            Id = Core.CoreEnvironment.HutaoDeviceId,
-            Time = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
-            Info = exception.ToString(),
-        };
+        HutaoLog log = BuildFromException(exception);
 
         Response<string>? a = await httpClient
             .TryCatchPostAsJsonAsync<HutaoLog, Response<string>>(HutaoEndpoints.HutaoLogUpload, log)
             .ConfigureAwait(false);
         return a?.Data;
+    }
+
+    private static HutaoLog BuildFromException(Exception exception)
+    {
+        return new()
+        {
+            Id = Core.CoreEnvironment.HutaoDeviceId,
+            Time = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
+            Info = exception.ToString(),
+        };
     }
 }

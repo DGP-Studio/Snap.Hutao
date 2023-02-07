@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
+using Snap.Hutao.Service.GachaLog.QueryProvider;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -36,7 +37,7 @@ internal interface IGachaLogService
     /// </summary>
     /// <param name="option">刷新模式</param>
     /// <returns>祈愿日志Url提供器</returns>
-    IGachaLogUrlProvider? GetGachaLogUrlProvider(RefreshOption option);
+    IGachaLogQueryProvider? GetGachaLogQueryProvider(RefreshOption option);
 
     /// <summary>
     /// 获得对应的祈愿统计
@@ -69,7 +70,7 @@ internal interface IGachaLogService
     /// <param name="progress">进度</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证密钥是否可用</returns>
-    Task<bool> RefreshGachaLogAsync(string query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token);
+    Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token);
 
     /// <summary>
     /// 删除存档
