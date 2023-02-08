@@ -78,6 +78,12 @@ internal static class LocalSetting
     }
 
     /// <inheritdoc cref="Get{T}(string, T)"/>
+    public static string Get(string key, string defaultValue)
+    {
+        return Get<string>(key, defaultValue);
+    }
+
+    /// <inheritdoc cref="Get{T}(string, T)"/>
     public static DateTimeOffset Get(string key, DateTimeOffset defaultValue)
     {
         return Get<DateTimeOffset>(key, defaultValue);
@@ -174,6 +180,12 @@ internal static class LocalSetting
     }
 
     /// <inheritdoc cref="Set{T}(string, T)"/>
+    public static void Set(string key, string value)
+    {
+        Set<string>(key, value);
+    }
+
+    /// <inheritdoc cref="Set{T}(string, T)"/>
     public static void Set(string key, DateTimeOffset value)
     {
         Set<DateTimeOffset>(key, value);
@@ -216,8 +228,7 @@ internal static class LocalSetting
     /// <param name="key">键</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns>获取的值</returns>
-    private static T Get<T>(string key, T defaultValue = default)
-        where T : struct
+    private static T Get<T>(string key, T defaultValue = default!)
     {
         if (Container.Values.TryGetValue(key, out object? value))
         {
@@ -238,7 +249,6 @@ internal static class LocalSetting
     /// <param name="key">键</param>
     /// <param name="value">值</param>
     private static void Set<T>(string key, T value)
-        where T : struct
     {
         Container.Values[key] = value;
     }

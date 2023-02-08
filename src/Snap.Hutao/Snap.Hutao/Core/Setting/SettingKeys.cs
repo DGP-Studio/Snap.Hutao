@@ -24,6 +24,11 @@ internal static class SettingKeys
     public const string LaunchTimes = "LaunchTimes";
 
     /// <summary>
+    /// 数据文件夹
+    /// </summary>
+    public const string DataFolderPath = "DataFolderPath";
+
+    /// <summary>
     /// 静态资源合约
     /// 新增合约时 请注意
     /// <see cref="StaticResource.FulfillAllContracts"/>

@@ -3,6 +3,7 @@
 
 using Microsoft.Win32;
 using Snap.Hutao.Core.Json;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using System.Collections.Immutable;
@@ -123,16 +124,25 @@ internal static class CoreEnvironment
 
     private static string GetDatafolderPath()
     {
-        string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string preferredPath = LocalSetting.Get(SettingKeys.DataFolderPath, string.Empty);
+
+        if (string.IsNullOrEmpty(preferredPath))
+        {
+            string myDocument = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 #if RELEASE
-        // 将测试版与正式版的文件目录分离
-        string folderName = Package.Current.PublisherDisplayName == "DGP Studio CI" ? "HutaoAlpha" : "Hutao";
+            // 将测试版与正式版的文件目录分离
+            string folderName = Package.Current.PublisherDisplayName == "DGP Studio CI" ? "HutaoAlpha" : "Hutao";
 #else
-        // 使得迁移能正常生成
-        string folderName = "Hutao";
+            // 使得迁移能正常生成
+            string folderName = "Hutao";
 #endif
-        string path = Path.GetFullPath(Path.Combine(myDocument, folderName));
-        Directory.CreateDirectory(path);
-        return path;
+            string path = Path.GetFullPath(Path.Combine(myDocument, folderName));
+            Directory.CreateDirectory(path);
+            return path;
+        }
+        else
+        {
+            return preferredPath;
+        }
     }
 }

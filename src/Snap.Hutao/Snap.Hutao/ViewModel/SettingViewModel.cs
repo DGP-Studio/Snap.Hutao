@@ -4,17 +4,22 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.View.Dialog;
 using System.IO;
+using System.Runtime.InteropServices;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -75,6 +80,7 @@ internal class SettingViewModel : Abstraction.ViewModel
         UpdateCheckCommand = new AsyncRelayCommand(CheckUpdateAsync);
         DeleteGameWebCacheCommand = new RelayCommand(DeleteGameWebCache);
         ShowSignInWebViewDialogCommand = new AsyncRelayCommand(ShowSignInWebViewDialogAsync);
+        SetDataFolderCommand = new AsyncRelayCommand(SetDataFolderAsync);
     }
 
     /// <summary>
@@ -178,6 +184,11 @@ internal class SettingViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand ShowSignInWebViewDialogCommand { get; }
 
+    /// <summary>
+    /// 设置数据目录命令
+    /// </summary>
+    public ICommand SetDataFolderCommand { get; }
+
     private async Task SetGamePathAsync()
     {
         IGameLocator locator = Ioc.Default.GetRequiredService<IEnumerable<IGameLocator>>()
@@ -241,5 +252,19 @@ internal class SettingViewModel : Abstraction.ViewModel
 #else
         await Windows.System.Launcher.LaunchUriAsync(new(@"ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
 #endif
+    }
+
+    private async Task SetDataFolderAsync()
+    {
+        IPickerFactory pickerFactory = Ioc.Default.GetRequiredService<IPickerFactory>();
+        FolderPicker picker = pickerFactory.GetFolderPicker();
+        (bool isOk, string folder) = await picker.TryPickSingleFolderAsync().ConfigureAwait(false);
+
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        if (isOk)
+        {
+            LocalSetting.Set(SettingKeys.DataFolderPath, folder);
+            infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
+        }
     }
 }

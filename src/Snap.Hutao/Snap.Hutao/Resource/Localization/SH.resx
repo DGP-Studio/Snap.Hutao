@@ -684,6 +684,9 @@
   <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
     <value>清除完成</value>
   </data>
+  <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
+    <value>设置数据目录成功，重启以应用更改</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>用户 [{0}] 添加成功</value>
   </data>
@@ -1206,6 +1209,12 @@
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>游戏</value>
   </data>
+  <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
+    <value>更改目录后需要手动移动目录内的数据，否则会重新创建用户数据</value>
+  </data>
+  <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
+    <value>更改数据目录</value>
+  </data>
   <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
     <value>设置路径</value>
   </data>
@@ -1220,6 +1229,9 @@
   </data>
   <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
     <value>打开</value>
+  </data>
+  <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
+    <value>更改</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>前往商店</value>

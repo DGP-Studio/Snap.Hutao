@@ -1762,6 +1762,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 设置数据目录成功，重启以应用更改 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingSetDataFolderSuccess {
+            get {
+                return ResourceManager.GetString("ViewModelSettingSetDataFolderSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用户 [{0}] 添加成功 的本地化字符串。
         /// </summary>
         internal static string ViewModelUserAdded {
@@ -3328,6 +3337,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 更改目录后需要手动移动目录内的数据，否则会重新创建用户数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetDataFolderDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetDataFolderDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更改数据目录 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetDataFolderHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetDataFolderHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置路径 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingSetGamePathAction {
@@ -3369,6 +3396,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingStorageOpenAction {
             get {
                 return ResourceManager.GetString("ViewPageSettingStorageOpenAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更改 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingStorageSetAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingStorageSetAction", resourceCulture);
             }
         }
         

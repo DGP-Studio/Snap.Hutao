@@ -63,6 +63,32 @@ internal static class PickerExtension
         }
     }
 
+    /// <inheritdoc cref="FolderPicker.PickSingleFolderAsync"/>
+    public static async Task<ValueResult<bool, string>> TryPickSingleFolderAsync(this FolderPicker picker)
+    {
+        StorageFolder? folder;
+        Exception? exception = null;
+        try
+        {
+            folder = await picker.PickSingleFolderAsync().AsTask().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            exception = ex;
+            folder = null;
+        }
+
+        if (folder != null)
+        {
+            return new(true, folder.Path);
+        }
+        else
+        {
+            InfoBarWaringPickerException(exception);
+            return new(false, null!);
+        }
+    }
+
     private static void InfoBarWaringPickerException(Exception? exception)
     {
         if (exception != null)

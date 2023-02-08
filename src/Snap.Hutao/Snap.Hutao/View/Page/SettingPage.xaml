@@ -139,8 +139,16 @@
                             <Button Command="{Binding Experimental.OpenDataFolderCommand}" Content="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"/>
                         </wsc:Setting.ActionContent>
                     </wsc:Setting>
-
                     <wsc:Setting
+                        Description="{shcm:ResourceString Name=ViewPageSettingSetDataFolderDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingSetDataFolderHeader}"
+                        Icon="&#xE8DE;">
+                        <wsc:Setting.ActionContent>
+                            <Button Command="{Binding SetDataFolderCommand}" Content="{shcm:ResourceString Name=ViewPageSettingStorageSetAction}"/>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+                    <wsc:Setting
+                        Margin="0,4,0,0"
                         Description="{shcm:ResourceString Name=ViewPageSettingCacheFolderDescription}"
                         Header="{shcm:ResourceString Name=ViewPageSettingCacheFolderHeader}"
                         Icon="&#xE8B7;">
