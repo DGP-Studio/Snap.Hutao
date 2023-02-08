@@ -135,12 +135,13 @@ steps:
     passwordVariable: 'pw'
   condition: succeeded()
 
-- task: PublishPipelineArtifact@1
-  displayName: 'Upload Output'
-  inputs:
-    targetPath: '$(Build.ArtifactStagingDirectory)/'
-    artifact: 'Output'
-    publishLocation: 'pipeline'
+
+#- task: PublishPipelineArtifact@1
+#  displayName: 'Upload Output'
+#  inputs:
+#    targetPath: '$(Build.ArtifactStagingDirectory)/'
+#    artifact: 'Output'
+#    publishLocation: 'pipeline'
 
 - task: DownloadSecureFile@1
   name: cerFile
