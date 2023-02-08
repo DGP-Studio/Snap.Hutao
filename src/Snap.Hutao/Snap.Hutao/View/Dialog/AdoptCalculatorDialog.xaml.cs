@@ -51,11 +51,14 @@ public sealed partial class AdoptCalculatorDialog : ContentDialog
 
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
         jsInterface = new(coreWebView2, scope.ServiceProvider);
+        jsInterface.ClosePageRequested += OnClosePageRequested;
 
-#if DEBUG
-        coreWebView2.OpenDevToolsWindow();
-#endif
         coreWebView2.Navigate($"http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&bbs_auth_required=true&&utm_source=bbs&utm_medium=mys&utm_campaign=GameRecord");
+    }
+
+    private void OnClosePageRequested()
+    {
+        ThreadHelper.InvokeOnMainThread(Hide);
     }
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)

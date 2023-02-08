@@ -102,7 +102,8 @@
                         <shvc:StatisticsCard
                             Grid.Column="2"
                             Margin="16,16,0,16"
-                            DataContext="{Binding Statistics.PermanentWish}"/>
+                            DataContext="{Binding Statistics.StandardWish}"
+                            ShowUpPull="False"/>
                     </Grid>
                 </PivotItem>
                 <PivotItem Header="{shcm:ResourceString Name=ViewPageGahcaLogPivotHistory}">

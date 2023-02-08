@@ -17,7 +17,7 @@ public class GachaConfigTypeComparar : IComparer<GachaConfigType>
         { GachaConfigType.AvatarEventWish, 0 },
         { GachaConfigType.AvatarEventWish2, 1 },
         { GachaConfigType.WeaponEventWish, 2 },
-        { GachaConfigType.PermanentWish, 3 },
+        { GachaConfigType.StandardWish, 3 },
         { GachaConfigType.NoviceWish, 4 },
     }.ToImmutableDictionary();
 

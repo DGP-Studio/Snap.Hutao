@@ -66,7 +66,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<WeaponId, Weapon> weaponMap,
         bool isEmptyHistoryWishVisible)
     {
-        TypedWishSummaryBuilder permanentWishBuilder = new(SH.ServiceGachaLogFactoryPermanentWishName, TypedWishSummaryBuilder.IsPermanentWish, 90, 10);
+        TypedWishSummaryBuilder standardWishBuilder = new(SH.ServiceGachaLogFactoryPermanentWishName, TypedWishSummaryBuilder.IsPermanentWish, 90, 10);
         TypedWishSummaryBuilder avatarWishBuilder = new(SH.ServiceGachaLogFactoryAvatarWishName, TypedWishSummaryBuilder.IsAvatarEventWish, 90, 10);
         TypedWishSummaryBuilder weaponWishBuilder = new(SH.ServiceGachaLogFactoryWeaponWishName, TypedWishSummaryBuilder.IsWeaponEventWish, 80, 10);
 
@@ -103,7 +103,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
                         break;
                 }
 
-                permanentWishBuilder.Track(item, avatar, isUp);
+                standardWishBuilder.Track(item, avatar, isUp);
                 avatarWishBuilder.Track(item, avatar, isUp);
                 weaponWishBuilder.Track(item, avatar, isUp);
             }
@@ -130,7 +130,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
                         break;
                 }
 
-                permanentWishBuilder.Track(item, weapon, isUp);
+                standardWishBuilder.Track(item, weapon, isUp);
                 avatarWishBuilder.Track(item, weapon, isUp);
                 weaponWishBuilder.Track(item, weapon, isUp);
             }
@@ -162,7 +162,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
             BlueWeapons = blueWeaponCounter.ToStatisticsList(),
 
             // typed wish summary
-            PermanentWish = permanentWishBuilder.ToTypedWishSummary(),
+            StandardWish = standardWishBuilder.ToTypedWishSummary(),
             AvatarWish = avatarWishBuilder.ToTypedWishSummary(),
             WeaponWish = weaponWishBuilder.ToTypedWishSummary(),
         };

@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Binding.User;
+using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -38,10 +39,12 @@ internal class CalculateClient
     /// <param name="delta">差异</param>
     /// <param name="token">取消令牌</param>
     /// <returns>消耗结果</returns>
+    [ApiInformation(Cookie = CookieType.Cookie)]
     public async Task<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
         Response<Consumption>? resp = await httpClient
-            .SetUser(user, CookieType.CookieToken)
+            .SetUser(user, CookieType.Cookie)
+            .SetReferer("https://webstatic.mihoyo.com/")
             .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(ApiEndpoints.CalculateCompute, delta, options, logger, token)
             .ConfigureAwait(false);
 

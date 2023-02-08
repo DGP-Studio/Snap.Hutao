@@ -288,11 +288,16 @@
                                 Text="{Binding AverageOrangePullFormatted}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
-                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpAveragePullText}"/>
+                            <TextBlock/>
+                            <TextBlock
+                                Style="{StaticResource BodyTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpAveragePullText}"
+                                Visibility="{x:Bind ShowUpPull, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <TextBlock
                                 HorizontalAlignment="Right"
                                 Style="{StaticResource BodyTextBlockStyle}"
-                                Text="{Binding AverageUpOrangePullFormatted}"/>
+                                Text="{Binding AverageUpOrangePullFormatted}"
+                                Visibility="{x:Bind ShowUpPull, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         </Grid>
                         <Grid Margin="0,2,0,0">
                             <TextBlock

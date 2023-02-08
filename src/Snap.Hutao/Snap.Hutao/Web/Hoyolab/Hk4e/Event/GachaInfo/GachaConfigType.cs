@@ -22,7 +22,7 @@ public enum GachaConfigType
     /// </summary>
     [Description("常驻祈愿")]
     [LocalizationKey("WebGachaConfigTypePermanentWish")]
-    PermanentWish = 200,
+    StandardWish = 200,
 
     /// <summary>
     /// 角色1池

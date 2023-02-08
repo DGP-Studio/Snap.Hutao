@@ -21,7 +21,7 @@ public class GachaStatistics
     /// <summary>
     /// 奔行世间
     /// </summary>
-    public TypedWishSummary PermanentWish { get; set; } = default!;
+    public TypedWishSummary StandardWish { get; set; } = default!;
 
     /// <summary>
     /// 历史卡池

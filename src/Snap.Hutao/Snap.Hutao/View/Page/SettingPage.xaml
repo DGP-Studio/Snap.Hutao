@@ -17,6 +17,7 @@
         </Style>
         <Style BasedOn="{StaticResource HyperlinkButtonStyle}" TargetType="HyperlinkButton">
             <Setter Property="MinWidth" Value="160"/>
+            <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
         </Style>
         <Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="ComboBox">
             <Setter Property="MinWidth" Value="160"/>

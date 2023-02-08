@@ -39,7 +39,7 @@ internal class GachaLogService : IGachaLogService
     private static readonly ImmutableList<GachaConfigType> QueryTypes = new List<GachaConfigType>
     {
         GachaConfigType.NoviceWish,
-        GachaConfigType.PermanentWish,
+        GachaConfigType.StandardWish,
         GachaConfigType.AvatarEventWish,
         GachaConfigType.WeaponEventWish,
     }.ToImmutableList();
@@ -193,7 +193,7 @@ internal class GachaLogService : IGachaLogService
 
         GachaArchive? archive = null;
         SkipOrInitArchive(ref archive, uid);
-        Guid archiveId = Must.NotNull(archive!).InnerId;
+        Guid archiveId = archive.InnerId;
 
         long trimId = appDbContext.GachaItems
             .Where(i => i.ArchiveId == archiveId)
