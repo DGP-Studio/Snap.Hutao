@@ -183,6 +183,33 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>导入</value>
   </data>
+  <data name="ModelBindingHutaoComplexAvatarRankFloor" xml:space="preserve">
+    <value>第 {0} 层</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
+    <value>渠道服</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
+    <value>官方服</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
+    <value>国际服</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+    <value>{0:f2} 抽</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryLastPullFormat" xml:space="preserve">
+    <value>已垫 {0} 抽</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+    <value>最非 {0} 抽</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+    <value>最欧 {0} 抽</value>
+  </data>
+  <data name="ModelBingGachaWishBaseTotalCountFormat" xml:space="preserve">
+    <value>{0} 抽</value>
+  </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须先选择一个用户与角色</value>
   </data>
@@ -269,6 +296,9 @@
   </data>
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>提供的 Url 无效</value>
+  </data>
+  <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
+    <value>不支持的 Item Id: {0}</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多个匹配账号，请删除重复的账号</value>
@@ -429,6 +459,12 @@
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>导入祈愿记录</value>
   </data>
+  <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
+    <value>祈愿记录Url已失效，请重新获取</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
+    <value>正在获取 {0}</value>
+  </data>
   <data name="ViewDialogGachaLogRefreshProgressTitle" xml:space="preserve">
     <value>获取祈愿物品中</value>
   </data>
@@ -472,7 +508,7 @@
     <value>转换可能需要花费一段时间，请勿关闭胡桃</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
-    <value>转换客户端</value>
+    <value>正在转换客户端</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>立即前往</value>
@@ -603,6 +639,9 @@
   <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
     <value>数据的 UIGF 版本过低，无法导入</value>
   </data>
+  <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
+    <value>导入数据中包含了不支持的物品</value>
+  </data>
   <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
     <value>导入失败</value>
   </data>
@@ -644,6 +683,9 @@
   </data>
   <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
     <value>清除完成</value>
+  </data>
+  <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
+    <value>设置数据目录成功，重启以应用更改</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>用户 [{0}] 添加成功</value>
@@ -768,6 +810,9 @@
   <data name="ViewPageCultivationAddProject" xml:space="preserve">
     <value>新建计划</value>
   </data>
+  <data name="ViewPageCultivationAddProjectAction" xml:space="preserve">
+    <value>新建</value>
+  </data>
   <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
     <value>新建养成计划以继续</value>
   </data>
@@ -832,7 +877,7 @@
     <value>提醒通知</value>
   </data>
   <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
-    <value>移除用户</value>
+    <value>移除角色</value>
   </data>
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
     <value>本周已消耗减半次数</value>
@@ -1164,6 +1209,12 @@
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>游戏</value>
   </data>
+  <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
+    <value>更改目录后需要手动移动目录内的数据，否则会重新创建用户数据</value>
+  </data>
+  <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
+    <value>更改数据目录</value>
+  </data>
   <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
     <value>设置路径</value>
   </data>
@@ -1178,6 +1229,9 @@
   </data>
   <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
     <value>打开</value>
+  </data>
+  <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
+    <value>更改</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>前往商店</value>
@@ -1289,6 +1343,21 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器资料</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
+    <value>角色活动祈愿</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
+    <value>角色活动祈愿-2</value>
+  </data>
+  <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
+    <value>新手祈愿</value>
+  </data>
+  <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
+    <value>常驻祈愿</value>
+  </data>
+  <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
+    <value>武器活动祈愿</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>状态：{0} | 信息：{1}</value>
