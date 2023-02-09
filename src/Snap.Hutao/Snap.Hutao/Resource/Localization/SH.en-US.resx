@@ -154,7 +154,7 @@
     <value>List</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>User data is corrupted: {0}</value>
+    <value>用户数据已损坏：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>Do not use this feature in administrator mode: {0}</value>
@@ -268,7 +268,7 @@
     <value>Parametric Transformer is ready</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>Unable to fetch wish history: {0}</value>
+    <value>无法获取祈愿记录：{0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
     <value>Unable to resolve wish history End Id</value>
@@ -298,7 +298,7 @@
     <value>Invalid URL provided</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
-    <value>Unsupported Item ID: {0}</value>
+    <value>不支持的 Item Id：{0}</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Multiple matching accounts detected, please delete duplicate accounts</value>
@@ -307,7 +307,7 @@
     <value>Querying Game Resource Information</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
-    <value>Game file operation failed: {0}</value>
+    <value>游戏文件操作失败：{0}</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>Select game executable</value>
@@ -326,6 +326,9 @@
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>Unable to find game path. Edit it in the Setting page.</value>
+  </data>
+  <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
+    <value>未开启长路径功能，无法设置注册表键值</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>Game configuration file {0} not found</value>
@@ -460,7 +463,7 @@
     <value>Import wish history</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>Wish history URL is expired. Please get it again.</value>
+    <value>祈愿记录 Url 已失效，请重新获取</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>Fetching {0}</value>
@@ -610,10 +613,10 @@
     <value>Clear scheduled task successful</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
-    <value>Clear scheduled task failed</value>
+    <value>清除计划任务失败，请使用管理员模式重试</value>
   </data>
   <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
-    <value>Delete users successfully. Please restart Snap Hutao immediately.</value>
+    <value>清除用户数据成功，请立即重启胡桃</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>Successfully saved to selected patch</value>
@@ -657,8 +660,14 @@
   <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
     <value>Are you sure to delete archive {0}?</value>
   </data>
+  <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
+    <value>剪贴板中的文本格式不正确</value>
+  </data>
   <data name="ViewModelImportWarningMessage" xml:space="preserve">
     <value>Incorrect data structure</value>
+  </data>
+  <data name="ViewModelImportWarningMessage2" xml:space="preserve">
+    <value>请先创建一个成就存档</value>
   </data>
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>Import failed</value>
@@ -1084,7 +1093,7 @@
     <value>Bind current user and role</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
-    <value>You need re-detect after manually switching game account or change of Internet environment</value>
+    <value>在游戏内切换账号，网络环境发生变化后需要重新手动检测</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>Detect</value>
