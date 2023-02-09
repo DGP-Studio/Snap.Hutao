@@ -17,8 +17,8 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="message">消息</param>
     /// <param name="inner">内部错误</param>
-    /// <exception cref="OperationCanceledException">操作取消异常</exception>
     /// <returns>nothing</returns>
+    /// <exception cref="OperationCanceledException">操作取消异常</exception>
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static OperationCanceledException OperationCanceled(string message, Exception? inner)
@@ -45,12 +45,26 @@ internal static class ThrowHelper
     /// </summary>
     /// <param name="message">消息</param>
     /// <param name="inner">内部错误</param>
-    /// <exception cref="UserdataCorruptedException">数据损坏</exception>
     /// <returns>nothing</returns>
+    /// <exception cref="UserdataCorruptedException">数据损坏</exception>
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
     public static UserdataCorruptedException UserdataCorrupted(string message, Exception inner)
     {
         throw new UserdataCorruptedException(message, inner);
+    }
+
+    /// <summary>
+    /// 运行环境异常
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="inner">内部错误</param>
+    /// <returns>nothing</returns>
+    /// <exception cref="RuntimeEnvironmentException">环境异常</exception>
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static RuntimeEnvironmentException RuntimeEnvironment(string message, Exception inner)
+    {
+        throw new RuntimeEnvironmentException(message, inner);
     }
 }

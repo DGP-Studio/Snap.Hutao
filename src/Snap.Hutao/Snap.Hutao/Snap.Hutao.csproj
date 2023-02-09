@@ -34,7 +34,7 @@
     <DebugType>embedded</DebugType>
     <ApplicationIcon>Assets\Logo.ico</ApplicationIcon>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
   </PropertyGroup>
   
   <ItemGroup>

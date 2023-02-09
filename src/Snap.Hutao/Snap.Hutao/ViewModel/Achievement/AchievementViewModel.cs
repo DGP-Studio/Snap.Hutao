@@ -19,7 +19,6 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
-using System.Runtime.InteropServices;
 using Windows.Storage.Pickers;
 using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
 using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoal;
@@ -27,7 +26,7 @@ using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.Achievement;
 
 /// <summary>
 /// 成就视图模型
@@ -45,6 +44,9 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly JsonSerializerOptions options;
 
+    private readonly AchievementFinishPercentUpdater achievementFinishPercentUpdater;
+    private readonly AchievementImporter achievementImporter;
+
     private readonly TaskCompletionSource<bool> openUICompletionSource = new();
 
     private AdvancedCollectionView? achievements;
@@ -59,6 +61,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     /// <summary>
     /// 构造一个新的成就视图模型
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="achievementService">成就服务</param>
     /// <param name="infoBarService">信息条服务</param>
@@ -66,6 +69,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
     /// <param name="contentDialogFactory">内容对话框工厂</param>
     /// <param name="messenger">消息器</param>
     public AchievementViewModel(
+        IServiceProvider serviceProvider,
         IMetadataService metadataService,
         IAchievementService achievementService,
         IInfoBarService infoBarService,
@@ -79,13 +83,16 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         this.contentDialogFactory = contentDialogFactory;
         this.options = options;
 
+        achievementFinishPercentUpdater = new(this);
+        achievementImporter = new(serviceProvider);
+
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         ImportUIAFFromClipboardCommand = new AsyncRelayCommand(ImportUIAFFromClipboardAsync);
         ImportUIAFFromFileCommand = new AsyncRelayCommand(ImportUIAFFromFileAsync);
         ExportAsUIAFToFileCommand = new AsyncRelayCommand(ExportAsUIAFToFileAsync);
         AddArchiveCommand = new AsyncRelayCommand(AddArchiveAsync);
         RemoveArchiveCommand = new AsyncRelayCommand(RemoveArchiveAsync);
-        SearchAchievementCommand = new RelayCommand<string>(SearchAchievement);
+        SearchAchievementCommand = new RelayCommand<string>(UpdateAchievementsFilterBySerach);
         SortIncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
         SaveAchievementCommand = new RelayCommand<BindingAchievement>(SaveAchievement);
     }
@@ -146,7 +153,7 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         {
             SetProperty(ref selectedAchievementGoal, value);
             SearchText = string.Empty;
-            UpdateAchievementsFilter(value);
+            UpdateAchievementsFilterByGoal(value);
         }
     }
 
@@ -277,7 +284,6 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         openUICompletionSource.TrySetResult(metaInitialized);
     }
 
-    #region 存档操作
     private async Task AddArchiveAsync()
     {
         if (Archives != null)
@@ -324,10 +330,8 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
             {
                 try
                 {
-                    ThrowIfViewDisposed();
-                    using (await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(false))
+                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                     {
-                        ThrowIfViewDisposed();
                         await achievementService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
                     }
 
@@ -341,134 +345,115 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
             }
         }
     }
-    #endregion
 
-    #region 导入导出
     private async Task ExportAsUIAFToFileAsync()
     {
-        if (SelectedArchive == null || Achievements == null)
+        if (SelectedArchive != null && Achievements != null)
         {
-            return;
-        }
+            FileSavePicker picker = Ioc.Default.GetRequiredService<IPickerFactory>().GetFileSavePicker();
+            picker.FileTypeChoices.Add(SH.ViewModelAchievementExportFileType, ".json".Enumerate().ToList());
+            picker.SuggestedStartLocation = PickerLocationId.Desktop;
+            picker.CommitButtonText = SH.FilePickerExportCommit;
+            picker.SuggestedFileName = $"{achievementService.CurrentArchive?.Name}.json";
 
-        FileSavePicker picker = Ioc.Default.GetRequiredService<IPickerFactory>().GetFileSavePicker();
-        picker.FileTypeChoices.Add(SH.ViewModelAchievementExportFileType, ".json".Enumerate().ToList());
-        picker.SuggestedStartLocation = PickerLocationId.Desktop;
-        picker.CommitButtonText = SH.FilePickerExportCommit;
-        picker.SuggestedFileName = $"{achievementService.CurrentArchive?.Name}.json";
-
-        (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
-        if (isPickerOk)
-        {
-            UIAF uiaf = await achievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);
-            bool isOk = await file.SerializeToJsonAsync(uiaf, options).ConfigureAwait(false);
-
-            if (isOk)
+            (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
+            if (isPickerOk)
             {
-                infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+                UIAF uiaf = await achievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);
+                bool isOk = await file.SerializeToJsonAsync(uiaf, options).ConfigureAwait(false);
+
+                if (isOk)
+                {
+                    infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
+                }
+                else
+                {
+                    infoBarService.Warning(SH.ViewModelExportWarningTitle, SH.ViewModelExportWarningMessage);
+                }
             }
         }
     }
 
     private async Task ImportUIAFFromClipboardAsync()
     {
-        if (achievementService.CurrentArchive == null)
+        if (await achievementImporter.FromClipboardAsync().ConfigureAwait(false))
         {
-            // Basically can't happen now
-            // infoBarService.Information("必须选择一个存档才能导入成就");
-            return;
-        }
-
-        if (await GetUIAFFromClipboardAsync().ConfigureAwait(false) is UIAF uiaf)
-        {
-            await TryImportUIAFInternalAsync(achievementService.CurrentArchive!, uiaf).ConfigureAwait(false);
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
+            await UpdateAchievementsAsync(achievementService.CurrentArchive!).ConfigureAwait(false);
         }
     }
 
     private async Task ImportUIAFFromFileAsync()
     {
-        if (achievementService.CurrentArchive == null)
+        if (await achievementImporter.FromFileAsync().ConfigureAwait(false))
         {
-            // Basically can't happen now
-            // infoBarService.Information("必须选择一个存档才能导入成就");
-            return;
-        }
-
-        FileOpenPicker picker = Ioc.Default.GetRequiredService<IPickerFactory>()
-            .GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json");
-        (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
-
-        if (isPickerOk)
-        {
-            (bool isOk, UIAF? uiaf) = await file.DeserializeFromJsonAsync<UIAF>(options).ConfigureAwait(false);
-
-            if (isOk)
-            {
-                await TryImportUIAFInternalAsync(achievementService.CurrentArchive, uiaf!).ConfigureAwait(false);
-            }
-            else
-            {
-                infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage);
-            }
+            await UpdateAchievementsAsync(achievementService.CurrentArchive!).ConfigureAwait(false);
         }
     }
 
-    private async Task<UIAF?> GetUIAFFromClipboardAsync()
+    private async Task UpdateAchievementsAsync(EntityAchievementArchive archive)
+    {
+        List<MetadataAchievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
+
+        if (TryGetAchievements(archive, rawAchievements, out List<BindingAchievement>? combined))
+        {
+            // Assemble achievements on the UI thread.
+            await ThreadHelper.SwitchToMainThreadAsync();
+            Achievements = new(combined, true);
+
+            UpdateAchievementsFinishPercent();
+            UpdateAchievementsFilterByGoal(SelectedAchievementGoal);
+            UpdateAchievementsSort();
+        }
+    }
+
+    private bool TryGetAchievements(EntityAchievementArchive archive, List<MetadataAchievement> achievements, out List<BindingAchievement>? combined)
     {
         try
         {
-            return await Clipboard.DeserializeTextAsync<UIAF>(options).ConfigureAwait(false);
+            combined = achievementService.GetAchievements(archive, achievements);
+            return true;
         }
-        catch (Exception ex)
+        catch (Core.ExceptionService.UserdataCorruptedException ex)
         {
-            infoBarService?.Error(ex);
-            return null;
+            combined = default;
+            infoBarService.Error(ex);
+            return false;
         }
     }
 
-    private async Task<bool> TryImportUIAFInternalAsync(EntityAchievementArchive archive, UIAF uiaf)
+    private void UpdateAchievementsSort()
     {
-        if (uiaf.IsCurrentVersionSupported())
+        if (Achievements != null)
         {
-            // ContentDialog must be created by main thread.
-            await ThreadHelper.SwitchToMainThreadAsync();
-            (bool isOk, ImportStrategy strategy) = await new AchievementImportDialog(uiaf).GetImportStrategyAsync().ConfigureAwait(true);
-
-            if (isOk)
+            if (IsIncompletedItemsFirst)
             {
-                ImportResult result;
-                ContentDialog dialog = await contentDialogFactory
-                    .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
-                    .ConfigureAwait(false);
-
-                await using (await dialog.BlockAsync().ConfigureAwait(false))
-                {
-                    result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
-                }
-
-                infoBarService.Success(result.ToString());
-                await UpdateAchievementsAsync(archive).ConfigureAwait(false);
-                return true;
+                Achievements.SortDescriptions.Add(IncompletedItemsFirstSortDescription);
+                Achievements.SortDescriptions.Add(CompletionTimeSortDescription);
+            }
+            else
+            {
+                Achievements.SortDescriptions.Clear();
             }
         }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelImportWarningTitle, SH.ViewModelAchievementImportWarningMessage);
-        }
-
-        return false;
     }
-    #endregion
 
-    private void SearchAchievement(string? search)
+    private void UpdateAchievementsFilterByGoal(BindingAchievementGoal? goal)
+    {
+        if (Achievements != null)
+        {
+            if (goal == null)
+            {
+                Achievements.Filter = null;
+            }
+            else
+            {
+                int goalId = goal.Id;
+                Achievements.Filter = (object o) => o is BindingAchievement achi && achi.Inner.Goal == goalId;
+            }
+        }
+    }
+
+    private void UpdateAchievementsFilterBySerach(string? search)
     {
         if (Achievements != null)
         {
@@ -492,81 +477,10 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         }
     }
 
-    private async Task UpdateAchievementsAsync(EntityAchievementArchive archive)
-    {
-        List<MetadataAchievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
-        List<BindingAchievement> combined;
-        try
-        {
-            combined = achievementService.GetAchievements(archive, rawAchievements);
-        }
-        catch (Core.ExceptionService.UserdataCorruptedException ex)
-        {
-            infoBarService.Error(ex);
-            return;
-        }
-
-        // Assemble achievements on the UI thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-        Achievements = new(combined, true);
-
-        UpdateAchievementsFinishPercent();
-        UpdateAchievementsFilter(SelectedAchievementGoal);
-        UpdateAchievementsSort();
-    }
-
-    private void UpdateAchievementsSort()
-    {
-        if (Achievements != null)
-        {
-            if (IsIncompletedItemsFirst)
-            {
-                Achievements.SortDescriptions.Add(IncompletedItemsFirstSortDescription);
-                Achievements.SortDescriptions.Add(CompletionTimeSortDescription);
-            }
-            else
-            {
-                Achievements.SortDescriptions.Clear();
-            }
-        }
-    }
-
-    private void UpdateAchievementsFilter(BindingAchievementGoal? goal)
-    {
-        if (Achievements != null)
-        {
-            Achievements.Filter = goal != null
-                ? ((object o) => o is BindingAchievement achi && achi.Inner.Goal == goal.Id)
-                : null;
-        }
-    }
-
+    // 仅 读取成就列表 与 保存成就状态 时需要刷新成就进度
     private void UpdateAchievementsFinishPercent()
     {
-        int finished = 0;
-        int count = 0;
-        if (Achievements != null && AchievementGoals != null)
-        {
-            Dictionary<int, GoalStatistics> counter = AchievementGoals.ToDictionary(x => x.Id, x => new GoalStatistics(x));
-            foreach (BindingAchievement achievement in Achievements.SourceCollection.Cast<BindingAchievement>())
-            {
-                ref GoalStatistics stat = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievement.Inner.Goal);
-                stat.Count += 1;
-                count += 1;
-                if (achievement.IsChecked)
-                {
-                    stat.Finished += 1;
-                    finished += 1;
-                }
-            }
-
-            foreach (GoalStatistics statistics in counter.Values)
-            {
-                statistics.AchievementGoal.UpdateFinishPercent(statistics.Finished, statistics.Count);
-            }
-
-            FinishDescription = $"{finished}/{count} - {(double)finished / count:P2}";
-        }
+        achievementFinishPercentUpdater.Update();
     }
 
     private void SaveAchievement(BindingAchievement? achievement)
@@ -575,18 +489,6 @@ internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipien
         {
             achievementService.SaveAchievement(achievement);
             UpdateAchievementsFinishPercent();
-        }
-    }
-
-    private struct GoalStatistics
-    {
-        public readonly BindingAchievementGoal AchievementGoal;
-        public int Finished;
-        public int Count;
-
-        public GoalStatistics(BindingAchievementGoal goal)
-        {
-            AchievementGoal = goal;
         }
     }
 }

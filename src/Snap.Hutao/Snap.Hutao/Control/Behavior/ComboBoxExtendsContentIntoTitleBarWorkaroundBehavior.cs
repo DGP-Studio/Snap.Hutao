@@ -30,6 +30,15 @@ internal class ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior : BehaviorBa
         AssociatedObject.DropDownClosed += OnDropDownClosed;
     }
 
+    /// <inheritdoc/>
+    protected override void OnDetaching()
+    {
+        AssociatedObject.DropDownOpened -= OnDropDownOpened;
+        AssociatedObject.DropDownClosed -= OnDropDownClosed;
+
+        base.OnDetaching();
+    }
+
     private void OnDropDownOpened(object? sender, object e)
     {
         messenger.Send(new Message.FlyoutOpenCloseMessage(true));

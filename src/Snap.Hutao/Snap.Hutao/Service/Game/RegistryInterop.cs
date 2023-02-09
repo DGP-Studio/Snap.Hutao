@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace Snap.Hutao.Service.Game;
@@ -34,14 +36,25 @@ internal static class RegistryInterop
                 Set-ItemProperty -Path '{path}' -Name '{SdkKey}' -Value $value -Force;
                 """;
 
+            string psExecutablePath = @"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe";
+
             ProcessStartInfo startInfo = new()
             {
                 Arguments = command,
+                WorkingDirectory = Path.GetDirectoryName(psExecutablePath),
                 CreateNoWindow = true,
-                FileName = "PowerShell",
+                FileName = psExecutablePath,
             };
 
-            Process.Start(startInfo)?.WaitForExit();
+            try
+            {
+                Process.Start(startInfo)?.WaitForExit();
+            }
+            catch (Win32Exception ex)
+            {
+                ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropLongPathsDisabled, ex);
+            }
+
             if (Get() == account.MihoyoSDK)
             {
                 return true;

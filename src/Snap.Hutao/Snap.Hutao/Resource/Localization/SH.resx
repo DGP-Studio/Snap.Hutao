@@ -154,7 +154,7 @@
     <value>列表</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>用户数据已损坏: {0}</value>
+    <value>用户数据已损坏：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>请勿在管理员模式下使用此功能 {0}</value>
@@ -268,7 +268,7 @@
     <value>参量质变仪已准备完成</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>无法获取祈愿记录: {0}</value>
+    <value>无法获取祈愿记录：{0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
     <value>无法获取祈愿记录 End Id</value>
@@ -298,7 +298,7 @@
     <value>提供的 Url 无效</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
-    <value>不支持的 Item Id: {0}</value>
+    <value>不支持的 Item Id：{0}</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多个匹配账号，请删除重复的账号</value>
@@ -307,7 +307,7 @@
     <value>查询游戏资源信息</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
-    <value>游戏文件操作失败: {0}</value>
+    <value>游戏文件操作失败：{0}</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>选择游戏本体</value>
@@ -326,6 +326,9 @@
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>无法找到游戏路径，请前往设置修改</value>
+  </data>
+  <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
+    <value>未开启长路径功能，无法设置注册表键值</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>找不到游戏配置文件 {0}</value>
@@ -460,7 +463,7 @@
     <value>导入祈愿记录</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈愿记录Url已失效，请重新获取</value>
+    <value>祈愿记录 Url 已失效，请重新获取</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>正在获取 {0}</value>
@@ -610,10 +613,10 @@
     <value>清除计划任务成功</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
-    <value>清除计划任务失败</value>
+    <value>清除计划任务失败，请使用管理员模式重试</value>
   </data>
   <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
-    <value>清除用户数据成功,请立即重启胡桃</value>
+    <value>清除用户数据成功，请立即重启胡桃</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>成功保存到指定位置</value>
@@ -657,8 +660,14 @@
   <data name="ViewModelGachaLogRemoveArchiveTitle" xml:space="preserve">
     <value>确定要删除存档 {0} 吗？</value>
   </data>
+  <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
+    <value>剪贴板中的文本格式不正确</value>
+  </data>
   <data name="ViewModelImportWarningMessage" xml:space="preserve">
     <value>数据格式不正确</value>
+  </data>
+  <data name="ViewModelImportWarningMessage2" xml:space="preserve">
+    <value>请先创建一个成就存档</value>
   </data>
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>导入失败</value>
@@ -1084,7 +1093,7 @@
     <value>绑定当前用户的角色</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
-    <value>在游戏内切换账号,网络环境发生变化后需要重新手动检测</value>
+    <value>在游戏内切换账号，网络环境发生变化后需要重新手动检测</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>检测</value>

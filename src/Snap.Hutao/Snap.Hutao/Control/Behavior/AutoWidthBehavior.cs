@@ -43,6 +43,7 @@ internal class AutoWidthBehavior : BehaviorBase<FrameworkElement>
     protected override void OnDetaching()
     {
         AssociatedObject.SizeChanged -= OnSizeChanged;
+        base.OnDetaching();
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)

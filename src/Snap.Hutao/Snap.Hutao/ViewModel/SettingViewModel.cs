@@ -17,8 +17,6 @@ using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.View.Dialog;
 using System.IO;
-using System.Runtime.InteropServices;
-using Windows.Storage;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel;

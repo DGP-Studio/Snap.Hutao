@@ -32,8 +32,9 @@ internal interface ICultivationService
     /// </summary>
     /// <param name="cultivateProject">养成计划</param>
     /// <param name="metadata">元数据</param>
+    /// <param name="saveCommand">保存命令</param>
     /// <returns>物品列表</returns>
-    List<Model.Binding.Inventory.InventoryItem> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata);
+    List<Model.Binding.Inventory.InventoryItem> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand);
 
     /// <summary>
     /// 获取用于绑定的项目集合

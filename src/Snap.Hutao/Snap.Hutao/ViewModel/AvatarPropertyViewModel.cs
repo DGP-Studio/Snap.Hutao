@@ -233,7 +233,7 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
                             .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
                             .ConfigureAwait(false);
 
-                        // take a short path if avatar is not saved.
+                        // take a hot path if avatar is not saved.
                         bool avatarAndWeaponSaved = avatarSaved && await cultivationService
                             .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
                             .ConfigureAwait(false);
@@ -258,47 +258,44 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
     private async Task ExportAsImageAsync(UIElement? element)
     {
-        if (element == null)
+        if (element != null)
         {
-            return;
-        }
+            RenderTargetBitmap bitmap = new();
+            await bitmap.RenderAsync(element);
 
-        RenderTargetBitmap bitmap = new();
-        await bitmap.RenderAsync(element);
-
-        IBuffer buffer = await bitmap.GetPixelsAsync();
-        bool clipboardOpened = false;
-        using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
-        {
-            Color tintColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
-            Bgra8 tint = Bgra8.FromColor(tintColor);
-            softwareBitmap.NormalBlend(tint);
-
-            using (InMemoryRandomAccessStream memory = new())
+            IBuffer buffer = await bitmap.GetPixelsAsync();
+            bool clipboardOpened = false;
+            using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
             {
-                BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
-                encoder.SetSoftwareBitmap(softwareBitmap);
-                await encoder.FlushAsync();
+                Color tintColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
+                Bgra8 tint = Bgra8.FromColor(tintColor);
+                softwareBitmap.NormalBlend(tint);
+                using (InMemoryRandomAccessStream memory = new())
+                {
+                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memory);
+                    encoder.SetSoftwareBitmap(softwareBitmap);
+                    await encoder.FlushAsync();
 
-                try
-                {
-                    Clipboard.SetBitmapStream(memory);
-                    clipboardOpened = true;
-                }
-                catch (COMException)
-                {
-                    // CLIPBRD_E_CANT_OPEN
+                    try
+                    {
+                        Clipboard.SetBitmapStream(memory);
+                        clipboardOpened = true;
+                    }
+                    catch (COMException)
+                    {
+                        // CLIPBRD_E_CANT_OPEN
+                    }
                 }
             }
-        }
 
-        if (clipboardOpened)
-        {
-            infoBarService.Success(SH.ViewModelAvatarPropertyExportImageSuccess);
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelAvatarPropertyOpenClipboardFail);
+            if (clipboardOpened)
+            {
+                infoBarService.Success(SH.ViewModelAvatarPropertyExportImageSuccess);
+            }
+            else
+            {
+                infoBarService.Warning(SH.ViewModelAvatarPropertyOpenClipboardFail);
+            }
         }
     }
 }

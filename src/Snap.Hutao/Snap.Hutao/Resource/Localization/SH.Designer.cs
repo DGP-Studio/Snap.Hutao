@@ -169,7 +169,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 用户数据已损坏: {0} 的本地化字符串。
+        ///   查找类似 用户数据已损坏：{0} 的本地化字符串。
         /// </summary>
         internal static string CoreExceptionServiceUserdataCorruptedMessage {
             get {
@@ -511,7 +511,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 无法获取祈愿记录: {0} 的本地化字符串。
+        ///   查找类似 无法获取祈愿记录：{0} 的本地化字符串。
         /// </summary>
         internal static string ServiceGachaLogArchiveCollectionUserdataCorruptedMessage {
             get {
@@ -601,7 +601,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 不支持的 Item Id: {0} 的本地化字符串。
+        ///   查找类似 不支持的 Item Id：{0} 的本地化字符串。
         /// </summary>
         internal static string ServiceGachaStatisticsFactoryItemIdInvalid {
             get {
@@ -628,7 +628,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 游戏文件操作失败: {0} 的本地化字符串。
+        ///   查找类似 游戏文件操作失败：{0} 的本地化字符串。
         /// </summary>
         internal static string ServiceGameFileOperationExceptionMessage {
             get {
@@ -687,6 +687,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ServiceGamePathLocateFailed {
             get {
                 return ResourceManager.GetString("ServiceGamePathLocateFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未开启长路径功能，无法设置注册表键值 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameRegisteryInteropLongPathsDisabled {
+            get {
+                return ResourceManager.GetString("ServiceGameRegisteryInteropLongPathsDisabled", resourceCulture);
             }
         }
         
@@ -1087,7 +1096,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 祈愿记录Url已失效，请重新获取 的本地化字符串。
+        ///   查找类似 祈愿记录 Url 已失效，请重新获取 的本地化字符串。
         /// </summary>
         internal static string ViewDialogGachaLogRefreshProgressAuthkeyTimeout {
             get {
@@ -1537,7 +1546,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 清除计划任务失败 的本地化字符串。
+        ///   查找类似 清除计划任务失败，请使用管理员模式重试 的本地化字符串。
         /// </summary>
         internal static string ViewModelExperimentalDeleteTaskWarning {
             get {
@@ -1546,7 +1555,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 清除用户数据成功,请立即重启胡桃 的本地化字符串。
+        ///   查找类似 清除用户数据成功，请立即重启胡桃 的本地化字符串。
         /// </summary>
         internal static string ViewModelExperimentalDeleteUserSuccess {
             get {
@@ -1681,11 +1690,29 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 剪贴板中的文本格式不正确 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelImportFromClipboardErrorTitle {
+            get {
+                return ResourceManager.GetString("ViewModelImportFromClipboardErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 数据格式不正确 的本地化字符串。
         /// </summary>
         internal static string ViewModelImportWarningMessage {
             get {
                 return ResourceManager.GetString("ViewModelImportWarningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请先创建一个成就存档 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelImportWarningMessage2 {
+            get {
+                return ResourceManager.GetString("ViewModelImportWarningMessage2", resourceCulture);
             }
         }
         
@@ -2959,7 +2986,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在游戏内切换账号,网络环境发生变化后需要重新手动检测 的本地化字符串。
+        ///   查找类似 在游戏内切换账号，网络环境发生变化后需要重新手动检测 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameSwitchAccountDescription {
             get {

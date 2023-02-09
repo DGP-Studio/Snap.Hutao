@@ -14,7 +14,7 @@ body:
     id: back
     attributes:
       label: 背景与动机
-      description: 添加此功能的理由
+      description: 添加此功能的理由，如果你想要实现多个功能，请分别发起多个单独的 Issue
     validations:
       required: true
 

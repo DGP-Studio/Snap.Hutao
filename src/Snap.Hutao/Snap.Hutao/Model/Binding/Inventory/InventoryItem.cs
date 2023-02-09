@@ -18,11 +18,13 @@ internal class InventoryItem : ObservableObject
     /// </summary>
     /// <param name="inner">元数据</param>
     /// <param name="entity">实体</param>
-    public InventoryItem(Material inner, Entity.InventoryItem entity)
+    /// <param name="saveCommand">保存命令</param>
+    public InventoryItem(Material inner, Entity.InventoryItem entity, ICommand saveCommand)
     {
         Entity = entity;
         Inner = inner;
         count = entity.Count;
+        SaveCountCommand = saveCommand;
     }
 
     /// <summary>
@@ -36,6 +38,11 @@ internal class InventoryItem : ObservableObject
     public Material Inner { get; set; }
 
     /// <summary>
+    /// 保存个数命令
+    /// </summary>
+    public ICommand? SaveCountCommand { get; set; }
+
+    /// <summary>
     /// 个数
     /// </summary>
     public uint Count
@@ -45,7 +52,7 @@ internal class InventoryItem : ObservableObject
             if (SetProperty(ref count, value))
             {
                 Entity.Count = value;
-                Ioc.Default.GetRequiredService<Service.Cultivation.ICultivationService>().SaveInventoryItem(this);
+                SaveCountCommand?.Execute(this);
             }
         }
     }

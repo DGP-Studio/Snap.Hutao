@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Factory.Abstraction;
+using Windows.Foundation.Metadata;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
@@ -37,8 +38,12 @@ internal class PickerFactory : IPickerFactory
             picker.FileTypeFilter.Add(type);
         }
 
-        // https://github.com/microsoft/WindowsAppSDK/issues/2931
-        picker.FileTypeFilter.Add(AnyType);
+        // below Windows 11
+        if (!ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 13))
+        {
+            // https://github.com/microsoft/WindowsAppSDK/issues/2931
+            picker.FileTypeFilter.Add(AnyType);
+        }
 
         return picker;
     }
@@ -52,7 +57,16 @@ internal class PickerFactory : IPickerFactory
     /// <inheritdoc/>
     public FolderPicker GetFolderPicker()
     {
-        return GetInitializedPicker<FolderPicker>();
+        FolderPicker picker = GetInitializedPicker<FolderPicker>();
+
+        // below Windows 11
+        if (!ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 13))
+        {
+            // https://github.com/microsoft/WindowsAppSDK/issues/2931
+            picker.FileTypeFilter.Add(AnyType);
+        }
+
+        return picker;
     }
 
     private T GetInitializedPicker<T>()

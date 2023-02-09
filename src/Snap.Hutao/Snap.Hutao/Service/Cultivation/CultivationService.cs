@@ -113,7 +113,7 @@ internal class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public List<BindingInventoryItem> GetInventoryItems(CultivateProject cultivateProject, List<Model.Metadata.Material> metadata)
+    public List<BindingInventoryItem> GetInventoryItems(CultivateProject cultivateProject, List<Model.Metadata.Material> metadata, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
         using (IServiceScope scope = scopeFactory.CreateScope())
@@ -127,7 +127,7 @@ internal class CultivationService : ICultivationService
             foreach (Model.Metadata.Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id))
             {
                 InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.Create(projectId, meta.Id);
-                results.Add(new(meta, entity));
+                results.Add(new(meta, entity, saveCommand));
             }
 
             return results;
@@ -230,7 +230,6 @@ internal class CultivationService : ICultivationService
             token.ThrowIfCancellationRequested();
 
             await ThreadHelper.SwitchToMainThreadAsync();
-
             return resultItems.OrderByDescending(i => i.Count).ToObservableCollection();
         }
     }

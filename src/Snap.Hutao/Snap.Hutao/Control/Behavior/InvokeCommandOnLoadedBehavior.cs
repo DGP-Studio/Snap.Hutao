@@ -40,7 +40,5 @@ internal class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
         {
             Command?.Execute(CommandParameter);
         }
-
-        base.OnAssociatedObjectLoaded();
     }
 }

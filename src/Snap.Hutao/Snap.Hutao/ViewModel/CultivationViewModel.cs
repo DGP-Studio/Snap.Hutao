@@ -198,7 +198,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
 
             await ThreadHelper.SwitchToMainThreadAsync();
             CultivateEntries = entries;
-            InventoryItems = cultivationService.GetInventoryItems(project, materials);
+            InventoryItems = cultivationService.GetInventoryItems(project, materials, SaveInventoryItemCommand);
 
             await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }

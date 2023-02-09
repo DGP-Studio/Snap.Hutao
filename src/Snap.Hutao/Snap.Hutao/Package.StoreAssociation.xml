@@ -5,7 +5,6 @@
   <DeveloperAccountType>MSA</DeveloperAccountType>
   <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
   <SupportedLocales>
-    <Language Code="en-us" InMinimumRequirementSet="true" />
     <Language Code="zh-cn" InMinimumRequirementSet="true" />
   </SupportedLocales>
   <ProductReservedInfo>

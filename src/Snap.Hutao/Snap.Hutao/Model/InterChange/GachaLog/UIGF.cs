@@ -50,7 +50,7 @@ public class UIGF
     {
         foreach (UIGFItem item in List)
         {
-            if (item.ItemType != "角色" || item.ItemType != "武器")
+            if (item.ItemType != "角色" && item.ItemType != "武器")
             {
                 return false;
             }
