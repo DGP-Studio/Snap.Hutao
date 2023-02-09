@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.Win32.TaskScheduler;
+using System.IO;
 using System.Runtime.InteropServices;
+using Windows.Storage;
 using SchedulerTask = Microsoft.Win32.TaskScheduler.Task;
 
 namespace Snap.Hutao.Core;
@@ -23,23 +25,16 @@ internal static class ScheduleTaskHelper
     {
         try
         {
-            // TODO: 似乎可以不删除任务，直接注册已经包含了更新功能
-            SchedulerTask? targetTask = TaskService.Instance.GetTask(DailyNoteRefreshTaskName);
-            if (targetTask != null)
-            {
-                TaskService.Instance.RootFolder.DeleteTask(DailyNoteRefreshTaskName);
-            }
-
             TaskDefinition task = TaskService.Instance.NewTask();
             task.RegistrationInfo.Description = SH.CoreScheduleTaskHelperDailyNoteRefreshTaskDescription;
             task.Triggers.Add(new TimeTrigger() { Repetition = new(TimeSpan.FromSeconds(interval), TimeSpan.Zero), });
-            task.Actions.Add("explorer", "hutao://DailyNote/Refresh");
+            string scriptPath = EnsureWScriptCreated("DailyNoteRefresh", "hutao://DailyNote/Refresh");
+            task.Actions.Add("wscript", $@"/b ""{scriptPath}""");
             TaskService.Instance.RootFolder.RegisterTaskDefinition(DailyNoteRefreshTaskName, task);
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _ = ex;
             return false;
         }
     }
@@ -68,5 +63,20 @@ internal static class ScheduleTaskHelper
         {
             return false;
         }
+    }
+
+    private static string EnsureWScriptCreated(string name, string url, bool forceCreate = false)
+    {
+        string tempFolder = ApplicationData.Current.TemporaryFolder.Path;
+        string fullName = Path.Combine(tempFolder, "Script", $"{name}.vbs");
+
+        if (!File.Exists(fullName) || forceCreate)
+        {
+            Directory.CreateDirectory(Path.Combine(tempFolder, "Script"));
+            string script = $"""CreateObject("WScript.Shell").Run "cmd /c start {url}", 0, False""";
+            File.WriteAllText(fullName, script);
+        }
+
+        return fullName;
     }
 }

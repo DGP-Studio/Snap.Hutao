@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model;
@@ -22,6 +23,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class DailyNoteViewModel : Abstraction.ViewModel
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
     private readonly IDailyNoteService dailyNoteService;
     private readonly AppDbContext appDbContext;
@@ -48,10 +50,12 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
     /// <summary>
     /// 构造一个新的实时便笺视图模型
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="userService">用户服务</param>
     /// <param name="dailyNoteService">实时便笺服务</param>
     /// <param name="appDbContext">数据库上下文</param>
     public DailyNoteViewModel(
+        IServiceProvider serviceProvider,
         IUserService userService,
         IDailyNoteService dailyNoteService,
         AppDbContext appDbContext)
@@ -59,6 +63,7 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
         this.userService = userService;
         this.dailyNoteService = dailyNoteService;
         this.appDbContext = appDbContext;
+        this.serviceProvider = serviceProvider;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         TrackRoleCommand = new AsyncRelayCommand<UserAndUid>(TrackRoleAsync);
@@ -179,7 +184,7 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
         }
         catch (Core.ExceptionService.UserdataCorruptedException ex)
         {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ex);
+            serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
             return;
         }
 
@@ -190,9 +195,10 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
                 await ThreadHelper.SwitchToMainThreadAsync();
 
                 refreshSecondsEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteRefreshSeconds, "480");
-                selectedRefreshTime = refreshTimes.Single(t => t.Value == refreshSecondsEntry.GetInt32());
+                int refreshSeconds = refreshSecondsEntry.GetInt32();
+                selectedRefreshTime = refreshTimes.Single(t => t.Value == refreshSeconds);
                 OnPropertyChanged(nameof(SelectedRefreshTime));
-                ScheduleTaskHelper.RegisterForDailyNoteRefresh(480);
+                ScheduleTaskHelper.RegisterForDailyNoteRefresh(refreshSeconds);
 
                 reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, SettingEntryHelper.FalseString);
                 isReminderNotification = reminderNotifyEntry.GetBoolean();
@@ -204,9 +210,9 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
             }
 
             await ThreadHelper.SwitchToBackgroundAsync();
-            ObservableCollection<DailyNoteEntry> temp = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
+            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
             await ThreadHelper.SwitchToMainThreadAsync();
-            DailyNoteEntries = temp;
+            DailyNoteEntries = entries;
         }
         catch (OperationCanceledException)
         {
@@ -255,7 +261,7 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
         }
         else
         {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
+            serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
         }
     }
 }

@@ -35,16 +35,6 @@ public class UserAndUid
     public PlayerUid Uid { get; private set; }
 
     /// <summary>
-    /// 从用户与选中的角色转换
-    /// </summary>
-    /// <param name="user">角色</param>
-    /// <returns>用户与角色</returns>
-    public static UserAndUid FromUser(User user)
-    {
-        return new UserAndUid(user.Entity, user.SelectedUserGameRole!);
-    }
-
-    /// <summary>
     /// 尝试转换到用户与角色
     /// </summary>
     /// <param name="user">用户</param>
@@ -54,7 +44,7 @@ public class UserAndUid
     {
         if (user != null && user.SelectedUserGameRole != null)
         {
-            userAndUid = FromUser(user);
+            userAndUid = new UserAndUid(user.Entity, user.SelectedUserGameRole!);
             return true;
         }
 

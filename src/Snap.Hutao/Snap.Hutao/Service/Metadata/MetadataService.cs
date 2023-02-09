@@ -77,7 +77,7 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
         logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion begin");
 
         isInitialized = await TryUpdateMetadataAsync(token).ConfigureAwait(false);
-        initializeCompletionSource.SetResult();
+        initializeCompletionSource.TrySetResult();
 
         logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
     }

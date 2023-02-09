@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
@@ -19,8 +20,8 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class CultivationViewModel : Abstraction.ViewModel
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly ICultivationService cultivationService;
-    private readonly IInfoBarService infoBarService;
     private readonly IMetadataService metadataService;
     private readonly ILogger<CultivationViewModel> logger;
 
@@ -35,20 +36,15 @@ internal class CultivationViewModel : Abstraction.ViewModel
     /// <summary>
     /// 构造一个新的养成视图模型
     /// </summary>
-    /// <param name="cultivationService">养成服务</param>
-    /// <param name="infoBarService">信息服务</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="logger">日志器</param>
-    public CultivationViewModel(
-        ICultivationService cultivationService,
-        IInfoBarService infoBarService,
-        IMetadataService metadataService,
-        ILogger<CultivationViewModel> logger)
+    public CultivationViewModel(IServiceProvider serviceProvider)
     {
-        this.cultivationService = cultivationService;
-        this.infoBarService = infoBarService;
-        this.metadataService = metadataService;
-        this.logger = logger;
+        cultivationService = serviceProvider.GetRequiredService<ICultivationService>();
+        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
+        logger = serviceProvider.GetRequiredService<ILogger<CultivationViewModel>>();
+        this.serviceProvider = serviceProvider;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         AddProjectCommand = new AsyncRelayCommand(AddProjectAsync);
@@ -56,7 +52,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
         RemoveEntryCommand = new AsyncRelayCommand<Model.Binding.Cultivation.CultivateEntry>(RemoveEntryAsync);
         SaveInventoryItemCommand = new RelayCommand<Model.Binding.Inventory.InventoryItem>(SaveInventoryItem);
         NavigateToPageCommand = new RelayCommand<string>(NavigateToPage);
-        FinishStateCommand = new RelayCommand<Model.Binding.Cultivation.CultivateItem>(FlipFinishedState);
+        FinishStateCommand = new RelayCommand<Model.Binding.Cultivation.CultivateItem>(UpdateFinishedState);
     }
 
     /// <summary>
@@ -153,6 +149,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
         if (isOk)
         {
             ProjectAddResult result = await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false);
+            IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
             switch (result)
             {
@@ -223,7 +220,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    private void FlipFinishedState(Model.Binding.Cultivation.CultivateItem? item)
+    private void UpdateFinishedState(Model.Binding.Cultivation.CultivateItem? item)
     {
         if (item != null)
         {
@@ -258,8 +255,9 @@ internal class CultivationViewModel : Abstraction.ViewModel
     {
         if (typeString != null)
         {
-            Type? pageType = Type.GetType(typeString);
-            Ioc.Default.GetRequiredService<INavigationService>().Navigate(pageType!, INavigationAwaiter.Default, true);
+            serviceProvider
+                .GetRequiredService<INavigationService>()
+                .Navigate(Type.GetType(typeString)!, INavigationAwaiter.Default, true);
         }
     }
 }

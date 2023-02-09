@@ -10,9 +10,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
-#if RELEASE
 using System.Security.Principal;
-#endif
 
 namespace Snap.Hutao.Core.LifeCycle;
 
@@ -39,15 +37,11 @@ internal static class Activation
     /// <returns>是否提升了权限</returns>
     public static bool GetElevated()
     {
-#if RELEASE
         using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
         {
             WindowsPrincipal principal = new(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
-#else
-        return true;
-#endif
     }
 
     /// <summary>

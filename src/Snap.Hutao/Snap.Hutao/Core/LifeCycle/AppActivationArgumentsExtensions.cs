@@ -40,7 +40,7 @@ public static class AppActivationArgumentsExtensions
         arguments = null;
         if (activatedEventArgs.Data is ILaunchActivatedEventArgs launchArgs)
         {
-            arguments = launchArgs.Arguments;
+            arguments = launchArgs.Arguments.Trim();
             return true;
         }
 
