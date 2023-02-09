@@ -183,6 +183,33 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>Import</value>
   </data>
+  <data name="ModelBindingHutaoComplexAvatarRankFloor" xml:space="preserve">
+    <value>Floor {0}</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
+    <value>BiliBili</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
+    <value>CN</value>
+  </data>
+  <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+    <value>{0:f2} Pulls</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryLastPullFormat" xml:space="preserve">
+    <value>Current Pity {0} Pulls</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+    <value>Unluckiest {0} Pulls</value>
+  </data>
+  <data name="ModelBingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+    <value>Luckiest {0} Pulls</value>
+  </data>
+  <data name="ModelBingGachaWishBaseTotalCountFormat" xml:space="preserve">
+    <value>{0} Pull</value>
+  </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>You must select a user and a role first</value>
   </data>
@@ -270,6 +297,9 @@
   <data name="ServiceGachaLogUrlProviderManualInputInvalid" xml:space="preserve">
     <value>Invalid URL provided</value>
   </data>
+  <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
+    <value>Unsupported Item ID: {0}</value>
+  </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Multiple matching accounts detected, please delete duplicate accounts</value>
   </data>
@@ -328,7 +358,7 @@
     <value>Can't get user information with entered Cookie</value>
   </data>
   <data name="ViewAchievementHeader" xml:space="preserve">
-    <value>Achievements Management</value>
+    <value>Achievements</value>
   </data>
   <data name="ViewAnnouncementHeader" xml:space="preserve">
     <value>Home</value>
@@ -352,7 +382,7 @@
     <value>5 Stars</value>
   </data>
   <data name="ViewControlStatisticsCardPullText" xml:space="preserve">
-    <value>wish</value>
+    <value>Pulls</value>
   </data>
   <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
     <value>4 Stars</value>
@@ -364,7 +394,7 @@
     <value>UP</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
-    <value>Development Plan</value>
+    <value>Dev Plan</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
     <value>DailyNote</value>
@@ -429,6 +459,12 @@
   <data name="ViewDialogGachaLogImportTitle" xml:space="preserve">
     <value>Import wish history</value>
   </data>
+  <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
+    <value>Wish history URL is expired. Please get it again.</value>
+  </data>
+  <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
+    <value>Fetching {0}</value>
+  </data>
   <data name="ViewDialogGachaLogRefreshProgressTitle" xml:space="preserve">
     <value>Getting wish items</value>
   </data>
@@ -472,7 +508,7 @@
     <value>Conversion may take some time. Do not turn off the software.</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
-    <value>Convert Game Client</value>
+    <value>Converting Game Client</value>
   </data>
   <data name="ViewDialogUserDocumentAction" xml:space="preserve">
     <value>Take me there</value>
@@ -490,7 +526,7 @@
     <value>Wish History</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
-    <value>Spiral Abyss Stats</value>
+    <value>Abyss Stats</value>
   </data>
   <data name="ViewLaunchGameHeader" xml:space="preserve">
     <value>Game Launcher</value>
@@ -603,6 +639,9 @@
   <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
     <value>UIGF version is too low to import</value>
   </data>
+  <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
+    <value>Importing data contains unsupported items</value>
+  </data>
   <data name="ViewModelGachaLogImportWarningTitle" xml:space="preserve">
     <value>Import Failed</value>
   </data>
@@ -645,6 +684,9 @@
   <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
     <value>Clear completed</value>
   </data>
+  <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
+    <value>Set data directory successfully. Restart to apply changes.</value>
+  </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>User [{0}] added successfully</value>
   </data>
@@ -682,7 +724,7 @@
     <value>File Download Exceptions</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
-    <value>Create new archive</value>
+    <value>Create New Archive</value>
   </data>
   <data name="ViewPageAchievementAddArchiveHint" xml:space="preserve">
     <value>Create new archive to continue</value>
@@ -742,13 +784,13 @@
     <value>Sync data from in-game Character Showcase</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
-    <value>Sync data from MiHoYo BBS Development Plan</value>
+    <value>Sync from Hoyolab Development Plan</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
     <value>Sync character talents data</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
-    <value>Sync data from MiHoYo BBS My Characters</value>
+    <value>Sync from MiHoYo BBS My Characters</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>Sync most data other than character talent</value>
@@ -767,6 +809,9 @@
   </data>
   <data name="ViewPageCultivationAddProject" xml:space="preserve">
     <value>Create Plan</value>
+  </data>
+  <data name="ViewPageCultivationAddProjectAction" xml:space="preserve">
+    <value>Create</value>
   </data>
   <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
     <value>Create plan to continue</value>
@@ -832,7 +877,7 @@
     <value>Reminder Notifications</value>
   </data>
   <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
-    <value>Remove User</value>
+    <value>Remove Role</value>
   </data>
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
     <value>Cost-halving Used</value>
@@ -844,7 +889,7 @@
     <value>Do not disturb</value>
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
-    <value>Verify current user and role</value>
+    <value>Verify Current User and Role</value>
   </data>
   <data name="ViewPageGachaLogAggressiveRefresh" xml:space="preserve">
     <value>Full Refresh</value>
@@ -886,7 +931,7 @@
     <value>Use Cookie from current user to refresh wish history</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
-    <value>Web Cache Refresh</value>
+    <value>Refresh with Web Cache</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
     <value>Use embedded browser cache to refresh wish history</value>
@@ -1164,6 +1209,12 @@
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>Game</value>
   </data>
+  <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
+    <value>You need to move data in the directory manually, otherwise new user data will be created.</value>
+  </data>
+  <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
+    <value>Change Data Directory</value>
+  </data>
   <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
     <value>Set Path</value>
   </data>
@@ -1178,6 +1229,9 @@
   </data>
   <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
     <value>Open</value>
+  </data>
+  <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
+    <value>Set</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>Go to Store</value>
@@ -1213,7 +1267,7 @@
     <value>Elemental Bursts Unleashed</value>
   </data>
   <data name="ViewSpiralAbyssHeader" xml:space="preserve">
-    <value>Spiral Abyss Records</value>
+    <value>Abyss Records</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
     <value>Deepest Descent</value>
@@ -1289,6 +1343,21 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>Weapon WIKI</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
+    <value>Character Event Wish</value>
+  </data>
+  <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
+    <value>Character Event Wish-2</value>
+  </data>
+  <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
+    <value>Beginners' Wish</value>
+  </data>
+  <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
+    <value>Standard Wish</value>
+  </data>
+  <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
+    <value>Weapon Event Wish</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Return Code: {0} | Message: {1}</value>
