@@ -154,7 +154,7 @@
     <value>列表</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
-    <value>用户数据已损坏：{0}</value>
+    <value>用户數據已損壞：{0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarMessage" xml:space="preserve">
     <value>請勿在管理員模式下使用此功能 {0}</value>
@@ -268,7 +268,7 @@
     <value>參量質變儀已準備完成</value>
   </data>
   <data name="ServiceGachaLogArchiveCollectionUserdataCorruptedMessage" xml:space="preserve">
-    <value>无法获取祈愿记录：{0}</value>
+    <value>無法獲取祈願記錄：{0}</value>
   </data>
   <data name="ServiceGachaLogEndIdUserdataCorruptedMessage" xml:space="preserve">
     <value>無法獲取祈願記錄 End Id</value>
@@ -298,7 +298,7 @@
     <value>提供的 Url 無效</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
-    <value>不支持的 Item Id：{0}</value>
+    <value>不支持的 Item Id: {0}</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多個匹配賬號，請刪除重複的賬號</value>
@@ -307,7 +307,7 @@
     <value>查詢遊戲資源信息</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
-    <value>游戏文件操作失败：{0}</value>
+    <value>游戲文件操作失敗：{0}</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
     <value>請選擇游戲本體</value>
@@ -328,7 +328,7 @@
     <value>無法找到游戲本體路徑，請前往設置修改</value>
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
-    <value>未开启长路径功能，无法设置注册表键值</value>
+    <value>未開啓長路徑功能，無法設定注冊表鍵值</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>游戲配置文件 {0} 無法找到</value>
@@ -463,7 +463,7 @@
     <value>匯入祈願記錄</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressAuthkeyTimeout" xml:space="preserve">
-    <value>祈愿记录 Url 已失效，请重新获取</value>
+    <value>祈願記錄 URL 已失效，請重新獲取</value>
   </data>
   <data name="ViewDialogGachaLogRefreshProgressDescription" xml:space="preserve">
     <value>正在獲取 {0}</value>
@@ -613,10 +613,10 @@
     <value>清除計劃任務成功</value>
   </data>
   <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
-    <value>清除计划任务失败，请使用管理员模式重试</value>
+    <value>注冊計劃任務失敗，請以管理員模式重試</value>
   </data>
   <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
-    <value>清除用户数据成功，请立即重启胡桃</value>
+    <value>清除用戶數據成功，請立即重啓 胡桃</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>成功保存到指定位置</value>
@@ -661,13 +661,13 @@
     <value>確定要刪除存檔 {0} 嗎？</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
-    <value>剪贴板中的文本格式不正确</value>
+    <value>剪貼板中的文本格式不正塙</value>
   </data>
   <data name="ViewModelImportWarningMessage" xml:space="preserve">
     <value>數據格式不正確</value>
   </data>
   <data name="ViewModelImportWarningMessage2" xml:space="preserve">
-    <value>请先创建一个成就存档</value>
+    <value>請先創建一個成就存檔</value>
   </data>
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>匯入失敗</value>
@@ -1093,7 +1093,7 @@
     <value>綁定當前用戶的角色</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDescription" xml:space="preserve">
-    <value>在游戏内切换账号，网络环境发生变化后需要重新手动检测</value>
+    <value>在游戲内切換賬號，網絡環境發生變化后需要重新手動檢測</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
     <value>檢測</value>
@@ -1300,13 +1300,13 @@
     <value>统计数据</value>
   </data>
   <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
-    <value>最多承伤</value>
+    <value>最多承傷</value>
   </data>
   <data name="ViewSpiralAbyssTotalStar" xml:space="preserve">
-    <value>获得渊星</value>
+    <value>獲得淵星</value>
   </data>
   <data name="ViewSpiralAbyssUploadRecord" xml:space="preserve">
-    <value>上传数据</value>
+    <value>上傳資料</value>
   </data>
   <data name="ViewToolHeader" xml:space="preserve">
     <value>工具</value>
@@ -1315,60 +1315,60 @@
     <value>Cookie 操作</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
-    <value>登录米哈游通行证</value>
+    <value>登錄 MiHoYo 通行證賬號</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
-    <value>手动输入</value>
+    <value>手動輸入</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
-    <value>复制 Cookie</value>
+    <value>拷貝 Cookie</value>
   </data>
   <data name="ViewUserDefaultDescription" xml:space="preserve">
-    <value>请先登录</value>
+    <value>請先登錄</value>
   </data>
   <data name="ViewUserRemoveAction" xml:space="preserve">
-    <value>移除用户</value>
+    <value>移除用戶</value>
   </data>
   <data name="ViewUserRole" xml:space="preserve">
     <value>角色</value>
   </data>
   <data name="ViewUserUser" xml:space="preserve">
-    <value>用户</value>
+    <value>用戶</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
-    <value>我们将为你下载最基本的图像资源</value>
+    <value>我們將爲你下載最基本的圖像資源</value>
   </data>
   <data name="ViewWelcomeBody" xml:space="preserve">
-    <value>你可以继续使用电脑，丝毫不受影响</value>
+    <value>你可以繼續使用電腦，絲毫不受影響</value>
   </data>
   <data name="ViewWelcomeSubtitle" xml:space="preserve">
-    <value>请勿关闭应用程序</value>
+    <value>請勿關閉應用程式</value>
   </data>
   <data name="ViewWelcomeTitle" xml:space="preserve">
-    <value>欢迎使用 胡桃</value>
+    <value>歡迎使用 胡桃</value>
   </data>
   <data name="ViewWikiAvatarHeader" xml:space="preserve">
-    <value>角色资料</value>
+    <value>角色資料</value>
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
-    <value>武器资料</value>
+    <value>武器資料</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
-    <value>角色活动祈愿</value>
+    <value>角色活動祈願</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish2" xml:space="preserve">
-    <value>角色活动祈愿-2</value>
+    <value>角色活動祈願-2</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
-    <value>新手祈愿</value>
+    <value>新手祈願</value>
   </data>
   <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
-    <value>常驻祈愿</value>
+    <value>常駐祈願</value>
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
-    <value>武器活动祈愿</value>
+    <value>武器活動祈願</value>
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
-    <value>状态：{0} | 信息：{1}</value>
+    <value>狀態：{0} | 信息：{1}</value>
   </data>
 </root>
