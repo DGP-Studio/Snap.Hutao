@@ -12,7 +12,6 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using System.IO;
 using System.Net.Http;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control.Image;

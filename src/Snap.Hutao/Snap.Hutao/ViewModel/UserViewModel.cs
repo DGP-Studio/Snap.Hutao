@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Extension;
@@ -24,6 +25,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Singleton)]
 internal class UserViewModel : ObservableObject
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
 
@@ -33,12 +35,14 @@ internal class UserViewModel : ObservableObject
     /// <summary>
     /// 构造一个新的用户视图模型
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="userService">用户服务</param>
     /// <param name="infoBarService">信息条服务</param>
-    public UserViewModel(IUserService userService, IInfoBarService infoBarService)
+    public UserViewModel(IServiceProvider serviceProvider)
     {
-        this.userService = userService;
-        this.infoBarService = infoBarService;
+        userService = serviceProvider.GetRequiredService<IUserService>();
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        this.serviceProvider = serviceProvider;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         AddUserCommand = new AsyncRelayCommand(AddUserAsync);
@@ -155,7 +159,7 @@ internal class UserViewModel : ObservableObject
     {
         if (Core.WebView2Helper.IsSupported)
         {
-            Ioc.Default.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+            serviceProvider.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
         }
         else
         {

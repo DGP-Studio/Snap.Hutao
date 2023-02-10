@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Logging;
-using Snap.Hutao.Extension;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;

@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control;
 using Snap.Hutao.Control.Theme;
-using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Windows.System;
 
@@ -58,8 +56,8 @@ public sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Contro
     /// </summary>
     public Announcement Announcement
     {
-        get { return (Announcement)GetValue(AnnouncementProperty); }
-        set { SetValue(AnnouncementProperty, value); }
+        get => (Announcement)GetValue(AnnouncementProperty);
+        set => SetValue(AnnouncementProperty, value);
     }
 
     private static string? GenerateHtml(Announcement? announcement, ElementTheme theme)

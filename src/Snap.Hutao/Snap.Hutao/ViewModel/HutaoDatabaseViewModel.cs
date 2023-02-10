@@ -2,15 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Hutao.Model;
-using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Graphics.Imaging;
-using Windows.Storage.Streams;
 
 namespace Snap.Hutao.ViewModel;
 

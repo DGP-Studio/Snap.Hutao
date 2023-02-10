@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using System.IO;
 
 namespace Snap.Hutao.Core.IO;
@@ -16,7 +17,14 @@ internal sealed class TempFile : IDisposable
     /// <param name="delete">是否在创建时删除文件</param>
     public TempFile(bool delete = false)
     {
-        Path = System.IO.Path.GetTempFileName();
+        try
+        {
+            Path = System.IO.Path.GetTempFileName();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            throw ThrowHelper.RuntimeEnvironment(SH.CoreIOTempFileCreateFail, ex);
+        }
 
         if (delete)
         {

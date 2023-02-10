@@ -150,11 +150,8 @@ internal class GachaLogViewModel : Abstraction.ViewModel
             if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(true))
             {
                 ObservableCollection<GachaArchive> archives;
-
-                ThrowIfViewDisposed();
-                using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                 {
-                    ThrowIfViewDisposed();
                     archives = await gachaLogService.GetArchiveCollectionAsync().ConfigureAwait(false);
                 }
 
@@ -204,13 +201,13 @@ internal class GachaLogViewModel : Abstraction.ViewModel
 
                 try
                 {
-                    using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                     {
                         try
                         {
                             authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
                         }
-                        catch (Core.ExceptionService.UserdataCorruptedException ex)
+                        catch (UserdataCorruptedException ex)
                         {
                             authkeyValid = false;
                             infoBarService.Error(ex);
@@ -304,11 +301,14 @@ internal class GachaLogViewModel : Abstraction.ViewModel
 
             if (result == ContentDialogResult.Primary)
             {
-                await gachaLogService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                {
+                    await gachaLogService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
 
-                // reselect first archive
-                await ThreadHelper.SwitchToMainThreadAsync();
-                SelectedArchive = Archives.FirstOrDefault();
+                    // reselect first archive
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    SelectedArchive = Archives.FirstOrDefault();
+                }
             }
         }
     }
@@ -354,7 +354,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
         }
         catch (UserdataCorruptedException ex)
         {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ex);
+            infoBarService.Error(ex);
         }
     }
 

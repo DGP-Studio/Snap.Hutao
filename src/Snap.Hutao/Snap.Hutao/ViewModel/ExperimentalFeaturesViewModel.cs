@@ -18,11 +18,16 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class ExperimentalFeaturesViewModel : ObservableObject
 {
+    private readonly IServiceProvider serviceProvider;
+
     /// <summary>
     /// 构造一个新的实验性功能视图模型
     /// </summary>
-    public ExperimentalFeaturesViewModel()
+    /// <param name="serviceProvider">服务提供器</param>
+    public ExperimentalFeaturesViewModel(IServiceProvider serviceProvider)
     {
+        this.serviceProvider = serviceProvider;
+
         OpenCacheFolderCommand = new AsyncRelayCommand(OpenCacheFolderAsync);
         OpenDataFolderCommand = new AsyncRelayCommand(OpenDataFolderAsync);
         DeleteUsersCommand = new AsyncRelayCommand(DangerousDeleteUsersAsync);
@@ -61,7 +66,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
     private async Task DangerousDeleteUsersAsync()
     {
-        using (IServiceScope scope = Ioc.Default.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
@@ -73,7 +78,7 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
     private void DangerousDeleteAllScheduleTasks()
     {
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         if (Core.ScheduleTaskHelper.UnregisterAllTasks())
         {
             infoBarService.Success(SH.ViewModelExperimentalDeleteTaskSuccess);

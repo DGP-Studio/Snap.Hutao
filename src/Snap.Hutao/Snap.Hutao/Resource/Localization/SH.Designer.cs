@@ -196,6 +196,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 权限不足，创建临时文件失败 的本地化字符串。
+        /// </summary>
+        internal static string CoreIOTempFileCreateFail {
+            get {
+                return ResourceManager.GetString("CoreIOTempFileCreateFail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 启动游戏 的本地化字符串。
         /// </summary>
         internal static string CoreJumpListHelperLaunchGameItemDisplayName {
@@ -340,6 +349,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 第 {0} 期 的本地化字符串。
+        /// </summary>
+        internal static string ModelEntitySpiralAbyssScheduleFormat {
+            get {
+                return ResourceManager.GetString("ModelEntitySpiralAbyssScheduleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 必须先选择一个用户与角色 的本地化字符串。
         /// </summary>
         internal static string MustSelectUserAndUid {
@@ -354,6 +372,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ServiceAchievementUserdataCorruptedInnerIdNotUnique {
             get {
                 return ResourceManager.GetString("ServiceAchievementUserdataCorruptedInnerIdNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存养成计划状态失败 的本地化字符串。
+        /// </summary>
+        internal static string ServiceCultivationProjectCurrentUserdataCourrpted {
+            get {
+                return ResourceManager.GetString("ServiceCultivationProjectCurrentUserdataCourrpted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 存在多个选中的养成计划 的本地化字符串。
+        /// </summary>
+        internal static string ServiceCultivationProjectCurrentUserdataCourrpted2 {
+            get {
+                return ResourceManager.GetString("ServiceCultivationProjectCurrentUserdataCourrpted2", resourceCulture);
             }
         }
         
@@ -1434,6 +1470,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewModelAvatarPropertyShowcaseNotOpen {
             get {
                 return ResourceManager.GetString("ViewModelAvatarPropertyShowcaseNotOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 养成计划添加失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelCultivationAddWarning {
+            get {
+                return ResourceManager.GetString("ViewModelCultivationAddWarning", resourceCulture);
             }
         }
         

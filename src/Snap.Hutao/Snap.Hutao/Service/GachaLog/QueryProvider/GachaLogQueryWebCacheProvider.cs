@@ -48,7 +48,7 @@ internal class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
     {
         (bool isOk, string path) = await gameService.GetGamePathAsync().ConfigureAwait(false);
 
-        if (isOk)
+        if (isOk && (!string.IsNullOrEmpty(path)))
         {
             string cacheFile = GetCacheFile(path);
 

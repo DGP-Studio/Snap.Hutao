@@ -43,7 +43,7 @@ public abstract class ViewModel : ObservableObject, IViewModel
     /// 当页面被释放后抛出异常
     /// </summary>
     /// <exception cref="OperationCanceledException">操作被用户取消</exception>
-    protected void ThrowIfViewDisposed()
+    private void ThrowIfViewDisposed()
     {
         if (IsViewDisposed)
         {

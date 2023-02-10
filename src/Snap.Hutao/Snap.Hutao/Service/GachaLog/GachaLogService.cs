@@ -16,7 +16,6 @@ using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Metadata;
@@ -122,7 +121,7 @@ internal class GachaLogService : IGachaLogService
         await ThreadHelper.SwitchToMainThreadAsync();
         try
         {
-             archiveCollection ??= appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
+            archiveCollection ??= appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
         }
         catch (SqliteException ex)
         {
@@ -329,6 +328,8 @@ internal class GachaLogService : IGachaLogService
                 GachaArchive created = GachaArchive.Create(uid);
                 appDbContext.GachaArchives.AddAndSave(created);
 
+                // System.InvalidOperationException: Sequence contains no elements
+                // ? how this happen here?
                 archive = appDbContext.GachaArchives.Single(a => a.Uid == uid);
                 GachaArchive temp = archive;
                 ThreadHelper.InvokeOnMainThread(() => archiveCollection!.Add(temp));

@@ -59,14 +59,13 @@ internal class GameService : IGameService
     {
         if (memoryCache.TryGetValue(GamePathKey, out object? value))
         {
-            return new(true, Must.NotNull((value as string)!));
+            return new(true, (value as string)!);
         }
         else
         {
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
                 SettingEntry entry = await appDbContext.Settings.SingleOrAddAsync(SettingEntry.GamePath, string.Empty).ConfigureAwait(false);
 
                 // Cannot find in setting
@@ -89,7 +88,7 @@ internal class GameService : IGameService
                     {
                         // Save result.
                         entry.Value = result.Value;
-                        appDbContext.Settings.UpdateAndSave(entry);
+                        await appDbContext.Settings.UpdateAndSaveAsync(entry).ConfigureAwait(false);
                     }
                     else
                     {

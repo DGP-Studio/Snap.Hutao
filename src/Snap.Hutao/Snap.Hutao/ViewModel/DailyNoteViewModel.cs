@@ -51,18 +51,11 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
     /// 构造一个新的实时便笺视图模型
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="userService">用户服务</param>
-    /// <param name="dailyNoteService">实时便笺服务</param>
-    /// <param name="appDbContext">数据库上下文</param>
-    public DailyNoteViewModel(
-        IServiceProvider serviceProvider,
-        IUserService userService,
-        IDailyNoteService dailyNoteService,
-        AppDbContext appDbContext)
+    public DailyNoteViewModel(IServiceProvider serviceProvider)
     {
-        this.userService = userService;
-        this.dailyNoteService = dailyNoteService;
-        this.appDbContext = appDbContext;
+        userService = serviceProvider.GetRequiredService<IUserService>();
+        dailyNoteService = serviceProvider.GetRequiredService<IDailyNoteService>();
+        appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
         this.serviceProvider = serviceProvider;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
@@ -92,7 +85,7 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
                 {
                     if (!ScheduleTaskHelper.RegisterForDailyNoteRefresh(value.Value))
                     {
-                        Ioc.Default.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteRegisterTaskFail);
+                        serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteRegisterTaskFail);
                     }
                     else
                     {
@@ -244,10 +237,13 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
     {
         if (entry != null)
         {
-            // ContentDialog must be created by main thread.
-            await ThreadHelper.SwitchToMainThreadAsync();
-            await new DailyNoteNotificationDialog(entry).ShowAsync();
-            appDbContext.DailyNotes.UpdateAndSave(entry);
+            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+            {
+                // ContentDialog must be created by main thread.
+                await ThreadHelper.SwitchToMainThreadAsync();
+                await new DailyNoteNotificationDialog(entry).ShowAsync();
+                appDbContext.DailyNotes.UpdateAndSave(entry);
+            }
         }
     }
 

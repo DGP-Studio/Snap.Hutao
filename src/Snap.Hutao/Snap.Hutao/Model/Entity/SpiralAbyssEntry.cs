@@ -29,7 +29,7 @@ public class SpiralAbyssEntry : ObservableObject
     /// 计划名称
     /// </summary>
     [NotMapped]
-    public string Schedule { get => $"第 {ScheduleId} 期"; }
+    public string Schedule { get => string.Format(SH.ModelEntitySpiralAbyssScheduleFormat, ScheduleId); }
 
     /// <summary>
     /// Uid

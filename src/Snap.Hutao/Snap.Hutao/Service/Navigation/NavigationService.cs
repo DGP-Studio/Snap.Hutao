@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.View.Helper;

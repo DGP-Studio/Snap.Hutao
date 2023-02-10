@@ -30,7 +30,7 @@ public sealed partial class LaunchGamePackageConvertDialog : ContentDialog
     /// </summary>
     public PackageReplaceStatus State
     {
-        get { return (PackageReplaceStatus)GetValue(StateProperty); }
-        set { SetValue(StateProperty, value); }
+        get => (PackageReplaceStatus)GetValue(StateProperty);
+        set => SetValue(StateProperty, value);
     }
 }

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Cultivation;
@@ -37,6 +38,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
         11419, 11420, 11421, // 「一心传」名刀
     };
 
+    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IHutaoCache hutaoCache;
 
@@ -47,12 +49,12 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     /// <summary>
     /// 构造一个新的武器资料视图模型
     /// </summary>
-    /// <param name="metadataService">元数据服务</param>
-    /// <param name="hutaoCache">胡桃缓存</param>
-    public WikiWeaponViewModel(IMetadataService metadataService, IHutaoCache hutaoCache)
+    /// <param name="serviceProvider">服务提供器</param>
+    public WikiWeaponViewModel(IServiceProvider serviceProvider)
     {
-        this.metadataService = metadataService;
-        this.hutaoCache = hutaoCache;
+        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
+        hutaoCache = serviceProvider.GetRequiredService<IHutaoCache>();
+        this.serviceProvider = serviceProvider;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         CultivateCommand = new AsyncRelayCommand<Weapon>(CultivateAsync);
@@ -122,8 +124,8 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     {
         if (weapon != null)
         {
-            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
-            IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
+            IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+            IUserService userService = serviceProvider.GetRequiredService<IUserService>();
 
             if (userService.Current != null)
             {
@@ -135,7 +137,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
 
                 if (isOk)
                 {
-                    Response<CalcConsumption> consumptionResponse = await Ioc.Default
+                    Response<CalcConsumption> consumptionResponse = await serviceProvider
                         .GetRequiredService<CalcClient>()
                         .ComputeAsync(userService.Current.Entity, delta)
                         .ConfigureAwait(false);
@@ -144,18 +146,25 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
                     {
                         CalcConsumption consumption = consumptionResponse.Data;
 
-                        bool saved = await Ioc.Default
-                            .GetRequiredService<ICultivationService>()
-                            .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull())
-                            .ConfigureAwait(false);
+                        try
+                        {
+                            bool saved = await serviceProvider
+                                .GetRequiredService<ICultivationService>()
+                                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull())
+                                .ConfigureAwait(false);
 
-                        if (saved)
-                        {
-                            infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
+                            if (saved)
+                            {
+                                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
+                            }
+                            else
+                            {
+                                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                            }
                         }
-                        else
+                        catch (Core.ExceptionService.UserdataCorruptedException ex)
                         {
-                            infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                            infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
                         }
                     }
                 }

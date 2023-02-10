@@ -8,7 +8,6 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.View.Control;
-using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.View.Dialog;
 

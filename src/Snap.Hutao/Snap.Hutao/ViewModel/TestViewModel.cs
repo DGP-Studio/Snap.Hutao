@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;
 using Snap.Hutao.Service.User;
@@ -18,11 +19,16 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class TestViewModel : Abstraction.ViewModel
 {
+    private readonly IServiceProvider serviceProvider;
+
     /// <summary>
     /// 构造一个新的测试视图模型
     /// </summary>
-    public TestViewModel()
+    /// <param name="serviceProvider">服务提供器</param>
+    public TestViewModel(IServiceProvider serviceProvider)
     {
+        this.serviceProvider = serviceProvider;
+
         ShowCommunityGameRecordDialogCommand = new AsyncRelayCommand(ShowCommunityGameRecordDialogAsync);
         ShowAdoptCalculatorDialogCommand = new AsyncRelayCommand(ShowAdoptCalculatorDialogAsync);
         DangerousLoginMihoyoBbsCommand = new AsyncRelayCommand(DangerousLoginMihoyoBbsAsync);
@@ -71,7 +77,7 @@ internal class TestViewModel : Abstraction.ViewModel
 
         if (isOk)
         {
-            (Response<LoginResult>? resp, Aigis? aigis) = await Ioc.Default
+            (Response<LoginResult>? resp, Aigis? aigis) = await serviceProvider
                 .GetRequiredService<PassportClient2>()
                 .LoginByPasswordAsync(data, CancellationToken.None)
                 .ConfigureAwait(false);
@@ -82,7 +88,7 @@ internal class TestViewModel : Abstraction.ViewModel
                 {
                     Cookie cookie = Cookie.FromLoginResult(resp.Data);
 
-                    await Ioc.Default
+                    await serviceProvider
                         .GetRequiredService<IUserService>()
                         .ProcessInputCookieAsync(cookie)
                         .ConfigureAwait(false);
@@ -97,9 +103,9 @@ internal class TestViewModel : Abstraction.ViewModel
 
     private async Task DownloadStaticFileAsync()
     {
-        BitsManager bitsManager = Ioc.Default.GetRequiredService<BitsManager>();
+        BitsManager bitsManager = serviceProvider.GetRequiredService<BitsManager>();
         Uri testUri = new(Web.HutaoEndpoints.StaticZip("AvatarIcon"));
-        ILogger<TestViewModel> logger = Ioc.Default.GetRequiredService<ILogger<TestViewModel>>();
+        ILogger<TestViewModel> logger = serviceProvider.GetRequiredService<ILogger<TestViewModel>>();
         Progress<ProgressUpdateStatus> progress = new(status => logger.LogInformation("{info}", status));
         (bool isOk, TempFile file) = await bitsManager.DownloadAsync(testUri, progress).ConfigureAwait(false);
 

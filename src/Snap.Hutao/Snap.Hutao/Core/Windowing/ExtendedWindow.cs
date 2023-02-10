@@ -10,7 +10,6 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Win32;
 using System.IO;
-using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.UI;
 using Windows.Win32.Foundation;

@@ -27,7 +27,7 @@ public sealed partial class StatisticsCard : UserControl
     /// </summary>
     public bool ShowUpPull
     {
-        get { return (bool)GetValue(ShowUpPullProperty); }
-        set { SetValue(ShowUpPullProperty, value); }
+        get => (bool)GetValue(ShowUpPullProperty);
+        set => SetValue(ShowUpPullProperty, value);
     }
 }

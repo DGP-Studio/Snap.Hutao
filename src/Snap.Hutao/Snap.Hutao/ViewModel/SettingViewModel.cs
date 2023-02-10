@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Setting;
@@ -27,6 +28,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class SettingViewModel : Abstraction.ViewModel
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly AppDbContext appDbContext;
     private readonly IGameService gameService;
     private readonly ILogger<SettingViewModel> logger;
@@ -46,21 +48,14 @@ internal class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 构造一个新的设置视图模型
     /// </summary>
-    /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="gameService">游戏服务</param>
-    /// <param name="experimental">实验性功能</param>
-    /// <param name="logger">日志器</param>
-    public SettingViewModel(
-        AppDbContext appDbContext,
-        IGameService gameService,
-        ExperimentalFeaturesViewModel experimental,
-        ILogger<SettingViewModel> logger)
+    /// <param name="serviceProvider">服务提供器</param>
+    public SettingViewModel(IServiceProvider serviceProvider)
     {
-        this.appDbContext = appDbContext;
-        this.gameService = gameService;
-        this.logger = logger;
-
-        Experimental = experimental;
+        appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
+        gameService = serviceProvider.GetRequiredService<IGameService>();
+        logger = serviceProvider.GetRequiredService<ILogger<SettingViewModel>>();
+        Experimental = serviceProvider.GetRequiredService<ExperimentalFeaturesViewModel>();
+        this.serviceProvider = serviceProvider;
 
         isEmptyHistoryWishVisibleEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.IsEmptyHistoryWishVisible, SettingEntryHelper.TrueString);
         IsEmptyHistoryWishVisible = bool.Parse(isEmptyHistoryWishVisibleEntry.Value!);
@@ -152,7 +147,7 @@ internal class SettingViewModel : Abstraction.ViewModel
             {
                 selectedBackdropTypeEntry.Value = value.Value.ToString();
                 appDbContext.Settings.UpdateAndSave(selectedBackdropTypeEntry);
-                Ioc.Default.GetRequiredService<IMessenger>().Send(new Message.BackdropTypeChangedMessage(value.Value));
+                serviceProvider.GetRequiredService<IMessenger>().Send(new Message.BackdropTypeChangedMessage(value.Value));
             }
         }
     }
@@ -189,7 +184,7 @@ internal class SettingViewModel : Abstraction.ViewModel
 
     private async Task SetGamePathAsync()
     {
-        IGameLocator locator = Ioc.Default.GetRequiredService<IEnumerable<IGameLocator>>()
+        IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>()
             .Single(l => l.Name == nameof(ManualGameLocator));
 
         (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
@@ -203,7 +198,7 @@ internal class SettingViewModel : Abstraction.ViewModel
 
     private void DeleteGameWebCache()
     {
-        IGameService gameService = Ioc.Default.GetRequiredService<IGameService>();
+        IGameService gameService = serviceProvider.GetRequiredService<IGameService>();
         string gamePath = gameService.GetGamePathSkipLocator();
 
         if (!string.IsNullOrEmpty(gamePath))
@@ -211,7 +206,7 @@ internal class SettingViewModel : Abstraction.ViewModel
             string cacheFilePath = GachaLogQueryWebCacheProvider.GetCacheFile(gamePath);
             string cacheFolder = Path.GetDirectoryName(cacheFilePath)!;
 
-            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+            IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
             if (Directory.Exists(cacheFolder))
             {
                 try
@@ -243,7 +238,7 @@ internal class SettingViewModel : Abstraction.ViewModel
     private async Task CheckUpdateAsync()
     {
 #if DEBUG
-        await Ioc.Default
+        await serviceProvider
             .GetRequiredService<Service.Navigation.INavigationService>()
             .NavigateAsync<View.Page.TestPage>(Service.Navigation.INavigationAwaiter.Default)
             .ConfigureAwait(false);
@@ -254,11 +249,11 @@ internal class SettingViewModel : Abstraction.ViewModel
 
     private async Task SetDataFolderAsync()
     {
-        IPickerFactory pickerFactory = Ioc.Default.GetRequiredService<IPickerFactory>();
+        IPickerFactory pickerFactory = serviceProvider.GetRequiredService<IPickerFactory>();
         FolderPicker picker = pickerFactory.GetFolderPicker();
         (bool isOk, string folder) = await picker.TryPickSingleFolderAsync().ConfigureAwait(false);
 
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         if (isOk)
         {
             LocalSetting.Set(SettingKeys.DataFolderPath, folder);

@@ -162,6 +162,9 @@
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarTitle" xml:space="preserve">
     <value>无法打开文件选择器</value>
   </data>
+  <data name="CoreIOTempFileCreateFail" xml:space="preserve">
+    <value>权限不足，创建临时文件失败</value>
+  </data>
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
     <value>启动游戏</value>
   </data>
@@ -210,11 +213,20 @@
   <data name="ModelBingGachaWishBaseTotalCountFormat" xml:space="preserve">
     <value>{0} 抽</value>
   </data>
+  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+    <value>第 {0} 期</value>
+  </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须先选择一个用户与角色</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>单个成就存档内发现多个相同的成就 Id</value>
+  </data>
+  <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
+    <value>保存养成计划状态失败</value>
+  </data>
+  <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
+    <value>存在多个选中的养成计划</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>开始游戏</value>
@@ -575,6 +587,9 @@
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展柜尚未开启，请前往游戏操作后重试</value>
+  </data>
+  <data name="ViewModelCultivationAddWarning" xml:space="preserve">
+    <value>养成计划添加失败</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功添加至当前养成计划</value>

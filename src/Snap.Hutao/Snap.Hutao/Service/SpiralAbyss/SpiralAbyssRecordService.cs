@@ -63,61 +63,38 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
     /// <inheritdoc/>
     public async Task RefreshSpiralAbyssAsync(UserAndUid userAndUid)
     {
-        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> lastResponse = await gameRecordClient
-            .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Last)
+        await RefreshSpiralAbyssCoreAsync(userAndUid, SpiralAbyssSchedule.Last).ConfigureAwait(false);
+        await RefreshSpiralAbyssCoreAsync(userAndUid, SpiralAbyssSchedule.Current).ConfigureAwait(false);
+    }
+
+    private async Task RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule)
+    {
+        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClient
+            .GetSpiralAbyssAsync(userAndUid, schedule)
             .ConfigureAwait(false);
 
-        if (lastResponse.IsOk())
+        if (response.IsOk())
         {
-            Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss last = lastResponse.Data;
+            Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss webSpiralAbyss = response.Data;
 
-            SpiralAbyssEntry? lastEntry = spiralAbysses!.SingleOrDefault(s => s.ScheduleId == last.ScheduleId);
-            if (lastEntry != null)
+            SpiralAbyssEntry? existEntry = spiralAbysses!.SingleOrDefault(s => s.ScheduleId == webSpiralAbyss.ScheduleId);
+            if (existEntry != null)
             {
                 await ThreadHelper.SwitchToMainThreadAsync();
-                lastEntry.UpdateSpiralAbyss(last);
+                existEntry.UpdateSpiralAbyss(webSpiralAbyss);
 
                 await ThreadHelper.SwitchToBackgroundAsync();
-                await appDbContext.SpiralAbysses.UpdateAndSaveAsync(lastEntry).ConfigureAwait(false);
+                await appDbContext.SpiralAbysses.UpdateAndSaveAsync(existEntry).ConfigureAwait(false);
             }
             else
             {
-                SpiralAbyssEntry entry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, last);
+                SpiralAbyssEntry newEntry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, webSpiralAbyss);
 
                 await ThreadHelper.SwitchToMainThreadAsync();
-                spiralAbysses!.Insert(0, entry);
+                spiralAbysses!.Insert(0, newEntry);
 
                 await ThreadHelper.SwitchToBackgroundAsync();
-                await appDbContext.SpiralAbysses.AddAndSaveAsync(entry).ConfigureAwait(false);
-            }
-        }
-
-        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> currentResponse = await gameRecordClient
-            .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current)
-            .ConfigureAwait(false);
-
-        if (currentResponse.IsOk())
-        {
-            Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss current = currentResponse.Data;
-
-            SpiralAbyssEntry? currentEntry = spiralAbysses!.SingleOrDefault(s => s.ScheduleId == current.ScheduleId);
-            if (currentEntry != null)
-            {
-                await ThreadHelper.SwitchToMainThreadAsync();
-                currentEntry.UpdateSpiralAbyss(current);
-
-                await ThreadHelper.SwitchToBackgroundAsync();
-                await appDbContext.SpiralAbysses.UpdateAndSaveAsync(currentEntry).ConfigureAwait(false);
-            }
-            else
-            {
-                SpiralAbyssEntry entry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, current);
-
-                await ThreadHelper.SwitchToMainThreadAsync();
-                spiralAbysses!.Insert(0, entry);
-
-                await ThreadHelper.SwitchToBackgroundAsync();
-                await appDbContext.SpiralAbysses.AddAndSaveAsync(entry).ConfigureAwait(false);
+                await appDbContext.SpiralAbysses.AddAndSaveAsync(newEntry).ConfigureAwait(false);
             }
         }
     }

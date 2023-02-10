@@ -207,14 +207,21 @@ internal class WelcomeViewModel : ObservableObject
         private void ExtractFiles(string file)
         {
             IImageCacheFilePathOperation imageCache = serviceProvider.GetRequiredService<IImageCache>().ImplictAs<IImageCacheFilePathOperation>()!;
-
-            using (ZipArchive archive = ZipFile.OpenRead(file))
+            try
             {
-                foreach (ZipArchiveEntry entry in archive.Entries)
+                using (ZipArchive archive = ZipFile.OpenRead(file))
                 {
-                    string destPath = imageCache.GetFilePathFromCategoryAndFileName(fileName, entry.FullName);
-                    entry.ExtractToFile(destPath, true);
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        string destPath = imageCache.GetFilePathFromCategoryAndFileName(fileName, entry.FullName);
+                        entry.ExtractToFile(destPath, true);
+                    }
                 }
+            }
+            catch (InvalidDataException)
+            {
+                // System.IO.InvalidDataException: End of Central Directory record could not be found.
+                // Basically the file downloaded is corrupted, skip anyway.
             }
         }
     }

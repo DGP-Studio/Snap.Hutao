@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -18,7 +19,6 @@ using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Runtime.InteropServices;
 using Windows.Graphics.Imaging;
@@ -39,30 +39,21 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class AvatarPropertyViewModel : Abstraction.ViewModel
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
-    private readonly IAvatarInfoService avatarInfoService;
     private readonly IInfoBarService infoBarService;
-    private readonly IContentDialogFactory contentDialogFactory;
     private Summary? summary;
     private Avatar? selectedAvatar;
 
     /// <summary>
     /// 构造一个新的角色属性视图模型
     /// </summary>
-    /// <param name="userService">用户服务</param>
-    /// <param name="avatarInfoService">角色信息服务</param>
-    /// <param name="contentDialogFactory">对话框工厂</param>
-    /// <param name="infoBarService">信息条服务</param>
-    public AvatarPropertyViewModel(
-        IUserService userService,
-        IAvatarInfoService avatarInfoService,
-        IContentDialogFactory contentDialogFactory,
-        IInfoBarService infoBarService)
+    /// <param name="serviceProvider">服务提供器</param>
+    public AvatarPropertyViewModel(IServiceProvider serviceProvider)
     {
-        this.userService = userService;
-        this.avatarInfoService = avatarInfoService;
-        this.infoBarService = infoBarService;
-        this.contentDialogFactory = contentDialogFactory;
+        userService = serviceProvider.GetRequiredService<IUserService>();
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        this.serviceProvider = serviceProvider;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         RefreshFromEnkaApiCommand = new AsyncRelayCommand(RefreshByEnkaApiAsync);
@@ -159,14 +150,18 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
             ValueResult<RefreshResult, Summary?> summaryResult;
             using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
-                ContentDialog dialog = await contentDialogFactory
+                ContentDialog dialog = await serviceProvider
+                    .GetRequiredService<IContentDialogFactory>()
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
                     .ConfigureAwait(false);
 
                 await ThreadHelper.SwitchToMainThreadAsync();
                 await using (await dialog.BlockAsync().ConfigureAwait(false))
                 {
-                    summaryResult = await avatarInfoService.GetSummaryAsync(userAndUid, option, token).ConfigureAwait(false);
+                    summaryResult = await serviceProvider
+                        .GetRequiredService<IAvatarInfoService>()
+                        .GetSummaryAsync(userAndUid, option, token)
+                        .ConfigureAwait(false);
                 }
             }
 
@@ -199,9 +194,6 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
     {
         if (avatar != null)
         {
-            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
-            IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
-
             if (userService.Current != null)
             {
                 if (avatar.Weapon == null)
@@ -218,14 +210,14 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
 
                 if (isOk)
                 {
-                    Response<CalcConsumption> consumptionResponse = await Ioc.Default
+                    Response<CalcConsumption> consumptionResponse = await serviceProvider
                         .GetRequiredService<CalcClient>()
                         .ComputeAsync(userService.Current.Entity, delta)
                         .ConfigureAwait(false);
 
                     if (consumptionResponse.IsOk())
                     {
-                        ICultivationService cultivationService = Ioc.Default.GetRequiredService<ICultivationService>();
+                        ICultivationService cultivationService = serviceProvider.GetRequiredService<ICultivationService>();
                         CalcConsumption consumption = consumptionResponse.Data;
 
                         List<CalcItem> items = CalcItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
@@ -233,18 +225,25 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
                             .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
                             .ConfigureAwait(false);
 
-                        // take a hot path if avatar is not saved.
-                        bool avatarAndWeaponSaved = avatarSaved && await cultivationService
-                            .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
-                            .ConfigureAwait(false);
+                        try
+                        {
+                            // take a hot path if avatar is not saved.
+                            bool avatarAndWeaponSaved = avatarSaved && await cultivationService
+                                .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
+                                .ConfigureAwait(false);
 
-                        if (avatarAndWeaponSaved)
-                        {
-                            infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
+                            if (avatarAndWeaponSaved)
+                            {
+                                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
+                            }
+                            else
+                            {
+                                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                            }
                         }
-                        else
+                        catch (Core.ExceptionService.UserdataCorruptedException ex)
                         {
-                            infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                            infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
                         }
                     }
                 }
@@ -267,7 +266,7 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
             bool clipboardOpened = false;
             using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
             {
-                Color tintColor = (Color)Ioc.Default.GetRequiredService<App>().Resources["CompatBackgroundColor"];
+                Color tintColor = (Color)serviceProvider.GetRequiredService<App>().Resources["CompatBackgroundColor"];
                 Bgra8 tint = Bgra8.FromColor(tintColor);
                 softwareBitmap.NormalBlend(tint);
                 using (InMemoryRandomAccessStream memory = new())

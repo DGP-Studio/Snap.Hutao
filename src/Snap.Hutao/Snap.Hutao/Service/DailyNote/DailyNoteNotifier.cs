@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;

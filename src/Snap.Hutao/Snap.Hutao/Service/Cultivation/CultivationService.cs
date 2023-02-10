@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -55,10 +56,21 @@ internal class CultivationService : ICultivationService
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                projects = new(appDbContext.CultivateProjects.AsNoTracking().ToList());
+                projects = appDbContext.CultivateProjects.AsNoTracking().ToObservableCollection();
             }
 
-            Current ??= projects.SingleOrDefault(proj => proj.IsSelected);
+            try
+            {
+                Current ??= projects.SingleOrDefault(proj => proj.IsSelected);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                ThrowHelper.UserdataCorrupted(SH.ServiceCultivationProjectCurrentUserdataCourrpted, ex);
+            }
+            catch (InvalidOperationException ex)
+            {
+                ThrowHelper.UserdataCorrupted(SH.ServiceCultivationProjectCurrentUserdataCourrpted2, ex);
+            }
         }
 
         return projects;
@@ -277,7 +289,15 @@ internal class CultivationService : ICultivationService
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            Current ??= appDbContext.CultivateProjects.AsNoTracking().SingleOrDefault(proj => proj.IsSelected);
+            try
+            {
+                Current ??= appDbContext.CultivateProjects.AsNoTracking().SingleOrDefault(proj => proj.IsSelected);
+            }
+            catch (InvalidOperationException ex)
+            {
+                ThrowHelper.UserdataCorrupted(SH.ServiceCultivationProjectCurrentUserdataCourrpted2, ex);
+            }
+
             if (Current == null)
             {
                 return false;

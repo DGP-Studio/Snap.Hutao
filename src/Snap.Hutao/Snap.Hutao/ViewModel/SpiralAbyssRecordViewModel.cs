@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.SpiralAbyss;
 using Snap.Hutao.Model.Binding.User;
@@ -25,6 +26,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IMetadataService metadataService;
     private readonly IUserService userService;
@@ -37,25 +39,23 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
     /// <summary>
     /// 构造一个新的深渊记录视图模型
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="spiralAbyssRecordService">深渊记录服务</param>
     /// <param name="metadataService">元数据服务</param>
     /// <param name="userService">用户服务</param>
     /// <param name="messenger">消息器</param>
-    public SpiralAbyssRecordViewModel(
-        ISpiralAbyssRecordService spiralAbyssRecordService,
-        IMetadataService metadataService,
-        IUserService userService,
-        IMessenger messenger)
+    public SpiralAbyssRecordViewModel(IServiceProvider serviceProvider)
     {
-        this.spiralAbyssRecordService = spiralAbyssRecordService;
-        this.metadataService = metadataService;
-        this.userService = userService;
+        spiralAbyssRecordService = serviceProvider.GetRequiredService<ISpiralAbyssRecordService>();
+        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
+        userService = serviceProvider.GetRequiredService<IUserService>();
+        this.serviceProvider = serviceProvider;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         RefreshCommand = new AsyncRelayCommand(RefreshAsync);
         UploadSpiralAbyssRecordCommand = new AsyncRelayCommand(UploadSpiralAbyssRecordAsync);
 
-        messenger.Register(this);
+        serviceProvider.GetRequiredService<IMessenger>().Register(this);
     }
 
     /// <summary>
@@ -123,10 +123,12 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
             if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
                 await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
+                await ThreadHelper.SwitchToMainThreadAsync();
+                IsInitialized = true;
             }
             else
             {
-                Ioc.Default.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
+                serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
             }
         }
     }
@@ -136,10 +138,8 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
         ObservableCollection<SpiralAbyssEntry>? temp = null;
         try
         {
-            ThrowIfViewDisposed();
-            using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
-                ThrowIfViewDisposed();
                 temp = await spiralAbyssRecordService
                     .GetSpiralAbyssCollectionAsync(userAndUid)
                     .ConfigureAwait(false);
@@ -156,16 +156,14 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
 
     private async Task RefreshAsync()
     {
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
+        if (SpiralAbyssEntries != null)
         {
             if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
                 try
                 {
-                    ThrowIfViewDisposed();
-                    using (await DisposeLock.EnterAsync().ConfigureAwait(false))
+                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                     {
-                        ThrowIfViewDisposed();
                         await spiralAbyssRecordService
                             .RefreshSpiralAbyssAsync(userAndUid)
                             .ConfigureAwait(false);
@@ -176,15 +174,15 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
                 }
 
                 await ThreadHelper.SwitchToMainThreadAsync();
-                SelectedEntry = SpiralAbyssEntries?.FirstOrDefault();
+                SelectedEntry = SpiralAbyssEntries.FirstOrDefault();
             }
         }
     }
 
     private async Task UploadSpiralAbyssRecordAsync()
     {
-        HomaClient homaClient = Ioc.Default.GetRequiredService<HomaClient>();
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        HomaClient homaClient = serviceProvider.GetRequiredService<HomaClient>();
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {

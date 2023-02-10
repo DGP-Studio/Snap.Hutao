@@ -29,16 +29,23 @@ public sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Pag
     [SuppressMessage("", "VSTHRD100")]
     private async void OnRootLoaded(object sender, RoutedEventArgs e)
     {
-        await WebView.EnsureCoreWebView2Async();
-
-        CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
-        IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
-        foreach (CoreWebView2Cookie item in cookies)
+        try
         {
-            manager.DeleteCookie(item);
-        }
+            await WebView.EnsureCoreWebView2Async();
 
-        WebView.CoreWebView2.Navigate("https://user.mihoyo.com/#/login/password");
+            CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
+            IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
+            foreach (CoreWebView2Cookie item in cookies)
+            {
+                manager.DeleteCookie(item);
+            }
+
+            WebView.CoreWebView2.Navigate("https://user.mihoyo.com/#/login/password");
+        }
+        catch (Exception ex)
+        {
+            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ex);
+        }
     }
 
     private async Task HandleCurrentCookieAsync(CancellationToken token)

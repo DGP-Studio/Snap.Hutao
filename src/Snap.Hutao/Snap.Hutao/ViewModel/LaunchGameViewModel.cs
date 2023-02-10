@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.LifeCycle;
@@ -12,7 +13,6 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Service.Game.Unlocker;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
@@ -36,6 +36,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
     private static readonly string TrueString = true.ToString();
     private static readonly string FalseString = false.ToString();
 
+    private readonly IServiceProvider serviceProvider;
     private readonly IGameService gameService;
     private readonly AppDbContext appDbContext;
     private readonly IMemoryCache memoryCache;
@@ -56,17 +57,13 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
     /// <summary>
     /// 构造一个新的启动游戏视图模型
     /// </summary>
-    /// <param name="gameService">游戏服务</param>
-    /// <param name="memoryCache">内存缓存</param>
-    /// <param name="appDbContext">数据库上下文</param>
-    public LaunchGameViewModel(
-        IGameService gameService,
-        IMemoryCache memoryCache,
-        AppDbContext appDbContext)
+    /// <param name="serviceProvider">服务提供器</param>
+    public LaunchGameViewModel(IServiceProvider serviceProvider)
     {
-        this.gameService = gameService;
-        this.appDbContext = appDbContext;
-        this.memoryCache = memoryCache;
+        gameService = serviceProvider.GetRequiredService<IGameService>();
+        appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
+        memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+        this.serviceProvider = serviceProvider;
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         LaunchCommand = new AsyncRelayCommand(LaunchAsync);
@@ -210,11 +207,8 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
         {
             try
             {
-                ThrowIfViewDisposed();
-                using (await DisposeLock.EnterAsync(CancellationToken).ConfigureAwait(true))
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                 {
-                    ThrowIfViewDisposed();
-
                     MultiChannel multi = gameService.GetMultiChannel();
                     if (string.IsNullOrEmpty(multi.ConfigFilePath))
                     {
@@ -222,7 +216,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     }
                     else
                     {
-                        Ioc.Default.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGameMultiChannelReadFail);
+                        serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGameMultiChannelReadFail);
                     }
 
                     GameAccounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(true);
@@ -231,6 +225,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     if (memoryCache.TryGetValue(DesiredUid, out object? value) && value is string uid)
                     {
                         SelectedGameAccount = GameAccounts.FirstOrDefault(g => g.AttachUid == uid);
+                        memoryCache.Remove(DesiredUid);
                     }
 
                     // Sync from Settings
@@ -243,8 +238,8 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
         }
         else
         {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGamePathInvalid);
-            await Ioc.Default.GetRequiredService<INavigationService>()
+            serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGamePathInvalid);
+            await serviceProvider.GetRequiredService<INavigationService>()
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
         }
@@ -288,7 +283,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
 
     private async Task LaunchAsync()
     {
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
         if (gameService.IsGameRunning())
         {
@@ -344,7 +339,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
         }
         catch (Core.ExceptionService.UserdataCorruptedException ex)
         {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ex);
+            serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
         }
     }
 
@@ -352,8 +347,8 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
     {
         if (gameAccount != null)
         {
-            IUserService userService = Ioc.Default.GetRequiredService<IUserService>();
-            IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+            IUserService userService = serviceProvider.GetRequiredService<IUserService>();
+            IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
             if (userService.Current?.SelectedUserGameRole is UserGameRole role)
             {

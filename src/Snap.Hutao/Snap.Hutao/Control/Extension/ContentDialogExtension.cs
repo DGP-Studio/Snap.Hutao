@@ -21,6 +21,7 @@ internal static class ContentDialogExtension
         contentDialog.ShowAsync().AsTask().SafeForget();
 
         // E_ASYNC_OPERATION_NOT_STARTED 0x80000019
+        // Only a single ContentDialog can be open at any time.
         return new ContentDialogHider(contentDialog);
     }
 

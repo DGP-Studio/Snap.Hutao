@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Snap.Hutao.Core.Annotation;
+﻿namespace Snap.Hutao.Core.Annotation;
 
 /// <summary>
 /// 本地化键

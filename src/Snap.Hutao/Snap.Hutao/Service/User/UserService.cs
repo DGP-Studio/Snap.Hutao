@@ -99,7 +99,7 @@ internal class UserService : IUserService
         // Sync cache
         await ThreadHelper.SwitchToMainThreadAsync();
         userCollection!.Remove(user);
-        roleCollection?.RemoveWhere(r => r.User.InnerId == user.Entity.InnerId);
+        roleCollection?.RemoveWhere(r => r.User.Mid == user.Entity.Mid);
 
         // Sync database
         await ThreadHelper.SwitchToBackgroundAsync();

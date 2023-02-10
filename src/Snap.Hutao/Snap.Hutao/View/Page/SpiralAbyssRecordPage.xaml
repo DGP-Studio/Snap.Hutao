@@ -21,7 +21,7 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
 
-    <Grid>
+    <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <SplitView
             Grid.Row="1"
             DisplayMode="Inline"

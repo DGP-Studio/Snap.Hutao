@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
@@ -11,7 +12,6 @@ using Snap.Hutao.Service.Abstraction;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Security.Cryptography;
 
 namespace Snap.Hutao.Service.Metadata;
 
@@ -180,10 +180,18 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
             return Must.NotNull((T)value!);
         }
 
-        using (Stream fileStream = File.OpenRead(Path.Combine(metadataFolderPath, $"{fileName}.json")))
+        string path = Path.Combine(metadataFolderPath, $"{fileName}.json");
+        if (File.Exists(path))
         {
-            T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
-            return memoryCache.Set(cacheKey, Must.NotNull(result!));
+            using (Stream fileStream = File.OpenRead(path))
+            {
+                T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
+                return memoryCache.Set(cacheKey, Must.NotNull(result!));
+            }
+        }
+        else
+        {
+            throw ThrowHelper.UserdataCorrupted(SH.ServiceMetadataNotInitialized, null!);
         }
     }
 
