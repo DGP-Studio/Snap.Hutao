@@ -111,10 +111,13 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
 
-            if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString).GetBoolean()
-                && scope.ServiceProvider.GetRequiredService<IGameService>().IsGameRunning())
+            bool isSilentMode = appDbContext.Settings
+                .SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString)
+                .GetBoolean();
+            bool isGameRunning = scope.ServiceProvider.GetRequiredService<IGameService>().IsGameRunning();
+            if (isSilentMode && isGameRunning)
             {
-                // Prevent notify when we are in silent mode.
+                // Prevent notify when we are in game && silent mode.
                 notify = false;
             }
 
@@ -140,15 +143,18 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
                         await new DailyNoteNotifier(scopeFactory, entry).NotifyAsync().ConfigureAwait(false);
                     }
                 }
-
-                // special retcode handling for dailynote
-                else if (dailyNoteResponse.ReturnCode == (int)Web.Response.KnownReturnCode.CODE1034)
-                {
-                    scope.ServiceProvider.GetRequiredService<IInfoBarService>().Warning(dailyNoteResponse.ToString());
-                }
                 else
                 {
-                    scope.ServiceProvider.GetRequiredService<IInfoBarService>().Error(dailyNoteResponse.ToString());
+                    IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
+                    // special retcode handling for dailynote
+                    if (dailyNoteResponse.ReturnCode == (int)Web.Response.KnownReturnCode.CODE1034)
+                    {
+                        infoBarService.Warning(dailyNoteResponse.ToString());
+                    }
+                    else
+                    {
+                        infoBarService.Error(dailyNoteResponse.ToString());
+                    }
                 }
             }
 

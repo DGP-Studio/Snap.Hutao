@@ -40,7 +40,7 @@ internal class BitsManager
     {
         TempFile tempFile = new(true);
         await ThreadHelper.SwitchToBackgroundAsync();
-        bool result = DownloadCore(uri, tempFile.Path, progress.Report, token);
+        bool result = DownloadCore(uri, tempFile.Path, progress, token);
         return new(result, tempFile);
     }
 
@@ -79,7 +79,7 @@ internal class BitsManager
         jobsToCancel.ForEach(job => job.Cancel());
     }
 
-    private bool DownloadCore(Uri uri, string tempFile, Action<ProgressUpdateStatus> progress, CancellationToken token)
+    private bool DownloadCore(Uri uri, string tempFile, IProgress<ProgressUpdateStatus> progress, CancellationToken token)
     {
         IBackgroundCopyManager value;
 

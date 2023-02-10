@@ -10,7 +10,7 @@ namespace Snap.Hutao.Control.Image;
 /// <summary>
 /// 合成扩展
 /// </summary>
-internal static class CompositionExtensions
+internal static class CompositionExtension
 {
     /// <summary>
     /// 创建拼合图视觉对象

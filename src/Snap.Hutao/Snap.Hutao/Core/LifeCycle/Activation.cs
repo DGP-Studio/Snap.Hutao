@@ -109,7 +109,7 @@ internal static class Activation
 
     private static async Task HandleActivationCoreAsync(AppActivationArguments args, bool isRedirected)
     {
-        if (args.Kind == ExtendedActivationKind.Protocol)
+       if (args.Kind == ExtendedActivationKind.Protocol)
         {
             if (args.TryGetProtocolActivatedUri(out Uri? uri))
             {

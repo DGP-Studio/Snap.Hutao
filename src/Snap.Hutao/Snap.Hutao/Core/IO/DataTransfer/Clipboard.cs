@@ -20,8 +20,10 @@ internal static class Clipboard
     public static async Task<T?> DeserializeTextAsync<T>(JsonSerializerOptions options)
         where T : class
     {
+        await ThreadHelper.SwitchToMainThreadAsync();
         DataPackageView view = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
         string json = await view.GetTextAsync();
+        await ThreadHelper.SwitchToBackgroundAsync();
         return JsonSerializer.Deserialize<T>(json, options);
     }
 

@@ -34,9 +34,11 @@
                     Text="{shcm:ResourceString Name=ViewWelcomeBody}"/>
                 <ItemsControl Margin="0,0,0,32" ItemsSource="{Binding DownloadSummaries}">
                     <ItemsControl.ItemContainerTransitions>
-                        <EntranceThemeTransition IsStaggeringEnabled="False"/>
-                        <AddDeleteThemeTransition/>
-                        <RepositionThemeTransition/>
+                        <TransitionCollection>
+                            <EntranceThemeTransition IsStaggeringEnabled="False"/>
+                            <AddDeleteThemeTransition/>
+                            <RepositionThemeTransition IsStaggeringEnabled="False"/>
+                        </TransitionCollection>
                     </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

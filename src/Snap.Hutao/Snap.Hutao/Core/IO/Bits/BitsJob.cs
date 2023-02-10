@@ -22,16 +22,16 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
     /// </summary>
     public const string JobNamePrefix = "SnapHutaoBitsJob";
 
-    private const uint BitsEngineNoProgressTimeout = 30;
-    private const int MaxResumeAttempts = 10;
+    private const uint Timeout = 44;
+    private const int MaxResumeAttempts = 3;
 
     private readonly string displayName;
-    private readonly ILogger<BitsJob> log;
-    private readonly object lockObj = new();
+    private readonly ILogger<BitsJob> logger;
+    private readonly object syncRoot = new();
 
     private IBackgroundCopyJob? nativeJob;
     private Exception? jobException;
-    private BG_JOB_PROGRESS progress;
+    private BG_JOB_PROGRESS jobProgress;
     private BG_JOB_STATE state;
     private bool isJobComplete;
     private int resumeAttempts;
@@ -40,7 +40,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
     {
         this.displayName = displayName;
         nativeJob = job;
-        log = serviceProvider.GetRequiredService<ILogger<BitsJob>>();
+        logger = serviceProvider.GetRequiredService<ILogger<BitsJob>>();
     }
 
     public HRESULT ErrorCode { get; private set; }
@@ -56,7 +56,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
 
             // BG_NOTIFY_JOB_TRANSFERRED & BG_NOTIFY_JOB_ERROR & BG_NOTIFY_JOB_MODIFICATION
             ppJob.SetNotifyFlags(0b1011);
-            ppJob.SetNoProgressTimeout(BitsEngineNoProgressTimeout);
+            ppJob.SetNoProgressTimeout(Timeout);
             ppJob.SetPriority(BG_JOB_PRIORITY.BG_JOB_PRIORITY_FOREGROUND);
             ppJob.SetProxySettings(BG_JOB_PROXY_USAGE.BG_JOB_PROXY_USAGE_AUTODETECT, null, null);
         }
@@ -81,7 +81,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
         }
         catch (Exception ex)
         {
-            log.LogInformation("Failed to job transfer: {message}", ex.Message);
+            logger.LogInformation("Failed to job transfer: {message}", ex.Message);
         }
     }
 
@@ -90,7 +90,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
         IBackgroundCopyError error2 = error;
         try
         {
-            log.LogInformation("Failed job: {message}", displayName);
+            logger.LogInformation("Failed job: {message}", displayName);
             UpdateJobState();
             BG_ERROR_CONTEXT errorContext = BG_ERROR_CONTEXT.BG_ERROR_CONTEXT_NONE;
             HRESULT returnCode = new(0);
@@ -99,11 +99,11 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
             ErrorCode = returnCode;
             jobException = new IOException(string.Format("Error context: {0}, Error code: {1}", errorContext, returnCode));
             CompleteOrCancel();
-            log.LogInformation(jobException, "Job Exception:");
+            logger.LogInformation(jobException, "Job Exception:");
         }
         catch (Exception ex)
         {
-            log?.LogInformation("Failed to handle job error: {message}", ex.Message);
+            logger?.LogInformation("Failed to handle job error: {message}", ex.Message);
         }
     }
 
@@ -129,7 +129,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
                     return;
                 }
 
-                log.LogInformation("Max resume attempts for job '{name}' exceeded. Canceling.", displayName);
+                logger.LogInformation("Max resume attempts for job '{name}' exceeded. Canceling.", displayName);
                 CompleteOrCancel();
             }
             else if (IsProgressingState(state))
@@ -143,14 +143,14 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
         }
         catch (Exception ex)
         {
-            log.LogInformation(ex, "message");
+            logger.LogInformation(ex, "message");
         }
     }
 
     public void Cancel()
     {
-        log.LogInformation("Canceling job {name}", displayName);
-        lock (lockObj)
+        logger.LogInformation("Canceling job {name}", displayName);
+        lock (syncRoot)
         {
             if (!isJobComplete)
             {
@@ -161,16 +161,18 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
         }
     }
 
-    public void WaitForCompletion(Action<ProgressUpdateStatus> callback, CancellationToken cancellationToken)
+    public void WaitForCompletion(IProgress<ProgressUpdateStatus> progress, CancellationToken cancellationToken)
     {
         CancellationTokenRegistration cancellationTokenRegistration = cancellationToken.Register(Cancel);
         int noProgressSeconds = 0;
+        int noTransferSeconds = 0;
+        ulong previousTransferred = 0;
         try
         {
             UpdateJobState();
             while (IsProgressingState(state) || state == BG_JOB_STATE.BG_JOB_STATE_QUEUED)
             {
-                if (noProgressSeconds > BitsEngineNoProgressTimeout)
+                if (noProgressSeconds > Timeout || noTransferSeconds > Timeout)
                 {
                     jobException = new TimeoutException($"Timeout reached for job {displayName} whilst in state {state}");
                     break;
@@ -183,7 +185,18 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
                 if (state is BG_JOB_STATE.BG_JOB_STATE_TRANSFERRING or BG_JOB_STATE.BG_JOB_STATE_TRANSFERRED or BG_JOB_STATE.BG_JOB_STATE_ACKNOWLEDGED)
                 {
                     noProgressSeconds = 0;
-                    callback(new ProgressUpdateStatus((long)progress.BytesTransferred, (long)progress.BytesTotal));
+                    if (jobProgress.BytesTransferred > previousTransferred)
+                    {
+                        previousTransferred = jobProgress.BytesTransferred;
+                        noTransferSeconds = 0;
+                        logger.LogInformation("{job}: {read} / {total}", displayName, jobProgress.BytesTransferred, jobProgress.BytesTotal);
+                        progress.Report(new ProgressUpdateStatus((long)jobProgress.BytesTransferred, (long)jobProgress.BytesTotal));
+                    }
+                    else
+                    {
+                        ++noTransferSeconds;
+                        logger.LogInformation("{job} no transfer for {x} seconds", displayName, noTransferSeconds);
+                    }
                 }
 
                 // Refresh every seconds.
@@ -229,7 +242,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
             return;
         }
 
-        lock (lockObj)
+        lock (syncRoot)
         {
             if (isJobComplete)
             {
@@ -238,7 +251,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
 
             if (state == BG_JOB_STATE.BG_JOB_STATE_TRANSFERRED)
             {
-                log.LogInformation("Completing job '{name}'.", displayName);
+                logger.LogInformation("Completing job '{name}'.", displayName);
                 Invoke(() => nativeJob?.Complete(), "Bits Complete");
                 while (state == BG_JOB_STATE.BG_JOB_STATE_TRANSFERRED)
                 {
@@ -248,7 +261,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
             }
             else
             {
-                log.LogInformation("Canceling job '{name}'.", displayName);
+                logger.LogInformation("Canceling job '{name}'.", displayName);
                 Invoke(() => nativeJob?.Cancel(), "Bits Cancel");
             }
 
@@ -268,7 +281,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
     {
         if (!isJobComplete)
         {
-            Invoke(() => nativeJob?.GetProgress(out progress), "GetProgress");
+            Invoke(() => nativeJob?.GetProgress(out jobProgress), "GetProgress");
         }
     }
 
@@ -285,7 +298,7 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
         }
         catch (Exception ex)
         {
-            log.LogInformation("{name} failed. {exception}", displayName, ex);
+            logger.LogInformation("{name} failed. {exception}", displayName, ex);
             if (throwOnFailure)
             {
                 throw;

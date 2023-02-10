@@ -99,7 +99,11 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
         }
         else
         {
-            infoBarService.Error(exception.GetBaseException(), SH.ControlImageCompositionImageSystemException);
+            Exception baseException = exception.GetBaseException();
+            if (baseException is not COMException)
+            {
+                infoBarService.Error(baseException, SH.ControlImageCompositionImageSystemException);
+            }
         }
     }
 
