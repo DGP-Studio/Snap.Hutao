@@ -143,4 +143,28 @@ public class Material
             _ => false,
         };
     }
+
+    /// <summary>
+    /// 获取物品对应的 DaysOfWeek
+    /// </summary>
+    /// <returns>DaysOfWeek</returns>
+    public Binding.Cultivation.DaysOfWeek GetDaysOfWeek()
+    {
+        if (MondayThursdayItems.Contains(Id))
+        {
+            return Binding.Cultivation.DaysOfWeek.MondayAndThursday;
+        }
+
+        if (TuesdayFridayItems.Contains(Id))
+        {
+            return Binding.Cultivation.DaysOfWeek.TuesdayAndFriday;
+        }
+
+        if (WednesdaySaturdayItems.Contains(Id))
+        {
+            return Binding.Cultivation.DaysOfWeek.WednesdayAndSaturday;
+        }
+
+        return Binding.Cultivation.DaysOfWeek.Any;
+    }
 }

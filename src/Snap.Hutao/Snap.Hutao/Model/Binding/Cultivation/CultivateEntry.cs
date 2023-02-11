@@ -41,4 +41,17 @@ public class CultivateEntry : ItemBase
     /// 实体
     /// </summary>
     public List<CultivateItem> Items { get; set; } = default!;
+
+    /// <summary>
+    /// 是否为今日的材料
+    /// </summary>
+    public bool IsToday { get => Items.Any(i => i.IsToday); }
+
+    /// <summary>
+    /// 星期中的日期
+    /// </summary>
+    public DaysOfWeek DaysOfWeek
+    {
+        get => Items.FirstOrDefault(i => i.DaysOfWeek != DaysOfWeek.Any)?.DaysOfWeek ?? DaysOfWeek.Any;
+    }
 }

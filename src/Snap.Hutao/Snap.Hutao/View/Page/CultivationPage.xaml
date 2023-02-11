@@ -37,6 +37,12 @@
             x:Key="BoolToStyleSelector"
             FalseValue="{StaticResource BodyTextBlockStyle}"
             TrueValue="{StaticResource BaseTextBlockStyle}"/>
+
+        <cwuconv:BoolToObjectConverter x:Key="BoolToBrushSelector" FalseValue="{StaticResource ControlFillColorTransparentBrush}">
+            <cwuconv:BoolToObjectConverter.TrueValue>
+                <SolidColorBrush Color="#20A5D610"/>
+            </cwuconv:BoolToObjectConverter.TrueValue>
+        </cwuconv:BoolToObjectConverter>
     </Page.Resources>
 
     <mxi:Interaction.Behaviors>
@@ -165,7 +171,7 @@
                                                                             Margin="6,0,0,0"
                                                                             HorizontalAlignment="Stretch"
                                                                             HorizontalContentAlignment="Stretch"
-                                                                            Background="Transparent"
+                                                                            Background="{Binding IsToday, Converter={StaticResource BoolToBrushSelector}}"
                                                                             Command="{Binding Path=DataContext.FinishStateCommand, Source={StaticResource BindingProxy}}"
                                                                             CommandParameter="{Binding}"
                                                                             Style="{StaticResource ButtonRevealStyle}">

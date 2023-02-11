@@ -31,7 +31,6 @@ internal class TestViewModel : Abstraction.ViewModel
 
         ShowCommunityGameRecordDialogCommand = new AsyncRelayCommand(ShowCommunityGameRecordDialogAsync);
         ShowAdoptCalculatorDialogCommand = new AsyncRelayCommand(ShowAdoptCalculatorDialogAsync);
-        DangerousLoginMihoyoBbsCommand = new AsyncRelayCommand(DangerousLoginMihoyoBbsAsync);
         DownloadStaticFileCommand = new AsyncRelayCommand(DownloadStaticFileAsync);
     }
 
@@ -44,11 +43,6 @@ internal class TestViewModel : Abstraction.ViewModel
     /// 打开养成计算对话框命令
     /// </summary>
     public ICommand ShowAdoptCalculatorDialogCommand { get; }
-
-    /// <summary>
-    /// Dangerous 登录米游社命令
-    /// </summary>
-    public ICommand DangerousLoginMihoyoBbsCommand { get; }
 
     /// <summary>
     /// 下载资源文件命令
@@ -67,38 +61,6 @@ internal class TestViewModel : Abstraction.ViewModel
         // ContentDialog must be created by main thread.
         await ThreadHelper.SwitchToMainThreadAsync();
         await new AdoptCalculatorDialog().ShowAsync();
-    }
-
-    private async Task DangerousLoginMihoyoBbsAsync()
-    {
-        // ContentDialog must be created by main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-        (bool isOk, Dictionary<string, string>? data) = await new LoginMihoyoBBSDialog().GetInputAccountPasswordAsync().ConfigureAwait(false);
-
-        if (isOk)
-        {
-            (Response<LoginResult>? resp, Aigis? aigis) = await serviceProvider
-                .GetRequiredService<PassportClient2>()
-                .LoginByPasswordAsync(data, CancellationToken.None)
-                .ConfigureAwait(false);
-
-            if (resp != null)
-            {
-                if (resp.IsOk())
-                {
-                    Cookie cookie = Cookie.FromLoginResult(resp.Data);
-
-                    await serviceProvider
-                        .GetRequiredService<IUserService>()
-                        .ProcessInputCookieAsync(cookie)
-                        .ConfigureAwait(false);
-                }
-
-                if (resp.ReturnCode == (int)KnownReturnCode.RET_NEED_AIGIS)
-                {
-                }
-            }
-        }
     }
 
     private async Task DownloadStaticFileAsync()

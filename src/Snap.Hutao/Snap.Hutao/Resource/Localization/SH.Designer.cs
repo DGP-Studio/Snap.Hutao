@@ -268,6 +268,42 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 选择账号并启动 的本地化字符串。
+        /// </summary>
+        internal static string LaunchGameTitle {
+            get {
+                return ResourceManager.GetString("LaunchGameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 周一/周四/周日 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingCultivationDaysOfWeek14 {
+            get {
+                return ResourceManager.GetString("ModelBindingCultivationDaysOfWeek14", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 周二/周五/周日 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingCultivationDaysOfWeek25 {
+            get {
+                return ResourceManager.GetString("ModelBindingCultivationDaysOfWeek25", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 周三/周六/周日 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingCultivationDaysOfWeek36 {
+            get {
+                return ResourceManager.GetString("ModelBindingCultivationDaysOfWeek36", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 第 {0} 层 的本地化字符串。
         /// </summary>
         internal static string ModelBindingHutaoComplexAvatarRankFloor {

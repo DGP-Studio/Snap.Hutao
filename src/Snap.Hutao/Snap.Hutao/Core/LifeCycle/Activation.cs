@@ -37,6 +37,11 @@ internal static class Activation
     /// <returns>是否提升了权限</returns>
     public static bool GetElevated()
     {
+        if (System.Diagnostics.Debugger.IsAttached)
+        {
+            return true;
+        }
+
         using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
         {
             WindowsPrincipal principal = new(identity);

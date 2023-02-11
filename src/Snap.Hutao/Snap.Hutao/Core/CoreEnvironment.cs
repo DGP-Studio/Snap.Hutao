@@ -8,6 +8,7 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using System.Collections.Immutable;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json.Serialization.Metadata;
 using Windows.ApplicationModel;
 
@@ -87,7 +88,7 @@ internal static class CoreEnvironment
     public static readonly JsonSerializerOptions JsonOptions = new()
     {
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        Encoder = new JsonTextEncoder(),
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         PropertyNameCaseInsensitive = true,
         WriteIndented = true,
         TypeInfoResolver = new DefaultJsonTypeInfoResolver()

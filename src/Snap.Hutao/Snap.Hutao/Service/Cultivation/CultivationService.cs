@@ -187,7 +187,7 @@ internal class CultivationService : ICultivationService
             }
 
             return results
-                .OrderByDescending(e => e.Items.Any(i => i.IsToday))
+                .OrderByDescending(e => e.IsToday)
                 .ToObservableCollection();
         }
     }

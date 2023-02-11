@@ -90,7 +90,6 @@
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
-    <None Remove="View\Dialog\LoginMihoyoBBSDialog.xaml" />
     <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\MainView.xaml" />
@@ -264,11 +263,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Dialog\SignInWebViewDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\Dialog\LoginMihoyoBBSDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
+using Snap.Hutao.Extension;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
@@ -186,8 +189,6 @@ internal class CultivationViewModel : Abstraction.ViewModel
         if (project != null)
         {
             List<Model.Metadata.Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
-            Dictionary<Model.Primitive.AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            Dictionary<Model.Primitive.WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
             ObservableCollection<Model.Binding.Cultivation.CultivateEntry> entries = await cultivationService
                 .GetCultivateEntriesAsync(project)

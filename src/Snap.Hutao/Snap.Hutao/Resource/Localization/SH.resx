@@ -186,6 +186,18 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>导入</value>
   </data>
+  <data name="LaunchGameTitle" xml:space="preserve">
+    <value>选择账号并启动</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
+    <value>周一/周四/周日</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek25" xml:space="preserve">
+    <value>周二/周五/周日</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
+    <value>周三/周六/周日</value>
+  </data>
   <data name="ModelBindingHutaoComplexAvatarRankFloor" xml:space="preserve">
     <value>第 {0} 层</value>
   </data>

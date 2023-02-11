@@ -24,9 +24,6 @@ public class CultivateItem : ObservableObject
         Inner = inner;
         Entity = entity;
         isFinished = Entity.IsFinished;
-        IsToday = inner.IsTodaysItem();
-
-        FinishStateCommand = new RelayCommand(FlipIsFinished);
     }
 
     /// <summary>
@@ -38,11 +35,6 @@ public class CultivateItem : ObservableObject
     /// 实体
     /// </summary>
     public Entity.CultivateItem Entity { get; }
-
-    /// <summary>
-    /// 调整完成状态命令
-    /// </summary>
-    public ICommand FinishStateCommand { get; }
 
     /// <summary>
     /// 是否完成此项
@@ -61,15 +53,10 @@ public class CultivateItem : ObservableObject
     /// <summary>
     /// 是否为今日物品
     /// </summary>
-    public bool IsToday { get; }
+    public bool IsToday { get => Inner.IsTodaysItem(); }
 
     /// <summary>
-    /// 对应背包物品的个数
+    /// 星期中的日期
     /// </summary>
-    public uint InventoryItemCount { get; set; }
-
-    private void FlipIsFinished()
-    {
-        IsFinished = !IsFinished;
-    }
+    public DaysOfWeek DaysOfWeek { get => Inner.GetDaysOfWeek(); }
 }

@@ -36,28 +36,6 @@ internal class PassportClient2
     }
 
     /// <summary>
-    /// 异步账密登录
-    /// </summary>
-    /// <param name="data">账密数据</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>登录数据</returns>
-    [ApiInformation(Salt = SaltType.PROD)]
-    public async Task<ValueResult<Response<LoginResult>?, Aigis?>> LoginByPasswordAsync(Dictionary<string, string> data, CancellationToken token)
-    {
-        HttpResponseMessage resp = await httpClient
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .PostAsJsonAsync(ApiEndpoints.AccountLoginByPassword, data, options, token)
-            .ConfigureAwait(false);
-
-        _ = resp.Headers.TryGetValues("X-Rpc-Aigis", out IEnumerable<string>? values);
-
-        Aigis? aigis = values != null && values.Any() ? JsonSerializer.Deserialize<Aigis>(values.Single(), options) : null;
-        Response<LoginResult>? body = await resp.Content.ReadFromJsonAsync<Response<LoginResult>>(options, token).ConfigureAwait(false);
-
-        return new(body, aigis);
-    }
-
-    /// <summary>
     /// V1Stoken 登录
     /// </summary>
     /// <param name="stokenV1">v1 Stoken</param>

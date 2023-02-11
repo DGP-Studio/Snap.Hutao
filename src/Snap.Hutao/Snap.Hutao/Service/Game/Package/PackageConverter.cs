@@ -245,8 +245,8 @@ internal class PackageConverter
             return false;
         }
 
-        // Ensure cache folder
-        string cacheFolder = Path.Combine(gameFolder, "Screenshot", "HutaoCache");
+        // Cache folder
+        string cacheFolder = Path.Combine(Core.CoreEnvironment.DataFolder, "ServerCache");
 
         // 执行下载与移动操作
         foreach (ItemOperationInfo info in operations)
