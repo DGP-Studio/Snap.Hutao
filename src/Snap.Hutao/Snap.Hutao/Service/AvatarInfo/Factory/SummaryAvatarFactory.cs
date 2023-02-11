@@ -69,8 +69,6 @@ internal class SummaryAvatarFactory
         };
 
         TryApplyCostumeIconToAvatar(ref propertyAvatar, avatar);
-
-        propertyAvatar.Level = $"Lv.{propertyAvatar.LevelNumber}";
         return propertyAvatar;
     }
 
@@ -153,7 +151,7 @@ internal class SummaryAvatarFactory
             Id = weapon.Id,
             LevelNumber = equip.Weapon!.Level,
             SubProperty = subProperty,
-            AffixLevel = $"精炼{affixLevel + 1}",
+            AffixLevelNumber = affixLevel + 1,
             AffixName = weapon.Affix?.Name ?? string.Empty,
             AffixDescription = weapon.Affix?.Descriptions.Single(a => a.Level == affixLevel).Description ?? string.Empty,
         };

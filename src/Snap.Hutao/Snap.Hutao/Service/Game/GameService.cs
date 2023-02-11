@@ -285,8 +285,8 @@ internal class GameService : IGameService
             return true;
         }
 
-        return Process.GetProcessesByName(YuanShenFileName).Any()
-            || Process.GetProcessesByName(GenshinImpactFileName).Any();
+        return Process.GetProcessesByName(YuanShenProcessName).Any()
+            || Process.GetProcessesByName(GenshinImpactProcessName).Any();
     }
 
     /// <inheritdoc/>

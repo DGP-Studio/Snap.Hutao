@@ -277,6 +277,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 精炼 {0} 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingAvatarPropertyWeaponAffixFormat {
+            get {
+                return ResourceManager.GetString("ModelBindingAvatarPropertyWeaponAffixFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 周一/周四/周日 的本地化字符串。
         /// </summary>
         internal static string ModelBindingCultivationDaysOfWeek14 {
@@ -2131,6 +2140,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 详细数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyPivotDetailHeader {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyPivotDetailHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 总览数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyPivotOverviewHeader {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyPivotOverviewHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 初始词条 的本地化字符串。
         /// </summary>
         internal static string ViewPageAvatarPropertyPrimaryProperties {
@@ -3441,6 +3468,42 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingGameHeader {
             get {
                 return ResourceManager.GetString("ViewPageSettingGameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重置 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingResetAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingResetAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下次启动时会重新下载所有图像资源 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingResetStaticResourceDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingResetStaticResourceDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重置图片资源 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingResetStaticResourceHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingResetStaticResourceHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重置成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingResetSuccessMessage {
+            get {
+                return ResourceManager.GetString("ViewPageSettingResetSuccessMessage", resourceCulture);
             }
         }
         

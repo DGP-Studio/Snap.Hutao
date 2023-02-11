@@ -156,6 +156,14 @@
                             <Button Command="{Binding Experimental.OpenCacheFolderCommand}" Content="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"/>
                         </wsc:Setting.ActionContent>
                     </wsc:Setting>
+                    <wsc:Setting
+                        Description="{shcm:ResourceString Name=ViewPageSettingResetStaticResourceDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingResetStaticResourceHeader}"
+                        Icon="&#xEBC4;">
+                        <wsc:Setting.ActionContent>
+                            <Button Command="{Binding ResetStaticResourceCommand}" Content="{shcm:ResourceString Name=ViewPageSettingResetAction}"/>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
                 </wsc:SettingsGroup>
 
                 <wsc:SettingsGroup Header="测试功能">
@@ -180,16 +188,6 @@
                         IsOpen="True"
                         Message="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
                         Severity="Error"/>
-
-                    <wsc:Setting
-                        Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-                        Description="{shcm:ResourceString Name=ViewPageSettingDeleteTaskDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageSettingDeleteTaskHeader}"
-                        Icon="&#xE7C4;">
-                        <wsc:Setting.ActionContent>
-                            <Button Command="{Binding Experimental.DeleteAllScheduleTasksCommand}" Content="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"/>
-                        </wsc:Setting.ActionContent>
-                    </wsc:Setting>
 
                     <wsc:Setting
                         Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"

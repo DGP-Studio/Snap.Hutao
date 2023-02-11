@@ -10,6 +10,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
+using System.Diagnostics;
 using System.Security.Principal;
 
 namespace Snap.Hutao.Core.LifeCycle;
@@ -220,7 +221,7 @@ internal static class Activation
                     if (!isRedirected)
                     {
                         // It's a direct open process, should exit immediately.
-                        Environment.Exit(0);
+                        Process.GetCurrentProcess().Kill();
                     }
 
                     break;

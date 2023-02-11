@@ -74,6 +74,7 @@ internal class SettingViewModel : Abstraction.ViewModel
         DeleteGameWebCacheCommand = new RelayCommand(DeleteGameWebCache);
         ShowSignInWebViewDialogCommand = new AsyncRelayCommand(ShowSignInWebViewDialogAsync);
         SetDataFolderCommand = new AsyncRelayCommand(SetDataFolderAsync);
+        ResetStaticResourceCommand = new RelayCommand(ResetStaticResource);
     }
 
     /// <summary>
@@ -182,6 +183,11 @@ internal class SettingViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand SetDataFolderCommand { get; }
 
+    /// <summary>
+    /// 重置静态资源
+    /// </summary>
+    public ICommand ResetStaticResourceCommand { get; }
+
     private async Task SetGamePathAsync()
     {
         IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>()
@@ -259,5 +265,11 @@ internal class SettingViewModel : Abstraction.ViewModel
             LocalSetting.Set(SettingKeys.DataFolderPath, folder);
             infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
         }
+    }
+
+    private void ResetStaticResource()
+    {
+        StaticResource.UnfulfillAllContracts();
+        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewPageSettingResetSuccessMessage);
     }
 }

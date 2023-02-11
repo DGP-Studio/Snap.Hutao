@@ -31,7 +31,6 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
         OpenCacheFolderCommand = new AsyncRelayCommand(OpenCacheFolderAsync);
         OpenDataFolderCommand = new AsyncRelayCommand(OpenDataFolderAsync);
         DeleteUsersCommand = new AsyncRelayCommand(DangerousDeleteUsersAsync);
-        DeleteAllScheduleTasksCommand = new RelayCommand(DangerousDeleteAllScheduleTasks);
     }
 
     /// <summary>
@@ -48,11 +47,6 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
     /// 清空用户命令
     /// </summary>
     public ICommand DeleteUsersCommand { get; }
-
-    /// <summary>
-    /// 删除所有计划任务命令
-    /// </summary>
-    public ICommand DeleteAllScheduleTasksCommand { get; }
 
     private Task OpenCacheFolderAsync()
     {
@@ -73,19 +67,6 @@ internal class ExperimentalFeaturesViewModel : ObservableObject
 
             IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
             infoBarService.Success(SH.ViewModelExperimentalDeleteUserSuccess);
-        }
-    }
-
-    private void DangerousDeleteAllScheduleTasks()
-    {
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        if (Core.ScheduleTaskHelper.UnregisterAllTasks())
-        {
-            infoBarService.Success(SH.ViewModelExperimentalDeleteTaskSuccess);
-        }
-        else
-        {
-            infoBarService.Warning(SH.ViewModelExperimentalDeleteTaskWarning);
         }
     }
 }

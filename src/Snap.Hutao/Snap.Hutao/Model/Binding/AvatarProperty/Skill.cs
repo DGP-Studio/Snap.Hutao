@@ -18,14 +18,19 @@ public class Skill : NameIconDescription, ICalculableSource<ICalculableSkill>
     public LevelParam<string, ParameterInfo> Info { get; set; } = default!;
 
     /// <summary>
+    /// 不计算命座的技能等级
+    /// </summary>
+    public int LevelNumber { get; set; }
+
+    /// <summary>
+    /// 不计算命座的技能等级字符串
+    /// </summary>
+    public string Level { get => $"Lv.{LevelNumber}"; }
+
+    /// <summary>
     /// 技能组Id
     /// </summary>
     internal int GroupId { get; set; }
-
-    /// <summary>
-    /// 技能等级，仅用于养成计算
-    /// </summary>
-    internal int LevelNumber { get; set; }
 
     /// <inheritdoc/>
     public ICalculableSkill ToCalculable()

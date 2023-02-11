@@ -189,6 +189,9 @@
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>选择账号并启动</value>
   </data>
+  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+    <value>精炼 {0}</value>
+  </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
     <value>周一/周四/周日</value>
   </data>
@@ -807,6 +810,12 @@
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>角色属性</value>
   </data>
+  <data name="ViewPageAvatarPropertyPivotDetailHeader" xml:space="preserve">
+    <value>详细数据</value>
+  </data>
+  <data name="ViewPageAvatarPropertyPivotOverviewHeader" xml:space="preserve">
+    <value>总览数据</value>
+  </data>
   <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
     <value>初始词条</value>
   </data>
@@ -1244,6 +1253,18 @@
   </data>
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>游戏</value>
+  </data>
+  <data name="ViewPageSettingResetAction" xml:space="preserve">
+    <value>重置</value>
+  </data>
+  <data name="ViewPageSettingResetStaticResourceDescription" xml:space="preserve">
+    <value>下次启动时会重新下载所有图像资源</value>
+  </data>
+  <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
+    <value>重置图片资源</value>
+  </data>
+  <data name="ViewPageSettingResetSuccessMessage" xml:space="preserve">
+    <value>重置成功</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目录后需要手动移动目录内的数据，否则会重新创建用户数据</value>

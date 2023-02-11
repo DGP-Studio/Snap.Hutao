@@ -18,9 +18,14 @@ public class Weapon : EquipBase, ICalculableSource<ICalculableWeapon>
     public Pair<string, string> SubProperty { get; set; } = default!;
 
     /// <summary>
+    /// 精炼等级
+    /// </summary>
+    public int AffixLevelNumber { get; set; }
+
+    /// <summary>
     /// 精炼属性
     /// </summary>
-    public string AffixLevel { get; set; } = default!;
+    public string AffixLevel { get => string.Format(SH.ModelBindingAvatarPropertyWeaponAffixFormat, AffixLevelNumber); }
 
     /// <summary>
     /// 精炼名称

@@ -13,10 +13,15 @@ internal static class StaticResource
     /// </summary>
     public static void FulfillAllContracts()
     {
-        LocalSetting.Set(SettingKeys.StaticResourceV1Contract, true);
-        LocalSetting.Set(SettingKeys.StaticResourceV2Contract, true);
-        LocalSetting.Set(SettingKeys.StaticResourceV3Contract, true);
-        LocalSetting.Set(SettingKeys.StaticResourceV4Contract, true);
+        SetContractsState(true);
+    }
+
+    /// <summary>
+    /// 完成所有合约
+    /// </summary>
+    public static void UnfulfillAllContracts()
+    {
+        SetContractsState(false);
     }
 
     /// <summary>
@@ -39,5 +44,13 @@ internal static class StaticResource
             || (!LocalSetting.Get(SettingKeys.StaticResourceV2Contract, false))
             || (!LocalSetting.Get(SettingKeys.StaticResourceV3Contract, false))
             || (!LocalSetting.Get(SettingKeys.StaticResourceV4Contract, false));
+    }
+
+    private static void SetContractsState(bool state)
+    {
+        LocalSetting.Set(SettingKeys.StaticResourceV1Contract, state);
+        LocalSetting.Set(SettingKeys.StaticResourceV2Contract, state);
+        LocalSetting.Set(SettingKeys.StaticResourceV3Contract, state);
+        LocalSetting.Set(SettingKeys.StaticResourceV4Contract, state);
     }
 }

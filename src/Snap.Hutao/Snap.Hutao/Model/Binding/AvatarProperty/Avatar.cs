@@ -46,7 +46,7 @@ public class Avatar : ICalculableSource<ICalculableAvatar>
     /// <summary>
     /// 等级
     /// </summary>
-    public string Level { get; set; } = default!;
+    public string Level { get => $"Lv.{LevelNumber}"; }
 
     /// <summary>
     /// 武器
@@ -62,6 +62,11 @@ public class Avatar : ICalculableSource<ICalculableAvatar>
     /// 命之座列表
     /// </summary>
     public List<Constellation> Constellations { get; set; } = default!;
+
+    /// <summary>
+    /// 激活的命之座个数
+    /// </summary>
+    public int ActivatedConstellationCount { get => Constellations.Where(c => c.IsActivated).Count(); }
 
     /// <summary>
     /// 技能列表

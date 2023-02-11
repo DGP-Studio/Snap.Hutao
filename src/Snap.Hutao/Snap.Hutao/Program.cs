@@ -34,8 +34,6 @@ public static partial class Program
             Application.Start(InitializeApp);
             Control.ScopedPage.DisposePreviousScope();
         }
-
-        AppInstance.GetCurrent().UnregisterKey();
     }
 
     private static void InitializeApp(ApplicationInitializationCallbackParams param)

@@ -32,4 +32,14 @@ internal static class GameConstants
     /// 国际服数据文件夹
     /// </summary>
     public const string GenshinImpactData = "GenshinImpact_Data";
+
+    /// <summary>
+    /// 国服进程名
+    /// </summary>
+    public const string YuanShenProcessName = "YuanShen";
+
+    /// <summary>
+    /// 外服进程名
+    /// </summary>
+    public const string GenshinImpactProcessName = "GenshinImpact";
 }
