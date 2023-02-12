@@ -353,6 +353,7 @@ public class MiHoYoJSInterface
         }
     }
 
+    [SuppressMessage("", "CA2254")]
     private IJsResult? LogUnhandledMessage([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string message, params object?[] param)
     {
         logger.LogWarning(message, param);

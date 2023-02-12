@@ -138,7 +138,6 @@ internal class WelcomeViewModel : ObservableObject
         /// </summary>
         /// <param name="serviceProvider">服务提供器</param>
         /// <param name="fileName">压缩文件名称</param>
-        /// 
         public DownloadSummary(IServiceProvider serviceProvider, string fileName)
         {
             this.serviceProvider = serviceProvider;

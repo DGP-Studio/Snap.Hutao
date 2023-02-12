@@ -1,8 +1,12 @@
-﻿namespace Snap.Hutao.Core.Annotation;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+namespace Snap.Hutao.Core.Annotation;
 
 /// <summary>
 /// 本地化键
 /// </summary>
+[AttributeUsage(AttributeTargets.Enum)]
 internal class LocalizationKeyAttribute : Attribute
 {
     /// <summary>

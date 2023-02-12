@@ -17,7 +17,6 @@ namespace Snap.Hutao.View.Dialog;
 public sealed partial class AdoptCalculatorDialog : ContentDialog
 {
     private readonly IServiceScope scope;
-    [SuppressMessage("", "IDE0052")]
     private MiHoYoJSInterface? jsInterface;
 
     /// <summary>

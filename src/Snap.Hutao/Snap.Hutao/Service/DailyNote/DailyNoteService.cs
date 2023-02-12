@@ -146,6 +146,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
                 else
                 {
                     IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
+
                     // special retcode handling for dailynote
                     if (dailyNoteResponse.ReturnCode == (int)Web.Response.KnownReturnCode.CODE1034)
                     {

@@ -30,7 +30,6 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 成就视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-[SuppressMessage("", "SA1124")]
 internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
     private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(BindingAchievement.IsChecked), SortDirection.Ascending);

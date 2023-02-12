@@ -46,7 +46,6 @@ internal class DynamicSecretCreationOptions
     public string DefaultBody
     {
         get => SaltType == SaltType.PROD ? "{}" : string.Empty;
-
     }
 
     /// <summary>
