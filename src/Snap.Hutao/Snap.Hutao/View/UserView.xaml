@@ -192,7 +192,14 @@
                             Margin="10,6,0,6"
                             Style="{StaticResource BaseTextBlockStyle}"
                             Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
-                        <CommandBar DefaultLabelPosition="Right">
+                        <StackPanel
+                            Margin="0,0,6,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <AppBarButton
+                                Command="{Binding RefreshCookieTokenCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xE72C;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>
                             <AppBarButton
                                 Command="{Binding LoginMihoyoUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xEB41;}"
@@ -201,7 +208,7 @@
                                 Command="{Binding AddUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
-                        </CommandBar>
+                        </StackPanel>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>

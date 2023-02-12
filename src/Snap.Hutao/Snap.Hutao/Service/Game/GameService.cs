@@ -171,7 +171,7 @@ internal class GameService : IGameService
         string gamePath = GetGamePathSkipLocator();
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFileName);
 
-        List<IniElement> elements;
+        List<IniElement> elements = null!;
         try
         {
             using (FileStream readStream = File.OpenRead(configPath))
@@ -181,15 +181,15 @@ internal class GameService : IGameService
         }
         catch (FileNotFoundException ex)
         {
-            throw new GameFileOperationException(string.Format(SH.ServiceGameSetMultiChannelConfigFileNotFound, configPath), ex);
+            ThrowHelper.GameFileOperation(string.Format(SH.ServiceGameSetMultiChannelConfigFileNotFound, configPath), ex);
         }
         catch (DirectoryNotFoundException ex)
         {
-            throw new GameFileOperationException(string.Format(SH.ServiceGameSetMultiChannelConfigFileNotFound, configPath), ex);
+            ThrowHelper.GameFileOperation(string.Format(SH.ServiceGameSetMultiChannelConfigFileNotFound, configPath), ex);
         }
         catch (UnauthorizedAccessException ex)
         {
-            throw new GameFileOperationException(SH.ServiceGameSetMultiChannelUnauthorizedAccess, ex);
+            ThrowHelper.GameFileOperation(SH.ServiceGameSetMultiChannelUnauthorizedAccess, ex);
         }
 
         bool changed = false;
@@ -351,6 +351,7 @@ internal class GameService : IGameService
                 TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
                 TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
                 TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
+
                 if (game.Start())
                 {
                     await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);

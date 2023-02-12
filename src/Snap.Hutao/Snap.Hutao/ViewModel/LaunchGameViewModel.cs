@@ -7,6 +7,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
@@ -297,8 +298,6 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                 if (gameService.SetMultiChannel(SelectedScheme))
                 {
                     // Channel changed, we need to change local file.
-                    // Note that if channel changed successfully, the
-                    // access level is already high enough.
                     await ThreadHelper.SwitchToMainThreadAsync();
                     LaunchGamePackageConvertDialog dialog = new();
                     Progress<Service.Game.Package.PackageReplaceStatus> progress = new(state => dialog.State = state.Clone());
@@ -307,6 +306,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                         if (!await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false))
                         {
                             infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
+                            return;
                         }
                     }
                 }
@@ -316,6 +316,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     if (!gameService.SetGameAccount(SelectedGameAccount))
                     {
                         infoBarService.Warning(SH.ViewModelLaunchGameSwitchGameAccountFail);
+                        return;
                     }
                 }
 
@@ -329,6 +330,10 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                 infoBarService.Error(ex);
             }
         }
+        else
+        {
+            infoBarService.Error(SH.ViewModelLaunchGameSchemeNotSelected);
+        }
     }
 
     private async Task DetectGameAccountAsync()
@@ -337,7 +342,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
         {
             await gameService.DetectGameAccountAsync().ConfigureAwait(false);
         }
-        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        catch (UserdataCorruptedException ex)
         {
             serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
         }

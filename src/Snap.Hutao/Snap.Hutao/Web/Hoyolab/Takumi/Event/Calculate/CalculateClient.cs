@@ -44,7 +44,7 @@ internal class CalculateClient
     {
         Response<Consumption>? resp = await httpClient
             .SetUser(user, CookieType.Cookie)
-            .SetReferer("https://webstatic.mihoyo.com/")
+            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
             .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(ApiEndpoints.CalculateCompute, delta, options, logger, token)
             .ConfigureAwait(false);
 
@@ -70,6 +70,7 @@ internal class CalculateClient
         {
             filter.Page = currentPage++;
             resp = await httpClient
+                .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
                 .TryCatchPostAsJsonAsync<SyncAvatarFilter, Response<ListWrapper<Avatar>>>(ApiEndpoints.CalculateSyncAvatarList, filter, options, logger, token)
                 .ConfigureAwait(false);
 

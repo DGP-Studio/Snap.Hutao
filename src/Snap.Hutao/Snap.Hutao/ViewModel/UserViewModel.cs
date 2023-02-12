@@ -49,6 +49,7 @@ internal class UserViewModel : ObservableObject
         LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
         RemoveUserCommand = new AsyncRelayCommand<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
+        RefreshCookieTokenCommand = new AsyncRelayCommand(RefreshCookieTokenAsync);
     }
 
     /// <summary>
@@ -100,6 +101,11 @@ internal class UserViewModel : ObservableObject
     /// 复制Cookie命令
     /// </summary>
     public ICommand CopyCookieCommand { get; }
+
+    /// <summary>
+    /// 刷新 CookieToken 命令
+    /// </summary>
+    public ICommand RefreshCookieTokenCommand { get; }
 
     private async Task OpenUIAsync()
     {
@@ -201,6 +207,21 @@ internal class UserViewModel : ObservableObject
         catch (Exception e)
         {
             infoBarService.Error(e);
+        }
+    }
+
+    private async Task RefreshCookieTokenAsync()
+    {
+        if (SelectedUser != null)
+        {
+            if (await userService.RefreshCookieTokenAsync(SelectedUser).ConfigureAwait(false))
+            {
+                infoBarService.Success(SH.ViewUserRefreshCookieTokenSuccess);
+            }
+            else
+            {
+                infoBarService.Warning(SH.ViewUserRefreshCookieTokenWarning);
+            }
         }
     }
 }

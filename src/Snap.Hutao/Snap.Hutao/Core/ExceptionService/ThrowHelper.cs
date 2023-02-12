@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Package;
 using System.Runtime.CompilerServices;
 
@@ -24,6 +25,18 @@ internal static class ThrowHelper
     public static OperationCanceledException OperationCanceled(string message, Exception? inner)
     {
         throw new OperationCanceledException(message, inner);
+    }
+
+    /// <summary>
+    /// 游戏文件操作失败
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="inner">内部错误</param>
+    /// <returns>nothing</returns>
+    /// <exception cref="GameFileOperationException">文件操作失败</exception>
+    public static GameFileOperationException GameFileOperation(string message, Exception inner)
+    {
+        throw new GameFileOperationException(message, inner);
     }
 
     /// <summary>

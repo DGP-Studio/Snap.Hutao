@@ -10,6 +10,7 @@ namespace Snap.Hutao.Web;
 /// 国服 API 端点
 /// </summary>
 [SuppressMessage("", "SA1201")]
+[SuppressMessage("", "SA1202")]
 [SuppressMessage("", "SA1124")]
 internal static class ApiEndpoints
 {
@@ -344,8 +345,11 @@ internal static class ApiEndpoints
     private const string ApiTakumiRecord = "https://api-takumi-record.mihoyo.com";
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";
 
-    private const string App = "https://app.mihoyo.com";
-    private const string AppAuthApi = $"{App}/account/auth/api";
+    /// <summary>
+    /// Referer: https://app.mihoyo.com
+    /// </summary>
+    public const string AppMihoyoReferer = "https://app.mihoyo.com";
+    private const string AppAuthApi = $"{AppMihoyoReferer}/account/auth/api";
 
     private const string BbsApi = "https://bbs-api.mihoyo.com";
     private const string BbsApiUserApi = $"{BbsApi}/user/wapi";
@@ -360,6 +364,11 @@ internal static class ApiEndpoints
 
     private const string SdkStatic = "https://sdk-static.mihoyo.com";
     private const string SdkStaticLauncherApi = $"{SdkStatic}/hk4e_cn/mdk/launcher/api";
+
+    /// <summary>
+    /// Referer: https://webstatic.mihoyo.com
+    /// </summary>
+    public const string WebStaticMihoyoReferer = "https://webstatic.mihoyo.com";
 
     private const string AnnouncementQuery = "game=hk4e&game_biz=hk4e_cn&lang=zh-cn&bundle_id=hk4e_cn&platform=pc&region=cn_gf01&level=55&uid=100000000";
     #endregion

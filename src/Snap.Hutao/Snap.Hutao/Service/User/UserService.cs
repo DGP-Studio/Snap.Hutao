@@ -10,7 +10,9 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Web.Hoyolab;
+using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
+using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using BindingUser = Snap.Hutao.Model.Binding.User.User;
 
@@ -225,6 +227,36 @@ internal class UserService : IUserService
         else
         {
             return await TryCreateUserAndAddAsync(cookie).ConfigureAwait(false);
+        }
+    }
+
+    /// <inheritdoc/>
+    public async Task<bool> RefreshCookieTokenAsync(BindingUser user)
+    {
+        using (IServiceScope scope = scopeFactory.CreateScope())
+        {
+            Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
+                    .GetRequiredService<PassportClient2>()
+                    .GetCookieAccountInfoBySTokenAsync(user.Entity)
+                    .ConfigureAwait(false);
+
+            if (cookieTokenResponse.IsOk())
+            {
+                string cookieToken = cookieTokenResponse.Data.CookieToken;
+
+                // Check null and create a new one to avoid System.NullReferenceException
+                user.CookieToken ??= new();
+
+                // sync ui and database
+                user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken!;
+                scope.ServiceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(user.Entity);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 

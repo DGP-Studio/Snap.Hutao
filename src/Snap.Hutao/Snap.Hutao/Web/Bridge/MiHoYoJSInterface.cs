@@ -198,32 +198,15 @@ public class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual async Task<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
-        User user = serviceProvider.GetRequiredService<IUserService>().Current!;
-        string cookieToken = string.Empty;
+        IUserService userService = serviceProvider.GetRequiredService<IUserService>();
+        User user = userService.Current!;
         if (param.Payload!.ForceRefresh)
         {
-            Response.Response<UidCookieToken> cookieTokenResponse = await Ioc.Default
-                .GetRequiredService<PassportClient2>()
-                .GetCookieAccountInfoBySTokenAsync(user.Entity, default)
-                .ConfigureAwait(false);
-            if (cookieTokenResponse.IsOk())
-            {
-                cookieToken = cookieTokenResponse.Data.CookieToken;
-            }
-
-            // Check null and create a new one to avoid System.NullReferenceException
-            user.CookieToken ??= new();
-
-            // sync ui and database
-            user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken!;
-            serviceProvider.GetRequiredService<AppDbContext>().Users.UpdateAndSave(user.Entity);
-        }
-        else
-        {
-            cookieToken = user.CookieToken![Cookie.COOKIE_TOKEN];
+            await userService.RefreshCookieTokenAsync(user).ConfigureAwait(false);
         }
 
-        return new() { Data = new() { [Cookie.COOKIE_TOKEN] = cookieToken! } };
+        webView.SetCookie(user.CookieToken, user.Ltoken);
+        return new() { Data = new() { [Cookie.COOKIE_TOKEN] = user.CookieToken![Cookie.COOKIE_TOKEN] } };
     }
 
     /// <summary>

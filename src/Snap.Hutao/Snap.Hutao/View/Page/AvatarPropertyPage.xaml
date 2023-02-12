@@ -91,46 +91,61 @@
                                             <RowDefinition Height="auto"/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <Grid
+                                        <Border Grid.RowSpan="2" Grid.ColumnSpan="2">
+                                            <shci:CachedImage
+                                                MaxWidth="145"
+                                                Opacity="0.5"
+                                                Source="{Binding NameCard}"
+                                                Stretch="UniformToFill"/>
+                                        </Border>
+
+                                        <shvcont:BottomTextControl
                                             Grid.Row="0"
                                             Grid.Column="0"
-                                            Margin="6,6,0,6">
-                                            <shvcont:ItemIcon
-                                                Width="63"
-                                                Height="63"
-                                                Icon="{Binding Icon}"
-                                                Quality="{Binding Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding ActivatedConstellationCount}"/>
-                                            </Border>
-                                        </Grid>
-                                        <Grid
+                                            Margin="6,6,0,6"
+                                            Text="{Binding Level}">
+                                            <Grid>
+                                                <shvcont:ItemIcon
+                                                    Width="61"
+                                                    Height="61"
+                                                    Icon="{Binding Icon}"
+                                                    Quality="{Binding Quality}"/>
+                                                <Border
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Background="#80000000"
+                                                    CornerRadius="0,6,0,6">
+                                                    <TextBlock
+                                                        Margin="6,0,6,2"
+                                                        Foreground="#FFFFFFFF"
+                                                        Text="{Binding ActivatedConstellationCount}"/>
+                                                </Border>
+                                            </Grid>
+                                        </shvcont:BottomTextControl>
+                                        <shvcont:BottomTextControl
                                             Grid.Row="0"
                                             Grid.Column="1"
-                                            Margin="0,6,6,6">
-                                            <shvcont:ItemIcon
-                                                Width="63"
-                                                Height="63"
-                                                Icon="{Binding Weapon.Icon}"
-                                                Quality="{Binding Weapon.Quality}"/>
-                                            <Border
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Background="#80000000"
-                                                CornerRadius="0,6,0,6">
-                                                <TextBlock
-                                                    Margin="6,0,6,2"
-                                                    Foreground="#FFFFFFFF"
-                                                    Text="{Binding Weapon.AffixLevelNumber}"/>
-                                            </Border>
-                                        </Grid>
+                                            Margin="0,6,6,6"
+                                            Text="{Binding Weapon.Level}">
+                                            <Grid>
+                                                <shvcont:ItemIcon
+                                                    Width="61"
+                                                    Height="61"
+                                                    Icon="{Binding Weapon.Icon}"
+                                                    Quality="{Binding Weapon.Quality}"/>
+                                                <Border
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Background="#80000000"
+                                                    CornerRadius="0,6,0,6">
+                                                    <TextBlock
+                                                        Margin="6,0,6,2"
+                                                        Foreground="#FFFFFFFF"
+                                                        Text="{Binding Weapon.AffixLevelNumber}"/>
+                                                </Border>
+                                            </Grid>
+                                        </shvcont:BottomTextControl>
+
                                         <ItemsControl
                                             Grid.Row="1"
                                             Grid.Column="0"
@@ -151,6 +166,7 @@
                                                                 Height="32"
                                                                 Margin="4,4,4,0"
                                                                 HorizontalAlignment="Center"
+                                                                EnableLazyLoading="False"
                                                                 Source="{Binding Icon}"/>
                                                             <TextBlock
                                                                 Margin="0,0,0,4"
@@ -164,7 +180,6 @@
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
                                     </Grid>
-
                                 </Border>
                             </DataTemplate>
                         </GridView.ItemTemplate>

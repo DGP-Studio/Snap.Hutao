@@ -15,7 +15,7 @@ public interface IInfoBarService
     /// </summary>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    void Error(string message, int delay = 0);
+    void Error(string message, int delay = 60000);
 
     /// <summary>
     /// 显示错误消息
@@ -23,14 +23,14 @@ public interface IInfoBarService
     /// <param name="title">标题</param>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    void Error(string title, string message, int delay = 0);
+    void Error(string title, string message, int delay = 60000);
 
     /// <summary>
     /// 显示错误消息
     /// </summary>
     /// <param name="exception">异常</param>
     /// <param name="delay">关闭延迟</param>
-    void Error(Exception exception, int delay = 0);
+    void Error(Exception exception, int delay = 60000);
 
     /// <summary>
     /// 显示错误消息
@@ -38,7 +38,7 @@ public interface IInfoBarService
     /// <param name="exception">异常</param>
     /// <param name="title">标题</param>
     /// <param name="delay">关闭延迟</param>
-    void Error(Exception exception, string title, int delay = 0);
+    void Error(Exception exception, string title, int delay = 60000);
 
     /// <summary>
     /// 显示提示信息

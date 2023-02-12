@@ -66,7 +66,7 @@ internal class BindingClient2
     {
         Response<GameAuthKey>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)
-            .SetReferer("https://app.mihoyo.com")
+            .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, true)
             .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.BindingGenAuthKey, data, options, logger, token)
             .ConfigureAwait(false);

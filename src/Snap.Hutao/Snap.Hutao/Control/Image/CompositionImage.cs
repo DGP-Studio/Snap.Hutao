@@ -23,6 +23,7 @@ namespace Snap.Hutao.Control.Image;
 public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 {
     private static readonly DependencyProperty SourceProperty = Property<CompositionImage>.Depend(nameof(Source), default(Uri), OnSourceChanged);
+    private static readonly DependencyProperty EnableLazyLoadingProperty = Property<CompositionImage>.Depend(nameof(EnableLazyLoading), true);
     private static readonly ConcurrentCancellationTokenSource<CompositionImage> LoadingTokenSource = new();
 
     private readonly IServiceProvider serviceProvider;
@@ -54,6 +55,15 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         get => (Uri)GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
+    }
+
+    /// <summary>
+    /// 启用延迟加载
+    /// </summary>
+    public bool EnableLazyLoading
+    {
+        get { return (bool)GetValue(EnableLazyLoadingProperty); }
+        set { SetValue(EnableLazyLoadingProperty, value); }
     }
 
     /// <summary>
@@ -167,7 +177,15 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         if (!isShow)
         {
-            await AnimationBuilder.Create().Opacity(1d).StartAsync(this, token).ConfigureAwait(true);
+            if (EnableLazyLoading)
+            {
+                await AnimationBuilder.Create().Opacity(1d, 0d).StartAsync(this, token).ConfigureAwait(true);
+            }
+            else
+            {
+                Opacity = 1;
+            }
+
             isShow = true;
         }
     }
@@ -176,7 +194,15 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         if (isShow)
         {
-            await AnimationBuilder.Create().Opacity(0d).StartAsync(this, token).ConfigureAwait(true);
+            if (EnableLazyLoading)
+            {
+                await AnimationBuilder.Create().Opacity(0d, 1d).StartAsync(this, token).ConfigureAwait(true);
+            }
+            else
+            {
+                Opacity = 0;
+            }
+
             isShow = false;
         }
     }

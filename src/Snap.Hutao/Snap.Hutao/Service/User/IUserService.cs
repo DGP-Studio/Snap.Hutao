@@ -48,6 +48,13 @@ public interface IUserService
     Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie);
 
     /// <summary>
+    /// 异步刷新 Cookie 的 CookieToken
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <returns>是否刷新成功</returns>
+    Task<bool> RefreshCookieTokenAsync(BindingUser user);
+
+    /// <summary>
     /// 异步移除用户
     /// </summary>
     /// <param name="user">待移除的用户</param>

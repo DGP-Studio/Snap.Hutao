@@ -64,7 +64,7 @@ internal class PassportClient2
     /// <param name="token">取消令牌</param>
     /// <returns>cookie token</returns>
     [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.PROD)]
-    public async Task<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token)
+    public async Task<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
     {
         Response<UidCookieToken>? resp = await httpClient
             .SetUser(user, CookieType.Stoken)

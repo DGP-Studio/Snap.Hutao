@@ -1843,6 +1843,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 选择任何服务器 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelLaunchGameSchemeNotSelected {
+            get {
+                return ResourceManager.GetString("ViewModelLaunchGameSchemeNotSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 切换账号失败 的本地化字符串。
         /// </summary>
         internal static string ViewModelLaunchGameSwitchGameAccountFail {
@@ -3796,7 +3805,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 登录米哈游通行证 的本地化字符串。
+        ///   查找类似 网页登录 的本地化字符串。
         /// </summary>
         internal static string ViewUserCookieOperationLoginMihoyoUserAction {
             get {
@@ -3810,6 +3819,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewUserCookieOperationManualInputAction {
             get {
                 return ResourceManager.GetString("ViewUserCookieOperationManualInputAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新 Cookie 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserCookieOperationRefreshCookieAction {
+            get {
+                return ResourceManager.GetString("ViewUserCookieOperationRefreshCookieAction", resourceCulture);
             }
         }
         
@@ -3828,6 +3846,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewUserDefaultDescription {
             get {
                 return ResourceManager.GetString("ViewUserDefaultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新 CookieToken 成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserRefreshCookieTokenSuccess {
+            get {
+                return ResourceManager.GetString("ViewUserRefreshCookieTokenSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新 CookieToken 失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserRefreshCookieTokenWarning {
+            get {
+                return ResourceManager.GetString("ViewUserRefreshCookieTokenWarning", resourceCulture);
             }
         }
         

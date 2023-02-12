@@ -67,21 +67,18 @@ internal class GameRecordCharacterAvatarInfoComposer : IAvatarInfoComposer<Chara
 
         equip = avatarInfo.EquipList.Last();
 
-        if (equip.Weapon == null)
+        equip.ItemId = source.Weapon.Id;
+        equip.Weapon = new()
         {
-            equip.ItemId = source.Weapon.Id;
-            equip.Weapon = new()
+            Level = source.Weapon.Level,
+            AffixMap = new Dictionary<string, int>
             {
-                Level = source.Weapon.Level,
-                AffixMap = new Dictionary<string, int>
-                {
-                    { $"1{source.Weapon.Id}", source.Weapon.AffixLevel - 1 },
-                },
-            };
+                { $"1{source.Weapon.Id}", source.Weapon.AffixLevel - 1 },
+            },
+        };
 
-            // Special case here, don't set EQUIP_WEAPON
-            equip.Flat = new() { ItemType = ItemType.ITEM_WEAPON, };
-        }
+        // Special case here, don't set EQUIP_WEAPON
+        equip.Flat = new() { ItemType = ItemType.ITEM_WEAPON, };
 
         return avatarInfo;
     }
