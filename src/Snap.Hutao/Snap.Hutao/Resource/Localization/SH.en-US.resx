@@ -712,7 +712,7 @@
     <value>Game program path is incorrect. Change it in the Settings Page.</value>
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
-    <value>尚未选择任何服务器</value>
+    <value>No server selected</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Switch game account failed</value>
