@@ -22,6 +22,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using System.IO;
 using Windows.Graphics;
+using static Snap.Hutao.Core.Database.SettingEntryHelper;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -35,9 +36,6 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
     /// 启动游戏目标 Uid
     /// </summary>
     public const string DesiredUid = nameof(DesiredUid);
-
-    private static readonly string TrueString = true.ToString();
-    private static readonly string FalseString = false.ToString();
 
     private readonly IServiceProvider serviceProvider;
     private readonly IGameService gameService;
