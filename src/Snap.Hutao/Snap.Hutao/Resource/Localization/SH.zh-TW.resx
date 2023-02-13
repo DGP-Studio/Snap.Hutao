@@ -712,7 +712,7 @@
     <value>游戲程式路徑不正塙，前往設定更改游戲路徑</value>
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
-    <value>尚未选择任何服务器</value>
+    <value>還未選擇任何伺服器</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>切換帳號失敗</value>
