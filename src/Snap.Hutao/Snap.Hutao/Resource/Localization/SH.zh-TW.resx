@@ -162,6 +162,9 @@
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarTitle" xml:space="preserve">
     <value>無法打開文件選擇器</value>
   </data>
+  <data name="CoreIOTempFileCreateFail" xml:space="preserve">
+    <value>權限不足，創建臨時文件失敗</value>
+  </data>
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
     <value>啟動遊戲</value>
   </data>
@@ -182,6 +185,21 @@
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>匯入</value>
+  </data>
+  <data name="LaunchGameTitle" xml:space="preserve">
+    <value>選擇賬號並啓動</value>
+  </data>
+  <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
+    <value>精煉 {0}</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
+    <value>周一/周四/周日</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek25" xml:space="preserve">
+    <value>周二/周五/周日</value>
+  </data>
+  <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
+    <value>周三/周六/周日</value>
   </data>
   <data name="ModelBindingHutaoComplexAvatarRankFloor" xml:space="preserve">
     <value>第 {0} 層</value>
@@ -210,11 +228,20 @@
   <data name="ModelBingGachaWishBaseTotalCountFormat" xml:space="preserve">
     <value>{0} 抽</value>
   </data>
+  <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
+    <value>第 {0} 期</value>
+  </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必須先選擇一個用戶與角色</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>單個成就存檔內發現多個相同的成就 Id</value>
+  </data>
+  <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
+    <value>保存養成計劃狀態失敗</value>
+  </data>
+  <data name="ServiceCultivationProjectCurrentUserdataCourrpted2" xml:space="preserve">
+    <value>存在多個選中的養成計劃</value>
   </data>
   <data name="ServiceDailyNoteNotifierActionLaunchGameButton" xml:space="preserve">
     <value>開始遊戲</value>
@@ -576,6 +603,9 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展櫃尚未開啟，請前往遊戲操作後重試</value>
   </data>
+  <data name="ViewModelCultivationAddWarning" xml:space="preserve">
+    <value>養成計劃添加失敗</value>
+  </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
   </data>
@@ -681,6 +711,9 @@
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>游戲程式路徑不正塙，前往設定更改游戲路徑</value>
   </data>
+  <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
+    <value>尚未选择任何服务器</value>
+  </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>切換帳號失敗</value>
   </data>
@@ -779,6 +812,12 @@
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>角色屬性</value>
+  </data>
+  <data name="ViewPageAvatarPropertyPivotDetailHeader" xml:space="preserve">
+    <value>詳細數據</value>
+  </data>
+  <data name="ViewPageAvatarPropertyPivotOverviewHeader" xml:space="preserve">
+    <value>總覽數據</value>
   </data>
   <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
     <value>初始詞條</value>
@@ -1218,6 +1257,18 @@
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>游戲</value>
   </data>
+  <data name="ViewPageSettingResetAction" xml:space="preserve">
+    <value>重設</value>
+  </data>
+  <data name="ViewPageSettingResetStaticResourceDescription" xml:space="preserve">
+    <value>下次啓動時會重新下載所有圖像資源</value>
+  </data>
+  <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
+    <value>重設圖片資源</value>
+  </data>
+  <data name="ViewPageSettingResetSuccessMessage" xml:space="preserve">
+    <value>重設成功</value>
+  </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目錄后需要手動移動目錄内的數據，否則會重新創建用戶數據</value>
   </data>
@@ -1315,16 +1366,25 @@
     <value>Cookie 操作</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
-    <value>登錄 MiHoYo 通行證賬號</value>
+    <value>網頁登陸</value>
   </data>
   <data name="ViewUserCookieOperationManualInputAction" xml:space="preserve">
     <value>手動輸入</value>
+  </data>
+  <data name="ViewUserCookieOperationRefreshCookieAction" xml:space="preserve">
+    <value>刷新 Cookie</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
     <value>拷貝 Cookie</value>
   </data>
   <data name="ViewUserDefaultDescription" xml:space="preserve">
     <value>請先登錄</value>
+  </data>
+  <data name="ViewUserRefreshCookieTokenSuccess" xml:space="preserve">
+    <value>刷新 CookieToken 成功</value>
+  </data>
+  <data name="ViewUserRefreshCookieTokenWarning" xml:space="preserve">
+    <value>刷新 CookieToken 失敗</value>
   </data>
   <data name="ViewUserRemoveAction" xml:space="preserve">
     <value>移除用戶</value>
