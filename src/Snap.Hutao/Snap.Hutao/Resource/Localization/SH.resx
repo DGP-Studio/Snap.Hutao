@@ -712,7 +712,7 @@
     <value>游戏路径不正确，前往设置更改游戏路径</value>
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
-    <value>选择任何服务器</value>
+    <value>尚未选择任何服务器</value>
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>切换账号失败</value>

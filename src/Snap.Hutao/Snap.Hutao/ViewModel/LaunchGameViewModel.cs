@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Windowing;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
@@ -20,6 +21,7 @@ using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using System.IO;
+using Windows.Graphics;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -256,10 +258,12 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
         isBorderless = settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, FalseString).GetBoolean();
         OnPropertyChanged(nameof(IsBorderless));
 
-        screenWidth = settings.SingleOrAdd(SettingEntry.LaunchScreenWidth, "1920").GetInt32();
+        RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
+
+        screenWidth = settings.SingleOrAdd(SettingEntry.LaunchScreenWidth, $"{primaryRect.Width}").GetInt32();
         OnPropertyChanged(nameof(ScreenWidth));
 
-        screenHeight = settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, "1080").GetInt32();
+        screenHeight = settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, $"{primaryRect.Height}").GetInt32();
         OnPropertyChanged(nameof(ScreenHeight));
 
         unlockFps = settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, FalseString).GetBoolean();

@@ -1843,7 +1843,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 选择任何服务器 的本地化字符串。
+        ///   查找类似 尚未选择任何服务器 的本地化字符串。
         /// </summary>
         internal static string ViewModelLaunchGameSchemeNotSelected {
             get {

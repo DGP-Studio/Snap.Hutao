@@ -6,7 +6,7 @@ namespace Snap.Hutao.Core.Annotation;
 /// <summary>
 /// 本地化键
 /// </summary>
-[AttributeUsage(AttributeTargets.Enum)]
+[AttributeUsage(AttributeTargets.Field)]
 internal class LocalizationKeyAttribute : Attribute
 {
     /// <summary>
