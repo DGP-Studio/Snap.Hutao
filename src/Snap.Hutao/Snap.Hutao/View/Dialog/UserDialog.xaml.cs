@@ -8,7 +8,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 添加用户对话框
 /// </summary>
-public sealed partial class UserDialog : ContentDialog
+internal sealed partial class UserDialog : ContentDialog
 {
     /// <summary>
     /// 构造一个新的添加用户对话框

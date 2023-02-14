@@ -5,8 +5,11 @@ namespace Snap.Hutao.Core.Database;
 
 /// <summary>
 /// 可选择的项
-/// 若要使用 <see cref="DbCurrent{TEntity, TMessage}"/> 必须实现该接口
+/// 若要使用 <see cref="DbCurrent{TEntity, TMessage}"/>
+/// 或 <see cref="ScopedDbCurrent{TEntity, TMessage}"/>
+/// 必须实现该接口
 /// </summary>
+[HighQuality]
 public interface ISelectable
 {
     /// <summary>

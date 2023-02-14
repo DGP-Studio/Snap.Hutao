@@ -173,7 +173,7 @@ internal class DailyNoteNotifier
                     .AddArgument("Uid", entry.Uid))
                 .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
 
-            if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, SettingEntryHelper.FalseString).GetBoolean())
+            if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, Core.StringLiterals.False).GetBoolean())
             {
                 builder.SetToastScenario(ToastScenario.Reminder);
             }

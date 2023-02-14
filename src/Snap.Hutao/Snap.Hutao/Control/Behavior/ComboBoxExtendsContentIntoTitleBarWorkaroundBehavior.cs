@@ -11,7 +11,7 @@ namespace Snap.Hutao.Control.Behavior;
 /// AppTitleBar Workaround
 /// https://github.com/microsoft/microsoft-ui-xaml/issues/7756
 /// </summary>
-internal class ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior : BehaviorBase<ComboBox>
+internal sealed class ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior : BehaviorBase<ComboBox>
 {
     private readonly IMessenger messenger;
 

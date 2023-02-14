@@ -3,12 +3,14 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Database;
 
 /// <summary>
 /// 数据库集合扩展
 /// </summary>
+[HighQuality]
 public static class DbSetExtension
 {
     /// <summary>
@@ -17,6 +19,7 @@ public static class DbSetExtension
     /// <typeparam name="TEntity">实体类型</typeparam>
     /// <param name="dbSet">数据库集</param>
     /// <returns>对应的数据库上下文</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DbContext Context<TEntity>(this DbSet<TEntity> dbSet)
         where TEntity : class
     {

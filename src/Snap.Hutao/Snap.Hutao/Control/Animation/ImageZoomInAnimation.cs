@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Composition;
+using System.Diagnostics.Contracts;
 using System.Numerics;
 
 namespace Snap.Hutao.Control.Animation;
@@ -11,17 +12,18 @@ namespace Snap.Hutao.Control.Animation;
 /// <summary>
 /// 图片放大动画
 /// </summary>
-internal class ImageZoomInAnimation : ImplicitAnimation<string, Vector3>
+[HighQuality]
+internal sealed class ImageZoomInAnimation : ImplicitAnimation<string, Vector3>
 {
     /// <summary>
     /// 构造一个新的图片放大动画
     /// </summary>
     public ImageZoomInAnimation()
     {
+        Duration = AnimationDurations.ImageZoom;
         EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut;
         EasingType = CommunityToolkit.WinUI.UI.Animations.EasingType.Circle;
-        To = "1.1";
-        Duration = TimeSpan.FromSeconds(0.5);
+        To = Core.StringLiterals.OnePointOne;
     }
 
     /// <inheritdoc/>

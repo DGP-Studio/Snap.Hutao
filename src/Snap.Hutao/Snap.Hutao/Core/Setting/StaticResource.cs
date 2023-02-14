@@ -6,6 +6,7 @@ namespace Snap.Hutao.Core.Setting;
 /// <summary>
 /// 静态资源
 /// </summary>
+[HighQuality]
 internal static class StaticResource
 {
     /// <summary>

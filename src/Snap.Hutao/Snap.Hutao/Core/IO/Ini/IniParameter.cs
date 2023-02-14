@@ -6,7 +6,8 @@ namespace Snap.Hutao.Core.IO.Ini;
 /// <summary>
 /// Ini 参数
 /// </summary>
-internal class IniParameter : IniElement
+[HighQuality]
+internal sealed class IniParameter : IniElement
 {
     /// <summary>
     /// Ini 参数

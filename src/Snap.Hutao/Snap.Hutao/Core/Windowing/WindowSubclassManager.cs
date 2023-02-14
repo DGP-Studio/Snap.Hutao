@@ -13,7 +13,8 @@ namespace Snap.Hutao.Core.Windowing;
 /// 窗体子类管理器
 /// </summary>
 /// <typeparam name="TWindow">窗体类型</typeparam>
-internal class WindowSubclassManager<TWindow> : IDisposable
+[HighQuality]
+internal sealed class WindowSubclassManager<TWindow> : IDisposable
     where TWindow : Window, IExtendedWindowSource
 {
     private const int WindowSubclassId = 101;

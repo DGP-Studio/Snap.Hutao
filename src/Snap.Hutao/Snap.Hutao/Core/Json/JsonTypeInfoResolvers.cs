@@ -9,6 +9,7 @@ namespace Snap.Hutao.Core.Json;
 /// <summary>
 /// Json 类型信息解析器
 /// </summary>
+[HighQuality]
 internal static class JsonTypeInfoResolvers
 {
     private static readonly Type JsonEnumAttributeType = typeof(JsonEnumAttribute);
@@ -16,22 +17,28 @@ internal static class JsonTypeInfoResolvers
     /// <summary>
     /// 解析枚举类型
     /// </summary>
-    /// <param name="ti">Json 类型信息</param>
-    public static void ResolveEnumType(JsonTypeInfo ti)
+    /// <param name="typeInfo">Json 类型信息</param>
+    public static void ResolveEnumType(JsonTypeInfo typeInfo)
     {
-        if (ti.Kind != JsonTypeInfoKind.Object)
+        if (typeInfo.Kind != JsonTypeInfoKind.Object)
         {
             return;
         }
 
-        IEnumerable<JsonPropertyInfo> enumProperties = ti.Properties
-            .Where(p => p.PropertyType.IsEnum && (p.AttributeProvider?.IsDefined(JsonEnumAttributeType, false) ?? false));
-
-        foreach (JsonPropertyInfo enumProperty in enumProperties)
+        foreach (JsonPropertyInfo property in typeInfo.Properties)
         {
-            JsonEnumAttribute attr = enumProperty.AttributeProvider!.GetCustomAttributes(false).OfType<JsonEnumAttribute>().Single();
-
-            enumProperty.CustomConverter = attr.CreateConverter(enumProperty);
+            if (property.PropertyType.IsEnum)
+            {
+                if (property.AttributeProvider is System.Reflection.ICustomAttributeProvider provider)
+                {
+                    object[] attributes = provider.GetCustomAttributes(JsonEnumAttributeType, false);
+                    if (attributes.Length == 1)
+                    {
+                        JsonEnumAttribute attr = (JsonEnumAttribute)attributes[0];
+                        property.CustomConverter = attr.CreateConverter(property);
+                    }
+                }
+            }
         }
     }
 }

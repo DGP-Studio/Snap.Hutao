@@ -27,7 +27,7 @@ public class DynamicSecretHandler : DelegatingHandler
 
     private static async Task ProcessRequestWithOptionsAsync(HttpRequestMessage request, DynamicSecretCreationOptions options, CancellationToken token)
     {
-        string salt = Core.CoreEnvironment.DynamicSecrets[options.SaltType];
+        string salt = Core.CoreEnvironment.DynamicSecretSalts[options.SaltType];
 
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 

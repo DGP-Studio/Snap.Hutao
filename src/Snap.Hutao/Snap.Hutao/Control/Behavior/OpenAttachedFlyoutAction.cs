@@ -10,7 +10,8 @@ namespace Snap.Hutao.Control.Behavior;
 /// <summary>
 /// 打开附着的浮出控件操作
 /// </summary>
-internal class OpenAttachedFlyoutAction : DependencyObject, IAction
+[HighQuality]
+internal sealed class OpenAttachedFlyoutAction : DependencyObject, IAction
 {
     /// <inheritdoc/>
     public object Execute(object sender, object parameter)

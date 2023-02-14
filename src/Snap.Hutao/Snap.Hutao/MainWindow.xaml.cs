@@ -24,10 +24,11 @@ public sealed partial class MainWindow : Window, IExtendedWindowSource, IRecipie
     /// <summary>
     /// 构造一个新的主窗体
     /// </summary>
-    public MainWindow()
+    /// <param name="serviceProvider">服务提供器</param>
+    public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        ExtendedWindow<MainWindow>.Initialize(this);
+        ExtendedWindow<MainWindow>.Initialize(this, serviceProvider);
         IsPresent = true;
         Closed += (s, e) => IsPresent = false;
 

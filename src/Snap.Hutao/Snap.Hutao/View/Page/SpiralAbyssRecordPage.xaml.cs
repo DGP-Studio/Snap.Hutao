@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 深渊记录页面
 /// </summary>
-public sealed partial class SpiralAbyssRecordPage : ScopedPage
+internal sealed partial class SpiralAbyssRecordPage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的深渊记录页面

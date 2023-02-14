@@ -6,7 +6,8 @@ namespace Snap.Hutao.Control.Image;
 /// <summary>
 /// 渐变方向
 /// </summary>
-public enum GradientDirection
+[HighQuality]
+internal enum GradientDirection
 {
     /// <summary>
     /// 下到上

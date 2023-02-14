@@ -9,7 +9,8 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 跳转列表帮助类
 /// </summary>
-public static class JumpListHelper
+[HighQuality]
+internal static class JumpListHelper
 {
     /// <summary>
     /// 异步配置跳转列表
@@ -24,7 +25,6 @@ public static class JumpListHelper
             list.Items.Clear();
 
             JumpListItem launchGameItem = JumpListItem.CreateWithArguments(Activation.LaunchGame, SH.CoreJumpListHelperLaunchGameItemDisplayName);
-            launchGameItem.GroupName = SH.CoreJumpListHelperLaunchGameItemGroupName;
             launchGameItem.Logo = new("ms-appx:///Resource/Icon/UI_GuideIcon_PlayMethod.png");
 
             list.Items.Add(launchGameItem);

@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 武器页面
 /// </summary>
-public sealed partial class WikiWeaponPage : ScopedPage
+internal sealed partial class WikiWeaponPage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的武器页面

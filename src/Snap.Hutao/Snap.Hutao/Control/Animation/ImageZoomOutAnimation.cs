@@ -11,17 +11,18 @@ namespace Snap.Hutao.Control.Animation;
 /// <summary>
 /// 图片缩小动画
 /// </summary>
-internal class ImageZoomOutAnimation : ImplicitAnimation<string, Vector3>
+[HighQuality]
+internal sealed class ImageZoomOutAnimation : ImplicitAnimation<string, Vector3>
 {
     /// <summary>
     /// 构造一个新的图片缩小动画
     /// </summary>
     public ImageZoomOutAnimation()
     {
+        Duration = AnimationDurations.ImageZoom;
         EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut;
         EasingType = CommunityToolkit.WinUI.UI.Animations.EasingType.Circle;
-        To = "1";
-        Duration = TimeSpan.FromSeconds(0.5);
+        To = Core.StringLiterals.One;
     }
 
     /// <inheritdoc/>

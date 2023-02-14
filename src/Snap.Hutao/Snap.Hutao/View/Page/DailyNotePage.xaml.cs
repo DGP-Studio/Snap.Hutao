@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 实时便笺页面
 /// </summary>
-public sealed partial class DailyNotePage : ScopedPage
+internal sealed partial class DailyNotePage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的实时便笺页面

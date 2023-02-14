@@ -11,6 +11,7 @@ namespace Snap.Hutao.Core.DependencyInjection;
 /// <summary>
 /// <see cref="Ioc"/> 配置
 /// </summary>
+[HighQuality]
 internal static class IocConfiguration
 {
     /// <summary>

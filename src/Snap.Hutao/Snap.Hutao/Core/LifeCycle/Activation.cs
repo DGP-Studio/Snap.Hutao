@@ -18,8 +18,24 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// <summary>
 /// 激活处理器
 /// </summary>
+[HighQuality]
 internal static class Activation
 {
+    /// <summary>
+    /// 操作
+    /// </summary>
+    public const string Action = nameof(Action);
+
+    /// <summary>
+    /// 无操作
+    /// </summary>
+    public const string NoAction = "";
+
+    /// <summary>
+    /// Uid
+    /// </summary>
+    public const string Uid = nameof(Uid);
+
     /// <summary>
     /// 启动游戏启动参数
     /// </summary>
@@ -30,6 +46,10 @@ internal static class Activation
     /// </summary>
     public const string ImportUIAFFromClipBoard = "ImportUIAFFromClipBoard";
 
+    private const string CategoryAchievement = "achievement";
+    private const string CategoryDailyNote = "dailynote";
+    private const string UrlActionImport = "/import";
+    private const string UrlActionRefresh = "/refresh";
     private static readonly SemaphoreSlim ActivateSemaphore = new(1);
 
     /// <summary>
@@ -38,7 +58,7 @@ internal static class Activation
     /// <returns>是否提升了权限</returns>
     public static bool GetElevated()
     {
-        if (System.Diagnostics.Debugger.IsAttached)
+        if (Debugger.IsAttached)
         {
             return true;
         }
@@ -86,13 +106,12 @@ internal static class Activation
     public static void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)
     {
         ToastArguments toastArgs = ToastArguments.Parse(args.Argument);
-        _ = toastArgs;
 
-        if (toastArgs.TryGetValue("Action", out string? action))
+        if (toastArgs.TryGetValue(Action, out string? action))
         {
             if (action == LaunchGame)
             {
-                _ = toastArgs.TryGetValue("Uid", out string? uid);
+                _ = toastArgs.TryGetValue(Uid, out string? uid);
                 HandleLaunchGameActionAsync(uid).SafeForget();
             }
         }
@@ -128,7 +147,7 @@ internal static class Activation
             {
                 switch (arguments)
                 {
-                    case "":
+                    case NoAction:
                         {
                             // Increase launch times
                             LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
@@ -170,14 +189,14 @@ internal static class Activation
 
         switch (category)
         {
-            case "achievement":
+            case CategoryAchievement:
                 {
                     await WaitMainWindowAsync().ConfigureAwait(false);
                     await HandleAchievementActionAsync(action, parameter, isRedirected).ConfigureAwait(false);
                     break;
                 }
 
-            case "dailynote":
+            case CategoryDailyNote:
                 {
                     await HandleDailyNoteActionAsync(action, parameter, isRedirected).ConfigureAwait(false);
                     break;
@@ -191,7 +210,7 @@ internal static class Activation
         _ = isRedirected;
         switch (action)
         {
-            case "/import":
+            case UrlActionImport:
                 {
                     await ThreadHelper.SwitchToMainThreadAsync();
 
@@ -210,7 +229,7 @@ internal static class Activation
         _ = parameter;
         switch (action)
         {
-            case "/refresh":
+            case UrlActionRefresh:
                 {
                     await Ioc.Default
                         .GetRequiredService<IDailyNoteService>()
@@ -242,7 +261,8 @@ internal static class Activation
         {
             await Ioc.Default
                 .GetRequiredService<INavigationService>()
-                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true).ConfigureAwait(false);
+                .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
+                .ConfigureAwait(false);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Snap.Hutao.Core.IO.Ini;
 /// <summary>
 /// Ini 元素
 /// </summary>
+[HighQuality]
 internal abstract class IniElement
 {
     /// <summary>

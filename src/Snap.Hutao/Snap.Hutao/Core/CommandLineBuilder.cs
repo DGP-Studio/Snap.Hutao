@@ -8,7 +8,8 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 命令行建造器
 /// </summary>
-public class CommandLineBuilder
+[HighQuality]
+internal sealed class CommandLineBuilder
 {
     private const char WhiteSpace = ' ';
     private readonly Dictionary<string, string?> options = new();
@@ -56,6 +57,7 @@ public class CommandLineBuilder
         {
             s.Append(WhiteSpace);
             s.Append(key);
+
             if (!string.IsNullOrEmpty(value))
             {
                 s.Append(WhiteSpace);

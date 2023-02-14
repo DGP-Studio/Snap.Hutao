@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 启动游戏页面
 /// </summary>
-public sealed partial class LaunchGamePage : ScopedPage
+internal sealed partial class LaunchGamePage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的启动游戏页面

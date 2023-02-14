@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Win32;
@@ -25,12 +25,13 @@ namespace Snap.Hutao.Core.Windowing;
 internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMessage>, IRecipient<FlyoutOpenCloseMessage>
     where TWindow : Window, IExtendedWindowSource
 {
-    private readonly HWND handle;
+    private readonly HWND hwnd;
     private readonly AppWindow appWindow;
 
     private readonly TWindow window;
     private readonly FrameworkElement titleBar;
 
+    private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ExtendedWindow<TWindow>> logger;
     private readonly WindowSubclassManager<TWindow> subclassManager;
 
@@ -38,24 +39,19 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
 
     private SystemBackdrop? systemBackdrop;
 
-    /// <summary>
-    /// 构造一个新的扩展窗口
-    /// </summary>
-    /// <param name="window">窗口</param>
-    /// <param name="titleBar">充当标题栏的元素</param>
-    private ExtendedWindow(TWindow window, FrameworkElement titleBar)
+    private ExtendedWindow(TWindow window, FrameworkElement titleBar, IServiceProvider serviceProvider)
     {
         this.window = window;
         this.titleBar = titleBar;
-        logger = Ioc.Default.GetRequiredService<ILogger<ExtendedWindow<TWindow>>>();
+        logger = serviceProvider.GetRequiredService<ILogger<ExtendedWindow<TWindow>>>();
+        this.serviceProvider = serviceProvider;
 
-        handle = (HWND)WindowNative.GetWindowHandle(window);
-
-        WindowId windowId = Win32Interop.GetWindowIdFromWindow(handle);
+        hwnd = (HWND)WindowNative.GetWindowHandle(window);
+        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
         appWindow = AppWindow.GetFromWindowId(windowId);
 
         useLegacyDragBar = !AppWindowTitleBar.IsCustomizationSupported();
-        subclassManager = new(window, handle, useLegacyDragBar);
+        subclassManager = new(window, hwnd, useLegacyDragBar);
 
         InitializeWindow();
     }
@@ -64,10 +60,11 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
     /// 初始化
     /// </summary>
     /// <param name="window">窗口</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <returns>实例</returns>
-    public static ExtendedWindow<TWindow> Initialize(TWindow window)
+    public static ExtendedWindow<TWindow> Initialize(TWindow window, IServiceProvider serviceProvider)
     {
-        return new(window, window.TitleBar);
+        return new(window, window.TitleBar, serviceProvider);
     }
 
     /// <inheritdoc/>
@@ -77,7 +74,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         {
             systemBackdrop.BackdropType = message.BackdropType;
             bool micaApplied = systemBackdrop.TryApply();
-            logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
+            logger.LogInformation("Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
         }
     }
 
@@ -85,30 +82,6 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
     public void Receive(FlyoutOpenCloseMessage message)
     {
         UpdateDragRectangles(appWindow.TitleBar, message.IsOpen);
-    }
-
-    private static void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
-    {
-        appTitleBar.ButtonBackgroundColor = Colors.Transparent;
-        appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-        App app = Ioc.Default.GetRequiredService<App>();
-
-        Color systemBaseLowColor = (Color)app.Resources["SystemBaseLowColor"];
-        appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
-
-        Color systemBaseMediumLowColor = (Color)app.Resources["SystemBaseMediumLowColor"];
-        appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
-
-        // The Foreground doesn't accept Alpha channel. So we translate it to gray.
-        byte light = (byte)((systemBaseMediumLowColor.R + systemBaseMediumLowColor.G + systemBaseMediumLowColor.B) / 3);
-        byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
-        appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
-
-        Color systemBaseHighColor = (Color)app.Resources["SystemBaseHighColor"];
-        appTitleBar.ButtonForegroundColor = systemBaseHighColor;
-        appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
-        appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
     }
 
     private static (string PosString, string SizeString) GetPostionAndSize(AppWindow appWindow)
@@ -131,7 +104,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
 
         // Log basic window state here.
         (string pos, string size) = GetPostionAndSize(appWindow);
-        logger.LogInformation(EventIds.WindowState, "Postion: [{pos}], Size: [{size}]", pos, size);
+        logger.LogInformation("Postion: [{pos}], Size: [{size}]", pos, size);
 
         // appWindow.Show(true);
         // appWindow.Show can't bring window to top.
@@ -139,10 +112,10 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
 
         systemBackdrop = new(window);
         bool micaApplied = systemBackdrop.TryApply();
-        logger.LogInformation(EventIds.BackdropState, "Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
+        logger.LogInformation("Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
 
         bool subClassApplied = subclassManager.TrySetWindowSubclass();
-        logger.LogInformation(EventIds.SubClassing, "Apply {name} : {result}", nameof(WindowSubclassManager<TWindow>), subClassApplied ? "succeed" : "failed");
+        logger.LogInformation("Apply {name} : {result}", nameof(WindowSubclassManager<TWindow>), subClassApplied ? "succeed" : "failed");
 
         IMessenger messenger = Ioc.Default.GetRequiredService<IMessenger>();
         messenger.Register<BackdropTypeChangedMessage>(this);
@@ -177,9 +150,33 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
 
             UpdateTitleButtonColor(appTitleBar);
             UpdateDragRectangles(appTitleBar);
-            titleBar.SizeChanged += (s, e) => UpdateDragRectangles(appTitleBar);
             titleBar.ActualThemeChanged += (s, e) => UpdateTitleButtonColor(appTitleBar);
+            titleBar.SizeChanged += (s, e) => UpdateDragRectangles(appTitleBar);
         }
+    }
+
+    private void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
+    {
+        appTitleBar.ButtonBackgroundColor = Colors.Transparent;
+        appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
+        App app = serviceProvider.GetRequiredService<App>();
+
+        Color systemBaseLowColor = (Color)app.Resources["SystemBaseLowColor"];
+        appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
+
+        Color systemBaseMediumLowColor = (Color)app.Resources["SystemBaseMediumLowColor"];
+        appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
+
+        // The Foreground doesn't accept Alpha channel. So we translate it to gray.
+        byte light = (byte)((systemBaseMediumLowColor.R + systemBaseMediumLowColor.G + systemBaseMediumLowColor.B) / 3);
+        byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
+        appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
+
+        Color systemBaseHighColor = (Color)app.Resources["SystemBaseHighColor"];
+        appTitleBar.ButtonForegroundColor = systemBaseHighColor;
+        appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
+        appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
     }
 
     private void UpdateDragRectangles(AppWindowTitleBar appTitleBar, bool isFlyoutOpened = false)
@@ -191,7 +188,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         }
         else
         {
-            double scale = Persistence.GetScaleForWindowHandle(handle);
+            double scale = Persistence.GetScaleForWindowHandle(hwnd);
 
             // 48 is the navigation button leftInset
             RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), titleBar.ActualSize).Scale(scale);

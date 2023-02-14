@@ -6,6 +6,7 @@ namespace Snap.Hutao.Core.Database;
 /// <summary>
 /// 可枚举扩展
 /// </summary>
+[HighQuality]
 public static class EnumerableExtension
 {
     /// <summary>

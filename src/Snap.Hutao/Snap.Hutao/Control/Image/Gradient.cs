@@ -5,6 +5,7 @@ using Microsoft.UI;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using Snap.Hutao.Win32;
 using System.IO;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
@@ -12,9 +13,10 @@ using Windows.Storage.Streams;
 namespace Snap.Hutao.Control.Image;
 
 /// <summary>
-/// 支持渐变的图像
+/// 渐变图像
 /// </summary>
-public class Gradient : CompositionImage
+[HighQuality]
+internal sealed class Gradient : CompositionImage
 {
     private static readonly DependencyProperty BackgroundDirectionProperty = Property<Gradient>.Depend(nameof(BackgroundDirection), GradientDirection.TopToBottom);
     private static readonly DependencyProperty ForegroundDirectionProperty = Property<Gradient>.Depend(nameof(ForegroundDirection), GradientDirection.TopToBottom);
@@ -44,7 +46,7 @@ public class Gradient : CompositionImage
     {
         if (spriteVisual is not null)
         {
-            Height = (double)Math.Clamp(ActualWidth / imageAspectRatio, 0, MaxHeight);
+            Height = Math.Clamp(ActualWidth / imageAspectRatio, 0D, MaxHeight);
             spriteVisual.Size = ActualSize;
         }
     }
@@ -52,19 +54,11 @@ public class Gradient : CompositionImage
     /// <inheritdoc/>
     protected override async Task<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
     {
-        using (FileStream fileStream = new(file, FileMode.Open, FileAccess.Read, FileShare.Read))
-        {
-            using (IRandomAccessStream imageStream = fileStream.AsRandomAccessStream())
-            {
-                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(imageStream);
-                imageAspectRatio = decoder.PixelWidth / (double)decoder.PixelHeight;
-            }
-        }
-
         TaskCompletionSource loadCompleteTaskSource = new();
         LoadedImageSurface surface = LoadedImageSurface.StartLoadFromUri(new(file));
         surface.LoadCompleted += (s, e) => loadCompleteTaskSource.TrySetResult();
         await loadCompleteTaskSource.Task.ConfigureAwait(true);
+        imageAspectRatio = surface.NaturalSize.AspectRatio();
         return surface;
     }
 

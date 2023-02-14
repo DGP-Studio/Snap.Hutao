@@ -9,6 +9,7 @@ namespace Snap.Hutao.Core.DependencyInjection;
 /// <summary>
 /// <see cref="Ioc"/> 与 <see cref="HttpClient"/> 配置
 /// </summary>
+[HighQuality]
 internal static partial class IocHttpClientConfiguration
 {
     /// <summary>

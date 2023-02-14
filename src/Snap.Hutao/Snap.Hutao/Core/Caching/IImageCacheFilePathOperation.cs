@@ -6,6 +6,7 @@ namespace Snap.Hutao.Core.Caching;
 /// <summary>
 /// 图像缓存 文件路径操作
 /// </summary>
+[HighQuality]
 internal interface IImageCacheFilePathOperation
 {
     /// <summary>

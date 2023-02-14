@@ -1,7 +1,5 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
-// Some part of this file came from:
-// https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
@@ -16,8 +14,11 @@ namespace Snap.Hutao.Control.Text;
 
 /// <summary>
 /// 专用于呈现描述文本的文本块
+/// Some part of this file came from:
+/// https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 /// </summary>
-public class DescriptionTextBlock : ContentControl
+[HighQuality]
+internal sealed class DescriptionTextBlock : ContentControl
 {
     private static readonly DependencyProperty DescriptionProperty = Property<DescriptionTextBlock>.Depend(nameof(Description), string.Empty, OnDescriptionChanged);
 
@@ -33,6 +34,7 @@ public class DescriptionTextBlock : ContentControl
     public DescriptionTextBlock()
     {
         IsTabStop = false;
+
         Content = new TextBlock()
         {
             TextWrapping = TextWrapping.Wrap,

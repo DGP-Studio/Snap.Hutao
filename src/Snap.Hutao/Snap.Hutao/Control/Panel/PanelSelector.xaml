@@ -1,33 +1,31 @@
-﻿<UserControl
+﻿<SplitButton
     x:Class="Snap.Hutao.Control.Panel.PanelSelector"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    Name="RootSplitButton"
+    Padding="0,6"
+    Click="SplitButtonClick"
     Loaded="OnRootControlLoaded"
     mc:Ignorable="d">
 
-    <SplitButton
-        Name="RootSplitButton"
-        Padding="0,6"
-        Click="SplitButtonClick">
-        <SplitButton.Content>
-            <FontIcon Name="IconPresenter" Glyph="&#xE8FD;"/>
-        </SplitButton.Content>
-        <SplitButton.Flyout>
-            <MenuFlyout>
-                <RadioMenuFlyoutItem
-                    Click="RadioMenuFlyoutItemClick"
-                    Icon="{shcm:FontIcon Glyph=&#xE8FD;}"
-                    Tag="List"
-                    Text="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownListName}"/>
-                <RadioMenuFlyoutItem
-                    Click="RadioMenuFlyoutItemClick"
-                    Icon="{shcm:FontIcon Glyph=&#xF0E2;}"
-                    Tag="Grid"
-                    Text="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownGridName}"/>
-            </MenuFlyout>
-        </SplitButton.Flyout>
-    </SplitButton>
-</UserControl>
+    <SplitButton.Content>
+        <FontIcon Name="IconPresenter" Glyph="&#xE8FD;"/>
+    </SplitButton.Content>
+    <SplitButton.Flyout>
+        <MenuFlyout>
+            <RadioMenuFlyoutItem
+                Click="RadioMenuFlyoutItemClick"
+                Icon="{shcm:FontIcon Glyph=&#xE8FD;}"
+                Tag="List"
+                Text="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownListName}"/>
+            <RadioMenuFlyoutItem
+                Click="RadioMenuFlyoutItemClick"
+                Icon="{shcm:FontIcon Glyph=&#xF0E2;}"
+                Tag="Grid"
+                Text="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownGridName}"/>
+        </MenuFlyout>
+    </SplitButton.Flyout>
+</SplitButton>

@@ -10,7 +10,7 @@ namespace Snap.Hutao.Control;
 /// </summary>
 /// <typeparam name="TFrom">源类型</typeparam>
 /// <typeparam name="TTo">目标类型</typeparam>
-public abstract class ValueConverter<TFrom, TTo> : IValueConverter
+internal abstract class ValueConverter<TFrom, TTo> : IValueConverter
 {
     /// <inheritdoc/>
     public object? Convert(object value, Type targetType, object parameter, string language)

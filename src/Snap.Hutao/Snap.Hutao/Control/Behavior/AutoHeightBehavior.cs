@@ -9,10 +9,11 @@ namespace Snap.Hutao.Control.Behavior;
 /// <summary>
 /// 按给定比例自动调整高度的行为
 /// </summary>
-internal class AutoHeightBehavior : BehaviorBase<FrameworkElement>
+[HighQuality]
+internal sealed class AutoHeightBehavior : BehaviorBase<FrameworkElement>
 {
-    private static readonly DependencyProperty TargetWidthProperty = Property<AutoHeightBehavior>.Depend(nameof(TargetWidth), 1080D);
-    private static readonly DependencyProperty TargetHeightProperty = Property<AutoHeightBehavior>.Depend(nameof(TargetHeight), 390D);
+    private static readonly DependencyProperty TargetWidthProperty = Property<AutoHeightBehavior>.DependBoxed<double>(nameof(TargetWidth), BoxedValues.DoubleOne);
+    private static readonly DependencyProperty TargetHeightProperty = Property<AutoHeightBehavior>.DependBoxed<double>(nameof(TargetHeight), BoxedValues.DoubleOne);
 
     /// <summary>
     /// 目标宽度
@@ -35,7 +36,7 @@ internal class AutoHeightBehavior : BehaviorBase<FrameworkElement>
     /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()
     {
-        UpdateElementHeight();
+        UpdateElement();
         AssociatedObject.SizeChanged += OnSizeChanged;
     }
 
@@ -48,10 +49,10 @@ internal class AutoHeightBehavior : BehaviorBase<FrameworkElement>
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        UpdateElementHeight();
+        UpdateElement();
     }
 
-    private void UpdateElementHeight()
+    private void UpdateElement()
     {
         AssociatedObject.Height = (double)AssociatedObject.ActualWidth * (TargetHeight / TargetWidth);
     }

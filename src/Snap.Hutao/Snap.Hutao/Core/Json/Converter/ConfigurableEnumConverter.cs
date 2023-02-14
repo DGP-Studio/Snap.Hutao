@@ -10,7 +10,8 @@ namespace Snap.Hutao.Core.Json.Converter;
 /// 枚举转换器
 /// </summary>
 /// <typeparam name="TEnum">枚举的类型</typeparam>
-internal class ConfigurableEnumConverter<TEnum> : JsonConverter<TEnum>
+[HighQuality]
+internal sealed class ConfigurableEnumConverter<TEnum> : JsonConverter<TEnum>
     where TEnum : struct, Enum
 {
     private readonly JsonSerializeType readAs;

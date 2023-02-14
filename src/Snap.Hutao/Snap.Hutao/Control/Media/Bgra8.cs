@@ -9,8 +9,9 @@ namespace Snap.Hutao.Control.Media;
 /// <summary>
 /// BGRA8 结构
 /// </summary>
+[HighQuality]
 [StructLayout(LayoutKind.Explicit)]
-public struct Bgra8
+internal struct Bgra8
 {
     /// <summary>
     /// B

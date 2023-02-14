@@ -50,7 +50,7 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
         List<HistoryWishBuilder> historyWishBuilders = gachaevents.Select(g => new HistoryWishBuilder(g, nameAvatarMap, nameWeaponMap)).ToList();
 
         SettingEntry entry = await appDbContext.Settings
-            .SingleOrAddAsync(SettingEntry.IsEmptyHistoryWishVisible, SettingEntryHelper.TrueString)
+            .SingleOrAddAsync(SettingEntry.IsEmptyHistoryWishVisible, Core.StringLiterals.True)
             .ConfigureAwait(false);
         bool isEmptyHistoryWishVisible = entry.GetBoolean();
 

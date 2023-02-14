@@ -9,12 +9,13 @@ namespace Snap.Hutao.Control.Panel;
 /// <summary>
 /// 纵横比控件
 /// </summary>
+[HighQuality]
 internal class AspectRatio : Microsoft.UI.Xaml.Controls.Control
 {
     private const double Epsilon = 2.2204460492503131e-016;
 
-    private static readonly DependencyProperty TargetWidthProperty = Property<AspectRatio>.Depend(nameof(TargetWidth), 1D);
-    private static readonly DependencyProperty TargetHeightProperty = Property<AspectRatio>.Depend(nameof(TargetHeight), 1D);
+    private static readonly DependencyProperty TargetWidthProperty = Property<AspectRatio>.DependBoxed<double>(nameof(TargetWidth), BoxedValues.DoubleOne);
+    private static readonly DependencyProperty TargetHeightProperty = Property<AspectRatio>.DependBoxed<double>(nameof(TargetHeight), BoxedValues.DoubleOne);
 
     /// <summary>
     /// 目标宽度

@@ -155,8 +155,7 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
                     .ConfigureAwait(false);
 
-                await ThreadHelper.SwitchToMainThreadAsync();
-                await using (await dialog.BlockAsync().ConfigureAwait(false))
+                using (await dialog.BlockAsync().ConfigureAwait(false))
                 {
                     summaryResult = await serviceProvider
                         .GetRequiredService<IAvatarInfoService>()

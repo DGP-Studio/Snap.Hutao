@@ -8,7 +8,8 @@ namespace Snap.Hutao.Core.Threading;
 /// <summary>
 /// 调度器队列拓展
 /// </summary>
-public static class DispatcherQueueExtension
+[HighQuality]
+internal static class DispatcherQueueExtension
 {
     /// <summary>
     /// 在调度器队列同步调用，直到执行结束，会持续阻塞当前线程

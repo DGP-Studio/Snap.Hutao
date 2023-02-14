@@ -12,7 +12,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 成就对话框
 /// </summary>
-public sealed partial class AchievementImportDialog : ContentDialog
+internal sealed partial class AchievementImportDialog : ContentDialog
 {
     private static readonly DependencyProperty UIAFProperty = Property<AchievementImportDialog>.Depend(nameof(UIAF), default(UIAF));
 

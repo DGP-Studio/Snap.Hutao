@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.Setting;
 /// <summary>
 /// 本地设置
 /// </summary>
+[HighQuality]
 internal static class LocalSetting
 {
     private static readonly ApplicationDataContainer Container;

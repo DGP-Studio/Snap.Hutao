@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Logging;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -12,8 +11,11 @@ namespace Snap.Hutao.Web;
 /// <summary>
 /// <see cref="HttpClient"/> 扩展
 /// </summary>
+[HighQuality]
 internal static class HttpClientExtensions
 {
+    private const string RequestErrorMessage = "请求异常已忽略";
+
     /// <inheritdoc cref="HttpClientJsonExtensions.GetFromJsonAsync{TValue}(HttpClient, string?, JsonSerializerOptions?, CancellationToken)"/>
     internal static async Task<T?> TryCatchGetFromJsonAsync<T>(this HttpClient httpClient, string requestUri, JsonSerializerOptions options, ILogger logger, CancellationToken token = default)
         where T : class
@@ -24,22 +26,22 @@ internal static class HttpClientExtensions
         }
         catch (HttpRequestException ex)
         {
-            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            logger.LogWarning(ex, RequestErrorMessage);
             return null;
         }
         catch (IOException ex)
         {
-            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            logger.LogWarning(ex, RequestErrorMessage);
             return null;
         }
         catch (JsonException ex)
         {
-            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            logger.LogWarning(ex, RequestErrorMessage);
             return null;
         }
         catch (SocketException ex)
         {
-            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            logger.LogWarning(ex, RequestErrorMessage);
             return null;
         }
     }
@@ -55,22 +57,22 @@ internal static class HttpClientExtensions
         }
         catch (HttpRequestException ex)
         {
-            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            logger.LogWarning(ex, RequestErrorMessage);
             return null;
         }
         catch (IOException ex)
         {
-            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            logger.LogWarning(ex, RequestErrorMessage);
             return null;
         }
         catch (JsonException ex)
         {
-            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            logger.LogWarning(ex, RequestErrorMessage);
             return null;
         }
         catch (SocketException ex)
         {
-            logger.LogWarning(EventIds.HttpException, ex, "请求异常已忽略");
+            logger.LogWarning(ex, RequestErrorMessage);
             return null;
         }
     }

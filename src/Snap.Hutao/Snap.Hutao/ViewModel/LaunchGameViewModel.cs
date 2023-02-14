@@ -22,7 +22,6 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using System.IO;
 using Windows.Graphics;
-using static Snap.Hutao.Core.Database.SettingEntryHelper;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -250,10 +249,10 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
     {
         DbSet<SettingEntry> settings = appDbContext.Settings;
 
-        isFullScreen = settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, TrueString).GetBoolean();
+        isFullScreen = settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, Core.StringLiterals.True).GetBoolean();
         OnPropertyChanged(nameof(IsFullScreen));
 
-        isBorderless = settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, FalseString).GetBoolean();
+        isBorderless = settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, Core.StringLiterals.False).GetBoolean();
         OnPropertyChanged(nameof(IsBorderless));
 
         RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
@@ -264,7 +263,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
         screenHeight = settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, $"{primaryRect.Height}").GetInt32();
         OnPropertyChanged(nameof(ScreenHeight));
 
-        unlockFps = settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, FalseString).GetBoolean();
+        unlockFps = settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, Core.StringLiterals.False).GetBoolean();
         OnPropertyChanged(nameof(UnlockFps));
 
         targetFps = settings.SingleOrAdd(SettingEntry.LaunchTargetFps, "60").GetInt32();
@@ -274,12 +273,12 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
     private void SaveSetting()
     {
         DbSet<SettingEntry> settings = appDbContext.Settings;
-        settings.SingleOrAdd(SettingEntry.LaunchIsExclusive, FalseString).SetBoolean(IsExclusive);
-        settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, FalseString).SetBoolean(IsFullScreen);
-        settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, FalseString).SetBoolean(IsBorderless);
+        settings.SingleOrAdd(SettingEntry.LaunchIsExclusive, Core.StringLiterals.False).SetBoolean(IsExclusive);
+        settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, Core.StringLiterals.False).SetBoolean(IsFullScreen);
+        settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, Core.StringLiterals.False).SetBoolean(IsBorderless);
         settings.SingleOrAdd(SettingEntry.LaunchScreenWidth, "1920").SetInt32(ScreenWidth);
         settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, "1080").SetInt32(ScreenHeight);
-        settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, FalseString).SetBoolean(UnlockFps);
+        settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, Core.StringLiterals.False).SetBoolean(UnlockFps);
         settings.SingleOrAdd(SettingEntry.LaunchTargetFps, "60").SetInt32(TargetFps);
         appDbContext.SaveChanges();
     }
@@ -303,7 +302,7 @@ internal class LaunchGameViewModel : Abstraction.ViewModel
                     await ThreadHelper.SwitchToMainThreadAsync();
                     LaunchGamePackageConvertDialog dialog = new();
                     Progress<Service.Game.Package.PackageReplaceStatus> progress = new(state => dialog.State = state.Clone());
-                    await using (await dialog.BlockAsync().ConfigureAwait(false))
+                    using (await dialog.BlockAsync().ConfigureAwait(false))
                     {
                         if (!await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false))
                         {

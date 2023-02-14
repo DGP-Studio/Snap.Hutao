@@ -9,6 +9,7 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 支持Md5转换
 /// </summary>
+[HighQuality]
 internal static class Convert
 {
     /// <summary>

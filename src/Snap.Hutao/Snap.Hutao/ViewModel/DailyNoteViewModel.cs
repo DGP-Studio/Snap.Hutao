@@ -193,11 +193,11 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
                 OnPropertyChanged(nameof(SelectedRefreshTime));
                 ScheduleTaskHelper.RegisterForDailyNoteRefresh(refreshSeconds);
 
-                reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, SettingEntryHelper.FalseString);
+                reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, Core.StringLiterals.False);
                 isReminderNotification = reminderNotifyEntry.GetBoolean();
                 OnPropertyChanged(nameof(IsReminderNotification));
 
-                silentModeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString);
+                silentModeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, Core.StringLiterals.False);
                 isSilentWhenPlayingGame = silentModeEntry.GetBoolean();
                 OnPropertyChanged(nameof(IsSilentWhenPlayingGame));
             }

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Logging;
 using System.Collections;
 using System.Text;
 
@@ -11,7 +10,8 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// <summary>
 /// 异常记录器
 /// </summary>
-internal class ExceptionRecorder
+[HighQuality]
+internal sealed class ExceptionRecorder
 {
     private readonly ILogger logger;
 
@@ -49,6 +49,6 @@ internal class ExceptionRecorder
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
     {
-        logger.LogCritical(EventIds.XamlBindingError, "XAML绑定失败: {message}", e.Message);
+        logger.LogCritical("XAML绑定失败: {message}", e.Message);
     }
 }

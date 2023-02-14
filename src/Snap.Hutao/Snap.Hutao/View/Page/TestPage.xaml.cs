@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 测试页面
 /// </summary>
-public sealed partial class TestPage : ScopedPage
+internal sealed partial class TestPage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的测试页面

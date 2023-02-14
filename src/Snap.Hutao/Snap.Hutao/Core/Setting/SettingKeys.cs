@@ -6,6 +6,7 @@ namespace Snap.Hutao.Core.Setting;
 /// <summary>
 /// 设置键
 /// </summary>
+[HighQuality]
 internal static class SettingKeys
 {
     /// <summary>

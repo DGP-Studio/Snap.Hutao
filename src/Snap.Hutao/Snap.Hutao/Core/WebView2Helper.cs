@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Core.Logging;
 using System.IO;
 
 namespace Snap.Hutao.Core;
@@ -12,6 +11,7 @@ namespace Snap.Hutao.Core;
 /// 不再使用注册表检查方式
 /// 必须为抽象类才能使用泛型日志器
 /// </summary>
+[HighQuality]
 internal abstract class WebView2Helper
 {
     private static bool hasEverDetected;
@@ -36,7 +36,7 @@ internal abstract class WebView2Helper
                 catch (FileNotFoundException ex)
                 {
                     ILogger<WebView2Helper> logger = Ioc.Default.GetRequiredService<ILogger<WebView2Helper>>();
-                    logger.LogError(EventIds.WebView2EnvironmentException, ex, "WebView2 Runtime not installed.");
+                    logger.LogError(ex, "WebView2 Runtime not installed.");
                     isSupported = false;
                 }
             }

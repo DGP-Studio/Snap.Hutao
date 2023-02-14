@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Gacha.Abstraction;
@@ -164,7 +163,7 @@ internal class GachaLogService : IGachaLogService
 
             GachaStatistics statistics = await gachaStatisticsFactory.CreateAsync(items).ConfigureAwait(false);
 
-            logger.LogInformation(EventIds.GachaStatisticGeneration, "GachaStatistic Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
+            logger.LogInformation("GachaStatistic Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
             return statistics;
         }
         else

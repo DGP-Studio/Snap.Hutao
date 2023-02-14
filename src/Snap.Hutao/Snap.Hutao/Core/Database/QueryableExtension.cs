@@ -3,12 +3,14 @@
 
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Database;
 
 /// <summary>
 /// 可查询扩展
 /// </summary>
+[HighQuality]
 public static class QueryableExtension
 {
     /// <summary>
@@ -19,6 +21,7 @@ public static class QueryableExtension
     /// <param name="predicate">条件</param>
     /// <param name="token">取消令牌</param>
     /// <returns>SQL返回个数</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Task<int> ExecuteDeleteWhereAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken token = default)
     {
         return source.Where(predicate).ExecuteDeleteAsync(token);

@@ -6,7 +6,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using System.IO;
@@ -73,13 +72,18 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
     /// <inheritdoc/>
     public async Task InitializeInternalAsync(CancellationToken token = default)
     {
+        if (isInitialized)
+        {
+            return;
+        }
+
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
-        logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion begin");
+        logger.LogInformation("Metadata initializaion begin");
 
         isInitialized = await TryUpdateMetadataAsync(token).ConfigureAwait(false);
         initializeCompletionSource.TrySetResult();
 
-        logger.LogInformation(EventIds.MetadataInitialization, "Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
+        logger.LogInformation("Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token)
@@ -135,7 +139,7 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
             string fileFullPath = Path.Combine(metadataFolderPath, fileFullName);
             if (File.Exists(fileFullPath))
             {
-                skip = md5 == await Digest.GetFileMd5Async(fileFullPath, token).ConfigureAwait(false);
+                skip = md5 == await Digest.GetFileMD5Async(fileFullPath, token).ConfigureAwait(false);
             }
 
             if (!skip)

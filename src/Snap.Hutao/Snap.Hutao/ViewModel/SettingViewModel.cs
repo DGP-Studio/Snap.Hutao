@@ -57,7 +57,7 @@ internal class SettingViewModel : Abstraction.ViewModel
         Experimental = serviceProvider.GetRequiredService<ExperimentalFeaturesViewModel>();
         this.serviceProvider = serviceProvider;
 
-        isEmptyHistoryWishVisibleEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.IsEmptyHistoryWishVisible, SettingEntryHelper.TrueString);
+        isEmptyHistoryWishVisibleEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.IsEmptyHistoryWishVisible, Core.StringLiterals.False);
         IsEmptyHistoryWishVisible = bool.Parse(isEmptyHistoryWishVisibleEntry.Value!);
 
         selectedBackdropTypeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.SystemBackdropType, BackdropType.Mica.ToString());

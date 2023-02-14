@@ -11,7 +11,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 公告页面
 /// </summary>
-public sealed partial class AnnouncementPage : ScopedPage
+internal sealed partial class AnnouncementPage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的公告页面

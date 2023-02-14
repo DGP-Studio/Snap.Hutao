@@ -9,18 +9,9 @@ namespace Snap.Hutao.Core.Database;
 /// <summary>
 /// 设置帮助类
 /// </summary>
-public static class SettingEntryHelper
+[HighQuality]
+public static class SettingEntryExtension
 {
-    /// <summary>
-    /// "True"
-    /// </summary>
-    public static readonly string TrueString = true.ToString();
-
-    /// <summary>
-    /// "False"
-    /// </summary>
-    public static readonly string FalseString = false.ToString();
-
     /// <summary>
     /// 获取或添加一个对应的设置
     /// </summary>
@@ -35,8 +26,7 @@ public static class SettingEntryHelper
         if (entry == null)
         {
             entry = new(key, value);
-            dbSet.Add(entry);
-            dbSet.Context().SaveChanges();
+            dbSet.AddAndSave(entry);
         }
 
         return entry;

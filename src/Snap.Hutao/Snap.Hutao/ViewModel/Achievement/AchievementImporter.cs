@@ -128,7 +128,7 @@ internal class AchievementImporter
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
                     .ConfigureAwait(false);
 
-                await using (await dialog.BlockAsync().ConfigureAwait(false))
+                using (await dialog.BlockAsync().ConfigureAwait(false))
                 {
                     result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
                 }

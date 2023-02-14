@@ -6,7 +6,8 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// <summary>
 /// 用户数据损坏异常
 /// </summary>
-internal class UserdataCorruptedException : Exception
+[HighQuality]
+internal sealed class UserdataCorruptedException : Exception
 {
     /// <summary>
     /// 构造一个新的用户数据损坏异常

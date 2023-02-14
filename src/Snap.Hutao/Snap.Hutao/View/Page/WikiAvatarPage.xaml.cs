@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 角色资料页
 /// </summary>
-public sealed partial class WikiAvatarPage : ScopedPage
+internal sealed partial class WikiAvatarPage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的角色资料页

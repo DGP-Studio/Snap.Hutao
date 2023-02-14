@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// <summary>
 /// 游戏位置定位器
 /// </summary>
-internal interface IGameLocator : INamed
+internal interface IGameLocator : INamedService
 {
     /// <summary>
     /// 异步获取游戏位置

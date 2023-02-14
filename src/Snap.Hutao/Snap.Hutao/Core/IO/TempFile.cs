@@ -9,6 +9,7 @@ namespace Snap.Hutao.Core.IO;
 /// <summary>
 /// 封装一个临时文件
 /// </summary>
+[HighQuality]
 internal sealed class TempFile : IDisposable
 {
     /// <summary>
@@ -23,7 +24,7 @@ internal sealed class TempFile : IDisposable
         }
         catch (UnauthorizedAccessException ex)
         {
-            throw ThrowHelper.RuntimeEnvironment(SH.CoreIOTempFileCreateFail, ex);
+            ThrowHelper.RuntimeEnvironment(SH.CoreIOTempFileCreateFail, ex);
         }
 
         if (delete)
@@ -42,7 +43,7 @@ internal sealed class TempFile : IDisposable
     /// </summary>
     /// <param name="file">源文件</param>
     /// <returns>临时文件</returns>
-    public static TempFile? CreateFromFileCopy(string file)
+    public static TempFile? CreateCopyFrom(string file)
     {
         TempFile temporaryFile = new();
         try

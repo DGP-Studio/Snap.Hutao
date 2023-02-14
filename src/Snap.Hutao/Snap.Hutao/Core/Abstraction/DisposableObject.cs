@@ -3,8 +3,9 @@
 
 namespace Snap.Hutao.Core.Abstraction;
 
+[HighQuality]
 [SuppressMessage("", "SA1600")]
-public abstract class DisposableObject : IDisposable
+internal abstract class DisposableObject : IDisposable
 {
     public bool IsDisposed { get; private set; }
 

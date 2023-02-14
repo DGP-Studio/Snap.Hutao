@@ -9,8 +9,9 @@ namespace Snap.Hutao.Control.Markup;
 /// <summary>
 /// Custom <see cref="Markup"/> which can provide <see cref="BitmapIcon"/> values.
 /// </summary>
+[HighQuality]
 [MarkupExtensionReturnType(ReturnType = typeof(BitmapIcon))]
-public sealed class BitmapIconExtension : MarkupExtension
+internal sealed class BitmapIconExtension : MarkupExtension
 {
     /// <summary>
     /// Gets or sets the <see cref="Uri"/> representing the image to display.

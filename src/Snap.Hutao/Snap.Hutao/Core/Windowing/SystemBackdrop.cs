@@ -18,7 +18,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// 系统背景帮助类
 /// </summary>
-public class SystemBackdrop
+internal sealed class SystemBackdrop
 {
     private readonly Window window;
 

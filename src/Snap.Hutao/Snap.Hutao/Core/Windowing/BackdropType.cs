@@ -6,7 +6,8 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// 背景类型
 /// </summary>
-public enum BackdropType
+[HighQuality]
+internal enum BackdropType
 {
     /// <summary>
     /// 无

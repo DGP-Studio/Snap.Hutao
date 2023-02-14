@@ -6,6 +6,7 @@ namespace Snap.Hutao.Core.Json.Converter;
 /// <summary>
 /// 实现日期的转换
 /// </summary>
+[HighQuality]
 internal class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
 {
     /// <inheritdoc/>

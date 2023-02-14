@@ -14,15 +14,16 @@ namespace Snap.Hutao.Core.IO.Bits;
 /// <summary>
 /// BITS Job
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "SA1600")]
-internal class BitsJob : DisposableObject, IBackgroundCopyCallback
+internal sealed class BitsJob : DisposableObject, IBackgroundCopyCallback
 {
     /// <summary>
     /// 任务名称前缀
     /// </summary>
     public const string JobNamePrefix = "SnapHutaoBitsJob";
 
-    private const uint Timeout = 44;
+    private const uint Timeout = 29;
     private const int MaxResumeAttempts = 3;
 
     private readonly string displayName;
@@ -47,26 +48,26 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
 
     public static BitsJob CreateJob(IServiceProvider serviceProvider, IBackgroundCopyManager backgroundCopyManager, Uri uri, string filePath)
     {
-        ILogger<BitsJob> service = serviceProvider.GetRequiredService<ILogger<BitsJob>>();
-        string text = $"{JobNamePrefix} - {uri}";
-        IBackgroundCopyJob ppJob;
+        ILogger<BitsJob> logger = serviceProvider.GetRequiredService<ILogger<BitsJob>>();
+        string jobName = $"{JobNamePrefix} - {uri}";
+        IBackgroundCopyJob job;
         try
         {
-            backgroundCopyManager.CreateJob(text, BG_JOB_TYPE.BG_JOB_TYPE_DOWNLOAD, out Guid _, out ppJob);
+            backgroundCopyManager.CreateJob(jobName, BG_JOB_TYPE.BG_JOB_TYPE_DOWNLOAD, out Guid _, out job);
 
             // BG_NOTIFY_JOB_TRANSFERRED & BG_NOTIFY_JOB_ERROR & BG_NOTIFY_JOB_MODIFICATION
-            ppJob.SetNotifyFlags(0b1011);
-            ppJob.SetNoProgressTimeout(Timeout);
-            ppJob.SetPriority(BG_JOB_PRIORITY.BG_JOB_PRIORITY_FOREGROUND);
-            ppJob.SetProxySettings(BG_JOB_PROXY_USAGE.BG_JOB_PROXY_USAGE_AUTODETECT, null, null);
+            job.SetNotifyFlags(0B1011);
+            job.SetNoProgressTimeout(Timeout);
+            job.SetPriority(BG_JOB_PRIORITY.BG_JOB_PRIORITY_FOREGROUND);
+            job.SetProxySettings(BG_JOB_PROXY_USAGE.BG_JOB_PROXY_USAGE_AUTODETECT, default, default);
         }
         catch (COMException ex)
         {
-            service.LogInformation("Failed to create job. {message}", ex.Message);
+            logger.LogInformation("Failed to create job. {message}", ex.Message);
             throw;
         }
 
-        BitsJob bitsJob = new(serviceProvider, text, ppJob);
+        BitsJob bitsJob = new(serviceProvider, jobName, job);
         bitsJob.InitJob(uri.AbsoluteUri, filePath);
         return bitsJob;
     }
@@ -115,7 +116,9 @@ internal class BitsJob : DisposableObject, IBackgroundCopyCallback
             if (state == BG_JOB_STATE.BG_JOB_STATE_TRANSIENT_ERROR)
             {
                 HRESULT errorCode = GetErrorCode(job);
-                if (errorCode == -2145844944)
+
+                // BG_E_HTTP_ERROR_304
+                if (errorCode == 0x80190130)
                 {
                     ErrorCode = errorCode;
                     CompleteOrCancel();

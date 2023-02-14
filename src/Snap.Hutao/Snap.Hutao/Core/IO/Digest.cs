@@ -9,6 +9,7 @@ namespace Snap.Hutao.Core.IO;
 /// <summary>
 /// 摘要
 /// </summary>
+[HighQuality]
 internal static class Digest
 {
     /// <summary>
@@ -17,11 +18,11 @@ internal static class Digest
     /// <param name="filePath">文件路径</param>
     /// <param name="token">取消令牌</param>
     /// <returns>文件 Md5 摘要</returns>
-    public static async Task<string> GetFileMd5Async(string filePath, CancellationToken token = default)
+    public static async Task<string> GetFileMD5Async(string filePath, CancellationToken token = default)
     {
         using (FileStream stream = File.OpenRead(filePath))
         {
-            return await GetStreamMd5Async(stream, token).ConfigureAwait(false);
+            return await GetStreamMD5Async(stream, token).ConfigureAwait(false);
         }
     }
 
@@ -31,7 +32,7 @@ internal static class Digest
     /// <param name="stream">流</param>
     /// <param name="token">取消令牌</param>
     /// <returns>流 Md5 摘要</returns>
-    public static async Task<string> GetStreamMd5Async(Stream stream, CancellationToken token = default)
+    public static async Task<string> GetStreamMD5Async(Stream stream, CancellationToken token = default)
     {
         using (MD5 md5 = MD5.Create())
         {

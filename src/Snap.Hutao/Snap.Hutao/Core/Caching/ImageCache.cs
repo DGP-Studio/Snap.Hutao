@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Core.Logging;
 using System.Collections.Concurrent;
-using System.Collections.Immutable;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -18,10 +16,11 @@ namespace Snap.Hutao.Core.Caching;
 /// Provides methods and tools to cache files in a folder
 /// The class's name will become the cache folder's name
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 [HttpClient(HttpClientConfigration.Default)]
 [PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
-public class ImageCache : IImageCache, IImageCacheFilePathOperation
+public sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private const string CacheFolderName = nameof(ImageCache);
 
@@ -89,7 +88,7 @@ public class ImageCache : IImageCache, IImageCacheFilePathOperation
         foreach (Uri uri in uriForCachedItems)
         {
             string filePath = Path.Combine(folder, GetCacheFileName(uri));
-            if (files.Contains(filePath))
+            if (Array.IndexOf(files, filePath) >= 0)
             {
                 filesToDelete.Add(filePath);
             }
@@ -113,13 +112,12 @@ public class ImageCache : IImageCache, IImageCacheFilePathOperation
                 {
                     await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
                 }
-                else
+                else if (concurrentTasks.TryGetValue(fileName, out Task? task))
                 {
-                    if (concurrentTasks.TryGetValue(fileName, out Task? task))
-                    {
-                        await task.ConfigureAwait(false);
-                    }
+                    await task.ConfigureAwait(false);
                 }
+
+                concurrentTasks.TryRemove(fileName, out _);
             }
             finally
             {
@@ -173,7 +171,7 @@ public class ImageCache : IImageCache, IImageCacheFilePathOperation
 
     private async Task DownloadFileAsync(Uri uri, string baseFile)
     {
-        logger.LogInformation(EventIds.FileCaching, "Begin downloading for {uri}", uri);
+        logger.LogInformation("Begin downloading for {uri}", uri);
 
         int retryCount = 0;
         while (retryCount < 6)

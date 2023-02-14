@@ -10,7 +10,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 养成计划对话框
 /// </summary>
-public sealed partial class CultivateProjectDialog : ContentDialog
+internal sealed partial class CultivateProjectDialog : ContentDialog
 {
     /// <summary>
     /// 构造一个新的养成计划对话框

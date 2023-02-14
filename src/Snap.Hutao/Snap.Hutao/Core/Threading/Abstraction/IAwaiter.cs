@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.Threading.Abstraction;
 /// <summary>
 /// 用于给 await 确定异步返回的时机。
 /// </summary>
-public interface IAwaiter : INotifyCompletion
+internal interface IAwaiter : INotifyCompletion
 {
     /// <summary>
     /// 获取一个状态，该状态表示正在异步等待的操作已经完成（成功完成或发生了异常）；此状态会被编译器自动调用。
@@ -26,7 +26,7 @@ public interface IAwaiter : INotifyCompletion
 /// 用于给 await 确定异步返回的时机，并获取到返回值。
 /// </summary>
 /// <typeparam name="TResult">异步返回的返回值类型。</typeparam>
-public interface IAwaiter<out TResult> : INotifyCompletion
+internal interface IAwaiter<out TResult> : INotifyCompletion
 {
     /// <summary>
     /// 获取一个状态，该状态表示正在异步等待的操作已经完成（成功完成或发生了异常）；此状态会被编译器自动调用。

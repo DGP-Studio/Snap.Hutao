@@ -287,7 +287,7 @@ internal class PackageConverter
     {
         if (File.Exists(cacheFilePath))
         {
-            string remoteMd5 = await Digest.GetFileMd5Async(cacheFilePath).ConfigureAwait(false);
+            string remoteMd5 = await Digest.GetFileMD5Async(cacheFilePath).ConfigureAwait(false);
             if (info.Md5 == remoteMd5.ToLowerInvariant() && new FileInfo(cacheFilePath).Length == info.TotalBytes)
             {
                 // Valid, move it to target path
@@ -316,7 +316,7 @@ internal class PackageConverter
                         {
                             await CopyToWithProgressAsync(webStream, fileStream, info.Target, totalBytes, progress).ConfigureAwait(false);
                             fileStream.Seek(0, SeekOrigin.Begin);
-                            string remoteMd5 = await Digest.GetStreamMd5Async(fileStream).ConfigureAwait(false);
+                            string remoteMd5 = await Digest.GetStreamMD5Async(fileStream).ConfigureAwait(false);
                             if (info.Md5 == remoteMd5.ToLowerInvariant())
                             {
                                 return;

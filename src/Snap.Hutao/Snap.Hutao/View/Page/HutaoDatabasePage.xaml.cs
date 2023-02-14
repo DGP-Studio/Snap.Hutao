@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 胡桃数据库页面
 /// </summary>
-public sealed partial class HutaoDatabasePage : ScopedPage
+internal sealed partial class HutaoDatabasePage : ScopedPage
 {
     /// <summary>
     /// 构造一个新的胡桃数据库页面

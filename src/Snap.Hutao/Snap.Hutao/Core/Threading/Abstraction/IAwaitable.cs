@@ -7,7 +7,7 @@ namespace Snap.Hutao.Core.Threading.Abstraction;
 /// 表示一个可等待对象，如果一个方法返回此类型的实例，则此方法可以使用 <see langword="await"/> 异步等待。
 /// </summary>
 /// <typeparam name="TAwaiter">用于给 await 确定返回时机的 IAwaiter 的实例。</typeparam>
-public interface IAwaitable<out TAwaiter>
+internal interface IAwaitable<out TAwaiter>
     where TAwaiter : IAwaiter
 {
     /// <summary>
@@ -23,7 +23,7 @@ public interface IAwaitable<out TAwaiter>
 /// </summary>
 /// <typeparam name="TAwaiter">用于给 await 确定返回时机的 <see cref="IAwaiter{TResult}"/> 的实例。</typeparam>
 /// <typeparam name="TResult">异步返回的返回值类型。</typeparam>
-public interface IAwaitable<out TAwaiter, out TResult>
+internal interface IAwaitable<out TAwaiter, out TResult>
     where TAwaiter : IAwaiter<TResult>
 {
     /// <summary>

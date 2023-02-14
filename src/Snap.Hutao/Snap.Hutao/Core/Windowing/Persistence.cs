@@ -16,6 +16,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// 窗体持久化
 /// </summary>
+[HighQuality]
 internal static class Persistence
 {
     /// <summary>
@@ -40,7 +41,7 @@ internal static class Persistence
             }
         }
 
-        TransformToCenterScreen(&rect);
+        TransformToCenterScreen(ref rect);
         appWindow.MoveAndResize(rect);
     }
 
@@ -78,13 +79,13 @@ internal static class Persistence
         return new((int)(size.Width * scale), (int)(size.Height * scale));
     }
 
-    private static unsafe void TransformToCenterScreen(RectInt32* rect)
+    private static void TransformToCenterScreen(ref RectInt32 rect)
     {
-        DisplayArea displayArea = DisplayArea.GetFromRect(*rect, DisplayAreaFallback.Primary);
+        DisplayArea displayArea = DisplayArea.GetFromRect(rect, DisplayAreaFallback.Primary);
         RectInt32 workAreaRect = displayArea.WorkArea;
 
-        rect->X = workAreaRect.X + ((workAreaRect.Width - rect->Width) / 2);
-        rect->Y = workAreaRect.Y + ((workAreaRect.Height - rect->Height) / 2);
+        rect.X = workAreaRect.X + ((workAreaRect.Width - rect.Width) / 2);
+        rect.Y = workAreaRect.Y + ((workAreaRect.Height - rect.Height) / 2);
     }
 
     [StructLayout(LayoutKind.Explicit)]

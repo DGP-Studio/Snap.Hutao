@@ -16,7 +16,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 登录米哈游通行证页面
 /// </summary>
-public sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Page
+internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.Page
 {
     /// <summary>
     /// 构造一个新的登录米哈游通行证页面

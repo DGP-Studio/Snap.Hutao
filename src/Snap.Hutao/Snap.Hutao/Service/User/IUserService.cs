@@ -11,7 +11,7 @@ namespace Snap.Hutao.Service.User;
 /// <summary>
 /// 用户服务
 /// </summary>
-public interface IUserService
+internal interface IUserService
 {
     /// <summary>
     /// 获取或设置当前用户

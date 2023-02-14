@@ -9,8 +9,9 @@ namespace Snap.Hutao.Control.Markup;
 /// <summary>
 /// Custom <see cref="MarkupExtension"/> which can provide <see cref="FontIcon"/> values.
 /// </summary>
+[HighQuality]
 [MarkupExtensionReturnType(ReturnType = typeof(FontIcon))]
-internal class FontIconExtension : MarkupExtension
+internal sealed class FontIconExtension : MarkupExtension
 {
     /// <summary>
     /// Gets or sets the <see cref="string"/> value representing the icon to display.

@@ -8,7 +8,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 祈愿记录Url对话框
 /// </summary>
-public sealed partial class GachaLogUrlDialog : ContentDialog
+internal sealed partial class GachaLogUrlDialog : ContentDialog
 {
     /// <summary>
     /// 初始化一个新的祈愿记录Url对话框

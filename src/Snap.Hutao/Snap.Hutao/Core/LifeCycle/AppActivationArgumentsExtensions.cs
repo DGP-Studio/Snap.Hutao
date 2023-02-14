@@ -9,7 +9,8 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// <summary>
 /// <see cref="AppActivationArguments"/> 扩展
 /// </summary>
-public static class AppActivationArgumentsExtensions
+[HighQuality]
+internal static class AppActivationArgumentsExtensions
 {
     /// <summary>
     /// 尝试获取协议启动的Uri

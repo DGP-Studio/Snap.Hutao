@@ -52,7 +52,7 @@ internal class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
         {
             string cacheFile = GetCacheFile(path);
 
-            using (TempFile? tempFile = TempFile.CreateFromFileCopy(cacheFile))
+            using (TempFile? tempFile = TempFile.CreateCopyFrom(cacheFile))
             {
                 if (tempFile == null)
                 {

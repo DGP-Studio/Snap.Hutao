@@ -17,6 +17,7 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 核心环境参数
 /// </summary>
+[HighQuality]
 internal static class CoreEnvironment
 {
     /// <summary>
@@ -27,7 +28,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社移动端请求UA
     /// </summary>
-    public const string HoyolabMobileUA = $"Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/106.0.5249.126 Mobile Safari/537.36 miHoYoBBS/{HoyolabXrpcVersion}";
+    public const string HoyolabMobileUA = $"Mozilla/5.0 (Linux; Android 12) Mobile miHoYoBBS/{HoyolabXrpcVersion}";
 
     /// <summary>
     /// 米游社 Rpc 版本
@@ -38,7 +39,7 @@ internal static class CoreEnvironment
     /// 盐
     /// </summary>
     // https://github.com/UIGF-org/Hoyolab.Salt
-    public static readonly ImmutableDictionary<SaltType, string> DynamicSecrets = new Dictionary<SaltType, string>()
+    public static readonly ImmutableDictionary<SaltType, string> DynamicSecretSalts = new Dictionary<SaltType, string>()
     {
         [SaltType.K2] = "dZAwGk4e9aC0MXXItkwnHamjA1x30IYw",
         [SaltType.LK2] = "IEIZiKYaput2OCKQprNuGsog1NZc1FkS",
@@ -46,41 +47,6 @@ internal static class CoreEnvironment
         [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
         [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
     }.ToImmutableDictionary();
-
-    /// <summary>
-    /// 标准UA
-    /// </summary>
-    public static readonly string CommonUA;
-
-    /// <summary>
-    /// 当前版本
-    /// </summary>
-    public static readonly Version Version;
-
-    /// <summary>
-    /// 米游社设备Id
-    /// </summary>
-    public static readonly string HoyolabDeviceId;
-
-    /// <summary>
-    /// 胡桃设备Id
-    /// </summary>
-    public static readonly string HutaoDeviceId;
-
-    /// <summary>
-    /// 包家族名称
-    /// </summary>
-    public static readonly string FamilyName;
-
-    /// <summary>
-    /// 安装位置
-    /// </summary>
-    public static readonly string InstalledLocation;
-
-    /// <summary>
-    /// 数据文件夹
-    /// </summary>
-    public static readonly string DataFolder;
 
     /// <summary>
     /// 默认的Json序列化选项
@@ -99,6 +65,41 @@ internal static class CoreEnvironment
             },
         },
     };
+
+    /// <summary>
+    /// 当前版本
+    /// </summary>
+    public static readonly Version Version;
+
+    /// <summary>
+    /// 标准UA
+    /// </summary>
+    public static readonly string CommonUA;
+
+    /// <summary>
+    /// 数据文件夹
+    /// </summary>
+    public static readonly string DataFolder;
+
+    /// <summary>
+    /// 包家族名称
+    /// </summary>
+    public static readonly string FamilyName;
+
+    /// <summary>
+    /// 米游社设备Id
+    /// </summary>
+    public static readonly string HoyolabDeviceId;
+
+    /// <summary>
+    /// 胡桃设备Id
+    /// </summary>
+    public static readonly string HutaoDeviceId;
+
+    /// <summary>
+    /// 安装位置
+    /// </summary>
+    public static readonly string InstalledLocation;
 
     private const string CryptographyKey = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\";
     private const string MachineGuidValue = "MachineGuid";

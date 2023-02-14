@@ -9,9 +9,12 @@ namespace Snap.Hutao.Control.Panel;
 /// <summary>
 /// 面板选择器
 /// </summary>
-public sealed partial class PanelSelector : UserControl
+[HighQuality]
+internal sealed partial class PanelSelector : SplitButton
 {
-    private static readonly DependencyProperty CurrentProperty = Property<PanelSelector>.Depend(nameof(Current), "List", OnCurrentChanged);
+    private const string List = nameof(List);
+
+    private static readonly DependencyProperty CurrentProperty = Property<PanelSelector>.Depend(nameof(Current), List, OnCurrentChanged);
 
     /// <summary>
     /// 构造一个新的面板选择器

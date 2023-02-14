@@ -13,7 +13,8 @@ namespace Snap.Hutao.Control.Image;
 /// <summary>
 /// 支持单色的图像
 /// </summary>
-public class MonoChrome : CompositionImage
+[HighQuality]
+internal sealed class MonoChrome : CompositionImage
 {
     private CompositionColorBrush? backgroundBrush;
 
@@ -56,7 +57,7 @@ public class MonoChrome : CompositionImage
         {
             ApplicationTheme.Light => Colors.Black,
             ApplicationTheme.Dark => Colors.White,
-            _ => throw Must.NeverHappen(),
+            _ => Colors.Transparent,
         };
     }
 }

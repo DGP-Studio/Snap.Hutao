@@ -13,12 +13,12 @@ namespace Snap.Hutao.Core.Database;
 /// </summary>
 /// <typeparam name="TEntity">实体的类型</typeparam>
 /// <typeparam name="TMessage">消息的类型</typeparam>
-internal class ScopedDbCurrent<TEntity, TMessage>
+internal sealed class ScopedDbCurrent<TEntity, TMessage>
     where TEntity : class, ISelectable
     where TMessage : Message.ValueChangedMessage<TEntity>, new()
 {
     private readonly IServiceScopeFactory scopeFactory;
-    private readonly Func<IServiceProvider, DbSet<TEntity>> dbSetFunc;
+    private readonly Func<IServiceProvider, DbSet<TEntity>> dbSetSelector;
     private readonly IMessenger messenger;
 
     private TEntity? current;
@@ -27,12 +27,12 @@ internal class ScopedDbCurrent<TEntity, TMessage>
     /// 构造一个新的数据库当前项
     /// </summary>
     /// <param name="scopeFactory">范围工厂</param>
-    /// <param name="dbSetFunc">数据集</param>
+    /// <param name="dbSetSelector">数据集选择器</param>
     /// <param name="messenger">消息器</param>
-    public ScopedDbCurrent(IServiceScopeFactory scopeFactory, Func<IServiceProvider, DbSet<TEntity>> dbSetFunc, IMessenger messenger)
+    public ScopedDbCurrent(IServiceScopeFactory scopeFactory, Func<IServiceProvider, DbSet<TEntity>> dbSetSelector, IMessenger messenger)
     {
         this.scopeFactory = scopeFactory;
-        this.dbSetFunc = dbSetFunc;
+        this.dbSetSelector = dbSetSelector;
         this.messenger = messenger;
     }
 
@@ -52,7 +52,7 @@ internal class ScopedDbCurrent<TEntity, TMessage>
 
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
-                DbSet<TEntity> dbSet = dbSetFunc(scope.ServiceProvider);
+                DbSet<TEntity> dbSet = dbSetSelector(scope.ServiceProvider);
 
                 // only update when not processing a deletion
                 if (value != null)

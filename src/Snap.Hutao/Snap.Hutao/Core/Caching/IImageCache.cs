@@ -7,6 +7,7 @@ namespace Snap.Hutao.Core.Caching;
 /// 为图像缓存提供抽象
 /// </summary>
 /// <typeparam name="T">缓存类型</typeparam>
+[HighQuality]
 internal interface IImageCache
 {
     /// <summary>

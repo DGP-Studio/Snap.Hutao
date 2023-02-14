@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.Threading;
 /// <summary>
 /// 无区分项的并发<see cref="CancellationTokenSource"/>
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "CA1001")]
 internal class ConcurrentCancellationTokenSource
 {
@@ -29,6 +30,7 @@ internal class ConcurrentCancellationTokenSource
 /// 有区分项的并发<see cref="CancellationTokenSource"/>
 /// </summary>
 /// <typeparam name="TItem">项类型</typeparam>
+[HighQuality]
 [SuppressMessage("", "SA1402")]
 internal class ConcurrentCancellationTokenSource<TItem>
     where TItem : notnull

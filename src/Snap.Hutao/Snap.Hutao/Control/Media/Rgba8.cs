@@ -12,8 +12,9 @@ namespace Snap.Hutao.Control.Media;
 /// <summary>
 /// RGBA 颜色
 /// </summary>
+[HighQuality]
 [StructLayout(LayoutKind.Explicit)]
-public struct Rgba8
+internal struct Rgba8
 {
     /// <summary>
     /// R
@@ -48,7 +49,6 @@ public struct Rgba8
     /// <param name="hex">色值字符串</param>
     public Rgba8(ReadOnlySpan<char> hex)
     {
-        Must.Argument(hex.Length == 8, "色值长度不为8");
         R = 0;
         G = 0;
         B = 0;

@@ -7,8 +7,9 @@ using Windows.Storage.Streams;
 namespace Snap.Hutao.Core.IO.DataTransfer;
 
 /// <summary>
-/// 剪贴板
+/// 剪贴板 在主线程使用
 /// </summary>
+[HighQuality]
 internal static class Clipboard
 {
     /// <summary>
@@ -23,6 +24,7 @@ internal static class Clipboard
         await ThreadHelper.SwitchToMainThreadAsync();
         DataPackageView view = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
         string json = await view.GetTextAsync();
+
         await ThreadHelper.SwitchToBackgroundAsync();
         return JsonSerializer.Deserialize<T>(json, options);
     }

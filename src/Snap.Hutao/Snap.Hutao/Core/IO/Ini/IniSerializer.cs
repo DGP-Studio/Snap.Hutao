@@ -8,6 +8,7 @@ namespace Snap.Hutao.Core.IO.Ini;
 /// <summary>
 /// Ini 序列化器
 /// </summary>
+[HighQuality]
 internal static class IniSerializer
 {
     /// <summary>
@@ -17,7 +18,7 @@ internal static class IniSerializer
     /// <returns>Ini 元素集合</returns>
     public static IEnumerable<IniElement> Deserialize(FileStream fileStream)
     {
-        using (TextReader reader = new StreamReader(fileStream))
+        using (StreamReader reader = new(fileStream))
         {
             while (reader.ReadLine() is string line)
             {
@@ -52,7 +53,7 @@ internal static class IniSerializer
     /// <param name="elements">元素</param>
     public static void Serialize(FileStream fileStream, IEnumerable<IniElement> elements)
     {
-        using (TextWriter writer = new StreamWriter(fileStream))
+        using (StreamWriter writer = new(fileStream))
         {
             foreach (IniElement element in elements)
             {

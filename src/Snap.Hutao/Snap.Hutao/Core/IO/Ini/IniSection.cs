@@ -6,7 +6,8 @@ namespace Snap.Hutao.Core.IO.Ini;
 /// <summary>
 /// Ini 节
 /// </summary>
-internal class IniSection : IniElement
+[HighQuality]
+internal sealed class IniSection : IniElement
 {
     /// <summary>
     /// 构造一个新的Ini 节

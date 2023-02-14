@@ -122,7 +122,7 @@ public class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
-        string salt = Core.CoreEnvironment.DynamicSecrets[SaltType.LK2];
+        string salt = Core.CoreEnvironment.DynamicSecretSalts[SaltType.LK2];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         string r = GetRandomString();
         string check = Core.Convert.ToMd5HexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
@@ -152,7 +152,7 @@ public class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
-        string salt = Core.CoreEnvironment.DynamicSecrets[SaltType.X4];
+        string salt = Core.CoreEnvironment.DynamicSecretSalts[SaltType.X4];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int r = GetRandom();
         string b = param.Payload.Body;

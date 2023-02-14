@@ -11,6 +11,7 @@ namespace Snap.Hutao.Control;
 /// DependencyObject will dispose inner ReferenceTracker in any time
 /// when object is not used anymore.
 /// </summary>
+[HighQuality]
 public class BindingProxy : DependencyObject
 {
     private static readonly DependencyProperty DataContextProperty = Property<BindingProxy>.Depend<object>(nameof(DataContext));

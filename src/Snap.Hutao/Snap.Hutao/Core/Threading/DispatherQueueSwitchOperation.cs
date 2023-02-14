@@ -10,7 +10,8 @@ namespace Snap.Hutao.Core.Threading;
 /// 调度器队列切换操作
 /// 等待此类型对象后上下文会被切换至主线程
 /// </summary>
-public readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOperation>, IAwaiter
+[HighQuality]
+internal readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOperation>, IAwaiter
 {
     private readonly DispatcherQueue dispatherQueue;
 

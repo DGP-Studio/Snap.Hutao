@@ -4,10 +4,13 @@
 namespace Snap.Hutao.Core.Json.Converter;
 
 /// <summary>
-/// Json字典转换器
+/// Json枚举键字典转换器
 /// </summary>
-public class StringEnumKeyDictionaryConverter : JsonConverterFactory
+[HighQuality]
+internal sealed class StringEnumKeyDictionaryConverter : JsonConverterFactory
 {
+    private readonly Type converterType = typeof(StringEnumDictionaryConverterInner<,>);
+
     /// <inheritdoc/>
     public override bool CanConvert(Type typeToConvert)
     {
@@ -27,11 +30,7 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
     /// <inheritdoc/>
     public override JsonConverter CreateConverter(Type type, JsonSerializerOptions options)
     {
-        Type[] arguments = type.GetGenericArguments();
-        Type keyType = arguments[0];
-        Type valueType = arguments[1];
-
-        Type innerConverterType = typeof(StringEnumDictionaryConverterInner<,>).MakeGenericType(keyType, valueType);
+        Type innerConverterType = converterType.MakeGenericType(type.GetGenericArguments());
         JsonConverter converter = (JsonConverter)Activator.CreateInstance(innerConverterType)!;
         return converter;
     }
@@ -71,7 +70,7 @@ public class StringEnumKeyDictionaryConverter : JsonConverterFactory
 
                 string? propertyName = reader.GetString();
 
-                if (!Enum.TryParse(propertyName, ignoreCase: false, out TKey key) && !Enum.TryParse(propertyName, ignoreCase: true, out key))
+                if (!Enum.TryParse(propertyName, false, out TKey key) && !Enum.TryParse(propertyName, true, out key))
                 {
                     throw new JsonException($"Unable to convert \"{propertyName}\" to Enum \"{keyType}\".");
                 }

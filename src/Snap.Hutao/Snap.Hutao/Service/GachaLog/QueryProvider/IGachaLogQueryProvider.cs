@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// <summary>
 /// 祈愿记录Url提供器
 /// </summary>
-internal interface IGachaLogQueryProvider : INamed
+internal interface IGachaLogQueryProvider : INamedService
 {
     /// <summary>
     /// 异步获取包含验证密钥的查询语句

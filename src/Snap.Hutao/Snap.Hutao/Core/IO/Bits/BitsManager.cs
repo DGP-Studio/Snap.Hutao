@@ -12,6 +12,7 @@ namespace Snap.Hutao.Core.IO.Bits;
 /// <summary>
 /// BITS 管理器
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton)]
 internal class BitsManager
 {
@@ -25,8 +26,8 @@ internal class BitsManager
     /// <param name="serviceProvider">服务提供器</param>
     public BitsManager(IServiceProvider serviceProvider)
     {
-        this.serviceProvider = serviceProvider;
         logger = serviceProvider.GetRequiredService<ILogger<BitsManager>>();
+        this.serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -69,10 +70,14 @@ internal class BitsManager
         {
             uint actualFetched = 0;
             pJobs.Next(1, out IBackgroundCopyJob pJob, ref actualFetched);
-            pJob.GetDisplayName(out PWSTR name);
-            if (name.AsSpan().StartsWith(BitsJob.JobNamePrefix))
+
+            if (actualFetched != 0)
             {
-                jobsToCancel.Add(pJob);
+                pJob.GetDisplayName(out PWSTR name);
+                if (name.AsSpan().StartsWith(BitsJob.JobNamePrefix))
+                {
+                    jobsToCancel.Add(pJob);
+                }
             }
         }
 
@@ -89,7 +94,7 @@ internal class BitsManager
         }
         catch (Exception ex)
         {
-            logger?.LogWarning("BITS download engine not supported: {message}", ex.Message);
+            logger.LogWarning("BITS download engine not supported: {message}", ex.Message);
             return false;
         }
 
@@ -103,7 +108,7 @@ internal class BitsManager
                 }
                 catch (Exception ex)
                 {
-                    logger?.LogWarning(ex, "BITS download failed:");
+                    logger.LogWarning(ex, "BITS download failed:");
                     return false;
                 }
 

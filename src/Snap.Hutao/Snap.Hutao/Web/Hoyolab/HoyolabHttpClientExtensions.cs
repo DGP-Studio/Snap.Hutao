@@ -25,17 +25,17 @@ internal static class HoyolabHttpClientExtensions
         httpClient.DefaultRequestHeaders.Remove("Cookie");
         StringBuilder stringBuilder = new();
 
-        if ((cookie & CookieType.CookieToken) == CookieType.CookieToken)
+        if (cookie.HasFlag(CookieType.CookieToken))
         {
             stringBuilder.Append(user.CookieToken).AppendIf(user.CookieToken != null, ';');
         }
 
-        if ((cookie & CookieType.Ltoken) == CookieType.Ltoken)
+        if (cookie.HasFlag(CookieType.Ltoken))
         {
             stringBuilder.Append(user.Ltoken).AppendIf(user.Ltoken != null, ';');
         }
 
-        if ((cookie & CookieType.Stoken) == CookieType.Stoken)
+        if (cookie.HasFlag(CookieType.Stoken))
         {
             stringBuilder.Append(user.Stoken).AppendIf(user.Stoken != null, ';');
         }

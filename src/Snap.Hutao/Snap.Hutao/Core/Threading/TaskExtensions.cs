@@ -1,16 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Logging;
-
 namespace Snap.Hutao.Core.Threading;
 
 /// <summary>
 /// 任务扩展
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "VSTHRD003")]
 [SuppressMessage("", "VSTHRD100")]
-public static class TaskExtensions
+internal static class TaskExtensions
 {
     /// <summary>
     /// 安全的触发任务
@@ -22,10 +21,20 @@ public static class TaskExtensions
         {
             await task.ConfigureAwait(false);
         }
+#if DEBUG
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine(ex);
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                _ = ex;
+                System.Diagnostics.Debugger.Break();
+            }
         }
+#else
+        catch (Exception)
+        {
+        }
+#endif
     }
 
     /// <summary>
@@ -45,7 +54,7 @@ public static class TaskExtensions
         }
         catch (Exception e)
         {
-            logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
         }
     }
 
@@ -67,7 +76,7 @@ public static class TaskExtensions
         }
         catch (Exception e)
         {
-            logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
             onException?.Invoke(e);
         }
     }
@@ -91,7 +100,7 @@ public static class TaskExtensions
         }
         catch (Exception e)
         {
-            logger?.LogError(EventIds.TaskException, e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
             onException?.Invoke(e);
         }
     }

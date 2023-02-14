@@ -10,6 +10,7 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// <summary>
 /// 帮助更好的抛出异常
 /// </summary>
+[HighQuality]
 [System.Diagnostics.StackTraceHidden]
 internal static class ThrowHelper
 {

@@ -9,7 +9,8 @@ namespace Snap.Hutao.Control.Behavior;
 /// <summary>
 /// 在元素加载完成后执行命令的行为
 /// </summary>
-internal class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
+[HighQuality]
+internal sealed class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
 {
     private static readonly DependencyProperty CommandProperty = Property<InvokeCommandOnLoadedBehavior>.Depend<ICommand>(nameof(Command));
     private static readonly DependencyProperty CommandParameterProperty = Property<InvokeCommandOnLoadedBehavior>.Depend<object>(nameof(CommandParameter));
@@ -38,7 +39,7 @@ internal class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
     {
         if (Command != null && Command.CanExecute(CommandParameter))
         {
-            Command?.Execute(CommandParameter);
+            Command.Execute(CommandParameter);
         }
     }
 }

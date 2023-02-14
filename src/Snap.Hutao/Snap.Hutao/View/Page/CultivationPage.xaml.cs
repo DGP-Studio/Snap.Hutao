@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 养成页面
 /// </summary>
-public sealed partial class CultivationPage : ScopedPage
+internal sealed partial class CultivationPage : ScopedPage
 {
     /// <summary>
     /// 够造一个新的养成页面

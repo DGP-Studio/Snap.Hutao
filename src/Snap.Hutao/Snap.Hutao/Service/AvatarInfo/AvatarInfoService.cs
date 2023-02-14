@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity.Database;
@@ -120,7 +119,7 @@ internal class AvatarInfoService : IAvatarInfoService
     {
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
         Summary summary = await summaryFactory.CreateAsync(info, avatarInfos, token).ConfigureAwait(false);
-        logger.LogInformation(EventIds.AvatarInfoGeneration, "AvatarInfoSummary Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
+        logger.LogInformation("AvatarInfoSummary Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
 
         return summary;
     }

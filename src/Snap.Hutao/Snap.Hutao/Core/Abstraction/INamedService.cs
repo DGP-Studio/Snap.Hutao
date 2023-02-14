@@ -7,7 +7,8 @@ namespace Snap.Hutao.Core.Abstraction;
 /// 有名称的对象
 /// 指示该对象可通过名称区分
 /// </summary>
-internal interface INamed
+[HighQuality]
+internal interface INamedService
 {
     /// <summary>
     /// 名称

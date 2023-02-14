@@ -12,6 +12,7 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 任务计划器服务
 /// </summary>
+[HighQuality]
 internal static class ScheduleTaskHelper
 {
     private const string DailyNoteRefreshTaskName = "SnapHutaoDailyNoteRefreshTask";

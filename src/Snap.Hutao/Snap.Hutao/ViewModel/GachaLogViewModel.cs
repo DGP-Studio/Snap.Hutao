@@ -195,7 +195,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
                 // ContentDialog must be created by main thread.
                 await ThreadHelper.SwitchToMainThreadAsync();
                 GachaLogRefreshProgressDialog dialog = new();
-                IAsyncDisposable dialogHider = await dialog.BlockAsync().ConfigureAwait(false);
+                IDisposable dialogHider = await dialog.BlockAsync().ConfigureAwait(false);
                 Progress<FetchState> progress = new(dialog.OnReport);
                 bool authkeyValid;
 
@@ -225,7 +225,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
                 if (authkeyValid)
                 {
                     SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
-                    await dialogHider.DisposeAsync().ConfigureAwait(false);
+                    dialogHider.Dispose();
                 }
                 else
                 {
@@ -369,7 +369,7 @@ internal class GachaLogViewModel : Abstraction.ViewModel
                 if (uigf.IsValidList())
                 {
                     ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
-                    await using (await dialog.BlockAsync().ConfigureAwait(false))
+                    using (await dialog.BlockAsync().ConfigureAwait(false))
                     {
                         await gachaLogService.ImportFromUIGFAsync(uigf.List, uigf.Info.Uid).ConfigureAwait(false);
                     }

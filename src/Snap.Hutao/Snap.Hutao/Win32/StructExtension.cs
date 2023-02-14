@@ -11,6 +11,16 @@ namespace Snap.Hutao.Win32;
 internal static class StructExtension
 {
     /// <summary>
+    /// 转换到宽高比
+    /// </summary>
+    /// <param name="size">尺寸</param>
+    /// <returns>宽高比</returns>
+    public static double AspectRatio(this Windows.Foundation.Size size)
+    {
+        return size.Width / size.Height;
+    }
+
+    /// <summary>
     /// 比例缩放
     /// </summary>
     /// <param name="rectInt32">源</param>

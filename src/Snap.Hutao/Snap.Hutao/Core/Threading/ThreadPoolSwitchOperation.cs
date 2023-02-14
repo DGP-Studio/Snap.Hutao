@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.Threading;
 /// 线程池切换操作
 /// 等待此类型对象后上下文会被切换至线程池线程
 /// </summary>
-public readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOperation>, IAwaiter, ICriticalAwaiter
+internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOperation>, IAwaiter, ICriticalAwaiter
 {
     private static readonly WaitCallback WaitCallbackRunAction = RunAction;
 

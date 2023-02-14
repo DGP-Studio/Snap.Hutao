@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 角色属性页
 /// </summary>
-public sealed partial class AvatarPropertyPage : ScopedPage
+internal sealed partial class AvatarPropertyPage : ScopedPage
 {
     /// <summary>
     /// 初始化一个新的角色属性页

@@ -10,8 +10,14 @@ namespace Snap.Hutao.Control.Image;
 /// <summary>
 /// 合成扩展
 /// </summary>
+[HighQuality]
 internal static class CompositionExtension
 {
+    private const string Background = nameof(Background);
+    private const string Foreground = nameof(Foreground);
+    private const string Source = nameof(Source);
+    private const string AlphaMask = nameof(AlphaMask);
+
     /// <summary>
     /// 创建拼合图视觉对象
     /// </summary>
@@ -41,15 +47,15 @@ internal static class CompositionExtension
     {
         BlendEffect effect = new()
         {
-            Background = new CompositionEffectSourceParameter("Background"),
-            Foreground = new CompositionEffectSourceParameter("Foreground"),
+            Background = new CompositionEffectSourceParameter(Background),
+            Foreground = new CompositionEffectSourceParameter(Foreground),
             Mode = blendEffectMode,
         };
 
         CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
 
-        brush.SetSourceParameter("Background", background);
-        brush.SetSourceParameter("Foreground", foreground);
+        brush.SetSourceParameter(Background, background);
+        brush.SetSourceParameter(Foreground, foreground);
 
         return brush;
     }
@@ -66,12 +72,12 @@ internal static class CompositionExtension
     {
         GrayscaleEffect effect = new()
         {
-            Source = new CompositionEffectSourceParameter("Source"),
+            Source = new CompositionEffectSourceParameter(Source),
         };
 
         CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
 
-        brush.SetSourceParameter("Source", source);
+        brush.SetSourceParameter(Source, source);
 
         return brush;
     }
@@ -88,12 +94,12 @@ internal static class CompositionExtension
     {
         LuminanceToAlphaEffect effect = new()
         {
-            Source = new CompositionEffectSourceParameter("Source"),
+            Source = new CompositionEffectSourceParameter(Source),
         };
 
         CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
 
-        brush.SetSourceParameter("Source", sourceBrush);
+        brush.SetSourceParameter(Source, sourceBrush);
 
         return brush;
     }
@@ -112,14 +118,14 @@ internal static class CompositionExtension
     {
         AlphaMaskEffect maskEffect = new()
         {
-            AlphaMask = new CompositionEffectSourceParameter("AlphaMask"),
-            Source = new CompositionEffectSourceParameter("Source"),
+            AlphaMask = new CompositionEffectSourceParameter(AlphaMask),
+            Source = new CompositionEffectSourceParameter(Source),
         };
 
         CompositionEffectBrush brush = compositor.CreateEffectFactory(maskEffect).CreateBrush();
 
-        brush.SetSourceParameter("AlphaMask", alphaMask);
-        brush.SetSourceParameter("Source", sourceBrush);
+        brush.SetSourceParameter(AlphaMask, alphaMask);
+        brush.SetSourceParameter(Source, sourceBrush);
 
         return brush;
     }
@@ -172,25 +178,6 @@ internal static class CompositionExtension
         return brush;
     }
 
-    /// <summary>
-    /// 创建一个新的蒙版画刷
-    /// </summary>
-    /// <param name="compositor">合成器</param>
-    /// <param name="source">源</param>
-    /// <param name="mask">蒙版</param>
-    /// <returns>蒙版画刷</returns>
-    public static CompositionMaskBrush CompositeMaskBrush(
-        this Compositor compositor,
-        CompositionBrush source,
-        CompositionBrush mask)
-    {
-        CompositionMaskBrush brush = compositor.CreateMaskBrush();
-        brush.Source = source;
-        brush.Mask = mask;
-
-        return brush;
-    }
-
     private static Vector2 GetStartPointOfDirection(GradientDirection direction)
     {
         return direction switch
@@ -216,6 +203,4 @@ internal static class CompositionExtension
             _ => Vector2.Zero,
         };
     }
-
-    public record struct GradientStop(float Offset, Windows.UI.Color Color);
 }

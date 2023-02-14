@@ -12,6 +12,7 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// <summary>
 /// App 实例拓展
 /// </summary>
+[HighQuality]
 internal static class AppInstanceExtension
 {
     // Hold the reference here to prevent memory corruption.
@@ -23,11 +24,12 @@ internal static class AppInstanceExtension
     /// <param name="appInstance">app实例</param>
     /// <param name="args">参数</param>
     [SuppressMessage("", "VSTHRD002")]
-    [SuppressMessage("", "VSTHRD110")]
     public static unsafe void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
     {
         redirectEventHandle = CreateEvent(default(SECURITY_ATTRIBUTES*), true, false, null);
-        Task.Run(() =>
+
+        // use ThreadPool.UnsafeQueueUserWorkItem to cancel stacktrace
+        ThreadPool.UnsafeQueueUserWorkItem(new(RunAction), () =>
         {
             appInstance.RedirectActivationToAsync(args).AsTask().Wait();
             SetEvent(redirectEventHandle);
@@ -35,5 +37,10 @@ internal static class AppInstanceExtension
 
         ReadOnlySpan<HANDLE> handles = new(in redirectEventHandle);
         CoWaitForMultipleObjects((uint)CWMO_FLAGS.CWMO_DEFAULT, INFINITE, handles, out uint _);
+    }
+
+    private static void RunAction(object? state)
+    {
+        ((Action)state!)();
     }
 }

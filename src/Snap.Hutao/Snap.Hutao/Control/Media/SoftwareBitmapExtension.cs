@@ -12,7 +12,8 @@ namespace Snap.Hutao.Control.Media;
 /// <summary>
 /// 软件位图拓展
 /// </summary>
-public static class SoftwareBitmapExtension
+[HighQuality]
+internal static class SoftwareBitmapExtension
 {
     /// <summary>
     /// 混合模式 正常

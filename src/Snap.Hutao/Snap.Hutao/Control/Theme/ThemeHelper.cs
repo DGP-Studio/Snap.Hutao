@@ -9,6 +9,7 @@ namespace Snap.Hutao.Control.Theme;
 /// <summary>
 /// 主题帮助工具类
 /// </summary>
+[HighQuality]
 public static class ThemeHelper
 {
     /// <summary>

@@ -20,10 +20,11 @@ namespace Snap.Hutao.Control.Image;
 /// 合成图像控件
 /// 为其他图像类控件提供基类
 /// </summary>
+[HighQuality]
 public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 {
     private static readonly DependencyProperty SourceProperty = Property<CompositionImage>.Depend(nameof(Source), default(Uri), OnSourceChanged);
-    private static readonly DependencyProperty EnableLazyLoadingProperty = Property<CompositionImage>.Depend(nameof(EnableLazyLoading), true);
+    private static readonly DependencyProperty EnableLazyLoadingProperty = Property<CompositionImage>.DependBoxed<bool>(nameof(EnableLazyLoading), BoxedValues.True);
     private static readonly ConcurrentCancellationTokenSource<CompositionImage> LoadingTokenSource = new();
 
     private readonly IServiceProvider serviceProvider;
@@ -62,8 +63,8 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     /// </summary>
     public bool EnableLazyLoading
     {
-        get { return (bool)GetValue(EnableLazyLoadingProperty); }
-        set { SetValue(EnableLazyLoadingProperty, value); }
+        get => (bool)GetValue(EnableLazyLoadingProperty);
+        set => SetValue(EnableLazyLoadingProperty, value);
     }
 
     /// <summary>
@@ -98,7 +99,31 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
         spriteVisual.Size = ActualSize;
     }
 
-    private static void OnApplyImageFailed(Uri? uri, Exception exception)
+    private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs arg)
+    {
+        CompositionImage image = (CompositionImage)sender;
+        CancellationToken token = LoadingTokenSource.Register(image);
+        IServiceProvider serviceProvider = image.serviceProvider;
+        ILogger<CompositionImage> logger = serviceProvider.GetRequiredService<ILogger<CompositionImage>>();
+
+        // source is valid
+        if (arg.NewValue is Uri inner && !string.IsNullOrEmpty(inner.OriginalString))
+        {
+            // value is different from old one
+            if (inner != (arg.OldValue as Uri))
+            {
+                image
+                    .ApplyImageAsync(inner, token)
+                    .SafeForget(logger, ex => OnApplyImageFailed(serviceProvider, inner, ex));
+            }
+        }
+        else
+        {
+            image.HideAsync(token).SafeForget(logger);
+        }
+    }
+
+    private static void OnApplyImageFailed(IServiceProvider serviceProvider, Uri? uri, Exception exception)
     {
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
@@ -116,36 +141,15 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
         }
     }
 
-    private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs arg)
-    {
-        CompositionImage image = (CompositionImage)sender;
-        CancellationToken token = LoadingTokenSource.Register(image);
-        ILogger<CompositionImage> logger = Ioc.Default.GetRequiredService<ILogger<CompositionImage>>();
-
-        // source is valid
-        if (arg.NewValue is Uri inner && !string.IsNullOrEmpty(inner.Host))
-        {
-            // value is different from old one
-            if (inner != (arg.OldValue as Uri))
-            {
-                image.ApplyImageInternalAsync(inner, token).SafeForget(logger, ex => OnApplyImageFailed(inner, ex));
-            }
-        }
-        else
-        {
-            image.HideAsync(token).SafeForget(logger);
-        }
-    }
-
-    private async Task ApplyImageInternalAsync(Uri? uri, CancellationToken token)
+    private async Task ApplyImageAsync(Uri? uri, CancellationToken token)
     {
         await HideAsync(token).ConfigureAwait(true);
 
-        LoadedImageSurface? imageSurface = null;
-        Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-
         if (uri != null)
         {
+            LoadedImageSurface? imageSurface = null;
+            Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+
             IImageCache imageCache = serviceProvider.GetRequiredService<IImageCache>();
             string file = await imageCache.GetFileFromCacheAsync(uri).ConfigureAwait(true);
 
@@ -177,6 +181,8 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         if (!isShow)
         {
+            isShow = true;
+
             if (EnableLazyLoading)
             {
                 await AnimationBuilder.Create().Opacity(1d, 0d).StartAsync(this, token).ConfigureAwait(true);
@@ -185,8 +191,6 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
             {
                 Opacity = 1;
             }
-
-            isShow = true;
         }
     }
 
@@ -194,6 +198,8 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         if (isShow)
         {
+            isShow = false;
+
             if (EnableLazyLoading)
             {
                 await AnimationBuilder.Create().Opacity(0d, 1d).StartAsync(this, token).ConfigureAwait(true);
@@ -202,8 +208,6 @@ public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
             {
                 Opacity = 0;
             }
-
-            isShow = false;
         }
     }
 

@@ -13,7 +13,8 @@ namespace Snap.Hutao.Control.Image;
 /// <summary>
 /// 缓存图像
 /// </summary>
-public class CachedImage : ImageEx
+[HighQuality]
+internal sealed class CachedImage : ImageEx
 {
     /// <summary>
     /// 构造一个新的缓存图像
@@ -22,17 +23,20 @@ public class CachedImage : ImageEx
     {
         IsCacheEnabled = true;
         EnableLazyLoading = true;
-        LazyLoadingThreshold = 500;
     }
 
     /// <inheritdoc/>
     protected override async Task<ImageSource?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
+        // We can only use Ioc to retrive IImageCache,
+        // no IServiceProvider is available.
         IImageCache imageCache = Ioc.Default.GetRequiredService<IImageCache>();
 
         try
         {
             Verify.Operation(imageUri.Host != string.Empty, SH.ControlImageCachedImageInvalidResourceUri);
+
+            // BitmapImage need to be created by main thread.
             string file = await imageCache.GetFileFromCacheAsync(imageUri).ConfigureAwait(true);
 
             // check token state to determine whether the operation should be canceled.

@@ -8,7 +8,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 成就存档创建对话框
 /// </summary>
-public sealed partial class AchievementArchiveCreateDialog : ContentDialog
+internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
 {
     /// <summary>
     /// 构造一个新的成就存档创建对话框

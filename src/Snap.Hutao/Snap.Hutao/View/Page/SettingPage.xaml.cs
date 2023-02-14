@@ -9,7 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 设置页面
 /// </summary>
-public sealed partial class SettingPage : ScopedPage
+internal sealed partial class SettingPage : ScopedPage
 {
     /// <summary>
     /// 构造新的设置页面

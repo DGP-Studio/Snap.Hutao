@@ -112,7 +112,7 @@ internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessa
             GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
 
             bool isSilentMode = appDbContext.Settings
-                .SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, SettingEntryHelper.FalseString)
+                .SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, Core.StringLiterals.False)
                 .GetBoolean();
             bool isGameRunning = scope.ServiceProvider.GetRequiredService<IGameService>().IsGameRunning();
             if (isSilentMode && isGameRunning)
