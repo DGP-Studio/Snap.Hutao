@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
@@ -13,7 +12,8 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// <summary>
 /// 类型化祈愿统计信息构建器
 /// </summary>
-internal class TypedWishSummaryBuilder
+[HighQuality]
+internal sealed class TypedWishSummaryBuilder
 {
     /// <summary>
     /// 常驻祈愿
@@ -151,8 +151,8 @@ internal class TypedWishSummaryBuilder
             TotalOrangePercent = totalOrangePullTracker / totalCount,
             TotalPurplePercent = totalPurplePullTracker / totalCount,
             TotalBluePercent = totalBluePullTracker / totalCount,
-            AverageOrangePull = averageOrangePullTracker.AverageNoThrow(),
-            AverageUpOrangePull = averageUpOrangePullTracker.AverageNoThrow(),
+            AverageOrangePull = averageOrangePullTracker.UnsafeAverage(),
+            AverageUpOrangePull = averageUpOrangePullTracker.UnsafeAverage(),
             OrangeList = summaryItems,
         };
     }

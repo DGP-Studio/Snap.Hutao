@@ -9,8 +9,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 消耗物品
 /// </summary>
+[HighQuality]
 [Table("cultivate_items")]
-public class CultivateItem
+internal sealed class CultivateItem
 {
     /// <summary>
     /// 内部Id

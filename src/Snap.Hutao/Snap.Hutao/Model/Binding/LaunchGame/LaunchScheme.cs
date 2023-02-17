@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Binding.LaunchGame;
 /// <summary>
 /// 启动方案
 /// </summary>
-public class LaunchScheme
+[HighQuality]
+internal sealed class LaunchScheme
 {
     /// <summary>
     /// 已知的启动方案
@@ -39,30 +40,30 @@ public class LaunchScheme
     /// <summary>
     /// 名称
     /// </summary>
-    public string DisplayName { get; set; }
+    public string DisplayName { get; }
 
     /// <summary>
     /// 通道
     /// </summary>
-    public string Channel { get; set; }
+    public string Channel { get; }
 
     /// <summary>
     /// 子通道
     /// </summary>
-    public string SubChannel { get; set; }
+    public string SubChannel { get; }
 
     /// <summary>
     /// 启动器Id
     /// </summary>
-    public string LauncherId { get; set; }
+    public string LauncherId { get; }
 
     /// <summary>
     /// API Key
     /// </summary>
-    public string Key { get; set; }
+    public string Key { get; }
 
     /// <summary>
     /// 是否为海外
     /// </summary>
-    public bool IsOversea { get => LauncherId == "10"; }
+    public bool IsOversea { get => LauncherId == "10" && Channel == "1" && SubChannel == "0"; }
 }

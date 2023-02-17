@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 验证注册
 /// </summary>
-public class VerificationRegistration
+[HighQuality]
+internal sealed class VerificationRegistration
 {
     /// <summary>
     /// 极验流水号

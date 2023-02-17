@@ -14,7 +14,8 @@ namespace Snap.Hutao.Service.Metadata;
 /// <summary>
 /// 元数据服务
 /// </summary>
-internal interface IMetadataService
+[HighQuality]
+internal interface IMetadataService : ICastableService
 {
     /// <summary>
     /// 异步初始化服务，尝试更新元数据
@@ -132,7 +133,7 @@ internal interface IMetadataService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>圣遗物强化属性列表</returns>
-    ValueTask<List<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default);
+    ValueTask<List<ReliquaryMainAffix>> GetReliquaryMainAffixesAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取武器列表

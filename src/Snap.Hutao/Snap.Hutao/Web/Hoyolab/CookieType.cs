@@ -7,7 +7,8 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// Cookie 类型
 /// </summary>
 [Flags]
-public enum CookieType
+[HighQuality]
+internal enum CookieType
 {
     /// <summary>
     /// 不需要 Cookie

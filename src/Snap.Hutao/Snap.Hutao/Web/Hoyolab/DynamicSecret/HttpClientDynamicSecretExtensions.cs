@@ -9,6 +9,7 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// <summary>
 /// 动态密钥扩展
 /// </summary>
+[HighQuality]
 internal static class HttpClientDynamicSecretExtensions
 {
     /// <summary>
@@ -21,7 +22,7 @@ internal static class HttpClientDynamicSecretExtensions
     /// <returns>同一个客户端</returns>
     public static HttpClient UseDynamicSecret(this HttpClient client, DynamicSecretVersion version, SaltType salt, bool includeChars)
     {
-        client.DefaultRequestHeaders.Set("DS-Option", $"{version}|{salt}|{includeChars}");
+        client.DefaultRequestHeaders.Set(DynamicSecretHandler.OptionKeyName, $"{version}|{salt}|{includeChars}");
         return client;
     }
 }

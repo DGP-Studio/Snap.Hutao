@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Achievement;
 /// <summary>
 /// 导入结果
 /// </summary>
-public readonly struct ImportResult
+[HighQuality]
+internal readonly struct ImportResult
 {
     /// <summary>
     /// 新增数
@@ -39,6 +40,6 @@ public readonly struct ImportResult
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"新增:{Add} 个成就 | 更新:{Update} 个成就 | 删除{Remove} 个成就";
+        return string.Format(SH.ServiceAchievementImportResultFormat, Add, Update, Remove);
     }
 }

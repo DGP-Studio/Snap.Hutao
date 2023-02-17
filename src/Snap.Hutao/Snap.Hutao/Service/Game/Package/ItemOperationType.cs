@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.Game.Package;
 /// <summary>
 /// 包文件操作的类型
 /// </summary>
+[HighQuality]
 internal enum ItemOperationType
 {
     /// <summary>

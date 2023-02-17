@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Entity.Configuration;
 /// <summary>
 /// 角色信息配置
 /// </summary>
-internal class AvatarInfoConfiguration : IEntityTypeConfiguration<AvatarInfo>
+[HighQuality]
+internal sealed class AvatarInfoConfiguration : IEntityTypeConfiguration<AvatarInfo>
 {
     /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<AvatarInfo> builder)

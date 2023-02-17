@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata;
 /// <summary>
 /// 祈愿卡池配置
 /// </summary>
-public class GachaEvent
+[HighQuality]
+internal sealed class GachaEvent
 {
     /// <summary>
     /// 卡池名称

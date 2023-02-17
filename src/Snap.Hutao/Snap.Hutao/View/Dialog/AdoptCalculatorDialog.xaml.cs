@@ -14,7 +14,8 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 养成计算器对话框
 /// </summary>
-public sealed partial class AdoptCalculatorDialog : ContentDialog
+[HighQuality]
+internal sealed partial class AdoptCalculatorDialog : ContentDialog
 {
     private readonly IServiceScope scope;
     private MiHoYoJSInterface? jsInterface;

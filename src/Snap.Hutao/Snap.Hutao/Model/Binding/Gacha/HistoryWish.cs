@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
-
 namespace Snap.Hutao.Model.Binding.Gacha;
 
 /// <summary>
 /// 历史卡池概览
 /// </summary>
-public class HistoryWish : WishBase
+[HighQuality]
+internal sealed class HistoryWish : Wish
 {
     /// <summary>
     /// 版本

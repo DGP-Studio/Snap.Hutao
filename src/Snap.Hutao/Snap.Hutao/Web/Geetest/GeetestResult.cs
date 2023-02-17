@@ -7,7 +7,7 @@ namespace Snap.Hutao.Web.Geetest;
 /// 极验返回结果信息
 /// </summary>
 /// <typeparam name="T">数据类型</typeparam>
-public class GeetestResult<T>
+internal sealed class GeetestResult<T>
 {
     /// <summary>
     /// 成功失败的标识码 success

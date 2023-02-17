@@ -10,6 +10,7 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// <summary>
 /// 祈愿记录请求配置
 /// </summary>
+[HighQuality]
 internal struct GachaLogQueryOptions
 {
     /// <summary>

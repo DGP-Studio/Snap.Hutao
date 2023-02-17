@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// <summary>
 /// 动态密钥版本
 /// </summary>
-public enum DynamicSecretVersion
+[HighQuality]
+internal enum DynamicSecretVersion
 {
     /// <summary>
     /// 一代

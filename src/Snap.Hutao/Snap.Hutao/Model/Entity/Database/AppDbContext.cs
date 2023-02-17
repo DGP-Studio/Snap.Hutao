@@ -10,8 +10,9 @@ namespace Snap.Hutao.Model.Entity.Database;
 /// <summary>
 /// 应用程序数据库上下文
 /// </summary>
+[HighQuality]
 [DebuggerDisplay("Id = {ContextId}")]
-public sealed class AppDbContext : DbContext
+internal sealed class AppDbContext : DbContext
 {
     private readonly ILogger<AppDbContext>? logger;
 
@@ -33,7 +34,7 @@ public sealed class AppDbContext : DbContext
         : this(options)
     {
         this.logger = logger;
-        logger.LogInformation("AppDbContext[{id}] created.", ContextId);
+        logger.LogInformation("{name}[{id}] created.", nameof(AppDbContext), ContextId);
     }
 
     /// <summary>

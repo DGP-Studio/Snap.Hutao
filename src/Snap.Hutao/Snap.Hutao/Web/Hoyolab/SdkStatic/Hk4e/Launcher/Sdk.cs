@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// Sdk
 /// </summary>
-public class Sdk : PathMd5
+[HighQuality]
+internal sealed class Sdk : PathMd5
 {
     /// <summary>
     /// 版本

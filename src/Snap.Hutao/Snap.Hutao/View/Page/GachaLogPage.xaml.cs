@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 祈愿记录页面
 /// </summary>
+[HighQuality]
 internal sealed partial class GachaLogPage : ScopedPage
 {
     /// <summary>

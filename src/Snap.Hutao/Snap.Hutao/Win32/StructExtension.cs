@@ -8,6 +8,7 @@ namespace Snap.Hutao.Win32;
 /// <summary>
 /// 结构扩展
 /// </summary>
+[HighQuality]
 internal static class StructExtension
 {
     /// <summary>

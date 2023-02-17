@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 /// <summary>
 /// UIAF格式的信息
 /// </summary>
-public class UIAFInfo
+[HighQuality]
+internal sealed class UIAFInfo
 {
     /// <summary>
     /// 导出的 App 名称
@@ -29,7 +30,6 @@ public class UIAFInfo
     [JsonIgnore]
     public DateTimeOffset ExportDateTime
     {
-        // Hot fix | 1.0.31 | UIAF.Info.ExportTimestamp can be milliseconds
         get => DateTimeOffsetExtension.FromUnixTime(ExportTimestamp, DateTimeOffset.MinValue);
     }
 
@@ -55,7 +55,7 @@ public class UIAFInfo
         return new()
         {
             ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
-            ExportApp = "胡桃",
+            ExportApp = SH.AppName,
             ExportAppVersion = CoreEnvironment.Version.ToString(),
             UIAFVersion = UIAF.CurrentVersion,
         };

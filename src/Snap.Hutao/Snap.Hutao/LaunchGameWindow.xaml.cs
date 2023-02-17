@@ -13,8 +13,9 @@ namespace Snap.Hutao;
 /// <summary>
 /// 启动游戏窗口
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton)]
-public sealed partial class LaunchGameWindow : Window, IDisposable, IExtendedWindowSource
+internal sealed partial class LaunchGameWindow : Window, IDisposable, IExtendedWindowSource
 {
     private const int MinWidth = 240;
     private const int MinHeight = 240;

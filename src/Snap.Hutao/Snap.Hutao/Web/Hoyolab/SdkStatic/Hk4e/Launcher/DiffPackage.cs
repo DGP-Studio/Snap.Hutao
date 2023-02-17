@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// 差异文件
 /// </summary>
-public class DiffPackage : Package
+[HighQuality]
+internal sealed class DiffPackage : Package
 {
     /// <summary>
     /// 是否为推荐更新

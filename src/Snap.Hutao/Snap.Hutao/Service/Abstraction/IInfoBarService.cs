@@ -8,7 +8,8 @@ namespace Snap.Hutao.Service.Abstraction;
 /// <summary>
 /// 消息条服务
 /// </summary>
-public interface IInfoBarService
+[HighQuality]
+internal interface IInfoBarService
 {
     /// <summary>
     /// 显示错误消息

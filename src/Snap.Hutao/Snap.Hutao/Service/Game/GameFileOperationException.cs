@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Game;
 /// <summary>
 /// 游戏文件操作异常
 /// </summary>
-internal class GameFileOperationException : Exception
+[HighQuality]
+internal sealed class GameFileOperationException : Exception
 {
     /// <summary>
     /// 构造一个新的用户数据损坏异常

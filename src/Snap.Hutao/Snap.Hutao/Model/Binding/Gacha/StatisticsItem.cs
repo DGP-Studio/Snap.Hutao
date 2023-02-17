@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
-
 namespace Snap.Hutao.Model.Binding.Gacha;
 
 /// <summary>
 /// 历史物品
 /// </summary>
-public class StatisticsItem : ItemBase
+[HighQuality]
+internal sealed class StatisticsItem : Item
 {
     /// <summary>
     /// 获取物品的个数

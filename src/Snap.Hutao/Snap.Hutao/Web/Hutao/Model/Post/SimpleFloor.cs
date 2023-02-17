@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 /// <summary>
 /// 层信息
 /// </summary>
-public class SimpleFloor
+[HighQuality]
+internal sealed class SimpleFloor
 {
     /// <summary>
     /// 构造一个新的层信息

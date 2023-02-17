@@ -9,6 +9,7 @@ namespace Snap.Hutao.Win32;
 /// <summary>
 /// 内存拓展 for <see cref="Memory{T}"/> and <see cref="Span{T}"/>
 /// </summary>
+[HighQuality]
 internal static class MemoryExtension
 {
     /// <summary>

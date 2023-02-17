@@ -8,6 +8,7 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 成就存档切换消息
 /// </summary>
-internal class AchievementArchiveChangedMessage : ValueChangedMessage<AchievementArchive>
+[HighQuality]
+internal sealed class AchievementArchiveChangedMessage : ValueChangedMessage<AchievementArchive>
 {
 }

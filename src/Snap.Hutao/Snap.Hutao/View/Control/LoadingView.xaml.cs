@@ -8,7 +8,7 @@ namespace Snap.Hutao.View.Control;
 /// <summary>
 /// 加载视图
 /// </summary>
-public sealed partial class LoadingView : Loading
+internal sealed partial class LoadingView : Loading
 {
     /// <summary>
     /// 构造一个新的加载视图

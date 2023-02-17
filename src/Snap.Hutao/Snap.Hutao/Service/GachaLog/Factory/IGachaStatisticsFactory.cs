@@ -9,7 +9,8 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// <summary>
 /// 祈愿统计工厂
 /// </summary>
-public interface IGachaStatisticsFactory
+[HighQuality]
+internal interface IGachaStatisticsFactory
 {
     /// <summary>
     /// 异步创建祈愿统计对象

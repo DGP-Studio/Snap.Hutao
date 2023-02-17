@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Navigation;
 /// <summary>
 /// 表示导航等待器
 /// </summary>
-public interface INavigationAwaiter
+[HighQuality]
+internal interface INavigationAwaiter
 {
     /// <summary>
     /// 默认的等待器

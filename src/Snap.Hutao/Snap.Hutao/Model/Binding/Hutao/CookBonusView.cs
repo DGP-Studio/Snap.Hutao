@@ -10,7 +10,8 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 料理奖励视图
 /// </summary>
-public class CookBonusView
+[HighQuality]
+internal sealed class CookBonusView
 {
     /// <summary>
     /// 原型

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 元素属性
 /// </summary>
-public enum ElementAttributeId
+[HighQuality]
+internal enum ElementAttributeId
 {
     /// <summary>
     /// 无

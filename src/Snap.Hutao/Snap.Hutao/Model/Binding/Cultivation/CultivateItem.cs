@@ -10,20 +10,18 @@ namespace Snap.Hutao.Model.Binding.Cultivation;
 /// <summary>
 /// 养成物品
 /// </summary>
-public class CultivateItem : ObservableObject
+[HighQuality]
+internal sealed class CultivateItem : ObservableObject, IEntityWithMetadata<Entity.CultivateItem, Material>
 {
-    private bool isFinished;
-
     /// <summary>
     /// 养成物品
     /// </summary>
-    /// <param name="inner">元数据</param>
     /// <param name="entity">实体</param>
-    public CultivateItem(Material inner, Entity.CultivateItem entity)
+    /// <param name="inner">元数据</param>
+    public CultivateItem(Entity.CultivateItem entity, Material inner)
     {
-        Inner = inner;
         Entity = entity;
-        isFinished = Entity.IsFinished;
+        Inner = inner;
     }
 
     /// <summary>
@@ -41,13 +39,8 @@ public class CultivateItem : ObservableObject
     /// </summary>
     public bool IsFinished
     {
-        get => isFinished; set
-        {
-            if (SetProperty(ref isFinished, value))
-            {
-                Entity.IsFinished = value;
-            }
-        }
+        get => Entity.IsFinished;
+        set => SetProperty(Entity.IsFinished, value, Entity, (entity, isFinished) => entity.IsFinished = isFinished);
     }
 
     /// <summary>

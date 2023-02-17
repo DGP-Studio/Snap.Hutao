@@ -14,9 +14,12 @@ namespace Snap.Hutao;
 
 /// <summary>
 /// Provides application-specific behavior to supplement the default Application class.
+/// This class must be public
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton)]
-public partial class App : Application
+[SuppressMessage("", "SH001")]
+public sealed partial class App : Application
 {
     private readonly ILogger<App> logger;
 

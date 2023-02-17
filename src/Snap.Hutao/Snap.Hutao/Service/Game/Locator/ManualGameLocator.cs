@@ -10,8 +10,9 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// <summary>
 /// 手动模式
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
-internal class ManualGameLocator : IGameLocator
+internal sealed class ManualGameLocator : IGameLocator
 {
     private readonly IPickerFactory pickerFactory;
 
@@ -28,13 +29,7 @@ internal class ManualGameLocator : IGameLocator
     public string Name { get => nameof(ManualGameLocator); }
 
     /// <inheritdoc/>
-    public Task<ValueResult<bool, string>> LocateGamePathAsync()
-    {
-        List<string> filenames = new(2) { "YuanShen.exe", "GenshinImpact.exe", };
-        return LocateInternalAsync(filenames);
-    }
-
-    private async Task<ValueResult<bool, string>> LocateInternalAsync(List<string> fileNames)
+    public async Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(
             PickerLocationId.Desktop,
@@ -46,7 +41,7 @@ internal class ManualGameLocator : IGameLocator
         if (isPickerOk)
         {
             string fileName = System.IO.Path.GetFileName(file);
-            if (fileNames.Contains(fileName))
+            if (fileName == GameConstants.YuanShenFileName || fileName == GameConstants.GenshinImpactFileName)
             {
                 return new(true, file);
             }

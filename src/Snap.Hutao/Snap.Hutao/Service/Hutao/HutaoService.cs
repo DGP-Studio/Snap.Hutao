@@ -14,8 +14,9 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃 API 服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped, typeof(IHutaoService))]
-internal class HutaoService : IHutaoService
+internal sealed class HutaoService : IHutaoService
 {
     private readonly HomaClient homaClient;
     private readonly IMemoryCache memoryCache;

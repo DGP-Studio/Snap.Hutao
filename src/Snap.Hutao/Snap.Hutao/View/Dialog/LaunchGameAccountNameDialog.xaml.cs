@@ -8,6 +8,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 游戏账号命名对话框
 /// </summary>
+[HighQuality]
 internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
 {
     /// <summary>

@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata.Abstraction;
 /// <summary>
 /// 指示该类为统计物品的源
 /// </summary>
-public interface IStatisticsItemSource
+[HighQuality]
+internal interface IStatisticsItemSource
 {
     /// <summary>
     /// 转换到统计物品

@@ -10,7 +10,8 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 角色
 /// </summary>
-public partial class Avatar
+[HighQuality]
+internal partial class Avatar
 {
     /// <summary>
     /// Id
@@ -66,7 +67,7 @@ public partial class Avatar
     /// <summary>
     /// 属性
     /// </summary>
-    public PropertyInfo Property { get; set; } = default!;
+    public PropertiesParameters Property { get; set; } = default!;
 
     /// <summary>
     /// 技能

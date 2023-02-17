@@ -2,16 +2,18 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
+using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
 /// <summary>
 /// 角色卡片转换器
 /// </summary>
-internal class AvatarCardConverter : ValueConverter<string, Uri>
+[HighQuality]
+internal sealed class AvatarCardConverter : ValueConverter<string, Uri>
 {
     private const string CostumeCard = "UI_AvatarIcon_Costume_Card.png";
-    private static readonly Uri UIAvatarIconCostumeCard = new(Web.HutaoEndpoints.StaticFile("AvatarCard", CostumeCard));
+    private static readonly Uri UIAvatarIconCostumeCard = Web.HutaoEndpoints.StaticFile("AvatarCard", CostumeCard).ToUri();
 
     /// <summary>
     /// 名称转Uri
@@ -25,7 +27,7 @@ internal class AvatarCardConverter : ValueConverter<string, Uri>
             return UIAvatarIconCostumeCard;
         }
 
-        return new Uri(Web.HutaoEndpoints.StaticFile("AvatarCard", $"{name}_Card.png"));
+        return Web.HutaoEndpoints.StaticFile("AvatarCard", $"{name}_Card.png").ToUri();
     }
 
     /// <inheritdoc/>

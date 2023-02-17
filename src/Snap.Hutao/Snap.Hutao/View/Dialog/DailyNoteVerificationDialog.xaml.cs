@@ -13,8 +13,9 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 实时便笺验证对话框
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "CA1001")]
-public sealed partial class DailyNoteVerificationDialog : ContentDialog
+internal sealed partial class DailyNoteVerificationDialog : ContentDialog
 {
     private readonly IServiceScope scope;
     private readonly UserAndUid userAndUid;

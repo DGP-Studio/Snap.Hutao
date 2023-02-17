@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 角色
 /// </summary>
-public class Avatar : Calculable
+[HighQuality]
+internal sealed class Avatar : Calculable
 {
     /// <summary>
     /// 角色的星级

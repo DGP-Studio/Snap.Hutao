@@ -8,7 +8,7 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 /// <summary>
 /// 数值
 /// </summary>
-public class SimpleRank
+internal sealed class SimpleRank
 {
     /// <summary>
     /// 构造一个新的数值

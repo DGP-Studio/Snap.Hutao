@@ -7,7 +7,8 @@ namespace Snap.Hutao.Service.Navigation;
 /// 导航消息接收器
 /// 用于通知异步导航完成
 /// </summary>
-public interface INavigationRecipient
+[HighQuality]
+internal interface INavigationRecipient
 {
     /// <summary>
     /// 异步接收导航消息

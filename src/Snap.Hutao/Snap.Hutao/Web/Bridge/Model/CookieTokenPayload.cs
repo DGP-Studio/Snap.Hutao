@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// <summary>
 /// 获取CookieToken的请求
 /// </summary>
-public class CookieTokenPayload
+[HighQuality]
+internal sealed class CookieTokenPayload
 {
     /// <summary>
     /// 强制刷新

@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 角色侧面头像转换器
 /// </summary>
-internal class AvatarSideIconConverter : ValueConverter<string, Uri>
+[HighQuality]
+internal sealed class AvatarSideIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri
@@ -17,7 +18,7 @@ internal class AvatarSideIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        return new Uri(Web.HutaoEndpoints.StaticFile("AvatarIcon", $"{name}.png"));
+        return Web.HutaoEndpoints.StaticFile("AvatarIcon", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

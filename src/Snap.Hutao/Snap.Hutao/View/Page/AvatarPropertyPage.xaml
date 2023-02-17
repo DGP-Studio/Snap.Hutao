@@ -361,14 +361,14 @@
                                                                     <wsc:Setting
                                                                         Margin="0,2,0,0"
                                                                         Padding="12,0"
-                                                                        Header="{Binding MainProperty.Key}">
+                                                                        Header="{Binding MainProperty.Name}">
                                                                         <TextBlock Text="{Binding MainProperty.Value}"/>
                                                                     </wsc:Setting>
                                                                     <wsc:Setting
                                                                         Margin="0,2,0,0"
                                                                         Padding="12,0"
-                                                                        Header="{Binding SubProperty.Key}">
-                                                                        <TextBlock Text="{Binding SubProperty.Value}"/>
+                                                                        Header="{Binding SubProperty.Name}">
+                                                                        <TextBlock Text="{Binding SubProperty.Description}"/>
                                                                     </wsc:Setting>
                                                                     <shct:DescriptionTextBlock
                                                                         MaxWidth="320"
@@ -611,7 +611,7 @@
                                                                         </Grid.ColumnDefinitions>
                                                                         <TextBlock
                                                                             Style="{StaticResource BaseTextBlockStyle}"
-                                                                            Text="{Binding MainProperty.Key}"
+                                                                            Text="{Binding MainProperty.Name}"
                                                                             TextTrimming="CharacterEllipsis"/>
                                                                         <TextBlock Grid.Column="1" Text="{Binding MainProperty.Value}"/>
                                                                     </Grid>

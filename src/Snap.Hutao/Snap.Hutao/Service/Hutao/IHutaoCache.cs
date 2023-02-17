@@ -9,6 +9,7 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃 API 缓存
 /// </summary>
+[HighQuality]
 internal interface IHutaoCache
 {
     /// <summary>

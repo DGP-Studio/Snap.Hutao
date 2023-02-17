@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Metadata.Abstraction;
 /// <summary>
 /// 指示该类为简述统计物品的源
 /// </summary>
-public interface ISummaryItemSource
+[HighQuality]
+internal interface ISummaryItemSource
 {
     /// <summary>
     /// 星级

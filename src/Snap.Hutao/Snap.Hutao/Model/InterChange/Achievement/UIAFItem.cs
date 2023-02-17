@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 /// <summary>
 /// UIAF 项
 /// </summary>
-public class UIAFItem
+internal sealed class UIAFItem
 {
     /// <summary>
     /// 成就Id

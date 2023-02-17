@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Binding.SpiralAbyss;
 /// <summary>
 /// 间视图
 /// </summary>
-public class LevelView
+[HighQuality]
+internal sealed class LevelView
 {
     /// <summary>
     /// 构造一个新的间视图
@@ -18,7 +19,7 @@ public class LevelView
     /// <param name="idAvatarMap">Id角色映射</param>
     public LevelView(Level level, Dictionary<AvatarId, Metadata.Avatar.Avatar> idAvatarMap)
     {
-        Index = $"第 {level.Index} 间";
+        Index = string.Format(SH.ModelBindingHutaoComplexRankLevel, level.Index);
         Star = level.Star;
         Battles = level.Battles.Select(b => new BattleView(b, idAvatarMap)).ToList();
     }
@@ -26,15 +27,15 @@ public class LevelView
     /// <summary>
     /// 间号
     /// </summary>
-    public string Index { get; set; }
+    public string Index { get; }
 
     /// <summary>
     /// 星数
     /// </summary>
-    public int Star { get; set; }
+    public int Star { get; }
 
     /// <summary>
     /// 上下半
     /// </summary>
-    public List<BattleView> Battles { get; set; }
+    public List<BattleView> Battles { get; }
 }

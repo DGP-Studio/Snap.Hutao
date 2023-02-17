@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 /// <summary>
 /// 深渊数据
 /// </summary>
-public class SimpleSpiralAbyss
+[HighQuality]
+internal sealed class SimpleSpiralAbyss
 {
     /// <summary>
     /// 构造一个新的深渊信息

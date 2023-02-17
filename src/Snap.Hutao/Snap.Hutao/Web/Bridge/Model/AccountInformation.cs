@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// <summary>
 /// 账户信息
 /// </summary>
-public class AccountInformation
+[HighQuality]
+internal sealed class AccountInformation
 {
     /// <summary>
     /// 构造一个新的账户信息

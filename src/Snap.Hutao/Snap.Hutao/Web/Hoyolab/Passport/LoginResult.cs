@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// 登录结果
 /// </summary>
-public class LoginResult
+[HighQuality]
+internal class LoginResult
 {
     /// <summary>
     /// Stoken 包装

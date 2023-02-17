@@ -8,6 +8,7 @@ namespace Snap.Hutao.Factory.Abstraction;
 /// <summary>
 /// 内容对话框工厂
 /// </summary>
+[HighQuality]
 internal interface IContentDialogFactory
 {
     /// <summary>

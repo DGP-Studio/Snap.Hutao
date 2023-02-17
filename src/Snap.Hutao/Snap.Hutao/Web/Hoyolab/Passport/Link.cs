@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// 链接
 /// </summary>
-public class Link
+[HighQuality]
+internal sealed class Link
 {
     /// <summary>
     /// 第三方 sn

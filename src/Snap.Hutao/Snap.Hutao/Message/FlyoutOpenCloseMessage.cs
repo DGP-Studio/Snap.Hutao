@@ -6,7 +6,8 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// Flyout开启关闭消息
 /// </summary>
-internal class FlyoutOpenCloseMessage
+[HighQuality]
+internal sealed class FlyoutOpenCloseMessage
 {
     /// <summary>
     /// 构造一个新的Flyout开启关闭消息

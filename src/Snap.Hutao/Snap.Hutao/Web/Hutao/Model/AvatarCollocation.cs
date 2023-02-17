@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 角色搭配
 /// </summary>
-public class AvatarCollocation : AvatarBuild
+[HighQuality]
+internal sealed class AvatarCollocation : AvatarBuild
 {
     /// <summary>
     /// 其他角色

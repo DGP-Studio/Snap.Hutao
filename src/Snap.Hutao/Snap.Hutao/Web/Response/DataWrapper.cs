@@ -7,7 +7,7 @@ namespace Snap.Hutao.Web.Response;
 /// 数据对象包装器
 /// </summary>
 /// <typeparam name="T">数据类型</typeparam>
-public class DataWrapper<T>
+internal sealed class DataWrapper<T>
 {
     /// <summary>
     /// 数据

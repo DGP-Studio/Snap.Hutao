@@ -11,6 +11,7 @@ namespace Snap.Hutao.Service.User;
 /// <summary>
 /// 用户服务
 /// </summary>
+[HighQuality]
 internal interface IUserService
 {
     /// <summary>

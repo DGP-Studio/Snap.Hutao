@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// uid 与 cookie token
 /// </summary>
-public class UidCookieToken
+[HighQuality]
+internal sealed class UidCookieToken
 {
     /// <summary>
     /// Uid

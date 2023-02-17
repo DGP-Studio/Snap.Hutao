@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 圣遗物套装
 /// </summary>
-public class ReliquarySet
+[HighQuality]
+internal sealed class ReliquarySet
 {
     /// <summary>
     /// 构造一个新的圣遗物套装

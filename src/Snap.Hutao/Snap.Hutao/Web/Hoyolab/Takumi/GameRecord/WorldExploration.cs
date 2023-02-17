@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 世界探索
 /// </summary>
-public class WorldExploration
+[HighQuality]
+internal sealed class WorldExploration
 {
     /// <summary>
     /// 等级

@@ -9,21 +9,19 @@ namespace Snap.Hutao.Model.Binding.Inventory;
 /// <summary>
 /// 背包物品
 /// </summary>
-internal class InventoryItem : ObservableObject
+[HighQuality]
+internal sealed class InventoryItem : ObservableObject, IEntityWithMetadata<Entity.InventoryItem, Material>
 {
-    private uint count;
-
     /// <summary>
     /// 创建一个新的背包物品
     /// </summary>
-    /// <param name="inner">元数据</param>
     /// <param name="entity">实体</param>
+    /// <param name="inner">元数据</param>
     /// <param name="saveCommand">保存命令</param>
-    public InventoryItem(Material inner, Entity.InventoryItem entity, ICommand saveCommand)
+    public InventoryItem(Entity.InventoryItem entity, Material inner, ICommand saveCommand)
     {
         Entity = entity;
         Inner = inner;
-        count = entity.Count;
         SaveCountCommand = saveCommand;
     }
 
@@ -40,19 +38,18 @@ internal class InventoryItem : ObservableObject
     /// <summary>
     /// 保存个数命令
     /// </summary>
-    public ICommand? SaveCountCommand { get; set; }
+    public ICommand SaveCountCommand { get; set; }
 
     /// <summary>
     /// 个数
     /// </summary>
     public uint Count
     {
-        get => count; set
+        get => Entity.Count; set
         {
-            if (SetProperty(ref count, value))
+            if (SetProperty(Entity.Count, value, Entity, (entity, count) => entity.Count = count))
             {
-                Entity.Count = value;
-                SaveCountCommand?.Execute(this);
+                SaveCountCommand.Execute(this);
             }
         }
     }

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model.Converter;
 /// <summary>
 /// 圣遗物套装转换器
 /// </summary>
-internal class ReliquarySetsConverter : JsonConverter<ReliquarySets>
+[HighQuality]
+internal sealed class ReliquarySetsConverter : JsonConverter<ReliquarySets>
 {
     private const char Separator = ',';
 

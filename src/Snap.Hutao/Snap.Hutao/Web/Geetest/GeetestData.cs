@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Geetest;
 /// <summary>
 /// 极验数据
 /// </summary>
-public class GeetestData
+internal sealed class GeetestData
 {
     /// <summary>
     /// 结果

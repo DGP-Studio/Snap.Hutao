@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// <summary>
 /// 刷新选项
 /// </summary>
-public enum RefreshOption
+[HighQuality]
+internal enum RefreshOption
 {
     /// <summary>
     /// 直接从数据库读取

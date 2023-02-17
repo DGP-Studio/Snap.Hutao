@@ -10,6 +10,7 @@ namespace Snap.Hutao.View.Helper;
 /// <summary>
 /// 导航项帮助类
 /// </summary>
+[HighQuality]
 public sealed class NavHelper
 {
     private static readonly DependencyProperty NavigateToProperty = Property<NavHelper>.Attach<Type>("NavigateTo");

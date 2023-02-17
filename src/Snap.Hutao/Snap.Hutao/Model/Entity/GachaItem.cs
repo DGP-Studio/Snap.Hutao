@@ -13,8 +13,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 抽卡记录物品
 /// </summary>
+[HighQuality]
 [Table("gacha_items")]
-public class GachaItem
+internal sealed class GachaItem
 {
     /// <summary>
     /// 内部Id

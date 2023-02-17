@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 物品帮助类
 /// </summary>
-public static class ItemHelper
+[HighQuality]
+internal static class ItemHelper
 {
     /// <summary>
     /// 合并两个物品列表

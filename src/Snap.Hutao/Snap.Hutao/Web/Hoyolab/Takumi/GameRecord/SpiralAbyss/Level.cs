@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 /// <summary>
 /// 间
 /// </summary>
-public class Level
+[HighQuality]
+internal sealed class Level
 {
     /// <summary>
     /// 索引

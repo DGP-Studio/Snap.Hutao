@@ -6,6 +6,7 @@ namespace Snap.Hutao.Web;
 /// <summary>
 /// 国际服 API 端点
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1124")]
 internal static class ApiOsEndpoints

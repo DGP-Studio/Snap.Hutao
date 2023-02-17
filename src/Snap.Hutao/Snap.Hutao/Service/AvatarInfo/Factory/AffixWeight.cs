@@ -9,7 +9,8 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// <summary>
 /// 词条权重
 /// </summary>
-internal class AffixWeight : Dictionary<FightProperty, double>
+[HighQuality]
+internal sealed class AffixWeight : Dictionary<FightProperty, double>
 {
     /// <summary>
     /// 构造一个新的词条权重

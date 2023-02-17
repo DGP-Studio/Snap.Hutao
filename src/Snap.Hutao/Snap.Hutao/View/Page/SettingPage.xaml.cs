@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 设置页面
 /// </summary>
+[HighQuality]
 internal sealed partial class SettingPage : ScopedPage
 {
     /// <summary>

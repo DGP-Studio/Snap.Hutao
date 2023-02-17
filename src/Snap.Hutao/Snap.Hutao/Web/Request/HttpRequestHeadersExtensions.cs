@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Request;
 /// <summary>
 /// <see cref="HttpRequestHeaders"/> 扩展
 /// </summary>
-public static class HttpRequestHeadersExtensions
+[HighQuality]
+internal static class HttpRequestHeadersExtensions
 {
     /// <summary>
     /// 设置请求头的值

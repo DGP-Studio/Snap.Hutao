@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Request.QueryString;
 /// <summary>
 /// A single query string parameter (name and value pair).
 /// </summary>
-public struct QueryStringParameter
+[HighQuality]
+internal struct QueryStringParameter
 {
     /// <summary>
     /// The name of the parameter. Cannot be null.

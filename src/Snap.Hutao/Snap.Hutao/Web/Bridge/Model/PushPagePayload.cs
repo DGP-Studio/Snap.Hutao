@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// <summary>
 /// 导航页面参数
 /// </summary>
-public class PushPagePayload
+[HighQuality]
+internal sealed class PushPagePayload
 {
     /// <summary>
     /// 页面Url

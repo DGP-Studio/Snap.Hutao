@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 /// <summary>
 /// 上下半信息
 /// </summary>
-public class SimpleBattle
+[HighQuality]
+internal sealed class SimpleBattle
 {
     /// <summary>
     /// 构造一个新的战斗

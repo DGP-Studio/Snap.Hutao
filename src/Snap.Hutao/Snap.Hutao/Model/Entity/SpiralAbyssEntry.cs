@@ -10,8 +10,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 深渊记录入口点
 /// </summary>
+[HighQuality]
 [Table("spiral_abysses")]
-public class SpiralAbyssEntry : ObservableObject
+internal sealed class SpiralAbyssEntry : ObservableObject
 {
     /// <summary>
     /// 内部Id
@@ -26,7 +27,7 @@ public class SpiralAbyssEntry : ObservableObject
     public int ScheduleId { get; set; }
 
     /// <summary>
-    /// 计划名称
+    /// 视图中使用的计划Id字符串
     /// </summary>
     [NotMapped]
     public string Schedule { get => string.Format(SH.ModelEntitySpiralAbyssScheduleFormat, ScheduleId); }

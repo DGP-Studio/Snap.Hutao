@@ -10,7 +10,8 @@ namespace Snap.Hutao.Service.DailyNote;
 /// <summary>
 /// 实时便笺服务
 /// </summary>
-public interface IDailyNoteService
+[HighQuality]
+internal interface IDailyNoteService
 {
     /// <summary>
     /// 添加实时便笺

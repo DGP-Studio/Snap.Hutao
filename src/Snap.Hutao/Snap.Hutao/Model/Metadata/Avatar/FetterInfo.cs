@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 好感信息
 /// </summary>
-public class FetterInfo
+[HighQuality]
+internal sealed class FetterInfo
 {
     /// <summary>
     /// 称号
@@ -47,7 +48,7 @@ public class FetterInfo
     /// </summary>
     public string BirthFormatted
     {
-        get => $"{BirthMonth} 月 {BirthDay} 日";
+        get => string.Format(SH.ModelMetadataFetterInfoBirthdayFormat, BirthMonth, BirthDay);
     }
 
     /// <summary>

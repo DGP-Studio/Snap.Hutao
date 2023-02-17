@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// Stoken包装
 /// </summary>
-public class TokenWrapper
+[HighQuality]
+internal sealed class TokenWrapper
 {
     /// <summary>
     /// Stoken的类型为 1

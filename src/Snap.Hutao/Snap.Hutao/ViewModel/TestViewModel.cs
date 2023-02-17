@@ -16,8 +16,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 测试视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class TestViewModel : Abstraction.ViewModel
+internal sealed class TestViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
 

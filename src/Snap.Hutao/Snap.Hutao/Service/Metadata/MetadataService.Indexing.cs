@@ -13,7 +13,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// <summary>
 /// 索引部分
 /// </summary>
-internal partial class MetadataService
+internal sealed partial class MetadataService
 {
     /// <inheritdoc/>
     public ValueTask<Dictionary<EquipAffixId, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default)
@@ -42,7 +42,7 @@ internal partial class MetadataService
     /// <inheritdoc/>
     public ValueTask<Dictionary<ReliquaryMainAffixId, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<ReliquaryMainAffixId, FightProperty, ReliquaryAffixBase>("ReliquaryMainAffix", r => r.Id, r => r.Type, token);
+        return FromCacheAsDictionaryAsync<ReliquaryMainAffixId, FightProperty, ReliquaryMainAffix>("ReliquaryMainAffix", r => r.Id, r => r.Type, token);
     }
 
     /// <inheritdoc/>

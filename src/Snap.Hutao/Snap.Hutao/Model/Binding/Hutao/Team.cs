@@ -10,7 +10,8 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 队伍
 /// </summary>
-internal class Team : List<ComplexAvatar>
+[HighQuality]
+internal sealed class Team : List<ComplexAvatar>
 {
     /// <summary>
     /// 构造一个新的队伍
@@ -27,17 +28,11 @@ internal class Team : List<ComplexAvatar>
             Add(new(idAvatarMap[id], 0));
         }
 
-        Rate = $"上场 {team.Rate} 次";
-        Name = TeamPopularNameParser.GetName(ids.ToHashSet());
+        Rate = string.Format(SH.ModelBindingHutaoTeamUpCountFormat, team.Rate);
     }
-
-    /// <summary>
-    /// 队伍俗名
-    /// </summary>
-    public string Name { get; set; }
 
     /// <summary>
     /// 上场次数
     /// </summary>
-    public string Rate { get; set; }
+    public string Rate { get; }
 }

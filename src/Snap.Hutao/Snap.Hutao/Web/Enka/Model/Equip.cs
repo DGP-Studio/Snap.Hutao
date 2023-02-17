@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 装备
 /// </summary>
-public class Equip
+[HighQuality]
+internal sealed class Equip
 {
     /// <summary>
     /// 物品Id

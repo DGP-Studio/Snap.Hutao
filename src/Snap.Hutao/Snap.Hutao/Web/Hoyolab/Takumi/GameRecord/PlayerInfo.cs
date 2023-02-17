@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 玩家信息
 /// </summary>
-public class PlayerInfo
+[HighQuality]
+internal sealed class PlayerInfo
 {
     /// <summary>
     /// 玩家的角色信息

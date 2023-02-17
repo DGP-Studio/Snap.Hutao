@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
+using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.View.Dialog;
@@ -11,6 +12,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 养成计算对话框
 /// </summary>
+[HighQuality]
 internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 {
     private static readonly DependencyProperty AvatarProperty = Property<CultivatePromotionDeltaDialog>.Depend<ICalculableAvatar?>(nameof(Avatar));

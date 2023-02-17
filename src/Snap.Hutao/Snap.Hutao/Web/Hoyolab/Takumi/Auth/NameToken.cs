@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 /// <summary>
 /// 名称与令牌
 /// </summary>
-public sealed class NameToken
+[HighQuality]
+internal sealed class NameToken
 {
     /// <summary>
     /// Token名称

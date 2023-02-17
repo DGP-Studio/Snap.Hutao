@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// <summary>
 /// 元素类型
 /// </summary>
-public enum ElementType
+[HighQuality]
+internal enum ElementType
 {
     /// <summary>
     /// 无元素

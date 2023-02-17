@@ -2,20 +2,18 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding.Gacha;
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
-using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.Model.Metadata.Weapon;
 
 /// <summary>
 /// 武器的接口实现
 /// </summary>
-public partial class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQuality, ICalculableSource<ICalculableWeapon>
+internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQuality, ICalculableSource<ICalculableWeapon>
 {
     /// <summary>
     /// [非元数据] 搭配数据
@@ -40,7 +38,7 @@ public partial class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQu
     /// 转换为基础物品
     /// </summary>
     /// <returns>基础物品</returns>
-    public ItemBase ToItemBase()
+    public Binding.Item ToItemBase()
     {
         return new()
         {

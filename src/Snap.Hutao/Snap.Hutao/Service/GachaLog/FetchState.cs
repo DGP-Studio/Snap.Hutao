@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -9,16 +9,8 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 获取状态
 /// </summary>
-public class FetchState
+internal sealed class FetchState
 {
-    /// <summary>
-    /// 初始化一个新的获取状态
-    /// </summary>
-    public FetchState()
-    {
-        Items = new(20);
-    }
-
     /// <summary>
     /// 验证密钥是否过期
     /// </summary>
@@ -32,5 +24,5 @@ public class FetchState
     /// <summary>
     /// 当前获取的物品
     /// </summary>
-    public List<ItemBase> Items { get; set; }
+    public List<Item> Items { get; set; } = new(20);
 }

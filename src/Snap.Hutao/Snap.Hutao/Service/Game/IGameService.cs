@@ -11,6 +11,7 @@ namespace Snap.Hutao.Service.Game;
 /// <summary>
 /// 游戏服务
 /// </summary>
+[HighQuality]
 internal interface IGameService
 {
     /// <summary>

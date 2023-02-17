@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// 统一可交换祈愿格式
 /// https://uigf.org/standards/UIGF.html
 /// </summary>
-public class UIGF
+[HighQuality]
+internal sealed class UIGF
 {
     /// <summary>
     /// 当前发行的版本
@@ -50,6 +51,7 @@ public class UIGF
     {
         foreach (UIGFItem item in List)
         {
+            // Hard coded type name
             if (item.ItemType != "角色" && item.ItemType != "武器")
             {
                 return false;

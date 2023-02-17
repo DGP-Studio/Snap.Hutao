@@ -10,8 +10,9 @@ namespace Snap.Hutao.Web.Geetest;
 /// <summary>
 /// 极验客户端
 /// </summary>
+[HighQuality]
 [HttpClient(HttpClientConfigration.Default)]
-internal class GeetestClient
+internal sealed class GeetestClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;

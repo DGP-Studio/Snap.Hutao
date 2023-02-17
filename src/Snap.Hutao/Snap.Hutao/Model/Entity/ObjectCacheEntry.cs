@@ -9,8 +9,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 数据库对象缓存
 /// </summary>
+[HighQuality]
 [Table("object_cache")]
-public class ObjectCacheEntry
+internal sealed class ObjectCacheEntry
 {
     /// <summary>
     /// 主键

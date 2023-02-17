@@ -8,12 +8,13 @@ namespace Snap.Hutao.Model.Metadata.Reliquary;
 /// <summary>
 /// 圣遗物信息
 /// </summary>
-public class Reliquary
+[HighQuality]
+internal sealed class Reliquary
 {
     /// <summary>
     /// 表示同种类的Id
     /// </summary>
-    public IEnumerable<int> Ids { get; set; } = default!;
+    public List<int> Ids { get; set; } = default!;
 
     /// <summary>
     /// 允许出现的等级

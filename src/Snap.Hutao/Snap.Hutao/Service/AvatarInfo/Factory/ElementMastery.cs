@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// <summary>
 /// 元素精通
 /// </summary>
+[HighQuality]
 internal static class ElementMastery
 {
     /// <summary>
@@ -24,7 +25,7 @@ internal static class ElementMastery
     public static readonly ElementMasteryCoefficient ReactionOverdoseAddHurt = new(5, 1200);
 
     /// <summary>
-    /// 激化反应
+    /// 结晶盾厚度
     /// </summary>
     public static readonly ElementMasteryCoefficient CrystalShieldHp = new(4.44f, 1400);
 

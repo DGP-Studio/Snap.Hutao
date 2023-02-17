@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// <summary>
 /// 圣遗物评分权重配置
 /// </summary>
-internal static partial class ReliquaryWeightConfiguration
+internal static class ReliquaryWeightConfiguration
 {
     /// <summary>
     /// 默认

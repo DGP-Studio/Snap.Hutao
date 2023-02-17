@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 队伍出场次数
 /// </summary>
-public class TeamAppearance
+[HighQuality]
+internal sealed class TeamAppearance
 {
     /// <summary>
     /// 层

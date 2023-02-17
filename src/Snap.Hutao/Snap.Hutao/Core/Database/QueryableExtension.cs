@@ -11,8 +11,22 @@ namespace Snap.Hutao.Core.Database;
 /// 可查询扩展
 /// </summary>
 [HighQuality]
-public static class QueryableExtension
+internal static class QueryableExtension
 {
+    /// <summary>
+    /// source.Where(predicate).ExecuteDelete()
+    /// </summary>
+    /// <typeparam name="TSource">源类型</typeparam>
+    /// <param name="source">源</param>
+    /// <param name="predicate">条件</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>SQL返回个数</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int ExecuteDeleteWhere<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate)
+    {
+        return source.Where(predicate).ExecuteDelete();
+    }
+
     /// <summary>
     /// source.Where(predicate).ExecuteDeleteAsync(token)
     /// </summary>

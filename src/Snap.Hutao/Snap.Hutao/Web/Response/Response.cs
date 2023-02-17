@@ -10,7 +10,8 @@ namespace Snap.Hutao.Web.Response;
 /// <summary>
 /// 提供 <see cref="Response{T}"/> 的非泛型基类
 /// </summary>
-public class Response
+[HighQuality]
+internal class Response
 {
     /// <summary>
     /// 构造一个新的响应
@@ -64,7 +65,8 @@ public class Response
 /// </summary>
 /// <typeparam name="TData">数据类型</typeparam>
 [SuppressMessage("", "SA1402")]
-public class Response<TData> : Response, IJsResult
+[HighQuality]
+internal sealed class Response<TData> : Response, IJsResult
 {
     /// <summary>
     /// 构造一个新的 Mihoyo 标准API响应
@@ -107,7 +109,7 @@ public class Response<TData> : Response, IJsResult
     }
 
     /// <inheritdoc/>
-    string IJsResult.ToString()
+    string IJsResult.ToJson()
     {
         return JsonSerializer.Serialize(this);
     }

@@ -11,8 +11,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 成就
 /// </summary>
+[HighQuality]
 [Table("achievements")]
-public class Achievement : IEquatable<Achievement>
+internal sealed class Achievement : IEquatable<Achievement>
 {
     /// <summary>
     /// 内部Id

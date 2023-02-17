@@ -7,7 +7,8 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 /// 等级与描述
 /// </summary>
 /// <typeparam name="TLevel">等级的类型</typeparam>
-public class LevelDescription
+[HighQuality]
+internal sealed class LevelDescription
 {
     /// <summary>
     /// 等级
@@ -18,7 +19,7 @@ public class LevelDescription
     /// 格式化的等级
     /// </summary>
     [JsonIgnore]
-    public string LevelFormatted { get => $"精炼 {Level + 1} 阶"; }
+    public string LevelFormatted { get => string.Format(SH.ModelWeaponAffixFormat, Level + 1); }
 
     /// <summary>
     /// 描述

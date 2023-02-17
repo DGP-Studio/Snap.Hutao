@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// <summary>
 /// 物品类型
 /// </summary>
-public enum ItemType
+[HighQuality]
+internal enum ItemType
 {
     /// <summary>
     /// 无

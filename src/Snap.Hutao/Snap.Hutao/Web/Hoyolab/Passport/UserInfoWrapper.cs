@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// 用户信息包装器
 /// </summary>
-public class UserInfoWrapper
+[HighQuality]
+internal sealed class UserInfoWrapper
 {
     /// <summary>
     /// 用户信息

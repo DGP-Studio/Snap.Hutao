@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// <summary>
 /// Salt's type
 /// </summary>
-public enum SaltType
+[HighQuality]
+internal enum SaltType
 {
     /// <summary>
     /// 不需要 SALT

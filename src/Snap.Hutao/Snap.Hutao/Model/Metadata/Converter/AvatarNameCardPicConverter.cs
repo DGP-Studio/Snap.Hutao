@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 角色名片转换器
 /// </summary>
-internal class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
+[HighQuality]
+internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
 {
     /// <summary>
     /// 从角色转换到名片
@@ -23,7 +24,7 @@ internal class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?, Uri>
         }
 
         string avatarName = ReplaceSpecialCaseNaming(avatar.Icon["UI_AvatarIcon_".Length..]);
-        return new Uri(Web.HutaoEndpoints.StaticFile("NameCardPic", $"UI_NameCardPic_{avatarName}_P.png"));
+        return Web.HutaoEndpoints.StaticFile("NameCardPic", $"UI_NameCardPic_{avatarName}_P.png").ToUri();
     }
 
     /// <inheritdoc/>

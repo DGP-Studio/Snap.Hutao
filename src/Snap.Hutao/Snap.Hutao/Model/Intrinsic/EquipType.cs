@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// <summary>
 /// 装备类型
 /// </summary>
-public enum EquipType
+[HighQuality]
+internal enum EquipType
 {
     /// <summary>
     /// 无

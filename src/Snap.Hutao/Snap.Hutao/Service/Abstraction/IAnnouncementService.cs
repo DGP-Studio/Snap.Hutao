@@ -8,7 +8,8 @@ namespace Snap.Hutao.Service.Abstraction;
 /// <summary>
 /// 公告服务
 /// </summary>
-public interface IAnnouncementService
+[HighQuality]
+internal interface IAnnouncementService
 {
     /// <summary>
     /// 异步获取游戏公告与活动,通常会进行缓存

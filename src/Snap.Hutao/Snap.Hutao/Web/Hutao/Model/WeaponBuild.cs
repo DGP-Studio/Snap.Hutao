@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 武器相关构筑
 /// </summary>
-public abstract class WeaponBuild
+[HighQuality]
+internal abstract class WeaponBuild
 {
     /// <summary>
     /// 角色Id

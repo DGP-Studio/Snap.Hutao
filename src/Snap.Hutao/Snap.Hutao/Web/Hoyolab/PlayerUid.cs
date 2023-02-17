@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// <summary>
 /// 玩家 Uid
 /// </summary>
-public readonly struct PlayerUid
+[HighQuality]
+internal readonly struct PlayerUid
 {
     /// <summary>
     /// UID 的实际值

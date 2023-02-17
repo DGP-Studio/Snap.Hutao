@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Widget;
 /// <summary>
 /// 小组件数据项
 /// </summary>
-public class WidgetDataItem
+[HighQuality]
+internal sealed class WidgetDataItem
 {
     /// <summary>
     /// 项目名称

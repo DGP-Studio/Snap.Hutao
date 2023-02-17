@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Achievement;
 /// <summary>
 /// 存档添加结果
 /// </summary>
-public enum ArchiveAddResult
+[HighQuality]
+internal enum ArchiveAddResult
 {
     /// <summary>
     /// 添加成功

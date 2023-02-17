@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// <summary>
 /// 用户游戏角色
 /// </summary>
-public class UserGameRole
+[HighQuality]
+internal sealed class UserGameRole
 {
     /// <summary>
     /// hk4e_cn for Genshin Impact

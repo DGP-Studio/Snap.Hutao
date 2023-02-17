@@ -10,7 +10,7 @@ namespace Snap.Hutao.Context.Database;
 /// 此类只用于在生成迁移时提供数据库上下文
 /// </summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
-public class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbContext>
+internal sealed class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     /// <inheritdoc/>
     [EditorBrowsable(EditorBrowsableState.Never)]

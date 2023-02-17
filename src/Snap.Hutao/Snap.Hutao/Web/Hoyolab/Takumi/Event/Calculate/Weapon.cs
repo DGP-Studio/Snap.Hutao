@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 武器
 /// </summary>
-public class Weapon : Calculable
+[HighQuality]
+internal sealed class Weapon : Calculable
 {
     /// <summary>
     /// 武器Id

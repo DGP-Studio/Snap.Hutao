@@ -13,7 +13,8 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 签到网页视图对话框
 /// </summary>
-public sealed partial class SignInWebViewDialog : ContentDialog
+[HighQuality]
+internal sealed partial class SignInWebViewDialog : ContentDialog
 {
     private readonly IServiceScope scope;
     [SuppressMessage("", "IDE0052")]

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 玩家信息
 /// </summary>
-public class PlayerInfo
+[HighQuality]
+internal sealed class PlayerInfo
 {
     /// <summary>
     /// 昵称
@@ -75,7 +76,7 @@ public class PlayerInfo
     /// List of Namecard IDs
     /// </summary>
     [JsonPropertyName("showNameCardIdList")]
-    public IList<int> ShowNameCardIdList { get; set; } = default!;
+    public List<int> ShowNameCardIdList { get; set; } = default!;
 
     /// <summary>
     /// 头像信息
@@ -83,19 +84,4 @@ public class PlayerInfo
     /// </summary>
     [JsonPropertyName("profilePicture")]
     public ProfilePicture ProfilePicture { get; set; } = default!;
-
-    /// <summary>
-    /// 创建空对象
-    /// </summary>
-    /// <param name="uid">uid</param>
-    /// <returns>空的玩家信息</returns>
-    public static PlayerInfo CreateEmpty(string uid)
-    {
-        return new()
-        {
-            Nickname = uid,
-            Signature = string.Empty,
-            ProfilePicture = new() { AvatarId = 10000046 }, // use Hutao as default.
-        };
-    }
 }

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// <see cref="DateTimeOffset"/> 扩展
 /// </summary>
-public static class DateTimeOffsetExtension
+[HighQuality]
+internal static class DateTimeOffsetExtension
 {
     /// <summary>
     /// 从Unix时间戳转换

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 使用率
 /// </summary>
-public class AvatarUsageRank
+[HighQuality]
+internal sealed class AvatarUsageRank
 {
     /// <summary>
     /// 楼层

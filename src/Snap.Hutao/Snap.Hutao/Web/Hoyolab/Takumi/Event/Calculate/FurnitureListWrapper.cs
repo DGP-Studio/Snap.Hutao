@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 家具列表包装器
 /// </summary>
-public class FurnitureListWrapper : ListWrapper<Item>
+[HighQuality]
+internal sealed class FurnitureListWrapper : ListWrapper<Item>
 {
     /// <summary>
     /// 无法计算的物品

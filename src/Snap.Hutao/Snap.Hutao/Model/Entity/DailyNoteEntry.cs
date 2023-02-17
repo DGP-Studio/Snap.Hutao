@@ -13,8 +13,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 实时便笺入口
 /// </summary>
+[HighQuality]
 [Table("daily_notes")]
-public class DailyNoteEntry : ObservableObject
+internal sealed class DailyNoteEntry : ObservableObject
 {
     /// <summary>
     /// 内部Id

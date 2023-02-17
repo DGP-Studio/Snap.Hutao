@@ -12,8 +12,9 @@ namespace Snap.Hutao.View.Control;
 /// <summary>
 /// 底部带有文本的控件
 /// </summary>
+[HighQuality]
 [ContentProperty(Name = nameof(TopContent))]
-public sealed partial class BottomTextControl : ContentControl
+internal sealed partial class BottomTextControl : ContentControl
 {
     private static readonly DependencyProperty TextProperty = Property<BottomTextControl>.Depend(nameof(Text), string.Empty, OnTextChanged);
     private static readonly DependencyProperty TopContentProperty = Property<BottomTextControl>.Depend<UIElement>(nameof(TopContent), default!, OnContentChanged);

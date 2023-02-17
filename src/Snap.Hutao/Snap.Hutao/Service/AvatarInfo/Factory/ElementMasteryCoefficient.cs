@@ -6,17 +6,18 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// <summary>
 /// 元素精通系数
 /// </summary>
-public struct ElementMasteryCoefficient
+[HighQuality]
+internal readonly struct ElementMasteryCoefficient
 {
     /// <summary>
     /// 参数1
     /// </summary>
-    public float P1;
+    public readonly float P1;
 
     /// <summary>
     /// 参数2
     /// </summary>
-    public float P2;
+    public readonly float P2;
 
     /// <summary>
     /// 构造一个新的元素精通系数

@@ -9,7 +9,8 @@ namespace Snap.Hutao.View.Converter;
 /// <summary>
 /// This class converts a boolean value into a Visibility enumeration.
 /// </summary>
-public class BoolToVisibilityRevertConverter : BoolToObjectConverter
+[HighQuality]
+internal sealed class BoolToVisibilityRevertConverter : BoolToObjectConverter
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="BoolToVisibilityRevertConverter"/> class.

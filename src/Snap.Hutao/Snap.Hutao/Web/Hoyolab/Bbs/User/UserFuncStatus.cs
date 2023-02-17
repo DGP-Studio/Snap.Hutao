@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// ?
 /// </summary>
-public class UserFuncStatus
+[HighQuality]
+internal sealed class UserFuncStatus
 {
     /// <summary>
     /// ?

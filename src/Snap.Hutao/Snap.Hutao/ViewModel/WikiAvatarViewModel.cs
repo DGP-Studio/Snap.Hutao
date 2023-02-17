@@ -6,9 +6,9 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
-using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Intrinsic.Immutable;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
@@ -32,8 +32,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 角色资料视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class WikiAvatarViewModel : Abstraction.ViewModel
+internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
@@ -215,6 +216,7 @@ internal class WikiAvatarViewModel : Abstraction.ViewModel
         private static bool DoFilter(string input, Avatar avatar)
         {
             List<bool> matches = new();
+            LocalizedIntrinsicImmutables intrinsics = IntrinsicImmutables.GetForCurrentCulture();
 
             foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
             {
@@ -226,33 +228,33 @@ internal class WikiAvatarViewModel : Abstraction.ViewModel
                     continue;
                 }
 
-                if (value == "火" || value == "水" || value == "草" || value == "雷" || value == "冰" || value == "风" || value == "岩")
+                if (intrinsics.ElementNames.Contains(value))
                 {
                     matches.Add(avatar.FetterInfo.VisionBefore == value);
                     continue;
                 }
 
-                if (IntrinsicImmutables.AssociationTypes.Contains(value))
+                if (intrinsics.AssociationTypes.Contains(value))
                 {
-                    matches.Add(avatar.FetterInfo.Association.GetDescriptionOrNull() == value);
+                    matches.Add(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (IntrinsicImmutables.WeaponTypes.Contains(value))
+                if (intrinsics.WeaponTypes.Contains(value))
                 {
-                    matches.Add(avatar.Weapon.GetDescriptionOrNull() == value);
+                    matches.Add(avatar.Weapon.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (IntrinsicImmutables.ItemQualities.Contains(value))
+                if (intrinsics.ItemQualities.Contains(value))
                 {
-                    matches.Add(avatar.Quality.GetDescriptionOrNull() == value);
+                    matches.Add(avatar.Quality.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (IntrinsicImmutables.BodyTypes.Contains(value))
+                if (intrinsics.BodyTypes.Contains(value))
                 {
-                    matches.Add(avatar.Body.GetDescriptionOrNull() == value);
+                    matches.Add(avatar.Body.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 

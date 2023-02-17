@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
-
 namespace Snap.Hutao.Web.Request.QueryString;
 
 /// <summary>
 /// querystring serializer/deserializer
 /// </summary>
-public readonly struct QueryString
+[HighQuality]
+internal readonly struct QueryString
 {
     private readonly Dictionary<string, List<string>> dictionary = new();
 

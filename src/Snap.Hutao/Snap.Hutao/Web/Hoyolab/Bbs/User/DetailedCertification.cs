@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 详细认证信息
 /// </summary>
-public class DetailedCertification : Certification
+[HighQuality]
+internal sealed class DetailedCertification : Certification
 {
     /// <summary>
     /// Id

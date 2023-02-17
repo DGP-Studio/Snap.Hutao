@@ -8,7 +8,8 @@ namespace Snap.Hutao.View.Converter;
 /// <summary>
 /// This class converts a object? value into a boolean in reverse.
 /// </summary>
-public class EmptyObjectToBoolRevertConverter : EmptyObjectToObjectConverter
+[HighQuality]
+internal sealed class EmptyObjectToBoolRevertConverter : EmptyObjectToObjectConverter
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="EmptyObjectToVisibilityRevertConverter"/> class.

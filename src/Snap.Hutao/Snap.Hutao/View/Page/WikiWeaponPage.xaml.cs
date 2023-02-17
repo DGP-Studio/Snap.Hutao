@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// ÎäÆ÷Ò³Ãæ
 /// </summary>
+[HighQuality]
 internal sealed partial class WikiWeaponPage : ScopedPage
 {
     /// <summary>

@@ -11,8 +11,9 @@ namespace Snap.Hutao.Web.Hutao;
 /// <summary>
 /// 胡桃日志客户端
 /// </summary>
+[HighQuality]
 [HttpClient(HttpClientConfigration.Default)]
-internal class HomaClient2
+internal sealed class HomaClient2
 {
     private readonly HttpClient httpClient;
 

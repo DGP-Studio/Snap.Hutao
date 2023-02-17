@@ -11,6 +11,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 公告页面
 /// </summary>
+[HighQuality]
 internal sealed partial class AnnouncementPage : ScopedPage
 {
     /// <summary>
@@ -20,16 +21,5 @@ internal sealed partial class AnnouncementPage : ScopedPage
     {
         InitializeWith<AnnouncementViewModel>();
         InitializeComponent();
-    }
-
-    /// <inheritdoc/>
-    protected override void OnNavigatedTo(NavigationEventArgs e)
-    {
-        base.OnNavigatedTo(e);
-
-        if (e.Parameter is INavigationData data)
-        {
-            data.NotifyNavigationCompleted();
-        }
     }
 }

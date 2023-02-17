@@ -8,7 +8,7 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 祈愿记录存档切换消息
 /// </summary>
-[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
-internal class GachaArchiveChangedMessage : ValueChangedMessage<GachaArchive>
+[HighQuality]
+internal sealed class GachaArchiveChangedMessage : ValueChangedMessage<GachaArchive>
 {
 }

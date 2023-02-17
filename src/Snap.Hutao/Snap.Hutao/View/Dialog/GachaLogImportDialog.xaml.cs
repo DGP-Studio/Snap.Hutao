@@ -11,7 +11,8 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 祈愿记录导入对话框
 /// </summary>
-public sealed partial class GachaLogImportDialog : ContentDialog
+[HighQuality]
+internal sealed partial class GachaLogImportDialog : ContentDialog
 {
     private static readonly DependencyProperty UIGFProperty = Property<AchievementImportDialog>.Depend(nameof(UIGF), default(UIGF));
 

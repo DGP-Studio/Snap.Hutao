@@ -10,9 +10,10 @@ namespace Snap.Hutao.View.Control;
 /// <summary>
 /// 统计卡片
 /// </summary>
-public sealed partial class StatisticsCard : UserControl
+[HighQuality]
+internal sealed partial class StatisticsCard : UserControl
 {
-    private static readonly DependencyProperty ShowUpPullProperty = Property<StatisticsCard>.Depend(nameof(ShowUpPull), true);
+    private static readonly DependencyProperty ShowUpPullProperty = Property<StatisticsCard>.DependBoxed<bool>(nameof(ShowUpPull), BoxedValues.True);
 
     /// <summary>
     /// 构造一个新的统计卡片

@@ -10,7 +10,8 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 队伍排行
 /// </summary>
-internal class ComplexTeamRank
+[HighQuality]
+internal sealed class ComplexTeamRank
 {
     /// <summary>
     /// 构造一个新的队伍排行
@@ -19,7 +20,7 @@ internal class ComplexTeamRank
     /// <param name="idAvatarMap">映射</param>
     public ComplexTeamRank(TeamAppearance teamRank, Dictionary<AvatarId, Avatar> idAvatarMap)
     {
-        Floor = $"第 {teamRank.Floor} 层";
+        Floor = string.Format(SH.ModelBindingHutaoComplexRankFloor, teamRank.Floor);
         Up = teamRank.Up.Select(teamRate => new Team(teamRate, idAvatarMap)).ToList();
         Down = teamRank.Down.Select(teamRate => new Team(teamRate, idAvatarMap)).ToList();
     }
@@ -27,15 +28,15 @@ internal class ComplexTeamRank
     /// <summary>
     /// 层数
     /// </summary>
-    public string Floor { get; set; } = default!;
+    public string Floor { get; }
 
     /// <summary>
     /// 上半阵容
     /// </summary>
-    public List<Team> Up { get; set; } = default!;
+    public List<Team> Up { get; }
 
     /// <summary>
     /// 下半阵容
     /// </summary>
-    public List<Team> Down { get; set; } = default!;
+    public List<Team> Down { get; }
 }

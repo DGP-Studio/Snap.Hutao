@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Game;
 /// <summary>
 /// 多通道
 /// </summary>
-public struct MultiChannel
+[HighQuality]
+internal struct MultiChannel
 {
     /// <summary>
     /// 通道

@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Binding.Cultivation;
 /// <summary>
 /// 仅用于统计总数的养成物品
 /// </summary>
-public class StatisticsCultivateItem
+[HighQuality]
+internal sealed class StatisticsCultivateItem
 {
     /// <summary>
     /// 构造一个新的统计用养成物品

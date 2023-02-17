@@ -10,8 +10,9 @@ using System.Text.RegularExpressions;
 namespace Snap.Hutao.Service;
 
 /// <inheritdoc/>
+[HighQuality]
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
-internal partial class AnnouncementService : IAnnouncementService
+internal sealed partial class AnnouncementService : IAnnouncementService
 {
     private static readonly string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 

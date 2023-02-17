@@ -1,20 +1,19 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Binding.Gacha;
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
-using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 /// <summary>
 /// 角色的接口实现部分
 /// </summary>
-public partial class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality, ICalculableSource<ICalculableAvatar>
+internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality, ICalculableSource<ICalculableAvatar>
 {
     /// <summary>
     /// [非元数据] 搭配数据
@@ -43,7 +42,7 @@ public partial class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQu
     /// 转换为基础物品
     /// </summary>
     /// <returns>基础物品</returns>
-    public ItemBase ToItemBase()
+    public Item ToItemBase()
     {
         return new()
         {

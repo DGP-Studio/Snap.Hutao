@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 /// <summary>
 /// 实时便笺
 /// </summary>
-public class DailyNote
+[HighQuality]
+internal sealed class DailyNote
 {
     /// <summary>
     /// 当前树脂
@@ -44,16 +45,17 @@ public class DailyNote
     {
         get
         {
-            DateTime tt = DateTime.Now.AddSeconds(ResinRecoveryTime);
-            int totalDays = (tt - DateTime.Today).Days;
+            DateTime reach = DateTime.Now.AddSeconds(ResinRecoveryTime);
+            int totalDays = (reach - DateTime.Today).Days;
             string day = totalDays switch
             {
-                0 => "今天",
-                1 => "明天",
-                2 => "后天",
-                _ => $"{totalDays}天",
+                0 => SH.WebDailyNoteRecoveryTimeDay0,
+                1 => SH.WebDailyNoteRecoveryTimeDay1,
+                2 => SH.WebDailyNoteRecoveryTimeDay2,
+                _ => string.Format(SH.WebDailyNoteRecoveryTimeDayFormat, totalDays),
             };
-            return $"{day} {tt:HH:mm} 全部恢复";
+
+            return string.Format(SH.WebDailyNoteResinRecoveryFormat, day, reach);
         }
     }
 
@@ -93,10 +95,10 @@ public class DailyNote
         get
         {
             return IsExtraTaskRewardReceived
-                ? "已领取「每日委托」奖励"
+                ? SH.WebDailyNoteExtraTaskRewardReceived
                 : FinishedTaskNum == TotalTaskNum
-                    ? "「每日委托」奖励待领取"
-                    : "今日完成委托次数不足";
+                    ? SH.WebDailyNoteExtraTaskRewardNotTaken
+                    : SH.WebDailyNoteExtraTaskRewardNotAllowed;
         }
     }
 
@@ -187,12 +189,12 @@ public class DailyNote
             int totalDays = (reach - DateTime.Today).Days;
             string day = totalDays switch
             {
-                0 => "今天",
-                1 => "明天",
-                2 => "后天",
-                _ => $"{totalDays}天",
+                0 => SH.WebDailyNoteRecoveryTimeDay0,
+                1 => SH.WebDailyNoteRecoveryTimeDay1,
+                2 => SH.WebDailyNoteRecoveryTimeDay2,
+                _ => string.Format(SH.WebDailyNoteRecoveryTimeDayFormat, totalDays),
             };
-            return $"{day} {reach:HH:mm} 达到上限";
+            return string.Format(SH.WebDailyNoteHomeCoinRecoveryFormat, day, reach);
         }
     }
 

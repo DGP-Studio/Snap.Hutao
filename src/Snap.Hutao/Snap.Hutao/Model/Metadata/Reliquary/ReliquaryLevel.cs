@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Metadata.Reliquary;
 /// <summary>
 /// 圣遗物等级
 /// </summary>
-public class ReliquaryLevel
+[HighQuality]
+internal sealed class ReliquaryLevel
 {
     /// <summary>
     /// 品质

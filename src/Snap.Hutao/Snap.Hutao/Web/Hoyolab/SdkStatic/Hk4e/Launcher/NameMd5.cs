@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// 资源文件
 /// </summary>
-public class NameMd5
+[HighQuality]
+internal class NameMd5
 {
     /// <summary>
     /// 文件名称

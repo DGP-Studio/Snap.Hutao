@@ -1,17 +1,18 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Cultivation;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Snap.Hutao.Model.Entity.Primitive;
 
 namespace Snap.Hutao.Model.Entity;
 
 /// <summary>
 /// 养成入口
 /// </summary>
+[HighQuality]
 [Table("cultivate_entries")]
-public class CultivateEntry
+internal sealed class CultivateEntry
 {
     /// <summary>
     /// 内部Id

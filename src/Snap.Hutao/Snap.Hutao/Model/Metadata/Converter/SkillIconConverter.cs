@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 技能图标转换器
 /// </summary>
-internal class SkillIconConverter : ValueConverter<string, Uri>
+[HighQuality]
+internal sealed class SkillIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri
@@ -24,11 +25,11 @@ internal class SkillIconConverter : ValueConverter<string, Uri>
 
         if (name.StartsWith("UI_Talent_"))
         {
-            return new Uri(Web.HutaoEndpoints.StaticFile("Talent", $"{name}.png"));
+            return Web.HutaoEndpoints.StaticFile("Talent", $"{name}.png").ToUri();
         }
         else
         {
-            return new Uri(Web.HutaoEndpoints.StaticFile("Skill", $"{name}.png"));
+            return Web.HutaoEndpoints.StaticFile("Skill", $"{name}.png").ToUri();
         }
     }
 

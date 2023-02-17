@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 角色榜
 /// </summary>
-internal class ComplexAvatarRank
+[HighQuality]
+internal sealed class ComplexAvatarRank
 {
     /// <summary>
     /// 层数

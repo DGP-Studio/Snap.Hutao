@@ -9,7 +9,8 @@ namespace Snap.Hutao.Web.Bridge;
 /// <summary>
 /// Bridge 拓展
 /// </summary>
-public static class CoreWebView2Extension
+[HighQuality]
+internal static class CoreWebView2Extension
 {
     /// <summary>
     /// 设置 移动端UA

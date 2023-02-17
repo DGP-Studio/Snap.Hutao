@@ -9,8 +9,9 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// CardApi验证器
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient)]
-internal class CardVerifier
+internal sealed class CardVerifier
 {
     private readonly CardClient cardClient;
     private readonly GeetestClient geetestClient;

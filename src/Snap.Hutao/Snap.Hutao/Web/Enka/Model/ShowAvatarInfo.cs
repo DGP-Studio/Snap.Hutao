@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 角色列表信息
 /// </summary>
-public class ShowAvatarInfo
+[HighQuality]
+internal sealed class ShowAvatarInfo
 {
     /// <summary>
     /// 角色Id

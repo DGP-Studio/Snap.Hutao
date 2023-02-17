@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Entity.Configuration;
 /// <summary>
 /// 深渊入口配置
 /// </summary>
-internal class SpiralAbyssEntryConfiguration : IEntityTypeConfiguration<SpiralAbyssEntry>
+[HighQuality]
+internal sealed class SpiralAbyssEntryConfiguration : IEntityTypeConfiguration<SpiralAbyssEntry>
 {
     /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<SpiralAbyssEntry> builder)

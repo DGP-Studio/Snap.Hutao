@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// Ñø³ÉÒ³Ãæ
 /// </summary>
+[HighQuality]
 internal sealed partial class CultivationPage : ScopedPage
 {
     /// <summary>

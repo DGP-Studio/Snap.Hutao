@@ -7,9 +7,9 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 战斗属性
-/// https://github.com/Grasscutters/Grasscutter/tree/development/src/main/java/emu/grasscutter/game/props/FightProperty.java
 /// </summary>
-public enum FightProperty
+[HighQuality]
+internal enum FightProperty
 {
     /// <summary>
     /// 空
@@ -19,63 +19,63 @@ public enum FightProperty
     /// <summary>
     /// 基础生命值
     /// </summary>
-    [Description("基础生命值")]
+    [LocalizationKey("ServiceAvatarInfoPropertyBaseHp")]
     [Format(FormatMethod.Integer)]
     FIGHT_PROP_BASE_HP = 1,
 
     /// <summary>
     /// 小生命值加成
     /// </summary>
-    [Description("生命值")]
+    [LocalizationKey("ServiceAvatarInfoPropertyHp")]
     [Format(FormatMethod.Integer)]
     FIGHT_PROP_HP = 2,
 
     /// <summary>
     /// 生命值加成百分比
     /// </summary>
-    [Description("生命值")]
+    [LocalizationKey("ServiceAvatarInfoPropertyHp")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_HP_PERCENT = 3,
 
     /// <summary>
     /// 基础攻击力
     /// </summary>
-    [Description("基础攻击力")]
+    [LocalizationKey("ServiceAvatarInfoPropertyBaseAtk")]
     [Format(FormatMethod.Integer)]
     FIGHT_PROP_BASE_ATTACK = 4,
 
     /// <summary>
     /// 攻击力加成
     /// </summary>
-    [Description("攻击力")]
+    [LocalizationKey("ServiceAvatarInfoPropertyAtk")]
     [Format(FormatMethod.Integer)]
     FIGHT_PROP_ATTACK = 5,
 
     /// <summary>
     /// 攻击力百分比
     /// </summary>
-    [Description("攻击力")]
+    [LocalizationKey("ServiceAvatarInfoPropertyAtk")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_ATTACK_PERCENT = 6,
 
     /// <summary>
     /// 基础防御力
     /// </summary>
-    [Description("基础防御力")]
+    [LocalizationKey("ServiceAvatarInfoPropertyBaseDef")]
     [Format(FormatMethod.Integer)]
     FIGHT_PROP_BASE_DEFENSE = 7,
 
     /// <summary>
     /// 防御力加成
     /// </summary>
-    [Description("防御力")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDef")]
     [Format(FormatMethod.Integer)]
     FIGHT_PROP_DEFENSE = 8,
 
     /// <summary>
     /// 防御力百分比
     /// </summary>
-    [Description("防御力")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDef")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_DEFENSE_PERCENT = 9,
 
@@ -102,7 +102,7 @@ public enum FightProperty
     /// <summary>
     /// 暴击率
     /// </summary>
-    [Description("暴击率")]
+    [LocalizationKey("ServiceAvatarInfoPropertyCR")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_CRITICAL = 20,
 
@@ -114,14 +114,14 @@ public enum FightProperty
     /// <summary>
     /// 暴击伤害
     /// </summary>
-    [Description("暴击伤害")]
+    [LocalizationKey("ServiceAvatarInfoPropertyCDmg")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_CRITICAL_HURT = 22,
 
     /// <summary>
     /// 元素充能效率
     /// </summary>
-    [Description("元素充能效率")]
+    [LocalizationKey("ServiceAvatarInfoPropertyCE")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_CHARGE_EFFICIENCY = 23,
 
@@ -138,7 +138,7 @@ public enum FightProperty
     /// <summary>
     /// 治疗提升
     /// </summary>
-    [Description("治疗加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyHB")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_HEAL_ADD = 26,
 
@@ -150,7 +150,7 @@ public enum FightProperty
     /// <summary>
     /// 元素精通
     /// </summary>
-    [Description("元素精通")]
+    [LocalizationKey("ServiceAvatarInfoPropertyEM")]
     [Format(FormatMethod.Integer)]
     FIGHT_PROP_ELEMENT_MASTERY = 28,
 
@@ -162,7 +162,7 @@ public enum FightProperty
     /// <summary>
     /// 物理伤害加成
     /// </summary>
-    [Description("物理伤害加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDBPhyiscal")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_PHYSICAL_ADD_HURT = 30,
 
@@ -179,49 +179,49 @@ public enum FightProperty
     /// <summary>
     /// 火元素伤害加成
     /// </summary>
-    [Description("火元素伤害加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDBFire")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_FIRE_ADD_HURT = 40,
 
     /// <summary>
     /// 雷元素伤害加成
     /// </summary>
-    [Description("雷元素伤害加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDBElec")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_ELEC_ADD_HURT = 41,
 
     /// <summary>
     /// 水元素伤害加成
     /// </summary>
-    [Description("水元素伤害加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDBWater")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_WATER_ADD_HURT = 42,
 
     /// <summary>
     /// 草元素伤害加成
     /// </summary>
-    [Description("草元素伤害加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDBGrass")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_GRASS_ADD_HURT = 43,
 
     /// <summary>
     /// 风元素伤害加成
     /// </summary>
-    [Description("风元素伤害加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDBWind")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_WIND_ADD_HURT = 44,
 
     /// <summary>
     /// 岩元素伤害加成
     /// </summary>
-    [Description("岩元素伤害加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDBRock")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_ROCK_ADD_HURT = 45,
 
     /// <summary>
     /// 冰元素伤害加成
     /// </summary>
-    [Description("冰元素伤害加成")]
+    [LocalizationKey("ServiceAvatarInfoPropertyDBIce")]
     [Format(FormatMethod.Percent)]
     FIGHT_PROP_ICE_ADD_HURT = 46,
 
@@ -394,6 +394,7 @@ public enum FightProperty
     /// 最大生命值
     /// </summary>
     [Description("生命值")]
+    [LocalizationKey("ServiceAvatarInfoPropertyHp")]
     [Format(FormatMethod.Integer)]
     FIGHT_PROP_MAX_HP = 2000,
 

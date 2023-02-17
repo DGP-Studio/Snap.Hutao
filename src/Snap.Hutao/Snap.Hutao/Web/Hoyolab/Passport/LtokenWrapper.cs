@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// Ltoken 包装器
 /// </summary>
-public class LtokenWrapper
+[HighQuality]
+internal sealed class LtokenWrapper
 {
     /// <summary>
     /// Ltoken

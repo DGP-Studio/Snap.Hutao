@@ -2,13 +2,15 @@
 // Licensed under the MIT license.
 
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Extension;
 
 /// <summary>
 /// <see cref="IEnumerable{T}"/> 扩展
 /// </summary>
-public static partial class EnumerableExtension
+[HighQuality]
+internal static partial class EnumerableExtension
 {
     /// <summary>
     /// 如果传入集合不为空则原路返回，
@@ -17,6 +19,7 @@ public static partial class EnumerableExtension
     /// <typeparam name="TSource">源类型</typeparam>
     /// <param name="source">源</param>
     /// <returns>源集合或空集</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IEnumerable<TSource> EmptyIfNull<TSource>(this IEnumerable<TSource>? source)
     {
         return source ?? Enumerable.Empty<TSource>();
@@ -41,6 +44,7 @@ public static partial class EnumerableExtension
     /// <param name="source">源</param>
     /// <param name="predicate">谓语</param>
     /// <returns>目标项</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource? FirstOrFirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
     {
         return source.FirstOrDefault(predicate) ?? source.FirstOrDefault();
@@ -52,6 +56,7 @@ public static partial class EnumerableExtension
     /// <typeparam name="T">类型</typeparam>
     /// <param name="source">源</param>
     /// <returns><see cref="ObservableCollection{T}"/></returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> source)
     {
         return new ObservableCollection<T>(source);

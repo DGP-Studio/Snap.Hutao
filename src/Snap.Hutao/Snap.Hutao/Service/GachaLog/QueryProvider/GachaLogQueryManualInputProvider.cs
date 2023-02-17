@@ -8,8 +8,9 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// <summary>
 /// 手动输入方法
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
-internal class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
+internal sealed class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
     /// <inheritdoc/>
     public string Name { get => nameof(GachaLogQueryManualInputProvider); }

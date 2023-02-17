@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 武器信息
 /// </summary>
-public class Weapon
+[HighQuality]
+internal sealed class Weapon
 {
     /// <summary>
     /// 等级
@@ -27,5 +28,5 @@ public class Weapon
     /// Weapon Refinement Level [0-4]
     /// </summary>
     [JsonPropertyName("affixMap")]
-    public IDictionary<string, int> AffixMap { get; set; } = default!;
+    public Dictionary<string, int> AffixMap { get; set; } = default!;
 }

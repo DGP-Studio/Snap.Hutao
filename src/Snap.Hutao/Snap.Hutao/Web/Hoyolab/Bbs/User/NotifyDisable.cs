@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 通知提醒
 /// </summary>
-public class NotifyDisable
+[HighQuality]
+internal sealed class NotifyDisable
 {
     /// <summary>
     /// 回复我

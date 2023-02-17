@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Common;
+using Snap.Hutao.Core.Abstraction;
 
 namespace Snap.Hutao.Service.Game.Package;
 
 /// <summary>
 /// 包更新状态
 /// </summary>
-public class PackageReplaceStatus
+internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
 {
     /// <summary>
     /// 构造一个新的包更新状态

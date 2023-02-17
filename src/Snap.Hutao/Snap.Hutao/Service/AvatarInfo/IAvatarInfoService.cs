@@ -9,6 +9,7 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// <summary>
 /// 角色信息服务
 /// </summary>
+[HighQuality]
 internal interface IAvatarInfoService
 {
     /// <summary>

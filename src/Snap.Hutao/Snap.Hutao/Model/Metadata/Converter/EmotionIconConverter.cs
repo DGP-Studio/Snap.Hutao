@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 表情图片转换器
 /// </summary>
-internal class EmotionIconConverter : ValueConverter<string, Uri>
+[HighQuality]
+internal sealed class EmotionIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri
@@ -17,7 +18,7 @@ internal class EmotionIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        return new Uri(Web.HutaoEndpoints.StaticFile("EmotionIcon", $"{name}.png"));
+        return Web.HutaoEndpoints.StaticFile("EmotionIcon", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

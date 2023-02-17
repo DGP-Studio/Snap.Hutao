@@ -2,17 +2,18 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding.AvatarProperty;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using ModelPlayerInfo = Snap.Hutao.Web.Enka.Model.PlayerInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 /// <summary>
 /// 简述工厂
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient, typeof(ISummaryFactory))]
-internal class SummaryFactory : ISummaryFactory
+internal sealed class SummaryFactory : ISummaryFactory
 {
     private readonly IMetadataService metadataService;
 
@@ -26,7 +27,7 @@ internal class SummaryFactory : ISummaryFactory
     }
 
     /// <inheritdoc/>
-    public async Task<Summary> CreateAsync(ModelPlayerInfo playerInfo, IEnumerable<ModelAvatarInfo> avatarInfos, CancellationToken token)
+    public async Task<Summary> CreateAsync(IEnumerable<ModelAvatarInfo> avatarInfos, CancellationToken token)
     {
         SummaryMetadataContext metadataContext = new()
         {
@@ -38,7 +39,14 @@ internal class SummaryFactory : ISummaryFactory
             Reliquaries = await metadataService.GetReliquariesAsync(token).ConfigureAwait(false),
         };
 
-        SummaryFactoryImplementation inner = new(metadataContext);
-        return inner.Create(playerInfo, avatarInfos);
+        return new()
+        {
+            Avatars = avatarInfos
+                .Where(a => !AvatarIds.IsPlayer(a.AvatarId))
+                .Select(a => new SummaryAvatarFactory(metadataContext, a).CreateAvatar())
+                .OrderByDescending(a => (int)a.Quality)
+                .ThenByDescending(a => a.ActivatedConstellationCount)
+                .ToList(),
+        };
     }
 }

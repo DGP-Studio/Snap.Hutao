@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 用户性别
 /// </summary>
-public enum UserGender
+[HighQuality]
+internal enum UserGender
 {
     /// <summary>
     /// 保密

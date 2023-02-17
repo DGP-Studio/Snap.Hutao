@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// 游戏
 /// </summary>
-public class Game
+[HighQuality]
+internal sealed class Game
 {
     /// <summary>
     /// 最新客户端

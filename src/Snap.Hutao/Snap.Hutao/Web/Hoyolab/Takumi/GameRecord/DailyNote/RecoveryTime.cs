@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
 using System.Text;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -11,7 +10,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 /// 已准备完成 $后可再次使用
 /// 冷却中     可使用
 /// </summary>
-public class RecoveryTime
+[HighQuality]
+internal sealed class RecoveryTime
 {
     /// <summary>
     /// 日
@@ -62,16 +62,16 @@ public class RecoveryTime
         {
             if (Reached)
             {
-                return "已准备完成";
+                return SH.WebDailyNoteTransformerReady;
             }
             else
             {
                 return new StringBuilder()
-                    .AppendIf(Day > 0, $"{Day}天")
-                    .AppendIf(Hour > 0, $"{Hour}时")
-                    .AppendIf(Minute > 0, $"{Minute}分")
-                    .AppendIf(Second > 0, $"{Second}秒")
-                    .Append(" 后可再次使用")
+                    .AppendIf(Day > 0, string.Format(SH.WebDailyNoteTransformerDaysFormat, Day))
+                    .AppendIf(Hour > 0, string.Format(SH.WebDailyNoteTransformerHoursFormat, Hour))
+                    .AppendIf(Minute > 0, string.Format(SH.WebDailyNoteTransformerMinutesFormat, Minute))
+                    .AppendIf(Second > 0, string.Format(SH.WebDailyNoteTransformerSecondsFormat, Second))
+                    .Append(SH.WebDailyNoteTransformerAppend)
                     .ToString();
             }
         }
@@ -83,6 +83,6 @@ public class RecoveryTime
     [JsonIgnore]
     public string ReachedFormatted
     {
-        get => Reached ? "可使用" : "冷却中";
+        get => Reached ? SH.WebDailyNoteTransformerReached : SH.WebDailyNoteTransformerNotReached;
     }
 }

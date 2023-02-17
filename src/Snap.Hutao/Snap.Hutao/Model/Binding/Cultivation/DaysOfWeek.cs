@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Annotation;
-
 namespace Snap.Hutao.Model.Binding.Cultivation;
 
 /// <summary>
 /// 游戏内星期中的天
 /// </summary>
-public enum DaysOfWeek
+[HighQuality]
+internal enum DaysOfWeek
 {
     /// <summary>
     /// 任意

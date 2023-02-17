@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 皮肤
 /// </summary>
-public class Costume
+[HighQuality]
+internal sealed class Costume
 {
     /// <summary>
     /// Id

@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Entity.Configuration;
 /// <summary>
 /// 实时便笺入口配置
 /// </summary>
-internal class DailyNoteEntryConfiguration : IEntityTypeConfiguration<DailyNoteEntry>
+[HighQuality]
+internal sealed class DailyNoteEntryConfiguration : IEntityTypeConfiguration<DailyNoteEntry>
 {
     /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<DailyNoteEntry> builder)

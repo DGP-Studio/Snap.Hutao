@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.Game;
 /// <summary>
 /// 启动游戏配置
 /// </summary>
+[HighQuality]
 internal readonly struct LaunchConfiguration
 {
     /// <summary>

@@ -9,28 +9,8 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// <see cref="Dictionary{TKey, TValue}"/> 部分
 /// </summary>
-public static partial class EnumerableExtension
+internal static partial class EnumerableExtension
 {
-    /// <summary>
-    /// 获取值或默认值
-    /// </summary>
-    /// <typeparam name="TKey">键类型</typeparam>
-    /// <typeparam name="TValue">值类型</typeparam>
-    /// <param name="dictionary">字典</param>
-    /// <param name="key">键</param>
-    /// <param name="defaultValue">默认值</param>
-    /// <returns>结果值</returns>
-    public static TValue? GetValueOrDefault2<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue? defaultValue = default)
-        where TKey : notnull
-    {
-        if (dictionary.TryGetValue(key, out TValue? value))
-        {
-            return value;
-        }
-
-        return defaultValue;
-    }
-
     /// <summary>
     /// 增加计数
     /// </summary>

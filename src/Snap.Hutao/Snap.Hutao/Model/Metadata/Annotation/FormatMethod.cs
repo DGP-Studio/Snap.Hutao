@@ -6,6 +6,7 @@ namespace Snap.Hutao.Model.Metadata.Annotation;
 /// <summary>
 /// 格式化方法
 /// </summary>
+[HighQuality]
 internal enum FormatMethod
 {
     /// <summary>

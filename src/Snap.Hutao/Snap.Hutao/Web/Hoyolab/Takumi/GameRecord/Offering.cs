@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 供奉信息
 /// </summary>
-public class Offering
+[HighQuality]
+internal sealed class Offering
 {
     /// <summary>
     /// 名称

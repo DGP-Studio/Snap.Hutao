@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Navigation;
 /// <summary>
 /// 导航结果
 /// </summary>
-public enum NavigationResult
+[HighQuality]
+internal enum NavigationResult
 {
     /// <summary>
     /// 成功

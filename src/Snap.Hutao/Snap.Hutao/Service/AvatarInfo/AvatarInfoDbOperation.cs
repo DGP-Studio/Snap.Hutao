@@ -21,7 +21,8 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// <summary>
 /// 角色信息数据库操作
 /// </summary>
-public class AvatarInfoDbOperation
+[HighQuality]
+internal sealed class AvatarInfoDbOperation
 {
     private readonly AppDbContext appDbContext;
 
@@ -217,10 +218,7 @@ public class AvatarInfoDbOperation
         // Avatars are actually less than the list told us.
         if (distinctCount < dbInfos.Count)
         {
-            appDbContext.AvatarInfos
-                .Where(i => i.Uid == uid)
-                .ExecuteDelete();
-
+            appDbContext.AvatarInfos.ExecuteDeleteWhere(i => i.Uid == uid);
             dbInfos = new();
         }
     }

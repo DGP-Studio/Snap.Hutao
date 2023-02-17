@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 消耗
 /// </summary>
-public class Consumption
+[HighQuality]
+internal sealed class Consumption
 {
     /// <summary>
     /// 角色等级消耗

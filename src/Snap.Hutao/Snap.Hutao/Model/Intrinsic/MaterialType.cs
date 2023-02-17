@@ -7,7 +7,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 材料类型
 /// </summary>
 [SuppressMessage("", "SA1602")]
-public enum MaterialType
+internal enum MaterialType
 {
     MATERIAL_NONE = 0,
     MATERIAL_FOOD = 1,

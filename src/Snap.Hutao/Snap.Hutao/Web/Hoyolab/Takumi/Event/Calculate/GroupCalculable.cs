@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 分组可计算值
 /// </summary>
-public abstract class GroupCalculable : Calculable
+[HighQuality]
+internal abstract class GroupCalculable : Calculable
 {
     /// <summary>
     /// 组Id

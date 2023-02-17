@@ -7,7 +7,8 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 /// 统一可交换成就格式
 /// https://uigf.org/standards/UIAF.html
 /// </summary>
-public class UIAF
+[HighQuality]
+internal sealed class UIAF
 {
     /// <summary>
     /// 当前发行的版本

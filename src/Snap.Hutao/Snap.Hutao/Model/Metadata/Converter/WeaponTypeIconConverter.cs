@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 元素名称图标转换器
 /// </summary>
-internal class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
+[HighQuality]
+internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
 {
     /// <summary>
     /// 将武器类型转换为图标链接
@@ -28,7 +29,7 @@ internal class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
             _ => throw Must.NeverHappen(),
         };
 
-        return new Uri(Web.HutaoEndpoints.StaticFile("Skill", $"Skill_A_{element}.png"));
+        return Web.HutaoEndpoints.StaticFile("Skill", $"Skill_A_{element}.png").ToUri();
     }
 
     /// <inheritdoc/>

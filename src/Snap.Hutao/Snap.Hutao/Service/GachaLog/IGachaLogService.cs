@@ -12,6 +12,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录服务
 /// </summary>
+[HighQuality]
 internal interface IGachaLogService
 {
     /// <summary>

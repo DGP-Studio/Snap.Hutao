@@ -8,7 +8,8 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 背景类型改变消息
 /// </summary>
-internal class BackdropTypeChangedMessage
+[HighQuality]
+internal sealed class BackdropTypeChangedMessage
 {
     /// <summary>
     /// 构造一个新的背景类型改变消息

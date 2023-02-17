@@ -6,6 +6,7 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 欢迎状态完成消息
 /// </summary>
-public class WelcomeStateCompleteMessage
+[HighQuality]
+internal sealed class WelcomeStateCompleteMessage
 {
 }

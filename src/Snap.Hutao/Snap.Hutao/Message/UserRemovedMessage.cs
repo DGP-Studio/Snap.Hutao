@@ -8,7 +8,8 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 用户删除消息
 /// </summary>
-internal class UserRemovedMessage
+[HighQuality]
+internal sealed class UserRemovedMessage
 {
     /// <summary>
     /// 构造一个新的用户删除消息

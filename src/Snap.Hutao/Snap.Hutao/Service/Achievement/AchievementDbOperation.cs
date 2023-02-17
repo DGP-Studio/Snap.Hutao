@@ -12,7 +12,8 @@ namespace Snap.Hutao.Service.Achievement;
 /// 成就数据库操作
 /// 双指针操作
 /// </summary>
-public class AchievementDbOperation
+[HighQuality]
+internal sealed class AchievementDbOperation
 {
     private readonly AppDbContext appDbContext;
 

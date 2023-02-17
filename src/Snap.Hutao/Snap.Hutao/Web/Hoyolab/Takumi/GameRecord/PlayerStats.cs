@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 玩家统计数据
 /// </summary>
-public class PlayerStats
+[HighQuality]
+internal sealed class PlayerStats
 {
     /// <summary>
     /// 活跃天数
@@ -97,4 +98,10 @@ public class PlayerStats
     /// </summary>
     [JsonPropertyName("magic_chest_number")]
     public int MagicChestNumber { get; set; }
+
+    /// <summary>
+    /// 额外的新数据
+    /// </summary>
+    [JsonExtensionData]
+    public Dictionary<string, JsonElement>? ExtensionData { get; set; }
 }

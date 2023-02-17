@@ -5,10 +5,9 @@ namespace Snap.Hutao.Model.Intrinsic;
 
 /// <summary>
 /// 稀有度
-/// https://github.com/Grasscutters/Grasscutter/blob/development/src/main/java/emu/grasscutter/game/inventory/ItemQuality.java
-/// <seealso cref=""/>
 /// </summary>
-public enum ItemQuality
+[HighQuality]
+internal enum ItemQuality
 {
     /// <summary>
     /// 无
@@ -18,36 +17,36 @@ public enum ItemQuality
     /// <summary>
     /// 一星
     /// </summary>
-    [Description("一星")]
+    [LocalizationKey("ModelIntrinsicItemQualityWhite")]
     QUALITY_WHITE = 1,
 
     /// <summary>
     /// 二星
     /// </summary>
-    [Description("二星")]
+    [LocalizationKey("ModelIntrinsicItemQualityGreen")]
     QUALITY_GREEN = 2,
 
     /// <summary>
     /// 三星
     /// </summary>
-    [Description("三星")]
+    [LocalizationKey("ModelIntrinsicItemQualityBlue")]
     QUALITY_BLUE = 3,
 
     /// <summary>
     /// 四星
     /// </summary>
-    [Description("四星")]
+    [LocalizationKey("ModelIntrinsicItemQualityPurple")]
     QUALITY_PURPLE = 4,
 
     /// <summary>
     /// 五星
     /// </summary>
-    [Description("五星")]
+    [LocalizationKey("ModelIntrinsicItemQualityOrange")]
     QUALITY_ORANGE = 5,
 
     /// <summary>
     /// 限定五星
     /// </summary>
-    [Description("限定五星")]
+    [LocalizationKey("ModelIntrinsicItemQualityRed")]
     QUALITY_ORANGE_SP = 105,
 }

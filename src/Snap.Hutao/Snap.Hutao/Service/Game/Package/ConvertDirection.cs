@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.Game.Package;
 /// <summary>
 /// 转换方向
 /// </summary>
+[HighQuality]
 internal enum ConvertDirection
 {
     /// <summary>

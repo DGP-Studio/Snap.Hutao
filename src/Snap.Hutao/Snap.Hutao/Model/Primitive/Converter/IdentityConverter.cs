@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Primitive.Converter;
 /// Id 转换器
 /// </summary>
 /// <typeparam name="TWrapper">包装类型</typeparam>
-internal class IdentityConverter<TWrapper> : JsonConverter<TWrapper>
+[HighQuality]
+internal sealed class IdentityConverter<TWrapper> : JsonConverter<TWrapper>
     where TWrapper : struct
 {
     /// <inheritdoc/>

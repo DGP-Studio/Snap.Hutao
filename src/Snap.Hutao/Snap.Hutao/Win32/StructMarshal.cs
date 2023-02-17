@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Buffers.Binary;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Windows.Graphics;
 using Windows.Win32.System.Diagnostics.ToolHelp;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -11,6 +13,7 @@ namespace Snap.Hutao.Win32;
 /// <summary>
 /// 结构体封送
 /// </summary>
+[HighQuality]
 internal static class StructMarshal
 {
     /// <summary>
@@ -29,6 +32,20 @@ internal static class StructMarshal
     public static unsafe WINDOWPLACEMENT WINDOWPLACEMENT()
     {
         return new() { length = (uint)sizeof(WINDOWPLACEMENT) };
+    }
+
+    /// <summary>
+    /// 使用四字节颜色代码初始化一个新的颜色
+    /// </summary>
+    /// <param name="value">颜色代码</param>
+    /// <returns>对应的颜色</returns>
+    public static unsafe Windows.UI.Color Color(uint value)
+    {
+        Unsafe.SkipInit(out Windows.UI.Color color);
+        uint reversed = BinaryPrimitives.ReverseEndianness(value);
+        Unsafe.WriteUnaligned(&color, reversed);
+
+        return color;
     }
 
     /// <summary>

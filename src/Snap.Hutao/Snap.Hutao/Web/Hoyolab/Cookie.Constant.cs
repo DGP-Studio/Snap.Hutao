@@ -8,7 +8,7 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// </summary>
 [SuppressMessage("", "SA1310")]
 [SuppressMessage("", "SA1600")]
-public partial class Cookie
+internal sealed partial class Cookie
 {
     public const string LOGIN_TICKET = "login_ticket";
 

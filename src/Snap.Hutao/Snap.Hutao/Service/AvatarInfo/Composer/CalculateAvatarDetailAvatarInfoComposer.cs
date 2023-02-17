@@ -8,8 +8,9 @@ namespace Snap.Hutao.Service.AvatarInfo.Composer;
 /// <summary>
 /// 计数器角色详情转角色信息
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient)]
-internal class CalculateAvatarDetailAvatarInfoComposer : IAvatarInfoComposer<AvatarDetail>
+internal sealed class CalculateAvatarDetailAvatarInfoComposer : IAvatarInfoComposer<AvatarDetail>
 {
     /// <inheritdoc/>
     public ValueTask<Web.Enka.Model.AvatarInfo> ComposeAsync(Web.Enka.Model.AvatarInfo avatarInfo, AvatarDetail source)

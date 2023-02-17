@@ -10,7 +10,6 @@
 
     <UserControl.Resources>
         <shmmc:SkillIconConverter x:Key="SkillIconConverter"/>
-        <shmmc:DescParamDescriptor x:Key="DescParamDescriptor"/>
 
         <Thickness x:Key="PivotHeaderItemMargin">0,0,16,0</Thickness>
         <Thickness x:Key="PivotItemMargin">0</Thickness>

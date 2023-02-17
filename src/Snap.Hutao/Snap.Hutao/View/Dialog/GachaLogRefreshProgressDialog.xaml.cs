@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.View.Control;
 
@@ -14,7 +14,8 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 祈愿记录刷新进度对话框
 /// </summary>
-public sealed partial class GachaLogRefreshProgressDialog : ContentDialog
+[HighQuality]
+internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
 {
     private static readonly DependencyProperty StateProperty = Property<GachaLogRefreshProgressDialog>.Depend<FetchState>(nameof(State));
 
@@ -52,7 +53,7 @@ public sealed partial class GachaLogRefreshProgressDialog : ContentDialog
         GachaItemsPresenter.Items.Clear();
 
         // System.InvalidOperationException: Collection was modified; enumeration operation may not execute.
-        foreach (ItemBase item in state.Items.ToList())
+        foreach (Item item in state.Items.ToList())
         {
             GachaItemsPresenter.Items.Add(new ItemIcon
             {

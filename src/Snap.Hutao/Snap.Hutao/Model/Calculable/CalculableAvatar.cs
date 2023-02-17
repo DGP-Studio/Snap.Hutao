@@ -5,14 +5,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.Model.Calculable;
 
 /// <summary>
 /// 可计算角色
 /// </summary>
-internal class CalculableAvatar : ObservableObject, ICalculableAvatar
+[HighQuality]
+internal sealed class CalculableAvatar : ObservableObject, ICalculableAvatar
 {
     private int levelCurrent;
     private int levelTarget;
@@ -26,7 +26,7 @@ internal class CalculableAvatar : ObservableObject, ICalculableAvatar
         AvatarId = avatar.Id;
         LevelMin = 1;
         LevelMax = int.Parse(avatar.Property.Parameters.Last().Level);
-        Skills = avatar.SkillDepot.GetCompositeSkillsNoInherents().Select(p => p.ToCalculable()).ToList();
+        Skills = avatar.SkillDepot.EnumerateCompositeSkillsNoInherents().Select(p => p.ToCalculable()).ToList();
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
         Quality = avatar.Quality;
@@ -39,7 +39,7 @@ internal class CalculableAvatar : ObservableObject, ICalculableAvatar
     /// 构造一个新的可计算角色
     /// </summary>
     /// <param name="avatar">角色</param>
-    public CalculableAvatar(Binding.AvatarProperty.Avatar avatar)
+    public CalculableAvatar(Binding.AvatarProperty.AvatarView avatar)
     {
         AvatarId = avatar.Id;
         LevelMin = avatar.LevelNumber;

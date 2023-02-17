@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// </summary>
 /// <typeparam name="TItem">物品类型</typeparam>
 /// <typeparam name="TRate">率类型</typeparam>
-public class ItemRate<TItem, TRate>
+[HighQuality]
+internal class ItemRate<TItem, TRate>
 {
     /// <summary>
     /// 构造一个新的物品与率

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// <summary>
 /// 验证密钥
 /// </summary>
-public class GameAuthKey
+[HighQuality]
+internal sealed class GameAuthKey
 {
     /// <summary>
     /// 验证密钥

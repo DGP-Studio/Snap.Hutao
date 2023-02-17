@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 技能信息
 /// </summary>
-public partial class ProudableSkill : SkillBase
+[HighQuality]
+internal sealed partial class ProudableSkill : Skill
 {
     /// <summary>
     /// 组Id
@@ -16,5 +17,5 @@ public partial class ProudableSkill : SkillBase
     /// <summary>
     /// 提升属性
     /// </summary>
-    public DescParam Proud { get; set; } = default!;
+    public DescriptionsParameters Proud { get; set; } = default!;
 }

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 统计数据
 /// </summary>
-public class Overview
+[HighQuality]
+internal sealed class Overview
 {
     /// <summary>
     /// 规划Id

@@ -7,7 +7,8 @@ namespace Snap.Hutao.Web.Response;
 /// 列表对象包装器
 /// </summary>
 /// <typeparam name="T">列表的元素类型</typeparam>
-public class ListWrapper<T>
+[HighQuality]
+internal class ListWrapper<T>
 {
     /// <summary>
     /// 列表

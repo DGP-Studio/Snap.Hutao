@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 伤害值
 /// </summary>
-public class RankValue : ItemRate<int, double>
+[HighQuality]
+internal sealed class RankValue : ItemRate<int, double>
 {
     /// <summary>
     /// 构造一个新的伤害值

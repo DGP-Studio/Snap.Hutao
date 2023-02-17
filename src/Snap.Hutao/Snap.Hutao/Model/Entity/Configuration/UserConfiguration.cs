@@ -10,7 +10,8 @@ namespace Snap.Hutao.Model.Entity.Configuration;
 /// <summary>
 /// 用户配置
 /// </summary>
-internal class UserConfiguration : IEntityTypeConfiguration<User>
+[HighQuality]
+internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<User> builder)

@@ -9,7 +9,8 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 实时便笺通知设置对话框
 /// </summary>
-public sealed partial class DailyNoteNotificationDialog : ContentDialog
+[HighQuality]
+internal sealed partial class DailyNoteNotificationDialog : ContentDialog
 {
     /// <summary>
     /// 构造一个新的实时便笺通知设置对话框

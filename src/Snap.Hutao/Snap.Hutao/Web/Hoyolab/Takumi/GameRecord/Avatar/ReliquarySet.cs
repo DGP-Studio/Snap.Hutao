@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 /// <summary>
 /// 圣遗物套装信息
 /// </summary>
-public class ReliquarySet
+[HighQuality]
+internal sealed class ReliquarySet
 {
     /// <summary>
     /// Id

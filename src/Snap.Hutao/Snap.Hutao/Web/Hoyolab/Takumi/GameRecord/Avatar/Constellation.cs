@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 /// <summary>
 /// 命座
 /// </summary>
-public class Constellation
+[HighQuality]
+internal sealed class Constellation
 {
     /// <summary>
     /// Id

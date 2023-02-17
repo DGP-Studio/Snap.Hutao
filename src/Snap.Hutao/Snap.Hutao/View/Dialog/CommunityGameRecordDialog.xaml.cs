@@ -14,7 +14,8 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 社区游戏记录对话框
 /// </summary>
-public sealed partial class CommunityGameRecordDialog : ContentDialog
+[HighQuality]
+internal sealed partial class CommunityGameRecordDialog : ContentDialog
 {
     private readonly IServiceScope scope;
     [SuppressMessage("", "IDE0052")]

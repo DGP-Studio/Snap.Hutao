@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.InterChange.Inventory;
 /// <summary>
 /// UIIF格式的信息
 /// </summary>
-public class UIIFInfo
+[HighQuality]
+internal sealed class UIIFInfo
 {
     /// <summary>
     /// 用户Uid

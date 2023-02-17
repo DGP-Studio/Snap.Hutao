@@ -11,7 +11,8 @@ namespace Snap.Hutao.View;
 /// <summary>
 /// 主视图
 /// </summary>
-public sealed partial class MainView : UserControl
+[HighQuality]
+internal sealed partial class MainView : UserControl
 {
     private readonly INavigationService navigationService;
     private readonly IInfoBarService infoBarService;

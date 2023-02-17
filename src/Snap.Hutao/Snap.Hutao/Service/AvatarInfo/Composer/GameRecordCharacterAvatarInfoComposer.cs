@@ -12,8 +12,9 @@ namespace Snap.Hutao.Service.AvatarInfo.Composer;
 /// <summary>
 /// 游戏记录角色转角色详情转换器
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient)]
-internal class GameRecordCharacterAvatarInfoComposer : IAvatarInfoComposer<Character>
+internal sealed class GameRecordCharacterAvatarInfoComposer : IAvatarInfoComposer<Character>
 {
     private readonly IMetadataService metadataService;
 
@@ -38,25 +39,18 @@ internal class GameRecordCharacterAvatarInfoComposer : IAvatarInfoComposer<Chara
 
         // update level
         avatarInfo.PropMap ??= new Dictionary<PlayerProperty, TypeValue>();
-        avatarInfo.PropMap[PlayerProperty.PROP_LEVEL] = new() { Type = PlayerProperty.PROP_LEVEL, Value = source.Level.ToString(), };
+        avatarInfo.PropMap[PlayerProperty.PROP_LEVEL] = new(PlayerProperty.PROP_LEVEL, source.Level.ToString());
 
         // update constellations
-        avatarInfo.TalentIdList ??= new List<int>();
         avatarInfo.TalentIdList = source.Constellations.Where(t => t.IsActived).Select(t => t.Id).ToList();
 
         // update relic
-        avatarInfo.EquipList ??= new();
-
-        if (avatarInfo.EquipList.Count == 0)
+        avatarInfo.EquipList ??= source.Reliquaries.SelectList(r => new Equip()
         {
-            List<Equip> relics = source.Reliquaries.Select(r => new Equip()
-            {
-                ItemId = r.Id,
-                Reliquary = new() { Level = r.Level + 1, },
-                Flat = new() { ItemType = ItemType.ITEM_RELIQUARY, EquipType = r.Position, },
-            }).ToList();
-            avatarInfo.EquipList.AddRange(relics);
-        }
+            ItemId = r.Id,
+            Reliquary = new() { Level = r.Level + 1, },
+            Flat = new() { ItemType = ItemType.ITEM_RELIQUARY, EquipType = r.Position, },
+        });
 
         Equip? equip = avatarInfo.EquipList.LastOrDefault();
         if (equip == null || equip.Weapon == null)
@@ -71,10 +65,7 @@ internal class GameRecordCharacterAvatarInfoComposer : IAvatarInfoComposer<Chara
         equip.Weapon = new()
         {
             Level = source.Weapon.Level,
-            AffixMap = new Dictionary<string, int>
-            {
-                { $"1{source.Weapon.Id}", source.Weapon.AffixLevel - 1 },
-            },
+            AffixMap = new() { { $"1{source.Weapon.Id}", source.Weapon.AffixLevel - 1 }, },
         };
 
         // Special case here, don't set EQUIP_WEAPON

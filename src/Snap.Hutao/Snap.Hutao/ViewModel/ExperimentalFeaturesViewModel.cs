@@ -15,8 +15,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 实验性功能视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class ExperimentalFeaturesViewModel : ObservableObject
+internal sealed class ExperimentalFeaturesViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
 

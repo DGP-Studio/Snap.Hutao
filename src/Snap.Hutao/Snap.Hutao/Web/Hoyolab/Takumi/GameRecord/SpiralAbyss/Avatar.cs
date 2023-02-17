@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 /// <summary>
 /// 仅包含头像的角色信息
 /// </summary>
-public class Avatar
+[HighQuality]
+internal sealed class Avatar
 {
     /// <summary>
     /// Id

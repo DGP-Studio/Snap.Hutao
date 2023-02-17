@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 /// <summary>
 /// 间信息
 /// </summary>
-public class SimpleLevel
+[HighQuality]
+internal sealed class SimpleLevel
 {
     /// <summary>
     /// 构造一个新的间信息

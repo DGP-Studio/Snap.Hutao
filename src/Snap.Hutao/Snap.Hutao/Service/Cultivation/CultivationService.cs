@@ -7,12 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using System.Collections.ObjectModel;
-using BindingCultivateEntry = Snap.Hutao.Model.Binding.Cultivation.CultivateEntry;
+using BindingCultivateEntry = Snap.Hutao.Model.Binding.Cultivation.CultivateEntryView;
 using BindingCultivateItem = Snap.Hutao.Model.Binding.Cultivation.CultivateItem;
 using BindingInventoryItem = Snap.Hutao.Model.Binding.Inventory.InventoryItem;
 using BindingStatisticsItem = Snap.Hutao.Model.Binding.Cultivation.StatisticsCultivateItem;
@@ -22,8 +24,9 @@ namespace Snap.Hutao.Service.Cultivation;
 /// <summary>
 /// 养成计算服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton, typeof(ICultivationService))]
-internal class CultivationService : ICultivationService
+internal sealed class CultivationService : ICultivationService
 {
     private readonly IServiceScopeFactory scopeFactory;
     private readonly ScopedDbCurrent<CultivateProject, Message.CultivateProjectChangedMessage> dbCurrent;
@@ -98,7 +101,8 @@ internal class CultivationService : ICultivationService
             await ThreadHelper.SwitchToBackgroundAsync();
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
-                await scope.ServiceProvider.GetRequiredService<AppDbContext>().CultivateProjects.AddAndSaveAsync(project).ConfigureAwait(false);
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await appDbContext.CultivateProjects.AddAndSaveAsync(project).ConfigureAwait(false);
             }
 
             return ProjectAddResult.Added;
@@ -139,7 +143,7 @@ internal class CultivationService : ICultivationService
             foreach (Model.Metadata.Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id))
             {
                 InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.Create(projectId, meta.Id);
-                results.Add(new(meta, entity, saveCommand));
+                results.Add(new(entity, meta, saveCommand));
             }
 
             return results;
@@ -173,13 +177,13 @@ internal class CultivationService : ICultivationService
 
                 foreach (CultivateItem item in await GetEntryItemsAsync(appDbContext, entryId).ConfigureAwait(false))
                 {
-                    resultItems.Add(new(materials.Single(m => m.Id == item.ItemId), item));
+                    resultItems.Add(new(item, materials.Single(m => m.Id == item.ItemId)));
                 }
 
-                Model.Binding.Gacha.Abstraction.ItemBase itemBase = entry.Type switch
+                Item itemBase = entry.Type switch
                 {
-                    Model.Binding.Cultivation.CultivateType.AvatarAndSkill => idAvatarMap[entry.Id].ToItemBase(),
-                    Model.Binding.Cultivation.CultivateType.Weapon => idWeaponMap[entry.Id].ToItemBase(),
+                    CultivateType.AvatarAndSkill => idAvatarMap[entry.Id].ToItemBase(),
+                    CultivateType.Weapon => idWeaponMap[entry.Id].ToItemBase(),
                     _ => null!, // TODO: support furniture calc
                 };
 
@@ -278,7 +282,7 @@ internal class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> SaveConsumptionAsync(Model.Binding.Cultivation.CultivateType type, int itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
+    public async Task<bool> SaveConsumptionAsync(CultivateType type, int itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
     {
         if (items.Count == 0)
         {
@@ -315,7 +319,7 @@ internal class CultivationService : ICultivationService
             }
 
             Guid entryId = entry.InnerId;
-            await appDbContext.CultivateItems.Where(i => i.EntryId == entryId).ExecuteDeleteAsync().ConfigureAwait(false);
+            await appDbContext.CultivateItems.ExecuteDeleteWhereAsync(i => i.EntryId == entryId).ConfigureAwait(false);
 
             IEnumerable<CultivateItem> toAdd = items.Select(i => CultivateItem.Create(entryId, i.Id, i.Num));
             await appDbContext.CultivateItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);

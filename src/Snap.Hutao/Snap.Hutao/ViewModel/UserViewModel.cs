@@ -22,8 +22,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 用户视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton)]
-internal class UserViewModel : ObservableObject
+internal sealed class UserViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;

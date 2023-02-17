@@ -16,9 +16,10 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 游戏记录提供器
 /// </summary>
+[HighQuality]
 [UseDynamicSecret]
 [HttpClient(HttpClientConfigration.XRpc)]
-internal class GameRecordClient
+internal sealed class GameRecordClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
@@ -55,12 +56,12 @@ internal class GameRecordClient
         // We hava a verification procedure to handle
         if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
         {
-            resp.Message = "请求失败，请前往「米游社-我的角色-实时便笺」页面查看";
+            resp.Message = SH.WebDailyNoteVerificationFailed;
             CardVerifier cardVerifier = Ioc.Default.GetRequiredService<CardVerifier>();
 
             if (await cardVerifier.TryGetXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is string challenge)
             {
-                Ioc.Default.GetRequiredService<IInfoBarService>().Success("无感验证成功");
+                Ioc.Default.GetRequiredService<IInfoBarService>().Success(SH.WebDailyNoteSenselessVerificationSuccess);
 
                 resp = await httpClient
                     .SetUser(userAndUid.User, CookieType.Cookie)

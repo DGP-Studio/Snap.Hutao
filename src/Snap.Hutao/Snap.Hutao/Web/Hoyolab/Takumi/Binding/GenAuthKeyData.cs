@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// im_css?
 /// {"auth_appid":"im_ccs","game_biz":"bbs_cn","game_uid":0,"region":""}
 /// </summary>
-public sealed class GenAuthKeyData
+[HighQuality]
+internal sealed class GenAuthKeyData
 {
     /// <summary>
     /// 构造一个新的验证密钥提交数据

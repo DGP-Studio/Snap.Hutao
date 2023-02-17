@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.InterChange.Inventory;
 /// <summary>
 /// UIIF物品
 /// </summary>
-internal class UIIFItem
+[HighQuality]
+internal sealed class UIIFItem
 {
     /// <summary>
     /// 物品Id

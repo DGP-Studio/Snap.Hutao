@@ -8,7 +8,7 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// <see cref="Collection{T}"/> 部分
 /// </summary>
-public static partial class EnumerableExtension
+internal static partial class EnumerableExtension
 {
     /// <summary>
     /// 移除集合中满足条件的项

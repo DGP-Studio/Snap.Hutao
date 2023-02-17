@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.InterChange.Achievement;
 using System.Collections.ObjectModel;
-using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
+using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.AchievementView;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 
@@ -12,6 +12,7 @@ namespace Snap.Hutao.Service.Achievement;
 /// <summary>
 /// 成就服务抽象
 /// </summary>
+[HighQuality]
 internal interface IAchievementService
 {
     /// <summary>

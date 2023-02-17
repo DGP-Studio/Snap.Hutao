@@ -8,8 +8,9 @@ namespace Snap.Hutao.Service.Game.Package;
 /// <summary>
 /// 包操作
 /// </summary>
+[HighQuality]
 [DebuggerDisplay("Action:{Type} Target:{Target} Cache:{Cache}")]
-internal class ItemOperationInfo
+internal sealed class ItemOperationInfo
 {
     /// <summary>
     /// 构造一个新的包操作
@@ -29,25 +30,25 @@ internal class ItemOperationInfo
     /// <summary>
     /// 操作的类型
     /// </summary>
-    public ItemOperationType Type { get; set; }
+    public ItemOperationType Type { get; }
 
     /// <summary>
     /// 目标文件
     /// </summary>
-    public string Target { get; set; }
+    public string Target { get; }
 
     /// <summary>
     /// 移动至中时的名称
     /// </summary>
-    public string MoveTo { get; set; }
+    public string MoveTo { get; }
 
     /// <summary>
     /// 文件的目标Md5
     /// </summary>
-    public string Md5 { get; set; }
+    public string Md5 { get; }
 
     /// <summary>
     /// 文件的目标大小 Byte
     /// </summary>
-    public long TotalBytes { get; set; }
+    public long TotalBytes { get; }
 }

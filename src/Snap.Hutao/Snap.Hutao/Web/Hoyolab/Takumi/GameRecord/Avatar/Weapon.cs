@@ -9,7 +9,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 /// <summary>
 /// 武器信息
 /// </summary>
-public class Weapon
+[HighQuality]
+internal sealed class Weapon
 {
     /// <summary>
     /// Id

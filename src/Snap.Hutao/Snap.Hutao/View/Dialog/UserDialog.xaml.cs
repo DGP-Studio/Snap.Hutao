@@ -8,6 +8,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 添加用户对话框
 /// </summary>
+[HighQuality]
 internal sealed partial class UserDialog : ContentDialog
 {
     /// <summary>
@@ -35,12 +36,6 @@ internal sealed partial class UserDialog : ContentDialog
 
     private void InputTextChanged(object sender, TextChangedEventArgs e)
     {
-        bool inputEmpty = string.IsNullOrEmpty(InputText.Text);
-
-        (PrimaryButtonText, IsPrimaryButtonEnabled) = inputEmpty switch
-        {
-            true => ("请输入Cookie", false),
-            false => ("确认", true),
-        };
+        IsPrimaryButtonEnabled = !string.IsNullOrEmpty(InputText.Text);
     }
 }

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 好感度信息
 /// </summary>
-public class FetterInfo
+[HighQuality]
+internal sealed class FetterInfo
 {
     /// <summary>
     /// 好感度等级

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 /// <summary>
 /// 玩家角色
 /// </summary>
-public class Role
+[HighQuality]
+internal sealed class Role
 {
     /// <summary>
     /// <see cref="string.Empty"/>

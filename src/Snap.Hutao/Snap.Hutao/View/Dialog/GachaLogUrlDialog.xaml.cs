@@ -8,6 +8,7 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 祈愿记录Url对话框
 /// </summary>
+[HighQuality]
 internal sealed partial class GachaLogUrlDialog : ContentDialog
 {
     /// <summary>

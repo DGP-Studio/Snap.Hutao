@@ -11,7 +11,8 @@ namespace Snap.Hutao.View.Dialog;
 /// <summary>
 /// 启动游戏客户端转换对话框
 /// </summary>
-public sealed partial class LaunchGamePackageConvertDialog : ContentDialog
+[HighQuality]
+internal sealed partial class LaunchGamePackageConvertDialog : ContentDialog
 {
     private static readonly DependencyProperty StateProperty = Property<LaunchGamePackageConvertDialog>.Depend<PackageReplaceStatus>(nameof(State));
 

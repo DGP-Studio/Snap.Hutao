@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// Js结果
 /// </summary>
 /// <typeparam name="TData">内部数据类型</typeparam>
-public class JsResult<TData> : IJsResult
+[HighQuality]
+internal sealed class JsResult<TData> : IJsResult
 {
     /// <summary>
     /// 代码
@@ -29,7 +30,7 @@ public class JsResult<TData> : IJsResult
     public TData Data { get; set; } = default!;
 
     /// <inheritdoc/>
-    string IJsResult.ToString()
+    string IJsResult.ToJson()
     {
         return JsonSerializer.Serialize(this);
     }

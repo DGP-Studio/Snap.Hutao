@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 用户完整信息包装器
 /// </summary>
-public class UserFullInfoWrapper
+[HighQuality]
+internal sealed class UserFullInfoWrapper
 {
     /// <summary>
     /// 用户信息

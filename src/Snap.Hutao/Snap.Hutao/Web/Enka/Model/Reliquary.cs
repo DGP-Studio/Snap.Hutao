@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 圣遗物
 /// </summary>
-public class Reliquary
+[HighQuality]
+internal sealed class Reliquary
 {
     /// <summary>
     /// 等级 +20 = 21
@@ -27,5 +28,5 @@ public class Reliquary
     /// 强化属性Id
     /// </summary>
     [JsonPropertyName("appendPropIdList")]
-    public IList<int> AppendPropIdList { get; set; } = default!;
+    public List<int> AppendPropIdList { get; set; } = default!;
 }

@@ -6,10 +6,9 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// <summary>
 /// 公告
 /// </summary>
-public class Announcement : AnnouncementContent
+[HighQuality]
+internal sealed class Announcement : AnnouncementContent
 {
-    private double timePercent;
-
     /// <summary>
     /// 是否应展示时间
     /// </summary>
@@ -33,20 +32,20 @@ public class Announcement : AnnouncementContent
                 TimeSpan span = StartTime - now;
                 if (span.TotalDays <= 1)
                 {
-                    return $"{(int)span.TotalHours} 小时后开始";
+                    return string.Format(SH.WebAnnouncementTimeHoursBeginFormat, (int)span.TotalHours);
                 }
 
-                return $"{(int)span.TotalDays} 天后开始";
+                return string.Format(SH.WebAnnouncementTimeDaysBeginFormat, (int)span.TotalDays);
             }
             else
             {
                 TimeSpan span = EndTime - now;
                 if (span.TotalDays <= 1)
                 {
-                    return $"{(int)span.TotalHours} 小时后结束";
+                    return string.Format(SH.WebAnnouncementTimeHoursEndFormat, (int)span.TotalHours);
                 }
 
-                return $"{(int)span.TotalDays} 天后结束";
+                return string.Format(SH.WebAnnouncementTimeDaysEndFormat, (int)span.TotalDays);
             }
         }
     }
@@ -66,16 +65,12 @@ public class Announcement : AnnouncementContent
     {
         get
         {
-            if (timePercent == 0)
-            {
-                // UTC+8
-                DateTimeOffset currentTime = DateTimeOffset.UtcNow;
-                TimeSpan current = currentTime - StartTime;
-                TimeSpan total = EndTime - StartTime;
-                timePercent = current / total;
-            }
-
-            return timePercent;
+            // TODO: validate correctness
+            // UTC+8
+            DateTimeOffset currentTime = DateTimeOffset.UtcNow.AddHours(8);
+            TimeSpan current = currentTime - StartTime;
+            TimeSpan total = EndTime - StartTime;
+            return current / total;
         }
     }
 

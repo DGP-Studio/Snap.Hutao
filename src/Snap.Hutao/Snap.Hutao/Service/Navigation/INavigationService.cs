@@ -8,7 +8,8 @@ namespace Snap.Hutao.Service.Navigation;
 /// <summary>
 /// 导航服务
 /// </summary>
-public interface INavigationService
+[HighQuality]
+internal interface INavigationService
 {
     /// <summary>
     /// 管理的 <see cref="Frame"/>

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 家园信息
 /// </summary>
-public class Home
+[HighQuality]
+internal sealed class Home
 {
     /// <summary>
     /// 等级

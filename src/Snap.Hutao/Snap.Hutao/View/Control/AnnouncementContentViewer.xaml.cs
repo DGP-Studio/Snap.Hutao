@@ -13,7 +13,8 @@ namespace Snap.Hutao.View.Control;
 /// <summary>
 /// 公告内容页面
 /// </summary>
-public sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Controls.UserControl
+[HighQuality]
+internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Controls.UserControl
 {
     // apply in dark mode, Dark theme
     private const string LightColor1 = "color:rgba(255,255,255,1)";

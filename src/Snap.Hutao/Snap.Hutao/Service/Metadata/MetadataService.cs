@@ -6,7 +6,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using System.IO;
 using System.Net.Http;
@@ -17,9 +16,10 @@ namespace Snap.Hutao.Service.Metadata;
 /// <summary>
 /// 元数据服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfigration.Default)]
-internal partial class MetadataService : IMetadataService, IMetadataServiceInitialization
+internal sealed partial class MetadataService : IMetadataService, IMetadataServiceInitialization
 {
     private const string MetaFileName = "Meta.json";
 
@@ -104,7 +104,15 @@ internal partial class MetadataService : IMetadataService, IMetadataServiceIniti
         }
         catch (HttpRequestException ex)
         {
-            infoBarService.Error(ex, SH.ServiceMetadataRequestFailed);
+            if (ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+            {
+                infoBarService.Error(SH.ServiceMetadataVersionNotSupported);
+            }
+            else
+            {
+                infoBarService.Error(ex, SH.ServiceMetadataRequestFailed);
+            }
+
             return false;
         }
 

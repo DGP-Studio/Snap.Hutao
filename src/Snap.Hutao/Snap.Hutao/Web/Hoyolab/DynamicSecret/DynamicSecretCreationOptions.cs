@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// <summary>
 /// 动态密钥创建选项
 /// </summary>
-internal class DynamicSecretCreationOptions
+[HighQuality]
+internal sealed class DynamicSecretCreationOptions
 {
     private const string RandomRange = "abcdefghijklmnopqrstuvwxyz1234567890";
 

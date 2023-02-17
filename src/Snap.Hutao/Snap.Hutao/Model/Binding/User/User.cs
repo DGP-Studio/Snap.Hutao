@@ -18,7 +18,8 @@ namespace Snap.Hutao.Model.Binding.User;
 /// <summary>
 /// 用于视图绑定的用户
 /// </summary>
-public class User : ObservableObject
+[HighQuality]
+internal sealed class User : ObservableObject
 {
     private readonly EntityUser inner;
 
@@ -156,7 +157,7 @@ public class User : ObservableObject
         using (IServiceScope scope = Ioc.Default.CreateScope())
         {
             Response<UserFullInfoWrapper> response = await scope.ServiceProvider
-                .GetRequiredService<UserClient2>()
+                .GetRequiredService<UserClient>()
                 .GetUserFullInfoAsync(Entity, token)
                 .ConfigureAwait(false);
             UserInfo = response.Data?.UserInfo;

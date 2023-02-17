@@ -6,6 +6,7 @@ namespace Snap.Hutao.Service.Game;
 /// <summary>
 /// 游戏常量
 /// </summary>
+[HighQuality]
 internal static class GameConstants
 {
     /// <summary>

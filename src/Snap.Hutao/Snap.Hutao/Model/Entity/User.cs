@@ -11,8 +11,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 用户
 /// </summary>
+[HighQuality]
 [Table("users")]
-public class User : ISelectable
+internal sealed class User : ISelectable
 {
     /// <summary>
     /// 内部Id

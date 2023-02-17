@@ -8,7 +8,8 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 /// <summary>
 /// 视图模型抽象类
 /// </summary>
-public abstract class ViewModel : ObservableObject, IViewModel
+[HighQuality]
+internal abstract class ViewModel : ObservableObject, IViewModel
 {
     private bool isInitialized;
 

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 角色详情
 /// </summary>
-public class AvatarDetail
+[HighQuality]
+internal sealed class AvatarDetail
 {
     /// <summary>
     /// 技能列表

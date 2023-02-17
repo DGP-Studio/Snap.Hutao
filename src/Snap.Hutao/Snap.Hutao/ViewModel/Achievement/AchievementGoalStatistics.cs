@@ -1,13 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoal;
+using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoalView;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
 /// <summary>
 /// 成就分类统计
 /// </summary>
+[HighQuality]
 internal struct AchievementGoalStatistics
 {
     /// <summary>

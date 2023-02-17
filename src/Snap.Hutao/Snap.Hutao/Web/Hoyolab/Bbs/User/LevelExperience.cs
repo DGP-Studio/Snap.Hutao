@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 等级经验
 /// </summary>
-public class LevelExperience
+[HighQuality]
+internal sealed class LevelExperience
 {
     /// <summary>
     /// 等级

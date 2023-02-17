@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 要消耗的物品信息
 /// </summary>
-public class Item
+[HighQuality]
+internal sealed class Item
 {
     /// <summary>
     /// Id

@@ -13,8 +13,9 @@ namespace Snap.Hutao.Service.Navigation;
 /// <summary>
 /// 导航服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton, typeof(INavigationService))]
-internal class NavigationService : INavigationService
+internal sealed class NavigationService : INavigationService
 {
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<INavigationService> logger;

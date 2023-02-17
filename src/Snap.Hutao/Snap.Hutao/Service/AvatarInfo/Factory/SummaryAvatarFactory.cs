@@ -1,24 +1,24 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
-using Snap.Hutao.Model;
+using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Web.Enka.Model;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using PropertyAvatar = Snap.Hutao.Model.Binding.AvatarProperty.Avatar;
-using PropertyReliquary = Snap.Hutao.Model.Binding.AvatarProperty.Reliquary;
-using PropertyWeapon = Snap.Hutao.Model.Binding.AvatarProperty.Weapon;
+using PropertyAvatar = Snap.Hutao.Model.Binding.AvatarProperty.AvatarView;
+using PropertyReliquary = Snap.Hutao.Model.Binding.AvatarProperty.ReliquaryView;
+using PropertyWeapon = Snap.Hutao.Model.Binding.AvatarProperty.WeaponView;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 /// <summary>
 /// 简述角色工厂
 /// </summary>
-internal class SummaryAvatarFactory
+[HighQuality]
+internal sealed class SummaryAvatarFactory
 {
     private readonly ModelAvatarInfo avatarInfo;
     private readonly SummaryMetadataContext metadataContext;
@@ -53,12 +53,12 @@ internal class SummaryAvatarFactory
             Element = ElementNameIconConverter.ElementNameToElementType(avatar.FetterInfo.VisionBefore),
 
             // webinfo & metadata mixed part
-            Constellations = SummaryHelper.CreateConstellations(avatarInfo.TalentIdList, avatar.SkillDepot.Talents),
-            Skills = SummaryHelper.CreateSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.GetCompositeSkillsNoInherents()),
+            Constellations = SummaryHelper.CreateConstellations(avatar.SkillDepot.Talents, avatarInfo.TalentIdList),
+            Skills = SummaryHelper.CreateSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.EnumerateCompositeSkillsNoInherents()),
 
             // webinfo part
             FetterLevel = avatarInfo.FetterInfo?.ExpLevel ?? 0,
-            Properties = SummaryHelper.CreateAvatarProperties(avatarInfo.FightPropMap),
+            Properties = SummaryFightPropertyMapHelper.CreateAvatarProperties(avatarInfo.FightPropMap),
             CritScore = $"{SummaryHelper.ScoreCrit(avatarInfo.FightPropMap):F2}",
             LevelNumber = avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].ValueInt32 ?? 0,
 
@@ -90,13 +90,13 @@ internal class SummaryAvatarFactory
         }
     }
 
-    private ReliquaryAndWeapon ProcessEquip(List<Equip> equipments)
+    private ReliquaryAndWeapon ProcessEquip(List<Web.Enka.Model.Equip> equipments)
     {
         List<PropertyReliquary> reliquaryList = new();
         PropertyWeapon? weapon = null;
 
         // equipments can be null
-        foreach (Equip equip in equipments)
+        foreach (Web.Enka.Model.Equip equip in equipments)
         {
             switch (equip.Flat.ItemType)
             {
@@ -113,7 +113,7 @@ internal class SummaryAvatarFactory
         return new(reliquaryList, weapon);
     }
 
-    private PropertyWeapon CreateWeapon(Equip equip)
+    private PropertyWeapon CreateWeapon(Web.Enka.Model.Equip equip)
     {
         MetadataWeapon weapon = metadataContext.IdWeaponMap[equip.ItemId];
 
@@ -124,7 +124,7 @@ internal class SummaryAvatarFactory
         WeaponStat? mainStat = equip.Flat.WeaponStats?[0];
         WeaponStat? subStat = equip.Flat.WeaponStats?.Count > 1 ? equip.Flat.WeaponStats![1] : null;
 
-        Pair<string, string> subProperty;
+        NameDescription subProperty;
         if (subStat == null)
         {
             subProperty = new(string.Empty, string.Empty);
@@ -132,7 +132,7 @@ internal class SummaryAvatarFactory
         else
         {
             subStat.StatValue = subStat.StatValue - Math.Truncate(subStat.StatValue) > 0 ? subStat.StatValue / 100D : subStat.StatValue;
-            subProperty = PropertyInfoDescriptor.FormatPair(subStat.AppendPropId, subStat.StatValue);
+            subProperty = Model.Metadata.Converter.PropertyDescriptor.FormatNameDescription(subStat.AppendPropId, subStat.StatValue);
         }
 
         return new()
@@ -145,7 +145,7 @@ internal class SummaryAvatarFactory
             // EquipBase
             Level = $"Lv.{equip.Weapon!.Level}",
             Quality = weapon.Quality,
-            MainProperty = mainStat == null ? default! : new(mainStat.AppendPropId.GetDescription(), mainStat.StatValue.ToString()),
+            MainProperty = mainStat != null ? new(mainStat.AppendPropId.GetLocalizedDescription(), mainStat.StatValue.ToString()) : default!,
 
             // Weapon
             Id = weapon.Id,

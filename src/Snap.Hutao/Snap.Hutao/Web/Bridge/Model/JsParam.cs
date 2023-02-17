@@ -7,7 +7,8 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// 由WebView向客户端传递的参数
 /// Js 参数
 /// </summary>
-public class JsParam
+[HighQuality]
+internal sealed class JsParam
 {
     /// <summary>
     /// 方法名称
@@ -33,8 +34,9 @@ public class JsParam
 /// Js 参数
 /// </summary>
 /// <typeparam name="TPayload">Payload 类型</typeparam>
+[HighQuality]
 [SuppressMessage("", "SA1402")]
-public class JsParam<TPayload>
+internal sealed class JsParam<TPayload>
 {
     /// <summary>
     /// 方法名称

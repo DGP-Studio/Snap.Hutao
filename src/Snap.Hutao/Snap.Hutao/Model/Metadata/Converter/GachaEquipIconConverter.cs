@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 武器祈愿图片转换器
 /// </summary>
-internal class GachaEquipIconConverter : ValueConverter<string, Uri>
+[HighQuality]
+internal sealed class GachaEquipIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 名称转Uri
@@ -17,8 +18,8 @@ internal class GachaEquipIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        name = name["UI_".Length..];
-        return new Uri(Web.HutaoEndpoints.StaticFile("GachaEquipIcon", $"UI_Gacha_{name}.png"));
+        string icon = name["UI_".Length..];
+        return new Uri(Web.HutaoEndpoints.StaticFile("GachaEquipIcon", $"UI_Gacha_{icon}.png"));
     }
 
     /// <inheritdoc/>

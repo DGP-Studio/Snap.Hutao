@@ -8,6 +8,7 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃 API 服务
 /// </summary>
+[HighQuality]
 internal interface IHutaoService
 {
     /// <summary>

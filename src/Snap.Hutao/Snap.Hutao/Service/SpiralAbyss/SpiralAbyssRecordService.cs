@@ -15,6 +15,7 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 /// <summary>
 /// 深渊记录服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordService))]
 internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
 {

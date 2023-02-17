@@ -10,8 +10,9 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// <summary>
 /// Unity日志游戏定位器
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
-internal partial class UnityLogGameLocator : IGameLocator
+internal sealed partial class UnityLogGameLocator : IGameLocator
 {
     /// <inheritdoc/>
     public string Name { get => nameof(UnityLogGameLocator); }

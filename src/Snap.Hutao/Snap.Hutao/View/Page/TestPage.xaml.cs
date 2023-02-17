@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// ≤‚ ‘“≥√Ê
 /// </summary>
+[HighQuality]
 internal sealed partial class TestPage : ScopedPage
 {
     /// <summary>

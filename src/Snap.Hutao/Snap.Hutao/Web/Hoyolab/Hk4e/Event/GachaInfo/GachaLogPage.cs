@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// <summary>
 /// 祈愿记录分页
 /// </summary>
-public class GachaLogPage
+[HighQuality]
+internal sealed class GachaLogPage
 {
     /// <summary>
     /// 页码

@@ -20,8 +20,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 养成视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class CultivationViewModel : Abstraction.ViewModel
+internal sealed class CultivationViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ICultivationService cultivationService;
@@ -33,7 +34,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
     private ObservableCollection<CultivateProject>? projects;
     private CultivateProject? selectedProject;
     private List<Model.Binding.Inventory.InventoryItem>? inventoryItems;
-    private ObservableCollection<Model.Binding.Cultivation.CultivateEntry>? cultivateEntries;
+    private ObservableCollection<CultivateEntryView>? cultivateEntries;
     private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
 
     /// <summary>
@@ -52,7 +53,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         AddProjectCommand = new AsyncRelayCommand(AddProjectAsync);
         RemoveProjectCommand = new AsyncRelayCommand<CultivateProject>(RemoveProjectAsync);
-        RemoveEntryCommand = new AsyncRelayCommand<Model.Binding.Cultivation.CultivateEntry>(RemoveEntryAsync);
+        RemoveEntryCommand = new AsyncRelayCommand<CultivateEntryView>(RemoveEntryAsync);
         SaveInventoryItemCommand = new RelayCommand<Model.Binding.Inventory.InventoryItem>(SaveInventoryItem);
         NavigateToPageCommand = new RelayCommand<string>(NavigateToPage);
         FinishStateCommand = new RelayCommand<Model.Binding.Cultivation.CultivateItem>(UpdateFinishedState);
@@ -89,7 +90,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
     /// <summary>
     /// 养成列表
     /// </summary>
-    public ObservableCollection<Model.Binding.Cultivation.CultivateEntry>? CultivateEntries { get => cultivateEntries; set => SetProperty(ref cultivateEntries, value); }
+    public ObservableCollection<CultivateEntryView>? CultivateEntries { get => cultivateEntries; set => SetProperty(ref cultivateEntries, value); }
 
     /// <summary>
     /// 统计列表
@@ -190,7 +191,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
         {
             List<Model.Metadata.Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
 
-            ObservableCollection<Model.Binding.Cultivation.CultivateEntry> entries = await cultivationService
+            ObservableCollection<CultivateEntryView> entries = await cultivationService
                 .GetCultivateEntriesAsync(project)
                 .ConfigureAwait(false);
 
@@ -202,7 +203,7 @@ internal class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task RemoveEntryAsync(Model.Binding.Cultivation.CultivateEntry? entry)
+    private async Task RemoveEntryAsync(Model.Binding.Cultivation.CultivateEntryView? entry)
     {
         if (entry != null)
         {

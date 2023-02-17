@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 /// <summary>
 /// 武器
 /// </summary>
-public partial class Weapon
+[HighQuality]
+internal sealed partial class Weapon
 {
     /// <summary>
     /// Id
@@ -49,10 +50,10 @@ public partial class Weapon
     /// <summary>
     /// 属性
     /// </summary>
-    public PropertyInfo Property { get; set; } = default!;
+    public PropertiesParameters Property { get; set; } = default!;
 
     /// <summary>
     /// 被动信息, 无被动的武器为 <see langword="null"/>
     /// </summary>
-    public AffixInfo? Affix { get; set; } = default!;
+    public NameDescriptions? Affix { get; set; } = default!;
 }

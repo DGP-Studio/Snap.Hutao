@@ -4,6 +4,8 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
+using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model.Metadata.Avatar;
 using System.Collections;
 
 namespace Snap.Hutao.View.Control;
@@ -11,9 +13,10 @@ namespace Snap.Hutao.View.Control;
 /// <summary>
 /// 技能展柜
 /// </summary>
-public sealed partial class SkillPivot : UserControl
+[HighQuality]
+internal sealed partial class SkillPivot : UserControl
 {
-    private static readonly DependencyProperty SkillsProperty = Property<SkillPivot>.Depend<IList>(nameof(Skills));
+    private static readonly DependencyProperty SkillsProperty = Property<SkillPivot>.Depend<List<Skill>>(nameof(Skills));
     private static readonly DependencyProperty SelectedProperty = Property<SkillPivot>.Depend<object>(nameof(Selected));
     private static readonly DependencyProperty ItemTemplateProperty = Property<SkillPivot>.Depend<DataTemplate>(nameof(ItemTemplate));
 
@@ -28,9 +31,9 @@ public sealed partial class SkillPivot : UserControl
     /// <summary>
     /// 技能列表
     /// </summary>
-    public IList Skills
+    public List<Skill> Skills
     {
-        get => (IList)GetValue(SkillsProperty);
+        get => (List<Skill>)GetValue(SkillsProperty);
         set => SetValue(SkillsProperty, value);
     }
 

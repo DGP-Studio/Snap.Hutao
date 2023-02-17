@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 /// <summary>
 /// 表示一次战斗
 /// </summary>
-public class Battle
+[HighQuality]
+internal sealed class Battle
 {
     /// <summary>
     /// 索引

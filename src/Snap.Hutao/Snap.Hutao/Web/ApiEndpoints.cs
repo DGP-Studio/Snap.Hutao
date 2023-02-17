@@ -9,6 +9,7 @@ namespace Snap.Hutao.Web;
 /// <summary>
 /// 国服 API 端点
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1202")]
 [SuppressMessage("", "SA1124")]

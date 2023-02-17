@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 需要提供的计算信息合集
 /// </summary>
-public class AvatarPromotionDelta
+[HighQuality]
+internal sealed class AvatarPromotionDelta
 {
     /// <summary>
     /// 角色Id

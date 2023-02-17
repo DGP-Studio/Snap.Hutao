@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 档案头像
 /// </summary>
-public class ProfilePicture
+[HighQuality]
+internal sealed class ProfilePicture
 {
     /// <summary>
     /// 使用的角色Id

@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.Entity.Configuration;
 /// <summary>
 /// 背包圣遗物配置
 /// </summary>
-internal class InventoryReliquaryConfiguration : IEntityTypeConfiguration<InventoryReliquary>
+[HighQuality]
+internal sealed class InventoryReliquaryConfiguration : IEntityTypeConfiguration<InventoryReliquary>
 {
     /// <inheritdoc/>
     public void Configure(EntityTypeBuilder<InventoryReliquary> builder)

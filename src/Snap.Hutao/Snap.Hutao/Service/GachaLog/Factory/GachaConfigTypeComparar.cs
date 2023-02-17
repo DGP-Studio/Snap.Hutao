@@ -3,13 +3,14 @@
 
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.Immutable;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
 /// <summary>
 /// 祈愿配置类型比较器
 /// </summary>
-public class GachaConfigTypeComparar : IComparer<GachaConfigType>
+internal sealed class GachaConfigTypeComparar : IComparer<GachaConfigType>
 {
     private static readonly GachaConfigTypeComparar InnerShared = new();
     private static readonly ImmutableDictionary<GachaConfigType, int> OrderMap = new Dictionary<GachaConfigType, int>()
@@ -32,6 +33,7 @@ public class GachaConfigTypeComparar : IComparer<GachaConfigType>
         return OrderOf(x) - OrderOf(y);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int OrderOf(GachaConfigType type)
     {
         return OrderMap.GetValueOrDefault(type, 0);

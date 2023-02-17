@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// <summary>
 /// UIGF格式的信息
 /// </summary>
-public class UIGFInfo
+[HighQuality]
+internal sealed class UIGFInfo
 {
     /// <summary>
     /// 用户Uid
@@ -69,7 +70,7 @@ public class UIGFInfo
             Uid = uid,
             Language = "zh-cn",
             ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
-            ExportApp = "胡桃",
+            ExportApp = SH.AppName,
             ExportAppVersion = CoreEnvironment.Version.ToString(),
             UIGFVersion = UIGF.CurrentVersion,
         };

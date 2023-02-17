@@ -10,7 +10,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 角色信息
 /// </summary>
-public class AvatarInfo
+[HighQuality]
+internal sealed class AvatarInfo
 {
     /// <summary>
     /// 角色Id
@@ -54,7 +55,7 @@ public class AvatarInfo
     /// 被动天赋
     /// </summary>
     [JsonPropertyName("inherentProudSkillList")]
-    public IList<int> InherentProudSkillList { get; set; } = default!;
+    public List<int> InherentProudSkillList { get; set; } = default!;
 
     /// <summary>
     /// Map of Skill Levels

@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Binding.SpiralAbyss;
 /// <summary>
 /// 排行角色
 /// </summary>
-public class RankAvatar : Avatar
+[HighQuality]
+internal sealed class RankAvatar : AvatarView
 {
     /// <summary>
     /// 构造一个新的角色
@@ -25,5 +26,5 @@ public class RankAvatar : Avatar
     /// <summary>
     /// 排行
     /// </summary>
-    public int Value { get; set; }
+    public int Value { get; }
 }

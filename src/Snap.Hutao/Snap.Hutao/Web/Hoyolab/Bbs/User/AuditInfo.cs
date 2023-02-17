@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 审核信息
 /// </summary>
-public class AuditInfo
+[HighQuality]
+internal sealed class AuditInfo
 {
     /// <summary>
     /// 昵称是否正在审核

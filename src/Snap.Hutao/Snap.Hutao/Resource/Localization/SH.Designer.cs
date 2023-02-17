@@ -313,11 +313,74 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 {0:f2} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingGachaTypedWishSummaryAveragePullFormat {
+            get {
+                return ResourceManager.GetString("ModelBindingGachaTypedWishSummaryAveragePullFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已垫 {0} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingGachaTypedWishSummaryLastPullFormat {
+            get {
+                return ResourceManager.GetString("ModelBindingGachaTypedWishSummaryLastPullFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最非 {0} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingGachaTypedWishSummaryMaxOrangePullFormat {
+            get {
+                return ResourceManager.GetString("ModelBindingGachaTypedWishSummaryMaxOrangePullFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 最欧 {0} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingGachaTypedWishSummaryMinOrangePullFormat {
+            get {
+                return ResourceManager.GetString("ModelBindingGachaTypedWishSummaryMinOrangePullFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 抽 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingGachaWishBaseTotalCountFormat {
+            get {
+                return ResourceManager.GetString("ModelBindingGachaWishBaseTotalCountFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 第 {0} 层 的本地化字符串。
         /// </summary>
-        internal static string ModelBindingHutaoComplexAvatarRankFloor {
+        internal static string ModelBindingHutaoComplexRankFloor {
             get {
-                return ResourceManager.GetString("ModelBindingHutaoComplexAvatarRankFloor", resourceCulture);
+                return ResourceManager.GetString("ModelBindingHutaoComplexRankFloor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第 {0} 间 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingHutaoComplexRankLevel {
+            get {
+                return ResourceManager.GetString("ModelBindingHutaoComplexRankLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上场 {0} 次 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingHutaoTeamUpCountFormat {
+            get {
+                return ResourceManager.GetString("ModelBindingHutaoTeamUpCountFormat", resourceCulture);
             }
         }
         
@@ -349,56 +412,317 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0:f2} 抽 的本地化字符串。
-        /// </summary>
-        internal static string ModelBingGachaTypedWishSummaryAveragePullFormat {
-            get {
-                return ResourceManager.GetString("ModelBingGachaTypedWishSummaryAveragePullFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 已垫 {0} 抽 的本地化字符串。
-        /// </summary>
-        internal static string ModelBingGachaTypedWishSummaryLastPullFormat {
-            get {
-                return ResourceManager.GetString("ModelBingGachaTypedWishSummaryLastPullFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 最非 {0} 抽 的本地化字符串。
-        /// </summary>
-        internal static string ModelBingGachaTypedWishSummaryMaxOrangePullFormat {
-            get {
-                return ResourceManager.GetString("ModelBingGachaTypedWishSummaryMaxOrangePullFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 最欧 {0} 抽 的本地化字符串。
-        /// </summary>
-        internal static string ModelBingGachaTypedWishSummaryMinOrangePullFormat {
-            get {
-                return ResourceManager.GetString("ModelBingGachaTypedWishSummaryMinOrangePullFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0} 抽 的本地化字符串。
-        /// </summary>
-        internal static string ModelBingGachaWishBaseTotalCountFormat {
-            get {
-                return ResourceManager.GetString("ModelBingGachaWishBaseTotalCountFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 第 {0} 期 的本地化字符串。
         /// </summary>
         internal static string ModelEntitySpiralAbyssScheduleFormat {
             get {
                 return ResourceManager.GetString("ModelEntitySpiralAbyssScheduleFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 愚人众 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeFatui {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeFatui", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 枫丹 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeFontaine {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeFontaine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 稻妻 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeInazuma {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeInazuma", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 璃月 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeLiyue {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeLiyue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 蒙德 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeMondstadt {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeMondstadt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 纳塔 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeNatlan {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeNatlan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 游侠 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeRanger {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeRanger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 须弥 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeSemuru {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeSemuru", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 至冬 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeSnezhnaya {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeSnezhnaya", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 少男 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicBodyTypeBoy {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicBodyTypeBoy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 少女 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicBodyTypeGirl {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicBodyTypeGirl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成女 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicBodyTypeLady {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicBodyTypeLady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 萝莉 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicBodyTypeloli {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicBodyTypeloli", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成男 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicBodyTypeMale {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicBodyTypeMale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 雷 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicElementNameElec {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicElementNameElec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 火 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicElementNameFire {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicElementNameFire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 草 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicElementNameGrass {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicElementNameGrass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 冰 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicElementNameIce {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicElementNameIce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 岩 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicElementNameRock {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicElementNameRock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 水 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicElementNameWater {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicElementNameWater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 风 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicElementNameWind {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicElementNameWind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 三星 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicItemQualityBlue {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicItemQualityBlue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 二星 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicItemQualityGreen {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicItemQualityGreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 五星 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicItemQualityOrange {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicItemQualityOrange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 四星 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicItemQualityPurple {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicItemQualityPurple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 限定五星 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicItemQualityRed {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicItemQualityRed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 一星 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicItemQualityWhite {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicItemQualityWhite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 弓 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicWeaponTypeBow {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicWeaponTypeBow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 法器 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicWeaponTypeCatalyst {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicWeaponTypeCatalyst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 双手剑 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicWeaponTypeClaymore {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicWeaponTypeClaymore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 长柄武器 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicWeaponTypePole {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicWeaponTypePole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 单手剑 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicWeaponTypeSwordOneHand {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicWeaponTypeSwordOneHand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 月 {1} 日 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataFetterInfoBirthdayFormat {
+            get {
+                return ResourceManager.GetString("ModelMetadataFetterInfoBirthdayFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 精炼 {0} 阶 的本地化字符串。
+        /// </summary>
+        internal static string ModelWeaponAffixFormat {
+            get {
+                return ResourceManager.GetString("ModelWeaponAffixFormat", resourceCulture);
             }
         }
         
@@ -412,11 +736,191 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 新增:{0} 个成就 | 更新:{1} 个成就 | 删除{2} 个成就 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAchievementImportResultFormat {
+            get {
+                return ResourceManager.GetString("ServiceAchievementImportResultFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 单个成就存档内发现多个相同的成就 Id 的本地化字符串。
         /// </summary>
         internal static string ServiceAchievementUserdataCorruptedInnerIdNotUnique {
             get {
                 return ResourceManager.GetString("ServiceAchievementUserdataCorruptedInnerIdNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 攻击力 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyAtk {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyAtk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 基础攻击力 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyBaseAtk {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyBaseAtk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 基础防御力 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyBaseDef {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyBaseDef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 基础生命值 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyBaseHp {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyBaseHp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 暴击伤害 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyCDmg {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyCDmg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 元素充能效率 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyCE {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 暴击率 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyCR {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyCR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 雷元素伤害加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDBElec {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDBElec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 火元素伤害加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDBFire {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDBFire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 草元素伤害加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDBGrass {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDBGrass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 冰元素伤害加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDBIce {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDBIce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 物理伤害加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDBPhyiscal {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDBPhyiscal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 岩元素伤害加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDBRock {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDBRock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 水元素伤害加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDBWater {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDBWater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 风元素伤害加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDBWind {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDBWind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 防御力 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyDef {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyDef", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 元素精通 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyEM {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyEM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 治疗加成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyHB {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyHB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 生命值 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyHp {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyHp", resourceCulture);
             }
         }
         
@@ -822,6 +1326,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ServiceMetadataRequestFailed {
             get {
                 return ResourceManager.GetString("ServiceMetadataRequestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 你的胡桃版本过低，请尽快升级 的本地化字符串。
+        /// </summary>
+        internal static string ServiceMetadataVersionNotSupported {
+            get {
+                return ResourceManager.GetString("ServiceMetadataVersionNotSupported", resourceCulture);
             }
         }
         
@@ -3945,6 +4458,231 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewWikiWeaponHeader {
             get {
                 return ResourceManager.GetString("ViewWikiWeaponHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 天后开始 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementTimeDaysBeginFormat {
+            get {
+                return ResourceManager.GetString("WebAnnouncementTimeDaysBeginFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 天后结束 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementTimeDaysEndFormat {
+            get {
+                return ResourceManager.GetString("WebAnnouncementTimeDaysEndFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 小时后开始 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementTimeHoursBeginFormat {
+            get {
+                return ResourceManager.GetString("WebAnnouncementTimeHoursBeginFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 小时后结束 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementTimeHoursEndFormat {
+            get {
+                return ResourceManager.GetString("WebAnnouncementTimeHoursEndFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 时 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteExpeditionRemainHoursFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteExpeditionRemainHoursFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 分 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteExpeditionRemainMinutesFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteExpeditionRemainMinutesFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 今日完成委托次数不足 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteExtraTaskRewardNotAllowed {
+            get {
+                return ResourceManager.GetString("WebDailyNoteExtraTaskRewardNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 「每日委托」奖励待领取 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteExtraTaskRewardNotTaken {
+            get {
+                return ResourceManager.GetString("WebDailyNoteExtraTaskRewardNotTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已领取「每日委托」奖励 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteExtraTaskRewardReceived {
+            get {
+                return ResourceManager.GetString("WebDailyNoteExtraTaskRewardReceived", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} {1:HH:mm} 达到上限 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteHomeCoinRecoveryFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteHomeCoinRecoveryFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 今天 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteRecoveryTimeDay0 {
+            get {
+                return ResourceManager.GetString("WebDailyNoteRecoveryTimeDay0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 明天 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteRecoveryTimeDay1 {
+            get {
+                return ResourceManager.GetString("WebDailyNoteRecoveryTimeDay1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 后天 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteRecoveryTimeDay2 {
+            get {
+                return ResourceManager.GetString("WebDailyNoteRecoveryTimeDay2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 天 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteRecoveryTimeDayFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteRecoveryTimeDayFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} {1:HH:mm} 后全部恢复 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteResinRecoveryFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteResinRecoveryFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无感验证成功 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteSenselessVerificationSuccess {
+            get {
+                return ResourceManager.GetString("WebDailyNoteSenselessVerificationSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 后可再次使用 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerAppend {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerAppend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 天 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerDaysFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerDaysFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 时 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerHoursFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerHoursFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 分 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerMinutesFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerMinutesFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 冷却中 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerNotReached {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerNotReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 可使用 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerReached {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerReached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已准备完成 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerReady {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 秒 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerSecondsFormat {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerSecondsFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证失败，请手动验证或前往「米游社-我的角色-实时便笺」页面查看 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteVerificationFailed {
+            get {
+                return ResourceManager.GetString("WebDailyNoteVerificationFailed", resourceCulture);
             }
         }
         

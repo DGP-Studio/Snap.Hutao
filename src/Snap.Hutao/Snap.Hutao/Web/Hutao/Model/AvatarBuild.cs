@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 角色相关构筑
 /// </summary>
-public abstract class AvatarBuild
+[HighQuality]
+internal abstract class AvatarBuild
 {
     /// <summary>
     /// 角色Id

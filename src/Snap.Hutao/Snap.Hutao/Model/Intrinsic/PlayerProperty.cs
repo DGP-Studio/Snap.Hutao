@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// <summary>
 /// 玩家属性
 /// </summary>
-public enum PlayerProperty
+[HighQuality]
+internal enum PlayerProperty
 {
     /// <summary>
     /// 空

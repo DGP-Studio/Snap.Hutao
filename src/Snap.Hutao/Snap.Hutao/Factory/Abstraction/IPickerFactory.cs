@@ -8,6 +8,7 @@ namespace Snap.Hutao.Factory.Abstraction;
 /// <summary>
 /// 文件选择器工厂
 /// </summary>
+[HighQuality]
 internal interface IPickerFactory
 {
     /// <summary>

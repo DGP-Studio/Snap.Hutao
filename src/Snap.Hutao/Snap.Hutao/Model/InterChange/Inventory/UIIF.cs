@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.InterChange.Inventory;
 /// <summary>
 /// 统一可交换物品格式
 /// </summary>
-internal class UIIF
+[HighQuality]
+internal sealed class UIIF
 {
     /// <summary>
     /// 当前发行的版本

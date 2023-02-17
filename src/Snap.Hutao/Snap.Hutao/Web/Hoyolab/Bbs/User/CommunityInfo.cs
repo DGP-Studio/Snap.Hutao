@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 社区信息
 /// </summary>
-public class CommunityInfo
+[HighQuality]
+internal sealed class CommunityInfo
 {
     /// <summary>
     /// 是否实名

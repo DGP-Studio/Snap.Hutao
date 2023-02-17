@@ -10,6 +10,7 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 /// <summary>
 /// 深渊记录服务
 /// </summary>
+[HighQuality]
 internal interface ISpiralAbyssRecordService
 {
     /// <summary>

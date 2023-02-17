@@ -19,8 +19,9 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// <summary>
 /// 祈愿统计工厂
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped, typeof(IGachaStatisticsFactory))]
-internal class GachaStatisticsFactory : IGachaStatisticsFactory
+internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
 {
     private readonly IMetadataService metadataService;
     private readonly AppDbContext appDbContext;
@@ -137,7 +138,6 @@ internal class GachaStatisticsFactory : IGachaStatisticsFactory
             else
             {
                 // ItemId place not correct.
-                // TODO: check items id when importing
                 ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaStatisticsFactoryItemIdInvalid, item.ItemId), null!);
             }
         }

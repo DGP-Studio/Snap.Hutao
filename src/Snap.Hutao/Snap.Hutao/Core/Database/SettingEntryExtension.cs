@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.Database;
 /// 设置帮助类
 /// </summary>
 [HighQuality]
-public static class SettingEntryExtension
+internal static class SettingEntryExtension
 {
     /// <summary>
     /// 获取或添加一个对应的设置

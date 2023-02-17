@@ -9,7 +9,8 @@ namespace Snap.Hutao.View;
 /// <summary>
 /// 标题视图
 /// </summary>
-public sealed partial class TitleView : UserControl
+[HighQuality]
+internal sealed partial class TitleView : UserControl
 {
     /// <summary>
     /// 构造一个新的标题视图

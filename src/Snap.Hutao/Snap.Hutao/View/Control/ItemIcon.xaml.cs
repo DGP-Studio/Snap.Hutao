@@ -11,7 +11,8 @@ namespace Snap.Hutao.View.Control;
 /// <summary>
 /// 物品图标
 /// </summary>
-public sealed partial class ItemIcon : UserControl
+[HighQuality]
+internal sealed partial class ItemIcon : UserControl
 {
     private static readonly DependencyProperty QualityProperty = Property<ItemIcon>.Depend(nameof(Quality), ItemQuality.QUALITY_NONE);
     private static readonly DependencyProperty IconProperty = Property<ItemIcon>.Depend<Uri>(nameof(Icon));

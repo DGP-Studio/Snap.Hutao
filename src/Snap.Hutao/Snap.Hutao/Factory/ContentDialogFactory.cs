@@ -7,8 +7,9 @@ using Snap.Hutao.Factory.Abstraction;
 namespace Snap.Hutao.Factory;
 
 /// <inheritdoc cref="IContentDialogFactory"/>
+[HighQuality]
 [Injection(InjectAs.Transient, typeof(IContentDialogFactory))]
-internal class ContentDialogFactory : IContentDialogFactory
+internal sealed class ContentDialogFactory : IContentDialogFactory
 {
     private readonly MainWindow mainWindow;
 

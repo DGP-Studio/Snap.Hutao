@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 /// <summary>
 /// 深境螺旋信息
 /// </summary>
-public class SpiralAbyss
+[HighQuality]
+internal sealed class SpiralAbyss
 {
     /// <summary>
     /// 计划Id

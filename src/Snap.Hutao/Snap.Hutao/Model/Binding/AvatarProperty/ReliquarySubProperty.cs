@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Binding.AvatarProperty;
 /// <summary>
 /// 圣遗物副词条
 /// </summary>
-public class ReliquarySubProperty
+[HighQuality]
+internal sealed class ReliquarySubProperty
 {
     /// <summary>
     /// 构造副属性
@@ -21,13 +22,7 @@ public class ReliquarySubProperty
         Score = score;
 
         // only 0.25 | 0.50 | 0.75 | 1.00
-        Opacity = score switch
-        {
-            <= 25 => 0.25,
-            <= 50 => 0.50,
-            <= 75 => 0.75,
-            _ => 1.00,
-        };
+        Opacity = Math.Ceiling(score / 25) / 4;
     }
 
     /// <summary>
@@ -36,17 +31,17 @@ public class ReliquarySubProperty
     public string Name { get; }
 
     /// <summary>
-    /// 值
+    /// 属性值
     /// </summary>
     public string Value { get; }
-
-    /// <summary>
-    /// 评分
-    /// </summary>
-    public double Score { get; }
 
     /// <summary>
     /// 透明度
     /// </summary>
     public double Opacity { get; }
+
+    /// <summary>
+    /// 评分
+    /// </summary>
+    internal double Score { get; }
 }

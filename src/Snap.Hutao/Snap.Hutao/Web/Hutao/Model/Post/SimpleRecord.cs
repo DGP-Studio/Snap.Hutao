@@ -9,7 +9,8 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 /// <summary>
 /// 记录
 /// </summary>
-public class SimpleRecord
+[HighQuality]
+internal sealed class SimpleRecord
 {
     /// <summary>
     /// 构造一个新的记录
@@ -20,7 +21,7 @@ public class SimpleRecord
     public SimpleRecord(string uid, List<Character> characters, SpiralAbyss spiralAbyss)
     {
         Uid = uid;
-        Identity = "Snap Hutao";
+        Identity = "Snap Hutao"; // hardcoded Identity name
         SpiralAbyss = new(spiralAbyss);
         Avatars = characters.Select(a => new SimpleAvatar(a));
     }

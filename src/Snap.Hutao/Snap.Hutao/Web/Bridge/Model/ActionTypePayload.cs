@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// <summary>
 /// 操作类型包装
 /// </summary>
-public class ActionTypePayload
+[HighQuality]
+internal sealed class ActionTypePayload
 {
     /// <summary>
     /// 操作类型

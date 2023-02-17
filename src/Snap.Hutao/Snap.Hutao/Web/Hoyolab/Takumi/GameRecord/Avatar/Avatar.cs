@@ -9,7 +9,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 /// <summary>
 /// 角色的基础信息
 /// </summary>
-public class Avatar
+[HighQuality]
+internal class Avatar
 {
     /// <summary>
     /// Id

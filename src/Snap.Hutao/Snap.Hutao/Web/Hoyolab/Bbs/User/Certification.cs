@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 认证基本信息
 /// </summary>
-public class Certification
+[HighQuality]
+internal class Certification
 {
     /// <summary>
     /// 认证类型

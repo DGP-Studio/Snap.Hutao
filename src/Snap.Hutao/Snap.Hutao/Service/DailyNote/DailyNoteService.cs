@@ -22,8 +22,9 @@ namespace Snap.Hutao.Service.DailyNote;
 /// <summary>
 /// 实时便笺服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton, typeof(IDailyNoteService))]
-internal class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
+internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
 {
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IUserService userService;

@@ -25,8 +25,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 设置视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class SettingViewModel : Abstraction.ViewModel
+internal sealed class SettingViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly AppDbContext appDbContext;
@@ -34,7 +35,7 @@ internal class SettingViewModel : Abstraction.ViewModel
     private readonly ILogger<SettingViewModel> logger;
     private readonly SettingEntry isEmptyHistoryWishVisibleEntry;
     private readonly SettingEntry selectedBackdropTypeEntry;
-    private readonly List<NamedValue<BackdropType>> backdropTypes = new()
+    private readonly List<NameValue<BackdropType>> backdropTypes = new()
     {
         new("Acrylic", BackdropType.Acrylic),
         new("Mica", BackdropType.Mica),
@@ -43,7 +44,7 @@ internal class SettingViewModel : Abstraction.ViewModel
 
     private bool isEmptyHistoryWishVisible;
     private string gamePath;
-    private NamedValue<BackdropType> selectedBackdropType;
+    private NameValue<BackdropType> selectedBackdropType;
 
     /// <summary>
     /// 构造一个新的设置视图模型
@@ -133,12 +134,12 @@ internal class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 背景类型
     /// </summary>
-    public List<NamedValue<BackdropType>> BackdropTypes { get => backdropTypes; }
+    public List<NameValue<BackdropType>> BackdropTypes { get => backdropTypes; }
 
     /// <summary>
     /// 选中的背景类型
     /// </summary>
-    public NamedValue<BackdropType> SelectedBackdropType
+    public NameValue<BackdropType> SelectedBackdropType
     {
         get => selectedBackdropType;
         [MemberNotNull(nameof(selectedBackdropType))]

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 世界探索类型
 /// </summary>
-public enum WorldExplorationType
+[HighQuality]
+internal enum WorldExplorationType
 {
     /// <summary>
     /// 声望

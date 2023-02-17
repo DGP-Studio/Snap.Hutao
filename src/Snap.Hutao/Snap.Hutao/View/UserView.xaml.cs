@@ -9,7 +9,8 @@ namespace Snap.Hutao.View;
 /// <summary>
 /// 用户视图
 /// </summary>
-public sealed partial class UserView : UserControl
+[HighQuality]
+internal sealed partial class UserView : UserControl
 {
     /// <summary>
     /// 构造一个新的用户视图

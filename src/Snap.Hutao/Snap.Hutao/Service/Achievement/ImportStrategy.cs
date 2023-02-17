@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Achievement;
 /// <summary>
 /// 导入策略
 /// </summary>
-public enum ImportStrategy
+[HighQuality]
+internal enum ImportStrategy
 {
     /// <summary>
     /// 贪婪合并

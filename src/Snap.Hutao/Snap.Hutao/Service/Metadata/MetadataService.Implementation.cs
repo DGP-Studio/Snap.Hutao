@@ -12,7 +12,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// <summary>
 /// 接口实现部分
 /// </summary>
-internal partial class MetadataService
+internal sealed partial class MetadataService
 {
     /// <inheritdoc/>
     public ValueTask<List<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default)
@@ -63,9 +63,9 @@ internal partial class MetadataService
     }
 
     /// <inheritdoc/>
-    public ValueTask<List<ReliquaryAffixBase>> GetReliquaryMainAffixesAsync(CancellationToken token = default)
+    public ValueTask<List<ReliquaryMainAffix>> GetReliquaryMainAffixesAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<ReliquaryAffixBase>>("ReliquaryMainAffix", token);
+        return FromCacheOrFileAsync<List<ReliquaryMainAffix>>("ReliquaryMainAffix", token);
     }
 
     /// <inheritdoc/>

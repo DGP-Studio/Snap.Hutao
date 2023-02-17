@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// 下载的文件
 /// </summary>
-public class PathMd5
+[HighQuality]
+internal class PathMd5
 {
     /// <summary>
     /// 下载地址

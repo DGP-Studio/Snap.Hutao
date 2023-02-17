@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 角色搭配
 /// </summary>
-public class ComplexAvatarCollocation
+[HighQuality]
+internal sealed class ComplexAvatarCollocation
 {
     /// <summary>
     /// 角色Id

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// 语音包
 /// </summary>
-public class VoicePackage : PathMd5
+[HighQuality]
+internal sealed class VoicePackage : PathMd5
 {
     /// <summary>
     /// 语音

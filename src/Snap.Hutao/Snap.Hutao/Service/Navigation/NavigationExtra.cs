@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Navigation;
 /// <summary>
 /// 导航额外信息
 /// </summary>
-public class NavigationExtra : INavigationData, INavigationAwaiter
+[HighQuality]
+internal sealed class NavigationExtra : INavigationData, INavigationAwaiter
 {
     /// <summary>
     /// 任务完成源

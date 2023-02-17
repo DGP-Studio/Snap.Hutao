@@ -6,6 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 技能
 /// </summary>
-public class Skill : GroupCalculable
+[HighQuality]
+internal sealed class Skill : GroupCalculable
 {
 }

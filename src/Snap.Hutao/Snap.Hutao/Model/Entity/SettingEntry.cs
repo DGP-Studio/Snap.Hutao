@@ -9,9 +9,10 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 设置入口
 /// </summary>
+[HighQuality]
 [Table("settings")]
 [SuppressMessage("", "SA1124")]
-public class SettingEntry
+internal sealed class SettingEntry
 {
     #region EntryNames
 

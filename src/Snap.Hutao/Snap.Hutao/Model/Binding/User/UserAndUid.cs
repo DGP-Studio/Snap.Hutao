@@ -11,7 +11,8 @@ namespace Snap.Hutao.Model.Binding.User;
 /// 由于许多操作需要同时用到ck与uid
 /// 抽象此类用于简化这类调用
 /// </summary>
-public class UserAndUid
+[HighQuality]
+internal sealed class UserAndUid
 {
     /// <summary>
     /// 构造一个新的实体用户与角色

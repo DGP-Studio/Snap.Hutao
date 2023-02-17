@@ -1,17 +1,18 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.LaunchGame;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Snap.Hutao.Model.Entity.Primitive;
 
 namespace Snap.Hutao.Model.Entity;
 
 /// <summary>
 /// 游戏内账号
 /// </summary>
+[HighQuality]
 [Table("game_accounts")]
-public class GameAccount : INotifyPropertyChanged
+internal sealed class GameAccount : INotifyPropertyChanged
 {
     /// <inheritdoc/>
     public event PropertyChangedEventHandler? PropertyChanged;

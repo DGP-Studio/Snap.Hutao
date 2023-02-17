@@ -11,8 +11,9 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// <summary>
 /// 注册表启动器位置定位器
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
-internal partial class RegistryLauncherLocator : IGameLocator
+internal sealed partial class RegistryLauncherLocator : IGameLocator
 {
     /// <inheritdoc/>
     public string Name { get => nameof(RegistryLauncherLocator); }
@@ -34,7 +35,9 @@ internal partial class RegistryLauncherLocator : IGameLocator
             using (FileStream stream = File.OpenRead(configPath))
             {
                 IEnumerable<IniElement> elements = IniSerializer.Deserialize(stream);
-                escapedPath = elements.OfType<IniParameter>().FirstOrDefault(p => p.Key == "game_install_path")?.Value;
+                escapedPath = elements
+                    .OfType<IniParameter>()
+                    .FirstOrDefault(p => p.Key == "game_install_path")?.Value;
             }
 
             if (escapedPath != null)

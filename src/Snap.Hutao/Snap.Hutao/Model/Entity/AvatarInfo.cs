@@ -9,8 +9,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 角色信息表
 /// </summary>
+[HighQuality]
 [Table("avatar_infos")]
-public class AvatarInfo
+internal sealed class AvatarInfo
 {
     /// <summary>
     /// 内部Id

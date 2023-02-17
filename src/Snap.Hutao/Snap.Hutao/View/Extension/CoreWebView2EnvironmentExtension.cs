@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Extension;
 /// <summary>
 /// <see cref="CoreWebView2Environment"/> 扩展
 /// </summary>
+[HighQuality]
 internal static class CoreWebView2EnvironmentExtension
 {
     /// <summary>

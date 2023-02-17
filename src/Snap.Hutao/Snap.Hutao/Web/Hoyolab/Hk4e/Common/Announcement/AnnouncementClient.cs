@@ -11,7 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// 公告客户端
 /// </summary>
 [HttpClient(HttpClientConfigration.Default)]
-internal class AnnouncementClient
+internal sealed class AnnouncementClient
 {
     private readonly HttpClient httpClient;
     private readonly ILogger<AnnouncementClient> logger;

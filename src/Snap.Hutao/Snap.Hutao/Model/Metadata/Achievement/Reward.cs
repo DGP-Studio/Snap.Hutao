@@ -6,7 +6,7 @@ namespace Snap.Hutao.Model.Metadata.Achievement;
 /// <summary>
 /// 奖励
 /// </summary>
-public class Reward
+internal sealed class Reward
 {
     /// <summary>
     /// Id

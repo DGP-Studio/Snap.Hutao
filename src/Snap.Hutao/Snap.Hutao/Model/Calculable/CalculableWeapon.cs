@@ -5,14 +5,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 namespace Snap.Hutao.Model.Calculable;
 
 /// <summary>
 /// 可计算武器
 /// </summary>
-public class CalculableWeapon : ObservableObject, ICalculableWeapon
+[HighQuality]
+internal class CalculableWeapon : ObservableObject, ICalculableWeapon
 {
     private int levelCurrent;
     private int levelTarget;
@@ -38,7 +38,7 @@ public class CalculableWeapon : ObservableObject, ICalculableWeapon
     /// 构造一个新的可计算武器
     /// </summary>
     /// <param name="weapon">武器</param>
-    public CalculableWeapon(Binding.AvatarProperty.Weapon weapon)
+    public CalculableWeapon(Binding.AvatarProperty.WeaponView weapon)
     {
         WeaponId = weapon.Id;
         LevelMin = weapon.LevelNumber;

@@ -6,15 +6,11 @@ namespace Snap.Hutao.Model.Binding.AvatarProperty;
 /// <summary>
 /// 玩家与角色列表的包装器
 /// </summary>
-public class Summary
+[HighQuality]
+internal sealed class Summary
 {
-    /// <summary>
-    /// 玩家信息
-    /// </summary>
-    public Player Player { get; set; } = default!;
-
     /// <summary>
     /// 角色列表
     /// </summary>
-    public List<Avatar> Avatars { get; set; } = default!;
+    public List<AvatarView> Avatars { get; set; } = default!;
 }

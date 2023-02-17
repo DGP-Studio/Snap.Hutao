@@ -14,9 +14,10 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// <summary>
 /// Stoken绑定客户端
 /// </summary>
+[HighQuality]
 [UseDynamicSecret]
 [HttpClient(HttpClientConfigration.XRpc)]
-internal class BindingClient2
+internal sealed class BindingClient2
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;

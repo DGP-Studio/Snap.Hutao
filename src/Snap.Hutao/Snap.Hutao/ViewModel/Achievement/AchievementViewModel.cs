@@ -18,8 +18,8 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using Windows.Storage.Pickers;
-using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
-using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoal;
+using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.AchievementView;
+using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoalView;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
@@ -29,8 +29,9 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// <summary>
 /// 成就视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
+internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
     private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(BindingAchievement.IsChecked), SortDirection.Ascending);
     private static readonly SortDescription CompletionTimeSortDescription = new(nameof(BindingAchievement.Time), SortDirection.Descending);

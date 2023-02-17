@@ -6,8 +6,9 @@ namespace Snap.Hutao.Model.Metadata.Annotation;
 /// <summary>
 /// 格式特性
 /// </summary>
+[HighQuality]
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
-internal class FormatAttribute : Attribute
+internal sealed class FormatAttribute : Attribute
 {
     /// <summary>
     /// 指示该字段应用的格式化方法

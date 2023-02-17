@@ -22,8 +22,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 欢迎视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class WelcomeViewModel : ObservableObject
+internal sealed class WelcomeViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
 

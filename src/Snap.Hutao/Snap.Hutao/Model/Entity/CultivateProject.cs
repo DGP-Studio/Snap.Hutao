@@ -10,8 +10,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 培养计划
 /// </summary>
+[HighQuality]
 [Table("cultivate_projects")]
-public class CultivateProject : ISelectable
+internal sealed class CultivateProject : ISelectable
 {
     /// <summary>
     /// 内部Id

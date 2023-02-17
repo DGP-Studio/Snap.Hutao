@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 角色命座信息
 /// </summary>
-internal class ComplexAvatarConstellationInfo : ComplexAvatar
+[HighQuality]
+internal sealed class ComplexAvatarConstellationInfo : ComplexAvatar
 {
     /// <summary>
     /// 构造一个新的角色命座信息

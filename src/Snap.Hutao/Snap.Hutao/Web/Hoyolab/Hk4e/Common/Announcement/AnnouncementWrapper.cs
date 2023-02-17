@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// <summary>
 /// 公告包装器
 /// </summary>
-public class AnnouncementWrapper : ListWrapper<AnnouncementListWrapper>
+[HighQuality]
+internal sealed class AnnouncementWrapper : ListWrapper<AnnouncementListWrapper>
 {
     /// <summary>
     /// 总数

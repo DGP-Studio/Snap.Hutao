@@ -10,8 +10,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 祈愿记录存档
 /// </summary>
+[HighQuality]
 [Table("gacha_archives")]
-public class GachaArchive : ISelectable
+internal sealed class GachaArchive : ISelectable
 {
     /// <summary>
     /// 内部Id
@@ -27,11 +28,6 @@ public class GachaArchive : ISelectable
 
     /// <inheritdoc/>
     public bool IsSelected { get; set; }
-
-    /// <summary>
-    /// 卡池物品
-    /// </summary>
-    public virtual ICollection<GachaItem> Items { get; set; } = default!;
 
     /// <summary>
     /// 构造一个新的卡池存档

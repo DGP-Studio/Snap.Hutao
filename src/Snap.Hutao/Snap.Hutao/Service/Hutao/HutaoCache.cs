@@ -15,8 +15,9 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃 API 缓存
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton, typeof(IHutaoCache))]
-internal class HutaoCache : IHutaoCache
+internal sealed class HutaoCache : IHutaoCache
 {
     private readonly IMetadataService metadataService;
     private readonly IServiceScopeFactory scopeFactory;
@@ -167,7 +168,7 @@ internal class HutaoCache : IHutaoCache
         if (idAvatarExtendedMap == null)
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            idAvatarExtendedMap = AvatarIds.ExtendAvatars(idAvatarMap);
+            idAvatarExtendedMap = AvatarIds.InsertPlayers(idAvatarMap);
         }
 
         return idAvatarExtendedMap;
@@ -184,7 +185,7 @@ internal class HutaoCache : IHutaoCache
 
         AvatarAppearanceRanks = avatarAppearanceRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new ComplexAvatarRank
         {
-            Floor = string.Format(SH.ModelBindingHutaoComplexAvatarRankFloor, rank.Floor),
+            Floor = string.Format(SH.ModelBindingHutaoComplexRankFloor, rank.Floor),
             Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new ComplexAvatar(idAvatarMap[rank.Item], rank.Rate)).ToList(),
         }).ToList();
     }
@@ -200,7 +201,7 @@ internal class HutaoCache : IHutaoCache
 
         AvatarUsageRanks = avatarUsageRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new ComplexAvatarRank
         {
-            Floor = string.Format(SH.ModelBindingHutaoComplexAvatarRankFloor, rank.Floor),
+            Floor = string.Format(SH.ModelBindingHutaoComplexRankFloor, rank.Floor),
             Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new ComplexAvatar(idAvatarMap[rank.Item], rank.Rate)).ToList(),
         }).ToList();
     }

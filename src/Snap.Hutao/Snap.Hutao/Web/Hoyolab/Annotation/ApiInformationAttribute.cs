@@ -11,7 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab.Annotation;
 /// </summary>
 /// <typeparam name="TReturnType">API 的返回类型</typeparam>
 [AttributeUsage(AttributeTargets.Method)]
-internal class ApiInformationAttribute : Attribute
+internal sealed class ApiInformationAttribute : Attribute
 {
     /// <summary>
     /// Cookie类型

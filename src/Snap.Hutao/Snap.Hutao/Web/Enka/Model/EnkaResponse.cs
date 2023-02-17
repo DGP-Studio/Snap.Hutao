@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// Enka API 响应
 /// </summary>
-public class EnkaResponse
+[HighQuality]
+internal sealed class EnkaResponse
 {
     /// <summary>
     /// 玩家基础信息

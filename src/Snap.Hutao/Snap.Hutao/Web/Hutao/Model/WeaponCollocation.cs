@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 武器搭配
 /// </summary>
-public class WeaponCollocation : WeaponBuild
+[HighQuality]
+internal sealed class WeaponCollocation : WeaponBuild
 {
     /// <summary>
     /// 其他角色

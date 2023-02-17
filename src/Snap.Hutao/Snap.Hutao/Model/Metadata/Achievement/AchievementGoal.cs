@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Metadata.Achievement;
 /// <summary>
 /// 成就分类
 /// </summary>
-public class AchievementGoal
+[HighQuality]
+internal sealed class AchievementGoal
 {
     /// <summary>
     /// Id

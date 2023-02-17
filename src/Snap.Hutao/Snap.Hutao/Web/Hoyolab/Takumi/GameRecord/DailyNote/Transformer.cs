@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 /// <summary>
 /// 参量质变仪
 /// </summary>
-public class Transformer
+[HighQuality]
+internal sealed class Transformer
 {
     /// <summary>
     /// 是否拥有该道具

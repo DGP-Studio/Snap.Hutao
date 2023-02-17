@@ -6,8 +6,9 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// <summary>
 /// 武器类型
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "SA1124")]
-public enum WeaponType
+internal enum WeaponType
 {
     /// <summary>
     /// ?
@@ -17,7 +18,7 @@ public enum WeaponType
     /// <summary>
     /// 单手剑
     /// </summary>
-    [Description("单手剑")]
+    [LocalizationKey("ModelIntrinsicWeaponTypeSwordOneHand")]
     WEAPON_SWORD_ONE_HAND = 1,
 
     #region Not Used
@@ -74,24 +75,24 @@ public enum WeaponType
     /// <summary>
     /// 法器
     /// </summary>
-    [Description("法器")]
+    [LocalizationKey("ModelIntrinsicWeaponTypeCatalyst")]
     WEAPON_CATALYST = 10,
 
     /// <summary>
     /// 双手剑
     /// </summary>
-    [Description("双手剑")]
+    [LocalizationKey("ModelIntrinsicWeaponTypeClaymore")]
     WEAPON_CLAYMORE = 11,
 
     /// <summary>
     /// 弓
     /// </summary>
-    [Description("弓")]
+    [LocalizationKey("ModelIntrinsicWeaponTypeBow")]
     WEAPON_BOW = 12,
 
     /// <summary>
     /// 长柄武器
     /// </summary>
-    [Description("长柄武器")]
+    [LocalizationKey("ModelIntrinsicWeaponTypePole")]
     WEAPON_POLE = 13,
 }

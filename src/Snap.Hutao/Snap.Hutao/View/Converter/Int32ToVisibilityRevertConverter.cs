@@ -9,7 +9,8 @@ namespace Snap.Hutao.View.Converter;
 /// <summary>
 /// Int32 反转 Visibility
 /// </summary>
-public class Int32ToVisibilityRevertConverter : IValueConverter
+[HighQuality]
+internal sealed class Int32ToVisibilityRevertConverter : IValueConverter
 {
     /// <inheritdoc/>
     public object Convert(object value, Type targetType, object parameter, string language)

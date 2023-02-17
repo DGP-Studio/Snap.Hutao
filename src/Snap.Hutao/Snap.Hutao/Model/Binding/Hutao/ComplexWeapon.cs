@@ -10,7 +10,8 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 胡桃数据库武器
 /// </summary>
-public class ComplexWeapon
+[HighQuality]
+internal sealed class ComplexWeapon : INameIcon
 {
     /// <summary>
     /// 构造一个胡桃数据库武器
@@ -28,20 +29,20 @@ public class ComplexWeapon
     /// <summary>
     /// 名称
     /// </summary>
-    public string Name { get; set; } = default!;
+    public string Name { get; }
 
     /// <summary>
     /// 图标
     /// </summary>
-    public Uri Icon { get; set; } = default!;
+    public Uri Icon { get; }
 
     /// <summary>
     /// 星级
     /// </summary>
-    public ItemQuality Quality { get; set; }
+    public ItemQuality Quality { get; }
 
     /// <summary>
     /// 比率
     /// </summary>
-    public string Rate { get; set; } = default!;
+    public string Rate { get; }
 }

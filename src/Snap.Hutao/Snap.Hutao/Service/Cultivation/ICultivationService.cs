@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.ObjectModel;
@@ -12,6 +13,7 @@ namespace Snap.Hutao.Service.Cultivation;
 /// <summary>
 /// 养成计算服务
 /// </summary>
+[HighQuality]
 internal interface ICultivationService
 {
     /// <summary>
@@ -24,7 +26,7 @@ internal interface ICultivationService
     /// </summary>
     /// <param name="cultivateProject">养成计划</param>
     /// <returns>绑定用的养成列表</returns>
-    Task<ObservableCollection<Model.Binding.Cultivation.CultivateEntry>> GetCultivateEntriesAsync(CultivateProject cultivateProject);
+    Task<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject);
 
     /// <summary>
     /// 获取物品列表

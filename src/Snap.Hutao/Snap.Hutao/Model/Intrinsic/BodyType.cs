@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// <summary>
 /// 体型
 /// </summary>
-public enum BodyType
+[HighQuality]
+internal enum BodyType
 {
     /// <summary>
     /// 无
@@ -16,30 +17,30 @@ public enum BodyType
     /// <summary>
     /// 男孩
     /// </summary>
-    [Description("少男")]
+    [LocalizationKey("ModelIntrinsicBodyTypeBoy")]
     BODY_BOY,
 
     /// <summary>
     /// 女孩
     /// </summary>
-    [Description("少女")]
+    [LocalizationKey("ModelIntrinsicBodyTypeGirl")]
     BODY_GIRL,
 
     /// <summary>
     /// 成女
     /// </summary>
-    [Description("成女")]
+    [LocalizationKey("ModelIntrinsicBodyTypeLady")]
     BODY_LADY,
 
     /// <summary>
     /// 成男
     /// </summary>
-    [Description("成男")]
+    [LocalizationKey("ModelIntrinsicBodyTypeMale")]
     BODY_MALE,
 
     /// <summary>
     /// 萝莉
     /// </summary>
-    [Description("萝莉")]
+    [LocalizationKey("ModelIntrinsicBodyTypeLoli")]
     BODY_LOLI,
 }

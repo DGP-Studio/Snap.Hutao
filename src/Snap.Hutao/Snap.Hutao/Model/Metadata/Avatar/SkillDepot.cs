@@ -6,12 +6,13 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 技能组
 /// </summary>
-public class SkillDepot
+[HighQuality]
+internal sealed class SkillDepot
 {
     /// <summary>
     /// 技能天赋
     /// </summary>
-    public IList<ProudableSkill> Skills { get; set; } = default!;
+    public List<ProudableSkill> Skills { get; set; } = default!;
 
     /// <summary>
     /// 大招
@@ -21,27 +22,27 @@ public class SkillDepot
     /// <summary>
     /// 固有天赋
     /// </summary>
-    public IList<ProudableSkill> Inherents { get; set; } = default!;
+    public List<ProudableSkill> Inherents { get; set; } = default!;
 
     /// <summary>
     /// 全部天赋，包括固有天赋
     /// 在 Wiki 中使用
     /// </summary>
-    public IList<ProudableSkill> CompositeSkills
+    public List<ProudableSkill> CompositeSkills
     {
-        get => GetCompositeSkills().ToList();
+        get => EnumerateCompositeSkills().ToList();
     }
 
     /// <summary>
     /// 命之座
     /// </summary>
-    public IList<SkillBase> Talents { get; set; } = default!;
+    public List<Skill> Talents { get; set; } = default!;
 
     /// <summary>
     /// 获取无固有天赋的技能列表
     /// </summary>
     /// <returns>天赋列表</returns>
-    public IEnumerable<ProudableSkill> GetCompositeSkillsNoInherents()
+    public IEnumerable<ProudableSkill> EnumerateCompositeSkillsNoInherents()
     {
         foreach (ProudableSkill skill in Skills)
         {
@@ -55,7 +56,7 @@ public class SkillDepot
         yield return EnergySkill;
     }
 
-    private IEnumerable<ProudableSkill> GetCompositeSkills()
+    private IEnumerable<ProudableSkill> EnumerateCompositeSkills()
     {
         foreach (ProudableSkill skill in Skills)
         {

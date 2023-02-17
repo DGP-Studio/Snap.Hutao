@@ -9,7 +9,8 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// <summary>
 /// 祈愿记录物品
 /// </summary>
-public class GachaLogItem
+[HighQuality]
+internal class GachaLogItem
 {
     /// <summary>
     /// 玩家Uid

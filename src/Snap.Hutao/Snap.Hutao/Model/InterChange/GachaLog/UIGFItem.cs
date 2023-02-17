@@ -9,7 +9,8 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// <summary>
 /// UIGF物品
 /// </summary>
-public class UIGFItem : GachaLogItem
+[HighQuality]
+internal sealed class UIGFItem : GachaLogItem
 {
     /// <summary>
     /// 额外祈愿映射

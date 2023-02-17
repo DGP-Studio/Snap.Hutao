@@ -8,8 +8,9 @@ using Snap.Hutao.Service.Abstraction;
 namespace Snap.Hutao.Service;
 
 /// <inheritdoc/>
+[HighQuality]
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
-internal class InfoBarService : IInfoBarService
+internal sealed class InfoBarService : IInfoBarService
 {
     private readonly TaskCompletionSource initializaionCompletionSource = new();
     private StackPanel? infoBarStack;

@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// 重新激活信息
 /// </summary>
-public class ReactivateInfo
+[HighQuality]
+internal sealed class ReactivateInfo
 {
     /// <summary>
     /// 需要重新激活

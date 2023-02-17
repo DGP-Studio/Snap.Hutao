@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 成就
 /// </summary>
-public class Achieve
+[HighQuality]
+internal sealed class Achieve
 {
     /// <summary>
     /// 获赞数

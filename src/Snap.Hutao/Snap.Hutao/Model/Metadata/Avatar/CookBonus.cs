@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 料理奖励
 /// </summary>
-public class CookBonus
+[HighQuality]
+internal sealed class CookBonus
 {
     /// <summary>
     /// 原型名称

@@ -6,9 +6,9 @@ using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Extension;
-using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.Hutao;
-using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Intrinsic.Immutable;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
@@ -212,6 +212,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
         private static bool DoFilter(string input, Weapon weapon)
         {
             List<bool> matches = new();
+            LocalizedIntrinsicImmutables intrinsics = IntrinsicImmutables.GetForCurrentCulture();
 
             foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
             {
@@ -223,21 +224,21 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
                     continue;
                 }
 
-                if (IntrinsicImmutables.WeaponTypes.Contains(value))
+                if (intrinsics.WeaponTypes.Contains(value))
                 {
-                    matches.Add(weapon.WeaponType.GetDescriptionOrNull() == value);
+                    matches.Add(weapon.WeaponType.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (IntrinsicImmutables.ItemQualities.Contains(value))
+                if (intrinsics.ItemQualities.Contains(value))
                 {
-                    matches.Add(weapon.Quality.GetDescriptionOrNull() == value);
+                    matches.Add(weapon.Quality.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (IntrinsicImmutables.FightProperties.Contains(value))
+                if (intrinsics.FightProperties.Contains(value))
                 {
-                    matches.Add(weapon.Property.Properties.ElementAtOrDefault(1).GetDescriptionOrNull() == value);
+                    matches.Add(weapon.Property.Properties.ElementAtOrDefault(1).GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
             }

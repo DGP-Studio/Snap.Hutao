@@ -9,14 +9,14 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// <summary>
 /// 简述工厂
 /// </summary>
+[HighQuality]
 internal interface ISummaryFactory
 {
     /// <summary>
     /// 异步创建简述对象
     /// </summary>
-    /// <param name="playerInfo">玩家信息</param>
     /// <param name="avatarInfos">角色列表</param>
     /// <param name="token">取消令牌</param>
     /// <returns>简述对象</returns>
-    Task<Summary> CreateAsync(PlayerInfo playerInfo, IEnumerable<Web.Enka.Model.AvatarInfo> avatarInfos, CancellationToken token);
+    Task<Summary> CreateAsync(IEnumerable<Web.Enka.Model.AvatarInfo> avatarInfos, CancellationToken token);
 }

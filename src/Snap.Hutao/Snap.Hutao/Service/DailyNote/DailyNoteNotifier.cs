@@ -17,7 +17,8 @@ namespace Snap.Hutao.Service.DailyNote;
 /// <summary>
 /// 实时便笺通知器
 /// </summary>
-internal class DailyNoteNotifier
+[HighQuality]
+internal sealed class DailyNoteNotifier
 {
     private readonly IServiceScopeFactory scopeFactory;
     private readonly DailyNoteEntry entry;
@@ -46,93 +47,7 @@ internal class DailyNoteNotifier
 
         List<NotifyInfo> notifyInfos = new();
 
-        // NotifySuppressed judge
-        {
-            if (entry.DailyNote.CurrentResin >= entry.ResinNotifyThreshold)
-            {
-                if (!entry.ResinNotifySuppressed)
-                {
-                    notifyInfos.Add(new(
-                        SH.ServiceDailyNoteNotifierResin,
-                        "ms-appx:///Resource/Icon/UI_ItemIcon_210_256.png",
-                        $"{entry.DailyNote.CurrentResin}",
-                        string.Format(SH.ServiceDailyNoteNotifierResinCurrent, entry.DailyNote.CurrentResin)));
-                    entry.ResinNotifySuppressed = true;
-                }
-            }
-            else
-            {
-                entry.ResinNotifySuppressed = false;
-            }
-
-            if (entry.DailyNote.CurrentHomeCoin >= entry.HomeCoinNotifyThreshold)
-            {
-                if (!entry.HomeCoinNotifySuppressed)
-                {
-                    notifyInfos.Add(new(
-                        SH.ServiceDailyNoteNotifierHomeCoin,
-                        "ms-appx:///Resource/Icon/UI_ItemIcon_204.png",
-                        $"{entry.DailyNote.CurrentHomeCoin}",
-                        string.Format(SH.ServiceDailyNoteNotifierHomeCoinCurrent, entry.DailyNote.CurrentHomeCoin)));
-                    entry.HomeCoinNotifySuppressed = true;
-                }
-            }
-            else
-            {
-                entry.HomeCoinNotifySuppressed = false;
-            }
-
-            if (entry.DailyTaskNotify && !entry.DailyNote.IsExtraTaskRewardReceived)
-            {
-                if (!entry.DailyTaskNotifySuppressed)
-                {
-                    notifyInfos.Add(new(
-                        SH.ServiceDailyNoteNotifierDailyTask,
-                        "ms-appx:///Resource/Icon/UI_MarkQuest_Events_Proce.png",
-                        SH.ServiceDailyNoteNotifierDailyTaskHint,
-                        entry.DailyNote.ExtraTaskRewardDescription));
-                    entry.DailyTaskNotifySuppressed = true;
-                }
-            }
-            else
-            {
-                entry.DailyTaskNotifySuppressed = false;
-            }
-
-            if (entry.TransformerNotify && entry.DailyNote.Transformer.Obtained && entry.DailyNote.Transformer.RecoveryTime.Reached)
-            {
-                if (!entry.TransformerNotifySuppressed)
-                {
-                    notifyInfos.Add(new(
-                        SH.ServiceDailyNoteNotifierTransformer,
-                        "ms-appx:///Resource/Icon/UI_ItemIcon_220021.png",
-                        SH.ServiceDailyNoteNotifierTransformerAdaptiveHint,
-                        SH.ServiceDailyNoteNotifierTransformerHint));
-                    entry.TransformerNotifySuppressed = true;
-                }
-            }
-            else
-            {
-                entry.TransformerNotifySuppressed = false;
-            }
-
-            if (entry.ExpeditionNotify && entry.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished))
-            {
-                if (!entry.ExpeditionNotifySuppressed)
-                {
-                    notifyInfos.Add(new(
-                        SH.ServiceDailyNoteNotifierExpedition,
-                        Web.HutaoEndpoints.UIAvatarIconSideNone.ToString(), // TODO: embed this
-                        SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint,
-                        SH.ServiceDailyNoteNotifierExpeditionHint));
-                    entry.ExpeditionNotifySuppressed = true;
-                }
-            }
-            else
-            {
-                entry.ExpeditionNotifySuppressed = false;
-            }
-        }
+        CheckNotifySuppressed(entry, notifyInfos);
 
         if (notifyInfos.Count <= 0)
         {
@@ -160,7 +75,7 @@ internal class DailyNoteNotifier
                 if (rolesResponse.IsOk())
                 {
                     List<UserGameRole> roles = rolesResponse.Data.List;
-                    attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "未知角色";
+                    attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "Unkonwn";
                 }
             }
 
@@ -169,8 +84,8 @@ internal class DailyNoteNotifier
                 .AddAttributionText(attribution)
                 .AddButton(new ToastButton()
                     .SetContent(SH.ServiceDailyNoteNotifierActionLaunchGameButton)
-                    .AddArgument("Action", Core.LifeCycle.Activation.LaunchGame)
-                    .AddArgument("Uid", entry.Uid))
+                    .AddArgument(Core.LifeCycle.Activation.Action, Core.LifeCycle.Activation.LaunchGame)
+                    .AddArgument(Core.LifeCycle.Activation.Uid, entry.Uid))
                 .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
 
             if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, Core.StringLiterals.False).GetBoolean())
@@ -215,6 +130,95 @@ internal class DailyNoteNotifier
 
             await ThreadHelper.SwitchToMainThreadAsync();
             builder.Show();
+        }
+    }
+
+    private static void CheckNotifySuppressed(DailyNoteEntry entry, List<NotifyInfo> notifyInfos)
+    {
+        // NotifySuppressed judge
+        if (entry.DailyNote!.CurrentResin >= entry.ResinNotifyThreshold)
+        {
+            if (!entry.ResinNotifySuppressed)
+            {
+                notifyInfos.Add(new(
+                    SH.ServiceDailyNoteNotifierResin,
+                    "ms-appx:///Resource/Icon/UI_ItemIcon_210_256.png",
+                    $"{entry.DailyNote.CurrentResin}",
+                    string.Format(SH.ServiceDailyNoteNotifierResinCurrent, entry.DailyNote.CurrentResin)));
+                entry.ResinNotifySuppressed = true;
+            }
+        }
+        else
+        {
+            entry.ResinNotifySuppressed = false;
+        }
+
+        if (entry.DailyNote.CurrentHomeCoin >= entry.HomeCoinNotifyThreshold)
+        {
+            if (!entry.HomeCoinNotifySuppressed)
+            {
+                notifyInfos.Add(new(
+                    SH.ServiceDailyNoteNotifierHomeCoin,
+                    "ms-appx:///Resource/Icon/UI_ItemIcon_204.png",
+                    $"{entry.DailyNote.CurrentHomeCoin}",
+                    string.Format(SH.ServiceDailyNoteNotifierHomeCoinCurrent, entry.DailyNote.CurrentHomeCoin)));
+                entry.HomeCoinNotifySuppressed = true;
+            }
+        }
+        else
+        {
+            entry.HomeCoinNotifySuppressed = false;
+        }
+
+        if (entry.DailyTaskNotify && !entry.DailyNote.IsExtraTaskRewardReceived)
+        {
+            if (!entry.DailyTaskNotifySuppressed)
+            {
+                notifyInfos.Add(new(
+                    SH.ServiceDailyNoteNotifierDailyTask,
+                    "ms-appx:///Resource/Icon/UI_MarkQuest_Events_Proce.png",
+                    SH.ServiceDailyNoteNotifierDailyTaskHint,
+                    entry.DailyNote.ExtraTaskRewardDescription));
+                entry.DailyTaskNotifySuppressed = true;
+            }
+        }
+        else
+        {
+            entry.DailyTaskNotifySuppressed = false;
+        }
+
+        if (entry.TransformerNotify && entry.DailyNote.Transformer.Obtained && entry.DailyNote.Transformer.RecoveryTime.Reached)
+        {
+            if (!entry.TransformerNotifySuppressed)
+            {
+                notifyInfos.Add(new(
+                    SH.ServiceDailyNoteNotifierTransformer,
+                    "ms-appx:///Resource/Icon/UI_ItemIcon_220021.png",
+                    SH.ServiceDailyNoteNotifierTransformerAdaptiveHint,
+                    SH.ServiceDailyNoteNotifierTransformerHint));
+                entry.TransformerNotifySuppressed = true;
+            }
+        }
+        else
+        {
+            entry.TransformerNotifySuppressed = false;
+        }
+
+        if (entry.ExpeditionNotify && entry.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished))
+        {
+            if (!entry.ExpeditionNotifySuppressed)
+            {
+                notifyInfos.Add(new(
+                    SH.ServiceDailyNoteNotifierExpedition,
+                    Web.HutaoEndpoints.UIAvatarIconSideNone.ToString(), // TODO: embed this
+                    SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint,
+                    SH.ServiceDailyNoteNotifierExpeditionHint));
+                entry.ExpeditionNotifySuppressed = true;
+            }
+        }
+        else
+        {
+            entry.ExpeditionNotifySuppressed = false;
         }
     }
 

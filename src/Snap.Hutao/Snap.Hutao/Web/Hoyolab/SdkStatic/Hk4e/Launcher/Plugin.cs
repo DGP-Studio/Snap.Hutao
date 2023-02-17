@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// 插件
 /// </summary>
-public class Plugin
+[HighQuality]
+internal sealed class Plugin
 {
     /// <summary>
     /// 插件列表

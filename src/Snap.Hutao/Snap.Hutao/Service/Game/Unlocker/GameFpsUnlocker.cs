@@ -14,7 +14,8 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 /// <summary>
 /// 游戏帧率解锁器
 /// </summary>
-internal class GameFpsUnlocker : IGameFpsUnlocker
+[HighQuality]
+internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
     private readonly Process gameProcess;
 

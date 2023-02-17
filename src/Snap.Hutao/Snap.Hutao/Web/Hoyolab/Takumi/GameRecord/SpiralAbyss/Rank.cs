@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 /// <summary>
 /// 角色数值排行信息
 /// </summary>
-public class Rank
+[HighQuality]
+internal sealed class Rank
 {
     /// <summary>
     /// 角色Id

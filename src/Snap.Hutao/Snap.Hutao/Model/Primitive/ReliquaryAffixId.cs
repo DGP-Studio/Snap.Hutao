@@ -8,8 +8,9 @@ namespace Snap.Hutao.Model.Primitive;
 /// <summary>
 /// 6位 圣遗物副词条Id
 /// </summary>
+[HighQuality]
 [JsonConverter(typeof(IdentityConverter<ReliquaryAffixId>))]
-public readonly struct ReliquaryAffixId : IEquatable<ReliquaryAffixId>
+internal readonly struct ReliquaryAffixId : IEquatable<ReliquaryAffixId>
 {
     /// <summary>
     /// 值

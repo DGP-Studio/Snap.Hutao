@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 隐私设置为不可见的信息
 /// </summary>
-public class PrivacyInvisible
+[HighQuality]
+internal sealed class PrivacyInvisible
 {
     /// <summary>
     /// 在个人中心展示我的收藏

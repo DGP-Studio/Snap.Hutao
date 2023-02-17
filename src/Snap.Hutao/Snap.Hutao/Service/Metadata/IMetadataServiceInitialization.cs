@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Metadata;
 /// <summary>
 /// 指示该类为元数据初始化器
 /// </summary>
-public interface IMetadataServiceInitialization
+[HighQuality]
+internal interface IMetadataServiceInitialization
 {
     /// <summary>
     /// 异步初始化元数据

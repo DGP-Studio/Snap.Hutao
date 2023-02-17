@@ -8,7 +8,8 @@ namespace Snap.Hutao.Model.Metadata.Reliquary;
 /// <summary>
 /// 圣遗物套装
 /// </summary>
-public class ReliquarySet
+[HighQuality]
+internal sealed class ReliquarySet
 {
     /// <summary>
     /// 套装Id

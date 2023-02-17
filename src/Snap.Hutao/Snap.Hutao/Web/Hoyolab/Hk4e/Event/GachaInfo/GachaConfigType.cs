@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Annotation;
-
 namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 /// <summary>
 /// 祈愿配置类型
 /// </summary>
-public enum GachaConfigType
+[HighQuality]
+internal enum GachaConfigType
 {
     /// <summary>
     /// 新手池

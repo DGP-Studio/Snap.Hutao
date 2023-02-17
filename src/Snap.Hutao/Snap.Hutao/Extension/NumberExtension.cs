@@ -8,7 +8,8 @@ namespace Snap.Hutao.Extension;
 /// <summary>
 /// 数高性能扩展
 /// </summary>
-public static class NumberExtension
+[HighQuality]
+internal static class NumberExtension
 {
     /// <summary>
     /// 计算给定整数的位数

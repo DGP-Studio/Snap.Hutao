@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// <summary>
 /// 公告类型
 /// </summary>
-public class AnnouncementType
+internal sealed class AnnouncementType
 {
     /// <summary>
     /// Id

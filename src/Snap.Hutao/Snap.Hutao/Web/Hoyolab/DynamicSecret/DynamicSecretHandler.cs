@@ -9,17 +9,23 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// <summary>
 /// 动态密钥处理器
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Transient)]
-public class DynamicSecretHandler : DelegatingHandler
+internal sealed class DynamicSecretHandler : DelegatingHandler
 {
+    /// <summary>
+    /// 创建选项
+    /// </summary>
+    public const string OptionKeyName = "DS-Option";
+
     /// <inheritdoc/>
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token)
     {
-        if (request.Headers.TryGetValues("DS-Option", out IEnumerable<string>? values))
+        if (request.Headers.TryGetValues(OptionKeyName, out IEnumerable<string>? values))
         {
             DynamicSecretCreationOptions options = new(values.Single());
             await ProcessRequestWithOptionsAsync(request, options, token).ConfigureAwait(false);
-            request.Headers.Remove("DS-Option");
+            request.Headers.Remove(OptionKeyName);
         }
 
         return await base.SendAsync(request, token).ConfigureAwait(false);

@@ -6,6 +6,7 @@ namespace Snap.Hutao.Web;
 /// <summary>
 /// 胡桃 API 端点
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "SA1201")]
 [SuppressMessage("", "SA1124")]
 internal static class HutaoEndpoints
@@ -109,20 +110,20 @@ internal static class HutaoEndpoints
     /// <summary>
     /// UI_Icon_None
     /// </summary>
-    public static readonly Uri UIIconNone = new(StaticFile("Bg", "UI_Icon_None.png"));
+    public static readonly Uri UIIconNone = StaticFile("Bg", "UI_Icon_None.png").ToUri();
 
     /// <summary>
     /// UI_ItemIcon_None
     /// </summary>
-    public static readonly Uri UIItemIconNone = new(StaticFile("Bg", "UI_ItemIcon_None.png"));
+    public static readonly Uri UIItemIconNone = StaticFile("Bg", "UI_ItemIcon_None.png").ToUri();
 
     /// <summary>
     /// UI_AvatarIcon_Side_None
     /// </summary>
-    public static readonly Uri UIAvatarIconSideNone = new(StaticFile("AvatarIcon", "UI_AvatarIcon_Side_None.png"));
+    public static readonly Uri UIAvatarIconSideNone = StaticFile("AvatarIcon", "UI_AvatarIcon_Side_None.png").ToUri();
 
     /// <summary>
-    /// 压缩包资源
+    /// 图片资源
     /// </summary>
     /// <param name="category">分类</param>
     /// <param name="fileName">文件名称 包括后缀</param>

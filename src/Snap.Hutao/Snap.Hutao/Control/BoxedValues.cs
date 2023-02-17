@@ -20,6 +20,11 @@ internal static class BoxedValues
     public static readonly object DoubleOne = 1D;
 
     /// <summary>
+    /// <see cref="int"/> 0
+    /// </summary>
+    public static readonly object Int32Zero = 0;
+
+    /// <summary>
     /// <see cref="true"/>
     /// </summary>
     public static readonly object True = true;

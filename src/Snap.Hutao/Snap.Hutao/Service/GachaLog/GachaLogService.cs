@@ -8,8 +8,8 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Extension;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Binding.Gacha;
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
@@ -28,8 +28,9 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped, typeof(IGachaLogService))]
-internal class GachaLogService : IGachaLogService
+internal sealed class GachaLogService : IGachaLogService
 {
     /// <summary>
     /// 祈愿记录查询的类型
@@ -50,7 +51,7 @@ internal class GachaLogService : IGachaLogService
     private readonly ILogger<GachaLogService> logger;
     private readonly DbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
 
-    private readonly Dictionary<string, ItemBase> itemBaseCache = new();
+    private readonly Dictionary<string, Item> itemBaseCache = new();
 
     private Dictionary<string, Model.Metadata.Avatar.Avatar>? nameAvatarMap;
     private Dictionary<string, Model.Metadata.Weapon.Weapon>? nameWeaponMap;
@@ -372,9 +373,9 @@ internal class GachaLogService : IGachaLogService
         };
     }
 
-    private ItemBase GetItemBaseByName(string name, string type)
+    private Item GetItemBaseByName(string name, string type)
     {
-        if (!itemBaseCache.TryGetValue(name, out ItemBase? result))
+        if (!itemBaseCache.TryGetValue(name, out Item? result))
         {
             result = type switch
             {

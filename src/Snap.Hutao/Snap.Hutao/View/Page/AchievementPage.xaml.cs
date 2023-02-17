@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 成就页面
 /// </summary>
+[HighQuality]
 internal sealed partial class AchievementPage : ScopedPage
 {
     /// <summary>

@@ -12,8 +12,8 @@ using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.AvatarProperty;
-using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Binding.User;
+using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
@@ -36,14 +36,15 @@ namespace Snap.Hutao.ViewModel;
 /// 角色属性视图模型
 /// TODO: support page unload as cancellation
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class AvatarPropertyViewModel : Abstraction.ViewModel
+internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
     private Summary? summary;
-    private Avatar? selectedAvatar;
+    private AvatarView? selectedAvatar;
 
     /// <summary>
     /// 构造一个新的角色属性视图模型
@@ -60,7 +61,7 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
         RefreshFromHoyolabGameRecordCommand = new AsyncRelayCommand(RefreshByHoyolabGameRecordAsync);
         RefreshFromHoyolabCalculateCommand = new AsyncRelayCommand(RefreshByHoyolabCalculateAsync);
         ExportAsImageCommand = new AsyncRelayCommand<UIElement>(ExportAsImageAsync);
-        CultivateCommand = new AsyncRelayCommand<Avatar>(CultivateAsync);
+        CultivateCommand = new AsyncRelayCommand<AvatarView>(CultivateAsync);
     }
 
     /// <summary>
@@ -71,7 +72,7 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
     /// <summary>
     /// 选中的角色
     /// </summary>
-    public Avatar? SelectedAvatar { get => selectedAvatar; set => SetProperty(ref selectedAvatar, value); }
+    public AvatarView? SelectedAvatar { get => selectedAvatar; set => SetProperty(ref selectedAvatar, value); }
 
     /// <summary>
     /// 加载界面命令
@@ -189,7 +190,7 @@ internal class AvatarPropertyViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task CultivateAsync(Avatar? avatar)
+    private async Task CultivateAsync(AvatarView? avatar)
     {
         if (avatar != null)
         {

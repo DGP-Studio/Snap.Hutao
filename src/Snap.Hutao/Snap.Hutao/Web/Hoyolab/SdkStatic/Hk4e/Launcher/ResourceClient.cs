@@ -11,8 +11,9 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// <summary>
 /// 游戏资源客户端
 /// </summary>
+[HighQuality]
 [HttpClient(HttpClientConfigration.Default)]
-internal class ResourceClient
+internal sealed class ResourceClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;

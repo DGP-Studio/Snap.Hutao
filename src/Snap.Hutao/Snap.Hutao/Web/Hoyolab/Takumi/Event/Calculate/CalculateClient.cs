@@ -12,8 +12,9 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// <summary>
 /// 养成计算器客户端
 /// </summary>
+[HighQuality]
 [HttpClient(HttpClientConfigration.Default)]
-internal class CalculateClient
+internal sealed class CalculateClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;

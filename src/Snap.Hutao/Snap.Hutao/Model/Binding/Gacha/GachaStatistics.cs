@@ -6,7 +6,8 @@ namespace Snap.Hutao.Model.Binding.Gacha;
 /// <summary>
 /// 祈愿统计
 /// </summary>
-public class GachaStatistics
+[HighQuality]
+internal sealed class GachaStatistics
 {
     /// <summary>
     /// 角色活动

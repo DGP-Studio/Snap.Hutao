@@ -9,8 +9,9 @@ namespace Snap.Hutao.Model.Entity;
 /// <summary>
 /// 背包物品
 /// </summary>
+[HighQuality]
 [Table("inventory_items")]
-public class InventoryItem
+internal sealed class InventoryItem
 {
     /// <summary>
     /// 内部Id

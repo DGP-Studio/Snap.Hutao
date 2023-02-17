@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Bridge.Model;
 /// <summary>
 /// DS2请求
 /// </summary>
-public class DynamicSecrect2Playload
+[HighQuality]
+internal sealed class DynamicSecrect2Playload
 {
     /// <summary>
     /// q
@@ -26,6 +27,7 @@ public class DynamicSecrect2Playload
     /// <returns>查询参数</returns>
     public string GetQueryParam()
     {
+        // TODO : improve here.
         IEnumerable<string> parts = Query.OrderBy(x => x.Key).Select(x =>
         {
             if (x.Value.ValueKind == JsonValueKind.True || x.Value.ValueKind == JsonValueKind.False)

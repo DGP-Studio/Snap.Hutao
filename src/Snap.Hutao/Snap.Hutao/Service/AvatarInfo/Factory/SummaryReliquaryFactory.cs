@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Annotation;
@@ -12,18 +11,19 @@ using System.Runtime.InteropServices;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
 using MetadataReliquaryAffix = Snap.Hutao.Model.Metadata.Reliquary.ReliquaryAffix;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using PropertyReliquary = Snap.Hutao.Model.Binding.AvatarProperty.Reliquary;
+using PropertyReliquary = Snap.Hutao.Model.Binding.AvatarProperty.ReliquaryView;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 /// <summary>
 /// 圣遗物工厂
 /// </summary>
-internal class SummaryReliquaryFactory
+[HighQuality]
+internal sealed class SummaryReliquaryFactory
 {
     private readonly SummaryMetadataContext metadataContext;
     private readonly ModelAvatarInfo avatarInfo;
-    private readonly Equip equip;
+    private readonly Web.Enka.Model.Equip equip;
 
     /// <summary>
     /// 构造一个新的圣遗物工厂
@@ -31,7 +31,7 @@ internal class SummaryReliquaryFactory
     /// <param name="metadataContext">元数据上下文</param>
     /// <param name="avatarInfo">角色信息</param>
     /// <param name="equip">圣遗物</param>
-    public SummaryReliquaryFactory(SummaryMetadataContext metadataContext, ModelAvatarInfo avatarInfo, Equip equip)
+    public SummaryReliquaryFactory(SummaryMetadataContext metadataContext, ModelAvatarInfo avatarInfo, Web.Enka.Model.Equip equip)
     {
         this.metadataContext = metadataContext;
         this.avatarInfo = avatarInfo;
@@ -47,7 +47,7 @@ internal class SummaryReliquaryFactory
         MetadataReliquary reliquary = metadataContext.Reliquaries.Single(r => r.Ids.Contains(equip.ItemId));
         List<ReliquarySubProperty> subProperty = equip.Reliquary!.AppendPropIdList.EmptyIfNull().Select(CreateSubProperty).ToList();
 
-        int affixCount = GetAffixCount(reliquary);
+        int affixCount = GetSecondaryAffixCount(reliquary);
         if (subProperty.Count == 0)
         {
             return new()
@@ -82,7 +82,7 @@ internal class SummaryReliquaryFactory
             // EquipBase
             Level = $"+{equip.Reliquary.Level - 1}",
             Quality = reliquary.RankLevel,
-            MainProperty = new(property.GetDescription(), PropertyInfoDescriptor.FormatValue(property, relicLevel.Properties[property])),
+            MainProperty = new(property.GetLocalizedDescription(), Model.Metadata.Converter.PropertyDescriptor.FormatValue(property, relicLevel.Properties[property])),
 
             // Reliquary
             ComposedSubProperties = composed,
@@ -92,8 +92,9 @@ internal class SummaryReliquaryFactory
         };
     }
 
-    private int GetAffixCount(MetadataReliquary reliquary)
+    private int GetSecondaryAffixCount(MetadataReliquary reliquary)
     {
+        // 强化词条个数
         return (reliquary.RankLevel, equip.Reliquary!.Level) switch
         {
             (ItemQuality.QUALITY_ORANGE, > 20) => 5,
@@ -147,6 +148,7 @@ internal class SummaryReliquaryFactory
 
     private AffixWeight GetAffixWeightForAvatarId()
     {
+        // TODO: more score support
         return ReliquaryWeightConfiguration.AffixWeights.FirstOrDefault(w => w.AvatarId == avatarInfo.AvatarId, ReliquaryWeightConfiguration.Default);
     }
 
@@ -160,7 +162,7 @@ internal class SummaryReliquaryFactory
             _ => substat.StatValue.ToString(),
         };
 
-        return new(substat.AppendPropId.GetDescription(), valueFormatted, 0);
+        return new(substat.AppendPropId.GetLocalizedDescription(), valueFormatted, 0);
     }
 
     private ReliquarySubProperty CreateSubProperty(int appendPropId)
@@ -169,7 +171,7 @@ internal class SummaryReliquaryFactory
         FightProperty property = affix.Type;
 
         double score = ScoreSubAffix(appendPropId);
-        return new(property.GetDescription(), PropertyInfoDescriptor.FormatValue(property, affix.Value), score);
+        return new(property.GetLocalizedDescription(), Model.Metadata.Converter.PropertyDescriptor.FormatValue(property, affix.Value), score);
     }
 
     private double ScoreSubAffix(int appendId)
@@ -177,7 +179,7 @@ internal class SummaryReliquaryFactory
         MetadataReliquaryAffix affix = metadataContext.IdReliquaryAffixMap[appendId];
 
         AffixWeight weightConfig = GetAffixWeightForAvatarId();
-        double weight = weightConfig.GetValueOrDefault(affix.Type, 0) / 100D;
+        double weight = weightConfig.GetValueOrDefault(affix.Type) / 100D;
 
         // 小字词条，转换到等效百分比计算
         if (affix.Type is FightProperty.FIGHT_PROP_HP or FightProperty.FIGHT_PROP_ATTACK or FightProperty.FIGHT_PROP_DEFENSE)
@@ -186,7 +188,7 @@ internal class SummaryReliquaryFactory
             double equalPercent = affix.Value / avatarInfo.FightPropMap[affix.Type - 1];
 
             // 获取对应百分比词条权重
-            weight = weightConfig.GetValueOrDefault(affix.Type + 1, 0) / 100D;
+            weight = weightConfig.GetValueOrDefault(affix.Type + 1) / 100D;
 
             // 最大同属性百分比数值 最大同属性百分比Id 第四五位是战斗属性位
             MetadataReliquaryAffix maxPercentAffix = metadataContext.IdReliquaryAffixMap[SummaryHelper.GetAffixMaxId(appendId + 10)];

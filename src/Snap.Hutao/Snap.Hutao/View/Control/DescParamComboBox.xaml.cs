@@ -11,13 +11,14 @@ namespace Snap.Hutao.View.Control;
 /// <summary>
 /// 描述参数组合框
 /// </summary>
-public sealed partial class DescParamComboBox : UserControl
+[HighQuality]
+internal sealed partial class DescParamComboBox : UserControl
 {
     private static readonly DependencyProperty SourceProperty = Property<DescParamComboBox>
-        .Depend<IList<LevelParam<string, ParameterInfo>>>(nameof(Source), default!, OnSourceChanged);
+        .Depend<List<LevelParameters<string, ParameterDescription>>>(nameof(Source), default!, OnSourceChanged);
 
     private static readonly DependencyProperty PreferredSelectedIndexProperty = Property<DescParamComboBox>
-        .Depend<int>(nameof(PreferredSelectedIndex), 0);
+        .DependBoxed<int>(nameof(PreferredSelectedIndex), BoxedValues.Int32Zero);
 
     /// <summary>
     /// 构造一个新的描述参数组合框
@@ -30,9 +31,9 @@ public sealed partial class DescParamComboBox : UserControl
     /// <summary>
     /// 技能列表
     /// </summary>
-    public IList<LevelParam<string, ParameterInfo>> Source
+    public List<LevelParameters<string, ParameterDescription>> Source
     {
-        get => (IList<LevelParam<string, ParameterInfo>>)GetValue(SourceProperty);
+        get => (List<LevelParameters<string, ParameterDescription>>)GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
     }
 
@@ -51,7 +52,7 @@ public sealed partial class DescParamComboBox : UserControl
         // so we use this simple code behind approach to achieve selection function
         if (sender is DescParamComboBox descParamComboBox)
         {
-            if (args.NewValue != args.OldValue && args.NewValue is IList<LevelParam<string, ParameterInfo>> list)
+            if (args.NewValue != args.OldValue && args.NewValue is IList<LevelParameters<string, ParameterDescription>> list)
             {
                 descParamComboBox.ItemHost.ItemsSource = list;
                 descParamComboBox.ItemHost.SelectedIndex = Math.Min(descParamComboBox.PreferredSelectedIndex, list.Count - 1);

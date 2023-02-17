@@ -10,7 +10,7 @@ using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
 using System.Collections.ObjectModel;
-using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
+using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.AchievementView;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
@@ -20,8 +20,9 @@ namespace Snap.Hutao.Service.Achievement;
 /// <summary>
 /// 成就服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
-internal class AchievementService : IAchievementService
+internal sealed class AchievementService : IAchievementService
 {
     private readonly AppDbContext appDbContext;
     private readonly ILogger<AchievementService> logger;
@@ -125,7 +126,7 @@ internal class AchievementService : IAchievementService
 
             entity ??= EntityAchievement.Create(archiveId, meta.Id);
 
-            results.Add(new(meta, entity));
+            results.Add(new(entity, meta));
         }
 
         return results;
@@ -205,15 +206,13 @@ internal class AchievementService : IAchievementService
     /// <inheritdoc/>
     public void SaveAchievement(BindingAchievement achievement)
     {
+        // Delete exists one.
+        appDbContext.Achievements.ExecuteDeleteWhere(e => e.InnerId == achievement.Entity.InnerId);
         if (achievement.IsChecked)
         {
-            // set to default allow multiple time add
+            // treat as new created.
             achievement.Entity.InnerId = default;
             appDbContext.Achievements.AddAndSave(achievement.Entity);
-        }
-        else
-        {
-            appDbContext.Achievements.RemoveAndSave(achievement.Entity);
         }
     }
 }

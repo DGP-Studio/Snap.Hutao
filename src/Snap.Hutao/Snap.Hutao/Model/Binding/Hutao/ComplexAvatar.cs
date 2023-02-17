@@ -10,7 +10,8 @@ namespace Snap.Hutao.Model.Binding.Hutao;
 /// <summary>
 /// 角色
 /// </summary>
-public class ComplexAvatar
+[HighQuality]
+internal class ComplexAvatar : INameIconSide
 {
     /// <summary>
     /// 构造一个胡桃数据库角色

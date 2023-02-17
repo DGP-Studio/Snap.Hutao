@@ -1,20 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Gacha.Abstraction;
-
 namespace Snap.Hutao.Model.Binding.Gacha;
 
 /// <summary>
 /// 祈愿卡池列表物品
 /// </summary>
-public class SummaryItem : ItemBase
+[HighQuality]
+internal sealed class SummaryItem : Item
 {
-    /// <summary>
-    /// 据上次
-    /// </summary>
-    public int LastPull { get; set; }
-
     /// <summary>
     /// 是否为Up物品
     /// </summary>
@@ -26,9 +20,9 @@ public class SummaryItem : ItemBase
     public bool IsGuarentee { get; set; }
 
     /// <summary>
-    /// 获取时间
+    /// 据上次
     /// </summary>
-    public DateTimeOffset Time { get; set; }
+    public int LastPull { get; set; }
 
     /// <summary>
     /// 获取时间
@@ -42,4 +36,9 @@ public class SummaryItem : ItemBase
     /// 颜色
     /// </summary>
     public Windows.UI.Color Color { get; set; }
+
+    /// <summary>
+    /// 获取时间
+    /// </summary>
+    internal DateTimeOffset Time { get; set; }
 }

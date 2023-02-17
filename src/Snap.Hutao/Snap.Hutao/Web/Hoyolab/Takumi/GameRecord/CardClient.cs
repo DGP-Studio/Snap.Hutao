@@ -14,9 +14,10 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 卡片客户端
 /// </summary>
+[HighQuality]
 [UseDynamicSecret]
 [HttpClient(HttpClientConfigration.XRpc)]
-public class CardClient
+internal sealed class CardClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;

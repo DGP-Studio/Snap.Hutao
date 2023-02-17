@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 平展值
 /// </summary>
-public class Flat
+[HighQuality]
+internal sealed class Flat
 {
     /// <summary>
     /// 名称
@@ -78,5 +79,5 @@ public class Flat
     /// List of Weapon Stat: Base ATK, Substat
     /// </summary>
     [JsonPropertyName("weaponStats")]
-    public IList<WeaponStat>? WeaponStats { get; set; }
+    public List<WeaponStat>? WeaponStats { get; set; }
 }

@@ -22,9 +22,10 @@ namespace Snap.Hutao.Web.Bridge;
 /// <summary>
 /// 调用桥
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "CA1001")]
 [SuppressMessage("", "SA1600")]
-public class MiHoYoJSInterface
+internal class MiHoYoJSInterface
 {
     private const string InitializeJsInterfaceScript2 = """
         window.MiHoYoJSInterface = {
@@ -348,7 +349,7 @@ public class MiHoYoJSInterface
 
             if (result != null && param.Callback != null)
             {
-                await ExecuteCallbackScriptAsync(param.Callback, result.ToString()).ConfigureAwait(false);
+                await ExecuteCallbackScriptAsync(param.Callback, result.ToJson()).ConfigureAwait(false);
             }
         }
     }

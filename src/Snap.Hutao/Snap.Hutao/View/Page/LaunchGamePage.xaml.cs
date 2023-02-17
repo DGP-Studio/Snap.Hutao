@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 启动游戏页面
 /// </summary>
+[HighQuality]
 internal sealed partial class LaunchGamePage : ScopedPage
 {
     /// <summary>

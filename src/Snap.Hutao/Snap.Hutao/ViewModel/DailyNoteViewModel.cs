@@ -20,15 +20,16 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 实时便笺视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class DailyNoteViewModel : Abstraction.ViewModel
+internal sealed class DailyNoteViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
     private readonly IDailyNoteService dailyNoteService;
     private readonly AppDbContext appDbContext;
 
-    private readonly List<NamedValue<int>> refreshTimes = new()
+    private readonly List<NameValue<int>> refreshTimes = new()
     {
         new(SH.ViewModelDailyNoteRefreshTime4, 240),
         new(SH.ViewModelDailyNoteRefreshTime8, 480),
@@ -38,7 +39,7 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
     };
 
     private bool isReminderNotification;
-    private NamedValue<int>? selectedRefreshTime;
+    private NameValue<int>? selectedRefreshTime;
     private ObservableCollection<UserAndUid>? userAndUids;
 
     private SettingEntry? refreshSecondsEntry;
@@ -69,12 +70,12 @@ internal class DailyNoteViewModel : Abstraction.ViewModel
     /// <summary>
     /// 刷新时间
     /// </summary>
-    public List<NamedValue<int>> RefreshTimes { get => refreshTimes; }
+    public List<NameValue<int>> RefreshTimes { get => refreshTimes; }
 
     /// <summary>
     /// 选中的刷新时间
     /// </summary>
-    public NamedValue<int>? SelectedRefreshTime
+    public NameValue<int>? SelectedRefreshTime
     {
         get => selectedRefreshTime;
         set

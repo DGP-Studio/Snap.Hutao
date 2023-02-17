@@ -18,8 +18,9 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// <summary>
 /// 角色信息服务
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
-internal class AvatarInfoService : IAvatarInfoService
+internal sealed class AvatarInfoService : IAvatarInfoService
 {
     private readonly ISummaryFactory summaryFactory;
     private readonly IMetadataService metadataService;
@@ -71,31 +72,28 @@ internal class AvatarInfoService : IAvatarInfoService
                         }
 
                         List<EnkaAvatarInfo> list = avatarInfoDbOperation.UpdateDbAvatarInfos(userAndUid.Uid.Value, resp.AvatarInfoList, token);
-                        Summary summary = await GetSummaryCoreAsync(resp.PlayerInfo, list, token).ConfigureAwait(false);
+                        Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
 
                 case RefreshOption.RequestFromHoyolabGameRecord:
                     {
-                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndUid.Uid.Value);
                         List<EnkaAvatarInfo> list = await avatarInfoDbOperation.UpdateDbAvatarInfosByGameRecordCharacterAsync(userAndUid, token).ConfigureAwait(false);
-                        Summary summary = await GetSummaryCoreAsync(info, list, token).ConfigureAwait(false);
+                        Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
 
                 case RefreshOption.RequestFromHoyolabCalculate:
                     {
-                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndUid.Uid.Value);
                         List<EnkaAvatarInfo> list = await avatarInfoDbOperation.UpdateDbAvatarInfosByCalculateAvatarDetailAsync(userAndUid, token).ConfigureAwait(false);
-                        Summary summary = await GetSummaryCoreAsync(info, list, token).ConfigureAwait(false);
+                        Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
 
                 default:
                     {
-                        EnkaPlayerInfo info = EnkaPlayerInfo.CreateEmpty(userAndUid.Uid.Value);
                         List<EnkaAvatarInfo> list = avatarInfoDbOperation.GetDbAvatarInfos(userAndUid.Uid.Value);
-                        Summary summary = await GetSummaryCoreAsync(info, list, token).ConfigureAwait(false);
+                        Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         token.ThrowIfCancellationRequested();
                         return new(RefreshResult.Ok, summary.Avatars.Count == 0 ? null : summary);
                     }
@@ -115,10 +113,10 @@ internal class AvatarInfoService : IAvatarInfoService
             ?? await enkaClient.GetDataAsync(uid, token).ConfigureAwait(false);
     }
 
-    private async Task<Summary> GetSummaryCoreAsync(EnkaPlayerInfo info, IEnumerable<EnkaAvatarInfo> avatarInfos, CancellationToken token)
+    private async Task<Summary> GetSummaryCoreAsync(IEnumerable<EnkaAvatarInfo> avatarInfos, CancellationToken token)
     {
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
-        Summary summary = await summaryFactory.CreateAsync(info, avatarInfos, token).ConfigureAwait(false);
+        Summary summary = await summaryFactory.CreateAsync(avatarInfos, token).ConfigureAwait(false);
         logger.LogInformation("AvatarInfoSummary Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
 
         return summary;

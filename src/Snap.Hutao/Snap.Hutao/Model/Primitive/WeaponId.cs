@@ -8,8 +8,9 @@ namespace Snap.Hutao.Model.Primitive;
 /// <summary>
 /// 5位 武器Id
 /// </summary>
+[HighQuality]
 [JsonConverter(typeof(IdentityConverter<WeaponId>))]
-public readonly struct WeaponId : IEquatable<WeaponId>
+internal readonly struct WeaponId : IEquatable<WeaponId>
 {
     /// <summary>
     /// 值

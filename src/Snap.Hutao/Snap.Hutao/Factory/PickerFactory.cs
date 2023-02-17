@@ -9,6 +9,7 @@ using WinRT.Interop;
 namespace Snap.Hutao.Factory;
 
 /// <inheritdoc cref="IPickerFactory"/>
+[HighQuality]
 [Injection(InjectAs.Transient, typeof(IPickerFactory))]
 internal class PickerFactory : IPickerFactory
 {

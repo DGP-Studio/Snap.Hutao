@@ -3,15 +3,16 @@
 
 using CommunityToolkit.WinUI.UI;
 using System.Runtime.InteropServices;
-using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.Achievement;
-using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoal;
+using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.AchievementView;
+using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoalView;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
 /// <summary>
 /// 成就完成进度更新器
 /// </summary>
-internal class AchievementFinishPercentUpdater
+[HighQuality]
+internal sealed class AchievementFinishPercentUpdater
 {
     private readonly AchievementViewModel viewModel;
 

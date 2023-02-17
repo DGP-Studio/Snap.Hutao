@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata;
 /// <summary>
 /// 材料
 /// </summary>
-public class Material
+internal sealed class Material
 {
     private static readonly ImmutableHashSet<MaterialId> MondayThursdayItems = new HashSet<MaterialId>
     {

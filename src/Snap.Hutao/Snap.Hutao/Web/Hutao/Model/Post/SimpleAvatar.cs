@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model.Post;
 /// <summary>
 /// 角色详情 角色
 /// </summary>
-public class SimpleAvatar
+[HighQuality]
+internal sealed class SimpleAvatar
 {
     /// <summary>
     /// 构造一个新的角色详情 角色

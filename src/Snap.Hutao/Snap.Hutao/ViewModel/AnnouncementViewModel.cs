@@ -10,8 +10,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 公告视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class AnnouncementViewModel : Abstraction.ViewModel
+internal sealed class AnnouncementViewModel : Abstraction.ViewModel
 {
     private readonly IAnnouncementService announcementService;
 

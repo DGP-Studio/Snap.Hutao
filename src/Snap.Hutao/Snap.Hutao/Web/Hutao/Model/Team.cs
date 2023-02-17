@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 队伍
 /// </summary>
-public class Team
+[HighQuality]
+internal sealed class Team
 {
     /// <summary>
     /// 上半

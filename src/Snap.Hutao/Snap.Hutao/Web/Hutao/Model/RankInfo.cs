@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 排行包装
 /// </summary>
-public class RankInfo
+[HighQuality]
+internal sealed class RankInfo
 {
     /// <summary>
     /// 造成伤害

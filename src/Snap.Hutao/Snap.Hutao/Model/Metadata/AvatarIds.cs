@@ -8,8 +8,9 @@ namespace Snap.Hutao.Model.Metadata;
 /// <summary>
 /// 角色ID
 /// </summary>
+[HighQuality]
 [SuppressMessage("", "SA1600")]
-public static class AvatarIds
+internal static class AvatarIds
 {
     public static readonly AvatarId Kate = 10000001;
     public static readonly AvatarId Ayaka = 10000002;
@@ -93,7 +94,7 @@ public static class AvatarIds
         return avatarId == PlayerBoy || avatarId == PlayerGirl;
     }
 
-    public static Dictionary<AvatarId, Avatar.Avatar> ExtendAvatars(Dictionary<AvatarId, Avatar.Avatar> idAvatarMap)
+    public static Dictionary<AvatarId, Avatar.Avatar> InsertPlayers(Dictionary<AvatarId, Avatar.Avatar> idAvatarMap)
     {
         return new(idAvatarMap)
         {

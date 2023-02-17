@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// <summary>
 /// 售后服务
 /// </summary>
-public class CustomerService
+[HighQuality]
+internal sealed class CustomerService
 {
     /// <summary>
     /// 是否为客服

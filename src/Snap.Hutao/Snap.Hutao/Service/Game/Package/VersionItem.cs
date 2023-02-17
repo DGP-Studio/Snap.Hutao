@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.Game.Package;
 /// <summary>
 /// 包版本项
 /// </summary>
-internal class VersionItem
+[HighQuality]
+internal sealed class VersionItem
 {
     /// <summary>
     /// 服务器上的名称

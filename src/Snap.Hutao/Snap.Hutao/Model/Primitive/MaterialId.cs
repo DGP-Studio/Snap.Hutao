@@ -8,8 +8,9 @@ namespace Snap.Hutao.Model.Primitive;
 /// <summary>
 /// 3-6位 材料Id
 /// </summary>
+[HighQuality]
 [JsonConverter(typeof(IdentityConverter<MaterialId>))]
-public readonly struct MaterialId : IEquatable<MaterialId>, IComparable<MaterialId>
+internal readonly struct MaterialId : IEquatable<MaterialId>, IComparable<MaterialId>
 {
     /// <summary>
     /// 值

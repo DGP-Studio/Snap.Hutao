@@ -23,8 +23,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 祈愿记录视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class GachaLogViewModel : Abstraction.ViewModel
+internal sealed class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;

@@ -11,7 +11,7 @@ namespace Snap.Hutao.Model.Entity;
 /// 成就存档
 /// </summary>
 [Table("achievement_archives")]
-public class AchievementArchive : ISelectable
+internal sealed class AchievementArchive : ISelectable
 {
     /// <summary>
     /// 内部Id

@@ -7,6 +7,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Composer;
 /// 角色信息合并器
 /// </summary>
 /// <typeparam name="TSource">源类型</typeparam>
+[HighQuality]
 internal interface IAvatarInfoComposer<TSource>
 {
     /// <summary>

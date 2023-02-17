@@ -45,18 +45,11 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <StackPanel
+                    <TextBlock
                         Grid.Column="1"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Rate}"/>
-                        <TextBlock
-                            Margin="0,2,0,0"
-                            Opacity="0.6"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding Name}"/>
-                    </StackPanel>
-
+                        VerticalAlignment="Center"
+                        Text="{Binding Rate}"/>
                 </Grid>
             </Border>
         </DataTemplate>

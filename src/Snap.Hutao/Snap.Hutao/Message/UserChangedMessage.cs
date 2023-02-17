@@ -8,6 +8,7 @@ namespace Snap.Hutao.Message;
 /// <summary>
 /// 用户切换消息
 /// </summary>
-internal class UserChangedMessage : ValueChangedMessage<User>
+[HighQuality]
+internal sealed class UserChangedMessage : ValueChangedMessage<User>
 {
 }

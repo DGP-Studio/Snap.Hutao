@@ -23,8 +23,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 深渊记录视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
+internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
@@ -118,7 +119,7 @@ internal class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<Us
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            idAvatarMap = AvatarIds.ExtendAvatars(idAvatarMap);
+            idAvatarMap = AvatarIds.InsertPlayers(idAvatarMap);
 
             if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {

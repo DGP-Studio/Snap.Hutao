@@ -10,7 +10,8 @@ namespace Snap.Hutao.View;
 /// <summary>
 /// ª∂”≠ ”Õº
 /// </summary>
-public sealed partial class WelcomeView : UserControl
+[HighQuality]
+internal sealed partial class WelcomeView : UserControl
 {
     private readonly IServiceScope serviceScope;
 

@@ -8,8 +8,28 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// <summary>
 /// 类型与值
 /// </summary>
-public class TypeValue
+[HighQuality]
+internal sealed class TypeValue
 {
+    /// <summary>
+    /// 构造一个新的类型与值
+    /// </summary>
+    [JsonConstructor]
+    public TypeValue()
+    {
+    }
+
+    /// <summary>
+    /// 构造一个新的类型与值
+    /// </summary>
+    /// <param name="type">类型</param>
+    /// <param name="value">值</param>
+    public TypeValue(PlayerProperty type,string? value)
+    {
+        Type = type;
+        Value = value;
+    }
+
     /// <summary>
     /// 类型
     /// </summary>

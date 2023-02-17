@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.Caching;
 /// </summary>
 /// <typeparam name="T">缓存类型</typeparam>
 [HighQuality]
-internal interface IImageCache
+internal interface IImageCache : ICastableService
 {
     /// <summary>
     /// Gets the file path containing cached item for given Uri

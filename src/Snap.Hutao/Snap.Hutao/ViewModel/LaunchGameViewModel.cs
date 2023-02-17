@@ -28,8 +28,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 启动游戏视图模型
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Scoped)]
-internal class LaunchGameViewModel : Abstraction.ViewModel
+internal sealed class LaunchGameViewModel : Abstraction.ViewModel
 {
     /// <summary>
     /// 启动游戏目标 Uid

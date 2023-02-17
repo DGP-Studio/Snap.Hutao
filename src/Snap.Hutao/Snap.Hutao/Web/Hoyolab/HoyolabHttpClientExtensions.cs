@@ -11,6 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// <summary>
 /// Hoyolab HttpClient 拓展
 /// </summary>
+[HighQuality]
 internal static class HoyolabHttpClientExtensions
 {
     /// <summary>

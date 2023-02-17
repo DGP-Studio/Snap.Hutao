@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Log;
 /// <summary>
 /// 胡桃日志
 /// </summary>
-public class HutaoLog
+[HighQuality]
+internal sealed class HutaoLog
 {
     /// <summary>
     /// 设备Id

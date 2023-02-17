@@ -203,7 +203,7 @@ internal class UserService : IUserService
         }
 
         // 检查 mid 对应用户是否存在
-        if (UserHelper.TryGetUser(userCollection!, mid, out BindingUser? user))
+        if (TryGetUser(userCollection!, mid, out BindingUser? user))
         {
             using (IServiceScope scope = scopeFactory.CreateScope())
             {
@@ -258,6 +258,12 @@ internal class UserService : IUserService
                 return false;
             }
         }
+    }
+
+    private static bool TryGetUser(ObservableCollection<BindingUser> users, string mid, [NotNullWhen(true)] out BindingUser? user)
+    {
+        user = users.SingleOrDefault(u => u.Entity.Mid == mid);
+        return user != null;
     }
 
     private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie)

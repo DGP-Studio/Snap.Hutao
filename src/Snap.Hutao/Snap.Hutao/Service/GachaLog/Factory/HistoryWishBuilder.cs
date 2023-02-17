@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Abstraction;
@@ -14,7 +13,8 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// <summary>
 /// 卡池历史记录建造器
 /// </summary>
-internal class HistoryWishBuilder
+[HighQuality]
+internal sealed class HistoryWishBuilder
 {
     private readonly GachaEvent gachaEvent;
     private readonly GachaConfigType configType;

@@ -14,9 +14,10 @@ namespace Snap.Hutao;
 /// <summary>
 /// 主窗体
 /// </summary>
+[HighQuality]
 [Injection(InjectAs.Singleton)]
 [SuppressMessage("", "CA1001")]
-public sealed partial class MainWindow : Window, IExtendedWindowSource, IRecipient<WelcomeStateCompleteMessage>
+internal sealed partial class MainWindow : Window, IExtendedWindowSource, IRecipient<WelcomeStateCompleteMessage>
 {
     private const int MinWidth = 848;
     private const int MinHeight = 524;

@@ -10,7 +10,8 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// <summary>
 /// 元素名称图标转换器
 /// </summary>
-internal class ElementNameIconConverter : ValueConverter<string, Uri>
+[HighQuality]
+internal sealed class ElementNameIconConverter : ValueConverter<string, Uri>
 {
     /// <summary>
     /// 将中文元素名称转换为图标链接
@@ -33,7 +34,7 @@ internal class ElementNameIconConverter : ValueConverter<string, Uri>
 
         return string.IsNullOrEmpty(element)
             ? Web.HutaoEndpoints.UIIconNone
-            : new Uri(Web.HutaoEndpoints.StaticFile("IconElement", $"UI_Icon_Element_{element}.png"));
+            : Web.HutaoEndpoints.StaticFile("IconElement", $"UI_Icon_Element_{element}.png").ToUri();
 
         // $"UI_Icon_Element_{element}.png"
     }
@@ -55,26 +56,6 @@ internal class ElementNameIconConverter : ValueConverter<string, Uri>
             "水" => ElementType.Water,
             "风" => ElementType.Wind,
             _ => ElementType.None,
-        };
-    }
-
-    /// <summary>
-    /// 将元素类型转换为 Bgra8
-    /// </summary>
-    /// <param name="type">元素类型</param>
-    /// <returns>Bgra8</returns>
-    public static Bgra8 ElementTypeToBgra8(ElementType type)
-    {
-        return type switch
-        {
-            ElementType.Electric => Bgra8.FromRgb(0xDF, 0xBB, 0xFF),
-            ElementType.Fire => Bgra8.FromRgb(0xFF, 0xA8, 0x70),
-            ElementType.Grass => Bgra8.FromRgb(0xB1, 0xEB, 0x29),
-            ElementType.Ice => Bgra8.FromRgb(0xCC, 0xFF, 0xFF),
-            ElementType.Rock => Bgra8.FromRgb(0xF4, 0xD6, 0x60),
-            ElementType.Water => Bgra8.FromRgb(0x08, 0xE4, 0xFF),
-            ElementType.Wind => Bgra8.FromRgb(0xA7, 0xF7, 0xD0),
-            _ => Bgra8.FromRgb(0x80, 0x80, 0x80),
         };
     }
 

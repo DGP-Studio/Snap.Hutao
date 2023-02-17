@@ -8,7 +8,8 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 /// <summary>
 /// 操作凭证包装器
 /// </summary>
-public class ActionTicketWrapper
+[HighQuality]
+internal sealed class ActionTicketWrapper
 {
     /// <summary>
     /// 凭证

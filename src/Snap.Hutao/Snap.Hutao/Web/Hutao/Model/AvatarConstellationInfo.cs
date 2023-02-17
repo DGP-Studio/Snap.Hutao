@@ -6,7 +6,8 @@ namespace Snap.Hutao.Web.Hutao.Model;
 /// <summary>
 /// 角色命座信息
 /// </summary>
-public class AvatarConstellationInfo : AvatarBuild
+[HighQuality]
+internal sealed class AvatarConstellationInfo : AvatarBuild
 {
     /// <summary>
     /// 持有率
