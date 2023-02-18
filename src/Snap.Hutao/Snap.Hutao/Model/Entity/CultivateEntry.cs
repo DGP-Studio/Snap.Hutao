@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Entity.Primitive;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Snap.Hutao.Model.Entity.Primitive;
 
 namespace Snap.Hutao.Model.Entity;
 

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Primitives;
 using Microsoft.Win32;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
@@ -17,6 +18,13 @@ internal static class RegistryInterop
 {
     private const string GenshinKey = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
     private const string SdkKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
+
+    private static string? psExecutablePath;
+
+    private static string PsExecutablePath
+    {
+        get => psExecutablePath ??= GetPowershellLocation();
+    }
 
     /// <summary>
     /// 设置键值
@@ -78,5 +86,23 @@ internal static class RegistryInterop
         }
 
         return null;
+    }
+
+    private static string GetPowershellLocation()
+    {
+        string paths = Environment.GetEnvironmentVariable("Path")!;
+
+        foreach (StringSegment path in new StringTokenizer(paths, ';'.Enumerate().ToArray()))
+        {
+            if (path.HasValue && path.Length > 0)
+            {
+                if (path.AsSpan().IndexOf("WindowsPowerShell") > 0)
+                {
+                    return Path.Combine(path.Value, "powershell.exe");
+                }
+            }
+        }
+
+        throw ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropPowershellNotFound, null!);
     }
 }

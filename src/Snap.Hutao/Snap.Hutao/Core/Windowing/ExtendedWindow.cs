@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Win32;
 using System.IO;

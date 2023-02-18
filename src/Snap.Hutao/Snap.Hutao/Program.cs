@@ -12,6 +12,7 @@ namespace Snap.Hutao;
 /// <summary>
 /// Program class
 /// </summary>
+[SuppressMessage("", "SH001")]
 public static partial class Program
 {
     [LibraryImport("Microsoft.ui.xaml.dll")]

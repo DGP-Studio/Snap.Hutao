@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Request;
 using System.Net.Http;
 using System.Text;
@@ -12,7 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// Hoyolab HttpClient 拓展
 /// </summary>
 [HighQuality]
-internal static class HoyolabHttpClientExtensions
+internal static class HoyolabHttpClientExtension
 {
     /// <summary>
     /// 设置用户的 Cookie

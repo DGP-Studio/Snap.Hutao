@@ -9,6 +9,7 @@ namespace Snap.Hutao.Web.Hoyolab;
 /// <summary>
 /// 封装了米哈游的Cookie
 /// </summary>
+[HighQuality]
 internal sealed partial class Cookie
 {
     private readonly SortedDictionary<string, string> inner;

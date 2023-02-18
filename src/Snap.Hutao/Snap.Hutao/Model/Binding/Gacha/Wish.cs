@@ -15,6 +15,11 @@ internal abstract class Wish
     public string Name { get; set; } = default!;
 
     /// <summary>
+    /// 总数
+    /// </summary>
+    public int TotalCount { get; set; }
+
+    /// <summary>
     /// 统计开始时间
     /// </summary>
     public string FromFormatted
@@ -47,9 +52,4 @@ internal abstract class Wish
     /// 统计结束时间
     /// </summary>
     internal DateTimeOffset To { get; set; }
-
-    /// <summary>
-    /// 总数
-    /// </summary>
-    internal int TotalCount { get; set; }
 }

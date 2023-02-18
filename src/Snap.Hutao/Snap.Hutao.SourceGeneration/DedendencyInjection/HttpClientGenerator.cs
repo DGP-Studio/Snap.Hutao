@@ -97,13 +97,13 @@ internal static partial class IocHttpClientConfiguration
             switch (injectAsName)
             {
                 case DefaultName:
-                    lineBuilder.Append(@"DefaultConfiguration)");
+                    lineBuilder.Append("DefaultConfiguration)");
                     break;
                 case XRpcName:
-                    lineBuilder.Append(@"XRpcConfiguration)");
+                    lineBuilder.Append("XRpcConfiguration)");
                     break;
                 case XRpc2Name:
-                    lineBuilder.Append(@"XRpc2Configuration)");
+                    lineBuilder.Append("XRpc2Configuration)");
                     break;
                 default:
                     throw new InvalidOperationException($"非法的HttpClientConfigration值: [{injectAsName}]");

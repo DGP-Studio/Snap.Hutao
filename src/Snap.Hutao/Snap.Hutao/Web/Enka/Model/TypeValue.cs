@@ -24,7 +24,7 @@ internal sealed class TypeValue
     /// </summary>
     /// <param name="type">类型</param>
     /// <param name="value">值</param>
-    public TypeValue(PlayerProperty type,string? value)
+    public TypeValue(PlayerProperty type, string? value)
     {
         Type = type;
         Value = value;

@@ -50,7 +50,14 @@ internal sealed partial class CommunityGameRecordDialog : ContentDialog
 
         coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
         jsInterface = new(coreWebView2, scope.ServiceProvider);
+        jsInterface.ClosePageRequested += OnClosePageRequested;
+
         coreWebView2.Navigate("https://webstatic.mihoyo.com/app/community-game-records/index.html");
+    }
+
+    private void OnClosePageRequested()
+    {
+        ThreadHelper.InvokeOnMainThread(Hide);
     }
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)

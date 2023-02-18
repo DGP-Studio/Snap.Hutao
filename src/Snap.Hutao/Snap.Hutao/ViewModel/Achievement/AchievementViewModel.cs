@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Abstraction;

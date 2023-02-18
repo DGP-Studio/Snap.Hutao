@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;

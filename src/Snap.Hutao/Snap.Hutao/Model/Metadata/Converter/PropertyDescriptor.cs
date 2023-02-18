@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Annotation;

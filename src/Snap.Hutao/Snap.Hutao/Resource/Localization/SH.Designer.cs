@@ -1285,6 +1285,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 找不到 PowerShell 的安装目录 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameRegisteryInteropPowershellNotFound {
+            get {
+                return ResourceManager.GetString("ServiceGameRegisteryInteropPowershellNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 找不到游戏配置文件 {0} 的本地化字符串。
         /// </summary>
         internal static string ServiceGameSetMultiChannelConfigFileNotFound {

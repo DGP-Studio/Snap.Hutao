@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic.Immutable;

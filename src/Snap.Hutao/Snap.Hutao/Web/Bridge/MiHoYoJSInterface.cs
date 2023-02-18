@@ -3,16 +3,12 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Core.Database;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.User;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.Web.Bridge.Model;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
-using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using System.Runtime.InteropServices;
 using System.Text;

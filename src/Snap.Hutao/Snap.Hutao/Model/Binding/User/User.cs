@@ -4,7 +4,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;

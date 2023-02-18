@@ -19,6 +19,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 [HighQuality]
 [UseDynamicSecret]
 [HttpClient(HttpClientConfigration.XRpc)]
+[PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed class GameRecordClient
 {
     private readonly HttpClient httpClient;
@@ -100,11 +101,11 @@ internal sealed class GameRecordClient
     /// <param name="schedule">1：当期，2：上期</param>
     /// <param name="token">取消令牌</param>
     /// <returns>深渊信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
     public async Task<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Ltoken)
+            .SetUser(userAndUid.User, CookieType.Cookie)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
             .TryCatchGetFromJsonAsync<Response<SpiralAbyss.SpiralAbyss>>(ApiEndpoints.GameRecordSpiralAbyss(schedule, userAndUid.Uid), options, logger, token)
             .ConfigureAwait(false);

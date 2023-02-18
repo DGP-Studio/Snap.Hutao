@@ -6,7 +6,8 @@ namespace Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 /// <summary>
 /// Http客户端配置
 /// </summary>
-public enum HttpClientConfigration
+[HighQuality]
+internal enum HttpClientConfigration
 {
     /// <summary>
     /// 默认配置

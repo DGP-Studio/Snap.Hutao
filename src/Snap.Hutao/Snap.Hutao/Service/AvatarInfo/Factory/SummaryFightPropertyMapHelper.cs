@@ -4,7 +4,6 @@
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Annotation;
-using Snap.Hutao.Model.Metadata.Converter;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 

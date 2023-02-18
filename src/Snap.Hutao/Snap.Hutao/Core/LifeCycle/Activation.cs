@@ -38,12 +38,12 @@ internal static class Activation
     /// <summary>
     /// 启动游戏启动参数
     /// </summary>
-    public const string LaunchGame = "LaunchGame";
+    public const string LaunchGame = nameof(LaunchGame);
 
     /// <summary>
     /// 从剪贴板导入成就
     /// </summary>
-    public const string ImportUIAFFromClipBoard = "ImportUIAFFromClipBoard";
+    public const string ImportUIAFFromClipBoard = nameof(ImportUIAFFromClipBoard);
 
     private const string CategoryAchievement = "achievement";
     private const string CategoryDailyNote = "dailynote";
@@ -168,7 +168,8 @@ internal static class Activation
     private static async Task WaitMainWindowAsync()
     {
         await ThreadHelper.SwitchToMainThreadAsync();
-        _ = Ioc.Default.GetRequiredService<MainWindow>();
+        Ioc.Default.GetRequiredService<MainWindow>().Activate();
+
         await Ioc.Default.GetRequiredService<IInfoBarService>().WaitInitializationAsync().ConfigureAwait(false);
 
         Ioc.Default

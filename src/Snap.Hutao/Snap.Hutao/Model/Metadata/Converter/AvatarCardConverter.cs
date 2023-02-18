@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
-using Snap.Hutao.Extension;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 

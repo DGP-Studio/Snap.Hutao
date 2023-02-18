@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,8 +10,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core.IO.DataTransfer;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -38,7 +39,7 @@ namespace Snap.Hutao.ViewModel;
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Scoped)]
-internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel
+internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
@@ -60,8 +61,10 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel
         RefreshFromEnkaApiCommand = new AsyncRelayCommand(RefreshByEnkaApiAsync);
         RefreshFromHoyolabGameRecordCommand = new AsyncRelayCommand(RefreshByHoyolabGameRecordAsync);
         RefreshFromHoyolabCalculateCommand = new AsyncRelayCommand(RefreshByHoyolabCalculateAsync);
-        ExportAsImageCommand = new AsyncRelayCommand<UIElement>(ExportAsImageAsync);
+        ExportAsImageCommand = new AsyncRelayCommand<FrameworkElement>(ExportAsImageAsync);
         CultivateCommand = new AsyncRelayCommand<AvatarView>(CultivateAsync);
+
+        serviceProvider.GetRequiredService<IMessenger>().Register(this);
     }
 
     /// <summary>
@@ -103,6 +106,15 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel
     /// 养成命令
     /// </summary>
     public ICommand CultivateCommand { get; }
+
+    /// <inheritdoc/>
+    public void Receive(UserChangedMessage message)
+    {
+        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+        {
+            RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).SafeForget();
+        }
+    }
 
     private Task OpenUIAsync()
     {
@@ -255,9 +267,9 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task ExportAsImageAsync(UIElement? element)
+    private async Task ExportAsImageAsync(FrameworkElement? element)
     {
-        if (element != null)
+        if (element != null && element.IsLoaded)
         {
             RenderTargetBitmap bitmap = new();
             await bitmap.RenderAsync(element);

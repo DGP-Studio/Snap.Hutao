@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;

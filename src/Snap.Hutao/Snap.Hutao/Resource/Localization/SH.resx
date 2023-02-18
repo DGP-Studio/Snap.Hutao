@@ -525,6 +525,9 @@
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>未开启长路径功能，无法设置注册表键值</value>
   </data>
+  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
+    <value>找不到 PowerShell 的安装目录</value>
+  </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>找不到游戏配置文件 {0}</value>
   </data>

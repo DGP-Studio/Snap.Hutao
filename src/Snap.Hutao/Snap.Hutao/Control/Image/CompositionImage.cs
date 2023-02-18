@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Service.Abstraction;
 using System.IO;
 using System.Net.Http;

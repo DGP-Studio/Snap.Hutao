@@ -7,8 +7,9 @@ namespace Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 /// 指示被标注的类型可注入 HttpClient
 /// 由源生成器生成注入代码
 /// </summary>
+[HighQuality]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public class HttpClientAttribute : Attribute
+internal sealed class HttpClientAttribute : Attribute
 {
     /// <summary>
     /// 构造一个新的特性

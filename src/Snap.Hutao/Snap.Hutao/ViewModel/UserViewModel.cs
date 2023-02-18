@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;

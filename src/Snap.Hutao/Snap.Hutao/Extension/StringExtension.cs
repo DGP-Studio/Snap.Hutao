@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Snap.Hutao.Extension;
 

@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.UI;
 using CommunityToolkit.WinUI.UI.Animations;
 using Microsoft.UI.Composition;
-using System.Diagnostics.Contracts;
 using System.Numerics;
 
 namespace Snap.Hutao.Control.Animation;

@@ -11,7 +11,6 @@ using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Extension;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;

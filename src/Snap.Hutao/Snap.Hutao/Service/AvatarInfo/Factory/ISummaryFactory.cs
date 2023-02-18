@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding.AvatarProperty;
-using Snap.Hutao.Web.Enka.Model;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 

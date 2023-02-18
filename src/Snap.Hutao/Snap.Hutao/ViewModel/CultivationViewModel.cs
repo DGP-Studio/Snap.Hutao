@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Extension;
-using Snap.Hutao.Model;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;

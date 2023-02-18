@@ -5,7 +5,6 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Extension;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control.Image;

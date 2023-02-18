@@ -4,7 +4,6 @@
 using Microsoft.Win32;
 using Snap.Hutao.Core.Json;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Extension;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using System.Collections.Immutable;
 using System.IO;
