@@ -505,7 +505,7 @@
                         Description="{shcm:ResourceString Name=ViewPageGachaLogImportDescription}"
                         Header="{shcm:ResourceString Name=ViewPageGachaLogImportHeader}"
                         Icon="{shcm:FontIcon Glyph=&#xE8B5;}">
-                        <Button Command="{Binding ImportFromUIGFJsonCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogExportAction}"/>
+                        <Button Command="{Binding ImportFromUIGFJsonCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogImportAction}"/>
                     </wsc:Setting>
                 </wsc:SettingsGroup>
             </StackPanel>
