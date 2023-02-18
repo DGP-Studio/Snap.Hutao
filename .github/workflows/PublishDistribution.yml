@@ -23,7 +23,7 @@ jobs:
         with: 
           repository: "DGP-Studio/Snap.Hutao"
           latest: true
-          fileName: "*.zip"
+          fileName: "*.msix"
           out-file-path: ./release-download
           
       # Upload to Drive
