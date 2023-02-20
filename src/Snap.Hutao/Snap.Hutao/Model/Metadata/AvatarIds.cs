@@ -63,7 +63,7 @@ internal static class AvatarIds
     public static readonly AvatarId Sara = 10000056;
     public static readonly AvatarId Itto = 10000057;
     public static readonly AvatarId Yae = 10000058;
-    public static readonly AvatarId Heizou = 10000059;
+    public static readonly AvatarId Heizo = 10000059;
     public static readonly AvatarId Yelan = 10000060;
 
     public static readonly AvatarId Aloy = 10000062;
@@ -83,6 +83,8 @@ internal static class AvatarIds
     public static readonly AvatarId Faruzan = 10000076;
     public static readonly AvatarId Yaoyao = 10000077;
     public static readonly AvatarId Alhaitham = 10000078;
+    public static readonly AvatarId Dehya = 10000079;
+    public static readonly AvatarId Mika = 10000080;
 
     /// <summary>
     /// 检查该角色是否为主角

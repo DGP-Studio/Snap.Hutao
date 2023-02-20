@@ -16,38 +16,38 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// 构造一个新的词条权重
     /// </summary>
     /// <param name="avatarId">角色Id</param>
-    /// <param name="hpPercent">大生命</param>
-    /// <param name="attackPercenr">大攻击</param>
-    /// <param name="defensePercent">大防御</param>
-    /// <param name="critical">暴击率</param>
-    /// <param name="criticalHurt">暴击伤害</param>
-    /// <param name="elementMastery">元素精通</param>
-    /// <param name="chargeEfficiency">充能效率</param>
-    /// <param name="healAdd">治疗加成</param>
+    /// <param name="hp">大生命</param>
+    /// <param name="atk">大攻击</param>
+    /// <param name="def">大防御</param>
+    /// <param name="crit">暴击率</param>
+    /// <param name="critHurt">暴击伤害</param>
+    /// <param name="mastery">元素精通</param>
+    /// <param name="charge">充能效率</param>
+    /// <param name="heal">治疗加成</param>
     /// <param name="name">名称</param>
     public AffixWeight(
         int avatarId,
-        double hpPercent,
-        double attackPercenr,
-        double defensePercent,
-        double critical,
-        double criticalHurt,
-        double elementMastery,
-        double chargeEfficiency,
-        double healAdd,
+        double hp,
+        double atk,
+        double def,
+        double crit,
+        double critHurt,
+        double mastery,
+        double charge,
+        double heal,
         string name = "通用")
     {
         AvatarId = avatarId;
         Name = name;
 
-        this[FightProperty.FIGHT_PROP_HP_PERCENT] = hpPercent;
-        this[FightProperty.FIGHT_PROP_ATTACK_PERCENT] = attackPercenr;
-        this[FightProperty.FIGHT_PROP_DEFENSE_PERCENT] = defensePercent;
-        this[FightProperty.FIGHT_PROP_CRITICAL] = critical;
-        this[FightProperty.FIGHT_PROP_CRITICAL_HURT] = criticalHurt;
-        this[FightProperty.FIGHT_PROP_ELEMENT_MASTERY] = elementMastery;
-        this[FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY] = chargeEfficiency;
-        this[FightProperty.FIGHT_PROP_HEAL_ADD] = healAdd;
+        this[FightProperty.FIGHT_PROP_HP_PERCENT] = hp;
+        this[FightProperty.FIGHT_PROP_ATTACK_PERCENT] = atk;
+        this[FightProperty.FIGHT_PROP_DEFENSE_PERCENT] = def;
+        this[FightProperty.FIGHT_PROP_CRITICAL] = crit;
+        this[FightProperty.FIGHT_PROP_CRITICAL_HURT] = critHurt;
+        this[FightProperty.FIGHT_PROP_ELEMENT_MASTERY] = mastery;
+        this[FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY] = charge;
+        this[FightProperty.FIGHT_PROP_HEAL_ADD] = heal;
     }
 
     /// <summary>

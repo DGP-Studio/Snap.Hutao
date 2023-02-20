@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Globalization;
+using Windows.Globalization;
 
 namespace Snap.Hutao.Core.Setting;
 
@@ -19,5 +20,6 @@ internal static class Localization
         CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture(culture);
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
+        ApplicationLanguages.PrimaryLanguageOverride = culture;
     }
 }
