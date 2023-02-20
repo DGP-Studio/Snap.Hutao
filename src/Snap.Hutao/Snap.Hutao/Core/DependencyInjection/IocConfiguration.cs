@@ -3,8 +3,12 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
@@ -44,6 +48,9 @@ internal static class IocConfiguration
 #endif
                 context.Database.Migrate();
             }
+
+            SettingEntry entry = context.Settings.SingleOrAdd(SettingEntry.Culture, CultureInfo.CurrentCulture.Name);
+            Localization.Initialize(entry.Value!);
         }
 
         return services.AddDbContext<AppDbContext>(builder =>

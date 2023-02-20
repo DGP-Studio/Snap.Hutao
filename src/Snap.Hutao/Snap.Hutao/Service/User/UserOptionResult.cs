@@ -6,7 +6,8 @@ namespace Snap.Hutao.Service.User;
 /// <summary>
 /// 用户添加操作结果
 /// </summary>
-public enum UserOptionResult
+[HighQuality]
+internal enum UserOptionResult
 {
     /// <summary>
     /// 添加成功

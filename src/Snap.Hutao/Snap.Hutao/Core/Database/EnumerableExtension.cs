@@ -7,7 +7,7 @@ namespace Snap.Hutao.Core.Database;
 /// 可枚举扩展
 /// </summary>
 [HighQuality]
-public static class EnumerableExtension
+internal static class EnumerableExtension
 {
     /// <summary>
     /// 获取选中的值或默认值

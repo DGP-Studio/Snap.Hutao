@@ -23,10 +23,16 @@ internal static class Clipboard
     {
         await ThreadHelper.SwitchToMainThreadAsync();
         DataPackageView view = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
-        string json = await view.GetTextAsync();
 
-        await ThreadHelper.SwitchToBackgroundAsync();
-        return JsonSerializer.Deserialize<T>(json, options);
+        if (view.Contains(StandardDataFormats.Text))
+        {
+            string json = await view.GetTextAsync();
+
+            await ThreadHelper.SwitchToBackgroundAsync();
+            return JsonSerializer.Deserialize<T>(json, options);
+        }
+
+        return null;
     }
 
     /// <summary>

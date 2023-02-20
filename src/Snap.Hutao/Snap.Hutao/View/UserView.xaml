@@ -20,11 +20,27 @@
     <StackPanel>
         <Button
             Grid.Column="2"
+            MaxHeight="40"
             Margin="4,4,4,6"
             Background="Transparent"
             BorderBrush="{x:Null}">
             <Button.Resources>
                 <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+
+                <StaticResource x:Key="ButtonBackground" ResourceKey="NavigationViewItemBackground"/>
+                <StaticResource x:Key="ButtonBackgroundDisabled" ResourceKey="NavigationViewItemBackgroundDisabled"/>
+                <StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="NavigationViewItemBackgroundPointerOver"/>
+                <StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="NavigationViewItemBackgroundPressed"/>
+
+                <StaticResource x:Key="ButtonBorderBrush" ResourceKey="NavigationViewItemBorderBrush"/>
+                <StaticResource x:Key="ButtonBorderBrushDisabled" ResourceKey="NavigationViewItemBorderBrushDisabled"/>
+                <StaticResource x:Key="ButtonBorderBrushPointerOver" ResourceKey="NavigationViewItemBorderBrushPointerOver"/>
+                <StaticResource x:Key="ButtonBorderBrushPressed" ResourceKey="NavigationViewItemBorderBrushPressed"/>
+
+                <StaticResource x:Key="ButtonForeground" ResourceKey="NavigationViewItemForeground"/>
+                <StaticResource x:Key="ButtonForegroundDisabled" ResourceKey="NavigationViewItemForegroundDisabled"/>
+                <StaticResource x:Key="ButtonForegroundPointerOver" ResourceKey="NavigationViewItemForegroundPointerOver"/>
+                <StaticResource x:Key="ButtonForegroundPressed" ResourceKey="NavigationViewItemForegroundPressed"/>
             </Button.Resources>
             <Button.Content>
                 <Grid>
@@ -217,6 +233,7 @@
                     <Setter Property="Padding" Value="0"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="BorderThickness" Value="0"/>
                 </Style>
             </Button.Style>
         </Button>

@@ -26,7 +26,7 @@
             Grid.Row="1"
             DisplayMode="Inline"
             IsPaneOpen="True"
-            OpenPaneLength="96"
+            OpenPaneLength="120"
             PaneBackground="Transparent"
             Visibility="{Binding SpiralAbyssView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <SplitView.Pane>

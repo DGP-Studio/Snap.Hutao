@@ -80,6 +80,11 @@ internal sealed class SettingEntry
     /// 启动游戏 目标帧率
     /// </summary>
     public const string LaunchTargetFps = "Launch.TargetFps";
+
+    /// <summary>
+    /// 语言
+    /// </summary>
+    public const string Culture = "Culture";
     #endregion
 
     /// <summary>

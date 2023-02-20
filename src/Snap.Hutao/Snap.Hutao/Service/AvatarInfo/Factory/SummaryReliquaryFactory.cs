@@ -45,7 +45,7 @@ internal sealed class SummaryReliquaryFactory
     public PropertyReliquary CreateReliquary()
     {
         MetadataReliquary reliquary = metadataContext.Reliquaries.Single(r => r.Ids.Contains(equip.ItemId));
-        List<ReliquarySubProperty> subProperty = equip.Reliquary!.AppendPropIdList.EmptyIfNull().Select(CreateSubProperty).ToList();
+        List<ReliquarySubProperty> subProperty = equip.Reliquary!.AppendPropIdList.EmptyIfNull().SelectList(CreateSubProperty);
 
         int affixCount = GetSecondaryAffixCount(reliquary);
         if (subProperty.Count == 0)
@@ -67,7 +67,7 @@ internal sealed class SummaryReliquaryFactory
         List<ReliquarySubProperty> primary = new(span[..^affixCount].ToArray());
         List<ReliquarySubProperty> secondary = new(span[^affixCount..].ToArray());
 
-        List<ReliquarySubProperty> composed = equip.Flat.ReliquarySubstats!.Select(CreateComposedSubProperty).ToList();
+        List<ReliquarySubProperty> composed = equip.Flat.ReliquarySubstats!.SelectList(CreateComposedSubProperty);
 
         ReliquaryLevel relicLevel = metadataContext.ReliqueryLevels.Single(r => r.Level == equip.Reliquary!.Level && r.Quality == reliquary.RankLevel);
         FightProperty property = metadataContext.IdRelicMainPropMap[equip.Reliquary.MainPropId];

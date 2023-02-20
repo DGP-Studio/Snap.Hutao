@@ -44,7 +44,7 @@ internal sealed class Flat
     /// List of Artifact Substats
     /// </summary>
     [JsonPropertyName("reliquarySubstats")]
-    public IList<ReliquarySubstat>? ReliquarySubstats { get; set; }
+    public List<ReliquarySubstat>? ReliquarySubstats { get; set; }
 
     /// <summary>
     /// 物品类型

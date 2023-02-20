@@ -7,8 +7,9 @@ namespace Snap.Hutao.Core.DependencyInjection.Annotation;
 /// 指示被标注的类型可注入
 /// 由源生成器生成注入代码
 /// </summary>
+[HighQuality]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-public class InjectionAttribute : Attribute
+internal sealed class InjectionAttribute : Attribute
 {
     /// <summary>
     /// 指示该类将注入为不带有接口实现的类

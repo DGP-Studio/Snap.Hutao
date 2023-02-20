@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.Database;
 /// 数据库集合扩展
 /// </summary>
 [HighQuality]
-public static class DbSetExtension
+internal static class DbSetExtension
 {
     /// <summary>
     /// 获取对应的数据库上下文

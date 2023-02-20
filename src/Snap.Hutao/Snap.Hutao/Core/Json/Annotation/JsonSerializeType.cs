@@ -6,7 +6,8 @@ namespace Snap.Hutao.Core.Json.Annotation;
 /// <summary>
 /// Json 序列化类型
 /// </summary>
-public enum JsonSerializeType
+[HighQuality]
+internal enum JsonSerializeType
 {
     /// <summary>
     /// Int32

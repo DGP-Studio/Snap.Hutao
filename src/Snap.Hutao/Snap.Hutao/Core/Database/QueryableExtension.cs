@@ -19,7 +19,6 @@ internal static class QueryableExtension
     /// <typeparam name="TSource">源类型</typeparam>
     /// <param name="source">源</param>
     /// <param name="predicate">条件</param>
-    /// <param name="token">取消令牌</param>
     /// <returns>SQL返回个数</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int ExecuteDeleteWhere<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate)

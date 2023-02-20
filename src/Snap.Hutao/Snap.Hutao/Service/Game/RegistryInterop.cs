@@ -44,14 +44,12 @@ internal static class RegistryInterop
                 Set-ItemProperty -Path '{path}' -Name '{SdkKey}' -Value $value -Force;
                 """;
 
-            string psExecutablePath = @"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe";
-
             ProcessStartInfo startInfo = new()
             {
                 Arguments = command,
-                WorkingDirectory = Path.GetDirectoryName(psExecutablePath),
+                WorkingDirectory = Path.GetDirectoryName(PsExecutablePath),
                 CreateNoWindow = true,
-                FileName = psExecutablePath,
+                FileName = PsExecutablePath,
             };
 
             try

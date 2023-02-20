@@ -202,6 +202,7 @@ internal class MiHoYoJSInterface
             await userService.RefreshCookieTokenAsync(user).ConfigureAwait(false);
         }
 
+        await ThreadHelper.SwitchToMainThreadAsync();
         webView.SetCookie(user.CookieToken, user.Ltoken);
         return new() { Data = new() { [Cookie.COOKIE_TOKEN] = user.CookieToken![Cookie.COOKIE_TOKEN] } };
     }

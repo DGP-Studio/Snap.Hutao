@@ -254,6 +254,7 @@
                                     MaxWidth="800"
                                     HorizontalAlignment="Left"
                                     Background="Transparent">
+                                    <!--  卡片面板  -->
                                     <Border Margin="16" Style="{StaticResource BorderCardStyle}">
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -537,41 +538,63 @@
                                             </ItemsControl>
                                         </Grid>
                                     </Border>
+                                    <!--  角色属性  -->
                                     <Expander
                                         Margin="16,0,16,0"
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Stretch"
                                         Background="{x:Null}"
                                         Header="{shcm:ResourceString Name=ViewPageAvatarPropertyHeader}">
-                                        <ItemsControl ItemsSource="{Binding SelectedAvatar.Properties}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <wsc:Setting
-                                                        Margin="0,2,0,0"
-                                                        BorderBrush="{x:Null}"
-                                                        BorderThickness="0"
-                                                        Header="{Binding Key}">
-                                                        <Grid>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition/>
-                                                                <ColumnDefinition Width="100"/>
-                                                            </Grid.ColumnDefinitions>
-                                                            <TextBlock
-                                                                Grid.Column="0"
-                                                                HorizontalAlignment="Right"
-                                                                Text="{Binding Value1}"/>
-                                                            <TextBlock
-                                                                Grid.Column="1"
-                                                                Margin="6,0,0,0"
-                                                                HorizontalAlignment="Left"
-                                                                Foreground="{StaticResource AvatarPropertyAddValueBrush}"
-                                                                Text="{Binding Value2}"/>
-                                                        </Grid>
-                                                    </wsc:Setting>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" CornerRadius="0,0,4,4">
+                                            <ItemsControl Margin="0,0,0,-2" ItemsSource="{Binding SelectedAvatar.Properties}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Margin="16,8,16,0">
+                                                            <Grid>
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition Width="108"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition Height="auto"/>
+                                                                </Grid.RowDefinitions>
+                                                                <shci:MonoChrome
+                                                                    Width="16"
+                                                                    Height="16"
+                                                                    Source="{Binding Icon}"/>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    Margin="16,0,0,0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Text="{Binding Name}"/>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="2"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{Binding Value}"/>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="3"
+                                                                    Margin="8,0,0,0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Foreground="{StaticResource AvatarPropertyAddValueBrush}"
+                                                                    Text="{Binding AddValue}"/>
+                                                                <MenuFlyoutSeparator
+                                                                    Grid.Row="1"
+                                                                    Grid.ColumnSpan="4"
+                                                                    Margin="4,8,4,0"/>
+                                                            </Grid>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Border>
                                     </Expander>
+                                    <!--  圣遗物  -->
                                     <ItemsControl Margin="16,16,16,0" ItemsSource="{Binding SelectedAvatar.Reliquaries}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
@@ -581,7 +604,7 @@
                                                     HorizontalAlignment="Stretch"
                                                     HorizontalContentAlignment="Stretch">
                                                     <Expander.Header>
-                                                        <Grid Margin="0,16">
+                                                        <Grid Margin="0,8,8,8">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="auto"/>
                                                                 <ColumnDefinition/>

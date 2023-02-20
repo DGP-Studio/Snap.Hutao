@@ -1249,6 +1249,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 重命名数据文件夹名称失败 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGamePackageRenameDataFolderFailed {
+            get {
+                return ResourceManager.GetString("ServiceGamePackageRenameDataFolderFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 获取 Package Version 的本地化字符串。
         /// </summary>
         internal static string ServiceGamePackageRequestPackageVerion {
@@ -3769,6 +3778,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 设置呈现语言 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingApperanceLanguageDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingApperanceLanguageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 语言 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingApperanceLanguageHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingApperanceLanguageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 更改窗体的背景材质 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingBackdropMaterialDescription {
@@ -4003,6 +4030,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 相关链接 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingLinks {
+            get {
+                return ResourceManager.GetString("ViewPageSettingLinks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 重置 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingResetAction {
@@ -4084,6 +4120,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 赞助我们 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSponsorNavigate {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSponsorNavigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 存储空间 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingStorageHeader {
@@ -4107,6 +4152,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingStorageSetAction {
             get {
                 return ResourceManager.GetString("ViewPageSettingStorageSetAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 贡献翻译 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingTranslateNavigate {
+            get {
+                return ResourceManager.GetString("ViewPageSettingTranslateNavigate", resourceCulture);
             }
         }
         

@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.Database;
 /// 必须实现该接口
 /// </summary>
 [HighQuality]
-public interface ISelectable
+internal interface ISelectable
 {
     /// <summary>
     /// 获取或设置当前项的选中状态

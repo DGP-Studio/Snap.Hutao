@@ -26,22 +26,6 @@ internal sealed class TypedWishSummary : Wish
     }
 
     /// <summary>
-    /// 据上个五星抽数格式化
-    /// </summary>
-    public string LastOrangePullFormatted
-    {
-        get => string.Format(SH.ModelBindingGachaTypedWishSummaryLastPullFormat, LastOrangePull);
-    }
-
-    /// <summary>
-    /// 据上个四星抽数格式化
-    /// </summary>
-    public string LastPurplePullFormatted
-    {
-        get => string.Format(SH.ModelBindingGachaTypedWishSummaryLastPullFormat, LastPurplePull);
-    }
-
-    /// <summary>
     /// 据上个五星抽数
     /// </summary>
     public int LastOrangePull { get; set; }

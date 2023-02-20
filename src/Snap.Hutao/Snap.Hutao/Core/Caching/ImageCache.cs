@@ -20,7 +20,7 @@ namespace Snap.Hutao.Core.Caching;
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
 [HttpClient(HttpClientConfigration.Default)]
 [PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
-public sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
+internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private const string CacheFolderName = nameof(ImageCache);
 

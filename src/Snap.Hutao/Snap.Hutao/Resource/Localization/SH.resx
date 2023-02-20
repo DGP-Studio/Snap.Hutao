@@ -513,6 +513,9 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>在 Unity 日志文件中找不到游戏路径</value>
   </data>
+  <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
+    <value>重命名数据文件夹名称失败</value>
+  </data>
   <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
     <value>获取 Package Version</value>
   </data>
@@ -1353,6 +1356,12 @@
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
     <value>外观</value>
   </data>
+  <data name="ViewPageSettingApperanceLanguageDescription" xml:space="preserve">
+    <value>设置呈现语言</value>
+  </data>
+  <data name="ViewPageSettingApperanceLanguageHeader" xml:space="preserve">
+    <value>语言</value>
+  </data>
   <data name="ViewPageSettingBackdropMaterialDescription" xml:space="preserve">
     <value>更改窗体的背景材质</value>
   </data>
@@ -1431,6 +1440,9 @@
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>游戏</value>
   </data>
+  <data name="ViewPageSettingLinks" xml:space="preserve">
+    <value>相关链接</value>
+  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>重置</value>
   </data>
@@ -1458,6 +1470,9 @@
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>设置游戏路径时，请选择游戏本体（YuanShen.exe 或 GenshinImpact.exe）而不是启动器（launcher.exe）</value>
   </data>
+  <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
+    <value>赞助我们</value>
+  </data>
   <data name="ViewPageSettingStorageHeader" xml:space="preserve">
     <value>存储空间</value>
   </data>
@@ -1466,6 +1481,9 @@
   </data>
   <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
     <value>更改</value>
+  </data>
+  <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
+    <value>贡献翻译</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>前往商店</value>

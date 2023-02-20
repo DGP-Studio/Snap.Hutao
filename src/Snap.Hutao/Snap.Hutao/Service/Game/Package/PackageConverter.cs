@@ -48,53 +48,42 @@ internal sealed class PackageConverter
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         string scatteredFilesUrl = gameResouce.Game.Latest.DecompressedPath;
-        Uri pkgVersionUri = new($"{scatteredFilesUrl}/pkg_version");
+        Uri pkgVersionUri = $"{scatteredFilesUrl}/pkg_version".ToUri();
         ConvertDirection direction = targetScheme.IsOversea ? ConvertDirection.ChineseToOversea : ConvertDirection.OverseaToChinese;
 
         progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));
-        Dictionary<string, VersionItem> remoteItems = default!;
+        Dictionary<string, VersionItem> remoteItems;
         try
         {
             using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUri).ConfigureAwait(false))
             {
-                remoteItems = await GetVersionItemsAsync(remoteSteam).ConfigureAwait(false);
+                remoteItems = await GetRemoteVersionItemsAsync(remoteSteam).ConfigureAwait(false);
             }
         }
         catch (IOException ex)
         {
-            ThrowHelper.PackageConvert(SH.ServiceGamePackageRequestPackageVerionFailed, ex);
+            throw ThrowHelper.PackageConvert(SH.ServiceGamePackageRequestPackageVerionFailed, ex);
         }
 
         Dictionary<string, VersionItem> localItems;
         using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, "pkg_version")))
         {
-            localItems = await GetVersionItemsAsync(localSteam, direction, ConvertRemoteName).ConfigureAwait(false);
+            localItems = await GetLocalVersionItemsAsync(localSteam, direction, ConvertRemoteName).ConfigureAwait(false);
         }
 
-        IEnumerable<ItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems);
+        IEnumerable<ItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).OrderBy(i => (int)i.Type);
         return await ReplaceGameResourceAsync(diffOperations, gameFolder, scatteredFilesUrl, direction, progress).ConfigureAwait(false);
     }
 
     /// <summary>
     /// 检查过时文件与Sdk
+    /// 只在国服环境有效
     /// </summary>
     /// <param name="resource">游戏资源</param>
     /// <param name="gameFolder">游戏文件夹</param>
     /// <returns>任务</returns>
     public async Task EnsureDeprecatedFilesAndSdkAsync(GameResource resource, string gameFolder)
     {
-        if (resource.DeprecatedFiles != null)
-        {
-            foreach (NameMd5 file in resource.DeprecatedFiles)
-            {
-                string filePath = Path.Combine(gameFolder, file.Name);
-                if (File.Exists(filePath))
-                {
-                    File.Move(filePath, $"{filePath}.backup");
-                }
-            }
-        }
-
         string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
         string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");
         string sdkVersionBackup = Path.Combine(gameFolder, YuanShenData, "sdk_pkg_version.backup");
@@ -103,6 +92,7 @@ internal sealed class PackageConverter
         // Only bilibili's sdk is not null
         if (resource.Sdk != null)
         {
+            // TODO: verify sdk md5
             if (File.Exists(sdkDllBackup) && File.Exists(sdkVersionBackup))
             {
                 FileOperation.Move(sdkDllBackup, sdkDll, false);
@@ -132,6 +122,15 @@ internal sealed class PackageConverter
             // backup
             FileOperation.Move(sdkDll, sdkDllBackup, true);
             FileOperation.Move(sdkVersion, sdkVersionBackup, true);
+        }
+
+        if (resource.DeprecatedFiles != null)
+        {
+            foreach (NameMd5 file in resource.DeprecatedFiles)
+            {
+                string filePath = Path.Combine(gameFolder, file.Name);
+                FileOperation.Move(filePath, $"{filePath}.backup", true);
+            }
         }
     }
 
@@ -216,6 +215,7 @@ internal sealed class PackageConverter
         long totalBytesRead = 0;
         int bytesRead;
         Memory<byte> buffer = new byte[bufferSize];
+
         do
         {
             bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
@@ -223,11 +223,6 @@ internal sealed class PackageConverter
 
             totalBytesRead += bytesRead;
             progress.Report(new(name, totalBytesRead, totalBytes));
-
-            if (bytesRead <= 0)
-            {
-                break;
-            }
         }
         while (bytesRead > 0);
     }
@@ -239,11 +234,11 @@ internal sealed class PackageConverter
         {
             RenameDataFolder(gameFolder, direction);
         }
-        catch (IOException)
+        catch (IOException ex)
         {
             // Access to the path is denied.
             // When user install the game in special folder like 'Program Files'
-            return false;
+            throw ThrowHelper.GameFileOperation(SH.ServiceGamePackageRenameDataFolderFailed, ex);
         }
 
         // Cache folder
@@ -260,20 +255,16 @@ internal sealed class PackageConverter
 
             switch (info.Type)
             {
-                case ItemOperationType.Add:
-                    await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info, progress).ConfigureAwait(false);
-                    break;
-                case ItemOperationType.Replace:
-                    {
-                        MoveToCache(moveToFilePath, targetFilePath);
-                        await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info, progress).ConfigureAwait(false);
-                        break;
-                    }
-
                 case ItemOperationType.Remove:
                     MoveToCache(moveToFilePath, targetFilePath);
                     break;
-
+                case ItemOperationType.Replace:
+                    MoveToCache(moveToFilePath, targetFilePath);
+                    await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info, progress).ConfigureAwait(false);
+                    break;
+                case ItemOperationType.Add:
+                    await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info, progress).ConfigureAwait(false);
+                    break;
                 default:
                     break;
             }
@@ -316,7 +307,6 @@ internal sealed class PackageConverter
                         try
                         {
                             await CopyToWithProgressAsync(webStream, fileStream, info.Target, totalBytes, progress).ConfigureAwait(false);
-                            fileStream.Seek(0, SeekOrigin.Begin);
                             string remoteMd5 = await Digest.GetStreamMD5Async(fileStream).ConfigureAwait(false);
                             if (info.Md5 == remoteMd5.ToLowerInvariant())
                             {
@@ -359,7 +349,7 @@ internal sealed class PackageConverter
         }
     }
 
-    private async Task<Dictionary<string, VersionItem>> GetVersionItemsAsync(Stream stream)
+    private async Task<Dictionary<string, VersionItem>> GetRemoteVersionItemsAsync(Stream stream)
     {
         Dictionary<string, VersionItem> results = new();
         using (StreamReader reader = new(stream))
@@ -377,7 +367,7 @@ internal sealed class PackageConverter
         return results;
     }
 
-    private async Task<Dictionary<string, VersionItem>> GetVersionItemsAsync(Stream stream, ConvertDirection direction, Func<string, ConvertDirection, string> nameConverter)
+    private async Task<Dictionary<string, VersionItem>> GetLocalVersionItemsAsync(Stream stream, ConvertDirection direction, Func<string, ConvertDirection, string> nameConverter)
     {
         Dictionary<string, VersionItem> results = new();
 

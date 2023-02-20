@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Intrinsic;
+
 namespace Snap.Hutao.Model.Binding.AvatarProperty;
 
 /// <summary>
@@ -22,7 +24,7 @@ internal sealed class ReliquarySubProperty
         Score = score;
 
         // only 0.25 | 0.50 | 0.75 | 1.00
-        Opacity = Math.Ceiling(score / 25) / 4;
+        Opacity = score == 0 ? 0.25 : Math.Ceiling(score / 25) / 4;
     }
 
     /// <summary>

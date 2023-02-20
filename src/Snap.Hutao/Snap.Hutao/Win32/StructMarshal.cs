@@ -42,9 +42,7 @@ internal static class StructMarshal
     public static unsafe Windows.UI.Color Color(uint value)
     {
         Unsafe.SkipInit(out Windows.UI.Color color);
-        uint reversed = BinaryPrimitives.ReverseEndianness(value);
-        Unsafe.WriteUnaligned(&color, reversed);
-
+        *(uint*)&color = BinaryPrimitives.ReverseEndianness(value); // Unsafe.WriteUnaligned(&color, reversed);
         return color;
     }
 

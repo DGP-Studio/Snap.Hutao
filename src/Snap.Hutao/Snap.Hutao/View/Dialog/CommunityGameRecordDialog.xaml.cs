@@ -18,7 +18,6 @@ namespace Snap.Hutao.View.Dialog;
 internal sealed partial class CommunityGameRecordDialog : ContentDialog
 {
     private readonly IServiceScope scope;
-    [SuppressMessage("", "IDE0052")]
     private MiHoYoJSInterface? jsInterface;
 
     /// <summary>

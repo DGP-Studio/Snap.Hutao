@@ -49,9 +49,11 @@
             <!--  Brushes  -->
             <SolidColorBrush x:Key="AvatarPropertyAddValueBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
             <!--  Uris  -->
-            <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96-cookie</x:String>
+            <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html</x:String>
             <x:String x:Key="DocumentLink_BugReport">https://hut.ao/statements/bug-report.html</x:String>
             <x:String x:Key="HolographicHat_GetToken_Release">https://github.com/HolographicHat/GetToken/releases/latest</x:String>
+            <x:String x:Key="DocumentLink_Translate">https://translate.hut.ao</x:String>
+            <x:String x:Key="Sponsor_Afadian">https://afdian.net/a/DismissedLight</x:String>
 
             <x:String x:Key="UI_ItemIcon_None">https://static.snapgenshin.com/Bg/UI_ItemIcon_None.png</x:String>
             <x:String x:Key="UI_ImgSign_ItemIcon">https://static.snapgenshin.com/Bg/UI_ImgSign_ItemIcon.png</x:String>

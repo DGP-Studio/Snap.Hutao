@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Windows.Storage;
@@ -65,9 +66,7 @@ internal sealed class ExperimentalFeaturesViewModel : ObservableObject
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
-
-            IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
-            infoBarService.Success(SH.ViewModelExperimentalDeleteUserSuccess);
+            AppInstance.Restart(string.Empty);
         }
     }
 }

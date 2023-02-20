@@ -119,11 +119,21 @@
                 </Expander.Resources>
                 <Expander.Header>
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
                         <TextBlock
+                            Grid.Column="0"
                             VerticalAlignment="Center"
                             Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="{Binding Name}"/>
-                        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            Text="{Binding Name}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap"/>
+                        <StackPanel
+                            Grid.Column="1"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
                             <TextBlock
                                 Margin="0,0,6,0"
                                 VerticalAlignment="Center"

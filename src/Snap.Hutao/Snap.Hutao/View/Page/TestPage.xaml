@@ -32,6 +32,16 @@
             <wsc:Setting Header="DownloadStaticFileTest">
                 <Button Command="{Binding DownloadStaticFileCommand}" Content="Download"/>
             </wsc:Setting>
+
+            <wsc:Setting Header="RestartTest">
+                <StackPanel Orientation="Horizontal">
+                    <ToggleSwitch Name="ElevatedSwitch" Style="{StaticResource DefaultToggleSwitchStyle}"/>
+                    <Button
+                        Command="{Binding RestartAppCommand}"
+                        CommandParameter="{Binding ElementName=ElevatedSwitch, Path=IsOn}"
+                        Content="Restart"/>
+                </StackPanel>
+            </wsc:Setting>
         </wsc:SettingsGroup>
     </ScrollViewer>
 </shc:ScopedPage>

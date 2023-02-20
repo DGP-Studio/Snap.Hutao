@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.SettingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shc="using:Snap.Hutao.Control"
@@ -16,7 +17,7 @@
             <Setter Property="MinWidth" Value="160"/>
         </Style>
         <Style BasedOn="{StaticResource HyperlinkButtonStyle}" TargetType="HyperlinkButton">
-            <Setter Property="MinWidth" Value="160"/>
+            <Setter Property="MinWidth" Value="120"/>
             <Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
         </Style>
         <Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="ComboBox">
@@ -46,8 +47,39 @@
                         </Border>
 
                         <Grid Grid.Column="1" Margin="16,0,0,0">
-                            <TextBlock Text="Copyright © 2022 - 2023 DGP Studio. All Rights Reserved." TextWrapping="Wrap"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Text="Copyright © 2022 - 2023 DGP Studio. All Rights Reserved."
+                                TextWrapping="Wrap"/>
+
+                            <StackPanel
+                                Grid.Row="1"
+                                VerticalAlignment="Bottom"
+                                Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center" Text="{shcm:ResourceString Name=ViewPageSettingLinks}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
+                                    Command="{Binding UpdateCheckCommand}"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingFeedbackNavigate}"
+                                    NavigateUri="{StaticResource DocumentLink_BugReport}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingTranslateNavigate}"
+                                    NavigateUri="{StaticResource DocumentLink_Translate}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingSponsorNavigate}"
+                                    NavigateUri="{StaticResource Sponsor_Afadian}"/>
+                            </StackPanel>
                         </Grid>
+
                     </Grid>
                     <wsc:Setting
                         Description="{Binding AppVersion}"
@@ -65,23 +97,19 @@
                         Description="{Binding WebView2Version}"
                         Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
                         Icon="&#xECAA;"/>
-                    <wsc:Setting
-                        Description="{shcm:ResourceString Name=ViewPageSettingFeedbackDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageSettingFeedbackHeader}"
-                        Icon="&#xED15;">
-                        <HyperlinkButton Content="{shcm:ResourceString Name=ViewPageSettingFeedbackNavigate}" NavigateUri="{StaticResource DocumentLink_BugReport}"/>
-                    </wsc:Setting>
-                    <wsc:Setting
-                        Description="{shcm:ResourceString Name=ViewPageSettingUpdateCheckDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageSettingUpdateCheckHeader}"
-                        Icon="&#xE117;">
-                        <wsc:Setting.ActionContent>
-                            <HyperlinkButton Command="{Binding UpdateCheckCommand}" Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
-                        </wsc:Setting.ActionContent>
-                    </wsc:Setting>
                 </wsc:SettingsGroup>
 
                 <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}">
+                    <wsc:Setting
+                        Description="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageHeader}"
+                        Icon="&#xF2B7;">
+                        <ComboBox
+                            MinWidth="180"
+                            DisplayMemberPath="Name"
+                            ItemsSource="{Binding Cultures}"
+                            SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>
+                    </wsc:Setting>
                     <wsc:Setting
                         Description="{shcm:ResourceString Name=ViewPageSettingBackdropMaterialDescription}"
                         Header="{shcm:ResourceString Name=ViewPageSettingBackdropMaterialHeader}"

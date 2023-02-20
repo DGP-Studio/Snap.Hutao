@@ -10,6 +10,7 @@ using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using System.Diagnostics;
+using System.IO;
 using System.Security.Principal;
 
 namespace Snap.Hutao.Core.LifeCycle;
@@ -24,11 +25,6 @@ internal static class Activation
     /// 操作
     /// </summary>
     public const string Action = nameof(Action);
-
-    /// <summary>
-    /// 无操作
-    /// </summary>
-    public const string NoAction = "";
 
     /// <summary>
     /// Uid
@@ -146,18 +142,18 @@ internal static class Activation
             {
                 switch (arguments)
                 {
-                    case NoAction:
+                    case LaunchGame:
+                        {
+                            await HandleLaunchGameActionAsync().ConfigureAwait(false);
+                            break;
+                        }
+
+                    default:
                         {
                             // Increase launch times
                             LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
 
                             await WaitMainWindowAsync().ConfigureAwait(false);
-                            break;
-                        }
-
-                    case LaunchGame:
-                        {
-                            await HandleLaunchGameActionAsync().ConfigureAwait(false);
                             break;
                         }
                 }

@@ -28,26 +28,28 @@ internal sealed class PropertyDescriptor : ValueConverter<PropertiesParameters, 
     /// <summary>
     /// 格式化有绿字的角色属性
     /// </summary>
+    /// <param name="property">战斗属性</param>
     /// <param name="name">属性名称</param>
     /// <param name="method">方法</param>
     /// <param name="baseValue">值1</param>
     /// <param name="addValue">值2</param>
     /// <returns>对2</returns>
-    public static AvatarProperty FormatAvatarProperty(string name, FormatMethod method, double baseValue, double addValue)
+    public static AvatarProperty FormatAvatarProperty(FightProperty property, string name, FormatMethod method, double baseValue, double addValue)
     {
-        return new(name, FormatValue(method, baseValue + addValue), $"[{FormatValue(method, baseValue)}+{FormatValue(method, addValue)}]");
+        return new(property, name, FormatValue(method, baseValue + addValue), $"[{FormatValue(method, baseValue)}+{FormatValue(method, addValue)}]");
     }
 
     /// <summary>
     /// 格式化无绿字的角色属性
     /// </summary>
+    /// <param name="property">战斗属性</param>
     /// <param name="name">属性名称</param>
     /// <param name="method">方法</param>
     /// <param name="value">值</param>
     /// <returns>对2</returns>
-    public static AvatarProperty FormatAvatarProperty(string name, FormatMethod method, double value)
+    public static AvatarProperty FormatAvatarProperty(FightProperty property, string name, FormatMethod method, double value)
     {
-        return new(name, FormatValue(method, value));
+        return new(property, name, FormatValue(method, value));
     }
 
     /// <summary>

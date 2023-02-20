@@ -42,18 +42,20 @@
                     </ItemsControl.ItemContainerTransitions>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="0,8,0,0">
-                                <TextBlock Text="{Binding DisplayName}"/>
-                                <ProgressBar
-                                    Width="240"
-                                    Margin="0,4,0,0"
-                                    Maximum="1"
-                                    Value="{Binding ProgressValue}"/>
-                                <TextBlock
-                                    Opacity="0.6"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding Description}"/>
-                            </StackPanel>
+                            <Border Style="{StaticResource BorderCardStyle}">
+                                <StackPanel Margin="0,8,0,0">
+                                    <TextBlock Text="{Binding DisplayName}"/>
+                                    <ProgressBar
+                                        Width="240"
+                                        Margin="0,4,0,0"
+                                        Maximum="1"
+                                        Value="{Binding ProgressValue}"/>
+                                    <TextBlock
+                                        Opacity="0.6"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        Text="{Binding Description}"/>
+                                </StackPanel>
+                            </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

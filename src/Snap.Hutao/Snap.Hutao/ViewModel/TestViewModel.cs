@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;
 using Snap.Hutao.View.Dialog;
@@ -29,6 +30,7 @@ internal sealed class TestViewModel : Abstraction.ViewModel
         ShowCommunityGameRecordDialogCommand = new AsyncRelayCommand(ShowCommunityGameRecordDialogAsync);
         ShowAdoptCalculatorDialogCommand = new AsyncRelayCommand(ShowAdoptCalculatorDialogAsync);
         DownloadStaticFileCommand = new AsyncRelayCommand(DownloadStaticFileAsync);
+        RestartAppCommand = new RelayCommand<bool>(RestartApp);
     }
 
     /// <summary>
@@ -45,6 +47,11 @@ internal sealed class TestViewModel : Abstraction.ViewModel
     /// 下载资源文件命令
     /// </summary>
     public ICommand DownloadStaticFileCommand { get; }
+
+    /// <summary>
+    /// 重启命令
+    /// </summary>
+    public ICommand RestartAppCommand { get; }
 
     private async Task ShowCommunityGameRecordDialogAsync()
     {
@@ -79,5 +86,10 @@ internal sealed class TestViewModel : Abstraction.ViewModel
                 logger.LogInformation("Download failed.");
             }
         }
+    }
+
+    private void RestartApp(bool elevated)
+    {
+        AppInstance.Restart(string.Empty);
     }
 }

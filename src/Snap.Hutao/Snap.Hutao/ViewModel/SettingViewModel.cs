@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Setting;
@@ -17,6 +18,7 @@ using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.View.Dialog;
+using System.Globalization;
 using System.IO;
 using Windows.Storage.Pickers;
 
@@ -42,9 +44,18 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         new("MicaAlt", BackdropType.MicaAlt),
     };
 
+    private readonly List<NameValue<string>> cultures = new()
+    {
+        new("简体中文", "zh-CN"),
+        new("繁體中文", "zh-TW"),
+        new("English (United States)", "en-US"),
+        new("한국인", "ko-KR"),
+    };
+
     private bool isEmptyHistoryWishVisible;
     private string gamePath;
     private NameValue<BackdropType> selectedBackdropType;
+    private NameValue<string>? selectedCulture;
 
     /// <summary>
     /// 构造一个新的设置视图模型
@@ -60,6 +71,9 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
         isEmptyHistoryWishVisibleEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.IsEmptyHistoryWishVisible, Core.StringLiterals.False);
         IsEmptyHistoryWishVisible = bool.Parse(isEmptyHistoryWishVisibleEntry.Value!);
+
+        string? cultureName = appDbContext.Settings.SingleOrAdd(SettingEntry.Culture, CultureInfo.CurrentCulture.Name).Value;
+        selectedCulture = cultures.FirstOrDefault(c => c.Value == cultureName);
 
         selectedBackdropTypeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.SystemBackdropType, BackdropType.Mica.ToString());
         BackdropType type = Enum.Parse<BackdropType>(selectedBackdropTypeEntry.Value!);
@@ -150,6 +164,29 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
                 selectedBackdropTypeEntry.Value = value.Value.ToString();
                 appDbContext.Settings.UpdateAndSave(selectedBackdropTypeEntry);
                 serviceProvider.GetRequiredService<IMessenger>().Send(new Message.BackdropTypeChangedMessage(value.Value));
+            }
+        }
+    }
+
+    /// <summary>
+    /// 语言
+    /// </summary>
+    public List<NameValue<string>> Cultures { get => cultures; }
+
+    /// <summary>
+    /// 选中的语言
+    /// </summary>
+    public NameValue<string>? SelectedCulture
+    {
+        get => selectedCulture;
+        set
+        {
+            if (SetProperty(ref selectedCulture, value))
+            {
+                SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.Culture, CultureInfo.CurrentCulture.Name);
+                entry.Value = selectedCulture.Value;
+                appDbContext.Settings.UpdateAndSave(entry);
+                AppInstance.Restart(string.Empty);
             }
         }
     }
@@ -271,6 +308,6 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     private void ResetStaticResource()
     {
         StaticResource.UnfulfillAllContracts();
-        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewPageSettingResetSuccessMessage);
+        AppInstance.Restart(string.Empty);
     }
 }

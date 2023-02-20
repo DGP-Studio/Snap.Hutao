@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.ExpressionService;
 /// </summary>
 /// <typeparam name="TTo">Target type</typeparam>
 [HighQuality]
-public static class CastTo<TTo>
+internal static class CastTo<TTo>
 {
     /// <summary>
     /// Casts <see cref="s"/> to <see cref="TTo"/>.

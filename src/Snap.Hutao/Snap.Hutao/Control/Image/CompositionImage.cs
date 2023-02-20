@@ -20,7 +20,7 @@ namespace Snap.Hutao.Control.Image;
 /// 为其他图像类控件提供基类
 /// </summary>
 [HighQuality]
-public abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
+internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 {
     private static readonly DependencyProperty SourceProperty = Property<CompositionImage>.Depend(nameof(Source), default(Uri), OnSourceChanged);
     private static readonly DependencyProperty EnableLazyLoadingProperty = Property<CompositionImage>.DependBoxed<bool>(nameof(EnableLazyLoading), BoxedValues.True);

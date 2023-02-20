@@ -57,12 +57,11 @@ internal sealed class WelcomeViewModel : ObservableObject
 
         // Cancel all previous created jobs
         serviceProvider.GetRequiredService<BitsManager>().CancelAllJobs();
-        await Task.WhenAll(downloadSummaries.Select(async downloadTask =>
+        await Parallel.ForEachAsync(downloadSummaries, async (summary, token) =>
         {
-            await downloadTask.DownloadAndExtractAsync().ConfigureAwait(false);
-            await ThreadHelper.SwitchToMainThreadAsync();
-            DownloadSummaries.Remove(downloadTask);
-        })).ConfigureAwait(true);
+            await summary.DownloadAndExtractAsync().ConfigureAwait(false);
+            ThreadHelper.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
+        }).ConfigureAwait(true);
 
         serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
         StaticResource.FulfillAllContracts();
@@ -123,7 +122,7 @@ internal sealed class WelcomeViewModel : ObservableObject
     /// 下载信息
     /// </summary>
     [SuppressMessage("", "CA1067")]
-    public class DownloadSummary : ObservableObject, IEquatable<DownloadSummary>
+    internal sealed class DownloadSummary : ObservableObject, IEquatable<DownloadSummary>
     {
         private readonly IServiceProvider serviceProvider;
         private readonly BitsManager bitsManager;

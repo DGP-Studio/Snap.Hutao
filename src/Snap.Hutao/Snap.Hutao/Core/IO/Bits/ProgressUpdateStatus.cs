@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.IO.Bits;
 /// </summary>
 [HighQuality]
 [DebuggerDisplay("{BytesRead}/{TotalBytes}")]
-public class ProgressUpdateStatus
+internal sealed class ProgressUpdateStatus
 {
     /// <summary>
     /// 构造一个新的进度更新状态
