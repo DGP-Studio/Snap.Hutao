@@ -201,8 +201,29 @@
   <data name="ModelBindingCultivationDaysOfWeek36" xml:space="preserve">
     <value>周三/周六/周日</value>
   </data>
-  <data name="ModelBindingHutaoComplexAvatarRankFloor" xml:space="preserve">
+  <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
+    <value>{0:f2} 抽</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryLastPullFormat" xml:space="preserve">
+    <value>已垫 {0} 抽</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
+    <value>最非 {0} 抽</value>
+  </data>
+  <data name="ModelBindingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
+    <value>最欧 {0} 抽</value>
+  </data>
+  <data name="ModelBindingGachaWishBaseTotalCountFormat" xml:space="preserve">
+    <value>{0} 抽</value>
+  </data>
+  <data name="ModelBindingHutaoComplexRankFloor" xml:space="preserve">
     <value>第 {0} 层</value>
+  </data>
+  <data name="ModelBindingHutaoComplexRankLevel" xml:space="preserve">
+    <value>第 {0} 间</value>
+  </data>
+  <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
+    <value>上场 {0} 次</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
     <value>渠道服</value>
@@ -213,29 +234,176 @@
   <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
     <value>国际服</value>
   </data>
-  <data name="ModelBingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
-    <value>{0:f2} 抽</value>
-  </data>
-  <data name="ModelBingGachaTypedWishSummaryLastPullFormat" xml:space="preserve">
-    <value>已垫 {0} 抽</value>
-  </data>
-  <data name="ModelBingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
-    <value>最非 {0} 抽</value>
-  </data>
-  <data name="ModelBingGachaTypedWishSummaryMinOrangePullFormat" xml:space="preserve">
-    <value>最欧 {0} 抽</value>
-  </data>
-  <data name="ModelBingGachaWishBaseTotalCountFormat" xml:space="preserve">
-    <value>{0} 抽</value>
-  </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>第 {0} 期</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
+    <value>愚人众</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeFontaine" xml:space="preserve">
+    <value>枫丹</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
+    <value>稻妻</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
+    <value>璃月</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeMondstadt" xml:space="preserve">
+    <value>蒙德</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeNatlan" xml:space="preserve">
+    <value>纳塔</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
+    <value>游侠</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeSemuru" xml:space="preserve">
+    <value>须弥</value>
+  </data>
+  <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
+    <value>至冬</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
+    <value>少男</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeGirl" xml:space="preserve">
+    <value>少女</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeLady" xml:space="preserve">
+    <value>成女</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeloli" xml:space="preserve">
+    <value>萝莉</value>
+  </data>
+  <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
+    <value>成男</value>
+  </data>
+  <data name="ModelIntrinsicElementNameElec" xml:space="preserve">
+    <value>雷</value>
+  </data>
+  <data name="ModelIntrinsicElementNameFire" xml:space="preserve">
+    <value>火</value>
+  </data>
+  <data name="ModelIntrinsicElementNameGrass" xml:space="preserve">
+    <value>草</value>
+  </data>
+  <data name="ModelIntrinsicElementNameIce" xml:space="preserve">
+    <value>冰</value>
+  </data>
+  <data name="ModelIntrinsicElementNameRock" xml:space="preserve">
+    <value>岩</value>
+  </data>
+  <data name="ModelIntrinsicElementNameWater" xml:space="preserve">
+    <value>水</value>
+  </data>
+  <data name="ModelIntrinsicElementNameWind" xml:space="preserve">
+    <value>风</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
+    <value>三星</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityGreen" xml:space="preserve">
+    <value>二星</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityOrange" xml:space="preserve">
+    <value>五星</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityPurple" xml:space="preserve">
+    <value>四星</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityRed" xml:space="preserve">
+    <value>限定五星</value>
+  </data>
+  <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
+    <value>一星</value>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
+    <value>弓</value>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeCatalyst" xml:space="preserve">
+    <value>法器</value>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeClaymore" xml:space="preserve">
+    <value>双手剑</value>
+  </data>
+  <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
+    <value>长柄武器</value>
+  </data>
+  <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
+    <value>单手剑</value>
+  </data>
+  <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
+    <value>{0} 月 {1} 日</value>
+  </data>
+  <data name="ModelWeaponAffixFormat" xml:space="preserve">
+    <value>精炼 {0} 阶</value>
   </data>
   <data name="MustSelectUserAndUid" xml:space="preserve">
     <value>必须先选择一个用户与角色</value>
   </data>
+  <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
+    <value>新增:{0} 个成就 | 更新:{1} 个成就 | 删除{2} 个成就</value>
+  </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>单个成就存档内发现多个相同的成就 Id</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
+    <value>攻击力</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseAtk" xml:space="preserve">
+    <value>基础攻击力</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseDef" xml:space="preserve">
+    <value>基础防御力</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyBaseHp" xml:space="preserve">
+    <value>基础生命值</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCDmg" xml:space="preserve">
+    <value>暴击伤害</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCE" xml:space="preserve">
+    <value>元素充能效率</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyCR" xml:space="preserve">
+    <value>暴击率</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBElec" xml:space="preserve">
+    <value>雷元素伤害加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBFire" xml:space="preserve">
+    <value>火元素伤害加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBGrass" xml:space="preserve">
+    <value>草元素伤害加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBIce" xml:space="preserve">
+    <value>冰元素伤害加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBPhyiscal" xml:space="preserve">
+    <value>物理伤害加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBRock" xml:space="preserve">
+    <value>岩元素伤害加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBWater" xml:space="preserve">
+    <value>水元素伤害加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDBWind" xml:space="preserve">
+    <value>风元素伤害加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyDef" xml:space="preserve">
+    <value>防御力</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyEM" xml:space="preserve">
+    <value>元素精通</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyHB" xml:space="preserve">
+    <value>治疗加成</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
+    <value>生命值</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>保存养成计划状态失败</value>
@@ -357,6 +525,9 @@
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>未开启长路径功能，无法设置注册表键值</value>
   </data>
+  <data name="ServiceGameRegisteryInteropPowershellNotFound" xml:space="preserve">
+    <value>找不到 PowerShell 的安装目录</value>
+  </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
     <value>找不到游戏配置文件 {0}</value>
   </data>
@@ -371,6 +542,9 @@
   </data>
   <data name="ServiceMetadataRequestFailed" xml:space="preserve">
     <value>元数据校验文件下载失败</value>
+  </data>
+  <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
+    <value>你的胡桃版本过低，请尽快升级</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>多个用户记录为选中状态</value>
@@ -1412,6 +1586,81 @@
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器资料</value>
+  </data>
+  <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
+    <value>{0} 天后开始</value>
+  </data>
+  <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
+    <value>{0} 天后结束</value>
+  </data>
+  <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
+    <value>{0} 小时后开始</value>
+  </data>
+  <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
+    <value>{0} 小时后结束</value>
+  </data>
+  <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
+    <value>{0} 时</value>
+  </data>
+  <data name="WebDailyNoteExpeditionRemainMinutesFormat" xml:space="preserve">
+    <value>{0} 分</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
+    <value>今日完成委托次数不足</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
+    <value>「每日委托」奖励待领取</value>
+  </data>
+  <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
+    <value>已领取「每日委托」奖励</value>
+  </data>
+  <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
+    <value>{0} {1:HH:mm} 达到上限</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
+    <value>今天</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay1" xml:space="preserve">
+    <value>明天</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDay2" xml:space="preserve">
+    <value>后天</value>
+  </data>
+  <data name="WebDailyNoteRecoveryTimeDayFormat" xml:space="preserve">
+    <value>{0} 天</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
+    <value>{0} {1:HH:mm} 后全部恢复</value>
+  </data>
+  <data name="WebDailyNoteSenselessVerificationSuccess" xml:space="preserve">
+    <value>无感验证成功</value>
+  </data>
+  <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
+    <value>后可再次使用</value>
+  </data>
+  <data name="WebDailyNoteTransformerDaysFormat" xml:space="preserve">
+    <value>{0} 天</value>
+  </data>
+  <data name="WebDailyNoteTransformerHoursFormat" xml:space="preserve">
+    <value>{0} 时</value>
+  </data>
+  <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
+    <value>{0} 分</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
+    <value>冷却中</value>
+  </data>
+  <data name="WebDailyNoteTransformerReached" xml:space="preserve">
+    <value>可使用</value>
+  </data>
+  <data name="WebDailyNoteTransformerReady" xml:space="preserve">
+    <value>已准备完成</value>
+  </data>
+  <data name="WebDailyNoteTransformerSecondsFormat" xml:space="preserve">
+    <value>{0} 秒</value>
+  </data>
+  <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
+    <value>验证失败，请手动验证或前往「米游社-我的角色-实时便笺」页面查看</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
     <value>角色活动祈愿</value>
