@@ -7,6 +7,7 @@ using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Abstraction;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -29,6 +30,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     private readonly JsonSerializerOptions options;
     private readonly ILogger<MetadataService> logger;
     private readonly IMemoryCache memoryCache;
+    private readonly string locale;
 
     /// <summary>
     /// 用于指示初始化是否完成
@@ -58,7 +60,8 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         this.memoryCache = memoryCache;
         httpClient = httpClientFactory.CreateClient(nameof(MetadataService));
 
-        metadataFolderPath = Path.Combine(Core.CoreEnvironment.DataFolder, "Metadata");
+        locale = GetTextMapLocale();
+        metadataFolderPath = Path.Combine(Core.CoreEnvironment.DataFolder, "Metadata", locale);
         Directory.CreateDirectory(metadataFolderPath);
     }
 
@@ -86,6 +89,41 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         logger.LogInformation("Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 
+    private static string GetTextMapLocale()
+    {
+        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+
+        while (true)
+        {
+            if (cultureInfo == CultureInfo.InvariantCulture)
+            {
+                // Fallback to Chinese.
+                return "CHS";
+            }
+
+            switch (cultureInfo.Name)
+            {
+                case "de": return "DE";         // German
+                case "en": return "EN";         // English
+                case "es": return "ES";         // Spanish
+                case "fr": return "FR";         // French
+                case "id": return "ID";         // Indonesian
+                case "it": return "IT";         // Italian
+                case "ja": return "JP";         // Japanese
+                case "kr": return "JP";         // Japanese
+                case "ko": return "KR";         // Korean
+                case "pt": return "PT";         // Portuguese
+                case "ru": return "RU";         // Russian
+                case "th": return "TH";         // Thai
+                case "tr": return "TR";         // Turkish
+                case "vi": return "TR";         // Vietnamese
+                case "zh-CHS": return "CHS";    // Chinese (Simplified) Legacy
+                case "zh-CHT": return "CHT";    // Chinese (Traditional) Legacy
+                default: cultureInfo = cultureInfo.Parent; break;
+            }
+        }
+    }
+
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token)
     {
         IDictionary<string, string>? metaMd5Map;
@@ -93,7 +131,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         {
             // download meta check file
             metaMd5Map = await httpClient
-                .GetFromJsonAsync<IDictionary<string, string>>(Web.HutaoEndpoints.HutaoMetadataFile(MetaFileName), options, token)
+                .GetFromJsonAsync<IDictionary<string, string>>(Web.HutaoEndpoints.HutaoMetadataFile(locale, MetaFileName), options, token)
                 .ConfigureAwait(false);
 
             if (metaMd5Map is null)
@@ -162,7 +200,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     private async Task DownloadMetadataAsync(string fileFullName, CancellationToken token)
     {
         Stream sourceStream = await httpClient
-            .GetStreamAsync(Web.HutaoEndpoints.HutaoMetadataFile(fileFullName), token)
+            .GetStreamAsync(Web.HutaoEndpoints.HutaoMetadataFile(locale, fileFullName), token)
             .ConfigureAwait(false);
 
         // Write stream while convert LF to CRLF

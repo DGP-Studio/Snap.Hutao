@@ -12,6 +12,7 @@ using Snap.Hutao.Service.Navigation;
 using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
+using Windows.ApplicationModel;
 
 namespace Snap.Hutao.Core.LifeCycle;
 
@@ -53,15 +54,23 @@ internal static class Activation
     /// <returns>是否提升了权限</returns>
     public static bool GetElevated()
     {
-        if (Debugger.IsAttached)
-        {
-            return true;
-        }
-
         using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
         {
             WindowsPrincipal principal = new(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+    }
+
+    /// <summary>
+    /// 以管理员模式重启
+    /// </summary>
+    /// <returns>任务</returns>
+    public static async ValueTask RestartAsElevatedAsync()
+    {
+        if (GetElevated())
+        {
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            Process.GetCurrentProcess().Kill();
         }
     }
 

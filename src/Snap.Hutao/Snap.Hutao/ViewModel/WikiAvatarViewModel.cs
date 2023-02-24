@@ -5,8 +5,10 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
+using Snap.Hutao.Model.Binding.BaseValue;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Immutable;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -42,6 +44,9 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     private AdvancedCollectionView? avatars;
     private Avatar? selected;
     private string? filterText;
+    private BaseValueInfo? baseValueInfo;
+    private Dictionary<int, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
+    private List<Promote>? promotes;
 
     /// <summary>
     /// 构造一个新的角色资料视图模型
@@ -66,7 +71,21 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     /// <summary>
     /// 选中的角色
     /// </summary>
-    public Avatar? Selected { get => selected; set => SetProperty(ref selected, value); }
+    public Avatar? Selected
+    {
+        get => selected; set
+        {
+            if (SetProperty(ref selected, value))
+            {
+                UpdateBaseValueInfo(value);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 基础数值信息
+    /// </summary>
+    public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
     /// <summary>
     /// 筛选文本
@@ -92,6 +111,9 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
+            levelAvatarCurveMap = await metadataService.GetLevelToAvatarCurveMapAsync().ConfigureAwait(false);
+            promotes = await metadataService.GetAvatarPromotesAsync().ConfigureAwait(false);
+
             Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
             List<Avatar> avatars = await metadataService.GetAvatarsAsync().ConfigureAwait(false);
             List<Avatar> sorted = avatars
@@ -176,6 +198,30 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
             {
                 infoBarService.Warning(SH.MustSelectUserAndUid);
             }
+        }
+    }
+
+    private void UpdateBaseValueInfo(Avatar? avatar)
+    {
+        if (avatar == null)
+        {
+            BaseValueInfo = null;
+        }
+        else
+        {
+            Dictionary<int, Promote> avatarPromoteMap = promotes!.Where(p => p.Id == avatar.PromoteId).ToDictionary(p => p.Level);
+
+            FightProperty promoteProperty = avatarPromoteMap[0].AddProperties.Keys.Last();
+
+            List<PropertyCurveValue> propertyCurveValues = new()
+            {
+                new(FightProperty.FIGHT_PROP_BASE_HP, avatar.GrowCurves[FightProperty.FIGHT_PROP_BASE_HP], avatar.BaseValue.HpBase),
+                new(FightProperty.FIGHT_PROP_BASE_ATTACK, avatar.GrowCurves[FightProperty.FIGHT_PROP_BASE_ATTACK], avatar.BaseValue.AttackBase),
+                new(FightProperty.FIGHT_PROP_BASE_DEFENSE, avatar.GrowCurves[FightProperty.FIGHT_PROP_BASE_DEFENSE], avatar.BaseValue.DefenseBase),
+                new(promoteProperty, GrowCurveType.GROW_CURVE_NONE, 0),
+            };
+
+            BaseValueInfo = new(avatar.MaxLevel, propertyCurveValues, levelAvatarCurveMap!, avatarPromoteMap);
         }
     }
 

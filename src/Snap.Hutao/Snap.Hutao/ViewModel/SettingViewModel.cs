@@ -184,7 +184,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedCulture, value))
             {
                 SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.Culture, CultureInfo.CurrentCulture.Name);
-                entry.Value = selectedCulture.Value;
+                entry.Value = selectedCulture?.Value;
                 appDbContext.Settings.UpdateAndSave(entry);
                 AppInstance.Restart(string.Empty);
             }

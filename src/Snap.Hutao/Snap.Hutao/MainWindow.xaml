@@ -18,7 +18,6 @@
             <cwuc:SwitchPresenter.ContentTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition/>
-                    <ContentThemeTransition/>
                 </TransitionCollection>
             </cwuc:SwitchPresenter.ContentTransitions>
             <cwuc:Case>

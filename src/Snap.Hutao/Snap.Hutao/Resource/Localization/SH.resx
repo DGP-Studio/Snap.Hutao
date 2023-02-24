@@ -573,6 +573,12 @@
   <data name="ViewAvatarPropertyHeader" xml:space="preserve">
     <value>我的角色</value>
   </data>
+  <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
+    <value>等级</value>
+  </data>
+  <data name="ViewControlBaseValueSliderPromoted" xml:space="preserve">
+    <value>突破后</value>
+  </data>
   <data name="ViewControlLoadingText" xml:space="preserve">
     <value>加载中，请稍候</value>
   </data>

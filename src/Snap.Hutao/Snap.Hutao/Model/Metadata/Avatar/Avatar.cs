@@ -19,6 +19,11 @@ internal partial class Avatar
     public AvatarId Id { get; set; }
 
     /// <summary>
+    /// 突破提升 Id 外键
+    /// </summary>
+    public PromoteId PromoteId { get; set; }
+
+    /// <summary>
     /// 排序号
     /// </summary>
     public int Sort { get; set; }
@@ -65,9 +70,15 @@ internal partial class Avatar
     public WeaponType Weapon { get; set; }
 
     /// <summary>
-    /// 属性
+    /// 基础数值
     /// </summary>
-    public PropertiesParameters Property { get; set; } = default!;
+    public BaseValue BaseValue { get; set; } = default!;
+
+    /// <summary>
+    /// 生长曲线
+    /// </summary>
+    [JsonConverter(typeof(Core.Json.Converter.StringEnumKeyDictionaryConverter))]
+    public Dictionary<FightProperty, GrowCurveType> GrowCurves { get; set; } = default!;
 
     /// <summary>
     /// 技能

@@ -28,6 +28,11 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
         get => RankLevel;
     }
 
+    /// <summary>
+    /// 最大等级
+    /// </summary>
+    public int MaxLevel { get => ((int)Quality) >= 3 ? 90 : 70; }
+
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()
     {

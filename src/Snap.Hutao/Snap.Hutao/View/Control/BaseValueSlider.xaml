@@ -1,0 +1,57 @@
+<UserControl
+    x:Class="Snap.Hutao.View.Control.BaseValueSlider"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <wsc:SettingsGroup Margin="0,-64,0,0" VerticalAlignment="Top">
+            <wsc:Setting Padding="12,0,6,0" Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}">
+                <wsc:Setting.ActionContent>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="8,0"
+                            VerticalAlignment="Center"
+                            Text="{x:Bind BaseValueInfo.CurrentLevelFormatted, Mode=OneWay}"/>
+                        <CheckBox
+                            MinWidth="0"
+                            Margin="16,0,8,0"
+                            Padding="8,0,0,0"
+                            VerticalAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            Content="{shcm:ResourceString Name=ViewControlBaseValueSliderPromoted}"
+                            IsChecked="{x:Bind BaseValueInfo.Promoted, Mode=TwoWay}"/>
+                        <Slider
+                            MinWidth="240"
+                            Margin="16,0,8,0"
+                            VerticalAlignment="Center"
+                            Maximum="{x:Bind BaseValueInfo.MaxLevel, Mode=OneWay}"
+                            Minimum="1"
+                            StepFrequency="1"
+                            Value="{x:Bind BaseValueInfo.CurrentLevel, Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </wsc:Setting.ActionContent>
+            </wsc:Setting>
+        </wsc:SettingsGroup>
+
+        <ItemsControl VerticalAlignment="Top" ItemsSource="{x:Bind BaseValueInfo.Values, Mode=OneWay}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <wsc:Setting
+                        Margin="0,2,0,0"
+                        Padding="12,0"
+                        Header="{Binding Name}">
+                        <wsc:Setting.ActionContent>
+                            <TextBlock Text="{Binding Value}"/>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

@@ -52,6 +52,24 @@ internal sealed partial class MetadataService
     }
 
     /// <inheritdoc/>
+    public ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<int, Dictionary<GrowCurveType, float>, GrowCurve>("AvatarCurve", a => a.Level, a => a.Curves, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<int, Dictionary<GrowCurveType, float>, GrowCurve>("MonsterCurve", m => m.Level, m => m.Curves, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<int, Dictionary<GrowCurveType, float>, GrowCurve>("WeaponCurve", w => w.Level, w => w.Curves, token);
+    }
+
+    /// <inheritdoc/>
     public ValueTask<Dictionary<string, Avatar>> GetNameToAvatarMapAsync(CancellationToken token = default)
     {
         return FromCacheAsDictionaryAsync<string, Avatar>("Avatar", a => a.Name, token);

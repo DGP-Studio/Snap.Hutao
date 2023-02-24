@@ -72,10 +72,10 @@ internal static class GachaStatisticsExtension
             .ToList();
     }
 
+    [SuppressMessage("", "IDE0057")]
     private static Color GetColorByName(string name)
     {
         Span<byte> codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
-        Color color = Color.FromArgb(255, codes.Slice(0, 5).Average(), codes.Slice(5, 5).Average(), codes.Slice(10, 5).Average());
-        return color;
+        return Color.FromArgb(255, codes.Slice(0, 5).Average(), codes.Slice(5, 5).Average(), codes.Slice(10, 5).Average());
     }
 }

@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
 
@@ -33,6 +34,18 @@ internal sealed partial class MetadataService
     }
 
     /// <inheritdoc/>
+    public ValueTask<List<Promote>> GetAvatarPromotesAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<Promote>>("AvatarPromote", token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<Promote>>("WeaponPromote", token);
+    }
+
+    /// <inheritdoc/>
     public ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default)
     {
         return FromCacheOrFileAsync<List<GachaEvent>>("GachaEvent", token);
@@ -42,6 +55,12 @@ internal sealed partial class MetadataService
     public ValueTask<List<Material>> GetMaterialsAsync(CancellationToken token = default)
     {
         return FromCacheOrFileAsync<List<Material>>("Material", token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<List<Monster>> GetMonstersAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<Monster>>("Monster", token);
     }
 
     /// <inheritdoc/>

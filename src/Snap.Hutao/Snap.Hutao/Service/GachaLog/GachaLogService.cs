@@ -198,6 +198,8 @@ internal sealed class GachaLogService : IGachaLogService
             .OrderBy(i => i.Id)
             .FirstOrDefault()?.Id ?? long.MaxValue;
 
+        logger.LogInformation("Last Id to trim with [{id}]", trimId);
+
         IEnumerable<GachaItem> toAdd = list
             .OrderByDescending(i => i.Id)
             .Where(i => i.Id < trimId)

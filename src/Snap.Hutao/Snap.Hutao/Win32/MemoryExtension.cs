@@ -17,7 +17,7 @@ internal static class MemoryExtension
     /// </summary>
     /// <param name="char256">目标字符数组</param>
     /// <returns>结果字符串</returns>
-    public static unsafe string AsString(this ref __CHAR_256 char256)
+    public static unsafe string AsString(this in __CHAR_256 char256)
     {
         fixed (CHAR* pszModule = &char256._0)
         {

@@ -5,9 +5,12 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
+using Snap.Hutao.Model.Binding.BaseValue;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Immutable;
+using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
@@ -44,6 +47,9 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     private AdvancedCollectionView? weapons;
     private Weapon? selected;
     private string? filterText;
+    private BaseValueInfo? baseValueInfo;
+    private Dictionary<int, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
+    private List<Promote>? promotes;
 
     /// <summary>
     /// 构造一个新的武器资料视图模型
@@ -68,7 +74,21 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     /// <summary>
     /// 选中的角色
     /// </summary>
-    public Weapon? Selected { get => selected; set => SetProperty(ref selected, value); }
+    public Weapon? Selected
+    {
+        get => selected; set
+        {
+            if (SetProperty(ref selected, value))
+            {
+                UpdateBaseValueInfo(value);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 基础数值信息
+    /// </summary>
+    public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
     /// <summary>
     /// 筛选文本
@@ -94,6 +114,9 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
+            levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
+            promotes = await metadataService.GetWeaponPromotesAsync().ConfigureAwait(false);
+
             List<Weapon> weapons = await metadataService.GetWeaponsAsync().ConfigureAwait(false);
             List<Weapon> sorted = weapons
                 .Where(weapon => !skippedWeapons.Contains(weapon.Id))
@@ -175,6 +198,24 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
         }
     }
 
+    private void UpdateBaseValueInfo(Weapon? weapon)
+    {
+        if (weapon == null)
+        {
+            BaseValueInfo = null;
+        }
+        else
+        {
+            Dictionary<int, Promote> weaponPromoteMap = promotes!.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
+
+            List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves
+                .Select(curveInfo => new PropertyCurveValue(curveInfo.Key, curveInfo.Value.Type, curveInfo.Value.Value))
+                .ToList();
+
+            BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap!, weaponPromoteMap);
+        }
+    }
+
     private void ApplyFilter(string? input)
     {
         if (Weapons != null)
@@ -237,7 +278,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
 
                 if (intrinsics.FightProperties.Contains(value))
                 {
-                    matches.Add(weapon.Property.Properties.ElementAtOrDefault(1).GetLocalizedDescriptionOrDefault() == value);
+                    matches.Add(weapon.GrowCurves.ElementAtOrDefault(1).Key.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
             }

@@ -18,6 +18,11 @@ internal sealed partial class Weapon
     public WeaponId Id { get; set; }
 
     /// <summary>
+    /// 突破 Id
+    /// </summary>
+    public PromoteId PromoteId { get; set; }
+
+    /// <summary>
     /// 武器类型
     /// </summary>
     public WeaponType WeaponType { get; set; }
@@ -48,9 +53,10 @@ internal sealed partial class Weapon
     public string AwakenIcon { get; set; } = default!;
 
     /// <summary>
-    /// 属性
+    /// 生长曲线
     /// </summary>
-    public PropertiesParameters Property { get; set; } = default!;
+    [JsonConverter(typeof(Core.Json.Converter.StringEnumKeyDictionaryConverter))]
+    public Dictionary<FightProperty, GrowCurveTypeValue> GrowCurves { get; set; } = default!;
 
     /// <summary>
     /// 被动信息, 无被动的武器为 <see langword="null"/>

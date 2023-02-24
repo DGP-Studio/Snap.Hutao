@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
@@ -154,5 +155,47 @@ internal interface IMetadataService : ICastableService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>材料列表</returns>
-    ValueTask<List<Material>> GetMaterialsAsync(CancellationToken token = default(CancellationToken));
+    ValueTask<List<Material>> GetMaterialsAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取怪物列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>怪物列表</returns>
+    ValueTask<List<Monster>> GetMonstersAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取等级角色曲线映射
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>等级角色曲线映射</returns>
+    ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取等级怪物曲线映射
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>等级怪物曲线映射</returns>
+    ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取等级武器曲线映射
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>等级武器曲线映射</returns>
+    ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取角色突破列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>角色突破列表</returns>
+    ValueTask<List<Promote>> GetAvatarPromotesAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取武器突破列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>武器突破列表</returns>
+    ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default(CancellationToken));
 }

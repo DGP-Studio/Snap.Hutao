@@ -25,7 +25,7 @@ internal class CalculableWeapon : ObservableObject, ICalculableWeapon
     {
         WeaponId = weapon.Id;
         LevelMin = 1;
-        LevelMax = int.Parse(weapon.Property.Parameters.Last().Level);
+        LevelMax = (int)weapon.Quality >= 3 ? 90 : 70;
         Name = weapon.Name;
         Icon = EquipIconConverter.IconNameToUri(weapon.Icon);
         Quality = weapon.RankLevel;

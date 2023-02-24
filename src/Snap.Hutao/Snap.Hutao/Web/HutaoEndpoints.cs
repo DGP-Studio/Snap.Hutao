@@ -89,11 +89,12 @@ internal static class HutaoEndpoints
     /// <summary>
     /// 胡桃元数据文件
     /// </summary>
+    /// <param name="locale">语言</param>
     /// <param name="fileName">文件名称</param>
     /// <returns>路径</returns>
-    public static string HutaoMetadataFile(string fileName)
+    public static string HutaoMetadataFile(string locale, string fileName)
     {
-        return $"{HutaoMetadataSnapGenshinApi}/{fileName}";
+        return $"{HutaoMetadataSnapGenshinApi}/{locale}/{fileName}";
     }
     #endregion
 
@@ -144,7 +145,12 @@ internal static class HutaoEndpoints
     }
     #endregion
 
+#if DEBUG
+    private const string HutaoMetadataSnapGenshinApi = "http://hutao-metadata-pages.snapgenshin.cn";
+#else
     private const string HutaoMetadataSnapGenshinApi = "http://hutao-metadata.snapgenshin.com";
+#endif
+
     private const string HomaSnapGenshinApi = "https://homa.snapgenshin.com";
     private const string PatcherDGPStudioApi = "https://patcher.dgp-studio.cn";
     private const string StaticSnapGenshinApi = "https://static.snapgenshin.com";

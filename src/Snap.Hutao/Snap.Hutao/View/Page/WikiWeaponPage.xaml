@@ -190,12 +190,11 @@
                                     Margin="16,16,0,0"
                                     Text="{Binding Selected.Description}"
                                     TextWrapping="Wrap"/>
-                                <ContentControl
+                                <shvc:BaseValueSlider
                                     Margin="16,16,0,0"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
-                                    Content="{Binding Selected.Property, Mode=OneWay}"
-                                    ContentTemplate="{StaticResource PropertyDataTemplate}"/>
+                                    BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
                                 <TextBlock
                                     Margin="16,32,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"

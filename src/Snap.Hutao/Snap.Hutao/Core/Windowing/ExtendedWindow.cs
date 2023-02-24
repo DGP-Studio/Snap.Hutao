@@ -192,11 +192,6 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
             // 48 is the navigation button leftInset
             RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), titleBar.ActualSize).Scale(scale);
             appTitleBar.SetDragRectangles(dragRect.Enumerate().ToArray());
-
-            // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
-            SizeInt32 size = appWindow.ClientSize;
-            size.Height -= (int)(31 * scale);
-            appWindow.ResizeClient(size);
         }
     }
 }

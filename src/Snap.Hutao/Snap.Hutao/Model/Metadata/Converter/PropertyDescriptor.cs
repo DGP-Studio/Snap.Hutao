@@ -15,7 +15,18 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 internal sealed class PropertyDescriptor : ValueConverter<PropertiesParameters, List<LevelParameters<string, ParameterDescription>>?>
 {
     /// <summary>
-    /// 格式化对
+    /// 格式化名称与值
+    /// </summary>
+    /// <param name="property">属性</param>
+    /// <param name="value">值</param>
+    /// <returns>对</returns>
+    public static NameValue<string> FormatNameValue(FightProperty property, float value)
+    {
+        return new(property.GetLocalizedDescription(), FormatValue(property, value));
+    }
+
+    /// <summary>
+    /// 格式化名称与描述
     /// </summary>
     /// <param name="property">属性</param>
     /// <param name="value">值</param>

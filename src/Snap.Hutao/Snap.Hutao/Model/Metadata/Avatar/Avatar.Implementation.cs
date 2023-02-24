@@ -32,6 +32,11 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// </summary>
     public List<Material>? CultivationItemsView { get; set; }
 
+    /// <summary>
+    /// 最大等级
+    /// </summary>
+    public int MaxLevel { get => 90; }
+
     /// <inheritdoc/>
     public ICalculableAvatar ToCalculable()
     {

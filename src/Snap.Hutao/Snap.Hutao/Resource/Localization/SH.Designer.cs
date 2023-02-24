@@ -1429,6 +1429,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 等级 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlBaseValueSliderLevel {
+            get {
+                return ResourceManager.GetString("ViewControlBaseValueSliderLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 突破后 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlBaseValueSliderPromoted {
+            get {
+                return ResourceManager.GetString("ViewControlBaseValueSliderPromoted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 加载中，请稍候 的本地化字符串。
         /// </summary>
         internal static string ViewControlLoadingText {
