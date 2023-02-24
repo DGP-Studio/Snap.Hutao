@@ -15,16 +15,19 @@ body:
       description: |-
         请确保你已完整执行检查清单，否则你的 Issue 可能会被忽略
       options:
-        - label: 我已完整阅读[胡桃工具箱文档](https://hut.ao/FAQ/)，并认为我的问题没有在文档中得到解答
+        - label: 我已完整阅读[胡桃工具箱文档](https://hut.ao/advanced/FAQ.html)，并认为我的问题没有在文档中得到解答
+          required: true
+          
+        - label: 我知道文档站的导航栏中有**搜索功能**，且已经搜索过相关关键词
           required: true
 
         - label: 我使用的操作系统是[受支持的版本](https://hut.ao/quick-start.html#%E6%9C%80%E4%BD%8E%E7%B3%BB%E7%BB%9F%E8%A6%81%E6%B1%82)
           required: true
 
-        - label: 我确认没有其他人已经提出了相同或类似的问题
+        - label: 我**通过搜索功能**确认没有其他人已经提出了相同或类似的问题
           required: true
-
-        - label: 我会在下方的表单中附上充足的信息以帮助开发人员确定问题
+         
+        - label: 我明白上述的勾选项是**一个有助于快速排查问题的检查清单**，而不是随手确认的选项
           required: true
 
   - type: input
@@ -42,7 +45,7 @@ body:
     attributes:
       label: Snap Hutao 版本
       description: 在应用标题，应用程序的设置界面中靠下的位置可以找到
-      placeholder: 例：1.3.13.0
+      placeholder: 例：1.4.15.0
     validations:
       required: true
 
@@ -96,14 +99,4 @@ body:
       description: 详细的描述你期望发生的行为，突出与目前（可能不正确的）行为的不同
     validations:
       required: false
-
-  - type: textarea
-    id: logs
-    attributes:
-      label: 相关的崩溃日志
-      description: |
-                   在资源管理器中直接输入`%userprofile%/Documents/Hutao`即可进入文件夹
-                   如果应用程序崩溃了，请将`log.db` 文件上传，文件包含了敏感信息，谨慎上传
-                   如果这个表单是关于导入祈愿记录的问题，请包含你导入的`Json`文件
-                   > **务必不要上传`user.db`文件，该文件包含你的帐号敏感信息**
-        
+      
