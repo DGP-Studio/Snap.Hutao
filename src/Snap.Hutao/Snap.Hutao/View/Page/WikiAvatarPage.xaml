@@ -300,7 +300,6 @@
                                     Text="养成材料"/>
                                 <GridView
                                     Margin="16,16,0,0"
-                                    ItemsPanel="{StaticResource HorizontalStackPanelTemplate}"
                                     ItemsSource="{Binding Selected.CultivationItemsView}"
                                     SelectionMode="None">
                                     <ItemsControl.ItemTemplate>

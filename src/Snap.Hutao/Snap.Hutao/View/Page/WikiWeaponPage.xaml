@@ -195,28 +195,31 @@
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
                                     BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
-                                <TextBlock
-                                    Margin="16,32,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{Binding Selected.Affix.Name}"/>
-                                <Pivot ItemsSource="{Binding Selected.Affix.Descriptions}">
-                                    <Pivot.HeaderTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LevelFormatted}"/>
-                                        </DataTemplate>
-                                    </Pivot.HeaderTemplate>
-                                    <Pivot.ItemTemplate>
-                                        <DataTemplate>
-                                            <shct:DescriptionTextBlock Margin="16,16,0,0" Description="{Binding Description}">
-                                                <shct:DescriptionTextBlock.Resources>
-                                                    <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
-                                                        <Setter Property="TextWrapping" Value="Wrap"/>
-                                                    </Style>
-                                                </shct:DescriptionTextBlock.Resources>
-                                            </shct:DescriptionTextBlock>
-                                        </DataTemplate>
-                                    </Pivot.ItemTemplate>
-                                </Pivot>
+                                <StackPanel Visibility="{Binding Selected.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                    <TextBlock
+                                        Margin="16,32,0,0"
+                                        Style="{StaticResource BaseTextBlockStyle}"
+                                        Text="{Binding Selected.Affix.Name}"/>
+                                    <Pivot ItemsSource="{Binding Selected.Affix.Descriptions}">
+                                        <Pivot.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Style="{StaticResource CaptionTextBlockStyle}" Text="{Binding LevelFormatted}"/>
+                                            </DataTemplate>
+                                        </Pivot.HeaderTemplate>
+                                        <Pivot.ItemTemplate>
+                                            <DataTemplate>
+                                                <shct:DescriptionTextBlock Margin="16,16,0,0" Description="{Binding Description}">
+                                                    <shct:DescriptionTextBlock.Resources>
+                                                        <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
+                                                            <Setter Property="TextWrapping" Value="Wrap"/>
+                                                        </Style>
+                                                    </shct:DescriptionTextBlock.Resources>
+                                                </shct:DescriptionTextBlock>
+                                            </DataTemplate>
+                                        </Pivot.ItemTemplate>
+                                    </Pivot>
+                                </StackPanel>
+
                                 <TextBlock
                                     Margin="16,32,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"

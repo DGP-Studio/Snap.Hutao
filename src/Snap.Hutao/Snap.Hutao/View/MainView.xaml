@@ -79,6 +79,10 @@
                     shvh:NavHelper.NavigateTo="shvp:WikiWeaponPage"
                     Content="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
                     Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}"/>
+                <NavigationViewItem
+                    shvh:NavHelper.NavigateTo="shvp:WikiMonsterPage"
+                    Content="{shcm:ResourceString Name=ViewWikiMonsterHeader}"
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_MarkCustom_TagMonster.png}"/>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>

@@ -405,6 +405,30 @@
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
     <value>生命值</value>
   </data>
+  <data name="ServiceAvatarInfoPropertyRESElec" xml:space="preserve">
+    <value>雷元素抗性</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESFire" xml:space="preserve">
+    <value>火元素抗性</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESGrass" xml:space="preserve">
+    <value>草元素抗性</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESIce" xml:space="preserve">
+    <value>冰元素抗性</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESPhysical" xml:space="preserve">
+    <value>物理抗性</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESRock" xml:space="preserve">
+    <value>岩元素抗性</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESWater" xml:space="preserve">
+    <value>水元素抗性</value>
+  </data>
+  <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
+    <value>风元素抗性</value>
+  </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>保存养成计划状态失败</value>
   </data>
@@ -1503,6 +1527,9 @@
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 运行时</value>
   </data>
+  <data name="ViewPageWikiMonsterDropItems" xml:space="preserve">
+    <value>掉落物品</value>
+  </data>
   <data name="ViewSpiralAbyssBattleHeader" xml:space="preserve">
     <value>战斗数据</value>
   </data>
@@ -1607,6 +1634,9 @@
   </data>
   <data name="ViewWikiAvatarHeader" xml:space="preserve">
     <value>角色资料</value>
+  </data>
+  <data name="ViewWikiMonsterHeader" xml:space="preserve">
+    <value>怪物资料</value>
   </data>
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器资料</value>

@@ -145,12 +145,7 @@ internal static class HutaoEndpoints
     }
     #endregion
 
-#if DEBUG
-    private const string HutaoMetadataSnapGenshinApi = "http://hutao-metadata-pages.snapgenshin.cn";
-#else
     private const string HutaoMetadataSnapGenshinApi = "http://hutao-metadata.snapgenshin.com";
-#endif
-
     private const string HomaSnapGenshinApi = "https://homa.snapgenshin.com";
     private const string PatcherDGPStudioApi = "https://patcher.dgp-studio.cn";
     private const string StaticSnapGenshinApi = "https://static.snapgenshin.com";

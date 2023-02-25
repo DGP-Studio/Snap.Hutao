@@ -925,6 +925,78 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 雷元素抗性 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyRESElec {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyRESElec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 火元素抗性 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyRESFire {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyRESFire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 草元素抗性 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyRESGrass {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyRESGrass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 冰元素抗性 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyRESIce {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyRESIce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 物理抗性 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyRESPhysical {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyRESPhysical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 岩元素抗性 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyRESRock {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyRESRock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 水元素抗性 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyRESWater {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyRESWater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 风元素抗性 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoPropertyRESWind {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoPropertyRESWind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 保存养成计划状态失败 的本地化字符串。
         /// </summary>
         internal static string ServiceCultivationProjectCurrentUserdataCourrpted {
@@ -4219,6 +4291,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 掉落物品 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWikiMonsterDropItems {
+            get {
+                return ResourceManager.GetString("ViewPageWikiMonsterDropItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 战斗数据 的本地化字符串。
         /// </summary>
         internal static string ViewSpiralAbyssBattleHeader {
@@ -4530,6 +4611,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewWikiAvatarHeader {
             get {
                 return ResourceManager.GetString("ViewWikiAvatarHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 怪物资料 的本地化字符串。
+        /// </summary>
+        internal static string ViewWikiMonsterHeader {
+            get {
+                return ResourceManager.GetString("ViewWikiMonsterHeader", resourceCulture);
             }
         }
         

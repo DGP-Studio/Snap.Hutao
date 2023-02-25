@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;

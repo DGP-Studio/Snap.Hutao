@@ -1,12 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Metadata.Item;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
@@ -47,7 +47,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// 转换为基础物品
     /// </summary>
     /// <returns>基础物品</returns>
-    public Item ToItemBase()
+    public Binding.Item ToItemBase()
     {
         return new()
         {

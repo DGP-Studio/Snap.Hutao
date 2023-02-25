@@ -79,6 +79,7 @@
             <shmmc:GachaAvatarIconConverter x:Key="GachaAvatarIconConverter"/>
             <shmmc:GachaEquipIconConverter x:Key="GachaEquipIconConverter"/>
             <shmmc:ItemIconConverter x:Key="ItemIconConverter"/>
+            <shmmc:MonsterIconConverter x:Key="MonsterIconConverter"/>
             <shmmc:PropertyDescriptor x:Key="PropertyDescriptor"/>
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
             <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>

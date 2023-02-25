@@ -14,6 +14,7 @@ namespace Snap.Hutao.View.Control;
 internal sealed partial class BaseValueSlider : UserControl
 {
     private static readonly DependencyProperty BaseValueInfoProperty = Property<BaseValueSlider>.Depend<BaseValueInfo>(nameof(BaseValueInfo));
+    private static readonly DependencyProperty IsPromoteVisibleProperty = Property<BaseValueSlider>.DependBoxed<bool>(nameof(IsPromoteVisible), BoxedValues.True);
 
     /// <summary>
     /// 构造一个新的基础数值滑动条
@@ -30,5 +31,14 @@ internal sealed partial class BaseValueSlider : UserControl
     {
         get => (BaseValueInfo)GetValue(BaseValueInfoProperty);
         set => SetValue(BaseValueInfoProperty, value);
+    }
+
+    /// <summary>
+    /// 提升按钮是否可见
+    /// </summary>
+    public bool IsPromoteVisible
+    {
+        get { return (bool)GetValue(IsPromoteVisibleProperty); }
+        set { SetValue(IsPromoteVisibleProperty, value); }
     }
 }

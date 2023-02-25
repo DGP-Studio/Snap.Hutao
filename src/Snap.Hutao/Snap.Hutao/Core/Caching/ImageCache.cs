@@ -192,7 +192,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
                 else if (message.StatusCode == HttpStatusCode.NotFound)
                 {
                     // directly goto https://static.hut.ao
-                    retryCount = 3;
+                    retryCount += 3;
                 }
                 else if (message.StatusCode == HttpStatusCode.TooManyRequests)
                 {

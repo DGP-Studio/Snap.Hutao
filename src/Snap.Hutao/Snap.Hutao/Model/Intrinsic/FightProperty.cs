@@ -157,6 +157,8 @@ internal enum FightProperty
     /// <summary>
     /// 物理抗性提升
     /// </summary>
+    [LocalizationKey("ServiceAvatarInfoPropertyRESPhysical")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_PHYSICAL_SUB_HURT = 29,
 
     /// <summary>
@@ -233,36 +235,50 @@ internal enum FightProperty
     /// <summary>
     /// 火元素抗性提升
     /// </summary>
+    [LocalizationKey("ServiceAvatarInfoPropertyRESFire")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_FIRE_SUB_HURT = 50,
 
     /// <summary>
     /// 雷元素抗性提升
     /// </summary>
+    [LocalizationKey("ServiceAvatarInfoPropertyRESElec")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_ELEC_SUB_HURT = 51,
 
     /// <summary>
     /// 雷元素抗性提升
     /// </summary>
+    [LocalizationKey("ServiceAvatarInfoPropertyRESWater")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_WATER_SUB_HURT = 52,
 
     /// <summary>
     /// 草元素抗性提升
     /// </summary>
+    [LocalizationKey("ServiceAvatarInfoPropertyRESGrass")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_GRASS_SUB_HURT = 53,
 
     /// <summary>
     /// 风元素抗性提升
     /// </summary>
+    [LocalizationKey("ServiceAvatarInfoPropertyRESWind")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_WIND_SUB_HURT = 54,
 
     /// <summary>
     /// 岩元素抗性提升
     /// </summary>
+    [LocalizationKey("ServiceAvatarInfoPropertyRESRock")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_ROCK_SUB_HURT = 55,
 
     /// <summary>
     /// 冰元素抗性提升
     /// </summary>
+    [LocalizationKey("ServiceAvatarInfoPropertyRESIce")]
+    [Format(FormatMethod.Percent)]
     FIGHT_PROP_ICE_SUB_HURT = 56,
 
     /// <summary>

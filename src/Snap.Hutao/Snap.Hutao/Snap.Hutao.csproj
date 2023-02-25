@@ -65,6 +65,7 @@
     <None Remove="Resource\Icon\UI_ItemIcon_210.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_210_256.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_220021.png" />
+    <None Remove="Resource\Icon\UI_MarkCustom_TagMonster.png" />
     <None Remove="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
     <None Remove="Resource\Icon\UI_MarkTower.png" />
     <None Remove="Resource\Icon\UI_MarkTower_Tower.png" />
@@ -108,6 +109,7 @@
     <None Remove="View\Page\SpiralAbyssRecordPage.xaml" />
     <None Remove="View\Page\TestPage.xaml" />
     <None Remove="View\Page\WikiAvatarPage.xaml" />
+    <None Remove="View\Page\WikiMonsterPage.xaml" />
     <None Remove="View\Page\WikiWeaponPage.xaml" />
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
@@ -150,6 +152,7 @@
     <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_210_256.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_220021.png" />
+    <Content Include="Resource\Icon\UI_MarkCustom_TagMonster.png" />
     <Content Include="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
     <Content Include="Resource\Icon\UI_MarkTower.png" />
     <Content Include="Resource\Icon\UI_MarkTower_Tower.png" />
@@ -442,6 +445,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\WikiMonsterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Control\BaseValueSlider.xaml">

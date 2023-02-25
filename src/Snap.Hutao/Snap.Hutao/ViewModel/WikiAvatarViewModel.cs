@@ -12,6 +12,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Immutable;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Cultivation;
@@ -139,7 +140,7 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
             {
                 avatar.Collocation = idCollocations.GetValueOrDefault(avatar.Id);
                 avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus2, idMaterialMap);
-                avatar.CultivationItemsView ??= avatar.CultivationItems.Select(i => idMaterialMap[i]).ToList();
+                avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => idMaterialMap[i]);
             }
         }
     }

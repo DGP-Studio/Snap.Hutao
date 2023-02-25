@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
-using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.ObjectModel;
 

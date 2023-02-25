@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
@@ -186,7 +187,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     {
         if (project != null)
         {
-            List<Model.Metadata.Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
+            List<Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
 
             ObservableCollection<CultivateEntryView> entries = await cultivationService
                 .GetCultivateEntriesAsync(project)

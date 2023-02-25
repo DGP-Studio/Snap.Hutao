@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -197,5 +198,12 @@ internal interface IMetadataService : ICastableService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>武器突破列表</returns>
-    ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default(CancellationToken));
+    ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取显示与材料映射
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>显示与材料映射</returns>
+    ValueTask<Dictionary<MaterialId, Display>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default);
 }

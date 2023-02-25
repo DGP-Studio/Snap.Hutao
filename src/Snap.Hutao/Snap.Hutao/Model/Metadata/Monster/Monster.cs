@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Monster;
@@ -49,7 +50,7 @@ internal sealed class Monster
     /// <summary>
     /// 掉落物 Id
     /// </summary>
-    public IEnumerable<MaterialId>? Drops { get; set; } = default!;
+    public List<MaterialId>? Drops { get; set; } = default!;
 
     /// <summary>
     /// 基本属性
@@ -61,4 +62,9 @@ internal sealed class Monster
     /// </summary>
     [JsonConverter(typeof(Core.Json.Converter.StringEnumKeyDictionaryConverter))]
     public Dictionary<FightProperty, GrowCurveType> GrowCurves { get; set; } = default!;
+
+    /// <summary>
+    /// 养成物品视图
+    /// </summary>
+    public List<Display>? DropsView { get; set; }
 }

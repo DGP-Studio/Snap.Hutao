@@ -46,10 +46,10 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private readonly List<NameValue<string>> cultures = new()
     {
-        new("简体中文", "zh-CN"),
-        new("繁體中文", "zh-TW"),
-        new("English (United States)", "en-US"),
-        new("한국인", "ko-KR"),
+        ToNameValue(CultureInfo.CreateSpecificCulture("zh-CN")),
+        ToNameValue(CultureInfo.CreateSpecificCulture("zh-TW")),
+        ToNameValue(CultureInfo.CreateSpecificCulture("en-US")),
+        ToNameValue(CultureInfo.CreateSpecificCulture("ko-KR")),
     };
 
     private bool isEmptyHistoryWishVisible;
@@ -225,6 +225,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// 重置静态资源
     /// </summary>
     public ICommand ResetStaticResourceCommand { get; }
+
+    private static NameValue<string> ToNameValue(CultureInfo info)
+    {
+        return new(info.NativeName, info.Name);
+    }
 
     private async Task SetGamePathAsync()
     {

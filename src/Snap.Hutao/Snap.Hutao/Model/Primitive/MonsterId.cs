@@ -63,4 +63,10 @@ internal readonly struct MonsterId : IEquatable<MonsterId>
     {
         return Value.GetHashCode();
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }

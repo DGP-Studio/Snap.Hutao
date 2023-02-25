@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
@@ -25,6 +26,23 @@ internal sealed partial class MetadataService
     public ValueTask<Dictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
     {
         return FromCacheAsDictionaryAsync<AvatarId, Avatar>("Avatar", a => a.Id, token);
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask<Dictionary<MaterialId, Display>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default)
+    {
+        Dictionary<MaterialId, Display> displays = await FromCacheAsDictionaryAsync<MaterialId, Display>("Display", a => a.Id, token).ConfigureAwait(false);
+        Dictionary<MaterialId, Material> materials = await FromCacheAsDictionaryAsync<MaterialId, Material>("Material", a => a.Id, token).ConfigureAwait(false);
+
+        // TODO: Cache this
+        Dictionary<MaterialId, Display> results = new(displays);
+
+        foreach ((MaterialId id, Display material) in materials)
+        {
+            results[id] = material;
+        }
+
+        return results;
     }
 
     /// <inheritdoc/>

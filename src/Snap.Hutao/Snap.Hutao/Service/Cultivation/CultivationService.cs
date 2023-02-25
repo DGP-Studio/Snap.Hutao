@@ -10,6 +10,7 @@ using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Entity.Primitive;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using System.Collections.ObjectModel;
@@ -128,7 +129,7 @@ internal sealed class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public List<BindingInventoryItem> GetInventoryItems(CultivateProject cultivateProject, List<Model.Metadata.Material> metadata, ICommand saveCommand)
+    public List<BindingInventoryItem> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
         using (IServiceScope scope = scopeFactory.CreateScope())
@@ -139,7 +140,7 @@ internal sealed class CultivationService : ICultivationService
                 .ToList();
 
             List<BindingInventoryItem> results = new();
-            foreach (Model.Metadata.Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id))
+            foreach (Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id))
             {
                 InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.Create(projectId, meta.Id);
                 results.Add(new(entity, meta, saveCommand));
@@ -158,7 +159,7 @@ internal sealed class CultivationService : ICultivationService
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             IMetadataService metadataService = scope.ServiceProvider.GetRequiredService<IMetadataService>();
 
-            List<Model.Metadata.Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
+            List<Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
             Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
@@ -203,7 +204,7 @@ internal sealed class CultivationService : ICultivationService
             List<BindingStatisticsItem> resultItems = new();
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            List<Model.Metadata.Material> materials = await scope.ServiceProvider
+            List<Material> materials = await scope.ServiceProvider
                 .GetRequiredService<IMetadataService>()
                 .GetMaterialsAsync(default)
                 .ConfigureAwait(false);

@@ -24,7 +24,8 @@
                             VerticalAlignment="Center"
                             VerticalContentAlignment="Center"
                             Content="{shcm:ResourceString Name=ViewControlBaseValueSliderPromoted}"
-                            IsChecked="{x:Bind BaseValueInfo.Promoted, Mode=TwoWay}"/>
+                            IsChecked="{x:Bind BaseValueInfo.Promoted, Mode=TwoWay}"
+                            Visibility="{x:Bind IsPromoteVisible, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         <Slider
                             MinWidth="240"
                             Margin="16,0,8,0"
@@ -33,7 +34,6 @@
                             Minimum="1"
                             StepFrequency="1"
                             Value="{x:Bind BaseValueInfo.CurrentLevel, Mode=TwoWay}"/>
-
                     </StackPanel>
                 </wsc:Setting.ActionContent>
             </wsc:Setting>
