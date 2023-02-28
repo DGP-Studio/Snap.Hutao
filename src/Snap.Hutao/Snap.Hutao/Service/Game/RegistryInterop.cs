@@ -94,7 +94,7 @@ internal static class RegistryInterop
         {
             if (path.HasValue && path.Length > 0)
             {
-                if (path.AsSpan().IndexOf("WindowsPowerShell") > 0)
+                if (path.Value.Contains("WindowsPowerShell", StringComparison.OrdinalIgnoreCase))
                 {
                     return Path.Combine(path.Value, "powershell.exe");
                 }
