@@ -83,16 +83,6 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         UpdateDragRectangles(appWindow.TitleBar, message.IsOpen);
     }
 
-    private static (string PosString, string SizeString) GetPostionAndSize(AppWindow appWindow)
-    {
-        PointInt32 pos = appWindow.Position;
-        string posString = $"{pos.X},{pos.Y}";
-        SizeInt32 size = appWindow.Size;
-        string sizeString = $"{size.Width},{size.Height}";
-
-        return (posString, sizeString);
-    }
-
     private void InitializeWindow()
     {
         appWindow.Title = string.Format(SH.AppNameAndVersion, CoreEnvironment.Version);
@@ -100,10 +90,6 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         ExtendsContentIntoTitleBar();
 
         Persistence.RecoverOrInit(appWindow, window.PersistSize, window.InitSize);
-
-        // Log basic window state here.
-        (string pos, string size) = GetPostionAndSize(appWindow);
-        logger.LogInformation("Postion: [{pos}], Size: [{size}]", pos, size);
 
         // appWindow.Show(true);
         // appWindow.Show can't bring window to top.
@@ -192,6 +178,11 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
             // 48 is the navigation button leftInset
             RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), titleBar.ActualSize).Scale(scale);
             appTitleBar.SetDragRectangles(dragRect.Enumerate().ToArray());
+
+            // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
+            SizeInt32 size = appWindow.ClientSize;
+            size.Height -= (int)(31 * scale);
+            appWindow.ResizeClient(size);
         }
     }
 }

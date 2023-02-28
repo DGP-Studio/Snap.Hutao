@@ -319,6 +319,7 @@ internal sealed class PackageConverter
                             // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
 
                             // We want to retry forever.
+                            fileStream.Seek(0, SeekOrigin.Begin);
                         }
                     }
                 }

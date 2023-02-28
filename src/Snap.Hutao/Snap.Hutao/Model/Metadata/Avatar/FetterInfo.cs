@@ -84,7 +84,7 @@ internal sealed class FetterInfo
     /// <summary>
     /// 料理
     /// </summary>
-    public CookBonus? CookBonus2 { get; set; }
+    public CookBonus? CookBonus { get; set; }
 
     /// <summary>
     /// 好感语音

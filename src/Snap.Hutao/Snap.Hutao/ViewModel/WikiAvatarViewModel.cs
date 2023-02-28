@@ -139,7 +139,7 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
             foreach (Avatar avatar in avatars)
             {
                 avatar.Collocation = idCollocations.GetValueOrDefault(avatar.Id);
-                avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus2, idMaterialMap);
+                avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus, idMaterialMap);
                 avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => idMaterialMap[i]);
             }
         }
