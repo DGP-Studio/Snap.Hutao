@@ -1,10 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
+using Snap.Hutao.ViewModel.GachaLog;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;

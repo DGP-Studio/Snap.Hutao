@@ -31,7 +31,7 @@ using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumptio
 using CalcItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
 using CalcItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemHelper;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 角色属性视图模型
@@ -57,7 +57,6 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         this.serviceProvider = serviceProvider;
 
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         RefreshFromEnkaApiCommand = new AsyncRelayCommand(RefreshByEnkaApiAsync);
         RefreshFromHoyolabGameRecordCommand = new AsyncRelayCommand(RefreshByHoyolabGameRecordAsync);
         RefreshFromHoyolabCalculateCommand = new AsyncRelayCommand(RefreshByHoyolabCalculateAsync);
@@ -76,11 +75,6 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
     /// 选中的角色
     /// </summary>
     public AvatarView? SelectedAvatar { get => selectedAvatar; set => SetProperty(ref selectedAvatar, value); }
-
-    /// <summary>
-    /// 加载界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
 
     /// <summary>
     /// 从 Enka Api 同步命令
@@ -116,7 +110,8 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
         }
     }
 
-    private Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override Task OpenUIAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {

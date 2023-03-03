@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.Gacha;
+namespace Snap.Hutao.ViewModel.GachaLog;
 
 /// <summary>
 /// 祈愿基类

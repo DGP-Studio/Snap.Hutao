@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.Gacha;
+using Snap.Hutao.Model.Binding;
+
+namespace Snap.Hutao.ViewModel.GachaLog;
 
 /// <summary>
 /// 历史物品

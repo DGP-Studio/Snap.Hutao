@@ -33,7 +33,7 @@ internal static class IocConfiguration
     /// </summary>
     /// <param name="services">集合</param>
     /// <returns>可继续操作的集合</returns>
-    public static IServiceCollection AddDatebase(this IServiceCollection services)
+    public static IServiceCollection AddDatabase(this IServiceCollection services)
     {
         string dbFile = System.IO.Path.Combine(CoreEnvironment.DataFolder, "Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";

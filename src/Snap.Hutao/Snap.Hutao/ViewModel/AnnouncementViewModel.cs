@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 
@@ -25,8 +24,6 @@ internal sealed class AnnouncementViewModel : Abstraction.ViewModel
     public AnnouncementViewModel(IAnnouncementService announcementService)
     {
         this.announcementService = announcementService;
-
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
     }
 
     /// <summary>
@@ -38,12 +35,8 @@ internal sealed class AnnouncementViewModel : Abstraction.ViewModel
         set => SetProperty(ref announcement, value);
     }
 
-    /// <summary>
-    /// 打开界面触发的命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         try
         {

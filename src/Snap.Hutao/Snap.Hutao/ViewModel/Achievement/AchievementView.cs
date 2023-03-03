@@ -2,14 +2,16 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model.Intrinsic;
 
-namespace Snap.Hutao.Model.Binding.Achievement;
+namespace Snap.Hutao.ViewModel.Achievement;
 
 /// <summary>
 /// 用于视图绑定的成就
 /// </summary>
 [HighQuality]
-internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Entity.Achievement, Metadata.Achievement.Achievement>
+internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Model.Entity.Achievement, Model.Metadata.Achievement.Achievement>
 {
     /// <summary>
     /// 满进度占位符
@@ -23,7 +25,7 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<En
     /// </summary>
     /// <param name="entity">实体部分</param>
     /// <param name="inner">元数据部分</param>
-    public AchievementView(Entity.Achievement entity, Metadata.Achievement.Achievement inner)
+    public AchievementView(Model.Entity.Achievement entity, Model.Metadata.Achievement.Achievement inner)
     {
         Entity = entity;
         Inner = inner;
@@ -34,12 +36,12 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<En
     /// <summary>
     /// 实体
     /// </summary>
-    public Entity.Achievement Entity { get; }
+    public Model.Entity.Achievement Entity { get; }
 
     /// <summary>
     /// 元数据
     /// </summary>
-    public Metadata.Achievement.Achievement Inner { get; }
+    public Model.Metadata.Achievement.Achievement Inner { get; }
 
     /// <summary>
     /// 是否选中
@@ -54,7 +56,7 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<En
                 // Only update state when checked
                 if (value)
                 {
-                    Entity.Status = Intrinsic.AchievementInfoStatus.STATUS_REWARD_TAKEN;
+                    Entity.Status = AchievementInfoStatus.STATUS_REWARD_TAKEN;
                     Entity.Time = DateTimeOffset.Now;
                     OnPropertyChanged(nameof(Time));
                 }

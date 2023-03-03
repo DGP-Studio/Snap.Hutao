@@ -7,7 +7,6 @@ using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Abstraction;
-using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.Abstraction;
@@ -17,7 +16,7 @@ using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using Windows.Storage.Pickers;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.GachaLog;
 
 /// <summary>
 /// 祈愿记录视图模型
@@ -59,7 +58,6 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         this.contentDialogFactory = contentDialogFactory;
         this.options = options;
 
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         RefreshByWebCacheCommand = new AsyncRelayCommand(RefreshByWebCacheAsync);
         RefreshByStokenCommand = new AsyncRelayCommand(RefreshByStokenAsync);
         RefreshByManualInputCommand = new AsyncRelayCommand(RefreshByManualInputAsync);
@@ -93,7 +91,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref statistics, value))
             {
-                SelectedHistoryWish = statistics?.HistoryWishes[0];
+                SelectedHistoryWish = statistics?.HistoryWishes.FirstOrDefault();
             }
         }
     }
@@ -107,11 +105,6 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     /// 是否为贪婪刷新
     /// </summary>
     public bool IsAggressiveRefresh { get => isAggressiveRefresh; set => SetProperty(ref isAggressiveRefresh, value); }
-
-    /// <summary>
-    /// 页面加载命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
 
     /// <summary>
     /// 浏览器缓存刷新命令
@@ -143,7 +136,8 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand RemoveArchiveCommand { get; }
 
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         try
         {
@@ -332,7 +326,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         {
             if (archive == null)
             {
-                // no gachalog
+                // no gacha log
                 IsInitialized = true;
             }
             else

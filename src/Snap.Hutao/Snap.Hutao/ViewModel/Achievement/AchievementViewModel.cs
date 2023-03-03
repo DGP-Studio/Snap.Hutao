@@ -17,8 +17,6 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using Windows.Storage.Pickers;
-using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.AchievementView;
-using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoalView;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 using MetadataAchievementGoal = Snap.Hutao.Model.Metadata.Achievement.AchievementGoal;
@@ -32,8 +30,8 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Scoped)]
 internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
-    private static readonly SortDescription IncompletedItemsFirstSortDescription = new(nameof(BindingAchievement.IsChecked), SortDirection.Ascending);
-    private static readonly SortDescription CompletionTimeSortDescription = new(nameof(BindingAchievement.Time), SortDirection.Descending);
+    private static readonly SortDescription UncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
+    private static readonly SortDescription CompletionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
 
     private readonly IAchievementService achievementService;
     private readonly IMetadataService metadataService;
@@ -47,11 +45,11 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     private readonly TaskCompletionSource<bool> openUICompletionSource = new();
 
     private AdvancedCollectionView? achievements;
-    private List<BindingAchievementGoal>? achievementGoals;
-    private BindingAchievementGoal? selectedAchievementGoal;
+    private List<AchievementGoalView>? achievementGoals;
+    private AchievementGoalView? selectedAchievementGoal;
     private ObservableCollection<EntityAchievementArchive>? archives;
     private EntityAchievementArchive? selectedArchive;
-    private bool isIncompletedItemsFirst = true;
+    private bool isUncompletedItemsFirst = true;
     private string searchText = string.Empty;
     private string? finishDescription;
 
@@ -83,15 +81,14 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         achievementFinishPercentUpdater = new(this);
         achievementImporter = new(serviceProvider);
 
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         ImportUIAFFromClipboardCommand = new AsyncRelayCommand(ImportUIAFFromClipboardAsync);
         ImportUIAFFromFileCommand = new AsyncRelayCommand(ImportUIAFFromFileAsync);
         ExportAsUIAFToFileCommand = new AsyncRelayCommand(ExportAsUIAFToFileAsync);
         AddArchiveCommand = new AsyncRelayCommand(AddArchiveAsync);
         RemoveArchiveCommand = new AsyncRelayCommand(RemoveArchiveAsync);
-        SearchAchievementCommand = new RelayCommand<string>(UpdateAchievementsFilterBySerach);
-        SortIncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
-        SaveAchievementCommand = new RelayCommand<BindingAchievement>(SaveAchievement);
+        SearchAchievementCommand = new RelayCommand<string>(UpdateAchievementsFilterBySearch);
+        SortUncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
+        SaveAchievementCommand = new RelayCommand<AchievementView>(SaveAchievement);
     }
 
     /// <summary>
@@ -114,10 +111,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
             if (SetProperty(ref selectedArchive, value))
             {
                 achievementService.CurrentArchive = value;
-                if (value != null)
-                {
-                    UpdateAchievementsAsync(value).SafeForget();
-                }
+                UpdateAchievementsAsync(value).SafeForget();
             }
         }
     }
@@ -134,7 +128,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     /// <summary>
     /// 成就分类
     /// </summary>
-    public List<BindingAchievementGoal>? AchievementGoals
+    public List<AchievementGoalView>? AchievementGoals
     {
         get => achievementGoals;
         set => SetProperty(ref achievementGoals, value);
@@ -143,7 +137,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     /// <summary>
     /// 选中的成就分类
     /// </summary>
-    public BindingAchievementGoal? SelectedAchievementGoal
+    public AchievementGoalView? SelectedAchievementGoal
     {
         get => selectedAchievementGoal;
         set
@@ -166,10 +160,10 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     /// <summary>
     /// 未完成优先
     /// </summary>
-    public bool IsIncompletedItemsFirst
+    public bool IsUncompletedItemsFirst
     {
-        get => isIncompletedItemsFirst;
-        set => SetProperty(ref isIncompletedItemsFirst, value);
+        get => isUncompletedItemsFirst;
+        set => SetProperty(ref isUncompletedItemsFirst, value);
     }
 
     /// <summary>
@@ -180,11 +174,6 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         get => finishDescription;
         set => SetProperty(ref finishDescription, value);
     }
-
-    /// <summary>
-    /// 打开页面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
 
     /// <summary>
     /// 添加存档命令
@@ -219,7 +208,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     /// <summary>
     /// 筛选未完成项开关命令
     /// </summary>
-    public ICommand SortIncompletedSwitchCommand { get; }
+    public ICommand SortUncompletedSwitchCommand { get; }
 
     /// <summary>
     /// 保存单个成就命令
@@ -241,7 +230,8 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         return false;
     }
 
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(false);
 
@@ -249,7 +239,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         {
             try
             {
-                List<BindingAchievementGoal> sortedGoals;
+                List<AchievementGoalView> sortedGoals;
                 ObservableCollection<EntityAchievementArchive> archives;
 
                 using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
@@ -257,7 +247,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
                     List<MetadataAchievementGoal> goals = await metadataService.GetAchievementGoalsAsync(CancellationToken).ConfigureAwait(false);
                     sortedGoals = goals
                         .OrderBy(goal => goal.Order)
-                        .Select(goal => new BindingAchievementGoal(goal))
+                        .Select(goal => new AchievementGoalView(goal))
                         .ToList();
                     archives = await achievementService.GetArchiveCollectionAsync().ConfigureAwait(false);
                 }
@@ -387,11 +377,16 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
-    private async Task UpdateAchievementsAsync(EntityAchievementArchive archive)
+    private async Task UpdateAchievementsAsync(EntityAchievementArchive? archive)
     {
+        if (archive == null)
+        {
+            return;
+        }
+
         List<MetadataAchievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
 
-        if (TryGetAchievements(archive, rawAchievements, out List<BindingAchievement>? combined))
+        if (TryGetAchievements(archive, rawAchievements, out List<AchievementView>? combined))
         {
             // Assemble achievements on the UI thread.
             await ThreadHelper.SwitchToMainThreadAsync();
@@ -403,7 +398,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
-    private bool TryGetAchievements(EntityAchievementArchive archive, List<MetadataAchievement> achievements, out List<BindingAchievement>? combined)
+    private bool TryGetAchievements(EntityAchievementArchive archive, List<MetadataAchievement> achievements, out List<AchievementView>? combined)
     {
         try
         {
@@ -422,9 +417,9 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     {
         if (Achievements != null)
         {
-            if (IsIncompletedItemsFirst)
+            if (IsUncompletedItemsFirst)
             {
-                Achievements.SortDescriptions.Add(IncompletedItemsFirstSortDescription);
+                Achievements.SortDescriptions.Add(UncompletedItemsFirstSortDescription);
                 Achievements.SortDescriptions.Add(CompletionTimeSortDescription);
             }
             else
@@ -434,7 +429,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
-    private void UpdateAchievementsFilterByGoal(BindingAchievementGoal? goal)
+    private void UpdateAchievementsFilterByGoal(AchievementGoalView? goal)
     {
         if (Achievements != null)
         {
@@ -445,12 +440,12 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
             else
             {
                 int goalId = goal.Id;
-                Achievements.Filter = (object o) => o is BindingAchievement achi && achi.Inner.Goal == goalId;
+                Achievements.Filter = (object o) => o is AchievementView view && view.Inner.Goal == goalId;
             }
         }
     }
 
-    private void UpdateAchievementsFilterBySerach(string? search)
+    private void UpdateAchievementsFilterBySearch(string? search)
     {
         if (Achievements != null)
         {
@@ -458,16 +453,16 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
 
             if (!string.IsNullOrEmpty(search))
             {
-                if (search.Length == 5 && int.TryParse(search, out int achiId))
+                if (search.Length == 5 && int.TryParse(search, out int entityId))
                 {
-                    Achievements.Filter = obj => ((BindingAchievement)obj).Inner.Id == achiId;
+                    Achievements.Filter = obj => ((AchievementView)obj).Inner.Id == entityId;
                 }
                 else
                 {
                     Achievements.Filter = obj =>
                     {
-                        BindingAchievement achi = (BindingAchievement)obj;
-                        return achi.Inner.Title.Contains(search) || achi.Inner.Description.Contains(search);
+                        AchievementView view = (AchievementView)obj;
+                        return view.Inner.Title.Contains(search) || view.Inner.Description.Contains(search);
                     };
                 }
             }
@@ -480,7 +475,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         achievementFinishPercentUpdater.Update();
     }
 
-    private void SaveAchievement(BindingAchievement? achievement)
+    private void SaveAchievement(AchievementView? achievement)
     {
         if (achievement != null)
         {

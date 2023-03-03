@@ -14,10 +14,10 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shv="using:Snap.Hutao.ViewModel"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shvco="using:Snap.Hutao.View.Control"
+    xmlns:shvcu="using:Snap.Hutao.ViewModel.Cultivation"
     xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
-    d:DataContext="{d:DesignInstance shv:CultivationViewModel}"
+    d:DataContext="{d:DesignInstance shvcu:CultivationViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -110,7 +110,7 @@
                                                             <ColumnDefinition/>
                                                             <ColumnDefinition Width="auto"/>
                                                         </Grid.ColumnDefinitions>
-                                                        <shvc:ItemIcon
+                                                        <shvco:ItemIcon
                                                             Width="48"
                                                             Height="48"
                                                             Icon="{Binding Icon}"
@@ -152,7 +152,7 @@
                                                                             <ColumnDefinition/>
                                                                         </Grid.ColumnDefinitions>
                                                                         <Grid>
-                                                                            <shvc:ItemIcon
+                                                                            <shvco:ItemIcon
                                                                                 Width="32"
                                                                                 Height="32"
                                                                                 Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}"
@@ -256,7 +256,7 @@
                                                     <ColumnDefinition/>
                                                     <ColumnDefinition Width="auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <shvc:ItemIcon
+                                                <shvco:ItemIcon
                                                     Grid.Column="0"
                                                     Width="32"
                                                     Height="32"
@@ -330,9 +330,9 @@
                                     BorderBrush="{x:Null}"
                                     BorderThickness="0"
                                     CornerRadius="{StaticResource CompatCornerRadius}">
-                                    <shvc:BottomTextControl Text="{Binding Count, Mode=OneWay}">
-                                        <shvc:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
-                                    </shvc:BottomTextControl>
+                                    <shvco:BottomTextControl Text="{Binding Count, Mode=OneWay}">
+                                        <shvco:ItemIcon Icon="{Binding Inner.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Inner.RankLevel}"/>
+                                    </shvco:BottomTextControl>
                                     <Button.Flyout>
                                         <Flyout>
                                             <Grid>

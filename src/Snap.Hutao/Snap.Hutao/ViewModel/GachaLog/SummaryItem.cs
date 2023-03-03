@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.Gacha;
+using Snap.Hutao.Model.Binding;
+
+namespace Snap.Hutao.ViewModel.GachaLog;
 
 /// <summary>
 /// 祈愿卡池列表物品
@@ -17,7 +19,7 @@ internal sealed class SummaryItem : Item
     /// <summary>
     /// 是否为大保底
     /// </summary>
-    public bool IsGuarentee { get; set; }
+    public bool IsGuarantee { get; set; }
 
     /// <summary>
     /// 据上次

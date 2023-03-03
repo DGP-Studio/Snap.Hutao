@@ -2,8 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model.Metadata.Achievement;
+using Snap.Hutao.Model.Metadata.Converter;
 
-namespace Snap.Hutao.Model.Binding.Achievement;
+namespace Snap.Hutao.ViewModel.Achievement;
 
 /// <summary>
 /// 绑定成就分类
@@ -18,12 +21,12 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon
     /// 构造一个新的成就分类
     /// </summary>
     /// <param name="goal">分类</param>
-    public AchievementGoalView(Metadata.Achievement.AchievementGoal goal)
+    public AchievementGoalView(AchievementGoal goal)
     {
         Id = goal.Id;
         Order = goal.Order;
         Name = goal.Name;
-        Icon = Metadata.Converter.AchievementIconConverter.IconNameToUri(goal.Icon);
+        Icon = AchievementIconConverter.IconNameToUri(goal.Icon);
     }
 
     /// <summary>

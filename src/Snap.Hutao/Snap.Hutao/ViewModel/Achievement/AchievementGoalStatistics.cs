@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoalView;
+using BindingAchievementGoal = Snap.Hutao.ViewModel.Achievement.AchievementGoalView;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 

@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
+using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;

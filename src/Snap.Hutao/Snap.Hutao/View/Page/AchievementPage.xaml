@@ -10,8 +10,8 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shv="using:Snap.Hutao.ViewModel"
-    d:DataContext="{d:DesignInstance shv:AchievementViewModel}"
+    xmlns:shva="using:Snap.Hutao.ViewModel.Achievement"
+    d:DataContext="{d:DesignInstance shva:AchievementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -105,9 +105,9 @@
                     <AppBarSeparator/>
 
                     <AppBarToggleButton
-                        Command="{Binding SortIncompletedSwitchCommand}"
+                        Command="{Binding SortUncompletedSwitchCommand}"
                         Icon="{shcm:FontIcon Glyph=&#xE8CB;}"
-                        IsChecked="{Binding IsIncompletedItemsFirst}"
+                        IsChecked="{Binding IsUncompletedItemsFirst}"
                         Label="{shcm:ResourceString Name=ViewPageAchievementSortIncompletedItemsFirst}"/>
                 </CommandBar>
             </Grid>

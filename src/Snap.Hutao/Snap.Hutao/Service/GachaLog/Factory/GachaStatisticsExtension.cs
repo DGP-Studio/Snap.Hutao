@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Metadata.Abstraction;
+using Snap.Hutao.ViewModel.GachaLog;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.UI;
@@ -41,12 +41,12 @@ internal static class GachaStatisticsExtension
         // we can't trust first item's prev state.
         bool isPreviousUp = true;
 
-        // mark the IsGuarentee
+        // mark the IsGuarantee
         foreach (SummaryItem item in summaryItems)
         {
             if (item.IsUp && (!isPreviousUp))
             {
-                item.IsGuarentee = true;
+                item.IsGuarantee = true;
             }
 
             isPreviousUp = item.IsUp;

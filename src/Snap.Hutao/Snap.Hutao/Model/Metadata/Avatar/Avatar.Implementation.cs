@@ -1,12 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 

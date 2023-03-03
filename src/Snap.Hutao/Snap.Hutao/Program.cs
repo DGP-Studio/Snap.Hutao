@@ -56,7 +56,7 @@ public static partial class Program
 
             // Hutao extensions
             .AddJsonOptions()
-            .AddDatebase()
+            .AddDatabase()
             .AddInjections()
             .AddHttpClients()
 

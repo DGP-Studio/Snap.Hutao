@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Model.Binding.Gacha;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Intrinsic;
@@ -12,6 +11,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 

@@ -83,9 +83,10 @@ internal sealed class Material : Display
 
         return TypeDescription switch
         {
+            "角色与武器培养素材" => true,
             "角色经验素材" => true,
-            "角色培养素材" => true,
-            "天赋培养素材" => true,
+            "角色突破素材" => true,
+            "角色天赋素材" => true,
             "武器强化素材" => true,
             "武器突破素材" => true,
             _ => false,

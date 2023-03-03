@@ -3,8 +3,8 @@
 
 using CommunityToolkit.WinUI.UI;
 using System.Runtime.InteropServices;
-using BindingAchievement = Snap.Hutao.Model.Binding.Achievement.AchievementView;
-using BindingAchievementGoal = Snap.Hutao.Model.Binding.Achievement.AchievementGoalView;
+using BindingAchievement = Snap.Hutao.ViewModel.Achievement.AchievementView;
+using BindingAchievementGoal = Snap.Hutao.ViewModel.Achievement.AchievementGoalView;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 

@@ -10,10 +10,10 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
-    xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
-    d:DataContext="{d:DesignInstance shv:GachaLogViewModel}"
+    d:DataContext="{d:DesignInstance shvg:GachaLogViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 

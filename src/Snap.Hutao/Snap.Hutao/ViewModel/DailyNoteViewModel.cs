@@ -59,7 +59,6 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
         appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
         this.serviceProvider = serviceProvider;
 
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         TrackRoleCommand = new AsyncRelayCommand<UserAndUid>(TrackRoleAsync);
         RefreshCommand = new AsyncRelayCommand(RefreshAsync);
         RemoveDailyNoteCommand = new AsyncRelayCommand<DailyNoteEntry>(RemoveDailyNoteAsync);
@@ -141,11 +140,6 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
     public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
 
     /// <summary>
-    /// 打开界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
-    /// <summary>
     /// 跟踪角色命令
     /// </summary>
     public ICommand TrackRoleCommand { get; }
@@ -170,7 +164,8 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand DailyNoteVerificationCommand { get; }
 
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         try
         {

@@ -11,7 +11,7 @@
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shmbg="using:Snap.Hutao.Model.Binding.Gacha"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    d:DataContext="{d:DesignInstance shmbg:TypedWishSummary}"
+    d:DataContext="{d:DesignInstance shmbg:Snap.Hutao.ViewModel.GachaLog.TypedWishSummary}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -45,7 +45,7 @@
                         VerticalAlignment="Center"
                         Foreground="#FF0063FF"
                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardGuarenteeText}"
-                        Visibility="{Binding IsGuarentee, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        Visibility="{Binding IsGuarantee, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <TextBlock
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"

@@ -432,6 +432,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Control\Extension\" />
+    <Folder Include="Model\Binding\Gacha\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resource\Localization\SH.Designer.cs">

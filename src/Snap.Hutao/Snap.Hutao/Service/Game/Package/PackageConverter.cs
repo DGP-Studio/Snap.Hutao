@@ -295,9 +295,9 @@ internal sealed class PackageConverter
         }
 
         // Cache no item, download it anyway.
-        using (FileStream fileStream = File.Create(targetFilePath))
+        while (true)
         {
-            while (true)
+            using (FileStream fileStream = File.Create(targetFilePath))
             {
                 using (HttpResponseMessage response = await httpClient.GetAsync($"{scatteredFilesUrl}/{info.Target}", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
@@ -319,7 +319,6 @@ internal sealed class PackageConverter
                             // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
 
                             // We want to retry forever.
-                            fileStream.Seek(0, SeekOrigin.Begin);
                         }
                     }
                 }

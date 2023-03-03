@@ -13,7 +13,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.Cultivation;
 
 /// <summary>
 /// 养成视图模型
@@ -48,7 +48,6 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         logger = serviceProvider.GetRequiredService<ILogger<CultivationViewModel>>();
         this.serviceProvider = serviceProvider;
 
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         AddProjectCommand = new AsyncRelayCommand(AddProjectAsync);
         RemoveProjectCommand = new AsyncRelayCommand<CultivateProject>(RemoveProjectAsync);
         RemoveEntryCommand = new AsyncRelayCommand<CultivateEntryView>(RemoveEntryAsync);
@@ -72,10 +71,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
             if (SetProperty(ref selectedProject, value))
             {
                 cultivationService.Current = value;
-                if (value != null)
-                {
-                    UpdateEntryCollectionAsync(value).SafeForget(logger);
-                }
+                UpdateEntryCollectionAsync(value).SafeForget(logger);
             }
         }
     }
@@ -94,11 +90,6 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     /// 统计列表
     /// </summary>
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
-
-    /// <summary>
-    /// 打开界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
 
     /// <summary>
     /// 添加项目命令
@@ -130,7 +121,8 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand FinishStateCommand { get; }
 
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(true);
         if (metaInitialized)
@@ -201,7 +193,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task RemoveEntryAsync(Model.Binding.Cultivation.CultivateEntryView? entry)
+    private async Task RemoveEntryAsync(CultivateEntryView? entry)
     {
         if (entry != null)
         {
