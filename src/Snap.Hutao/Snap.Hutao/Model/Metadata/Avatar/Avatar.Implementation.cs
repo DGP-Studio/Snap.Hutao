@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
@@ -19,7 +20,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// [非元数据] 搭配数据
     /// </summary>
     [JsonIgnore]
-    public ComplexAvatarCollocation? Collocation { get; set; }
+    public AvatarCollocationView? Collocation { get; set; }
 
     /// <summary>
     /// [非元数据] 烹饪奖励

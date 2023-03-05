@@ -5,13 +5,13 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 队伍
 /// </summary>
 [HighQuality]
-internal sealed class Team : List<ComplexAvatar>
+internal sealed class Team : List<AvatarView>
 {
     /// <summary>
     /// 构造一个新的队伍

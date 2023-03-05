@@ -9,11 +9,10 @@
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shmbh="using:Snap.Hutao.Model.Binding.Hutao"
-    xmlns:shv="using:Snap.Hutao.ViewModel"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shvcom="using:Snap.Hutao.ViewModel.Complex"
+    xmlns:shvcon="using:Snap.Hutao.View.Control"
     xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
-    d:DataContext="{d:DesignInstance shv:HutaoDatabaseViewModel}"
+    d:DataContext="{d:DesignInstance shvcom:HutaoDatabaseViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -22,7 +21,7 @@
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
-        <DataTemplate x:Key="TeamItemTemplate" x:DataType="shmbh:Team">
+        <DataTemplate x:Key="TeamItemTemplate" d:DataType="shvcom:Team">
             <Border Margin="12,0,12,12" Style="{StaticResource BorderCardStyle}">
                 <Grid Margin="6">
                     <Grid.ColumnDefinitions>
@@ -37,7 +36,7 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <shvc:ItemIcon
+                                <shvcon:ItemIcon
                                     Width="48"
                                     Height="48"
                                     Icon="{Binding Icon}"
@@ -115,9 +114,9 @@
                                     SelectionMode="None">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <shvc:BottomTextControl Text="{Binding Rate}">
-                                                <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
-                                            </shvc:BottomTextControl>
+                                            <shvcon:BottomTextControl Text="{Binding Rate}">
+                                                <shvcon:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                                            </shvcon:BottomTextControl>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </GridView>
@@ -143,9 +142,9 @@
                                     SelectionMode="None">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <shvc:BottomTextControl Text="{Binding Rate}">
-                                                <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
-                                            </shvc:BottomTextControl>
+                                            <shvcon:BottomTextControl Text="{Binding Rate}">
+                                                <shvcon:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                                            </shvcon:BottomTextControl>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </GridView>
@@ -275,7 +274,7 @@
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
 
-                                            <shvc:ItemIcon
+                                            <shvcon:ItemIcon
                                                 Width="48"
                                                 Height="48"
                                                 Icon="{Binding Icon}"
@@ -315,6 +314,6 @@
                 </Grid>
             </PivotItem>
         </Pivot>
-        <shvc:LoadingView IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+        <shvcon:LoadingView IsLoading="{Binding Overview, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
 </shc:ScopedPage>

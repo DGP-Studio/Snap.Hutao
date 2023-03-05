@@ -810,6 +810,9 @@
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展柜尚未开启，请前往游戏操作后重试</value>
   </data>
+  <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
+    <value>无圣遗物或散件</value>
+  </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>养成计划添加失败</value>
   </data>
@@ -1325,6 +1328,12 @@
   </data>
   <data name="ViewPageLaunchGameElevationHint" xml:space="preserve">
     <value>某些选项处于禁用状态，它们只在管理员模式下生效！</value>
+  </data>
+  <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
+    <value>在指定的显示器上运行</value>
+  </data>
+  <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
+    <value>显示器</value>
   </data>
   <data name="ViewPageLaunchGameSetFpsDescription" xml:space="preserve">
     <value>在游戏时可以随时调整</value>

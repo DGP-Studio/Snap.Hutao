@@ -2140,6 +2140,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 无圣遗物或散件 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelComplexReliquarySetViewEmptyName {
+            get {
+                return ResourceManager.GetString("ViewModelComplexReliquarySetViewEmptyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 养成计划添加失败 的本地化字符串。
         /// </summary>
         internal static string ViewModelCultivationAddWarning {
@@ -3684,6 +3693,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageLaunchGameElevationHint {
             get {
                 return ResourceManager.GetString("ViewPageLaunchGameElevationHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在指定的显示器上运行 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameMonitorsDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameMonitorsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示器 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameMonitorsHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameMonitorsHeader", resourceCulture);
             }
         }
         

@@ -61,9 +61,9 @@ internal interface IGameService
     /// <summary>
     /// 异步启动
     /// </summary>
-    /// <param name="configuration">启动配置</param>
+    /// <param name="options">启动配置</param>
     /// <returns>任务</returns>
-    ValueTask LaunchAsync(LaunchConfiguration configuration);
+    ValueTask LaunchAsync(LaunchOptions options);
 
     /// <summary>
     /// 异步修改游戏账号名称

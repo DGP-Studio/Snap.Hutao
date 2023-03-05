@@ -1,12 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Hutao.Model;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 胡桃数据库视图模型
@@ -17,10 +16,10 @@ internal sealed class HutaoDatabaseViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoCache hutaoCache;
 
-    private List<ComplexAvatarRank>? avatarUsageRanks;
-    private List<ComplexAvatarRank>? avatarAppearanceRanks;
-    private List<ComplexAvatarConstellationInfo>? avatarConstellationInfos;
-    private List<ComplexTeamRank>? teamAppearances;
+    private List<AvatarRankView>? avatarUsageRanks;
+    private List<AvatarRankView>? avatarAppearanceRanks;
+    private List<AvatarConstellationInfoView>? avatarConstellationInfos;
+    private List<TeamAppearanceView>? teamAppearances;
     private Overview? overview;
 
     /// <summary>
@@ -30,41 +29,35 @@ internal sealed class HutaoDatabaseViewModel : Abstraction.ViewModel
     public HutaoDatabaseViewModel(IHutaoCache hutaoCache)
     {
         this.hutaoCache = hutaoCache;
-
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
     }
 
     /// <summary>
     /// 角色使用率
     /// </summary>
-    public List<ComplexAvatarRank>? AvatarUsageRanks { get => avatarUsageRanks; set => SetProperty(ref avatarUsageRanks, value); }
+    public List<AvatarRankView>? AvatarUsageRanks { get => avatarUsageRanks; set => SetProperty(ref avatarUsageRanks, value); }
 
     /// <summary>
     /// 角色上场率
     /// </summary>
-    public List<ComplexAvatarRank>? AvatarAppearanceRanks { get => avatarAppearanceRanks; set => SetProperty(ref avatarAppearanceRanks, value); }
+    public List<AvatarRankView>? AvatarAppearanceRanks { get => avatarAppearanceRanks; set => SetProperty(ref avatarAppearanceRanks, value); }
 
     /// <summary>
     /// 角色命座信息
     /// </summary>
-    public List<ComplexAvatarConstellationInfo>? AvatarConstellationInfos { get => avatarConstellationInfos; set => SetProperty(ref avatarConstellationInfos, value); }
+    public List<AvatarConstellationInfoView>? AvatarConstellationInfos { get => avatarConstellationInfos; set => SetProperty(ref avatarConstellationInfos, value); }
 
     /// <summary>
     /// 队伍出场
     /// </summary>
-    public List<ComplexTeamRank>? TeamAppearances { get => teamAppearances; set => SetProperty(ref teamAppearances, value); }
+    public List<TeamAppearanceView>? TeamAppearances { get => teamAppearances; set => SetProperty(ref teamAppearances, value); }
 
     /// <summary>
     /// 总览数据
     /// </summary>
     public Overview? Overview { get => overview; set => SetProperty(ref overview, value); }
 
-    /// <summary>
-    /// 打开界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         if (await hutaoCache.InitializeForDatabaseViewModelAsync().ConfigureAwait(true))
         {

@@ -9,9 +9,9 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
-    xmlns:shmbg="using:Snap.Hutao.Model.Binding.Gacha"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    d:DataContext="{d:DesignInstance shmbg:Snap.Hutao.ViewModel.GachaLog.TypedWishSummary}"
+    xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
+    d:DataContext="{d:DesignInstance shvg:TypedWishSummary}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -19,7 +19,7 @@
         <SolidColorBrush x:Key="PurpleBrush" Color="#FFA156E0"/>
         <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
 
-        <DataTemplate x:Key="OrangeListTemplate" x:DataType="shmbg:SummaryItem">
+        <DataTemplate x:Key="OrangeListTemplate" d:DataType="shvg:SummaryItem">
             <Grid Margin="0,4,4,0" Background="Transparent">
                 <ToolTipService.ToolTip>
                     <TextBlock Text="{Binding TimeFormatted}"/>
@@ -69,7 +69,7 @@
             FalseValue="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
             TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
 
-        <DataTemplate x:Key="OrangeGridTemplate" x:DataType="shmbg:SummaryItem">
+        <DataTemplate x:Key="OrangeGridTemplate" d:DataType="shvg:SummaryItem">
             <Grid Width="40" Margin="0,4,4,0">
                 <Border
                     Background="{Binding IsUp, Converter={StaticResource BoolToBrushConverter}}"

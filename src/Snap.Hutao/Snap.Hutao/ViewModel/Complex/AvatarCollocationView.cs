@@ -3,13 +3,13 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 角色搭配
 /// </summary>
 [HighQuality]
-internal sealed class ComplexAvatarCollocation
+internal sealed class AvatarCollocationView
 {
     /// <summary>
     /// 角色Id
@@ -19,15 +19,15 @@ internal sealed class ComplexAvatarCollocation
     /// <summary>
     /// 角色
     /// </summary>
-    public List<ComplexAvatar> Avatars { get; set; } = default!;
+    public List<AvatarView> Avatars { get; set; } = default!;
 
     /// <summary>
     /// 武器
     /// </summary>
-    public List<ComplexWeapon> Weapons { get; set; } = default!;
+    public List<WeaponView> Weapons { get; set; } = default!;
 
     /// <summary>
     /// 圣遗物套装
     /// </summary>
-    public List<ComplexReliquarySet> ReliquarySets { get; set; } = default!;
+    public List<ReliquarySetView> ReliquarySets { get; set; } = default!;
 }

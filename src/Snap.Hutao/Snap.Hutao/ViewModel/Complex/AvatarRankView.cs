@@ -1,13 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 角色榜
 /// </summary>
 [HighQuality]
-internal sealed class ComplexAvatarRank
+internal sealed class AvatarRankView
 {
     /// <summary>
     /// 层数
@@ -17,5 +17,5 @@ internal sealed class ComplexAvatarRank
     /// <summary>
     /// 排行信息
     /// </summary>
-    public List<ComplexAvatar> Avatars { get; set; } = default!;
+    public List<AvatarView> Avatars { get; set; } = default!;
 }

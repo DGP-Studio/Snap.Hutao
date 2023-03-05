@@ -110,7 +110,6 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
                 case "id": return "ID";         // Indonesian
                 case "it": return "IT";         // Italian
                 case "ja": return "JP";         // Japanese
-                case "kr": return "JP";         // Japanese
                 case "ko": return "KR";         // Korean
                 case "pt": return "PT";         // Portuguese
                 case "ru": return "RU";         // Russian

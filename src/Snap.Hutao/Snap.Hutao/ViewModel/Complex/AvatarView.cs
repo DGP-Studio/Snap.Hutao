@@ -1,24 +1,25 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 角色
 /// </summary>
 [HighQuality]
-internal class ComplexAvatar : INameIconSide
+internal class AvatarView : INameIconSide
 {
     /// <summary>
     /// 构造一个胡桃数据库角色
     /// </summary>
     /// <param name="avatar">元数据角色</param>
     /// <param name="rate">率</param>
-    public ComplexAvatar(Avatar avatar, double rate)
+    public AvatarView(Avatar avatar, double rate)
     {
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
@@ -30,25 +31,25 @@ internal class ComplexAvatar : INameIconSide
     /// <summary>
     /// 名称
     /// </summary>
-    public string Name { get; set; } = default!;
+    public string Name { get; }
 
     /// <summary>
     /// 图标
     /// </summary>
-    public Uri Icon { get; set; } = default!;
+    public Uri Icon { get; }
 
     /// <summary>
     /// 侧面图标
     /// </summary>
-    public Uri SideIcon { get; set; } = default!;
+    public Uri SideIcon { get; }
 
     /// <summary>
     /// 星级
     /// </summary>
-    public ItemQuality Quality { get; set; }
+    public ItemQuality Quality { get; }
 
     /// <summary>
     /// 比率
     /// </summary>
-    public string Rate { get; set; } = default!;
+    public string Rate { get; }
 }

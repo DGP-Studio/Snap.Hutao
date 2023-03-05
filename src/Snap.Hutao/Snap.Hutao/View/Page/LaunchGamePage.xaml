@@ -184,7 +184,7 @@
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
                                     Width="120"
-                                    IsOn="{Binding IsExclusive, Mode=TwoWay}"
+                                    IsOn="{Binding Options.IsExclusive, Mode=TwoWay}"
                                     Style="{StaticResource ToggleSwitchSettingStyle}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
@@ -195,7 +195,7 @@
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
                                     Width="120"
-                                    IsOn="{Binding IsFullScreen, Mode=TwoWay}"
+                                    IsOn="{Binding Options.IsFullScreen, Mode=TwoWay}"
                                     Style="{StaticResource ToggleSwitchSettingStyle}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
@@ -206,7 +206,7 @@
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
                                     Width="120"
-                                    IsOn="{Binding IsBorderless, Mode=TwoWay}"
+                                    IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"
                                     Style="{StaticResource ToggleSwitchSettingStyle}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
@@ -217,7 +217,7 @@
                             Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthHeader}"
                             Icon="&#xE76F;">
                             <wsc:Setting.ActionContent>
-                                <NumberBox Width="156" Value="{Binding ScreenWidth, Mode=TwoWay}"/>
+                                <NumberBox Width="156" Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
                         <wsc:Setting
@@ -225,7 +225,19 @@
                             Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightHeader}"
                             Icon="&#xE784;">
                             <wsc:Setting.ActionContent>
-                                <NumberBox Width="156" Value="{Binding ScreenHeight, Mode=TwoWay}"/>
+                                <NumberBox Width="156" Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
+                            </wsc:Setting.ActionContent>
+                        </wsc:Setting>
+
+                        <wsc:Setting
+                            Description="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsHeader}"
+                            Icon="&#xE975;">
+                            <wsc:Setting.ActionContent>
+                                <ComboBox
+                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding Options.Monitors}"
+                                    SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
                     </wsc:SettingsGroup>
@@ -243,7 +255,7 @@
                             <wsc:Setting.ActionContent>
                                 <ToggleSwitch
                                     Width="120"
-                                    IsOn="{Binding UnlockFps, Mode=TwoWay}"
+                                    IsOn="{Binding Options.UnlockFps, Mode=TwoWay}"
                                     OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
                                     OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"
                                     Style="{StaticResource ToggleSwitchSettingStyle}"/>
@@ -253,7 +265,7 @@
                             <wsc:Setting.Description>
                                 <StackPanel>
                                     <TextBlock Text="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsDescription}"/>
-                                    <TextBlock Text="{Binding TargetFps}"/>
+                                    <TextBlock Text="{Binding Options.TargetFps}"/>
                                 </StackPanel>
                             </wsc:Setting.Description>
                             <wsc:Setting.ActionContent>
@@ -261,7 +273,7 @@
                                     Width="400"
                                     Maximum="360"
                                     Minimum="60"
-                                    Value="{Binding TargetFps, Mode=TwoWay}"/>
+                                    Value="{Binding Options.TargetFps, Mode=TwoWay}"/>
                             </wsc:Setting.ActionContent>
                         </wsc:Setting>
                     </wsc:SettingsGroup>

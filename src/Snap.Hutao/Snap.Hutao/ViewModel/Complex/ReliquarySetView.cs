@@ -6,30 +6,30 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
 using System.Text;
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 圣遗物套装
 /// </summary>
-internal sealed class ComplexReliquarySet
+internal sealed class ReliquarySetView
 {
     /// <summary>
     /// 构造一个新的胡桃数据库圣遗物套装
     /// </summary>
     /// <param name="reliquarySetRate">圣遗物套装率</param>
     /// <param name="idReliquarySetMap">圣遗物套装映射</param>
-    public ComplexReliquarySet(ItemRate<ReliquarySets, double> reliquarySetRate, Dictionary<EquipAffixId, Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
+    public ReliquarySetView(ItemRate<ReliquarySets, double> reliquarySetRate, Dictionary<EquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
     {
         ReliquarySets sets = reliquarySetRate.Item;
 
         if (sets.Count >= 1)
         {
             StringBuilder nameBuilder = new();
-            List<Uri> icons = new();
+            List<Uri> icons = new(2);
 
             foreach (ReliquarySet set in sets)
             {
-                Metadata.Reliquary.ReliquarySet metaSet = idReliquarySetMap[set.EquipAffixId / 10];
+                Model.Metadata.Reliquary.ReliquarySet metaSet = idReliquarySetMap[set.EquipAffixId / 10];
 
                 if (nameBuilder.Length != 0)
                 {
@@ -45,7 +45,7 @@ internal sealed class ComplexReliquarySet
         }
         else
         {
-            Name = "无圣遗物或散件";
+            Name = SH.ViewModelComplexReliquarySetViewEmptyName;
         }
 
         Rate = $"{reliquarySetRate.Rate:P3}";

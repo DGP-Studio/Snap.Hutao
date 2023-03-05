@@ -46,10 +46,10 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private readonly List<NameValue<string>> cultures = new()
     {
-        ToNameValue(CultureInfo.CreateSpecificCulture("zh-CN")),
-        ToNameValue(CultureInfo.CreateSpecificCulture("zh-TW")),
-        ToNameValue(CultureInfo.CreateSpecificCulture("en-US")),
-        ToNameValue(CultureInfo.CreateSpecificCulture("ko-KR")),
+        ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
+        ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
+        ToNameValue(CultureInfo.GetCultureInfo("en")),
+        ToNameValue(CultureInfo.GetCultureInfo("ko")),
     };
 
     private bool isEmptyHistoryWishVisible;
@@ -102,7 +102,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     }
 
     /// <summary>
-    /// Webview2 版本
+    /// WebView2 版本
     /// </summary>
     [SuppressMessage("", "CA1822")]
     public string WebView2Version
@@ -225,6 +225,12 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// 重置静态资源
     /// </summary>
     public ICommand ResetStaticResourceCommand { get; }
+
+    /// <inheritdoc/>
+    protected override Task OpenUIAsync()
+    {
+        return Task.CompletedTask;
+    }
 
     private static NameValue<string> ToNameValue(CultureInfo info)
     {

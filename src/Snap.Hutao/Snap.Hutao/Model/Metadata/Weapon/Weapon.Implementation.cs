@@ -1,11 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
 
 namespace Snap.Hutao.Model.Metadata.Weapon;
@@ -19,7 +19,7 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     /// [非元数据] 搭配数据
     /// </summary>
     [JsonIgnore]
-    public ComplexWeaponCollocation? Collocation { get; set; }
+    public WeaponCollocationView? Collocation { get; set; }
 
     /// <inheritdoc/>
     [JsonIgnore]

@@ -1,24 +1,25 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Weapon;
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 胡桃数据库武器
 /// </summary>
 [HighQuality]
-internal sealed class ComplexWeapon : INameIcon
+internal sealed class WeaponView : INameIcon
 {
     /// <summary>
     /// 构造一个胡桃数据库武器
     /// </summary>
     /// <param name="weapon">元数据武器</param>
     /// <param name="rate">率</param>
-    public ComplexWeapon(Weapon weapon, double rate)
+    public WeaponView(Weapon weapon, double rate)
     {
         Name = weapon.Name;
         Icon = EquipIconConverter.IconNameToUri(weapon.Icon);

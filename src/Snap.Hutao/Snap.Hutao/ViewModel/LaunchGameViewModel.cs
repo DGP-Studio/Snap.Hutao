@@ -2,12 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Windowing;
 using Snap.Hutao.Control.Extension;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Binding.LaunchGame;
@@ -21,7 +18,6 @@ using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using System.IO;
-using Windows.Graphics;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -47,13 +43,6 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     private LaunchScheme? selectedScheme;
     private ObservableCollection<GameAccount>? gameAccounts;
     private GameAccount? selectedGameAccount;
-    private bool isExclusive;
-    private bool isFullScreen;
-    private bool isBorderless;
-    private int screenWidth;
-    private int screenHeight;
-    private bool unlockFps;
-    private int targetFps;
 
     /// <summary>
     /// 构造一个新的启动游戏视图模型
@@ -64,9 +53,9 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         gameService = serviceProvider.GetRequiredService<IGameService>();
         appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
         memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+        Options = serviceProvider.GetRequiredService<LaunchOptions>();
         this.serviceProvider = serviceProvider;
 
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         LaunchCommand = new AsyncRelayCommand(LaunchAsync);
         DetectGameAccountCommand = new AsyncRelayCommand(DetectGameAccountAsync);
         ModifyGameAccountCommand = new AsyncRelayCommand<GameAccount>(ModifyGameAccountAsync);
@@ -95,87 +84,15 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
     /// <summary>
-    /// 是否为独占全屏
+    /// 启动选项
     /// </summary>
-    public bool IsExclusive
-    {
-        get => isExclusive; set
-        {
-            if (SetProperty(ref isExclusive, value))
-            {
-                if (value)
-                {
-                    IsFullScreen = true;
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// 全屏
-    /// </summary>
-    public bool IsFullScreen
-    {
-        get => isFullScreen; set
-        {
-            if (SetProperty(ref isFullScreen, value))
-            {
-                if (value)
-                {
-                    IsBorderless = false;
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// 无边框
-    /// </summary>
-    public bool IsBorderless
-    {
-        get => isBorderless; set
-        {
-            if (SetProperty(ref isBorderless, value))
-            {
-                if (value)
-                {
-                    IsExclusive = false;
-                    IsFullScreen = false;
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// 宽度
-    /// </summary>
-    public int ScreenWidth { get => screenWidth; set => SetProperty(ref screenWidth, value); }
-
-    /// <summary>
-    /// 高度
-    /// </summary>
-    public int ScreenHeight { get => screenHeight; set => SetProperty(ref screenHeight, value); }
-
-    /// <summary>
-    /// 解锁帧率
-    /// </summary>
-    public bool UnlockFps { get => unlockFps; set => SetProperty(ref unlockFps, value); }
-
-    /// <summary>
-    /// 目标帧率
-    /// </summary>
-    public int TargetFps { get => targetFps; set => SetProperty(ref targetFps, value); }
+    public LaunchOptions Options { get; }
 
     /// <summary>
     /// 是否提权
     /// </summary>
     [SuppressMessage("", "CA1822")]
     public bool IsElevated { get => Activation.GetElevated(); }
-
-    /// <summary>
-    /// 打开界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
 
     /// <summary>
     /// 启动游戏命令
@@ -202,7 +119,8 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand AttachGameAccountCommand { get; }
 
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         if (File.Exists(gameService.GetGamePathSkipLocator()))
         {
@@ -228,9 +146,6 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                         SelectedGameAccount = GameAccounts.FirstOrDefault(g => g.AttachUid == uid);
                         memoryCache.Remove(DesiredUid);
                     }
-
-                    // Sync from Settings
-                    RetiveSetting();
                 }
             }
             catch (OperationCanceledException)
@@ -244,44 +159,6 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
         }
-    }
-
-    private void RetiveSetting()
-    {
-        DbSet<SettingEntry> settings = appDbContext.Settings;
-
-        isFullScreen = settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, Core.StringLiterals.True).GetBoolean();
-        OnPropertyChanged(nameof(IsFullScreen));
-
-        isBorderless = settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, Core.StringLiterals.False).GetBoolean();
-        OnPropertyChanged(nameof(IsBorderless));
-
-        RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
-
-        screenWidth = settings.SingleOrAdd(SettingEntry.LaunchScreenWidth, $"{primaryRect.Width}").GetInt32();
-        OnPropertyChanged(nameof(ScreenWidth));
-
-        screenHeight = settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, $"{primaryRect.Height}").GetInt32();
-        OnPropertyChanged(nameof(ScreenHeight));
-
-        unlockFps = settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, Core.StringLiterals.False).GetBoolean();
-        OnPropertyChanged(nameof(UnlockFps));
-
-        targetFps = settings.SingleOrAdd(SettingEntry.LaunchTargetFps, "60").GetInt32();
-        OnPropertyChanged(nameof(TargetFps));
-    }
-
-    private void SaveSetting()
-    {
-        DbSet<SettingEntry> settings = appDbContext.Settings;
-        settings.SingleOrAdd(SettingEntry.LaunchIsExclusive, Core.StringLiterals.False).SetBoolean(IsExclusive);
-        settings.SingleOrAdd(SettingEntry.LaunchIsFullScreen, Core.StringLiterals.False).SetBoolean(IsFullScreen);
-        settings.SingleOrAdd(SettingEntry.LaunchIsBorderless, Core.StringLiterals.False).SetBoolean(IsBorderless);
-        settings.SingleOrAdd(SettingEntry.LaunchScreenWidth, "1920").SetInt32(ScreenWidth);
-        settings.SingleOrAdd(SettingEntry.LaunchScreenHeight, "1080").SetInt32(ScreenHeight);
-        settings.SingleOrAdd(SettingEntry.LaunchUnlockFps, Core.StringLiterals.False).SetBoolean(UnlockFps);
-        settings.SingleOrAdd(SettingEntry.LaunchTargetFps, "60").SetInt32(TargetFps);
-        appDbContext.SaveChanges();
     }
 
     private async Task LaunchAsync()
@@ -322,10 +199,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                     }
                 }
 
-                SaveSetting();
-
-                LaunchConfiguration configuration = new(IsExclusive, IsFullScreen, IsBorderless, ScreenWidth, ScreenHeight, IsElevated && UnlockFps, TargetFps);
-                await gameService.LaunchAsync(configuration).ConfigureAwait(false);
+                await gameService.LaunchAsync(Options).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

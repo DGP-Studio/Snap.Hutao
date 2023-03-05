@@ -59,7 +59,6 @@ public static partial class Program
             .AddDatabase()
             .AddInjections()
             .AddHttpClients()
-
             // Discrete services
             .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
 

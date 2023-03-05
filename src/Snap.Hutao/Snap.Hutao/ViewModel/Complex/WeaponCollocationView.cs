@@ -3,18 +3,18 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 武器搭配
 /// </summary>
 [HighQuality]
-internal sealed class ComplexWeaponCollocation
+internal sealed class WeaponCollocationView
 {
     /// <summary>
     /// 角色
     /// </summary>
-    public List<ComplexAvatar> Avatars { get; set; } = default!;
+    public List<AvatarView> Avatars { get; set; } = default!;
 
     /// <summary>
     /// 武器Id

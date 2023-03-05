@@ -5,20 +5,20 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Complex;
 
 /// <summary>
 /// 队伍排行
 /// </summary>
 [HighQuality]
-internal sealed class ComplexTeamRank
+internal sealed class TeamAppearanceView
 {
     /// <summary>
     /// 构造一个新的队伍排行
     /// </summary>
     /// <param name="teamRank">队伍排行</param>
     /// <param name="idAvatarMap">映射</param>
-    public ComplexTeamRank(TeamAppearance teamRank, Dictionary<AvatarId, Avatar> idAvatarMap)
+    public TeamAppearanceView(TeamAppearance teamRank, Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         Floor = string.Format(SH.ModelBindingHutaoComplexRankFloor, teamRank.Floor);
         Up = teamRank.Up.Select(teamRate => new Team(teamRate, idAvatarMap)).ToList();

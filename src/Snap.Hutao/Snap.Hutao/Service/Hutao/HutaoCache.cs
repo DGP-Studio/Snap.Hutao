@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.Web.Hutao.Model;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -40,25 +41,25 @@ internal sealed class HutaoCache : IHutaoCache
     }
 
     /// <inheritdoc/>
-    public List<ComplexAvatarRank>? AvatarUsageRanks { get; set; }
+    public List<AvatarRankView>? AvatarUsageRanks { get; set; }
 
     /// <inheritdoc/>
-    public List<ComplexAvatarRank>? AvatarAppearanceRanks { get; set; }
+    public List<AvatarRankView>? AvatarAppearanceRanks { get; set; }
 
     /// <inheritdoc/>
-    public List<ComplexAvatarConstellationInfo>? AvatarConstellationInfos { get; set; }
+    public List<AvatarConstellationInfoView>? AvatarConstellationInfos { get; set; }
 
     /// <inheritdoc/>
-    public List<ComplexTeamRank>? TeamAppearances { get; set; }
+    public List<TeamAppearanceView>? TeamAppearances { get; set; }
 
     /// <inheritdoc/>
     public Overview? Overview { get; set; }
 
     /// <inheritdoc/>
-    public List<ComplexAvatarCollocation>? AvatarCollocations { get; set; }
+    public List<AvatarCollocationView>? AvatarCollocations { get; set; }
 
     /// <inheritdoc/>
-    public List<ComplexWeaponCollocation>? WeaponCollocations { get; set; }
+    public List<WeaponCollocationView>? WeaponCollocations { get; set; }
 
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeForDatabaseViewModelAsync()
@@ -113,12 +114,12 @@ internal sealed class HutaoCache : IHutaoCache
                 avatarCollocationsRaw = await hutaoService.GetAvatarCollocationsAsync().ConfigureAwait(false);
             }
 
-            AvatarCollocations = avatarCollocationsRaw.Select(co => new ComplexAvatarCollocation()
+            AvatarCollocations = avatarCollocationsRaw.Select(co => new AvatarCollocationView()
             {
                 AvatarId = co.AvatarId,
-                Avatars = co.Avatars.Select(a => new ComplexAvatar(idAvatarMap[a.Item], a.Rate)).ToList(),
-                Weapons = co.Weapons.Select(w => new ComplexWeapon(idWeaponMap[w.Item], w.Rate)).ToList(),
-                ReliquarySets = co.Reliquaries.Select(r => new ComplexReliquarySet(r, idReliquarySetMap)).ToList(),
+                Avatars = co.Avatars.Select(a => new AvatarView(idAvatarMap[a.Item], a.Rate)).ToList(),
+                Weapons = co.Weapons.Select(w => new WeaponView(idWeaponMap[w.Item], w.Rate)).ToList(),
+                ReliquarySets = co.Reliquaries.Select(r => new ReliquarySetView(r, idReliquarySetMap)).ToList(),
             }).ToList();
 
             wikiAvatarViewModelTaskSource.TrySetResult(true);
@@ -149,10 +150,10 @@ internal sealed class HutaoCache : IHutaoCache
                 weaponCollocationsRaw = await hutaoService.GetWeaponCollocationsAsync().ConfigureAwait(false);
             }
 
-            WeaponCollocations = weaponCollocationsRaw.Select(co => new ComplexWeaponCollocation()
+            WeaponCollocations = weaponCollocationsRaw.Select(co => new WeaponCollocationView()
             {
                 WeaponId = co.WeaponId,
-                Avatars = co.Avatars.Select(a => new ComplexAvatar(idAvatarMap[a.Item], a.Rate)).ToList(),
+                Avatars = co.Avatars.Select(a => new AvatarView(idAvatarMap[a.Item], a.Rate)).ToList(),
             }).ToList();
 
             wikiWeaponViewModelTaskSource.TrySetResult(true);
@@ -183,10 +184,10 @@ internal sealed class HutaoCache : IHutaoCache
             avatarAppearanceRanksRaw = await hutaoService.GetAvatarAppearanceRanksAsync().ConfigureAwait(false);
         }
 
-        AvatarAppearanceRanks = avatarAppearanceRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new ComplexAvatarRank
+        AvatarAppearanceRanks = avatarAppearanceRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new AvatarRankView
         {
             Floor = string.Format(SH.ModelBindingHutaoComplexRankFloor, rank.Floor),
-            Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new ComplexAvatar(idAvatarMap[rank.Item], rank.Rate)).ToList(),
+            Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)).ToList(),
         }).ToList();
     }
 
@@ -199,10 +200,10 @@ internal sealed class HutaoCache : IHutaoCache
             avatarUsageRanksRaw = await hutaoService.GetAvatarUsageRanksAsync().ConfigureAwait(false);
         }
 
-        AvatarUsageRanks = avatarUsageRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new ComplexAvatarRank
+        AvatarUsageRanks = avatarUsageRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new AvatarRankView
         {
             Floor = string.Format(SH.ModelBindingHutaoComplexRankFloor, rank.Floor),
-            Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new ComplexAvatar(idAvatarMap[rank.Item], rank.Rate)).ToList(),
+            Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)).ToList(),
         }).ToList();
     }
 
@@ -217,7 +218,7 @@ internal sealed class HutaoCache : IHutaoCache
 
         AvatarConstellationInfos = avatarConstellationInfosRaw.OrderBy(i => i.HoldingRate).Select(info =>
         {
-            return new ComplexAvatarConstellationInfo(idAvatarMap[info.AvatarId], info.HoldingRate, info.Constellations.Select(x => x.Rate));
+            return new AvatarConstellationInfoView(idAvatarMap[info.AvatarId], info.HoldingRate, info.Constellations.Select(x => x.Rate));
         }).ToList();
     }
 
@@ -230,7 +231,7 @@ internal sealed class HutaoCache : IHutaoCache
             teamAppearancesRaw = await hutaoService.GetTeamAppearancesAsync().ConfigureAwait(false);
         }
 
-        TeamAppearances = teamAppearancesRaw.OrderByDescending(t => t.Floor).Select(team => new ComplexTeamRank(team, idAvatarMap)).ToList();
+        TeamAppearances = teamAppearancesRaw.OrderByDescending(t => t.Floor).Select(team => new TeamAppearanceView(team, idAvatarMap)).ToList();
     }
 
     private async Task OverviewAsync()

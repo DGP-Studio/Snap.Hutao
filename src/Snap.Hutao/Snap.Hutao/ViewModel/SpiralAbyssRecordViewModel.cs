@@ -52,7 +52,6 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
         userService = serviceProvider.GetRequiredService<IUserService>();
         this.serviceProvider = serviceProvider;
 
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         RefreshCommand = new AsyncRelayCommand(RefreshAsync);
         UploadSpiralAbyssRecordCommand = new AsyncRelayCommand(UploadSpiralAbyssRecordAsync);
 
@@ -87,11 +86,6 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
     public SpiralAbyssView? SpiralAbyssView { get => spiralAbyssView; set => SetProperty(ref spiralAbyssView, value); }
 
     /// <summary>
-    /// 打开界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
-    /// <summary>
     /// 刷新界面命令
     /// </summary>
     public ICommand RefreshCommand { get; }
@@ -114,7 +108,8 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
         }
     }
 
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {

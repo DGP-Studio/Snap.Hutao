@@ -82,6 +82,11 @@ internal sealed class SettingEntry
     public const string LaunchTargetFps = "Launch.TargetFps";
 
     /// <summary>
+    /// 启动游戏 显示器编号
+    /// </summary>
+    public const string LaunchMonitor = "Launch.Monitor";
+
+    /// <summary>
     /// 语言
     /// </summary>
     public const string Culture = "Culture";

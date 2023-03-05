@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding.Hutao;
+using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.Web.Hutao.Model;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -15,22 +16,22 @@ internal interface IHutaoCache
     /// <summary>
     /// 角色使用率
     /// </summary>
-    List<ComplexAvatarRank>? AvatarUsageRanks { get; set; }
+    List<AvatarRankView>? AvatarUsageRanks { get; set; }
 
     /// <summary>
     /// 角色上场率
     /// </summary>
-    List<ComplexAvatarRank>? AvatarAppearanceRanks { get; set; }
+    List<AvatarRankView>? AvatarAppearanceRanks { get; set; }
 
     /// <summary>
     /// 角色命座信息
     /// </summary>
-    List<ComplexAvatarConstellationInfo>? AvatarConstellationInfos { get; set; }
+    List<AvatarConstellationInfoView>? AvatarConstellationInfos { get; set; }
 
     /// <summary>
     /// 队伍出场
     /// </summary>
-    List<ComplexTeamRank>? TeamAppearances { get; set; }
+    List<TeamAppearanceView>? TeamAppearances { get; set; }
 
     /// <summary>
     /// 总览数据
@@ -40,12 +41,12 @@ internal interface IHutaoCache
     /// <summary>
     /// 角色搭配
     /// </summary>
-    List<ComplexAvatarCollocation>? AvatarCollocations { get; set; }
+    List<AvatarCollocationView>? AvatarCollocations { get; set; }
 
     /// <summary>
     /// 武器搭配
     /// </summary>
-    List<ComplexWeaponCollocation>? WeaponCollocations { get; set; }
+    List<WeaponCollocationView>? WeaponCollocations { get; set; }
 
     /// <summary>
     /// 为数据库视图模型初始化

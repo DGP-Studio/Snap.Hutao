@@ -53,6 +53,12 @@ internal sealed class TestViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand RestartAppCommand { get; }
 
+    /// <inheritdoc/>
+    protected override Task OpenUIAsync()
+    {
+        return Task.CompletedTask;
+    }
+
     private async Task ShowCommunityGameRecordDialogAsync()
     {
         // ContentDialog must be created by main thread.

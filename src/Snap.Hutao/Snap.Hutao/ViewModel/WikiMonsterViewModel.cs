@@ -1,31 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Model.Binding.BaseValue;
-using Snap.Hutao.Model.Binding.Hutao;
-using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Intrinsic.Immutable;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;
-using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Cultivation;
-using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
-using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
-using System.Runtime.InteropServices;
-using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
-using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
-using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -35,16 +19,13 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal class WikiMonsterViewModel : Abstraction.ViewModel
 {
-    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
-    private readonly IHutaoCache hutaoCache;
 
     private AdvancedCollectionView? monsters;
     private Monster? selected;
     private string? filterText;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<int, Dictionary<GrowCurveType, float>>? levelMonsterCurveMap;
-    private Dictionary<MaterialId, Material>? idMaterialMap;
 
     /// <summary>
     /// 构造一个新的怪物资料视图模型
@@ -53,10 +34,6 @@ internal class WikiMonsterViewModel : Abstraction.ViewModel
     public WikiMonsterViewModel(IServiceProvider serviceProvider)
     {
         metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        hutaoCache = serviceProvider.GetRequiredService<IHutaoCache>();
-        this.serviceProvider = serviceProvider;
-
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
     }
 
     /// <summary>
@@ -88,12 +65,8 @@ internal class WikiMonsterViewModel : Abstraction.ViewModel
     /// </summary>
     public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
 
-    /// <summary>
-    /// 打开界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {

@@ -25,7 +25,7 @@ internal sealed class WindowSubclassManager<TWindow> : IDisposable
     private readonly bool isLegacyDragBar;
     private HWND hwndDragBar;
 
-    // We have to explictly hold a reference to SUBCLASSPROC
+    // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC? windowProc;
     private SUBCLASSPROC? dragBarProc;
 

@@ -20,6 +20,7 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
@@ -59,7 +60,6 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
         hutaoCache = serviceProvider.GetRequiredService<IHutaoCache>();
         this.serviceProvider = serviceProvider;
 
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         CultivateCommand = new AsyncRelayCommand<Avatar>(CultivateAsync);
         FilterCommand = new RelayCommand<string>(ApplyFilter);
     }
@@ -94,11 +94,6 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
 
     /// <summary>
-    /// 打开页面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
-    /// <summary>
     /// 养成命令
     /// </summary>
     public ICommand CultivateCommand { get; }
@@ -108,7 +103,8 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand FilterCommand { get; }
 
-    private async Task OpenUIAsync()
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -134,7 +130,7 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     {
         if (await hutaoCache.InitializeForWikiAvatarViewModelAsync().ConfigureAwait(false))
         {
-            Dictionary<AvatarId, ComplexAvatarCollocation> idCollocations = hutaoCache.AvatarCollocations!.ToDictionary(a => a.AvatarId);
+            Dictionary<AvatarId, AvatarCollocationView> idCollocations = hutaoCache.AvatarCollocations!.ToDictionary(a => a.AvatarId);
 
             foreach (Avatar avatar in avatars)
             {

@@ -17,7 +17,7 @@ internal static class Localization
     /// <param name="culture">语言代码</param>
     public static void Initialize(string culture)
     {
-        CultureInfo cultureInfo = CultureInfo.CreateSpecificCulture(culture);
+        CultureInfo cultureInfo = CultureInfo.GetCultureInfo(culture);
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
         ApplicationLanguages.PrimaryLanguageOverride = culture;

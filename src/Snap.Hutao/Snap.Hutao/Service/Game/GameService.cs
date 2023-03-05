@@ -306,7 +306,7 @@ internal sealed class GameService : IGameService
     }
 
     /// <inheritdoc/>
-    public async ValueTask LaunchAsync(LaunchConfiguration configuration)
+    public async ValueTask LaunchAsync(LaunchOptions options)
     {
         if (IsGameRunning())
         {
@@ -321,13 +321,13 @@ internal sealed class GameService : IGameService
         }
 
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
-        // TODO: impl monitor option.
         string commandLine = new CommandLineBuilder()
-            .AppendIf("-popupwindow", configuration.IsBorderless)
-            .Append("-screen-fullscreen", configuration.IsFullScreen ? 1 : 0)
-            .AppendIf("-window-mode", configuration.IsExclusive, "exclusive")
-            .Append("-screen-width", configuration.ScreenWidth)
-            .Append("-screen-height", configuration.ScreenHeight)
+            .AppendIf("-popupwindow", options.IsBorderless)
+            .Append("-screen-fullscreen", options.IsFullScreen ? 1 : 0)
+            .AppendIf("-window-mode", options.IsExclusive, "exclusive")
+            .Append("-screen-width", options.ScreenWidth)
+            .Append("-screen-height", options.ScreenHeight)
+            .Append("-monitor", options.Monitor.Value)
             .ToString();
 
         Process game = new()
@@ -344,9 +344,9 @@ internal sealed class GameService : IGameService
 
         using (await gameSemaphore.EnterAsync().ConfigureAwait(false))
         {
-            if (configuration.UnlockFPS)
+            if (options.UnlockFps)
             {
-                IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, configuration.TargetFPS);
+                IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, options.TargetFps);
 
                 TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
                 TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);

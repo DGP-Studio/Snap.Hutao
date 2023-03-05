@@ -10,8 +10,11 @@ MINMAXINFO
 
 // COMCTL32
 DefSubclassProc
-SetWindowSubclass
 RemoveWindowSubclass
+SetWindowSubclass
+
+// GDI32
+GetDeviceCaps
 
 // KERNEL32
 CreateEvent
@@ -27,6 +30,7 @@ CoWaitForMultipleObjects
 
 // USER32
 FindWindowEx
+GetDC
 GetDpiForWindow
 GetWindowPlacement
 
