@@ -9,7 +9,6 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Win32;
 using Windows.Graphics;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
@@ -345,11 +344,14 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
         {
             if (SetProperty(ref monitor, value))
             {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
+                if (monitor != null)
                 {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchMonitor);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchMonitor, value.Value.ToString()));
+                    using (IServiceScope scope = serviceScopeFactory.CreateScope())
+                    {
+                        AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                        appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchMonitor);
+                        appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchMonitor, value.Value.ToString()));
+                    }
                 }
             }
         }

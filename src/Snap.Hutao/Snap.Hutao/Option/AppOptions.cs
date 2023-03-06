@@ -8,6 +8,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using System.Globalization;
+using Windows.Globalization;
 
 namespace Snap.Hutao.Option;
 

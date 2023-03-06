@@ -307,6 +307,7 @@ internal sealed class PackageConverter
                         try
                         {
                             await CopyToWithProgressAsync(webStream, fileStream, info.Target, totalBytes, progress).ConfigureAwait(false);
+                            fileStream.Seek(0, SeekOrigin.Begin);
                             string remoteMd5 = await Digest.GetStreamMD5Async(fileStream).ConfigureAwait(false);
                             if (info.Md5 == remoteMd5.ToLowerInvariant())
                             {

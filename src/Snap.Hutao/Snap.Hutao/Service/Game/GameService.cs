@@ -323,8 +323,8 @@ internal sealed class GameService : IGameService
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
         string commandLine = new CommandLineBuilder()
             .AppendIf("-popupwindow", options.IsBorderless)
-            .Append("-screen-fullscreen", options.IsFullScreen ? 1 : 0)
             .AppendIf("-window-mode", options.IsExclusive, "exclusive")
+            .Append("-screen-fullscreen", options.IsFullScreen ? 1 : 0)
             .Append("-screen-width", options.ScreenWidth)
             .Append("-screen-height", options.ScreenHeight)
             .Append("-monitor", options.Monitor.Value)

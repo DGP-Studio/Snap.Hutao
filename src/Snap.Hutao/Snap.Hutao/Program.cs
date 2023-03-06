@@ -4,7 +4,11 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Snap.Hutao.Core.Setting;
+using Snap.Hutao.Option;
+using System.Globalization;
 using System.Runtime.InteropServices;
+using Windows.Globalization;
 using WinRT;
 
 namespace Snap.Hutao;
@@ -27,8 +31,11 @@ public static partial class Program
         ComWrappersSupport.InitializeComWrappers();
 
         // by adding the using statement, we can dispose the injected services when we closing
-        using (InitializeDependencyInjection())
+        using (ServiceProvider serviceProvider = InitializeDependencyInjection())
         {
+            AppOptions options = serviceProvider.GetRequiredService<AppOptions>();
+            InitializeCulture(options.CurrentCulture);
+
             // In a Desktop app this runs a message pump internally,
             // and does not return until the application shuts down.
             Application.Start(InitializeApp);
@@ -42,10 +49,13 @@ public static partial class Program
         _ = Ioc.Default.GetRequiredService<App>();
     }
 
-    /// <summary>
-    /// 初始化依赖注入
-    /// </summary>
-    /// <returns>The ServiceProvider, so that we can dispose it.</returns>
+    private static void InitializeCulture(CultureInfo cultureInfo)
+    {
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
+        ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+    }
+
     private static ServiceProvider InitializeDependencyInjection()
     {
         ServiceProvider services = new ServiceCollection()

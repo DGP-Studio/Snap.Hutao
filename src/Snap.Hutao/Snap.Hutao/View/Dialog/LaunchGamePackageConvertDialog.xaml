@@ -16,14 +16,14 @@
 
     <StackPanel>
         <TextBlock Text="{shcm:ResourceString Name=ViewDialogLaunchGamePackageConvertHint}"/>
-        <TextBlock
-            MinWidth="360"
-            Margin="0,16,0,8"
-            Style="{StaticResource CaptionTextBlockStyle}"
-            Text="{Binding State.Description}"/>
         <ProgressBar
+            Margin="0,16,0,4"
             IsIndeterminate="{Binding State.IsIndeterminate}"
             Maximum="1"
             Value="{Binding State.Percent}"/>
+        <TextBlock
+            MinWidth="360"
+            Style="{StaticResource CaptionTextBlockStyle}"
+            Text="{Binding State.Description}"/>
     </StackPanel>
 </ContentDialog>
