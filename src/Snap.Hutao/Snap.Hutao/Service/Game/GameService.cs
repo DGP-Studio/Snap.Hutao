@@ -237,10 +237,14 @@ internal sealed class GameService : IGameService
         string gameFileName = Path.GetFileName(gamePath);
 
         progress.Report(new(SH.ServiceGameEnsureGameResourceQueryResourceInformation));
-        Response<GameResource> response = await Ioc.Default
-            .GetRequiredService<ResourceClient>()
-            .GetResourceAsync(launchScheme)
-            .ConfigureAwait(false);
+        Response<GameResource> response;
+        using (IServiceScope scope = scopeFactory.CreateScope())
+        {
+            response = await scope.ServiceProvider
+                .GetRequiredService<ResourceClient>()
+                .GetResourceAsync(launchScheme)
+                .ConfigureAwait(false);
+        }
 
         if (response.IsOk())
         {

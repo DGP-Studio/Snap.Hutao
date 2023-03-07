@@ -10,7 +10,6 @@ using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using System.Diagnostics;
-using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
 
@@ -164,15 +163,20 @@ internal static class Activation
 
                     default:
                         {
-                            // Increase launch times
-                            LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
-
-                            await WaitMainWindowAsync().ConfigureAwait(false);
+                            await HandleNormalLaunchActionAsync().ConfigureAwait(false);
                             break;
                         }
                 }
             }
         }
+    }
+
+    private static async Task HandleNormalLaunchActionAsync()
+    {
+        // Increase launch times
+        LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
+
+        await WaitMainWindowAsync().ConfigureAwait(false);
     }
 
     private static async Task WaitMainWindowAsync()
@@ -209,6 +213,12 @@ internal static class Activation
             case CategoryDailyNote:
                 {
                     await HandleDailyNoteActionAsync(action, parameter, isRedirected).ConfigureAwait(false);
+                    break;
+                }
+
+            default:
+                {
+                    await HandleNormalLaunchActionAsync().ConfigureAwait(false);
                     break;
                 }
         }

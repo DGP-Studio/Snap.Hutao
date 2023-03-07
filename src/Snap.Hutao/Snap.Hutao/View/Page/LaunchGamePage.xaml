@@ -12,6 +12,7 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shv:LaunchGameViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -23,11 +24,8 @@
 
     <Page.Resources>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
-
+        <Visibility x:Key="VisibilityCollapsed">Collapsed</Visibility>
         <Style BasedOn="{StaticResource SettingButtonStyle}" TargetType="Button">
-            <Setter Property="MinWidth" Value="156"/>
-        </Style>
-        <Style BasedOn="{StaticResource HyperlinkButtonStyle}" TargetType="HyperlinkButton">
             <Setter Property="MinWidth" Value="156"/>
         </Style>
         <Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="ComboBox">
@@ -38,267 +36,291 @@
         </Style>
     </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <ScrollViewer Grid.RowSpan="2">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition MaxWidth="800"/>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Margin="16">
-                    <InfoBar
-                        IsClosable="False"
-                        IsOpen="True"
-                        Message="{shcm:ResourceString Name=ViewPageLaunchGameConfigurationSaveHint}"
-                        Severity="Informational"/>
-                    <InfoBar
-                        Margin="0,2,0,0"
-                        IsClosable="False"
-                        IsOpen="{Binding IsElevated, Converter={StaticResource BoolNegationConverter}}"
-                        Message="{shcm:ResourceString Name=ViewPageLaunchGameElevationHint}"
-                        Severity="Warning"/>
-                    <wsc:SettingsGroup Margin="0,0,0,0" Header="{shcm:ResourceString Name=ViewPageLaunchGameCommonHeader}">
-                        <InfoBar
-                            IsClosable="False"
-                            IsOpen="{Binding IsElevated}"
-                            Message="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHint}"
-                            Severity="Informational"/>
-                        <wsc:Setting
-                            Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
-                            Icon="&#xE8AB;"
-                            IsEnabled="{Binding IsElevated}">
-                            <wsc:Setting.ActionContent>
-                                <ComboBox
-                                    DisplayMemberPath="DisplayName"
-                                    ItemsSource="{Binding KnownSchemes}"
-                                    SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
-                        <wsc:SettingExpander IsExpanded="True">
-                            <wsc:SettingExpander.Header>
+        <Rectangle
+            Height="48"
+            VerticalAlignment="Top"
+            Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+            IsHitTestVisible="False"/>
+        <Pivot>
+            <Pivot.RightHeader>
+                <CommandBar DefaultLabelPosition="Right">
+                    <AppBarButton
+                        Command="{Binding LaunchCommand}"
+                        Icon="{shcm:FontIcon Glyph=&#xE7FC;}"
+                        Label="{shcm:ResourceString Name=ViewPageLaunchGameAction}"/>
+                </CommandBar>
+            </Pivot.RightHeader>
+
+            <PivotItem Header="{shcm:ResourceString Name=ViewPageLaunchGameOptionsHeader}">
+                <ScrollViewer Grid.RowSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition MaxWidth="1000"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="16">
+                            <InfoBar
+                                IsClosable="False"
+                                IsOpen="True"
+                                Message="{shcm:ResourceString Name=ViewPageLaunchGameConfigurationSaveHint}"
+                                Severity="Informational"/>
+                            <InfoBar
+                                Margin="0,2,0,0"
+                                IsClosable="False"
+                                IsOpen="{Binding IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                                Message="{shcm:ResourceString Name=ViewPageLaunchGameElevationHint}"
+                                Severity="Warning"/>
+                            <wsc:SettingsGroup Margin="0,0,0,0" Header="{shcm:ResourceString Name=ViewPageLaunchGameCommonHeader}">
                                 <wsc:Setting
-                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDescription}"
-                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountHeader}"
-                                    Icon="&#xE748;">
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
+                                    Icon="&#xE8AB;"
+                                    IsEnabled="{Binding IsElevated}">
                                     <wsc:Setting.ActionContent>
-                                        <Button
-                                            Grid.Column="1"
-                                            MinWidth="124"
-                                            Margin="0,0,8,0"
-                                            HorizontalAlignment="Right"
-                                            Command="{Binding DetectGameAccountCommand}"
-                                            Content="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDetectAction}"/>
+                                        <ComboBox
+                                            DisplayMemberPath="DisplayName"
+                                            ItemsSource="{Binding KnownSchemes}"
+                                            SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"/>
                                     </wsc:Setting.ActionContent>
                                 </wsc:Setting>
-                            </wsc:SettingExpander.Header>
-                            <ListView ItemsSource="{Binding GameAccounts}" SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <StackPanel Margin="0,12">
-                                                <TextBlock Text="{Binding Name}"/>
-                                                <TextBlock
-                                                    Opacity="0.8"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding AttachUid, TargetNullValue={shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidNull}}"/>
-                                            </StackPanel>
-                                            <StackPanel
-                                                x:Name="ButtonPanel"
-                                                HorizontalAlignment="Right"
-                                                Orientation="Horizontal"
-                                                Visibility="Collapsed">
+                                <wsc:SettingExpander IsExpanded="True">
+                                    <wsc:SettingExpander.Header>
+                                        <wsc:Setting
+                                            Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDescription}"
+                                            Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountHeader}"
+                                            Icon="&#xE748;">
+                                            <wsc:Setting.ActionContent>
                                                 <Button
-                                                    MinWidth="48"
-                                                    Margin="4,8"
-                                                    VerticalAlignment="Stretch"
-                                                    Command="{Binding DataContext.AttachGameAccountCommand, Source={StaticResource BindingProxy}}"
-                                                    CommandParameter="{Binding}"
-                                                    Content="&#xE723;"
-                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidToolTip}"/>
-                                                <Button
-                                                    MinWidth="48"
-                                                    Margin="4,8"
-                                                    VerticalAlignment="Stretch"
-                                                    Command="{Binding DataContext.ModifyGameAccountCommand, Source={StaticResource BindingProxy}}"
-                                                    CommandParameter="{Binding}"
-                                                    Content="&#xE8AC;"
-                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRenameToolTip}"/>
-                                                <Button
-                                                    MinWidth="48"
-                                                    Margin="4,8,0,8"
-                                                    VerticalAlignment="Stretch"
-                                                    Command="{Binding DataContext.RemoveGameAccountCommand, Source={StaticResource BindingProxy}}"
-                                                    CommandParameter="{Binding}"
-                                                    Content="&#xE74D;"
-                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRemoveToolTip}"/>
-                                            </StackPanel>
+                                                    Grid.Column="1"
+                                                    MinWidth="124"
+                                                    Margin="0,0,8,0"
+                                                    HorizontalAlignment="Right"
+                                                    Command="{Binding DetectGameAccountCommand}"
+                                                    Content="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDetectAction}"/>
+                                            </wsc:Setting.ActionContent>
+                                        </wsc:Setting>
+                                    </wsc:SettingExpander.Header>
+                                    <ListView ItemsSource="{Binding GameAccounts}" SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <StackPanel Margin="0,12">
+                                                        <TextBlock Text="{Binding Name}"/>
+                                                        <TextBlock
+                                                            Opacity="0.8"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{Binding AttachUid, TargetNullValue={shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidNull}}"/>
+                                                    </StackPanel>
+                                                    <StackPanel
+                                                        x:Name="ButtonPanel"
+                                                        HorizontalAlignment="Right"
+                                                        Orientation="Horizontal"
+                                                        Visibility="Collapsed">
+                                                        <Button
+                                                            MinWidth="48"
+                                                            Margin="4,8"
+                                                            VerticalAlignment="Stretch"
+                                                            Command="{Binding DataContext.AttachGameAccountCommand, Source={StaticResource BindingProxy}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="&#xE723;"
+                                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                            ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountAttachUidToolTip}"/>
+                                                        <Button
+                                                            MinWidth="48"
+                                                            Margin="4,8"
+                                                            VerticalAlignment="Stretch"
+                                                            Command="{Binding DataContext.ModifyGameAccountCommand, Source={StaticResource BindingProxy}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="&#xE8AC;"
+                                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                            ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRenameToolTip}"/>
+                                                        <Button
+                                                            MinWidth="48"
+                                                            Margin="4,8,0,8"
+                                                            VerticalAlignment="Stretch"
+                                                            Command="{Binding DataContext.RemoveGameAccountCommand, Source={StaticResource BindingProxy}}"
+                                                            CommandParameter="{Binding}"
+                                                            Content="&#xE74D;"
+                                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                            ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountRemoveToolTip}"/>
+                                                    </StackPanel>
 
-                                            <Grid.Resources>
-                                                <Storyboard x:Name="ButtonPanelVisibleStoryboard">
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                            <DiscreteObjectKeyFrame.Value>
-                                                                <Visibility>Visible</Visibility>
-                                                            </DiscreteObjectKeyFrame.Value>
-                                                        </DiscreteObjectKeyFrame>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
+                                                    <Grid.Resources>
+                                                        <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                        <Visibility>Visible</Visibility>
+                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                </DiscreteObjectKeyFrame>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
 
-                                                <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                            <DiscreteObjectKeyFrame.Value>
-                                                                <Visibility>Collapsed</Visibility>
-                                                            </DiscreteObjectKeyFrame.Value>
-                                                        </DiscreteObjectKeyFrame>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </Grid.Resources>
+                                                        <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                                    <DiscreteObjectKeyFrame.Value>
+                                                                        <Visibility>Collapsed</Visibility>
+                                                                    </DiscreteObjectKeyFrame.Value>
+                                                                </DiscreteObjectKeyFrame>
+                                                            </ObjectAnimationUsingKeyFrames>
+                                                        </Storyboard>
+                                                    </Grid.Resources>
 
-                                            <mxi:Interaction.Behaviors>
-                                                <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
-                                                </mxic:EventTriggerBehavior>
-                                                <mxic:EventTriggerBehavior EventName="PointerExited">
-                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
-                                                </mxic:EventTriggerBehavior>
-                                            </mxi:Interaction.Behaviors>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </wsc:SettingExpander>
-                    </wsc:SettingsGroup>
-                    <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceHeader}">
-                        <wsc:Setting
-                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveHeader}"
-                            Icon="&#xE740;">
-                            <wsc:Setting.ActionContent>
-                                <ToggleSwitch
-                                    Width="120"
-                                    IsOn="{Binding Options.IsExclusive, Mode=TwoWay}"
-                                    Style="{StaticResource ToggleSwitchSettingStyle}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
-                        <wsc:Setting
-                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenHeader}"
-                            Icon="&#xE740;">
-                            <wsc:Setting.ActionContent>
-                                <ToggleSwitch
-                                    Width="120"
-                                    IsOn="{Binding Options.IsFullScreen, Mode=TwoWay}"
-                                    Style="{StaticResource ToggleSwitchSettingStyle}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
-                        <wsc:Setting
-                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessHeader}"
-                            Icon="&#xE737;">
-                            <wsc:Setting.ActionContent>
-                                <ToggleSwitch
-                                    Width="120"
-                                    IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"
-                                    Style="{StaticResource ToggleSwitchSettingStyle}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
+                                                    <mxi:Interaction.Behaviors>
+                                                        <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                            <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                                                        </mxic:EventTriggerBehavior>
+                                                        <mxic:EventTriggerBehavior EventName="PointerExited">
+                                                            <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                                                        </mxic:EventTriggerBehavior>
+                                                    </mxi:Interaction.Behaviors>
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                    </ListView>
+                                </wsc:SettingExpander>
+                            </wsc:SettingsGroup>
+                            <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceHeader}">
+                                <wsc:Setting
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveHeader}"
+                                    Icon="&#xE740;">
+                                    <wsc:Setting.ActionContent>
+                                        <ToggleSwitch
+                                            Width="120"
+                                            IsOn="{Binding Options.IsExclusive, Mode=TwoWay}"
+                                            Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
+                                <wsc:Setting
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenHeader}"
+                                    Icon="&#xE740;">
+                                    <wsc:Setting.ActionContent>
+                                        <ToggleSwitch
+                                            Width="120"
+                                            IsOn="{Binding Options.IsFullScreen, Mode=TwoWay}"
+                                            Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
+                                <wsc:Setting
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessHeader}"
+                                    Icon="&#xE737;">
+                                    <wsc:Setting.ActionContent>
+                                        <ToggleSwitch
+                                            Width="120"
+                                            IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"
+                                            Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
 
-                        <wsc:Setting
-                            Margin="0,6,0,0"
-                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthHeader}"
-                            Icon="&#xE76F;">
-                            <wsc:Setting.ActionContent>
-                                <NumberBox Width="156" Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
-                        <wsc:Setting
-                            Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightHeader}"
-                            Icon="&#xE784;">
-                            <wsc:Setting.ActionContent>
-                                <NumberBox Width="156" Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
+                                <wsc:Setting
+                                    Margin="0,6,0,0"
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthHeader}"
+                                    Icon="&#xE76F;">
+                                    <wsc:Setting.ActionContent>
+                                        <NumberBox Width="156" Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
+                                <wsc:Setting
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightHeader}"
+                                    Icon="&#xE784;">
+                                    <wsc:Setting.ActionContent>
+                                        <NumberBox Width="156" Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
 
-                        <wsc:Setting
-                            Description="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsHeader}"
-                            Icon="&#xE975;">
-                            <wsc:Setting.ActionContent>
-                                <ComboBox
-                                    DisplayMemberPath="Name"
-                                    ItemsSource="{Binding Options.Monitors}"
-                                    SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
-                    </wsc:SettingsGroup>
+                                <wsc:Setting
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsHeader}"
+                                    Icon="&#xE975;">
+                                    <wsc:Setting.ActionContent>
+                                        <ComboBox
+                                            DisplayMemberPath="Name"
+                                            ItemsSource="{Binding Options.Monitors}"
+                                            SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
+                            </wsc:SettingsGroup>
 
-                    <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}" IsEnabled="{Binding IsElevated}">
-                        <InfoBar
-                            IsClosable="False"
-                            IsOpen="{Binding IsElevated}"
-                            Message="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHint}"
-                            Severity="Error"/>
-                        <wsc:Setting
-                            Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
-                            Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
-                            Icon="&#xE785;">
-                            <wsc:Setting.ActionContent>
-                                <ToggleSwitch
-                                    Width="120"
-                                    IsOn="{Binding Options.UnlockFps, Mode=TwoWay}"
-                                    OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
-                                    OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"
-                                    Style="{StaticResource ToggleSwitchSettingStyle}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
-                        <wsc:Setting Header="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsHeader}">
-                            <wsc:Setting.Description>
-                                <StackPanel>
-                                    <TextBlock Text="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsDescription}"/>
-                                    <TextBlock Text="{Binding Options.TargetFps}"/>
-                                </StackPanel>
-                            </wsc:Setting.Description>
-                            <wsc:Setting.ActionContent>
-                                <Slider
-                                    Width="400"
-                                    Maximum="360"
-                                    Minimum="60"
-                                    Value="{Binding Options.TargetFps, Mode=TwoWay}"/>
-                            </wsc:Setting.ActionContent>
-                        </wsc:Setting>
-                    </wsc:SettingsGroup>
-                </StackPanel>
-            </Grid>
-
-            <mxi:Interaction.Behaviors>
-                <cwub:AutoFocusBehavior/>
-            </mxi:Interaction.Behaviors>
-        </ScrollViewer>
-        <Grid Grid.Row="1" VerticalAlignment="Bottom">
-            <Button
-                Grid.Column="3"
-                Width="100"
-                Height="80"
-                MinWidth="80"
-                Margin="24"
-                HorizontalAlignment="Right"
-                Command="{Binding LaunchCommand}"
-                Style="{StaticResource AccentButtonStyle}">
-                <StackPanel>
-                    <FontIcon FontSize="36" Glyph="&#xE7FC;"/>
-                    <TextBlock Margin="0,4,0,0" Text="{shcm:ResourceString Name=ViewPageLaunchGameAction}"/>
-                </StackPanel>
-            </Button>
-        </Grid>
+                            <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}" IsEnabled="{Binding IsElevated}">
+                                <InfoBar
+                                    IsClosable="False"
+                                    IsOpen="{Binding IsElevated}"
+                                    Message="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHint}"
+                                    Severity="Error"/>
+                                <wsc:Setting
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
+                                    Icon="&#xE785;">
+                                    <wsc:Setting.ActionContent>
+                                        <ToggleSwitch
+                                            Width="120"
+                                            IsOn="{Binding Options.UnlockFps, Mode=TwoWay}"
+                                            OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
+                                            OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"
+                                            Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
+                                <wsc:Setting Header="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsHeader}">
+                                    <wsc:Setting.Description>
+                                        <StackPanel>
+                                            <TextBlock Text="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsDescription}"/>
+                                            <TextBlock Text="{Binding Options.TargetFps}"/>
+                                        </StackPanel>
+                                    </wsc:Setting.Description>
+                                    <wsc:Setting.ActionContent>
+                                        <Slider
+                                            Width="400"
+                                            Maximum="360"
+                                            Minimum="60"
+                                            Value="{Binding Options.TargetFps, Mode=TwoWay}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
+                            </wsc:SettingsGroup>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceHeader}">
+                <Grid>
+                    <ScrollViewer Visibility="{Binding GameResource, Converter={StaticResource EmptyObjectToBoolConverter}}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition MaxWidth="1000"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <shvc:LaunchGameResourceExpander
+                                    Margin="16,16,16,0"
+                                    DataContext="{Binding GameResource.PreDownloadGame.Latest, Mode=OneWay}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameResourcePreDownloadHeader}"
+                                    Visibility="{Binding FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                                <shvc:LaunchGameResourceExpander
+                                    Margin="16,16,16,0"
+                                    DataContext="{Binding GameResource.Game.Latest, Mode=OneWay}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceLatestHeader}"/>
+                                <ItemsControl Margin="0,0,0,16" ItemsSource="{Binding GameResource.Game.Diffs, Mode=OneWay}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <shvc:LaunchGameResourceExpander
+                                                Margin="16,16,16,0"
+                                                DataContext="{Binding Mode=OneWay}"
+                                                Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
+                    </ScrollViewer>
+                    <shvc:LoadingView IsLoading="{Binding GameResource, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
+                </Grid>
+            </PivotItem>
+        </Pivot>
     </Grid>
+
 </shc:ScopedPage>

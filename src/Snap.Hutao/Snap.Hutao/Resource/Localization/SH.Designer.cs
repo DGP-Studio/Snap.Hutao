@@ -3715,6 +3715,51 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 游戏选项 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameOptionsHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameOptionsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 增量包 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameResourceDiffHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameResourceDiffHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 资源下载 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameResourceHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameResourceHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 客户端 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameResourceLatestHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameResourceLatestHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 预下载 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameResourcePreDownloadHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameResourcePreDownloadHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 在游戏时可以随时调整 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameSetFpsDescription {

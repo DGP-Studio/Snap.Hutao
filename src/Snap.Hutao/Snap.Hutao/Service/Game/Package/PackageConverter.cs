@@ -40,14 +40,14 @@ internal sealed class PackageConverter
     /// 调用前需要确认本地文件与服务器上的不同
     /// </summary>
     /// <param name="targetScheme">目标启动方案</param>
-    /// <param name="gameResouce">游戏资源</param>
+    /// <param name="gameResource">游戏资源</param>
     /// <param name="gameFolder">游戏目录</param>
     /// <param name="progress">进度</param>
     /// <returns>替换结果与资源</returns>
-    public async Task<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResouce, string gameFolder, IProgress<PackageReplaceStatus> progress)
+    public async Task<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResource, string gameFolder, IProgress<PackageReplaceStatus> progress)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
-        string scatteredFilesUrl = gameResouce.Game.Latest.DecompressedPath;
+        string scatteredFilesUrl = gameResource.Game.Latest.DecompressedPath;
         Uri pkgVersionUri = $"{scatteredFilesUrl}/pkg_version".ToUri();
         ConvertDirection direction = targetScheme.IsOversea ? ConvertDirection.ChineseToOversea : ConvertDirection.OverseaToChinese;
 
@@ -68,7 +68,7 @@ internal sealed class PackageConverter
         Dictionary<string, VersionItem> localItems;
         using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, "pkg_version")))
         {
-            localItems = await GetLocalVersionItemsAsync(localSteam, direction, ConvertRemoteName).ConfigureAwait(false);
+            localItems = await GetLocalVersionItemsAsync(localSteam, direction).ConfigureAwait(false);
         }
 
         IEnumerable<ItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).OrderBy(i => (int)i.Type);
@@ -132,22 +132,6 @@ internal sealed class PackageConverter
                 FileOperation.Move(filePath, $"{filePath}.backup", true);
             }
         }
-    }
-
-    private static string ConvertRemoteName(string remoteName, ConvertDirection direction)
-    {
-        // 我们已经提前重命名了整个 Data 文件夹 所以需要将 RemoteName 中的 Data 同样替换
-        if (remoteName.StartsWith(YuanShenData) || remoteName.StartsWith(GenshinImpactData))
-        {
-            return direction switch
-            {
-                ConvertDirection.OverseaToChinese => $"{YuanShenData}{remoteName[GenshinImpactData.Length..]}",
-                ConvertDirection.ChineseToOversea => $"{GenshinImpactData}{remoteName[YuanShenData.Length..]}",
-                _ => remoteName,
-            };
-        }
-
-        return remoteName;
     }
 
     private static IEnumerable<ItemOperationInfo> GetItemOperationInfos(Dictionary<string, VersionItem> remote, Dictionary<string, VersionItem> local)
@@ -368,7 +352,7 @@ internal sealed class PackageConverter
         return results;
     }
 
-    private async Task<Dictionary<string, VersionItem>> GetLocalVersionItemsAsync(Stream stream, ConvertDirection direction, Func<string, ConvertDirection, string> nameConverter)
+    private async Task<Dictionary<string, VersionItem>> GetLocalVersionItemsAsync(Stream stream, ConvertDirection direction)
     {
         Dictionary<string, VersionItem> results = new();
 
@@ -379,7 +363,21 @@ internal sealed class PackageConverter
                 if (!string.IsNullOrEmpty(raw))
                 {
                     VersionItem item = JsonSerializer.Deserialize<VersionItem>(raw, options)!;
-                    results.Add(nameConverter(item.RemoteName, direction), item);
+
+                    string remoteName = item.RemoteName;
+
+                    // 我们已经提前重命名了整个 Data 文件夹 所以需要将 RemoteName 中的 Data 同样替换
+                    if (remoteName.StartsWith(YuanShenData) || remoteName.StartsWith(GenshinImpactData))
+                    {
+                        remoteName = direction switch
+                        {
+                            ConvertDirection.OverseaToChinese => $"{YuanShenData}{remoteName[GenshinImpactData.Length..]}",
+                            ConvertDirection.ChineseToOversea => $"{GenshinImpactData}{remoteName[YuanShenData.Length..]}",
+                            _ => remoteName,
+                        };
+                    }
+
+                    results.Add(remoteName, item);
                 }
             }
         }

@@ -1,0 +1,99 @@
+<Expander
+    x:Class="Snap.Hutao.View.Control.LaunchGameResourceExpander"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    HorizontalAlignment="Stretch"
+    HorizontalContentAlignment="Stretch"
+    IsExpanded="True"
+    mc:Ignorable="d">
+
+    <Grid Margin="16,16,16,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding DisplayName}"/>
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,4,0,0"
+            Orientation="Horizontal">
+            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xF012;"/>
+            <TextBlock
+                Width="80"
+                Margin="8,0,0,0"
+                HorizontalAlignment="Left"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xE8B7;"/>
+            <TextBlock
+                Width="80"
+                Margin="8,0,0,0"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xEDAD;"/>
+            <TextBlock
+                Margin="8,0,0,0"
+                IsTextSelectionEnabled="True"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{Binding Md5}"/>
+        </StackPanel>
+        <HyperlinkButton
+            Grid.RowSpan="2"
+            Height="38.4"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Content="&#xE8A7;"
+            FontFamily="{StaticResource SymbolThemeFontFamily}"
+            NavigateUri="{Binding Path}"/>
+        <MenuFlyoutSeparator Grid.Row="2" Margin="4,16,4,0"/>
+        <ItemsControl Grid.Row="3" ItemsSource="{Binding VoicePacks}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0,16,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{Binding DisplayName}"/>
+                        <StackPanel
+                            Grid.Row="1"
+                            Margin="0,4,0,0"
+                            Orientation="Horizontal">
+                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xF012;"/>
+                            <TextBlock
+                                Width="80"
+                                Margin="8,0,0,0"
+                                HorizontalAlignment="Left"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xE8B7;"/>
+                            <TextBlock
+                                Width="80"
+                                Margin="8,0,0,0"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
+                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xEDAD;"/>
+                            <TextBlock
+                                Margin="8,0,0,0"
+                                IsTextSelectionEnabled="True"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{Binding Md5}"/>
+                        </StackPanel>
+                        <HyperlinkButton
+                            Grid.RowSpan="2"
+                            Height="38.4"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            Content="&#xE8A7;"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            NavigateUri="{Binding Path}"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</Expander>

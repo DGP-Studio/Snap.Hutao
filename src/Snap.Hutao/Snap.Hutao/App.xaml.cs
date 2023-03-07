@@ -8,6 +8,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using System.Diagnostics;
+using Windows.ApplicationModel.Background;
 using Windows.Storage;
 
 namespace Snap.Hutao;

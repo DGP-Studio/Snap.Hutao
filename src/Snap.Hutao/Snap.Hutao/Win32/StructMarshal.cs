@@ -5,7 +5,6 @@ using System.Buffers.Binary;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Graphics;
-using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.System.Diagnostics.ToolHelp;
 using Windows.Win32.UI.WindowsAndMessaging;
 

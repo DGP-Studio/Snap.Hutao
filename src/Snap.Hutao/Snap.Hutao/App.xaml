@@ -66,6 +66,7 @@
             <!--  Converters  -->
             <cwuc:BoolNegationConverter x:Key="BoolNegationConverter"/>
             <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <cwuc:FileSizeToFriendlyStringConverter x:Key="FileSizeToFriendlyStringConverter"/>
             <shmmc:AchievementIconConverter x:Key="AchievementIconConverter"/>
             <shmmc:AvatarCardConverter x:Key="AvatarCardConverter"/>
             <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>

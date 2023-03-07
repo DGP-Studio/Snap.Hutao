@@ -20,4 +20,9 @@ internal class PathMd5
     /// </summary>
     [JsonPropertyName("md5")]
     public string Md5 { get; set; } = default!;
+
+    /// <summary>
+    /// 显示名称
+    /// </summary>
+    public string DisplayName { get => System.IO.Path.GetFileName(Path.ToUri().LocalPath); }
 }

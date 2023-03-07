@@ -15,6 +15,7 @@ using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -35,7 +36,6 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
 
     private readonly IServiceProvider serviceProvider;
     private readonly IGameService gameService;
-    private readonly AppDbContext appDbContext;
     private readonly IMemoryCache memoryCache;
 
     private readonly List<LaunchScheme> knownSchemes = LaunchScheme.KnownSchemes.ToList();
@@ -43,6 +43,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     private LaunchScheme? selectedScheme;
     private ObservableCollection<GameAccount>? gameAccounts;
     private GameAccount? selectedGameAccount;
+    private GameResource? gameResource;
 
     /// <summary>
     /// 构造一个新的启动游戏视图模型
@@ -51,7 +52,6 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     public LaunchGameViewModel(IServiceProvider serviceProvider)
     {
         gameService = serviceProvider.GetRequiredService<IGameService>();
-        appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
         memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
         Options = serviceProvider.GetRequiredService<LaunchOptions>();
         this.serviceProvider = serviceProvider;
@@ -71,7 +71,19 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// <summary>
     /// 当前选择的服务器方案
     /// </summary>
-    public LaunchScheme? SelectedScheme { get => selectedScheme; set => SetProperty(ref selectedScheme, value); }
+    public LaunchScheme? SelectedScheme
+    {
+        get => selectedScheme; set
+        {
+            if (SetProperty(ref selectedScheme, value))
+            {
+                if (value != null)
+                {
+                    UpdateGameResourceAsync(value).SafeForget();
+                }
+            }
+        }
+    }
 
     /// <summary>
     /// 游戏账号集合
@@ -87,6 +99,11 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// 启动选项
     /// </summary>
     public LaunchOptions Options { get; }
+
+    /// <summary>
+    /// 游戏资源
+    /// </summary>
+    public GameResource? GameResource { get => gameResource; set => SetProperty(ref gameResource, value); }
 
     /// <summary>
     /// 是否提权
@@ -122,6 +139,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
+        await ThreadHelper.SwitchToBackgroundAsync();
         if (File.Exists(gameService.GetGamePathSkipLocator()))
         {
             try
@@ -131,6 +149,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                     MultiChannel multi = gameService.GetMultiChannel();
                     if (string.IsNullOrEmpty(multi.ConfigFilePath))
                     {
+                        await ThreadHelper.SwitchToMainThreadAsync();
                         SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
                     }
                     else
@@ -138,8 +157,10 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                         serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGameMultiChannelReadFail);
                     }
 
-                    GameAccounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(true);
+                    ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
 
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    GameAccounts = accounts;
                     // Sync uid
                     if (memoryCache.TryGetValue(DesiredUid, out object? value) && value is string uid)
                     {
@@ -155,9 +176,25 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         else
         {
             serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGamePathInvalid);
+            await ThreadHelper.SwitchToMainThreadAsync();
             await serviceProvider.GetRequiredService<INavigationService>()
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
+        }
+    }
+
+    private async Task UpdateGameResourceAsync(LaunchScheme scheme)
+    {
+        await ThreadHelper.SwitchToBackgroundAsync();
+        Web.Response.Response<GameResource> response = await serviceProvider
+            .GetRequiredService<ResourceClient>()
+            .GetResourceAsync(scheme)
+            .ConfigureAwait(false);
+
+        if (response.IsOk())
+        {
+            await ThreadHelper.SwitchToMainThreadAsync();
+            GameResource = response.Data;
         }
     }
 
