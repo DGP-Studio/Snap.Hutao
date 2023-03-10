@@ -105,7 +105,6 @@
                         Header="{shcm:ResourceString Name=ViewPageSettingApperanceLanguageHeader}"
                         Icon="&#xF2B7;">
                         <ComboBox
-                            MinWidth="180"
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding Cultures}"
                             SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.IO;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 
@@ -51,12 +52,24 @@ internal static class Clipboard
     /// 设置位图
     /// </summary>
     /// <param name="stream">位图流</param>
-    public static void SetBitmapStream(IRandomAccessStream stream)
+    public static void SetBitmap(IRandomAccessStream stream)
     {
         RandomAccessStreamReference reference = RandomAccessStreamReference.CreateFromStream(stream);
         DataPackage content = new() { RequestedOperation = DataPackageOperation.Copy };
         content.SetBitmap(reference);
         Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(content);
         Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+    }
+
+    /// <summary>
+    /// 设置位图
+    /// </summary>
+    /// <param name="file">文件</param>
+    public static void SetBitmap(string file)
+    {
+        using (IRandomAccessStream stream = File.OpenRead(file).AsRandomAccessStream())
+        {
+            SetBitmap(stream);
+        }
     }
 }

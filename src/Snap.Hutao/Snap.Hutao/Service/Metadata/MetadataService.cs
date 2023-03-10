@@ -23,7 +23,6 @@ namespace Snap.Hutao.Service.Metadata;
 internal sealed partial class MetadataService : IMetadataService, IMetadataServiceInitialization
 {
     private const string MetaFileName = "Meta.json";
-
     private readonly string metadataFolderPath;
     private readonly IInfoBarService infoBarService;
     private readonly HttpClient httpClient;

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Web;
@@ -320,7 +321,7 @@ internal static class ApiEndpoints
     /// </summary>
     /// <param name="scheme">启动方案</param>
     /// <returns>启动器资源字符串</returns>
-    public static string SdkStaticLauncherResource(Model.Binding.LaunchGame.LaunchScheme scheme)
+    public static string SdkStaticLauncherResource(LaunchScheme scheme)
     {
         return $"{SdkStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel}&sub_channel_id={scheme.SubChannel}";
     }

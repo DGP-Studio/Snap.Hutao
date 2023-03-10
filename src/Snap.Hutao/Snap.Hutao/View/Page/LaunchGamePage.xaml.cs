@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
-using Snap.Hutao.ViewModel;
+using Snap.Hutao.ViewModel.Game;
 
 namespace Snap.Hutao.View.Page;
 

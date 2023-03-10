@@ -18,7 +18,7 @@ internal static class Must
     /// <param name="message">message</param>
     /// <param name="parameterName">The name of the parameter to blame in the exception, if thrown.</param>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static void Argument([DoesNotReturnIf(false)] bool condition, string? message, [CallerArgumentExpression("condition")] string? parameterName = null)
+    public static void Argument([DoesNotReturnIf(false)] bool condition, string? message, [CallerArgumentExpression(nameof(condition))] string? parameterName = null)
     {
         if (!condition)
         {
@@ -33,7 +33,7 @@ internal static class Must
     /// <param name="message">message</param>
     /// <param name="parameterName">The name of the parameter to blame in the exception, if thrown.</param>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static void Range([DoesNotReturnIf(false)] bool condition, string? message, [CallerArgumentExpression("condition")] string? parameterName = null)
+    public static void Range([DoesNotReturnIf(false)] bool condition, string? message, [CallerArgumentExpression(nameof(condition))] string? parameterName = null)
     {
         if (!condition)
         {
@@ -62,7 +62,7 @@ internal static class Must
     /// <returns>The value of the parameter.</returns>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <c>null</c>.</exception>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static T NotNull<T>([NotNull] T value, [CallerArgumentExpression("value")] string? parameterName = null)
+    public static T NotNull<T>([NotNull] T value, [CallerArgumentExpression(nameof(value))] string? parameterName = null)
         where T : class // ensures value-types aren't passed to a null checking method
     {
         return value ?? throw new ArgumentNullException(parameterName);

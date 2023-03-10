@@ -3,7 +3,7 @@
 
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Model.Binding.LaunchGame;
+namespace Snap.Hutao.Service.Game;
 
 /// <summary>
 /// 启动方案

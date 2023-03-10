@@ -45,9 +45,9 @@ internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<string, Avatar> nameAvatarMap = await metadataService.GetNameToAvatarMapAsync().ConfigureAwait(false);
         Dictionary<string, Weapon> nameWeaponMap = await metadataService.GetNameToWeaponMapAsync().ConfigureAwait(false);
 
-        List<GachaEvent> gachaevents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
+        List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
 
-        List<HistoryWishBuilder> historyWishBuilders = gachaevents.Select(g => new HistoryWishBuilder(g, nameAvatarMap, nameWeaponMap)).ToList();
+        List<HistoryWishBuilder> historyWishBuilders = gachaEvents.Select(g => new HistoryWishBuilder(g, nameAvatarMap, nameWeaponMap)).ToList();
 
         SettingEntry entry = await appDbContext.Settings
             .SingleOrAddAsync(SettingEntry.IsEmptyHistoryWishVisible, Core.StringLiterals.True)

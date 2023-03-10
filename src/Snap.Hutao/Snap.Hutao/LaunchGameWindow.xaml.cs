@@ -4,7 +4,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing;
-using Snap.Hutao.ViewModel;
+using Snap.Hutao.ViewModel.Game;
 using Windows.Graphics;
 using Windows.Win32.UI.WindowsAndMessaging;
 

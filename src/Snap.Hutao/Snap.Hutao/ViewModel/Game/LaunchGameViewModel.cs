@@ -7,9 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
-using Snap.Hutao.Model.Binding.LaunchGame;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Navigation;
@@ -20,7 +18,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.Game;
 
 /// <summary>
 /// 启动游戏视图模型
@@ -61,6 +59,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         ModifyGameAccountCommand = new AsyncRelayCommand<GameAccount>(ModifyGameAccountAsync);
         RemoveGameAccountCommand = new AsyncRelayCommand<GameAccount>(RemoveGameAccountAsync);
         AttachGameAccountCommand = new RelayCommand<GameAccount>(AttachGameAccountToCurrentUserGameRole);
+        OpenScreenshotFolderCommand = new AsyncRelayCommand(OpenScreenshotFolderAsync);
     }
 
     /// <summary>
@@ -136,10 +135,14 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand AttachGameAccountCommand { get; }
 
+    /// <summary>
+    /// 打开截图文件夹命令
+    /// </summary>
+    public ICommand OpenScreenshotFolderCommand { get; }
+
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
         if (File.Exists(gameService.GetGamePathSkipLocator()))
         {
             try
@@ -149,7 +152,6 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                     MultiChannel multi = gameService.GetMultiChannel();
                     if (string.IsNullOrEmpty(multi.ConfigFilePath))
                     {
-                        await ThreadHelper.SwitchToMainThreadAsync();
                         SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
                     }
                     else
@@ -161,6 +163,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
 
                     await ThreadHelper.SwitchToMainThreadAsync();
                     GameAccounts = accounts;
+
                     // Sync uid
                     if (memoryCache.TryGetValue(DesiredUid, out object? value) && value is string uid)
                     {
@@ -292,6 +295,16 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         if (gameAccount != null)
         {
             await gameService.RemoveGameAccountAsync(gameAccount).ConfigureAwait(false);
+        }
+    }
+
+    private async Task OpenScreenshotFolderAsync()
+    {
+        string game = gameService.GetGamePathSkipLocator();
+        string screenshot = Path.Combine(Path.GetDirectoryName(game)!, "ScreenShot");
+        if (Directory.Exists(screenshot))
+        {
+            await Windows.System.Launcher.LaunchFolderPathAsync(screenshot);
         }
     }
 }

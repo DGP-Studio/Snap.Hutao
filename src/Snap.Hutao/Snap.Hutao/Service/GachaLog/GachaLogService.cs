@@ -253,12 +253,12 @@ internal sealed class GachaLogService : IGachaLogService
         {
             state.ConfigType = configType;
             long? dbEndId = null;
-            GachaLogQueryOptions configration = new(query, configType);
+            GachaLogQueryOptions options = new(query, configType);
             List<GachaItem> itemsToAdd = new();
 
             do
             {
-                Response<GachaLogPage> response = await gachaInfoClient.GetGachaLogPageAsync(configration, token).ConfigureAwait(false);
+                Response<GachaLogPage> response = await gachaInfoClient.GetGachaLogPageAsync(options, token).ConfigureAwait(false);
 
                 if (response.IsOk())
                 {
@@ -277,7 +277,7 @@ internal sealed class GachaLogService : IGachaLogService
                         {
                             itemsToAdd.Add(GachaItem.Create(archive.InnerId, item, GetItemId(item)));
                             state.Items.Add(GetItemBaseByName(item.Name, item.ItemType));
-                            configration.EndId = item.Id;
+                            options.EndId = item.Id;
                         }
                         else
                         {
@@ -311,7 +311,7 @@ internal sealed class GachaLogService : IGachaLogService
             }
 
             token.ThrowIfCancellationRequested();
-            SaveGachaItems(itemsToAdd, isLazy, archive, configration.EndId);
+            SaveGachaItems(itemsToAdd, isLazy, archive, options.EndId);
             await RandomDelayAsync(token).ConfigureAwait(false);
         }
 

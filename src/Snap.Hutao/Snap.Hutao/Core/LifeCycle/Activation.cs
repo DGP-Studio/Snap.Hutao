@@ -270,7 +270,7 @@ internal static class Activation
 
     private static async Task HandleLaunchGameActionAsync(string? uid = null)
     {
-        Ioc.Default.GetRequiredService<IMemoryCache>().Set(ViewModel.LaunchGameViewModel.DesiredUid, uid);
+        Ioc.Default.GetRequiredService<IMemoryCache>().Set(ViewModel.Game.LaunchGameViewModel.DesiredUid, uid);
         await ThreadHelper.SwitchToMainThreadAsync();
 
         if (!MainWindow.IsPresent)

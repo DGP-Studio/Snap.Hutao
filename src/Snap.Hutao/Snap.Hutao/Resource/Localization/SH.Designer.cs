@@ -3922,6 +3922,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 打开截图文件夹 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageOpenScreenshotFolderAction {
+            get {
+                return ResourceManager.GetString("ViewPageOpenScreenshotFolderAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 关于 胡桃 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingAboutHeader {

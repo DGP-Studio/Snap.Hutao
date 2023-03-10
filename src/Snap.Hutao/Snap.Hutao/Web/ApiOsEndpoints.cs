@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Game;
+
 namespace Snap.Hutao.Web;
 
 /// <summary>
@@ -31,7 +33,7 @@ internal static class ApiOsEndpoints
     /// </summary>
     /// <param name="scheme">启动方案</param>
     /// <returns>启动器资源字符串</returns>
-    public static string SdkOsStaticLauncherResource(Model.Binding.LaunchGame.LaunchScheme scheme)
+    public static string SdkOsStaticLauncherResource(LaunchScheme scheme)
     {
         return $"{SdkOsStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel}&sub_channel_id={scheme.SubChannel}";
     }

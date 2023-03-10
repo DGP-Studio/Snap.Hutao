@@ -284,7 +284,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
 
                     try
                     {
-                        Clipboard.SetBitmapStream(memory);
+                        Clipboard.SetBitmap(memory);
                         clipboardOpened = true;
                     }
                     catch (COMException)
