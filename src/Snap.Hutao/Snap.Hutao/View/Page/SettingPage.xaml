@@ -43,7 +43,7 @@
                             BorderBrush="{StaticResource CardStrokeColorDefault}"
                             BorderThickness="1"
                             CornerRadius="{StaticResource CompatCornerRadius}">
-                            <Image Source="ms-appx:///Assets/Square150x150Logo.scale-200.png"/>
+                            <Image Source="ms-appx:///Assets/StoreLogo.scale-400.png"/>
                         </Border>
 
                         <Grid Grid.Column="1" Margin="16,0,0,0">

@@ -37,7 +37,38 @@
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
   </PropertyGroup>
   
+  <!-- Included Files -->
   <ItemGroup>
+    <None Remove="Assets\LargeTile.scale-100.png" />
+    <None Remove="Assets\LargeTile.scale-200.png" />
+    <None Remove="Assets\LargeTile.scale-400.png" />
+    <None Remove="Assets\SmallTile.scale-100.png" />
+    <None Remove="Assets\SmallTile.scale-200.png" />
+    <None Remove="Assets\SmallTile.scale-400.png" />
+    <None Remove="Assets\SplashScreen.scale-100.png" />
+    <None Remove="Assets\SplashScreen.scale-200.png" />
+    <None Remove="Assets\SplashScreen.scale-400.png" />
+    <None Remove="Assets\Square150x150Logo.scale-100.png" />
+    <None Remove="Assets\Square150x150Logo.scale-200.png" />
+    <None Remove="Assets\Square150x150Logo.scale-400.png" />
+    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <None Remove="Assets\Square44x44Logo.scale-100.png" />
+    <None Remove="Assets\Square44x44Logo.scale-200.png" />
+    <None Remove="Assets\Square44x44Logo.scale-400.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-16.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-256.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-48.png" />
+    <None Remove="Assets\StoreLogo.scale-100.png" />
+    <None Remove="Assets\StoreLogo.scale-200.png" />
+    <None Remove="Assets\StoreLogo.scale-400.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-100.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-200.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-400.png" />
     <None Remove="Control\Panel\PanelSelector.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
     <None Remove="LaunchGameWindow.xaml" />
@@ -117,20 +148,50 @@
     <None Remove="View\WelcomeView.xaml" />
   </ItemGroup>
   
+  <!-- Analyzer Files -->
   <ItemGroup>
     <AdditionalFiles Include="NativeMethods.json" />
     <AdditionalFiles Include="NativeMethods.txt" />
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
-
+  
+  <!-- Assets Files -->
   <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Update="Assets\Logo.ico" />
+    <Content Update="Assets\LargeTile.scale-100.png" />
+    <Content Update="Assets\LargeTile.scale-200.png" />
+    <Content Update="Assets\LargeTile.scale-400.png" />
+    <Content Update="Assets\SmallTile.scale-100.png" />
+    <Content Update="Assets\SmallTile.scale-200.png" />
+    <Content Update="Assets\SmallTile.scale-400.png" />
+    <Content Update="Assets\SplashScreen.scale-100.png" />
+    <Content Update="Assets\SplashScreen.scale-200.png" />
+    <Content Update="Assets\SplashScreen.scale-400.png" />
+    <Content Update="Assets\Square150x150Logo.scale-100.png" />
+    <Content Update="Assets\Square150x150Logo.scale-200.png" />
+    <Content Update="Assets\Square150x150Logo.scale-400.png" />
+    <Content Update="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Update="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Update="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <Content Update="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Update="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Update="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Update="Assets\Square44x44Logo.scale-100.png" />
+    <Content Update="Assets\Square44x44Logo.scale-200.png" />
+    <Content Update="Assets\Square44x44Logo.scale-400.png" />
+    <Content Update="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Update="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Update="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Update="Assets\StoreLogo.scale-100.png" />
+    <Content Update="Assets\StoreLogo.scale-200.png" />
+    <Content Update="Assets\StoreLogo.scale-400.png" />
+    <Content Update="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Update="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Update="Assets\Wide310x150Logo.scale-400.png" />
+  </ItemGroup>
+
+  <!-- Resources Files -->
+  <ItemGroup>
     <Content Include="Resource\Font\CascadiaMono.ttf" />
     <Content Include="Resource\Font\MiSans-Regular.ttf" />
     <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
@@ -160,6 +221,9 @@
     <Content Include="Resource\WelcomeView_Background.png" />
   </ItemGroup>
 
+
+  
+  <!-- Packages -->
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
@@ -193,6 +257,7 @@
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
+  <!-- Projects -->
   <ItemGroup>
     <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
@@ -206,6 +271,23 @@
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resource\Localization\SH.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SH.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource\Localization\SH.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SH.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  
+  <!-- Pages -->
   <ItemGroup>
     <Page Update="View\Dialog\LaunchGamePackageConvertDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -430,23 +512,6 @@
     <Page Update="Control\Style\FontStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Control\Extension\" />
-    <Folder Include="Model\Binding\LaunchGame\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Resource\Localization\SH.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>SH.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Resource\Localization\SH.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>SH.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Control\LaunchGameResourceExpander.xaml">
