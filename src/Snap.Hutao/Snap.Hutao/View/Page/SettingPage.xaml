@@ -92,6 +92,9 @@
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding DeviceId}"/>
                         </wsc:Setting.Description>
+                        <wsc:Setting.ActionContent>
+                            <Button Command="{Binding CopyDeviceIdActionCommand}" Content="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"/>
+                        </wsc:Setting.ActionContent>
                     </wsc:Setting>
                     <wsc:Setting
                         Description="{Binding WebView2Version}"
