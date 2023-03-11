@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
@@ -90,6 +91,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         ShowSignInWebViewDialogCommand = new AsyncRelayCommand(ShowSignInWebViewDialogAsync);
         SetDataFolderCommand = new AsyncRelayCommand(SetDataFolderAsync);
         ResetStaticResourceCommand = new RelayCommand(ResetStaticResource);
+        CopyDeviceIdCommand = new RelayCommand(CopyDeviceId);
     }
 
     /// <summary>
@@ -226,6 +228,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand ResetStaticResourceCommand { get; }
 
+    /// <summary>
+    /// 复制设备ID
+    /// </summary>
+    public ICommand CopyDeviceIdCommand { get; }
+
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
     {
@@ -320,5 +327,12 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     {
         StaticResource.UnfulfillAllContracts();
         AppInstance.Restart(string.Empty);
+    }
+
+    private void CopyDeviceId()
+    {
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        Clipboard.SetText(DeviceId);
+        infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
     }
 }
