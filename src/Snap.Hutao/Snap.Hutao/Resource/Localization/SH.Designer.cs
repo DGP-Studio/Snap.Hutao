@@ -2518,6 +2518,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 复制成功 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingCopyDeviceIdSuccess {
+            get {
+                return ResourceManager.GetString("ViewModelSettingCopyDeviceIdSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置数据目录成功，重启以应用更改 的本地化字符串。
         /// </summary>
         internal static string ViewModelSettingSetDataFolderSuccess {
@@ -3999,6 +4008,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingCacheFolderHeader {
             get {
                 return ResourceManager.GetString("ViewPageSettingCacheFolderHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 复制 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingCopyDeviceIdAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingCopyDeviceIdAction", resourceCulture);
             }
         }
         

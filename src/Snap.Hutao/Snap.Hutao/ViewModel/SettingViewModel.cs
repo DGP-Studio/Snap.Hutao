@@ -20,6 +20,7 @@ using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.View.Dialog;
 using System.Globalization;
 using System.IO;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel;
@@ -90,6 +91,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         ShowSignInWebViewDialogCommand = new AsyncRelayCommand(ShowSignInWebViewDialogAsync);
         SetDataFolderCommand = new AsyncRelayCommand(SetDataFolderAsync);
         ResetStaticResourceCommand = new RelayCommand(ResetStaticResource);
+        CopyDeviceIdActionCommand = new RelayCommand(CopyDeviceId);
     }
 
     /// <summary>
@@ -226,6 +228,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand ResetStaticResourceCommand { get; }
 
+    /// <summary>
+    /// 复制设备Id
+    /// </summary>
+    public ICommand CopyDeviceIdActionCommand { get; }
+
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
     {
@@ -320,5 +327,15 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     {
         StaticResource.UnfulfillAllContracts();
         AppInstance.Restart(string.Empty);
+    }
+
+    private void CopyDeviceId()
+    {
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        DataPackage clipboard = new();
+        clipboard.RequestedOperation = DataPackageOperation.Copy;
+        clipboard.SetText(DeviceId);
+        Clipboard.SetContent(clipboard);
+        infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
     }
 }
