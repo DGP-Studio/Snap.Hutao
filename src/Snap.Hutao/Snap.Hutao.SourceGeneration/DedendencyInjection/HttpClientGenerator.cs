@@ -24,6 +24,7 @@ public class HttpClientGenerator : ISourceGenerator
     private const string DefaultName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfigration.Default";
     private const string XRpcName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfigration.XRpc";
     private const string XRpc2Name = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfigration.XRpc2";
+    private const string XRpc3Name = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfigration.XRpc3";
 
     private const string PrimaryHttpMessageHandlerAttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.PrimaryHttpMessageHandlerAttribute";
     private const string DynamicSecretAttributeName = "Snap.Hutao.Web.Hoyolab.DynamicSecret.UseDynamicSecretAttribute";
@@ -104,6 +105,9 @@ internal static partial class IocHttpClientConfiguration
                     break;
                 case XRpc2Name:
                     lineBuilder.Append("XRpc2Configuration)");
+                    break;
+                case XRpc3Name:
+                    lineBuilder.Append("XRpc3Configuration)");
                     break;
                 default:
                     throw new InvalidOperationException($"非法的HttpClientConfigration值: [{injectAsName}]");
