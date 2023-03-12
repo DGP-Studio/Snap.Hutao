@@ -205,7 +205,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     {
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
-        if (!Options.MultStart && gameService.IsGameRunning())
+        if (!Options.MultipleInstances && gameService.IsGameRunning())
         {
             return;
         }

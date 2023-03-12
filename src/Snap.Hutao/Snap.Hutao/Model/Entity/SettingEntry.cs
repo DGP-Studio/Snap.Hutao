@@ -89,7 +89,7 @@ internal sealed class SettingEntry
     /// <summary>
     /// 启动游戏 多倍启动
     /// </summary>
-    public const string MultStart = "MultStart";
+    public const string MultipleInstances = "Launch.MultipleInstances";
 
     /// <summary>
     /// 语言
