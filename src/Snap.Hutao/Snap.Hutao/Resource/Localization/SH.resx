@@ -1338,6 +1338,12 @@
   <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
     <value>显示器</value>
   </data>
+  <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
+    <value>多倍启动你的原神，你可以使用胡桃来多次打开原神并且不受到影响</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesHeader" xml:space="preserve">
+    <value>多倍启动</value>
+  </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>游戏选项</value>
   </data>

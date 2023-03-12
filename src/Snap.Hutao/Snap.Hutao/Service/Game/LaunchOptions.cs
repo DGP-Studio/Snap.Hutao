@@ -35,6 +35,7 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     private bool? unlockFps;
     private int? targetFps;
     private NameValue<int>? monitor;
+    private bool? multipleInstances;
 
     /// <summary>
     /// 构造一个新的启动游戏选项
@@ -352,6 +353,40 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
                         appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchMonitor);
                         appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchMonitor, value.Value.ToString()));
                     }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 多次启动原神
+    /// </summary>
+    public bool MultipleInstances
+    {
+        get
+        {
+            if (multipleInstances == null)
+            {
+                using (IServiceScope scope = serviceScopeFactory.CreateScope())
+                {
+                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.MultipleInstances)?.Value;
+                    multipleInstances = value != null && bool.Parse(value);
+                }
+            }
+
+            return multipleInstances.Value;
+        }
+
+        set
+        {
+            if (SetProperty(ref multipleInstances, value))
+            {
+                using (IServiceScope scope = serviceScopeFactory.CreateScope())
+                {
+                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.MultipleInstances);
+                    appDbContext.Settings.AddAndSave(new(SettingEntry.MultipleInstances, value.ToString()));
                 }
             }
         }

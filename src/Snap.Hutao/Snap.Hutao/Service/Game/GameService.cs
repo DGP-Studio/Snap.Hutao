@@ -8,6 +8,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Game.Locator;
@@ -311,7 +312,7 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask LaunchAsync(LaunchOptions options)
     {
-        if (IsGameRunning())
+        if (!options.MultipleInstances && IsGameRunning())
         {
             return;
         }
@@ -347,6 +348,15 @@ internal sealed class GameService : IGameService
 
         using (await gameSemaphore.EnterAsync().ConfigureAwait(false))
         {
+            if (options.MultipleInstances && Activation.GetElevated())
+            {
+                await LaunchGameAsync(game, gamePath);
+            }
+            else
+            {
+                await LaunchGameAsync(game);
+            }
+
             if (options.UnlockFps)
             {
                 IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, options.TargetFps);
@@ -355,19 +365,50 @@ internal sealed class GameService : IGameService
                 TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
                 TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
 
-                if (game.Start())
-                {
-                    await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
-                }
-            }
-            else
-            {
-                if (game.Start())
-                {
-                    await game.WaitForExitAsync().ConfigureAwait(false);
-                }
+                await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
             }
         }
+    }
+
+    /// <summary>
+    /// 为了实现多开 需要修改mhypbase.dll名称 这是必须的步骤
+    /// </summary>
+    /// <param name="gameProcess">游戏线程</param>
+    /// <param name="gamePath">游戏路径</param>
+    /// <returns>是否成功替换文件</returns>
+    public async Task<bool> LaunchMultipleInstancesGameAsync(Process gameProcess, string? gamePath)
+    {
+        if (gamePath == null)
+        {
+            return false;
+        }
+
+        DirectoryInfo directoryInfo = new DirectoryInfo(gamePath);
+        if (directoryInfo.Parent == null)
+        {
+            return false;
+        }
+
+        string? gameDirectory = directoryInfo.Parent.FullName.ToString();
+        string? mhypbasePath = $@"{gameDirectory}\mhypbase.dll";
+        string? tempPath = $@"{gameDirectory}\mhypbase.dll.backup";
+        if (File.Exists(mhypbasePath))
+        {
+            File.Move(mhypbasePath, tempPath);
+        }
+        else if (!File.Exists(tempPath))
+        {
+            return false;
+        }
+
+        gameProcess.Start();
+
+        // wait 12sec for loading library files
+        await Task.Delay(12000);
+
+        File.Move(tempPath, mhypbasePath);
+
+        return false;
     }
 
     /// <inheritdoc/>
@@ -469,5 +510,25 @@ internal sealed class GameService : IGameService
     {
         return (launchScheme.IsOversea && gameFileName == GenshinImpactFileName)
             || (!launchScheme.IsOversea && gameFileName == YuanShenFileName);
+    }
+
+    private async Task LaunchGameAsync(Process gameProcess, string? gamePath = null)
+    {
+        try
+        {
+            if (gamePath == null)
+            {
+                gameProcess.Start();
+            }
+            else
+            {
+                await LaunchMultipleInstancesGameAsync(gameProcess, gamePath);
+                return;
+            }
+        }
+        catch
+        {
+            return;
+        }
     }
 }
