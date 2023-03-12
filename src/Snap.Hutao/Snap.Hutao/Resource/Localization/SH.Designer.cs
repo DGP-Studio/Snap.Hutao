@@ -3724,6 +3724,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 多倍启动你的原神，你可以使用胡桃来多次打开原神并且不受到影响 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameMultStartDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameMultStartDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 多倍启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameMultStartHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameMultStartHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 游戏选项 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameOptionsHeader {

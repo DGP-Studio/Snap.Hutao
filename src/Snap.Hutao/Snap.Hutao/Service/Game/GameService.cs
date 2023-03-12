@@ -8,6 +8,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Game.Locator;
@@ -311,7 +312,7 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask LaunchAsync(LaunchOptions options)
     {
-        if (IsGameRunning())
+        if (!options.MultStart && IsGameRunning())
         {
             return;
         }
@@ -355,19 +356,90 @@ internal sealed class GameService : IGameService
                 TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
                 TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
 
-                if (game.Start())
+                try
                 {
-                    await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
+                    if (options.MultStart && Activation.GetElevated())
+                    {
+                        if (!await CloseDllProcessAsync(game, gamePath))
+                        {
+                            return;
+                        }
+
+                        await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
+                    }
+                    else if (game.Start())
+                    {
+                        await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
+                    }
+                }
+                catch
+                {
+                    return;
                 }
             }
             else
             {
-                if (game.Start())
+                try
                 {
-                    await game.WaitForExitAsync().ConfigureAwait(false);
+                    if (options.MultStart && Activation.GetElevated())
+                    {
+                        if (!await CloseDllProcessAsync(game, gamePath))
+                        {
+                            return;
+                        }
+                    }
+                    else if (game.Start())
+                    {
+                        await game.WaitForExitAsync().ConfigureAwait(false);
+                    }
+                }
+                catch
+                {
+                    return;
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// 为了实现多开 需要修改mhypbase.dll名称 这是必须的步骤
+    /// </summary>
+    /// <param name="gameProcess">游戏线程</param>
+    /// <param name="gamePath">游戏路径</param>
+    /// <returns>为真时关闭 为假时返回</returns>
+    public async Task<bool> CloseDllProcessAsync(Process gameProcess, string gamePath)
+    {
+        if (gamePath == null)
+        {
+            return false;
+        }
+
+        DirectoryInfo directoryInfo = new DirectoryInfo(gamePath);
+        if (directoryInfo.Parent == null)
+        {
+            return false;
+        }
+
+        string? gameDirectory = directoryInfo.Parent.FullName.ToString();
+        string? mhypbasePath = $@"{gameDirectory}\mhypbase.dll";
+        string? tempPath = $@"{gameDirectory}\temp.dll";
+        if (File.Exists(mhypbasePath))
+        {
+            File.Move(mhypbasePath, tempPath);
+        }
+        else if (!File.Exists(tempPath))
+        {
+            return false;
+        }
+
+        gameProcess.Start();
+
+        // wait 15sec for loading library files
+        await Task.Delay(15000);
+
+        File.Move(tempPath, mhypbasePath);
+
+        return false;
     }
 
     /// <inheritdoc/>

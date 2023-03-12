@@ -87,6 +87,11 @@ internal sealed class SettingEntry
     public const string LaunchMonitor = "Launch.Monitor";
 
     /// <summary>
+    /// 启动游戏 多倍启动
+    /// </summary>
+    public const string MultStart = "MultStart";
+
+    /// <summary>
     /// 语言
     /// </summary>
     public const string Culture = "Culture";

@@ -258,6 +258,17 @@
                                     Message="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHint}"
                                     Severity="Error"/>
                                 <wsc:Setting
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameMultStartDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameMultStartHeader}"
+                                    Icon="&#xE14D;">
+                                    <wsc:Setting.ActionContent>
+                                        <ToggleSwitch
+                                            Width="120"
+                                            IsOn="{Binding Options.MultStart, Mode=TwoWay}"
+                                            Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                                    </wsc:Setting.ActionContent>
+                                </wsc:Setting>
+                                <wsc:Setting
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
                                     Icon="&#xE785;">
