@@ -52,4 +52,23 @@ internal sealed class BindingClient
 
         return Response.Response.DefaultIfNull(resp);
     }
+
+    /// <summary>
+    /// 获取国际服用户角色信息
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>用户角色信息</returns>
+    [ApiInformation(Cookie = CookieType.Ltoken)]
+    public async Task<Response<ListWrapper<UserGameRole>>> GetOsUserGameRolesByCookieAsync(User user, CancellationToken token = default)
+    {
+        string url = ApiOsEndpoints.UserGameRolesByCookie;
+
+        Response<ListWrapper<UserGameRole>>? resp = await httpClient
+            .SetUser(user, CookieType.Ltoken)
+            .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(url, options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
 }

@@ -156,6 +156,26 @@ internal sealed partial class Cookie
         return false;
     }
 
+    public bool TryGetAsOsCookieToken([NotNullWhen(true)] out Cookie? cookie)
+    {
+        bool hasLtUid = TryGetValue(LTUID, out string? ltUid);
+        bool hasCookieToken = TryGetValue(COOKIE_TOKEN, out string? cookieToken);
+
+        if (hasLtUid && hasCookieToken)
+        {
+            cookie = new Cookie(new()
+            {
+                [LTUID] = ltUid!,
+                [COOKIE_TOKEN] = cookieToken!,
+            });
+
+            return true;
+        }
+
+        cookie = null;
+        return false;
+    }
+
     /// <inheritdoc cref="Dictionary{TKey, TValue}.TryGetValue(TKey, out TValue)"/>
     public bool TryGetValue(string key, [NotNullWhen(true)] out string? value)
     {
