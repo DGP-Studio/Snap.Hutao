@@ -360,7 +360,7 @@ internal sealed class GameService : IGameService
                 {
                     if (options.MultStart && Activation.GetElevated())
                     {
-                        if (!await CloseDllProcessAsync(game, gamePath))
+                        if (!await MultStartGameAsync(game, gamePath))
                         {
                             return;
                         }
@@ -383,7 +383,7 @@ internal sealed class GameService : IGameService
                 {
                     if (options.MultStart && Activation.GetElevated())
                     {
-                        if (!await CloseDllProcessAsync(game, gamePath))
+                        if (!await MultStartGameAsync(game, gamePath))
                         {
                             return;
                         }
@@ -406,8 +406,8 @@ internal sealed class GameService : IGameService
     /// </summary>
     /// <param name="gameProcess">游戏线程</param>
     /// <param name="gamePath">游戏路径</param>
-    /// <returns>为真时关闭 为假时返回</returns>
-    public async Task<bool> CloseDllProcessAsync(Process gameProcess, string gamePath)
+    /// <returns>为真时成功 为假时返回</returns>
+    public async Task<bool> MultStartGameAsync(Process gameProcess, string gamePath)
     {
         if (gamePath == null)
         {
@@ -434,8 +434,8 @@ internal sealed class GameService : IGameService
 
         gameProcess.Start();
 
-        // wait 15sec for loading library files
-        await Task.Delay(15000);
+        // wait 12sec for loading library files
+        await Task.Delay(12000);
 
         File.Move(tempPath, mhypbasePath);
 
