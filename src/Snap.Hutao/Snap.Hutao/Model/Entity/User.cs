@@ -76,7 +76,7 @@ internal sealed class User : ISelectable
     {
         // 不需要 Stoken
         _ = cookie.TryGetAsLtoken(out Cookie? ltoken);
-        _ = cookie.TryGetAsOsCookieToken(out Cookie? cookieToken);
+        _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
 
         return new() { Ltoken = ltoken, CookieToken = cookieToken };
     }

@@ -251,7 +251,7 @@ internal class UserService : IUserService
                 {
                     user.Stoken = null;
                     user.Ltoken = user.Ltoken;
-                    user.CookieToken = cookie.TryGetAsOsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
+                    user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
                     await appDbContext.Users.UpdateAndSaveAsync(user.Entity).ConfigureAwait(false);
                     return new(UserOptionResult.Updated, ltuid);
