@@ -4,8 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Option;
+using Snap.Hutao.Service;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using Windows.Globalization;
@@ -33,8 +32,7 @@ public static partial class Program
         // by adding the using statement, we can dispose the injected services when we closing
         using (ServiceProvider serviceProvider = InitializeDependencyInjection())
         {
-            AppOptions options = serviceProvider.GetRequiredService<AppOptions>();
-            InitializeCulture(options.CurrentCulture);
+            InitializeCulture(serviceProvider.GetRequiredService<AppOptions>().CurrentCulture);
 
             // In a Desktop app this runs a message pump internally,
             // and does not return until the application shuts down.

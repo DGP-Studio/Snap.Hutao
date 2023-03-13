@@ -25,7 +25,6 @@ internal sealed class PackageConverter
     /// <summary>
     /// 构造一个新的游戏文件转换器
     /// </summary>
-    /// <param name="resourceClient">资源客户端</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="httpClient">http客户端</param>
     public PackageConverter(JsonSerializerOptions options, HttpClient httpClient)
@@ -45,7 +44,6 @@ internal sealed class PackageConverter
     /// <returns>替换结果与资源</returns>
     public async Task<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResource, string gameFolder, IProgress<PackageReplaceStatus> progress)
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
         string scatteredFilesUrl = gameResource.Game.Latest.DecompressedPath;
         Uri pkgVersionUri = $"{scatteredFilesUrl}/pkg_version".ToUri();
         ConvertDirection direction = targetScheme.IsOversea ? ConvertDirection.ChineseToOversea : ConvertDirection.OverseaToChinese;
@@ -85,8 +83,8 @@ internal sealed class PackageConverter
     {
         string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
         string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");
-        string sdkVersionBackup = Path.Combine(gameFolder, YuanShenData, "sdk_pkg_version.backup");
-        string sdkVersion = Path.Combine(gameFolder, YuanShenData, "sdk_pkg_version");
+        string sdkVersionBackup = Path.Combine(gameFolder, "sdk_pkg_version.backup");
+        string sdkVersion = Path.Combine(gameFolder, "sdk_pkg_version");
 
         // Only bilibili's sdk is not null
         if (resource.Sdk != null)
@@ -195,6 +193,7 @@ internal sealed class PackageConverter
     {
         const int bufferSize = 81920;
 
+        int reportCounter = 0;
         long totalBytesRead = 0;
         int bytesRead;
         Memory<byte> buffer = new byte[bufferSize];
@@ -205,7 +204,11 @@ internal sealed class PackageConverter
             await target.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
 
             totalBytesRead += bytesRead;
-            progress.Report(new(name, totalBytesRead, totalBytes));
+
+            if ((++reportCounter) % 10 == 0)
+            {
+                progress.Report(new(name, totalBytesRead, totalBytes));
+            }
         }
         while (bytesRead > 0);
     }
@@ -318,7 +321,7 @@ internal sealed class PackageConverter
 
             if (versionFileName == "sdk_pkg_version")
             {
-                // Skiping the sdk_pkg_version file,
+                // Skipping the sdk_pkg_version file,
                 // it can't be claimed from remote.
                 continue;
             }

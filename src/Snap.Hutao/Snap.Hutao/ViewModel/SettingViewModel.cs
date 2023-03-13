@@ -14,6 +14,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
@@ -36,8 +37,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     private readonly AppDbContext appDbContext;
     private readonly IGameService gameService;
     private readonly ILogger<SettingViewModel> logger;
-    private readonly SettingEntry isEmptyHistoryWishVisibleEntry;
-    private readonly SettingEntry selectedBackdropTypeEntry;
+
     private readonly List<NameValue<BackdropType>> backdropTypes = new()
     {
         new("Acrylic", BackdropType.Acrylic),
@@ -55,7 +55,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private bool isEmptyHistoryWishVisible;
     private string gamePath;
-    private NameValue<BackdropType> selectedBackdropType;
+    private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<string>? selectedCulture;
 
     /// <summary>
@@ -68,22 +68,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         gameService = serviceProvider.GetRequiredService<IGameService>();
         logger = serviceProvider.GetRequiredService<ILogger<SettingViewModel>>();
         Experimental = serviceProvider.GetRequiredService<ExperimentalFeaturesViewModel>();
+        Options = serviceProvider.GetRequiredService<AppOptions>();
         this.serviceProvider = serviceProvider;
 
-        isEmptyHistoryWishVisibleEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.IsEmptyHistoryWishVisible, Core.StringLiterals.False);
-        IsEmptyHistoryWishVisible = bool.Parse(isEmptyHistoryWishVisibleEntry.Value!);
-
-        string? cultureName = appDbContext.Settings.SingleOrAdd(SettingEntry.Culture, CultureInfo.CurrentCulture.Name).Value;
-        selectedCulture = cultures.FirstOrDefault(c => c.Value == cultureName);
-
-        selectedBackdropTypeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.SystemBackdropType, BackdropType.Mica.ToString());
-        BackdropType type = Enum.Parse<BackdropType>(selectedBackdropTypeEntry.Value!);
-
-        // prevent unnecessary backdrop setting.
-        selectedBackdropType = backdropTypes.Single(t => t.Value == type);
-        OnPropertyChanged(nameof(SelectedBackdropType));
-
-        GamePath = gameService.GetGamePathSkipLocator();
+        selectedCulture = cultures.FirstOrDefault(c => c.Value == Options.CurrentCulture.Name);
+        selectedBackdropType = backdropTypes.Single(t => t.Value == Options.BackdropType);
 
         SetGamePathCommand = new AsyncRelayCommand(SetGamePathAsync);
         UpdateCheckCommand = new AsyncRelayCommand(CheckUpdateAsync);
@@ -122,30 +111,9 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     }
 
     /// <summary>
-    /// 空的历史卡池是否可见
+    /// 应用程序设置
     /// </summary>
-    public bool IsEmptyHistoryWishVisible
-    {
-        get => isEmptyHistoryWishVisible;
-        set
-        {
-            if (SetProperty(ref isEmptyHistoryWishVisible, value))
-            {
-                isEmptyHistoryWishVisibleEntry.Value = value.ToString();
-                appDbContext.Settings.UpdateAndSave(isEmptyHistoryWishVisibleEntry);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 游戏路径
-    /// </summary>
-    public string GamePath
-    {
-        get => gamePath;
-        [MemberNotNull(nameof(gamePath))]
-        set => SetProperty(ref gamePath, value);
-    }
+    public AppOptions Options { get; }
 
     /// <summary>
     /// 背景类型
@@ -155,17 +123,14 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 选中的背景类型
     /// </summary>
-    public NameValue<BackdropType> SelectedBackdropType
+    public NameValue<BackdropType>? SelectedBackdropType
     {
         get => selectedBackdropType;
-        [MemberNotNull(nameof(selectedBackdropType))]
         set
         {
             if (SetProperty(ref selectedBackdropType, value) && value != null)
             {
-                selectedBackdropTypeEntry.Value = value.Value.ToString();
-                appDbContext.Settings.UpdateAndSave(selectedBackdropTypeEntry);
-                serviceProvider.GetRequiredService<IMessenger>().Send(new Message.BackdropTypeChangedMessage(value.Value));
+                Options.BackdropType = value.Value;
             }
         }
     }
@@ -185,9 +150,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref selectedCulture, value))
             {
-                SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.Culture, CultureInfo.CurrentCulture.Name);
-                entry.Value = selectedCulture?.Value;
-                appDbContext.Settings.UpdateAndSave(entry);
+                if (value != null)
+                {
+                    Options.CurrentCulture = CultureInfo.GetCultureInfo(value.Value);
+                }
+
                 AppInstance.Restart(string.Empty);
             }
         }
@@ -246,22 +213,19 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private async Task SetGamePathAsync()
     {
-        IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>()
-            .Single(l => l.Name == nameof(ManualGameLocator));
+        IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>().Pick(nameof(ManualGameLocator));
 
         (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
         if (isOk)
         {
-            gameService.OverwriteGamePath(path);
             await ThreadHelper.SwitchToMainThreadAsync();
-            GamePath = path;
+            Options.GamePath = path;
         }
     }
 
     private void DeleteGameWebCache()
     {
-        IGameService gameService = serviceProvider.GetRequiredService<IGameService>();
-        string gamePath = gameService.GetGamePathSkipLocator();
+        string gamePath = Options.GamePath;
 
         if (!string.IsNullOrEmpty(gamePath))
         {

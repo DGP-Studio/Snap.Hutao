@@ -8,6 +8,7 @@ using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Navigation;
@@ -54,7 +55,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         Options = serviceProvider.GetRequiredService<LaunchOptions>();
         this.serviceProvider = serviceProvider;
 
-        LaunchCommand = new AsyncRelayCommand(LaunchAsync);
+        LaunchCommand = new AsyncRelayCommand(LaunchAsync, AsyncRelayCommandOptions.AllowConcurrentExecutions);
         DetectGameAccountCommand = new AsyncRelayCommand(DetectGameAccountAsync);
         ModifyGameAccountCommand = new AsyncRelayCommand<GameAccount>(ModifyGameAccountAsync);
         RemoveGameAccountCommand = new AsyncRelayCommand<GameAccount>(RemoveGameAccountAsync);
@@ -143,7 +144,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        if (File.Exists(gameService.GetGamePathSkipLocator()))
+        if (File.Exists(serviceProvider.GetRequiredService<AppOptions>().GamePath))
         {
             try
             {
@@ -205,11 +206,6 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     {
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
-        if (!Options.MultipleInstances && gameService.IsGameRunning())
-        {
-            return;
-        }
-
         if (SelectedScheme != null)
         {
             try
@@ -239,7 +235,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                     }
                 }
 
-                await gameService.LaunchAsync(Options).ConfigureAwait(false);
+                await gameService.LaunchAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -300,7 +296,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
 
     private async Task OpenScreenshotFolderAsync()
     {
-        string game = gameService.GetGamePathSkipLocator();
+        string game = serviceProvider.GetRequiredService<AppOptions>().GamePath;
         string screenshot = Path.Combine(Path.GetDirectoryName(game)!, "ScreenShot");
         if (Directory.Exists(screenshot))
         {

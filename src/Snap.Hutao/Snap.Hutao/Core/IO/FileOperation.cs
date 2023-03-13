@@ -24,14 +24,14 @@ internal static class FileOperation
         {
             if (overwrite)
             {
-                File.Move(sourceFileName, destFileName, overwrite);
+                File.Move(sourceFileName, destFileName, true);
                 return true;
             }
             else
             {
                 if (!File.Exists(destFileName))
                 {
-                    File.Move(sourceFileName, destFileName, overwrite);
+                    File.Move(sourceFileName, destFileName, false);
                     return true;
                 }
             }

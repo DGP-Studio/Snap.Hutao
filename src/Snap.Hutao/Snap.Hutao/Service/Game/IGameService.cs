@@ -40,12 +40,6 @@ internal interface IGameService
     ValueTask<ValueResult<bool, string>> GetGamePathAsync();
 
     /// <summary>
-    /// 获取游戏路径，跳过异步定位器
-    /// </summary>
-    /// <returns>游戏路径，当路径无效时会设置并返回 <see cref="string.Empty"/></returns>
-    string GetGamePathSkipLocator();
-
-    /// <summary>
     /// 获取多通道值
     /// </summary>
     /// <returns>多通道值</returns>
@@ -60,9 +54,8 @@ internal interface IGameService
     /// <summary>
     /// 异步启动
     /// </summary>
-    /// <param name="options">启动配置</param>
     /// <returns>任务</returns>
-    ValueTask LaunchAsync(LaunchOptions options);
+    ValueTask LaunchAsync();
 
     /// <summary>
     /// 异步修改游戏账号名称
@@ -70,12 +63,6 @@ internal interface IGameService
     /// <param name="gameAccount">游戏账号</param>
     /// <returns>任务</returns>
     ValueTask ModifyGameAccountAsync(GameAccount gameAccount);
-
-    /// <summary>
-    /// 重写游戏路径
-    /// </summary>
-    /// <param name="path">路径</param>
-    void OverwriteGamePath(string path);
 
     /// <summary>
     /// 异步尝试移除账号

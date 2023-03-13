@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
@@ -37,7 +38,9 @@ internal sealed class GameService : IGameService
     private readonly IServiceScopeFactory scopeFactory;
     private readonly IMemoryCache memoryCache;
     private readonly PackageConverter packageConverter;
-    private readonly SemaphoreSlim gameSemaphore = new(1);
+    private readonly LaunchOptions launchOptions;
+    private readonly AppOptions appOptions;
+    private volatile int runningGamesCounter;
 
     private ObservableCollection<GameAccount>? gameAccounts;
 
@@ -47,107 +50,69 @@ internal sealed class GameService : IGameService
     /// <param name="scopeFactory">范围工厂</param>
     /// <param name="memoryCache">内存缓存</param>
     /// <param name="packageConverter">游戏文件包转换器</param>
-    public GameService(IServiceScopeFactory scopeFactory, IMemoryCache memoryCache, PackageConverter packageConverter)
+    /// <param name="launchOptions">启动游戏选项</param>
+    /// <param name="appOptions">应用选项</param>
+    public GameService(IServiceScopeFactory scopeFactory, IMemoryCache memoryCache, PackageConverter packageConverter, LaunchOptions launchOptions, AppOptions appOptions)
     {
         this.scopeFactory = scopeFactory;
         this.memoryCache = memoryCache;
         this.packageConverter = packageConverter;
+        this.launchOptions = launchOptions;
+        this.appOptions = appOptions;
     }
 
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, string>> GetGamePathAsync()
     {
-        if (memoryCache.TryGetValue(GamePathKey, out object? value))
-        {
-            return new(true, (value as string)!);
-        }
-        else
-        {
-            using (IServiceScope scope = scopeFactory.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                SettingEntry entry = await appDbContext.Settings.SingleOrAddAsync(SettingEntry.GamePath, string.Empty).ConfigureAwait(false);
-
-                // Cannot find in setting
-                if (string.IsNullOrEmpty(entry.Value))
-                {
-                    IEnumerable<IGameLocator> gameLocators = scope.ServiceProvider.GetRequiredService<IEnumerable<IGameLocator>>();
-
-                    // Try locate by unity log
-                    IGameLocator locator = gameLocators.Single(l => l.Name == nameof(UnityLogGameLocator));
-                    ValueResult<bool, string> result = await locator.LocateGamePathAsync().ConfigureAwait(false);
-
-                    if (!result.IsOk)
-                    {
-                        // Try locate by registry
-                        locator = gameLocators.Single(l => l.Name == nameof(RegistryLauncherLocator));
-                        result = await locator.LocateGamePathAsync().ConfigureAwait(false);
-                    }
-
-                    if (result.IsOk)
-                    {
-                        // Save result.
-                        entry.Value = result.Value;
-                        await appDbContext.Settings.UpdateAndSaveAsync(entry).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        return new(false, SH.ServiceGamePathLocateFailed);
-                    }
-                }
-
-                if (entry.Value == null)
-                {
-                    return new(false, null!);
-                }
-
-                // Set cache and return.
-                string path = memoryCache.Set(GamePathKey, entry.Value);
-                return new(true, path);
-            }
-        }
-    }
-
-    /// <inheritdoc/>
-    public string GetGamePathSkipLocator()
-    {
-        if (memoryCache.TryGetValue(GamePathKey, out object? value))
-        {
-            return (value as string)!;
-        }
-        else
-        {
-            using (IServiceScope scope = scopeFactory.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.GamePath, string.Empty);
-
-                // Set cache and return.
-                return memoryCache.Set(GamePathKey, entry.Value!);
-            }
-        }
-    }
-
-    /// <inheritdoc/>
-    public void OverwriteGamePath(string path)
-    {
-        // sync cache
-        memoryCache.Set(GamePathKey, path);
-
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            // Cannot find in setting
+            if (string.IsNullOrEmpty(appOptions.GamePath))
+            {
+                IEnumerable<IGameLocator> gameLocators = scope.ServiceProvider.GetRequiredService<IEnumerable<IGameLocator>>();
 
-            SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.GamePath, string.Empty);
-            entry.Value = path;
-            appDbContext.Settings.UpdateAndSave(entry);
+                // Try locate by unity log
+                ValueResult<bool, string> result = await gameLocators
+                    .Pick(nameof(UnityLogGameLocator))
+                    .LocateGamePathAsync()
+                    .ConfigureAwait(false);
+
+                if (!result.IsOk)
+                {
+                    // Try locate by registry
+                    result = await gameLocators
+                        .Pick(nameof(RegistryLauncherLocator))
+                        .LocateGamePathAsync()
+                        .ConfigureAwait(false);
+                }
+
+                if (result.IsOk)
+                {
+                    // Save result.
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    appOptions.GamePath = result.Value;
+                }
+                else
+                {
+                    return new(false, SH.ServiceGamePathLocateFailed);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(appOptions.GamePath))
+            {
+                return new(true, appOptions.GamePath);
+            }
+            else
+            {
+                return new(false, null!);
+            }
         }
     }
 
     /// <inheritdoc/>
     public MultiChannel GetMultiChannel()
     {
-        string gamePath = GetGamePathSkipLocator();
+        string gamePath = appOptions.GamePath;
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFileName);
 
         if (!File.Exists(configPath))
@@ -157,9 +122,9 @@ internal sealed class GameService : IGameService
 
         using (FileStream stream = File.OpenRead(configPath))
         {
-            List<IniElement> elements = IniSerializer.Deserialize(stream).ToList();
-            string? channel = elements.OfType<IniParameter>().FirstOrDefault(p => p.Key == "channel")?.Value;
-            string? subChannel = elements.OfType<IniParameter>().FirstOrDefault(p => p.Key == "sub_channel")?.Value;
+            IEnumerable<IniParameter> parameters = IniSerializer.Deserialize(stream).ToList().OfType<IniParameter>();
+            string? channel = parameters.FirstOrDefault(p => p.Key == "channel")?.Value;
+            string? subChannel = parameters.FirstOrDefault(p => p.Key == "sub_channel")?.Value;
 
             return new(channel, subChannel);
         }
@@ -168,7 +133,7 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public bool SetMultiChannel(LaunchScheme scheme)
     {
-        string gamePath = GetGamePathSkipLocator();
+        string gamePath = appOptions.GamePath;
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFileName);
 
         List<IniElement> elements = null!;
@@ -232,7 +197,7 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public async Task<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
     {
-        string gamePath = GetGamePathSkipLocator();
+        string gamePath = appOptions.GamePath;
         string gameFolder = Path.GetDirectoryName(gamePath)!;
         string gameFileName = Path.GetFileName(gamePath);
 
@@ -260,7 +225,9 @@ internal sealed class GameService : IGameService
                 {
                     // We need to change the gamePath if we switched.
                     string exeName = launchScheme.IsOversea ? GenshinImpactFileName : YuanShenFileName;
-                    OverwriteGamePath(Path.Combine(gameFolder, exeName));
+
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    appOptions.GamePath = Path.Combine(gameFolder, exeName);
                 }
                 else
                 {
@@ -284,9 +251,15 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public bool IsGameRunning()
     {
-        if (gameSemaphore.CurrentCount == 0)
+        if (runningGamesCounter == 0)
         {
-            return true;
+            return false;
+        }
+
+        if (launchOptions.MultipleInstances)
+        {
+            // If multiple instances is enabled, always treat as not running.
+            return false;
         }
 
         return Process.GetProcessesByName(YuanShenProcessName).Any()
@@ -310,105 +283,45 @@ internal sealed class GameService : IGameService
     }
 
     /// <inheritdoc/>
-    public async ValueTask LaunchAsync(LaunchOptions options)
+    public async ValueTask LaunchAsync()
     {
-        if (!options.MultipleInstances && IsGameRunning())
+        if (IsGameRunning())
         {
             return;
         }
 
-        string gamePath = GetGamePathSkipLocator();
-
+        string gamePath = appOptions.GamePath;
         if (string.IsNullOrWhiteSpace(gamePath))
         {
             return;
         }
 
-        // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
-        string commandLine = new CommandLineBuilder()
-            .AppendIf("-popupwindow", options.IsBorderless)
-            .AppendIf("-window-mode", options.IsExclusive, "exclusive")
-            .Append("-screen-fullscreen", options.IsFullScreen ? 1 : 0)
-            .Append("-screen-width", options.ScreenWidth)
-            .Append("-screen-height", options.ScreenHeight)
-            .Append("-monitor", options.Monitor.Value)
-            .ToString();
+        Process game = ProcessInterop.PrepareGameProcess(launchOptions, gamePath);
 
-        Process game = new()
+        try
         {
-            StartInfo = new()
-            {
-                Arguments = commandLine,
-                FileName = gamePath,
-                UseShellExecute = true,
-                Verb = "runas",
-                WorkingDirectory = Path.GetDirectoryName(gamePath),
-            },
-        };
+            Interlocked.Increment(ref runningGamesCounter);
+            bool isElevated = Activation.GetElevated();
 
-        using (await gameSemaphore.EnterAsync().ConfigureAwait(false))
-        {
-            if (options.MultipleInstances && Activation.GetElevated())
+            game.Start();
+            if (isElevated && launchOptions.MultipleInstances)
             {
-                await LaunchGameAsync(game, gamePath);
+                await ProcessInterop.DisableProtectionAsync(gamePath).ConfigureAwait(false);
+            }
+
+            if (isElevated && launchOptions.UnlockFps)
+            {
+                await ProcessInterop.UnlockFpsAsync(game, launchOptions).ConfigureAwait(false);
             }
             else
             {
-                await LaunchGameAsync(game);
-            }
-
-            if (options.UnlockFps)
-            {
-                IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, options.TargetFps);
-
-                TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
-                TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
-                TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
-
-                await unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay).ConfigureAwait(false);
+                await game.WaitForExitAsync().ConfigureAwait(false);
             }
         }
-    }
-
-    /// <summary>
-    /// 为了实现多开 需要修改mhypbase.dll名称 这是必须的步骤
-    /// </summary>
-    /// <param name="gameProcess">游戏线程</param>
-    /// <param name="gamePath">游戏路径</param>
-    /// <returns>是否成功替换文件</returns>
-    public async Task<bool> LaunchMultipleInstancesGameAsync(Process gameProcess, string? gamePath)
-    {
-        if (gamePath == null)
+        finally
         {
-            return false;
+            Interlocked.Decrement(ref runningGamesCounter);
         }
-
-        DirectoryInfo directoryInfo = new DirectoryInfo(gamePath);
-        if (directoryInfo.Parent == null)
-        {
-            return false;
-        }
-
-        string? gameDirectory = directoryInfo.Parent.FullName.ToString();
-        string? mhypbasePath = $@"{gameDirectory}\mhypbase.dll";
-        string? tempPath = $@"{gameDirectory}\mhypbase.dll.backup";
-        if (File.Exists(mhypbasePath))
-        {
-            File.Move(mhypbasePath, tempPath);
-        }
-        else if (!File.Exists(tempPath))
-        {
-            return false;
-        }
-
-        gameProcess.Start();
-
-        // wait 12sec for loading library files
-        await Task.Delay(12000);
-
-        File.Move(tempPath, mhypbasePath);
-
-        return false;
     }
 
     /// <inheritdoc/>
@@ -510,25 +423,5 @@ internal sealed class GameService : IGameService
     {
         return (launchScheme.IsOversea && gameFileName == GenshinImpactFileName)
             || (!launchScheme.IsOversea && gameFileName == YuanShenFileName);
-    }
-
-    private async Task LaunchGameAsync(Process gameProcess, string? gamePath = null)
-    {
-        try
-        {
-            if (gamePath == null)
-            {
-                gameProcess.Start();
-            }
-            else
-            {
-                await LaunchMultipleInstancesGameAsync(gameProcess, gamePath);
-                return;
-            }
-        }
-        catch
-        {
-            return;
-        }
     }
 }

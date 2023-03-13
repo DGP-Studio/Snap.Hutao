@@ -3724,7 +3724,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 多倍启动你的原神，你可以使用胡桃来多次打开原神并且不受到影响 的本地化字符串。
+        ///   查找类似 同时运行多个游戏客户端 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameMultipleInstancesDescription {
             get {
@@ -3733,7 +3733,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 多倍启动 的本地化字符串。
+        ///   查找类似 多客户端 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameMultipleInstancesHeader {
             get {
