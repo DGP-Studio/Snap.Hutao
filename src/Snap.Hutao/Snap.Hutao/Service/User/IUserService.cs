@@ -49,9 +49,9 @@ internal interface IUserService
     Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie);
 
     /// <summary>
-    /// 尝试异步处理输入的国际服 Cookie
+    /// 尝试异步处理国际服 Cookie
     /// </summary>
-    /// <param name="cookie">Cookie</param>
+    /// <param name="cookie">来自网页 www.hoyolab.com 的 Cookie，需包含 ltuid, ltoken 和 cookie_token 字段</param>
     /// <returns>处理的结果</returns>
     Task<ValueResult<UserOptionResult, string>> ProcessInputOsCookieAsync(Cookie cookie);
 

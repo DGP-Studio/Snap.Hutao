@@ -48,6 +48,7 @@ internal sealed class UserViewModel : ObservableObject
         AddUserCommand = new AsyncRelayCommand(AddUserAsync);
         AddOsUserCommand = new AsyncRelayCommand(AddOsUserAsync);
         LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
+        LoginHoyoverseUserCommand = new RelayCommand(LoginHoyoverseUser);
         RemoveUserCommand = new AsyncRelayCommand<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
         RefreshCookieTokenCommand = new AsyncRelayCommand(RefreshCookieTokenAsync);
@@ -97,6 +98,11 @@ internal sealed class UserViewModel : ObservableObject
     /// 登录米游社命令
     /// </summary>
     public ICommand LoginMihoyoUserCommand { get; }
+
+    /// <summary>
+    /// 登录米游社命令
+    /// </summary>
+    public ICommand LoginHoyoverseUserCommand { get; }
 
     /// <summary>
     /// 移除用户命令
@@ -213,6 +219,21 @@ internal sealed class UserViewModel : ObservableObject
         if (Core.WebView2Helper.IsSupported)
         {
             serviceProvider.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+        }
+        else
+        {
+            infoBarService.Warning(SH.CoreWebView2HelperVersionUndetected);
+        }
+    }
+
+    /// <summary>
+    /// 打开浏览器登录 hoyolab 以获取 cookie
+    /// </summary>
+    private void LoginHoyoverseUser()
+    {
+        if (Core.WebView2Helper.IsSupported)
+        {
+            serviceProvider.GetRequiredService<INavigationService>().Navigate<LoginHoyoverseUserPage>(INavigationAwaiter.Default);
         }
         else
         {
