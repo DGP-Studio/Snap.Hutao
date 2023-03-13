@@ -21,6 +21,7 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
 {
     private readonly AppDbContext appDbContext;
     private readonly GameRecordClient gameRecordClient;
+    private readonly GameRecordClientOs gameRecordClientOs;
 
     private string? uid;
     private ObservableCollection<SpiralAbyssEntry>? spiralAbysses;
@@ -30,10 +31,11 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="gameRecordClient">游戏记录客户端</param>
-    public SpiralAbyssRecordService(AppDbContext appDbContext, GameRecordClient gameRecordClient)
+    public SpiralAbyssRecordService(AppDbContext appDbContext, GameRecordClient gameRecordClient, GameRecordClientOs gameRecordClientOs)
     {
         this.appDbContext = appDbContext;
         this.gameRecordClient = gameRecordClient;
+        this.gameRecordClientOs = gameRecordClientOs;
     }
 
     /// <inheritdoc/>
@@ -70,9 +72,21 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
 
     private async Task RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule)
     {
-        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClient
+        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response;
+
+        // server determination
+        if (userAndUid.Uid.Region == "cn_gf01" || userAndUid.Uid.Region == "cn_qd01")
+        {
+            response = await gameRecordClient
             .GetSpiralAbyssAsync(userAndUid, schedule)
             .ConfigureAwait(false);
+        }
+        else
+        {
+            response = await gameRecordClientOs
+            .GetSpiralAbyssAsync(userAndUid, schedule)
+            .ConfigureAwait(false);
+        }
 
         if (response.IsOk())
         {

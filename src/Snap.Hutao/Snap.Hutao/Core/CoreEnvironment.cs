@@ -45,6 +45,7 @@ internal static class CoreEnvironment
         [SaltType.X4] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
         [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
         [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
+        [SaltType.OS] = "6cqshh5dhw73bzxn20oexa9k516chk7s",
     }.ToImmutableDictionary();
 
     /// <summary>

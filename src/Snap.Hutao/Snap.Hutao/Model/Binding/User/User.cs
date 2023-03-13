@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
+using Snap.Hutao.Migrations;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -103,7 +104,17 @@ internal sealed class User : ObservableObject
     internal static async Task<User> ResumeAsync(EntityUser inner, CancellationToken token = default)
     {
         User user = new(inner);
-        bool isOk = await user.InitializeCoreAsync(token).ConfigureAwait(false);
+        bool isOk = false;
+
+        // TODO: 这里暂时使用是否存在 stoken 来判断是否为国际服，需要改进
+        if (user.Entity.Stoken != null) 
+        {
+            isOk = await user.InitializeCoreAsync(token).ConfigureAwait(false);
+        }
+        else
+        {
+            isOk = await user.InitializeCoreOsAsync(token).ConfigureAwait(false);
+        }
 
         if (!isOk)
         {
@@ -132,6 +143,34 @@ internal sealed class User : ObservableObject
         {
             User user = new(entity);
             bool initialized = await user.InitializeCoreAsync(token).ConfigureAwait(false);
+
+            return initialized ? user : null;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// 创建并初始化国际服用户（临时）
+    /// </summary>
+    /// <param name="cookie">cookie</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>用户</returns>
+    internal static async Task<User?> CreateOsUserAsync(Cookie cookie, CancellationToken token = default)
+    {
+        // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
+        EntityUser entity = EntityUser.CreateOs(cookie);
+
+        // 临时使用 ltuid 代替 aid 与 mid
+        entity.Aid = cookie.GetValueOrDefault(Cookie.LTUID);
+        entity.Mid = cookie.GetValueOrDefault(Cookie.LTUID);
+
+        if (entity.Aid != null && entity.Mid != null)
+        {
+            User user = new(entity);
+            bool initialized = await user.InitializeCoreOsAsync(token).ConfigureAwait(false);
 
             return initialized ? user : null;
         }
@@ -225,6 +264,51 @@ internal sealed class User : ObservableObject
                 {
                     return false;
                 }
+            }
+        }
+
+        SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
+
+        isInitialized = true;
+
+        return UserInfo != null && UserGameRoles.Any();
+    }
+
+    private async Task<bool> InitializeCoreOsAsync(CancellationToken token = default)
+    {
+        if (isInitialized)
+        {
+            return true;
+        }
+
+        using (IServiceScope scope = Ioc.Default.CreateScope())
+        {
+            // 获取账户信息
+            Response<UserFullInfoWrapper> response = await scope.ServiceProvider
+                .GetRequiredService<UserClient>()
+                .GetOsUserFullInfoAsync(Entity, token)
+                .ConfigureAwait(false);
+            UserInfo = response.Data?.UserInfo;
+
+            // Ltoken 和 cookieToken 直接从网页或者输入获取
+            if (Ltoken == null || CookieToken == null)
+            {
+                return false;
+            }
+
+            // 获取游戏角色
+            Response<ListWrapper<UserGameRole>> userGameRolesResponse = await scope.ServiceProvider
+                .GetRequiredService<BindingClient>()
+                .GetOsUserGameRolesByCookieAsync(Entity, token)
+                .ConfigureAwait(false);
+
+            if (userGameRolesResponse.IsOk())
+            {
+                UserGameRoles = userGameRolesResponse.Data.List;
+            }
+            else
+            {
+                return false;
             }
         }
 

@@ -38,4 +38,9 @@ internal enum SaltType
     /// LK2
     /// </summary>
     LK2,
+
+    /// <summary>
+    /// 国际服
+    /// </summary>
+    OS,
 }
