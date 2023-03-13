@@ -37,6 +37,24 @@ internal sealed class GameRecordClientOs
     }
 
     /// <summary>
+    /// 异步获取实时便笺
+    /// </summary>
+    /// <param name="userAndUid">用户与角色</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>实时便笺</returns>
+    [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.OS)]
+    public async Task<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        Response<DailyNote.DailyNote>? resp = await httpClient
+            .SetUser(userAndUid.User, CookieType.Cookie)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.OS, false)
+            .TryCatchGetFromJsonAsync<Response<DailyNote.DailyNote>>(ApiOsEndpoints.GameRecordDailyNote(userAndUid.Uid.Value), options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    /// <summary>
     /// 获取玩家基础信息
     /// </summary>
     /// <param name="userAndUid">用户与角色</param>
