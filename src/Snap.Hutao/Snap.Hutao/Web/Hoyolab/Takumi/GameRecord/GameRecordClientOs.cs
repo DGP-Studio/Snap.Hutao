@@ -37,6 +37,24 @@ internal sealed class GameRecordClientOs
     }
 
     /// <summary>
+    /// 获取玩家基础信息
+    /// </summary>
+    /// <param name="userAndUid">用户与角色</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>玩家的基础信息</returns>
+    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.OS)]
+    public async Task<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
+    {
+        Response<PlayerInfo>? resp = await httpClient
+            .SetUser(userAndUid.User, CookieType.Cookie)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.OS, false)
+            .TryCatchGetFromJsonAsync<Response<PlayerInfo>>(ApiOsEndpoints.GameRecordIndex(userAndUid.Uid), options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    /// <summary>
     /// 获取玩家深渊信息
     /// </summary>
     /// <param name="userAndUid">用户</param>
@@ -46,7 +64,6 @@ internal sealed class GameRecordClientOs
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.OS)]
     public async Task<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
-        System.Net.Http.Headers.HttpRequestHeaders headers = httpClient.DefaultRequestHeaders;
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.Cookie)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.OS, false)
@@ -54,5 +71,45 @@ internal sealed class GameRecordClientOs
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
+    }
+
+    /// <summary>
+    /// 获取玩家角色详细信息
+    /// </summary>
+    /// <param name="userAndUid">用户与角色</param>
+    /// <param name="playerInfo">玩家的基础信息</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>角色列表</returns>
+    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    public async Task<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
+    {
+        CharacterData data = new(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id));
+
+        Response<CharacterWrapper>? resp = await httpClient
+            .SetUser(userAndUid.User, CookieType.Cookie)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.OS, false)
+            .TryCatchPostAsJsonAsync<CharacterData, Response<CharacterWrapper>>(ApiOsEndpoints.GameRecordCharacter, data, options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    private class CharacterData
+    {
+        public CharacterData(PlayerUid uid, IEnumerable<AvatarId> characterIds)
+        {
+            CharacterIds = characterIds;
+            Uid = uid.Value;
+            Server = uid.Region;
+        }
+
+        [JsonPropertyName("character_ids")]
+        public IEnumerable<AvatarId> CharacterIds { get; }
+
+        [JsonPropertyName("role_id")]
+        public string Uid { get; }
+
+        [JsonPropertyName("server")]
+        public string Server { get; }
     }
 }
