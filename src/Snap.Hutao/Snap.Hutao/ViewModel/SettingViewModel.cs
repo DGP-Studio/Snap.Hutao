@@ -53,8 +53,6 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         ToNameValue(CultureInfo.GetCultureInfo("ko")),
     };
 
-    private bool isEmptyHistoryWishVisible;
-    private string gamePath;
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<string>? selectedCulture;
 
@@ -153,9 +151,8 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
                 if (value != null)
                 {
                     Options.CurrentCulture = CultureInfo.GetCultureInfo(value.Value);
+                    AppInstance.Restart(string.Empty);
                 }
-
-                AppInstance.Restart(string.Empty);
             }
         }
     }
