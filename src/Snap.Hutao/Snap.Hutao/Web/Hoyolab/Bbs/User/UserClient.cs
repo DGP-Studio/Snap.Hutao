@@ -59,11 +59,11 @@ internal sealed class UserClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
-    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
+    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.OS)]
     public async Task<Response<UserFullInfoWrapper>> GetOsUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.Cookie)
+            .SetUser(user, CookieType.Ltoken)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.OS, false)
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiOsEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
             .ConfigureAwait(false);
