@@ -17,6 +17,58 @@ namespace Snap.Hutao.Web;
 [SuppressMessage("", "SA1124")]
 internal static class ApiOsEndpoints
 {
+    #region ApiGeetest
+
+    /// <summary>
+    /// 获取GT码
+    /// </summary>
+    /// <param name="gt">gt</param>
+    /// <returns>GT码Url</returns>
+    public static string GeetestGetType(string gt)
+    {
+        return $"{ApiNaGeetest}/gettype.php?gt={gt}";
+    }
+
+    /// <summary>
+    /// 验证接口
+    /// </summary>
+    /// <param name="gt">gt</param>
+    /// <param name="challenge">challenge流水号</param>
+    /// <returns>验证接口Url</returns>
+    public static string GeetestAjax(string gt, string challenge)
+    {
+        return $"{ApiNaGeetest}/ajax.php?gt={gt}&challenge={challenge}&lang=zh-cn&pt=0&client_type=web";
+    }
+
+    #endregion
+
+    #region ApiOsTakumiAuthApi
+
+    /// <summary>
+    /// 获取 stoken 与 ltoken
+    /// </summary>
+    /// <param name="loginTicket">登录票证</param>
+    /// <param name="loginUid">uid</param>
+    /// <returns>Url</returns>
+    public static string AuthMultiToken(string loginTicket, string loginUid)
+    {
+        return $"{ApiOsTakumiAuthApi}/getMultiTokenByLoginTicket?login_ticket={loginTicket}&uid={loginUid}&token_types=3";
+    }
+
+    /// <summary>
+    /// 获取 stoken 与 ltoken
+    /// </summary>
+    /// <param name="actionType">操作类型 game_role</param>
+    /// <param name="stoken">Stoken</param>
+    /// <param name="uid">uid</param>
+    /// <returns>Url</returns>
+    public static string AuthActionTicket(string actionType, string stoken, string uid)
+    {
+        return $"{ApiAcountOsAuthApi}/getActionTicketBySToken?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid}";
+    }
+
+    #endregion
+
     #region ApiOsTaKumiApi
 
     /// <summary>
@@ -39,7 +91,10 @@ internal static class ApiOsEndpoints
 
     #region SgPublicApi
 
-    public const string CalculateFurnitureCompute = $"{SgPublicApi}/event/calculateos/furniture/list";
+    /// <summary>
+    /// 计算器家具计算
+    /// </summary>
+    public const string CalculateOsFurnitureCompute = $"{SgPublicApi}/event/calculateos/furniture/list";
 
     /// <summary>
     /// 计算器角色列表 size 20
@@ -164,11 +219,6 @@ internal static class ApiOsEndpoints
     /// fetch CookieToken
     /// </summary>
     public const string AccountGetCookieTokenBySToken = $"{ApiAcountOsAuthApi}/getCookieAccountInfoBySToken";
-
-    /// <summary>
-    /// ActionTicket
-    /// </summary>
-    public const string AccountGetActionTicketBySToken = $"{ApiAcountOsAuthApi}/getActionTicketBySToken";
     #endregion
 
     #region SdkStaticLauncherApi
@@ -185,8 +235,13 @@ internal static class ApiOsEndpoints
     #endregion
 
     #region Hosts | Queries
+    private const string ApiNaGeetest = "https://api-na.geetest.com";
+
     private const string ApiOsTaKumi = "https://api-os-takumi.hoyoverse.com";
     private const string ApiOsTaKumiBindingApi = $"{ApiOsTaKumi}/binding/api";
+
+    // 和上面的域名不同
+    private const string ApiOsTakumiAuthApi = "https://api-os-takumi.mihoyo.com/auth/api/getMultiTokenByLoginTicket";
 
     private const string ApiAccountOs = "https://api-account-os.hoyolab.com";
     private const string ApiAccountOsBindingApi = $"{ApiAccountOs}/binding/api";
