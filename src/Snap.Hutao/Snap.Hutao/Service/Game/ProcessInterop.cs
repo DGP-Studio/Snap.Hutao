@@ -77,7 +77,7 @@ internal static class ProcessInterop
             string pbasePath = Path.Combine(gameFolder, "mhypbase.dll");
             SafeHandle handle = File.OpenHandle(pbasePath, share: FileShare.None);
             while (true) {
-                if (game.Any(process => process.MainWindowHandle != nint.Zero)) {
+                if (game.MainWindowHandle != nint.Zero) {
                     handle.Close();
                     break;
                 }
