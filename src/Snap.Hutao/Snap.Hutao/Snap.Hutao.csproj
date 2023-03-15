@@ -530,7 +530,4 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Binding\BaseValue\" />
-  </ItemGroup>
 </Project>

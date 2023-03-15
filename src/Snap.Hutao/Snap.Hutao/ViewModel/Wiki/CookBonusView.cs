@@ -5,7 +5,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Model.Binding.Hutao;
+namespace Snap.Hutao.ViewModel.Wiki;
 
 /// <summary>
 /// 料理奖励视图

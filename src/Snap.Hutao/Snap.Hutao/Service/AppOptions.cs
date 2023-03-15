@@ -186,7 +186,7 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                     string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.IsAdvancedLaunchOptionsEnabled)?.Value;
-                    _ = Activation.GetElevated() == true ? isAdvancedLaunchOptionsEnabled = value != null && bool.Parse(value) : IsAdvancedLaunchOptionsEnabled = false;
+                    isAdvancedLaunchOptionsEnabled = value != null && bool.Parse(value);
                 }
             }
 
