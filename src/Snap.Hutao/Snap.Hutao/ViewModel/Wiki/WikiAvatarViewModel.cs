@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using Snap.Hutao.Model.Binding.BaseValue;
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
@@ -30,7 +29,7 @@ using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumptio
 using CalcItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
 using CalcItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemHelper;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.Wiki;
 
 /// <summary>
 /// 角色资料视图模型

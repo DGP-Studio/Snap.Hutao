@@ -2,22 +2,23 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Metadata.Item;
 
-namespace Snap.Hutao.Model.Binding.Cultivation;
+namespace Snap.Hutao.ViewModel.Cultivation;
 
 /// <summary>
 /// 养成物品
 /// </summary>
 [HighQuality]
-internal sealed class CultivateItem : ObservableObject, IEntityWithMetadata<Entity.CultivateItem, Material>
+internal sealed class CultivateItemView : ObservableObject, IEntityWithMetadata<Model.Entity.CultivateItem, Material>
 {
     /// <summary>
     /// 养成物品
     /// </summary>
     /// <param name="entity">实体</param>
     /// <param name="inner">元数据</param>
-    public CultivateItem(Entity.CultivateItem entity, Material inner)
+    public CultivateItemView(Model.Entity.CultivateItem entity, Material inner)
     {
         Entity = entity;
         Inner = inner;
@@ -31,7 +32,7 @@ internal sealed class CultivateItem : ObservableObject, IEntityWithMetadata<Enti
     /// <summary>
     /// 实体
     /// </summary>
-    public Entity.CultivateItem Entity { get; }
+    public Model.Entity.CultivateItem Entity { get; }
 
     /// <summary>
     /// 是否完成此项

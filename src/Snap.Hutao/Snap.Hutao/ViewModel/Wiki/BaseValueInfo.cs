@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 
-namespace Snap.Hutao.Model.Binding.BaseValue;
+namespace Snap.Hutao.ViewModel.Wiki;
 
 /// <summary>
 /// 基础数值信息
@@ -101,7 +102,7 @@ internal sealed class BaseValueInfo : ObservableObject
                 value += addValue;
             }
 
-            values.Add(Metadata.Converter.PropertyDescriptor.FormatNameValue(propValue.Property, value));
+            values.Add(Model.Metadata.Converter.PropertyDescriptor.FormatNameValue(propValue.Property, value));
         }
 
         Values = values;

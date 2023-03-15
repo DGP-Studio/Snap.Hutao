@@ -272,15 +272,16 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private async Task SetDataFolderAsync()
     {
-        IPickerFactory pickerFactory = serviceProvider.GetRequiredService<IPickerFactory>();
-        FolderPicker picker = pickerFactory.GetFolderPicker();
-        (bool isOk, string folder) = await picker.TryPickSingleFolderAsync().ConfigureAwait(false);
+        (bool isOk, string folder) = await serviceProvider
+            .GetRequiredService<IPickerFactory>()
+            .GetFolderPicker()
+            .TryPickSingleFolderAsync()
+            .ConfigureAwait(false);
 
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         if (isOk)
         {
             LocalSetting.Set(SettingKeys.DataFolderPath, folder);
-            infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
+            serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewModelSettingSetDataFolderSuccess);
         }
     }
 
@@ -292,8 +293,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private void CopyDeviceId()
     {
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         Clipboard.SetText(DeviceId);
-        infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
+        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewModelSettingCopyDeviceIdSuccess);
     }
 }

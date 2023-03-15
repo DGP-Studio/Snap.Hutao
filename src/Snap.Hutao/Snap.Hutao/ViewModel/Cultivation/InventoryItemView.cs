@@ -2,15 +2,16 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Metadata.Item;
 
-namespace Snap.Hutao.Model.Binding.Inventory;
+namespace Snap.Hutao.ViewModel.Cultivation;
 
 /// <summary>
 /// 背包物品
 /// </summary>
 [HighQuality]
-internal sealed class InventoryItem : ObservableObject, IEntityWithMetadata<Entity.InventoryItem, Material>
+internal sealed class InventoryItemView : ObservableObject, IEntityWithMetadata<Model.Entity.InventoryItem, Material>
 {
     /// <summary>
     /// 创建一个新的背包物品
@@ -18,7 +19,7 @@ internal sealed class InventoryItem : ObservableObject, IEntityWithMetadata<Enti
     /// <param name="entity">实体</param>
     /// <param name="inner">元数据</param>
     /// <param name="saveCommand">保存命令</param>
-    public InventoryItem(Entity.InventoryItem entity, Material inner, ICommand saveCommand)
+    public InventoryItemView(Model.Entity.InventoryItem entity, Material inner, ICommand saveCommand)
     {
         Entity = entity;
         Inner = inner;
@@ -28,7 +29,7 @@ internal sealed class InventoryItem : ObservableObject, IEntityWithMetadata<Enti
     /// <summary>
     /// 实体
     /// </summary>
-    public Entity.InventoryItem Entity { get; set; }
+    public Model.Entity.InventoryItem Entity { get; set; }
 
     /// <summary>
     /// 元数据

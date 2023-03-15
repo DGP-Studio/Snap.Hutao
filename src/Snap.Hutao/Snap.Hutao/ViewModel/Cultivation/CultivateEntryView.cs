@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.Cultivation;
+using Snap.Hutao.Model.Binding;
+
+namespace Snap.Hutao.ViewModel.Cultivation;
 
 /// <summary>
 /// 养成物品
@@ -15,7 +17,7 @@ internal sealed class CultivateEntryView : Item
     /// <param name="entry">实体入口</param>
     /// <param name="item">对应物品</param>
     /// <param name="items">物品列表</param>
-    public CultivateEntryView(Entity.CultivateEntry entry, Item item, List<CultivateItem> items)
+    public CultivateEntryView(Model.Entity.CultivateEntry entry, Item item, List<CultivateItemView> items)
     {
         Id = entry.Id;
         EntryId = entry.InnerId;
@@ -39,7 +41,7 @@ internal sealed class CultivateEntryView : Item
     /// <summary>
     /// 实体
     /// </summary>
-    public List<CultivateItem> Items { get; set; } = default!;
+    public List<CultivateItemView> Items { get; set; } = default!;
 
     /// <summary>
     /// 是否为今日的材料

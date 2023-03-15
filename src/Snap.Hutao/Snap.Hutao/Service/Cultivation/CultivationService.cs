@@ -13,11 +13,8 @@ using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
-using BindingCultivateEntry = Snap.Hutao.Model.Binding.Cultivation.CultivateEntryView;
-using BindingCultivateItem = Snap.Hutao.Model.Binding.Cultivation.CultivateItem;
-using BindingInventoryItem = Snap.Hutao.Model.Binding.Inventory.InventoryItem;
-using BindingStatisticsItem = Snap.Hutao.Model.Binding.Cultivation.StatisticsCultivateItem;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -64,7 +61,7 @@ internal sealed class CultivationService : ICultivationService
 
             try
             {
-                Current ??= projects.SingleOrDefault(proj => proj.IsSelected);
+                Current ??= projects.SelectedOrDefault();
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -129,7 +126,7 @@ internal sealed class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public List<BindingInventoryItem> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand)
+    public List<InventoryItemView> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand)
     {
         Guid projectId = cultivateProject.InnerId;
         using (IServiceScope scope = scopeFactory.CreateScope())
@@ -139,7 +136,7 @@ internal sealed class CultivationService : ICultivationService
                 .Where(a => a.ProjectId == projectId)
                 .ToList();
 
-            List<BindingInventoryItem> results = new();
+            List<InventoryItemView> results = new();
             foreach (Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id))
             {
                 InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.Create(projectId, meta.Id);
@@ -151,7 +148,7 @@ internal sealed class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<BindingCultivateEntry>> GetCultivateEntriesAsync(CultivateProject cultivateProject)
+    public async Task<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         using (IServiceScope scope = scopeFactory.CreateScope())
@@ -163,7 +160,7 @@ internal sealed class CultivationService : ICultivationService
             Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
-            List<BindingCultivateEntry> results = new();
+            List<CultivateEntryView> results = new();
             List<CultivateEntry> entries = await appDbContext.CultivateEntries
                 .Where(e => e.ProjectId == cultivateProject.InnerId)
                 .ToListAsync()
@@ -173,7 +170,7 @@ internal sealed class CultivationService : ICultivationService
             {
                 Guid entryId = entry.InnerId;
 
-                List<BindingCultivateItem> resultItems = new();
+                List<CultivateItemView> resultItems = new();
 
                 foreach (CultivateItem item in await GetEntryItemsAsync(appDbContext, entryId).ConfigureAwait(false))
                 {
@@ -197,11 +194,11 @@ internal sealed class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<BindingStatisticsItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, CancellationToken token)
+    public async Task<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, CancellationToken token)
     {
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            List<BindingStatisticsItem> resultItems = new();
+            List<StatisticsCultivateItem> resultItems = new();
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             List<Material> materials = await scope.ServiceProvider
@@ -222,7 +219,7 @@ internal sealed class CultivationService : ICultivationService
                         continue;
                     }
 
-                    if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is BindingStatisticsItem existedItem)
+                    if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is StatisticsCultivateItem existedItem)
                     {
                         existedItem.Count += item.Count;
                     }
@@ -237,7 +234,7 @@ internal sealed class CultivationService : ICultivationService
 
             foreach (InventoryItem inventoryItem in await GetProjectInventoryAsync(appDbContext, projectId).ConfigureAwait(false))
             {
-                if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is BindingStatisticsItem existedItem)
+                if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is StatisticsCultivateItem existedItem)
                 {
                     existedItem.TotalCount += inventoryItem.Count;
                 }
@@ -264,7 +261,7 @@ internal sealed class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public void SaveInventoryItem(BindingInventoryItem item)
+    public void SaveInventoryItem(InventoryItemView item)
     {
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
@@ -295,7 +292,7 @@ internal sealed class CultivationService : ICultivationService
 
             try
             {
-                Current ??= appDbContext.CultivateProjects.AsNoTracking().SingleOrDefault(proj => proj.IsSelected);
+                Current ??= appDbContext.CultivateProjects.AsNoTracking().SelectedOrDefault();
             }
             catch (InvalidOperationException ex)
             {

@@ -36,6 +36,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// <summary>
     /// 最大等级
     /// </summary>
+    [SuppressMessage("", "CA1822")]
     public int MaxLevel { get => 90; }
 
     /// <inheritdoc/>

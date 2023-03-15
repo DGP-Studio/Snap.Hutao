@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using Snap.Hutao.Model.Binding.BaseValue;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Intrinsic.Immutable;
@@ -26,7 +25,7 @@ using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.A
 using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
 using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.Wiki;
 
 /// <summary>
 /// 武器资料视图模型

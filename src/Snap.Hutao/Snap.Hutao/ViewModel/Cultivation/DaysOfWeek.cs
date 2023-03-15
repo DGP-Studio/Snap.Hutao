@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.Cultivation;
+namespace Snap.Hutao.ViewModel.Cultivation;
 
 /// <summary>
 /// 游戏内星期中的天

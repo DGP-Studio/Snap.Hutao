@@ -304,9 +304,10 @@ internal sealed class GameService : IGameService
             bool isElevated = Activation.GetElevated();
 
             game.Start();
+
             if (isElevated && launchOptions.MultipleInstances)
             {
-                await ProcessInterop.DisableProtectionAsync(game, gamePath).ConfigureAwait(false);
+                ProcessInterop.DisableProtection(game, gamePath);
             }
 
             if (isElevated && launchOptions.UnlockFps)

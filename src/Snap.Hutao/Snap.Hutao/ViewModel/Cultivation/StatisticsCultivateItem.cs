@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Metadata.Item;
 
-namespace Snap.Hutao.Model.Binding.Cultivation;
+namespace Snap.Hutao.ViewModel.Cultivation;
 
 /// <summary>
 /// 仅用于统计总数的养成物品
@@ -16,7 +16,7 @@ internal sealed class StatisticsCultivateItem
     /// </summary>
     /// <param name="inner">材料</param>
     /// <param name="entity">实体</param>
-    public StatisticsCultivateItem(Material inner, Entity.CultivateItem entity)
+    public StatisticsCultivateItem(Material inner, Model.Entity.CultivateItem entity)
     {
         Inner = inner;
         Count = entity.Count;
