@@ -211,6 +211,32 @@
                 <wsc:SettingsGroup Foreground="{ThemeResource SystemFillColorCriticalBrush}" Header="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}">
                     <InfoBar
                         IsClosable="False"
+                        IsOpen="{Binding Options.IsAdvancedLaunchOptionsEnabled}"
+                        Message="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
+                        Severity="Error"/>
+                    <InfoBar
+                        Margin="0,2,0,0"
+                        IsClosable="False"
+                        IsOpen="{Binding IsElevated, Converter={StaticResource BoolNegationConverter}}"
+                        Message="{shcm:ResourceString Name=ViewPageLaunchGameElevationHint}"
+                        Severity="Warning"/>
+
+                    <wsc:Setting
+                        Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
+                        Description="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
+                        Icon="&#xE730;">
+                        <wsc:Setting.ActionContent>
+                            <ToggleSwitch
+                                Width="120"
+                                IsEnabled="{Binding IsElevated}"
+                                IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"
+                                Style="{StaticResource ToggleSwitchSettingStyle}"/>
+                        </wsc:Setting.ActionContent>
+                    </wsc:Setting>
+
+                    <InfoBar
+                        IsClosable="False"
                         IsOpen="True"
                         Message="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
                         Severity="Error"/>

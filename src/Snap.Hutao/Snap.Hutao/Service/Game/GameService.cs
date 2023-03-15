@@ -301,16 +301,16 @@ internal sealed class GameService : IGameService
         try
         {
             Interlocked.Increment(ref runningGamesCounter);
-            bool isElevated = Activation.GetElevated();
+            bool isPassCheck = Activation.GetElevated() == appOptions.IsAdvancedLaunchOptionsEnabled ? true : false;
 
             game.Start();
 
-            if (isElevated && launchOptions.MultipleInstances)
+            if (isPassCheck && launchOptions.MultipleInstances)
             {
                 ProcessInterop.DisableProtection(game, gamePath);
             }
 
-            if (isElevated && launchOptions.UnlockFps)
+            if (isPassCheck && launchOptions.UnlockFps)
             {
                 await ProcessInterop.UnlockFpsAsync(game, launchOptions).ConfigureAwait(false);
             }

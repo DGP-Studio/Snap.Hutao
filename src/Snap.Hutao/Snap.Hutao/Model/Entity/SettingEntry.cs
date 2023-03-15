@@ -32,6 +32,11 @@ internal sealed class SettingEntry
     public const string SystemBackdropType = "SystemBackdropType";
 
     /// <summary>
+    /// 启用高级功能
+    /// </summary>
+    public const string IsAdvancedLaunchOptionsEnabled = "IsAdvancedLaunchOptionsEnabled";
+
+    /// <summary>
     /// 实时便笺刷新时间
     /// </summary>
     public const string DailyNoteRefreshSeconds = "DailyNote.RefreshSeconds";
