@@ -40,7 +40,7 @@ internal sealed class GachaLogQueryStokenProvider : IGachaLogQueryProvider
         {
             if (userAndUid.Uid.Region != "cn_gf01" && userAndUid.Uid.Region != "cn_qd01")
             {
-                return new(false, "Global server player is unsupported currently");
+                return new(false, "Unsupported for hoyoverse account");
             }
 
             GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);

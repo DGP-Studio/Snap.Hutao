@@ -106,8 +106,8 @@ internal sealed class User : ObservableObject
         User user = new(inner);
         bool isOk = false;
 
-        // TODO: 这里暂时使用是否存在 stoken 来判断是否为国际服，需要改进
-        if (user.Entity.Stoken != null) 
+        // TODO: need a flag to indentify hoyoverse account
+        if (user.Entity.Stoken != null)
         {
             isOk = await user.InitializeCoreAsync(token).ConfigureAwait(false);
         }
