@@ -306,7 +306,7 @@ internal sealed class GameService : IGameService
             game.Start();
             if (isElevated && launchOptions.MultipleInstances)
             {
-                await ProcessInterop.DisableProtectionAsync(gamePath).ConfigureAwait(false);
+                await ProcessInterop.DisableProtectionAsync(game, gamePath).ConfigureAwait(false);
             }
 
             if (isElevated && launchOptions.UnlockFps)
