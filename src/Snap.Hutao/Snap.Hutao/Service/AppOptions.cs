@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using System.Globalization;
@@ -24,6 +25,7 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     private bool? isEmptyHistoryWishVisible;
     private Core.Windowing.BackdropType? backdropType;
     private CultureInfo? currentCulture;
+    private bool? enabledAdvanced;
 
     /// <summary>
     /// 构造一个新的应用程序选项
@@ -166,6 +168,40 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                     appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.Culture);
                     appDbContext.Settings.AddAndSave(new(SettingEntry.Culture, value.Name));
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 是否启用高级功能
+    /// </summary>
+    public bool EnabledAdvanced
+    {
+        get
+        {
+            if (enabledAdvanced == null)
+            {
+                using (IServiceScope scope = serviceScopeFactory.CreateScope())
+                {
+                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.EnabledAdvanced)?.Value;
+                    _ = Activation.GetElevated() == true ? enabledAdvanced = value != null && bool.Parse(value) : enabledAdvanced = false;
+                }
+            }
+
+            return enabledAdvanced.Value;
+        }
+
+        set
+        {
+            if (SetProperty(ref enabledAdvanced, value))
+            {
+                using (IServiceScope scope = serviceScopeFactory.CreateScope())
+                {
+                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.EnabledAdvanced);
+                    appDbContext.Settings.AddAndSave(new(SettingEntry.EnabledAdvanced, value.ToString()));
                 }
             }
         }

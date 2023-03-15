@@ -1284,6 +1284,9 @@
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
     <value>启动游戏</value>
   </data>
+  <data name="ViewPageLaunchGameAdvancedFeatureElevationHint" xml:space="preserve">
+    <value>启用「启动游戏-高级功能」的任意功能 您需要在设置里解锁它</value>
+  </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>高级功能</value>
   </data>
@@ -1493,6 +1496,15 @@
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleOn" xml:space="preserve">
     <value>显示</value>
+  </data>
+  <data name="ViewPageSettingEnabledAdvancedDescription" xml:space="preserve">
+    <value>在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」</value>
+  </data>
+  <data name="ViewPageSettingEnabledAdvancedHeader" xml:space="preserve">
+    <value>启动高级功能</value>
+  </data>
+  <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
+    <value>您解锁了「启动游戏-高级功能」！其含有潜在违反原神服务条款的风险，一旦启用，您将咨询承担可能的后果。慎重选择！</value>
   </data>
   <data name="ViewPageSettingFeedbackDescription" xml:space="preserve">
     <value>Github 上反馈的问题会优先处理</value>

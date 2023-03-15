@@ -8,6 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
@@ -161,6 +162,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// 实验性功能
     /// </summary>
     public ExperimentalFeaturesViewModel Experimental { get; }
+
+    /// <summary>
+    /// 是否提权
+    /// </summary>
+    public bool IsElevated { get => Activation.GetElevated(); }
 
     /// <summary>
     /// 设置游戏路径命令

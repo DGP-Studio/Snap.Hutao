@@ -251,12 +251,18 @@
                                 </wsc:Setting>
                             </wsc:SettingsGroup>
 
-                            <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}" IsEnabled="{Binding IsElevated}">
+                            <wsc:SettingsGroup Header="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}" IsEnabled="{Binding AppOptions.EnabledAdvanced}">
                                 <InfoBar
                                     IsClosable="False"
-                                    IsOpen="{Binding IsElevated}"
+                                    IsOpen="{Binding AppOptions.EnabledAdvanced}"
                                     Message="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHint}"
                                     Severity="Error"/>
+                                <InfoBar
+                                    Margin="0,2,0,0"
+                                    IsClosable="False"
+                                    IsOpen="{Binding AppOptions.EnabledAdvanced, Converter={StaticResource BoolNegationConverter}}"
+                                    Message="{shcm:ResourceString Name=ViewPageLaunchGameAdvancedFeatureElevationHint}"
+                                    Severity="Warning"/>
                                 <wsc:Setting
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesHeader}"
