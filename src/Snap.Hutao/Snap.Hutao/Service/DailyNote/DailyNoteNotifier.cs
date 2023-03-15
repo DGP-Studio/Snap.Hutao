@@ -62,7 +62,7 @@ internal sealed class DailyNoteNotifier
 
             string? attribution = SH.ServiceDailyNoteNotifierAttribution;
 
-            // TODO: need a flag to indentify hoyoverse account
+            // TODO: need a flag to identify hoyoverse account
             // For global server, stoken is null
             if (entry.User.Stoken == null)
             {

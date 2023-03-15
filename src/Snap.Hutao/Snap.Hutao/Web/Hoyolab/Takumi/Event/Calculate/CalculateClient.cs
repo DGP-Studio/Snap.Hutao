@@ -44,7 +44,7 @@ internal sealed class CalculateClient
     public async Task<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
         Response<Consumption>? resp;
-        // TODO: need a flag to indentify hoyoverse account
+        // TODO: need a flag to identify hoyoverse account
         if (user.Stoken == null)
         {
             resp = await httpClient

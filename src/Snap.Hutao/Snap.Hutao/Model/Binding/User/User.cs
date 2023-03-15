@@ -106,7 +106,7 @@ internal sealed class User : ObservableObject
         User user = new(inner);
         bool isOk = false;
 
-        // TODO: need a flag to indentify hoyoverse account
+        // TODO: need a flag to identify hoyoverse account
         if (user.Entity.Stoken != null)
         {
             isOk = await user.InitializeCoreAsync(token).ConfigureAwait(false);
