@@ -1,13 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
+using Snap.Hutao.ViewModel.Wiki;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
@@ -36,6 +36,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// <summary>
     /// 最大等级
     /// </summary>
+    [SuppressMessage("", "CA1822")]
     public int MaxLevel { get => 90; }
 
     /// <inheritdoc/>

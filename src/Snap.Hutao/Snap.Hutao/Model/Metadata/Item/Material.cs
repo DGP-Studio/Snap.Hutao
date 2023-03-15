@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Item;
@@ -81,6 +82,7 @@ internal sealed class Material : Display
             return true;
         }
 
+        // TODO: Currently only support CN
         return TypeDescription switch
         {
             "角色与武器培养素材" => true,
@@ -114,23 +116,23 @@ internal sealed class Material : Display
     /// 获取物品对应的 DaysOfWeek
     /// </summary>
     /// <returns>DaysOfWeek</returns>
-    public Binding.Cultivation.DaysOfWeek GetDaysOfWeek()
+    public DaysOfWeek GetDaysOfWeek()
     {
         if (MondayThursdayItems.Contains(Id))
         {
-            return Binding.Cultivation.DaysOfWeek.MondayAndThursday;
+            return DaysOfWeek.MondayAndThursday;
         }
 
         if (TuesdayFridayItems.Contains(Id))
         {
-            return Binding.Cultivation.DaysOfWeek.TuesdayAndFriday;
+            return DaysOfWeek.TuesdayAndFriday;
         }
 
         if (WednesdaySaturdayItems.Contains(Id))
         {
-            return Binding.Cultivation.DaysOfWeek.WednesdayAndSaturday;
+            return DaysOfWeek.WednesdayAndSaturday;
         }
 
-        return Binding.Cultivation.DaysOfWeek.Any;
+        return DaysOfWeek.Any;
     }
 }

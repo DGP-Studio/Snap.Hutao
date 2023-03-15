@@ -53,6 +53,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         gameService = serviceProvider.GetRequiredService<IGameService>();
         memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
         Options = serviceProvider.GetRequiredService<LaunchOptions>();
+        AppOptions = serviceProvider.GetRequiredService<AppOptions>();
         this.serviceProvider = serviceProvider;
 
         LaunchCommand = new AsyncRelayCommand(LaunchAsync, AsyncRelayCommandOptions.AllowConcurrentExecutions);
@@ -99,6 +100,11 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// 启动选项
     /// </summary>
     public LaunchOptions Options { get; }
+
+    /// <summary>
+    /// 应用选项
+    /// </summary>
+    public AppOptions AppOptions { get; }
 
     /// <summary>
     /// 游戏资源

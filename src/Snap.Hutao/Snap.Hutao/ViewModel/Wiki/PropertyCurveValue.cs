@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic;
 
-namespace Snap.Hutao.Model.Binding.BaseValue;
+namespace Snap.Hutao.ViewModel.Wiki;
 
 /// <summary>
 /// 战斗属性与初始值

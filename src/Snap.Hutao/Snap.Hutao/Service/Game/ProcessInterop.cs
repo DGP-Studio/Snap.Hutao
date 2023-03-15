@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Game.Unlocker;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -69,21 +67,17 @@ internal static class ProcessInterop
     /// <param name="game">游戏进程</param>
     /// <param name="gamePath">游戏路径</param>
     /// <returns>是否禁用成功</returns>
-    public static async Task<bool> DisableProtectionAsync(Process game, string gamePath)
+    public static bool DisableProtection(Process game, string gamePath)
     {
         string? gameFolder = Path.GetDirectoryName(gamePath);
         if (!string.IsNullOrEmpty(gameFolder))
         {
-            string pbasePath = Path.Combine(gameFolder, "mhypbase.dll");
-            SafeHandle handle = File.OpenHandle(pbasePath, share: FileShare.None);
-            while (true) {
-                if (game.MainWindowHandle != nint.Zero) {
-                    handle.Close();
-                    break;
-                }
-                await Task.Delay(100).ConfigureAwait(false);
+            string mhypbaseDll = Path.Combine(gameFolder, "mhypbase.dll");
+            using (File.OpenHandle(mhypbaseDll, share: FileShare.None))
+            {
+                SpinWait.SpinUntil(() => game.MainWindowHandle != 0);
+                return true;
             }
-            return true;
         }
 
         return false;

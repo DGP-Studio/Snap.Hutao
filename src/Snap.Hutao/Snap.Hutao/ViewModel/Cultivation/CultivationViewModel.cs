@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
-using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Service.Abstraction;
@@ -31,7 +30,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
 
     private ObservableCollection<CultivateProject>? projects;
     private CultivateProject? selectedProject;
-    private List<Model.Binding.Inventory.InventoryItem>? inventoryItems;
+    private List<InventoryItemView>? inventoryItems;
     private ObservableCollection<CultivateEntryView>? cultivateEntries;
     private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
 
@@ -39,8 +38,6 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     /// 构造一个新的养成视图模型
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="metadataService">元数据服务</param>
-    /// <param name="logger">日志器</param>
     public CultivationViewModel(IServiceProvider serviceProvider)
     {
         cultivationService = serviceProvider.GetRequiredService<ICultivationService>();
@@ -51,9 +48,9 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         AddProjectCommand = new AsyncRelayCommand(AddProjectAsync);
         RemoveProjectCommand = new AsyncRelayCommand<CultivateProject>(RemoveProjectAsync);
         RemoveEntryCommand = new AsyncRelayCommand<CultivateEntryView>(RemoveEntryAsync);
-        SaveInventoryItemCommand = new RelayCommand<Model.Binding.Inventory.InventoryItem>(SaveInventoryItem);
+        SaveInventoryItemCommand = new RelayCommand<InventoryItemView>(SaveInventoryItem);
         NavigateToPageCommand = new RelayCommand<string>(NavigateToPage);
-        FinishStateCommand = new RelayCommand<Model.Binding.Cultivation.CultivateItem>(UpdateFinishedState);
+        FinishStateCommand = new RelayCommand<CultivateItemView>(UpdateFinishedState);
     }
 
     /// <summary>
@@ -79,7 +76,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     /// <summary>
     /// 物品列表
     /// </summary>
-    public List<Model.Binding.Inventory.InventoryItem>? InventoryItems { get => inventoryItems; set => SetProperty(ref inventoryItems, value); }
+    public List<InventoryItemView>? InventoryItems { get => inventoryItems; set => SetProperty(ref inventoryItems, value); }
 
     /// <summary>
     /// 养成列表
@@ -203,7 +200,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    private void SaveInventoryItem(Model.Binding.Inventory.InventoryItem? inventoryItem)
+    private void SaveInventoryItem(InventoryItemView? inventoryItem)
     {
         if (inventoryItem != null)
         {
@@ -212,7 +209,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
-    private void UpdateFinishedState(Model.Binding.Cultivation.CultivateItem? item)
+    private void UpdateFinishedState(CultivateItemView? item)
     {
         if (item != null)
         {

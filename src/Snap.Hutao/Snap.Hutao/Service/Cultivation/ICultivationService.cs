@@ -1,10 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.Cultivation;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.ViewModel.Cultivation;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using System.Collections.ObjectModel;
 
@@ -35,7 +35,7 @@ internal interface ICultivationService
     /// <param name="metadata">元数据</param>
     /// <param name="saveCommand">保存命令</param>
     /// <returns>物品列表</returns>
-    List<Model.Binding.Inventory.InventoryItem> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand);
+    List<InventoryItemView> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand);
 
     /// <summary>
     /// 获取用于绑定的项目集合
@@ -84,7 +84,7 @@ internal interface ICultivationService
     /// 保存单个物品
     /// </summary>
     /// <param name="item">物品</param>
-    void SaveInventoryItem(Model.Binding.Inventory.InventoryItem item);
+    void SaveInventoryItem(InventoryItemView item);
 
     /// <summary>
     /// 异步尝试添加新的项目

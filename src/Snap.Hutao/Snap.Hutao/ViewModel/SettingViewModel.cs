@@ -8,6 +8,7 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
@@ -163,6 +164,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     public ExperimentalFeaturesViewModel Experimental { get; }
 
     /// <summary>
+    /// 是否提权
+    /// </summary>
+    public bool IsElevated { get => Activation.GetElevated(); }
+
+    /// <summary>
     /// 设置游戏路径命令
     /// </summary>
     public ICommand SetGamePathCommand { get; }
@@ -272,15 +278,16 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private async Task SetDataFolderAsync()
     {
-        IPickerFactory pickerFactory = serviceProvider.GetRequiredService<IPickerFactory>();
-        FolderPicker picker = pickerFactory.GetFolderPicker();
-        (bool isOk, string folder) = await picker.TryPickSingleFolderAsync().ConfigureAwait(false);
+        (bool isOk, string folder) = await serviceProvider
+            .GetRequiredService<IPickerFactory>()
+            .GetFolderPicker()
+            .TryPickSingleFolderAsync()
+            .ConfigureAwait(false);
 
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         if (isOk)
         {
             LocalSetting.Set(SettingKeys.DataFolderPath, folder);
-            infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
+            serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewModelSettingSetDataFolderSuccess);
         }
     }
 
@@ -292,8 +299,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private void CopyDeviceId()
     {
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         Clipboard.SetText(DeviceId);
-        infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
+        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewModelSettingCopyDeviceIdSuccess);
     }
 }
