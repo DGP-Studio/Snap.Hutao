@@ -34,7 +34,7 @@ internal sealed class SettingEntry
     /// <summary>
     /// 启用高级功能
     /// </summary>
-    public const string EnabledAdvanced = "EnabledAdvanced";
+    public const string IsAdvancedLaunchOptionsEnabled = "IsAdvancedLaunchOptionsEnabled";
 
     /// <summary>
     /// 实时便笺刷新时间

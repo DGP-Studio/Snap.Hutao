@@ -1497,10 +1497,10 @@
   <data name="ViewPageSettingEmptyHistoryVisibleOn" xml:space="preserve">
     <value>显示</value>
   </data>
-  <data name="ViewPageSettingEnabledAdvancedDescription" xml:space="preserve">
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
     <value>在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」</value>
   </data>
-  <data name="ViewPageSettingEnabledAdvancedHeader" xml:space="preserve">
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
     <value>启动高级功能</value>
   </data>
   <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">

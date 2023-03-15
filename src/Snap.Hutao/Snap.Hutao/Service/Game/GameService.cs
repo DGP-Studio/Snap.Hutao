@@ -301,7 +301,7 @@ internal sealed class GameService : IGameService
         try
         {
             Interlocked.Increment(ref runningGamesCounter);
-            bool isPassCheck = Activation.GetElevated() == appOptions.EnabledAdvanced ? true : false;
+            bool isPassCheck = Activation.GetElevated() == appOptions.IsAdvancedLaunchOptionsEnabled ? true : false;
 
             game.Start();
 

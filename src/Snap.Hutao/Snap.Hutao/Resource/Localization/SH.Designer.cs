@@ -4203,18 +4203,18 @@ namespace Snap.Hutao.Resource.Localization {
         /// <summary>
         ///   查找类似 在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」 的本地化字符串。
         /// </summary>
-        internal static string ViewPageSettingEnabledAdvancedDescription {
+        internal static string ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription {
             get {
-                return ResourceManager.GetString("ViewPageSettingEnabledAdvancedDescription", resourceCulture);
+                return ResourceManager.GetString("ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 启动高级功能 的本地化字符串。
         /// </summary>
-        internal static string ViewPageSettingEnabledAdvancedHeader {
+        internal static string ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader {
             get {
-                return ResourceManager.GetString("ViewPageSettingEnabledAdvancedHeader", resourceCulture);
+                return ResourceManager.GetString("ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader", resourceCulture);
             }
         }
         

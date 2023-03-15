@@ -25,7 +25,7 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     private bool? isEmptyHistoryWishVisible;
     private Core.Windowing.BackdropType? backdropType;
     private CultureInfo? currentCulture;
-    private bool? enabledAdvanced;
+    private bool? isAdvancedLaunchOptionsEnabled;
 
     /// <summary>
     /// 构造一个新的应用程序选项
@@ -176,32 +176,32 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     /// <summary>
     /// 是否启用高级功能
     /// </summary>
-    public bool EnabledAdvanced
+    public bool IsAdvancedLaunchOptionsEnabled
     {
         get
         {
-            if (enabledAdvanced == null)
+            if (isAdvancedLaunchOptionsEnabled == null)
             {
                 using (IServiceScope scope = serviceScopeFactory.CreateScope())
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.EnabledAdvanced)?.Value;
-                    _ = Activation.GetElevated() == true ? enabledAdvanced = value != null && bool.Parse(value) : enabledAdvanced = false;
+                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.IsAdvancedLaunchOptionsEnabled)?.Value;
+                    _ = Activation.GetElevated() == true ? isAdvancedLaunchOptionsEnabled = value != null && bool.Parse(value) : IsAdvancedLaunchOptionsEnabled = false;
                 }
             }
 
-            return enabledAdvanced.Value;
+            return isAdvancedLaunchOptionsEnabled.Value;
         }
 
         set
         {
-            if (SetProperty(ref enabledAdvanced, value))
+            if (SetProperty(ref isAdvancedLaunchOptionsEnabled, value))
             {
                 using (IServiceScope scope = serviceScopeFactory.CreateScope())
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.EnabledAdvanced);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.EnabledAdvanced, value.ToString()));
+                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.IsAdvancedLaunchOptionsEnabled);
+                    appDbContext.Settings.AddAndSave(new(SettingEntry.IsAdvancedLaunchOptionsEnabled, value.ToString()));
                 }
             }
         }
