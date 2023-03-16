@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows10.0.18362.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.18362.0</TargetPlatformMinVersion>
+    <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <RootNamespace>Snap.Hutao</RootNamespace>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <Platform>x64</Platform>
@@ -227,12 +227,13 @@
   
   <!-- Packages -->
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.17" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -249,13 +250,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230217.4" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.2.230313.1" />
     <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="TaskScheduler" Version="2.10.1" />
-    <PackageReference Include="WinUICommunity.SettingsUI" Version="3.0.4" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -529,8 +529,5 @@
     <Page Update="View\Control\BaseValueSlider.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\Binding\BaseValue\" />
   </ItemGroup>
 </Project>

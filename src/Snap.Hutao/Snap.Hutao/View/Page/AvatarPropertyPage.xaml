@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.AvatarPropertyPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cwu="using:CommunityToolkit.WinUI.UI"
     xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
@@ -17,7 +18,6 @@
     xmlns:shct="using:Snap.Hutao.Control.Text"
     xmlns:shva="using:Snap.Hutao.ViewModel.AvatarProperty"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
-    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shva:AvatarPropertyViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -359,18 +359,18 @@
                                                         <Button.Flyout>
                                                             <Flyout Placement="BottomEdgeAlignedLeft">
                                                                 <StackPanel>
-                                                                    <wsc:Setting
+                                                                    <clw:SettingsCard
                                                                         Margin="0,2,0,0"
                                                                         Padding="12,0"
                                                                         Header="{Binding MainProperty.Name}">
                                                                         <TextBlock Text="{Binding MainProperty.Value}"/>
-                                                                    </wsc:Setting>
-                                                                    <wsc:Setting
+                                                                    </clw:SettingsCard>
+                                                                    <clw:SettingsCard
                                                                         Margin="0,2,0,0"
                                                                         Padding="12,0"
                                                                         Header="{Binding SubProperty.Name}">
                                                                         <TextBlock Text="{Binding SubProperty.Description}"/>
-                                                                    </wsc:Setting>
+                                                                    </clw:SettingsCard>
                                                                     <shct:DescriptionTextBlock
                                                                         MaxWidth="320"
                                                                         Margin="0,12,0,0"
@@ -518,14 +518,12 @@
                                                                         <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Info.Parameters}">
                                                                             <ItemsControl.ItemTemplate>
                                                                                 <DataTemplate>
-                                                                                    <wsc:Setting
+                                                                                    <clw:SettingsCard
                                                                                         Margin="0,2,0,0"
                                                                                         Padding="12,0"
                                                                                         Header="{Binding Description}">
-                                                                                        <wsc:Setting.ActionContent>
-                                                                                            <TextBlock Text="{Binding Parameter}"/>
-                                                                                        </wsc:Setting.ActionContent>
-                                                                                    </wsc:Setting>
+                                                                                        <TextBlock Text="{Binding Parameter}"/>
+                                                                                    </clw:SettingsCard>
                                                                                 </DataTemplate>
                                                                             </ItemsControl.ItemTemplate>
                                                                         </ItemsControl>
@@ -541,6 +539,7 @@
                                     <!--  角色属性  -->
                                     <Expander
                                         Margin="16,0,16,0"
+                                        Padding="0"
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Stretch"
                                         Background="{x:Null}"
@@ -756,17 +755,29 @@
                     HorizontalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewPageAvatarPropertyDefaultDescription}"/>
-                <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
-                    <wsc:Setting Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApiDescription}" Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}">
-                        <Button Command="{Binding RefreshFromEnkaApiCommand}" Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"/>
-                    </wsc:Setting>
-                    <wsc:Setting Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}" Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}">
-                        <Button Command="{Binding RefreshFromHoyolabGameRecordCommand}" Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"/>
-                    </wsc:Setting>
-                    <wsc:Setting Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription}" Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}">
-                        <Button Command="{Binding RefreshFromHoyolabCalculateCommand}" Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"/>
-                    </wsc:Setting>
-                </wsc:SettingsGroup>
+                <StackPanel
+                    Margin="0,24,0,0"
+                    HorizontalAlignment="Center"
+                    Spacing="{StaticResource SettingsCardSpacing}">
+                    <clw:SettingsCard
+                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                        Command="{Binding RefreshFromEnkaApiCommand}"
+                        Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApiDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"
+                        IsClickEnabled="True"/>
+                    <clw:SettingsCard
+                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                        Command="{Binding RefreshFromHoyolabGameRecordCommand}"
+                        Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabGameRecord}"
+                        IsClickEnabled="True"/>
+                    <clw:SettingsCard
+                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshAction}"
+                        Command="{Binding RefreshFromHoyolabCalculateCommand}"
+                        Description="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromHoyolabCalculate}"
+                        IsClickEnabled="True"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>

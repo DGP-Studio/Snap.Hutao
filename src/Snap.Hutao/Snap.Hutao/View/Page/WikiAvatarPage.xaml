@@ -472,32 +472,31 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
                                             Grid.Column="0"
-                                            Margin="16,16,0,0"
                                             Style="{StaticResource BaseTextBlockStyle}"
                                             Text="特殊料理"/>
                                         <shvc:BottomTextControl
                                             Grid.Row="1"
                                             Grid.Column="0"
-                                            Margin="16,16,0,16"
+                                            Margin="0,16,0,0"
                                             Text="{Binding Item.Name}">
                                             <shvc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
                                         </shvc:BottomTextControl>
                                         <TextBlock
                                             Grid.Column="1"
-                                            Margin="16,16,0,0"
+                                            Margin="16,0,0,0"
                                             Style="{StaticResource BaseTextBlockStyle}"
                                             Text="原料理"/>
                                         <shvc:BottomTextControl
                                             Grid.Row="1"
                                             Grid.Column="1"
-                                            Margin="16,16,0,16"
+                                            Margin="16,16,0,0"
                                             Text="{Binding OriginItem.Name}">
                                             <shvc:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
                                         </shvc:BottomTextControl>
                                         <StackPanel
                                             Grid.RowSpan="4"
                                             Grid.Column="2"
-                                            Margin="16">
+                                            Margin="16,0,0,0">
                                             <TextBlock
                                                 Grid.Row="2"
                                                 Grid.ColumnSpan="4"
@@ -519,10 +518,10 @@
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
                                     Header="衣装">
-                                    <ItemsControl Margin="0,16,0,0" ItemsSource="{Binding Selected.Costumes}">
+                                    <ItemsControl Margin="0,0,0,-16" ItemsSource="{Binding Selected.Costumes}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid>
+                                                <Grid Margin="0,0,0,16">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="auto"/>
                                                         <ColumnDefinition/>
@@ -530,12 +529,12 @@
                                                     <shci:CachedImage
                                                         Width="80"
                                                         Height="80"
-                                                        Margin="16,0,16,16"
+                                                        Margin="0,0,16,0"
                                                         Source="{StaticResource UI_AvatarIcon_Costume_Card}"/>
                                                     <shci:CachedImage
                                                         Width="80"
                                                         Height="80"
-                                                        Margin="16,0,16,16"
+                                                        Margin="0,0,16,0"
                                                         Source="{Binding Icon, Converter={StaticResource AvatarCardConverter}}"/>
                                                     <StackPanel Grid.Column="1" Margin="0,0,16,-4">
                                                         <TextBlock Text="{Binding Name}"/>
@@ -558,14 +557,14 @@
                                     <ItemsControl ItemsSource="{Binding Selected.FetterInfo.Fetters}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Margin="0,0,0,-4">
-                                                    <TextBlock Margin="16,16,16,0" Text="{Binding Title}"/>
-                                                    <shct:DescriptionTextBlock Margin="16,8,16,16" Description="{Binding Context}">
+                                                <StackPanel Margin="0,0,0,0">
+                                                    <TextBlock Text="{Binding Title}"/>
+                                                    <shct:DescriptionTextBlock Margin="0,8,0,0" Description="{Binding Context}">
                                                         <shct:DescriptionTextBlock.Resources>
                                                             <Style BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock"/>
                                                         </shct:DescriptionTextBlock.Resources>
                                                     </shct:DescriptionTextBlock>
-                                                    <MenuFlyoutSeparator Margin="16,0"/>
+                                                    <MenuFlyoutSeparator Margin="0,8"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -580,13 +579,13 @@
                                     <ItemsControl ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel Margin="0,0,0,-4">
-                                                    <TextBlock Margin="16,16,16,0" Text="{Binding Title}"/>
+                                                <StackPanel Margin="0,0,0,0">
+                                                    <TextBlock Text="{Binding Title}"/>
                                                     <TextBlock
-                                                        Margin="16,8,16,16"
+                                                        Margin="0,8,0,0"
                                                         Style="{StaticResource CaptionTextBlockStyle}"
                                                         Text="{Binding Context}"/>
-                                                    <MenuFlyoutSeparator Margin="16,0"/>
+                                                    <MenuFlyoutSeparator Margin="0,8"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>

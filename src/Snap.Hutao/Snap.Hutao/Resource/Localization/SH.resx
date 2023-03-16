@@ -1381,7 +1381,7 @@
     <value>检测</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
-    <value>账号</value>
+    <value>检测账号</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
     <value>删除</value>
@@ -1504,7 +1504,7 @@
     <value>启动高级功能</value>
   </data>
   <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
-    <value>您解锁了「启动游戏-高级功能」！其含有潜在违反原神服务条款的风险，一旦启用，您将咨询承担可能的后果。慎重选择！</value>
+    <value>您解锁了含有违反原神服务条款风险的「启动游戏-高级功能」，将自行承担任何不良后果。</value>
   </data>
   <data name="ViewPageSettingFeedbackDescription" xml:space="preserve">
     <value>Github 上反馈的问题会优先处理</value>
@@ -1784,5 +1784,8 @@
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>状态：{0} | 信息：{1}</value>
+  </data>
+  <data name="ViewDialogUserTitle" xml:space="preserve">
+    <value>设置 Cookie</value>
   </data>
 </root>
