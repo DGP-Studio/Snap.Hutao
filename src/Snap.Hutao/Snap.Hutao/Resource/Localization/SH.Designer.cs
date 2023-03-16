@@ -1987,6 +1987,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 设置 Cookie 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogUserTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogUserTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 祈愿记录 的本地化字符串。
         /// </summary>
         internal static string ViewGachaLogHeader {
@@ -3850,7 +3859,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 账号 的本地化字符串。
+        ///   查找类似 检测账号 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameSwitchAccountHeader {
             get {
@@ -4201,25 +4210,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription {
-            get {
-                return ResourceManager.GetString("ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 启动高级功能 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader {
-            get {
-                return ResourceManager.GetString("ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 您解锁了「启动游戏-高级功能」！其含有潜在违反原神服务条款的风险，一旦启用，您将咨询承担可能的后果。慎重选择！ 的本地化字符串。
+        ///   查找类似 您解锁了含有违反原神服务条款风险的「启动游戏-高级功能」，将自行承担任何不良后果。 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingFeaturesDangerousHint {
             get {
@@ -4269,6 +4260,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingGameHeader {
             get {
                 return ResourceManager.GetString("ViewPageSettingGameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启动高级功能 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader", resourceCulture);
             }
         }
         

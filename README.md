@@ -22,6 +22,7 @@
 ### 使用的技术栈
 
 * [CommunityToolkit/dotnet](https://github.com/CommunityToolkit/dotnet)
+* [CommunityToolkit/Labs-Windows](https://github.com/CommunityToolkit/Labs-Windows)
 * [CommunityToolkit/WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 * [dahall/taskscheduler](https://github.com/dahall/taskscheduler)
 * [dotnet/efcore](https://github.com/dotnet/efcore)
@@ -32,7 +33,6 @@
 * [microsoft/vs-validation](https://github.com/microsoft/vs-validation)
 * [microsoft/WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
 * [microsoft/microsoft-ui-xaml](https://github.com/microsoft/microsoft-ui-xaml)
-* [WinUICommunity/SettingsUI](https://github.com/WinUICommunity/SettingsUI)
 
 ### 支撑项目
 

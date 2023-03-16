@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.GachaLogPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -12,7 +13,6 @@
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
-    xmlns:wsc="using:WinUICommunity.SettingsUI.Controls"
     d:DataContext="{d:DesignInstance shvg:GachaLogViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -481,33 +481,39 @@
                     HorizontalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewPageGachaLogHint}"/>
-                <wsc:SettingsGroup Margin="0,-36,0,0" HorizontalAlignment="Center">
-                    <wsc:Setting
+                <StackPanel
+                    Margin="0,24,0,0"
+                    HorizontalAlignment="Center"
+                    Spacing="{StaticResource SettingsCardSpacing}">
+                    <clw:SettingsCard
+                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
+                        Command="{Binding RefreshByStokenCommand}"
                         Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByStokenDescription}"
                         Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByStoken}"
-                        Icon="{shcm:FontIcon Glyph=&#xE192;}"
-                        Style="{StaticResource DefaultSettingStyle}">
-                        <Button Command="{Binding RefreshByStokenCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"/>
-                    </wsc:Setting>
-                    <wsc:Setting
+                        HeaderIcon="{shcm:FontIcon Glyph=&#xE192;}"
+                        IsClickEnabled="True"/>
+                    <clw:SettingsCard
+                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
+                        Command="{Binding RefreshByWebCacheCommand}"
                         Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCacheDescription}"
                         Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByWebCache}"
-                        Icon="{shcm:FontIcon Glyph=&#xE81E;}">
-                        <Button Command="{Binding RefreshByWebCacheCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"/>
-                    </wsc:Setting>
-                    <wsc:Setting
+                        HeaderIcon="{shcm:FontIcon Glyph=&#xE81E;}"
+                        IsClickEnabled="True"/>
+                    <clw:SettingsCard
+                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogInputAction}"
+                        Command="{Binding RefreshByManualInputCommand}"
                         Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshBymanualInputDescription}"
                         Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshBymanualInput}"
-                        Icon="{shcm:FontIcon Glyph=&#xE765;}">
-                        <Button Command="{Binding RefreshByManualInputCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogInputAction}"/>
-                    </wsc:Setting>
-                    <wsc:Setting
+                        HeaderIcon="{shcm:FontIcon Glyph=&#xE765;}"
+                        IsClickEnabled="True"/>
+                    <clw:SettingsCard
+                        ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogImportAction}"
+                        Command="{Binding ImportFromUIGFJsonCommand}"
                         Description="{shcm:ResourceString Name=ViewPageGachaLogImportDescription}"
                         Header="{shcm:ResourceString Name=ViewPageGachaLogImportHeader}"
-                        Icon="{shcm:FontIcon Glyph=&#xE8B5;}">
-                        <Button Command="{Binding ImportFromUIGFJsonCommand}" Content="{shcm:ResourceString Name=ViewPageGachaLogImportAction}"/>
-                    </wsc:Setting>
-                </wsc:SettingsGroup>
+                        HeaderIcon="{shcm:FontIcon Glyph=&#xE8B5;}"
+                        IsClickEnabled="True"/>
+                </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>
