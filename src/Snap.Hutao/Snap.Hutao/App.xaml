@@ -10,7 +10,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <muxc:XamlControlsResources/>
-                <ResourceDictionary Source="ms-appx:///SettingsUI/Themes/Generic.xaml"/>
                 <ResourceDictionary Source="Control/Theme/FontStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -48,6 +47,17 @@
             <GridLength x:Key="CompatGridLength2">268</GridLength>
             <!--  Brushes  -->
             <SolidColorBrush x:Key="AvatarPropertyAddValueBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
+            <!--  Settings  -->
+            <x:Double x:Key="SettingsCardSpacing">3</x:Double>
+
+            <Style
+                x:Key="SettingsSectionHeaderTextBlockStyle"
+                BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+                TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="1,29,0,5"/>
+                </Style.Setters>
+            </Style>
             <!--  Uris  -->
             <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html</x:String>
             <x:String x:Key="DocumentLink_BugReport">https://hut.ao/statements/bug-report.html</x:String>

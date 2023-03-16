@@ -3,8 +3,6 @@
 
 using CommunityToolkit.WinUI.UI;
 using System.Runtime.InteropServices;
-using BindingAchievement = Snap.Hutao.ViewModel.Achievement.AchievementView;
-using BindingAchievementGoal = Snap.Hutao.ViewModel.Achievement.AchievementGoalView;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
@@ -35,10 +33,10 @@ internal sealed class AchievementFinishPercentUpdater
 
         if (viewModel.Achievements is AdvancedCollectionView achievements)
         {
-            if (viewModel.AchievementGoals is List<BindingAchievementGoal> achievementGoals)
+            if (viewModel.AchievementGoals is List<AchievementGoalView> achievementGoals)
             {
                 Dictionary<int, AchievementGoalStatistics> counter = achievementGoals.ToDictionary(x => x.Id, x => new AchievementGoalStatistics(x));
-                foreach (BindingAchievement achievement in achievements.SourceCollection.Cast<BindingAchievement>())
+                foreach (AchievementView achievement in achievements.SourceCollection.Cast<AchievementView>())
                 {
                     // We want to make the state update as fast as possible,
                     // so we use CollectionsMarshal here to get the ref.
