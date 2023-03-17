@@ -53,6 +53,11 @@ internal sealed class User : ISelectable
     public Cookie? Stoken { get; set; }
 
     /// <summary>
+    /// 是否为国际服账号
+    /// </summary>
+    public bool IsOversea { get; set; }
+
+    /// <summary>
     /// 创建一个新的用户
     /// </summary>
     /// <param name="cookie">cookie</param>

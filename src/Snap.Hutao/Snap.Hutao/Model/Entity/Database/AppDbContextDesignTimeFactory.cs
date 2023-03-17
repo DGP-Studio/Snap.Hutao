@@ -16,7 +16,12 @@ internal sealed class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactor
     [EditorBrowsable(EditorBrowsableState.Never)]
     public AppDbContext CreateDbContext(string[] args)
     {
-        string userdataDbName = System.IO.Path.Combine(Core.CoreEnvironment.DataFolder, "Userdata.db");
+#if DEBUG
+        // TODO: replace with your own database file path.
+        string userdataDbName = @"D:\Hutao\Userdata.db";
         return AppDbContext.Create($"Data Source={userdataDbName}");
+#else
+        throw;
+#endif
     }
 }

@@ -10,28 +10,27 @@
     d:DataContext="{d:DesignInstance shv:TestViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <Page.Resources>
-        <Style BasedOn="{StaticResource SettingButtonStyle}" TargetType="Button">
-            <Setter Property="MinWidth" Value="160"/>
-        </Style>
-    </Page.Resources>
     <ScrollViewer>
-        <StackPanel Margin="16">
-            <clw:SettingsCard Header="DangerousLoginMihoyoBbsTest">
-                <Button Command="{Binding DangerousLoginMihoyoBbsCommand}" Content="Login"/>
-            </clw:SettingsCard>
+        <StackPanel Margin="16" Spacing="{StaticResource SettingsCardSpacing}">
+            <clw:SettingsCard
+                Command="{Binding DangerousLoginMihoyoBbsCommand}"
+                Header="DangerousLoginMihoyoBbsTest"
+                IsClickEnabled="True"/>
 
-            <clw:SettingsCard Header="CommunityGameRecordDialogTest">
-                <Button Command="{Binding ShowCommunityGameRecordDialogCommand}" Content="Open"/>
-            </clw:SettingsCard>
+            <clw:SettingsCard
+                Command="{Binding ShowCommunityGameRecordDialogCommand}"
+                Header="CommunityGameRecordDialogTest"
+                IsClickEnabled="True"/>
 
-            <clw:SettingsCard Header="AdoptCalculatorDialogTest">
-                <Button Command="{Binding ShowAdoptCalculatorDialogCommand}" Content="Open"/>
-            </clw:SettingsCard>
+            <clw:SettingsCard
+                Command="{Binding ShowAdoptCalculatorDialogCommand}"
+                Header="AdoptCalculatorDialogTest"
+                IsClickEnabled="True"/>
 
-            <clw:SettingsCard Header="DownloadStaticFileTest">
-                <Button Command="{Binding DownloadStaticFileCommand}" Content="Download"/>
-            </clw:SettingsCard>
+            <clw:SettingsCard
+                Command="{Binding DownloadStaticFileCommand}"
+                Header="DownloadStaticFileTest"
+                IsClickEnabled="True"/>
 
             <clw:SettingsCard Header="RestartTest">
                 <StackPanel Orientation="Horizontal">
