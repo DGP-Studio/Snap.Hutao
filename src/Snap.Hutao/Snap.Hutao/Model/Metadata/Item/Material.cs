@@ -85,12 +85,13 @@ internal sealed class Material : Display
         // TODO: Currently only support CN
         return TypeDescription switch
         {
-            "角色与武器培养素材" => true,
-            "角色经验素材" => true,
-            "角色突破素材" => true,
-            "角色天赋素材" => true,
-            "武器强化素材" => true,
-            "武器突破素材" => true,
+            "角色与武器培养素材" => true, // 怪物掉落
+            "角色经验素材" => true,      // 经验书
+            "角色突破素材" => true,      // 元素晶石
+            "角色天赋素材" => true,      // 天赋本
+            "角色培养素材" => true,      // 40体BOSS/周本掉落
+            "武器强化素材" => true,      // 魔矿
+            "武器突破素材" => true,      // 武器本
             _ => false,
         };
     }
