@@ -65,7 +65,8 @@ steps:
   inputs:
     command: 'restore'
     restoreSolution: '$(solution)'
-    feedsToUse: 'select'
+    feedsToUse: 'config'
+    nugetConfigPath: '$(Build.SourcesDirectory)/NuGet.Config'
 
 - task: MsixPackaging@1
   displayName: Build binary package
