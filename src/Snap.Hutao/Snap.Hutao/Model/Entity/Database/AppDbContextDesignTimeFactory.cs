@@ -21,7 +21,7 @@ internal sealed class AppDbContextDesignTimeFactory : IDesignTimeDbContextFactor
         string userdataDbName = @"D:\Hutao\Userdata.db";
         return AppDbContext.Create($"Data Source={userdataDbName}");
 #else
-        throw;
+        throw Must.NeverHappen();
 #endif
     }
 }
