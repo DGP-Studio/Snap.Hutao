@@ -74,7 +74,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         return WriteProcessMemory(process.SafeHandle, (void*)baseAddress, lpBuffer, sizeof(int), null);
     }
 
-    private static unsafe MODULEENTRY32 UnsafeFindModule(int processId, string moduleName)
+    private static unsafe MODULEENTRY32 UnsafeFindModule(int processId, ReadOnlySpan<byte> moduleName)
     {
         HANDLE snapshot = CreateToolhelp32Snapshot(CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE, (uint)processId);
         try
@@ -87,7 +87,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             bool loop = Module32First(snapshot, &entry);
             while (loop)
             {
-                if (entry.th32ProcessID == processId && entry.szModule.AsString() == moduleName)
+                if (entry.th32ProcessID == processId && entry.szModule.AsNullTerminatedReadOnlySpan() == moduleName)
                 {
                     found = true;
                     break;
@@ -110,7 +110,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         while (true)
         {
-            MODULEENTRY32 module = UnsafeFindModule(gameProcess.Id, "UnityPlayer.dll");
+            MODULEENTRY32 module = UnsafeFindModule(gameProcess.Id, "UnityPlayer.dll"u8);
             if (!StructMarshal.IsDefault(module))
             {
                 return module;

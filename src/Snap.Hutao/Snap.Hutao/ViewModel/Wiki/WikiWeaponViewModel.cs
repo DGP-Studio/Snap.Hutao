@@ -246,7 +246,6 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
         private static bool DoFilter(string input, Weapon weapon)
         {
             List<bool> matches = new();
-            LocalizedIntrinsicImmutables intrinsics = IntrinsicImmutables.GetForCurrentCulture();
 
             foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
             {
@@ -258,19 +257,19 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
                     continue;
                 }
 
-                if (intrinsics.WeaponTypes.Contains(value))
+                if (IntrinsicImmutables.WeaponTypes.Contains(value))
                 {
                     matches.Add(weapon.WeaponType.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (intrinsics.ItemQualities.Contains(value))
+                if (IntrinsicImmutables.ItemQualities.Contains(value))
                 {
                     matches.Add(weapon.Quality.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (intrinsics.FightProperties.Contains(value))
+                if (IntrinsicImmutables.FightProperties.Contains(value))
                 {
                     matches.Add(weapon.GrowCurves.ElementAtOrDefault(1).Key.GetLocalizedDescriptionOrDefault() == value);
                     continue;

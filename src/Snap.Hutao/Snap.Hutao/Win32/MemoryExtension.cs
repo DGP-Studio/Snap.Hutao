@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Text;
+using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 
 namespace Snap.Hutao.Win32;
@@ -17,22 +17,11 @@ internal static class MemoryExtension
     /// </summary>
     /// <param name="char256">目标字符数组</param>
     /// <returns>结果字符串</returns>
-    public static unsafe string AsString(this in __CHAR_256 char256)
+    public static unsafe ReadOnlySpan<byte> AsNullTerminatedReadOnlySpan(this in __CHAR_256 char256)
     {
-        fixed (CHAR* pszModule = &char256._0)
+        fixed (CHAR* pszChar = &char256._0)
         {
-            return Encoding.UTF8.GetString((byte*)pszModule, StringLength(pszModule));
+            return MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)pszChar);
         }
-    }
-
-    private static unsafe int StringLength(CHAR* pszStr)
-    {
-        int len = 0;
-        while (*pszStr++ != 0)
-        {
-            ++len;
-        }
-
-        return len;
     }
 }
