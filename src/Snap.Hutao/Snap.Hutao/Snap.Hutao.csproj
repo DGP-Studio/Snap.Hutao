@@ -223,10 +223,9 @@
     <Content Include="Resource\WelcomeView_Background.png" />
   </ItemGroup>
 
-
-  
   <!-- Packages -->
   <ItemGroup>
+    <!-- https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -->
     <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.17" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />

@@ -256,7 +256,6 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
         private static bool DoFilter(string input, Avatar avatar)
         {
             List<bool> matches = new();
-            LocalizedIntrinsicImmutables intrinsics = IntrinsicImmutables.GetForCurrentCulture();
 
             foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
             {
@@ -268,31 +267,31 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
                     continue;
                 }
 
-                if (intrinsics.ElementNames.Contains(value))
+                if (IntrinsicImmutables.ElementNames.Contains(value))
                 {
                     matches.Add(avatar.FetterInfo.VisionBefore == value);
                     continue;
                 }
 
-                if (intrinsics.AssociationTypes.Contains(value))
+                if (IntrinsicImmutables.AssociationTypes.Contains(value))
                 {
                     matches.Add(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (intrinsics.WeaponTypes.Contains(value))
+                if (IntrinsicImmutables.WeaponTypes.Contains(value))
                 {
                     matches.Add(avatar.Weapon.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (intrinsics.ItemQualities.Contains(value))
+                if (IntrinsicImmutables.ItemQualities.Contains(value))
                 {
                     matches.Add(avatar.Quality.GetLocalizedDescriptionOrDefault() == value);
                     continue;
                 }
 
-                if (intrinsics.BodyTypes.Contains(value))
+                if (IntrinsicImmutables.BodyTypes.Contains(value))
                 {
                     matches.Add(avatar.Body.GetLocalizedDescriptionOrDefault() == value);
                     continue;

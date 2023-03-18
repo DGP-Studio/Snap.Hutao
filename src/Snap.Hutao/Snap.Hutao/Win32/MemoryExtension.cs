@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
 using System.Text;
 using Windows.Win32.Foundation;
 
@@ -19,6 +20,7 @@ internal static class MemoryExtension
     /// <returns>结果字符串</returns>
     public static unsafe string AsString(this in __CHAR_256 char256)
     {
+        MemoryMarshal.AsBytes(char256.AsReadOnlySpan());
         fixed (CHAR* pszModule = &char256._0)
         {
             return Encoding.UTF8.GetString((byte*)pszModule, StringLength(pszModule));
