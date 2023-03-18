@@ -173,6 +173,7 @@ steps:
     changeLogType: 'commitBased'
 
 - task: DownloadSecureFile@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   name: RcloneConfigFile
   displayName: Download Rclone Config
   inputs:
@@ -180,6 +181,7 @@ steps:
 
 - task: rclone@1
   displayName: Upload CI via Rclone
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   inputs:
     arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/Alpha/'
     configPath: '$(RcloneConfigFile.secureFilePath)'
