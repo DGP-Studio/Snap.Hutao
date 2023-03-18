@@ -1788,4 +1788,10 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>设置 Cookie</value>
   </data>
+  <data name="ViewDialogSettingDeleteUserDataText" xml:space="preserve">
+    <value>是否要删除用户的全部数据，这是不可逆的操作。</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
+    <value>是否删除用户数据</value>
+  </data>
 </root>

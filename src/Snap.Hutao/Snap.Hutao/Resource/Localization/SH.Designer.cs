@@ -1951,6 +1951,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 是否要删除用户的全部数据，这是不可逆的操作。 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingDeleteUserDataText {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingDeleteUserDataText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否删除用户数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingDeleteUserDataTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingDeleteUserDataTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 立即前往 的本地化字符串。
         /// </summary>
         internal static string ViewDialogUserDocumentAction {

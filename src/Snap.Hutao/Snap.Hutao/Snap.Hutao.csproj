@@ -125,6 +125,7 @@
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
+    <None Remove="View\Dialog\SettingDeleteUserDataDialog.xaml" />
     <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
     <None Remove="View\MainView.xaml" />
@@ -286,6 +287,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Dialog\SettingDeleteUserDataDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   
   <!-- Pages -->

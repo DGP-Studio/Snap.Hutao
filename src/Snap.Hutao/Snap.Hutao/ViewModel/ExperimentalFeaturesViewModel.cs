@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.View.Dialog;
 using Windows.Storage;
 using Windows.System;
 
@@ -62,11 +63,17 @@ internal sealed class ExperimentalFeaturesViewModel : ObservableObject
 
     private async Task DangerousDeleteUsersAsync()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        await ThreadHelper.SwitchToMainThreadAsync();
+        bool isOk = await new SettingDeleteUserDataDialog().GetClickButtonResultAsync().ConfigureAwait(false);
+
+        if (isOk)
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
-            AppInstance.Restart(string.Empty);
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
+                AppInstance.Restart(string.Empty);
+            }
         }
     }
 }
