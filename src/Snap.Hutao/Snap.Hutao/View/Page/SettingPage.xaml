@@ -18,52 +18,56 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="16,16,24,16" Spacing="{StaticResource SettingsCardSpacing}">
-                <Border Height="240" Style="{StaticResource BorderCardStyle}">
+                <Border Height="280" Style="{StaticResource BorderCardStyle}">
                     <Grid>
                         <Image
                             VerticalAlignment="Center"
                             Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
                             Stretch="UniformToFill"/>
                         <Grid Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
-                            <Image Margin="48" Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Image
+                                Grid.Row="0"
+                                Margin="48"
+                                Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                            <StackPanel
+                                Grid.Row="1"
+                                Margin="8"
+                                VerticalAlignment="Bottom"
+                                Orientation="Horizontal">
+                                <HyperlinkButton
+                                    Margin="0,0,0,0"
+                                    Command="{Binding UpdateCheckCommand}"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingOfficialSiteNavigate}"
+                                    NavigateUri="{StaticResource DocumentLink_Home}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingFeedbackNavigate}"
+                                    NavigateUri="{StaticResource DocumentLink_BugReport}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingTranslateNavigate}"
+                                    NavigateUri="{StaticResource DocumentLink_Translate}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingSponsorNavigate}"
+                                    NavigateUri="{StaticResource Sponsor_Afadian}"/>
+                            </StackPanel>
                         </Grid>
                     </Grid>
                 </Border>
                 <TextBlock
                     Grid.Row="0"
+                    Margin="0,4"
                     Text="Copyright © 2022 - 2023 DGP Studio. All Rights Reserved."
                     TextWrapping="Wrap"/>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingAboutHeader}"/>
-                <Grid Margin="0,4,0,16" RowSpacing="8">
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-
-                    <StackPanel
-                        Grid.Row="1"
-                        VerticalAlignment="Bottom"
-                        Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center" Text="{shcm:ResourceString Name=ViewPageSettingLinks}"/>
-                        <HyperlinkButton
-                            Margin="12,0,0,0"
-                            Command="{Binding UpdateCheckCommand}"
-                            Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
-                        <HyperlinkButton
-                            Margin="12,0,0,0"
-                            Content="{shcm:ResourceString Name=ViewPageSettingFeedbackNavigate}"
-                            NavigateUri="{StaticResource DocumentLink_BugReport}"/>
-                        <HyperlinkButton
-                            Margin="12,0,0,0"
-                            Content="{shcm:ResourceString Name=ViewPageSettingTranslateNavigate}"
-                            NavigateUri="{StaticResource DocumentLink_Translate}"/>
-                        <HyperlinkButton
-                            Margin="12,0,0,0"
-                            Content="{shcm:ResourceString Name=ViewPageSettingSponsorNavigate}"
-                            NavigateUri="{StaticResource Sponsor_Afadian}"/>
-                    </StackPanel>
-
-                </Grid>
                 <clw:SettingsCard
                     Description="{Binding AppVersion}"
                     Header="{shcm:ResourceString Name=AppName}"

@@ -15,7 +15,7 @@ internal static class CastableServiceExtension
     /// <typeparam name="T">目标转换类型</typeparam>
     /// <param name="service">对象</param>
     /// <returns>转换类型后的对象</returns>
-    public static T? ImplictAs<T>(this ICastableService service)
+    public static T? As<T>(this ICastableService service)
         where T : class
     {
         return service as T;

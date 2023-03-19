@@ -5,7 +5,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Windows.Storage;
@@ -64,9 +66,18 @@ internal sealed class ExperimentalFeaturesViewModel : ObservableObject
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
-            AppInstance.Restart(string.Empty);
+            ContentDialogResult result = await scope.ServiceProvider
+                .GetRequiredService<IContentDialogFactory>()
+                .ConfirmCancelAsync(SH.ViewDialogSettingDeleteUserDataTitle, SH.ViewDialogSettingDeleteUserDataContent)
+                .ConfigureAwait(false);
+
+            if (result == ContentDialogResult.Primary)
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
+
+                AppInstance.Restart(string.Empty);
+            }
         }
     }
 }

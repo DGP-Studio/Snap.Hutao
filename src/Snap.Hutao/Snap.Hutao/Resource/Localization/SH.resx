@@ -1788,4 +1788,13 @@
   <data name="ViewDialogUserTitle" xml:space="preserve">
     <value>设置 Cookie</value>
   </data>
+  <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
+    <value>前往官网</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
+    <value>该操作是不可逆的，所有用户登录状态会丢失</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
+    <value>是否永久删除用户数据</value>
+  </data>
 </root>

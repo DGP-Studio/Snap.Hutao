@@ -204,7 +204,7 @@ internal sealed class WelcomeViewModel : ObservableObject
 
         private void ExtractFiles(string file)
         {
-            IImageCacheFilePathOperation imageCache = serviceProvider.GetRequiredService<IImageCache>().ImplictAs<IImageCacheFilePathOperation>()!;
+            IImageCacheFilePathOperation imageCache = serviceProvider.GetRequiredService<IImageCache>().As<IImageCacheFilePathOperation>()!;
             try
             {
                 using (ZipArchive archive = ZipFile.OpenRead(file))

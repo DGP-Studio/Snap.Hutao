@@ -1951,6 +1951,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 该操作是不可逆的，所有用户登录状态会丢失 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingDeleteUserDataContent {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingDeleteUserDataContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否永久删除用户数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingDeleteUserDataTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingDeleteUserDataTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 立即前往 的本地化字符串。
         /// </summary>
         internal static string ViewDialogUserDocumentAction {
@@ -4287,6 +4305,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingLinks {
             get {
                 return ResourceManager.GetString("ViewPageSettingLinks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 前往官网 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingOfficialSiteNavigate {
+            get {
+                return ResourceManager.GetString("ViewPageSettingOfficialSiteNavigate", resourceCulture);
             }
         }
         
