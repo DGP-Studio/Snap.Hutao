@@ -42,13 +42,13 @@ internal sealed class AuthClient
     /// <param name="action">操作</param>
     /// <param name="user">用户</param>
     /// <returns>操作凭证</returns>
-    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
+    [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.K2)]
     public async Task<Response<ActionTicketWrapper>> GetActionTicketByStokenAsync(string action, User user)
     {
         Response<ActionTicketWrapper>? resp = await httpClient
-                .SetUser(user, CookieType.Stoken)
+                .SetUser(user, CookieType.SToken)
                 .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
-                .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, user.Stoken?[Cookie.STOKEN] ?? string.Empty, user.Aid!), options, logger)
+                .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, user.SToken?[Cookie.STOKEN] ?? string.Empty, user.Aid!), options, logger)
                 .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

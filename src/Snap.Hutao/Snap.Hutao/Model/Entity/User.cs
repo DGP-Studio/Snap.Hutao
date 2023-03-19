@@ -43,14 +43,16 @@ internal sealed class User : ISelectable
     public Cookie? CookieToken { get; set; }
 
     /// <summary>
-    /// 用户的 Ltoken
+    /// 用户的 LToken
     /// </summary>
-    public Cookie? Ltoken { get; set; }
+    [Column("Ltoken")] // DO NOT RENAME
+    public Cookie? LToken { get; set; }
 
     /// <summary>
-    /// 用户的 Stoken V2
+    /// 用户的 SToken V2
     /// </summary>
-    public Cookie? Stoken { get; set; }
+    [Column("Stoken")] // DO NOT RENAME
+    public Cookie? SToken { get; set; }
 
     /// <summary>
     /// 是否为国际服账号
@@ -68,6 +70,6 @@ internal sealed class User : ISelectable
         _ = cookie.TryGetAsLtoken(out Cookie? ltoken);
         _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
 
-        return new() { Stoken = stoken, Ltoken = ltoken, CookieToken = cookieToken };
+        return new() { SToken = stoken, LToken = ltoken, CookieToken = cookieToken };
     }
 }

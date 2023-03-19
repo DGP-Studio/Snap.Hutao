@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Model.Binding.SpiralAbyss;
+namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 /// <summary>
 /// 深渊视图
@@ -16,7 +16,7 @@ internal sealed class SpiralAbyssView
     /// </summary>
     /// <param name="spiralAbyss">深渊信息</param>
     /// <param name="idAvatarMap">Id角色映射</param>
-    public SpiralAbyssView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss, Dictionary<AvatarId, Metadata.Avatar.Avatar> idAvatarMap)
+    public SpiralAbyssView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
     {
         Schedule = string.Format(SH.ModelEntitySpiralAbyssScheduleFormat, spiralAbyss.ScheduleId);
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;

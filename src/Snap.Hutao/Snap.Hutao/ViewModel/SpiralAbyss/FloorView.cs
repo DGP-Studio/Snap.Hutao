@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Model.Binding.SpiralAbyss;
+namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 /// <summary>
 /// 层视图
@@ -16,7 +16,7 @@ internal sealed class FloorView
     /// </summary>
     /// <param name="floor">层</param>
     /// <param name="idAvatarMap">Id角色映射</param>
-    public FloorView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor floor, Dictionary<AvatarId, Metadata.Avatar.Avatar> idAvatarMap)
+    public FloorView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor floor, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
     {
         Index = string.Format(SH.ModelBindingHutaoComplexRankFloor, floor.Index);
         SettleTime = $"{DateTimeOffset.FromUnixTimeSeconds(floor.SettleTime).ToLocalTime():yyyy.MM.dd HH:mm:ss}";

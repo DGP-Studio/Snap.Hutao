@@ -41,11 +41,11 @@ internal sealed class BindingClient2
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.LK2)]
+    [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.LK2)]
     public async Task<List<UserGameRole>> GetUserGameRolesByStokenAsync(User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.Stoken)
+            .SetUser(user, CookieType.SToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, true)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(ApiEndpoints.UserGameRolesByStoken, options, logger, token)
             .ConfigureAwait(false);
@@ -61,11 +61,11 @@ internal sealed class BindingClient2
     /// <param name="data">提交数据</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.LK2)]
+    [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.LK2)]
     public async Task<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         Response<GameAuthKey>? resp = await httpClient
-            .SetUser(user, CookieType.Stoken)
+            .SetUser(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, true)
             .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.BindingGenAuthKey, data, options, logger, token)

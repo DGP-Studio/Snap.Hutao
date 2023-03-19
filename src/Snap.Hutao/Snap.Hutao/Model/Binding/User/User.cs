@@ -75,18 +75,18 @@ internal sealed class User : ObservableObject
         set => inner.CookieToken = value;
     }
 
-    /// <inheritdoc cref="EntityUser.Ltoken"/>
-    public Cookie? Ltoken
+    /// <inheritdoc cref="EntityUser.LToken"/>
+    public Cookie? LToken
     {
-        get => inner.Ltoken;
-        set => inner.Ltoken = value;
+        get => inner.LToken;
+        set => inner.LToken = value;
     }
 
-    /// <inheritdoc cref="EntityUser.Stoken"/>
-    public Cookie? Stoken
+    /// <inheritdoc cref="EntityUser.SToken"/>
+    public Cookie? SToken
     {
-        get => inner.Stoken;
-        set => inner.Stoken = value;
+        get => inner.SToken;
+        set => inner.SToken = value;
     }
 
     /// <summary>
@@ -145,93 +145,127 @@ internal sealed class User : ObservableObject
     {
         if (isInitialized)
         {
+            // Prevent multiple initialization.
             return true;
         }
 
-        if (Stoken == null)
+        if (SToken == null)
         {
             return false;
         }
 
         using (IServiceScope scope = Ioc.Default.CreateScope())
         {
-            Response<UserFullInfoWrapper> response = await scope.ServiceProvider
-                .GetRequiredService<UserClient>()
-                .GetUserFullInfoAsync(Entity, token)
-                .ConfigureAwait(false);
-            UserInfo = response.Data?.UserInfo;
-
-            // 自动填充 Ltoken
-            if (Ltoken == null)
+            if (!await TrySetUserInfoAsync(scope.ServiceProvider, token).ConfigureAwait(false))
             {
-                Response<LtokenWrapper> ltokenResponse = await scope.ServiceProvider
-                    .GetRequiredService<PassportClient2>()
-                    .GetLtokenBySTokenAsync(Entity, token)
-                    .ConfigureAwait(false);
-
-                if (ltokenResponse.IsOk())
-                {
-                    Cookie ltokenCookie = Cookie.Parse($"ltuid={Entity.Aid};ltoken={ltokenResponse.Data.Ltoken}");
-                    Entity.Ltoken = ltokenCookie;
-                }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
 
-            Response<ActionTicketWrapper> actionTicketResponse = await scope.ServiceProvider
+            if (!await TrySetLTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
+            {
+                return false;
+            }
+
+            if (!await TrySetUserGameRolesAsync(scope.ServiceProvider, token).ConfigureAwait(false))
+            {
+                return false;
+            }
+
+            if (await TrySetCookieTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
+            {
+                return false;
+            }
+        }
+
+        SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
+        return isInitialized = true;
+    }
+
+    private async Task<bool> TrySetLTokenAsync(IServiceProvider provider, CancellationToken token)
+    {
+        if (LToken != null)
+        {
+            return true;
+        }
+
+        Response<LtokenWrapper> lTokenResponse = await provider
+            .GetRequiredService<PassportClient2>()
+            .GetLTokenBySTokenAsync(Entity, token)
+            .ConfigureAwait(false);
+
+        if (lTokenResponse.IsOk())
+        {
+            LToken = Cookie.Parse($"{Cookie.LTUID}={Entity.Aid};{Cookie.LTOKEN}={lTokenResponse.Data.Ltoken}");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private async Task<bool> TrySetCookieTokenAsync(IServiceProvider provider, CancellationToken token)
+    {
+        if (CookieToken != null)
+        {
+            return true;
+        }
+
+        Response<UidCookieToken> cookieTokenResponse = await provider
+            .GetRequiredService<PassportClient2>()
+            .GetCookieAccountInfoBySTokenAsync(Entity, token)
+            .ConfigureAwait(false);
+
+        if (cookieTokenResponse.IsOk())
+        {
+            CookieToken = Cookie.Parse($"{Cookie.ACCOUNT_ID}={Entity.Aid};{Cookie.COOKIE_TOKEN}={cookieTokenResponse.Data.CookieToken}");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private async Task<bool> TrySetUserInfoAsync(IServiceProvider provider, CancellationToken token)
+    {
+        Response<UserFullInfoWrapper> response = await provider
+            .GetRequiredService<UserClient>()
+            .GetUserFullInfoAsync(Entity, token)
+            .ConfigureAwait(false);
+        UserInfo = response.Data?.UserInfo;
+        return UserInfo != null;
+    }
+
+    private async Task<bool> TrySetUserGameRolesAsync(IServiceProvider provider, CancellationToken token)
+    {
+        Response<ActionTicketWrapper> actionTicketResponse = await provider
                 .GetRequiredService<AuthClient>()
                 .GetActionTicketByStokenAsync("game_role", Entity)
                 .ConfigureAwait(false);
 
-            if (actionTicketResponse.IsOk())
+        if (actionTicketResponse.IsOk())
+        {
+            string actionTicket = actionTicketResponse.Data.Ticket;
+
+            Response<ListWrapper<UserGameRole>> userGameRolesResponse = await provider
+                .GetRequiredService<BindingClient>()
+                .GetUserGameRolesByActionTicketAsync(actionTicket, Entity, token)
+                .ConfigureAwait(false);
+
+            if (userGameRolesResponse.IsOk())
             {
-                string actionTicket = actionTicketResponse.Data.Ticket;
-
-                Response<ListWrapper<UserGameRole>> userGameRolesResponse = await scope.ServiceProvider
-                    .GetRequiredService<BindingClient>()
-                    .GetUserGameRolesByActionTicketAsync(actionTicket, Entity, token)
-                    .ConfigureAwait(false);
-
-                if (userGameRolesResponse.IsOk())
-                {
-                    UserGameRoles = userGameRolesResponse.Data.List;
-                }
-                else
-                {
-                    return false;
-                }
+                UserGameRoles = userGameRolesResponse.Data.List;
+                return UserGameRoles.Any();
             }
             else
             {
                 return false;
             }
-
-            // 自动填充 CookieToken
-            if (CookieToken == null)
-            {
-                Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
-                    .GetRequiredService<PassportClient2>()
-                    .GetCookieAccountInfoBySTokenAsync(Entity, token)
-                    .ConfigureAwait(false);
-
-                if (cookieTokenResponse.IsOk())
-                {
-                    Cookie cookieTokenCookie = Cookie.Parse($"account_id={Entity.Aid};cookie_token={cookieTokenResponse.Data.CookieToken}");
-                    Entity.CookieToken = cookieTokenCookie;
-                }
-                else
-                {
-                    return false;
-                }
-            }
         }
-
-        SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
-
-        isInitialized = true;
-
-        return UserInfo != null && UserGameRoles.Any();
+        else
+        {
+            return false;
+        }
     }
 }

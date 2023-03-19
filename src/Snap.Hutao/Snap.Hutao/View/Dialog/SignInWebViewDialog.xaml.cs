@@ -47,7 +47,7 @@ internal sealed partial class SignInWebViewDialog : ContentDialog
             return;
         }
 
-        coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
+        coreWebView2.SetCookie(user.CookieToken, user.LToken, null).SetMobileUserAgent();
         signInJsInterface = new(coreWebView2, scope.ServiceProvider);
         coreWebView2.Navigate("https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?act_id=e202009291139501");
     }

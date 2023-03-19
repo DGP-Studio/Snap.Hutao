@@ -20,11 +20,11 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             .HasColumnType("TEXT")
             .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
 
-        builder.Property(e => e.Ltoken)
+        builder.Property(e => e.LToken)
             .HasColumnType("TEXT")
             .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
 
-        builder.Property(e => e.Stoken)
+        builder.Property(e => e.SToken)
             .HasColumnType("TEXT")
             .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
     }

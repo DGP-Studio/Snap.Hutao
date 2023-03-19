@@ -39,11 +39,11 @@ internal sealed class PassportClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken)]
+    [ApiInformation(Cookie = CookieType.LToken)]
     public async Task<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token)
     {
         Response<UserInfoWrapper>? response = await httpClient
-            .SetUser(user, CookieType.Ltoken)
+            .SetUser(user, CookieType.LToken)
             .TryCatchPostAsJsonAsync<Timestamp, Response<UserInfoWrapper>>(ApiEndpoints.AccountVerifyLtoken, new(), options, logger, token)
             .ConfigureAwait(false);
 

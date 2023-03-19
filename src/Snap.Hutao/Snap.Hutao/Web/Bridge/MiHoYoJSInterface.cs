@@ -105,8 +105,8 @@ internal class MiHoYoJSInterface
         {
             Data = new()
             {
-                [Cookie.LTUID] = user.Ltoken![Cookie.LTUID],
-                [Cookie.LTOKEN] = user.Ltoken[Cookie.LTOKEN],
+                [Cookie.LTUID] = user.LToken![Cookie.LTUID],
+                [Cookie.LTOKEN] = user.LToken[Cookie.LTOKEN],
                 [Cookie.LOGIN_TICKET] = string.Empty,
             },
         };
@@ -203,7 +203,7 @@ internal class MiHoYoJSInterface
         }
 
         await ThreadHelper.SwitchToMainThreadAsync();
-        webView.SetCookie(user.CookieToken, user.Ltoken);
+        webView.SetCookie(user.CookieToken, user.LToken);
         return new() { Data = new() { [Cookie.COOKIE_TOKEN] = user.CookieToken![Cookie.COOKIE_TOKEN] } };
     }
 

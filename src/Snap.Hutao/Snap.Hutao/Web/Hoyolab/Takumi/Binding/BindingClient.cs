@@ -40,13 +40,13 @@ internal sealed class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken)]
+    [ApiInformation(Cookie = CookieType.LToken)]
     public async Task<Response<ListWrapper<UserGameRole>>> GetUserGameRolesByActionTicketAsync(string actionTicket, User user, CancellationToken token = default)
     {
         string url = ApiEndpoints.UserGameRolesByActionTicket(actionTicket);
 
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
+            .SetUser(user, CookieType.LToken)
             .TryCatchGetFromJsonAsync<Response<ListWrapper<UserGameRole>>>(url, options, logger, token)
             .ConfigureAwait(false);
 

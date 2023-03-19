@@ -5,7 +5,6 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Message;
-using Snap.Hutao.Model.Binding.SpiralAbyss;
 using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata;
@@ -18,7 +17,7 @@ using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model.Post;
 using System.Collections.ObjectModel;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 /// <summary>
 /// 深渊记录视图模型

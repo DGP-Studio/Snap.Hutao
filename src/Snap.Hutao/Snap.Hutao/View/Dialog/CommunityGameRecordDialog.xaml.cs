@@ -47,7 +47,7 @@ internal sealed partial class CommunityGameRecordDialog : ContentDialog
             return;
         }
 
-        coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
+        coreWebView2.SetCookie(user.CookieToken, user.LToken, null).SetMobileUserAgent();
         jsInterface = new(coreWebView2, scope.ServiceProvider);
         jsInterface.ClosePageRequested += OnClosePageRequested;
 

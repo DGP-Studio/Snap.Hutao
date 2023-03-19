@@ -23,15 +23,15 @@ internal enum CookieType
     /// <summary>
     /// 需要 Ltoken
     /// </summary>
-    Ltoken = 0B0010,
+    LToken = 0B0010,
 
     /// <summary>
-    /// 需要 CookieToken 与 Ltoken
+    /// 需要 CookieToken 与 LToken
     /// </summary>
-    Cookie = CookieToken | Ltoken,
+    Cookie = CookieToken | LToken,
 
     /// <summary>
-    /// 需要 Stoken
+    /// 需要 SToken
     /// </summary>
-    Stoken = 0B0100,
+    SToken = 0B0100,
 }

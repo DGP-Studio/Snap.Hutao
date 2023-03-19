@@ -82,11 +82,11 @@ internal sealed class GameRecordClient
     /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>玩家的基础信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
     public async Task<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         Response<PlayerInfo>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Ltoken)
+            .SetUser(userAndUid.User, CookieType.LToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
             .TryCatchGetFromJsonAsync<Response<PlayerInfo>>(ApiEndpoints.GameRecordIndex(userAndUid.Uid), options, logger, token)
             .ConfigureAwait(false);
@@ -119,11 +119,11 @@ internal sealed class GameRecordClient
     /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色基本信息</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
     public async Task<Response<BasicRoleInfo>> GetRoleBasicInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         Response<BasicRoleInfo>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Ltoken)
+            .SetUser(userAndUid.User, CookieType.LToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
             .TryCatchGetFromJsonAsync<Response<BasicRoleInfo>>(ApiEndpoints.GameRecordRoleBasicInfo(userAndUid.Uid), options, logger, token)
             .ConfigureAwait(false);
@@ -138,13 +138,13 @@ internal sealed class GameRecordClient
     /// <param name="playerInfo">玩家的基础信息</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    [ApiInformation(Cookie = CookieType.Ltoken, Salt = SaltType.X4)]
+    [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
     public async Task<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
     {
         CharacterData data = new(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id));
 
         Response<CharacterWrapper>? resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Ltoken)
+            .SetUser(userAndUid.User, CookieType.LToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
             .TryCatchPostAsJsonAsync<CharacterData, Response<CharacterWrapper>>(ApiEndpoints.GameRecordCharacter, data, options, logger, token)
             .ConfigureAwait(false);

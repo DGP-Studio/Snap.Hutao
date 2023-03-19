@@ -30,14 +30,14 @@ internal static class HoyolabHttpClientExtension
             stringBuilder.Append(user.CookieToken).AppendIf(user.CookieToken != null, ';');
         }
 
-        if (cookie.HasFlag(CookieType.Ltoken))
+        if (cookie.HasFlag(CookieType.LToken))
         {
-            stringBuilder.Append(user.Ltoken).AppendIf(user.Ltoken != null, ';');
+            stringBuilder.Append(user.LToken).AppendIf(user.LToken != null, ';');
         }
 
-        if (cookie.HasFlag(CookieType.Stoken))
+        if (cookie.HasFlag(CookieType.SToken))
         {
-            stringBuilder.Append(user.Stoken).AppendIf(user.Stoken != null, ';');
+            stringBuilder.Append(user.SToken).AppendIf(user.SToken != null, ';');
         }
 
         string result = stringBuilder.ToString();

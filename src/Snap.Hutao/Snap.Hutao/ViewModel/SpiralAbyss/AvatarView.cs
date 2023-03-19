@@ -1,10 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Model.Binding.SpiralAbyss;
+namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 /// <summary>
 /// 角色视图
@@ -16,11 +17,11 @@ internal class AvatarView : INameIconSide
     /// 构造一个新的角色视图
     /// </summary>
     /// <param name="metaAvatar">角色</param>
-    public AvatarView(Metadata.Avatar.Avatar metaAvatar)
+    public AvatarView(Model.Metadata.Avatar.Avatar metaAvatar)
     {
         Name = metaAvatar.Name;
-        Icon = Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.Icon);
-        SideIcon = Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.SideIcon);
+        Icon = Model.Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.Icon);
+        SideIcon = Model.Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.SideIcon);
         Quality = metaAvatar.Quality;
     }
 
@@ -29,7 +30,7 @@ internal class AvatarView : INameIconSide
     /// </summary>
     /// <param name="avatarId">角色Id</param>
     /// <param name="idAvatarMap">Id角色映射</param>
-    public AvatarView(AvatarId avatarId, Dictionary<AvatarId, Metadata.Avatar.Avatar> idAvatarMap)
+    public AvatarView(AvatarId avatarId, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
         : this(idAvatarMap[avatarId])
     {
     }

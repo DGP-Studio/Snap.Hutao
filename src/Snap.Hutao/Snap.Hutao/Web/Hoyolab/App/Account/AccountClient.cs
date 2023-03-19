@@ -43,11 +43,11 @@ internal sealed class AccountClient
     /// <param name="data">提交数据</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.K2)]
+    [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.K2)]
     public async Task<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         Response<GameAuthKey>? resp = await httpClient
-            .SetUser(user, CookieType.Stoken)
+            .SetUser(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.AppMihoyoReferer)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, false)
             .TryCatchPostAsJsonAsync<GenAuthKeyData, Response<GameAuthKey>>(ApiEndpoints.AppAuthGenAuthKey, data, options, logger, token)

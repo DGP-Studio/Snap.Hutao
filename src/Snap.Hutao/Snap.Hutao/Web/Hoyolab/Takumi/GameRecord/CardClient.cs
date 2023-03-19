@@ -45,7 +45,7 @@ internal sealed class CardClient
     public async Task<Response<VerificationRegistration>> CreateVerificationAsync(User user, CancellationToken token)
     {
         Response<VerificationRegistration>? resp = await httpClient
-            .SetUser(user, CookieType.Ltoken)
+            .SetUser(user, CookieType.LToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
             .TryCatchGetFromJsonAsync<Response<VerificationRegistration>>(ApiEndpoints.CardCreateVerification, options, logger, token)
             .ConfigureAwait(false);
@@ -77,11 +77,11 @@ internal sealed class CardClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>桌面小组件数据</returns>
-    [ApiInformation(Cookie = CookieType.Stoken, Salt = SaltType.X6)]
+    [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.X6)]
     public async Task<Response<DataWrapper<WidgetData>>> GetWidgetDataAsync(User user, CancellationToken token)
     {
         Response<DataWrapper<WidgetData>>? resp = await httpClient
-            .SetUser(user, CookieType.Stoken)
+            .SetUser(user, CookieType.SToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X6, false)
             .TryCatchGetFromJsonAsync<Response<DataWrapper<WidgetData>>>(ApiEndpoints.CardWidgetData, options, logger, token)
             .ConfigureAwait(false);

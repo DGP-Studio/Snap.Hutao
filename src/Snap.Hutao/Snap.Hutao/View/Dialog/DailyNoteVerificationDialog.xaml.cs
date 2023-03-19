@@ -45,7 +45,7 @@ internal sealed partial class DailyNoteVerificationDialog : ContentDialog
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;
 
         Model.Entity.User user = userAndUid.User;
-        coreWebView2.SetCookie(user.CookieToken, user.Ltoken, null).SetMobileUserAgent();
+        coreWebView2.SetCookie(user.CookieToken, user.LToken, null).SetMobileUserAgent();
         jsInterface = new(coreWebView2, scope.ServiceProvider);
         jsInterface.ClosePageRequested += OnClosePageRequested;
 

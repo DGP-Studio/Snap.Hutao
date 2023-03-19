@@ -194,10 +194,10 @@ internal sealed class UserViewModel : ObservableObject
         try
         {
             string cookieString = new StringBuilder()
-                .Append(user!.Stoken)
-                .AppendIf(user.Stoken != null, ';')
-                .Append(user.Ltoken)
-                .AppendIf(user.Ltoken != null, ';')
+                .Append(user!.SToken)
+                .AppendIf(user.SToken != null, ';')
+                .Append(user.LToken)
+                .AppendIf(user.LToken != null, ';')
                 .Append(user.CookieToken)
                 .ToString();
 

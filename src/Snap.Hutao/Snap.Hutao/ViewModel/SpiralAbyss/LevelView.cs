@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
-namespace Snap.Hutao.Model.Binding.SpiralAbyss;
+namespace Snap.Hutao.ViewModel.SpiralAbyss;
 
 /// <summary>
 /// 间视图
@@ -17,7 +17,7 @@ internal sealed class LevelView
     /// </summary>
     /// <param name="level">间</param>
     /// <param name="idAvatarMap">Id角色映射</param>
-    public LevelView(Level level, Dictionary<AvatarId, Metadata.Avatar.Avatar> idAvatarMap)
+    public LevelView(Level level, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
     {
         Index = string.Format(SH.ModelBindingHutaoComplexRankLevel, level.Index);
         Star = level.Star;
