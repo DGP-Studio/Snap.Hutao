@@ -24,7 +24,7 @@
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid Visibility="{Binding Statistics, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Rectangle
-                Height="48"
+                Height="{StaticResource AppBarThemeCompactHeight}"
                 VerticalAlignment="Top"
                 Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 IsHitTestVisible="False"/>

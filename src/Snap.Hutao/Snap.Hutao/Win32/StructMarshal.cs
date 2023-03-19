@@ -4,9 +4,12 @@
 using System.Buffers.Binary;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Windows.Graphics;
+using Windows.Win32.Foundation;
 using Windows.Win32.System.Diagnostics.ToolHelp;
 using Windows.Win32.UI.WindowsAndMessaging;
+using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Win32;
 
@@ -22,7 +25,7 @@ internal static class StructMarshal
     /// <returns>新的实例</returns>
     public static unsafe MODULEENTRY32 MODULEENTRY32()
     {
-        return new() { dwSize = (uint)sizeof(MODULEENTRY32) };
+        return new() { dwSize = unchecked((uint)sizeof(MODULEENTRY32)) };
     }
 
     /// <summary>
@@ -31,7 +34,7 @@ internal static class StructMarshal
     /// <returns>新的实例</returns>
     public static unsafe WINDOWPLACEMENT WINDOWPLACEMENT()
     {
-        return new() { length = (uint)sizeof(WINDOWPLACEMENT) };
+        return new() { length = unchecked((uint)sizeof(WINDOWPLACEMENT)) };
     }
 
     /// <summary>
@@ -79,6 +82,27 @@ internal static class StructMarshal
     }
 
     /// <summary>
+    /// 枚举快照的模块
+    /// </summary>
+    /// <param name="snapshot">快照</param>
+    /// <returns>模块枚举</returns>
+    public static IEnumerable<MODULEENTRY32> EnumerateModuleEntry32(HANDLE snapshot)
+    {
+        MODULEENTRY32 entry = MODULEENTRY32();
+
+        if (!UnsafeModule32First(snapshot, ref entry))
+        {
+            yield break;
+        }
+
+        do
+        {
+            yield return entry;
+        }
+        while (UnsafeModule32Next(snapshot, ref entry));
+    }
+
+    /// <summary>
     /// 判断结构实例是否为默认结构
     /// </summary>
     /// <param name="moduleEntry32">待测试的结构</param>
@@ -86,5 +110,21 @@ internal static class StructMarshal
     public static bool IsDefault(MODULEENTRY32 moduleEntry32)
     {
         return moduleEntry32.dwSize == 0;
+    }
+
+    private static unsafe BOOL UnsafeModule32First(HANDLE snapshot, ref MODULEENTRY32 lpme)
+    {
+        fixed (MODULEENTRY32* lpmeLocal = &lpme)
+        {
+            return Module32First(snapshot, lpmeLocal);
+        }
+    }
+
+    private static unsafe BOOL UnsafeModule32Next(HANDLE snapshot, ref MODULEENTRY32 lpme)
+    {
+        fixed (MODULEENTRY32* lpmeLocal = &lpme)
+        {
+            return Module32Next(snapshot, lpmeLocal);
+        }
     }
 }

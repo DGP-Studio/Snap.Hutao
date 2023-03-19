@@ -52,7 +52,7 @@
     <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
         <Grid Visibility="{Binding Projects.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
             <Rectangle
-                Height="48"
+                Height="{StaticResource AppBarThemeCompactHeight}"
                 VerticalAlignment="Top"
                 Fill="{StaticResource CardBackgroundFillColorDefaultBrush}"
                 IsHitTestVisible="False"/>

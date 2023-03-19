@@ -11,6 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab;
 internal sealed partial class Cookie
 {
     public const string LOGIN_TICKET = "login_ticket";
+    public const string LOGIN_UID = "login_uid";
 
     public const string ACCOUNT_ID = "account_id";
     public const string COOKIE_TOKEN = "cookie_token";
