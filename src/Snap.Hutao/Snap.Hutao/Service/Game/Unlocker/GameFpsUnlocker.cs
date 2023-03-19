@@ -13,6 +13,7 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 
 /// <summary>
 /// 游戏帧率解锁器
+/// Credit to https://github.com/34736384/genshin-fps-unlock
 /// </summary>
 [HighQuality]
 internal sealed class GameFpsUnlocker : IGameFpsUnlocker
@@ -58,10 +59,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         await LoopAdjustFpsAsync(adjustFpsDelay).ConfigureAwait(false);
     }
 
-    private static unsafe bool UnsafeReadModuleMemory(Process process, MODULEENTRY32 entry, out Span<byte> image)
+    private static unsafe bool UnsafeReadModuleMemory(Process process, MODULEENTRY32 entry, out Span<byte> memory)
     {
-        image = new byte[entry.modBaseSize];
-        fixed (byte* lpBuffer = image)
+        memory = new byte[entry.modBaseSize];
+        fixed (byte* lpBuffer = memory)
         {
             return ReadProcessMemory(process.SafeHandle, entry.modBaseAddr, lpBuffer, entry.modBaseSize, null);
         }
@@ -81,22 +82,15 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         {
             Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
-            MODULEENTRY32 entry = StructMarshal.MODULEENTRY32();
-            bool found = false;
-
-            bool loop = Module32First(snapshot, &entry);
-            while (loop)
+            foreach (MODULEENTRY32 entry in StructMarshal.EnumerateModuleEntry32(snapshot))
             {
-                if (entry.th32ProcessID == processId && entry.szModule.AsNullTerminatedReadOnlySpan() == moduleName)
+                if (entry.th32ProcessID == processId && entry.szModule.AsNullTerminatedReadOnlySpan().SequenceEqual(moduleName))
                 {
-                    found = true;
-                    break;
+                    return entry;
                 }
-
-                loop = Module32Next(snapshot, &entry);
             }
 
-            return found ? entry : default;
+            return default;
         }
         finally
         {
@@ -148,22 +142,22 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private unsafe void UnsafeTryReadModuleMemoryFindFpsAddress(MODULEENTRY32 unityPlayer)
     {
-        bool readOk = UnsafeReadModuleMemory(gameProcess, unityPlayer, out Span<byte> image);
+        bool readOk = UnsafeReadModuleMemory(gameProcess, unityPlayer, out Span<byte> memory);
         Verify.Operation(readOk, "读取内存失败");
 
         // Find FPS offset
         // 7F 0F              jg   0x11
         // 8B 05 ? ? ? ?      mov eax, dword ptr[rip+?]
-        int adr = image.IndexOf(new byte[] { 0x7F, 0x0F, 0x8B, 0x05 });
+        int adr = memory.IndexOf(new byte[] { 0x7F, 0x0F, 0x8B, 0x05 });
 
-        Must.Range(adr >= 0, "未匹配到FPS字节");
+        Must.Range(adr >= 0, $"未匹配到FPS字节");
 
-        fixed (byte* pSpan = image)
+        fixed (byte* pSpan = memory)
         {
             int rip = adr + 2;
             int rel = *(int*)(pSpan + rip + 2); // Unsafe.ReadUnaligned<int>(ref image[rip + 2]);
             int ofs = rip + rel + 6;
-            fpsAddress = (nuint)((long)unityPlayer.modBaseAddr + ofs);
+            fpsAddress = (nuint)(unityPlayer.modBaseAddr + ofs);
         }
     }
 }

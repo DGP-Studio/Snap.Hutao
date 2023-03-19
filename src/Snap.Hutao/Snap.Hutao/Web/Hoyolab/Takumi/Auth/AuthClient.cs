@@ -62,8 +62,8 @@ internal sealed class AuthClient
     /// <returns>包含token的字典</returns>
     public async Task<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, CancellationToken token)
     {
-        string loginTicket = cookie["login_ticket"];
-        string loginUid = cookie["login_uid"];
+        string loginTicket = cookie[Cookie.LOGIN_TICKET];
+        string loginUid = cookie[Cookie.LOGIN_UID];
 
         Response<ListWrapper<NameToken>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<ListWrapper<NameToken>>>(ApiEndpoints.AuthMultiToken(loginTicket, loginUid), options, logger, token)

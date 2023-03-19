@@ -37,7 +37,7 @@ internal static class Must
     {
         if (!condition)
         {
-            throw new ArgumentOutOfRangeException(message, parameterName);
+            throw new ArgumentOutOfRangeException(parameterName, message);
         }
     }
 

@@ -27,7 +27,7 @@
     </Page.Resources>
     <Grid>
         <Rectangle
-            Height="48"
+            Height="{StaticResource AppBarThemeCompactHeight}"
             VerticalAlignment="Top"
             Fill="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             IsHitTestVisible="False"/>
