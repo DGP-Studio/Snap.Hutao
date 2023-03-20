@@ -23,6 +23,7 @@ using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.View.Dialog;
 using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel;
@@ -299,7 +300,13 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private void CopyDeviceId()
     {
-        Clipboard.SetText(DeviceId);
-        serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewModelSettingCopyDeviceIdSuccess);
+        try
+        {
+            Clipboard.SetText(DeviceId);
+            serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewModelSettingCopyDeviceIdSuccess);
+        }
+        catch (COMException)
+        {
+        }
     }
 }
