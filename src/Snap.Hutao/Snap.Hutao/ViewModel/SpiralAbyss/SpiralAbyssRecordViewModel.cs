@@ -176,7 +176,7 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
 
     private async Task UploadSpiralAbyssRecordAsync()
     {
-        HomaClient homaClient = serviceProvider.GetRequiredService<HomaClient>();
+        HomaSpiralAbyssClient homaClient = serviceProvider.GetRequiredService<HomaSpiralAbyssClient>();
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))

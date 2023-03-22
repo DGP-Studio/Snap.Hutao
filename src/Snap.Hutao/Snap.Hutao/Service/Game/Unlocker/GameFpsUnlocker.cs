@@ -81,7 +81,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         try
         {
             Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
-
             foreach (MODULEENTRY32 entry in StructMarshal.EnumerateModuleEntry32(snapshot))
             {
                 __CHAR_256* pszModule = &entry.szModule;

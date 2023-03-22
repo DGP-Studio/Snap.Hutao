@@ -19,12 +19,12 @@ namespace Snap.Hutao.Web.Hutao;
 /// </summary>
 [HighQuality]
 [HttpClient(HttpClientConfigration.Default)]
-internal sealed class HomaClient
+internal sealed class HomaSpiralAbyssClient
 {
     private readonly HttpClient httpClient;
     private readonly GameRecordClient gameRecordClient;
     private readonly JsonSerializerOptions options;
-    private readonly ILogger<HomaClient> logger;
+    private readonly ILogger<HomaSpiralAbyssClient> logger;
 
     /// <summary>
     /// 构造一个新的胡桃API客户端
@@ -33,7 +33,7 @@ internal sealed class HomaClient
     /// <param name="gameRecordClient">游戏记录客户端</param>
     /// <param name="options">json序列化选项</param>
     /// <param name="logger">日志器</param>
-    public HomaClient(HttpClient httpClient, GameRecordClient gameRecordClient, JsonSerializerOptions options, ILogger<HomaClient> logger)
+    public HomaSpiralAbyssClient(HttpClient httpClient, GameRecordClient gameRecordClient, JsonSerializerOptions options, ILogger<HomaSpiralAbyssClient> logger)
     {
         this.httpClient = httpClient;
         this.gameRecordClient = gameRecordClient;

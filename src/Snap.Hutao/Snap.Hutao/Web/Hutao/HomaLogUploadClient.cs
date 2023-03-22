@@ -13,7 +13,7 @@ namespace Snap.Hutao.Web.Hutao;
 /// </summary>
 [HighQuality]
 [HttpClient(HttpClientConfigration.Default)]
-internal sealed class HomaClient2
+internal sealed class HomaLogUploadClient
 {
     private readonly HttpClient httpClient;
 
@@ -21,7 +21,7 @@ internal sealed class HomaClient2
     /// 构造一个新的胡桃日志客户端
     /// </summary>
     /// <param name="httpClient">Http客户端</param>
-    public HomaClient2(HttpClient httpClient)
+    public HomaLogUploadClient(HttpClient httpClient)
     {
         this.httpClient = httpClient;
     }

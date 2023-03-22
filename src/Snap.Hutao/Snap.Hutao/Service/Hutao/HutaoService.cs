@@ -18,7 +18,7 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Scoped, typeof(IHutaoService))]
 internal sealed class HutaoService : IHutaoService
 {
-    private readonly HomaClient homaClient;
+    private readonly HomaSpiralAbyssClient homaClient;
     private readonly IMemoryCache memoryCache;
     private readonly AppDbContext appDbContext;
     private readonly JsonSerializerOptions options;
@@ -30,7 +30,7 @@ internal sealed class HutaoService : IHutaoService
     /// <param name="memoryCache">内存缓存</param>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="options">Json序列化选项</param>
-    public HutaoService(HomaClient homaClient, IMemoryCache memoryCache, AppDbContext appDbContext, JsonSerializerOptions options)
+    public HutaoService(HomaSpiralAbyssClient homaClient, IMemoryCache memoryCache, AppDbContext appDbContext, JsonSerializerOptions options)
     {
         this.homaClient = homaClient;
         this.memoryCache = memoryCache;
