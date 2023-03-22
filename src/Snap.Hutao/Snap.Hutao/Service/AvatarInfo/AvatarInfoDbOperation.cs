@@ -90,48 +90,72 @@ internal sealed class AvatarInfoDbOperation
             .ToList();
         EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
 
-        GameRecordClient gameRecordClient = Ioc.Default.GetRequiredService<GameRecordClient>();
-        Response<RecordPlayerInfo> playerInfoResponse = await gameRecordClient
-            .GetPlayerInfoAsync(userAndUid, token)
-            .ConfigureAwait(false);
+        Response<RecordPlayerInfo> playerInfoResponse;
+        Response<Web.Hoyolab.Takumi.GameRecord.Avatar.CharacterWrapper> charactersResponse;
+
+        if (userAndUid.Uid.Region == "cn_gf01" || userAndUid.Uid.Region == "cn_qd01")
+        {
+            GameRecordClient gameRecordClient = Ioc.Default.GetRequiredService<GameRecordClient>();
+            playerInfoResponse = await gameRecordClient
+               .GetPlayerInfoAsync(userAndUid, token)
+               .ConfigureAwait(false);
+
+            if (!playerInfoResponse.IsOk())
+            {
+                return GetDbAvatarInfos(uid);
+            }
+
+            charactersResponse = await gameRecordClient
+                    .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+                    .ConfigureAwait(false);
+        }
+        else
+        {
+            GameRecordClientOs gameRecordClientOs = Ioc.Default.GetRequiredService<GameRecordClientOs>();
+            playerInfoResponse = await gameRecordClientOs
+               .GetPlayerInfoAsync(userAndUid, token)
+               .ConfigureAwait(false);
+
+            if (!playerInfoResponse.IsOk())
+            {
+                return GetDbAvatarInfos(uid);
+            }
+
+            charactersResponse = await gameRecordClientOs
+                    .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+                    .ConfigureAwait(false);
+        }
 
         token.ThrowIfCancellationRequested();
 
-        if (playerInfoResponse.IsOk())
+        if (charactersResponse.IsOk())
         {
-            Response<Web.Hoyolab.Takumi.GameRecord.Avatar.CharacterWrapper> charactersResponse = await gameRecordClient
-                .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
-                .ConfigureAwait(false);
+            List<RecordCharacter> characters = charactersResponse.Data.Avatars;
 
-            if (charactersResponse.IsOk())
+            GameRecordCharacterAvatarInfoComposer composer = Ioc.Default.GetRequiredService<GameRecordCharacterAvatarInfoComposer>();
+
+            foreach (RecordCharacter character in characters)
             {
-                List<RecordCharacter> characters = charactersResponse.Data.Avatars;
-
-                GameRecordCharacterAvatarInfoComposer composer = Ioc.Default.GetRequiredService<GameRecordCharacterAvatarInfoComposer>();
-
-                foreach (RecordCharacter character in characters)
+                if (AvatarIds.IsPlayer(character.Id))
                 {
-                    if (AvatarIds.IsPlayer(character.Id))
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    token.ThrowIfCancellationRequested();
+                token.ThrowIfCancellationRequested();
 
-                    ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
+                ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
 
-                    if (entity == null)
-                    {
-                        EnkaAvatarInfo avatarInfo = new() { AvatarId = character.Id };
-                        avatarInfo = await composer.ComposeAsync(avatarInfo, character).ConfigureAwait(false);
-                        entity = ModelAvatarInfo.Create(uid, avatarInfo);
-                        appDbContext.AvatarInfos.AddAndSave(entity);
-                    }
-                    else
-                    {
-                        entity.Info = await composer.ComposeAsync(entity.Info, character).ConfigureAwait(false);
-                        appDbContext.AvatarInfos.UpdateAndSave(entity);
-                    }
+                if (entity == null)
+                {
+                    EnkaAvatarInfo avatarInfo = new() { AvatarId = character.Id };
+                    avatarInfo = await composer.ComposeAsync(avatarInfo, character).ConfigureAwait(false);
+                    entity = ModelAvatarInfo.Create(uid, avatarInfo);
+                    appDbContext.AvatarInfos.AddAndSave(entity);
+                }
+                else
+                {
+                    entity.Info = await composer.ComposeAsync(entity.Info, character).ConfigureAwait(false);
+                    appDbContext.AvatarInfos.UpdateAndSave(entity);
                 }
             }
         }

@@ -38,6 +38,11 @@ internal sealed class GachaLogQueryStokenProvider : IGachaLogQueryProvider
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
+            if (userAndUid.Uid.Region != "cn_gf01" && userAndUid.Uid.Region != "cn_qd01")
+            {
+                return new(false, "Unsupported for hoyoverse account");
+            }
+
             GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
             Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
 

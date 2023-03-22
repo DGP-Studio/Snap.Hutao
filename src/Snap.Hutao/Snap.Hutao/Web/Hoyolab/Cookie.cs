@@ -116,6 +116,31 @@ internal sealed partial class Cookie
         return false;
     }
 
+    /// <summary>
+    /// 提取其中的 stoken 信息
+    /// </summary>
+    /// <param name="cookie">含有 Stoken 的 cookie</param>
+    /// <returns>是否获取成功</returns>
+    public bool TryGetAsStokenV1([NotNullWhen(true)] out Cookie? cookie)
+    {
+        bool hasStoken = TryGetValue(STOKEN, out string? stoken);
+        bool hasStuid = TryGetValue(STUID, out string? stuid);
+
+        if (hasStoken && hasStuid)
+        {
+            cookie = new Cookie(new()
+            {
+                [STOKEN] = stoken!,
+                [STUID] = stuid!,
+            });
+
+            return true;
+        }
+
+        cookie = null;
+        return false;
+    }
+
     public bool TryGetAsLtoken([NotNullWhen(true)] out Cookie? cookie)
     {
         bool hasLtoken = TryGetValue(LTOKEN, out string? ltoken);

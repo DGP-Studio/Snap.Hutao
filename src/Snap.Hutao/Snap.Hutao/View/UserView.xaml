@@ -225,6 +225,23 @@
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
                         </StackPanel>
+                        <TextBlock
+                            Margin="10,6,0,6"
+                            Style="{StaticResource BaseTextBlockStyle}"
+                            Text="HoyoVerse Account"/>
+                        <StackPanel
+                            Margin="0,0,6,0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal">
+                            <AppBarButton
+                                Command="{Binding LoginHoyoverseUserCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xEB41;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                            <AppBarButton
+                                Command="{Binding AddOsUserCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xE710;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                        </StackPanel>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>

@@ -23,4 +23,9 @@ internal enum HttpClientConfigration
     /// 米游社登录请求配置
     /// </summary>
     XRpc2,
+
+    /// <summary>
+    /// 国际服Hoyolab请求配置
+    /// </summary>
+    XRpc3,
 }

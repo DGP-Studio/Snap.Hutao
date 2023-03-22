@@ -47,9 +47,18 @@ internal sealed partial class SignInWebViewDialog : ContentDialog
             return;
         }
 
-        coreWebView2.SetCookie(user.CookieToken, user.LToken, null).SetMobileUserAgent();
-        signInJsInterface = new(coreWebView2, scope.ServiceProvider);
-        coreWebView2.Navigate("https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?act_id=e202009291139501");
+        if (user.Entity.IsOversea)
+        {
+            coreWebView2.SetCookie(user.CookieToken, user.LToken, null).SetOsMobileUserAgent();
+            signInJsInterface = new(coreWebView2, scope.ServiceProvider);
+            coreWebView2.Navigate("https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481&hyl_presentation_style=fullscreen");
+        }
+        else
+        {
+            coreWebView2.SetCookie(user.CookieToken, user.LToken, null).SetMobileUserAgent();
+            signInJsInterface = new(coreWebView2, scope.ServiceProvider);
+            coreWebView2.Navigate("https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?act_id=e202009291139501");
+        }
     }
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)

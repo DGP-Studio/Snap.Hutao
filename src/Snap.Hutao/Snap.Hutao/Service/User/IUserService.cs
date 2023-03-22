@@ -49,6 +49,13 @@ internal interface IUserService
     Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie);
 
     /// <summary>
+    /// 尝试异步处理国际服 Cookie
+    /// </summary>
+    /// <param name="cookie">Cookie，需包含 stuid, stoken 字段</param>
+    /// <returns>处理的结果</returns>
+    Task<ValueResult<UserOptionResult, string>> ProcessInputOsCookieAsync(Cookie cookie);
+
+    /// <summary>
     /// 异步刷新 Cookie 的 CookieToken
     /// </summary>
     /// <param name="user">用户</param>

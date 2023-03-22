@@ -60,4 +60,18 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-game_biz", "bbs_cn");
         client.DefaultRequestHeaders.Add("x-rpc-sdk_version", "1.3.1.2");
     }
+
+    /// <summary>
+    /// 对于需要添加动态密钥的客户端使用此配置
+    /// 国际服 API 测试
+    /// </summary>
+    /// <param name="client">配置后的客户端</param>
+    private static void XRpc3Configuration(HttpClient client)
+    {
+        client.Timeout = Timeout.InfiniteTimeSpan;
+        client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36");
+        client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+        client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
+        client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
+    }
 }

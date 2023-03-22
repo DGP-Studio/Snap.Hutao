@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
+using Snap.Hutao.Migrations;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -103,7 +104,16 @@ internal sealed class User : ObservableObject
     internal static async Task<User> ResumeAsync(EntityUser inner, CancellationToken token = default)
     {
         User user = new(inner);
-        bool isOk = await user.InitializeCoreAsync(token).ConfigureAwait(false);
+        bool isOk = false;
+
+        if (!user.Entity.IsOversea)
+        {
+            isOk = await user.InitializeCoreAsync(token).ConfigureAwait(false);
+        }
+        else
+        {
+            isOk = await user.InitializeCoreOsAsync(token).ConfigureAwait(false);
+        }
 
         if (!isOk)
         {
@@ -127,11 +137,44 @@ internal sealed class User : ObservableObject
 
         entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
         entity.Mid = cookie.GetValueOrDefault(Cookie.MID);
+        entity.IsOversea = false;
 
         if (entity.Aid != null && entity.Mid != null)
         {
             User user = new(entity);
             bool initialized = await user.InitializeCoreAsync(token).ConfigureAwait(false);
+
+            return initialized ? user : null;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// 创建并初始化国际服用户（临时）
+    /// </summary>
+    /// <param name="cookie">cookie</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>用户</returns>
+    internal static async Task<User?> CreateOsUserAsync(Cookie cookie, CancellationToken token = default)
+    {
+        // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
+        EntityUser entity = EntityUser.CreateOs(cookie);
+
+        entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
+
+        // Note: Currently we dont know how to get "mid" for hoyolab user,
+        // mid is set as the same value of ltuid(stuid/user id)
+        entity.Mid = entity.Aid;
+
+        entity.IsOversea = true;
+
+        if (entity.Aid != null)
+        {
+            User user = new(entity);
+            bool initialized = await user.InitializeCoreOsAsync(token).ConfigureAwait(false);
 
             return initialized ? user : null;
         }
@@ -267,5 +310,88 @@ internal sealed class User : ObservableObject
         {
             return false;
         }
+    }
+
+    private async Task<bool> InitializeCoreOsAsync(CancellationToken token = default)
+    {
+        if (isInitialized)
+        {
+            return true;
+        }
+
+        if (SToken == null)
+        {
+            return false;
+        }
+
+        using (IServiceScope scope = Ioc.Default.CreateScope())
+        {
+
+            // 自动填充 Ltoken
+            if (LToken == null)
+            {
+                Response<LtokenWrapper> ltokenResponse = await scope.ServiceProvider
+                    .GetRequiredService<PassportClientOs>()
+                    .GetLtokenBySTokenAsync(Entity, token)
+                    .ConfigureAwait(false);
+
+                if (ltokenResponse.IsOk())
+                {
+                    Cookie ltokenCookie = Cookie.Parse($"ltuid={Entity.Aid};ltoken={ltokenResponse.Data.Ltoken}");
+                    Entity.LToken = ltokenCookie;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            // Fetch user info
+            Response<UserFullInfoWrapper> response = await scope.ServiceProvider
+                .GetRequiredService<UserClient>()
+                .GetOsUserFullInfoAsync(Entity, token)
+                .ConfigureAwait(false);
+            UserInfo = response.Data?.UserInfo;
+
+            // 自动填充 CookieToken
+            if (CookieToken == null)
+            {
+                Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
+                    .GetRequiredService<PassportClientOs>()
+                    .GetCookieAccountInfoBySTokenAsync(Entity, token)
+                    .ConfigureAwait(false);
+
+                if (cookieTokenResponse.IsOk())
+                {
+                    Cookie cookieTokenCookie = Cookie.Parse($"account_id={Entity.Aid};cookie_token={cookieTokenResponse.Data.CookieToken}");
+                    Entity.CookieToken = cookieTokenCookie;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            // 获取游戏角色
+            Response<ListWrapper<UserGameRole>> userGameRolesResponse = await scope.ServiceProvider
+                .GetRequiredService<BindingClient>()
+                .GetOsUserGameRolesByCookieAsync(Entity, token)
+                .ConfigureAwait(false);
+
+            if (userGameRolesResponse.IsOk())
+            {
+                UserGameRoles = userGameRolesResponse.Data.List;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
+
+        isInitialized = true;
+
+        return UserInfo != null && UserGameRoles.Any();
     }
 }

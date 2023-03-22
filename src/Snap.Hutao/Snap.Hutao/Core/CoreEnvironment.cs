@@ -30,6 +30,11 @@ internal static class CoreEnvironment
     public const string HoyolabMobileUA = $"Mozilla/5.0 (Linux; Android 12) Mobile miHoYoBBS/{HoyolabXrpcVersion}";
 
     /// <summary>
+    /// Hoyolab iPhone 移动端请求UA
+    /// </summary>
+    public const string HoyolabOsMobileUA = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) miHoYoBBSOversea/2.28.0";
+
+    /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
     public const string HoyolabXrpcVersion = "2.44.1";
@@ -45,6 +50,7 @@ internal static class CoreEnvironment
         [SaltType.X4] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
         [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
         [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
+        [SaltType.OS] = "6cqshh5dhw73bzxn20oexa9k516chk7s",
     }.ToImmutableDictionary();
 
     /// <summary>
