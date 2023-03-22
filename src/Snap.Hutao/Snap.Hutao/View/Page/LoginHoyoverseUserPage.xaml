@@ -33,13 +33,13 @@
                 MaxLength="9"
                 x:Name="UidInput"
                 Margin="0,0,16,0"
-                PlaceholderText="Please input your user id here."
+                PlaceholderText="ÇëÌîÐ´Í¨ÐÐÖ¤ID"
                 HorizontalAlignment="Right"/>
             <Button
                 Grid.Column="1"
                 RelativePanel.RightOf="UidInput"
-                Click="CookieButtonClick"
-                Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
+            Click="CookieButtonClick"
+            Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
         </Grid>
         
         <WebView2

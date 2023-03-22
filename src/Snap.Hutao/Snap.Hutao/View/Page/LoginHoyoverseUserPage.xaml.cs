@@ -35,7 +35,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         try
         {
             await WebView.EnsureCoreWebView2Async();
-            
+
 
             CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
             IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyolab.com");
@@ -57,11 +57,15 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyolab.com");
 
+        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+
         // Get user id from text input, login_uid is missed in cookie
         string uid = UidInput.Text;
 
         if (uid.Length != 9)
         {
+            await ThreadHelper.SwitchToMainThreadAsync();
+            infoBarService.Warning($"请在页面右上方的输入框处填写你的通行证 ID!");
             return;
         }
 
@@ -89,7 +93,6 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
             .ConfigureAwait(false);
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
         switch (result)
         {
@@ -104,7 +107,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
                 infoBarService.Success($"用户 [{nickname}] 添加成功");
                 break;
             case UserOptionResult.Incomplete:
-                infoBarService.Information($"此 Cookie 不完整，或 user id 错误，操作失败");
+                infoBarService.Information($"此 Cookie 不完整，操作失败");
                 break;
             case UserOptionResult.Invalid:
                 infoBarService.Information($"此 Cookie 无效，操作失败");
