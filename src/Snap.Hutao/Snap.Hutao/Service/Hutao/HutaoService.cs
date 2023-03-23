@@ -103,18 +103,21 @@ internal sealed class HutaoService : IHutaoService
         }
 
         Response<T> webResponse = await taskFunc(default).ConfigureAwait(false);
-        T web = webResponse.IsOk() ? webResponse.Data : new();
+        T? data = webResponse.Data;
 
         try
         {
-            appDbContext.ObjectCache.AddAndSave(new()
+            if (data != null)
             {
-                Key = key,
+                appDbContext.ObjectCache.AddAndSave(new()
+                {
+                    Key = key,
 
-                // we hold the cache for 4 hours, then just expire it.
-                ExpireTime = DateTimeOffset.Now.AddHours(4),
-                Value = JsonSerializer.Serialize(web, options),
-            });
+                    // we hold the cache for 4 hours, then just expire it.
+                    ExpireTime = DateTimeOffset.Now.AddHours(4),
+                    Value = JsonSerializer.Serialize(data, options),
+                });
+            }
         }
         catch (Microsoft.EntityFrameworkCore.DbUpdateException)
         {
@@ -122,6 +125,6 @@ internal sealed class HutaoService : IHutaoService
             // TODO: Not ignore it.
         }
 
-        return memoryCache.Set(key, web, TimeSpan.FromMinutes(30));
+        return memoryCache.Set(key, data ?? new(), TimeSpan.FromHours(4));
     }
 }

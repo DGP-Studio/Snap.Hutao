@@ -30,6 +30,16 @@ internal static class SettingKeys
     public const string DataFolderPath = "DataFolderPath";
 
     /// <summary>
+    /// 通行证用户名（邮箱）
+    /// </summary>
+    public const string PassportUserName = "PassportUserName";
+
+    /// <summary>
+    /// 通行证密码
+    /// </summary>
+    public const string PassportPassword = "PassportPassword";
+
+    /// <summary>
     /// 静态资源合约
     /// 新增合约时 请注意
     /// <see cref="StaticResource.FulfillAllContracts"/>

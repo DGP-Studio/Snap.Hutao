@@ -40,6 +40,12 @@ internal class Response
     [JsonPropertyName("message")]
     public string Message { get; set; } = default!;
 
+    public static Response DefaultIfNull(Response? response, [CallerMemberName] string callerName = default!)
+    {
+        // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
+        return response ?? new(0x26F19335, $"[{callerName}] 中的请求异常");
+    }
+
     /// <summary>
     /// 返回本体或带有消息提示的默认值
     /// </summary>

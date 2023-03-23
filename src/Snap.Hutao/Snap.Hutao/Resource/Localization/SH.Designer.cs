@@ -4282,6 +4282,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 胡桃账号 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingHutaoPassportHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingHutaoPassportHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription {
@@ -4485,6 +4494,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageWikiMonsterDropItems {
             get {
                 return ResourceManager.GetString("ViewPageWikiMonsterDropItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登录失败，请重新登录 的本地化字符串。
+        /// </summary>
+        internal static string ViewServiceHutaoUserLoginFailHint {
+            get {
+                return ResourceManager.GetString("ViewServiceHutaoUserLoginFailHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 立即登录或注册 的本地化字符串。
+        /// </summary>
+        internal static string ViewServiceHutaoUserLoginOrRegisterHint {
+            get {
+                return ResourceManager.GetString("ViewServiceHutaoUserLoginOrRegisterHint", resourceCulture);
             }
         }
         

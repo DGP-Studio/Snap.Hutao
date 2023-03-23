@@ -1,4 +1,4 @@
-![](https://repository-images.githubusercontent.com/482734649/5f8cf574-2ef0-43e9-aa8d-6cf094b54dd9)
+![](https://repository-images.githubusercontent.com/482734649/c47a0a8e-868d-4d07-a66f-6d4473abfe46)
 
 ## 下载使用
 [<img src="https://get.microsoft.com/images/zh-cn%20light.svg"  width="30%" height="30%">](https://apps.microsoft.com/store/detail/snap-hutao/9PH4NXJ2JN52)

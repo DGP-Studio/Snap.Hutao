@@ -16,6 +16,29 @@ internal static class HutaoEndpoints
     /// </summary>
     public const string StaticHutao = "static.hut.ao";
 
+    #region Passport
+
+    /// <summary>
+    /// 获取注册验证码
+    /// </summary>
+    public const string PassportVerify = $"{HomaSnapGenshinApi}/Passport/Verify";
+
+    /// <summary>
+    /// 注册账号
+    /// </summary>
+    public const string PassportRegister = $"{HomaSnapGenshinApi}/Passport/Register";
+
+    /// <summary>
+    /// 重设密码
+    /// </summary>
+    public const string PassportResetPassword = $"{HomaSnapGenshinApi}/Passport/ResetPassword";
+
+    /// <summary>
+    /// 登录
+    /// </summary>
+    public const string PassportLogin = $"{HomaSnapGenshinApi}/Passport/Login";
+    #endregion
+
     #region HutaoAPI
 
     /// <summary>
