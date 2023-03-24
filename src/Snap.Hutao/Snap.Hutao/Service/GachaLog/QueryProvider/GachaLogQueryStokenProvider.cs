@@ -38,7 +38,7 @@ internal sealed class GachaLogQueryStokenProvider : IGachaLogQueryProvider
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            if (userAndUid.Uid.Region != "cn_gf01" && userAndUid.Uid.Region != "cn_qd01")
+            if (userAndUid.User.IsOversea)
             {
                 return new(false, "Unsupported for hoyoverse account");
             }

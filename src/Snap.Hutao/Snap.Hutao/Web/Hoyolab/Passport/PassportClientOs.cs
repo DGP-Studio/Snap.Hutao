@@ -44,14 +44,16 @@ internal sealed class PassportClientOs
     public async Task<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
     {
         Response<UidCookieToken>? resp = null;
-        string? stoken = user.SToken["stoken"];
 
-        if (stoken == null || user.Aid == null)
+        if (user.SToken == null)
         {
             return Response.Response.DefaultIfNull(resp);
         }
 
-        StokenData data = new(stoken, user.Aid);
+        string stoken = user.SToken.GetValueOrDefault(Cookie.STOKEN)!;
+
+        // Post json with stoken and uid (stuid/ltuid)
+        StokenData data = new(stoken, user.Aid!);
         resp = await httpClient
             .SetUser(user, CookieType.SToken)
             .TryCatchPostAsJsonAsync<StokenData, Response<UidCookieToken>>(ApiOsEndpoints.AccountGetCookieTokenBySToken, data, options, logger, token)
@@ -70,14 +72,16 @@ internal sealed class PassportClientOs
     public async Task<Response<LtokenWrapper>> GetLtokenBySTokenAsync(User user, CancellationToken token)
     {
         Response<LtokenWrapper>? resp = null;
-        string? stoken = user.SToken["stoken"];
 
-        if (stoken == null || user.Aid == null)
+        if (user.SToken == null)
         {
             return Response.Response.DefaultIfNull(resp);
         }
 
-        StokenData data = new(stoken, user.Aid);
+        string stoken = user.SToken.GetValueOrDefault(Cookie.STOKEN)!;
+
+        // Post json with stoken and uid (stuid/ltuid)
+        StokenData data = new(stoken, user.Aid!);
         resp = await httpClient
             .SetUser(user, CookieType.SToken)
             .TryCatchPostAsJsonAsync<StokenData, Response<LtokenWrapper>>(ApiOsEndpoints.AccountGetLtokenByStoken, data, options, logger, token)

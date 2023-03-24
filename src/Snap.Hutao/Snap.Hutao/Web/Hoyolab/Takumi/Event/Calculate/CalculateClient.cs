@@ -80,18 +80,20 @@ internal sealed class CalculateClient
         Response<ListWrapper<Avatar>>? resp;
 
         // 根据 uid 所属服务器选择 referer 与 api
-        string referer = ApiOsEndpoints.ActHoyolabReferer;
-        string endpoint = ApiOsEndpoints.CalculateOsSyncAvatarList;
+        string referer;
+        string endpoint;
 
-        if (userAndUid.Uid.Region == "cn_gf01" || userAndUid.Uid.Region == "cn_qd01")
+        if (userAndUid.User.IsOversea)
         {
-            referer = ApiEndpoints.WebStaticMihoyoReferer;
-            endpoint = ApiEndpoints.CalculateSyncAvatarList;
+            referer = ApiOsEndpoints.ActHoyolabReferer;
+            endpoint = ApiOsEndpoints.CalculateOsSyncAvatarList;
             httpClient.SetUser(userAndUid.User, CookieType.CookieToken);
         }
         else
         {
-            httpClient.SetUser(userAndUid.User, CookieType.Cookie);
+            referer = ApiEndpoints.WebStaticMihoyoReferer;
+            endpoint = ApiEndpoints.CalculateSyncAvatarList;
+            httpClient.SetUser(userAndUid.User, CookieType.CookieToken);
         }
 
         do
@@ -129,7 +131,7 @@ internal sealed class CalculateClient
     public async Task<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)
     {
         Response<AvatarDetail>? resp;
-        if (userAndUid.Uid.Region == "cn_gf01" || userAndUid.Uid.Region == "cn_qd01")
+        if (!userAndUid.User.IsOversea)
         {
             resp = await httpClient
             .SetUser(userAndUid.User, CookieType.CookieToken)
@@ -139,10 +141,11 @@ internal sealed class CalculateClient
         else
         {
             resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.Cookie)
+            .SetUser(userAndUid.User, CookieType.CookieToken)
             .TryCatchGetFromJsonAsync<Response<AvatarDetail>>(ApiOsEndpoints.CalculateOsSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value), options, logger, token)
             .ConfigureAwait(false);
         }
+
         return Response.Response.DefaultIfNull(resp);
     }
 

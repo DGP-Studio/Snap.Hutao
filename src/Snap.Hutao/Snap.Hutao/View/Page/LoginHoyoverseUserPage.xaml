@@ -27,13 +27,15 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBox 
+            <TextBox
+                TextChanging="TextBoxOnTextChanging"
+                InputScope="Number"
+                MaxLength="9"
                 Grid.Column="0"
                 Width="240"
-                MaxLength="9"
                 x:Name="UidInput"
                 Margin="0,0,16,0"
-                PlaceholderText="ÇëÌîÐ´Í¨ÐÐÖ¤ID"
+                PlaceholderText="Please fill in your User ID here"
                 HorizontalAlignment="Right"/>
             <Button
                 Grid.Column="1"

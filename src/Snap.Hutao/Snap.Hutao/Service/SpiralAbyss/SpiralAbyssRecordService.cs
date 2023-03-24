@@ -75,15 +75,15 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
         Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response;
 
         // server determination
-        if (userAndUid.Uid.Region == "cn_gf01" || userAndUid.Uid.Region == "cn_qd01")
+        if (userAndUid.User.IsOversea)
         {
-            response = await gameRecordClient
+            response = await gameRecordClientOs
             .GetSpiralAbyssAsync(userAndUid, schedule)
             .ConfigureAwait(false);
         }
         else
         {
-            response = await gameRecordClientOs
+            response = await gameRecordClient
             .GetSpiralAbyssAsync(userAndUid, schedule)
             .ConfigureAwait(false);
         }

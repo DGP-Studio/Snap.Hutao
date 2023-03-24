@@ -2,27 +2,25 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
-using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Response;
-using System.Diagnostics.Eventing.Reader;
 
 namespace Snap.Hutao.View.Page;
 
 /// <summary>
-/// µÇÂ¼Ã×¹şÓÎÍ¨ĞĞÖ¤Ò³Ãæ
+/// ç™»å½•ç±³å“ˆæ¸¸é€šè¡Œè¯é¡µé¢
 /// </summary>
 [HighQuality]
 internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Controls.Page
 {
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄµÇÂ¼Ã×¹şÓÎÍ¨ĞĞÖ¤Ò³Ãæ
+    /// æ„é€ ä¸€ä¸ªæ–°çš„ç™»å½•ç±³å“ˆæ¸¸é€šè¡Œè¯é¡µé¢
     /// </summary>
     public LoginHoyoverseUserPage()
     {
@@ -65,14 +63,14 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         if (uid.Length != 9)
         {
             await ThreadHelper.SwitchToMainThreadAsync();
-            infoBarService.Warning($"ÇëÔÚÒ³ÃæÓÒÉÏ·½µÄÊäÈë¿ò´¦ÌîĞ´ÄãµÄÍ¨ĞĞÖ¤ ID!");
+            infoBarService.Information($"è¯·åœ¨é¡µé¢å³ä¸Šæ–¹çš„è¾“å…¥æ¡†å¤„å¡«å†™ä½ çš„é€šè¡Œè¯ ID!");
             return;
         }
 
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
         loginTicketCookie["login_uid"] = uid;
 
-        // Ê¹ÓÃ loginTicket »ñÈ¡ stoken
+        // ä½¿ç”¨ loginTicket è·å– stoken
         Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
             .GetRequiredService<AuthClientOs>()
             .GetMultiTokenByLoginTicketAsync(loginTicketCookie, token)
@@ -86,7 +84,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         Dictionary<string, string> multiTokenMap = multiTokenResponse.Data.List.ToDictionary(n => n.Name, n => n.Token);
         Cookie hoyoLabCookie = Cookie.Parse($"stoken={multiTokenMap["stoken"]}; stuid={uid}");
 
-        // ´¦Àí cookie ²¢Ìí¼ÓÓÃ»§
+        // å¤„ç† cookie å¹¶æ·»åŠ ç”¨æˆ·
         (UserOptionResult result, string nickname) = await Ioc.Default
             .GetRequiredService<IUserService>()
             .ProcessInputOsCookieAsync(hoyoLabCookie)
@@ -104,16 +102,16 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
                     vm.SelectedUser = vm.Users.Single();
                 }
 
-                infoBarService.Success($"ÓÃ»§ [{nickname}] Ìí¼Ó³É¹¦");
+                infoBarService.Success($"ç”¨æˆ· [{nickname}] æ·»åŠ æˆåŠŸ");
                 break;
             case UserOptionResult.Incomplete:
-                infoBarService.Information($"´Ë Cookie ²»ÍêÕû£¬²Ù×÷Ê§°Ü");
+                infoBarService.Information($"æ­¤ Cookie ä¸å®Œæ•´ï¼Œæ“ä½œå¤±è´¥");
                 break;
             case UserOptionResult.Invalid:
-                infoBarService.Information($"´Ë Cookie ÎŞĞ§£¬²Ù×÷Ê§°Ü");
+                infoBarService.Information($"æ­¤ Cookie æ— æ•ˆï¼Œæ“ä½œå¤±è´¥");
                 break;
             case UserOptionResult.Updated:
-                infoBarService.Success($"ÓÃ»§ [{nickname}] ¸üĞÂ³É¹¦");
+                infoBarService.Success($"ç”¨æˆ· [{nickname}] æ›´æ–°æˆåŠŸ");
                 break;
             default:
                 throw Must.NeverHappen();
@@ -123,5 +121,10 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
     private void CookieButtonClick(object sender, RoutedEventArgs e)
     {
         HandleCurrentCookieAsync(CancellationToken.None).SafeForget();
+    }
+
+    private void TextBoxOnTextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
+    {
+        sender.Text = new(sender.Text.Where(char.IsDigit).ToArray());
     }
 }

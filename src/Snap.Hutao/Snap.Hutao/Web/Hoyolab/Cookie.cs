@@ -118,8 +118,9 @@ internal sealed partial class Cookie
 
     /// <summary>
     /// 提取其中的 stoken 信息
+    /// Used for hoyolab account.
     /// </summary>
-    /// <param name="cookie">含有 Stoken 的 cookie</param>
+    /// <param name="cookie">A cookie contains stoken and stuid, without mid.</param>
     /// <returns>是否获取成功</returns>
     public bool TryGetAsStokenV1([NotNullWhen(true)] out Cookie? cookie)
     {

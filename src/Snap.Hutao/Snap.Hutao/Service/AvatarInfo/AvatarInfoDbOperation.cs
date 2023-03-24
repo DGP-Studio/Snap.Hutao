@@ -93,7 +93,7 @@ internal sealed class AvatarInfoDbOperation
         Response<RecordPlayerInfo> playerInfoResponse;
         Response<Web.Hoyolab.Takumi.GameRecord.Avatar.CharacterWrapper> charactersResponse;
 
-        if (userAndUid.Uid.Region == "cn_gf01" || userAndUid.Uid.Region == "cn_qd01")
+        if (!userAndUid.User.IsOversea)
         {
             GameRecordClient gameRecordClient = Ioc.Default.GetRequiredService<GameRecordClient>();
             playerInfoResponse = await gameRecordClient
