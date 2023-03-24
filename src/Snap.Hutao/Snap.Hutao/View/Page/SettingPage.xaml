@@ -73,6 +73,10 @@
                     Header="{shcm:ResourceString Name=AppName}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
                 <clw:SettingsCard
+                    Description="{Binding AppVersion}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE716;}"/>
+                <clw:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
                     Command="{Binding CopyDeviceIdCommand}"
@@ -199,15 +203,9 @@
                     IsOpen="{Binding Options.IsAdvancedLaunchOptionsEnabled}"
                     Message="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
                     Severity="Error"/>
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="{Binding IsElevated, Converter={StaticResource BoolNegationConverter}}"
-                    Message="{shcm:ResourceString Name=ViewPageLaunchGameElevationHint}"
-                    Severity="Warning"/>
 
                 <clw:SettingsCard
                     Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
-                    BorderBrush="{StaticResource SystemFillColorCriticalBrush}"
                     Description="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}">
@@ -217,6 +215,7 @@
                         IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                 </clw:SettingsCard>
                 <InfoBar
+                    Margin="0,4,0,0"
                     IsClosable="False"
                     IsOpen="True"
                     Message="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"

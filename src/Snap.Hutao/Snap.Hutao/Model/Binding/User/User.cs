@@ -214,7 +214,7 @@ internal sealed class User : ObservableObject
                 return false;
             }
 
-            if (await TrySetCookieTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
+            if (!await TrySetCookieTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
             {
                 return false;
             }

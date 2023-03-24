@@ -32,7 +32,7 @@ internal sealed class ExceptionRecorder
     {
 #if RELEASE
 #pragma warning disable VSTHRD002
-        Ioc.Default.GetRequiredService<Web.Hutao.HomaClient2>().UploadLogAsync(e.Exception).GetAwaiter().GetResult();
+        Ioc.Default.GetRequiredService<Web.Hutao.HomaLogUploadClient>().UploadLogAsync(e.Exception).GetAwaiter().GetResult();
 #pragma warning restore VSTHRD002
 #endif
         StringBuilder dataDetailBuilder = new();

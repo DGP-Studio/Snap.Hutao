@@ -50,7 +50,7 @@ internal sealed class AchievementImporter
         {
             if (await GetUIAFFromClipboardAsync().ConfigureAwait(false) is UIAF uiaf)
             {
-                return await ImportAsync(achievementService.CurrentArchive!, uiaf).ConfigureAwait(false);
+                return await TryImportAsync(achievementService.CurrentArchive!, uiaf).ConfigureAwait(false);
             }
             else
             {
@@ -85,7 +85,7 @@ internal sealed class AchievementImporter
 
                 if (isOk)
                 {
-                    return await ImportAsync(achievementService.CurrentArchive, uiaf!).ConfigureAwait(false);
+                    return await TryImportAsync(achievementService.CurrentArchive, uiaf!).ConfigureAwait(false);
                 }
                 else
                 {
@@ -114,7 +114,7 @@ internal sealed class AchievementImporter
         }
     }
 
-    private async Task<bool> ImportAsync(EntityAchievementArchive archive, UIAF uiaf)
+    private async Task<bool> TryImportAsync(EntityAchievementArchive archive, UIAF uiaf)
     {
         if (uiaf.IsCurrentVersionSupported())
         {

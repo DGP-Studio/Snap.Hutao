@@ -81,10 +81,11 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         try
         {
             Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
-
             foreach (MODULEENTRY32 entry in StructMarshal.EnumerateModuleEntry32(snapshot))
             {
-                if (entry.th32ProcessID == processId && entry.szModule.AsNullTerminatedReadOnlySpan().SequenceEqual(moduleName))
+                __CHAR_256* pszModule = &entry.szModule;
+                ReadOnlySpan<byte> szModuleLocal = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)pszModule);
+                if (entry.th32ProcessID == processId && szModuleLocal.SequenceEqual(moduleName))
                 {
                     return entry;
                 }

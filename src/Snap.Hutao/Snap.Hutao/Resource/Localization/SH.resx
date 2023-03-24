@@ -1797,4 +1797,13 @@
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
     <value>是否永久删除用户数据</value>
   </data>
+  <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃账号</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
+    <value>登录失败，请重新登录</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
+    <value>立即登录或注册</value>
+  </data>
 </root>
