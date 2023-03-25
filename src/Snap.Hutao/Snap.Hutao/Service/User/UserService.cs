@@ -329,7 +329,7 @@ internal class UserService : IUserService
             // 判断是否为国际服
             if (isOversea)
             {
-                newUser = await BindingUser.CreateOsUserAsync(cookie).ConfigureAwait(false);
+                newUser = await BindingUser.CreateOsAsync(cookie).ConfigureAwait(false);
             }
             else
             {

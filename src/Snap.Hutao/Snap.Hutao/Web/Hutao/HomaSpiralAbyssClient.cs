@@ -18,7 +18,7 @@ namespace Snap.Hutao.Web.Hutao;
 /// 胡桃API客户端
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class HomaSpiralAbyssClient
 {
     private readonly HttpClient httpClient;

@@ -11,7 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// 祈愿记录客户端
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class GachaInfoClient
 {
     private readonly HttpClient httpClient;

@@ -15,7 +15,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfigration.XRpc)]
+[HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed class BindingClient2
 {
     private readonly HttpClient httpClient;

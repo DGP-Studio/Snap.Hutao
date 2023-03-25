@@ -13,7 +13,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class AuthClientOs
 {
     private readonly HttpClient httpClient;

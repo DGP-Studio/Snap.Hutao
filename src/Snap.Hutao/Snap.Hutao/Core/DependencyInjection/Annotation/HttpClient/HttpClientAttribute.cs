@@ -15,7 +15,7 @@ internal sealed class HttpClientAttribute : Attribute
     /// 构造一个新的特性
     /// </summary>
     /// <param name="configration">配置</param>
-    public HttpClientAttribute(HttpClientConfigration configration)
+    public HttpClientAttribute(HttpClientConfiguration configration)
     {
     }
 }

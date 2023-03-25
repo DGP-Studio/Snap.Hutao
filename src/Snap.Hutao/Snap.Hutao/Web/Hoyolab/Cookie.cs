@@ -122,7 +122,7 @@ internal sealed partial class Cookie
     /// </summary>
     /// <param name="cookie">A cookie contains stoken and stuid, without mid.</param>
     /// <returns>是否获取成功</returns>
-    public bool TryGetAsStokenV1([NotNullWhen(true)] out Cookie? cookie)
+    public bool TryGetAsLegacyStoken([NotNullWhen(true)] out Cookie? cookie)
     {
         bool hasStoken = TryGetValue(STOKEN, out string? stoken);
         bool hasStuid = TryGetValue(STUID, out string? stuid);

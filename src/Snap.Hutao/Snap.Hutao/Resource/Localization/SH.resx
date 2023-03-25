@@ -1806,4 +1806,7 @@
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
     <value>立即登录或注册</value>
   </data>
+  <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
+    <value>网络异常</value>
+  </data>
 </root>

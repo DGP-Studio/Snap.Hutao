@@ -14,7 +14,7 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfigration.XRpc3)]
+[HttpClient(HttpClientConfiguration.XRpc3)]
 internal sealed class PassportClientOs
 {
     private readonly HttpClient httpClient;

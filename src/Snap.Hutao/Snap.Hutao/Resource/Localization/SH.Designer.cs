@@ -412,6 +412,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 网络异常 的本地化字符串。
+        /// </summary>
+        internal static string ModelBindingUserInitializationFailed {
+            get {
+                return ResourceManager.GetString("ModelBindingUserInitializationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 第 {0} 期 的本地化字符串。
         /// </summary>
         internal static string ModelEntitySpiralAbyssScheduleFormat {

@@ -13,7 +13,7 @@ namespace Snap.Hutao.Web.Hutao;
 /// 胡桃通行证客户端
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class HomaPassportClient
 {
     /// <summary>

@@ -24,11 +24,11 @@ internal static class CoreWebView2Extension
     }
 
     /// <summary>
-    /// 设置 移动端UA
+    /// 设置 移动端OsUA
     /// </summary>
     /// <param name="webView">webview2</param>
     /// <returns>链式调用的WebView2</returns>
-    public static CoreWebView2 SetOsMobileUserAgent(this CoreWebView2 webView)
+    public static CoreWebView2 SetMobileOsUserAgent(this CoreWebView2 webView)
     {
         webView.Settings.UserAgent = Core.CoreEnvironment.HoyolabOsMobileUA;
         return webView;

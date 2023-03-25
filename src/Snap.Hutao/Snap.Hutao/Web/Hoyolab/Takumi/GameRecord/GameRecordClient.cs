@@ -18,7 +18,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfigration.XRpc)]
+[HttpClient(HttpClientConfiguration.XRpc)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed class GameRecordClient
 {

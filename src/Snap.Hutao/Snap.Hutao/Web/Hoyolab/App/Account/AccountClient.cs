@@ -16,7 +16,7 @@ namespace Snap.Hutao.Web.Hoyolab.App.Account;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfigration.XRpc)]
+[HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed class AccountClient
 {
     private readonly HttpClient httpClient;

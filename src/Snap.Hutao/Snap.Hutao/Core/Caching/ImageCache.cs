@@ -18,7 +18,7 @@ namespace Snap.Hutao.Core.Caching;
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton, typeof(IImageCache))]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 [PrimaryHttpMessageHandler(MaxConnectionsPerServer = 8)]
 internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 {

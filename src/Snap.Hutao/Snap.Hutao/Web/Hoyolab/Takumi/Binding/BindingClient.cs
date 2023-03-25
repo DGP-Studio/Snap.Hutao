@@ -13,7 +13,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// 绑定客户端
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class BindingClient
 {
     private readonly HttpClient httpClient;

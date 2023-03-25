@@ -81,7 +81,7 @@ internal sealed class User : ISelectable
     /// <returns>新创建的用户</returns>
     public static User CreateOs(Cookie cookie)
     {
-        _ = cookie.TryGetAsStokenV1(out Cookie? stoken);
+        _ = cookie.TryGetAsLegacyStoken(out Cookie? stoken);
         _ = cookie.TryGetAsLtoken(out Cookie? ltoken);
         _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
 
