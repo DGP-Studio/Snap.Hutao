@@ -194,7 +194,7 @@ internal class UserService : IUserService
     public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
-        string? mid = cookie.GetValueOrDefault(Cookie.MID);
+        string? mid = isOversea ? cookie.GetValueOrDefault(Cookie.STUID) : cookie.GetValueOrDefault(Cookie.MID);
 
         if (mid == null)
         {
@@ -208,9 +208,21 @@ internal class UserService : IUserService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                if (cookie.TryGetAsSToken(out Cookie? stoken))
+                bool hasSToken = false;
+
+                if (isOversea)
                 {
+                    hasSToken = cookie.TryGetAsLegacySToken(out Cookie? stoken);
                     user.SToken = stoken;
+                }
+                else
+                {
+                    hasSToken = cookie.TryGetAsSToken(out Cookie? stoken);
+                    user.SToken = stoken;
+                }
+
+                if (hasSToken)
+                {
                     user.LToken = cookie.TryGetAsLToken(out Cookie? ltoken) ? ltoken : user.LToken;
                     user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
