@@ -582,8 +582,8 @@
   <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
     <value>输入的 Cookie 必须包含 Mid</value>
   </data>
-  <data name="ServiceUserProcessCookieNoStoken" xml:space="preserve">
-    <value>输入的 Cookie 必须包含 Stoken</value>
+  <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
+    <value>输入的 Cookie 必须包含 SToken</value>
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>输入的 Cookie 无法获取用户信息</value>
@@ -757,7 +757,7 @@
     <value>操作文档</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
-    <value>在此处输入包含 Stoken 的 Cookie</value>
+    <value>在此处输入包含 SToken 的 Cookie</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈愿记录</value>
@@ -1185,10 +1185,10 @@
   <data name="ViewPageGachaLogRefreshBymanualInputDescription" xml:space="preserve">
     <value>使用由你提供的 Url 刷新祈愿记录</value>
   </data>
-  <data name="ViewPageGachaLogRefreshByStoken" xml:space="preserve">
-    <value>Stoken 刷新</value>
+  <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
+    <value>SToken 刷新</value>
   </data>
-  <data name="ViewPageGachaLogRefreshByStokenDescription" xml:space="preserve">
+  <data name="ViewPageGachaLogRefreshBySTokenDescription" xml:space="preserve">
     <value>使用当前用户的 Cookie 信息刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
@@ -1808,5 +1808,14 @@
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>网络异常</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
+    <value>Hoyolab 账号不支持使用 SToken 刷新祈愿记录</value>
+  </data>
+  <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
+    <value>Hoyolab 账号不支持验证</value>
+  </data>
+  <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
+    <value>请输入你的 Hoyolab Uid</value>
   </data>
 </root>

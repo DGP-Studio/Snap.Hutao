@@ -24,7 +24,7 @@ internal enum RefreshOption
     /// <summary>
     /// 通过Stoken刷新
     /// </summary>
-    Stoken,
+    SToken,
 
     /// <summary>
     /// 手动输入Url刷新

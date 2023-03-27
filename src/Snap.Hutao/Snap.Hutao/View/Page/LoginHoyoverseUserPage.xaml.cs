@@ -16,7 +16,6 @@ namespace Snap.Hutao.View.Page;
 /// <summary>
 /// 登录米哈游通行证页面
 /// </summary>
-[HighQuality]
 internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Controls.Page
 {
     /// <summary>
@@ -34,7 +33,6 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         {
             await WebView.EnsureCoreWebView2Async();
 
-
             CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
             IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyolab.com");
             foreach (CoreWebView2Cookie item in cookies)
@@ -50,7 +48,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         }
     }
 
-    private async Task HandleCurrentCookieAsync(CancellationToken token)
+    private async Task HandleCurrentCookieAsync(CancellationToken token = default)
     {
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyolab.com");
@@ -58,7 +56,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
         // Get user id from text input, login_uid is missed in cookie
-        string uid = UidInput.Text;
+        string uid = UidInputText.Text;
 
         if (uid.Length != 9)
         {
@@ -72,8 +70,8 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
 
         // 使用 loginTicket 获取 stoken
         Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
-            .GetRequiredService<AuthClientOs>()
-            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, token)
+            .GetRequiredService<AuthClient>()
+            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, true, token)
             .ConfigureAwait(false);
 
         if (!multiTokenResponse.IsOk())
@@ -87,7 +85,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         // 处理 cookie 并添加用户
         (UserOptionResult result, string nickname) = await Ioc.Default
             .GetRequiredService<IUserService>()
-            .ProcessInputOsCookieAsync(hoyoLabCookie)
+            .ProcessInputCookieAsync(hoyoLabCookie, true)
             .ConfigureAwait(false);
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
@@ -120,11 +118,6 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
 
     private void CookieButtonClick(object sender, RoutedEventArgs e)
     {
-        HandleCurrentCookieAsync(CancellationToken.None).SafeForget();
-    }
-
-    private void TextBoxOnTextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
-    {
-        sender.Text = new(sender.Text.Where(char.IsDigit).ToArray());
+        HandleCurrentCookieAsync().SafeForget();
     }
 }

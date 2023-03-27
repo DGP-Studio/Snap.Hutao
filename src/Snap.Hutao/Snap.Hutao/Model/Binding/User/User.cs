@@ -103,11 +103,8 @@ internal sealed class User : ObservableObject
     internal static async Task<User> ResumeAsync(EntityUser inner, CancellationToken token = default)
     {
         User user = new(inner);
-        bool isOk = user.Entity.IsOversea
-            ? await user.InitializeCoreOsAsync(token).ConfigureAwait(false)
-            : await user.InitializeCoreAsync(token).ConfigureAwait(false);
 
-        if (!isOk)
+        if (!await user.InitializeCoreAsync(token).ConfigureAwait(false))
         {
             user.UserInfo = new() { Nickname = SH.ModelBindingUserInitializationFailed };
             user.UserGameRoles = new();
@@ -120,52 +117,22 @@ internal sealed class User : ObservableObject
     /// 创建并初始化用户
     /// </summary>
     /// <param name="cookie">cookie</param>
+    /// <param name="isOversea">是否为国际服</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户</returns>
-    internal static async Task<User?> CreateAsync(Cookie cookie, CancellationToken token = default)
+    internal static async Task<User?> CreateAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
     {
         // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
         EntityUser entity = EntityUser.Create(cookie);
 
         entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
-        entity.Mid = cookie.GetValueOrDefault(Cookie.MID);
+        entity.Mid = isOversea ? entity.Aid : cookie.GetValueOrDefault(Cookie.MID);
+        entity.IsOversea = isOversea;
 
         if (entity.Aid != null && entity.Mid != null)
         {
             User user = new(entity);
             bool initialized = await user.InitializeCoreAsync(token).ConfigureAwait(false);
-
-            return initialized ? user : null;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /// <summary>
-    /// 创建并初始化国际服用户
-    /// </summary>
-    /// <param name="cookie">cookie</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>用户</returns>
-    internal static async Task<User?> CreateOsAsync(Cookie cookie, CancellationToken token = default)
-    {
-        // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
-        EntityUser entity = EntityUser.CreateOs(cookie);
-
-        entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
-
-        // Note: Currently we don't know how to get "mid" for hoyolab user,
-        // mid is set as the same value of ltuid/stuid
-        entity.Mid = entity.Aid;
-
-        entity.IsOversea = true;
-
-        if (entity.Aid != null)
-        {
-            User user = new(entity);
-            bool initialized = await user.InitializeCoreOsAsync(token).ConfigureAwait(false);
 
             return initialized ? user : null;
         }
@@ -190,22 +157,24 @@ internal sealed class User : ObservableObject
 
         using (IServiceScope scope = Ioc.Default.CreateScope())
         {
-            if (!await TrySetUserInfoAsync(scope.ServiceProvider, token).ConfigureAwait(false))
-            {
-                return false;
-            }
+            bool isOversea = Entity.IsOversea;
 
             if (!await TrySetLTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
             {
                 return false;
             }
 
-            if (!await TrySetUserGameRolesAsync(scope.ServiceProvider, token).ConfigureAwait(false))
+            if (!await TrySetCookieTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
             {
                 return false;
             }
 
-            if (!await TrySetCookieTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
+            if (!await TrySetUserInfoAsync(scope.ServiceProvider, token).ConfigureAwait(false))
+            {
+                return false;
+            }
+
+            if (!await TrySetUserGameRolesAsync(scope.ServiceProvider, token).ConfigureAwait(false))
             {
                 return false;
             }
@@ -215,88 +184,6 @@ internal sealed class User : ObservableObject
         return isInitialized = true;
     }
 
-    private async Task<bool> InitializeCoreOsAsync(CancellationToken token = default)
-    {
-        if (isInitialized)
-        {
-            return true;
-        }
-
-        if (SToken == null)
-        {
-            return false;
-        }
-
-        using (IServiceScope scope = Ioc.Default.CreateScope())
-        {
-            // 自动填充 Ltoken
-            if (LToken == null)
-            {
-                Response<LtokenWrapper> ltokenResponse = await scope.ServiceProvider
-                    .GetRequiredService<PassportClientOs>()
-                    .GetLtokenBySTokenAsync(Entity, token)
-                    .ConfigureAwait(false);
-
-                if (ltokenResponse.IsOk())
-                {
-                    Cookie ltokenCookie = Cookie.Parse($"ltuid={Entity.Aid};ltoken={ltokenResponse.Data.Ltoken}");
-                    Entity.LToken = ltokenCookie;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            // Fetch user info
-            Response<UserFullInfoWrapper> response = await scope.ServiceProvider
-                .GetRequiredService<UserClient>()
-                .GetOsUserFullInfoAsync(Entity, token)
-                .ConfigureAwait(false);
-            UserInfo = response.Data?.UserInfo;
-
-            // 自动填充 CookieToken
-            if (CookieToken == null)
-            {
-                Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
-                    .GetRequiredService<PassportClientOs>()
-                    .GetCookieAccountInfoBySTokenAsync(Entity, token)
-                    .ConfigureAwait(false);
-
-                if (cookieTokenResponse.IsOk())
-                {
-                    Cookie cookieTokenCookie = Cookie.Parse($"account_id={Entity.Aid};cookie_token={cookieTokenResponse.Data.CookieToken}");
-                    Entity.CookieToken = cookieTokenCookie;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-
-            // 获取游戏角色
-            Response<ListWrapper<UserGameRole>> userGameRolesResponse = await scope.ServiceProvider
-                .GetRequiredService<BindingClient>()
-                .GetOsUserGameRolesByCookieAsync(Entity, token)
-                .ConfigureAwait(false);
-
-            if (userGameRolesResponse.IsOk())
-            {
-                UserGameRoles = userGameRolesResponse.Data.List;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
-
-        isInitialized = true;
-
-        return UserInfo != null && UserGameRoles.Any();
-    }
-
     private async Task<bool> TrySetLTokenAsync(IServiceProvider provider, CancellationToken token)
     {
         if (LToken != null)
@@ -304,14 +191,14 @@ internal sealed class User : ObservableObject
             return true;
         }
 
-        Response<LtokenWrapper> lTokenResponse = await provider
-            .GetRequiredService<PassportClient2>()
+        Response<LTokenWrapper> lTokenResponse = await provider
+            .PickRequiredService<IPassportClient>(Entity.IsOversea)
             .GetLTokenBySTokenAsync(Entity, token)
             .ConfigureAwait(false);
 
         if (lTokenResponse.IsOk())
         {
-            LToken = Cookie.Parse($"{Cookie.LTUID}={Entity.Aid};{Cookie.LTOKEN}={lTokenResponse.Data.Ltoken}");
+            LToken = Cookie.Parse($"{Cookie.LTUID}={Entity.Aid};{Cookie.LTOKEN}={lTokenResponse.Data.LToken}");
             return true;
         }
         else
@@ -328,7 +215,7 @@ internal sealed class User : ObservableObject
         }
 
         Response<UidCookieToken> cookieTokenResponse = await provider
-            .GetRequiredService<PassportClient2>()
+            .PickRequiredService<IPassportClient>(Entity.IsOversea)
             .GetCookieAccountInfoBySTokenAsync(Entity, token)
             .ConfigureAwait(false);
 
@@ -346,38 +233,32 @@ internal sealed class User : ObservableObject
     private async Task<bool> TrySetUserInfoAsync(IServiceProvider provider, CancellationToken token)
     {
         Response<UserFullInfoWrapper> response = await provider
-            .GetRequiredService<UserClient>()
+            .PickRequiredService<IUserClient>(Entity.IsOversea)
             .GetUserFullInfoAsync(Entity, token)
             .ConfigureAwait(false);
-        UserInfo = response.Data?.UserInfo;
-        return UserInfo != null;
+
+        if (response.IsOk())
+        {
+            UserInfo = response.Data.UserInfo;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private async Task<bool> TrySetUserGameRolesAsync(IServiceProvider provider, CancellationToken token)
     {
-        Response<ActionTicketWrapper> actionTicketResponse = await provider
-                .GetRequiredService<AuthClient>()
-                .GetActionTicketByStokenAsync("game_role", Entity)
-                .ConfigureAwait(false);
+        Response<ListWrapper<UserGameRole>> userGameRolesResponse = await provider
+            .GetRequiredService<BindingClient>()
+            .GetUserGameRolesOverseaAwareAsync(Entity, token)
+            .ConfigureAwait(false);
 
-        if (actionTicketResponse.IsOk())
+        if (userGameRolesResponse.IsOk())
         {
-            string actionTicket = actionTicketResponse.Data.Ticket;
-
-            Response<ListWrapper<UserGameRole>> userGameRolesResponse = await provider
-                .GetRequiredService<BindingClient>()
-                .GetUserGameRolesByActionTicketAsync(actionTicket, Entity, token)
-                .ConfigureAwait(false);
-
-            if (userGameRolesResponse.IsOk())
-            {
-                UserGameRoles = userGameRolesResponse.Data.List;
-                return UserGameRoles.Any();
-            }
-            else
-            {
-                return false;
-            }
+            UserGameRoles = userGameRolesResponse.Data.List;
+            return UserGameRoles.Any();
         }
         else
         {

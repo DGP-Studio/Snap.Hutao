@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
-using Microsoft.UI.Xaml;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Web.Hoyolab;
@@ -14,9 +12,29 @@ namespace Snap.Hutao.Web;
 /// </summary>
 [HighQuality]
 [SuppressMessage("", "SA1201")]
+[SuppressMessage("", "SA1202")]
 [SuppressMessage("", "SA1124")]
 internal static class ApiOsEndpoints
 {
+    #region ApiAccountOsApi
+
+    /// <summary>
+    /// Hoyolab App Login api
+    /// Can fetch stoken
+    /// </summary>
+    public const string WebLoginByPassword = $"{ApiAccountOsAuthApi}/webLoginByPassword";
+
+    /// <summary>
+    /// 获取 Ltoken
+    /// </summary>
+    public const string AccountGetLTokenBySToken = $"{ApiAccountOsAuthApi}/getLTokenBySToken";
+
+    /// <summary>
+    /// fetch CookieToken
+    /// </summary>
+    public const string AccountGetCookieTokenBySToken = $"{ApiAccountOsAuthApi}/getCookieAccountInfoBySToken";
+    #endregion
+
     #region ApiGeetest
 
     /// <summary>
@@ -59,7 +77,7 @@ internal static class ApiOsEndpoints
     /// 获取 stoken 与 ltoken
     /// </summary>
     /// <param name="actionType">操作类型 game_role</param>
-    /// <param name="stoken">Stoken</param>
+    /// <param name="stoken">SToken</param>
     /// <param name="uid">uid</param>
     /// <returns>Url</returns>
     public static string AuthActionTicket(string actionType, string stoken, string uid)
@@ -75,7 +93,7 @@ internal static class ApiOsEndpoints
     /// 用户游戏角色
     /// </summary>
     /// <returns>用户游戏角色字符串</returns>
-    public const string UserGameRolesByCookie = $"{ApiOsTaKumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_global";
+    public const string UserGameRolesByCookie = $"{ApiOsTakumiBindingApi}/getUserGameRolesByCookie?game_biz=hk4e_global";
 
     /// <summary>
     /// 用户游戏角色
@@ -86,46 +104,6 @@ internal static class ApiOsEndpoints
     {
         return $"{ApiAccountOsBindingApi}/getUserGameRolesByLtoken?game_biz=hk4e_global&region={region}";
     }
-
-    #endregion
-
-    #region SgPublicApi
-
-    /// <summary>
-    /// 计算器家具计算
-    /// </summary>
-    public const string CalculateOsFurnitureCompute = $"{SgPublicApi}/event/calculateos/furniture/list";
-
-    /// <summary>
-    /// 计算器角色列表 size 20
-    /// </summary>
-    public const string CalculateOsAvatarList = $"{SgPublicApi}/event/calculateos/avatar/list";
-
-    /// <summary>
-    /// 计算器武器列表 size 20
-    /// </summary>
-    public const string CalculateOsWeaponList = $"{SgPublicApi}/event/calculateos/weapon/list";
-
-    /// <summary>
-    /// 计算器结果
-    /// </summary>
-    public const string CalculateOsCompute = $"{SgPublicApi}/event/calculateos/compute";
-
-    /// <summary>
-    /// 计算器同步角色详情 size 20
-    /// </summary>
-    /// <param name="avatarId">角色Id</param>
-    /// <param name="uid">uid</param>
-    /// <returns>角色详情</returns>
-    public static string CalculateOsSyncAvatarDetail(AvatarId avatarId, PlayerUid uid)
-    {
-        return $"{SgPublicApi}/event/calculateos/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}";
-    }
-
-    /// <summary>
-    /// 计算器同步角色列表 size 20
-    /// </summary>
-    public const string CalculateOsSyncAvatarList = $"{SgPublicApi}/event/calculateos/sync/avatar/list";
 
     #endregion
 
@@ -202,23 +180,44 @@ internal static class ApiOsEndpoints
     }
     #endregion
 
-    #region ApiAccountOsApi
+    #region SgPublicApi
 
     /// <summary>
-    /// Hoyolab App Login api
-    /// Can fetch stoken
+    /// 计算器家具计算
     /// </summary>
-    public const string WebLoginByPassword = $"{ApiAccountOsAuthApi}/webLoginByPassword";
+    public const string CalculateOsFurnitureCompute = $"{SgPublicApi}/event/calculateos/furniture/list";
 
     /// <summary>
-    /// 获取 Ltoken
+    /// 计算器角色列表 size 20
     /// </summary>
-    public const string AccountGetLtokenByStoken = $"{ApiAccountOsAuthApi}/getLTokenBySToken";
+    public const string CalculateOsAvatarList = $"{SgPublicApi}/event/calculateos/avatar/list";
 
     /// <summary>
-    /// fetch CookieToken
+    /// 计算器武器列表 size 20
     /// </summary>
-    public const string AccountGetCookieTokenBySToken = $"{ApiAccountOsAuthApi}/getCookieAccountInfoBySToken";
+    public const string CalculateOsWeaponList = $"{SgPublicApi}/event/calculateos/weapon/list";
+
+    /// <summary>
+    /// 计算器结果
+    /// </summary>
+    public const string CalculateOsCompute = $"{SgPublicApi}/event/calculateos/compute";
+
+    /// <summary>
+    /// 计算器同步角色详情 size 20
+    /// </summary>
+    /// <param name="avatarId">角色Id</param>
+    /// <param name="uid">uid</param>
+    /// <returns>角色详情</returns>
+    public static string CalculateOsSyncAvatarDetail(AvatarId avatarId, PlayerUid uid)
+    {
+        return $"{SgPublicApi}/event/calculateos/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}";
+    }
+
+    /// <summary>
+    /// 计算器同步角色列表 size 20
+    /// </summary>
+    public const string CalculateOsSyncAvatarList = $"{SgPublicApi}/event/calculateos/sync/avatar/list";
+
     #endregion
 
     #region SdkStaticLauncherApi
@@ -237,8 +236,8 @@ internal static class ApiOsEndpoints
     #region Hosts | Queries
     private const string ApiNaGeetest = "https://api-na.geetest.com";
 
-    private const string ApiOsTaKumi = "https://api-os-takumi.hoyoverse.com";
-    private const string ApiOsTaKumiBindingApi = $"{ApiOsTaKumi}/binding/api";
+    private const string ApiOsTakumi = "https://api-os-takumi.hoyoverse.com";
+    private const string ApiOsTakumiBindingApi = $"{ApiOsTakumi}/binding/api";
 
     private const string ApiAccountOs = "https://api-account-os.hoyolab.com";
     private const string ApiAccountOsBindingApi = $"{ApiAccountOs}/binding/api";
@@ -259,6 +258,10 @@ internal static class ApiOsEndpoints
     /// Web static referer
     /// </summary>
     public const string WebStaticSeaMihoyoReferer = "https://webstatic-sea.mihoyo.com";
+
+    /// <summary>
+    /// Act hoyolab referer
+    /// </summary>
     public const string ActHoyolabReferer = "https://act.hoyolab.com/";
 
     #endregion

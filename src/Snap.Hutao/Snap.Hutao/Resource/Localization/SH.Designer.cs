@@ -1267,6 +1267,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Hoyolab 账号不支持使用 SToken 刷新祈愿记录 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGachaLogUrlProviderStokenUnsupported {
+            get {
+                return ResourceManager.GetString("ServiceGachaLogUrlProviderStokenUnsupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 不支持的 Item Id：{0} 的本地化字符串。
         /// </summary>
         internal static string ServiceGachaStatisticsFactoryItemIdInvalid {
@@ -1465,11 +1474,11 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 输入的 Cookie 必须包含 Stoken 的本地化字符串。
+        ///   查找类似 输入的 Cookie 必须包含 SToken 的本地化字符串。
         /// </summary>
-        internal static string ServiceUserProcessCookieNoStoken {
+        internal static string ServiceUserProcessCookieNoSToken {
             get {
-                return ResourceManager.GetString("ServiceUserProcessCookieNoStoken", resourceCulture);
+                return ResourceManager.GetString("ServiceUserProcessCookieNoSToken", resourceCulture);
             }
         }
         
@@ -2005,7 +2014,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在此处输入包含 Stoken 的 Cookie 的本地化字符串。
+        ///   查找类似 在此处输入包含 SToken 的 Cookie 的本地化字符串。
         /// </summary>
         internal static string ViewDialogUserInputPlaceholder {
             get {
@@ -2235,6 +2244,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewModelCultivationProjectInvalidName {
             get {
                 return ResourceManager.GetString("ViewModelCultivationProjectInvalidName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Hoyolab 账号不支持验证 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteHoyolabVerificationUnsupported {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteHoyolabVerificationUnsupported", resourceCulture);
             }
         }
         
@@ -3301,20 +3319,20 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Stoken 刷新 的本地化字符串。
+        ///   查找类似 SToken 刷新 的本地化字符串。
         /// </summary>
-        internal static string ViewPageGachaLogRefreshByStoken {
+        internal static string ViewPageGachaLogRefreshBySToken {
             get {
-                return ResourceManager.GetString("ViewPageGachaLogRefreshByStoken", resourceCulture);
+                return ResourceManager.GetString("ViewPageGachaLogRefreshBySToken", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 使用当前用户的 Cookie 信息刷新祈愿记录 的本地化字符串。
         /// </summary>
-        internal static string ViewPageGachaLogRefreshByStokenDescription {
+        internal static string ViewPageGachaLogRefreshBySTokenDescription {
             get {
-                return ResourceManager.GetString("ViewPageGachaLogRefreshByStokenDescription", resourceCulture);
+                return ResourceManager.GetString("ViewPageGachaLogRefreshBySTokenDescription", resourceCulture);
             }
         }
         
@@ -3972,6 +3990,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageLaunchGameUnlockFpsOn {
             get {
                 return ResourceManager.GetString("ViewPageLaunchGameUnlockFpsOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入你的 Hoyolab Uid 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLoginHoyoverseUserHint {
+            get {
+                return ResourceManager.GetString("ViewPageLoginHoyoverseUserHint", resourceCulture);
             }
         }
         

@@ -49,7 +49,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         }
     }
 
-    private async Task HandleCurrentCookieAsync(CancellationToken token)
+    private async Task HandleCurrentCookieAsync(CancellationToken token = default)
     {
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
@@ -57,7 +57,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
         Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
             .GetRequiredService<AuthClient>()
-            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, token)
+            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, false, token)
             .ConfigureAwait(false);
 
         if (!multiTokenResponse.IsOk())
@@ -70,7 +70,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie stokenV1 = Cookie.Parse($"stuid={loginTicketCookie["login_uid"]};stoken={multiTokenMap["stoken"]}");
         Response<LoginResult> loginResultResponse = await Ioc.Default
             .GetRequiredService<PassportClient2>()
-            .LoginByStokenAsync(stokenV1, token)
+            .LoginBySTokenAsync(stokenV1, token)
             .ConfigureAwait(false);
 
         if (!loginResultResponse.IsOk())
@@ -81,7 +81,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie stokenV2 = Cookie.FromLoginResult(loginResultResponse.Data);
         (UserOptionResult result, string nickname) = await Ioc.Default
             .GetRequiredService<IUserService>()
-            .ProcessInputCookieAsync(stokenV2)
+            .ProcessInputCookieAsync(stokenV2, false)
             .ConfigureAwait(false);
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
@@ -115,6 +115,6 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
 
     private void CookieButtonClick(object sender, RoutedEventArgs e)
     {
-        HandleCurrentCookieAsync(CancellationToken.None).SafeForget();
+        HandleCurrentCookieAsync().SafeForget();
     }
 }

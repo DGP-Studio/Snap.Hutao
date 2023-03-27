@@ -6,6 +6,7 @@ global using CommunityToolkit.Mvvm.DependencyInjection;
 
 // Microsoft
 global using Microsoft;
+global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Logging;
 
 // Snap.Hutao

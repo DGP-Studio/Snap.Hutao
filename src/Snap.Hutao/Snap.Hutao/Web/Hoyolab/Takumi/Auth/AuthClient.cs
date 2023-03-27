@@ -43,13 +43,15 @@ internal sealed class AuthClient
     /// <param name="user">用户</param>
     /// <returns>操作凭证</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.K2)]
-    public async Task<Response<ActionTicketWrapper>> GetActionTicketByStokenAsync(string action, User user)
+    public async Task<Response<ActionTicketWrapper>> GetActionTicketBySTokenAsync(string action, User user)
     {
+        string url = ApiEndpoints.AuthActionTicket(action, user.SToken?[Cookie.STOKEN] ?? string.Empty, user.Aid!);
+
         Response<ActionTicketWrapper>? resp = await httpClient
-                .SetUser(user, CookieType.SToken)
-                .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
-                .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(ApiEndpoints.AuthActionTicket(action, user.SToken?[Cookie.STOKEN] ?? string.Empty, user.Aid!), options, logger)
-                .ConfigureAwait(false);
+            .SetUser(user, CookieType.SToken)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
+            .TryCatchGetFromJsonAsync<Response<ActionTicketWrapper>>(url, options, logger)
+            .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
     }
@@ -58,15 +60,20 @@ internal sealed class AuthClient
     /// 获取 MultiToken
     /// </summary>
     /// <param name="cookie">login cookie</param>
+    /// <param name="isOversea">是否为国际服</param>
     /// <param name="token">取消令牌</param>
     /// <returns>包含token的字典</returns>
-    public async Task<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, CancellationToken token)
+    public async Task<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, bool isOversea, CancellationToken token)
     {
         string loginTicket = cookie[Cookie.LOGIN_TICKET];
         string loginUid = cookie[Cookie.LOGIN_UID];
 
+        string url = isOversea
+            ? ApiOsEndpoints.AuthMultiToken(loginTicket, loginUid)
+            : ApiEndpoints.AuthMultiToken(loginTicket, loginUid);
+
         Response<ListWrapper<NameToken>>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<ListWrapper<NameToken>>>(ApiEndpoints.AuthMultiToken(loginTicket, loginUid), options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<ListWrapper<NameToken>>>(url, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

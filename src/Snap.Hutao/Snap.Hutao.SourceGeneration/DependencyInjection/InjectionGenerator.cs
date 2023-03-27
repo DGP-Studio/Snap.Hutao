@@ -41,8 +41,6 @@ public class InjectionGenerator : ISourceGenerator
             return;
         }
 
-        string toolName = this.GetGeneratorType().FullName;
-
         StringBuilder sourceCodeBuilder = new();
         sourceCodeBuilder.Append($$"""
             // Copyright (c) DGP Studio. All rights reserved.
@@ -56,7 +54,7 @@ public class InjectionGenerator : ISourceGenerator
             
             internal static partial class ServiceCollectionExtension
             {
-                [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{toolName}}","1.0.0.0")]
+                [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(InjectionGenerator)}}","1.0.0.0")]
                 [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
                 public static partial IServiceCollection AddInjections(this IServiceCollection services)
                 {
@@ -64,6 +62,7 @@ public class InjectionGenerator : ISourceGenerator
 
         FillWithInjectionServices(receiver, sourceCodeBuilder);
         sourceCodeBuilder.Append("""
+
                     return services;
                 }
             }
@@ -79,46 +78,42 @@ public class InjectionGenerator : ISourceGenerator
 
         foreach (INamedTypeSymbol classSymbol in receiver.Classes)
         {
-            IEnumerable<AttributeData> datas = classSymbol
+            AttributeData injectionInfo = classSymbol
                 .GetAttributes()
-                .Where(attr => attr.AttributeClass!.ToDisplayString() == InjectionSyntaxContextReceiver.AttributeName);
+                .Single(attr => attr.AttributeClass!.ToDisplayString() == InjectionSyntaxContextReceiver.AttributeName);
 
-            foreach (AttributeData injectionInfo in datas)
+            lineBuilder
+                .Clear()
+                .Append("\r\n");
+
+            ImmutableArray<TypedConstant> arguments = injectionInfo.ConstructorArguments;
+            TypedConstant injectAs = arguments[0];
+
+            string injectAsName = injectAs.ToCSharpString();
+            switch (injectAsName)
             {
-                lineBuilder
-                    .Clear()
-                    .Append("\r\n");
-
-                ImmutableArray<TypedConstant> arguments = injectionInfo.ConstructorArguments;
-
-                TypedConstant injectAs = arguments[0];
-
-                string injectAsName = injectAs.ToCSharpString();
-                switch (injectAsName)
-                {
-                    case InjectAsSingletonName:
-                        lineBuilder.Append(@"        services.AddSingleton(");
-                        break;
-                    case InjectAsTransientName:
-                        lineBuilder.Append(@"        services.AddTransient(");
-                        break;
-                    case InjectAsScopedName:
-                        lineBuilder.Append(@"        services.AddScoped(");
-                        break;
-                    default:
-                        throw new InvalidOperationException($"非法的 InjectAs 值: [{injectAsName}]");
-                }
-
-                if (arguments.Length == 2)
-                {
-                    TypedConstant interfaceType = arguments[1];
-                    lineBuilder.Append($"{interfaceType.ToCSharpString()}, ");
-                }
-
-                lineBuilder.Append($"typeof({classSymbol.ToDisplayString()}));");
-
-                lines.Add(lineBuilder.ToString());
+                case InjectAsSingletonName:
+                    lineBuilder.Append(@"        services.AddSingleton<");
+                    break;
+                case InjectAsTransientName:
+                    lineBuilder.Append(@"        services.AddTransient<");
+                    break;
+                case InjectAsScopedName:
+                    lineBuilder.Append(@"        services.AddScoped<");
+                    break;
+                default:
+                    throw new InvalidOperationException($"非法的 InjectAs 值: [{injectAsName}]");
             }
+
+            if (arguments.Length == 2)
+            {
+                TypedConstant interfaceType = arguments[1];
+                lineBuilder.Append($"{interfaceType.Value}, ");
+            }
+
+            lineBuilder.Append($"{classSymbol.ToDisplayString()}>();");
+
+            lines.Add(lineBuilder.ToString());
         }
 
         foreach (string line in lines.OrderBy(x => x))

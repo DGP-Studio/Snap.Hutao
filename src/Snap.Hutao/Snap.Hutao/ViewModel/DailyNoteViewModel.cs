@@ -250,7 +250,7 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
             // TODO: Add verify support for oversea user
             if (userAndUid.User.IsOversea)
             {
-                serviceProvider.GetRequiredService<IInfoBarService>().Warning("Unsupported for hoyoverse account");
+                serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteHoyolabVerificationUnsupported);
             }
             else
             {

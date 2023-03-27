@@ -36,6 +36,22 @@ internal readonly struct PlayerUid
         return new(source);
     }
 
+    /// <summary>
+    /// 判断是否为国际服
+    /// We make this a static method rather than property,
+    /// to avoid unnecessary memory allocation.
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>是否为国际服</returns>
+    public static bool IsOversea(string uid)
+    {
+        return uid[0] switch
+        {
+            >= '1' and <= '4' => false,
+            _ => true,
+        };
+    }
+
     /// <inheritdoc/>
     public override string ToString()
     {

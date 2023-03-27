@@ -23,7 +23,7 @@ internal sealed class HomaSpiralAbyssClient
 {
     private readonly HttpClient httpClient;
     private readonly GameRecordClient gameRecordClient;
-    private readonly GameRecordClientOs gameRecordClientOs;
+    private readonly GameRecordClientOversea gameRecordClientOs;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<HomaSpiralAbyssClient> logger;
 
@@ -34,7 +34,7 @@ internal sealed class HomaSpiralAbyssClient
     /// <param name="gameRecordClient">游戏记录客户端</param>
     /// <param name="options">json序列化选项</param>
     /// <param name="logger">日志器</param>
-    public HomaSpiralAbyssClient(HttpClient httpClient, GameRecordClient gameRecordClient, GameRecordClientOs gameRecordClientOs, JsonSerializerOptions options, ILogger<HomaSpiralAbyssClient> logger)
+    public HomaSpiralAbyssClient(HttpClient httpClient, GameRecordClient gameRecordClient, GameRecordClientOversea gameRecordClientOs, JsonSerializerOptions options, ILogger<HomaSpiralAbyssClient> logger)
     {
         this.httpClient = httpClient;
         this.gameRecordClient = gameRecordClient;

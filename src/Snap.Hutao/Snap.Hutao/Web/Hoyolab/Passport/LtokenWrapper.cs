@@ -4,14 +4,14 @@
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
 /// <summary>
-/// Ltoken 包装器
+/// LToken 包装器
 /// </summary>
 [HighQuality]
-internal sealed class LtokenWrapper
+internal sealed class LTokenWrapper
 {
     /// <summary>
-    /// Ltoken
+    /// LToken
     /// </summary>
     [JsonPropertyName("ltoken")]
-    public string Ltoken { get; set; } = default!;
+    public string LToken { get; set; } = default!;
 }

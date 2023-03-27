@@ -28,7 +28,7 @@ internal static class CoreWebView2Extension
     /// </summary>
     /// <param name="webView">webview2</param>
     /// <returns>链式调用的WebView2</returns>
-    public static CoreWebView2 SetMobileOsUserAgent(this CoreWebView2 webView)
+    public static CoreWebView2 SetMobileOverseaUserAgent(this CoreWebView2 webView)
     {
         webView.Settings.UserAgent = Core.CoreEnvironment.HoyolabOsMobileUA;
         return webView;
@@ -39,10 +39,10 @@ internal static class CoreWebView2Extension
     /// </summary>
     /// <param name="webView">webview2</param>
     /// <param name="cookieToken">CookieToken</param>
-    /// <param name="ltoken">Ltoken</param>
-    /// <param name="stoken">Stoken</param>
+    /// <param name="lToken">LToken</param>
+    /// <param name="sToken">SToken</param>
     /// <returns>链式调用的WebView2</returns>
-    public static CoreWebView2 SetCookie(this CoreWebView2 webView, Cookie? cookieToken = null, Cookie? ltoken = null, Cookie? stoken = null)
+    public static CoreWebView2 SetCookie(this CoreWebView2 webView, Cookie? cookieToken = null, Cookie? lToken = null, Cookie? sToken = null)
     {
         CoreWebView2CookieManager cookieManager = webView.CookieManager;
 
@@ -51,14 +51,14 @@ internal static class CoreWebView2Extension
             cookieManager.AddMihoyoCookie("account_id", cookieToken).AddMihoyoCookie("cookie_token", cookieToken);
         }
 
-        if (ltoken != null)
+        if (lToken != null)
         {
-            cookieManager.AddMihoyoCookie("ltuid", ltoken).AddMihoyoCookie("ltoken", ltoken);
+            cookieManager.AddMihoyoCookie("ltuid", lToken).AddMihoyoCookie("ltoken", lToken);
         }
 
-        if (stoken != null)
+        if (sToken != null)
         {
-            cookieManager.AddMihoyoCookie("stuid", stoken).AddMihoyoCookie("stoken", stoken);
+            cookieManager.AddMihoyoCookie("stuid", sToken).AddMihoyoCookie("stoken", sToken);
         }
 
         return webView;

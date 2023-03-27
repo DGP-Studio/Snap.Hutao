@@ -59,7 +59,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         this.options = options;
 
         RefreshByWebCacheCommand = new AsyncRelayCommand(RefreshByWebCacheAsync);
-        RefreshByStokenCommand = new AsyncRelayCommand(RefreshByStokenAsync);
+        RefreshBySTokenCommand = new AsyncRelayCommand(RefreshBySTokenAsync);
         RefreshByManualInputCommand = new AsyncRelayCommand(RefreshByManualInputAsync);
         ImportFromUIGFJsonCommand = new AsyncRelayCommand(ImportFromUIGFJsonAsync);
         ExportToUIGFJsonCommand = new AsyncRelayCommand(ExportToUIGFJsonAsync);
@@ -112,9 +112,9 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     public ICommand RefreshByWebCacheCommand { get; }
 
     /// <summary>
-    /// Stoken 刷新命令
+    /// SToken 刷新命令
     /// </summary>
-    public ICommand RefreshByStokenCommand { get; }
+    public ICommand RefreshBySTokenCommand { get; }
 
     /// <summary>
     /// 手动输入Url刷新命令
@@ -164,9 +164,9 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         return RefreshInternalAsync(RefreshOption.WebCache);
     }
 
-    private Task RefreshByStokenAsync()
+    private Task RefreshBySTokenAsync()
     {
-        return RefreshInternalAsync(RefreshOption.Stoken);
+        return RefreshInternalAsync(RefreshOption.SToken);
     }
 
     private Task RefreshByManualInputAsync()

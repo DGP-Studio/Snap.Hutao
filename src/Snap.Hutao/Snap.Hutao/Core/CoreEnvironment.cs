@@ -62,7 +62,7 @@ internal static class CoreEnvironment
         [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
 
         // This SALT is not reliable
-        [SaltType.OS] = "6cqshh5dhw73bzxn20oexa9k516chk7s",
+        [SaltType.OSK2] = "6cqshh5dhw73bzxn20oexa9k516chk7s",
     }.ToImmutableDictionary();
 
     /// <summary>

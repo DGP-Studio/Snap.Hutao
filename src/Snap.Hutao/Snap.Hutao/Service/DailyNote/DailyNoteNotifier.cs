@@ -62,39 +62,15 @@ internal sealed class DailyNoteNotifier
 
             string? attribution = SH.ServiceDailyNoteNotifierAttribution;
 
-            if (entry.User.IsOversea)
+            Response<ListWrapper<UserGameRole>> rolesResponse = await scope.ServiceProvider
+                .GetRequiredService<BindingClient>()
+                .GetUserGameRolesOverseaAwareAsync(entry.User)
+                .ConfigureAwait(false);
+
+            if (rolesResponse.IsOk())
             {
-                Response<ListWrapper<UserGameRole>> rolesResponse = await scope.ServiceProvider
-                    .GetRequiredService<BindingClient>()
-                    .GetOsUserGameRolesByCookieAsync(entry.User)
-                    .ConfigureAwait(false);
-
-                if (rolesResponse.IsOk())
-                {
-                    List<UserGameRole> roles = rolesResponse.Data.List;
-                    attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "Unkonwn";
-                }
-
-            }
-            else
-            {
-                Response<ActionTicketWrapper> actionTicketResponse = await authClient
-                    .GetActionTicketByStokenAsync("game_role", entry.User)
-                    .ConfigureAwait(false);
-
-                if (actionTicketResponse.IsOk())
-                {
-                    Response<ListWrapper<UserGameRole>> rolesResponse = await scope.ServiceProvider
-                        .GetRequiredService<BindingClient>()
-                        .GetUserGameRolesByActionTicketAsync(actionTicketResponse.Data.Ticket, entry.User)
-                        .ConfigureAwait(false);
-
-                    if (rolesResponse.IsOk())
-                    {
-                        List<UserGameRole> roles = rolesResponse.Data.List;
-                        attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "Unkonwn";
-                    }
-                }
+                List<UserGameRole> roles = rolesResponse.Data.List;
+                attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "Unknown";
             }
 
             ToastContentBuilder builder = new ToastContentBuilder()

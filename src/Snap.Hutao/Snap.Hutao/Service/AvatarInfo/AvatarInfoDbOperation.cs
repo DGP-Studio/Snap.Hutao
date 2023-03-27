@@ -24,14 +24,17 @@ namespace Snap.Hutao.Service.AvatarInfo;
 internal sealed class AvatarInfoDbOperation
 {
     private readonly AppDbContext appDbContext;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的角色信息数据库操作
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
-    public AvatarInfoDbOperation(AppDbContext appDbContext)
+    /// <param name="serviceProvider">服务提供器</param>
+    public AvatarInfoDbOperation(AppDbContext appDbContext, IServiceProvider serviceProvider)
     {
         this.appDbContext = appDbContext;
+        this.serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -90,72 +93,48 @@ internal sealed class AvatarInfoDbOperation
             .ToList();
         EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
 
-        Response<RecordPlayerInfo> playerInfoResponse;
-        Response<Web.Hoyolab.Takumi.GameRecord.Avatar.CharacterWrapper> charactersResponse;
+        IGameRecordClient gameRecordClient = serviceProvider.PickRequiredService<IGameRecordClient>(userAndUid.User.IsOversea);
+        Response<RecordPlayerInfo> playerInfoResponse = await gameRecordClient
+            .GetPlayerInfoAsync(userAndUid, token)
+            .ConfigureAwait(false);
 
-        if (!userAndUid.User.IsOversea)
+        if (playerInfoResponse.IsOk())
         {
-            GameRecordClient gameRecordClient = Ioc.Default.GetRequiredService<GameRecordClient>();
-            playerInfoResponse = await gameRecordClient
-               .GetPlayerInfoAsync(userAndUid, token)
-               .ConfigureAwait(false);
+            Response<Web.Hoyolab.Takumi.GameRecord.Avatar.CharacterWrapper> charactersResponse = await gameRecordClient
+                .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+                .ConfigureAwait(false);
 
-            if (!playerInfoResponse.IsOk())
+            token.ThrowIfCancellationRequested();
+
+            if (charactersResponse.IsOk())
             {
-                return GetDbAvatarInfos(uid);
-            }
+                List<RecordCharacter> characters = charactersResponse.Data.Avatars;
 
-            charactersResponse = await gameRecordClient
-                    .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
-                    .ConfigureAwait(false);
-        }
-        else
-        {
-            GameRecordClientOs gameRecordClientOs = Ioc.Default.GetRequiredService<GameRecordClientOs>();
-            playerInfoResponse = await gameRecordClientOs
-               .GetPlayerInfoAsync(userAndUid, token)
-               .ConfigureAwait(false);
+                GameRecordCharacterAvatarInfoComposer composer = serviceProvider.GetRequiredService<GameRecordCharacterAvatarInfoComposer>();
 
-            if (!playerInfoResponse.IsOk())
-            {
-                return GetDbAvatarInfos(uid);
-            }
-
-            charactersResponse = await gameRecordClientOs
-                    .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
-                    .ConfigureAwait(false);
-        }
-
-        token.ThrowIfCancellationRequested();
-
-        if (charactersResponse.IsOk())
-        {
-            List<RecordCharacter> characters = charactersResponse.Data.Avatars;
-
-            GameRecordCharacterAvatarInfoComposer composer = Ioc.Default.GetRequiredService<GameRecordCharacterAvatarInfoComposer>();
-
-            foreach (RecordCharacter character in characters)
-            {
-                if (AvatarIds.IsPlayer(character.Id))
+                foreach (RecordCharacter character in characters)
                 {
-                    continue;
-                }
+                    if (AvatarIds.IsPlayer(character.Id))
+                    {
+                        continue;
+                    }
 
-                token.ThrowIfCancellationRequested();
+                    token.ThrowIfCancellationRequested();
 
-                ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
+                    ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
 
-                if (entity == null)
-                {
-                    EnkaAvatarInfo avatarInfo = new() { AvatarId = character.Id };
-                    avatarInfo = await composer.ComposeAsync(avatarInfo, character).ConfigureAwait(false);
-                    entity = ModelAvatarInfo.Create(uid, avatarInfo);
-                    appDbContext.AvatarInfos.AddAndSave(entity);
-                }
-                else
-                {
-                    entity.Info = await composer.ComposeAsync(entity.Info, character).ConfigureAwait(false);
-                    appDbContext.AvatarInfos.UpdateAndSave(entity);
+                    if (entity == null)
+                    {
+                        EnkaAvatarInfo avatarInfo = new() { AvatarId = character.Id };
+                        avatarInfo = await composer.ComposeAsync(avatarInfo, character).ConfigureAwait(false);
+                        entity = ModelAvatarInfo.Create(uid, avatarInfo);
+                        appDbContext.AvatarInfos.AddAndSave(entity);
+                    }
+                    else
+                    {
+                        entity.Info = await composer.ComposeAsync(entity.Info, character).ConfigureAwait(false);
+                        appDbContext.AvatarInfos.UpdateAndSave(entity);
+                    }
                 }
             }
         }
@@ -239,6 +218,7 @@ internal sealed class AvatarInfoDbOperation
         int distinctCount = dbInfos.Select(info => info.Info.AvatarId).ToHashSet().Count;
 
         // Avatars are actually less than the list told us.
+        // This means that there are duplicate items.
         if (distinctCount < dbInfos.Count)
         {
             appDbContext.AvatarInfos.ExecuteDeleteWhere(i => i.Uid == uid);

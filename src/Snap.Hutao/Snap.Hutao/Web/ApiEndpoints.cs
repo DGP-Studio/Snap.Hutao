@@ -46,7 +46,7 @@ internal static class ApiEndpoints
     /// 获取 stoken 与 ltoken
     /// </summary>
     /// <param name="actionType">操作类型 game_role</param>
-    /// <param name="stoken">Stoken</param>
+    /// <param name="stoken">SToken</param>
     /// <param name="uid">uid</param>
     /// <returns>Url</returns>
     public static string AuthActionTicket(string actionType, string stoken, string uid)
@@ -86,7 +86,7 @@ internal static class ApiEndpoints
     /// <summary>
     /// 用户游戏角色
     /// </summary>
-    public const string UserGameRolesByStoken = $"{ApiTaKumiBindingApi}/getUserGameRolesByStoken";
+    public const string UserGameRolesBySToken = $"{ApiTaKumiBindingApi}/getUserGameRolesByStoken";
 
     /// <summary>
     /// AuthKey
@@ -289,12 +289,12 @@ internal static class ApiEndpoints
     public const string AccountGetCookieTokenBySToken = $"{PassportApiAuthApi}/getCookieAccountInfoBySToken";
 
     /// <summary>
-    /// 获取Ltoken
+    /// 获取LToken
     /// </summary>
-    public const string AccountGetLtokenByStoken = $"{PassportApiAuthApi}/getLTokenBySToken";
+    public const string AccountGetLTokenBySToken = $"{PassportApiAuthApi}/getLTokenBySToken";
 
     /// <summary>
-    /// 获取V2Stoken
+    /// 获取V2SToken
     /// </summary>
     public const string AccountGetSTokenByOldToken = $"{PassportApi}/account/ma-cn-session/app/getTokenBySToken";
 

@@ -191,7 +191,7 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie)
+    public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         string? mid = cookie.GetValueOrDefault(Cookie.MID);
@@ -208,10 +208,10 @@ internal class UserService : IUserService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                if (cookie.TryGetAsStoken(out Cookie? stoken))
+                if (cookie.TryGetAsSToken(out Cookie? stoken))
                 {
                     user.SToken = stoken;
-                    user.LToken = cookie.TryGetAsLtoken(out Cookie? ltoken) ? ltoken : user.LToken;
+                    user.LToken = cookie.TryGetAsLToken(out Cookie? ltoken) ? ltoken : user.LToken;
                     user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
                     await appDbContext.Users.UpdateAndSaveAsync(user.Entity).ConfigureAwait(false);
@@ -219,55 +219,13 @@ internal class UserService : IUserService
                 }
                 else
                 {
-                    return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoStoken);
+                    return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoSToken);
                 }
             }
         }
         else
         {
-            return await TryCreateUserAndAddAsync(cookie, false).ConfigureAwait(false);
-        }
-    }
-
-    /// <inheritdoc/>
-    public async Task<ValueResult<UserOptionResult, string>> ProcessInputOsCookieAsync(Cookie cookie)
-    {
-        await ThreadHelper.SwitchToBackgroundAsync();
-        string? stuid = cookie.GetValueOrDefault(Cookie.STUID);
-
-        if (stuid == null)
-        {
-            return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoMid);
-        }
-
-        // 检查 stuid 对应用户是否存在
-        if (TryGetUser(userCollection!, stuid, out BindingUser? user))
-        {
-            // Note: Currently we dont know how to get "mid" for hoyolab user,
-            // mid is set as the same value of ltuid(stuid/user id)
-            user.Entity.Mid = stuid;
-            using (IServiceScope scope = scopeFactory.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                if (cookie.TryGetAsStoken(out Cookie? stoken))
-                {
-                    user.SToken = stoken;
-                    user.LToken = cookie.TryGetAsLtoken(out Cookie? ltoken) ? ltoken : user.LToken;
-                    user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
-
-                    await appDbContext.Users.UpdateAndSaveAsync(user.Entity).ConfigureAwait(false);
-                    return new(UserOptionResult.Updated, stuid);
-                }
-                else
-                {
-                    return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoStoken);
-                }
-            }
-        }
-        else
-        {
-            return await TryCreateUserAndAddAsync(cookie, true).ConfigureAwait(false);
+            return await TryCreateUserAndAddAsync(cookie, isOversea).ConfigureAwait(false);
         }
     }
 
@@ -276,21 +234,10 @@ internal class UserService : IUserService
     {
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            Response<UidCookieToken> cookieTokenResponse;
-            if (user.Entity.IsOversea)
-            {
-                cookieTokenResponse = await scope.ServiceProvider
-                    .GetRequiredService<PassportClientOs>()
-                    .GetCookieAccountInfoBySTokenAsync(user.Entity)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                cookieTokenResponse = await scope.ServiceProvider
-                    .GetRequiredService<PassportClient2>()
-                    .GetCookieAccountInfoBySTokenAsync(user.Entity)
-                    .ConfigureAwait(false);
-            }
+            Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
+                .PickRequiredService<IPassportClient>(user.Entity.IsOversea)
+                .GetCookieAccountInfoBySTokenAsync(user.Entity)
+                .ConfigureAwait(false);
 
             if (cookieTokenResponse.IsOk())
             {
@@ -324,17 +271,7 @@ internal class UserService : IUserService
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            BindingUser? newUser;
-
-            // 判断是否为国际服
-            if (isOversea)
-            {
-                newUser = await BindingUser.CreateOsAsync(cookie).ConfigureAwait(false);
-            }
-            else
-            {
-                newUser = await BindingUser.CreateAsync(cookie).ConfigureAwait(false);
-            }
+            BindingUser? newUser = await BindingUser.CreateAsync(cookie, isOversea).ConfigureAwait(false);
 
             if (newUser != null)
             {

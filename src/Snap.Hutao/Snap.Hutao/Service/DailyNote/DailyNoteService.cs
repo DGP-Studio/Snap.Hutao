@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.User;
@@ -61,28 +60,15 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
-            GameRecordClientOs gameRecordClientOs = scope.ServiceProvider.GetRequiredService<GameRecordClientOs>();
 
             if (!appDbContext.DailyNotes.Any(n => n.Uid == roleUid))
             {
                 DailyNoteEntry newEntry = DailyNoteEntry.Create(role);
 
-                // 根据 Uid 的地区选择不同的 API
-                Web.Response.Response<WebDailyNote> dailyNoteResponse;
-                PlayerUid playerUid = new(roleUid);
-                if (playerUid.Region == "cn_gf01" || playerUid.Region == "cn_qd01")
-                {
-                    dailyNoteResponse = await gameRecordClient
+                Web.Response.Response<WebDailyNote> dailyNoteResponse = await scope.ServiceProvider
+                    .PickRequiredService<IGameRecordClient>(PlayerUid.IsOversea(roleUid))
                     .GetDailyNoteAsync(role)
                     .ConfigureAwait(false);
-                }
-                else
-                {
-                    dailyNoteResponse = await gameRecordClientOs
-                    .GetDailyNoteAsync(role)
-                    .ConfigureAwait(false);
-                }
 
                 if (dailyNoteResponse.IsOk())
                 {
@@ -124,7 +110,7 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
-            GameRecordClientOs gameRecordClientOs = scope.ServiceProvider.GetRequiredService<GameRecordClientOs>();
+            GameRecordClientOversea gameRecordClientOs = scope.ServiceProvider.GetRequiredService<GameRecordClientOversea>();
 
             bool isSilentMode = appDbContext.Settings
                 .SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, Core.StringLiterals.False)
@@ -139,20 +125,10 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
 
             foreach (DailyNoteEntry entry in appDbContext.DailyNotes.Include(n => n.User))
             {
-                Web.Response.Response<WebDailyNote> dailyNoteResponse;
-                PlayerUid playerUid = new(entry.Uid);
-                if (playerUid.Region == "cn_gf01" || playerUid.Region == "cn_qd01")
-                {
-                    dailyNoteResponse = await gameRecordClient
+                Web.Response.Response<WebDailyNote> dailyNoteResponse = await scope.ServiceProvider
+                    .PickRequiredService<IGameRecordClient>(PlayerUid.IsOversea(entry.Uid))
                     .GetDailyNoteAsync(new(entry.User, entry.Uid))
                     .ConfigureAwait(false);
-                }
-                else
-                {
-                    dailyNoteResponse = await gameRecordClientOs
-                    .GetDailyNoteAsync(new(entry.User, entry.Uid))
-                    .ConfigureAwait(false);
-                }
 
                 if (dailyNoteResponse.ReturnCode == 0)
                 {

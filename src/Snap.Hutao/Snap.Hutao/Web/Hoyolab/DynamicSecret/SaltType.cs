@@ -40,7 +40,7 @@ internal enum SaltType
     LK2,
 
     /// <summary>
-    /// 国际服
+    /// Hoyolab K2
     /// </summary>
-    OS,
+    OSK2,
 }

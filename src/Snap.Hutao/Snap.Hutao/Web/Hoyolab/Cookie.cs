@@ -94,13 +94,13 @@ internal sealed partial class Cookie
         return new(cookieMap);
     }
 
-    public bool TryGetAsStoken([NotNullWhen(true)] out Cookie? cookie)
+    public bool TryGetAsSToken([NotNullWhen(true)] out Cookie? cookie)
     {
         bool hasMid = TryGetValue(MID, out string? mid);
-        bool hasStoken = TryGetValue(STOKEN, out string? stoken);
-        bool hasStuid = TryGetValue(STUID, out string? stuid);
+        bool hasSToken = TryGetValue(STOKEN, out string? stoken);
+        bool hasSTuid = TryGetValue(STUID, out string? stuid);
 
-        if (hasMid && hasStoken && hasStuid)
+        if (hasMid && hasSToken && hasSTuid)
         {
             cookie = new Cookie(new()
             {
@@ -122,12 +122,12 @@ internal sealed partial class Cookie
     /// </summary>
     /// <param name="cookie">A cookie contains stoken and stuid, without mid.</param>
     /// <returns>是否获取成功</returns>
-    public bool TryGetAsLegacyStoken([NotNullWhen(true)] out Cookie? cookie)
+    public bool TryGetAsLegacySToken([NotNullWhen(true)] out Cookie? cookie)
     {
-        bool hasStoken = TryGetValue(STOKEN, out string? stoken);
-        bool hasStuid = TryGetValue(STUID, out string? stuid);
+        bool hasSToken = TryGetValue(STOKEN, out string? stoken);
+        bool hasSTuid = TryGetValue(STUID, out string? stuid);
 
-        if (hasStoken && hasStuid)
+        if (hasSToken && hasSTuid)
         {
             cookie = new Cookie(new()
             {
@@ -142,7 +142,7 @@ internal sealed partial class Cookie
         return false;
     }
 
-    public bool TryGetAsLtoken([NotNullWhen(true)] out Cookie? cookie)
+    public bool TryGetAsLToken([NotNullWhen(true)] out Cookie? cookie)
     {
         bool hasLtoken = TryGetValue(LTOKEN, out string? ltoken);
         bool hasStuid = TryGetValue(LTUID, out string? ltuid);

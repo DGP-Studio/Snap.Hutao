@@ -45,8 +45,6 @@ public class HttpClientGenerator : ISourceGenerator
             return;
         }
 
-        string toolName = this.GetGeneratorType().FullName;
-
         StringBuilder sourceCodeBuilder = new();
 
         sourceCodeBuilder.Append($$"""
@@ -63,13 +61,13 @@ public class HttpClientGenerator : ISourceGenerator
             
             internal static partial class IocHttpClientConfiguration
             {
-                [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{toolName}}","1.0.0.0")]
+                [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(HttpClientGenerator)}}","1.0.0.0")]
                 [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
                 public static partial IServiceCollection AddHttpClients(this IServiceCollection services)
                 {
             """);
 
-        FillWithInjectionServices(receiver, sourceCodeBuilder);
+        FillWithHttpClients(receiver, sourceCodeBuilder);
 
         sourceCodeBuilder.Append("""
 
@@ -81,7 +79,7 @@ public class HttpClientGenerator : ISourceGenerator
         context.AddSource("IocHttpClientConfiguration.g.cs", SourceText.From(sourceCodeBuilder.ToString(), Encoding.UTF8));
     }
 
-    private static void FillWithInjectionServices(HttpClientSyntaxContextReceiver receiver, StringBuilder sourceCodeBuilder)
+    private static void FillWithHttpClients(HttpClientSyntaxContextReceiver receiver, StringBuilder sourceCodeBuilder)
     {
         List<string> lines = new();
         StringBuilder lineBuilder = new();
@@ -90,16 +88,23 @@ public class HttpClientGenerator : ISourceGenerator
         {
             lineBuilder.Clear().Append("\r\n");
             lineBuilder.Append(@"        services.AddHttpClient<");
-            lineBuilder.Append($"{classSymbol.ToDisplayString()}>(");
 
             AttributeData httpClientInfo = classSymbol
                 .GetAttributes()
                 .Single(attr => attr.AttributeClass!.ToDisplayString() == HttpClientSyntaxContextReceiver.AttributeName);
             ImmutableArray<TypedConstant> arguments = httpClientInfo.ConstructorArguments;
 
-            TypedConstant injectAs = arguments[0];
+            if (arguments.Length == 2)
+            {
+                TypedConstant interfaceType = arguments[1];
+                lineBuilder.Append($"{interfaceType.Value}, ");
+            }
 
-            string injectAsName = injectAs.ToCSharpString();
+            TypedConstant configuration = arguments[0];
+
+            lineBuilder.Append($"{classSymbol.ToDisplayString()}>(");
+
+            string injectAsName = configuration.ToCSharpString();
             switch (injectAsName)
             {
                 case DefaultName:

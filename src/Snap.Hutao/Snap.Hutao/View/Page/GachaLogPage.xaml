@@ -48,9 +48,9 @@
                             <AppBarButton.Flyout>
                                 <MenuFlyout Placement="Bottom">
                                     <MenuFlyoutItem
-                                        Command="{Binding RefreshByStokenCommand}"
+                                        Command="{Binding RefreshBySTokenCommand}"
                                         Icon="{shcm:FontIcon Glyph=&#xE192;}"
-                                        Text="{shcm:ResourceString Name=ViewPageGachaLogRefreshByStoken}"/>
+                                        Text="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySToken}"/>
                                     <MenuFlyoutItem
                                         Command="{Binding RefreshByWebCacheCommand}"
                                         Icon="{shcm:FontIcon Glyph=&#xE81E;}"
@@ -487,9 +487,9 @@
                     Spacing="{StaticResource SettingsCardSpacing}">
                     <clw:SettingsCard
                         ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogRefreshAction}"
-                        Command="{Binding RefreshByStokenCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByStokenDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByStoken}"
+                        Command="{Binding RefreshBySTokenCommand}"
+                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySTokenDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshBySToken}"
                         HeaderIcon="{shcm:FontIcon Glyph=&#xE192;}"
                         IsClickEnabled="True"/>
                     <clw:SettingsCard

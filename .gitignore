@@ -15,5 +15,5 @@ src/Snap.Hutao/Snap.Hutao.Installer/Properties/PublishProfiles/FolderProfile.pub
 src/Snap.Hutao/Snap.Hutao.SourceGeneration/bin/
 src/Snap.Hutao/Snap.Hutao.SourceGeneration/obj/
 
-src/Snap.Hutao/Snap.Hutao.Win32/bin/
-src/Snap.Hutao/Snap.Hutao.Win32/obj/
+src/Snap.Hutao/Snap.Hutao.Test/bin/
+src/Snap.Hutao/Snap.Hutao.Test/obj/

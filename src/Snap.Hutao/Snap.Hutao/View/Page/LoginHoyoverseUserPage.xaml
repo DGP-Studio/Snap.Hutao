@@ -28,22 +28,20 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBox
-                TextChanging="TextBoxOnTextChanging"
-                InputScope="Number"
-                MaxLength="9"
+                x:Name="UidInputText"
                 Grid.Column="0"
                 Width="240"
-                x:Name="UidInput"
                 Margin="0,0,16,0"
-                PlaceholderText="Please fill in your User ID here"
-                HorizontalAlignment="Right"/>
+                HorizontalAlignment="Right"
+                InputScope="Number"
+                MaxLength="9"
+                PlaceholderText="Please fill in your User ID here"/>
             <Button
                 Grid.Column="1"
-                RelativePanel.RightOf="UidInput"
-            Click="CookieButtonClick"
-            Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
+                Click="CookieButtonClick"
+                Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
         </Grid>
-        
+
         <WebView2
             x:Name="WebView"
             Grid.Row="2"

@@ -40,6 +40,12 @@ internal class Response
     [JsonPropertyName("message")]
     public string Message { get; set; } = default!;
 
+    /// <summary>
+    /// 返回本体或带有消息提示的默认值
+    /// </summary>
+    /// <param name="response">本体</param>
+    /// <param name="callerName">调用方法名称</param>
+    /// <returns>本体或默认值，当本体为 null 时 返回默认值</returns>
     public static Response DefaultIfNull(Response? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
@@ -57,6 +63,29 @@ internal class Response
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
         return response ?? new(0x26F19335, $"[{callerName}] 中的 [{typeof(TData).Name}] 请求异常", default);
+    }
+
+    /// <summary>
+    /// 返回本体或带有消息提示的默认值
+    /// </summary>
+    /// <typeparam name="TData">类型</typeparam>
+    /// <typeparam name="TOther">其他类型</typeparam>
+    /// <param name="response">本体</param>
+    /// <param name="callerName">调用方法名称</param>
+    /// <returns>本体或默认值，当本体为 null 时 返回默认值</returns>
+    public static Response<TData> DefaultIfNull<TData, TOther>(Response<TOther>? response, [CallerMemberName] string callerName = default!)
+    {
+        if (response != null)
+        {
+            Must.Argument(response.ReturnCode != 0, "返回代码必须为0");
+
+            // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
+            return new(response.ReturnCode, response.Message, default);
+        }
+        else
+        {
+            return new(0x26F19335, $"[{callerName}] 中的 [{typeof(TData).Name}] 请求异常", default);
+        }
     }
 
     /// <inheritdoc/>
