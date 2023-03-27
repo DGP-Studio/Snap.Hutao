@@ -200,7 +200,7 @@ internal static class ApiOsEndpoints
     /// <summary>
     /// 计算器结果
     /// </summary>
-    public const string CalculateOsCompute = $"{SgPublicApi}/event/calculateos/compute";
+    public const string CalculateCompute = $"{SgPublicApi}/event/calculateos/compute";
 
     /// <summary>
     /// 计算器同步角色详情 size 20
@@ -208,7 +208,7 @@ internal static class ApiOsEndpoints
     /// <param name="avatarId">角色Id</param>
     /// <param name="uid">uid</param>
     /// <returns>角色详情</returns>
-    public static string CalculateOsSyncAvatarDetail(AvatarId avatarId, PlayerUid uid)
+    public static string CalculateSyncAvatarDetail(AvatarId avatarId, PlayerUid uid)
     {
         return $"{SgPublicApi}/event/calculateos/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}";
     }
@@ -216,7 +216,7 @@ internal static class ApiOsEndpoints
     /// <summary>
     /// 计算器同步角色列表 size 20
     /// </summary>
-    public const string CalculateOsSyncAvatarList = $"{SgPublicApi}/event/calculateos/sync/avatar/list";
+    public const string CalculateSyncAvatarList = $"{SgPublicApi}/event/calculateos/sync/avatar/list";
 
     #endregion
 

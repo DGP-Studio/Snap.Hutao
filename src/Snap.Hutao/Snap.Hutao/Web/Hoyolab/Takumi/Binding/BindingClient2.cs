@@ -55,7 +55,7 @@ internal sealed class BindingClient2
 
     /// <summary>
     /// 异步生成祈愿验证密钥
-    /// 需要stoken
+    /// 需要 SToken
     /// </summary>
     /// <param name="user">用户</param>
     /// <param name="data">提交数据</param>

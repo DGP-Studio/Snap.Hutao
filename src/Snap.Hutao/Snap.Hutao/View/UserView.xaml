@@ -238,7 +238,7 @@
                                 Icon="{shcm:FontIcon Glyph=&#xEB41;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
                             <AppBarButton
-                                Command="{Binding AddOsUserCommand}"
+                                Command="{Binding AddOverseaUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
                         </StackPanel>

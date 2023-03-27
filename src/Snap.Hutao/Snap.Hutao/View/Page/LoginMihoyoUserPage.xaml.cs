@@ -67,9 +67,10 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
 
         Dictionary<string, string> multiTokenMap = multiTokenResponse.Data.List.ToDictionary(n => n.Name, n => n.Token);
 
-        Cookie stokenV1 = Cookie.Parse($"stuid={loginTicketCookie["login_uid"]};stoken={multiTokenMap["stoken"]}");
+        Cookie stokenV1 = Cookie.Parse($"{Cookie.STUID}={loginTicketCookie[Cookie.LOGIN_UID]};{Cookie.STOKEN}={multiTokenMap[Cookie.STOKEN]}");
+
         Response<LoginResult> loginResultResponse = await Ioc.Default
-            .GetRequiredService<PassportClient2>()
+            .GetRequiredService<PassportClient>()
             .LoginBySTokenAsync(stokenV1, token)
             .ConfigureAwait(false);
 
@@ -87,6 +88,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
+        // TODO: Move these code somewhere else.
         switch (result)
         {
             case UserOptionResult.Added:
@@ -97,16 +99,16 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
                     vm.SelectedUser = vm.Users.Single();
                 }
 
-                infoBarService.Success($"用户 [{nickname}] 添加成功");
+                infoBarService.Success(string.Format(SH.ViewModelUserAdded, nickname));
                 break;
             case UserOptionResult.Incomplete:
-                infoBarService.Information($"此 Cookie 不完整，操作失败");
+                infoBarService.Information(SH.ViewModelUserIncomplete);
                 break;
             case UserOptionResult.Invalid:
-                infoBarService.Information($"此 Cookie 无效，操作失败");
+                infoBarService.Information(SH.ViewModelUserInvalid);
                 break;
             case UserOptionResult.Updated:
-                infoBarService.Success($"用户 [{nickname}] 更新成功");
+                infoBarService.Success(string.Format(SH.ViewModelUserUpdated, nickname));
                 break;
             default:
                 throw Must.NeverHappen();

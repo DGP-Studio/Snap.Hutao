@@ -46,7 +46,7 @@ internal sealed class UserViewModel : ObservableObject
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         AddUserCommand = new AsyncRelayCommand(AddUserAsync);
-        AddOsUserCommand = new AsyncRelayCommand(AddOsUserAsync);
+        AddOverseaUserCommand = new AsyncRelayCommand(AddOverseaUserAsync);
         LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
         LoginHoyoverseUserCommand = new RelayCommand(LoginHoyoverseUser);
         RemoveUserCommand = new AsyncRelayCommand<User>(RemoveUserAsync);
@@ -92,7 +92,7 @@ internal sealed class UserViewModel : ObservableObject
     /// <summary>
     /// 添加国际服用户命令
     /// </summary>
-    public ICommand AddOsUserCommand { get; }
+    public ICommand AddOverseaUserCommand { get; }
 
     /// <summary>
     /// 登录米游社命令
@@ -132,48 +132,17 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
-    private async Task AddUserAsync()
+    private Task AddUserAsync()
     {
-        // ContentDialog must be created by main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-
-        // Get cookie from user input
-        ValueResult<bool, string> result = await new UserDialog().GetInputCookieAsync().ConfigureAwait(false);
-
-        // User confirms the input
-        if (result.IsOk)
-        {
-            Cookie cookie = Cookie.Parse(result.Value);
-
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie).ConfigureAwait(false);
-
-            switch (optionResult)
-            {
-                case UserOptionResult.Added:
-                    if (Users!.Count == 1)
-                    {
-                        await ThreadHelper.SwitchToMainThreadAsync();
-                        SelectedUser = Users.Single();
-                    }
-
-                    infoBarService.Success(string.Format(SH.ViewModelUserAdded, uid));
-                    break;
-                case UserOptionResult.Incomplete:
-                    infoBarService.Information(SH.ViewModelUserIncomplete);
-                    break;
-                case UserOptionResult.Invalid:
-                    infoBarService.Information(SH.ViewModelUserInvalid);
-                    break;
-                case UserOptionResult.Updated:
-                    infoBarService.Success(string.Format(SH.ViewModelUserUpdated, uid));
-                    break;
-                default:
-                    throw Must.NeverHappen();
-            }
-        }
+        return AddUserCoreAsync(false);
     }
 
-    private async Task AddOsUserAsync()
+    private Task AddOverseaUserAsync()
+    {
+        return AddUserCoreAsync(true);
+    }
+
+    private async Task AddUserCoreAsync(bool isOversea)
     {
         // ContentDialog must be created by main thread.
         await ThreadHelper.SwitchToMainThreadAsync();
@@ -186,7 +155,7 @@ internal sealed class UserViewModel : ObservableObject
         {
             Cookie cookie = Cookie.Parse(result.Value);
 
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputOsCookieAsync(cookie).ConfigureAwait(false);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie, isOversea).ConfigureAwait(false);
 
             switch (optionResult)
             {

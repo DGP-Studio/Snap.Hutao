@@ -35,7 +35,7 @@
                 HorizontalAlignment="Right"
                 InputScope="Number"
                 MaxLength="9"
-                PlaceholderText="Please fill in your User ID here"/>
+                PlaceholderText="{shcm:ResourceString Name=ViewPageLoginHoyoverseUserHint}"/>
             <Button
                 Grid.Column="1"
                 Click="CookieButtonClick"

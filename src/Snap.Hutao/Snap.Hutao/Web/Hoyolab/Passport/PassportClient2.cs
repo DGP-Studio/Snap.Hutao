@@ -40,28 +40,6 @@ internal sealed class PassportClient2 : IPassportClient
     public bool IsOversea => false;
 
     /// <summary>
-    /// V1 SToken 登录
-    /// </summary>
-    /// <param name="stokenV1">v1 SToken</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>登录数据</returns>
-    [ApiInformation(Salt = SaltType.PROD)]
-    public async Task<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token)
-    {
-        HttpResponseMessage message = await httpClient
-            .SetHeader("Cookie", stokenV1.ToString())
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .PostAsync(ApiEndpoints.AccountGetSTokenByOldToken, null, token)
-            .ConfigureAwait(false);
-
-        Response<LoginResult>? resp = await message.Content
-            .ReadFromJsonAsync<Response<LoginResult>>(options, token)
-            .ConfigureAwait(false);
-
-        return Response.Response.DefaultIfNull(resp);
-    }
-
-    /// <summary>
     /// 异步获取 CookieToken
     /// </summary>
     /// <param name="user">用户</param>

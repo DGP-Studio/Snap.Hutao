@@ -21,9 +21,8 @@ namespace Snap.Hutao.Web.Hutao;
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed class HomaSpiralAbyssClient
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
-    private readonly GameRecordClient gameRecordClient;
-    private readonly GameRecordClientOversea gameRecordClientOs;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<HomaSpiralAbyssClient> logger;
 
@@ -31,16 +30,14 @@ internal sealed class HomaSpiralAbyssClient
     /// 构造一个新的胡桃API客户端
     /// </summary>
     /// <param name="httpClient">http客户端</param>
-    /// <param name="gameRecordClient">游戏记录客户端</param>
-    /// <param name="options">json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public HomaSpiralAbyssClient(HttpClient httpClient, GameRecordClient gameRecordClient, GameRecordClientOversea gameRecordClientOs, JsonSerializerOptions options, ILogger<HomaSpiralAbyssClient> logger)
+    /// <param name="serviceProvider">服务提供器</param>
+    public HomaSpiralAbyssClient(HttpClient httpClient, IServiceProvider serviceProvider)
     {
+        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
+        logger = serviceProvider.GetRequiredService<ILogger<HomaSpiralAbyssClient>>();
+
+        this.serviceProvider = serviceProvider;
         this.httpClient = httpClient;
-        this.gameRecordClient = gameRecordClient;
-        this.gameRecordClientOs = gameRecordClientOs;
-        this.options = options;
-        this.logger = logger;
     }
 
     /// <summary>
@@ -188,55 +185,27 @@ internal sealed class HomaSpiralAbyssClient
     /// <returns>玩家记录</returns>
     public async Task<SimpleRecord?> GetPlayerRecordAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        if (userAndUid.User.IsOversea)
-        {
-            // for oversea server
-            Response<PlayerInfo> playerInfoResponse = await gameRecordClientOs
+        IGameRecordClient gameRecordClient = serviceProvider.PickRequiredService<IGameRecordClient>(userAndUid.User.IsOversea);
+
+        Response<PlayerInfo> playerInfoResponse = await gameRecordClient
             .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);
 
-            if (playerInfoResponse.IsOk())
-            {
-                Response<CharacterWrapper> charactersResponse = await gameRecordClientOs
-                    .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
-                    .ConfigureAwait(false);
-
-                if (charactersResponse.IsOk())
-                {
-                    Response<SpiralAbyss> spiralAbyssResponse = await gameRecordClientOs
-                    .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
-                    .ConfigureAwait(false);
-
-                    if (spiralAbyssResponse.IsOk())
-                    {
-                        return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data);
-                    }
-                }
-            }
-        }
-        else
+        if (playerInfoResponse.IsOk())
         {
-            // for cn server
-            Response<PlayerInfo> playerInfoResponse = await gameRecordClient
-            .GetPlayerInfoAsync(userAndUid, token)
-            .ConfigureAwait(false);
+            Response<CharacterWrapper> charactersResponse = await gameRecordClient
+                .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
+                .ConfigureAwait(false);
 
-            if (playerInfoResponse.IsOk())
+            if (charactersResponse.IsOk())
             {
-                Response<CharacterWrapper> charactersResponse = await gameRecordClient
-                    .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
-                    .ConfigureAwait(false);
+                Response<SpiralAbyss> spiralAbyssResponse = await gameRecordClient
+                .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
+                .ConfigureAwait(false);
 
-                if (charactersResponse.IsOk())
+                if (spiralAbyssResponse.IsOk())
                 {
-                    Response<SpiralAbyss> spiralAbyssResponse = await gameRecordClient
-                    .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
-                    .ConfigureAwait(false);
-
-                    if (spiralAbyssResponse.IsOk())
-                    {
-                        return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data);
-                    }
+                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data);
                 }
             }
         }

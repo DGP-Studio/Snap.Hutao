@@ -4,8 +4,10 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
+using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
+using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
@@ -13,6 +15,7 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// 通行证客户端
 /// </summary>
 [HighQuality]
+[UseDynamicSecret]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed class PassportClient
 {
@@ -34,7 +37,7 @@ internal sealed class PassportClient
     }
 
     /// <summary>
-    /// 异步验证Ltoken
+    /// 异步验证 LToken
     /// </summary>
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
@@ -48,6 +51,28 @@ internal sealed class PassportClient
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(response);
+    }
+
+    /// <summary>
+    /// V1 SToken 登录
+    /// </summary>
+    /// <param name="stokenV1">v1 SToken</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>登录数据</returns>
+    [ApiInformation(Salt = SaltType.PROD)]
+    public async Task<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token)
+    {
+        HttpResponseMessage message = await httpClient
+            .SetHeader("Cookie", stokenV1.ToString())
+            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
+            .PostAsync(ApiEndpoints.AccountGetSTokenByOldToken, null, token)
+            .ConfigureAwait(false);
+
+        Response<LoginResult>? resp = await message.Content
+            .ReadFromJsonAsync<Response<LoginResult>>(options, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
     }
 
     private class Timestamp

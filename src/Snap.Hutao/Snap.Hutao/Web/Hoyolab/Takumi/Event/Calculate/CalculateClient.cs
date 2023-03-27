@@ -43,24 +43,19 @@ internal sealed class CalculateClient
     [ApiInformation(Cookie = CookieType.Cookie)]
     public async Task<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
-        Response<Consumption>? resp;
+        string referer = user.IsOversea
+            ? ApiOsEndpoints.ActHoyolabReferer
+            : ApiEndpoints.WebStaticMihoyoReferer;
 
-        if (user.IsOversea)
-        {
-            resp = await httpClient
+        string url = user.IsOversea
+            ? ApiOsEndpoints.CalculateCompute
+            : ApiEndpoints.CalculateCompute;
+
+        Response<Consumption>? resp = await httpClient
             .SetUser(user, CookieType.Cookie)
-            .SetReferer(ApiOsEndpoints.ActHoyolabReferer)
-            .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(ApiOsEndpoints.CalculateOsCompute, delta, options, logger, token)
+            .SetReferer(referer)
+            .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(url, delta, options, logger, token)
             .ConfigureAwait(false);
-        }
-        else
-        {
-            resp = await httpClient
-            .SetUser(user, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
-            .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(ApiEndpoints.CalculateCompute, delta, options, logger, token)
-            .ConfigureAwait(false);
-        }
 
         return Response.Response.DefaultIfNull(resp);
     }
@@ -80,28 +75,22 @@ internal sealed class CalculateClient
         Response<ListWrapper<Avatar>>? resp;
 
         // 根据 uid 所属服务器选择 referer 与 api
-        string referer;
-        string endpoint;
+        string referer = userAndUid.User.IsOversea
+            ? ApiOsEndpoints.ActHoyolabReferer
+            : ApiEndpoints.WebStaticMihoyoReferer;
+        string url = userAndUid.User.IsOversea
+            ? ApiOsEndpoints.CalculateSyncAvatarList
+            : ApiEndpoints.CalculateSyncAvatarList;
 
-        if (userAndUid.User.IsOversea)
-        {
-            referer = ApiOsEndpoints.ActHoyolabReferer;
-            endpoint = ApiOsEndpoints.CalculateOsSyncAvatarList;
-            httpClient.SetUser(userAndUid.User, CookieType.CookieToken);
-        }
-        else
-        {
-            referer = ApiEndpoints.WebStaticMihoyoReferer;
-            endpoint = ApiEndpoints.CalculateSyncAvatarList;
-            httpClient.SetUser(userAndUid.User, CookieType.CookieToken);
-        }
+        httpClient
+            .SetReferer(referer)
+            .SetUser(userAndUid.User, CookieType.CookieToken);
 
         do
         {
             filter.Page = currentPage++;
             resp = await httpClient
-                .SetReferer(referer)
-                .TryCatchPostAsJsonAsync<SyncAvatarFilter, Response<ListWrapper<Avatar>>>(endpoint, filter, options, logger, token)
+                .TryCatchPostAsJsonAsync<SyncAvatarFilter, Response<ListWrapper<Avatar>>>(url, filter, options, logger, token)
                 .ConfigureAwait(false);
 
             if (resp != null && resp.IsOk())
@@ -130,21 +119,14 @@ internal sealed class CalculateClient
     /// <returns>角色详情</returns>
     public async Task<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)
     {
-        Response<AvatarDetail>? resp;
-        if (!userAndUid.User.IsOversea)
-        {
-            resp = await httpClient
+        string url = userAndUid.User.IsOversea
+            ? ApiOsEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value)
+            : ApiEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value);
+
+        Response<AvatarDetail>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.CookieToken)
-            .TryCatchGetFromJsonAsync<Response<AvatarDetail>>(ApiEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value), options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<AvatarDetail>>(url, options, logger, token)
             .ConfigureAwait(false);
-        }
-        else
-        {
-            resp = await httpClient
-            .SetUser(userAndUid.User, CookieType.CookieToken)
-            .TryCatchGetFromJsonAsync<Response<AvatarDetail>>(ApiOsEndpoints.CalculateOsSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value), options, logger, token)
-            .ConfigureAwait(false);
-        }
 
         return Response.Response.DefaultIfNull(resp);
     }

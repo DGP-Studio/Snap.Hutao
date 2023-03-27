@@ -61,7 +61,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         if (uid.Length != 9)
         {
             await ThreadHelper.SwitchToMainThreadAsync();
-            infoBarService.Information($"请在页面右上方的输入框处填写你的通行证 ID!");
+            infoBarService.Information(SH.ViewPageLoginHoyoverseUserHint);
             return;
         }
 
@@ -80,7 +80,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         }
 
         Dictionary<string, string> multiTokenMap = multiTokenResponse.Data.List.ToDictionary(n => n.Name, n => n.Token);
-        Cookie hoyoLabCookie = Cookie.Parse($"stoken={multiTokenMap["stoken"]}; stuid={uid}");
+        Cookie hoyoLabCookie = Cookie.Parse($"{Cookie.STUID}={uid};{Cookie.STOKEN}={multiTokenMap[Cookie.STOKEN]}");
 
         // 处理 cookie 并添加用户
         (UserOptionResult result, string nickname) = await Ioc.Default
@@ -100,16 +100,16 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
                     vm.SelectedUser = vm.Users.Single();
                 }
 
-                infoBarService.Success($"用户 [{nickname}] 添加成功");
+                infoBarService.Success(string.Format(SH.ViewModelUserAdded, nickname));
                 break;
             case UserOptionResult.Incomplete:
-                infoBarService.Information($"此 Cookie 不完整，操作失败");
+                infoBarService.Information(SH.ViewModelUserIncomplete);
                 break;
             case UserOptionResult.Invalid:
-                infoBarService.Information($"此 Cookie 无效，操作失败");
+                infoBarService.Information(SH.ViewModelUserInvalid);
                 break;
             case UserOptionResult.Updated:
-                infoBarService.Success($"用户 [{nickname}] 更新成功");
+                infoBarService.Success(string.Format(SH.ViewModelUserUpdated, nickname));
                 break;
             default:
                 throw Must.NeverHappen();

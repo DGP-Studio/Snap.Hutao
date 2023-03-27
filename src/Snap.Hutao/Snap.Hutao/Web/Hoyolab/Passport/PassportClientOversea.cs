@@ -20,7 +20,7 @@ internal sealed class PassportClientOversea : IPassportClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
-    private readonly ILogger<PassportClient> logger;
+    private readonly ILogger<PassportClientOversea> logger;
 
     /// <summary>
     /// 构造一个新的国际服通行证客户端
@@ -28,7 +28,7 @@ internal sealed class PassportClientOversea : IPassportClient
     /// <param name="httpClient">http客户端</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="logger">日志器</param>
-    public PassportClientOversea(HttpClient httpClient, JsonSerializerOptions options, ILogger<PassportClient> logger)
+    public PassportClientOversea(HttpClient httpClient, JsonSerializerOptions options, ILogger<PassportClientOversea> logger)
     {
         this.httpClient = httpClient;
         this.options = options;

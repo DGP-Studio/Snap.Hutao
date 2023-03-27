@@ -109,9 +109,8 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            GameRecordClient gameRecordClient = scope.ServiceProvider.GetRequiredService<GameRecordClient>();
-            GameRecordClientOversea gameRecordClientOs = scope.ServiceProvider.GetRequiredService<GameRecordClientOversea>();
 
+            // TODO: Add this option to AppOptions
             bool isSilentMode = appDbContext.Settings
                 .SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, Core.StringLiterals.False)
                 .GetBoolean();

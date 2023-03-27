@@ -4723,7 +4723,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Cookie 操作 的本地化字符串。
+        ///   查找类似 米游社 的本地化字符串。
         /// </summary>
         internal static string ViewUserCookieOperation {
             get {
