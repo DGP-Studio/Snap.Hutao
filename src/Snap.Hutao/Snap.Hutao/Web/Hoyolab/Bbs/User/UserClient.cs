@@ -14,7 +14,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfiguration.XRpc, typeof(IUserClient))]
+[HttpClient(HttpClientConfiguration.XRpc)]
+[Injection(InjectAs.Transient, typeof(IUserClient))]
 internal sealed class UserClient : IUserClient
 {
     private readonly HttpClient httpClient;
@@ -24,12 +25,13 @@ internal sealed class UserClient : IUserClient
     /// <summary>
     /// 构造一个新的用户信息客户端
     /// </summary>
-    /// <param name="httpClient">http客户端</param>
+    /// <param name="httpClientFactory">http客户端工厂</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="logger">日志器</param>
-    public UserClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<UserClient> logger)
+    public UserClient(IHttpClientFactory httpClientFactory, JsonSerializerOptions options, ILogger<UserClient> logger)
     {
-        this.httpClient = httpClient;
+        httpClient = httpClientFactory.CreateClient(nameof(UserClient));
+
         this.options = options;
         this.logger = logger;
     }

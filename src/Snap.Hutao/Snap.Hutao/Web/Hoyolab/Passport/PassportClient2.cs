@@ -16,7 +16,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfiguration.XRpc2, typeof(IPassportClient))]
+[HttpClient(HttpClientConfiguration.XRpc2)]
+[Injection(InjectAs.Transient, typeof(IPassportClient))]
 internal sealed class PassportClient2 : IPassportClient
 {
     private readonly HttpClient httpClient;
@@ -26,12 +27,13 @@ internal sealed class PassportClient2 : IPassportClient
     /// <summary>
     /// 构造一个新的通行证客户端
     /// </summary>
-    /// <param name="httpClient">http客户端</param>
+    /// <param name="httpClientFactory">http客户端工厂</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="logger">日志器</param>
-    public PassportClient2(HttpClient httpClient, JsonSerializerOptions options, ILogger<PassportClient> logger)
+    public PassportClient2(IHttpClientFactory httpClientFactory, JsonSerializerOptions options, ILogger<PassportClient> logger)
     {
-        this.httpClient = httpClient;
+        httpClient = httpClientFactory.CreateClient(nameof(PassportClient2));
+
         this.options = options;
         this.logger = logger;
     }
