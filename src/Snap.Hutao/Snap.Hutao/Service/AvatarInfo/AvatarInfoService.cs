@@ -31,20 +31,16 @@ internal sealed class AvatarInfoService : IAvatarInfoService
     /// 构造一个新的角色信息服务
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="metadataService">元数据服务</param>
-    /// <param name="summaryFactory">简述工厂</param>
-    /// <param name="logger">日志器</param>
+    /// <param name="serviceProvider">服务提供器</param>
     public AvatarInfoService(
         AppDbContext appDbContext,
-        IMetadataService metadataService,
-        ISummaryFactory summaryFactory,
-        ILogger<AvatarInfoService> logger)
+        IServiceProvider serviceProvider)
     {
-        this.metadataService = metadataService;
-        this.summaryFactory = summaryFactory;
-        this.logger = logger;
+        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
+        summaryFactory = serviceProvider.GetRequiredService<ISummaryFactory>();
+        logger = serviceProvider.GetRequiredService<ILogger<AvatarInfoService>>();
 
-        avatarInfoDbOperation = new(appDbContext);
+        avatarInfoDbOperation = new(appDbContext, serviceProvider);
     }
 
     /// <inheritdoc/>

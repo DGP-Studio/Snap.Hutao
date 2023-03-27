@@ -14,8 +14,8 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfigration.XRpc)]
-internal sealed class UserClient
+[HttpClient(HttpClientConfiguration.XRpc, typeof(IUserClient))]
+internal sealed class UserClient : IUserClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
@@ -34,6 +34,9 @@ internal sealed class UserClient
         this.logger = logger;
     }
 
+    /// <inheritdoc/>
+    public bool IsOversea => false;
+
     /// <summary>
     /// 获取当前用户详细信息
     /// </summary>
@@ -48,6 +51,24 @@ internal sealed class UserClient
             .SetReferer(ApiEndpoints.BbsReferer)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    /// <summary>
+    /// 获取当前用户详细信息，使用 LToken
+    /// </summary>
+    /// <param name="user">用户</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>详细信息</returns>
+    [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.OSK2)]
+    public async Task<Response<UserFullInfoWrapper>> GetOsUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
+    {
+        Response<UserFullInfoWrapper>? resp = await httpClient
+            .SetUser(user, CookieType.LToken)
+            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.OSK2, false)
+            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiOsEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

@@ -12,7 +12,7 @@ namespace Snap.Hutao.Web.Enka;
 /// Enka API 客户端
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class EnkaClient
 {
     private const string EnkaAPI = "https://enka.network/api/uid/{0}";

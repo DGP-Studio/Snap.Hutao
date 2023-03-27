@@ -46,7 +46,9 @@ internal sealed class UserViewModel : ObservableObject
 
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         AddUserCommand = new AsyncRelayCommand(AddUserAsync);
+        AddOverseaUserCommand = new AsyncRelayCommand(AddOverseaUserAsync);
         LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
+        LoginHoyoverseUserCommand = new RelayCommand(LoginHoyoverseUser);
         RemoveUserCommand = new AsyncRelayCommand<User>(RemoveUserAsync);
         CopyCookieCommand = new RelayCommand<User>(CopyCookie);
         RefreshCookieTokenCommand = new AsyncRelayCommand(RefreshCookieTokenAsync);
@@ -88,9 +90,19 @@ internal sealed class UserViewModel : ObservableObject
     public ICommand AddUserCommand { get; }
 
     /// <summary>
+    /// 添加国际服用户命令
+    /// </summary>
+    public ICommand AddOverseaUserCommand { get; }
+
+    /// <summary>
     /// 登录米游社命令
     /// </summary>
     public ICommand LoginMihoyoUserCommand { get; }
+
+    /// <summary>
+    /// 登录米游社命令
+    /// </summary>
+    public ICommand LoginHoyoverseUserCommand { get; }
 
     /// <summary>
     /// 移除用户命令
@@ -120,7 +132,17 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
-    private async Task AddUserAsync()
+    private Task AddUserAsync()
+    {
+        return AddUserCoreAsync(false);
+    }
+
+    private Task AddOverseaUserAsync()
+    {
+        return AddUserCoreAsync(true);
+    }
+
+    private async Task AddUserCoreAsync(bool isOversea)
     {
         // ContentDialog must be created by main thread.
         await ThreadHelper.SwitchToMainThreadAsync();
@@ -133,7 +155,7 @@ internal sealed class UserViewModel : ObservableObject
         {
             Cookie cookie = Cookie.Parse(result.Value);
 
-            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie).ConfigureAwait(false);
+            (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie, isOversea).ConfigureAwait(false);
 
             switch (optionResult)
             {
@@ -166,6 +188,21 @@ internal sealed class UserViewModel : ObservableObject
         if (Core.WebView2Helper.IsSupported)
         {
             serviceProvider.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+        }
+        else
+        {
+            infoBarService.Warning(SH.CoreWebView2HelperVersionUndetected);
+        }
+    }
+
+    /// <summary>
+    /// 打开浏览器登录 hoyolab 以获取 cookie
+    /// </summary>
+    private void LoginHoyoverseUser()
+    {
+        if (Core.WebView2Helper.IsSupported)
+        {
+            serviceProvider.GetRequiredService<INavigationService>().Navigate<LoginHoyoverseUserPage>(INavigationAwaiter.Default);
         }
         else
         {

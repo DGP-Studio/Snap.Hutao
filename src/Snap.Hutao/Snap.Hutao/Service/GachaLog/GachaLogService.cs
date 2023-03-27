@@ -178,7 +178,7 @@ internal sealed class GachaLogService : IGachaLogService
         return option switch
         {
             RefreshOption.WebCache => urlProviders.Single(p => p.Name == nameof(GachaLogQueryWebCacheProvider)),
-            RefreshOption.Stoken => urlProviders.Single(p => p.Name == nameof(GachaLogQueryStokenProvider)),
+            RefreshOption.SToken => urlProviders.Single(p => p.Name == nameof(GachaLogQuerySTokenProvider)),
             RefreshOption.ManualInput => urlProviders.Single(p => p.Name == nameof(GachaLogQueryManualInputProvider)),
             _ => null,
         };

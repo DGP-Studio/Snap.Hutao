@@ -16,8 +16,8 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[HttpClient(HttpClientConfigration.XRpc2)]
-internal sealed class PassportClient2
+[HttpClient(HttpClientConfiguration.XRpc2, typeof(IPassportClient))]
+internal sealed class PassportClient2 : IPassportClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
@@ -27,7 +27,7 @@ internal sealed class PassportClient2
     /// 构造一个新的通行证客户端
     /// </summary>
     /// <param name="httpClient">http客户端</param>
-    /// <param name="options">json序列化选项</param>
+    /// <param name="options">Json序列化选项</param>
     /// <param name="logger">日志器</param>
     public PassportClient2(HttpClient httpClient, JsonSerializerOptions options, ILogger<PassportClient> logger)
     {
@@ -36,27 +36,8 @@ internal sealed class PassportClient2
         this.logger = logger;
     }
 
-    /// <summary>
-    /// V1Stoken 登录
-    /// </summary>
-    /// <param name="stokenV1">v1 Stoken</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>登录数据</returns>
-    [ApiInformation(Salt = SaltType.PROD)]
-    public async Task<Response<LoginResult>> LoginByStokenAsync(Cookie stokenV1, CancellationToken token)
-    {
-        HttpResponseMessage message = await httpClient
-            .SetHeader("Cookie", stokenV1.ToString())
-            .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .PostAsync(ApiEndpoints.AccountGetSTokenByOldToken, null, token)
-            .ConfigureAwait(false);
-
-        Response<LoginResult>? resp = await message.Content
-            .ReadFromJsonAsync<Response<LoginResult>>(options, token)
-            .ConfigureAwait(false);
-
-        return Response.Response.DefaultIfNull(resp);
-    }
+    /// <inheritdoc/>
+    public bool IsOversea => false;
 
     /// <summary>
     /// 异步获取 CookieToken
@@ -77,18 +58,18 @@ internal sealed class PassportClient2
     }
 
     /// <summary>
-    /// 异步获取 Ltoken
+    /// 异步获取 LToken
     /// </summary>
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>uid 与 cookie token</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.PROD)]
-    public async Task<Response<LtokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token)
+    public async Task<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default)
     {
-        Response<LtokenWrapper>? resp = await httpClient
+        Response<LTokenWrapper>? resp = await httpClient
             .SetUser(user, CookieType.SToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.PROD, true)
-            .TryCatchGetFromJsonAsync<Response<LtokenWrapper>>(ApiEndpoints.AccountGetLtokenByStoken, options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<LTokenWrapper>>(ApiEndpoints.AccountGetLTokenBySToken, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

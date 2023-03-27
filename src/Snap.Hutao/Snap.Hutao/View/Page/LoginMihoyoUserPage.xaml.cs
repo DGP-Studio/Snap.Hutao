@@ -49,7 +49,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         }
     }
 
-    private async Task HandleCurrentCookieAsync(CancellationToken token)
+    private async Task HandleCurrentCookieAsync(CancellationToken token = default)
     {
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
@@ -57,7 +57,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
         Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
             .GetRequiredService<AuthClient>()
-            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, token)
+            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, false, token)
             .ConfigureAwait(false);
 
         if (!multiTokenResponse.IsOk())
@@ -67,10 +67,11 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
 
         Dictionary<string, string> multiTokenMap = multiTokenResponse.Data.List.ToDictionary(n => n.Name, n => n.Token);
 
-        Cookie stokenV1 = Cookie.Parse($"stuid={loginTicketCookie["login_uid"]};stoken={multiTokenMap["stoken"]}");
+        Cookie stokenV1 = Cookie.Parse($"{Cookie.STUID}={loginTicketCookie[Cookie.LOGIN_UID]};{Cookie.STOKEN}={multiTokenMap[Cookie.STOKEN]}");
+
         Response<LoginResult> loginResultResponse = await Ioc.Default
-            .GetRequiredService<PassportClient2>()
-            .LoginByStokenAsync(stokenV1, token)
+            .GetRequiredService<PassportClient>()
+            .LoginBySTokenAsync(stokenV1, token)
             .ConfigureAwait(false);
 
         if (!loginResultResponse.IsOk())
@@ -81,12 +82,13 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie stokenV2 = Cookie.FromLoginResult(loginResultResponse.Data);
         (UserOptionResult result, string nickname) = await Ioc.Default
             .GetRequiredService<IUserService>()
-            .ProcessInputCookieAsync(stokenV2)
+            .ProcessInputCookieAsync(stokenV2, false)
             .ConfigureAwait(false);
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
+        // TODO: Move these code somewhere else.
         switch (result)
         {
             case UserOptionResult.Added:
@@ -97,16 +99,16 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
                     vm.SelectedUser = vm.Users.Single();
                 }
 
-                infoBarService.Success($"用户 [{nickname}] 添加成功");
+                infoBarService.Success(string.Format(SH.ViewModelUserAdded, nickname));
                 break;
             case UserOptionResult.Incomplete:
-                infoBarService.Information($"此 Cookie 不完整，操作失败");
+                infoBarService.Information(SH.ViewModelUserIncomplete);
                 break;
             case UserOptionResult.Invalid:
-                infoBarService.Information($"此 Cookie 无效，操作失败");
+                infoBarService.Information(SH.ViewModelUserInvalid);
                 break;
             case UserOptionResult.Updated:
-                infoBarService.Success($"用户 [{nickname}] 更新成功");
+                infoBarService.Success(string.Format(SH.ViewModelUserUpdated, nickname));
                 break;
             default:
                 throw Must.NeverHappen();
@@ -115,6 +117,6 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
 
     private void CookieButtonClick(object sender, RoutedEventArgs e)
     {
-        HandleCurrentCookieAsync(CancellationToken.None).SafeForget();
+        HandleCurrentCookieAsync().SafeForget();
     }
 }

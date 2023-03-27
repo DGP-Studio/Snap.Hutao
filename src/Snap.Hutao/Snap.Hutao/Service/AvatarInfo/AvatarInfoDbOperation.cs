@@ -24,14 +24,17 @@ namespace Snap.Hutao.Service.AvatarInfo;
 internal sealed class AvatarInfoDbOperation
 {
     private readonly AppDbContext appDbContext;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的角色信息数据库操作
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
-    public AvatarInfoDbOperation(AppDbContext appDbContext)
+    /// <param name="serviceProvider">服务提供器</param>
+    public AvatarInfoDbOperation(AppDbContext appDbContext, IServiceProvider serviceProvider)
     {
         this.appDbContext = appDbContext;
+        this.serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -90,12 +93,10 @@ internal sealed class AvatarInfoDbOperation
             .ToList();
         EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
 
-        GameRecordClient gameRecordClient = Ioc.Default.GetRequiredService<GameRecordClient>();
+        IGameRecordClient gameRecordClient = serviceProvider.PickRequiredService<IGameRecordClient>(userAndUid.User.IsOversea);
         Response<RecordPlayerInfo> playerInfoResponse = await gameRecordClient
             .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);
-
-        token.ThrowIfCancellationRequested();
 
         if (playerInfoResponse.IsOk())
         {
@@ -103,11 +104,13 @@ internal sealed class AvatarInfoDbOperation
                 .GetCharactersAsync(userAndUid, playerInfoResponse.Data, token)
                 .ConfigureAwait(false);
 
+            token.ThrowIfCancellationRequested();
+
             if (charactersResponse.IsOk())
             {
                 List<RecordCharacter> characters = charactersResponse.Data.Avatars;
 
-                GameRecordCharacterAvatarInfoComposer composer = Ioc.Default.GetRequiredService<GameRecordCharacterAvatarInfoComposer>();
+                GameRecordCharacterAvatarInfoComposer composer = serviceProvider.GetRequiredService<GameRecordCharacterAvatarInfoComposer>();
 
                 foreach (RecordCharacter character in characters)
                 {
@@ -215,6 +218,7 @@ internal sealed class AvatarInfoDbOperation
         int distinctCount = dbInfos.Select(info => info.Info.AvatarId).ToHashSet().Count;
 
         // Avatars are actually less than the list told us.
+        // This means that there are duplicate items.
         if (distinctCount < dbInfos.Count)
         {
             appDbContext.AvatarInfos.ExecuteDeleteWhere(i => i.Uid == uid);

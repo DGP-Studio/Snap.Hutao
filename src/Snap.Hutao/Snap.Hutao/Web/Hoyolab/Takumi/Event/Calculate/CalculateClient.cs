@@ -13,7 +13,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// 养成计算器客户端
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class CalculateClient
 {
     private readonly HttpClient httpClient;
@@ -43,10 +43,18 @@ internal sealed class CalculateClient
     [ApiInformation(Cookie = CookieType.Cookie)]
     public async Task<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
+        string referer = user.IsOversea
+            ? ApiOsEndpoints.ActHoyolabReferer
+            : ApiEndpoints.WebStaticMihoyoReferer;
+
+        string url = user.IsOversea
+            ? ApiOsEndpoints.CalculateCompute
+            : ApiEndpoints.CalculateCompute;
+
         Response<Consumption>? resp = await httpClient
             .SetUser(user, CookieType.Cookie)
-            .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
-            .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(ApiEndpoints.CalculateCompute, delta, options, logger, token)
+            .SetReferer(referer)
+            .TryCatchPostAsJsonAsync<AvatarPromotionDelta, Response<Consumption>>(url, delta, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -65,14 +73,24 @@ internal sealed class CalculateClient
 
         List<Avatar> avatars = new();
         Response<ListWrapper<Avatar>>? resp;
-        httpClient.SetUser(userAndUid.User, CookieType.CookieToken);
+
+        // 根据 uid 所属服务器选择 referer 与 api
+        string referer = userAndUid.User.IsOversea
+            ? ApiOsEndpoints.ActHoyolabReferer
+            : ApiEndpoints.WebStaticMihoyoReferer;
+        string url = userAndUid.User.IsOversea
+            ? ApiOsEndpoints.CalculateSyncAvatarList
+            : ApiEndpoints.CalculateSyncAvatarList;
+
+        httpClient
+            .SetReferer(referer)
+            .SetUser(userAndUid.User, CookieType.CookieToken);
 
         do
         {
             filter.Page = currentPage++;
             resp = await httpClient
-                .SetReferer(ApiEndpoints.WebStaticMihoyoReferer)
-                .TryCatchPostAsJsonAsync<SyncAvatarFilter, Response<ListWrapper<Avatar>>>(ApiEndpoints.CalculateSyncAvatarList, filter, options, logger, token)
+                .TryCatchPostAsJsonAsync<SyncAvatarFilter, Response<ListWrapper<Avatar>>>(url, filter, options, logger, token)
                 .ConfigureAwait(false);
 
             if (resp != null && resp.IsOk())
@@ -101,9 +119,13 @@ internal sealed class CalculateClient
     /// <returns>角色详情</returns>
     public async Task<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)
     {
+        string url = userAndUid.User.IsOversea
+            ? ApiOsEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value)
+            : ApiEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value);
+
         Response<AvatarDetail>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.CookieToken)
-            .TryCatchGetFromJsonAsync<Response<AvatarDetail>>(ApiEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value), options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<AvatarDetail>>(url, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

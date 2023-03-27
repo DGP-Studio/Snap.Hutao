@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Web.Hoyolab;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -66,8 +67,22 @@ internal sealed class User : ISelectable
     /// <returns>新创建的用户</returns>
     public static User Create(Cookie cookie)
     {
-        _ = cookie.TryGetAsStoken(out Cookie? stoken);
-        _ = cookie.TryGetAsLtoken(out Cookie? ltoken);
+        _ = cookie.TryGetAsSToken(out Cookie? stoken);
+        _ = cookie.TryGetAsLToken(out Cookie? ltoken);
+        _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
+
+        return new() { SToken = stoken, LToken = ltoken, CookieToken = cookieToken };
+    }
+
+    /// <summary>
+    /// 创建一个国际服用户
+    /// </summary>
+    /// <param name="cookie">cookie</param>
+    /// <returns>新创建的用户</returns>
+    public static User CreateOs(Cookie cookie)
+    {
+        _ = cookie.TryGetAsLegacySToken(out Cookie? stoken);
+        _ = cookie.TryGetAsLToken(out Cookie? ltoken);
         _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
 
         return new() { SToken = stoken, LToken = ltoken, CookieToken = cookieToken };

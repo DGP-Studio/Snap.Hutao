@@ -7,7 +7,7 @@ namespace Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 /// Http客户端配置
 /// </summary>
 [HighQuality]
-internal enum HttpClientConfigration
+internal enum HttpClientConfiguration
 {
     /// <summary>
     /// 默认配置
@@ -23,4 +23,9 @@ internal enum HttpClientConfigration
     /// 米游社登录请求配置
     /// </summary>
     XRpc2,
+
+    /// <summary>
+    /// 国际服Hoyolab请求配置
+    /// </summary>
+    XRpc3,
 }

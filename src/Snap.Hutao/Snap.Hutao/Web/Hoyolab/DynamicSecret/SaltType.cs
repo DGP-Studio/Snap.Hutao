@@ -38,4 +38,9 @@ internal enum SaltType
     /// LK2
     /// </summary>
     LK2,
+
+    /// <summary>
+    /// Hoyolab K2
+    /// </summary>
+    OSK2,
 }

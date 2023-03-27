@@ -18,11 +18,11 @@ namespace Snap.Hutao.Web.Hutao;
 /// 胡桃API客户端
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class HomaSpiralAbyssClient
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly HttpClient httpClient;
-    private readonly GameRecordClient gameRecordClient;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<HomaSpiralAbyssClient> logger;
 
@@ -30,15 +30,14 @@ internal sealed class HomaSpiralAbyssClient
     /// 构造一个新的胡桃API客户端
     /// </summary>
     /// <param name="httpClient">http客户端</param>
-    /// <param name="gameRecordClient">游戏记录客户端</param>
-    /// <param name="options">json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public HomaSpiralAbyssClient(HttpClient httpClient, GameRecordClient gameRecordClient, JsonSerializerOptions options, ILogger<HomaSpiralAbyssClient> logger)
+    /// <param name="serviceProvider">服务提供器</param>
+    public HomaSpiralAbyssClient(HttpClient httpClient, IServiceProvider serviceProvider)
     {
+        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
+        logger = serviceProvider.GetRequiredService<ILogger<HomaSpiralAbyssClient>>();
+
+        this.serviceProvider = serviceProvider;
         this.httpClient = httpClient;
-        this.gameRecordClient = gameRecordClient;
-        this.options = options;
-        this.logger = logger;
     }
 
     /// <summary>
@@ -186,6 +185,8 @@ internal sealed class HomaSpiralAbyssClient
     /// <returns>玩家记录</returns>
     public async Task<SimpleRecord?> GetPlayerRecordAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
+        IGameRecordClient gameRecordClient = serviceProvider.PickRequiredService<IGameRecordClient>(userAndUid.User.IsOversea);
+
         Response<PlayerInfo> playerInfoResponse = await gameRecordClient
             .GetPlayerInfoAsync(userAndUid, token)
             .ConfigureAwait(false);

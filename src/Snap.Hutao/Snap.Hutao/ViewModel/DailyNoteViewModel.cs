@@ -247,9 +247,17 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            // ContentDialog must be created by main thread.
-            await ThreadHelper.SwitchToMainThreadAsync();
-            await new DailyNoteVerificationDialog(userAndUid).ShowAsync();
+            // TODO: Add verify support for oversea user
+            if (userAndUid.User.IsOversea)
+            {
+                serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteHoyolabVerificationUnsupported);
+            }
+            else
+            {
+                // ContentDialog must be created by main thread.
+                await ThreadHelper.SwitchToMainThreadAsync();
+                await new DailyNoteVerificationDialog(userAndUid).ShowAsync();
+            }
         }
         else
         {

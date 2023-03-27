@@ -10,11 +10,11 @@ using Snap.Hutao.Web.Response;
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 /// <summary>
-/// 使用Stokn提供祈愿Url
+/// 使用 SToken 提供祈愿 Url
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
-internal sealed class GachaLogQueryStokenProvider : IGachaLogQueryProvider
+internal sealed class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
     private readonly IUserService userService;
     private readonly BindingClient2 bindingClient2;
@@ -24,20 +24,25 @@ internal sealed class GachaLogQueryStokenProvider : IGachaLogQueryProvider
     /// </summary>
     /// <param name="userService">用户服务</param>
     /// <param name="bindingClient2">绑定客户端</param>
-    public GachaLogQueryStokenProvider(IUserService userService, BindingClient2 bindingClient2)
+    public GachaLogQuerySTokenProvider(IUserService userService, BindingClient2 bindingClient2)
     {
         this.userService = userService;
         this.bindingClient2 = bindingClient2;
     }
 
     /// <inheritdoc/>
-    public string Name { get => nameof(GachaLogQueryStokenProvider); }
+    public string Name { get => nameof(GachaLogQuerySTokenProvider); }
 
     /// <inheritdoc/>
     public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
+            if (userAndUid.User.IsOversea)
+            {
+                return new(false, SH.ServiceGachaLogUrlProviderStokenUnsupported);
+            }
+
             GenAuthKeyData data = GenAuthKeyData.CreateForWebViewGacha(userAndUid.Uid);
             Response<GameAuthKey> authkeyResponse = await bindingClient2.GenerateAuthenticationKeyAsync(userAndUid.User, data).ConfigureAwait(false);
 

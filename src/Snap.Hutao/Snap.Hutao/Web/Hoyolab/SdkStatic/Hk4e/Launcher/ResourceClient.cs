@@ -12,7 +12,7 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// 游戏资源客户端
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class ResourceClient
 {
     private readonly HttpClient httpClient;
@@ -40,7 +40,7 @@ internal sealed class ResourceClient
     /// <returns>游戏资源</returns>
     public async Task<Response<GameResource>> GetResourceAsync(LaunchScheme scheme, CancellationToken token = default)
     {
-        string url = scheme.LauncherId == "10"
+        string url = scheme.IsOversea
             ? ApiOsEndpoints.SdkOsStaticLauncherResource(scheme)
             : ApiEndpoints.SdkStaticLauncherResource(scheme);
 

@@ -16,7 +16,7 @@ namespace Snap.Hutao.Service.Game.Package;
 /// 游戏文件包转换器
 /// </summary>
 [HighQuality]
-[HttpClient(HttpClientConfigration.Default)]
+[HttpClient(HttpClientConfiguration.Default)]
 internal sealed class PackageConverter
 {
     private readonly JsonSerializerOptions options;

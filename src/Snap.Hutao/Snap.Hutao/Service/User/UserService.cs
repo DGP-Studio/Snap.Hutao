@@ -191,7 +191,7 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie)
+    public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         string? mid = cookie.GetValueOrDefault(Cookie.MID);
@@ -208,10 +208,10 @@ internal class UserService : IUserService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                if (cookie.TryGetAsStoken(out Cookie? stoken))
+                if (cookie.TryGetAsSToken(out Cookie? stoken))
                 {
                     user.SToken = stoken;
-                    user.LToken = cookie.TryGetAsLtoken(out Cookie? ltoken) ? ltoken : user.LToken;
+                    user.LToken = cookie.TryGetAsLToken(out Cookie? ltoken) ? ltoken : user.LToken;
                     user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
                     await appDbContext.Users.UpdateAndSaveAsync(user.Entity).ConfigureAwait(false);
@@ -219,13 +219,13 @@ internal class UserService : IUserService
                 }
                 else
                 {
-                    return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoStoken);
+                    return new(UserOptionResult.Invalid, SH.ServiceUserProcessCookieNoSToken);
                 }
             }
         }
         else
         {
-            return await TryCreateUserAndAddAsync(cookie).ConfigureAwait(false);
+            return await TryCreateUserAndAddAsync(cookie, isOversea).ConfigureAwait(false);
         }
     }
 
@@ -235,9 +235,9 @@ internal class UserService : IUserService
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
-                    .GetRequiredService<PassportClient2>()
-                    .GetCookieAccountInfoBySTokenAsync(user.Entity)
-                    .ConfigureAwait(false);
+                .PickRequiredService<IPassportClient>(user.Entity.IsOversea)
+                .GetCookieAccountInfoBySTokenAsync(user.Entity)
+                .ConfigureAwait(false);
 
             if (cookieTokenResponse.IsOk())
             {
@@ -265,14 +265,14 @@ internal class UserService : IUserService
         return user != null;
     }
 
-    private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie)
+    private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie, bool isOversea)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            BindingUser? newUser = await BindingUser.CreateAsync(cookie, isOversea).ConfigureAwait(false);
 
-            BindingUser? newUser = await BindingUser.CreateAsync(cookie).ConfigureAwait(false);
             if (newUser != null)
             {
                 // Sync cache

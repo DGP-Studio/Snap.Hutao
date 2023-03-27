@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Core.Abstraction;
+namespace Snap.Hutao.Core.DependencyInjection;
 
 /// <summary>
 /// 有名称的对象

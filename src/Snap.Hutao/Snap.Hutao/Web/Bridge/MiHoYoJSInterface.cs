@@ -70,7 +70,7 @@ internal class MiHoYoJSInterface
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
         return await serviceProvider
             .GetRequiredService<AuthClient>()
-            .GetActionTicketByStokenAsync(jsParam.Payload!.ActionType, user.Entity)
+            .GetActionTicketBySTokenAsync(jsParam.Payload!.ActionType, user.Entity)
             .ConfigureAwait(false);
     }
 

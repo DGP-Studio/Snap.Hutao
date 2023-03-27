@@ -12,6 +12,8 @@ namespace Snap.Hutao.Core.DependencyInjection;
 [HighQuality]
 internal static partial class IocHttpClientConfiguration
 {
+    private const string ApplicationJson = "application/json";
+
     /// <summary>
     /// 添加 <see cref="HttpClient"/>
     /// </summary>
@@ -37,7 +39,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(CoreEnvironment.HoyolabUA);
-        client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
         client.DefaultRequestHeaders.Add("x-rpc-app_version", CoreEnvironment.HoyolabXrpcVersion);
         client.DefaultRequestHeaders.Add("x-rpc-client_type", "5");
         client.DefaultRequestHeaders.Add("x-rpc-device_id", CoreEnvironment.HoyolabDeviceId);
@@ -51,7 +53,7 @@ internal static partial class IocHttpClientConfiguration
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(CoreEnvironment.HoyolabUA);
-        client.DefaultRequestHeaders.Accept.ParseAdd("application/json");
+        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
         client.DefaultRequestHeaders.Add("x-rpc-aigis", string.Empty);
         client.DefaultRequestHeaders.Add("x-rpc-app_id", "bll8iq97cem8");
         client.DefaultRequestHeaders.Add("x-rpc-app_version", CoreEnvironment.HoyolabXrpcVersion);
@@ -59,5 +61,19 @@ internal static partial class IocHttpClientConfiguration
         client.DefaultRequestHeaders.Add("x-rpc-device_id", CoreEnvironment.HoyolabDeviceId);
         client.DefaultRequestHeaders.Add("x-rpc-game_biz", "bbs_cn");
         client.DefaultRequestHeaders.Add("x-rpc-sdk_version", "1.3.1.2");
+    }
+
+    /// <summary>
+    /// 对于需要添加动态密钥的客户端使用此配置
+    /// 国际服 API 测试
+    /// </summary>
+    /// <param name="client">配置后的客户端</param>
+    private static void XRpc3Configuration(HttpClient client)
+    {
+        client.Timeout = Timeout.InfiniteTimeSpan;
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(CoreEnvironment.HoyolabOsUA);
+        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Add("x-rpc-app_version", "1.5.0");
+        client.DefaultRequestHeaders.Add("x-rpc-client_type", "4");
     }
 }

@@ -19,8 +19,8 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 [Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordService))]
 internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly AppDbContext appDbContext;
-    private readonly GameRecordClient gameRecordClient;
 
     private string? uid;
     private ObservableCollection<SpiralAbyssEntry>? spiralAbysses;
@@ -28,12 +28,11 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
     /// <summary>
     /// 构造一个新的深渊记录服务
     /// </summary>
-    /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="gameRecordClient">游戏记录客户端</param>
-    public SpiralAbyssRecordService(AppDbContext appDbContext, GameRecordClient gameRecordClient)
+    /// <param name="serviceProvider">服务提供器</param>
+    public SpiralAbyssRecordService(IServiceProvider serviceProvider)
     {
-        this.appDbContext = appDbContext;
-        this.gameRecordClient = gameRecordClient;
+        appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
@@ -70,7 +69,8 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
 
     private async Task RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule)
     {
-        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClient
+        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await serviceProvider
+            .PickRequiredService<IGameRecordClient>(userAndUid.User.IsOversea)
             .GetSpiralAbyssAsync(userAndUid, schedule)
             .ConfigureAwait(false);
 

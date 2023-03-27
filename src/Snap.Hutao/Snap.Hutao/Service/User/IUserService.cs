@@ -45,8 +45,9 @@ internal interface IUserService
     /// 尝试异步处理输入的Cookie
     /// </summary>
     /// <param name="cookie">Cookie</param>
+    /// <param name="isOversea">是否为国际服</param>
     /// <returns>处理的结果</returns>
-    Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie);
+    Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea);
 
     /// <summary>
     /// 异步刷新 Cookie 的 CookieToken

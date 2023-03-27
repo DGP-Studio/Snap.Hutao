@@ -60,23 +60,17 @@ internal sealed class DailyNoteNotifier
             BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
             AuthClient authClient = scope.ServiceProvider.GetRequiredService<AuthClient>();
 
-            Response<ActionTicketWrapper> actionTicketResponse = await authClient
-                .GetActionTicketByStokenAsync("game_role", entry.User)
+            string? attribution = SH.ServiceDailyNoteNotifierAttribution;
+
+            Response<ListWrapper<UserGameRole>> rolesResponse = await scope.ServiceProvider
+                .GetRequiredService<BindingClient>()
+                .GetUserGameRolesOverseaAwareAsync(entry.User)
                 .ConfigureAwait(false);
 
-            string? attribution = SH.ServiceDailyNoteNotifierAttribution;
-            if (actionTicketResponse.IsOk())
+            if (rolesResponse.IsOk())
             {
-                Response<ListWrapper<UserGameRole>> rolesResponse = await scope.ServiceProvider
-                    .GetRequiredService<BindingClient>()
-                    .GetUserGameRolesByActionTicketAsync(actionTicketResponse.Data.Ticket, entry.User)
-                    .ConfigureAwait(false);
-
-                if (rolesResponse.IsOk())
-                {
-                    List<UserGameRole> roles = rolesResponse.Data.List;
-                    attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "Unkonwn";
-                }
+                List<UserGameRole> roles = rolesResponse.Data.List;
+                attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "Unknown";
             }
 
             ToastContentBuilder builder = new ToastContentBuilder()
