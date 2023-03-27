@@ -1818,4 +1818,7 @@
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>请输入你的 Hoyolab Uid</value>
   </data>
+  <data name="ViewUserCookieOperation2" xml:space="preserve">
+    <value>Hoyolab</value>
+  </data>
 </root>

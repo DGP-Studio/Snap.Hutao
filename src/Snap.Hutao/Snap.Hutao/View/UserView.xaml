@@ -116,10 +116,7 @@
                                 SelectionMode="Single">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid
-                                            Width="200"
-                                            Padding="0,12"
-                                            Background="Transparent">
+                                        <Grid Padding="0,12" Background="Transparent">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="auto"/>
                                                 <ColumnDefinition/>
@@ -204,44 +201,65 @@
                             Style="{StaticResource SubtitleTextBlockStyle}"
                             Text="{shcm:ResourceString Name=ViewUserDefaultDescription}"
                             Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
-                        <TextBlock
-                            Margin="10,6,0,6"
-                            Style="{StaticResource BaseTextBlockStyle}"
-                            Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
-                        <StackPanel
-                            Margin="0,0,6,0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
                             <AppBarButton
+                                Grid.Row="1"
+                                Grid.Column="0"
                                 Command="{Binding RefreshCookieTokenCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE72C;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>
-                            <AppBarButton
-                                Command="{Binding LoginMihoyoUserCommand}"
-                                Icon="{shcm:FontIcon Glyph=&#xEB41;}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
-                            <AppBarButton
-                                Command="{Binding AddUserCommand}"
-                                Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
-                        </StackPanel>
-                        <TextBlock
-                            Margin="10,6,0,6"
-                            Style="{StaticResource BaseTextBlockStyle}"
-                            Text="HoyoVerse Account"/>
-                        <StackPanel
-                            Margin="0,0,6,0"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-                            <AppBarButton
-                                Command="{Binding LoginHoyoverseUserCommand}"
-                                Icon="{shcm:FontIcon Glyph=&#xEB41;}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
-                            <AppBarButton
-                                Command="{Binding AddOverseaUserCommand}"
-                                Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                                Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
-                        </StackPanel>
+                            <AppBarSeparator Grid.RowSpan="2" Grid.Column="1"/>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                Margin="4,6,0,0"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                Orientation="Horizontal">
+                                <AppBarButton
+                                    Command="{Binding LoginMihoyoUserCommand}"
+                                    Icon="{shcm:FontIcon Glyph=&#xEB41;}"
+                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                                <AppBarButton
+                                    Command="{Binding AddUserCommand}"
+                                    Icon="{shcm:FontIcon Glyph=&#xE710;}"
+                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                            </StackPanel>
+                            <AppBarSeparator Grid.RowSpan="2" Grid.Column="3"/>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="4"
+                                Margin="4,6,0,0"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewUserCookieOperation2}"/>
+                            <StackPanel
+                                Grid.Row="1"
+                                Grid.Column="4"
+                                Orientation="Horizontal">
+                                <AppBarButton
+                                    Command="{Binding LoginHoyoverseUserCommand}"
+                                    Icon="{shcm:FontIcon Glyph=&#xEB41;}"
+                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                                <AppBarButton
+                                    Command="{Binding AddOverseaUserCommand}"
+                                    Icon="{shcm:FontIcon Glyph=&#xE710;}"
+                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>

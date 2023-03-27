@@ -185,17 +185,17 @@ internal static class ApiOsEndpoints
     /// <summary>
     /// 计算器家具计算
     /// </summary>
-    public const string CalculateOsFurnitureCompute = $"{SgPublicApi}/event/calculateos/furniture/list";
+    public const string CalculateFurnitureCompute = $"{SgPublicApi}/event/calculateos/furniture/list";
 
     /// <summary>
     /// 计算器角色列表 size 20
     /// </summary>
-    public const string CalculateOsAvatarList = $"{SgPublicApi}/event/calculateos/avatar/list";
+    public const string CalculateAvatarList = $"{SgPublicApi}/event/calculateos/avatar/list";
 
     /// <summary>
     /// 计算器武器列表 size 20
     /// </summary>
-    public const string CalculateOsWeaponList = $"{SgPublicApi}/event/calculateos/weapon/list";
+    public const string CalculateWeaponList = $"{SgPublicApi}/event/calculateos/weapon/list";
 
     /// <summary>
     /// 计算器结果
