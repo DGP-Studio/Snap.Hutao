@@ -582,8 +582,8 @@
   <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
     <value>Mid must be included in the entered Cookie</value>
   </data>
-  <data name="ServiceUserProcessCookieNoStoken" xml:space="preserve">
-    <value>Stoken must be included in the entered Cookie</value>
+  <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
+    <value>输入的 Cookie 必须包含 SToken</value>
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>Can't get user information with entered Cookie</value>
@@ -757,7 +757,7 @@
     <value>Document</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
-    <value>Enter Cookie with Stoken field</value>
+    <value>在此处输入包含 SToken 的 Cookie</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>Wish History</value>
@@ -809,6 +809,9 @@
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>Character showcase is disabled. Please activate it in the game.</value>
+  </data>
+  <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
+    <value>No Artifact Set</value>
   </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>Failed to add development plan</value>
@@ -932,6 +935,9 @@
   </data>
   <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
     <value>Clear completed</value>
+  </data>
+  <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
+    <value>Copied</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>Set data directory successfully. Restart to apply changes.</value>
@@ -1179,11 +1185,11 @@
   <data name="ViewPageGachaLogRefreshBymanualInputDescription" xml:space="preserve">
     <value>Use URL you provided to refresh wish history</value>
   </data>
-  <data name="ViewPageGachaLogRefreshByStoken" xml:space="preserve">
-    <value>Refresh with Stoken</value>
+  <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
+    <value>SToken 刷新</value>
   </data>
-  <data name="ViewPageGachaLogRefreshByStokenDescription" xml:space="preserve">
-    <value>Use Cookie from current user to refresh wish history</value>
+  <data name="ViewPageGachaLogRefreshBySTokenDescription" xml:space="preserve">
+    <value>使用当前用户的 Cookie 信息刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
     <value>Refresh with Web Cache</value>
@@ -1278,6 +1284,9 @@
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
     <value>Launch</value>
   </data>
+  <data name="ViewPageLaunchGameAdvancedFeatureElevationHint" xml:space="preserve">
+    <value>To enable any feature in「Game Launcher - Advanced Features」, you need to unlock it in Settings.</value>
+  </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>Advanced Features</value>
   </data>
@@ -1326,6 +1335,33 @@
   <data name="ViewPageLaunchGameElevationHint" xml:space="preserve">
     <value>Some options are disabled. They will only be enabled in administrator mode!</value>
   </data>
+  <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
+    <value>Run the software on the selected display</value>
+  </data>
+  <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
+    <value>Run multiple game processes simultaneously</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesHeader" xml:space="preserve">
+    <value>Multi-Client</value>
+  </data>
+  <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
+    <value>Game Options</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
+    <value>OTA Package</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceHeader" xml:space="preserve">
+    <value>Resource Download</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
+    <value>Client</value>
+  </data>
+  <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
+    <value>Pre-download</value>
+  </data>
   <data name="ViewPageLaunchGameSetFpsDescription" xml:space="preserve">
     <value>Can adjust at any time during game</value>
   </data>
@@ -1345,7 +1381,7 @@
     <value>Detect</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
-    <value>Account</value>
+    <value>Detect Account</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
     <value>Delete</value>
@@ -1380,6 +1416,9 @@
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
     <value>Sign in with your MiHoYo BBS account in the window below</value>
   </data>
+  <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
+    <value>Open Screenshots Folder</value>
+  </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>About Snap Hutao</value>
   </data>
@@ -1403,6 +1442,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>Open Cache Folder</value>
+  </data>
+  <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
+    <value>Copy</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>Execute</value>
@@ -1454,6 +1496,15 @@
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleOn" xml:space="preserve">
     <value>Show</value>
+  </data>
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
+    <value>After a full reading of the Genshin Impact and Snap Hutao user agreements, I choose to enable「Game Launcher - Advanced Features」.</value>
+  </data>
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
+    <value>Enable Advanced Features</value>
+  </data>
+  <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
+    <value>You have unlocked the「Game Launcher - Advanced Features」that may violate the Terms of Service of Genshin Impact, and you will take responsibility for any adverse consequences.</value>
   </data>
   <data name="ViewPageSettingFeedbackDescription" xml:space="preserve">
     <value>Issues on GitHub will be prioritized</value>
@@ -1588,7 +1639,7 @@
     <value>Tools</value>
   </data>
   <data name="ViewUserCookieOperation" xml:space="preserve">
-    <value>Cookie Operations</value>
+    <value>米游社</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
@@ -1733,5 +1784,41 @@
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>Return Code: {0} | Message: {1}</value>
+  </data>
+  <data name="ViewDialogUserTitle" xml:space="preserve">
+    <value>Set Cookie</value>
+  </data>
+  <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
+    <value>Go to Official Website</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
+    <value>This action is irreversible, and all user login status will be lost</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
+    <value>Delete user data permanently?</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
+    <value>Snap Hutao Account</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
+    <value>Log in failed, please log in again.</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
+    <value>Sign in or register now</value>
+  </data>
+  <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
+    <value>网络异常</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
+    <value>Hoyolab 账号不支持使用 SToken 刷新祈愿记录</value>
+  </data>
+  <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
+    <value>Hoyolab 账号不支持验证</value>
+  </data>
+  <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
+    <value>请输入你的 Hoyolab Uid</value>
+  </data>
+  <data name="ViewUserCookieOperation2" xml:space="preserve">
+    <value>Hoyolab</value>
   </data>
 </root>
