@@ -582,8 +582,8 @@
   <data name="ServiceUserProcessCookieNoMid" xml:space="preserve">
     <value>Mid 必須包含在輸入的 Cookie 中</value>
   </data>
-  <data name="ServiceUserProcessCookieNoStoken" xml:space="preserve">
-    <value>Stoken 必須包含在輸入的 Cookie 中</value>
+  <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
+    <value>输入的 Cookie 必须包含 SToken</value>
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>輸入的 Cookie 無法獲取用戶信息</value>
@@ -757,7 +757,7 @@
     <value>操作文檔</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
-    <value>在此處輸入包含 Stoken 的 Cookie</value>
+    <value>在此处输入包含 SToken 的 Cookie</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈願記錄</value>
@@ -809,6 +809,9 @@
   </data>
   <data name="ViewModelAvatarPropertyShowcaseNotOpen" xml:space="preserve">
     <value>角色展櫃尚未開啟，請前往遊戲操作後重試</value>
+  </data>
+  <data name="ViewModelComplexReliquarySetViewEmptyName" xml:space="preserve">
+    <value>無聖遺物或散件</value>
   </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>養成計劃添加失敗</value>
@@ -932,6 +935,9 @@
   </data>
   <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
     <value>清除完成</value>
+  </data>
+  <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
+    <value>複製成功</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
     <value>設置數據目錄成功，重啓以應用更改</value>
@@ -1179,11 +1185,11 @@
   <data name="ViewPageGachaLogRefreshBymanualInputDescription" xml:space="preserve">
     <value>使用由你提供的 URL 刷新祈願紀錄</value>
   </data>
-  <data name="ViewPageGachaLogRefreshByStoken" xml:space="preserve">
-    <value>Stoken 刷新</value>
+  <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
+    <value>SToken 刷新</value>
   </data>
-  <data name="ViewPageGachaLogRefreshByStokenDescription" xml:space="preserve">
-    <value>使用當前用戶的 Cookie 信息刷新祈願紀錄</value>
+  <data name="ViewPageGachaLogRefreshBySTokenDescription" xml:space="preserve">
+    <value>使用当前用户的 Cookie 信息刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
     <value>網頁緩存刷新</value>
@@ -1278,6 +1284,9 @@
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
     <value>啟動遊戲</value>
   </data>
+  <data name="ViewPageLaunchGameAdvancedFeatureElevationHint" xml:space="preserve">
+    <value>启用「启动游戏-高级功能」的任意功能 您需要在设置里解锁它</value>
+  </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>進階功能</value>
   </data>
@@ -1326,6 +1335,33 @@
   <data name="ViewPageLaunchGameElevationHint" xml:space="preserve">
     <value>某些選項處於禁用狀態，他們只在管理員模式下生效！</value>
   </data>
+  <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
+    <value>在指定的屏幕上運行</value>
+  </data>
+  <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
+    <value>螢幕</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
+    <value>同时运行多个游戏客户端</value>
+  </data>
+  <data name="ViewPageLaunchGameMultipleInstancesHeader" xml:space="preserve">
+    <value>多客户端</value>
+  </data>
+  <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
+    <value>遊戲選項</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
+    <value>增量包</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceHeader" xml:space="preserve">
+    <value>資源下載</value>
+  </data>
+  <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
+    <value>用戶端</value>
+  </data>
+  <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
+    <value>預下載</value>
+  </data>
   <data name="ViewPageLaunchGameSetFpsDescription" xml:space="preserve">
     <value>在游戲時可以隨時調整</value>
   </data>
@@ -1345,7 +1381,7 @@
     <value>檢測</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
-    <value>賬號</value>
+    <value>检测账号</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
     <value>刪除</value>
@@ -1380,6 +1416,9 @@
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
     <value>在下方登錄 MiHoYo 通行證賬號</value>
   </data>
+  <data name="ViewPageOpenScreenshotFolderAction" xml:space="preserve">
+    <value>開啟截圖資料夾</value>
+  </data>
   <data name="ViewPageSettingAboutHeader" xml:space="preserve">
     <value>關於 胡桃</value>
   </data>
@@ -1403,6 +1442,9 @@
   </data>
   <data name="ViewPageSettingCacheFolderHeader" xml:space="preserve">
     <value>打開緩存文件夾</value>
+  </data>
+  <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
+    <value>複製</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>執行</value>
@@ -1454,6 +1496,15 @@
   </data>
   <data name="ViewPageSettingEmptyHistoryVisibleOn" xml:space="preserve">
     <value>顯示</value>
+  </data>
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
+    <value>在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」</value>
+  </data>
+  <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
+    <value>启动高级功能</value>
+  </data>
+  <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
+    <value>您解锁了含有违反原神服务条款风险的「启动游戏-高级功能」，将自行承担任何不良后果。</value>
   </data>
   <data name="ViewPageSettingFeedbackDescription" xml:space="preserve">
     <value>Github 上反饋的問題會優先處理</value>
@@ -1588,7 +1639,7 @@
     <value>工具</value>
   </data>
   <data name="ViewUserCookieOperation" xml:space="preserve">
-    <value>Cookie 操作</value>
+    <value>米游社</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>網頁登陸</value>
@@ -1733,5 +1784,41 @@
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>狀態：{0} | 信息：{1}</value>
+  </data>
+  <data name="ViewDialogUserTitle" xml:space="preserve">
+    <value>设置 Cookie</value>
+  </data>
+  <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
+    <value>前往官网</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataContent" xml:space="preserve">
+    <value>该操作是不可逆的，所有用户登录状态会丢失</value>
+  </data>
+  <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
+    <value>是否永久删除用户数据</value>
+  </data>
+  <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
+    <value>胡桃账号</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginFailHint" xml:space="preserve">
+    <value>登录失败，请重新登录</value>
+  </data>
+  <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
+    <value>立即登录或注册</value>
+  </data>
+  <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
+    <value>网络异常</value>
+  </data>
+  <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
+    <value>Hoyolab 账号不支持使用 SToken 刷新祈愿记录</value>
+  </data>
+  <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
+    <value>Hoyolab 账号不支持验证</value>
+  </data>
+  <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
+    <value>请输入你的 Hoyolab Uid</value>
+  </data>
+  <data name="ViewUserCookieOperation2" xml:space="preserve">
+    <value>Hoyolab</value>
   </data>
 </root>
