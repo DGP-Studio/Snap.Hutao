@@ -3,10 +3,10 @@
 
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Model.Binding.AvatarProperty;
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Enka;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab;

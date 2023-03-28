@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;

@@ -38,7 +38,7 @@ internal sealed partial class BaseValueSlider : UserControl
     /// </summary>
     public bool IsPromoteVisible
     {
-        get { return (bool)GetValue(IsPromoteVisibleProperty); }
-        set { SetValue(IsPromoteVisibleProperty, value); }
+        get => (bool)GetValue(IsPromoteVisibleProperty);
+        set => SetValue(IsPromoteVisibleProperty, value);
     }
 }

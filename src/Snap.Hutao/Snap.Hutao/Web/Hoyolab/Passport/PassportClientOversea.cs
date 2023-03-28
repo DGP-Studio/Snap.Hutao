@@ -4,11 +4,8 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
-using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Net.Http.Json;
-using Windows.ApplicationModel.Contacts;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
@@ -38,7 +35,10 @@ internal sealed class PassportClientOversea : IPassportClient
     }
 
     /// <inheritdoc/>
-    public bool IsOversea => true;
+    public bool IsOversea
+    {
+        get => true;
+    }
 
     /// <summary>
     /// 异步获取 CookieToken

@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -13,13 +12,13 @@ using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Binding.AvatarProperty;
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Response;
 using System.Runtime.InteropServices;
 using Windows.Graphics.Imaging;

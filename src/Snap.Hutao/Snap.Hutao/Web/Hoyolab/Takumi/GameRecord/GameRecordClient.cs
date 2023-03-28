@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Model.Binding.User;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
@@ -41,7 +41,10 @@ internal sealed class GameRecordClient : IGameRecordClient
     }
 
     /// <inheritdoc/>
-    public bool IsOversea => false;
+    public bool IsOversea
+    {
+        get => false;
+    }
 
     /// <summary>
     /// 异步获取实时便笺

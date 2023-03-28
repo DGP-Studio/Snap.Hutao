@@ -37,7 +37,10 @@ internal sealed class UserClient : IUserClient
     }
 
     /// <inheritdoc/>
-    public bool IsOversea => false;
+    public bool IsOversea
+    {
+        get => false;
+    }
 
     /// <summary>
     /// 获取当前用户详细信息

@@ -92,7 +92,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         switch (result)
         {
             case UserOptionResult.Added:
-                ViewModel.UserViewModel vm = Ioc.Default.GetRequiredService<ViewModel.UserViewModel>();
+                ViewModel.User.UserViewModel vm = Ioc.Default.GetRequiredService<ViewModel.User.UserViewModel>();
                 if (vm.Users!.Count == 1)
                 {
                     await ThreadHelper.SwitchToMainThreadAsync();

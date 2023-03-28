@@ -1267,7 +1267,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Hoyolab 账号不支持使用 SToken 刷新祈愿记录 的本地化字符串。
+        ///   查找类似 HoYoLab 账号不支持使用 SToken 刷新祈愿记录 的本地化字符串。
         /// </summary>
         internal static string ServiceGachaLogUrlProviderStokenUnsupported {
             get {
@@ -2248,7 +2248,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Hoyolab 账号不支持验证 的本地化字符串。
+        ///   查找类似 HoYoLab 账号不支持验证实时便笺 的本地化字符串。
         /// </summary>
         internal static string ViewModelDailyNoteHoyolabVerificationUnsupported {
             get {
@@ -3994,7 +3994,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 请输入你的 Hoyolab Uid 的本地化字符串。
+        ///   查找类似 请输入你的 HoYoLab Uid 的本地化字符串。
         /// </summary>
         internal static string ViewPageLoginHoyoverseUserHint {
             get {
@@ -4732,7 +4732,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Hoyolab 的本地化字符串。
+        ///   查找类似 HoYoLab 的本地化字符串。
         /// </summary>
         internal static string ViewUserCookieOperation2 {
             get {

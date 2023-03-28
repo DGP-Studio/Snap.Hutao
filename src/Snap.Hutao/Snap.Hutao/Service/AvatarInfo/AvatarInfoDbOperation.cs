@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.AvatarInfo.Composer;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Response;

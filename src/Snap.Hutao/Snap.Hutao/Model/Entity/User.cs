@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Web.Hoyolab;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

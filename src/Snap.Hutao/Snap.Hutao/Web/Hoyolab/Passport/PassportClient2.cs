@@ -7,7 +7,6 @@ using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace Snap.Hutao.Web.Hoyolab.Passport;
 
@@ -39,7 +38,10 @@ internal sealed class PassportClient2 : IPassportClient
     }
 
     /// <inheritdoc/>
-    public bool IsOversea => false;
+    public bool IsOversea
+    {
+        get => false;
+    }
 
     /// <summary>
     /// 异步获取 CookieToken

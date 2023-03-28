@@ -3,9 +3,7 @@
 
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Message;
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Primitive;
@@ -13,6 +11,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.Model.Post;
 using System.Collections.ObjectModel;

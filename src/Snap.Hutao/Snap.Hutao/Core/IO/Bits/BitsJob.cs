@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Abstraction;
 using System.IO;
 using System.Runtime.InteropServices;

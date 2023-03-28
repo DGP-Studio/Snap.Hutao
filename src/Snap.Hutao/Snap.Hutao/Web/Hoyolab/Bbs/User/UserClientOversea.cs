@@ -36,7 +36,10 @@ internal sealed class UserClientOversea : IUserClient
     }
 
     /// <inheritdoc/>
-    public bool IsOversea => true;
+    public bool IsOversea
+    {
+        get => true;
+    }
 
     /// <summary>
     /// 获取当前用户详细信息，使用 LToken

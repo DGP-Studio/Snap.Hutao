@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.UI;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Monster;

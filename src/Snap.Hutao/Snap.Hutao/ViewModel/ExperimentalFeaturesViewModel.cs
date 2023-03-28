@@ -4,12 +4,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Service.Abstraction;
 using Windows.Storage;
 using Windows.System;
 

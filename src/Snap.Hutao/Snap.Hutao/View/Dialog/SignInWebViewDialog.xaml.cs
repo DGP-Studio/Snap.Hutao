@@ -1,11 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
 
 namespace Snap.Hutao.View.Dialog;

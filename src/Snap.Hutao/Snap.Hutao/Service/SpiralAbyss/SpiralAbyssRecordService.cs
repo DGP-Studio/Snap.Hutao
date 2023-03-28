@@ -3,9 +3,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;

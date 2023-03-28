@@ -3,10 +3,8 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using System.Globalization;

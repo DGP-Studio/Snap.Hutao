@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.UI.Animations;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;

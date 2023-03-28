@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding.AvatarProperty;
-using Snap.Hutao.Model.Binding.User;
+using Snap.Hutao.ViewModel.User;
 
 namespace Snap.Hutao.Service.AvatarInfo;
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Model.Entity.Database;
 using System.Diagnostics;
 

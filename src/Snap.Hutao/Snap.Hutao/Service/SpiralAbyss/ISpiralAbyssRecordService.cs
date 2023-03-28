@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.ViewModel.User;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.SpiralAbyss;

@@ -6,7 +6,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Notifications;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Bits;

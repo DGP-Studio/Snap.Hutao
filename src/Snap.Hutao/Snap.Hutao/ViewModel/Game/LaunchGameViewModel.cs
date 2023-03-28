@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;

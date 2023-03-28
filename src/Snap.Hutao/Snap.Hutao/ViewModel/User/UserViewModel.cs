@@ -3,10 +3,8 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
@@ -16,7 +14,7 @@ using Snap.Hutao.Web.Hoyolab;
 using System.Collections.ObjectModel;
 using System.Text;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.User;
 
 /// <summary>
 /// 用户视图模型

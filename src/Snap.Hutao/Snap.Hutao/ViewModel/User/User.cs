@@ -3,16 +3,14 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
-using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
-namespace Snap.Hutao.Model.Binding.User;
+namespace Snap.Hutao.ViewModel.User;
 
 /// <summary>
 /// 用于视图绑定的用户

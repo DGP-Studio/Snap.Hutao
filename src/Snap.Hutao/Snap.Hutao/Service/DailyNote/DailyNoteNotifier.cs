@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Notifications;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;

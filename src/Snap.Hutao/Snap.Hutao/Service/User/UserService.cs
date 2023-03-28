@@ -3,17 +3,17 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Passport;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
-using BindingUser = Snap.Hutao.Model.Binding.User.User;
+using BindingUser = Snap.Hutao.ViewModel.User.User;
 
 namespace Snap.Hutao.Service.User;
 
@@ -30,7 +30,7 @@ internal class UserService : IUserService
 
     private BindingUser? currentUser;
     private ObservableCollection<BindingUser>? userCollection;
-    private ObservableCollection<Model.Binding.User.UserAndUid>? roleCollection;
+    private ObservableCollection<UserAndUid>? roleCollection;
 
     /// <summary>
     /// 构造一个新的用户服务
@@ -149,12 +149,12 @@ internal class UserService : IUserService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<Model.Binding.User.UserAndUid>> GetRoleCollectionAsync()
+    public async Task<ObservableCollection<UserAndUid>> GetRoleCollectionAsync()
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         if (roleCollection == null)
         {
-            List<Model.Binding.User.UserAndUid> userAndUids = new();
+            List<UserAndUid> userAndUids = new();
             ObservableCollection<BindingUser> observableUsers = await GetUserCollectionAsync().ConfigureAwait(false);
             foreach (BindingUser user in observableUsers)
             {

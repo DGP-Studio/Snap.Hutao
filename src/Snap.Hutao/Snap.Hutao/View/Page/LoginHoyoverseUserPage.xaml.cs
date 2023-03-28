@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
@@ -93,7 +92,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         switch (result)
         {
             case UserOptionResult.Added:
-                ViewModel.UserViewModel vm = Ioc.Default.GetRequiredService<ViewModel.UserViewModel>();
+                ViewModel.User.UserViewModel vm = Ioc.Default.GetRequiredService<ViewModel.User.UserViewModel>();
                 if (vm.Users!.Count == 1)
                 {
                     await ThreadHelper.SwitchToMainThreadAsync();

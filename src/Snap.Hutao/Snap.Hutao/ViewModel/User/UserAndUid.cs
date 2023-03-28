@@ -4,7 +4,7 @@
 using Snap.Hutao.Web.Hoyolab;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
-namespace Snap.Hutao.Model.Binding.User;
+namespace Snap.Hutao.ViewModel.User;
 
 /// <summary>
 /// 实体用户与角色

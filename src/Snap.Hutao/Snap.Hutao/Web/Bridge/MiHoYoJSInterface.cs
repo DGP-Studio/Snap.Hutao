@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Model.Binding.User;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;

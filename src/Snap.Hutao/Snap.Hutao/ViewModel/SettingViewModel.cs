@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Windows.AppLifecycle;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.LifeCycle;
@@ -13,7 +10,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Abstraction;
@@ -24,7 +20,6 @@ using Snap.Hutao.View.Dialog;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
-using Windows.Storage.Pickers;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -167,7 +162,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 是否提权
     /// </summary>
-    public bool IsElevated { get => Activation.GetElevated(); }
+    [SuppressMessage("", "CA1822")]
+    public bool IsElevated
+    {
+        get => Activation.GetElevated();
+    }
 
     /// <summary>
     /// 设置游戏路径命令
