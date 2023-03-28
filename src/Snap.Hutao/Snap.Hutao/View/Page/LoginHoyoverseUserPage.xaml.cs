@@ -66,7 +66,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         }
 
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
-        loginTicketCookie["login_uid"] = uid;
+        loginTicketCookie[Cookie.LOGIN_UID] = uid;
 
         // 使用 loginTicket 获取 stoken
         Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
@@ -80,12 +80,12 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         }
 
         Dictionary<string, string> multiTokenMap = multiTokenResponse.Data.List.ToDictionary(n => n.Name, n => n.Token);
-        Cookie hoyoLabCookie = Cookie.Parse($"{Cookie.STUID}={uid};{Cookie.STOKEN}={multiTokenMap[Cookie.STOKEN]}");
+        Cookie hoyolabCookie = Cookie.FromSToken(uid, multiTokenMap[Cookie.STOKEN]);
 
         // 处理 cookie 并添加用户
         (UserOptionResult result, string nickname) = await Ioc.Default
             .GetRequiredService<IUserService>()
-            .ProcessInputCookieAsync(hoyoLabCookie, true)
+            .ProcessInputCookieAsync(hoyolabCookie, true)
             .ConfigureAwait(false);
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();

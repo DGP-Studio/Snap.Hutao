@@ -201,7 +201,7 @@
                             Style="{StaticResource SubtitleTextBlockStyle}"
                             Text="{shcm:ResourceString Name=ViewUserDefaultDescription}"
                             Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
-                        <Grid>
+                        <Grid Margin="6,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>

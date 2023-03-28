@@ -94,52 +94,20 @@ internal sealed partial class Cookie
         return new(cookieMap);
     }
 
-    public bool TryGetAsSToken([NotNullWhen(true)] out Cookie? cookie)
+    public static Cookie FromSToken(string stuid, string stoken)
     {
-        bool hasMid = TryGetValue(MID, out string? mid);
-        bool hasSToken = TryGetValue(STOKEN, out string? stoken);
-        bool hasSTuid = TryGetValue(STUID, out string? stuid);
-
-        if (hasMid && hasSToken && hasSTuid)
+        SortedDictionary<string, string> cookieMap = new()
         {
-            cookie = new Cookie(new()
-            {
-                [MID] = mid!,
-                [STOKEN] = stoken!,
-                [STUID] = stuid!,
-            });
+            [STUID] = stuid,
+            [STOKEN] = stoken,
+        };
 
-            return true;
-        }
-
-        cookie = null;
-        return false;
+        return new(cookieMap);
     }
 
-    /// <summary>
-    /// 提取其中的 stoken 信息
-    /// Used for hoyolab account.
-    /// </summary>
-    /// <param name="cookie">A cookie contains stoken and stuid, without mid.</param>
-    /// <returns>是否获取成功</returns>
-    public bool TryGetAsLegacySToken([NotNullWhen(true)] out Cookie? cookie)
+    public bool TryGetAsSToken(bool isOversea, [NotNullWhen(true)] out Cookie? cookie)
     {
-        bool hasSToken = TryGetValue(STOKEN, out string? stoken);
-        bool hasSTuid = TryGetValue(STUID, out string? stuid);
-
-        if (hasSToken && hasSTuid)
-        {
-            cookie = new Cookie(new()
-            {
-                [STOKEN] = stoken!,
-                [STUID] = stuid!,
-            });
-
-            return true;
-        }
-
-        cookie = null;
-        return false;
+        return isOversea ? TryGetAsLegacySToken(out cookie) : TryGetAsSToken(out cookie);
     }
 
     public bool TryGetAsLToken([NotNullWhen(true)] out Cookie? cookie)
@@ -205,5 +173,47 @@ internal sealed partial class Cookie
     public override string ToString()
     {
         return string.Join(';', inner.Select(kvp => $"{kvp.Key}={kvp.Value}"));
+    }
+
+    private bool TryGetAsSToken([NotNullWhen(true)] out Cookie? cookie)
+    {
+        bool hasMid = TryGetValue(MID, out string? mid);
+        bool hasSToken = TryGetValue(STOKEN, out string? stoken);
+        bool hasSTuid = TryGetValue(STUID, out string? stuid);
+
+        if (hasMid && hasSToken && hasSTuid)
+        {
+            cookie = new Cookie(new()
+            {
+                [MID] = mid!,
+                [STOKEN] = stoken!,
+                [STUID] = stuid!,
+            });
+
+            return true;
+        }
+
+        cookie = null;
+        return false;
+    }
+
+    private bool TryGetAsLegacySToken([NotNullWhen(true)] out Cookie? cookie)
+    {
+        bool hasSToken = TryGetValue(STOKEN, out string? stoken);
+        bool hasSTuid = TryGetValue(STUID, out string? stuid);
+
+        if (hasSToken && hasSTuid)
+        {
+            cookie = new Cookie(new()
+            {
+                [STOKEN] = stoken!,
+                [STUID] = stuid!,
+            });
+
+            return true;
+        }
+
+        cookie = null;
+        return false;
     }
 }

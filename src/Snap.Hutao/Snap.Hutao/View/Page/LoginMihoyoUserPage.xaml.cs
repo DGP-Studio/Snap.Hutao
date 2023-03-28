@@ -67,7 +67,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
 
         Dictionary<string, string> multiTokenMap = multiTokenResponse.Data.List.ToDictionary(n => n.Name, n => n.Token);
 
-        Cookie stokenV1 = Cookie.Parse($"{Cookie.STUID}={loginTicketCookie[Cookie.LOGIN_UID]};{Cookie.STOKEN}={multiTokenMap[Cookie.STOKEN]}");
+        Cookie stokenV1 = Cookie.FromSToken(loginTicketCookie[Cookie.LOGIN_UID], multiTokenMap[Cookie.STOKEN]);
 
         Response<LoginResult> loginResultResponse = await Ioc.Default
             .GetRequiredService<PassportClient>()

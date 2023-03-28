@@ -64,24 +64,11 @@ internal sealed class User : ISelectable
     /// 创建一个新的用户
     /// </summary>
     /// <param name="cookie">cookie</param>
+    /// <param name="isOversea">是否为国际服</param>
     /// <returns>新创建的用户</returns>
-    public static User Create(Cookie cookie)
+    public static User Create(Cookie cookie, bool isOversea)
     {
-        _ = cookie.TryGetAsSToken(out Cookie? stoken);
-        _ = cookie.TryGetAsLToken(out Cookie? ltoken);
-        _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
-
-        return new() { SToken = stoken, LToken = ltoken, CookieToken = cookieToken };
-    }
-
-    /// <summary>
-    /// 创建一个国际服用户
-    /// </summary>
-    /// <param name="cookie">cookie</param>
-    /// <returns>新创建的用户</returns>
-    public static User CreateOs(Cookie cookie)
-    {
-        _ = cookie.TryGetAsLegacySToken(out Cookie? stoken);
+        _ = cookie.TryGetAsSToken(isOversea, out Cookie? stoken);
         _ = cookie.TryGetAsLToken(out Cookie? ltoken);
         _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
 
