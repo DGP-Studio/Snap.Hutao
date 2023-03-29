@@ -16,6 +16,8 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
+using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.View.Dialog;
 using System.Globalization;
 using System.IO;
@@ -64,6 +66,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         logger = serviceProvider.GetRequiredService<ILogger<SettingViewModel>>();
         Experimental = serviceProvider.GetRequiredService<ExperimentalFeaturesViewModel>();
         Options = serviceProvider.GetRequiredService<AppOptions>();
+        UserOptions = serviceProvider.GetRequiredService<HutaoUserOptions>();
         this.serviceProvider = serviceProvider;
 
         selectedCulture = cultures.FirstOrDefault(c => c.Value == Options.CurrentCulture.Name);
@@ -76,6 +79,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         SetDataFolderCommand = new AsyncRelayCommand(SetDataFolderAsync);
         ResetStaticResourceCommand = new RelayCommand(ResetStaticResource);
         CopyDeviceIdCommand = new RelayCommand(CopyDeviceId);
+        NavigateToHutaoPassportCommand = new RelayCommand(NavigateToHutaoPassport);
     }
 
     /// <summary>
@@ -109,6 +113,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// 应用程序设置
     /// </summary>
     public AppOptions Options { get; }
+
+    /// <summary>
+    /// 胡桃用户选项
+    /// </summary>
+    public HutaoUserOptions UserOptions { get; }
 
     /// <summary>
     /// 背景类型
@@ -202,6 +211,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// 复制设备ID
     /// </summary>
     public ICommand CopyDeviceIdCommand { get; }
+
+    /// <summary>
+    /// 导航到胡桃通行证界面
+    /// </summary>
+    public ICommand NavigateToHutaoPassportCommand { get; }
 
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
@@ -299,13 +313,21 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
     private void CopyDeviceId()
     {
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+
         try
         {
             Clipboard.SetText(DeviceId);
-            serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewModelSettingCopyDeviceIdSuccess);
+            infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
-        catch (COMException)
+        catch (COMException ex)
         {
+            infoBarService.Error(ex);
         }
+    }
+
+    private void NavigateToHutaoPassport()
+    {
+        serviceProvider.GetRequiredService<INavigationService>().Navigate<View.Page.HutaoPassportPage>(INavigationAwaiter.Default);
     }
 }

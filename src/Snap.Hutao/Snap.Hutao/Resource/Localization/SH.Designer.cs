@@ -3607,6 +3607,69 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 登录 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoPassportLoginHeader {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoPassportLoginHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入密码 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoPassportPasswordHint {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoPassportPasswordHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注册 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoPassportRegisterHeader {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoPassportRegisterHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重置密码 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoPassportResetPasswordHeader {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoPassportResetPasswordHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入邮箱 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoPassportUserNameHint {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoPassportUserNameHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获取验证码 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoPassportVerifyCodeAction {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoPassportVerifyCodeAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请输入验证码 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoPassportVerifyCodeHint {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoPassportVerifyCodeHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 启动游戏 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameAction {

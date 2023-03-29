@@ -73,9 +73,11 @@
                     Header="{shcm:ResourceString Name=AppName}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
                 <clw:SettingsCard
-                    Description="{Binding AppVersion}"
+                    Command="{Binding NavigateToHutaoPassportCommand}"
+                    Description="{Binding UserOptions.UserName}"
                     Header="{shcm:ResourceString Name=ViewPageSettingHutaoPassportHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE716;}"/>
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE716;}"
+                    IsClickEnabled="True"/>
                 <clw:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"

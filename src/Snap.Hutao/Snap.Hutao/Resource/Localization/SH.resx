@@ -1821,4 +1821,25 @@
   <data name="ViewUserCookieOperation2" xml:space="preserve">
     <value>HoYoLab</value>
   </data>
+  <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
+    <value>请输入密码</value>
+  </data>
+  <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
+    <value>注册</value>
+  </data>
+  <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
+    <value>重置密码</value>
+  </data>
+  <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
+    <value>请输入邮箱</value>
+  </data>
+  <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
+    <value>获取验证码</value>
+  </data>
+  <data name="ViewPageHutaoPassportVerifyCodeHint" xml:space="preserve">
+    <value>请输入验证码</value>
+  </data>
 </root>

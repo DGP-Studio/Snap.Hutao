@@ -102,6 +102,7 @@
             <shvc:EmptyObjectToVisibilityRevertConverter x:Key="EmptyObjectToVisibilityRevertConverter"/>
             <shvc:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
             <shvc:Int32ToVisibilityRevertConverter x:Key="Int32ToVisibilityRevertConverter"/>
+            <shvc:StringBoolConverter x:Key="StringBoolConverter"/>
             <!--  Styles  -->
 
             <Style

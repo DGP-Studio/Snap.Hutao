@@ -7,6 +7,7 @@ using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.DailyNote;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using System.Diagnostics;
@@ -182,13 +183,21 @@ internal static class Activation
     private static async Task WaitMainWindowAsync()
     {
         await ThreadHelper.SwitchToMainThreadAsync();
-        Ioc.Default.GetRequiredService<MainWindow>().Activate();
+        IServiceProvider serviceProvider = Ioc.Default;
 
-        await Ioc.Default.GetRequiredService<IInfoBarService>().WaitInitializationAsync().ConfigureAwait(false);
+        serviceProvider.GetRequiredService<MainWindow>().Activate();
 
-        Ioc.Default
+        await serviceProvider.GetRequiredService<IInfoBarService>().WaitInitializationAsync().ConfigureAwait(false);
+
+        serviceProvider
             .GetRequiredService<IMetadataService>()
             .As<IMetadataServiceInitialization>()?
+            .InitializeInternalAsync()
+            .SafeForget();
+
+        serviceProvider
+            .GetRequiredService<IHutaoUserService>()
+            .As<IHutaoUserServiceInitialization>()?
             .InitializeInternalAsync()
             .SafeForget();
     }

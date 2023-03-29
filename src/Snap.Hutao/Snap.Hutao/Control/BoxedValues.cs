@@ -28,4 +28,9 @@ internal static class BoxedValues
     /// <see cref="true"/>
     /// </summary>
     public static readonly object True = true;
+
+    /// <summary>
+    /// <see cref="false"/>
+    /// </summary>
+    public static readonly object False = false;
 }

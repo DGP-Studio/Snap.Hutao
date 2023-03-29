@@ -12,8 +12,10 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Singleton, typeof(IHutaoUserService))]
 internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceInitialization
 {
-    private readonly HomaPassportClient passportClient;
     private readonly TaskCompletionSource initializeCompletionSource = new();
+
+    private readonly HomaPassportClient passportClient;
+    private readonly HutaoUserOptions options;
 
     private bool isInitialized;
 
@@ -21,20 +23,12 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
     /// 构造一个新的胡桃用户服务
     /// </summary>
     /// <param name="passportClient">通行证客户端</param>
-    public HutaoUserService(HomaPassportClient passportClient)
+    /// <param name="options">选项</param>
+    public HutaoUserService(HomaPassportClient passportClient, HutaoUserOptions options)
     {
         this.passportClient = passportClient;
+        this.options = options;
     }
-
-    /// <summary>
-    /// 用户名
-    /// </summary>
-    public string? UserName { get; private set; }
-
-    /// <summary>
-    /// 访问令牌
-    /// </summary>
-    public string? Token { get; private set; }
 
     /// <summary>
     /// 异步初始化
@@ -52,25 +46,29 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
         string userName = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
         string passport = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
 
+        string? accessToken = null;
+
         if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(passport))
         {
             Web.Response.Response<string> response = await passportClient.LoginAsync(userName, passport, token).ConfigureAwait(false);
 
             if (response.IsOk())
             {
-                Token = response.Data;
-                UserName = userName;
                 isInitialized = true;
             }
             else
             {
-                UserName = SH.ViewServiceHutaoUserLoginFailHint;
+                userName = SH.ViewServiceHutaoUserLoginFailHint;
             }
         }
         else
         {
-            UserName = SH.ViewServiceHutaoUserLoginOrRegisterHint;
+            userName = SH.ViewServiceHutaoUserLoginOrRegisterHint;
         }
+
+        await ThreadHelper.SwitchToMainThreadAsync();
+        options.Token = accessToken;
+        options.UserName = userName;
 
         initializeCompletionSource.TrySetResult();
     }
