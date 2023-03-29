@@ -583,7 +583,7 @@
     <value>Mid must be included in the entered Cookie</value>
   </data>
   <data name="ServiceUserProcessCookieNoSToken" xml:space="preserve">
-    <value>输入的 Cookie 必须包含 SToken</value>
+    <value>Entered cookie must contains SToken</value>
   </data>
   <data name="ServiceUserProcessCookieRequestUserInfoFailed" xml:space="preserve">
     <value>Can't get user information with entered Cookie</value>
@@ -757,7 +757,7 @@
     <value>Document</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
-    <value>在此处输入包含 SToken 的 Cookie</value>
+    <value>The entered cookies contains SToken</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>Wish History</value>
@@ -1186,10 +1186,10 @@
     <value>Use URL you provided to refresh wish history</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
-    <value>SToken 刷新</value>
+    <value>SToken Refresh</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySTokenDescription" xml:space="preserve">
-    <value>使用当前用户的 Cookie 信息刷新祈愿记录</value>
+    <value>Use current user's cookie to fetch wish history</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
     <value>Refresh with Web Cache</value>
@@ -1639,7 +1639,7 @@
     <value>Tools</value>
   </data>
   <data name="ViewUserCookieOperation" xml:space="preserve">
-    <value>米游社</value>
+    <value>MiYouShe</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
@@ -1807,18 +1807,39 @@
     <value>Sign in or register now</value>
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
-    <value>网络异常</value>
+    <value>Network Error</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
-    <value>Hoyolab 账号不支持使用 SToken 刷新祈愿记录</value>
+    <value>SToken refresh does not support HoYoLab account</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
-    <value>Hoyolab 账号不支持验证</value>
+    <value>HoYoLab account does not support DailyNotes</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
-    <value>请输入你的 Hoyolab Uid</value>
+    <value>Enter your HoYoLab UID</value>
   </data>
   <data name="ViewUserCookieOperation2" xml:space="preserve">
-    <value>Hoyolab</value>
+    <value>HoYoLab</value>
+  </data>
+  <data name="ViewPageHutaoPassportLoginHeader" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="ViewPageHutaoPassportPasswordHint" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="ViewPageHutaoPassportUserNameHint" xml:space="preserve">
+    <value>Enter your email</value>
+  </data>
+  <data name="ViewPageHutaoPassportVerifyCodeAction" xml:space="preserve">
+    <value>Receive verification code</value>
+  </data>
+  <data name="ViewPageHutaoPassportVerifyCodeHint" xml:space="preserve">
+    <value>Please enter the verification code</value>
   </data>
 </root>
