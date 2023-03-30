@@ -21,7 +21,12 @@
             VerticalAlignment="Top"
             PlaceholderText="{shcm:ResourceString Name=ViewDialogUserInputPlaceholder}"
             TextChanged="InputTextChanged"/>
-        <StackPanel Margin="0,-48,0,0">
+        <StackPanel Margin="0,0,0,0">
+            <StackPanel.Resources>
+                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+            </StackPanel.Resources>
             <clw:SettingsCard
                 HorizontalAlignment="Stretch"
                 Description="{shcm:ResourceString Name=ViewDialogUserDocumentDescription}"

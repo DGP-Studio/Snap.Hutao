@@ -194,7 +194,7 @@ internal class UserService : IUserService
     public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
-        string? mid = cookie.GetValueOrDefault(isOversea ? Cookie.MID : Cookie.STUID);
+        string? mid = cookie.GetValueOrDefault(isOversea ? Cookie.STUID : Cookie.MID);
 
         if (mid == null)
         {

@@ -6,9 +6,12 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.Web;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
+using Snap.Hutao.Web.Request;
 using Snap.Hutao.Web.Response;
+using System.Net.Http;
 
 namespace Snap.Hutao.View.Page;
 
@@ -23,6 +26,26 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
     public LoginHoyoverseUserPage()
     {
         InitializeComponent();
+    }
+
+    private static async Task<string> GetUidFromCookieAsync(IServiceProvider serviceProvider, Cookie cookie, CancellationToken token = default)
+    {
+        JsonSerializerOptions options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
+        ILogger<LoginHoyoverseUserPage> logger = serviceProvider.GetRequiredService<ILogger<LoginHoyoverseUserPage>>();
+        HttpClient httpClient = serviceProvider.GetRequiredService<HttpClient>();
+
+        httpClient.DefaultRequestHeaders.Set("Cookie", cookie.ToString());
+
+        WebApiResponse<AccountInfoWrapper>? resp = await httpClient
+            .TryCatchGetFromJsonAsync<WebApiResponse<AccountInfoWrapper>>(ApiOsEndpoints.WebApiOsAccountLoginByCookie, options, logger, token)
+            .ConfigureAwait(false);
+
+        if (resp != null)
+        {
+            return resp.Data.AccountInfo.AccountId.ToString();
+        }
+
+        return string.Empty;
     }
 
     [SuppressMessage("", "VSTHRD100")]
@@ -54,17 +77,8 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
 
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
-        // Get user id from text input, login_uid is missed in cookie
-        string uid = UidInputText.Text;
-
-        if (uid.Length != 9)
-        {
-            await ThreadHelper.SwitchToMainThreadAsync();
-            infoBarService.Information(SH.ViewPageLoginHoyoverseUserHint);
-            return;
-        }
-
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
+        string uid = await GetUidFromCookieAsync(Ioc.Default, loginTicketCookie, token).ConfigureAwait(false);
         loginTicketCookie[Cookie.LOGIN_UID] = uid;
 
         // 使用 loginTicket 获取 stoken
@@ -89,34 +103,71 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
 
-        switch (result)
-        {
-            case UserOptionResult.Added:
-                ViewModel.User.UserViewModel vm = Ioc.Default.GetRequiredService<ViewModel.User.UserViewModel>();
-                if (vm.Users!.Count == 1)
-                {
-                    await ThreadHelper.SwitchToMainThreadAsync();
-                    vm.SelectedUser = vm.Users.Single();
-                }
-
-                infoBarService.Success(string.Format(SH.ViewModelUserAdded, nickname));
-                break;
-            case UserOptionResult.Incomplete:
-                infoBarService.Information(SH.ViewModelUserIncomplete);
-                break;
-            case UserOptionResult.Invalid:
-                infoBarService.Information(SH.ViewModelUserInvalid);
-                break;
-            case UserOptionResult.Updated:
-                infoBarService.Success(string.Format(SH.ViewModelUserUpdated, nickname));
-                break;
-            default:
-                throw Must.NeverHappen();
-        }
+        await Ioc.Default
+            .GetRequiredService<ViewModel.User.UserViewModel>()
+            .HandleUserOptionResultAsync(result, nickname)
+            .ConfigureAwait(false);
     }
 
     private void CookieButtonClick(object sender, RoutedEventArgs e)
     {
         HandleCurrentCookieAsync().SafeForget();
+    }
+
+    private sealed class WebApiResponse<TData>
+    {
+        [JsonPropertyName("code")]
+        public int Code { get; set; }
+
+        [JsonPropertyName("data")]
+        public TData Data { get; set; } = default!;
+    }
+
+    private sealed class AccountInfoWrapper
+    {
+        [JsonPropertyName("account_info")]
+        public AccountInfo AccountInfo { get; set; } = default!;
+
+        [JsonPropertyName("game_ctrl_info")]
+        public JsonElement GameControlInfo { get; set; }
+
+        [JsonPropertyName("info")]
+        public string Info { get; set; } = default!;
+
+        [JsonPropertyName("msg")]
+        public string Message { get; set; } = default!;
+
+        [JsonPropertyName("notice_info")]
+        public JsonElement NoticeInfo { get; set; }
+
+        [JsonPropertyName("status")]
+        public int Status { get; set; }
+    }
+
+    private sealed class AccountInfo
+    {
+        [JsonPropertyName("account_id")]
+        public int AccountId { get; set; }
+
+        [JsonPropertyName("account_name")]
+        public string AccountName { get; set; } = default!;
+
+        [JsonPropertyName("area_code")]
+        public string AreaCode { get; set; } = default!;
+
+        [JsonPropertyName("country")]
+        public string Country { get; set; } = default!;
+
+        [JsonPropertyName("email")]
+        public string Email { get; set; } = default!;
+
+        [JsonPropertyName("mobile")]
+        public string Mobile { get; set; } = default!;
+
+        [JsonPropertyName("safe_level")]
+        public int SafeLevel { get; set; }
+
+        [JsonPropertyName("weblogin_token")]
+        public string WebLoginToken { get; set; } = default!;
     }
 }

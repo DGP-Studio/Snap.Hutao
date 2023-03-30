@@ -18,33 +18,11 @@
             Margin="12,0,0,0"
             VerticalAlignment="Center"
             Text="{shcm:ResourceString Name=ViewPageLoginMihoyoUserTitle}"/>
-        <Grid
-            Grid.Row="0"
+        <Button
             Margin="16"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBox
-                x:Name="UidInputText"
-                Grid.Column="0"
-                Width="240"
-                Margin="0,0,16,0"
-                HorizontalAlignment="Right"
-                InputScope="Number"
-                MaxLength="9"
-                PlaceholderText="{shcm:ResourceString Name=ViewPageLoginHoyoverseUserHint}"/>
-            <Button
-                Grid.Column="1"
-                Click="CookieButtonClick"
-                Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
-        </Grid>
-
-        <WebView2
-            x:Name="WebView"
-            Grid.Row="2"
-            Margin="0,0,0,0"/>
+            Click="CookieButtonClick"
+            Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
+        <WebView2 x:Name="WebView" Grid.Row="2"/>
     </Grid>
 </Page>

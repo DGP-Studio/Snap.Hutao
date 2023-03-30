@@ -23,9 +23,6 @@
             HorizontalAlignment="Right"
             Click="CookieButtonClick"
             Content="{shcm:ResourceString Name=ViewPageLoginMihoyoUserLoggedInAction}"/>
-        <WebView2
-            x:Name="WebView"
-            Grid.Row="2"
-            Margin="0,0,0,0"/>
+        <WebView2 x:Name="WebView" Grid.Row="2"/>
     </Grid>
 </Page>

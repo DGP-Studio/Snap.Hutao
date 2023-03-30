@@ -233,6 +233,14 @@ internal static class ApiOsEndpoints
     }
     #endregion
 
+    #region WebApiOsAccountApi
+
+    /// <summary>
+    /// 使用 Cookie 登录
+    /// </summary>
+    public const string WebApiOsAccountLoginByCookie = $"{WebApiOsAccountApi}/login_by_cookie";
+    #endregion
+
     #region Hosts | Queries
     private const string ApiNaGeetest = "https://api-na.geetest.com";
 
@@ -253,6 +261,9 @@ internal static class ApiOsEndpoints
     private const string SdkOsStaticLauncherApi = $"{SdkOsStatic}/hk4e_global/mdk/launcher/api";
 
     private const string SgPublicApi = "https://sg-public-api.hoyolab.com";
+
+    private const string WebApiOs = "https://webapi-os.account.hoyoverse.com";
+    private const string WebApiOsAccountApi = $"{WebApiOs}/Api";
 
     /// <summary>
     /// Web static referer

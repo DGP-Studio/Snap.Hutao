@@ -86,33 +86,11 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
             .ConfigureAwait(false);
 
         Ioc.Default.GetRequiredService<INavigationService>().GoBack();
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
-        // TODO: Move these code somewhere else.
-        switch (result)
-        {
-            case UserOptionResult.Added:
-                ViewModel.User.UserViewModel vm = Ioc.Default.GetRequiredService<ViewModel.User.UserViewModel>();
-                if (vm.Users!.Count == 1)
-                {
-                    await ThreadHelper.SwitchToMainThreadAsync();
-                    vm.SelectedUser = vm.Users.Single();
-                }
-
-                infoBarService.Success(string.Format(SH.ViewModelUserAdded, nickname));
-                break;
-            case UserOptionResult.Incomplete:
-                infoBarService.Information(SH.ViewModelUserIncomplete);
-                break;
-            case UserOptionResult.Invalid:
-                infoBarService.Information(SH.ViewModelUserInvalid);
-                break;
-            case UserOptionResult.Updated:
-                infoBarService.Success(string.Format(SH.ViewModelUserUpdated, nickname));
-                break;
-            default:
-                throw Must.NeverHappen();
-        }
+        await Ioc.Default
+            .GetRequiredService<ViewModel.User.UserViewModel>()
+            .HandleUserOptionResultAsync(result, nickname)
+            .ConfigureAwait(false);
     }
 
     private void CookieButtonClick(object sender, RoutedEventArgs e)

@@ -117,6 +117,39 @@ internal sealed class UserViewModel : ObservableObject
     /// </summary>
     public ICommand RefreshCookieTokenCommand { get; }
 
+    /// <summary>
+    /// 处理用户操作结果
+    /// </summary>
+    /// <param name="optionResult">操作结果</param>
+    /// <param name="uid">uid</param>
+    /// <returns>任务</returns>
+    public async Task HandleUserOptionResultAsync(UserOptionResult optionResult, string uid)
+    {
+        switch (optionResult)
+        {
+            case UserOptionResult.Added:
+                if (Users!.Count == 1)
+                {
+                    await ThreadHelper.SwitchToMainThreadAsync();
+                    SelectedUser = Users.Single();
+                }
+
+                infoBarService.Success(string.Format(SH.ViewModelUserAdded, uid));
+                break;
+            case UserOptionResult.Incomplete:
+                infoBarService.Information(SH.ViewModelUserIncomplete);
+                break;
+            case UserOptionResult.Invalid:
+                infoBarService.Information(SH.ViewModelUserInvalid);
+                break;
+            case UserOptionResult.Updated:
+                infoBarService.Success(string.Format(SH.ViewModelUserUpdated, uid));
+                break;
+            default:
+                throw Must.NeverHappen();
+        }
+    }
+
     private async Task OpenUIAsync()
     {
         try
@@ -155,29 +188,7 @@ internal sealed class UserViewModel : ObservableObject
 
             (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie, isOversea).ConfigureAwait(false);
 
-            switch (optionResult)
-            {
-                case UserOptionResult.Added:
-                    if (Users!.Count == 1)
-                    {
-                        await ThreadHelper.SwitchToMainThreadAsync();
-                        SelectedUser = Users.Single();
-                    }
-
-                    infoBarService.Success(string.Format(SH.ViewModelUserAdded, uid));
-                    break;
-                case UserOptionResult.Incomplete:
-                    infoBarService.Information(SH.ViewModelUserIncomplete);
-                    break;
-                case UserOptionResult.Invalid:
-                    infoBarService.Information(SH.ViewModelUserInvalid);
-                    break;
-                case UserOptionResult.Updated:
-                    infoBarService.Success(string.Format(SH.ViewModelUserUpdated, uid));
-                    break;
-                default:
-                    throw Must.NeverHappen();
-            }
+            await HandleUserOptionResultAsync(optionResult, uid).ConfigureAwait(false);
         }
     }
 
