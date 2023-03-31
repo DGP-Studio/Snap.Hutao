@@ -4,7 +4,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Snap.Hutao.Model.Entity.Database;
 
-namespace Snap.Hutao.Context.Database;
+namespace Snap.Hutao.Model.Entity.Database;
 
 /// <summary>
 /// 此类只用于在生成迁移时提供数据库上下文

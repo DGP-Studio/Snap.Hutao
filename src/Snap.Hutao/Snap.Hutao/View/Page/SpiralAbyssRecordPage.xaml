@@ -11,9 +11,9 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    d:DataContext="{d:DesignInstance shv:SpiralAbyssRecordViewModel}"
+    xmlns:shvs="using:Snap.Hutao.ViewModel.SpiralAbyss"
+    d:DataContext="{d:DesignInstance shvs:SpiralAbyssRecordViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -305,16 +305,15 @@
                     HorizontalAlignment="Center"
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewSpiralAbyssDefaultDescription}"/>
-                <StackPanel Margin="0,-36,0,0" HorizontalAlignment="Center">
+                <StackPanel Margin="0,24,0,0">
                     <clw:SettingsCard
+                        Command="{Binding RefreshCommand}"
                         Description="{shcm:ResourceString Name=ViewSpiralAbyssRefreshDescription}"
                         Header="{shcm:ResourceString Name=ViewSpiralAbyssRefresh}"
-                        HeaderIcon="{shcm:FontIcon Glyph=&#xE72c;}">
-                        <Button Command="{Binding RefreshCommand}" Content="{shcm:ResourceString Name=ViewSpiralAbyssRefreshAction}"/>
-                    </clw:SettingsCard>
+                        HeaderIcon="{shcm:FontIcon Glyph=&#xE72c;}"
+                        IsClickEnabled="True"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
     </Grid>
-
 </shc:ScopedPage>
