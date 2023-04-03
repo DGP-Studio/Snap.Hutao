@@ -80,12 +80,12 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
 
         ValueStopwatch stopwatch = ValueStopwatch.StartNew();
-        logger.LogInformation("Metadata initializaion begin");
+        logger.LogInformation("Metadata initialization begin");
 
         isInitialized = await TryUpdateMetadataAsync(token).ConfigureAwait(false);
         initializeCompletionSource.TrySetResult();
 
-        logger.LogInformation("Metadata initializaion completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
+        logger.LogInformation("Metadata initialization completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 
     private static string GetTextMapLocale()

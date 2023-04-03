@@ -23,7 +23,7 @@ internal static class RegistryInterop
 
     private static string PsExecutablePath
     {
-        get => psExecutablePath ??= GetPowershellLocation();
+        get => psExecutablePath ??= GetPowerShellLocation();
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ internal static class RegistryInterop
         return null;
     }
 
-    private static string GetPowershellLocation()
+    private static string GetPowerShellLocation()
     {
         string paths = Environment.GetEnvironmentVariable("Path")!;
 
