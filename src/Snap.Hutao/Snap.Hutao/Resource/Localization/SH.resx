@@ -1842,4 +1842,7 @@
   <data name="ViewPageHutaoPassportVerifyCodeHint" xml:space="preserve">
     <value>请输入验证码</value>
   </data>
+  <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
+    <value>至少需要 8 个字符</value>
+  </data>
 </root>

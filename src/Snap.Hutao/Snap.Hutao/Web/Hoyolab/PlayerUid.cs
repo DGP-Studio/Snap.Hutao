@@ -47,7 +47,7 @@ internal readonly struct PlayerUid
     {
         return uid[0] switch
         {
-            >= '1' and <= '4' => false,
+            >= '1' and <= '5' => false,
             _ => true,
         };
     }
@@ -62,8 +62,10 @@ internal readonly struct PlayerUid
     {
         return first switch
         {
+            // CN
             >= '1' and <= '4' => "cn_gf01", // 国服
             '5' => "cn_qd01",               // 渠道
+            // OS
             '6' => "os_usa",                // 美服
             '7' => "os_euro",               // 欧服
             '8' => "os_asia",               // 亚服

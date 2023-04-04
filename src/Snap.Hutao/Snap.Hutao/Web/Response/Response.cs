@@ -49,7 +49,7 @@ internal class Response
     public static Response DefaultIfNull(Response? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        return response ?? new(0x26F19335, $"[{callerName}] 中的请求异常");
+        return response ?? new(0x26F19335, $"[{callerName}] 中的网络请求异常，请稍后再试");
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ internal class Response
     public static Response<TData> DefaultIfNull<TData>(Response<TData>? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        return response ?? new(0x26F19335, $"[{callerName}] 中的 [{typeof(TData).Name}] 请求异常", default);
+        return response ?? new(0x26F19335, $"[{callerName}] 中的 [{typeof(TData).Name}] 网络请求异常，请稍后再试", default);
     }
 
     /// <summary>
@@ -84,7 +84,7 @@ internal class Response
         }
         else
         {
-            return new(0x26F19335, $"[{callerName}] 中的 [{typeof(TData).Name}] 请求异常", default);
+            return new(0x26F19335, $"[{callerName}] 中的 [{typeof(TData).Name}] 网络请求异常，请稍后再试", default);
         }
     }
 

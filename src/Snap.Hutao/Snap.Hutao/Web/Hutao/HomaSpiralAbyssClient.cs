@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -205,7 +206,9 @@ internal sealed class HomaSpiralAbyssClient
 
                 if (spiralAbyssResponse.IsOk())
                 {
-                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data);
+                    HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
+                    string? userName = options.Token == null ? null : options.UserName;
+                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, userName);
                 }
             }
         }

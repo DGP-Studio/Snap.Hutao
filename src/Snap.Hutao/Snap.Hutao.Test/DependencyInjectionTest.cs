@@ -14,8 +14,8 @@ public class DependencyInjectionTest
             .AddSingleton<IService, ServiceB>()
             .BuildServiceProvider();
 
-        Assert.IsNotNull(services.GetService<ServiceA>());
-        Assert.IsNotNull(services.GetService<ServiceB>());
+        Assert.IsNull(services.GetService<ServiceA>());
+        Assert.IsNull(services.GetService<ServiceB>());
     }
 
     private interface IService

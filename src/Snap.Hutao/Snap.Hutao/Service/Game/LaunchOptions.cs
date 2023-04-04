@@ -1,13 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Options;
 using Microsoft.UI.Windowing;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 using Windows.Graphics;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
@@ -19,9 +16,8 @@ namespace Snap.Hutao.Service.Game;
 /// 启动游戏选项
 /// </summary>
 [Injection(InjectAs.Singleton)]
-internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
+internal sealed class LaunchOptions : DbStoreOptions
 {
-    private readonly IServiceScopeFactory serviceScopeFactory;
     private readonly int primaryScreenWidth;
     private readonly int primaryScreenHeight;
     private readonly int primaryScreenFps;
@@ -41,8 +37,8 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     /// <param name="serviceScopeFactory">服务范围工厂</param>
     public LaunchOptions(IServiceScopeFactory serviceScopeFactory)
+        : base(serviceScopeFactory)
     {
-        this.serviceScopeFactory = serviceScopeFactory;
         RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
         primaryScreenWidth = primaryRect.Width;
         primaryScreenHeight = primaryRect.Height;
@@ -64,36 +60,12 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     public bool IsFullScreen
     {
-        get
-        {
-            if (isFullScreen == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.LaunchIsFullScreen)?.Value;
-                    isFullScreen = value != null && bool.Parse(value);
-                }
-            }
-
-            return isFullScreen.Value;
-        }
-
+        get => GetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen);
         set
         {
-            if (SetProperty(ref isFullScreen, value))
+            if (SetOption(ref isFullScreen, SettingEntry.LaunchIsFullScreen, value) && value)
             {
-                if (value)
-                {
-                    IsBorderless = false;
-                }
-
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchIsFullScreen);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchIsFullScreen, value.ToString()));
-                }
+                IsBorderless = false;
             }
         }
     }
@@ -103,37 +75,13 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     public bool IsBorderless
     {
-        get
-        {
-            if (isBorderless == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.LaunchIsBorderless)?.Value;
-                    isBorderless = value != null && bool.Parse(value);
-                }
-            }
-
-            return isBorderless.Value;
-        }
-
+        get => GetOption(ref isBorderless, SettingEntry.LaunchIsBorderless);
         set
         {
-            if (SetProperty(ref isBorderless, value))
+            if (SetOption(ref isBorderless, SettingEntry.LaunchIsBorderless, value) && value)
             {
-                if (value)
-                {
-                    IsExclusive = false;
-                    IsFullScreen = false;
-                }
-
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchIsBorderless);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchIsBorderless, value.ToString()));
-                }
+                IsExclusive = false;
+                IsFullScreen = false;
             }
         }
     }
@@ -143,36 +91,12 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     public bool IsExclusive
     {
-        get
-        {
-            if (isExclusive == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.LaunchIsExclusive)?.Value;
-                    isExclusive = value != null && bool.Parse(value);
-                }
-            }
-
-            return isExclusive.Value;
-        }
-
+        get => GetOption(ref isExclusive, SettingEntry.LaunchIsExclusive);
         set
         {
-            if (SetProperty(ref isExclusive, value))
+            if (SetOption(ref isExclusive, SettingEntry.LaunchIsExclusive, value) && value)
             {
-                if (value)
-                {
-                    IsFullScreen = true;
-                }
-
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchIsExclusive);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchIsExclusive, value.ToString()));
-                }
+                IsFullScreen = true;
             }
         }
     }
@@ -182,33 +106,8 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     public int ScreenWidth
     {
-        get
-        {
-            if (screenWidth == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.LaunchScreenWidth)?.Value;
-                    screenWidth = value == null ? primaryScreenWidth : int.Parse(value);
-                }
-            }
-
-            return screenWidth.Value;
-        }
-
-        set
-        {
-            if (SetProperty(ref screenWidth, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchScreenWidth);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchScreenWidth, value.ToString()));
-                }
-            }
-        }
+        get => GetOption(ref screenWidth, SettingEntry.LaunchScreenWidth, primaryScreenWidth);
+        set => SetOption(ref screenWidth, SettingEntry.LaunchScreenWidth, value);
     }
 
     /// <summary>
@@ -216,33 +115,8 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     public int ScreenHeight
     {
-        get
-        {
-            if (screenHeight == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.LaunchScreenHeight)?.Value;
-                    screenHeight = value == null ? primaryScreenHeight : int.Parse(value);
-                }
-            }
-
-            return screenHeight.Value;
-        }
-
-        set
-        {
-            if (SetProperty(ref screenHeight, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchScreenHeight);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchScreenHeight, value.ToString()));
-                }
-            }
-        }
+        get => GetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, primaryScreenHeight);
+        set => SetOption(ref screenHeight, SettingEntry.LaunchScreenHeight, value);
     }
 
     /// <summary>
@@ -250,33 +124,8 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     public bool UnlockFps
     {
-        get
-        {
-            if (unlockFps == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.LaunchUnlockFps)?.Value;
-                    unlockFps = value != null && bool.Parse(value);
-                }
-            }
-
-            return unlockFps.Value;
-        }
-
-        set
-        {
-            if (SetProperty(ref unlockFps, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchUnlockFps);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchUnlockFps, value.ToString()));
-                }
-            }
-        }
+        get => GetOption(ref unlockFps, SettingEntry.LaunchUnlockFps);
+        set => SetOption(ref unlockFps, SettingEntry.LaunchUnlockFps, value);
     }
 
     /// <summary>
@@ -284,33 +133,8 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     public int TargetFps
     {
-        get
-        {
-            if (targetFps == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.LaunchTargetFps)?.Value;
-                    targetFps = value == null ? primaryScreenFps : int.Parse(value);
-                }
-            }
-
-            return targetFps.Value;
-        }
-
-        set
-        {
-            if (SetProperty(ref targetFps, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchTargetFps);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchTargetFps, value.ToString()));
-                }
-            }
-        }
+        get => GetOption(ref targetFps, SettingEntry.LaunchTargetFps, primaryScreenFps);
+        set => SetOption(ref targetFps, SettingEntry.LaunchTargetFps, value);
     }
 
     /// <summary>
@@ -323,76 +147,18 @@ internal sealed class LaunchOptions : ObservableObject, IOptions<LaunchOptions>
     /// </summary>
     public NameValue<int> Monitor
     {
-        get
-        {
-            if (monitor == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.LaunchMonitor)?.Value;
-
-                    int index = value == null ? 1 : int.Parse(value);
-                    monitor = Monitors[index - 1];
-                }
-            }
-
-            return monitor;
-        }
-
-        set
-        {
-            if (SetProperty(ref monitor, value))
-            {
-                if (monitor != null)
-                {
-                    using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                    {
-                        AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                        appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.LaunchMonitor);
-                        appDbContext.Settings.AddAndSave(new(SettingEntry.LaunchMonitor, value.Value.ToString()));
-                    }
-                }
-            }
-        }
+        get => GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[int.Parse(index) - 1], Monitors[0]);
+        set => SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString());
     }
 
     /// <summary>
-    /// 多次启动原神
+    /// 多开启动原神
     /// </summary>
     public bool MultipleInstances
     {
-        get
-        {
-            if (multipleInstances == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.MultipleInstances)?.Value;
-                    multipleInstances = value != null && bool.Parse(value);
-                }
-            }
-
-            return multipleInstances.Value;
-        }
-
-        set
-        {
-            if (SetProperty(ref multipleInstances, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.MultipleInstances);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.MultipleInstances, value.ToString()));
-                }
-            }
-        }
+        get => GetOption(ref multipleInstances, SettingEntry.MultipleInstances);
+        set => SetOption(ref multipleInstances, SettingEntry.MultipleInstances, value);
     }
-
-    /// <inheritdoc/>
-    public LaunchOptions Value { get => this; }
 
     private static void InitializeScreenFps(out int fps)
     {

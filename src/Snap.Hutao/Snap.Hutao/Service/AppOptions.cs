@@ -1,12 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Extensions.Options;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Abstraction;
 using System.Globalization;
 
 namespace Snap.Hutao.Service;
@@ -15,10 +11,8 @@ namespace Snap.Hutao.Service;
 /// 应用程序选项
 /// </summary>
 [Injection(InjectAs.Singleton)]
-internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
+internal sealed class AppOptions : DbStoreOptions
 {
-    private readonly IServiceScopeFactory serviceScopeFactory;
-
     private string? gamePath;
     private bool? isEmptyHistoryWishVisible;
     private Core.Windowing.BackdropType? backdropType;
@@ -30,8 +24,8 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     /// </summary>
     /// <param name="serviceScopeFactory">服务范围工厂</param>
     public AppOptions(IServiceScopeFactory serviceScopeFactory)
+        : base(serviceScopeFactory)
     {
-        this.serviceScopeFactory = serviceScopeFactory;
     }
 
     /// <summary>
@@ -39,32 +33,8 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     /// </summary>
     public string GamePath
     {
-        get
-        {
-            if (gamePath == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    gamePath = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.GamePath)?.Value ?? string.Empty;
-                }
-            }
-
-            return gamePath;
-        }
-
-        set
-        {
-            if (SetProperty(ref gamePath, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.GamePath);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.GamePath, value));
-                }
-            }
-        }
+        get => GetOption(ref gamePath, SettingEntry.GamePath);
+        set => SetOption(ref gamePath, SettingEntry.GamePath, value);
     }
 
     /// <summary>
@@ -72,33 +42,8 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     /// </summary>
     public bool IsEmptyHistoryWishVisible
     {
-        get
-        {
-            if (isEmptyHistoryWishVisible == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.IsEmptyHistoryWishVisible)?.Value;
-                    isEmptyHistoryWishVisible = value != null && bool.Parse(value);
-                }
-            }
-
-            return isEmptyHistoryWishVisible.Value;
-        }
-
-        set
-        {
-            if (SetProperty(ref isEmptyHistoryWishVisible, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.IsEmptyHistoryWishVisible);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.IsEmptyHistoryWishVisible, value.ToString()));
-                }
-            }
-        }
+        get => GetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible);
+        set => SetOption(ref isEmptyHistoryWishVisible, SettingEntry.IsEmptyHistoryWishVisible, value);
     }
 
     /// <summary>
@@ -106,35 +51,8 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     /// </summary>
     public Core.Windowing.BackdropType BackdropType
     {
-        get
-        {
-            if (backdropType == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.SystemBackdropType)?.Value;
-                    backdropType = Enum.Parse<Core.Windowing.BackdropType>(value ?? nameof(Core.Windowing.BackdropType.Mica));
-                }
-            }
-
-            return backdropType.Value;
-        }
-
-        set
-        {
-            if (SetProperty(ref backdropType, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.SystemBackdropType);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.SystemBackdropType, value.ToString()));
-
-                    scope.ServiceProvider.GetRequiredService<IMessenger>().Send(new Message.BackdropTypeChangedMessage(value));
-                }
-            }
-        }
+        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, Enum.Parse<Core.Windowing.BackdropType>, Core.Windowing.BackdropType.Mica);
+        set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, value => value.ToString());
     }
 
     /// <summary>
@@ -142,33 +60,8 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     /// </summary>
     public CultureInfo CurrentCulture
     {
-        get
-        {
-            if (currentCulture == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.Culture)?.Value;
-                    currentCulture = value != null ? CultureInfo.GetCultureInfo(value) : CultureInfo.CurrentCulture;
-                }
-            }
-
-            return currentCulture;
-        }
-
-        set
-        {
-            if (SetProperty(ref currentCulture, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.Culture);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.Culture, value.Name));
-                }
-            }
-        }
+        get => GetOption(ref currentCulture, SettingEntry.Culture, CultureInfo.GetCultureInfo, CultureInfo.CurrentCulture);
+        set => SetOption(ref currentCulture, SettingEntry.Culture, value, value => value.Name);
     }
 
     /// <summary>
@@ -176,35 +69,7 @@ internal sealed class AppOptions : ObservableObject, IOptions<AppOptions>
     /// </summary>
     public bool IsAdvancedLaunchOptionsEnabled
     {
-        get
-        {
-            if (isAdvancedLaunchOptionsEnabled == null)
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == SettingEntry.IsAdvancedLaunchOptionsEnabled)?.Value;
-                    isAdvancedLaunchOptionsEnabled = value != null && bool.Parse(value);
-                }
-            }
-
-            return isAdvancedLaunchOptionsEnabled.Value;
-        }
-
-        set
-        {
-            if (SetProperty(ref isAdvancedLaunchOptionsEnabled, value))
-            {
-                using (IServiceScope scope = serviceScopeFactory.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == SettingEntry.IsAdvancedLaunchOptionsEnabled);
-                    appDbContext.Settings.AddAndSave(new(SettingEntry.IsAdvancedLaunchOptionsEnabled, value.ToString()));
-                }
-            }
-        }
+        get => GetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled);
+        set => SetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled, value);
     }
-
-    /// <inheritdoc/>
-    public AppOptions Value { get => this; }
 }

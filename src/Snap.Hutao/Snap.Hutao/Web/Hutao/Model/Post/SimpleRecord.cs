@@ -18,12 +18,13 @@ internal sealed class SimpleRecord
     /// <param name="uid">uid</param>
     /// <param name="characters">详细的角色信息</param>
     /// <param name="spiralAbyss">深渊信息</param>
-    public SimpleRecord(string uid, List<Character> characters, SpiralAbyss spiralAbyss)
+    public SimpleRecord(string uid, List<Character> characters, SpiralAbyss spiralAbyss, string? reservedUserName)
     {
         Uid = uid;
         Identity = "Snap Hutao"; // hardcoded Identity name
         SpiralAbyss = new(spiralAbyss);
         Avatars = characters.Select(a => new SimpleAvatar(a));
+        ReservedUserName = reservedUserName;
     }
 
     /// <summary>
@@ -35,6 +36,12 @@ internal sealed class SimpleRecord
     /// 上传者身份
     /// </summary>
     public string Identity { get; set; } = default!;
+
+    /// <summary>
+    /// 保留属性
+    /// 用户名称
+    /// </summary>
+    public string? ReservedUserName { get; set; }
 
     /// <summary>
     /// 深境螺旋

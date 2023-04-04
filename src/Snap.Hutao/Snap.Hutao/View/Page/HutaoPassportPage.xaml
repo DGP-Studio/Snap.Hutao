@@ -60,6 +60,11 @@
                                 IsEnabled="{Binding VerifyCode, Converter={StaticResource StringBoolConverter}}"
                                 Password="{Binding Password, Mode=TwoWay}"
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
+                            <TextBlock
+                                Margin="0,4,0,0"
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordRequirementHint}"/>
                             <Button
                                 Margin="0,16,0,0"
                                 HorizontalAlignment="Stretch"
@@ -89,6 +94,11 @@
                                 IsEnabled="{Binding VerifyCode, Converter={StaticResource StringBoolConverter}}"
                                 Password="{Binding Password, Mode=TwoWay}"
                                 PlaceholderText="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordHint}"/>
+                            <TextBlock
+                                Margin="0,4,0,0"
+                                Opacity="0.7"
+                                Style="{StaticResource CaptionTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewPageHutaoPassportPasswordRequirementHint}"/>
                             <Button
                                 Margin="0,16,0,0"
                                 HorizontalAlignment="Stretch"

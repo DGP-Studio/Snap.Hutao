@@ -3625,6 +3625,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 至少需要 8 个字符 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHutaoPassportPasswordRequirementHint {
+            get {
+                return ResourceManager.GetString("ViewPageHutaoPassportPasswordRequirementHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 注册 的本地化字符串。
         /// </summary>
         internal static string ViewPageHutaoPassportRegisterHeader {

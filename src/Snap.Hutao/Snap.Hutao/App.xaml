@@ -29,8 +29,9 @@
             <!--  Page Transparent Background  -->
             <StaticResource x:Key="ApplicationPageBackgroundThemeBrush" ResourceKey="ControlFillColorTransparentBrush"/>
             <!--  InfoBar Resource  -->
-            <Thickness x:Key="InfoBarIconMargin">6,16,16,16</Thickness>
-            <Thickness x:Key="InfoBarContentRootPadding">16,0,0,0</Thickness>
+            <Thickness x:Key="InfoBarIconMargin">19,16,19,16</Thickness>
+            <Thickness x:Key="InfoBarContentRootPadding">0,0,0,0</Thickness>
+            <x:Double x:Key="InfoBarIconFontSize">20</x:Double>
             <!--  Pivot Resource  -->
             <x:Double x:Key="PivotHeaderItemFontSize">16</x:Double>
             <Thickness x:Key="PivotHeaderItemMargin">16,0,0,0</Thickness>
