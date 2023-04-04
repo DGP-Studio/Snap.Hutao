@@ -369,6 +369,28 @@ internal sealed class GameService : IGameService
     }
 
     /// <inheritdoc/>
+    public GameAccount? DetectCurrentGameAccount()
+    {
+        Must.NotNull(gameAccounts!);
+
+        string? registrySdk = RegistryInterop.Get();
+
+        if (!string.IsNullOrEmpty(registrySdk))
+        {
+            try
+            {
+                return gameAccounts.SingleOrDefault(a => a.MihoyoSDK == registrySdk);
+            }
+            catch (InvalidOperationException ex)
+            {
+                ThrowHelper.UserdataCorrupted(SH.ServiceGameDetectGameAccountMultiMatched, ex);
+            }
+        }
+
+        return null;
+    }
+
+    /// <inheritdoc/>
     public bool SetGameAccount(GameAccount account)
     {
         return RegistryInterop.Set(account);

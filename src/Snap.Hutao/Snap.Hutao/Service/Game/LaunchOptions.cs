@@ -148,7 +148,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     public NameValue<int> Monitor
     {
         get => GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[int.Parse(index) - 1], Monitors[0]);
-        set => SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString());
+        set => SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected?.Value.ToString() ?? "1");
     }
 
     /// <summary>

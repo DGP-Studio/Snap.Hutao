@@ -171,11 +171,13 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                     GameAccounts = accounts;
 
                     // Sync uid
-                    if (memoryCache.TryGetValue(DesiredUid, out object? value) && value is string uid)
+                    if (memoryCache.TryRemove(DesiredUid, out object? value) && value is string uid)
                     {
                         SelectedGameAccount = GameAccounts.FirstOrDefault(g => g.AttachUid == uid);
-                        memoryCache.Remove(DesiredUid);
                     }
+
+                    // Try set to the current account.
+                    SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
                 }
             }
             catch (OperationCanceledException)

@@ -85,7 +85,7 @@
                 <AppBarButton.Flyout>
                     <Flyout Placement="BottomEdgeAlignedRight">
                         <StackPanel>
-                            <RadioButtons ItemsSource="{Binding RefreshTimes}" SelectedItem="{Binding SelectedRefreshTime, Mode=TwoWay}">
+                            <RadioButtons ItemsSource="{Binding Options.RefreshTimes}" SelectedItem="{Binding Options.SelectedRefreshTime, Mode=TwoWay}">
                                 <RadioButtons.Header>
                                     <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteRefreshTime}"/>
                                 </RadioButtons.Header>
@@ -106,13 +106,13 @@
                                     Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
-                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding IsSilentWhenPlayingGame, Mode=TwoWay}"/>
+                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
                                 </clw:SettingsCard>
                                 <clw:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
-                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding IsReminderNotification, Mode=TwoWay}"/>
+                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsReminderNotification, Mode=TwoWay}"/>
                                 </clw:SettingsCard>
                             </StackPanel>
                         </StackPanel>

@@ -28,24 +28,8 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IDailyNoteService dailyNoteService;
     private readonly AppDbContext appDbContext;
 
-    private readonly List<NameValue<int>> refreshTimes = new()
-    {
-        new(SH.ViewModelDailyNoteRefreshTime4, 240),
-        new(SH.ViewModelDailyNoteRefreshTime8, 480),
-        new(SH.ViewModelDailyNoteRefreshTime30, 1800),
-        new(SH.ViewModelDailyNoteRefreshTime40, 2400),
-        new(SH.ViewModelDailyNoteRefreshTime60, 3600),
-    };
-
-    private bool isReminderNotification;
-    private NameValue<int>? selectedRefreshTime;
     private ObservableCollection<UserAndUid>? userAndUids;
-
-    private SettingEntry? refreshSecondsEntry;
-    private SettingEntry? reminderNotifyEntry;
-    private SettingEntry? silentModeEntry;
     private ObservableCollection<DailyNoteEntry>? dailyNoteEntries;
-    private bool isSilentWhenPlayingGame;
 
     /// <summary>
     /// 构造一个新的实时便笺视图模型
@@ -56,6 +40,7 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
         userService = serviceProvider.GetRequiredService<IUserService>();
         dailyNoteService = serviceProvider.GetRequiredService<IDailyNoteService>();
         appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
+        Options = serviceProvider.GetRequiredService<DailyNoteOptions>();
         this.serviceProvider = serviceProvider;
 
         TrackRoleCommand = new AsyncRelayCommand<UserAndUid>(TrackRoleAsync);
@@ -66,67 +51,9 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
     }
 
     /// <summary>
-    /// 刷新时间
+    /// 选项
     /// </summary>
-    public List<NameValue<int>> RefreshTimes { get => refreshTimes; }
-
-    /// <summary>
-    /// 选中的刷新时间
-    /// </summary>
-    public NameValue<int>? SelectedRefreshTime
-    {
-        get => selectedRefreshTime;
-        set
-        {
-            if (SetProperty(ref selectedRefreshTime, value))
-            {
-                if (value != null)
-                {
-                    if (!ScheduleTaskHelper.RegisterForDailyNoteRefresh(value.Value))
-                    {
-                        serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteRegisterTaskFail);
-                    }
-                    else
-                    {
-                        refreshSecondsEntry!.SetInt32(value.Value);
-                        appDbContext.Settings.UpdateAndSave(refreshSecondsEntry!);
-                    }
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// 提醒式通知
-    /// </summary>
-    public bool IsReminderNotification
-    {
-        get => isReminderNotification;
-        set
-        {
-            if (SetProperty(ref isReminderNotification, value))
-            {
-                reminderNotifyEntry!.SetBoolean(value);
-                appDbContext.Settings.UpdateAndSave(reminderNotifyEntry!);
-            }
-        }
-    }
-
-    /// <summary>
-    /// 是否开启免打扰模式
-    /// </summary>
-    public bool IsSilentWhenPlayingGame
-    {
-        get => isSilentWhenPlayingGame;
-        set
-        {
-            if (SetProperty(ref isSilentWhenPlayingGame, value))
-            {
-                silentModeEntry!.SetBoolean(value);
-                appDbContext.Settings.UpdateAndSave(silentModeEntry!);
-            }
-        }
-    }
+    public DailyNoteOptions Options { get; }
 
     /// <summary>
     /// 用户与角色集合
@@ -168,42 +95,18 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
     {
         try
         {
-            UserAndUids = await userService.GetRoleCollectionAsync().ConfigureAwait(true);
+            await ThreadHelper.SwitchToBackgroundAsync();
+            ObservableCollection<UserAndUid> roles = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
+            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
+
+            await ThreadHelper.SwitchToMainThreadAsync();
+            UserAndUids = roles;
+            DailyNoteEntries = entries;
         }
         catch (Core.ExceptionService.UserdataCorruptedException ex)
         {
             serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
             return;
-        }
-
-        try
-        {
-            using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
-            {
-                await ThreadHelper.SwitchToMainThreadAsync();
-
-                refreshSecondsEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteRefreshSeconds, "480");
-                int refreshSeconds = refreshSecondsEntry.GetInt32();
-                selectedRefreshTime = refreshTimes.Single(t => t.Value == refreshSeconds);
-                OnPropertyChanged(nameof(SelectedRefreshTime));
-                ScheduleTaskHelper.RegisterForDailyNoteRefresh(refreshSeconds);
-
-                reminderNotifyEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, Core.StringLiterals.False);
-                isReminderNotification = reminderNotifyEntry.GetBoolean();
-                OnPropertyChanged(nameof(IsReminderNotification));
-
-                silentModeEntry = appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteSilentWhenPlayingGame, Core.StringLiterals.False);
-                isSilentWhenPlayingGame = silentModeEntry.GetBoolean();
-                OnPropertyChanged(nameof(IsSilentWhenPlayingGame));
-            }
-
-            await ThreadHelper.SwitchToBackgroundAsync();
-            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
-            await ThreadHelper.SwitchToMainThreadAsync();
-            DailyNoteEntries = entries;
-        }
-        catch (OperationCanceledException)
-        {
         }
     }
 

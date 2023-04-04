@@ -92,4 +92,10 @@ internal interface IGameService
     /// <param name="scheme">方案</param>
     /// <returns>是否更改了ini文件</returns>
     bool SetMultiChannel(LaunchScheme scheme);
+
+    /// <summary>
+    /// 检测账号
+    /// </summary>
+    /// <returns>账号</returns>
+    GameAccount? DetectCurrentGameAccount();
 }
