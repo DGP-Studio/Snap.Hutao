@@ -13,7 +13,7 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// 用户信息客户端 Hoyolab版
 /// </summary>
 [UseDynamicSecret]
-[HttpClient(HttpClientConfiguration.XRpc)]
+[HttpClient(HttpClientConfiguration.Default)]
 [Injection(InjectAs.Transient, typeof(IUserClient))]
 internal sealed class UserClientOversea : IUserClient
 {
@@ -47,12 +47,11 @@ internal sealed class UserClientOversea : IUserClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
-    [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.OSK2)]
+    [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.None)]
     public async Task<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
             .SetUser(user, CookieType.LToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.OSK2, false)
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiOsEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
             .ConfigureAwait(false);
 
