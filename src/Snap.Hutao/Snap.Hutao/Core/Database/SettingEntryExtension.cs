@@ -61,34 +61,4 @@ internal static class SettingEntryExtension
     {
         return bool.Parse(entry.Value!);
     }
-
-    /// <summary>
-    /// 设置 Boolean 值
-    /// </summary>
-    /// <param name="entry">设置</param>
-    /// <param name="value">值</param>
-    public static void SetBoolean(this SettingEntry entry, bool value)
-    {
-        entry.Value = value.ToString();
-    }
-
-    /// <summary>
-    /// 获取 Int32 值
-    /// </summary>
-    /// <param name="entry">设置</param>
-    /// <returns>值</returns>
-    public static int GetInt32(this SettingEntry entry)
-    {
-        return int.Parse(entry.Value!);
-    }
-
-    /// <summary>
-    /// 设置 Int32 值
-    /// </summary>
-    /// <param name="entry">设置</param>
-    /// <param name="value">值</param>
-    public static void SetInt32(this SettingEntry entry, int value)
-    {
-        entry.Value = value.ToString();
-    }
 }

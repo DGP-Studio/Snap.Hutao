@@ -21,6 +21,11 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     public string? UserName { get => userName; set => SetProperty(ref userName, value); }
 
     /// <summary>
+    /// 真正的用户名
+    /// </summary>
+    public string? ActualUserName { get => Token == null ? null : UserName; }
+
+    /// <summary>
     /// 访问令牌
     /// </summary>
     public string? Token { get => token; set => SetProperty(ref token, value); }

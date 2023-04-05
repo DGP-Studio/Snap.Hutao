@@ -27,11 +27,6 @@
                 Header="AdoptCalculatorDialogTest"
                 IsClickEnabled="True"/>
 
-            <clw:SettingsCard
-                Command="{Binding DownloadStaticFileCommand}"
-                Header="DownloadStaticFileTest"
-                IsClickEnabled="True"/>
-
             <clw:SettingsCard Header="RestartTest">
                 <StackPanel Orientation="Horizontal">
                     <ToggleSwitch Name="ElevatedSwitch" Style="{StaticResource DefaultToggleSwitchStyle}"/>

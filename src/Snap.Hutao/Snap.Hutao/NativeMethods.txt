@@ -34,10 +34,5 @@ GetDC
 GetDpiForWindow
 GetWindowPlacement
 
-// COM BITS
-BackgroundCopyManager
-IBackgroundCopyCallback
-IBackgroundCopyManager
-
 // WinRT
 IMemoryBufferByteAccess

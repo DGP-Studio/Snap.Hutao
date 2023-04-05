@@ -48,14 +48,14 @@ internal sealed class DailyNoteOptions : DbStoreOptions
     /// </summary>
     public NameValue<int>? SelectedRefreshTime
     {
-        get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteReminderNotify, time => RefreshTimes.Single(t => t.Value == int.Parse(time)), RefreshTimes[1]);
+        get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time)), RefreshTimes[1]);
         set
         {
             if (value != null)
             {
                 if (ScheduleTaskHelper.RegisterForDailyNoteRefresh(value.Value))
                 {
-                    SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteReminderNotify, value, value => value.Value.ToString());
+                    SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, value => value.Value.ToString());
                 }
                 else
                 {

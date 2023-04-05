@@ -19,6 +19,5 @@ internal sealed class GrowCurve
     /// <summary>
     /// 曲线 值相乘
     /// </summary>
-    [JsonConverter(typeof(Core.Json.Converter.StringEnumKeyDictionaryConverter))]
     public Dictionary<GrowCurveType, float> Curves { get; set; } = default!;
 }

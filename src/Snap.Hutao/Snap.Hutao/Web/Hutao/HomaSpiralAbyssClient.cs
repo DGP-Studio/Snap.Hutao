@@ -201,14 +201,13 @@ internal sealed class HomaSpiralAbyssClient
             if (charactersResponse.IsOk())
             {
                 Response<SpiralAbyss> spiralAbyssResponse = await gameRecordClient
-                .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
-                .ConfigureAwait(false);
+                    .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
+                    .ConfigureAwait(false);
 
                 if (spiralAbyssResponse.IsOk())
                 {
                     HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-                    string? userName = options.Token == null ? null : options.UserName;
-                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, userName);
+                    return new(userAndUid.Uid.Value, charactersResponse.Data.Avatars, spiralAbyssResponse.Data, options.ActualUserName);
                 }
             }
         }

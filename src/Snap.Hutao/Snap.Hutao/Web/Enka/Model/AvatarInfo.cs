@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Converter;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 
@@ -26,7 +25,6 @@ internal sealed class AvatarInfo
     /// <see cref="PlayerProperty.PROP_EXP"/>
     /// </summary>
     [JsonPropertyName("propMap")]
-    [JsonConverter(typeof(StringEnumKeyDictionaryConverter))]
     public Dictionary<PlayerProperty, TypeValue> PropMap { get; set; } = default!;
 
     /// <summary>
@@ -40,7 +38,6 @@ internal sealed class AvatarInfo
     /// Map of Character's Combat Properties.
     /// </summary>
     [JsonPropertyName("fightPropMap")]
-    [JsonConverter(typeof(StringEnumKeyDictionaryConverter))]
     public Dictionary<FightProperty, double> FightPropMap { get; set; } = default!;
 
     /// <summary>

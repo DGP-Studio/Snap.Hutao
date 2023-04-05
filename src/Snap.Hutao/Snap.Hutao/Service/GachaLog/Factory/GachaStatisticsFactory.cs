@@ -23,17 +23,17 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
 {
     private readonly IMetadataService metadataService;
-    private readonly AppDbContext appDbContext;
+    private readonly AppOptions options;
 
     /// <summary>
     /// 构造一个新的祈愿统计工厂
     /// </summary>
     /// <param name="metadataService">元数据服务</param>
-    /// <param name="appDbContext">数据库上下文</param>
-    public GachaStatisticsFactory(IMetadataService metadataService, AppDbContext appDbContext)
+    /// <param name="options">选项</param>
+    public GachaStatisticsFactory(IMetadataService metadataService, AppOptions options)
     {
         this.metadataService = metadataService;
-        this.appDbContext = appDbContext;
+        this.options = options;
     }
 
     /// <inheritdoc/>
@@ -49,14 +49,9 @@ internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
 
         List<HistoryWishBuilder> historyWishBuilders = gachaEvents.Select(g => new HistoryWishBuilder(g, nameAvatarMap, nameWeaponMap)).ToList();
 
-        SettingEntry entry = await appDbContext.Settings
-            .SingleOrAddAsync(SettingEntry.IsEmptyHistoryWishVisible, Core.StringLiterals.True)
-            .ConfigureAwait(false);
-        bool isEmptyHistoryWishVisible = entry.GetBoolean();
-
         IOrderedEnumerable<GachaItem> orderedItems = items.OrderBy(i => i.Id);
         await ThreadHelper.SwitchToBackgroundAsync();
-        return CreateCore(orderedItems, historyWishBuilders, idAvatarMap, idWeaponMap, isEmptyHistoryWishVisible);
+        return CreateCore(orderedItems, historyWishBuilders, idAvatarMap, idWeaponMap, options.IsEmptyHistoryWishVisible);
     }
 
     private static GachaStatistics CreateCore(

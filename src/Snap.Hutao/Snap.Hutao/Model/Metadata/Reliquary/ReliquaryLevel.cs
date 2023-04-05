@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Json.Converter;
 using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Model.Metadata.Reliquary;
@@ -25,6 +24,5 @@ internal sealed class ReliquaryLevel
     /// <summary>
     /// 属性
     /// </summary>
-    [JsonConverter(typeof(StringEnumKeyDictionaryConverter))]
     public Dictionary<FightProperty, double> Properties { get; set; } = default!;
 }

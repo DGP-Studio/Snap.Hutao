@@ -55,7 +55,7 @@ internal sealed class DailyNoteNotifier
 
         using (IServiceScope scope = scopeFactory.CreateScope())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            DailyNoteOptions options = scope.ServiceProvider.GetRequiredService<DailyNoteOptions>();
             BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
             AuthClient authClient = scope.ServiceProvider.GetRequiredService<AuthClient>();
 
@@ -81,7 +81,7 @@ internal sealed class DailyNoteNotifier
                     .AddArgument(Core.LifeCycle.Activation.Uid, entry.Uid))
                 .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
 
-            if (appDbContext.Settings.SingleOrAdd(SettingEntry.DailyNoteReminderNotify, Core.StringLiterals.False).GetBoolean())
+            if (options.IsReminderNotification)
             {
                 builder.SetToastScenario(ToastScenario.Reminder);
             }

@@ -58,6 +58,15 @@ internal sealed class TempFile : IDisposable
     }
 
     /// <summary>
+    /// 作为写入模式打开
+    /// </summary>
+    /// <returns>文件流</returns>
+    public FileStream OpenWrite()
+    {
+        return File.OpenWrite(Path);
+    }
+
+    /// <summary>
     /// 删除临时文件
     /// </summary>
     public void Dispose()

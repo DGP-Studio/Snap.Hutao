@@ -55,7 +55,6 @@ internal sealed partial class Weapon
     /// <summary>
     /// 生长曲线
     /// </summary>
-    [JsonConverter(typeof(Core.Json.Converter.StringEnumKeyDictionaryConverter))]
     public Dictionary<FightProperty, GrowCurveTypeValue> GrowCurves { get; set; } = default!;
 
     /// <summary>

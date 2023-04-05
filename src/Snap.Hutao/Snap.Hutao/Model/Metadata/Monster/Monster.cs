@@ -60,7 +60,6 @@ internal sealed class Monster
     /// <summary>
     /// 生长曲线
     /// </summary>
-    [JsonConverter(typeof(Core.Json.Converter.StringEnumKeyDictionaryConverter))]
     public Dictionary<FightProperty, GrowCurveType> GrowCurves { get; set; } = default!;
 
     /// <summary>

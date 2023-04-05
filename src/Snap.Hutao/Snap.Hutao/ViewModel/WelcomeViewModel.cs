@@ -8,11 +8,11 @@ using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Notifications;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.IO.Bits;
 using Snap.Hutao.Core.Setting;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel;
@@ -54,8 +54,6 @@ internal sealed class WelcomeViewModel : ObservableObject
 
         DownloadSummaries = downloadSummaries.ToObservableCollection();
 
-        // Cancel all previous created jobs
-        serviceProvider.GetRequiredService<BitsManager>().CancelAllJobs();
         await Parallel.ForEachAsync(downloadSummaries, async (summary, token) =>
         {
             await summary.DownloadAndExtractAsync().ConfigureAwait(false);
@@ -124,10 +122,10 @@ internal sealed class WelcomeViewModel : ObservableObject
     internal sealed class DownloadSummary : ObservableObject, IEquatable<DownloadSummary>
     {
         private readonly IServiceProvider serviceProvider;
-        private readonly BitsManager bitsManager;
+        private readonly HttpClient httpClient;
         private readonly string fileName;
-        private readonly Uri fileUri;
-        private readonly Progress<ProgressUpdateStatus> progress;
+        private readonly string fileUrl;
+        private readonly Progress<StreamCopyState> progress;
         private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
         private double progressValue;
 
@@ -138,11 +136,12 @@ internal sealed class WelcomeViewModel : ObservableObject
         /// <param name="fileName">压缩文件名称</param>
         public DownloadSummary(IServiceProvider serviceProvider, string fileName)
         {
+            httpClient = serviceProvider.GetRequiredService<HttpClient>();
             this.serviceProvider = serviceProvider;
-            bitsManager = serviceProvider.GetRequiredService<BitsManager>();
+
             DisplayName = fileName;
             this.fileName = fileName;
-            fileUri = new(Web.HutaoEndpoints.StaticZip(fileName));
+            fileUrl = Web.HutaoEndpoints.StaticZip(fileName);
 
             progress = new(UpdateProgressStatus);
         }
@@ -174,51 +173,50 @@ internal sealed class WelcomeViewModel : ObservableObject
         /// <returns>任务</returns>
         public async Task DownloadAndExtractAsync()
         {
-            (bool isOk, TempFile file) = await bitsManager.DownloadAsync(fileUri, progress).ConfigureAwait(false);
-
-            using (file)
-            {
-                await ThreadHelper.SwitchToMainThreadAsync();
-                if (isOk && File.Exists(file.Path))
-                {
-                    ProgressValue = 1;
-                    await ThreadHelper.SwitchToBackgroundAsync();
-                    ExtractFiles(file.Path);
-                    await ThreadHelper.SwitchToMainThreadAsync();
-                    Description = SH.ViewModelWelcomeDownloadSummaryComplete;
-                }
-                else
-                {
-                    ProgressValue = 0;
-                    Description = SH.ViewModelWelcomeDownloadSummaryException;
-                }
-            }
-        }
-
-        private void UpdateProgressStatus(ProgressUpdateStatus status)
-        {
-            Description = $"{Converters.ToFileSizeString(status.BytesRead)}/{Converters.ToFileSizeString(status.TotalBytes)}";
-            ProgressValue = status.TotalBytes == 0 ? 0 : (double)status.BytesRead / status.TotalBytes;
-        }
-
-        private void ExtractFiles(string file)
-        {
-            IImageCacheFilePathOperation imageCache = serviceProvider.GetRequiredService<IImageCache>().As<IImageCacheFilePathOperation>()!;
+            ILogger<DownloadSummary> logger = serviceProvider.GetRequiredService<ILogger<DownloadSummary>>();
             try
             {
-                using (ZipArchive archive = ZipFile.OpenRead(file))
+                HttpResponseMessage response = await httpClient.GetAsync(fileUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+                long contentLength = response.Content.Headers.ContentLength ?? 0;
+                logger.LogInformation("Begin download, length: {length}", contentLength);
+                using (Stream content = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                 {
-                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    using (TempFileStream temp = new(FileMode.OpenOrCreate, FileAccess.ReadWrite))
                     {
-                        string destPath = imageCache.GetFilePathFromCategoryAndFileName(fileName, entry.FullName);
-                        entry.ExtractToFile(destPath, true);
+                        await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
+                        ExtractFiles(temp);
+
+                        await ThreadHelper.SwitchToMainThreadAsync();
+                        ProgressValue = 1;
+                        Description = SH.ViewModelWelcomeDownloadSummaryComplete;
                     }
                 }
             }
-            catch (InvalidDataException)
+            catch (Exception ex)
             {
-                // System.IO.InvalidDataException: End of Central Directory record could not be found.
-                // Basically the file downloaded is corrupted, skip anyway.
+                logger.LogError(ex, "Download Static Zip failed");
+                await ThreadHelper.SwitchToMainThreadAsync();
+                Description = SH.ViewModelWelcomeDownloadSummaryException;
+            }
+        }
+
+        private void UpdateProgressStatus(StreamCopyState status)
+        {
+            Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
+            ProgressValue = status.TotalBytes == 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
+        }
+
+        private void ExtractFiles(Stream stream)
+        {
+            IImageCacheFilePathOperation imageCache = serviceProvider.GetRequiredService<IImageCache>().As<IImageCacheFilePathOperation>()!;
+
+            using (ZipArchive archive = new(stream))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    string destPath = imageCache.GetFilePathFromCategoryAndFileName(fileName, entry.FullName);
+                    entry.ExtractToFile(destPath, true);
+                }
             }
         }
     }

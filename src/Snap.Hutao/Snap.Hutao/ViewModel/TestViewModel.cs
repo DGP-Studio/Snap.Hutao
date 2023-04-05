@@ -3,8 +3,6 @@
 
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Windows.AppLifecycle;
-using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.IO.Bits;
 using Snap.Hutao.View.Dialog;
 
 namespace Snap.Hutao.ViewModel;
@@ -28,7 +26,6 @@ internal sealed class TestViewModel : Abstraction.ViewModel
 
         ShowCommunityGameRecordDialogCommand = new AsyncRelayCommand(ShowCommunityGameRecordDialogAsync);
         ShowAdoptCalculatorDialogCommand = new AsyncRelayCommand(ShowAdoptCalculatorDialogAsync);
-        DownloadStaticFileCommand = new AsyncRelayCommand(DownloadStaticFileAsync);
         RestartAppCommand = new RelayCommand<bool>(RestartApp);
     }
 
@@ -41,11 +38,6 @@ internal sealed class TestViewModel : Abstraction.ViewModel
     /// 打开养成计算对话框命令
     /// </summary>
     public ICommand ShowAdoptCalculatorDialogCommand { get; }
-
-    /// <summary>
-    /// 下载资源文件命令
-    /// </summary>
-    public ICommand DownloadStaticFileCommand { get; }
 
     /// <summary>
     /// 重启命令
@@ -70,27 +62,6 @@ internal sealed class TestViewModel : Abstraction.ViewModel
         // ContentDialog must be created by main thread.
         await ThreadHelper.SwitchToMainThreadAsync();
         await new AdoptCalculatorDialog().ShowAsync();
-    }
-
-    private async Task DownloadStaticFileAsync()
-    {
-        BitsManager bitsManager = serviceProvider.GetRequiredService<BitsManager>();
-        Uri testUri = new(Web.HutaoEndpoints.StaticZip("AvatarIcon"));
-        ILogger<TestViewModel> logger = serviceProvider.GetRequiredService<ILogger<TestViewModel>>();
-        Progress<ProgressUpdateStatus> progress = new(status => logger.LogInformation("{info}", status));
-        (bool isOk, TempFile file) = await bitsManager.DownloadAsync(testUri, progress).ConfigureAwait(false);
-
-        using (file)
-        {
-            if (isOk)
-            {
-                logger.LogInformation("Download completed.");
-            }
-            else
-            {
-                logger.LogInformation("Download failed.");
-            }
-        }
     }
 
     private void RestartApp(bool elevated)

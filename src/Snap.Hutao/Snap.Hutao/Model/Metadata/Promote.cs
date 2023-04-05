@@ -25,6 +25,5 @@ internal sealed class Promote
     /// <summary>
     /// 增加的属性
     /// </summary>
-    [JsonConverter(typeof(Core.Json.Converter.StringEnumKeyDictionaryConverter))]
     public Dictionary<FightProperty, float> AddProperties { get; set; } = default!;
 }
