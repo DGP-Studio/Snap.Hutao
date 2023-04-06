@@ -7,7 +7,7 @@ namespace Snap.Hutao.Test;
 public class DependencyInjectionTest
 {
     [TestMethod]
-    public void OriginalTypeDiscoverable()
+    public void OriginalTypeNotDiscoverable()
     {
         IServiceProvider services = new ServiceCollection()
             .AddSingleton<IService, ServiceA>()

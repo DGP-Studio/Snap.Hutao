@@ -64,7 +64,20 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         memory = new byte[entry.modBaseSize];
         fixed (byte* lpBuffer = memory)
         {
-            return ReadProcessMemory(process.SafeHandle, entry.modBaseAddr, lpBuffer, entry.modBaseSize, null);
+            bool hProcessAddRef = false;
+            try
+            {
+                process.SafeHandle.DangerousAddRef(ref hProcessAddRef);
+                HANDLE hProcessLocal = (HANDLE)process.SafeHandle.DangerousGetHandle();
+                return ReadProcessMemory(hProcessLocal, entry.modBaseAddr, lpBuffer, entry.modBaseSize, null);
+            }
+            finally
+            {
+                if (hProcessAddRef)
+                {
+                    process.SafeHandle.DangerousRelease();
+                }
+            }
         }
     }
 
@@ -72,7 +85,20 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         int* lpBuffer = &write;
 
-        return WriteProcessMemory(process.SafeHandle, (void*)baseAddress, lpBuffer, sizeof(int), null);
+        bool hProcessAddRef = false;
+        try
+        {
+            process.SafeHandle.DangerousAddRef(ref hProcessAddRef);
+            HANDLE hProcessLocal = (HANDLE)process.SafeHandle.DangerousGetHandle();
+            return WriteProcessMemory(hProcessLocal, (void*)baseAddress, lpBuffer, sizeof(int), null);
+        }
+        finally
+        {
+            if (hProcessAddRef)
+            {
+                process.SafeHandle.DangerousRelease();
+            }
+        }
     }
 
     private static unsafe MODULEENTRY32 UnsafeFindModule(int processId, ReadOnlySpan<byte> moduleName)

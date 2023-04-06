@@ -8,6 +8,7 @@ using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service;
 using System.Runtime.InteropServices;
 using Windows.System;
 using WinRT;
@@ -34,9 +35,7 @@ internal sealed class SystemBackdrop
         this.window = window;
         using (IServiceScope scope = Ioc.Default.CreateScope())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            SettingEntry entry = appDbContext.Settings.SingleOrAdd(SettingEntry.SystemBackdropType, BackdropType.Mica.ToString());
-            BackdropType = Enum.Parse<BackdropType>(entry.Value!);
+            BackdropType = scope.ServiceProvider.GetRequiredService<AppOptions>().BackdropType;
         }
     }
 

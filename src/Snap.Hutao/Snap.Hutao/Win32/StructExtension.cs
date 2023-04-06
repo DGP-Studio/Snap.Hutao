@@ -33,6 +33,17 @@ internal static class StructExtension
     }
 
     /// <summary>
+    /// 比例缩放
+    /// </summary>
+    /// <param name="sizeInt32">源</param>
+    /// <param name="scale">比例</param>
+    /// <returns>结果</returns>
+    public static SizeInt32 Scale(this SizeInt32 sizeInt32, double scale)
+    {
+        return new((int)(sizeInt32.Width * scale), (int)(sizeInt32.Height * scale));
+    }
+
+    /// <summary>
     /// 尺寸
     /// </summary>
     /// <param name="rectInt32">源</param>

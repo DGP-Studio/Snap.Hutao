@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Notifications;
 using Snap.Hutao.Core.Caching;
+using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Setting;
 using System.Collections.ObjectModel;
@@ -56,8 +57,10 @@ internal sealed class WelcomeViewModel : ObservableObject
 
         await Parallel.ForEachAsync(downloadSummaries, async (summary, token) =>
         {
-            await summary.DownloadAndExtractAsync().ConfigureAwait(false);
-            ThreadHelper.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
+            if (await summary.DownloadAndExtractAsync().ConfigureAwait(false))
+            {
+                ThreadHelper.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
+            }
         }).ConfigureAwait(true);
 
         serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
@@ -128,6 +131,7 @@ internal sealed class WelcomeViewModel : ObservableObject
         private readonly Progress<StreamCopyState> progress;
         private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
         private double progressValue;
+        private long updateCount;
 
         /// <summary>
         /// 构造一个新的下载信息
@@ -137,6 +141,8 @@ internal sealed class WelcomeViewModel : ObservableObject
         public DownloadSummary(IServiceProvider serviceProvider, string fileName)
         {
             httpClient = serviceProvider.GetRequiredService<HttpClient>();
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(Core.CoreEnvironment.CommonUA);
+
             this.serviceProvider = serviceProvider;
 
             DisplayName = fileName;
@@ -171,7 +177,7 @@ internal sealed class WelcomeViewModel : ObservableObject
         /// 异步下载并解压
         /// </summary>
         /// <returns>任务</returns>
-        public async Task DownloadAndExtractAsync()
+        public async Task<bool> DownloadAndExtractAsync()
         {
             ILogger<DownloadSummary> logger = serviceProvider.GetRequiredService<ILogger<DownloadSummary>>();
             try
@@ -189,6 +195,7 @@ internal sealed class WelcomeViewModel : ObservableObject
                         await ThreadHelper.SwitchToMainThreadAsync();
                         ProgressValue = 1;
                         Description = SH.ViewModelWelcomeDownloadSummaryComplete;
+                        return true;
                     }
                 }
             }
@@ -197,13 +204,17 @@ internal sealed class WelcomeViewModel : ObservableObject
                 logger.LogError(ex, "Download Static Zip failed");
                 await ThreadHelper.SwitchToMainThreadAsync();
                 Description = SH.ViewModelWelcomeDownloadSummaryException;
+                return false;
             }
         }
 
         private void UpdateProgressStatus(StreamCopyState status)
         {
-            Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
-            ProgressValue = status.TotalBytes == 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
+            if (Interlocked.Increment(ref updateCount) % 40 == 0)
+            {
+                Description = $"{Converters.ToFileSizeString(status.BytesCopied)}/{Converters.ToFileSizeString(status.TotalBytes)}";
+                ProgressValue = status.TotalBytes == 0 ? 0 : (double)status.BytesCopied / status.TotalBytes;
+            }
         }
 
         private void ExtractFiles(Stream stream)

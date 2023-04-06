@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Hoyolab;
+
 namespace Snap.Hutao.Web;
 
 /// <summary>
@@ -16,11 +18,48 @@ internal static class HutaoEndpoints
     /// </summary>
     public const string StaticHutao = "static.hut.ao";
 
-    #region Passport
+    #region GachaLog
 
     /// <summary>
-    /// 获取注册验证码
+    /// 获取末尾Id
     /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>获取末尾Id Url</returns>
+    public static string GachaLogEndIds(PlayerUid uid)
+    {
+        return $"{HomaSnapGenshinApi}/GachaLog/EndIds?Uid={uid.Value}";
+    }
+
+    /// <summary>
+    /// 获取祈愿记录
+    /// </summary>
+    public const string GachaLogRetrieve = $"{HomaSnapGenshinApi}/GachaLog/Retrieve";
+
+    /// <summary>
+    /// 上传祈愿记录
+    /// </summary>
+    public const string GachaLogUpload = $"{HomaSnapGenshinApi}/GachaLog/Upload";
+
+    /// <summary>
+    /// 获取Uid列表
+    /// </summary>
+    public const string GachaLogUids = $"{HomaSnapGenshinApi}/GachaLog/Uids";
+
+    /// <summary>
+    /// 删除祈愿记录
+    /// </summary>
+    /// <returns>删除祈愿记录 Url</returns>
+    public static string GachaLogDelete(PlayerUid uid)
+    {
+        return $"{HomaSnapGenshinApi}/GachaLog/Delete?Uid={uid.Value}";
+    }
+    #endregion
+
+        #region Passport
+
+        /// <summary>
+        /// 获取注册验证码
+        /// </summary>
     public const string PassportVerify = $"{HomaSnapGenshinApi}/Passport/Verify";
 
     /// <summary>
@@ -121,14 +160,6 @@ internal static class HutaoEndpoints
     }
     #endregion
 
-    #region Patcher
-
-    /// <summary>
-    /// 胡桃检查更新
-    /// </summary>
-    public const string PatcherHutaoStable = $"{PatcherDGPStudioApi}/hutao/stable";
-    #endregion
-
     #region Static & Zip
 
     /// <summary>
@@ -170,7 +201,6 @@ internal static class HutaoEndpoints
 
     private const string HomaSnapGenshinApi = "https://homa.snapgenshin.com";
     private const string HutaoMetadataSnapGenshinApi = "https://hutao-metadata.snapgenshin.com";
-    private const string PatcherDGPStudioApi = "https://patcher.dgp-studio.cn";
     private const string StaticSnapGenshinApi = "https://static.snapgenshin.com";
     private const string StaticZipSnapGenshinApi = "https://static-zip.snapgenshin.com";
 }

@@ -10,8 +10,6 @@ using Snap.Hutao.Win32;
 using System.IO;
 using Windows.Graphics;
 using Windows.UI;
-using Windows.Win32.Foundation;
-using WinRT.Interop;
 
 namespace Snap.Hutao.Core.Windowing;
 
@@ -23,33 +21,21 @@ namespace Snap.Hutao.Core.Windowing;
 internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMessage>, IRecipient<FlyoutOpenCloseMessage>
     where TWindow : Window, IExtendedWindowSource
 {
-    private readonly HWND hwnd;
-    private readonly AppWindow appWindow;
-
-    private readonly TWindow window;
-    private readonly FrameworkElement titleBar;
+    private readonly WindowOptions<TWindow> options;
 
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ExtendedWindow<TWindow>> logger;
-    private readonly WindowSubclassManager<TWindow> subclassManager;
-
-    private readonly bool useLegacyDragBar;
+    private readonly WindowSubclass<TWindow> subclass;
 
     private SystemBackdrop? systemBackdrop;
 
     private ExtendedWindow(TWindow window, FrameworkElement titleBar, IServiceProvider serviceProvider)
     {
-        this.window = window;
-        this.titleBar = titleBar;
+        options = new(window, titleBar);
+        subclass = new(options);
+
         logger = serviceProvider.GetRequiredService<ILogger<ExtendedWindow<TWindow>>>();
         this.serviceProvider = serviceProvider;
-
-        hwnd = (HWND)WindowNative.GetWindowHandle(window);
-        WindowId windowId = Win32Interop.GetWindowIdFromWindow(hwnd);
-        appWindow = AppWindow.GetFromWindowId(windowId);
-
-        useLegacyDragBar = !AppWindowTitleBar.IsCustomizationSupported();
-        subclassManager = new(window, hwnd, useLegacyDragBar);
 
         InitializeWindow();
     }
@@ -79,63 +65,63 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
     /// <inheritdoc/>
     public void Receive(FlyoutOpenCloseMessage message)
     {
-        UpdateDragRectangles(appWindow.TitleBar, message.IsOpen);
+        UpdateDragRectangles(options.AppWindow.TitleBar, message.IsOpen);
     }
 
     private void InitializeWindow()
     {
-        appWindow.Title = string.Format(SH.AppNameAndVersion, CoreEnvironment.Version);
-        appWindow.SetIcon(Path.Combine(CoreEnvironment.InstalledLocation, "Assets/Logo.ico"));
+        options.AppWindow.Title = string.Format(SH.AppNameAndVersion, CoreEnvironment.Version);
+        options.AppWindow.SetIcon(Path.Combine(CoreEnvironment.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
-        Persistence.RecoverOrInit(appWindow, window.PersistSize, window.InitSize);
+        Persistence.RecoverOrInit(options);
 
         // appWindow.Show(true);
         // appWindow.Show can't bring window to top.
-        window.Activate();
+        options.Window.Activate();
 
-        systemBackdrop = new(window);
+        systemBackdrop = new(options.Window);
         bool micaApplied = systemBackdrop.TryApply();
         logger.LogInformation("Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
 
-        bool subClassApplied = subclassManager.TrySetWindowSubclass();
-        logger.LogInformation("Apply {name} : {result}", nameof(WindowSubclassManager<TWindow>), subClassApplied ? "succeed" : "failed");
+        bool subClassApplied = subclass.Initialize();
+        logger.LogInformation("Apply {name} : {result}", nameof(WindowSubclass<TWindow>), subClassApplied ? "succeed" : "failed");
 
-        IMessenger messenger = Ioc.Default.GetRequiredService<IMessenger>();
+        IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
         messenger.Register<BackdropTypeChangedMessage>(this);
         messenger.Register<FlyoutOpenCloseMessage>(this);
 
-        window.Closed += OnWindowClosed;
+        options.Window.Closed += OnWindowClosed;
     }
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        if (window.PersistSize)
+        if (options.Window.PersistSize)
         {
-            Persistence.Save(appWindow);
+            Persistence.Save(options);
         }
 
-        subclassManager?.Dispose();
+        subclass?.Dispose();
     }
 
     private void ExtendsContentIntoTitleBar()
     {
-        if (useLegacyDragBar)
+        if (options.UseLegacyDragBarImplementation)
         {
             // use normal Window method to extend.
-            window.ExtendsContentIntoTitleBar = true;
-            window.SetTitleBar(titleBar);
+            options.Window.ExtendsContentIntoTitleBar = true;
+            options.Window.SetTitleBar(options.TitleBar);
         }
         else
         {
-            AppWindowTitleBar appTitleBar = appWindow.TitleBar;
+            AppWindowTitleBar appTitleBar = options.AppWindow.TitleBar;
             appTitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
             appTitleBar.ExtendsContentIntoTitleBar = true;
 
             UpdateTitleButtonColor(appTitleBar);
             UpdateDragRectangles(appTitleBar);
-            titleBar.ActualThemeChanged += (s, e) => UpdateTitleButtonColor(appTitleBar);
-            titleBar.SizeChanged += (s, e) => UpdateDragRectangles(appTitleBar);
+            options.TitleBar.ActualThemeChanged += (s, e) => UpdateTitleButtonColor(appTitleBar);
+            options.TitleBar.SizeChanged += (s, e) => UpdateDragRectangles(appTitleBar);
         }
     }
 
@@ -168,20 +154,20 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         if (isFlyoutOpened)
         {
             // set to 0
-            appTitleBar.SetDragRectangles(default(RectInt32).Enumerate().ToArray());
+            appTitleBar.SetDragRectangles(default(RectInt32).ToArray());
         }
         else
         {
-            double scale = Persistence.GetScaleForWindowHandle(hwnd);
+            double scale = Persistence.GetScaleForWindowHandle(options.Hwnd);
 
             // 48 is the navigation button leftInset
-            RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), titleBar.ActualSize).Scale(scale);
-            appTitleBar.SetDragRectangles(dragRect.Enumerate().ToArray());
+            RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), options.TitleBar.ActualSize).Scale(scale);
+            appTitleBar.SetDragRectangles(dragRect.ToArray());
 
             // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
-            SizeInt32 size = appWindow.ClientSize;
+            SizeInt32 size = options.AppWindow.ClientSize;
             size.Height -= (int)(31 * scale);
-            appWindow.ResizeClient(size);
+            options.AppWindow.ResizeClient(size);
         }
     }
 }

@@ -17,7 +17,7 @@ internal static class MemoryCacheExtension
     /// <param name="key">键</param>
     /// <param name="value">值</param>
     /// <returns>是否移除成功</returns>
-    public static bool TryRemove(this IMemoryCache memoryCache, string key, [NotNullWhen(true)] out object? value)
+    public static bool TryRemove(this IMemoryCache memoryCache, string key, out object? value)
     {
         if (memoryCache.TryGetValue(key, out value))
         {

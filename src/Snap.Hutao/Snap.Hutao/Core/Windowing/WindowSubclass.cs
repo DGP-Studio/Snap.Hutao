@@ -14,16 +14,13 @@ namespace Snap.Hutao.Core.Windowing;
 /// </summary>
 /// <typeparam name="TWindow">窗体类型</typeparam>
 [HighQuality]
-internal sealed class WindowSubclassManager<TWindow> : IDisposable
+internal sealed class WindowSubclass<TWindow> : IDisposable
     where TWindow : Window, IExtendedWindowSource
 {
     private const int WindowSubclassId = 101;
     private const int DragBarSubclassId = 102;
 
-    private readonly TWindow window;
-    private readonly HWND hwnd;
-    private readonly bool isLegacyDragBar;
-    private HWND hwndDragBar;
+    private readonly WindowOptions<TWindow> options;
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC? windowProc;
@@ -32,32 +29,28 @@ internal sealed class WindowSubclassManager<TWindow> : IDisposable
     /// <summary>
     /// 构造一个新的窗体子类管理器
     /// </summary>
-    /// <param name="window">窗体实例</param>
-    /// <param name="hwnd">窗体句柄</param>
-    /// <param name="isLegacyDragBar">是否为经典标题栏区域</param>
-    public WindowSubclassManager(TWindow window, HWND hwnd, bool isLegacyDragBar)
+    /// <param name="options">选项</param>
+    public WindowSubclass(WindowOptions<TWindow> options)
     {
-        this.window = window;
-        this.hwnd = hwnd;
-        this.isLegacyDragBar = isLegacyDragBar;
+        this.options = options;
     }
 
     /// <summary>
     /// 尝试设置窗体子类
     /// </summary>
     /// <returns>是否设置成功</returns>
-    public unsafe bool TrySetWindowSubclass()
+    public bool Initialize()
     {
         windowProc = new(OnSubclassProcedure);
-        bool windowHooked = SetWindowSubclass(hwnd, windowProc, WindowSubclassId, 0);
+        bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
 
         bool titleBarHooked = true;
 
-        // only hook up drag bar proc when not use legacy Window.ExtendsContentIntoTitleBar
-        if (isLegacyDragBar)
+        // only hook up drag bar proc when use legacy Window.ExtendsContentIntoTitleBar
+        if (options.UseLegacyDragBarImplementation)
         {
             titleBarHooked = false;
-            hwndDragBar = FindWindowEx(hwnd, default, "DRAG_BAR_WINDOW_CLASS", string.Empty);
+            HWND hwndDragBar = FindWindowEx(options.Hwnd, default, "DRAG_BAR_WINDOW_CLASS", default);
 
             if (!hwndDragBar.IsNull)
             {
@@ -72,14 +65,14 @@ internal sealed class WindowSubclassManager<TWindow> : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        RemoveWindowSubclass(hwnd, windowProc, WindowSubclassId);
-        if (isLegacyDragBar)
-        {
-            RemoveWindowSubclass(hwnd, dragBarProc, DragBarSubclassId);
-        }
-
+        RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
         windowProc = null;
-        dragBarProc = null;
+
+        if (options.UseLegacyDragBarImplementation)
+        {
+            RemoveWindowSubclass(options.Hwnd, dragBarProc, DragBarSubclassId);
+            dragBarProc = null;
+        }
     }
 
     private unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
@@ -89,14 +82,14 @@ internal sealed class WindowSubclassManager<TWindow> : IDisposable
             case WM_GETMINMAXINFO:
                 {
                     double scalingFactor = Persistence.GetScaleForWindowHandle(hwnd);
-                    window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
+                    options.Window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
                     break;
                 }
 
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
                 {
-                    return new(0);
+                    return (LRESULT)0; // WM_NULL
                 }
         }
 
@@ -110,7 +103,7 @@ internal sealed class WindowSubclassManager<TWindow> : IDisposable
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
                 {
-                    return new(0);
+                    return (LRESULT)0; // WM_NULL
                 }
         }
 
