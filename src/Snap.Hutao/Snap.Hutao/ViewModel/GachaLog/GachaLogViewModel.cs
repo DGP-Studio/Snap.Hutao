@@ -321,6 +321,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
             if (isOk)
             {
                 await ThreadHelper.SwitchToMainThreadAsync();
+                Archives?.AddIfNotContains(archive!);
                 SetSelectedArchiveAndUpdateStatistics(archive, true);
             }
         }

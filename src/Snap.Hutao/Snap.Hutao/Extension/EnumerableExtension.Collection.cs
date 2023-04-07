@@ -11,6 +11,20 @@ namespace Snap.Hutao.Extension;
 internal static partial class EnumerableExtension
 {
     /// <summary>
+    /// 尝试添加物品
+    /// </summary>
+    /// <typeparam name="T">物品类型</typeparam>
+    /// <param name="collection">集合</param>
+    /// <param name="item">物品</param>
+    public static void AddIfNotContains<T>(this Collection<T> collection, T item)
+    {
+        if (!collection.Contains(item))
+        {
+            collection.Add(item);
+        }
+    }
+
+    /// <summary>
     /// 移除集合中满足条件的项
     /// </summary>
     /// <typeparam name="T">集合项类型</typeparam>

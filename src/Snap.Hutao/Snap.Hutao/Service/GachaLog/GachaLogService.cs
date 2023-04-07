@@ -311,7 +311,7 @@ internal sealed class GachaLogService : IGachaLogService
     {
         if (archive == null)
         {
-            archive = appDbContext.GachaArchives.SingleOrDefault(a => a.Uid == uid);
+            archive = appDbContext.GachaArchives.AsNoTracking().SingleOrDefault(a => a.Uid == uid);
 
             if (archive == null)
             {
@@ -320,7 +320,7 @@ internal sealed class GachaLogService : IGachaLogService
 
                 // System.InvalidOperationException: Sequence contains no elements
                 // ? how this happen here?
-                archive = appDbContext.GachaArchives.Single(a => a.Uid == uid);
+                archive = appDbContext.GachaArchives.AsNoTracking().Single(a => a.Uid == uid);
                 GachaArchive temp = archive;
                 ThreadHelper.InvokeOnMainThread(() => archiveCollection!.Add(temp));
             }
