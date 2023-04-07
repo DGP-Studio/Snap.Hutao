@@ -42,7 +42,7 @@ internal sealed class DbCurrent<TEntity, TMessage>
         set
         {
             // prevent useless sets
-            if (current == value)
+            if (current?.InnerId == value?.InnerId)
             {
                 return;
             }

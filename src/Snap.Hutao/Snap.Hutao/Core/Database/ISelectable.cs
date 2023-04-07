@@ -13,6 +13,11 @@ namespace Snap.Hutao.Core.Database;
 internal interface ISelectable
 {
     /// <summary>
+    /// 数据库内部Id
+    /// </summary>
+    Guid InnerId { get; }
+
+    /// <summary>
     /// 获取或设置当前项的选中状态
     /// </summary>
     bool IsSelected { get; set; }
