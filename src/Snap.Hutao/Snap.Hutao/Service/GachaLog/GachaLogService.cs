@@ -31,17 +31,6 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Scoped, typeof(IGachaLogService))]
 internal sealed class GachaLogService : IGachaLogService
 {
-    /// <summary>
-    /// 祈愿记录查询的类型
-    /// </summary>
-    private static readonly ImmutableList<GachaConfigType> QueryTypes = new List<GachaConfigType>
-    {
-        GachaConfigType.NoviceWish,
-        GachaConfigType.StandardWish,
-        GachaConfigType.AvatarEventWish,
-        GachaConfigType.WeaponEventWish,
-    }.ToImmutableList();
-
     private readonly AppDbContext appDbContext;
     private readonly IEnumerable<IGachaLogQueryProvider> urlProviders;
     private readonly GachaInfoClient gachaInfoClient;
@@ -249,7 +238,7 @@ internal sealed class GachaLogService : IGachaLogService
         GachaArchive? archive = null;
         FetchState state = new();
 
-        foreach (GachaConfigType configType in QueryTypes)
+        foreach (GachaConfigType configType in GachaLog.QueryTypes)
         {
             state.ConfigType = configType;
             long? dbEndId = null;

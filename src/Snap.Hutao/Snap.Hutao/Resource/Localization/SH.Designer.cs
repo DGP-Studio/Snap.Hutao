@@ -1222,6 +1222,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 获取云端祈愿记录失败 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGachaLogHutaoCloudEndIdFetchFailed {
+            get {
+                return ResourceManager.GetString("ServiceGachaLogHutaoCloudEndIdFetchFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 祈愿记录上传服务不可用 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGachaLogHutaoCloudServiceNotAllowed {
+            get {
+                return ResourceManager.GetString("ServiceGachaLogHutaoCloudServiceNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 请求验证密钥失败 的本地化字符串。
         /// </summary>
         internal static string ServiceGachaLogUrlProviderAuthkeyRequestFailed {
@@ -2464,6 +2482,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 从胡桃云服务同步祈愿记录 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogRetrieveFromHutaoCloudProgress {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogRetrieveFromHutaoCloudProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在上传到胡桃云服务 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogUploadToHutaoCloudProgress {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogUploadToHutaoCloudProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 剪贴板中的文本格式不正确 的本地化字符串。
         /// </summary>
         internal static string ViewModelImportFromClipboardErrorTitle {
@@ -3243,6 +3279,42 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageGachaLogHint {
             get {
                 return ResourceManager.GetString("ViewPageGachaLogHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 胡桃云 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloud {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 删除此 Uid 的云端存档 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudDelete {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载此 Uid 的云端存档 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudRetrieve {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudRetrieve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传当前的祈愿存档 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudUpload {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudUpload", resourceCulture);
             }
         }
         

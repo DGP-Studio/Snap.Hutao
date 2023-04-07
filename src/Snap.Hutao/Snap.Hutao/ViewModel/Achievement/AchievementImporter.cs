@@ -19,6 +19,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 成就导入器
 /// </summary>
 [HighQuality]
+[Injection(InjectAs.Scoped)]
 internal sealed class AchievementImporter
 {
     private readonly IServiceProvider serviceProvider;

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Collections;
 
 namespace Snap.Hutao.Web.Hutao.GachaLog;
 
@@ -71,5 +72,17 @@ internal sealed class EndIds
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// 获取枚举器
+    /// </summary>
+    /// <returns>枚举器</returns>
+    public IEnumerator<KeyValuePair<GachaConfigType, long>> GetEnumerator()
+    {
+        yield return new(GachaConfigType.NoviceWish, NoviceWish);
+        yield return new(GachaConfigType.StandardWish, StandardWish);
+        yield return new(GachaConfigType.AvatarEventWish, AvatarEventWish);
+        yield return new(GachaConfigType.WeaponEventWish, WeaponEventWish);
     }
 }

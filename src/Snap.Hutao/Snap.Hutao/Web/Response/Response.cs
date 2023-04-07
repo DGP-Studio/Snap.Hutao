@@ -40,6 +40,11 @@ internal class Response
     [JsonPropertyName("message")]
     public string Message { get; set; } = default!;
 
+    public static implicit operator ValueResult<bool, string>(Response response)
+    {
+        return new(response.ReturnCode == 0, response.Message);
+    }
+
     /// <summary>
     /// 返回本体或带有消息提示的默认值
     /// </summary>

@@ -1845,4 +1845,28 @@
   <data name="ViewPageHutaoPassportPasswordRequirementHint" xml:space="preserve">
     <value>至少需要 8 个字符</value>
   </data>
+  <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
+    <value>获取云端祈愿记录失败</value>
+  </data>
+  <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
+    <value>祈愿记录上传服务不可用</value>
+  </data>
+  <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
+    <value>从胡桃云服务同步祈愿记录</value>
+  </data>
+  <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
+    <value>正在上传到胡桃云服务</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
+    <value>胡桃云</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
+    <value>删除此 Uid 的云端存档</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
+    <value>下载此 Uid 的云端存档</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudUpload" xml:space="preserve">
+    <value>上传当前的祈愿存档</value>
+  </data>
 </root>

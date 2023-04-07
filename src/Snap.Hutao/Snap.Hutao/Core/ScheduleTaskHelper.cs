@@ -48,12 +48,7 @@ internal static class ScheduleTaskHelper
     {
         try
         {
-            SchedulerTask? targetTask = TaskService.Instance.GetTask(DailyNoteRefreshTaskName);
-            if (targetTask != null)
-            {
-                TaskService.Instance.RootFolder.DeleteTask(DailyNoteRefreshTaskName);
-            }
-
+            TaskService.Instance.RootFolder.DeleteTask(DailyNoteRefreshTaskName, false);
             return true;
         }
         catch (UnauthorizedAccessException)

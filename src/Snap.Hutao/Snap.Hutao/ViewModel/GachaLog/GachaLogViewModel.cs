@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Factory.Abstraction;
@@ -40,23 +41,16 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     /// <summary>
     /// 构造一个新的祈愿记录视图模型
     /// </summary>
-    /// <param name="gachaLogService">祈愿记录服务</param>
-    /// <param name="infoBarService">信息</param>
-    /// <param name="options">Json序列化选项</param>
-    /// <param name="contentDialogFactory">内容对话框工厂</param>
-    /// <param name="pickerFactory">文件选择器工厂</param>
-    public GachaLogViewModel(
-        IGachaLogService gachaLogService,
-        IInfoBarService infoBarService,
-        JsonSerializerOptions options,
-        IContentDialogFactory contentDialogFactory,
-        IPickerFactory pickerFactory)
+    /// <param name="serviceProvider">服务提供器</param>
+    public GachaLogViewModel(IServiceProvider serviceProvider)
     {
-        this.gachaLogService = gachaLogService;
-        this.infoBarService = infoBarService;
-        this.pickerFactory = pickerFactory;
-        this.contentDialogFactory = contentDialogFactory;
-        this.options = options;
+        gachaLogService = serviceProvider.GetRequiredService<IGachaLogService>();
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        pickerFactory = serviceProvider.GetRequiredService<IPickerFactory>();
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
+        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
+
+        HutaoCloudViewModel = serviceProvider.GetRequiredService<HutaoCloudViewModel>();
 
         RefreshByWebCacheCommand = new AsyncRelayCommand(RefreshByWebCacheAsync);
         RefreshBySTokenCommand = new AsyncRelayCommand(RefreshBySTokenAsync);
@@ -64,6 +58,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         ImportFromUIGFJsonCommand = new AsyncRelayCommand(ImportFromUIGFJsonAsync);
         ExportToUIGFJsonCommand = new AsyncRelayCommand(ExportToUIGFJsonAsync);
         RemoveArchiveCommand = new AsyncRelayCommand(RemoveArchiveAsync);
+        RetrieveFromCloudCommand = new AsyncRelayCommand<string>(RetrieveAsync);
     }
 
     /// <summary>
@@ -107,6 +102,11 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     public bool IsAggressiveRefresh { get => isAggressiveRefresh; set => SetProperty(ref isAggressiveRefresh, value); }
 
     /// <summary>
+    /// 胡桃云服务视图
+    /// </summary>
+    public HutaoCloudViewModel HutaoCloudViewModel { get; }
+
+    /// <summary>
     /// 浏览器缓存刷新命令
     /// </summary>
     public ICommand RefreshByWebCacheCommand { get; }
@@ -136,6 +136,11 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     /// </summary>
     public ICommand RemoveArchiveCommand { get; }
 
+    /// <summary>
+    /// 从云端获取记录命令
+    /// </summary>
+    public ICommand RetrieveFromCloudCommand { get; }
+
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
@@ -151,7 +156,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
 
                 await ThreadHelper.SwitchToMainThreadAsync();
                 Archives = archives;
-                SetSelectedArchiveAndUpdateStatistics(Archives.SingleOrDefault(a => a.IsSelected == true), true);
+                SetSelectedArchiveAndUpdateStatistics(Archives.SelectedOrDefault(), true);
             }
         }
         catch (OperationCanceledException)
@@ -307,6 +312,26 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
+    private async Task RetrieveAsync(string? uid)
+    {
+        if (uid != null)
+        {
+            (bool isOk, GachaArchive? archive) = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
+
+            if (isOk)
+            {
+                await ThreadHelper.SwitchToMainThreadAsync();
+                SetSelectedArchiveAndUpdateStatistics(archive, true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 设置当前的祈愿存档
+    /// 需要从主线程调用
+    /// </summary>
+    /// <param name="archive">存档</param>
+    /// <param name="forceUpdate">强制刷新，即使Uid相同也刷新该Uid的记录</param>
     private void SetSelectedArchiveAndUpdateStatistics(GachaArchive? archive, bool forceUpdate = false)
     {
         bool changed = false;

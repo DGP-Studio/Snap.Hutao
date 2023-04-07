@@ -67,6 +67,84 @@
                             </AppBarButton.Flyout>
                         </AppBarButton>
                         <AppBarSeparator/>
+                        <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE753;}" Label="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloud}">
+                            <AppBarButton.Flyout>
+                                <Flyout Placement="Bottom">
+                                    <Grid>
+                                        <mxi:Interaction.Behaviors>
+                                            <shcb:InvokeCommandOnLoadedBehavior Command="{Binding HutaoCloudViewModel.OpenUICommand}"/>
+                                        </mxi:Interaction.Behaviors>
+
+                                        <Grid Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <Grid.Resources>
+                                                <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+                                                <shc:BindingProxy x:Key="HutaoCloudViewModelBindingProxy" DataContext="{Binding HutaoCloudViewModel}"/>
+                                            </Grid.Resources>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <ScrollViewer
+                                                Grid.Row="0"
+                                                MaxWidth="480"
+                                                Margin="0,0,0,8">
+                                                <ItemsControl ItemsSource="{Binding HutaoCloudViewModel.Uids}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid Margin="0,0,0,8">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <TextBlock
+                                                                    Grid.Column="0"
+                                                                    VerticalAlignment="Center"
+                                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                                    Text="{Binding}"/>
+                                                                <StackPanel
+                                                                    Grid.Column="1"
+                                                                    Margin="6,0,0,0"
+                                                                    Orientation="Horizontal">
+                                                                    <Button
+                                                                        Margin="6,0,0,0"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Background="Transparent"
+                                                                        Command="{Binding DataContext.RetrieveFromCloudCommand, Source={StaticResource ViewModelBindingProxy}}"
+                                                                        CommandParameter="{Binding}"
+                                                                        Content="&#xE896;"
+                                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                                        Style="{StaticResource ButtonRevealStyle}"
+                                                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudRetrieve}"/>
+                                                                    <Button
+                                                                        Margin="6,0,0,0"
+                                                                        HorizontalAlignment="Right"
+                                                                        VerticalAlignment="Stretch"
+                                                                        Background="Transparent"
+                                                                        Command="{Binding DataContext.DeleteCommand, Source={StaticResource HutaoCloudViewModelBindingProxy}}"
+                                                                        CommandParameter="{Binding}"
+                                                                        Content="&#xE74D;"
+                                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                                        Style="{StaticResource ButtonRevealStyle}"
+                                                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudDelete}"/>
+                                                                </StackPanel>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </ScrollViewer>
+                                            <Button
+                                                Grid.Row="1"
+                                                HorizontalAlignment="Stretch"
+                                                Command="{Binding HutaoCloudViewModel.UploadCommand}"
+                                                CommandParameter="{Binding SelectedArchive}"
+                                                Content="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudUpload}"/>
+                                        </Grid>
+                                        <shvc:LoadingView Margin="8" IsLoading="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
+                                    </Grid>
+                                </Flyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                        <AppBarSeparator/>
                         <AppBarButton
                             Command="{Binding ImportFromUIGFJsonCommand}"
                             Icon="{shcm:FontIcon Glyph=&#xE8B5;}"

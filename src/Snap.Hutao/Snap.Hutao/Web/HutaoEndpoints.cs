@@ -25,9 +25,9 @@ internal static class HutaoEndpoints
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>获取末尾Id Url</returns>
-    public static string GachaLogEndIds(PlayerUid uid)
+    public static string GachaLogEndIds(string uid)
     {
-        return $"{HomaSnapGenshinApi}/GachaLog/EndIds?Uid={uid.Value}";
+        return $"{HomaSnapGenshinApi}/GachaLog/EndIds?Uid={uid}";
     }
 
     /// <summary>
@@ -49,9 +49,9 @@ internal static class HutaoEndpoints
     /// 删除祈愿记录
     /// </summary>
     /// <returns>删除祈愿记录 Url</returns>
-    public static string GachaLogDelete(PlayerUid uid)
+    public static string GachaLogDelete(string uid)
     {
-        return $"{HomaSnapGenshinApi}/GachaLog/Delete?Uid={uid.Value}";
+        return $"{HomaSnapGenshinApi}/GachaLog/Delete?Uid={uid}";
     }
     #endregion
 

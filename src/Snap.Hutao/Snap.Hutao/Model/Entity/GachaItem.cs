@@ -113,6 +113,25 @@ internal sealed class GachaItem
     }
 
     /// <summary>
+    /// 构造一个新的数据库祈愿物品
+    /// </summary>
+    /// <param name="archiveId">存档Id</param>
+    /// <param name="item">祈愿物品</param>
+    /// <returns>新的祈愿物品</returns>
+    public static GachaItem Create(Guid archiveId, Web.Hutao.GachaLog.GachaItem item)
+    {
+        return new()
+        {
+            ArchiveId = archiveId,
+            GachaType = item.GachaType,
+            QueryType = item.QueryType,
+            ItemId = item.ItemId,
+            Time = item.Time,
+            Id = item.Id,
+        };
+    }
+
+    /// <summary>
     /// 将祈愿配置类型转换到祈愿查询类型
     /// </summary>
     /// <param name="configType">配置类型</param>

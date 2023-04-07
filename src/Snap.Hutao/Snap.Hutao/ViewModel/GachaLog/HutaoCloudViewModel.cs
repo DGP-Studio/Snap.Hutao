@@ -1,0 +1,145 @@
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
+
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Factory.Abstraction;
+using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Web.Response;
+using System.Collections.ObjectModel;
+
+namespace Snap.Hutao.ViewModel.GachaLog;
+
+/// <summary>
+/// 胡桃云服务视图模型
+/// </summary>
+[Injection(InjectAs.Scoped)]
+internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
+{
+    private readonly IHutaoCloudService hutaoCloudService;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IInfoBarService infoBarService;
+
+    private ObservableCollection<string>? uids;
+    private bool isHutaoCloudServiceAllowed;
+
+    /// <summary>
+    /// 构造一个新的胡桃云服务视图模型
+    /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
+    public HutaoCloudViewModel(IServiceProvider serviceProvider)
+    {
+        hutaoCloudService = serviceProvider.GetRequiredService<IHutaoCloudService>();
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+
+        UploadCommand = new AsyncRelayCommand<GachaArchive>(UploadAsync);
+        DeleteCommand = new AsyncRelayCommand<string>(DeleteAsync);
+    }
+
+    /// <summary>
+    /// Uid集合
+    /// </summary>
+    public ObservableCollection<string>? Uids { get => uids; set => SetProperty(ref uids, value); }
+
+    /// <summary>
+    /// 是否可以使用胡桃云服务
+    /// </summary>
+    public bool IsHutaoCloudServiceAllowed { get => isHutaoCloudServiceAllowed; set => SetProperty(ref isHutaoCloudServiceAllowed, value); }
+
+    /// <summary>
+    /// 上传记录命令
+    /// </summary>
+    public ICommand UploadCommand { get; }
+
+    /// <summary>
+    /// 删除云端记录
+    /// </summary>
+    public ICommand DeleteCommand { get; }
+
+    /// <summary>
+    /// 异步获取祈愿记录
+    /// </summary>
+    /// <param name="uid">uid</param>
+    /// <returns>祈愿记录</returns>
+    public async Task<ValueResult<bool, GachaArchive?>> RetrieveAsync(string uid)
+    {
+        ContentDialog dialog = await contentDialogFactory
+            .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogRetrieveFromHutaoCloudProgress)
+            .ConfigureAwait(false);
+
+        using (await dialog.BlockAsync().ConfigureAwait(false))
+        {
+            return await hutaoCloudService.RetrieveGachaItemsAsync(uid).ConfigureAwait(false);
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OpenUIAsync()
+    {
+        await RefreshUidCollectionAsync().ConfigureAwait(false);
+        await ThreadHelper.SwitchToMainThreadAsync();
+        IsInitialized = true;
+    }
+
+    private async Task UploadAsync(GachaArchive? gachaArchive)
+    {
+        if (gachaArchive != null)
+        {
+            ContentDialog dialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogUploadToHutaoCloudProgress)
+                .ConfigureAwait(false);
+
+            bool isOk;
+            string message;
+
+            using (await dialog.BlockAsync().ConfigureAwait(false))
+            {
+                (isOk, message) = await hutaoCloudService.UploadGachaItemsAsync(gachaArchive).ConfigureAwait(false);
+            }
+
+            if (isOk)
+            {
+                infoBarService.Success(message);
+                await RefreshUidCollectionAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                infoBarService.Warning(message);
+            }
+        }
+    }
+
+    private async Task DeleteAsync(string? uid)
+    {
+        if (uid != null)
+        {
+            (bool isOk, string message) = await hutaoCloudService.DeleteGachaItemsAsync(uid).ConfigureAwait(false);
+
+            if (isOk)
+            {
+                infoBarService.Success(message);
+                await RefreshUidCollectionAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                infoBarService.Warning(message);
+            }
+        }
+    }
+
+    private async Task RefreshUidCollectionAsync()
+    {
+        Response<List<string>> resp = await hutaoCloudService.GetUidsAsync().ConfigureAwait(false);
+
+        await ThreadHelper.SwitchToMainThreadAsync();
+        IsHutaoCloudServiceAllowed = resp.IsOk();
+        if (IsHutaoCloudServiceAllowed)
+        {
+            Uids = resp.Data!.ToObservableCollection();
+        }
+    }
+}

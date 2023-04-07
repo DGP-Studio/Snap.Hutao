@@ -54,6 +54,7 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
 
             if (response.IsOk())
             {
+                accessToken = response.Data;
                 isInitialized = true;
             }
             else

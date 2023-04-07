@@ -7,26 +7,16 @@ using System.Runtime.InteropServices;
 namespace Snap.Hutao.ViewModel.Achievement;
 
 /// <summary>
-/// 成就完成进度更新器
+/// 成就完成进度
 /// </summary>
 [HighQuality]
-internal sealed class AchievementFinishPercentUpdater
+internal static class AchievementFinishPercent
 {
-    private readonly AchievementViewModel viewModel;
-
-    /// <summary>
-    /// 构造一个新的成就进度更新器
-    /// </summary>
-    /// <param name="viewModel">视图模型</param>
-    public AchievementFinishPercentUpdater(AchievementViewModel viewModel)
-    {
-        this.viewModel = viewModel;
-    }
-
     /// <summary>
     /// 更新完成进度
     /// </summary>
-    public void Update()
+    /// <param name="viewModel">视图模型</param>
+    public static void Update(AchievementViewModel viewModel)
     {
         int finished = 0;
         int count = 0;

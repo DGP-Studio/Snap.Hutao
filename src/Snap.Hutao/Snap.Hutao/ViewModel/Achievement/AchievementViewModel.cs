@@ -39,7 +39,6 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly JsonSerializerOptions options;
 
-    private readonly AchievementFinishPercentUpdater achievementFinishPercentUpdater;
     private readonly AchievementImporter achievementImporter;
 
     private readonly TaskCompletionSource<bool> openUICompletionSource = new();
@@ -57,29 +56,14 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     /// 构造一个新的成就视图模型
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="metadataService">元数据服务</param>
-    /// <param name="achievementService">成就服务</param>
-    /// <param name="infoBarService">信息条服务</param>
-    /// <param name="options">Json序列化选项</param>
-    /// <param name="contentDialogFactory">内容对话框工厂</param>
-    /// <param name="messenger">消息器</param>
-    public AchievementViewModel(
-        IServiceProvider serviceProvider,
-        IMetadataService metadataService,
-        IAchievementService achievementService,
-        IInfoBarService infoBarService,
-        JsonSerializerOptions options,
-        IContentDialogFactory contentDialogFactory,
-        IMessenger messenger)
+    public AchievementViewModel(IServiceProvider serviceProvider)
     {
-        this.metadataService = metadataService;
-        this.achievementService = achievementService;
-        this.infoBarService = infoBarService;
-        this.contentDialogFactory = contentDialogFactory;
-        this.options = options;
-
-        achievementFinishPercentUpdater = new(this);
-        achievementImporter = new(serviceProvider);
+        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
+        achievementService = serviceProvider.GetRequiredService<IAchievementService>();
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
+        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
+        achievementImporter = serviceProvider.GetRequiredService<AchievementImporter>();
 
         ImportUIAFFromClipboardCommand = new AsyncRelayCommand(ImportUIAFFromClipboardAsync);
         ImportUIAFFromFileCommand = new AsyncRelayCommand(ImportUIAFFromFileAsync);
@@ -469,10 +453,10 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
-    // 仅 读取成就列表 与 保存成就状态 时需要刷新成就进度
     private void UpdateAchievementsFinishPercent()
     {
-        achievementFinishPercentUpdater.Update();
+        // 仅 读取成就列表 与 保存成就状态 时需要刷新成就进度
+        AchievementFinishPercent.Update(this);
     }
 
     private void SaveAchievement(AchievementView? achievement)
