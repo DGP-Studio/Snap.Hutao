@@ -26,31 +26,37 @@ internal sealed class SystemBackdrop
     private ISystemBackdropControllerWithTargets? backdropController;
     private SystemBackdropConfiguration? configuration;
 
+    private BackdropType type;
+
     /// <summary>
     /// 构造一个新的系统背景帮助类
     /// </summary>
     /// <param name="window">窗体</param>
-    public SystemBackdrop(Window window)
+    /// <param name="serviceProvider">服务提供器</param>
+    public SystemBackdrop(Window window, IServiceProvider serviceProvider)
     {
         this.window = window;
-        using (IServiceScope scope = Ioc.Default.CreateScope())
-        {
-            BackdropType = scope.ServiceProvider.GetRequiredService<AppOptions>().BackdropType;
-        }
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+        type = appOptions.BackdropType;
+        appOptions.PropertyChanged += OnOptionsPropertyChanged;
     }
 
-    /// <summary>
-    /// 背景类型
-    /// </summary>
-    public BackdropType BackdropType { get; set; }
+    private void OnOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppOptions.BackdropType))
+        {
+            type = ((AppOptions)sender!).BackdropType;
+            Update();
+        }
+    }
 
     /// <summary>
     /// 尝试设置背景
     /// </summary>
     /// <returns>是否设置成功</returns>
-    public bool TryApply()
+    public bool Update()
     {
-        bool isSupport = BackdropType switch
+        bool isSupport = type switch
         {
             BackdropType.Acrylic => DesktopAcrylicController.IsSupported(),
             BackdropType.Mica or BackdropType.MicaAlt => MicaController.IsSupported(),
@@ -85,7 +91,7 @@ internal sealed class SystemBackdrop
             window.Closed += OnWindowClosed;
             ((FrameworkElement)window.Content).ActualThemeChanged += OnWindowThemeChanged;
 
-            backdropController = BackdropType switch
+            backdropController = type switch
             {
                 BackdropType.Acrylic => new DesktopAcrylicController(),
                 BackdropType.Mica => new MicaController() { Kind = MicaKind.Base },

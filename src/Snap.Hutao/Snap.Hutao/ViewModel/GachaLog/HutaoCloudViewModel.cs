@@ -8,6 +8,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 
@@ -22,6 +23,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
     private readonly IHutaoCloudService hutaoCloudService;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
+    private readonly IServiceProvider serviceProvider;
 
     private ObservableCollection<string>? uids;
     private bool isHutaoCloudServiceAllowed;
@@ -35,9 +37,12 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
         hutaoCloudService = serviceProvider.GetRequiredService<IHutaoCloudService>();
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        this.serviceProvider = serviceProvider;
 
         UploadCommand = new AsyncRelayCommand<GachaArchive>(UploadAsync);
         DeleteCommand = new AsyncRelayCommand<string>(DeleteAsync);
+        NavigateToSpiralAbyssRecordCommand = new RelayCommand(NavigateToSpiralAbyssRecord);
+        NavigateToAfdianSKuCommand = new AsyncRelayCommand(NavigateToAfdianSKuAsync);
     }
 
     /// <summary>
@@ -59,6 +64,16 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
     /// 删除云端记录
     /// </summary>
     public ICommand DeleteCommand { get; }
+
+    /// <summary>
+    /// 导航到深渊记录页面
+    /// </summary>
+    public ICommand NavigateToSpiralAbyssRecordCommand { get; }
+
+    /// <summary>
+    /// 导航到爱发电
+    /// </summary>
+    public ICommand NavigateToAfdianSKuCommand { get; }
 
     /// <summary>
     /// 异步获取祈愿记录
@@ -141,5 +156,17 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
         {
             Uids = resp.Data!.ToObservableCollection();
         }
+    }
+
+    private void NavigateToSpiralAbyssRecord()
+    {
+        serviceProvider
+            .GetRequiredService<INavigationService>()
+            .Navigate<View.Page.SpiralAbyssRecordPage>(INavigationAwaiter.Default);
+    }
+
+    private async Task NavigateToAfdianSKuAsync()
+    {
+        await Windows.System.Launcher.LaunchUriAsync(new(@"ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
     }
 }

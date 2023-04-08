@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Abstraction;
 
@@ -149,9 +150,10 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     /// <param name="storage">存储字段</param>
     /// <param name="key">键</param>
     /// <param name="value">值</param>
-    protected void SetOption(ref string? storage, string key, string value)
+    /// <param name="propertyName">属性名称</param>
+    protected void SetOption(ref string? storage, string key, string value, [CallerMemberName] string? propertyName = null)
     {
-        if (SetProperty(ref storage, value))
+        if (SetProperty(ref storage, value, propertyName))
         {
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
@@ -168,10 +170,11 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     /// <param name="storage">存储字段</param>
     /// <param name="key">键</param>
     /// <param name="value">值</param>
+    /// <param name="propertyName">属性名称</param>
     /// <returns>是否设置了值</returns>
-    protected bool SetOption(ref bool? storage, string key, bool value)
+    protected bool SetOption(ref bool? storage, string key, bool value, [CallerMemberName] string? propertyName = null)
     {
-        bool set = SetProperty(ref storage, value);
+        bool set = SetProperty(ref storage, value, propertyName);
         if (set)
         {
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
@@ -191,9 +194,10 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     /// <param name="storage">存储字段</param>
     /// <param name="key">键</param>
     /// <param name="value">值</param>
-    protected void SetOption(ref int? storage, string key, int value)
+    /// <param name="propertyName">属性名称</param>
+    protected void SetOption(ref int? storage, string key, int value, [CallerMemberName] string? propertyName = null)
     {
-        if (SetProperty(ref storage, value))
+        if (SetProperty(ref storage, value, propertyName))
         {
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
@@ -212,10 +216,11 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     /// <param name="key">键</param>
     /// <param name="value">值</param>
     /// <param name="serializer">序列化器</param>
-    protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer)
+    /// <param name="propertyName">属性名称</param>
+    protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer, [CallerMemberName] string? propertyName = null)
         where T : class
     {
-        if (SetProperty(ref storage, value))
+        if (SetProperty(ref storage, value, propertyName))
         {
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {
@@ -234,10 +239,11 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     /// <param name="key">键</param>
     /// <param name="value">值</param>
     /// <param name="serializer">序列化器</param>
-    protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer)
+    /// <param name="propertyName">属性名称</param>
+    protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer, [CallerMemberName] string? propertyName = null)
         where T : struct
     {
-        if (SetProperty(ref storage, value))
+        if (SetProperty(ref storage, value, propertyName))
         {
             using (IServiceScope scope = serviceScopeFactory.CreateScope())
             {

@@ -75,6 +75,7 @@
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="NativeMethods.json" />
     <None Remove="NativeMethods.txt" />
+    <None Remove="ReliquaryWeightConfiguration.json" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
     <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
@@ -154,6 +155,7 @@
   <ItemGroup>
     <AdditionalFiles Include="NativeMethods.json" />
     <AdditionalFiles Include="NativeMethods.txt" />
+    <AdditionalFiles Include="ReliquaryWeightConfiguration.json" />
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   
@@ -261,7 +263,7 @@
 
   <!-- Projects -->
   <ItemGroup>
-    <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0"/>
   </ItemGroup>
   
   <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging

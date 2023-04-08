@@ -46,30 +46,23 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
         string userName = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
         string passport = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
 
-        string? accessToken = null;
-
         if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(passport))
         {
             Web.Response.Response<string> response = await passportClient.LoginAsync(userName, passport, token).ConfigureAwait(false);
 
             if (response.IsOk())
             {
-                accessToken = response.Data;
+                await ThreadHelper.SwitchToMainThreadAsync();
+                options.LoginSucceed(userName, response.Data);
+
                 isInitialized = true;
             }
             else
             {
-                userName = SH.ViewServiceHutaoUserLoginFailHint;
+                await ThreadHelper.SwitchToMainThreadAsync();
+                options.LoginFailed();
             }
         }
-        else
-        {
-            userName = SH.ViewServiceHutaoUserLoginOrRegisterHint;
-        }
-
-        await ThreadHelper.SwitchToMainThreadAsync();
-        options.Token = accessToken;
-        options.UserName = userName;
 
         initializeCompletionSource.TrySetResult();
     }

@@ -12,8 +12,9 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Singleton)]
 internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOptions>
 {
-    private string? userName;
+    private string? userName = SH.ViewServiceHutaoUserLoginOrRegisterHint;
     private string? token;
+    private bool isLoggedIn;
 
     /// <summary>
     /// 用户名
@@ -23,13 +24,38 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// <summary>
     /// 真正的用户名
     /// </summary>
-    public string? ActualUserName { get => Token == null ? null : UserName; }
+    public string? ActualUserName { get => IsLoggedIn ? null : UserName; }
 
     /// <summary>
     /// 访问令牌
     /// </summary>
     public string? Token { get => token; set => SetProperty(ref token, value); }
 
+    /// <summary>
+    /// 是否已登录
+    /// </summary>
+    public bool IsLoggedIn { get => isLoggedIn; set => SetProperty(ref isLoggedIn, value); }
+
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }
+
+    /// <summary>
+    /// 登录
+    /// </summary>
+    /// <param name="userName">用户名</param>
+    /// <param name="token">令牌</param>
+    public void LoginSucceed(string userName, string? token)
+    {
+        UserName = userName;
+        Token = token;
+        IsLoggedIn = true;
+    }
+
+    /// <summary>
+    /// 登录失败
+    /// </summary>
+    public void LoginFailed()
+    {
+        UserName = SH.ViewServiceHutaoUserLoginFailHint;
+    }
 }

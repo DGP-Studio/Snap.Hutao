@@ -18,7 +18,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// </summary>
 /// <typeparam name="TWindow">窗体类型</typeparam>
 [SuppressMessage("", "CA1001")]
-internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMessage>, IRecipient<FlyoutOpenCloseMessage>
+internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessage>
     where TWindow : Window, IExtendedWindowSource
 {
     private readonly WindowOptions<TWindow> options;
@@ -52,17 +52,6 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
     }
 
     /// <inheritdoc/>
-    public void Receive(BackdropTypeChangedMessage message)
-    {
-        if (systemBackdrop != null)
-        {
-            systemBackdrop.BackdropType = message.BackdropType;
-            bool micaApplied = systemBackdrop.TryApply();
-            logger.LogInformation("Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
-        }
-    }
-
-    /// <inheritdoc/>
     public void Receive(FlyoutOpenCloseMessage message)
     {
         UpdateDragRectangles(options.AppWindow.TitleBar, message.IsOpen);
@@ -80,16 +69,15 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<BackdropTypeChangedMe
         // appWindow.Show can't bring window to top.
         options.Window.Activate();
 
-        systemBackdrop = new(options.Window);
-        bool micaApplied = systemBackdrop.TryApply();
+        systemBackdrop = new(options.Window, serviceProvider);
+        bool micaApplied = systemBackdrop.Update();
         logger.LogInformation("Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
 
         bool subClassApplied = subclass.Initialize();
         logger.LogInformation("Apply {name} : {result}", nameof(WindowSubclass<TWindow>), subClassApplied ? "succeed" : "failed");
 
         IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
-        messenger.Register<BackdropTypeChangedMessage>(this);
-        messenger.Register<FlyoutOpenCloseMessage>(this);
+        messenger.Register(this);
 
         options.Window.Closed += OnWindowClosed;
     }

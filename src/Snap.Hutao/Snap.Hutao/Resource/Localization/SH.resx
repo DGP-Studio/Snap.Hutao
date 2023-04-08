@@ -1869,4 +1869,19 @@
   <data name="ViewPageGachaLogHutaoCloudUpload" xml:space="preserve">
     <value>上传当前的祈愿存档</value>
   </data>
+  <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseDescription" xml:space="preserve">
+    <value>前往爱发电购买相关服务</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
+    <value>购买/续费云服务</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
+    <value>胡桃云服务时长不足</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
+    <value>每期深渊首次上传可免费获得5天时长</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
+    <value>上传深渊记录</value>
+  </data>
 </root>

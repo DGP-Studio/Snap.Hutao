@@ -104,11 +104,9 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
         {
             SaveUserNameAndPassword();
             serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
-            HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
 
             await ThreadHelper.SwitchToMainThreadAsync();
-            options.UserName = UserName;
-            options.Token = response.Data;
+            serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
 
             await serviceProvider
                 .GetRequiredService<INavigationService>()
@@ -135,11 +133,9 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
         {
             SaveUserNameAndPassword();
             serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
-            HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
 
             await ThreadHelper.SwitchToMainThreadAsync();
-            options.UserName = UserName;
-            options.Token = response.Data;
+            serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
 
             await serviceProvider
                 .GetRequiredService<INavigationService>()
@@ -161,11 +157,9 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
         {
             SaveUserNameAndPassword();
             serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
-            HutaoUserOptions options = serviceProvider.GetRequiredService<HutaoUserOptions>();
 
             await ThreadHelper.SwitchToMainThreadAsync();
-            options.UserName = UserName;
-            options.Token = response.Data;
+            serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
 
             await serviceProvider
                 .GetRequiredService<INavigationService>()

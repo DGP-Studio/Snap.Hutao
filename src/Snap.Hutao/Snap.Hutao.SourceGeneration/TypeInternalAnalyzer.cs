@@ -10,7 +10,7 @@ namespace Snap.Hutao.SourceGeneration;
 /// 类型应为内部分析器
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
-internal class TypeInternalAnalyzer : DiagnosticAnalyzer
+internal sealed class TypeInternalAnalyzer : DiagnosticAnalyzer
 {
     private static readonly DiagnosticDescriptor typeInternalDescriptor = new("SH001", "Type should be internal", "Type should be internal", "Quality", DiagnosticSeverity.Info, true);
 

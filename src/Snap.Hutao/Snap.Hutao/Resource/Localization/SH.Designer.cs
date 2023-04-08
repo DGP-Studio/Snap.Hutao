@@ -3292,6 +3292,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 前往爱发电购买相关服务 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudAfdianPurchaseDescription {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudAfdianPurchaseDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 购买/续费云服务 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudAfdianPurchaseHeader {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudAfdianPurchaseHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 删除此 Uid 的云端存档 的本地化字符串。
         /// </summary>
         internal static string ViewPageGachaLogHutaoCloudDelete {
@@ -3301,11 +3319,38 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 胡桃云服务时长不足 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudNotAllowed {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudNotAllowed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 下载此 Uid 的云端存档 的本地化字符串。
         /// </summary>
         internal static string ViewPageGachaLogHutaoCloudRetrieve {
             get {
                 return ResourceManager.GetString("ViewPageGachaLogHutaoCloudRetrieve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 每期深渊首次上传可免费获得5天时长 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传深渊记录 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader", resourceCulture);
             }
         }
         

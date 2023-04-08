@@ -142,7 +142,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Phyiscal(double value = 100)
+    public AffixWeight Physical(double value = 100)
     {
         this[FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT] = value;
         return this;
