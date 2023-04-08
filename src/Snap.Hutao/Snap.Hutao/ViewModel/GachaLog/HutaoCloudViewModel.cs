@@ -8,6 +8,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog;
+using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
@@ -26,7 +27,6 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
     private readonly IServiceProvider serviceProvider;
 
     private ObservableCollection<string>? uids;
-    private bool isHutaoCloudServiceAllowed;
 
     /// <summary>
     /// 构造一个新的胡桃云服务视图模型
@@ -37,6 +37,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
         hutaoCloudService = serviceProvider.GetRequiredService<IHutaoCloudService>();
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        Options = serviceProvider.GetRequiredService<HutaoUserOptions>();
         this.serviceProvider = serviceProvider;
 
         UploadCommand = new AsyncRelayCommand<GachaArchive>(UploadAsync);
@@ -51,9 +52,9 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
     public ObservableCollection<string>? Uids { get => uids; set => SetProperty(ref uids, value); }
 
     /// <summary>
-    /// 是否可以使用胡桃云服务
+    /// 选项
     /// </summary>
-    public bool IsHutaoCloudServiceAllowed { get => isHutaoCloudServiceAllowed; set => SetProperty(ref isHutaoCloudServiceAllowed, value); }
+    public HutaoUserOptions Options { get; }
 
     /// <summary>
     /// 上传记录命令
@@ -95,6 +96,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
+        await serviceProvider.GetRequiredService<IHutaoUserService>().InitializeAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);
         await ThreadHelper.SwitchToMainThreadAsync();
         IsInitialized = true;
@@ -151,8 +153,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
         Response<List<string>> resp = await hutaoCloudService.GetUidsAsync().ConfigureAwait(false);
 
         await ThreadHelper.SwitchToMainThreadAsync();
-        IsHutaoCloudServiceAllowed = resp.IsOk();
-        if (IsHutaoCloudServiceAllowed)
+        if (Options.IsCloudServiceAllowed = resp.IsOk())
         {
             Uids = resp.Data!.ToObservableCollection();
         }

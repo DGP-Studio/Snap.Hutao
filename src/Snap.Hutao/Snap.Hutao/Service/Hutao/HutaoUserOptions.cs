@@ -15,6 +15,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     private string? userName = SH.ViewServiceHutaoUserLoginOrRegisterHint;
     private string? token;
     private bool isLoggedIn;
+    private bool isHutaoCloudServiceAllowed;
 
     /// <summary>
     /// 用户名
@@ -35,6 +36,11 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// 是否已登录
     /// </summary>
     public bool IsLoggedIn { get => isLoggedIn; set => SetProperty(ref isLoggedIn, value); }
+
+    /// <summary>
+    /// 胡桃云服务是否可用
+    /// </summary>
+    public bool IsCloudServiceAllowed { get => isHutaoCloudServiceAllowed; set => SetProperty(ref isHutaoCloudServiceAllowed, value); }
 
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }

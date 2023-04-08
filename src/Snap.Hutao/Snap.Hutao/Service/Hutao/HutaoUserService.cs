@@ -30,10 +30,7 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
         this.options = options;
     }
 
-    /// <summary>
-    /// 异步初始化
-    /// </summary>
-    /// <returns>任务</returns>
+    /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync()
     {
         await initializeCompletionSource.Task.ConfigureAwait(false);

@@ -41,15 +41,6 @@ internal sealed class SystemBackdrop
         appOptions.PropertyChanged += OnOptionsPropertyChanged;
     }
 
-    private void OnOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(AppOptions.BackdropType))
-        {
-            type = ((AppOptions)sender!).BackdropType;
-            Update();
-        }
-    }
-
     /// <summary>
     /// 尝试设置背景
     /// </summary>
@@ -103,6 +94,15 @@ internal sealed class SystemBackdrop
             backdropController.SetSystemBackdropConfiguration(configuration);
 
             return true;
+        }
+    }
+
+    private void OnOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppOptions.BackdropType))
+        {
+            type = ((AppOptions)sender!).BackdropType;
+            Update();
         }
     }
 

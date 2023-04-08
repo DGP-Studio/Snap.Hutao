@@ -8,4 +8,9 @@ namespace Snap.Hutao.Service.Hutao;
 /// </summary>
 internal interface IHutaoUserService : ICastableService
 {
+    /// <summary>
+    /// 异步初始化
+    /// </summary>
+    /// <returns>任务</returns>
+    ValueTask<bool> InitializeAsync();
 }

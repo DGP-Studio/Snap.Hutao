@@ -283,36 +283,38 @@
                         <StackPanel
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            Spacing="{StaticResource SettingsCardSpacing}"
                             Visibility="{Binding CultivateEntries.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
-                            <StackPanel HorizontalAlignment="Center">
-                                <clw:SettingsCard
-                                    Description="{shcm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
-                                    Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}">
-                                    <Button
-                                        Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="Snap.Hutao.View.Page.WikiAvatarPage"
-                                        Content="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"/>
-                                </clw:SettingsCard>
-                                <clw:SettingsCard
-                                    Description="{shcm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
-                                    Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}">
-                                    <Button
-                                        Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="Snap.Hutao.View.Page.WikiWeaponPage"
-                                        Content="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"/>
-                                </clw:SettingsCard>
-                                <clw:SettingsCard
-                                    Description="{shcm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
-                                    Header="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
-                                    HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}">
-                                    <Button
-                                        Command="{Binding NavigateToPageCommand}"
-                                        CommandParameter="Snap.Hutao.View.Page.AvatarPropertyPage"
-                                        Content="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"/>
-                                </clw:SettingsCard>
-                            </StackPanel>
+                            <StackPanel.Resources>
+                                <Thickness x:Key="SettingsCardPadding">16</Thickness>
+                                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                            </StackPanel.Resources>
+                            <clw:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="Snap.Hutao.View.Page.WikiAvatarPage"
+                                Description="{shcm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
+                                Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
+                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"
+                                IsClickEnabled="True"/>
+                            <clw:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="Snap.Hutao.View.Page.WikiWeaponPage"
+                                Description="{shcm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
+                                Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
+                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}"
+                                IsClickEnabled="True"/>
+                            <clw:SettingsCard
+                                ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
+                                Command="{Binding NavigateToPageCommand}"
+                                CommandParameter="Snap.Hutao.View.Page.AvatarPropertyPage"
+                                Description="{shcm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
+                                Header="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
+                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}"
+                                IsClickEnabled="True"/>
                         </StackPanel>
                     </Grid>
                 </PivotItem>
