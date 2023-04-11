@@ -332,7 +332,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     /// 需要从主线程调用
     /// </summary>
     /// <param name="archive">存档</param>
-    /// <param name="forceUpdate">强制刷新，即使Uid相同也刷新该Uid的记录</param>
+    /// <param name="forceUpdate">强制刷新，即使Uid相同也刷新该 Uid 的记录</param>
     private void SetSelectedArchiveAndUpdateStatistics(GachaArchive? archive, bool forceUpdate = false)
     {
         bool changed = false;

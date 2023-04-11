@@ -149,7 +149,9 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        if (File.Exists(serviceProvider.GetRequiredService<AppOptions>().GamePath))
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+
+        if (File.Exists(AppOptions.GamePath))
         {
             try
             {
@@ -162,7 +164,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                     }
                     else
                     {
-                        serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGameMultiChannelReadFail);
+                        infoBarService.Warning(SH.ViewModelLaunchGameMultiChannelReadFail);
                     }
 
                     ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
@@ -186,7 +188,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         }
         else
         {
-            serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelLaunchGamePathInvalid);
+            infoBarService.Warning(SH.ViewModelLaunchGamePathInvalid);
             await ThreadHelper.SwitchToMainThreadAsync();
             await serviceProvider.GetRequiredService<INavigationService>()
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)

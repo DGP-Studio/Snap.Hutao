@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
-using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -9,29 +8,32 @@ using System.Text;
 
 namespace Snap.Hutao.SourceGeneration;
 
-[Generator]
-internal sealed class ReliquaryWeightConfigurationGenerator : ISourceGenerator
+[Generator(LanguageNames.CSharp)]
+internal sealed class ReliquaryWeightConfigurationGenerator : IIncrementalGenerator
 {
-    private const string ReliquaryWeightConfigurationFileName = "ReliquaryWeightConfiguration.json";
+    private const string FileName = "ReliquaryWeightConfiguration.json";
 
-    public void Initialize(GeneratorInitializationContext context)
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        IncrementalValueProvider<ImmutableArray<AdditionalText>> provider = context.AdditionalTextsProvider.Where(MatchFileName).Collect();
+
+        context.RegisterSourceOutput(provider, GenerateReliquaryWeightConfiguration);
     }
 
-    public void Execute(GeneratorExecutionContext context)
+    private static bool MatchFileName(AdditionalText text)
     {
-        try
-        {
+        return Path.GetFileName(text.Path) == FileName;
+    }
 
-        AdditionalText configurationJsonFile = context.AdditionalFiles
-            .First(af => Path.GetFileName(af.Path) == ReliquaryWeightConfigurationFileName);
+    private static void GenerateReliquaryWeightConfiguration(SourceProductionContext context,ImmutableArray<AdditionalText> additionalTexts)
+    {
+        AdditionalText jsonFile = additionalTexts.Single();
 
-        string configurationJson = configurationJsonFile.GetText(context.CancellationToken)!.ToString();
+        string configurationJson = jsonFile.GetText(context.CancellationToken)!.ToString();
         Dictionary<string, ReliquaryWeightConfigurationMetadata> metadataMap =
             JsonParser.FromJson<Dictionary<string, ReliquaryWeightConfigurationMetadata>>(configurationJson)!;
 
-        StringBuilder sourceCodeBuilder = new();
-        sourceCodeBuilder.Append($$"""
+        StringBuilder sourceBuilder = new StringBuilder().Append($$"""
             // Copyright (c) DGP Studio. All rights reserved.
             // Licensed under the MIT license.
 
@@ -59,24 +61,18 @@ internal sealed class ReliquaryWeightConfigurationGenerator : ISourceGenerator
 
         foreach (KeyValuePair<string, ReliquaryWeightConfigurationMetadata> kvp in metadataMap.OrderBy(kvp => kvp.Key))
         {
-            AppendAffixWeight(sourceCodeBuilder, kvp.Key, kvp.Value);
+            AppendAffixWeight(sourceBuilder, kvp.Key, kvp.Value);
         }
 
-        sourceCodeBuilder.Append($$"""
+        sourceBuilder.Append($$"""
                 };
             }
             """);
 
-        context.AddSource("ReliquaryWeightConfiguration.g.cs", SourceText.From(sourceCodeBuilder.ToString(), Encoding.UTF8));
-
-        }
-        catch (Exception ex)
-        {
-            context.AddSource("ReliquaryWeightConfiguration.g.cs", ex.ToString());
-        }
+        context.AddSource("ReliquaryWeightConfiguration.g.cs", sourceBuilder.ToString());
     }
 
-    private void AppendAffixWeight(StringBuilder builder, string id, ReliquaryWeightConfigurationMetadata metadata)
+    private static void AppendAffixWeight(StringBuilder builder, string id, ReliquaryWeightConfigurationMetadata metadata)
     {
         StringBuilder lineBuilder = new StringBuilder()
             .Append("        new AffixWeight(").Append(id).Append(',')
@@ -96,7 +92,6 @@ internal sealed class ReliquaryWeightConfigurationGenerator : ISourceGenerator
         }
 
         lineBuilder.Append(',');
-
 
         builder.AppendLine(lineBuilder.ToString());
     }

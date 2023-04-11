@@ -253,6 +253,16 @@
                                     DataContext="{Binding GameResource.PreDownloadGame.Latest, Mode=OneWay}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameResourcePreDownloadHeader}"
                                     Visibility="{Binding FallbackValue={StaticResource VisibilityCollapsed}, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                                <ItemsControl Margin="0,0,0,0" ItemsSource="{Binding GameResource.PreDownloadGame.Diffs, Mode=OneWay}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <shvc:LaunchGameResourceExpander
+                                                Margin="16,16,16,0"
+                                                DataContext="{Binding Mode=OneWay}"
+                                                Header="{shcm:ResourceString Name=ViewPageLaunchGameResourceDiffHeader}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
                                 <shvc:LaunchGameResourceExpander
                                     Margin="16,16,16,0"
                                     DataContext="{Binding GameResource.Game.Latest, Mode=OneWay}"

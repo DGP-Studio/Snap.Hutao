@@ -115,6 +115,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
                 .Where(weapon => !skippedWeapons.Contains(weapon.Id))
                 .OrderByDescending(weapon => weapon.RankLevel)
                 .ThenBy(weapon => weapon.WeaponType)
+                .ThenByDescending(weapon => weapon.Id.Value)
                 .ToList();
 
             await CombineWithWeaponCollocationsAsync(sorted).ConfigureAwait(false);

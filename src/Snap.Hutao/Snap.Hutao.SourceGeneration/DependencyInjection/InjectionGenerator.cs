@@ -4,46 +4,58 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
-using System;
+using Snap.Hutao.SourceGeneration.Primitive;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Snap.Hutao.SourceGeneration.DependencyInjection;
 
-/// <summary>
-/// 注入代码生成器
-/// 旨在使用源生成器提高注入效率
-/// 防止在运行时动态查找注入类型
-/// </summary>
-[Generator]
-internal sealed class InjectionGenerator : ISourceGenerator
+[Generator(LanguageNames.CSharp)]
+internal sealed class InjectionGenerator : IIncrementalGenerator
 {
+    private const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectionAttribute";
     private const string InjectAsSingletonName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Singleton";
     private const string InjectAsTransientName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Transient";
     private const string InjectAsScopedName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Scoped";
     private const string CRLF = "\r\n";
 
-    /// <inheritdoc/>
-    public void Initialize(GeneratorInitializationContext context)
+    private static readonly DiagnosticDescriptor invalidInjectionDescriptor = new("SH101", "无效的 InjectAs 枚举值", "尚未支持生成 {0} 配置", "Quality", DiagnosticSeverity.Error, true);
+
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Register a syntax receiver that will be created for each generation pass
-        context.RegisterForSyntaxNotifications(() => new InjectionSyntaxContextReceiver());
+        IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses =
+            context.SyntaxProvider.CreateSyntaxProvider(FilterAttributedClasses, HttpClientClass)
+            .Where(GeneratorSyntaxContext2.NotNull)!
+            .Collect();
+
+        context.RegisterImplementationSourceOutput(injectionClasses, GenerateAddInjectionsImplementation);
     }
 
-    /// <inheritdoc/>
-    public void Execute(GeneratorExecutionContext context)
+    private static bool FilterAttributedClasses(SyntaxNode node, CancellationToken token)
     {
-        // retrieve the populated receiver
-        if (context.SyntaxContextReceiver is not InjectionSyntaxContextReceiver receiver)
+        return node is ClassDeclarationSyntax classDeclarationSyntax && classDeclarationSyntax.AttributeLists.Count > 0;
+    }
+
+    private static GeneratorSyntaxContext2 HttpClientClass(GeneratorSyntaxContext context, CancellationToken token)
+    {
+        if (context.SemanticModel.GetDeclaredSymbol(context.Node, token) is INamedTypeSymbol classSymbol)
         {
-            return;
+            ImmutableArray<AttributeData> attributes = classSymbol.GetAttributes();
+            if (attributes.Any(data => data.AttributeClass!.ToDisplayString() == AttributeName))
+            {
+                return new(context, classSymbol, attributes);
+            }
         }
 
-        StringBuilder sourceCodeBuilder = new();
-        sourceCodeBuilder.Append($$"""
+        return default;
+    }
+
+    private static void GenerateAddInjectionsImplementation(SourceProductionContext context, ImmutableArray<GeneratorSyntaxContext2> context2s)
+    {
+        StringBuilder sourceBuilder = new StringBuilder().Append($$"""
             // Copyright (c) DGP Studio. All rights reserved.
             // Licensed under the MIT license.
 
@@ -57,36 +69,30 @@ internal sealed class InjectionGenerator : ISourceGenerator
                 {
             """);
 
-        FillWithInjectionServices(receiver, sourceCodeBuilder);
-        sourceCodeBuilder.Append("""
+        FillUpWithAddServices(sourceBuilder, context, context2s);
+        sourceBuilder.Append("""
 
                     return services;
                 }
             }
             """);
 
-        context.AddSource("ServiceCollectionExtension.g.cs", SourceText.From(sourceCodeBuilder.ToString(), Encoding.UTF8));
+        context.AddSource("ServiceCollectionExtension.g.cs", sourceBuilder.ToString());
     }
 
-    private static void FillWithInjectionServices(InjectionSyntaxContextReceiver receiver, StringBuilder sourceCodeBuilder)
+    private static void FillUpWithAddServices(StringBuilder sourceBuilder, SourceProductionContext production, ImmutableArray<GeneratorSyntaxContext2> contexts)
     {
         List<string> lines = new();
         StringBuilder lineBuilder = new();
 
-        foreach (INamedTypeSymbol classSymbol in receiver.Classes)
+        foreach (GeneratorSyntaxContext2 context in contexts)
         {
-            AttributeData injectionInfo = classSymbol
-                .GetAttributes()
-                .Single(attr => attr.AttributeClass!.ToDisplayString() == InjectionSyntaxContextReceiver.AttributeName);
+            lineBuilder.Clear().Append(CRLF);
 
-            lineBuilder
-                .Clear()
-                .Append(CRLF);
-
+            AttributeData injectionInfo = context.SingleAttributeWithName(AttributeName);
             ImmutableArray<TypedConstant> arguments = injectionInfo.ConstructorArguments;
-            TypedConstant injectAs = arguments[0];
 
-            string injectAsName = injectAs.ToCSharpString();
+            string injectAsName = arguments[0].ToCSharpString();
             switch (injectAsName)
             {
                 case InjectAsSingletonName:
@@ -99,53 +105,23 @@ internal sealed class InjectionGenerator : ISourceGenerator
                     lineBuilder.Append(@"        services.AddScoped<");
                     break;
                 default:
-                    throw new InvalidOperationException($"非法的 InjectAs 值: [{injectAsName}]");
+                    production.ReportDiagnostic(Diagnostic.Create(invalidInjectionDescriptor, null, injectAsName));
+                    break;
             }
 
             if (arguments.Length == 2)
             {
-                TypedConstant interfaceType = arguments[1];
-                lineBuilder.Append($"{interfaceType.Value}, ");
+                lineBuilder.Append($"{arguments[1].Value}, ");
             }
 
-            lineBuilder.Append($"{classSymbol.ToDisplayString()}>();");
+            lineBuilder.Append($"{context.Symbol.ToDisplayString()}>();");
 
             lines.Add(lineBuilder.ToString());
         }
 
         foreach (string line in lines.OrderBy(x => x))
         {
-            sourceCodeBuilder.Append(line);
-        }
-    }
-
-    private class InjectionSyntaxContextReceiver : ISyntaxContextReceiver
-    {
-        /// <summary>
-        /// 注入特性的名称
-        /// </summary>
-        public const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectionAttribute";
-
-        /// <summary>
-        /// 所有需要注入的类型符号
-        /// </summary>
-        public List<INamedTypeSymbol> Classes { get; } = new();
-
-        /// <inheritdoc/>
-        public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
-        {
-            // any class with at least one attribute is a candidate for injection generation
-            if (context.Node is ClassDeclarationSyntax classDeclarationSyntax && classDeclarationSyntax.AttributeLists.Count > 0)
-            {
-                // get as named type symbol
-                if (context.SemanticModel.GetDeclaredSymbol(classDeclarationSyntax) is INamedTypeSymbol classSymbol)
-                {
-                    if (classSymbol.GetAttributes().Any(ad => ad.AttributeClass!.ToDisplayString() == AttributeName))
-                    {
-                        Classes.Add(classSymbol);
-                    }
-                }
-            }
+            sourceBuilder.Append(line);
         }
     }
 }

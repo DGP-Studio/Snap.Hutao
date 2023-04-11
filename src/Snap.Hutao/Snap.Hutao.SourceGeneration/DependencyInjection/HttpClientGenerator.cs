@@ -4,50 +4,63 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Text;
-using System;
+using Snap.Hutao.SourceGeneration.Primitive;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Snap.Hutao.SourceGeneration.DependencyInjection;
 
-/// <summary>
-/// 注入HttpClient代码生成器
-/// 旨在使用源生成器提高注入效率
-/// 防止在运行时动态查找注入类型
-/// </summary>
-[Generator]
-internal sealed class HttpClientGenerator : ISourceGenerator
+[Generator(LanguageNames.CSharp)]
+internal sealed class HttpClientGenerator : IIncrementalGenerator
 {
+    private const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientAttribute";
+
     private const string DefaultName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.Default";
     private const string XRpcName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.XRpc";
     private const string XRpc2Name = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.XRpc2";
     private const string XRpc3Name = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.XRpc3";
 
     private const string PrimaryHttpMessageHandlerAttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.PrimaryHttpMessageHandlerAttribute";
-    private const string DynamicSecretAttributeName = "Snap.Hutao.Web.Hoyolab.DynamicSecret.UseDynamicSecretAttribute";
+    private const string UseDynamicSecretAttributeName = "Snap.Hutao.Web.Hoyolab.DynamicSecret.UseDynamicSecretAttribute";
+    private const string CRLF = "\r\n";
 
-    /// <inheritdoc/>
-    public void Initialize(GeneratorInitializationContext context)
+    private static readonly DiagnosticDescriptor invalidConfigurationDescriptor = new("SH100", "无效的 HttpClientConfiguration", "尚未支持生成 {0} 配置", "Quality", DiagnosticSeverity.Error, true);
+
+    public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        // Register a syntax receiver that will be created for each generation pass
-        context.RegisterForSyntaxNotifications(() => new HttpClientSyntaxContextReceiver());
+        IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses =
+            context.SyntaxProvider.CreateSyntaxProvider(FilterAttributedClasses, HttpClientClass)
+            .Where(GeneratorSyntaxContext2.NotNull)!
+            .Collect();
+
+        context.RegisterImplementationSourceOutput(injectionClasses, GenerateAddHttpClientsImplementation);
     }
 
-    /// <inheritdoc/>
-    public void Execute(GeneratorExecutionContext context)
+    private static bool FilterAttributedClasses(SyntaxNode node, CancellationToken token)
     {
-        // retrieve the populated receiver
-        if (context.SyntaxContextReceiver is not HttpClientSyntaxContextReceiver receiver)
+        return node is ClassDeclarationSyntax classDeclarationSyntax && classDeclarationSyntax.AttributeLists.Count > 0;
+    }
+
+    private static GeneratorSyntaxContext2 HttpClientClass(GeneratorSyntaxContext context, CancellationToken token)
+    {
+        if (context.SemanticModel.GetDeclaredSymbol(context.Node, token) is INamedTypeSymbol classSymbol)
         {
-            return;
+            ImmutableArray<AttributeData> attributes = classSymbol.GetAttributes();
+            if (attributes.Any(data => data.AttributeClass!.ToDisplayString() == AttributeName))
+            {
+                return new(context, classSymbol, attributes);
+            }
         }
 
-        StringBuilder sourceCodeBuilder = new();
+        return default;
+    }
 
-        sourceCodeBuilder.Append($$"""
+    private static void GenerateAddHttpClientsImplementation(SourceProductionContext context, ImmutableArray<GeneratorSyntaxContext2> context2s)
+    {
+        StringBuilder sourceBuilder = new StringBuilder().Append($$"""
             // Copyright (c) DGP Studio. All rights reserved.
             // Licensed under the MIT license.
 
@@ -64,45 +77,40 @@ internal sealed class HttpClientGenerator : ISourceGenerator
                 {
             """);
 
-        FillWithHttpClients(receiver, sourceCodeBuilder);
+        FillUpWithAddHttpClient(sourceBuilder, context, context2s);
 
-        sourceCodeBuilder.Append("""
+        sourceBuilder.Append("""
 
                     return services;
                 }
             }
             """);
 
-        context.AddSource("IocHttpClientConfiguration.g.cs", SourceText.From(sourceCodeBuilder.ToString(), Encoding.UTF8));
+        context.AddSource("IocHttpClientConfiguration.g.cs", sourceBuilder.ToString());
     }
 
-    private static void FillWithHttpClients(HttpClientSyntaxContextReceiver receiver, StringBuilder sourceCodeBuilder)
+    private static void FillUpWithAddHttpClient(StringBuilder sourceBuilder, SourceProductionContext production, ImmutableArray<GeneratorSyntaxContext2> contexts)
     {
         List<string> lines = new();
         StringBuilder lineBuilder = new();
 
-        foreach (INamedTypeSymbol classSymbol in receiver.Classes)
+        foreach (GeneratorSyntaxContext2 context in contexts)
         {
-            lineBuilder.Clear().Append("\r\n");
+            lineBuilder.Clear().Append(CRLF);
             lineBuilder.Append(@"        services.AddHttpClient<");
 
-            AttributeData httpClientInfo = classSymbol
-                .GetAttributes()
-                .Single(attr => attr.AttributeClass!.ToDisplayString() == HttpClientSyntaxContextReceiver.AttributeName);
-            ImmutableArray<TypedConstant> arguments = httpClientInfo.ConstructorArguments;
+            AttributeData httpClientData = context.SingleAttributeWithName(AttributeName);
+            ImmutableArray<TypedConstant> arguments = httpClientData.ConstructorArguments;
 
             if (arguments.Length == 2)
             {
-                TypedConstant interfaceType = arguments[1];
-                lineBuilder.Append($"{interfaceType.Value}, ");
+                lineBuilder.Append($"{arguments[1].Value}, ");
             }
 
-            TypedConstant configuration = arguments[0];
+            lineBuilder.Append($"{context.Symbol.ToDisplayString()}>(");
 
-            lineBuilder.Append($"{classSymbol.ToDisplayString()}>(");
-
-            string injectAsName = configuration.ToCSharpString();
-            switch (injectAsName)
+            string configurationName = arguments[0].ToCSharpString();
+            switch (configurationName)
             {
                 case DefaultName:
                     lineBuilder.Append("DefaultConfiguration)");
@@ -117,16 +125,13 @@ internal sealed class HttpClientGenerator : ISourceGenerator
                     lineBuilder.Append("XRpc3Configuration)");
                     break;
                 default:
-                    throw new InvalidOperationException($"非法的 HttpClientConfiguration 值: [{injectAsName}]");
+                    production.ReportDiagnostic(Diagnostic.Create(invalidConfigurationDescriptor, null, configurationName));
+                    break;
             }
 
-            AttributeData? handlerInfo = classSymbol
-                .GetAttributes()
-                .SingleOrDefault(attr => attr.AttributeClass!.ToDisplayString() == PrimaryHttpMessageHandlerAttributeName);
-
-            if (handlerInfo != null)
+            if (context.SingleOrDefaultAttributeWithName(PrimaryHttpMessageHandlerAttributeName) is AttributeData handlerData)
             {
-                ImmutableArray<KeyValuePair<string, TypedConstant>> properties = handlerInfo.NamedArguments;
+                ImmutableArray<KeyValuePair<string, TypedConstant>> properties = handlerData.NamedArguments;
                 lineBuilder.Append(@".ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler() {");
 
                 foreach (KeyValuePair<string, TypedConstant> property in properties)
@@ -141,7 +146,7 @@ internal sealed class HttpClientGenerator : ISourceGenerator
                 lineBuilder.Append(" })");
             }
 
-            if (classSymbol.GetAttributes().Any(attr => attr.AttributeClass!.ToDisplayString() == DynamicSecretAttributeName))
+            if (context.HasAttributeWithName(UseDynamicSecretAttributeName))
             {
                 lineBuilder.Append(".AddHttpMessageHandler<DynamicSecretHandler>()");
             }
@@ -153,37 +158,7 @@ internal sealed class HttpClientGenerator : ISourceGenerator
 
         foreach (string line in lines.OrderBy(x => x))
         {
-            sourceCodeBuilder.Append(line);
-        }
-    }
-
-    private class HttpClientSyntaxContextReceiver : ISyntaxContextReceiver
-    {
-        /// <summary>
-        /// 注入特性的名称
-        /// </summary>
-        public const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientAttribute";
-
-        /// <summary>
-        /// 所有需要注入的类型符号
-        /// </summary>
-        public List<INamedTypeSymbol> Classes { get; } = new();
-
-        /// <inheritdoc/>
-        public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
-        {
-            // any class with at least one attribute is a candidate for injection generation
-            if (context.Node is ClassDeclarationSyntax classDeclarationSyntax && classDeclarationSyntax.AttributeLists.Count > 0)
-            {
-                // get as named type symbol
-                if (context.SemanticModel.GetDeclaredSymbol(classDeclarationSyntax) is INamedTypeSymbol classSymbol)
-                {
-                    if (classSymbol.GetAttributes().Any(ad => ad.AttributeClass!.ToDisplayString() == AttributeName))
-                    {
-                        Classes.Add(classSymbol);
-                    }
-                }
-            }
+            sourceBuilder.Append(line);
         }
     }
 }

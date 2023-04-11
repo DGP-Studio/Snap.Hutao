@@ -61,4 +61,9 @@ internal static class SettingKeys
     /// 静态资源合约V4 刷新 AvatarIcon
     /// </summary>
     public const string StaticResourceV4Contract = "StaticResourceV4Contract";
+
+    /// <summary>
+    /// 静态资源合约V5 刷新 AvatarIcon
+    /// </summary>
+    public const string StaticResourceV5Contract = "StaticResourceV5Contract";
 }

@@ -44,6 +44,7 @@ internal sealed class LaunchOptions : DbStoreOptions
         primaryScreenHeight = primaryRect.Height;
 
         // This list can't use foreach
+        // https://github.com/microsoft/microsoft-ui-xaml/issues/6454
         IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
         for (int i = 0; i < displayAreas.Count; i++)
         {
@@ -148,7 +149,13 @@ internal sealed class LaunchOptions : DbStoreOptions
     public NameValue<int> Monitor
     {
         get => GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[int.Parse(index) - 1], Monitors[0]);
-        set => SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected?.Value.ToString() ?? "1");
+        set
+        {
+            if (value != null)
+            {
+                SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString() ?? "1");
+            }
+        }
     }
 
     /// <summary>

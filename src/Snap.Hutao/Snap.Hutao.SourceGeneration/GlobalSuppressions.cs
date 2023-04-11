@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("MicrosoftCodeAnalysisReleaseTracking", "RS2008:启用分析器发布跟踪", Justification = "<挂起>", Scope = "member", Target = "~F:Snap.Hutao.SourceGeneration.TypeInternalAnalyzer.typeInternalDescriptor")]
+[assembly: SuppressMessage("", "RS2008")]

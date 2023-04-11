@@ -289,6 +289,7 @@ internal sealed class GameService : IGameService
         string gamePath = appOptions.GamePath;
         if (string.IsNullOrWhiteSpace(gamePath))
         {
+            // TODO: throw exception
             return;
         }
 

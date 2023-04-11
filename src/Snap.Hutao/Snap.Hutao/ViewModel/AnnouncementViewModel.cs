@@ -20,20 +20,23 @@ internal sealed class AnnouncementViewModel : Abstraction.ViewModel
     /// <summary>
     /// 构造一个公告视图模型
     /// </summary>
-    /// <param name="announcementService">公告服务</param>
-    public AnnouncementViewModel(IAnnouncementService announcementService)
+    /// <param name="serviceProvider">服务提供器</param>
+    public AnnouncementViewModel(IServiceProvider serviceProvider)
     {
-        this.announcementService = announcementService;
+        announcementService = serviceProvider.GetRequiredService<IAnnouncementService>();
+
+        LaunchGameViewModelSlim = serviceProvider.GetRequiredService<Game.LaunchGameViewModelSlim>();
     }
 
     /// <summary>
     /// 公告
     /// </summary>
-    public AnnouncementWrapper? Announcement
-    {
-        get => announcement;
-        set => SetProperty(ref announcement, value);
-    }
+    public AnnouncementWrapper? Announcement { get => announcement; set => SetProperty(ref announcement, value); }
+
+    /// <summary>
+    /// 启动游戏视图模型
+    /// </summary>
+    public Game.LaunchGameViewModelSlim LaunchGameViewModelSlim { get; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()

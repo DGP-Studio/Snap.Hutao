@@ -1575,9 +1575,9 @@ namespace Snap.Hutao.Resource.Localization {
         /// <summary>
         ///   查找类似 保底 的本地化字符串。
         /// </summary>
-        internal static string ViewControlStatisticsCardGuarenteeText {
+        internal static string ViewControlStatisticsCardGuaranteeText {
             get {
-                return ResourceManager.GetString("ViewControlStatisticsCardGuarenteeText", resourceCulture);
+                return ResourceManager.GetString("ViewControlStatisticsCardGuaranteeText", resourceCulture);
             }
         }
         
@@ -3513,6 +3513,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageGahcaLogPivotWeapon {
             get {
                 return ResourceManager.GetString("ViewPageGahcaLogPivotWeapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设置 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHomeLaunchGameSettingAction {
+            get {
+                return ResourceManager.GetString("ViewPageHomeLaunchGameSettingAction", resourceCulture);
             }
         }
         

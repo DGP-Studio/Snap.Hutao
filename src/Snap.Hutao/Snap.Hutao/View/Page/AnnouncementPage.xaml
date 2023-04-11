@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Page.AnnouncementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cwu="using:CommunityToolkit.WinUI.UI"
     xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
     xmlns:cwub="using:CommunityToolkit.WinUI.UI.Behaviors"
@@ -154,13 +155,178 @@
     <Grid>
         <ScrollViewer Padding="0,0,4,0">
             <StackPanel>
-                <ItemsControl>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <InfoBar/>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                <StackPanel>
+                    <TextBlock
+                        Margin="16,16,16,0"
+                        Style="{StaticResource TitleTextBlockStyle}"
+                        Text="Greeting Text"/>
+                    <TextBlock Margin="16,0,16,0" Text="账号邮箱@xx.com"/>
+                    <cwucont:AdaptiveGridView
+                        Margin="16,16,0,0"
+                        HorizontalAlignment="Stretch"
+                        cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                        DesiredWidth="300"
+                        ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                        SelectionMode="None">
+                        <!--  启动游戏  -->
+                        <Button
+                            Height="120"
+                            Padding="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            Command="{Binding LaunchGameViewModelSlim.LaunchCommand}"
+                            Style="{StaticResource AccentButtonStyle}">
+                            <mxi:Interaction.Behaviors>
+                                <shcb:InvokeCommandOnLoadedBehavior Command="{Binding LaunchGameViewModelSlim.OpenUICommand}"/>
+                            </mxi:Interaction.Behaviors>
+
+                            <Grid CornerRadius="{ThemeResource ControlCornerRadius}">
+                                <Image
+                                    Margin="0,40,0,0"
+                                    HorizontalAlignment="Right"
+                                    Source="ms-appx:///Resource/HutaoIconSourceTransparentBackgroundGradient1.png"
+                                    Stretch="Uniform"/>
+                                <Grid Margin="12" ColumnSpacing="16">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <FontIcon
+                                        Grid.Row="0"
+                                        VerticalAlignment="Center"
+                                        Glyph="&#xE7FC;"/>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        VerticalAlignment="Center"
+                                        Text="{shcm:ResourceString Name=ViewLaunchGameHeader}"/>
+                                    <Button
+                                        Grid.Column="2"
+                                        MinHeight="37.2"
+                                        Background="Transparent"
+                                        BorderBrush="{x:Null}"
+                                        BorderThickness="0"
+                                        Command="{Binding LaunchGameViewModelSlim.NavigateCommand}"
+                                        Content="&#xE713;"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        Foreground="{ThemeResource AccentButtonForeground}"
+                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
+                                    <ComboBox
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="3"
+                                        VerticalAlignment="Bottom"
+                                        DisplayMemberPath="Name"
+                                        ItemsSource="{Binding LaunchGameViewModelSlim.GameAccounts}"
+                                        PlaceholderText="选择账号或直接启动"
+                                        SelectedItem="{Binding LaunchGameViewModelSlim.SelectedGameAccount, Mode=TwoWay}"/>
+                                </Grid>
+                            </Grid>
+                        </Button>
+
+                        <Border Style="{StaticResource BorderCardStyle}">
+                            <FlipView Background="{x:Null}">
+                                <Grid Margin="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="卡池名称 1"/>
+
+                                        <shvc:ItemIcon
+                                            Width="40"
+                                            Height="40"
+                                            Margin="0,12,0,0"
+                                            HorizontalAlignment="Left"
+                                            Icon="{Binding Icon}"
+                                            Quality="QUALITY_ORANGE"/>
+
+                                        <TextBlock Margin="0,6,0,0" Text="XX 抽"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="卡池名称 1"/>
+
+                                        <shvc:ItemIcon
+                                            Width="40"
+                                            Height="40"
+                                            Margin="0,12,0,0"
+                                            HorizontalAlignment="Left"
+                                            Icon="{Binding Icon}"
+                                            Quality="QUALITY_ORANGE"/>
+
+                                        <TextBlock Margin="0,6,0,0" Text="XX 抽"/>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Margin="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel>
+                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="卡池名称 1"/>
+
+                                        <shvc:ItemIcon
+                                            Width="40"
+                                            Height="40"
+                                            Margin="0,12,0,0"
+                                            HorizontalAlignment="Left"
+                                            Icon="{Binding Icon}"
+                                            Quality="QUALITY_ORANGE"/>
+
+                                        <TextBlock Margin="0,6,0,0" Text="XX 抽"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="卡池名称 1"/>
+
+                                        <shvc:ItemIcon
+                                            Width="40"
+                                            Height="40"
+                                            Margin="0,12,0,0"
+                                            HorizontalAlignment="Left"
+                                            Icon="{Binding Icon}"
+                                            Quality="QUALITY_ORANGE"/>
+
+                                        <TextBlock Margin="0,6,0,0" Text="XX 抽"/>
+                                    </StackPanel>
+                                </Grid>
+                            </FlipView>
+                        </Border>
+
+                        <Border Style="{StaticResource BorderCardStyle}">
+                            <FlipView Background="{x:Null}">
+                                <Grid Margin="12">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel Grid.Row="0">
+                                        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="100/800"/>
+                                        <TextBlock Text="12.5%"/>
+                                    </StackPanel>
+                                    <TextBlock Grid.Row="1" Text="Archive Name"/>
+                                </Grid>
+                            </FlipView>
+                        </Border>
+                        <Border Style="{StaticResource BorderCardStyle}">
+                            <TextBlock Text="实时便笺"/>
+                        </Border>
+                        <Border Style="{StaticResource BorderCardStyle}">
+                            <TextBlock Text="养成计划"/>
+                        </Border>
+                        <Border Style="{StaticResource BorderCardStyle}">
+                            <TextBlock Text="深渊"/>
+                        </Border>
+                    </cwucont:AdaptiveGridView>
+                </StackPanel>
+
                 <Pivot Style="{StaticResource DefaultPivotStyle}">
                     <PivotItem
                         Content="{Binding Announcement.List[0]}"

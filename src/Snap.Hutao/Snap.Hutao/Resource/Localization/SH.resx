@@ -609,7 +609,7 @@
   <data name="ViewControlStatisticsCardBlueText" xml:space="preserve">
     <value>三星</value>
   </data>
-  <data name="ViewControlStatisticsCardGuarenteeText" xml:space="preserve">
+  <data name="ViewControlStatisticsCardGuaranteeText" xml:space="preserve">
     <value>保底</value>
   </data>
   <data name="ViewControlStatisticsCardOrangeAveragePullText" xml:space="preserve">
@@ -1958,5 +1958,8 @@
   </data>
    <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
     <value>突破后</value>
+  </data>
+  <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
+    <value>设置</value>
   </data>
 </root>

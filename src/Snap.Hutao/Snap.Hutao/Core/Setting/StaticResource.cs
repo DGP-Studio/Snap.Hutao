@@ -53,5 +53,6 @@ internal static class StaticResource
         LocalSetting.Set(SettingKeys.StaticResourceV2Contract, state);
         LocalSetting.Set(SettingKeys.StaticResourceV3Contract, state);
         LocalSetting.Set(SettingKeys.StaticResourceV4Contract, state);
+        LocalSetting.Set(SettingKeys.StaticResourceV5Contract, state);
     }
 }

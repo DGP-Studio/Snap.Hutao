@@ -115,6 +115,11 @@ internal sealed class WelcomeViewModel : ObservableObject
             downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
         }
 
+        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV5Contract))
+        {
+            downloadSummaries.TryAdd("MonsterIcon", new(serviceProvider, "MonsterIcon"));
+        }
+
         return downloadSummaries.Select(x => x.Value);
     }
 

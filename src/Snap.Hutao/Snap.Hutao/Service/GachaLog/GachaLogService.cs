@@ -408,3 +408,40 @@ internal sealed class GachaLogService : IGachaLogService
         }
     }
 }
+
+/// <summary>
+/// 祈愿记录导出服务
+/// </summary>
+internal sealed class GachaLogExportService
+{
+    AppDbContext appDbContext;
+
+    /// <inheritdoc/>
+    public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
+    {
+        List<UIGFItem> list = appDbContext.GachaItems
+            .Where(i => i.ArchiveId == archive.InnerId)
+            .AsEnumerable()
+            .Select(i => i.ToUIGFItem(GetNameQualityByItemId(i.ItemId)))
+            .ToList();
+
+        UIGF uigf = new()
+        {
+            Info = UIGFInfo.Create(archive.Uid),
+            List = list,
+        };
+
+        return Task.FromResult(uigf);
+    }
+
+    private INameQuality GetNameQualityByItemId(int id)
+    {
+        int place = id.Place();
+        return place switch
+        {
+            8 => idAvatarMap![id],
+            5 => idWeaponMap![id],
+            _ => throw Must.NeverHappen($"Id places: {place}"),
+        };
+    }
+}

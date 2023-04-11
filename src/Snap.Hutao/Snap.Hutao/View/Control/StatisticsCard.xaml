@@ -44,7 +44,7 @@
                         Margin="0,0,8,0"
                         VerticalAlignment="Center"
                         Foreground="#FF0063FF"
-                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardGuarenteeText}"
+                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardGuaranteeText}"
                         Visibility="{Binding IsGuarantee, Converter={StaticResource BoolToVisibilityConverter}}"/>
                     <TextBlock
                         Margin="0,0,8,0"
@@ -180,7 +180,7 @@
                                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                         Foreground="{StaticResource OrangeBrush}"
                                         IsIndeterminate="False"
-                                        Maximum="{Binding GuarenteeOrangeThreshold}"
+                                        Maximum="{Binding GuaranteeOrangeThreshold}"
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
@@ -212,7 +212,7 @@
                                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                         Foreground="{StaticResource PurpleBrush}"
                                         IsIndeterminate="False"
-                                        Maximum="{Binding GuarenteePurpleThreshold}"
+                                        Maximum="{Binding GuaranteePurpleThreshold}"
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
