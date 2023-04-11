@@ -601,7 +601,7 @@
     <value>Level</value>
   </data>
   <data name="ViewControlBaseValueSliderPromoted" xml:space="preserve">
-    <value>After Breakthrough</value>
+    <value>After Ascension</value>
   </data>
   <data name="ViewControlLoadingText" xml:space="preserve">
     <value>Loading, please wait</value>
@@ -1111,7 +1111,7 @@
     <value>Add any weapon to Development Plan</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>Add role</value>
+    <value>Add Role</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
     <value>Add role to DailyNote</value>
@@ -1885,78 +1885,78 @@
     <value>Upload Abyss Records</value>
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
-    <value>添加到养成计划</value>
+    <value>Add to Dev Plan</value>
   </data>
   <data name="ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder" xml:space="preserve">
-    <value>筛选角色</value>
+    <value>Filter Character</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
-    <value>所属</value>
+    <value>Occupation</value>
   </data>
   <data name="ViewPageWiKiAvatarConstellationNameTitle" xml:space="preserve">
-    <value>命之座</value>
+    <value>Constellation</value>
   </data>
   <data name="ViewPageWiKiAvatarDateofBirthTitle" xml:space="preserve">
-    <value>生日</value>
+    <value>Birthday</value>
   </data>
   <data name="ViewPageWiKiAvatarChineseCVNameTitle" xml:space="preserve">
-    <value>汉语 CV</value>
+    <value>Chinese VA</value>
   </data>
   <data name="ViewPageWiKiAvatarJapaneseCVNameTitle" xml:space="preserve">
-    <value>日语 CV</value>
+    <value>Japanese VA</value>
   </data>
   <data name="ViewPageWiKiAvatarEnglishCVNameTitle" xml:space="preserve">
-    <value>英语 CV</value>
+    <value>English VA</value>
   </data>
   <data name="ViewPageWiKiAvatarKoreanCVNameTitle" xml:space="preserve">
-    <value>韩语 CV</value>
+    <value>Korean VA</value>
   </data>
   <data name="ViewPageWiKiAvatarAscensionMaterialsHeader" xml:space="preserve">
-    <value>养成材料</value>
+    <value>Ascension Materials</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
-    <value>天赋</value>
+    <value>Talent</value>
   </data>
   <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
-    <value>搭配角色</value>
+    <value>Team Combination</value>
   </data>
   <data name="ViewPageWiKiAvatarWeaponCombinationHeader" xml:space="preserve">
-    <value>搭配武器</value>
+    <value>Weapon Combination</value>
   </data>
   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
-    <value>搭配圣遗物</value>
+    <value>Artifact Set Combination</value>
   </data>
   <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
-    <value>其它</value>
+    <value>Other</value>
   </data>
   <data name="ViewPageWiKiAvatarFoodHeader" xml:space="preserve">
-    <value>料理</value>
+    <value>Food</value>
   </data>
   <data name="ViewPageWiKiAvatarSpecialFoodTitle" xml:space="preserve">
-    <value>特殊料理</value>
+    <value>Special Food</value>
   </data>
   <data name="ViewPageWiKiAvatarOriginalFoodTitle" xml:space="preserve">
-    <value>原料理</value>
+    <value>Original Food</value>
   </data>
   <data name="ViewPageWiKiAvatarCostumeHeader" xml:space="preserve">
-    <value>衣装</value>
+    <value>Costume</value>
   </data>
   <data name="ViewPageWiKiAvatarQuotesHeader" xml:space="preserve">
-    <value>资料</value>
+    <value>Quotes</value>
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
-    <value>故事</value>
+    <value>Stories</value>
   </data>
   <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
-    <value>筛选怪物</value>
+    <value>Filter Monsters</value>
   </data>
   <data name="ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder" xml:space="preserve">
-    <value>筛选武器</value>
+    <value>Filter Weapons</value>
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
-    <value>突破前</value>
+    <value>Before Ascension</value>
   </data>
   <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
-    <value>突破后</value>
+    <value>After Ascension</value>
   </data>
 </root>
