@@ -601,7 +601,7 @@
     <value>Level</value>
   </data>
   <data name="ViewControlBaseValueSliderPromoted" xml:space="preserve">
-    <value>After Breakthrough</value>
+    <value>After Ascension</value>
   </data>
   <data name="ViewControlLoadingText" xml:space="preserve">
     <value>Loading, please wait</value>
@@ -1111,7 +1111,7 @@
     <value>Add any weapon to Development Plan</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>Add role</value>
+    <value>Add Role</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
     <value>Add role to DailyNote</value>
@@ -1468,7 +1468,7 @@
     <value>You can try this, if authkey expiration error occurs frequently during the wish history refresh</value>
   </data>
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
-    <value>Delete game embedded browser web cache</value>
+    <value>Delete Game Embedded Browser Web Cache</value>
   </data>
   <data name="ViewPageSettingDeleteTaskDescription" xml:space="preserve">
     <value>Deleted registered Schedule Tasks. Execute this before uninstalling the software.</value>
@@ -1513,7 +1513,7 @@
     <value>Feedback</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
-    <value>Go</value>
+    <value>Feedback</value>
   </data>
   <data name="ViewPageSettingGachaLogHeader" xml:space="preserve">
     <value>Wish History</value>
@@ -1852,7 +1852,7 @@
     <value>Wish history uploading service is not available</value>
   </data>
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
-    <value>Synchronize wish history from Snap Hutao Cloud Service</value>
+    <value>Sync Wish History from Snap Hutao Cloud Service</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>Uploading to Snap Hutao Cloud Service</value>
@@ -1861,27 +1861,102 @@
     <value>Snap Hutao Cloud</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>Delete the cloud archive of this Uid</value>
+    <value>Delete the Cloud Archive of This Uid</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>Download the cloud archive of this Uid</value>
+    <value>Download the Cloud Archive of This Uid</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudUpload" xml:space="preserve">
-    <value>Upload current wish archive</value>
+    <value>Upload Current Wish Archive</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseDescription" xml:space="preserve">
-    <value>前往爱发电购买相关服务</value>
+    <value>Go to Afdian to Buy Related Services</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudAfdianPurchaseHeader" xml:space="preserve">
-    <value>购买/续费云服务</value>
+    <value>Buy or Renew Cloud Service</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
-    <value>胡桃云服务时长不足</value>
+    <value>Snap Hutao Cloud Service Expired</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
-    <value>每期深渊首次上传可免费获得5天时长</value>
+    <value>Free 5 days after uploading current schedule abyss record</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
-    <value>上传深渊记录</value>
+    <value>Upload Abyss Records</value>
+  </data>
+  <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
+    <value>Add to Dev Plan</value>
+  </data>
+  <data name="ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Filter Character</value>
+  </data>
+  <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
+    <value>Occupation</value>
+  </data>
+  <data name="ViewPageWiKiAvatarConstellationNameTitle" xml:space="preserve">
+    <value>Constellation</value>
+  </data>
+  <data name="ViewPageWiKiAvatarDateofBirthTitle" xml:space="preserve">
+    <value>Birthday</value>
+  </data>
+  <data name="ViewPageWiKiAvatarChineseCVNameTitle" xml:space="preserve">
+    <value>Chinese VA</value>
+  </data>
+  <data name="ViewPageWiKiAvatarJapaneseCVNameTitle" xml:space="preserve">
+    <value>Japanese VA</value>
+  </data>
+  <data name="ViewPageWiKiAvatarEnglishCVNameTitle" xml:space="preserve">
+    <value>English VA</value>
+  </data>
+  <data name="ViewPageWiKiAvatarKoreanCVNameTitle" xml:space="preserve">
+    <value>Korean VA</value>
+  </data>
+  <data name="ViewPageWiKiAvatarAscensionMaterialsHeader" xml:space="preserve">
+    <value>Ascension Materials</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
+    <value>Talent</value>
+  </data>
+  <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
+    <value>Team Combination</value>
+  </data>
+  <data name="ViewPageWiKiAvatarWeaponCombinationHeader" xml:space="preserve">
+    <value>Weapon Combination</value>
+  </data>
+  <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
+    <value>Artifact Set Combination</value>
+  </data>
+  <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
+    <value>Other</value>
+  </data>
+  <data name="ViewPageWiKiAvatarFoodHeader" xml:space="preserve">
+    <value>Food</value>
+  </data>
+  <data name="ViewPageWiKiAvatarSpecialFoodTitle" xml:space="preserve">
+    <value>Special Food</value>
+  </data>
+  <data name="ViewPageWiKiAvatarOriginalFoodTitle" xml:space="preserve">
+    <value>Original Food</value>
+  </data>
+  <data name="ViewPageWiKiAvatarCostumeHeader" xml:space="preserve">
+    <value>Costume</value>
+  </data>
+  <data name="ViewPageWiKiAvatarQuotesHeader" xml:space="preserve">
+    <value>Quotes</value>
+  </data>
+  <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
+    <value>Stories</value>
+  </data>
+  <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Filter Monsters</value>
+  </data>
+  <data name="ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>Filter Weapons</value>
+  </data>
+  <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
+    <value>Before Ascension</value>
+  </data>
+  <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
+    <value>After Ascension</value>
   </data>
 </root>
