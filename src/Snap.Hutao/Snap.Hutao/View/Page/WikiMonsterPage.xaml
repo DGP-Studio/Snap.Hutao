@@ -43,7 +43,7 @@
                         Margin="16,6,6,0"
                         HorizontalAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        PlaceholderText="筛选怪物"
+                        PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder}"
                         QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
                         Text="{Binding FilterText, Mode=TwoWay}">
                         <mxi:Interaction.Behaviors>

@@ -53,7 +53,7 @@
                         Margin="16,6,6,0"
                         HorizontalAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        PlaceholderText="筛选武器"
+                        PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder}"
                         QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
                         Text="{Binding FilterText, Mode=TwoWay}">
                         <mxi:Interaction.Behaviors>
@@ -67,7 +67,7 @@
                     Command="{Binding CultivateCommand}"
                     CommandParameter="{Binding Selected}"
                     Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
-                    Label="养成计算"/>
+                    Label="{shcm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
             </CommandBar>
             <SplitView
                 Grid.Row="1"
@@ -153,14 +153,14 @@
                                         </mxi:Interaction.Behaviors>
                                         <ScrollViewer Grid.Column="0" Margin="16">
                                             <StackPanel>
-                                                <shvc:BottomTextControl RequestedTheme="Light" Text="突破前">
+                                                <shvc:BottomTextControl RequestedTheme="Light" Text="{shcm:ResourceString Name=ViewPageWiKiWeaponBeforeAscensionTitle}">
                                                     <shvc:ItemIcon Icon="{Binding Selected.Icon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
                                                 </shvc:BottomTextControl>
 
                                                 <shvc:BottomTextControl
                                                     Margin="0,16,0,0"
                                                     RequestedTheme="Light"
-                                                    Text="突破后">
+                                                    Text="{shcm:ResourceString Name=ViewPageWiKiWeaponAfterAscensionTitle}">
                                                     <shvc:ItemIcon Icon="{Binding Selected.AwakenIcon, Converter={StaticResource EquipIconConverter}}" Quality="{Binding Selected.RankLevel}"/>
                                                 </shvc:BottomTextControl>
                                             </StackPanel>
@@ -223,7 +223,7 @@
                                 <TextBlock
                                     Margin="16,32,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="搭配角色"/>
+                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
                                 <GridView
                                     Margin="16,16,0,0"
                                     HorizontalAlignment="Stretch"
