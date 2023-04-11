@@ -1885,7 +1885,7 @@
     <value>上传深渊记录</value>
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
-    <value>养成计划</value>
+    <value>添加到养成计划</value>
   </data>
    <data name="ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder" xml:space="preserve">
     <value>筛选角色</value>
