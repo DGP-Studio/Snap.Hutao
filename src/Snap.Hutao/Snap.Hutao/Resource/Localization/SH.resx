@@ -1884,4 +1884,79 @@
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
     <value>上传深渊记录</value>
   </data>
+  <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
+    <value>养成计划</value>
+  </data>
+   <data name="ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>筛选角色</value>
+  </data>
+   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
+    <value>所属</value>
+  </data>
+   <data name="ViewPageWiKiAvatarConstellationNameTitle" xml:space="preserve">
+    <value>命之座</value>
+  </data>
+   <data name="ViewPageWiKiAvatarDateofBirthTitle" xml:space="preserve">
+    <value>命之座</value>
+  </data>
+   <data name="ViewPageWiKiAvatarChineseCVNameTitle" xml:space="preserve">
+    <value>汉语 CV</value>
+  </data>
+   <data name="ViewPageWiKiAvatarJapaneseCVNameTitle" xml:space="preserve">
+    <value>日语 CV</value>
+  </data>
+   <data name="ViewPageWiKiAvatarEnglishCVNameTitle" xml:space="preserve">
+    <value>英语 CV</value>
+  </data>
+   <data name="ViewPageWiKiAvatarKoreanCVNameTitle" xml:space="preserve">
+    <value>韩语 CV</value>
+  </data>
+   <data name="ViewPageWiKiAvatarAscensionMaterialsHeader" xml:space="preserve">
+    <value>养成材料</value>
+  </data>
+   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
+    <value>天赋</value>
+  </data>
+   <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
+    <value>搭配角色</value>
+  </data>
+   <data name="ViewPageWiKiAvatarWeaponCombinationHeader" xml:space="preserve">
+    <value>搭配武器</value>
+  </data>
+   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
+    <value>搭配圣遗物</value>
+  </data>
+   <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
+    <value>其它</value>
+  </data>
+   <data name="ViewPageWiKiAvatarFoodHeader" xml:space="preserve">
+    <value>料理</value>
+  </data>
+   <data name="ViewPageWiKiAvatarSpecialFoodTitle" xml:space="preserve">
+    <value>特殊料理</value>
+  </data>
+   <data name="ViewPageWiKiAvatarOriginalFoodTitle" xml:space="preserve">
+    <value>原料理</value>
+  </data>
+   <data name="ViewPageWiKiAvatarCostumeHeader" xml:space="preserve">
+    <value>衣装</value>
+  </data>
+   <data name="ViewPageWiKiAvatarQuotesHeader" xml:space="preserve">
+    <value>资料</value>
+  </data>
+   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
+    <value>故事</value>
+  </data>
+   <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>筛选怪物</value>
+  </data>
+   <data name="ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder" xml:space="preserve">
+    <value>筛选武器</value>
+  </data>
+   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
+    <value>突破前</value>
+  </data>
+   <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
+    <value>突破后</value>
+  </data>
 </root>

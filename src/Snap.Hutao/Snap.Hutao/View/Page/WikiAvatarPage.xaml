@@ -81,7 +81,7 @@
                         Margin="16,6,6,0"
                         HorizontalAlignment="Stretch"
                         VerticalContentAlignment="Center"
-                        PlaceholderText="筛选角色"
+                        PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
                         QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
                         Text="{Binding FilterText, Mode=TwoWay}">
                         <mxi:Interaction.Behaviors>
@@ -95,7 +95,7 @@
                     Command="{Binding CultivateCommand}"
                     CommandParameter="{Binding Selected}"
                     Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
-                    Label="养成计算"/>
+                    Label="{shcm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
             </CommandBar>
             <SplitView
                 Grid.Row="1"
@@ -224,7 +224,7 @@
                                             ColumnSpacing="12"
                                             Columns="4">
                                             <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="所属"/>
+                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOccupationNameTitle}"/>
                                                 <TextBlock
                                                     Margin="0,6,0,0"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -232,7 +232,7 @@
                                                     TextWrapping="NoWrap"/>
                                             </StackPanel>
                                             <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="命之座"/>
+                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
                                                 <TextBlock
                                                     Margin="0,6,0,0"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -240,7 +240,7 @@
                                                     TextWrapping="NoWrap"/>
                                             </StackPanel>
                                             <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="生日"/>
+                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarDateofBirthTitle}"/>
                                                 <TextBlock
                                                     Margin="0,6,0,0"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -254,7 +254,7 @@
                                             ColumnSpacing="12"
                                             Columns="4">
                                             <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="汉语 CV"/>
+                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarChineseCVNameTitle}"/>
                                                 <TextBlock
                                                     Margin="0,6,0,0"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -262,7 +262,7 @@
                                                     TextWrapping="NoWrap"/>
                                             </StackPanel>
                                             <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="日语 CV"/>
+                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarJapaneseCVNameTitle}"/>
                                                 <TextBlock
                                                     Margin="0,6,0,0"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -270,7 +270,7 @@
                                                     TextWrapping="NoWrap"/>
                                             </StackPanel>
                                             <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="英语 CV"/>
+                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarEnglishCVNameTitle}"/>
                                                 <TextBlock
                                                     Margin="0,6,0,0"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -278,7 +278,7 @@
                                                     TextWrapping="NoWrap"/>
                                             </StackPanel>
                                             <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="韩语 CV"/>
+                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarKoreanCVNameTitle}"/>
                                                 <TextBlock
                                                     Margin="0,6,0,0"
                                                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -297,7 +297,7 @@
                                 <TextBlock
                                     Margin="16,32,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="养成材料"/>
+                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
                                 <GridView
                                     Margin="16,16,0,0"
                                     ItemsSource="{Binding Selected.CultivationItemsView}"
@@ -314,7 +314,7 @@
                                 <TextBlock
                                     Margin="16,32,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="天赋"/>
+                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
                                 <shvc:SkillPivot
                                     Margin="16,16,0,0"
                                     ItemTemplate="{StaticResource SkillDataTemplate}"
@@ -323,7 +323,7 @@
                                 <TextBlock
                                     Margin="16,32,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="命之座"/>
+                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
                                 <shvc:SkillPivot
                                     Grid.Column="1"
                                     Margin="16,16,0,0"
@@ -333,7 +333,7 @@
                                 <TextBlock
                                     Margin="16,32,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="搭配角色"/>
+                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
                                 <GridView
                                     Margin="16,16,0,0"
                                     ItemsSource="{Binding Selected.Collocation.Avatars}"
@@ -349,7 +349,7 @@
                                 <TextBlock
                                     Margin="16,0,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="搭配武器"/>
+                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarWeaponCombinationHeader}"/>
                                 <GridView
                                     Margin="16,16,0,0"
                                     HorizontalAlignment="Stretch"
@@ -367,7 +367,7 @@
                                 <TextBlock
                                     Margin="16,0,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="搭配圣遗物"/>
+                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarArtifactSetCombinationHeader}"/>
                                 <GridView
                                     Margin="16,16,0,0"
                                     HorizontalAlignment="Stretch"
@@ -431,7 +431,7 @@
                                 <TextBlock
                                     Margin="16,32,0,0"
                                     Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="其他"/>
+                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarMiscHeader}"/>
                                 <Border Margin="16,16,0,0" Style="{StaticResource BorderCardStyle}">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -457,7 +457,7 @@
                                     Margin="16,16,0,0"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="料理">
+                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}">
                                     <Grid DataContext="{Binding Selected.CookBonusView}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>
@@ -473,7 +473,7 @@
                                         <TextBlock
                                             Grid.Column="0"
                                             Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="特殊料理"/>
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
                                         <shvc:BottomTextControl
                                             Grid.Row="1"
                                             Grid.Column="0"
@@ -485,7 +485,7 @@
                                             Grid.Column="1"
                                             Margin="16,0,0,0"
                                             Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="原料理"/>
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
                                         <shvc:BottomTextControl
                                             Grid.Row="1"
                                             Grid.Column="1"
@@ -517,7 +517,7 @@
                                     Margin="16,16,0,0"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="衣装">
+                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarCostumeHeader}">
                                     <ItemsControl Margin="0,0,0,-16" ItemsSource="{Binding Selected.Costumes}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
@@ -553,7 +553,7 @@
                                     Margin="16,16,0,0"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="资料">
+                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarQuotesHeader}">
                                     <ItemsControl ItemsSource="{Binding Selected.FetterInfo.Fetters}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
@@ -575,7 +575,7 @@
                                     Margin="16,16,0,0"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
-                                    Header="故事">
+                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarStoriesHeader}">
                                     <ItemsControl ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
                                         <ItemsControl.ItemTemplate>
                                             <DataTemplate>
