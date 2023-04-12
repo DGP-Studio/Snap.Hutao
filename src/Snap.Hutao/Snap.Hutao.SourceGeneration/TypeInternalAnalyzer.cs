@@ -40,19 +40,27 @@ internal sealed class TypeInternalAnalyzer : DiagnosticAnalyzer
 
         bool privateExists = false;
         bool internalExists = false;
+        bool fileExists = false;
+
         foreach(SyntaxToken token in syntax.Modifiers)
         {
             if (token.IsKind(SyntaxKind.PrivateKeyword))
             {
                 privateExists = true;
             }
+
             if (token.IsKind(SyntaxKind.InternalKeyword))
             {
                 internalExists = true;
             }
+
+            if (token.IsKind(SyntaxKind.FileKeyword))
+            {
+                fileExists = true;
+            }
         }
 
-        if (!privateExists && !internalExists)
+        if (!privateExists && !internalExists && !fileExists)
         {
             Location location = syntax.Identifier.GetLocation();
             Diagnostic diagnostic = Diagnostic.Create(typeInternalDescriptor, location);

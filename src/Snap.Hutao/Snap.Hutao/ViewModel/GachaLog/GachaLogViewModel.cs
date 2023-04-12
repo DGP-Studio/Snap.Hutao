@@ -31,6 +31,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     private readonly IPickerFactory pickerFactory;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly JsonSerializerOptions options;
+    private readonly IServiceProvider serviceProvider;
 
     private ObservableCollection<GachaArchive>? archives;
     private GachaArchive? selectedArchive;
@@ -49,6 +50,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         pickerFactory = serviceProvider.GetRequiredService<IPickerFactory>();
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
         options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
+        this.serviceProvider = serviceProvider;
 
         HutaoCloudViewModel = serviceProvider.GetRequiredService<HutaoCloudViewModel>();
 
@@ -146,16 +148,10 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     {
         try
         {
-            if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(true))
+            if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(false))
             {
-                ObservableCollection<GachaArchive> archives;
-                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
-                {
-                    archives = await gachaLogService.GetArchiveCollectionAsync().ConfigureAwait(false);
-                }
-
                 await ThreadHelper.SwitchToMainThreadAsync();
-                Archives = archives;
+                Archives = gachaLogService.GetArchiveCollection();
                 SetSelectedArchiveAndUpdateStatistics(Archives.SelectedOrDefault(), true);
             }
         }
@@ -181,7 +177,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
 
     private async Task RefreshInternalAsync(RefreshOption option)
     {
-        IGachaLogQueryProvider? provider = gachaLogService.GetGachaLogQueryProvider(option);
+        IGachaLogQueryProvider? provider = serviceProvider.PickProvider(option);
 
         if (provider != null)
         {
@@ -195,7 +191,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
                 await ThreadHelper.SwitchToMainThreadAsync();
                 GachaLogRefreshProgressDialog dialog = new();
                 IDisposable dialogHider = await dialog.BlockAsync().ConfigureAwait(false);
-                Progress<FetchState> progress = new(dialog.OnReport);
+                Progress<GachaLogFetchState> progress = new(dialog.OnReport);
                 bool authkeyValid;
 
                 try

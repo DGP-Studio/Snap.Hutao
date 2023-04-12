@@ -16,7 +16,7 @@ namespace Snap.Hutao.View.Dialog;
 [HighQuality]
 internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
 {
-    private static readonly DependencyProperty StateProperty = Property<GachaLogRefreshProgressDialog>.Depend<FetchState>(nameof(State));
+    private static readonly DependencyProperty StateProperty = Property<GachaLogRefreshProgressDialog>.Depend<GachaLogFetchState>(nameof(State));
 
     /// <summary>
     /// 构造一个新的对话框
@@ -31,9 +31,9 @@ internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     /// <summary>
     /// 刷新状态
     /// </summary>
-    public FetchState State
+    public GachaLogFetchState State
     {
-        get => (FetchState)GetValue(StateProperty);
+        get => (GachaLogFetchState)GetValue(StateProperty);
         set => SetValue(StateProperty, value);
     }
 
@@ -41,7 +41,7 @@ internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     /// 接收进度更新
     /// </summary>
     /// <param name="state">状态</param>
-    public void OnReport(FetchState state)
+    public void OnReport(GachaLogFetchState state)
     {
         State = state;
         GachaItemsPresenter.Header = state.AuthKeyTimeout

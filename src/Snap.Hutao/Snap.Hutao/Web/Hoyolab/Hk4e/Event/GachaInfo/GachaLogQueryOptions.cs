@@ -38,6 +38,14 @@ internal struct GachaLogQueryOptions
     private readonly QueryString innerQuery;
 
     /// <summary>
+    /// 结束Id
+    /// 控制API返回的分页
+    /// 米哈游使用了 keyset pagination 来实现这一目标
+    /// https://learn.microsoft.com/en-us/ef/core/querying/pagination#keyset-pagination
+    /// </summary>
+    public long EndId;
+
+    /// <summary>
     /// 构造一个新的祈愿记录请求配置
     /// </summary>
     /// <param name="query">原始查询字符串</param>
@@ -53,18 +61,6 @@ internal struct GachaLogQueryOptions
         innerQuery.Set("size", Size);
 
         EndId = endId;
-    }
-
-    /// <summary>
-    /// 结束Id
-    /// 控制API返回的分页
-    /// 米哈游使用了 keyset pagination 来实现这一目标
-    /// https://learn.microsoft.com/en-us/ef/core/querying/pagination#keyset-pagination
-    /// </summary>
-    public long EndId
-    {
-        get => long.Parse(innerQuery["end_id"]);
-        set => innerQuery.Set("end_id", value);
     }
 
     /// <summary>
@@ -90,6 +86,8 @@ internal struct GachaLogQueryOptions
     /// <returns>匹配的查询字符串</returns>
     public string AsQuery()
     {
+        // Make the cached end id into query.
+        innerQuery.Set("end_id", EndId);
         return innerQuery.ToString();
     }
 }

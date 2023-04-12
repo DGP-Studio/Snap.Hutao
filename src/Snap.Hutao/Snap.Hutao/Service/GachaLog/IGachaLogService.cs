@@ -28,24 +28,17 @@ internal interface IGachaLogService
     Task<UIGF> ExportToUIGFAsync(GachaArchive archive);
 
     /// <summary>
-    /// 异步获取可用于绑定的存档集合
+    /// 获取可用于绑定的存档集合
     /// </summary>
     /// <returns>存档集合</returns>
-    Task<ObservableCollection<GachaArchive>> GetArchiveCollectionAsync();
-
-    /// <summary>
-    /// 获取祈愿日志Url提供器
-    /// </summary>
-    /// <param name="option">刷新模式</param>
-    /// <returns>祈愿日志Url提供器</returns>
-    IGachaLogQueryProvider? GetGachaLogQueryProvider(RefreshOption option);
+    ObservableCollection<GachaArchive> GetArchiveCollection();
 
     /// <summary>
     /// 获得对应的祈愿统计
     /// </summary>
     /// <param name="archive">存档</param>
     /// <returns>祈愿统计</returns>
-    Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive = null);
+    Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive);
 
     /// <summary>
     /// 异步从UIGF导入数据
@@ -71,7 +64,7 @@ internal interface IGachaLogService
     /// <param name="progress">进度</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证密钥是否可用</returns>
-    Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token);
+    Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchState> progress, CancellationToken token);
 
     /// <summary>
     /// 删除存档

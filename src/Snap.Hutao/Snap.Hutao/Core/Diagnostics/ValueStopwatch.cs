@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Diagnostics;
 
@@ -37,6 +38,18 @@ internal readonly struct ValueStopwatch
     }
 
     /// <summary>
+    /// 测量运行时间
+    /// </summary>
+    /// <param name="logger">日志器</param>
+    /// <param name="callerName">调用方法名称</param>
+    /// <returns>结束测量</returns>
+    public static IDisposable MeasureExecution(ILogger logger, [CallerMemberName] string callerName = default!)
+    {
+        ValueStopwatch stopwatch = StartNew();
+        return new MeasureExecutionDisposable(stopwatch, logger, callerName);
+    }
+
+    /// <summary>
     /// 获取经过的时间
     /// </summary>
     /// <returns>经过的时间</returns>
@@ -61,5 +74,26 @@ internal readonly struct ValueStopwatch
     public TimeSpan GetElapsedTime()
     {
         return new TimeSpan(GetElapsedTimestamp());
+    }
+}
+
+[SuppressMessage("", "SA1400")]
+[SuppressMessage("", "SA1600")]
+file readonly struct MeasureExecutionDisposable : IDisposable
+{
+    private readonly ValueStopwatch stopwatch;
+    private readonly ILogger logger;
+    private readonly string callerName;
+
+    public MeasureExecutionDisposable(ValueStopwatch stopwatch, ILogger logger, string callerName)
+    {
+        this.stopwatch = stopwatch;
+        this.logger = logger;
+        this.callerName = callerName;
+    }
+
+    public void Dispose()
+    {
+        logger.LogInformation("{caller} toke {time} ms.", callerName, stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 }

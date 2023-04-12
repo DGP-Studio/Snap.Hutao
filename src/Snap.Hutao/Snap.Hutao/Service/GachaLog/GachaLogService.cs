@@ -32,6 +32,9 @@ namespace Snap.Hutao.Service.GachaLog;
 internal sealed class GachaLogService : IGachaLogService
 {
     private readonly AppDbContext appDbContext;
+    private readonly IGachaLogExportService gachaLogExportService;
+    private readonly IGachaLogImportService gachaLogImportService;
+
     private readonly IEnumerable<IGachaLogQueryProvider> urlProviders;
     private readonly GachaInfoClient gachaInfoClient;
     private readonly IMetadataService metadataService;
@@ -39,19 +42,12 @@ internal sealed class GachaLogService : IGachaLogService
     private readonly ILogger<GachaLogService> logger;
     private readonly DbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
 
-    private readonly Dictionary<string, Item> itemBaseCache = new();
-
-    private Dictionary<string, Model.Metadata.Avatar.Avatar>? nameAvatarMap;
-    private Dictionary<string, Model.Metadata.Weapon.Weapon>? nameWeaponMap;
-
-    private Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? idAvatarMap;
-    private Dictionary<WeaponId, Model.Metadata.Weapon.Weapon>? idWeaponMap;
-
-    private ObservableCollection<GachaArchive>? archiveCollection;
+    private GachaLogServiceContext context;
 
     /// <summary>
     /// 构造一个新的祈愿记录服务
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="urlProviders">Url提供器集合</param>
     /// <param name="gachaInfoClient">祈愿记录客户端</param>
@@ -60,6 +56,7 @@ internal sealed class GachaLogService : IGachaLogService
     /// <param name="logger">日志器</param>
     /// <param name="messenger">消息器</param>
     public GachaLogService(
+        IServiceProvider serviceProvider,
         AppDbContext appDbContext,
         IEnumerable<IGachaLogQueryProvider> urlProviders,
         GachaInfoClient gachaInfoClient,
@@ -68,6 +65,9 @@ internal sealed class GachaLogService : IGachaLogService
         ILogger<GachaLogService> logger,
         IMessenger messenger)
     {
+        gachaLogExportService = serviceProvider.GetRequiredService<IGachaLogExportService>();
+        gachaLogImportService = serviceProvider.GetRequiredService<IGachaLogImportService>();
+
         this.appDbContext = appDbContext;
         this.urlProviders = urlProviders;
         this.gachaInfoClient = gachaInfoClient;
@@ -86,50 +86,23 @@ internal sealed class GachaLogService : IGachaLogService
     }
 
     /// <inheritdoc/>
-    public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
-    {
-        List<UIGFItem> list = appDbContext.GachaItems
-            .Where(i => i.ArchiveId == archive.InnerId)
-            .AsEnumerable()
-            .Select(i => i.ToUIGFItem(GetNameQualityByItemId(i.ItemId)))
-            .ToList();
-
-        UIGF uigf = new()
-        {
-            Info = UIGFInfo.Create(archive.Uid),
-            List = list,
-        };
-
-        return Task.FromResult(uigf);
-    }
-
-    /// <inheritdoc/>
-    public async Task<ObservableCollection<GachaArchive>> GetArchiveCollectionAsync()
-    {
-        await ThreadHelper.SwitchToMainThreadAsync();
-        try
-        {
-            archiveCollection ??= appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
-        }
-        catch (SqliteException ex)
-        {
-            ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaLogArchiveCollectionUserdataCorruptedMessage, ex.Message), ex);
-        }
-
-        return archiveCollection;
-    }
-
-    /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync(CancellationToken token)
     {
+        if (context.IsInitialized)
+        {
+            return true;
+        }
+
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
-            nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
-            nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
+            Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
+            Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
 
-            idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
-            idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
+            Dictionary<string, Model.Metadata.Avatar.Avatar> nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
+            Dictionary<string, Model.Metadata.Weapon.Weapon> nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
 
+            GachaArchives.Initialize(appDbContext, out ObservableCollection<GachaArchive> collection);
+            context = new(idAvatarMap, idWeaponMap, nameAvatarMap, nameWeaponMap, collection);
             return true;
         }
         else
@@ -139,21 +112,24 @@ internal sealed class GachaLogService : IGachaLogService
     }
 
     /// <inheritdoc/>
-    public async Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive = null)
+    public ObservableCollection<GachaArchive> GetArchiveCollection()
+    {
+        return context.ArchiveCollection;
+    }
+
+    /// <inheritdoc/>
+    public async Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive)
     {
         archive ??= CurrentArchive;
 
         // Return statistics
         if (archive != null)
         {
-            ValueStopwatch stopwatch = ValueStopwatch.StartNew();
-            IQueryable<GachaItem> items = appDbContext.GachaItems
-                .Where(i => i.ArchiveId == archive.InnerId);
-
-            GachaStatistics statistics = await gachaStatisticsFactory.CreateAsync(items).ConfigureAwait(false);
-
-            logger.LogInformation("GachaStatistic Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
-            return statistics;
+            using (ValueStopwatch.MeasureExecution(logger))
+            {
+                IQueryable<GachaItem> items = appDbContext.GachaItems.Where(i => i.ArchiveId == archive.InnerId);
+                return await gachaStatisticsFactory.CreateAsync(items).ConfigureAwait(false);
+            }
         }
         else
         {
@@ -162,44 +138,19 @@ internal sealed class GachaLogService : IGachaLogService
     }
 
     /// <inheritdoc/>
-    public IGachaLogQueryProvider? GetGachaLogQueryProvider(RefreshOption option)
+    public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
     {
-        return option switch
-        {
-            RefreshOption.WebCache => urlProviders.Single(p => p.Name == nameof(GachaLogQueryWebCacheProvider)),
-            RefreshOption.SToken => urlProviders.Single(p => p.Name == nameof(GachaLogQuerySTokenProvider)),
-            RefreshOption.ManualInput => urlProviders.Single(p => p.Name == nameof(GachaLogQueryManualInputProvider)),
-            _ => null,
-        };
+        return gachaLogExportService.ExportToUIGFAsync(context, archive);
     }
 
     /// <inheritdoc/>
     public async Task ImportFromUIGFAsync(List<UIGFItem> list, string uid)
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
-
-        GachaArchive? archive = null;
-        SkipOrInitArchive(ref archive, uid);
-        Guid archiveId = archive.InnerId;
-
-        long trimId = appDbContext.GachaItems
-            .Where(i => i.ArchiveId == archiveId)
-            .OrderBy(i => i.Id)
-            .FirstOrDefault()?.Id ?? long.MaxValue;
-
-        logger.LogInformation("Last Id to trim with [{id}]", trimId);
-
-        IEnumerable<GachaItem> toAdd = list
-            .OrderByDescending(i => i.Id)
-            .Where(i => i.Id < trimId)
-            .Select(i => GachaItem.Create(archiveId, i, GetItemId(i)));
-
-        await appDbContext.GachaItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
-        CurrentArchive = archive;
+        CurrentArchive = await gachaLogImportService.ImportFromUIGFAsync(context, list, uid).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
-    public async Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<FetchState> progress, CancellationToken token)
+    public async Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchState> progress, CancellationToken token)
     {
         bool isLazy = strategy switch
         {
@@ -209,7 +160,12 @@ internal sealed class GachaLogService : IGachaLogService
         };
 
         (bool authkeyValid, GachaArchive? result) = await FetchGachaLogsAsync(query, isLazy, progress, token).ConfigureAwait(false);
-        CurrentArchive = result ?? CurrentArchive;
+
+        if (result != null)
+        {
+            CurrentArchive = result;
+        }
+
         return authkeyValid;
     }
 
@@ -218,7 +174,7 @@ internal sealed class GachaLogService : IGachaLogService
     {
         // Sync cache
         await ThreadHelper.SwitchToMainThreadAsync();
-        archiveCollection!.Remove(archive);
+        context.ArchiveCollection.Remove(archive);
 
         // Sync database
         await ThreadHelper.SwitchToBackgroundAsync();
@@ -233,15 +189,16 @@ internal sealed class GachaLogService : IGachaLogService
         return Task.Delay(TimeSpan.FromSeconds(Random.Shared.NextDouble() + 1), token);
     }
 
-    private async Task<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<FetchState> progress, CancellationToken token)
+    private async Task<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchState> progress, CancellationToken token)
     {
         GachaArchive? archive = null;
-        FetchState state = new();
+        GachaLogFetchState state = new();
 
         foreach (GachaConfigType configType in GachaLog.QueryTypes)
         {
-            state.ConfigType = configType;
+            // 每个卡池类型重置
             long? dbEndId = null;
+            state.ConfigType = configType;
             GachaLogQueryOptions options = new(query, configType);
             List<GachaItem> itemsToAdd = new();
 
@@ -259,13 +216,13 @@ internal sealed class GachaLogService : IGachaLogService
 
                     foreach (GachaLogItem item in items)
                     {
-                        SkipOrInitArchive(ref archive, item.Uid);
-                        dbEndId ??= GetEndId(archive, configType);
+                        GachaArchive.SkipOrInit(ref archive, item.Uid, appDbContext.GachaArchives, context.ArchiveCollection);
+                        dbEndId ??= archive.GetEndId(configType, appDbContext.GachaItems);
 
                         if ((!isLazy) || item.Id > dbEndId)
                         {
-                            itemsToAdd.Add(GachaItem.Create(archive.InnerId, item, GetItemId(item)));
-                            state.Items.Add(GetItemBaseByName(item.Name, item.ItemType));
+                            itemsToAdd.Add(GachaItem.Create(archive.InnerId, item, context.GetItemId(item)));
+                            state.Items.Add(context.GetItemByNameAndType(item.Name, item.ItemType));
                             options.EndId = item.Id;
                         }
                         else
@@ -300,148 +257,10 @@ internal sealed class GachaLogService : IGachaLogService
             }
 
             token.ThrowIfCancellationRequested();
-            SaveGachaItems(itemsToAdd, isLazy, archive, options.EndId);
+            archive?.SaveItems(itemsToAdd, isLazy, options.EndId, appDbContext.GachaItems);
             await RandomDelayAsync(token).ConfigureAwait(false);
         }
 
         return new(!state.AuthKeyTimeout, archive);
-    }
-
-    private void SkipOrInitArchive([NotNull] ref GachaArchive? archive, string uid)
-    {
-        if (archive == null)
-        {
-            archive = appDbContext.GachaArchives.AsNoTracking().SingleOrDefault(a => a.Uid == uid);
-
-            if (archive == null)
-            {
-                GachaArchive created = GachaArchive.Create(uid);
-                appDbContext.GachaArchives.AddAndSave(created);
-
-                // System.InvalidOperationException: Sequence contains no elements
-                // ? how this happen here?
-                archive = appDbContext.GachaArchives.AsNoTracking().Single(a => a.Uid == uid);
-                GachaArchive temp = archive;
-                ThreadHelper.InvokeOnMainThread(() => archiveCollection!.Add(temp));
-            }
-        }
-    }
-
-    private long GetEndId(GachaArchive? archive, GachaConfigType configType)
-    {
-        GachaItem? item = null;
-
-        if (archive != null)
-        {
-            try
-            {
-                // TODO: replace with MaxBy
-                // https://github.com/dotnet/efcore/issues/25566
-                // .MaxBy(i => i.Id);
-                item = appDbContext.GachaItems
-                    .Where(i => i.ArchiveId == archive.InnerId)
-                    .Where(i => i.QueryType == configType)
-                    .OrderByDescending(i => i.Id)
-                    .FirstOrDefault();
-            }
-            catch (SqliteException ex)
-            {
-                ThrowHelper.UserdataCorrupted(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
-            }
-        }
-
-        return item?.Id ?? 0L;
-    }
-
-    private int GetItemId(GachaLogItem item)
-    {
-        return item.ItemType switch
-        {
-            "角色" => nameAvatarMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
-            "武器" => nameWeaponMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
-            _ => 0,
-        };
-    }
-
-    private Item GetItemBaseByName(string name, string type)
-    {
-        if (!itemBaseCache.TryGetValue(name, out Item? result))
-        {
-            result = type switch
-            {
-                "角色" => nameAvatarMap![name].ToItemBase(),
-                "武器" => nameWeaponMap![name].ToItemBase(),
-                _ => throw Must.NeverHappen(),
-            };
-
-            itemBaseCache[name] = result;
-        }
-
-        return result;
-    }
-
-    private INameQuality GetNameQualityByItemId(int id)
-    {
-        int place = id.Place();
-        return place switch
-        {
-            8 => idAvatarMap![id],
-            5 => idWeaponMap![id],
-            _ => throw Must.NeverHappen($"Id places: {place}"),
-        };
-    }
-
-    private void SaveGachaItems(List<GachaItem> itemsToAdd, bool isLazy, GachaArchive? archive, long endId)
-    {
-        if (itemsToAdd.Count > 0)
-        {
-            // 全量刷新
-            if ((!isLazy) && archive != null)
-            {
-                appDbContext.GachaItems
-                    .Where(i => i.ArchiveId == archive.InnerId)
-                    .Where(i => i.Id >= endId)
-                    .ExecuteDelete();
-            }
-
-            appDbContext.GachaItems.AddRangeAndSave(itemsToAdd);
-        }
-    }
-}
-
-/// <summary>
-/// 祈愿记录导出服务
-/// </summary>
-internal sealed class GachaLogExportService
-{
-    AppDbContext appDbContext;
-
-    /// <inheritdoc/>
-    public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
-    {
-        List<UIGFItem> list = appDbContext.GachaItems
-            .Where(i => i.ArchiveId == archive.InnerId)
-            .AsEnumerable()
-            .Select(i => i.ToUIGFItem(GetNameQualityByItemId(i.ItemId)))
-            .ToList();
-
-        UIGF uigf = new()
-        {
-            Info = UIGFInfo.Create(archive.Uid),
-            List = list,
-        };
-
-        return Task.FromResult(uigf);
-    }
-
-    private INameQuality GetNameQualityByItemId(int id)
-    {
-        int place = id.Place();
-        return place switch
-        {
-            8 => idAvatarMap![id],
-            5 => idWeaponMap![id],
-            _ => throw Must.NeverHappen($"Id places: {place}"),
-        };
     }
 }

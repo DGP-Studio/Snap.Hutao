@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 获取状态
 /// </summary>
-internal sealed class FetchState
+internal sealed class GachaLogFetchState
 {
     /// <summary>
     /// 验证密钥是否过期

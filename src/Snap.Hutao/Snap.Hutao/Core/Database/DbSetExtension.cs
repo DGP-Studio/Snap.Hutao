@@ -14,19 +14,6 @@ namespace Snap.Hutao.Core.Database;
 internal static class DbSetExtension
 {
     /// <summary>
-    /// 获取对应的数据库上下文
-    /// </summary>
-    /// <typeparam name="TEntity">实体类型</typeparam>
-    /// <param name="dbSet">数据库集</param>
-    /// <returns>对应的数据库上下文</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static DbContext Context<TEntity>(this DbSet<TEntity> dbSet)
-        where TEntity : class
-    {
-        return dbSet.GetService<ICurrentDbContext>().Context;
-    }
-
-    /// <summary>
     /// 添加并保存
     /// </summary>
     /// <typeparam name="TEntity">实体类型</typeparam>
@@ -37,7 +24,10 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.Add(entity);
-        return dbSet.Context().SaveChanges();
+        DbContext dbContext = dbSet.Context();
+        int count = dbContext.SaveChanges();
+        dbContext.ChangeTracker.Clear();
+        return count;
     }
 
     /// <summary>
@@ -51,7 +41,10 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.Add(entity);
-        return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
+        DbContext dbContext = dbSet.Context();
+        int count = await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.ChangeTracker.Clear();
+        return count;
     }
 
     /// <summary>
@@ -65,7 +58,10 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.AddRange(entities);
-        return dbSet.Context().SaveChanges();
+        DbContext dbContext = dbSet.Context();
+        int count = dbSet.Context().SaveChanges();
+        dbContext.ChangeTracker.Clear();
+        return count;
     }
 
     /// <summary>
@@ -79,7 +75,10 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.AddRange(entities);
-        return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
+        DbContext dbContext = dbSet.Context();
+        int count = await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.ChangeTracker.Clear();
+        return count;
     }
 
     /// <summary>
@@ -93,7 +92,10 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.Remove(entity);
-        return dbSet.Context().SaveChanges();
+        DbContext dbContext = dbSet.Context();
+        int count = dbContext.SaveChanges();
+        dbContext.ChangeTracker.Clear();
+        return count;
     }
 
     /// <summary>
@@ -107,7 +109,10 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.Remove(entity);
-        return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
+        DbContext dbContext = dbSet.Context();
+        int count = await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.ChangeTracker.Clear();
+        return count;
     }
 
     /// <summary>
@@ -121,7 +126,10 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.Update(entity);
-        return dbSet.Context().SaveChanges();
+        DbContext dbContext = dbSet.Context();
+        int count = dbContext.SaveChanges();
+        dbContext.ChangeTracker.Clear();
+        return count;
     }
 
     /// <summary>
@@ -136,5 +144,12 @@ internal static class DbSetExtension
     {
         dbSet.Update(entity);
         return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static DbContext Context<TEntity>(this DbSet<TEntity> dbSet)
+        where TEntity : class
+    {
+        return dbSet.GetService<ICurrentDbContext>().Context;
     }
 }
