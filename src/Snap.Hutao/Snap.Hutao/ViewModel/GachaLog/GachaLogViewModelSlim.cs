@@ -28,5 +28,6 @@ internal sealed class GachaLogViewModelSlim : Abstraction.ViewModelSlim<View.Pag
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
     {
+        return Task.CompletedTask;
     }
 }
