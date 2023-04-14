@@ -17,7 +17,8 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shvca="using:Snap.Hutao.View.Card"
+    xmlns:shvco="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shv:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -132,7 +133,7 @@
                                             <Setter Property="MaxWidth" Value="640"/>
                                         </Style>
                                     </Flyout.FlyoutPresenterStyle>
-                                    <shvc:AnnouncementContentViewer Announcement="{Binding}"/>
+                                    <shvco:AnnouncementContentViewer Announcement="{Binding}"/>
                                 </Flyout>
                             </FlyoutBase.AttachedFlyout>
                             <mxi:Interaction.Behaviors>
@@ -168,137 +169,8 @@
                         DesiredWidth="300"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                         SelectionMode="None">
-                        <!--  启动游戏  -->
-                        <Button
-                            Height="120"
-                            Padding="0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            Command="{Binding LaunchGameViewModelSlim.LaunchCommand}"
-                            Style="{StaticResource AccentButtonStyle}">
-                            <mxi:Interaction.Behaviors>
-                                <shcb:InvokeCommandOnLoadedBehavior Command="{Binding LaunchGameViewModelSlim.OpenUICommand}"/>
-                            </mxi:Interaction.Behaviors>
-
-                            <Grid CornerRadius="{ThemeResource ControlCornerRadius}">
-                                <Image
-                                    Margin="0,40,0,0"
-                                    HorizontalAlignment="Right"
-                                    Source="ms-appx:///Resource/HutaoIconSourceTransparentBackgroundGradient1.png"
-                                    Stretch="Uniform"/>
-                                <Grid Margin="12" ColumnSpacing="16">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition Width="auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <FontIcon
-                                        Grid.Row="0"
-                                        VerticalAlignment="Center"
-                                        Glyph="&#xE7FC;"/>
-                                    <TextBlock
-                                        Grid.Column="1"
-                                        VerticalAlignment="Center"
-                                        Text="{shcm:ResourceString Name=ViewLaunchGameHeader}"/>
-                                    <Button
-                                        Grid.Column="2"
-                                        MinHeight="37.2"
-                                        Background="Transparent"
-                                        BorderBrush="{x:Null}"
-                                        BorderThickness="0"
-                                        Command="{Binding LaunchGameViewModelSlim.NavigateCommand}"
-                                        Content="&#xE713;"
-                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        Foreground="{ThemeResource AccentButtonForeground}"
-                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
-                                    <ComboBox
-                                        Grid.Row="1"
-                                        Grid.ColumnSpan="3"
-                                        VerticalAlignment="Bottom"
-                                        DisplayMemberPath="Name"
-                                        ItemsSource="{Binding LaunchGameViewModelSlim.GameAccounts}"
-                                        PlaceholderText="选择账号或直接启动"
-                                        SelectedItem="{Binding LaunchGameViewModelSlim.SelectedGameAccount, Mode=TwoWay}"/>
-                                </Grid>
-                            </Grid>
-                        </Button>
-
-                        <Border Style="{StaticResource BorderCardStyle}">
-                            <FlipView Background="{x:Null}">
-                                <Grid Margin="12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel>
-                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="卡池名称 1"/>
-
-                                        <shvc:ItemIcon
-                                            Width="40"
-                                            Height="40"
-                                            Margin="0,12,0,0"
-                                            HorizontalAlignment="Left"
-                                            Icon="{Binding Icon}"
-                                            Quality="QUALITY_ORANGE"/>
-
-                                        <TextBlock Margin="0,6,0,0" Text="XX 抽"/>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="卡池名称 1"/>
-
-                                        <shvc:ItemIcon
-                                            Width="40"
-                                            Height="40"
-                                            Margin="0,12,0,0"
-                                            HorizontalAlignment="Left"
-                                            Icon="{Binding Icon}"
-                                            Quality="QUALITY_ORANGE"/>
-
-                                        <TextBlock Margin="0,6,0,0" Text="XX 抽"/>
-                                    </StackPanel>
-                                </Grid>
-                                <Grid Margin="12">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel>
-                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="卡池名称 1"/>
-
-                                        <shvc:ItemIcon
-                                            Width="40"
-                                            Height="40"
-                                            Margin="0,12,0,0"
-                                            HorizontalAlignment="Left"
-                                            Icon="{Binding Icon}"
-                                            Quality="QUALITY_ORANGE"/>
-
-                                        <TextBlock Margin="0,6,0,0" Text="XX 抽"/>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="卡池名称 1"/>
-
-                                        <shvc:ItemIcon
-                                            Width="40"
-                                            Height="40"
-                                            Margin="0,12,0,0"
-                                            HorizontalAlignment="Left"
-                                            Icon="{Binding Icon}"
-                                            Quality="QUALITY_ORANGE"/>
-
-                                        <TextBlock Margin="0,6,0,0" Text="XX 抽"/>
-                                    </StackPanel>
-                                </Grid>
-                            </FlipView>
-                        </Border>
+                        <shvca:LaunchGameCard Height="186" DataContext="{Binding LaunchGameViewModelSlim}"/>
+                        <shvca:GachaStatisticsCard DataContext="{Binding GachaLogViewModelSlim}"/>
 
                         <Border Style="{StaticResource BorderCardStyle}">
                             <FlipView Background="{x:Null}">

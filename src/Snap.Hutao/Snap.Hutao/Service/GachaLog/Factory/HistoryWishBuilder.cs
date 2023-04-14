@@ -31,22 +31,21 @@ internal sealed class HistoryWishBuilder
     /// 构造一个新的卡池历史记录建造器
     /// </summary>
     /// <param name="gachaEvent">卡池配置</param>
-    /// <param name="nameAvatarMap">命名角色映射</param>
-    /// <param name="nameWeaponMap">命名武器映射</param>
-    public HistoryWishBuilder(GachaEvent gachaEvent, Dictionary<string, Avatar> nameAvatarMap, Dictionary<string, Weapon> nameWeaponMap)
+    /// <param name="context">祈愿记录上下文</param>
+    public HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceContext context)
     {
         this.gachaEvent = gachaEvent;
         configType = gachaEvent.Type;
 
         if (configType == GachaConfigType.AvatarEventWish || configType == GachaConfigType.AvatarEventWish2)
         {
-            orangeUpCounter = gachaEvent.UpOrangeList.Select(name => nameAvatarMap[name]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
-            purpleUpCounter = gachaEvent.UpPurpleList.Select(name => nameAvatarMap[name]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
+            orangeUpCounter = gachaEvent.UpOrangeList.Select(name => context.NameAvatarMap[name]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
+            purpleUpCounter = gachaEvent.UpPurpleList.Select(name => context.NameAvatarMap[name]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
         }
         else if (configType == GachaConfigType.WeaponEventWish)
         {
-            orangeUpCounter = gachaEvent.UpOrangeList.Select(name => nameWeaponMap[name]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
-            purpleUpCounter = gachaEvent.UpPurpleList.Select(name => nameWeaponMap[name]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+            orangeUpCounter = gachaEvent.UpOrangeList.Select(name => context.NameWeaponMap[name]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+            purpleUpCounter = gachaEvent.UpPurpleList.Select(name => context.NameWeaponMap[name]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
         }
     }
 

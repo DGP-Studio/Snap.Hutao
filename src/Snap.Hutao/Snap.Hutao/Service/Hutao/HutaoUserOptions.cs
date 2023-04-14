@@ -25,7 +25,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// <summary>
     /// 真正的用户名
     /// </summary>
-    public string? ActualUserName { get => IsLoggedIn ? null : UserName; }
+    public string? ActualUserName { get => IsLoggedIn ? UserName : null; }
 
     /// <summary>
     /// 访问令牌

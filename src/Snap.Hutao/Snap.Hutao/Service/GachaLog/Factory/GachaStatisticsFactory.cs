@@ -1,10 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -37,31 +35,22 @@ internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
     }
 
     /// <inheritdoc/>
-    public async Task<GachaStatistics> CreateAsync(IEnumerable<GachaItem> items)
+    public async Task<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
     {
-        Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-        Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
-
-        Dictionary<string, Avatar> nameAvatarMap = await metadataService.GetNameToAvatarMapAsync().ConfigureAwait(false);
-        Dictionary<string, Weapon> nameWeaponMap = await metadataService.GetNameToWeaponMapAsync().ConfigureAwait(false);
-
         List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
 
-        List<HistoryWishBuilder> historyWishBuilders = gachaEvents.Select(g => new HistoryWishBuilder(g, nameAvatarMap, nameWeaponMap)).ToList();
+        List<HistoryWishBuilder> historyWishBuilders = gachaEvents.Select(g => new HistoryWishBuilder(g, context)).ToList();
 
-        IOrderedEnumerable<GachaItem> orderedItems = items.OrderBy(i => i.Id);
-        await ThreadHelper.SwitchToBackgroundAsync();
-        return CreateCore(orderedItems, historyWishBuilders, idAvatarMap, idWeaponMap, options.IsEmptyHistoryWishVisible);
+        return CreateCore(items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible);
     }
 
     private static GachaStatistics CreateCore(
-        IOrderedEnumerable<GachaItem> items,
+        IOrderedQueryable<GachaItem> items,
         List<HistoryWishBuilder> historyWishBuilders,
-        Dictionary<AvatarId, Avatar> avatarMap,
-        Dictionary<WeaponId, Weapon> weaponMap,
+        GachaLogServiceContext context,
         bool isEmptyHistoryWishVisible)
     {
-        TypedWishSummaryBuilder standardWishBuilder = new(SH.ServiceGachaLogFactoryPermanentWishName, TypedWishSummaryBuilder.IsPermanentWish, 90, 10);
+        TypedWishSummaryBuilder standardWishBuilder = new(SH.ServiceGachaLogFactoryPermanentWishName, TypedWishSummaryBuilder.IsStandardWish, 90, 10);
         TypedWishSummaryBuilder avatarWishBuilder = new(SH.ServiceGachaLogFactoryAvatarWishName, TypedWishSummaryBuilder.IsAvatarEventWish, 90, 10);
         TypedWishSummaryBuilder weaponWishBuilder = new(SH.ServiceGachaLogFactoryWeaponWishName, TypedWishSummaryBuilder.IsWeaponEventWish, 80, 10);
 
@@ -81,58 +70,62 @@ internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
                 .SingleOrDefault(w => w.From <= item.Time && w.To >= item.Time);
 
             // It's an avatar
-            if (item.ItemId.Place() == 8)
+            switch (item.ItemId.Place())
             {
-                Avatar avatar = avatarMap[item.ItemId];
+                case 8:
+                    {
+                        Avatar avatar = context.IdAvatarMap[item.ItemId];
 
-                bool isUp = false;
-                switch (avatar.Quality)
-                {
-                    case ItemQuality.QUALITY_ORANGE:
-                        orangeAvatarCounter.Increase(avatar);
-                        isUp = targetHistoryWishBuilder?.IncreaseOrange(avatar) ?? false;
-                        break;
-                    case ItemQuality.QUALITY_PURPLE:
-                        purpleAvatarCounter.Increase(avatar);
-                        targetHistoryWishBuilder?.IncreasePurple(avatar);
-                        break;
-                }
+                        bool isUp = false;
+                        switch (avatar.Quality)
+                        {
+                            case ItemQuality.QUALITY_ORANGE:
+                                orangeAvatarCounter.Increase(avatar);
+                                isUp = targetHistoryWishBuilder?.IncreaseOrange(avatar) ?? false;
+                                break;
+                            case ItemQuality.QUALITY_PURPLE:
+                                purpleAvatarCounter.Increase(avatar);
+                                targetHistoryWishBuilder?.IncreasePurple(avatar);
+                                break;
+                        }
 
-                standardWishBuilder.Track(item, avatar, isUp);
-                avatarWishBuilder.Track(item, avatar, isUp);
-                weaponWishBuilder.Track(item, avatar, isUp);
-            }
-
-            // It's a weapon
-            else if (item.ItemId.Place() == 5)
-            {
-                Weapon weapon = weaponMap[item.ItemId];
-
-                bool isUp = false;
-                switch (weapon.RankLevel)
-                {
-                    case ItemQuality.QUALITY_ORANGE:
-                        isUp = targetHistoryWishBuilder?.IncreaseOrange(weapon) ?? false;
-                        orangeWeaponCounter.Increase(weapon);
+                        standardWishBuilder.Track(item, avatar, isUp);
+                        avatarWishBuilder.Track(item, avatar, isUp);
+                        weaponWishBuilder.Track(item, avatar, isUp);
                         break;
-                    case ItemQuality.QUALITY_PURPLE:
-                        targetHistoryWishBuilder?.IncreasePurple(weapon);
-                        purpleWeaponCounter.Increase(weapon);
-                        break;
-                    case ItemQuality.QUALITY_BLUE:
-                        targetHistoryWishBuilder?.IncreaseBlue(weapon);
-                        blueWeaponCounter.Increase(weapon);
-                        break;
-                }
+                    }
 
-                standardWishBuilder.Track(item, weapon, isUp);
-                avatarWishBuilder.Track(item, weapon, isUp);
-                weaponWishBuilder.Track(item, weapon, isUp);
-            }
-            else
-            {
-                // ItemId place not correct.
-                ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaStatisticsFactoryItemIdInvalid, item.ItemId), null!);
+                case 5:
+                    {
+                        Weapon weapon = context.IdWeaponMap[item.ItemId];
+
+                        bool isUp = false;
+                        switch (weapon.RankLevel)
+                        {
+                            case ItemQuality.QUALITY_ORANGE:
+                                isUp = targetHistoryWishBuilder?.IncreaseOrange(weapon) ?? false;
+                                orangeWeaponCounter.Increase(weapon);
+                                break;
+                            case ItemQuality.QUALITY_PURPLE:
+                                targetHistoryWishBuilder?.IncreasePurple(weapon);
+                                purpleWeaponCounter.Increase(weapon);
+                                break;
+                            case ItemQuality.QUALITY_BLUE:
+                                targetHistoryWishBuilder?.IncreaseBlue(weapon);
+                                blueWeaponCounter.Increase(weapon);
+                                break;
+                        }
+
+                        standardWishBuilder.Track(item, weapon, isUp);
+                        avatarWishBuilder.Track(item, weapon, isUp);
+                        weaponWishBuilder.Track(item, weapon, isUp);
+                        break;
+                    }
+
+                default:
+                    // ItemId place not correct.
+                    ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaStatisticsFactoryItemIdInvalid, item.ItemId), null!);
+                    break;
             }
         }
 

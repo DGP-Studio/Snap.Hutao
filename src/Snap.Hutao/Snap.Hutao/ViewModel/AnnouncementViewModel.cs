@@ -26,6 +26,7 @@ internal sealed class AnnouncementViewModel : Abstraction.ViewModel
         announcementService = serviceProvider.GetRequiredService<IAnnouncementService>();
 
         LaunchGameViewModelSlim = serviceProvider.GetRequiredService<Game.LaunchGameViewModelSlim>();
+        GachaLogViewModelSlim = serviceProvider.GetRequiredService<GachaLog.GachaLogViewModelSlim>();
     }
 
     /// <summary>
@@ -37,6 +38,11 @@ internal sealed class AnnouncementViewModel : Abstraction.ViewModel
     /// 启动游戏视图模型
     /// </summary>
     public Game.LaunchGameViewModelSlim LaunchGameViewModelSlim { get; }
+
+    /// <summary>
+    /// 祈愿记录视图模型
+    /// </summary>
+    public GachaLog.GachaLogViewModelSlim GachaLogViewModelSlim { get; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()

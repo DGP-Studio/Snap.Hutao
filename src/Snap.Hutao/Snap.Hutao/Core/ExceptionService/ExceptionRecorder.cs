@@ -26,6 +26,7 @@ internal sealed class ExceptionRecorder
 
         application.UnhandledException += OnAppUnhandledException;
         application.DebugSettings.BindingFailed += OnXamlBindingFailed;
+        application.DebugSettings.XamlResourceReferenceFailed += OnXamlResourceReferenceFailed;
     }
 
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -50,5 +51,10 @@ internal sealed class ExceptionRecorder
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
     {
         logger.LogCritical("XAML绑定失败: {message}", e.Message);
+    }
+
+    private void OnXamlResourceReferenceFailed(DebugSettings sender, XamlResourceReferenceFailedEventArgs e)
+    {
+        logger.LogCritical("XAML资源引用失败: {message}", e.Message);
     }
 }

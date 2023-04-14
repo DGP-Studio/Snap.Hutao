@@ -24,6 +24,14 @@ internal struct GachaLogQueryOptions
     public readonly bool IsOversea;
 
     /// <summary>
+    /// 结束Id
+    /// 控制API返回的分页
+    /// 米哈游使用了 keyset pagination 来实现这一目标
+    /// https://learn.microsoft.com/en-us/ef/core/querying/pagination#keyset-pagination
+    /// </summary>
+    public long EndId;
+
+    /// <summary>
     /// Keys required:
     /// authkey_ver
     /// auth_appid
@@ -36,14 +44,6 @@ internal struct GachaLogQueryOptions
     /// end_id
     /// </summary>
     private readonly QueryString innerQuery;
-
-    /// <summary>
-    /// 结束Id
-    /// 控制API返回的分页
-    /// 米哈游使用了 keyset pagination 来实现这一目标
-    /// https://learn.microsoft.com/en-us/ef/core/querying/pagination#keyset-pagination
-    /// </summary>
-    public long EndId;
 
     /// <summary>
     /// 构造一个新的祈愿记录请求配置

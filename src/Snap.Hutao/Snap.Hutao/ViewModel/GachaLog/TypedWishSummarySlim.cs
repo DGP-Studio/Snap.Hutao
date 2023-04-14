@@ -9,6 +9,19 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed class TypedWishSummarySlim
 {
     /// <summary>
+    /// 构造一个新的简化的类型化的祈愿概览
+    /// </summary>
+    /// <param name="name">卡池名称</param>
+    /// <param name="guaranteeOrangeThreshold">五星保底阈值</param>
+    /// <param name="guaranteePurpleThreshold">四星保底阈值</param>
+    public TypedWishSummarySlim(string name, int guaranteeOrangeThreshold, int guaranteePurpleThreshold)
+    {
+        Name = name;
+        GuaranteeOrangeThreshold = guaranteeOrangeThreshold;
+        GuaranteePurpleThreshold = guaranteePurpleThreshold;
+    }
+
+    /// <summary>
     /// 卡池名称
     /// </summary>
     public string Name { get; set; } = default!;

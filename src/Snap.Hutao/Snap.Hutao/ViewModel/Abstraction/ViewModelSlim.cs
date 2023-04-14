@@ -14,6 +14,8 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 internal abstract class ViewModelSlim<TPage> : ObservableObject
     where TPage : Microsoft.UI.Xaml.Controls.Page
 {
+    private bool isInitialized;
+
     /// <summary>
     /// 构造一个新的简化的视图模型抽象类
     /// </summary>
@@ -25,6 +27,11 @@ internal abstract class ViewModelSlim<TPage> : ObservableObject
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
         NavigateCommand = new RelayCommand(Navigate);
     }
+
+    /// <summary>
+    /// 是否初始化完成
+    /// </summary>
+    public bool IsInitialized { get => isInitialized; set => SetProperty(ref isInitialized, value); }
 
     /// <summary>
     /// 打开页面命令

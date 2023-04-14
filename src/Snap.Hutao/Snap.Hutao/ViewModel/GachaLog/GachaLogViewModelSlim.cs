@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.GachaLog;
+
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 /// <summary>
@@ -26,8 +28,16 @@ internal sealed class GachaLogViewModelSlim : Abstraction.ViewModelSlim<View.Pag
     public List<GachaStatisticsSlim>? StatisticsList { get => statisticsList; set => SetProperty(ref statisticsList, value); }
 
     /// <inheritdoc/>
-    protected override Task OpenUIAsync()
+    protected override async Task OpenUIAsync()
     {
-        return Task.CompletedTask;
+        IGachaLogService gachaLogService = ServiceProvider.GetRequiredService<IGachaLogService>();
+
+        if (await gachaLogService.InitializeAsync(default).ConfigureAwait(false))
+        {
+            List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimsAsync().ConfigureAwait(false);
+            await ThreadHelper.SwitchToMainThreadAsync();
+            StatisticsList = list;
+            IsInitialized = true;
+        }
     }
 }

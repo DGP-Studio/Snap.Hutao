@@ -48,6 +48,7 @@ internal static class HutaoEndpoints
     /// <summary>
     /// 删除祈愿记录
     /// </summary>
+    /// <param name="uid">uid</param>
     /// <returns>删除祈愿记录 Url</returns>
     public static string GachaLogDelete(string uid)
     {

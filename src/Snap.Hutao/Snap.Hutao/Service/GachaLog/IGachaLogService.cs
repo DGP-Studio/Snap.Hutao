@@ -41,6 +41,12 @@ internal interface IGachaLogService
     Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive);
 
     /// <summary>
+    /// 异步获取简化的祈愿统计列表
+    /// </summary>
+    /// <returns>简化的祈愿统计列表</returns>
+    Task<List<GachaStatisticsSlim>> GetStatisticsSlimsAsync();
+
+    /// <summary>
     /// 异步从UIGF导入数据
     /// </summary>
     /// <param name="list">列表</param>

@@ -3,9 +3,12 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI;
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Message;
+using Snap.Hutao.Service;
 using Snap.Hutao.Win32;
 using System.IO;
 using Windows.Graphics;
@@ -26,8 +29,6 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<ExtendedWindow<TWindow>> logger;
     private readonly WindowSubclass<TWindow> subclass;
-
-    private SystemBackdrop? systemBackdrop;
 
     private ExtendedWindow(TWindow window, FrameworkElement titleBar, IServiceProvider serviceProvider)
     {
@@ -54,7 +55,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
     /// <inheritdoc/>
     public void Receive(FlyoutOpenCloseMessage message)
     {
-        UpdateDragRectangles(options.AppWindow.TitleBar, message.IsOpen);
+        UpdateDragRectangles(message.IsOpen);
     }
 
     private void InitializeWindow()
@@ -69,9 +70,9 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         // appWindow.Show can't bring window to top.
         options.Window.Activate();
 
-        systemBackdrop = new(options.Window, serviceProvider);
-        bool micaApplied = systemBackdrop.Update();
-        logger.LogInformation("Apply {name} : {result}", nameof(SystemBackdrop), micaApplied ? "succeed" : "failed");
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+        UpdateSystemBackdrop(appOptions.BackdropType);
+        appOptions.PropertyChanged += OnOptionsPropertyChanged;
 
         bool subClassApplied = subclass.Initialize();
         logger.LogInformation("Apply {name} : {result}", nameof(WindowSubclass<TWindow>), subClassApplied ? "succeed" : "failed");
@@ -80,6 +81,14 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         messenger.Register(this);
 
         options.Window.Closed += OnWindowClosed;
+    }
+
+    private void OnOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppOptions.BackdropType))
+        {
+            UpdateSystemBackdrop(((AppOptions)sender!).BackdropType);
+        }
     }
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
@@ -106,15 +115,28 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
             appTitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
             appTitleBar.ExtendsContentIntoTitleBar = true;
 
-            UpdateTitleButtonColor(appTitleBar);
-            UpdateDragRectangles(appTitleBar);
-            options.TitleBar.ActualThemeChanged += (s, e) => UpdateTitleButtonColor(appTitleBar);
-            options.TitleBar.SizeChanged += (s, e) => UpdateDragRectangles(appTitleBar);
+            UpdateTitleButtonColor();
+            UpdateDragRectangles();
+            options.TitleBar.ActualThemeChanged += (s, e) => UpdateTitleButtonColor();
+            options.TitleBar.SizeChanged += (s, e) => UpdateDragRectangles();
         }
     }
 
-    private void UpdateTitleButtonColor(AppWindowTitleBar appTitleBar)
+    private void UpdateSystemBackdrop(BackdropType backdropType)
     {
+        options.Window.SystemBackdrop = backdropType switch
+        {
+            BackdropType.MicaAlt => new MicaBackdrop() { Kind = MicaKind.BaseAlt },
+            BackdropType.Mica => new MicaBackdrop() { Kind = MicaKind.Base },
+            BackdropType.Acrylic => new DesktopAcrylicBackdrop(),
+            _ => null,
+        };
+    }
+
+    private void UpdateTitleButtonColor()
+    {
+        AppWindowTitleBar appTitleBar = options.AppWindow.TitleBar;
+
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
         appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
@@ -137,8 +159,10 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
     }
 
-    private void UpdateDragRectangles(AppWindowTitleBar appTitleBar, bool isFlyoutOpened = false)
+    private void UpdateDragRectangles(bool isFlyoutOpened = false)
     {
+        AppWindowTitleBar appTitleBar = options.AppWindow.TitleBar;
+
         if (isFlyoutOpened)
         {
             // set to 0

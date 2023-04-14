@@ -18,7 +18,7 @@ internal sealed class TypedWishSummaryBuilder
     /// <summary>
     /// 常驻祈愿
     /// </summary>
-    public static readonly Func<GachaConfigType, bool> IsPermanentWish = type => type is GachaConfigType.StandardWish;
+    public static readonly Func<GachaConfigType, bool> IsStandardWish = type => type is GachaConfigType.StandardWish;
 
     /// <summary>
     /// 角色活动

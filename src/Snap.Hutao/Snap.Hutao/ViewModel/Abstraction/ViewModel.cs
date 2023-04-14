@@ -3,7 +3,6 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 

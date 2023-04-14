@@ -18,6 +18,7 @@ internal sealed class SimpleRecord
     /// <param name="uid">uid</param>
     /// <param name="characters">详细的角色信息</param>
     /// <param name="spiralAbyss">深渊信息</param>
+    /// <param name="reservedUserName">用户名</param>
     public SimpleRecord(string uid, List<Character> characters, SpiralAbyss spiralAbyss, string? reservedUserName)
     {
         Uid = uid;

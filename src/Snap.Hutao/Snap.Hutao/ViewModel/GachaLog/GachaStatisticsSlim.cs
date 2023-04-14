@@ -16,15 +16,15 @@ internal sealed class GachaStatisticsSlim
     /// <summary>
     /// 角色活动
     /// </summary>
-    public TypedWishSummary AvatarWish { get; set; } = default!;
+    public TypedWishSummarySlim AvatarWish { get; set; } = default!;
 
     /// <summary>
     /// 神铸赋形
     /// </summary>
-    public TypedWishSummary WeaponWish { get; set; } = default!;
+    public TypedWishSummarySlim WeaponWish { get; set; } = default!;
 
     /// <summary>
     /// 奔行世间
     /// </summary>
-    public TypedWishSummary StandardWish { get; set; } = default!;
+    public TypedWishSummarySlim StandardWish { get; set; } = default!;
 }

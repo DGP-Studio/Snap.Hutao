@@ -34,11 +34,10 @@ internal sealed class GachaLogService : IGachaLogService
     private readonly AppDbContext appDbContext;
     private readonly IGachaLogExportService gachaLogExportService;
     private readonly IGachaLogImportService gachaLogImportService;
-
-    private readonly IEnumerable<IGachaLogQueryProvider> urlProviders;
     private readonly GachaInfoClient gachaInfoClient;
     private readonly IMetadataService metadataService;
     private readonly IGachaStatisticsFactory gachaStatisticsFactory;
+    private readonly IGachaStatisticsSlimFactory gachaStatisticsSlimFactory;
     private readonly ILogger<GachaLogService> logger;
     private readonly DbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
 
@@ -48,32 +47,17 @@ internal sealed class GachaLogService : IGachaLogService
     /// 构造一个新的祈愿记录服务
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="urlProviders">Url提供器集合</param>
-    /// <param name="gachaInfoClient">祈愿记录客户端</param>
-    /// <param name="metadataService">元数据服务</param>
-    /// <param name="gachaStatisticsFactory">祈愿统计工厂</param>
-    /// <param name="logger">日志器</param>
     /// <param name="messenger">消息器</param>
-    public GachaLogService(
-        IServiceProvider serviceProvider,
-        AppDbContext appDbContext,
-        IEnumerable<IGachaLogQueryProvider> urlProviders,
-        GachaInfoClient gachaInfoClient,
-        IMetadataService metadataService,
-        IGachaStatisticsFactory gachaStatisticsFactory,
-        ILogger<GachaLogService> logger,
-        IMessenger messenger)
+    public GachaLogService(IServiceProvider serviceProvider, IMessenger messenger)
     {
         gachaLogExportService = serviceProvider.GetRequiredService<IGachaLogExportService>();
         gachaLogImportService = serviceProvider.GetRequiredService<IGachaLogImportService>();
-
-        this.appDbContext = appDbContext;
-        this.urlProviders = urlProviders;
-        this.gachaInfoClient = gachaInfoClient;
-        this.metadataService = metadataService;
-        this.logger = logger;
-        this.gachaStatisticsFactory = gachaStatisticsFactory;
+        appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
+        gachaInfoClient = serviceProvider.GetRequiredService<GachaInfoClient>();
+        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
+        logger = serviceProvider.GetRequiredService<ILogger<GachaLogService>>();
+        gachaStatisticsFactory = serviceProvider.GetRequiredService<IGachaStatisticsFactory>();
+        gachaStatisticsSlimFactory = serviceProvider.GetRequiredService<IGachaStatisticsSlimFactory>();
 
         dbCurrent = new(appDbContext.GachaArchives, messenger);
     }
@@ -127,14 +111,32 @@ internal sealed class GachaLogService : IGachaLogService
         {
             using (ValueStopwatch.MeasureExecution(logger))
             {
-                IQueryable<GachaItem> items = appDbContext.GachaItems.Where(i => i.ArchiveId == archive.InnerId);
-                return await gachaStatisticsFactory.CreateAsync(items).ConfigureAwait(false);
+                IOrderedQueryable<GachaItem> items = appDbContext.GachaItems.Where(i => i.ArchiveId == archive.InnerId).OrderBy(i => i.Id);
+                return await gachaStatisticsFactory.CreateAsync(items, context).ConfigureAwait(false);
             }
         }
         else
         {
             throw Must.NeverHappen();
         }
+    }
+
+    /// <inheritdoc/>
+    public async Task<List<GachaStatisticsSlim>> GetStatisticsSlimsAsync()
+    {
+        List<GachaStatisticsSlim> statistics = new();
+        foreach (GachaArchive archive in appDbContext.GachaArchives)
+        {
+            IOrderedQueryable<GachaItem> items = appDbContext.GachaItems
+                .Where(i => i.ArchiveId == archive.InnerId)
+                .OrderBy(i => i.Id);
+
+            GachaStatisticsSlim slim = await gachaStatisticsSlimFactory.CreateAsync(items, context).ConfigureAwait(false);
+            slim.Uid = archive.Uid;
+            statistics.Add(slim);
+        }
+
+        return statistics;
     }
 
     /// <inheritdoc/>

@@ -51,7 +51,6 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
             {
                 await ThreadHelper.SwitchToMainThreadAsync();
                 options.LoginSucceed(userName, response.Data);
-
                 isInitialized = true;
             }
             else

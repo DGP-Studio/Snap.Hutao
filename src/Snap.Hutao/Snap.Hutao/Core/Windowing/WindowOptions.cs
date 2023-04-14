@@ -41,13 +41,16 @@ internal readonly struct WindowOptions<TWindow>
     /// </summary>
     public readonly bool UseLegacyDragBarImplementation = !AppWindowTitleBar.IsCustomizationSupported();
 
+    /// <summary>
+    /// 构造一个新的窗体选项
+    /// </summary>
+    /// <param name="window">窗体</param>
+    /// <param name="titleBar">标题栏</param>
     public WindowOptions(TWindow window, FrameworkElement titleBar)
     {
         Window = window;
         Hwnd = (HWND)WindowNative.GetWindowHandle(window);
-        WindowId windowId = Win32Interop.GetWindowIdFromWindow(Hwnd);
-        AppWindow = AppWindow.GetFromWindowId(windowId);
-
+        AppWindow = window.AppWindow;
         TitleBar = titleBar;
     }
 }
