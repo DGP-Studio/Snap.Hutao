@@ -60,6 +60,11 @@ internal enum KnownReturnCode
     SkillLevelLimitExcceed = -1009,
 
     /// <summary>
+    /// 服务器内部错误
+    /// </summary>
+    SomethingWentWrong = -502,
+
+    /// <summary>
     /// 登录信息已失效，请重新登录
     /// </summary>
     LoginDataOutdated = -262,

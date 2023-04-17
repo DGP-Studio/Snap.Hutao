@@ -20,18 +20,16 @@ internal sealed class LaunchScheme
         // 官服
         new()
         {
-            DisplayName = SH.ModelBindingLaunchGameLaunchSchemeChinese,
             LauncherId = "18",
             Key = "eYd89JmJ",
             Channel = ChannelType.Official,
-            SubChannel = SubChannelType.Default,
+            SubChannel = SubChannelType.Official,
             IsOversea = false,
         },
 
         // 渠道服
         new()
         {
-            DisplayName = SH.ModelBindingLaunchGameLaunchSchemeBilibili,
             LauncherId = "17",
             Key = "KAtdSsoQ",
             Channel = ChannelType.Bili,
@@ -42,7 +40,6 @@ internal sealed class LaunchScheme
         // 国际服
         new()
         {
-            DisplayName = SH.ModelBindingLaunchGameLaunchSchemeOversea,
             LauncherId = "10",
             Key = "gcStgarh",
             Channel = ChannelType.Official,
@@ -51,7 +48,6 @@ internal sealed class LaunchScheme
         },
         new()
         {
-            DisplayName = SH.ModelBindingLaunchGameLaunchSchemeOversea,
             LauncherId = "10",
             Key = "gcStgarh",
             Channel = ChannelType.Official,
@@ -60,7 +56,6 @@ internal sealed class LaunchScheme
         },
         new()
         {
-            DisplayName = SH.ModelBindingLaunchGameLaunchSchemeOversea,
             LauncherId = "10",
             Key = "gcStgarh",
             Channel = ChannelType.Official,
@@ -70,9 +65,21 @@ internal sealed class LaunchScheme
     }.ToImmutableList();
 
     /// <summary>
-    /// 名称
+    /// 显示名称
     /// </summary>
-    public string DisplayName { get; private set; } = default!;
+    public string DisplayName
+    {
+        get
+        {
+            return (Channel, IsOversea) switch
+            {
+                (ChannelType.Official, false) => SH.ModelBindingLaunchGameLaunchSchemeChinese,
+                (ChannelType.Bili, false) => SH.ModelBindingLaunchGameLaunchSchemeBilibili,
+                (_, true) => $"{SH.ModelBindingLaunchGameLaunchSchemeOversea} | {SubChannel}",
+                _ => throw Must.NeverHappen(),
+            };
+        }
+    }
 
     /// <summary>
     /// 通道

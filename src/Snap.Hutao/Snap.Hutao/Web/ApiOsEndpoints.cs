@@ -229,7 +229,7 @@ internal static class ApiOsEndpoints
     /// <returns>启动器资源字符串</returns>
     public static string SdkOsStaticLauncherResource(LaunchScheme scheme)
     {
-        return $"{SdkOsStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel}&sub_channel_id={scheme.SubChannel}";
+        return $"{SdkOsStaticLauncherApi}/resource?key={scheme.Key}&launcher_id={scheme.LauncherId}&channel_id={scheme.Channel:D}&sub_channel_id={scheme.SubChannel:D}";
     }
     #endregion
 
