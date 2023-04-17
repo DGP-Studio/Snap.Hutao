@@ -1,28 +1,30 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Intrinsic;
+
 namespace Snap.Hutao.Service.Game;
 
 /// <summary>
 /// 多通道
 /// </summary>
 [HighQuality]
-internal struct MultiChannel
+internal readonly struct MultiChannel
 {
     /// <summary>
     /// 通道
     /// </summary>
-    public string Channel;
+    public readonly ChannelType Channel;
 
     /// <summary>
     /// 子通道
     /// </summary>
-    public string SubChannel;
+    public readonly SubChannelType SubChannel;
 
     /// <summary>
     /// 配置文件路径 当不为 null 时则存在文件读写问题
     /// </summary>
-    public string? ConfigFilePath;
+    public readonly string? ConfigFilePath;
 
     /// <summary>
     /// 构造一个新的多通道
@@ -32,8 +34,9 @@ internal struct MultiChannel
     /// <param name="configFilePath">配置文件路径</param>
     public MultiChannel(string? channel, string? subChannel, string? configFilePath = null)
     {
-        Channel = channel ?? string.Empty;
-        SubChannel = subChannel ?? string.Empty;
+        Channel = string.IsNullOrEmpty(channel) ? ChannelType.Default : Enum.Parse<ChannelType>(channel);
+        SubChannel = string.IsNullOrEmpty(subChannel) ? SubChannelType.Default : Enum.Parse<SubChannelType>(subChannel);
+
         ConfigFilePath = configFilePath;
     }
 }

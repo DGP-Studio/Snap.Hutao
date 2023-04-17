@@ -56,13 +56,13 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
             await WebView.EnsureCoreWebView2Async();
 
             CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
-            IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyolab.com");
+            IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyoverse.com");
             foreach (CoreWebView2Cookie item in cookies)
             {
                 manager.DeleteCookie(item);
             }
 
-            WebView.CoreWebView2.Navigate("https://account.hoyolab.com/#/login");
+            WebView.CoreWebView2.Navigate("https://account.hoyoverse.com/#/login");
         }
         catch (Exception ex)
         {
@@ -73,7 +73,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
     private async Task HandleCurrentCookieAsync(CancellationToken token = default)
     {
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
-        IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyolab.com");
+        IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyoverse.com");
 
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 

@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
@@ -6,12 +6,12 @@ using Microsoft.UI.Xaml.Controls;
 namespace Snap.Hutao.View.Card;
 
 /// <summary>
-/// ÆíÔ¸¼ÇÂ¼¿¨Æ¬
+/// ç¥ˆæ„¿è®°å½•å¡ç‰‡
 /// </summary>
 internal sealed partial class GachaStatisticsCard : Button
 {
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÆíÔ¸¼ÇÂ¼¿¨Æ¬
+    /// æ„é€ ä¸€ä¸ªæ–°çš„ç¥ˆæ„¿è®°å½•å¡ç‰‡
     /// </summary>
     public GachaStatisticsCard()
     {

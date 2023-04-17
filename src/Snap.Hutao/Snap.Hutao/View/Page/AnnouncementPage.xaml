@@ -169,7 +169,7 @@
                         DesiredWidth="300"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                         SelectionMode="None">
-                        <shvca:LaunchGameCard Height="186" DataContext="{Binding LaunchGameViewModelSlim}"/>
+                        <shvca:LaunchGameCard Height="166" DataContext="{Binding LaunchGameViewModelSlim}"/>
                         <shvca:GachaStatisticsCard DataContext="{Binding GachaLogViewModelSlim}"/>
 
                         <Border Style="{StaticResource BorderCardStyle}">

@@ -160,11 +160,19 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                     MultiChannel multi = gameService.GetMultiChannel();
                     if (string.IsNullOrEmpty(multi.ConfigFilePath))
                     {
-                        SelectedScheme = KnownSchemes.FirstOrDefault(s => s.Channel == multi.Channel && s.SubChannel == multi.SubChannel);
+                        try
+                        {
+                            SelectedScheme = KnownSchemes.Single(scheme => scheme.MultiChannelEqual(multi));
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            // 后台收集用
+                            throw new NotSupportedException($"不支持的 MultiChannel: [ChannelType:{multi.Channel}] [SubChannel:{multi.SubChannel}]");
+                        }
                     }
                     else
                     {
-                        infoBarService.Warning(SH.ViewModelLaunchGameMultiChannelReadFail);
+                        infoBarService.Warning(string.Format(SH.ViewModelLaunchGameMultiChannelReadFail, multi.ConfigFilePath));
                     }
 
                     ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);

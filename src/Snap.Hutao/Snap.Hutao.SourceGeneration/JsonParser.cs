@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
 
@@ -46,7 +47,7 @@ public static class JsonParser
         stringBuilder ??= new StringBuilder();
         splitArrayPool ??= new Stack<List<string>>();
 
-        //Remove all whitespace not within strings to make parsing simpler
+        // Remove all whitespace not within strings to make parsing simpler
         stringBuilder.Length = 0;
         for (int i = 0; i < json.Length; i++)
         {
@@ -64,7 +65,7 @@ public static class JsonParser
             stringBuilder.Append(c);
         }
 
-        //Parse the thing!
+        // Parse the thing!
         return (T?)ParseValue(typeof(T), stringBuilder.ToString());
     }
 
@@ -96,7 +97,7 @@ public static class JsonParser
         return json.Length - 1;
     }
 
-    //Splits { <value>:<value>, <value>:<value> } and [ <value>, <value> ] into a list of <value> strings
+    // Splits { <value>:<value>, <value>:<value> } and [ <value>, <value> ] into a list of <value> strings
     private static List<string> Split(string json)
     {
         List<string> splitArray = splitArrayPool!.Count > 0 ? splitArrayPool.Pop() : new List<string>();
@@ -315,7 +316,7 @@ public static class JsonParser
                 return null;
             }
 
-            Dictionary<string, object?> dict = new Dictionary<string, object?>(elems.Count / 2);
+            Dictionary<string, object?> dict = new(elems.Count / 2);
             for (int i = 0; i < elems.Count; i += 2)
             {
                 dict[elems[i].Substring(1, elems[i].Length - 2)] = ParseAnonymousValue(elems[i + 1]);
@@ -396,7 +397,7 @@ public static class JsonParser
     {
         object instance = FormatterServices.GetUninitializedObject(type);
 
-        //The list is split into key/value pairs only, this means the split must be divisible by 2 to be valid JSON
+        // The list is split into key/value pairs only, this means the split must be divisible by 2 to be valid JSON
         List<string> elems = Split(json);
         if (elems.Count % 2 != 0)
         {

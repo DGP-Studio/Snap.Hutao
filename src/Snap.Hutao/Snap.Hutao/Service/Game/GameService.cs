@@ -26,7 +26,6 @@ namespace Snap.Hutao.Service.Game;
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton, typeof(IGameService))]
-[SuppressMessage("", "CA1001")]
 internal sealed class GameService : IGameService
 {
     private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
@@ -161,18 +160,20 @@ internal sealed class GameService : IGameService
             {
                 if (parameter.Key == "channel")
                 {
-                    if (parameter.Value != scheme.Channel)
+                    string channel = scheme.Channel.ToString("D");
+                    if (parameter.Value != channel)
                     {
-                        parameter.Value = scheme.Channel;
+                        parameter.Value = channel;
                         changed = true;
                     }
                 }
 
                 if (parameter.Key == "sub_channel")
                 {
-                    if (parameter.Value != scheme.SubChannel)
+                    string subChannel = scheme.SubChannel.ToString("D");
+                    if (parameter.Value != subChannel)
                     {
-                        parameter.Value = scheme.SubChannel;
+                        parameter.Value = subChannel;
                         changed = true;
                     }
                 }

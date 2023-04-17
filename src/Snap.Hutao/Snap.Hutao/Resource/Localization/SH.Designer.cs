@@ -2545,7 +2545,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 无法读取游戏配置文件 的本地化字符串。
+        ///   查找类似 无法读取游戏配置文件: {0} 的本地化字符串。
         /// </summary>
         internal static string ViewModelLaunchGameMultiChannelReadFail {
             get {
@@ -4723,11 +4723,236 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 搭配圣遗物 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarArtifactSetCombinationHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarArtifactSetCombinationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 养成材料 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarAscensionMaterialsHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarAscensionMaterialsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 筛选角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 汉语 CV 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarChineseCVNameTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarChineseCVNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 命之座 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarConstellationNameTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarConstellationNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 衣装 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarCostumeHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarCostumeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 生日 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarDateofBirthTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarDateofBirthTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 英语 CV 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarEnglishCVNameTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarEnglishCVNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 料理 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarFoodHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarFoodHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 日语 CV 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarJapaneseCVNameTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarJapaneseCVNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 韩语 CV 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarKoreanCVNameTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarKoreanCVNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 其它 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarMiscHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarMiscHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 所属 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarOccupationNameTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarOccupationNameTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 原料理 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarOriginalFoodTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarOriginalFoodTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 资料 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarQuotesHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarQuotesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 特殊料理 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarSpecialFoodTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarSpecialFoodTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 故事 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarStoriesHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarStoriesHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 天赋 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarTanlentHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarTanlentHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 搭配角色 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarTeamCombinationHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarTeamCombinationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 搭配武器 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiAvatarWeaponCombinationHeader {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiAvatarWeaponCombinationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加到养成计划 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiGeneralAddToDevPlanButtonLabel {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiGeneralAddToDevPlanButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 筛选怪物 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 掉落物品 的本地化字符串。
         /// </summary>
         internal static string ViewPageWikiMonsterDropItems {
             get {
                 return ResourceManager.GetString("ViewPageWikiMonsterDropItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 突破后 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiWeaponAfterAscensionTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiWeaponAfterAscensionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 筛选武器 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 突破前 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageWiKiWeaponBeforeAscensionTitle {
+            get {
+                return ResourceManager.GetString("ViewPageWiKiWeaponBeforeAscensionTitle", resourceCulture);
             }
         }
         

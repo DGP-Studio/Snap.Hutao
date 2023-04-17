@@ -916,7 +916,7 @@
     <value>切换服务器失败</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>无法读取游戏配置文件</value>
+    <value>无法读取游戏配置文件: {0}</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
     <value>游戏路径不正确，前往设置更改游戏路径</value>
