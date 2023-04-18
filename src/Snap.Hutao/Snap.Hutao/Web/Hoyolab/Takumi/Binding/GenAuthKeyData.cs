@@ -29,7 +29,6 @@ internal sealed class GenAuthKeyData
     /// App Id
     /// </summary>
     [JsonPropertyName("auth_appid")]
-
     public string AuthAppId { get; set; } = default!;
 
     /// <summary>
@@ -55,7 +54,7 @@ internal sealed class GenAuthKeyData
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>验证密钥提交数据</returns>
-    public static GenAuthKeyData CreateForWebViewGacha(PlayerUid uid)
+    public static GenAuthKeyData CreateForWebViewGacha(in PlayerUid uid)
     {
         return new("webview_gacha", "hk4e_cn", uid);
     }

@@ -47,7 +47,7 @@ internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
     private static GachaStatistics CreateCore(
         IOrderedQueryable<GachaItem> items,
         List<HistoryWishBuilder> historyWishBuilders,
-        GachaLogServiceContext context,
+        in GachaLogServiceContext context,
         bool isEmptyHistoryWishVisible)
     {
         TypedWishSummaryBuilder standardWishBuilder = new(SH.ServiceGachaLogFactoryPermanentWishName, TypedWishSummaryBuilder.IsStandardWish, 90, 10);

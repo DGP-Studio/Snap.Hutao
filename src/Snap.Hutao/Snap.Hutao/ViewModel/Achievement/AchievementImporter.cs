@@ -73,7 +73,7 @@ internal sealed class AchievementImporter
     {
         if (achievementService.CurrentArchive != null)
         {
-            (bool isPickerOk, FilePath file) = await serviceProvider
+            (bool isPickerOk, ValueFile file) = await serviceProvider
                 .GetRequiredService<IPickerFactory>()
                 .GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json")
                 .TryPickSingleFileAsync()

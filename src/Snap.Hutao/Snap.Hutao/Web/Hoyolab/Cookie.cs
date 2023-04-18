@@ -51,10 +51,7 @@ internal sealed partial class Cookie
         {
             string name = parts[0].Trim();
             string value = parts.Length == 1 ? string.Empty : parts[1].Trim();
-
-            // System.ArgumentException: An item with the same key has already been added.
-            // cookieMap.Add(name, value);
-            cookieMap[name] = value;
+            cookieMap.TryAdd(name, value);
         }
 
         return new(cookieMap);
@@ -73,7 +70,7 @@ internal sealed partial class Cookie
     }
 
     /// <summary>
-    /// 从登录结果创建Cookie
+    /// 从登录结果创建 Cookie
     /// </summary>
     /// <param name="loginResult">登录结果</param>
     /// <returns>Cookie</returns>
@@ -94,6 +91,12 @@ internal sealed partial class Cookie
         return new(cookieMap);
     }
 
+    /// <summary>
+    /// 从 SToken 创建 Cookie
+    /// </summary>
+    /// <param name="stuid">stuid</param>
+    /// <param name="stoken">stoken</param>
+    /// <returns>Cookie</returns>
     public static Cookie FromSToken(string stuid, string stoken)
     {
         SortedDictionary<string, string> cookieMap = new()

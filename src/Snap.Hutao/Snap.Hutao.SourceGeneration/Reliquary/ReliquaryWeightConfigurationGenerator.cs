@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Snap.Hutao.SourceGeneration;
+namespace Snap.Hutao.SourceGeneration.Reliquary;
 
 [Generator(LanguageNames.CSharp)]
 internal sealed class ReliquaryWeightConfigurationGenerator : IIncrementalGenerator
@@ -25,13 +25,13 @@ internal sealed class ReliquaryWeightConfigurationGenerator : IIncrementalGenera
         return Path.GetFileName(text.Path) == FileName;
     }
 
-    private static void GenerateReliquaryWeightConfiguration(SourceProductionContext context,ImmutableArray<AdditionalText> additionalTexts)
+    private static void GenerateReliquaryWeightConfiguration(SourceProductionContext context, ImmutableArray<AdditionalText> texts)
     {
-        AdditionalText jsonFile = additionalTexts.Single();
+        AdditionalText jsonFile = texts.Single();
 
         string configurationJson = jsonFile.GetText(context.CancellationToken)!.ToString();
         Dictionary<string, ReliquaryWeightConfigurationMetadata> metadataMap =
-            JsonParser.FromJson<Dictionary<string, ReliquaryWeightConfigurationMetadata>>(configurationJson)!;
+            configurationJson.FromJson<Dictionary<string, ReliquaryWeightConfigurationMetadata>>()!;
 
         StringBuilder sourceBuilder = new StringBuilder().Append($$"""
             // Copyright (c) DGP Studio. All rights reserved.

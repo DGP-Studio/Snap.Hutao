@@ -111,7 +111,7 @@ internal sealed class LaunchScheme
     /// </summary>
     /// <param name="multiChannel">多通道</param>
     /// <returns>是否相等</returns>
-    public bool MultiChannelEqual(MultiChannel multiChannel)
+    public bool MultiChannelEqual(in MultiChannel multiChannel)
     {
         return Channel == multiChannel.Channel && SubChannel == multiChannel.SubChannel;
     }

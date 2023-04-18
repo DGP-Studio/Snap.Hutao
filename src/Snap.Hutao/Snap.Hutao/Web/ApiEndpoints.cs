@@ -116,7 +116,7 @@ internal static class ApiEndpoints
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>角色基本信息字符串</returns>
-    public static string GameRecordRoleBasicInfo(PlayerUid uid)
+    public static string GameRecordRoleBasicInfo(in PlayerUid uid)
     {
         return $"{ApiTakumiRecordApi}/roleBasicInfo?role_id={uid.Value}&server={uid.Region}";
     }
@@ -131,7 +131,7 @@ internal static class ApiEndpoints
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>游戏记录实时便笺字符串</returns>
-    public static string GameRecordDailyNote(PlayerUid uid)
+    public static string GameRecordDailyNote(in PlayerUid uid)
     {
         return $"{ApiTakumiRecordApi}/dailyNote?server={uid.Region}&role_id={uid.Value}";
     }
@@ -141,7 +141,7 @@ internal static class ApiEndpoints
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>游戏记录主页字符串</returns>
-    public static string GameRecordIndex(PlayerUid uid)
+    public static string GameRecordIndex(in PlayerUid uid)
     {
         return $"{ApiTakumiRecordApi}/index?server={uid.Region}&role_id={uid.Value}";
     }
@@ -152,7 +152,7 @@ internal static class ApiEndpoints
     /// <param name="scheduleType">深渊类型</param>
     /// <param name="uid">Uid</param>
     /// <returns>深渊信息字符串</returns>
-    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, PlayerUid uid)
+    public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, in PlayerUid uid)
     {
         return $"{ApiTakumiRecordApi}/spiralAbyss?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
     }
@@ -208,7 +208,7 @@ internal static class ApiEndpoints
     /// <param name="avatarId">角色Id</param>
     /// <param name="uid">uid</param>
     /// <returns>角色详情</returns>
-    public static string CalculateSyncAvatarDetail(AvatarId avatarId, PlayerUid uid)
+    public static string CalculateSyncAvatarDetail(AvatarId avatarId, in PlayerUid uid)
     {
         return $"{ApiTakumiEventCalculate}/v1/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}";
     }

@@ -41,7 +41,7 @@ internal sealed class EnkaClient
     /// <param name="playerUid">玩家Uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>Enka API 响应</returns>
-    public Task<EnkaResponse?> GetForwardDataAsync(PlayerUid playerUid, CancellationToken token = default)
+    public Task<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
         return httpClient.TryCatchGetFromJsonAsync<EnkaResponse>(string.Format(EnkaAPIHutaoForward, playerUid.Value), options, logger, token);
     }
@@ -52,7 +52,7 @@ internal sealed class EnkaClient
     /// <param name="playerUid">玩家Uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>Enka API 响应</returns>
-    public Task<EnkaResponse?> GetDataAsync(PlayerUid playerUid, CancellationToken token = default)
+    public Task<EnkaResponse?> GetDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
         return httpClient.TryCatchGetFromJsonAsync<EnkaResponse>(string.Format(EnkaAPI, playerUid.Value), options, logger, token);
     }

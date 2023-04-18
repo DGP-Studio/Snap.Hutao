@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.IO;
 /// <summary>
 /// 文件路径
 /// </summary>
-internal readonly struct FilePath : IEquatable<FilePath>
+internal readonly struct ValueFile
 {
     /// <summary>
     /// 值
@@ -16,30 +16,30 @@ internal readonly struct FilePath : IEquatable<FilePath>
     public readonly string Value;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FilePath"/> struct.
+    /// Initializes a new instance of the <see cref="ValueFile"/> struct.
     /// </summary>
     /// <param name="value">value</param>
-    public FilePath(string value)
+    public ValueFile(string value)
     {
         Value = value;
     }
 
-    public static implicit operator string(FilePath value)
+    public static implicit operator string(ValueFile value)
     {
         return value.Value;
     }
 
-    public static implicit operator FilePath(string value)
+    public static implicit operator ValueFile(string value)
     {
         return new(value);
     }
 
-    public static bool operator ==(FilePath left, FilePath right)
+    public static bool operator ==(ValueFile left, ValueFile right)
     {
         return left.Value == right.Value;
     }
 
-    public static bool operator !=(FilePath left, FilePath right)
+    public static bool operator !=(ValueFile left, ValueFile right)
     {
         return !(left == right);
     }
@@ -93,15 +93,9 @@ internal readonly struct FilePath : IEquatable<FilePath>
     }
 
     /// <inheritdoc/>
-    public bool Equals(FilePath other)
-    {
-        return Value == other.Value;
-    }
-
-    /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
-        return obj is FilePath other && Equals(other);
+        return obj is ValueFile other && Equals(other);
     }
 
     /// <inheritdoc/>

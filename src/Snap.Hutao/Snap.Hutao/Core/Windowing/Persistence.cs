@@ -24,7 +24,7 @@ internal static class Persistence
     /// </summary>
     /// <param name="options">选项</param>
     /// <typeparam name="TWindow">窗体类型</typeparam>
-    public static void RecoverOrInit<TWindow>(WindowOptions<TWindow> options)
+    public static void RecoverOrInit<TWindow>(in WindowOptions<TWindow> options)
         where TWindow : Window, IExtendedWindowSource
     {
         // Set first launch size.
@@ -50,7 +50,7 @@ internal static class Persistence
     /// </summary>
     /// <param name="options">选项</param>
     /// <typeparam name="TWindow">窗体类型</typeparam>
-    public static void Save<TWindow>(WindowOptions<TWindow> options)
+    public static void Save<TWindow>(in WindowOptions<TWindow> options)
         where TWindow : Window, IExtendedWindowSource
     {
         WINDOWPLACEMENT windowPlacement = StructMarshal.WINDOWPLACEMENT();

@@ -72,6 +72,7 @@
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
     <None Remove="Control\Panel\PanelSelector.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
+    <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="NativeMethods.json" />
     <None Remove="NativeMethods.txt" />
@@ -106,6 +107,7 @@
     <None Remove="Resource\Segoe Fluent Icons.ttf" />
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
+    <None Remove="View\Card\AchievementCard.xaml" />
     <None Remove="View\Card\GachaStatisticsCard.xaml" />
     <None Remove="View\Card\LaunchGameCard.xaml" />
     <None Remove="View\Control\BaseValueSlider.xaml" />
@@ -157,6 +159,7 @@
   
   <!-- Analyzer Files -->
   <ItemGroup>
+    <AdditionalFiles Include="IdentityStructs.json" />
     <AdditionalFiles Include="NativeMethods.json" />
     <AdditionalFiles Include="NativeMethods.txt" />
     <AdditionalFiles Include="ReliquaryWeightConfiguration.json" />
@@ -294,6 +297,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Card\AchievementCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

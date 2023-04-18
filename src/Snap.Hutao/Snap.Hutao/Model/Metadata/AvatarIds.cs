@@ -64,7 +64,7 @@ internal static class AvatarIds
     public static readonly AvatarId Yae = 10000058;
     public static readonly AvatarId Heizo = 10000059;
     public static readonly AvatarId Yelan = 10000060;
-
+    public static readonly AvatarId Kirara = 10000061;
     public static readonly AvatarId Aloy = 10000062;
     public static readonly AvatarId Shenhe = 10000063;
     public static readonly AvatarId Yunjin = 10000064;
@@ -84,13 +84,15 @@ internal static class AvatarIds
     public static readonly AvatarId Alhaitham = 10000078;
     public static readonly AvatarId Dehya = 10000079;
     public static readonly AvatarId Mika = 10000080;
+    public static readonly AvatarId Kaveh = 10000081;
+    public static readonly AvatarId Baizhuer = 10000082;
 
     /// <summary>
     /// 检查该角色是否为主角
     /// </summary>
     /// <param name="avatarId">角色Id</param>
     /// <returns>角色是否为主角</returns>
-    public static bool IsPlayer(AvatarId avatarId)
+    public static bool IsPlayer(in AvatarId avatarId)
     {
         return avatarId == PlayerBoy || avatarId == PlayerGirl;
     }

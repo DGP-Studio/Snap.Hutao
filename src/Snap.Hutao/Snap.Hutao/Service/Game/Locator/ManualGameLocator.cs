@@ -36,7 +36,7 @@ internal sealed class ManualGameLocator : IGameLocator
             SH.ServiceGameLocatorFileOpenPickerCommitText,
             ".exe");
 
-        (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
+        (bool isPickerOk, ValueFile file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
 
         if (isPickerOk)
         {

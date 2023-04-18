@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Database;
@@ -327,7 +326,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
             picker.CommitButtonText = SH.FilePickerExportCommit;
             picker.SuggestedFileName = $"{achievementService.CurrentArchive?.Name}.json";
 
-            (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
+            (bool isPickerOk, ValueFile file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
             if (isPickerOk)
             {
                 UIAF uiaf = await achievementService.ExportToUIAFAsync(SelectedArchive).ConfigureAwait(false);

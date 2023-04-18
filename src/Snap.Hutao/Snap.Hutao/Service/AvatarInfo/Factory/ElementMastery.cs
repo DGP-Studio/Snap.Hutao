@@ -35,7 +35,7 @@ internal static class ElementMastery
     /// <param name="mastery">元素精通</param>
     /// <param name="coeff">参数</param>
     /// <returns>差异</returns>
-    public static float GetDelta(float mastery, ElementMasteryCoefficient coeff)
+    public static float GetDelta(float mastery, in ElementMasteryCoefficient coeff)
     {
         return mastery + coeff.P2 == 0 ? 0 : MathF.Max(mastery * coeff.P1 / (mastery + coeff.P2), 0);
     }

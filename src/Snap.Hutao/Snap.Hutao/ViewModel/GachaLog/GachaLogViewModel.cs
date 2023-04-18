@@ -242,7 +242,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     private async Task ImportFromUIGFJsonAsync()
     {
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json");
-        (bool isPickerOk, FilePath file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
+        (bool isPickerOk, ValueFile file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
         if (isPickerOk)
         {
             (bool isOk, UIGF? uigf) = await file.DeserializeFromJsonAsync<UIGF>(options).ConfigureAwait(false);
@@ -267,7 +267,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
             picker.CommitButtonText = SH.FilePickerExportCommit;
             picker.FileTypeChoices.Add(SH.ViewModelGachaLogExportFileType, ".json".Enumerate().ToList());
 
-            (bool isPickerOk, FilePath file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
+            (bool isPickerOk, ValueFile file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
 
             if (isPickerOk)
             {

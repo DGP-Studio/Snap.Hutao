@@ -1,0 +1,47 @@
+[
+  {
+    "Name": "AvatarId",
+    "Type": "int",
+    "Documentation": "8位 角色Id"
+  },
+  {
+    "Name": "EquipAffixId",
+    "Type": "int",
+    "Documentation": "6位 装备属性Id"
+  },
+  {
+    "Name": "ExtendedEquipAffixId",
+    "Type": "int",
+    "Documentation": "7位 装备属性Id"
+  },
+  {
+    "Name": "MaterialId",
+    "Type": "int",
+    "Documentation": "3-6位 材料Id"
+  },
+  {
+    "Name": "MonsterId",
+    "Type": "int",
+    "Documentation": "8位 怪物Id"
+  },
+  {
+    "Name": "PromoteId",
+    "Type": "int",
+    "Documentation": "1-5位 角色突破提升Id"
+  },
+  {
+    "Name": "ReliquaryAffixId",
+    "Type": "int",
+    "Documentation": "6位 圣遗物副词条Id"
+  },
+  {
+    "Name": "ReliquaryMainAffixId",
+    "Type": "int",
+    "Documentation": "5位 圣遗物主属性Id"
+  },
+  {
+    "Name": "WeaponId",
+    "Type": "int",
+    "Documentation": "5位 武器Id"
+  }
+]

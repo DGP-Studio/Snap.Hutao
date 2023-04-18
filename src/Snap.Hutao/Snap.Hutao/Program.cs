@@ -5,9 +5,12 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Service;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Globalization;
 using WinRT;
+
+[assembly:InternalsVisibleTo("Snap.Hutao.Test")]
 
 namespace Snap.Hutao;
 
