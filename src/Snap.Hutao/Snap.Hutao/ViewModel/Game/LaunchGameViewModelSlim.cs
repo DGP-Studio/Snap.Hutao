@@ -29,7 +29,7 @@ internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.P
     {
         gameService = serviceProvider.GetRequiredService<IGameService>();
 
-        LaunchCommand = new AsyncRelayCommand(LaunchAsync);
+        LaunchCommand = new AsyncRelayCommand(LaunchAsync, AsyncRelayCommandOptions.AllowConcurrentExecutions);
     }
 
     /// <summary>

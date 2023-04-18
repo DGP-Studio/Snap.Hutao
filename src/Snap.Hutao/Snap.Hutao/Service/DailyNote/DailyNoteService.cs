@@ -141,12 +141,14 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
                     {
                         await new DailyNoteNotifier(scopeFactory, entry).NotifyAsync().ConfigureAwait(false);
                     }
+
+                    await appDbContext.DailyNotes.UpdateAndSaveAsync(entry).ConfigureAwait(false);
                 }
                 else
                 {
                     IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
 
-                    // special retcode handling for dailynote
+                    // Special retcode handling for dailynote
                     if (dailyNoteResponse.ReturnCode == (int)Web.Response.KnownReturnCode.CODE1034)
                     {
                         infoBarService.Warning(dailyNoteResponse.ToString());
@@ -157,8 +159,6 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
                     }
                 }
             }
-
-            await appDbContext.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 

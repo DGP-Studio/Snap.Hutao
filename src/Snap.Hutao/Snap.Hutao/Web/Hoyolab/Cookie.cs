@@ -66,7 +66,7 @@ internal sealed partial class Cookie
 
         foreach (CoreWebView2Cookie cookie in webView2Cookies)
         {
-            cookieMap.Add(cookie.Name, cookie.Value);
+            cookieMap.TryAdd(cookie.Name, cookie.Value);
         }
 
         return new(cookieMap);

@@ -1537,6 +1537,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 据上一个五/四星 的本地化字符串。
+        /// </summary>
+        internal static string ViewCardGachaStatisticsTitle {
+            get {
+                return ResourceManager.GetString("ViewCardGachaStatisticsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 等级 的本地化字符串。
         /// </summary>
         internal static string ViewControlBaseValueSliderLevel {

@@ -46,6 +46,12 @@
                         <TextBlock
                             Grid.Row="0"
                             Grid.ColumnSpan="3"
+                            Text="{shcm:ResourceString Name=ViewCardGachaStatisticsTitle}"/>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.ColumnSpan="3"
+                            HorizontalAlignment="Right"
                             Text="{Binding Uid}"/>
 
                         <StackPanel
