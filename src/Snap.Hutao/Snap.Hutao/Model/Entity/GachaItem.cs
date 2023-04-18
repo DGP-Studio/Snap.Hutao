@@ -79,7 +79,7 @@ internal sealed class GachaItem
     /// <param name="item">祈愿物品</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem Create(Guid archiveId, GachaLogItem item, int itemId)
+    public static GachaItem Create(in Guid archiveId, GachaLogItem item, int itemId)
     {
         return new()
         {
@@ -99,7 +99,7 @@ internal sealed class GachaItem
     /// <param name="item">祈愿物品</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem Create(Guid archiveId, UIGFItem item, int itemId)
+    public static GachaItem Create(in Guid archiveId, UIGFItem item, int itemId)
     {
         return new()
         {
@@ -118,7 +118,7 @@ internal sealed class GachaItem
     /// <param name="archiveId">存档Id</param>
     /// <param name="item">祈愿物品</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem Create(Guid archiveId, Web.Hutao.GachaLog.GachaItem item)
+    public static GachaItem Create(in Guid archiveId, Web.Hutao.GachaLog.GachaItem item)
     {
         return new()
         {

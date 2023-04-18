@@ -15,7 +15,7 @@ internal static class DateTimeOffsetExtension
     /// <param name="timestamp">时间戳</param>
     /// <param name="defaultValue">默认值</param>
     /// <returns>转换的时间</returns>
-    public static DateTimeOffset FromUnixTime(long? timestamp, DateTimeOffset defaultValue)
+    public static DateTimeOffset FromUnixTime(long? timestamp, in DateTimeOffset defaultValue)
     {
         if (timestamp is long value)
         {

@@ -47,7 +47,7 @@ internal sealed class InventoryItem
     /// <param name="projectId">项目Id</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的个数为0的物品</returns>
-    public static InventoryItem Create(Guid projectId, int itemId)
+    public static InventoryItem Create(in Guid projectId, int itemId)
     {
         return new()
         {

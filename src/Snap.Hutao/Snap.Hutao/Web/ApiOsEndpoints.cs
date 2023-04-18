@@ -208,7 +208,7 @@ internal static class ApiOsEndpoints
     /// <param name="avatarId">角色Id</param>
     /// <param name="uid">uid</param>
     /// <returns>角色详情</returns>
-    public static string CalculateSyncAvatarDetail(AvatarId avatarId, in PlayerUid uid)
+    public static string CalculateSyncAvatarDetail(in AvatarId avatarId, in PlayerUid uid)
     {
         return $"{SgPublicApi}/event/calculateos/sync/avatar/detail?avatar_id={avatarId.Value}&uid={uid.Value}&region={uid.Region}";
     }

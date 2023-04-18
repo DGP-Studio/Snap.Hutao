@@ -75,7 +75,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     }
 
     /// <inheritdoc/>
-    public SummaryItem ToSummaryItem(int lastPull, DateTimeOffset time, bool isUp)
+    public SummaryItem ToSummaryItem(int lastPull, in DateTimeOffset time, bool isUp)
     {
         return new()
         {

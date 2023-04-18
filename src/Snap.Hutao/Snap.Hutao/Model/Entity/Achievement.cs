@@ -59,7 +59,7 @@ internal sealed class Achievement : IEquatable<Achievement>
     /// <param name="userId">对应的用户id</param>
     /// <param name="id">成就Id</param>
     /// <returns>新创建的成就</returns>
-    public static Achievement Create(Guid userId, int id)
+    public static Achievement Create(in Guid userId, int id)
     {
         return new()
         {
@@ -76,7 +76,7 @@ internal sealed class Achievement : IEquatable<Achievement>
     /// <param name="userId">对应的用户id</param>
     /// <param name="uiaf">uiaf项</param>
     /// <returns>新创建的成就</returns>
-    public static Achievement Create(Guid userId, UIAFItem uiaf)
+    public static Achievement Create(in Guid userId, UIAFItem uiaf)
     {
         return new()
         {

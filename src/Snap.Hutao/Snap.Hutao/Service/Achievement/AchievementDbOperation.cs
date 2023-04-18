@@ -33,6 +33,7 @@ internal sealed class AchievementDbOperation
     /// <param name="items">待合并的项</param>
     /// <param name="aggressive">是否贪婪</param>
     /// <returns>导入结果</returns>
+    [SuppressMessage("", "SH002")]
     public ImportResult Merge(Guid archiveId, IEnumerable<UIAFItem> items, bool aggressive)
     {
         IOrderedQueryable<EntityAchievement> oldData = appDbContext.Achievements
@@ -115,6 +116,7 @@ internal sealed class AchievementDbOperation
     /// <param name="archiveId">成就id</param>
     /// <param name="items">待覆盖的项</param>
     /// <returns>导入结果</returns>
+    [SuppressMessage("", "SH002")]
     public ImportResult Overwrite(Guid archiveId, IEnumerable<EntityAchievement> items)
     {
         IOrderedQueryable<EntityAchievement> oldData = appDbContext.Achievements

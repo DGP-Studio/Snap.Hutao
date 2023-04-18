@@ -60,7 +60,7 @@ internal sealed class DescriptionTextBlock : ContentControl
         ApplyDescription(text, description);
     }
 
-    private static void ApplyDescription(TextBlock text, ReadOnlySpan<char> description)
+    private static void ApplyDescription(TextBlock text, in ReadOnlySpan<char> description)
     {
         text.Inlines.Clear();
 
@@ -111,12 +111,12 @@ internal sealed class DescriptionTextBlock : ContentControl
         }
     }
 
-    private static void AppendText(TextBlock text, ReadOnlySpan<char> slice)
+    private static void AppendText(TextBlock text, in ReadOnlySpan<char> slice)
     {
         text.Inlines.Add(new Run { Text = slice.ToString() });
     }
 
-    private static void AppendColorText(TextBlock text, ReadOnlySpan<char> slice, Rgba8 color)
+    private static void AppendColorText(TextBlock text, in ReadOnlySpan<char> slice, Rgba8 color)
     {
         Color targetColor;
         if (ThemeHelper.IsDarkMode(text.ActualTheme))
@@ -137,7 +137,7 @@ internal sealed class DescriptionTextBlock : ContentControl
         });
     }
 
-    private static void AppendItalicText(TextBlock text, ReadOnlySpan<char> slice)
+    private static void AppendItalicText(TextBlock text, in ReadOnlySpan<char> slice)
     {
         text.Inlines.Add(new Run
         {

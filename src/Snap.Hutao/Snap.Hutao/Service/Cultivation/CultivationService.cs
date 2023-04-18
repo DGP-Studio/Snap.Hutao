@@ -324,6 +324,7 @@ internal sealed class CultivationService : ICultivationService
         return true;
     }
 
+    [SuppressMessage("", "SH002")]
     private static Task<List<InventoryItem>> GetProjectInventoryAsync(AppDbContext appDbContext, Guid projectId)
     {
         return appDbContext.InventoryItems
@@ -332,6 +333,7 @@ internal sealed class CultivationService : ICultivationService
             .ToListAsync();
     }
 
+    [SuppressMessage("", "SH002")]
     private static Task<List<CultivateEntry>> GetProjectEntriesAsync(AppDbContext appDbContext, Guid projectId)
     {
         return appDbContext.CultivateEntries
@@ -340,6 +342,7 @@ internal sealed class CultivationService : ICultivationService
             .ToListAsync();
     }
 
+    [SuppressMessage("", "SH002")]
     private static Task<List<CultivateItem>> GetEntryItemsAsync(AppDbContext appDbContext, Guid entryId)
     {
         return appDbContext.CultivateItems

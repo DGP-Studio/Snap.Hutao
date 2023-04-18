@@ -101,7 +101,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
     }
 
-    private static unsafe MODULEENTRY32 UnsafeFindModule(int processId, ReadOnlySpan<byte> moduleName)
+    private static unsafe MODULEENTRY32 UnsafeFindModule(int processId, in ReadOnlySpan<byte> moduleName)
     {
         HANDLE snapshot = CreateToolhelp32Snapshot(CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE, (uint)processId);
         try

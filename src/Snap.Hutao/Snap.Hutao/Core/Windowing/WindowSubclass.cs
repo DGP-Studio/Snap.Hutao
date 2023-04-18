@@ -75,6 +75,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
         }
     }
 
+    [SuppressMessage("", "SH002")]
     private unsafe LRESULT OnSubclassProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {
         switch (uMsg)
@@ -96,6 +97,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
         return DefSubclassProc(hwnd, uMsg, wParam, lParam);
     }
 
+    [SuppressMessage("", "SH002")]
     private LRESULT OnDragBarProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {
         switch (uMsg)

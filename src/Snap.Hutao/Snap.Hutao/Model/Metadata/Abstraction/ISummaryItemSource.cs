@@ -24,5 +24,5 @@ internal interface ISummaryItemSource
     /// <param name="time">时间</param>
     /// <param name="isUp">是否为Up物品</param>
     /// <returns>简述统计物品</returns>
-    SummaryItem ToSummaryItem(int lastPull, DateTimeOffset time, bool isUp);
+    SummaryItem ToSummaryItem(int lastPull, in DateTimeOffset time, bool isUp);
 }

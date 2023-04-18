@@ -73,6 +73,7 @@ internal sealed class TempFileStream : Stream
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);
+
         stream.Dispose();
         File.Delete(path);
     }

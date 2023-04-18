@@ -85,6 +85,7 @@ internal static class StructMarshal
     /// </summary>
     /// <param name="snapshot">快照</param>
     /// <returns>模块枚举</returns>
+    [SuppressMessage("", "SH002")]
     public static IEnumerable<MODULEENTRY32> EnumerateModuleEntry32(HANDLE snapshot)
     {
         MODULEENTRY32 entry = MODULEENTRY32();
@@ -111,7 +112,7 @@ internal static class StructMarshal
         return moduleEntry32.dwSize == 0;
     }
 
-    private static unsafe BOOL UnsafeModule32First(HANDLE snapshot, ref MODULEENTRY32 lpme)
+    private static unsafe BOOL UnsafeModule32First(in HANDLE snapshot, ref MODULEENTRY32 lpme)
     {
         fixed (MODULEENTRY32* lpmeLocal = &lpme)
         {
@@ -119,7 +120,7 @@ internal static class StructMarshal
         }
     }
 
-    private static unsafe BOOL UnsafeModule32Next(HANDLE snapshot, ref MODULEENTRY32 lpme)
+    private static unsafe BOOL UnsafeModule32Next(in HANDLE snapshot, ref MODULEENTRY32 lpme)
     {
         fixed (MODULEENTRY32* lpmeLocal = &lpme)
         {

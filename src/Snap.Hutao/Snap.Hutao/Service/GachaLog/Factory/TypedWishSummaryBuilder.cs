@@ -170,7 +170,7 @@ internal sealed class TypedWishSummaryBuilder
         }
     }
 
-    private void TrackFromToTime(DateTimeOffset time)
+    private void TrackFromToTime(in DateTimeOffset time)
     {
         if (time < fromTimeTracker)
         {

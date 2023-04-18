@@ -49,7 +49,6 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
 
         context.RegisterSyntaxNodeAction(HandleTypeDeclaration, types);
 
-        context.RegisterSyntaxNodeAction(CollectReadOnlyStruct, SyntaxKind.StructDeclaration);
         context.RegisterSyntaxNodeAction(HandleMethodDeclaration, SyntaxKind.MethodDeclaration);
     }
 
@@ -87,27 +86,18 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private readonly HashSet<string> readOnlyStructs = new();
-
-    private void CollectReadOnlyStruct(SyntaxNodeAnalysisContext context)
-    {
-        StructDeclarationSyntax structSyntax = (StructDeclarationSyntax)context.Node;
-
-        if (structSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.ReadOnlyKeyword)))
-        {
-            if (context.SemanticModel.GetDeclaredSymbol(structSyntax) is INamedTypeSymbol symbol)
-            {
-                readOnlyStructs.Add(symbol.ToDisplayString());
-            }
-        }
-    }
-
     private void HandleMethodDeclaration(SyntaxNodeAnalysisContext context)
     {
         MethodDeclarationSyntax methodSyntax = (MethodDeclarationSyntax)context.Node;
 
         // 跳过异步方法，因为异步方法无法使用 ref in out
         if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.AsyncKeyword)))
+        {
+            return;
+        }
+
+        // 跳过重载方法
+        if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.OverrideKeyword)))
         {
             return;
         }
@@ -122,7 +112,18 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         {
             if (context.SemanticModel.GetDeclaredSymbol(parameter) is IParameterSymbol symbol)
             {
-                if (readOnlyStructs.Contains(symbol.Type.ToDisplayString()) && symbol.RefKind == RefKind.None)
+                if (IsBuiltInType(symbol.Type))
+                {
+                    continue;
+                }
+
+                // 跳过 CancellationToken
+                if (symbol.Type.ToDisplayString() == "System.Threading.CancellationToken")
+                {
+                    continue;
+                }
+
+                if (symbol.Type.IsReadOnly && symbol.RefKind == RefKind.None)
                 {
                     Location location = parameter.GetLocation();
                     Diagnostic diagnostic = Diagnostic.Create(readOnlyStructRefDescriptor, location, symbol.Type);
@@ -130,5 +131,28 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
                 }
             }
         }
+    }
+
+    private bool IsBuiltInType(ITypeSymbol symbol)
+    {
+        return symbol.SpecialType switch
+        {
+            SpecialType.System_Boolean => true,
+            SpecialType.System_Char => true,
+            SpecialType.System_SByte => true,
+            SpecialType.System_Byte => true,
+            SpecialType.System_Int16 => true,
+            SpecialType.System_UInt16 => true,
+            SpecialType.System_Int32 => true,
+            SpecialType.System_UInt32 => true,
+            SpecialType.System_Int64 => true,
+            SpecialType.System_UInt64 => true,
+            SpecialType.System_Decimal => true,
+            SpecialType.System_Single => true,
+            SpecialType.System_Double => true,
+            SpecialType.System_IntPtr => true,
+            SpecialType.System_UIntPtr => true,
+            _ => false,
+        };
     }
 }

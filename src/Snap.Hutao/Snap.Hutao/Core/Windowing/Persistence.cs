@@ -68,7 +68,7 @@ internal static class Persistence
     /// </summary>
     /// <param name="hwnd">窗体句柄</param>
     /// <returns>缩放比</returns>
-    public static double GetScaleForWindowHandle(HWND hwnd)
+    public static double GetScaleForWindowHandle(in HWND hwnd)
     {
         uint dpi = GetDpiForWindow(hwnd);
         return Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);

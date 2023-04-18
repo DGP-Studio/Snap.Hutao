@@ -85,19 +85,19 @@ internal static class LocalSetting
     }
 
     /// <inheritdoc cref="Get{T}(string, T)"/>
-    public static DateTimeOffset Get(string key, DateTimeOffset defaultValue)
+    public static DateTimeOffset Get(string key, in DateTimeOffset defaultValue)
     {
         return Get<DateTimeOffset>(key, defaultValue);
     }
 
     /// <inheritdoc cref="Get{T}(string, T)"/>
-    public static TimeSpan Get(string key, TimeSpan defaultValue)
+    public static TimeSpan Get(string key, in TimeSpan defaultValue)
     {
         return Get<TimeSpan>(key, defaultValue);
     }
 
     /// <inheritdoc cref="Get{T}(string, T)"/>
-    public static Guid Get(string key, Guid defaultValue)
+    public static Guid Get(string key, in Guid defaultValue)
     {
         return Get<Guid>(key, defaultValue);
     }
@@ -187,19 +187,19 @@ internal static class LocalSetting
     }
 
     /// <inheritdoc cref="Set{T}(string, T)"/>
-    public static void Set(string key, DateTimeOffset value)
+    public static void Set(string key, in DateTimeOffset value)
     {
         Set<DateTimeOffset>(key, value);
     }
 
     /// <inheritdoc cref="Set{T}(string, T)"/>
-    public static void Set(string key, TimeSpan value)
+    public static void Set(string key, in TimeSpan value)
     {
         Set<TimeSpan>(key, value);
     }
 
     /// <inheritdoc cref="Set{T}(string, T)"/>
-    public static void Set(string key, Guid value)
+    public static void Set(string key, in Guid value)
     {
         Set<Guid>(key, value);
     }

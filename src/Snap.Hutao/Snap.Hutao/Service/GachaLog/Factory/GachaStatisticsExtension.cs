@@ -19,7 +19,7 @@ internal static class GachaStatisticsExtension
     /// </summary>
     /// <param name="span">跨度</param>
     /// <returns>平均值</returns>
-    public static byte Average(this Span<byte> span)
+    public static byte Average(this in Span<byte> span)
     {
         int sum = 0;
         int count = 0;

@@ -53,7 +53,7 @@ internal sealed class CultivateItem
     /// <param name="itemId">物品 Id</param>
     /// <param name="count">个数</param>
     /// <returns>养成物品</returns>
-    public static CultivateItem Create(Guid entryId, int itemId, int count)
+    public static CultivateItem Create(in Guid entryId, int itemId, int count)
     {
         return new()
         {
