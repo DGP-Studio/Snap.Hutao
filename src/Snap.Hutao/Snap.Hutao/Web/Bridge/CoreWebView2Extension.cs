@@ -49,17 +49,17 @@ internal static class CoreWebView2Extension
 
         if (cookieToken != null)
         {
-            cookieManager.AddMihoyoCookie("account_id", cookieToken, isOversea).AddMihoyoCookie("cookie_token", cookieToken, isOversea);
+            cookieManager.AddMihoyoCookie(Cookie.ACCOUNT_ID, cookieToken, isOversea).AddMihoyoCookie(Cookie.COOKIE_TOKEN, cookieToken, isOversea);
         }
 
         if (lToken != null)
         {
-            cookieManager.AddMihoyoCookie("ltuid", lToken, isOversea).AddMihoyoCookie("ltoken", lToken, isOversea);
+            cookieManager.AddMihoyoCookie(Cookie.LTUID, lToken, isOversea).AddMihoyoCookie(Cookie.LTOKEN, lToken, isOversea);
         }
 
         if (sToken != null)
         {
-            cookieManager.AddMihoyoCookie("stuid", sToken, isOversea).AddMihoyoCookie("stoken", sToken, isOversea);
+            cookieManager.AddMihoyoCookie(Cookie.STUID, sToken, isOversea).AddMihoyoCookie(Cookie.STOKEN, sToken, isOversea);
         }
 
         return webView;
@@ -67,7 +67,8 @@ internal static class CoreWebView2Extension
 
     private static CoreWebView2CookieManager AddMihoyoCookie(this CoreWebView2CookieManager manager, string name, Cookie cookie, bool isOversea = false)
     {
-        manager.AddOrUpdateCookie(manager.CreateCookie(name, cookie[name], isOversea ? ".hoyolab.com" : ".mihoyo.com", "/"));
+        string domain = isOversea ? ".hoyolab.com" : ".mihoyo.com";
+        manager.AddOrUpdateCookie(manager.CreateCookie(name, cookie[name], domain, "/"));
         return manager;
     }
 }

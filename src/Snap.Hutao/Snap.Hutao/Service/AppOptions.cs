@@ -56,6 +56,12 @@ internal sealed class AppOptions : DbStoreOptions
     }
 
     /// <summary>
+    /// 初始化前的语言
+    /// 通过设置与获取此属性，就可以获取到与系统同步的语言
+    /// </summary>
+    public CultureInfo PreviousCulture { get; set; } = default!;
+
+    /// <summary>
     /// 当前语言
     /// </summary>
     public CultureInfo CurrentCulture

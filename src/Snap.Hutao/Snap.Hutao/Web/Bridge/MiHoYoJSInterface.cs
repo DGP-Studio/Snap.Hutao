@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
@@ -262,12 +263,13 @@ internal class MiHoYoJSInterface
     /// <returns>语言与时区</returns>
     public virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
-        string cultureName = CultureInfo.CurrentCulture.Name;
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+
         return new()
         {
             Data = new()
             {
-                ["language"] = cultureName.ToLowerInvariant(),
+                ["language"] = appOptions.PreviousCulture.Name.ToLowerInvariant(),
                 ["timeZone"] = "GMT+8",
             },
         };
@@ -389,6 +391,7 @@ internal class MiHoYoJSInterface
                 "getActionTicket" => await GetActionTicketAsync(param).ConfigureAwait(false),
                 "getCookieInfo" => GetCookieInfo(param),
                 "getCookieToken" => await GetCookieTokenAsync(param).ConfigureAwait(false),
+                "getCurrentLocale" => GetCurrentLocale(param),
                 "getDS" => GetDynamicSecrectV1(param),
                 "getDS2" => GetDynamicSecrectV2(param),
                 "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
@@ -398,7 +401,6 @@ internal class MiHoYoJSInterface
                 "login" => null,
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
                 "showLoading" => null,
-                "getCurrentLocale" => GetCurrentLocale(param),
                 _ => LogUnhandledMessage("Unhandled Message Type: {method}", param.Method),
             };
         }
