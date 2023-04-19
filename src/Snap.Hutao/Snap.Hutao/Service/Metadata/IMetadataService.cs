@@ -61,11 +61,25 @@ internal interface IMetadataService : ICastableService
     ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default);
 
     /// <summary>
+    /// 异步获取成就映射
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>成就映射</returns>
+    ValueTask<Dictionary<AchievementId, Model.Metadata.Achievement.Achievement>> GetIdToAchievementMapAsync(CancellationToken token = default);
+
+    /// <summary>
     /// 异步获取Id到角色的字典
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>Id到角色的字典</returns>
     ValueTask<Dictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取显示与材料映射
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>显示与材料映射</returns>
+    ValueTask<Dictionary<MaterialId, Display>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取Id到材料的字典
@@ -79,7 +93,7 @@ internal interface IMetadataService : ICastableService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>字典</returns>
-    ValueTask<Dictionary<ReliquaryAffixId, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<ReliquaryAffixId, ReliquaryAffix>> GetIdToReliquaryAffixMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物主词条Id与属性的字典
@@ -199,11 +213,4 @@ internal interface IMetadataService : ICastableService
     /// <param name="token">取消令牌</param>
     /// <returns>武器突破列表</returns>
     ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取显示与材料映射
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>显示与材料映射</returns>
-    ValueTask<Dictionary<MaterialId, Display>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default);
 }

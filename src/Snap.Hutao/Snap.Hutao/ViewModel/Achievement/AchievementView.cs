@@ -30,7 +30,7 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
         Entity = entity;
         Inner = inner;
 
-        isChecked = (int)entity.Status >= 2;
+        isChecked = (int)entity.Status >= (int)AchievementStatus.STATUS_FINISHED;
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
                 // Only update state when checked
                 if (value)
                 {
-                    Entity.Status = AchievementInfoStatus.STATUS_REWARD_TAKEN;
+                    Entity.Status = AchievementStatus.STATUS_REWARD_TAKEN;
                     Entity.Time = DateTimeOffset.Now;
                     OnPropertyChanged(nameof(Time));
                 }

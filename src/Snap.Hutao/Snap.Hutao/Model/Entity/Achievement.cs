@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -51,7 +52,7 @@ internal sealed class Achievement : IEquatable<Achievement>
     /// <summary>
     /// 状态
     /// </summary>
-    public AchievementInfoStatus Status { get; set; }
+    public AchievementStatus Status { get; set; }
 
     /// <summary>
     /// 创建一个新的成就
@@ -59,7 +60,7 @@ internal sealed class Achievement : IEquatable<Achievement>
     /// <param name="userId">对应的用户id</param>
     /// <param name="id">成就Id</param>
     /// <returns>新创建的成就</returns>
-    public static Achievement Create(in Guid userId, int id)
+    public static Achievement Create(in Guid userId, in AchievementId id)
     {
         return new()
         {
@@ -83,7 +84,7 @@ internal sealed class Achievement : IEquatable<Achievement>
             ArchiveId = userId,
             Id = uiaf.Id,
             Current = uiaf.Current,
-            Status = uiaf.Status, // Hot fix | 1.0.30 | Status not set when create database entity
+            Status = uiaf.Status,
             Time = DateTimeOffset.FromUnixTimeSeconds(uiaf.Timestamp).ToLocalTime(),
         };
     }

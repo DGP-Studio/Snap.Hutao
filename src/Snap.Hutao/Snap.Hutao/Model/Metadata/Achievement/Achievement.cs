@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Model.Metadata.Achievement;
 
 /// <summary>
@@ -12,7 +14,7 @@ internal sealed class Achievement
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; set; }
+    public AchievementId Id { get; set; }
 
     /// <summary>
     /// 分类Id

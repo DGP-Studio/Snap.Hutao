@@ -9,6 +9,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.InterChange.Achievement;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
@@ -367,9 +368,9 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
             return;
         }
 
-        List<MetadataAchievement> rawAchievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
+        List<MetadataAchievement> achievements = await metadataService.GetAchievementsAsync(CancellationToken).ConfigureAwait(false);
 
-        if (TryGetAchievements(archive, rawAchievements, out List<AchievementView>? combined))
+        if (TryGetAchievements(archive, achievements, out List<AchievementView>? combined))
         {
             // Assemble achievements on the UI thread.
             await ThreadHelper.SwitchToMainThreadAsync();
@@ -436,9 +437,9 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
 
             if (!string.IsNullOrEmpty(search))
             {
-                if (search.Length == 5 && int.TryParse(search, out int entityId))
+                if (search.Length == 5 && int.TryParse(search, out int achievementId))
                 {
-                    Achievements.Filter = obj => ((AchievementView)obj).Inner.Id == entityId;
+                    Achievements.Filter = obj => ((AchievementView)obj).Inner.Id == achievementId;
                 }
                 else
                 {

@@ -34,7 +34,7 @@ internal sealed class SummaryFactory : ISummaryFactory
             IdAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false),
             IdWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false),
             IdRelicMainPropMap = await metadataService.GetIdToReliquaryMainPropertyMapAsync(token).ConfigureAwait(false),
-            IdReliquaryAffixMap = await metadataService.GetIdReliquaryAffixMapAsync(token).ConfigureAwait(false),
+            IdReliquaryAffixMap = await metadataService.GetIdToReliquaryAffixMapAsync(token).ConfigureAwait(false),
             ReliqueryLevels = await metadataService.GetReliquaryLevelsAsync(token).ConfigureAwait(false),
             Reliquaries = await metadataService.GetReliquariesAsync(token).ConfigureAwait(false),
         };

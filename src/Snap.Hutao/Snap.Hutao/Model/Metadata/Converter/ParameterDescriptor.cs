@@ -51,13 +51,10 @@ internal sealed partial class ParameterDescriptor : ValueConverter<DescriptionsP
     private static List<ParameterDescription> GetParameterInfos(List<DescFormat> formats, List<double> param)
     {
         Span<DescFormat> span = CollectionsMarshal.AsSpan(formats);
-        ref DescFormat reference = ref MemoryMarshal.GetReference(span);
-
         List<ParameterDescription> results = new(span.Length);
-        for (int index = 0; index < span.Length; index++)
-        {
-            ref DescFormat descFormat = ref Unsafe.Add(ref reference, index);
 
+        foreach (DescFormat descFormat in span)
+        {
             string format = descFormat.Format;
             string resultFormatted = ParamRegex().Replace(format, match => EvaluateMatch(match, param));
             results.Add(new ParameterDescription { Description = descFormat.Description, Parameter = resultFormatted });

@@ -46,6 +46,9 @@
             <x:Double x:Key="CompatSplitViewOpenPaneLength">212</x:Double>
             <x:Double x:Key="CompatSplitViewOpenPaneLength2">268</x:Double>
             <GridLength x:Key="CompatGridLength2">268</GridLength>
+
+            <x:Double x:Key="HomeAdaptiveCardHeight">180</x:Double>
+
             <!--  Brushes  -->
             <SolidColorBrush x:Key="AvatarPropertyAddValueBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
             <!--  Settings  -->

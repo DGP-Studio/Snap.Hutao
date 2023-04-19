@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
+using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.Achievement;
 using System.Collections.ObjectModel;
-using BindingAchievement = Snap.Hutao.ViewModel.Achievement.AchievementView;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
-using EntityArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -25,10 +26,10 @@ internal sealed class AchievementService : IAchievementService
 {
     private readonly AppDbContext appDbContext;
     private readonly ILogger<AchievementService> logger;
-    private readonly DbCurrent<EntityArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
+    private readonly DbCurrent<AchievementArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
     private readonly AchievementDbOperation achievementDbOperation;
 
-    private ObservableCollection<EntityArchive>? archiveCollection;
+    private ObservableCollection<AchievementArchive>? archiveCollection;
 
     /// <summary>
     /// 构造一个新的成就服务
@@ -46,21 +47,21 @@ internal sealed class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public EntityArchive? CurrentArchive
+    public AchievementArchive? CurrentArchive
     {
         get => dbCurrent.Current;
         set => dbCurrent.Current = value;
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<EntityArchive>> GetArchiveCollectionAsync()
+    public async Task<ObservableCollection<AchievementArchive>> GetArchiveCollectionAsync()
     {
         await ThreadHelper.SwitchToMainThreadAsync();
         return archiveCollection ??= appDbContext.AchievementArchives.AsNoTracking().ToObservableCollection();
     }
 
     /// <inheritdoc/>
-    public async Task RemoveArchiveAsync(EntityArchive archive)
+    public async Task RemoveArchiveAsync(AchievementArchive archive)
     {
         // Sync cache
         await ThreadHelper.SwitchToMainThreadAsync();
@@ -76,7 +77,7 @@ internal sealed class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public async Task<ArchiveAddResult> TryAddArchiveAsync(EntityArchive newArchive)
+    public async Task<ArchiveAddResult> TryAddArchiveAsync(AchievementArchive newArchive)
     {
         if (string.IsNullOrWhiteSpace(newArchive.Name))
         {
@@ -103,28 +104,25 @@ internal sealed class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public List<BindingAchievement> GetAchievements(EntityArchive archive, IList<MetadataAchievement> metadata)
+    public List<AchievementView> GetAchievements(AchievementArchive archive, List<MetadataAchievement> metadata)
     {
-        Guid archiveId = archive.InnerId;
-        List<EntityAchievement> entities = appDbContext.Achievements
-            .Where(a => a.ArchiveId == archiveId)
-            .ToList();
+        Dictionary<int, EntityAchievement> entityMap;
+        try
+        {
+            entityMap = appDbContext.Achievements
+                .Where(a => a.ArchiveId == archive.InnerId)
+                .AsEnumerable()
+                .ToDictionary(a => a.Id);
+        }
+        catch (ArgumentException ex)
+        {
+            throw ThrowHelper.UserdataCorrupted(SH.ServiceAchievementUserdataCorruptedInnerIdNotUnique, ex);
+        }
 
-        List<BindingAchievement> results = new();
+        List<AchievementView> results = new();
         foreach (MetadataAchievement meta in metadata)
         {
-            EntityAchievement? entity = null;
-            try
-            {
-                entity = entities.SingleOrDefault(e => e.Id == meta.Id);
-            }
-            catch (InvalidOperationException ex)
-            {
-                ThrowHelper.UserdataCorrupted(SH.ServiceAchievementUserdataCorruptedInnerIdNotUnique, ex);
-            }
-
-            entity ??= EntityAchievement.Create(archiveId, meta.Id);
-
+            EntityAchievement? entity = entityMap.GetValueOrDefault(meta.Id) ?? EntityAchievement.Create(archive.InnerId, meta.Id);
             results.Add(new(entity, meta));
         }
 
@@ -132,7 +130,40 @@ internal sealed class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public async Task<UIAF> ExportToUIAFAsync(EntityArchive archive)
+    public async Task<List<AchievementStatistics>> GetAchievementStatisticsAsync(Dictionary<AchievementId, MetadataAchievement> achievementMap)
+    {
+        await ThreadHelper.SwitchToBackgroundAsync();
+
+        List<AchievementStatistics> results = new();
+        foreach (AchievementArchive archive in appDbContext.AchievementArchives)
+        {
+            int finished = await appDbContext.Achievements
+                .Where(a => a.ArchiveId == archive.InnerId)
+                .Where(a => (int)a.Status >= (int)Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
+                .CountAsync()
+                .ConfigureAwait(false);
+            int count = achievementMap.Count;
+
+            List<EntityAchievement> achievements = await appDbContext.Achievements
+                .Where(a => a.ArchiveId == archive.InnerId)
+                .OrderByDescending(a => a.Time.ToString())
+                .Take(2)
+                .ToListAsync()
+                .ConfigureAwait(false);
+
+            results.Add(new()
+            {
+                DisplayName = archive.Name,
+                FinishDescription = $"{finished}/{count} - {(double)finished / count:P2}",
+                Achievements = achievements.SelectList(entity => new AchievementView(entity, achievementMap[entity.Id])),
+            });
+        }
+
+        return results;
+    }
+
+    /// <inheritdoc/>
+    public async Task<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
         List<UIAFItem> list = appDbContext.Achievements
@@ -151,7 +182,7 @@ internal sealed class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public async Task<ImportResult> ImportFromUIAFAsync(EntityArchive archive, List<UIAFItem> list, ImportStrategy strategy)
+    public async Task<ImportResult> ImportFromUIAFAsync(AchievementArchive archive, List<UIAFItem> list, ImportStrategy strategy)
     {
         await ThreadHelper.SwitchToBackgroundAsync();
 
@@ -185,7 +216,7 @@ internal sealed class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public void SaveAchievements(EntityArchive archive, IList<BindingAchievement> achievements)
+    public void SaveAchievements(AchievementArchive archive, List<AchievementView> achievements)
     {
         string name = archive.Name;
         logger.LogInformation("Begin saving achievements for [{name}]", name);
@@ -203,7 +234,7 @@ internal sealed class AchievementService : IAchievementService
     }
 
     /// <inheritdoc/>
-    public void SaveAchievement(BindingAchievement achievement)
+    public void SaveAchievement(AchievementView achievement)
     {
         // Delete exists one.
         appDbContext.Achievements.ExecuteDeleteWhere(e => e.InnerId == achievement.Entity.InnerId);

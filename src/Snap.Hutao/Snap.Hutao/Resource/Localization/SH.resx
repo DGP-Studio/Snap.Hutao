@@ -1963,6 +1963,9 @@
     <value>设置</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
-    <value>据上一个五/四星</value>
+    <value>保底计数</value>
+  </data>
+  <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
+    <value>成就统计</value>
   </data>
 </root>

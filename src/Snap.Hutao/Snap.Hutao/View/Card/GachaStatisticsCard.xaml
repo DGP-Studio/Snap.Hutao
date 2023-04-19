@@ -7,7 +7,7 @@
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shvco="using:Snap.Hutao.View.Control"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     Padding="0"
     HorizontalAlignment="Stretch"
@@ -72,65 +72,67 @@
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <ProgressRing
-                                        Grid.Column="0"
-                                        Width="32"
-                                        Height="32"
-                                        Margin="4"
-                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    <ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        MinHeight="40"
+                                        Background="Transparent"
+                                        CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource OrangeBrush}"
-                                        IsIndeterminate="False"
                                         Maximum="{Binding GuaranteeOrangeThreshold}"
+                                        Opacity="0.15"
+                                        Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
+                                        Margin="12,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding LastOrangePull}"/>
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                                     <TextBlock
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                                        Text="{Binding LastOrangePull}"/>
                                 </Grid>
                             </Border>
                             <Border
                                 Grid.Column="1"
-                                Margin="0,6,0,0"
+                                Margin="0,3,0,0"
                                 Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <ProgressRing
-                                        Grid.Column="0"
-                                        Width="32"
-                                        Height="32"
-                                        Margin="4"
-                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    <ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        MinHeight="40"
+                                        Background="Transparent"
+                                        CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource PurpleBrush}"
-                                        IsIndeterminate="False"
                                         Maximum="{Binding GuaranteePurpleThreshold}"
+                                        Opacity="0.15"
+                                        Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
+                                        Margin="12,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding LastPurplePull}"/>
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                                     <TextBlock
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                                        Text="{Binding LastPurplePull}"/>
                                 </Grid>
                             </Border>
                         </StackPanel>
@@ -152,65 +154,67 @@
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <ProgressRing
-                                        Grid.Column="0"
-                                        Width="32"
-                                        Height="32"
-                                        Margin="4"
-                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    <ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        MinHeight="40"
+                                        Background="Transparent"
+                                        CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource OrangeBrush}"
-                                        IsIndeterminate="False"
                                         Maximum="{Binding GuaranteeOrangeThreshold}"
+                                        Opacity="0.15"
+                                        Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
+                                        Margin="12,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding LastOrangePull}"/>
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                                     <TextBlock
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                                        Text="{Binding LastOrangePull}"/>
                                 </Grid>
                             </Border>
                             <Border
                                 Grid.Column="1"
-                                Margin="0,6,0,0"
+                                Margin="0,3,0,0"
                                 Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <ProgressRing
-                                        Grid.Column="0"
-                                        Width="32"
-                                        Height="32"
-                                        Margin="4"
-                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    <ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        MinHeight="40"
+                                        Background="Transparent"
+                                        CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource PurpleBrush}"
-                                        IsIndeterminate="False"
                                         Maximum="{Binding GuaranteePurpleThreshold}"
+                                        Opacity="0.15"
+                                        Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
+                                        Margin="12,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding LastPurplePull}"/>
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                                     <TextBlock
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                                        Text="{Binding LastPurplePull}"/>
                                 </Grid>
                             </Border>
                         </StackPanel>
@@ -232,65 +236,67 @@
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <ProgressRing
-                                        Grid.Column="0"
-                                        Width="32"
-                                        Height="32"
-                                        Margin="4"
-                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    <ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        MinHeight="40"
+                                        Background="Transparent"
+                                        CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource OrangeBrush}"
-                                        IsIndeterminate="False"
                                         Maximum="{Binding GuaranteeOrangeThreshold}"
+                                        Opacity="0.15"
+                                        Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
+                                        Margin="12,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding LastOrangePull}"/>
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
                                     <TextBlock
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
+                                        Text="{Binding LastOrangePull}"/>
                                 </Grid>
                             </Border>
                             <Border
                                 Grid.Column="1"
-                                Margin="0,6,0,0"
+                                Margin="0,3,0,0"
                                 Style="{StaticResource BorderCardStyle}">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <ProgressRing
-                                        Grid.Column="0"
-                                        Width="32"
-                                        Height="32"
-                                        Margin="4"
-                                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    <ProgressBar
+                                        Grid.ColumnSpan="2"
+                                        MinHeight="40"
+                                        Background="Transparent"
+                                        CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource PurpleBrush}"
-                                        IsIndeterminate="False"
                                         Maximum="{Binding GuaranteePurpleThreshold}"
+                                        Opacity="0.15"
+                                        Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
+                                        Margin="12,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{Binding LastPurplePull}"/>
+                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
                                     <TextBlock
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
+                                        Text="{Binding LastPurplePull}"/>
                                 </Grid>
                             </Border>
                         </StackPanel>
@@ -298,6 +304,6 @@
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
-        <shvco:LoadingViewSlim IsLoading="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
+        <shvc:LoadingViewSlim IsLoading="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
     </Grid>
 </Button>

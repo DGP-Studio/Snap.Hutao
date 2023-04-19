@@ -21,10 +21,9 @@ internal static partial class EnumerableExtension
         }
 
         long sum = 0;
-        ref int reference = ref MemoryMarshal.GetReference(span);
-        for (int i = 0; i < span.Length; i++)
+        foreach (int item in span)
         {
-            sum += Unsafe.Add(ref reference, i);
+            sum += item;
         }
 
         return (double)sum / span.Length;
@@ -78,11 +77,11 @@ internal static partial class EnumerableExtension
     public static List<TResult> SelectList<TSource, TResult>(this List<TSource> list, Func<TSource, TResult> selector)
     {
         Span<TSource> span = CollectionsMarshal.AsSpan(list);
-        ref TSource reference = ref MemoryMarshal.GetReference(span);
         List<TResult> results = new(span.Length);
-        for (int i = 0; i < span.Length; i++)
+
+        foreach (TSource item in span)
         {
-            results.Add(selector(Unsafe.Add(ref reference, i)));
+            results.Add(selector(item));
         }
 
         return results;

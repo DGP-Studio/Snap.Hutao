@@ -1,47 +1,52 @@
-[
+ï»¿[
   {
     "Name": "AvatarId",
     "Type": "int",
-    "Documentation": "8Î» ½ÇÉ«Id"
+    "Documentation": "8ä½ è§’è‰²Id"
   },
   {
     "Name": "EquipAffixId",
     "Type": "int",
-    "Documentation": "6Î» ×°±¸ÊôĞÔId"
+    "Documentation": "6ä½ è£…å¤‡å±æ€§Id"
   },
   {
     "Name": "ExtendedEquipAffixId",
     "Type": "int",
-    "Documentation": "7Î» ×°±¸ÊôĞÔId"
+    "Documentation": "7ä½ è£…å¤‡å±æ€§Id"
   },
   {
     "Name": "MaterialId",
     "Type": "int",
-    "Documentation": "3-6Î» ²ÄÁÏId"
+    "Documentation": "3-6ä½ ææ–™Id"
   },
   {
     "Name": "MonsterId",
     "Type": "int",
-    "Documentation": "8Î» ¹ÖÎïId"
+    "Documentation": "8ä½ æ€ªç‰©Id"
   },
   {
     "Name": "PromoteId",
     "Type": "int",
-    "Documentation": "1-5Î» ½ÇÉ«Í»ÆÆÌáÉıId"
+    "Documentation": "1-5ä½ è§’è‰²çªç ´æå‡Id"
   },
   {
     "Name": "ReliquaryAffixId",
     "Type": "int",
-    "Documentation": "6Î» Ê¥ÒÅÎï¸±´ÊÌõId"
+    "Documentation": "6ä½ åœ£é—ç‰©å‰¯è¯æ¡Id"
   },
   {
     "Name": "ReliquaryMainAffixId",
     "Type": "int",
-    "Documentation": "5Î» Ê¥ÒÅÎïÖ÷ÊôĞÔId"
+    "Documentation": "5ä½ åœ£é—ç‰©ä¸»å±æ€§Id"
   },
   {
     "Name": "WeaponId",
     "Type": "int",
-    "Documentation": "5Î» ÎäÆ÷Id"
+    "Documentation": "5ä½ æ­¦å™¨Id"
+  },
+  {
+    "Name": "AchievementId",
+    "Type": "int",
+    "Documentation": "5ä½ æˆå°±Id"
   }
 ]

@@ -5,9 +5,13 @@
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="{StaticResource HomeAdaptiveCardHeight}"
+    HorizontalAlignment="Stretch"
+    VerticalAlignment="Stretch"
+    Background="{ThemeResource AccentAcrylicInAppFillColorDefaultBrush}"
     mc:Ignorable="d">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <ProgressRing IsActive="True"/>
     </StackPanel>
 </cwuc:Loading>

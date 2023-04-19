@@ -33,5 +33,5 @@ internal sealed class UIAFItem
     /// 完成状态
     /// </summary>
     [JsonPropertyName("status")]
-    public AchievementInfoStatus Status { get; set; }
+    public AchievementStatus Status { get; set; }
 }

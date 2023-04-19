@@ -7,12 +7,12 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 成就信息状态
 /// </summary>
 [HighQuality]
-internal enum AchievementInfoStatus
+internal enum AchievementStatus
 {
     /// <summary>
     /// 未识别
     /// </summary>
-    UNRECOGNIZED = -1,
+    STATUS_UNRECOGNIZED = -1,
 
     /// <summary>
     /// 非法值

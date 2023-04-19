@@ -1537,7 +1537,16 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 据上一个五/四星 的本地化字符串。
+        ///   查找类似 成就统计 的本地化字符串。
+        /// </summary>
+        internal static string ViewCardAchievementStatisticsTitle {
+            get {
+                return ResourceManager.GetString("ViewCardAchievementStatisticsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保底计数 的本地化字符串。
         /// </summary>
         internal static string ViewCardGachaStatisticsTitle {
             get {

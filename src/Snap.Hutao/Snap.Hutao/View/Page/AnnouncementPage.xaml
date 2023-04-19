@@ -169,24 +169,10 @@
                         DesiredWidth="300"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                         SelectionMode="None">
-                        <shvca:LaunchGameCard Height="166" DataContext="{Binding LaunchGameViewModelSlim}"/>
+                        <shvca:LaunchGameCard Height="{StaticResource HomeAdaptiveCardHeight}" DataContext="{Binding LaunchGameViewModelSlim}"/>
                         <shvca:GachaStatisticsCard DataContext="{Binding GachaLogViewModelSlim}"/>
+                        <shvca:AchievementCard DataContext="{Binding AchievementViewModelSlim}"/>
 
-                        <Border Style="{StaticResource BorderCardStyle}">
-                            <FlipView Background="{x:Null}">
-                                <Grid Margin="12">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Grid.Row="0">
-                                        <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="100/800"/>
-                                        <TextBlock Text="12.5%"/>
-                                    </StackPanel>
-                                    <TextBlock Grid.Row="1" Text="Archive Name"/>
-                                </Grid>
-                            </FlipView>
-                        </Border>
                         <Border Style="{StaticResource BorderCardStyle}">
                             <TextBlock Text="实时便笺"/>
                         </Border>

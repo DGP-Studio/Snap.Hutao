@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
@@ -23,6 +24,12 @@ internal sealed partial class MetadataService
     }
 
     /// <inheritdoc/>
+    public ValueTask<Dictionary<AchievementId, Model.Metadata.Achievement.Achievement>> GetIdToAchievementMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<AchievementId, Model.Metadata.Achievement.Achievement>("Achievement", a => a.Id, token);
+    }
+
+    /// <inheritdoc/>
     public ValueTask<Dictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
     {
         return FromCacheAsDictionaryAsync<AvatarId, Avatar>("Avatar", a => a.Id, token);
@@ -31,8 +38,15 @@ internal sealed partial class MetadataService
     /// <inheritdoc/>
     public async ValueTask<Dictionary<MaterialId, Display>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default)
     {
+        string cacheKey = $"{nameof(MetadataService)}.Cache.DisplayAndMaterial.Map.{typeof(MaterialId).Name}";
+
+        if (memoryCache.TryGetValue(cacheKey, out object? value))
+        {
+            return Must.NotNull((Dictionary<MaterialId, Display>)value!);
+        }
+
         Dictionary<MaterialId, Display> displays = await FromCacheAsDictionaryAsync<MaterialId, Display>("Display", a => a.Id, token).ConfigureAwait(false);
-        Dictionary<MaterialId, Material> materials = await FromCacheAsDictionaryAsync<MaterialId, Material>("Material", a => a.Id, token).ConfigureAwait(false);
+        Dictionary<MaterialId, Material> materials = await GetIdToMaterialMapAsync(token).ConfigureAwait(false);
 
         // TODO: Cache this
         Dictionary<MaterialId, Display> results = new(displays);
@@ -42,7 +56,7 @@ internal sealed partial class MetadataService
             results[id] = material;
         }
 
-        return results;
+        return memoryCache.Set(cacheKey, results);
     }
 
     /// <inheritdoc/>
@@ -52,7 +66,7 @@ internal sealed partial class MetadataService
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<ReliquaryAffixId, ReliquaryAffix>> GetIdReliquaryAffixMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<ReliquaryAffixId, ReliquaryAffix>> GetIdToReliquaryAffixMapAsync(CancellationToken token = default)
     {
         return FromCacheAsDictionaryAsync<ReliquaryAffixId, ReliquaryAffix>("ReliquaryAffix", a => a.Id, token);
     }
