@@ -34,7 +34,7 @@ public static partial class Program
         // by adding the using statement, we can dispose the injected services when we closing
         using (ServiceProvider serviceProvider = InitializeDependencyInjection())
         {
-            InitializeCulture(serviceProvider.GetRequiredService<AppOptions>().CurrentCulture);
+            InitializeCulture(serviceProvider);
 
             // In a Desktop app this runs a message pump internally,
             // and does not return until the application shuts down.
@@ -49,8 +49,13 @@ public static partial class Program
         _ = Ioc.Default.GetRequiredService<App>();
     }
 
-    private static void InitializeCulture(CultureInfo cultureInfo)
+    private static void InitializeCulture(IServiceProvider serviceProvider)
     {
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+        appOptions.PreviousCulture = CultureInfo.CurrentCulture;
+
+        CultureInfo cultureInfo = appOptions.CurrentCulture;
+
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
         ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;

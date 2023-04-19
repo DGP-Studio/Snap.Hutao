@@ -11,7 +11,7 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// Ñø³É¼ÆËãÆ÷¶Ô»°¿ò
+/// å…»æˆè®¡ç®—å™¨å¯¹è¯æ¡†
 /// </summary>
 [HighQuality]
 internal sealed partial class AdoptCalculatorDialog : ContentDialog
@@ -20,9 +20,9 @@ internal sealed partial class AdoptCalculatorDialog : ContentDialog
     private MiHoYoJSInterface? jsInterface;
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÑø³É¼ÆËãÆ÷¶Ô»°¿ò
+    /// æ„é€ ä¸€ä¸ªæ–°çš„å…»æˆè®¡ç®—å™¨å¯¹è¯æ¡†
     /// </summary>
-    /// <param name="window">´°Ìå</param>
+    /// <param name="window">çª—ä½“</param>
     public AdoptCalculatorDialog()
     {
         InitializeComponent();

@@ -11,7 +11,7 @@ using Snap.Hutao.Web.Bridge;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// ÉçÇøÓÎÏ·¼ÇÂ¼¶Ô»°¿ò
+/// ç¤¾åŒºæ¸¸æˆè®°å½•å¯¹è¯æ¡†
 /// </summary>
 [HighQuality]
 internal sealed partial class CommunityGameRecordDialog : ContentDialog
@@ -20,9 +20,9 @@ internal sealed partial class CommunityGameRecordDialog : ContentDialog
     private MiHoYoJSInterface? jsInterface;
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÉçÇøÓÎÏ·¼ÇÂ¼¶Ô»°¿ò
+    /// æ„é€ ä¸€ä¸ªæ–°çš„ç¤¾åŒºæ¸¸æˆè®°å½•å¯¹è¯æ¡†
     /// </summary>
-    /// <param name="window">´°Ìå</param>
+    /// <param name="window">çª—ä½“</param>
     public CommunityGameRecordDialog()
     {
         InitializeComponent();

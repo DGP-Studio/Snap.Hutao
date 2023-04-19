@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
@@ -9,6 +10,7 @@ using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -148,6 +150,7 @@ internal class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
+        // TODO: Salt X4 for hoyolab user
         string salt = Core.CoreEnvironment.DynamicSecretSalts[SaltType.X4];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int r = GetRandom();
@@ -251,6 +254,25 @@ internal class MiHoYoJSInterface
         await ThreadHelper.SwitchToMainThreadAsync();
         webView.Navigate(param.Payload.Page);
         return null;
+    }
+
+    /// <summary>
+    /// 获取当前语言和时区
+    /// </summary>
+    /// <param name="param">param</param>
+    /// <returns>语言与时区</returns>
+    public virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
+    {
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+
+        return new()
+        {
+            Data = new()
+            {
+                ["language"] = appOptions.PreviousCulture.Name.ToLowerInvariant(),
+                ["timeZone"] = "GMT+8",
+            },
+        };
     }
 
     public virtual Task<IJsResult?> ShowAlertDialogAsync(JsParam param)
@@ -369,6 +391,7 @@ internal class MiHoYoJSInterface
                 "getActionTicket" => await GetActionTicketAsync(param).ConfigureAwait(false),
                 "getCookieInfo" => GetCookieInfo(param),
                 "getCookieToken" => await GetCookieTokenAsync(param).ConfigureAwait(false),
+                "getCurrentLocale" => GetCurrentLocale(param),
                 "getDS" => GetDynamicSecrectV1(param),
                 "getDS2" => GetDynamicSecrectV2(param),
                 "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
@@ -395,7 +418,8 @@ internal class MiHoYoJSInterface
 
     private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
     {
-        if (new Uri(args.Uri).Host.EndsWith("mihoyo.com"))
+        string uriHost = new Uri(args.Uri).Host;
+        if (uriHost.EndsWith("mihoyo.com") || uriHost.EndsWith("hoyolab.com"))
         {
             // Execute this solve issue: When open same site second time,there might be no bridge init.
             coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
