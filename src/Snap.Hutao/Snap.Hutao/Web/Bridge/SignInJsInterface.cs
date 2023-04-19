@@ -13,8 +13,8 @@ namespace Snap.Hutao.Web.Bridge;
 internal sealed class SignInJsInterface : MiHoYoJSInterface
 {
     /// <inheritdoc cref="MiHoYoJSInterface(CoreWebView2, IServiceProvider)"/>
-    public SignInJsInterface(CoreWebView2 webView, IServiceProvider serviceProvider, bool isOversea)
-        : base(webView, serviceProvider, isOversea)
+    public SignInJsInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
+        : base(webView, serviceProvider)
     {
     }
 
@@ -27,7 +27,7 @@ internal sealed class SignInJsInterface : MiHoYoJSInterface
             {
                 { "x-rpc-client_type", "2" },
                 { "x-rpc-device_id",  Core.CoreEnvironment.HoyolabDeviceId },
-                { "x-rpc-app_version", IsOversea ? Core.CoreEnvironment.HoyolabOsXrpcVersion : Core.CoreEnvironment.HoyolabXrpcVersion },
+                { "x-rpc-app_version", Core.CoreEnvironment.HoyolabXrpcVersion },
             },
         };
     }

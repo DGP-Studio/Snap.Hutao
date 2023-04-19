@@ -36,11 +36,6 @@ internal class MiHoYoJSInterface
         document.querySelector('body').appendChild(st);
         """;
 
-    private const string RemoveRotationWarningScript = """
-        let landscape = document.getElementById('mihoyo_landscape');
-        landscape.remove();
-        """;
-
     private readonly CoreWebView2 webView;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<MiHoYoJSInterface> logger;
@@ -51,12 +46,10 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="webView">webview2</param>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="isOversea">是否为 HoYoVerse 账号</param>
-    public MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider, bool isOversea)
+    public MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
     {
         this.webView = webView;
         this.serviceProvider = serviceProvider;
-        IsOversea = isOversea;
 
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
 
@@ -65,13 +58,7 @@ internal class MiHoYoJSInterface
         webView.NavigationStarting += OnNavigationStarting;
     }
 
-
     public event Action? ClosePageRequested;
-
-    /// <summary>
-    /// 是否为 HoYoVerse 账号
-    /// </summary>
-    public bool IsOversea { get; private set; }
 
     /// <summary>
     /// 获取ActionTicket
@@ -81,20 +68,10 @@ internal class MiHoYoJSInterface
     public virtual async Task<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
-
-        if (IsOversea)
-        {
-            // TODO: ActionTicket for hoyolab account
-            return null;
-        }
-        else
-        {
-            return await serviceProvider
-                .GetRequiredService<AuthClient>()
-                .GetActionTicketBySTokenAsync(jsParam.Payload!.ActionType, user.Entity)
-                .ConfigureAwait(false);
-        }
-
+        return await serviceProvider
+            .GetRequiredService<AuthClient>()
+            .GetActionTicketBySTokenAsync(jsParam.Payload!.ActionType, user.Entity)
+            .ConfigureAwait(false);
     }
 
     /// <summary>
@@ -110,7 +87,7 @@ internal class MiHoYoJSInterface
             {
                 { "x-rpc-client_type", "5" },
                 { "x-rpc-device_id",  Core.CoreEnvironment.HoyolabDeviceId },
-                { "x-rpc-app_version", IsOversea ? Core.CoreEnvironment.HoyolabOsXrpcVersion : Core.CoreEnvironment.HoyolabXrpcVersion },
+                { "x-rpc-app_version", Core.CoreEnvironment.HoyolabXrpcVersion },
             },
         };
     }
@@ -285,11 +262,12 @@ internal class MiHoYoJSInterface
     /// <returns>语言与时区</returns>
     public virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
+        string cultureName = CultureInfo.CurrentCulture.Name;
         return new()
         {
             Data = new()
             {
-                ["language"] = CultureInfo.CurrentUICulture.Name,
+                ["language"] = cultureName.ToLowerInvariant(),
                 ["timeZone"] = "GMT+8",
             },
         };
@@ -434,17 +412,12 @@ internal class MiHoYoJSInterface
     private void OnDOMContentLoaded(CoreWebView2 coreWebView2, CoreWebView2DOMContentLoadedEventArgs args)
     {
         coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget(logger);
-
-        // 移除“请旋转手机”提示所在的HTML元素
-        if (IsOversea)
-        {
-            coreWebView2.ExecuteScriptAsync(RemoveRotationWarningScript).AsTask().SafeForget(logger);
-        }
     }
 
     private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
     {
-        if (new Uri(args.Uri).Host.EndsWith(IsOversea ? "hoyolab.com" : "mihoyo.com"))
+        string uriHost = new Uri(args.Uri).Host;
+        if (uriHost.EndsWith("mihoyo.com") || uriHost.EndsWith("hoyolab.com"))
         {
             // Execute this solve issue: When open same site second time,there might be no bridge init.
             coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);
