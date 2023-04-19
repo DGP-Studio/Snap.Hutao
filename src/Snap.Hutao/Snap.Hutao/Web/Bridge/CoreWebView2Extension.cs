@@ -41,32 +41,33 @@ internal static class CoreWebView2Extension
     /// <param name="cookieToken">CookieToken</param>
     /// <param name="lToken">LToken</param>
     /// <param name="sToken">SToken</param>
+    /// <param name="isOversea">是否为国际服，用于改变 cookie domain</param>
     /// <returns>链式调用的WebView2</returns>
-    public static CoreWebView2 SetCookie(this CoreWebView2 webView, Cookie? cookieToken = null, Cookie? lToken = null, Cookie? sToken = null)
+    public static CoreWebView2 SetCookie(this CoreWebView2 webView, Cookie? cookieToken = null, Cookie? lToken = null, Cookie? sToken = null, bool isOversea = false)
     {
         CoreWebView2CookieManager cookieManager = webView.CookieManager;
 
         if (cookieToken != null)
         {
-            cookieManager.AddMihoyoCookie("account_id", cookieToken).AddMihoyoCookie("cookie_token", cookieToken);
+            cookieManager.AddMihoyoCookie("account_id", cookieToken, isOversea).AddMihoyoCookie("cookie_token", cookieToken, isOversea);
         }
 
         if (lToken != null)
         {
-            cookieManager.AddMihoyoCookie("ltuid", lToken).AddMihoyoCookie("ltoken", lToken);
+            cookieManager.AddMihoyoCookie("ltuid", lToken, isOversea).AddMihoyoCookie("ltoken", lToken, isOversea);
         }
 
         if (sToken != null)
         {
-            cookieManager.AddMihoyoCookie("stuid", sToken).AddMihoyoCookie("stoken", sToken);
+            cookieManager.AddMihoyoCookie("stuid", sToken, isOversea).AddMihoyoCookie("stoken", sToken, isOversea);
         }
 
         return webView;
     }
 
-    private static CoreWebView2CookieManager AddMihoyoCookie(this CoreWebView2CookieManager manager, string name, Cookie cookie)
+    private static CoreWebView2CookieManager AddMihoyoCookie(this CoreWebView2CookieManager manager, string name, Cookie cookie, bool isOversea = false)
     {
-        manager.AddOrUpdateCookie(manager.CreateCookie(name, cookie[name], ".mihoyo.com", "/"));
+        manager.AddOrUpdateCookie(manager.CreateCookie(name, cookie[name], isOversea ? ".hoyolab.com" : ".mihoyo.com", "/"));
         return manager;
     }
 }

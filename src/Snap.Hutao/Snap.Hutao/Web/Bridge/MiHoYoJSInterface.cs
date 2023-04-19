@@ -9,6 +9,7 @@ using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -35,6 +36,11 @@ internal class MiHoYoJSInterface
         document.querySelector('body').appendChild(st);
         """;
 
+    private const string RemoveRotationWarningScript = """
+        let landscape = document.getElementById('mihoyo_landscape');
+        landscape.remove();
+        """;
+
     private readonly CoreWebView2 webView;
     private readonly IServiceProvider serviceProvider;
     private readonly ILogger<MiHoYoJSInterface> logger;
@@ -45,10 +51,12 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="webView">webview2</param>
     /// <param name="serviceProvider">服务提供器</param>
-    public MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
+    /// <param name="isOversea">是否为 HoYoVerse 账号</param>
+    public MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider, bool isOversea)
     {
         this.webView = webView;
         this.serviceProvider = serviceProvider;
+        IsOversea = isOversea;
 
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
 
@@ -57,7 +65,13 @@ internal class MiHoYoJSInterface
         webView.NavigationStarting += OnNavigationStarting;
     }
 
+
     public event Action? ClosePageRequested;
+
+    /// <summary>
+    /// 是否为 HoYoVerse 账号
+    /// </summary>
+    public bool IsOversea { get; private set; }
 
     /// <summary>
     /// 获取ActionTicket
@@ -67,10 +81,20 @@ internal class MiHoYoJSInterface
     public virtual async Task<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
-        return await serviceProvider
-            .GetRequiredService<AuthClient>()
-            .GetActionTicketBySTokenAsync(jsParam.Payload!.ActionType, user.Entity)
-            .ConfigureAwait(false);
+
+        if (IsOversea)
+        {
+            // TODO: ActionTicket for hoyolab account
+            return null;
+        }
+        else
+        {
+            return await serviceProvider
+                .GetRequiredService<AuthClient>()
+                .GetActionTicketBySTokenAsync(jsParam.Payload!.ActionType, user.Entity)
+                .ConfigureAwait(false);
+        }
+
     }
 
     /// <summary>
@@ -86,7 +110,7 @@ internal class MiHoYoJSInterface
             {
                 { "x-rpc-client_type", "5" },
                 { "x-rpc-device_id",  Core.CoreEnvironment.HoyolabDeviceId },
-                { "x-rpc-app_version", Core.CoreEnvironment.HoyolabXrpcVersion },
+                { "x-rpc-app_version", IsOversea ? Core.CoreEnvironment.HoyolabOsXrpcVersion : Core.CoreEnvironment.HoyolabXrpcVersion },
             },
         };
     }
@@ -148,6 +172,7 @@ internal class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
+        // TODO: Salt X4 for hoyolab user
         string salt = Core.CoreEnvironment.DynamicSecretSalts[SaltType.X4];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int r = GetRandom();
@@ -251,6 +276,23 @@ internal class MiHoYoJSInterface
         await ThreadHelper.SwitchToMainThreadAsync();
         webView.Navigate(param.Payload.Page);
         return null;
+    }
+
+    /// <summary>
+    /// 获取当前语言和时区
+    /// </summary>
+    /// <param name="param">param</param>
+    /// <returns>语言与时区</returns>
+    public virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
+    {
+        return new()
+        {
+            Data = new()
+            {
+                ["language"] = CultureInfo.CurrentUICulture.Name,
+                ["timeZone"] = "GMT+8",
+            },
+        };
     }
 
     public virtual Task<IJsResult?> ShowAlertDialogAsync(JsParam param)
@@ -378,6 +420,7 @@ internal class MiHoYoJSInterface
                 "login" => null,
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),
                 "showLoading" => null,
+                "getCurrentLocale" => GetCurrentLocale(param),
                 _ => LogUnhandledMessage("Unhandled Message Type: {method}", param.Method),
             };
         }
@@ -391,11 +434,17 @@ internal class MiHoYoJSInterface
     private void OnDOMContentLoaded(CoreWebView2 coreWebView2, CoreWebView2DOMContentLoadedEventArgs args)
     {
         coreWebView2.ExecuteScriptAsync(HideScrollBarScript).AsTask().SafeForget(logger);
+
+        // 移除“请旋转手机”提示所在的HTML元素
+        if (IsOversea)
+        {
+            coreWebView2.ExecuteScriptAsync(RemoveRotationWarningScript).AsTask().SafeForget(logger);
+        }
     }
 
     private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
     {
-        if (new Uri(args.Uri).Host.EndsWith("mihoyo.com"))
+        if (new Uri(args.Uri).Host.EndsWith(IsOversea ? "hoyolab.com" : "mihoyo.com"))
         {
             // Execute this solve issue: When open same site second time,there might be no bridge init.
             coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);

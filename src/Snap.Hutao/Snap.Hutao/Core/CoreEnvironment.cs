@@ -47,7 +47,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// Hoyolab Rpc 版本
     /// </summary>
-    public const string HoyolabOsXrpcVersion = "2.28.0";
+    public const string HoyolabOsXrpcVersion = "2.30.0";
 
     /// <summary>
     /// 盐

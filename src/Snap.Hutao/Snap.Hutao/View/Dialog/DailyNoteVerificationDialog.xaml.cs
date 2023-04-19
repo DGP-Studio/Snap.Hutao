@@ -45,7 +45,7 @@ internal sealed partial class DailyNoteVerificationDialog : ContentDialog
 
         Model.Entity.User user = userAndUid.User;
         coreWebView2.SetCookie(user.CookieToken, user.LToken, null).SetMobileUserAgent();
-        jsInterface = new(coreWebView2, scope.ServiceProvider);
+        jsInterface = new(coreWebView2, scope.ServiceProvider, false);
         jsInterface.ClosePageRequested += OnClosePageRequested;
 
         string query = $"?role_id={userAndUid.Uid.Value}&server={userAndUid.Uid.Region}";
