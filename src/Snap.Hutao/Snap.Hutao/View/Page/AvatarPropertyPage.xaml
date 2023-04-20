@@ -61,7 +61,7 @@
                             Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
                             Label="{shcm:ResourceString Name=ViewPageCultivateCalculate}"/>
                         <AppBarSeparator/>
-                        <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="同步角色信息">
+                        <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE72C;}" Label="{shcm:ResourceString Name=ViewAvatarPropertySyncDataButtonLabel}">
                             <AppBarButton.Flyout>
                                 <MenuFlyout Placement="TopEdgeAlignedRight">
                                     <MenuFlyoutItem Command="{Binding RefreshFromEnkaApiCommand}" Text="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshFromEnkaApi}"/>
