@@ -32,6 +32,8 @@ pr:
     
 
 pool:
+  name: Default
+  demands: agent.name -equals Hutao-Server
   vmImage: 'windows-2022'
 
 variables:
@@ -185,4 +187,11 @@ steps:
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   inputs:
     arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/Alpha/'
+    configPath: '$(RcloneConfigFile.secureFilePath)'
+
+- task: rclone@1
+  displayName: Upload PR CI via Rclone
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
+  inputs:
+    arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/PR/'
     configPath: '$(RcloneConfigFile.secureFilePath)'
