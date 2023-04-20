@@ -24,7 +24,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private bool isValid = true;
 
     /// <summary>
-    /// 构造一个新的 <see cref="Unlocker"/> 对象，
+    /// 构造一个新的 <see cref="GameFpsUnlocker"/> 对象，
     /// 每个解锁器只能解锁一次原神的进程，
     /// 再次解锁需要重新创建对象
     /// <para/>
@@ -62,43 +62,16 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private static unsafe bool UnsafeReadModuleMemory(Process process, MODULEENTRY32 entry, out Span<byte> memory)
     {
         memory = new byte[entry.modBaseSize];
+
         fixed (byte* lpBuffer = memory)
         {
-            bool hProcessAddRef = false;
-            try
-            {
-                process.SafeHandle.DangerousAddRef(ref hProcessAddRef);
-                HANDLE hProcessLocal = (HANDLE)process.SafeHandle.DangerousGetHandle();
-                return ReadProcessMemory(hProcessLocal, entry.modBaseAddr, lpBuffer, entry.modBaseSize, null);
-            }
-            finally
-            {
-                if (hProcessAddRef)
-                {
-                    process.SafeHandle.DangerousRelease();
-                }
-            }
+            return ReadProcessMemory((HANDLE)process.Handle, entry.modBaseAddr, lpBuffer, entry.modBaseSize, null);
         }
     }
 
     private static unsafe bool UnsafeWriteModuleMemory(Process process, nuint baseAddress, int write)
     {
-        int* lpBuffer = &write;
-
-        bool hProcessAddRef = false;
-        try
-        {
-            process.SafeHandle.DangerousAddRef(ref hProcessAddRef);
-            HANDLE hProcessLocal = (HANDLE)process.SafeHandle.DangerousGetHandle();
-            return WriteProcessMemory(hProcessLocal, (void*)baseAddress, lpBuffer, sizeof(int), null);
-        }
-        finally
-        {
-            if (hProcessAddRef)
-            {
-                process.SafeHandle.DangerousRelease();
-            }
-        }
+        return WriteProcessMemory((HANDLE)process.Handle, (void*)baseAddress, &write, sizeof(int), null);
     }
 
     private static unsafe MODULEENTRY32 UnsafeFindModule(int processId, in ReadOnlySpan<byte> moduleName)
@@ -109,8 +82,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
             foreach (MODULEENTRY32 entry in StructMarshal.EnumerateModuleEntry32(snapshot))
             {
-                __CHAR_256* pszModule = &entry.szModule;
-                ReadOnlySpan<byte> szModuleLocal = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)pszModule);
+                ReadOnlySpan<byte> szModuleLocal = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)&entry.szModule);
                 if (entry.th32ProcessID == processId && szModuleLocal.SequenceEqual(moduleName))
                 {
                     return entry;

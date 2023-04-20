@@ -30,7 +30,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     /// 构造一个新的窗体子类管理器
     /// </summary>
     /// <param name="options">选项</param>
-    public WindowSubclass(WindowOptions<TWindow> options)
+    public WindowSubclass(in WindowOptions<TWindow> options)
     {
         this.options = options;
     }

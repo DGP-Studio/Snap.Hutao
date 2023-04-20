@@ -78,6 +78,30 @@ internal sealed class RecoveryTime
     }
 
     /// <summary>
+    /// 获取格式化的剩余时间
+    /// </summary>
+    [JsonIgnore]
+    public string TimeLeftFormatted
+    {
+        get
+        {
+            if (Reached)
+            {
+                return SH.WebDailyNoteTransformerReady;
+            }
+            else
+            {
+                return new StringBuilder()
+                    .AppendIf(Day > 0, string.Format(SH.WebDailyNoteTransformerDaysFormat, Day))
+                    .AppendIf(Hour > 0, string.Format(SH.WebDailyNoteTransformerHoursFormat, Hour))
+                    .AppendIf(Minute > 0, string.Format(SH.WebDailyNoteTransformerMinutesFormat, Minute))
+                    .AppendIf(Second > 0, string.Format(SH.WebDailyNoteTransformerSecondsFormat, Second))
+                    .ToString();
+            }
+        }
+    }
+
+    /// <summary>
     /// 获取格式化的状态
     /// </summary>
     [JsonIgnore]

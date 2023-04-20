@@ -50,6 +50,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         context.RegisterSyntaxNodeAction(HandleTypeDeclaration, types);
 
         context.RegisterSyntaxNodeAction(HandleMethodDeclaration, SyntaxKind.MethodDeclaration);
+        context.RegisterSyntaxNodeAction(HandleConstructorDeclaration, SyntaxKind.ConstructorDeclaration);
     }
 
     private void HandleTypeDeclaration(SyntaxNodeAnalysisContext context)
@@ -109,6 +110,35 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         }
 
         foreach (ParameterSyntax parameter in methodSyntax.ParameterList.Parameters)
+        {
+            if (context.SemanticModel.GetDeclaredSymbol(parameter) is IParameterSymbol symbol)
+            {
+                if (IsBuiltInType(symbol.Type))
+                {
+                    continue;
+                }
+
+                // 跳过 CancellationToken
+                if (symbol.Type.ToDisplayString() == "System.Threading.CancellationToken")
+                {
+                    continue;
+                }
+
+                if (symbol.Type.IsReadOnly && symbol.RefKind == RefKind.None)
+                {
+                    Location location = parameter.GetLocation();
+                    Diagnostic diagnostic = Diagnostic.Create(readOnlyStructRefDescriptor, location, symbol.Type);
+                    context.ReportDiagnostic(diagnostic);
+                }
+            }
+        }
+    }
+
+    private void HandleConstructorDeclaration(SyntaxNodeAnalysisContext context)
+    {
+        ConstructorDeclarationSyntax constructorSyntax = (ConstructorDeclarationSyntax)context.Node;
+
+        foreach (ParameterSyntax parameter in constructorSyntax.ParameterList.Parameters)
         {
             if (context.SemanticModel.GetDeclaredSymbol(parameter) is IParameterSymbol symbol)
             {

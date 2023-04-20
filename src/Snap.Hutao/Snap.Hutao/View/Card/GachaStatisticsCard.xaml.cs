@@ -15,6 +15,7 @@ internal sealed partial class GachaStatisticsCard : Button
     /// </summary>
     public GachaStatisticsCard()
     {
+        DataContext = Ioc.Default.GetRequiredService<ViewModel.GachaLog.GachaLogViewModelSlim>();
         InitializeComponent();
     }
 }

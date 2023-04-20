@@ -14,8 +14,8 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shv="using:Snap.Hutao.ViewModel"
-    d:DataContext="{d:DesignInstance shv:DailyNoteViewModel}"
+    xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
+    d:DataContext="{d:DesignInstance shvd:DailyNoteViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 

@@ -23,6 +23,7 @@
     </mxi:Interaction.Behaviors>
     <Grid>
         <FlipView
+            x:Name="RootFlipView"
             Background="{x:Null}"
             ItemsSource="{Binding StatisticsList}"
             Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -32,6 +33,7 @@
                         <Grid.Resources>
                             <SolidColorBrush x:Key="PurpleBrush" Color="#FFA156E0"/>
                             <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
+                            <x:Double x:Key="PullProgressOpacity">0.2</x:Double>
                         </Grid.Resources>
 
                         <Grid.RowDefinitions>
@@ -81,7 +83,7 @@
                                         CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Maximum="{Binding GuaranteeOrangeThreshold}"
-                                        Opacity="0.15"
+                                        Opacity="{StaticResource PullProgressOpacity}"
                                         Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
@@ -114,7 +116,7 @@
                                         CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Maximum="{Binding GuaranteePurpleThreshold}"
-                                        Opacity="0.15"
+                                        Opacity="{StaticResource PullProgressOpacity}"
                                         Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
@@ -161,7 +163,7 @@
                                         CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Maximum="{Binding GuaranteeOrangeThreshold}"
-                                        Opacity="0.15"
+                                        Opacity="{StaticResource PullProgressOpacity}"
                                         Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
@@ -194,7 +196,7 @@
                                         CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Maximum="{Binding GuaranteePurpleThreshold}"
-                                        Opacity="0.15"
+                                        Opacity="{StaticResource PullProgressOpacity}"
                                         Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
@@ -241,7 +243,7 @@
                                         CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource OrangeBrush}"
                                         Maximum="{Binding GuaranteeOrangeThreshold}"
-                                        Opacity="0.15"
+                                        Opacity="{StaticResource PullProgressOpacity}"
                                         Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
@@ -274,7 +276,7 @@
                                         CornerRadius="{StaticResource CompatCornerRadius}"
                                         Foreground="{StaticResource PurpleBrush}"
                                         Maximum="{Binding GuaranteePurpleThreshold}"
-                                        Opacity="0.15"
+                                        Opacity="{StaticResource PullProgressOpacity}"
                                         Style="{StaticResource DefaultProgressBarStyle}"
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
@@ -299,6 +301,13 @@
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
+        <PipsPager
+            Height="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            NumberOfPages="{Binding StatisticsList.Count}"
+            SelectedPageIndex="{x:Bind Path=RootFlipView.SelectedIndex, Mode=TwoWay}"
+            Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <shvc:LoadingViewSlim IsLoading="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
     </Grid>
 </Button>

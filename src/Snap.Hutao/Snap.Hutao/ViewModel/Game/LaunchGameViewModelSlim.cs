@@ -12,7 +12,7 @@ namespace Snap.Hutao.ViewModel.Game;
 /// <summary>
 /// 简化的启动游戏视图模型
 /// </summary>
-[Injection(InjectAs.Scoped)]
+[Injection(InjectAs.Transient)]
 internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
 {
     private readonly IGameService gameService;

@@ -30,7 +30,7 @@ internal class AvatarView : INameIconSide
     /// </summary>
     /// <param name="avatarId">角色Id</param>
     /// <param name="idAvatarMap">Id角色映射</param>
-    public AvatarView(AvatarId avatarId, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
+    public AvatarView(in AvatarId avatarId, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
         : this(idAvatarMap[avatarId])
     {
     }

@@ -22,6 +22,7 @@
     </mxi:Interaction.Behaviors>
     <Grid>
         <FlipView
+            x:Name="RootFlipView"
             Background="{x:Null}"
             ItemsSource="{Binding StatisticsList}"
             Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -64,8 +65,14 @@
                     </Grid>
                 </DataTemplate>
             </FlipView.ItemTemplate>
-
         </FlipView>
+        <PipsPager
+            Height="16"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Bottom"
+            NumberOfPages="{Binding StatisticsList.Count}"
+            SelectedPageIndex="{x:Bind Path=RootFlipView.SelectedIndex, Mode=TwoWay}"
+            Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <shvc:LoadingViewSlim IsLoading="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
     </Grid>
 </Button>

@@ -10,7 +10,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// <summary>
 /// 简化的成就视图模型
 /// </summary>
-[Injection(InjectAs.Scoped)]
+[Injection(InjectAs.Transient)]
 internal sealed class AchievementViewModelSlim : Abstraction.ViewModelSlim<View.Page.AchievementPage>
 {
     private List<AchievementStatistics>? statisticsList;

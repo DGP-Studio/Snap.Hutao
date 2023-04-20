@@ -14,7 +14,7 @@ using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.User;
 using System.Collections.ObjectModel;
 
-namespace Snap.Hutao.ViewModel;
+namespace Snap.Hutao.ViewModel.DailyNote;
 
 /// <summary>
 /// 实时便笺视图模型

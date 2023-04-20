@@ -88,6 +88,11 @@ internal sealed class User : ObservableObject
     }
 
     /// <summary>
+    /// 是否为国际服
+    /// </summary>
+    public bool IsOversea { get => Entity.IsOversea; }
+
+    /// <summary>
     /// 内部的用户实体
     /// </summary>
     public EntityUser Entity { get => inner; }

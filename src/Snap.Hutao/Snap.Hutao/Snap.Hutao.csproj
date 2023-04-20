@@ -108,6 +108,7 @@
     <None Remove="Resource\WelcomeView_Background.png" />
     <None Remove="stylecop.json" />
     <None Remove="View\Card\AchievementCard.xaml" />
+    <None Remove="View\Card\DailyNoteCard.xaml" />
     <None Remove="View\Card\GachaStatisticsCard.xaml" />
     <None Remove="View\Card\LaunchGameCard.xaml" />
     <None Remove="View\Control\BaseValueSlider.xaml" />
@@ -297,6 +298,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Card\DailyNoteCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

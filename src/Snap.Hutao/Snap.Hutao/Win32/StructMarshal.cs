@@ -44,7 +44,7 @@ internal static class StructMarshal
     public static unsafe Windows.UI.Color Color(uint value)
     {
         Unsafe.SkipInit(out Windows.UI.Color color);
-        *(uint*)&color = BinaryPrimitives.ReverseEndianness(value); // Unsafe.WriteUnaligned(&color, reversed);
+        *(uint*)&color = BinaryPrimitives.ReverseEndianness(value);
         return color;
     }
 
@@ -90,7 +90,7 @@ internal static class StructMarshal
     {
         MODULEENTRY32 entry = MODULEENTRY32();
 
-        if (!UnsafeModule32First(snapshot, ref entry))
+        if (!Module32First(snapshot, ref entry))
         {
             yield break;
         }
@@ -99,7 +99,7 @@ internal static class StructMarshal
         {
             yield return entry;
         }
-        while (UnsafeModule32Next(snapshot, ref entry));
+        while (Module32Next(snapshot, ref entry));
     }
 
     /// <summary>
@@ -110,21 +110,5 @@ internal static class StructMarshal
     public static bool IsDefault(MODULEENTRY32 moduleEntry32)
     {
         return moduleEntry32.dwSize == 0;
-    }
-
-    private static unsafe BOOL UnsafeModule32First(in HANDLE snapshot, ref MODULEENTRY32 lpme)
-    {
-        fixed (MODULEENTRY32* lpmeLocal = &lpme)
-        {
-            return Module32First(snapshot, lpmeLocal);
-        }
-    }
-
-    private static unsafe BOOL UnsafeModule32Next(in HANDLE snapshot, ref MODULEENTRY32 lpme)
-    {
-        fixed (MODULEENTRY32* lpmeLocal = &lpme)
-        {
-            return Module32Next(snapshot, lpmeLocal);
-        }
     }
 }

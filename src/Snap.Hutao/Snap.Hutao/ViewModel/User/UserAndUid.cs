@@ -19,7 +19,7 @@ internal sealed class UserAndUid
     /// </summary>
     /// <param name="user">实体用户</param>
     /// <param name="role">角色</param>
-    public UserAndUid(EntityUser user, PlayerUid role)
+    public UserAndUid(EntityUser user, in PlayerUid role)
     {
         User = user;
         Uid = role;

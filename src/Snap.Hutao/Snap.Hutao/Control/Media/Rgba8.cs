@@ -47,7 +47,7 @@ internal struct Rgba8
     /// 构造一个新的 RGBA8 颜色
     /// </summary>
     /// <param name="hex">色值字符串</param>
-    public Rgba8(ReadOnlySpan<char> hex)
+    public Rgba8(in ReadOnlySpan<char> hex)
     {
         R = 0;
         G = 0;

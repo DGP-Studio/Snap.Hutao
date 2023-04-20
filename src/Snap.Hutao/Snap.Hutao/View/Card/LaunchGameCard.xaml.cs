@@ -15,6 +15,7 @@ internal sealed partial class LaunchGameCard : Button
     /// </summary>
     public LaunchGameCard()
     {
+        DataContext = Ioc.Default.GetRequiredService<ViewModel.Game.LaunchGameViewModelSlim>();
         InitializeComponent();
     }
 }

@@ -169,13 +169,11 @@
                         DesiredWidth="300"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                         SelectionMode="None">
-                        <shvca:LaunchGameCard Height="{StaticResource HomeAdaptiveCardHeight}" DataContext="{Binding LaunchGameViewModelSlim}"/>
-                        <shvca:GachaStatisticsCard DataContext="{Binding GachaLogViewModelSlim}"/>
-                        <shvca:AchievementCard DataContext="{Binding AchievementViewModelSlim}"/>
+                        <shvca:LaunchGameCard Height="{StaticResource HomeAdaptiveCardHeight}"/>
+                        <shvca:GachaStatisticsCard/>
+                        <shvca:AchievementCard/>
+                        <shvca:DailyNoteCard/>
 
-                        <Border Style="{StaticResource BorderCardStyle}">
-                            <TextBlock Text="实时便笺"/>
-                        </Border>
                         <Border Style="{StaticResource BorderCardStyle}">
                             <TextBlock Text="养成计划"/>
                         </Border>

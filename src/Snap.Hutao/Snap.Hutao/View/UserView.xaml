@@ -9,8 +9,8 @@
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shvm="using:Snap.Hutao.ViewModel"
-    d:DataContext="{d:DesignInstance shvm:UserViewModel}"
+    xmlns:shvu="using:Snap.Hutao.ViewModel.User"
+    d:DataContext="{d:DesignInstance shvu:UserViewModel}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
         <mxic:EventTriggerBehavior EventName="Loaded">
@@ -121,6 +121,7 @@
                                                 <ColumnDefinition Width="auto"/>
                                                 <ColumnDefinition/>
                                                 <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
                                             </Grid.ColumnDefinitions>
                                             <PersonPicture
                                                 Height="32"
@@ -132,10 +133,14 @@
                                                 Margin="12,0,0,0"
                                                 VerticalAlignment="Center"
                                                 Text="{Binding UserInfo.Nickname}"/>
-
+                                            <TextBlock
+                                                Grid.Column="2"
+                                                VerticalAlignment="Center"
+                                                Text="HoYoLAB"
+                                                Visibility="{Binding IsOversea}"/>
                                             <StackPanel
                                                 x:Name="ButtonPanel"
-                                                Grid.Column="2"
+                                                Grid.Column="3"
                                                 Orientation="Horizontal"
                                                 Visibility="Collapsed">
                                                 <Button

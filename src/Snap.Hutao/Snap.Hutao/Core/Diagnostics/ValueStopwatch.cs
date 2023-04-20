@@ -85,7 +85,7 @@ file readonly struct MeasureExecutionDisposable : IDisposable
     private readonly ILogger logger;
     private readonly string callerName;
 
-    public MeasureExecutionDisposable(ValueStopwatch stopwatch, ILogger logger, string callerName)
+    public MeasureExecutionDisposable(in ValueStopwatch stopwatch, ILogger logger, string callerName)
     {
         this.stopwatch = stopwatch;
         this.logger = logger;

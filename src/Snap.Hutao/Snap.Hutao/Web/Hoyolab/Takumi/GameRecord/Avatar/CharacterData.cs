@@ -15,7 +15,7 @@ internal sealed class CharacterData
     /// </summary>
     /// <param name="uid">uid</param>
     /// <param name="characterIds">角色id</param>
-    public CharacterData(PlayerUid uid, IEnumerable<AvatarId> characterIds)
+    public CharacterData(in PlayerUid uid, IEnumerable<AvatarId> characterIds)
     {
         CharacterIds = characterIds;
         Uid = uid.Value;

@@ -24,31 +24,12 @@ internal sealed class AnnouncementViewModel : Abstraction.ViewModel
     public AnnouncementViewModel(IServiceProvider serviceProvider)
     {
         announcementService = serviceProvider.GetRequiredService<IAnnouncementService>();
-
-        LaunchGameViewModelSlim = serviceProvider.GetRequiredService<Game.LaunchGameViewModelSlim>();
-        GachaLogViewModelSlim = serviceProvider.GetRequiredService<GachaLog.GachaLogViewModelSlim>();
-        AchievementViewModelSlim = serviceProvider.GetRequiredService<Achievement.AchievementViewModelSlim>();
     }
 
     /// <summary>
     /// 公告
     /// </summary>
     public AnnouncementWrapper? Announcement { get => announcement; set => SetProperty(ref announcement, value); }
-
-    /// <summary>
-    /// 启动游戏视图模型
-    /// </summary>
-    public Game.LaunchGameViewModelSlim LaunchGameViewModelSlim { get; }
-
-    /// <summary>
-    /// 祈愿记录视图模型
-    /// </summary>
-    public GachaLog.GachaLogViewModelSlim GachaLogViewModelSlim { get; }
-
-    /// <summary>
-    /// 成就统计视图模型
-    /// </summary>
-    public Achievement.AchievementViewModelSlim AchievementViewModelSlim { get; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()

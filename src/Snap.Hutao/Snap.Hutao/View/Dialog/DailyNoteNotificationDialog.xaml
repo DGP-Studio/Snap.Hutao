@@ -14,9 +14,20 @@
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
     <ScrollViewer>
-        <StackPanel>
-            <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding UserGameRole}"/>
-            <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationResinNotifyThreshold}">
+        <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+            <StackPanel.Resources>
+                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+            </StackPanel.Resources>
+            <TextBlock
+                Margin="0,3,0,3"
+                Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                Text="{Binding UserGameRole}"/>
+            <clw:SettingsCard
+                Width="480"
+                Padding="16,8"
+                Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationResinNotifyThreshold}">
                 <Slider
                     MinWidth="160"
                     Margin="32,0,0,0"

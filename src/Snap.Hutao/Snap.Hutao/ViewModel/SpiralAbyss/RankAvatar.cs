@@ -17,7 +17,7 @@ internal sealed class RankAvatar : AvatarView
     /// <param name="value">值</param>
     /// <param name="avatarId">角色Id</param>
     /// <param name="idAvatarMap">Id角色映射</param>
-    public RankAvatar(int value, AvatarId avatarId, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
+    public RankAvatar(int value, in AvatarId avatarId, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
         : base(avatarId, idAvatarMap)
     {
         Value = value;

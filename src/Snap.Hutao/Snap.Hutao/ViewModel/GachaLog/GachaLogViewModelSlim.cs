@@ -8,7 +8,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 /// <summary>
 /// 简化的祈愿记录视图模型
 /// </summary>
-[Injection(InjectAs.Scoped)]
+[Injection(InjectAs.Transient)]
 internal sealed class GachaLogViewModelSlim : Abstraction.ViewModelSlim<View.Page.GachaLogPage>
 {
     private List<GachaStatisticsSlim>? statisticsList;
@@ -30,14 +30,17 @@ internal sealed class GachaLogViewModelSlim : Abstraction.ViewModelSlim<View.Pag
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        IGachaLogService gachaLogService = ServiceProvider.GetRequiredService<IGachaLogService>();
-
-        if (await gachaLogService.InitializeAsync(default).ConfigureAwait(false))
+        using (IServiceScope scope = ServiceProvider.CreateScope())
         {
-            List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimsAsync().ConfigureAwait(false);
-            await ThreadHelper.SwitchToMainThreadAsync();
-            StatisticsList = list;
-            IsInitialized = true;
+            IGachaLogService gachaLogService = scope.ServiceProvider.GetRequiredService<IGachaLogService>();
+
+            if (await gachaLogService.InitializeAsync(default).ConfigureAwait(false))
+            {
+                List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimsAsync().ConfigureAwait(false);
+                await ThreadHelper.SwitchToMainThreadAsync();
+                StatisticsList = list;
+                IsInitialized = true;
+            }
         }
     }
 }

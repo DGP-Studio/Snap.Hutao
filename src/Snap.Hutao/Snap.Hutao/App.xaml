@@ -53,7 +53,9 @@
             <SolidColorBrush x:Key="AvatarPropertyAddValueBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
             <!--  Settings  -->
             <x:Double x:Key="SettingsCardSpacing">3</x:Double>
-
+            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
             <Style
                 x:Key="SettingsSectionHeaderTextBlockStyle"
                 BasedOn="{StaticResource BodyStrongTextBlockStyle}"

@@ -17,7 +17,7 @@ internal sealed class GenAuthKeyData
     /// <param name="authAppId">AppId</param>
     /// <param name="gameBiz">游戏代号</param>
     /// <param name="uid">uid</param>
-    public GenAuthKeyData(string authAppId, string gameBiz, PlayerUid uid)
+    public GenAuthKeyData(string authAppId, string gameBiz, in PlayerUid uid)
     {
         AuthAppId = authAppId;
         GameBiz = gameBiz;
