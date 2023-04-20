@@ -52,7 +52,8 @@
                                             Opacity="0.8"
                                             Style="{StaticResource SubtitleTextBlockStyle}"
                                             Text="{Binding Inner.Title}"
-                                            TextTrimming="CharacterEllipsis"/>
+                                            TextTrimming="CharacterEllipsis"
+                                            TextWrapping="NoWrap"/>
                                         <TextBlock
                                             Opacity="0.6"
                                             Style="{StaticResource CaptionTextBlockStyle}"

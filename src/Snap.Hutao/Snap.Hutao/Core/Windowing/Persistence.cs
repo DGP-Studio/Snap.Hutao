@@ -74,6 +74,29 @@ internal static class Persistence
         return Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
     }
 
+    /// <summary>
+    /// 将窗口设为前台窗口
+    /// </summary>
+    /// <param name="hwnd">窗口句柄</param>
+    public static unsafe void BringToForeground(in HWND hwnd)
+    {
+        HWND fgHwnd = GetForegroundWindow();
+
+        uint threadIdHwnd = GetWindowThreadProcessId(hwnd);
+        uint threadIdfgHwnd = GetWindowThreadProcessId(fgHwnd);
+
+        if (threadIdHwnd != threadIdfgHwnd)
+        {
+            AttachThreadInput(threadIdHwnd, threadIdfgHwnd, true);
+            SetForegroundWindow(hwnd);
+            AttachThreadInput(threadIdHwnd, threadIdfgHwnd, false);
+        }
+        else
+        {
+            SetForegroundWindow(hwnd);
+        }
+    }
+
     private static void TransformToCenterScreen(ref RectInt32 rect)
     {
         DisplayArea displayArea = DisplayArea.GetFromRect(rect, DisplayAreaFallback.Primary);

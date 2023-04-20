@@ -88,7 +88,7 @@
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="12,0"
+                                        Margin="6,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
@@ -121,7 +121,7 @@
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="12,0"
+                                        Margin="6,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
@@ -168,7 +168,7 @@
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="12,0"
+                                        Margin="6,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
@@ -201,7 +201,7 @@
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="12,0"
+                                        Margin="6,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"
@@ -248,7 +248,7 @@
                                         Value="{Binding LastOrangePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="12,0"
+                                        Margin="6,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource OrangeBrush}"
@@ -281,7 +281,7 @@
                                         Value="{Binding LastPurplePull}"/>
                                     <TextBlock
                                         Grid.Column="0"
-                                        Margin="12,0"
+                                        Margin="6,0"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Foreground="{StaticResource PurpleBrush}"

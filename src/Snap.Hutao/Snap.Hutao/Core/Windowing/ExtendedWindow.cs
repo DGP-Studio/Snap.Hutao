@@ -11,8 +11,11 @@ using Snap.Hutao.Message;
 using Snap.Hutao.Service;
 using Snap.Hutao.Win32;
 using System.IO;
+using Windows.Win32.Foundation;
 using Windows.Graphics;
 using Windows.UI;
+using Windows.Win32.Graphics.Dwm;
+using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Windowing;
 
@@ -65,22 +68,23 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         ExtendsContentIntoTitleBar();
 
         Persistence.RecoverOrInit(options);
+        UpdateImmersiveDarkMode(options.TitleBar, default!);
 
         // appWindow.Show(true);
         // appWindow.Show can't bring window to top.
-        options.Window.Activate();
+        // options.Window.Activate();
+        Persistence.BringToForeground(options.Hwnd);
 
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
         UpdateSystemBackdrop(appOptions.BackdropType);
         appOptions.PropertyChanged += OnOptionsPropertyChanged;
 
         bool subClassApplied = subclass.Initialize();
-        logger.LogInformation("Apply {name} : {result}", nameof(WindowSubclass<TWindow>), subClassApplied ? "succeed" : "failed");
 
-        IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
-        messenger.Register(this);
+        serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         options.Window.Closed += OnWindowClosed;
+        options.TitleBar.ActualThemeChanged += UpdateImmersiveDarkMode;
     }
 
     private void OnOptionsPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -157,6 +161,12 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         appTitleBar.ButtonForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
+    }
+
+    private unsafe void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
+    {
+        BOOL isDarkMode = Control.Theme.ThemeHelper.IsDarkMode(titleBar.ActualTheme);
+        DwmSetWindowAttribute(options.Hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, &isDarkMode, unchecked((uint)sizeof(BOOL)));
     }
 
     private void UpdateDragRectangles(bool isFlyoutOpened = false)

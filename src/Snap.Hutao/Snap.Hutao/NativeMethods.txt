@@ -14,6 +14,10 @@ DefSubclassProc
 RemoveWindowSubclass
 SetWindowSubclass
 
+// DWMAPI
+DwmGetWindowAttribute
+DwmSetWindowAttribute
+
 // GDI32
 GetDeviceCaps
 
@@ -30,10 +34,14 @@ WriteProcessMemory
 CoWaitForMultipleObjects
 
 // USER32
+AttachThreadInput
 FindWindowEx
 GetDC
 GetDpiForWindow
+GetForegroundWindow
 GetWindowPlacement
+GetWindowThreadProcessId
+SetForegroundWindow
 
 // WinRT
 IMemoryBufferByteAccess
