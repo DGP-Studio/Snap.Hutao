@@ -42,7 +42,7 @@ internal static class CoreEnvironment
     /// <summary>
     /// 米游社 Rpc 版本
     /// </summary>
-    public const string HoyolabXrpcVersion = "2.44.1";
+    public const string HoyolabXrpcVersion = "2.49.1";
 
     /// <summary>
     /// Hoyolab Rpc 版本
@@ -55,8 +55,8 @@ internal static class CoreEnvironment
     // https://github.com/UIGF-org/Hoyolab.Salt
     public static readonly ImmutableDictionary<SaltType, string> DynamicSecretSalts = new Dictionary<SaltType, string>()
     {
-        [SaltType.K2] = "dZAwGk4e9aC0MXXItkwnHamjA1x30IYw",
-        [SaltType.LK2] = "IEIZiKYaput2OCKQprNuGsog1NZc1FkS",
+        [SaltType.K2] = "egBrFMO1BPBG0UX5XOuuwMRLZKwTVKRV",
+        [SaltType.LK2] = "DG8lqMyc9gquwAUFc7zBS62ijQRX9XF7",
         [SaltType.X4] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
         [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
         [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
