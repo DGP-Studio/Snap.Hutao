@@ -47,6 +47,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     /// <param name="logger">日志器</param>
     /// <param name="memoryCache">内存缓存</param>
     public MetadataService(
+        Core.HutaoOptions hutaoOptions,
         IInfoBarService infoBarService,
         IHttpClientFactory httpClientFactory,
         JsonSerializerOptions options,
@@ -60,7 +61,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         httpClient = httpClientFactory.CreateClient(nameof(MetadataService));
 
         locale = GetTextMapLocale();
-        metadataFolderPath = Path.Combine(Core.CoreEnvironment.DataFolder, "Metadata", locale);
+        metadataFolderPath = Path.Combine(hutaoOptions.DataFolder, "Metadata", locale);
         Directory.CreateDirectory(metadataFolderPath);
     }
 

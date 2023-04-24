@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Notifications;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.IO;
@@ -146,7 +147,8 @@ internal sealed class WelcomeViewModel : ObservableObject
         public DownloadSummary(IServiceProvider serviceProvider, string fileName)
         {
             httpClient = serviceProvider.GetRequiredService<HttpClient>();
-            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(Core.CoreEnvironment.CommonUA);
+            HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(hutaoOptions.UserAgent);
 
             this.serviceProvider = serviceProvider;
 

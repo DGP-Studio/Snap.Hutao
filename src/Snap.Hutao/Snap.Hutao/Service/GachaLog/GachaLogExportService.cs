@@ -15,14 +15,16 @@ namespace Snap.Hutao.Service.GachaLog;
 internal sealed class GachaLogExportService : IGachaLogExportService
 {
     private readonly AppDbContext appDbContext;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的祈愿记录导出服务
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
-    public GachaLogExportService(AppDbContext appDbContext)
+    public GachaLogExportService(IServiceProvider serviceProvider, AppDbContext appDbContext)
     {
         this.appDbContext = appDbContext;
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
@@ -37,7 +39,7 @@ internal sealed class GachaLogExportService : IGachaLogExportService
 
         UIGF uigf = new()
         {
-            Info = UIGFInfo.Create(archive.Uid),
+            Info = UIGFInfo.Create(serviceProvider, archive.Uid),
             List = list,
         };
 

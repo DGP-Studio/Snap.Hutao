@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Dispatching;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Threading;
@@ -9,21 +8,20 @@ namespace Snap.Hutao.Core.Threading;
 /// <summary>
 /// 线程帮助类
 /// </summary>
+[Obsolete("Use TaskContext instead")]
 internal static class ThreadHelper
 {
     /// <summary>
     /// 主线程队列
     /// </summary>
-    private static volatile DispatcherQueue? dispatcherQueue;
+    private static volatile ITaskContext taskContext;
 
     /// <summary>
     /// 初始化
     /// </summary>
-    public static void Initialize()
+    public static void Initialize(ITaskContext taskContext)
     {
-        dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        DispatcherQueueSynchronizationContext context = new(dispatcherQueue);
-        SynchronizationContext.SetSynchronizationContext(context);
+        ThreadHelper.taskContext = taskContext;
     }
 
     /// <summary>
@@ -34,7 +32,7 @@ internal static class ThreadHelper
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ThreadPoolSwitchOperation SwitchToBackgroundAsync()
     {
-        return default;
+        return taskContext.SwitchToBackgroundAsync();
     }
 
     /// <summary>
@@ -45,7 +43,7 @@ internal static class ThreadHelper
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DispatherQueueSwitchOperation SwitchToMainThreadAsync()
     {
-        return new(dispatcherQueue!);
+        return taskContext.SwitchToMainThreadAsync();
     }
 
     /// <summary>
@@ -55,13 +53,6 @@ internal static class ThreadHelper
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void InvokeOnMainThread(Action action)
     {
-        if (dispatcherQueue!.HasThreadAccess)
-        {
-            action();
-        }
-        else
-        {
-            dispatcherQueue.Invoke(action);
-        }
+        taskContext.InvokeOnMainThread(action);
     }
 }

@@ -47,15 +47,17 @@ internal sealed class UIAFInfo
     /// <summary>
     /// 构造一个新的专用 UIAF 信息
     /// </summary>
-    /// <param name="uid">uid</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <returns>专用 UIAF 信息</returns>
-    public static UIAFInfo Create()
+    public static UIAFInfo Create(IServiceProvider serviceProvider)
     {
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+
         return new()
         {
             ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
-            ExportAppVersion = CoreEnvironment.Version.ToString(),
+            ExportAppVersion = hutaoOptions.Version.ToString(),
             UIAFVersion = UIAF.CurrentVersion,
         };
     }

@@ -61,4 +61,12 @@ public class CSharpLanguageFeatureTest
         ValueB = 2,
         ValueC = 3,
     }
+
+    [TestMethod]
+    public void GetTwiceOnPropertyResultsSame()
+    {
+        Assert.AreEqual(UUID, UUID);
+    }
+
+    public static Guid UUID { get => Guid.NewGuid(); }
 }

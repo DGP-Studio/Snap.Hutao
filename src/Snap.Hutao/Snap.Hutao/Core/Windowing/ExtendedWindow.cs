@@ -11,9 +11,9 @@ using Snap.Hutao.Message;
 using Snap.Hutao.Service;
 using Snap.Hutao.Win32;
 using System.IO;
-using Windows.Win32.Foundation;
 using Windows.Graphics;
 using Windows.UI;
+using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Dwm;
 using static Windows.Win32.PInvoke;
 
@@ -30,7 +30,6 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
     private readonly WindowOptions<TWindow> options;
 
     private readonly IServiceProvider serviceProvider;
-    private readonly ILogger<ExtendedWindow<TWindow>> logger;
     private readonly WindowSubclass<TWindow> subclass;
 
     private ExtendedWindow(TWindow window, FrameworkElement titleBar, IServiceProvider serviceProvider)
@@ -38,7 +37,6 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         options = new(window, titleBar);
         subclass = new(options);
 
-        logger = serviceProvider.GetRequiredService<ILogger<ExtendedWindow<TWindow>>>();
         this.serviceProvider = serviceProvider;
 
         InitializeWindow();
@@ -63,8 +61,10 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 
     private void InitializeWindow()
     {
-        options.AppWindow.Title = string.Format(SH.AppNameAndVersion, CoreEnvironment.Version);
-        options.AppWindow.SetIcon(Path.Combine(CoreEnvironment.InstalledLocation, "Assets/Logo.ico"));
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+
+        options.AppWindow.Title = string.Format(SH.AppNameAndVersion, hutaoOptions.Version);
+        options.AppWindow.SetIcon(Path.Combine(hutaoOptions.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
         Persistence.RecoverOrInit(options);

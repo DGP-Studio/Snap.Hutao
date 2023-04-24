@@ -87,8 +87,8 @@ internal class MiHoYoJSInterface
             Data = new Dictionary<string, string>()
             {
                 { "x-rpc-client_type", "5" },
-                { "x-rpc-device_id",  Core.CoreEnvironment.HoyolabDeviceId },
-                { "x-rpc-app_version", Core.CoreEnvironment.HoyolabXrpcVersion },
+                { "x-rpc-device_id",  Core.HoyolabOptions.DeviceId },
+                { "x-rpc-app_version", Core.HoyolabOptions.XrpcVersion },
             },
         };
     }
@@ -120,7 +120,7 @@ internal class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
-        string salt = Core.CoreEnvironment.DynamicSecretSalts[SaltType.LK2];
+        string salt = Core.HoyolabOptions.Salts[SaltType.LK2];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         string r = GetRandomString();
         string check = Core.Convert.ToMd5HexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
@@ -151,7 +151,7 @@ internal class MiHoYoJSInterface
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
         // TODO: Salt X4 for hoyolab user
-        string salt = Core.CoreEnvironment.DynamicSecretSalts[SaltType.X4];
+        string salt = Core.HoyolabOptions.Salts[SaltType.X4];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int r = GetRandom();
         string b = param.Payload.Body;

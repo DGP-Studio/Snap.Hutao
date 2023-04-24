@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.LifeCycle;
@@ -67,6 +68,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         Experimental = serviceProvider.GetRequiredService<ExperimentalFeaturesViewModel>();
         Options = serviceProvider.GetRequiredService<AppOptions>();
         UserOptions = serviceProvider.GetRequiredService<HutaoUserOptions>();
+        HutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
         this.serviceProvider = serviceProvider;
 
         selectedCulture = cultures.FirstOrDefault(c => c.Value == Options.CurrentCulture.Name);
@@ -83,15 +85,6 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     }
 
     /// <summary>
-    /// 版本
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public string AppVersion
-    {
-        get => Core.CoreEnvironment.Version.ToString();
-    }
-
-    /// <summary>
     /// WebView2 版本
     /// </summary>
     [SuppressMessage("", "CA1822")]
@@ -101,18 +94,14 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     }
 
     /// <summary>
-    /// 设备Id
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public string DeviceId
-    {
-        get => Core.CoreEnvironment.HutaoDeviceId;
-    }
-
-    /// <summary>
     /// 应用程序设置
     /// </summary>
     public AppOptions Options { get; }
+
+    /// <summary>
+    /// 胡桃选项
+    /// </summary>
+    public HutaoOptions HutaoOptions { get; }
 
     /// <summary>
     /// 胡桃用户选项
@@ -317,7 +306,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
         try
         {
-            Clipboard.SetText(DeviceId);
+            Clipboard.SetText(HutaoOptions.DeviceId);
             infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
         catch (COMException ex)

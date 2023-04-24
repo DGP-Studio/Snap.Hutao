@@ -28,4 +28,6 @@ internal static class StringLiterals
     /// False
     /// </summary>
     public const string False = "False";
+
+    public const string CRLF = "\r\n";
 }

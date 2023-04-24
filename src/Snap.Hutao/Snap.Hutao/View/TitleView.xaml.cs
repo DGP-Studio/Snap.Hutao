@@ -26,11 +26,18 @@ internal sealed partial class TitleView : UserControl
     [SuppressMessage("", "CA1822")]
     public string Title
     {
+        get
+        {
+            Core.HutaoOptions hutaoOptions = Ioc.Default.GetRequiredService<Core.HutaoOptions>();
+
+            string format =
 #if DEBUG
-        get => string.Format(SH.AppDevNameAndVersion, Core.CoreEnvironment.Version);
+                SH.AppDevNameAndVersion;
 #else
-        get => string.Format(SH.AppNameAndVersion, Core.CoreEnvironment.Version);
+                SH.AppNameAndVersion;
 #endif
+            return string.Format(format, hutaoOptions.Version);
+        }
     }
 
     /// <summary>

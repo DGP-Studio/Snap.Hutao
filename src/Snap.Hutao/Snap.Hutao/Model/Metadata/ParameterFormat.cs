@@ -11,6 +11,8 @@ namespace Snap.Hutao.Model.Metadata;
 [HighQuality]
 internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
 {
+    private static readonly Lazy<ParameterFormat> LazyFormat = new();
+
     /// <summary>
     /// 格式化
     /// </summary>
@@ -20,7 +22,7 @@ internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Format(string str, object param)
     {
-        return string.Format(new ParameterFormat(), str, param);
+        return string.Format(LazyFormat.Value, str, param);
     }
 
     /// <inheritdoc/>

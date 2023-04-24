@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hutao.Log;
 using Snap.Hutao.Web.Response;
@@ -29,11 +30,12 @@ internal sealed class HomaLogUploadClient
     /// <summary>
     /// 上传日志
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="exception">异常</param>
     /// <returns>任务</returns>
-    public async Task<string?> UploadLogAsync(Exception exception)
+    public async Task<string?> UploadLogAsync(IServiceProvider serviceProvider, Exception exception)
     {
-        HutaoLog log = BuildFromException(exception);
+        HutaoLog log = BuildFromException(serviceProvider, exception);
 
         Response<string>? a = await httpClient
             .TryCatchPostAsJsonAsync<HutaoLog, Response<string>>(HutaoEndpoints.HutaoLogUpload, log)
@@ -41,13 +43,15 @@ internal sealed class HomaLogUploadClient
         return a?.Data;
     }
 
-    private static HutaoLog BuildFromException(Exception exception)
+    private static HutaoLog BuildFromException(IServiceProvider serviceProvider, Exception exception)
     {
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+
         return new()
         {
-            Id = Core.CoreEnvironment.HutaoDeviceId,
+            Id = hutaoOptions.DeviceId,
             Time = DateTimeOffset.Now.ToUnixTimeMilliseconds(),
-            Info = exception.ToString(),
+            Info = Core.ExceptionService.ExceptionFormat.Format(exception),
         };
     }
 }

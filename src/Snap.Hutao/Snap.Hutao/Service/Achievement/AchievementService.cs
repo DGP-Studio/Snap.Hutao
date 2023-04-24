@@ -28,19 +28,22 @@ internal sealed class AchievementService : IAchievementService
     private readonly ILogger<AchievementService> logger;
     private readonly DbCurrent<AchievementArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
     private readonly AchievementDbOperation achievementDbOperation;
+    private readonly IServiceProvider serviceProvider;
 
     private ObservableCollection<AchievementArchive>? archiveCollection;
 
     /// <summary>
     /// 构造一个新的成就服务
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="logger">日志器</param>
     /// <param name="messenger">消息器</param>
-    public AchievementService(AppDbContext appDbContext, ILogger<AchievementService> logger, IMessenger messenger)
+    public AchievementService(IServiceProvider serviceProvider, AppDbContext appDbContext, ILogger<AchievementService> logger, IMessenger messenger)
     {
         this.appDbContext = appDbContext;
         this.logger = logger;
+        this.serviceProvider = serviceProvider;
 
         dbCurrent = new(appDbContext.AchievementArchives, messenger);
         achievementDbOperation = new(appDbContext);
@@ -174,7 +177,7 @@ internal sealed class AchievementService : IAchievementService
 
         UIAF uigf = new()
         {
-            Info = UIAFInfo.Create(),
+            Info = UIAFInfo.Create(serviceProvider),
             List = list,
         };
 

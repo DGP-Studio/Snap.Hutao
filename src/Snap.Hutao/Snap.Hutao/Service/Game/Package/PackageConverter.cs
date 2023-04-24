@@ -21,16 +21,19 @@ internal sealed class PackageConverter
 {
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的游戏文件转换器
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="httpClient">http客户端</param>
-    public PackageConverter(JsonSerializerOptions options, HttpClient httpClient)
+    public PackageConverter(IServiceProvider serviceProvider, HttpClient httpClient)
     {
-        this.options = options;
+        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
         this.httpClient = httpClient;
+        this.serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -228,7 +231,8 @@ internal sealed class PackageConverter
         }
 
         // Cache folder
-        string cacheFolder = Path.Combine(Core.CoreEnvironment.DataFolder, "ServerCache");
+        Core.HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<Core.HutaoOptions>();
+        string cacheFolder = Path.Combine(hutaoOptions.DataFolder, "ServerCache");
 
         // 执行下载与移动操作
         foreach (ItemOperationInfo info in operations)

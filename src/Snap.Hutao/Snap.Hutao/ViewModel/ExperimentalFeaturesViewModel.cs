@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity.Database;
 using Windows.Storage;
@@ -52,12 +53,14 @@ internal sealed class ExperimentalFeaturesViewModel : ObservableObject
 
     private Task OpenCacheFolderAsync()
     {
-        return Launcher.LaunchFolderAsync(ApplicationData.Current.LocalCacheFolder).AsTask();
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        return Launcher.LaunchFolderPathAsync(hutaoOptions.LocalCache).AsTask();
     }
 
     private Task OpenDataFolderAsync()
     {
-        return Launcher.LaunchFolderPathAsync(Core.CoreEnvironment.DataFolder).AsTask();
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        return Launcher.LaunchFolderPathAsync(hutaoOptions.DataFolder).AsTask();
     }
 
     private async Task DangerousDeleteUsersAsync()
