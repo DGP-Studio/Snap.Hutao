@@ -105,7 +105,7 @@ internal sealed class AchievementImporter
     {
         try
         {
-            return await Clipboard.DeserializeTextAsync<UIAF>(options).ConfigureAwait(false);
+            return await Clipboard.DeserializeTextAsync<UIAF>(serviceProvider).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

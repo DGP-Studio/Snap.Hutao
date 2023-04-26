@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Item;
 
 namespace Snap.Hutao.ViewModel.Cultivation;

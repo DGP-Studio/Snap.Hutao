@@ -102,11 +102,6 @@ internal sealed class DailyNoteEntry : ObservableObject
     public bool ExpeditionNotifySuppressed { get; set; }
 
     /// <summary>
-    /// 是否在主页显示小组件
-    /// </summary>
-    public bool ShowInHomeWidget { get; set; }
-
-    /// <summary>
     /// 构造一个新的实时便笺
     /// </summary>
     /// <param name="userAndUid">用户与角色</param>
@@ -117,8 +112,8 @@ internal sealed class DailyNoteEntry : ObservableObject
         {
             UserId = userAndUid.User.InnerId,
             Uid = userAndUid.Uid.Value,
-            ResinNotifyThreshold = 160,
-            HomeCoinNotifyThreshold = 2400,
+            ResinNotifyThreshold = 120,
+            HomeCoinNotifyThreshold = 1800,
         };
     }
 

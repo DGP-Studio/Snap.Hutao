@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Metadata;
 
-namespace Snap.Hutao.Model.Binding.AvatarProperty;
+namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 天赋

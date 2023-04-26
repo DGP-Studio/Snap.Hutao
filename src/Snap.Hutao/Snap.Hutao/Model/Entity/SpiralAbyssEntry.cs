@@ -27,7 +27,7 @@ internal sealed class SpiralAbyssEntry : ObservableObject
     public int ScheduleId { get; set; }
 
     /// <summary>
-    /// 视图中使用的计划Id字符串
+    /// 视图 中使用的计划 Id 字符串
     /// </summary>
     [NotMapped]
     public string Schedule { get => string.Format(SH.ModelEntitySpiralAbyssScheduleFormat, ScheduleId); }

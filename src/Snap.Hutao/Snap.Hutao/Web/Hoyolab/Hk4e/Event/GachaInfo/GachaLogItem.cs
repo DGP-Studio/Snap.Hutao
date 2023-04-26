@@ -22,7 +22,7 @@ internal class GachaLogItem
     /// 祈愿类型
     /// </summary>
     [JsonPropertyName("gacha_type")]
-    [JsonEnum(JsonSerializeType.Int32AsString)]
+    [JsonEnum(JsonSerializeType.NumberString)]
     public GachaConfigType GachaType { get; set; } = default!;
 
     /// <summary>
@@ -68,7 +68,7 @@ internal class GachaLogItem
     /// 物品稀有等级
     /// </summary>
     [JsonPropertyName("rank_type")]
-    [JsonEnum(JsonSerializeType.Int32AsString)]
+    [JsonEnum(JsonSerializeType.NumberString)]
     public ItemQuality Rank { get; set; } = default!;
 
     /// <summary>

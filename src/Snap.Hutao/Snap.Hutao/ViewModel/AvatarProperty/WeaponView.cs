@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Model.Binding.AvatarProperty;
+namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 武器
@@ -46,6 +46,11 @@ internal sealed class WeaponView : Equip, ICalculableSource<ICalculableWeapon>
     /// 等级数字
     /// </summary>
     internal int LevelNumber { get; set; }
+
+    /// <summary>
+    /// 最大等级
+    /// </summary>
+    internal int MaxLevel { get => ((int)Quality) >= 3 ? 90 : 70; }
 
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()

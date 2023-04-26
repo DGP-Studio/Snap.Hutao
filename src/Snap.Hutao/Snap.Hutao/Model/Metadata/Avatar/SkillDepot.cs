@@ -9,6 +9,9 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 [HighQuality]
 internal sealed class SkillDepot
 {
+    private List<ProudableSkill>? compositeSkills;
+    private List<ProudableSkill>? compositeSkillsNoInherents;
+
     /// <summary>
     /// 技能天赋
     /// </summary>
@@ -30,7 +33,18 @@ internal sealed class SkillDepot
     /// </summary>
     public List<ProudableSkill> CompositeSkills
     {
-        get => EnumerateCompositeSkills().ToList();
+        get
+        {
+            if (compositeSkills == null)
+            {
+                compositeSkills = new(Skills.Count + 1 + Inherents.Count);
+                compositeSkills.AddRange(Skills);
+                compositeSkills.Add(EnergySkill);
+                compositeSkills.AddRange(Inherents);
+            }
+
+            return compositeSkills;
+        }
     }
 
     /// <summary>
@@ -42,32 +56,16 @@ internal sealed class SkillDepot
     /// 获取无固有天赋的技能列表
     /// </summary>
     /// <returns>天赋列表</returns>
-    public IEnumerable<ProudableSkill> EnumerateCompositeSkillsNoInherents()
+    public List<ProudableSkill> CompositeSkillsNoInherents()
     {
-        foreach (ProudableSkill skill in Skills)
+        if (compositeSkillsNoInherents == null)
         {
-            // skip skills like Mona's & Ayaka's shift
-            if (skill.Proud.Parameters.Count > 1)
-            {
-                yield return skill;
-            }
+            compositeSkillsNoInherents = new(Skills.Count + 1);
+            compositeSkillsNoInherents.AddRange(Skills);
+            compositeSkillsNoInherents.Add(EnergySkill);
         }
 
-        yield return EnergySkill;
-    }
-
-    private IEnumerable<ProudableSkill> EnumerateCompositeSkills()
-    {
-        foreach (ProudableSkill skill in Skills)
-        {
-            yield return skill;
-        }
-
-        yield return EnergySkill;
-
-        foreach (ProudableSkill skill in Inherents)
-        {
-            yield return skill;
-        }
+        // No Inherents
+        return compositeSkillsNoInherents;
     }
 }

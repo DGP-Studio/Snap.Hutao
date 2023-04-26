@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Intrinsic;
 
-namespace Snap.Hutao.Model.Binding;
+namespace Snap.Hutao.Model;
 
 /// <summary>
 /// 物品基类

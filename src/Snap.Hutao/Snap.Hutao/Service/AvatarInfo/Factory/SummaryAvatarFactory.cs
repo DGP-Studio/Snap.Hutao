@@ -1,16 +1,17 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Enka.Model;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using PropertyAvatar = Snap.Hutao.Model.Binding.AvatarProperty.AvatarView;
-using PropertyReliquary = Snap.Hutao.Model.Binding.AvatarProperty.ReliquaryView;
-using PropertyWeapon = Snap.Hutao.Model.Binding.AvatarProperty.WeaponView;
+using PropertyAvatar = Snap.Hutao.ViewModel.AvatarProperty.AvatarView;
+using PropertyReliquary = Snap.Hutao.ViewModel.AvatarProperty.ReliquaryView;
+using PropertyWeapon = Snap.Hutao.ViewModel.AvatarProperty.WeaponView;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
@@ -54,7 +55,7 @@ internal sealed class SummaryAvatarFactory
 
             // webinfo & metadata mixed part
             Constellations = SummaryHelper.CreateConstellations(avatar.SkillDepot.Talents, avatarInfo.TalentIdList),
-            Skills = SummaryHelper.CreateSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.EnumerateCompositeSkillsNoInherents()),
+            Skills = SummaryHelper.CreateSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.CompositeSkillsNoInherents()),
 
             // webinfo part
             FetterLevel = avatarInfo.FetterInfo?.ExpLevel ?? 0,
@@ -76,7 +77,7 @@ internal sealed class SummaryAvatarFactory
     {
         if (avatarInfo.CostumeId.HasValue)
         {
-            int costumeId = avatarInfo.CostumeId.Value;
+            CostumeId costumeId = avatarInfo.CostumeId.Value;
             Model.Metadata.Avatar.Costume costume = avatar.Costumes.Single(c => c.Id == costumeId);
 
             // Set to costume icon
@@ -132,7 +133,7 @@ internal sealed class SummaryAvatarFactory
         else
         {
             subStat.StatValue = subStat.StatValue - Math.Truncate(subStat.StatValue) > 0 ? subStat.StatValue / 100D : subStat.StatValue;
-            subProperty = Model.Metadata.Converter.PropertyDescriptor.FormatNameDescription(subStat.AppendPropId, subStat.StatValue);
+            subProperty = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatNameDescription(subStat.AppendPropId, subStat.StatValue);
         }
 
         return new()

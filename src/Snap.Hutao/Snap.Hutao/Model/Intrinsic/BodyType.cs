@@ -7,6 +7,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 体型
 /// </summary>
 [HighQuality]
+[Localization]
 internal enum BodyType
 {
     /// <summary>

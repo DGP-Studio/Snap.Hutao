@@ -153,6 +153,7 @@ internal sealed class DescriptionTextBlock : ContentControl
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
+        // Simply re-apply texts
         ApplyDescription((TextBlock)Content, Description);
     }
 }

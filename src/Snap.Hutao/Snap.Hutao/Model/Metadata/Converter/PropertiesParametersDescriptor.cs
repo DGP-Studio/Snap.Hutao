@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Annotation;
+using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 
@@ -12,7 +12,7 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// 基础属性翻译器
 /// </summary>
 [HighQuality]
-internal sealed class PropertyDescriptor : ValueConverter<PropertiesParameters, List<LevelParameters<string, ParameterDescription>>?>
+internal sealed class PropertiesParametersDescriptor : ValueConverter<PropertiesParameters, List<LevelParameters<string, ParameterDescription>>?>
 {
     /// <summary>
     /// 格式化名称与值

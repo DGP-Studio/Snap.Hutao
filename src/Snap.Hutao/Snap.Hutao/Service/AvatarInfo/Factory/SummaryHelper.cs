@@ -1,10 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
@@ -20,7 +21,7 @@ internal static class SummaryHelper
     /// <param name="talents">全部命座</param>
     /// <param name="talentIds">激活的命座列表</param>
     /// <returns>命之座</returns>
-    public static List<ConstellationView> CreateConstellations(List<Skill> talents, List<int>? talentIds)
+    public static List<ConstellationView> CreateConstellations(List<Skill> talents, List<SkillId>? talentIds)
     {
         return talents.SelectList(talent => new ConstellationView()
         {
@@ -70,7 +71,7 @@ internal static class SummaryHelper
 
                 GroupId = proudableSkill.GroupId,
                 LevelNumber = skillLevelMap[proudableSkill.Id.ToString()],
-                Info = ParameterDescriptor.Convert(proudableSkill.Proud, skillExtraLeveledMap[proudableSkill.Id.ToString()]),
+                Info = DescriptionsParametersDescriptor.Convert(proudableSkill.Proud, skillExtraLeveledMap[proudableSkill.Id.ToString()]),
             };
 
             skills.Add(skill);

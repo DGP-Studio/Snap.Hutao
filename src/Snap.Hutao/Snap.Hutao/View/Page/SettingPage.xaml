@@ -87,7 +87,7 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE975;}"
                     IsClickEnabled="True"/>
                 <clw:SettingsCard
-                    Description="{Binding WebView2Version}"
+                    Description="{Binding HutaoOptions.WebView2Version}"
                     Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
 

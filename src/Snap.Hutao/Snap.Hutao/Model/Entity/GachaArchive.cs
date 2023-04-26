@@ -5,8 +5,8 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -47,34 +47,31 @@ internal sealed class GachaArchive : ISelectable
     /// <summary>
     /// 初始化或跳过
     /// </summary>
+    /// <param name="context">上下文</param>
     /// <param name="archive">存档</param>
-    /// <param name="uid">uid</param>
-    /// <param name="gachaArchives">数据库集</param>
-    /// <param name="collection">集合</param>
-    public static void SkipOrInit([NotNull] ref GachaArchive? archive, string uid, DbSet<GachaArchive> gachaArchives, ObservableCollection<GachaArchive> collection)
+    public static void SkipOrInit(in GachaArchiveInitializationContext context, [NotNull] ref GachaArchive? archive)
     {
         if (archive == null)
         {
-            Init(out archive, uid, gachaArchives, collection);
+            Init(context, out archive);
         }
     }
 
     /// <summary>
     /// 初始化
     /// </summary>
+    /// <param name="context">上下文</param>
     /// <param name="archive">存档</param>
-    /// <param name="uid">uid</param>
-    /// <param name="gachaArchives">数据库集</param>
-    /// <param name="collection">集合</param>
-    public static void Init([NotNull] out GachaArchive? archive, string uid, DbSet<GachaArchive> gachaArchives, ObservableCollection<GachaArchive> collection)
+    [SuppressMessage("", "SH002")]
+    public static void Init(GachaArchiveInitializationContext context, [NotNull] out GachaArchive? archive)
     {
-        archive = collection.SingleOrDefault(a => a.Uid == uid);
+        archive = context.ArchiveCollection.SingleOrDefault(a => a.Uid == context.Uid);
 
         if (archive == null)
         {
-            GachaArchive created = Create(uid);
-            gachaArchives.AddAndSave(created);
-            ThreadHelper.InvokeOnMainThread(() => collection!.Add(created));
+            GachaArchive created = Create(context.Uid);
+            context.GachaArchives.AddAndSave(created);
+            context.TaskContext.InvokeOnMainThread(() => context.ArchiveCollection.Add(created));
             archive = created;
         }
     }
@@ -82,24 +79,22 @@ internal sealed class GachaArchive : ISelectable
     /// <summary>
     /// 保存祈愿物品
     /// </summary>
-    /// <param name="itemsToAdd">待添加物品</param>
-    /// <param name="isLazy">是否懒惰</param>
-    /// <param name="endId">结尾Id</param>
-    /// <param name="gachaItems">数据集</param>
-    public void SaveItems(List<GachaItem> itemsToAdd, bool isLazy, long endId, DbSet<GachaItem> gachaItems)
+    /// <param name="context">上下文</param>
+    [SuppressMessage("", "SH002")]
+    public void SaveItems(GachaItemSaveContext context)
     {
-        if (itemsToAdd.Count > 0)
+        if (context.ItemsToAdd.Count > 0)
         {
             // 全量刷新
-            if (!isLazy)
+            if (!context.IsLazy)
             {
-                gachaItems
+                context.GachaItems
                     .Where(i => i.ArchiveId == InnerId)
-                    .Where(i => i.Id >= endId)
+                    .Where(i => i.Id >= context.EndId)
                     .ExecuteDelete();
             }
 
-            gachaItems.AddRangeAndSave(itemsToAdd);
+            context.GachaItems.AddRangeAndSave(context.ItemsToAdd);
         }
     }
 

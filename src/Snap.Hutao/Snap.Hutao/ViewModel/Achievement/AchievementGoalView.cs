@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.Achievement;
 
@@ -32,7 +33,7 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; }
+    public AchievementGoalId Id { get; }
 
     /// <summary>
     /// 排序顺序

@@ -1537,6 +1537,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 同步角色信息 的本地化字符串。
+        /// </summary>
+        internal static string ViewAvatarPropertySyncDataButtonLabel {
+            get {
+                return ResourceManager.GetString("ViewAvatarPropertySyncDataButtonLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 成就统计 的本地化字符串。
         /// </summary>
         internal static string ViewCardAchievementStatisticsTitle {

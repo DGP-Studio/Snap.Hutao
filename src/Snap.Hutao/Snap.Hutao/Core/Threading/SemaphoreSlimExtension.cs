@@ -29,19 +29,22 @@ internal static class SemaphoreSlimExtension
 
         return new SemaphoreSlimReleaser(semaphoreSlim);
     }
+}
 
-    private readonly struct SemaphoreSlimReleaser : IDisposable
+[SuppressMessage("", "SA1201")]
+[SuppressMessage("", "SA1400")]
+[SuppressMessage("", "SA1600")]
+file readonly struct SemaphoreSlimReleaser : IDisposable
+{
+    private readonly SemaphoreSlim semaphoreSlim;
+
+    public SemaphoreSlimReleaser(SemaphoreSlim semaphoreSlim)
     {
-        private readonly SemaphoreSlim semaphoreSlim;
+        this.semaphoreSlim = semaphoreSlim;
+    }
 
-        public SemaphoreSlimReleaser(SemaphoreSlim semaphoreSlim)
-        {
-            this.semaphoreSlim = semaphoreSlim;
-        }
-
-        public void Dispose()
-        {
-            semaphoreSlim.Release();
-        }
+    public void Dispose()
+    {
+        semaphoreSlim.Release();
     }
 }

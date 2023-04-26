@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Calculable;
 
@@ -38,7 +39,7 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
     /// 构造一个新的可计算的技能
     /// </summary>
     /// <param name="skill">技能</param>
-    public CalculableSkill(Binding.AvatarProperty.SkillView skill)
+    public CalculableSkill(SkillView skill)
     {
         GruopId = skill.GroupId;
         LevelMin = skill.LevelNumber;

@@ -102,7 +102,7 @@ internal sealed class BaseValueInfo : ObservableObject
                 value += addValue;
             }
 
-            values.Add(Model.Metadata.Converter.PropertyDescriptor.FormatNameValue(propValue.Property, value));
+            values.Add(Model.Metadata.Converter.PropertiesParametersDescriptor.FormatNameValue(propValue.Property, value));
         }
 
         Values = values;

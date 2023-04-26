@@ -75,9 +75,7 @@ internal class PickerFactory : IPickerFactory
     {
         // Create a folder picker.
         T picker = new();
-
-        IntPtr hWnd = WindowNative.GetWindowHandle(mainWindow);
-        InitializeWithWindow.Initialize(picker, hWnd);
+        InitializeWithWindow.Initialize(picker, mainWindow.WindowOptions.Hwnd);
 
         return picker;
     }

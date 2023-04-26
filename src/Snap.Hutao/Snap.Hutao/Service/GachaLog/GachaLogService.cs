@@ -2,16 +2,12 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
-using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
@@ -19,7 +15,6 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Response;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -31,6 +26,7 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Scoped, typeof(IGachaLogService))]
 internal sealed class GachaLogService : IGachaLogService
 {
+    private readonly ITaskContext taskContext;
     private readonly AppDbContext appDbContext;
     private readonly IGachaLogExportService gachaLogExportService;
     private readonly IGachaLogImportService gachaLogImportService;
@@ -50,6 +46,7 @@ internal sealed class GachaLogService : IGachaLogService
     /// <param name="messenger">消息器</param>
     public GachaLogService(IServiceProvider serviceProvider, IMessenger messenger)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         gachaLogExportService = serviceProvider.GetRequiredService<IGachaLogExportService>();
         gachaLogImportService = serviceProvider.GetRequiredService<IGachaLogImportService>();
         appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
@@ -218,7 +215,8 @@ internal sealed class GachaLogService : IGachaLogService
 
                     foreach (GachaLogItem item in items)
                     {
-                        GachaArchive.SkipOrInit(ref archive, item.Uid, appDbContext.GachaArchives, context.ArchiveCollection);
+                        GachaArchiveInitializationContext initContext = new(taskContext, item.Uid, appDbContext.GachaArchives, context.ArchiveCollection);
+                        GachaArchive.SkipOrInit(initContext, ref archive);
                         dbEndId ??= archive.GetEndId(configType, appDbContext.GachaItems);
 
                         if ((!isLazy) || item.Id > dbEndId)
@@ -259,10 +257,52 @@ internal sealed class GachaLogService : IGachaLogService
             }
 
             token.ThrowIfCancellationRequested();
-            archive?.SaveItems(itemsToAdd, isLazy, options.EndId, appDbContext.GachaItems);
+            GachaItemSaveContext saveContext = new(itemsToAdd, isLazy, options.EndId, appDbContext.GachaItems);
+            archive?.SaveItems(saveContext);
             await RandomDelayAsync(token).ConfigureAwait(false);
         }
 
         return new(!state.AuthKeyTimeout, archive);
+    }
+}
+
+/// <summary>
+/// 祈愿物品
+/// </summary>
+internal readonly struct GachaItemSaveContext
+{
+    /// <summary>
+    /// 待添加物品
+    /// </summary>
+    public readonly List<GachaItem> ItemsToAdd;
+
+    /// <summary>
+    /// 是否懒惰
+    /// </summary>
+    public readonly bool IsLazy;
+
+    /// <summary>
+    /// 结尾 Id
+    /// </summary>
+    public readonly long EndId;
+
+    /// <summary>
+    /// 数据集
+    /// </summary>
+    public readonly DbSet<GachaItem> GachaItems;
+
+    /// <summary>
+    /// 构造一个新的祈愿物品
+    /// </summary>
+    /// <param name="itemsToAdd">待添加物品</param>
+    /// <param name="isLazy">是否懒惰</param>
+    /// <param name="endId">结尾 Id</param>
+    /// <param name="gachaItems">数据集</param>
+    public GachaItemSaveContext(List<GachaItem> itemsToAdd, bool isLazy, long endId, DbSet<GachaItem> gachaItems)
+    {
+        ItemsToAdd = itemsToAdd;
+        IsLazy = isLazy;
+        EndId = endId;
+        GachaItems = gachaItems;
     }
 }

@@ -19,7 +19,7 @@ internal sealed class Achievement
     /// <summary>
     /// 分类Id
     /// </summary>
-    public int Goal { get; set; }
+    public AchievementGoalId Goal { get; set; }
 
     /// <summary>
     /// 排序顺序

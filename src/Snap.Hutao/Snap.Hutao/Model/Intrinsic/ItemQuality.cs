@@ -7,6 +7,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 稀有度
 /// </summary>
 [HighQuality]
+[Localization]
 internal enum ItemQuality
 {
     /// <summary>

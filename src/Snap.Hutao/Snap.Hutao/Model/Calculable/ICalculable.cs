@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Calculable;
 /// 可计算源
 /// </summary>
 [HighQuality]
-internal interface ICalculable : Binding.INameIcon
+internal interface ICalculable : INameIcon
 {
     /// <summary>
     /// 星级

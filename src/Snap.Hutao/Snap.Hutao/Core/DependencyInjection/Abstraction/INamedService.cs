@@ -1,21 +1,17 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding;
+namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 /// <summary>
-/// 名称与图标
+/// 有名称的对象
+/// 指示该对象可通过名称区分
 /// </summary>
 [HighQuality]
-internal interface INameIcon
+internal interface INamedService
 {
     /// <summary>
     /// 名称
     /// </summary>
     string Name { get; }
-
-    /// <summary>
-    /// 图标
-    /// </summary>
-    Uri Icon { get; }
 }

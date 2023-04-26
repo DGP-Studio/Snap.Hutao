@@ -9,6 +9,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 战斗属性
 /// </summary>
 [HighQuality]
+[Localization]
 internal enum FightProperty
 {
     /// <summary>

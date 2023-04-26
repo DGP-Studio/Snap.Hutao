@@ -35,7 +35,7 @@ internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     /// </summary>
     public CompositionImage()
     {
-        serviceProvider = Ioc.Default.GetRequiredService<IServiceProvider>();
+        serviceProvider = Ioc.Default;
 
         AllowFocusOnInteraction = false;
         IsDoubleTapEnabled = false;
@@ -123,7 +123,7 @@ internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
     private static void OnApplyImageFailed(IServiceProvider serviceProvider, Uri? uri, Exception exception)
     {
-        IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
         if (exception is HttpRequestException httpRequestException)
         {
@@ -157,11 +157,11 @@ internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
             }
             catch (COMException)
             {
-                imageCache.Remove(uri.Enumerate());
+                imageCache.Remove(uri);
             }
             catch (IOException)
             {
-                imageCache.Remove(uri.Enumerate());
+                imageCache.Remove(uri);
             }
 
             if (imageSurface != null)
@@ -183,7 +183,7 @@ internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
             if (EnableLazyLoading)
             {
-                await AnimationBuilder.Create().Opacity(1d, 0d).StartAsync(this, token).ConfigureAwait(true);
+                await AnimationBuilder.Create().Opacity(from: 0D, to: 1D).StartAsync(this, token).ConfigureAwait(true);
             }
             else
             {
@@ -200,7 +200,7 @@ internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
             if (EnableLazyLoading)
             {
-                await AnimationBuilder.Create().Opacity(0d, 1d).StartAsync(this, token).ConfigureAwait(true);
+                await AnimationBuilder.Create().Opacity(from: 1D, to: 0D).StartAsync(this, token).ConfigureAwait(true);
             }
             else
             {

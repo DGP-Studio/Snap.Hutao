@@ -208,11 +208,11 @@ internal class UserService : IUserService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                if (cookie.TryGetAsSToken(isOversea, out Cookie? stoken))
+                if (cookie.TryGetSToken(isOversea, out Cookie? stoken))
                 {
                     user.SToken = stoken;
-                    user.LToken = cookie.TryGetAsLToken(out Cookie? ltoken) ? ltoken : user.LToken;
-                    user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
+                    user.LToken = cookie.TryGetLToken(out Cookie? ltoken) ? ltoken : user.LToken;
+                    user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
                     await appDbContext.Users.UpdateAndSaveAsync(user.Entity).ConfigureAwait(false);
                     return new(UserOptionResult.Updated, mid);

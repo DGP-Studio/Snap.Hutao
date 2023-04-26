@@ -423,8 +423,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
             }
             else
             {
-                int goalId = goal.Id;
-                Achievements.Filter = (object o) => o is AchievementView view && view.Inner.Goal == goalId;
+                Achievements.Filter = (object o) => o is AchievementView view && view.Inner.Goal == goal.Id;
             }
         }
     }

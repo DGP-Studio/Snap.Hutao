@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Annotation;
+using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
@@ -30,19 +30,19 @@ internal static class SummaryFightPropertyMapHelper
         AvatarProperty defProp = GetDefProperty(fightPropMap);
 
         double em = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_ELEMENT_MASTERY);             // 28
-        AvatarProperty emProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+        AvatarProperty emProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
             FightProperty.FIGHT_PROP_ELEMENT_MASTERY, SH.ServiceAvatarInfoPropertyEM, FormatMethod.Integer, em);
 
         double critRate = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_CRITICAL);              // 20
-        AvatarProperty critRateProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+        AvatarProperty critRateProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
             FightProperty.FIGHT_PROP_CRITICAL, SH.ServiceAvatarInfoPropertyCR, FormatMethod.Percent, critRate);
 
         double critDMG = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_CRITICAL_HURT);          // 22
-        AvatarProperty critDMGProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+        AvatarProperty critDMGProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
             FightProperty.FIGHT_PROP_CRITICAL_HURT, SH.ServiceAvatarInfoPropertyCDmg, FormatMethod.Percent, critDMG);
 
         double chargeEff = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY);    // 23
-        AvatarProperty chargeEffProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+        AvatarProperty chargeEffProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
             FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY, SH.ServiceAvatarInfoPropertyCE, FormatMethod.Percent, chargeEff);
 
         List<AvatarProperty> properties = new(9) { hpProp, atkProp, defProp, emProp, critRateProp, critDMGProp, chargeEffProp };
@@ -54,7 +54,7 @@ internal static class SummaryFightPropertyMapHelper
             double value = fightPropMap[bonusProperty];
             if (value > 0)
             {
-                AvatarProperty bonusProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+                AvatarProperty bonusProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
                     bonusProperty, bonusProperty.GetLocalizedDescription(), FormatMethod.Percent, value);
                 properties.Add(bonusProp);
             }
@@ -66,7 +66,7 @@ internal static class SummaryFightPropertyMapHelper
             if (addValue > 0)
             {
                 string description = FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT.GetLocalizedDescription();
-                AvatarProperty physicalBonusProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+                AvatarProperty physicalBonusProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
                     FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT, description, FormatMethod.Percent, addValue);
                 properties.Add(physicalBonusProp);
             }
@@ -81,7 +81,7 @@ internal static class SummaryFightPropertyMapHelper
         double hp = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_HP);                          // 2
         double hpPercent = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_HP_PERCENT);           // 3
         double hpAdd = hp + (baseHp * hpPercent);
-        AvatarProperty hpProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+        AvatarProperty hpProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
             FightProperty.FIGHT_PROP_MAX_HP, SH.ServiceAvatarInfoPropertyHp, FormatMethod.Integer, baseHp, hpAdd);
         return hpProp;
     }
@@ -92,7 +92,7 @@ internal static class SummaryFightPropertyMapHelper
         double atk = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_ATTACK);                     // 5
         double atkPrecent = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_ATTACK_PERCENT);      // 6
         double atkAdd = atk + (baseAtk * atkPrecent);
-        AvatarProperty atkProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+        AvatarProperty atkProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
             FightProperty.FIGHT_PROP_CUR_ATTACK, SH.ServiceAvatarInfoPropertyAtk, FormatMethod.Integer, baseAtk, atkAdd);
         return atkProp;
     }
@@ -103,7 +103,7 @@ internal static class SummaryFightPropertyMapHelper
         double def = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_DEFENSE);                    // 8
         double defPercent = fightPropMap.GetValueOrDefault(FightProperty.FIGHT_PROP_DEFENSE_PERCENT);     // 9
         double defAdd = def + (baseDef * defPercent);
-        AvatarProperty defProp = Model.Metadata.Converter.PropertyDescriptor.FormatAvatarProperty(
+        AvatarProperty defProp = Model.Metadata.Converter.PropertiesParametersDescriptor.FormatAvatarProperty(
             FightProperty.FIGHT_PROP_CUR_DEFENSE, SH.ServiceAvatarInfoPropertyDef, FormatMethod.Integer, baseDef, defAdd);
         return defProp;
     }

@@ -85,15 +85,6 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     }
 
     /// <summary>
-    /// WebView2 版本
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public string WebView2Version
-    {
-        get => Core.WebView2Helper.Version;
-    }
-
-    /// <summary>
     /// 应用程序设置
     /// </summary>
     public AppOptions Options { get; }

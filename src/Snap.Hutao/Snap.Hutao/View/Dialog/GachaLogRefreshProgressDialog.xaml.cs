@@ -4,7 +4,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.View.Control;
 

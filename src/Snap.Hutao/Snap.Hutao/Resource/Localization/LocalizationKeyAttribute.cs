@@ -1,14 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Core.Annotation;
+namespace Snap.Hutao.Resource.Localization;
 
 /// <summary>
 /// 本地化键
 /// </summary>
 [HighQuality]
 [AttributeUsage(AttributeTargets.Field)]
-internal class LocalizationKeyAttribute : Attribute
+internal sealed class LocalizationKeyAttribute : Attribute
 {
     /// <summary>
     /// 指定本地化键

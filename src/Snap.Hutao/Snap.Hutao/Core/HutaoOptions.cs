@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Options;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Snap.Hutao.Core.Setting;
 using System.IO;
@@ -17,6 +18,9 @@ namespace Snap.Hutao.Core;
 [Injection(InjectAs.Singleton)]
 internal sealed class HutaoOptions : IOptions<HutaoOptions>
 {
+    private readonly bool isWebView2Supported;
+    private readonly string webView2Version = SH.CoreWebView2HelperVersionUndetected;
+
     /// <summary>
     /// 构造一个新的胡桃选项
     /// </summary>
@@ -31,6 +35,7 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
         UserAgent = $"Snap Hutao/{Version}";
 
         DeviceId = GetUniqueUserId();
+        DetectWebView2Environment(ref webView2Version, ref isWebView2Supported);
     }
 
     /// <summary>
@@ -68,6 +73,16 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
     /// </summary>
     public string DeviceId { get; }
 
+    /// <summary>
+    /// WebView2 版本
+    /// </summary>
+    public string WebView2Version { get => webView2Version; }
+
+    /// <summary>
+    /// 是否支持 WebView2
+    /// </summary>
+    public bool IsWebView2Supported { get => isWebView2Supported; }
+
     /// <inheritdoc/>
     public HutaoOptions Value { get => this; }
 
@@ -98,5 +113,19 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
         string userName = Environment.UserName;
         object? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\", "MachineGuid", userName);
         return Convert.ToMd5HexString($"{userName}{machineGuid}");
+    }
+
+    private static void DetectWebView2Environment(ref string webView2Version, ref bool isWebView2Supported)
+    {
+        try
+        {
+            webView2Version = CoreWebView2Environment.GetAvailableBrowserVersionString();
+            isWebView2Supported = true;
+        }
+        catch (FileNotFoundException ex)
+        {
+            ILogger<WebView2Helper> logger = Ioc.Default.GetRequiredService<ILogger<WebView2Helper>>();
+            logger.LogError(ex, "WebView2 Runtime not installed.");
+        }
     }
 }

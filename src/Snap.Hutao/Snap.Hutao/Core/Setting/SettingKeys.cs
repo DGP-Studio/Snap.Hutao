@@ -39,6 +39,8 @@ internal static class SettingKeys
     /// </summary>
     public const string PassportPassword = "PassportPassword";
 
+    #region StaticResource
+
     /// <summary>
     /// 静态资源合约
     /// 新增合约时 请注意
@@ -66,4 +68,5 @@ internal static class SettingKeys
     /// 静态资源合约V5 刷新 AvatarIcon
     /// </summary>
     public const string StaticResourceV5Contract = "StaticResourceV5Contract";
+    #endregion
 }

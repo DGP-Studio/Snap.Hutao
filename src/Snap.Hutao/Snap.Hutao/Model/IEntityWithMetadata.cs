@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding;
+namespace Snap.Hutao.Model;
 
 /// <summary>
 /// 实体与元数据

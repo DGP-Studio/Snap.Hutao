@@ -1,17 +1,17 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Annotation;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Reliquary;
+using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Enka.Model;
 using System.Runtime.InteropServices;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
 using MetadataReliquaryAffix = Snap.Hutao.Model.Metadata.Reliquary.ReliquaryAffix;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using PropertyReliquary = Snap.Hutao.Model.Binding.AvatarProperty.ReliquaryView;
+using PropertyReliquary = Snap.Hutao.ViewModel.AvatarProperty.ReliquaryView;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
@@ -82,7 +82,7 @@ internal sealed class SummaryReliquaryFactory
             // EquipBase
             Level = $"+{equip.Reliquary.Level - 1}",
             Quality = reliquary.RankLevel,
-            MainProperty = new(property.GetLocalizedDescription(), Model.Metadata.Converter.PropertyDescriptor.FormatValue(property, relicLevel.Properties[property])),
+            MainProperty = new(property.GetLocalizedDescription(), Model.Metadata.Converter.PropertiesParametersDescriptor.FormatValue(property, relicLevel.Properties[property])),
 
             // Reliquary
             ComposedSubProperties = composed,
@@ -171,7 +171,7 @@ internal sealed class SummaryReliquaryFactory
         FightProperty property = affix.Type;
 
         double score = ScoreSubAffix(appendPropId);
-        return new(property.GetLocalizedDescription(), Model.Metadata.Converter.PropertyDescriptor.FormatValue(property, affix.Value), score);
+        return new(property.GetLocalizedDescription(), Model.Metadata.Converter.PropertiesParametersDescriptor.FormatValue(property, affix.Value), score);
     }
 
     private double ScoreSubAffix(int appendId)

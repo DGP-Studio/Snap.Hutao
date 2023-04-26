@@ -33,7 +33,7 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
     {
         IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses =
             context.SyntaxProvider.CreateSyntaxProvider(FilterAttributedClasses, HttpClientClass)
-            .Where(GeneratorSyntaxContext2.NotNull)!
+            .Where(GeneratorSyntaxContext2.NotNull)
             .Collect();
 
         context.RegisterImplementationSourceOutput(injectionClasses, GenerateAddHttpClientsImplementation);

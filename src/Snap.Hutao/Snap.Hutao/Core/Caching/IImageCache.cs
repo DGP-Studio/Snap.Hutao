@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
+
 namespace Snap.Hutao.Core.Caching;
 
 /// <summary>
@@ -21,7 +23,13 @@ internal interface IImageCache : ICastableService
     /// Removed items based on uri list passed
     /// </summary>
     /// <param name="uriForCachedItems">Enumerable uri list</param>
-    void Remove(IEnumerable<Uri> uriForCachedItems);
+    void Remove(in ReadOnlySpan<Uri> uriForCachedItems);
+
+    /// <summary>
+    /// Removed item based on uri passed
+    /// </summary>
+    /// <param name="uriForCachedItem">uri</param>
+    void Remove(Uri uriForCachedItem);
 
     /// <summary>
     /// Removes invalid cached files

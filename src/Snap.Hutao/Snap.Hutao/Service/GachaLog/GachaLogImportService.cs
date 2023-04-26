@@ -14,16 +14,19 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Scoped, typeof(IGachaLogImportService))]
 internal sealed class GachaLogImportService : IGachaLogImportService
 {
+    private readonly ITaskContext taskContext;
     private readonly AppDbContext appDbContext;
     private readonly ILogger<GachaLogImportService> logger;
 
     /// <summary>
     /// 构造一个新的祈愿记录导入服务
     /// </summary>
+    /// <param name="taskContext">任务上下文</param>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="logger">日志器</param>
-    public GachaLogImportService(AppDbContext appDbContext, ILogger<GachaLogImportService> logger)
+    public GachaLogImportService(ITaskContext taskContext, AppDbContext appDbContext, ILogger<GachaLogImportService> logger)
     {
+        this.taskContext = taskContext;
         this.appDbContext = appDbContext;
         this.logger = logger;
     }
@@ -31,7 +34,8 @@ internal sealed class GachaLogImportService : IGachaLogImportService
     /// <inheritdoc/>
     public async Task<GachaArchive> ImportFromUIGFAsync(GachaLogServiceContext context, List<UIGFItem> list, string uid)
     {
-        GachaArchive.Init(out GachaArchive? archive, uid, appDbContext.GachaArchives, context.ArchiveCollection);
+        GachaArchiveInitializationContext initContext = new(taskContext, uid, appDbContext.GachaArchives, context.ArchiveCollection);
+        GachaArchive.Init(initContext, out GachaArchive? archive);
         await ThreadHelper.SwitchToBackgroundAsync();
         Guid archiveId = archive.InnerId;
 

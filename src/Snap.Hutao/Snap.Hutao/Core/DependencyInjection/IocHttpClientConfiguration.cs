@@ -15,6 +15,7 @@ internal static partial class IocHttpClientConfiguration
 
     /// <summary>
     /// 添加 <see cref="HttpClient"/>
+    /// 此方法将会自动生成
     /// </summary>
     /// <param name="services">集合</param>
     /// <returns>可继续操作的集合</returns>

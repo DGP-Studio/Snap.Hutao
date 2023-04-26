@@ -7,6 +7,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 从属地区
 /// </summary>
 [HighQuality]
+[Localization]
 internal enum AssociationType
 {
     /// <summary>

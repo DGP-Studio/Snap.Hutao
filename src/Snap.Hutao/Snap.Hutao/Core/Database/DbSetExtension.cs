@@ -24,10 +24,7 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.Add(entity);
-        DbContext dbContext = dbSet.Context();
-        int count = dbContext.SaveChanges();
-        dbContext.ChangeTracker.Clear();
-        return count;
+        return dbSet.SaveChangesAndClearChangeTracker();
     }
 
     /// <summary>
@@ -37,14 +34,11 @@ internal static class DbSetExtension
     /// <param name="dbSet">数据库集</param>
     /// <param name="entity">实体</param>
     /// <returns>影响条数</returns>
-    public static async ValueTask<int> AddAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+    public static ValueTask<int> AddAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
         where TEntity : class
     {
         dbSet.Add(entity);
-        DbContext dbContext = dbSet.Context();
-        int count = await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        dbContext.ChangeTracker.Clear();
-        return count;
+        return dbSet.SaveChangesAndClearChangeTrackerAsync();
     }
 
     /// <summary>
@@ -58,10 +52,7 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.AddRange(entities);
-        DbContext dbContext = dbSet.Context();
-        int count = dbSet.Context().SaveChanges();
-        dbContext.ChangeTracker.Clear();
-        return count;
+        return dbSet.SaveChangesAndClearChangeTracker();
     }
 
     /// <summary>
@@ -71,14 +62,11 @@ internal static class DbSetExtension
     /// <param name="dbSet">数据库集</param>
     /// <param name="entities">实体</param>
     /// <returns>影响条数</returns>
-    public static async ValueTask<int> AddRangeAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities)
+    public static ValueTask<int> AddRangeAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, IEnumerable<TEntity> entities)
         where TEntity : class
     {
         dbSet.AddRange(entities);
-        DbContext dbContext = dbSet.Context();
-        int count = await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        dbContext.ChangeTracker.Clear();
-        return count;
+        return dbSet.SaveChangesAndClearChangeTrackerAsync();
     }
 
     /// <summary>
@@ -92,10 +80,7 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.Remove(entity);
-        DbContext dbContext = dbSet.Context();
-        int count = dbContext.SaveChanges();
-        dbContext.ChangeTracker.Clear();
-        return count;
+        return dbSet.SaveChangesAndClearChangeTracker();
     }
 
     /// <summary>
@@ -105,14 +90,11 @@ internal static class DbSetExtension
     /// <param name="dbSet">数据库集</param>
     /// <param name="entity">实体</param>
     /// <returns>影响条数</returns>
-    public static async ValueTask<int> RemoveAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+    public static ValueTask<int> RemoveAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
         where TEntity : class
     {
         dbSet.Remove(entity);
-        DbContext dbContext = dbSet.Context();
-        int count = await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        dbContext.ChangeTracker.Clear();
-        return count;
+        return dbSet.SaveChangesAndClearChangeTrackerAsync();
     }
 
     /// <summary>
@@ -126,10 +108,7 @@ internal static class DbSetExtension
         where TEntity : class
     {
         dbSet.Update(entity);
-        DbContext dbContext = dbSet.Context();
-        int count = dbContext.SaveChanges();
-        dbContext.ChangeTracker.Clear();
-        return count;
+        return dbSet.SaveChangesAndClearChangeTracker();
     }
 
     /// <summary>
@@ -139,11 +118,31 @@ internal static class DbSetExtension
     /// <param name="dbSet">数据库集</param>
     /// <param name="entity">实体</param>
     /// <returns>影响条数</returns>
-    public static async ValueTask<int> UpdateAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
+    public static ValueTask<int> UpdateAndSaveAsync<TEntity>(this DbSet<TEntity> dbSet, TEntity entity)
         where TEntity : class
     {
         dbSet.Update(entity);
-        return await dbSet.Context().SaveChangesAsync().ConfigureAwait(false);
+        return dbSet.SaveChangesAndClearChangeTrackerAsync();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int SaveChangesAndClearChangeTracker<TEntity>(this DbSet<TEntity> dbSet)
+        where TEntity : class
+    {
+        DbContext dbContext = dbSet.Context();
+        int count = dbContext.SaveChanges();
+        dbContext.ChangeTracker.Clear();
+        return count;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static async ValueTask<int> SaveChangesAndClearChangeTrackerAsync<TEntity>(this DbSet<TEntity> dbSet)
+        where TEntity : class
+    {
+        DbContext dbContext = dbSet.Context();
+        int count = await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.ChangeTracker.Clear();
+        return count;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -12,6 +12,28 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 [HighQuality]
 internal sealed class ElementNameIconConverter : ValueConverter<string, Uri>
 {
+    private static readonly Dictionary<string, string> LocalizedNameToElementIconName = new()
+    {
+        [SH.ModelIntrinsicElementNameElec] = "Electric",
+        [SH.ModelIntrinsicElementNameFire] = "Fire",
+        [SH.ModelIntrinsicElementNameGrass] = "Grass",
+        [SH.ModelIntrinsicElementNameIce] = "Ice",
+        [SH.ModelIntrinsicElementNameRock] = "Rock",
+        [SH.ModelIntrinsicElementNameWater] = "Water",
+        [SH.ModelIntrinsicElementNameWind] = "Wind",
+    };
+
+    private static readonly Dictionary<string, ElementType> LocalizedNameToElementType = new()
+    {
+        [SH.ModelIntrinsicElementNameElec] = ElementType.Electric,
+        [SH.ModelIntrinsicElementNameFire] = ElementType.Fire,
+        [SH.ModelIntrinsicElementNameGrass] = ElementType.Grass,
+        [SH.ModelIntrinsicElementNameIce] = ElementType.Ice,
+        [SH.ModelIntrinsicElementNameRock] = ElementType.Rock,
+        [SH.ModelIntrinsicElementNameWater] = ElementType.Water,
+        [SH.ModelIntrinsicElementNameWind] = ElementType.Wind,
+    };
+
     /// <summary>
     /// 将中文元素名称转换为图标链接
     /// </summary>
@@ -19,17 +41,7 @@ internal sealed class ElementNameIconConverter : ValueConverter<string, Uri>
     /// <returns>图标链接</returns>
     public static Uri ElementNameToIconUri(string elementName)
     {
-        string element = elementName switch
-        {
-            "雷" => "Electric",
-            "火" => "Fire",
-            "草" => "Grass",
-            "冰" => "Ice",
-            "岩" => "Rock",
-            "水" => "Water",
-            "风" => "Wind",
-            _ => string.Empty,
-        };
+        string? element = LocalizedNameToElementIconName.GetValueOrDefault(elementName);
 
         return string.IsNullOrEmpty(element)
             ? Web.HutaoEndpoints.UIIconNone
@@ -45,17 +57,7 @@ internal sealed class ElementNameIconConverter : ValueConverter<string, Uri>
     /// <returns>元素类型</returns>
     public static ElementType ElementNameToElementType(string elementName)
     {
-        return elementName switch
-        {
-            "雷" => ElementType.Electric,
-            "火" => ElementType.Fire,
-            "草" => ElementType.Grass,
-            "冰" => ElementType.Ice,
-            "岩" => ElementType.Rock,
-            "水" => ElementType.Water,
-            "风" => ElementType.Wind,
-            _ => ElementType.None,
-        };
+        return LocalizedNameToElementType.GetValueOrDefault(elementName);
     }
 
     /// <inheritdoc/>

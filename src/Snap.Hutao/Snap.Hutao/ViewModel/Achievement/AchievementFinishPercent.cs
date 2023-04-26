@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.UI;
+using Snap.Hutao.Model.Primitive;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -25,7 +26,7 @@ internal static class AchievementFinishPercent
         {
             if (viewModel.AchievementGoals is List<AchievementGoalView> achievementGoals)
             {
-                Dictionary<int, AchievementGoalStatistics> counter = achievementGoals.ToDictionary(x => x.Id, x => new AchievementGoalStatistics(x));
+                Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.ToDictionary(x => x.Id, x => new AchievementGoalStatistics(x));
                 foreach (AchievementView achievement in achievements.SourceCollection.Cast<AchievementView>())
                 {
                     // We want to make the state update as fast as possible,

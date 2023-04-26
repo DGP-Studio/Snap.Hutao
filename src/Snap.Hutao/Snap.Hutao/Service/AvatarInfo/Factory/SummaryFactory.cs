@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.ViewModel.AvatarProperty;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;

@@ -29,5 +29,5 @@ internal interface ICalculableAvatar : ICalculable
     /// <summary>
     /// 技能组
     /// </summary>
-    IList<ICalculableSkill> Skills { get; }
+    List<ICalculableSkill> Skills { get; }
 }

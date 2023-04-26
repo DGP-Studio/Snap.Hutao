@@ -31,7 +31,7 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     /// <summary>
     /// 最大等级
     /// </summary>
-    public int MaxLevel { get => ((int)Quality) >= 3 ? 90 : 70; }
+    internal int MaxLevel { get => ((int)Quality) >= 3 ? 90 : 70; }
 
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()
@@ -43,7 +43,7 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     /// 转换为基础物品
     /// </summary>
     /// <returns>基础物品</returns>
-    public Binding.Item ToItemBase()
+    public Model.Item ToItemBase()
     {
         return new()
         {

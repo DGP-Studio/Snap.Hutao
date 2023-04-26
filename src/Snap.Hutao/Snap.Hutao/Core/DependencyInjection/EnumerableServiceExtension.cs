@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Runtime.CompilerServices;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 

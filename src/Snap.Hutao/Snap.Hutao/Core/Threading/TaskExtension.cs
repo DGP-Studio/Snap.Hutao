@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.Threading;
 [HighQuality]
 [SuppressMessage("", "VSTHRD003")]
 [SuppressMessage("", "VSTHRD100")]
-internal static class TaskExtensions
+internal static class TaskExtension
 {
     /// <summary>
     /// 安全的触发任务
@@ -20,6 +20,10 @@ internal static class TaskExtensions
         try
         {
             await task.ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            // Do nothing
         }
 #if DEBUG
         catch (Exception ex)

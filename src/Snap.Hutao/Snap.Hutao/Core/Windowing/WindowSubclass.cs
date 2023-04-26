@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using System.Runtime.CompilerServices;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -15,12 +16,12 @@ namespace Snap.Hutao.Core.Windowing;
 /// <typeparam name="TWindow">窗体类型</typeparam>
 [HighQuality]
 internal sealed class WindowSubclass<TWindow> : IDisposable
-    where TWindow : Window, IExtendedWindowSource
+    where TWindow : Window, IWindowOptionsSource
 {
     private const int WindowSubclassId = 101;
     private const int DragBarSubclassId = 102;
 
-    private readonly WindowOptions<TWindow> options;
+    private readonly TWindow window;
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC? windowProc;
@@ -30,9 +31,9 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     /// 构造一个新的窗体子类管理器
     /// </summary>
     /// <param name="options">选项</param>
-    public WindowSubclass(in WindowOptions<TWindow> options)
+    public WindowSubclass(TWindow window)
     {
-        this.options = options;
+        this.window = window;
     }
 
     /// <summary>
@@ -41,6 +42,8 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     /// <returns>是否设置成功</returns>
     public bool Initialize()
     {
+        WindowOptions options = window.WindowOptions;
+
         windowProc = new(OnSubclassProcedure);
         bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
 
@@ -65,6 +68,8 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
+        WindowOptions options = window.WindowOptions;
+
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
         windowProc = null;
 
@@ -83,14 +88,14 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
             case WM_GETMINMAXINFO:
                 {
                     double scalingFactor = Persistence.GetScaleForWindowHandle(hwnd);
-                    options.Window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
+                    window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
                     break;
                 }
 
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
                 {
-                    return (LRESULT)0; // WM_NULL
+                    return (LRESULT)(nint)WM_NULL;
                 }
         }
 
@@ -105,7 +110,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
             case WM_NCRBUTTONDOWN:
             case WM_NCRBUTTONUP:
                 {
-                    return (LRESULT)0; // WM_NULL
+                    return (LRESULT)(nint)WM_NULL;
                 }
         }
 

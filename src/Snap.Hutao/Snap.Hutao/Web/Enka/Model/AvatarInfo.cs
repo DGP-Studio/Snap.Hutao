@@ -79,7 +79,7 @@ internal sealed class AvatarInfo
     /// 皮肤 Id
     /// </summary>
     [JsonPropertyName("costumeId")]
-    public int? CostumeId { get; set; }
+    public CostumeId? CostumeId { get; set; }
 
     /// <summary>
     /// 命座额外技能等级

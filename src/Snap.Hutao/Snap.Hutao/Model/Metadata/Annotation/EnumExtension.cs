@@ -20,6 +20,7 @@ internal static class EnumExtension
     internal static FormatMethod GetFormatMethod<TEnum>(this TEnum @enum)
         where TEnum : struct, Enum
     {
+        // TODO: Not use Reflection
         string enumName = Must.NotNull(Enum.GetName(@enum)!);
         FieldInfo? field = @enum.GetType().GetField(enumName);
         FormatAttribute? attr = field?.GetCustomAttribute<FormatAttribute>();

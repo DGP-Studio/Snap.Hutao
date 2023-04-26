@@ -27,8 +27,7 @@ internal sealed class CachedImage : ImageEx
     /// <inheritdoc/>
     protected override async Task<ImageSource?> ProvideCachedResourceAsync(Uri imageUri, CancellationToken token)
     {
-        // We can only use Ioc to retrive IImageCache,
-        // no IServiceProvider is available.
+        // We can only use Ioc to retrieve IImageCache, no IServiceProvider is available.
         IImageCache imageCache = Ioc.Default.GetRequiredService<IImageCache>();
 
         try
@@ -47,7 +46,7 @@ internal sealed class CachedImage : ImageEx
         catch (COMException)
         {
             // The image is corrupted, remove it.
-            imageCache.Remove(imageUri.Enumerate());
+            imageCache.Remove(imageUri);
             return null;
         }
         catch (OperationCanceledException)

@@ -17,20 +17,21 @@ internal static class Clipboard
     /// 从剪贴板文本中反序列化
     /// </summary>
     /// <typeparam name="T">目标类型</typeparam>
-    /// <param name="options">Json序列化选项</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <returns>实例</returns>
-    public static async Task<T?> DeserializeTextAsync<T>(JsonSerializerOptions options)
+    public static async Task<T?> DeserializeTextAsync<T>(IServiceProvider serviceProvider)
         where T : class
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        await taskContext.SwitchToMainThreadAsync();
         DataPackageView view = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
 
         if (view.Contains(StandardDataFormats.Text))
         {
             string json = await view.GetTextAsync();
 
-            await ThreadHelper.SwitchToBackgroundAsync();
-            return JsonSerializer.Deserialize<T>(json, options);
+            await taskContext.SwitchToBackgroundAsync();
+            return JsonSerializer.Deserialize<T>(json, serviceProvider.GetRequiredService<JsonSerializerOptions>());
         }
 
         return null;

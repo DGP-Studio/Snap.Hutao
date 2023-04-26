@@ -36,6 +36,7 @@ public sealed partial class App : Application
 
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
         serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
+
         this.serviceProvider = serviceProvider;
     }
 

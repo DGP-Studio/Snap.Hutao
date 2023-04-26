@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// </summary>
 internal sealed class ExceptionFormat
 {
-    private const string SectionSeparator = "----------------------------------------";
+    private static readonly string SectionSeparator = new('-', 40);
 
     /// <summary>
     /// 格式化异常

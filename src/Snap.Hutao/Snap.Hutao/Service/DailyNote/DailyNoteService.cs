@@ -72,7 +72,7 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
 
                 if (dailyNoteResponse.IsOk())
                 {
-                    newEntry.DailyNote = dailyNoteResponse.Data;
+                    newEntry.UpdateDailyNote(dailyNoteResponse.Data);
                 }
 
                 newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
@@ -126,12 +126,12 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
                     .GetDailyNoteAsync(new(entry.User, entry.Uid))
                     .ConfigureAwait(false);
 
-                if (dailyNoteResponse.ReturnCode == 0)
+                if (dailyNoteResponse.IsOk())
                 {
                     WebDailyNote dailyNote = dailyNoteResponse.Data!;
 
                     // database
-                    entry.DailyNote = dailyNote;
+                    entry.UpdateDailyNote(dailyNote);
 
                     // cache
                     await ThreadHelper.SwitchToMainThreadAsync();

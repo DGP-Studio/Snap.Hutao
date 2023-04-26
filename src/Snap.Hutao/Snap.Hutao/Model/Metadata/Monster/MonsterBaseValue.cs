@@ -57,14 +57,14 @@ internal sealed class MonsterBaseValue : BaseValue
         {
             return new()
             {
-                Converter.PropertyDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_FIRE_SUB_HURT, FireSubHurt),
-                Converter.PropertyDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_WATER_SUB_HURT, WaterSubHurt),
-                Converter.PropertyDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_GRASS_SUB_HURT, GrassSubHurt),
-                Converter.PropertyDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_ELEC_SUB_HURT, ElecSubHurt),
-                Converter.PropertyDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_WIND_SUB_HURT, WindSubHurt),
-                Converter.PropertyDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_ICE_SUB_HURT, IceSubHurt),
-                Converter.PropertyDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_ROCK_SUB_HURT, RockSubHurt),
-                Converter.PropertyDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_PHYSICAL_SUB_HURT, PhysicalSubHurt),
+                Converter.PropertiesParametersDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_FIRE_SUB_HURT, FireSubHurt),
+                Converter.PropertiesParametersDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_WATER_SUB_HURT, WaterSubHurt),
+                Converter.PropertiesParametersDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_GRASS_SUB_HURT, GrassSubHurt),
+                Converter.PropertiesParametersDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_ELEC_SUB_HURT, ElecSubHurt),
+                Converter.PropertiesParametersDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_WIND_SUB_HURT, WindSubHurt),
+                Converter.PropertiesParametersDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_ICE_SUB_HURT, IceSubHurt),
+                Converter.PropertiesParametersDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_ROCK_SUB_HURT, RockSubHurt),
+                Converter.PropertiesParametersDescriptor.FormatNameValue(Intrinsic.FightProperty.FIGHT_PROP_PHYSICAL_SUB_HURT, PhysicalSubHurt),
             };
         }
     }

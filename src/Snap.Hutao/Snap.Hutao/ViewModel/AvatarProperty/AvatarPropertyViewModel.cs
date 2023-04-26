@@ -11,7 +11,6 @@ using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;

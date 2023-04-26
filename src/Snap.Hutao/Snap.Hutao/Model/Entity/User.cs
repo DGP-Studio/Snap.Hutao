@@ -67,9 +67,9 @@ internal sealed class User : ISelectable
     /// <returns>新创建的用户</returns>
     public static User Create(Cookie cookie, bool isOversea)
     {
-        _ = cookie.TryGetAsSToken(isOversea, out Cookie? stoken);
-        _ = cookie.TryGetAsLToken(out Cookie? ltoken);
-        _ = cookie.TryGetAsCookieToken(out Cookie? cookieToken);
+        _ = cookie.TryGetSToken(isOversea, out Cookie? stoken);
+        _ = cookie.TryGetLToken(out Cookie? ltoken);
+        _ = cookie.TryGetCookieToken(out Cookie? cookieToken);
 
         return new() { SToken = stoken, LToken = ltoken, CookieToken = cookieToken };
     }
