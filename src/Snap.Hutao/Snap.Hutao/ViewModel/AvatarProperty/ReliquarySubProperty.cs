@@ -15,7 +15,7 @@ internal sealed class ReliquarySubProperty
     /// <param name="name">名称</param>
     /// <param name="value">值</param>
     /// <param name="score">评分</param>
-    public ReliquarySubProperty(string name, string value, double score)
+    public ReliquarySubProperty(string name, string value, float score)
     {
         Name = name;
         Value = value;
@@ -43,5 +43,5 @@ internal sealed class ReliquarySubProperty
     /// <summary>
     /// 评分
     /// </summary>
-    internal double Score { get; }
+    internal float Score { get; }
 }

@@ -13,4 +13,9 @@ internal sealed class Summary
     /// 角色列表
     /// </summary>
     public List<AvatarView> Avatars { get; set; } = default!;
+
+    /// <summary>
+    /// 服务器消息
+    /// </summary>
+    public string Message { get; set; } = default!;
 }

@@ -7,10 +7,19 @@ using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 namespace Snap.Hutao.Service.GachaLog;
 
 /// <summary>
-/// 获取状态
+/// 祈愿记录获取状态
 /// </summary>
-internal sealed class GachaLogFetchState
+internal sealed class GachaLogFetchStatus
 {
+    /// <summary>
+    /// 构造一个新的祈愿记录获取状态
+    /// </summary>
+    /// <param name="configType">卡池类型</param>
+    public GachaLogFetchStatus(GachaConfigType configType)
+    {
+        ConfigType = configType;
+    }
+
     /// <summary>
     /// 验证密钥是否过期
     /// </summary>

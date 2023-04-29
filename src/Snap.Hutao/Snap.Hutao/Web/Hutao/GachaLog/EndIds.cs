@@ -1,6 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections;
 
@@ -72,6 +75,37 @@ internal sealed class EndIds
                     break;
             }
         }
+    }
+
+    /// <summary>
+    /// 异步创建一个新的 End Id集合
+    /// </summary>
+    /// <param name="appDbContext">数据库上下文</param>
+    /// <param name="archive">存档</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>新的 End Id集合</returns>
+    public static async Task<EndIds> CreateAsync(AppDbContext appDbContext, GachaArchive? archive, CancellationToken token)
+    {
+        EndIds endIds = new();
+        foreach (GachaConfigType type in Service.GachaLog.GachaLog.QueryTypes)
+        {
+            if (archive != null)
+            {
+                Snap.Hutao.Model.Entity.GachaItem? item = await appDbContext.GachaItems
+                    .Where(i => i.ArchiveId == archive.InnerId)
+                    .Where(i => i.QueryType == type)
+                    .OrderBy(i => i.Id)
+                    .FirstOrDefaultAsync(token)
+                    .ConfigureAwait(false);
+
+                if (item != null)
+                {
+                    endIds[type] = item.Id;
+                }
+            }
+        }
+
+        return endIds;
     }
 
     /// <summary>

@@ -175,7 +175,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                         infoBarService.Warning(string.Format(SH.ViewModelLaunchGameMultiChannelReadFail, multi.ConfigFilePath));
                     }
 
-                    ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
+                    ObservableCollection<GameAccount> accounts = await gameService.GameAccountCollection().ConfigureAwait(false);
 
                     await ThreadHelper.SwitchToMainThreadAsync();
                     GameAccounts = accounts;

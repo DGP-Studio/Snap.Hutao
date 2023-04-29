@@ -148,8 +148,30 @@ internal sealed class Response<TData> : Response, IJsResult
         }
     }
 
+    /// <summary>
+    /// 尝试获取数据
+    /// </summary>
+    /// <param name="data">数据</param>
+    /// <param name="serviceProvider">服务提供器 默认 Ioc.Default</param>
+    /// <returns>返回代码是否指示成功</returns>
+    public bool TryGetData([NotNullWhen(true)] out TData? data, IServiceProvider? serviceProvider = null)
+    {
+        if (ReturnCode == 0)
+        {
+            data = Data!;
+            return true;
+        }
+        else
+        {
+            serviceProvider ??= Ioc.Default;
+            serviceProvider.GetRequiredService<IInfoBarService>().Error(ToString());
+            data = default;
+            return false;
+        }
+    }
+
     /// <inheritdoc/>
-    string IJsResult.ToJson()
+    public string ToJson()
     {
         return JsonSerializer.Serialize(this);
     }

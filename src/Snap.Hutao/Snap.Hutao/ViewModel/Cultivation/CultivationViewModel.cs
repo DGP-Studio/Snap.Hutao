@@ -123,7 +123,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(true);
         if (metaInitialized)
         {
-            Projects = cultivationService.GetProjectCollection();
+            Projects = cultivationService.ProjectCollection();
             SelectedProject = cultivationService.Current;
         }
 

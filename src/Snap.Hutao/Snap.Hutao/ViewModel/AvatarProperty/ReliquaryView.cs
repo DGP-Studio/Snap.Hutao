@@ -32,5 +32,5 @@ internal sealed class ReliquaryView : Equip
     /// <summary>
     /// 评分
     /// </summary>
-    internal double Score { get; set; }
+    internal float Score { get; set; }
 }

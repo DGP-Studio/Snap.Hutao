@@ -24,7 +24,7 @@ internal sealed class TypeValue
     /// </summary>
     /// <param name="type">类型</param>
     /// <param name="value">值</param>
-    public TypeValue(PlayerProperty type, string? value)
+    public TypeValue(PlayerProperty type, int value)
     {
         Type = type;
         Value = value;
@@ -40,18 +40,6 @@ internal sealed class TypeValue
     /// 值
     /// </summary>
     [JsonPropertyName("val")]
-    public string? Value { get; set; }
-
-    /// <summary>
-    /// 值 Int32
-    /// </summary>
-    [JsonIgnore]
-    public int ValueInt32
-    {
-        get
-        {
-            _ = int.TryParse(Value, out int result);
-            return result;
-        }
-    }
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+    public int Value { get; set; }
 }

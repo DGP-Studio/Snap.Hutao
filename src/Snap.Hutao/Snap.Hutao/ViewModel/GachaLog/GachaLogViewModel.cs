@@ -151,7 +151,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
             if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(false))
             {
                 await ThreadHelper.SwitchToMainThreadAsync();
-                Archives = gachaLogService.GetArchiveCollection();
+                Archives = gachaLogService.ArchiveCollection();
                 SetSelectedArchiveAndUpdateStatistics(Archives.SelectedOrDefault(), true);
             }
         }
@@ -191,7 +191,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
                 await ThreadHelper.SwitchToMainThreadAsync();
                 GachaLogRefreshProgressDialog dialog = new();
                 IDisposable dialogHider = await dialog.BlockAsync().ConfigureAwait(false);
-                Progress<GachaLogFetchState> progress = new(dialog.OnReport);
+                Progress<GachaLogFetchStatus> progress = new(dialog.OnReport);
                 bool authkeyValid;
 
                 try

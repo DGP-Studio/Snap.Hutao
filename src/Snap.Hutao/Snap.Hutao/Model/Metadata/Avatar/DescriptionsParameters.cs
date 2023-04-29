@@ -17,5 +17,5 @@ internal sealed class DescriptionsParameters
     /// <summary>
     /// 参数
     /// </summary>
-    public List<LevelParameters<int, double>> Parameters { get; set; } = default!;
+    public List<LevelParameters<int, float>> Parameters { get; set; } = default!;
 }

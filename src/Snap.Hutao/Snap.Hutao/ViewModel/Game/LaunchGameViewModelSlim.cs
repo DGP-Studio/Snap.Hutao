@@ -50,7 +50,7 @@ internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.P
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
+        ObservableCollection<GameAccount> accounts = await gameService.GameAccountCollection().ConfigureAwait(false);
         await ThreadHelper.SwitchToMainThreadAsync();
         GameAccounts = accounts;
 

@@ -5569,6 +5569,69 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 错误的 UID 格式 的本地化字符串。
+        /// </summary>
+        internal static string WebEnkaResponseStatusCode400 {
+            get {
+                return ResourceManager.GetString("WebEnkaResponseStatusCode400", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色 UID 不存在 的本地化字符串。
+        /// </summary>
+        internal static string WebEnkaResponseStatusCode404 {
+            get {
+                return ResourceManager.GetString("WebEnkaResponseStatusCode404", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 游戏维护中 的本地化字符串。
+        /// </summary>
+        internal static string WebEnkaResponseStatusCode424 {
+            get {
+                return ResourceManager.GetString("WebEnkaResponseStatusCode424", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请求过快，请稍后再试 的本地化字符串。
+        /// </summary>
+        internal static string WebEnkaResponseStatusCode429 {
+            get {
+                return ResourceManager.GetString("WebEnkaResponseStatusCode429", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服务器偶发错误 的本地化字符串。
+        /// </summary>
+        internal static string WebEnkaResponseStatusCode500 {
+            get {
+                return ResourceManager.GetString("WebEnkaResponseStatusCode500", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 服务器严重错误 的本地化字符串。
+        /// </summary>
+        internal static string WebEnkaResponseStatusCode503 {
+            get {
+                return ResourceManager.GetString("WebEnkaResponseStatusCode503", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未知的服务器错误 的本地化字符串。
+        /// </summary>
+        internal static string WebEnkaResponseStatusCodeUnknown {
+            get {
+                return ResourceManager.GetString("WebEnkaResponseStatusCodeUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 角色活动祈愿 的本地化字符串。
         /// </summary>
         internal static string WebGachaConfigTypeAvatarEventWish {

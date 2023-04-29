@@ -29,9 +29,8 @@ internal interface IDailyNoteService
     /// <summary>
     /// 异步刷新实时便笺
     /// </summary>
-    /// <param name="notify">是否通知</param>
     /// <returns>任务</returns>
-    ValueTask RefreshDailyNotesAsync(bool notify);
+    ValueTask RefreshDailyNotesAsync();
 
     /// <summary>
     /// 移除指定的实时便笺

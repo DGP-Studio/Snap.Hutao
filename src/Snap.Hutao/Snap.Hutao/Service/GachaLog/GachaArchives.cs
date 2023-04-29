@@ -24,7 +24,7 @@ internal static class GachaArchives
     {
         try
         {
-            collection = appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
+            collection = appDbContext.GachaArchives.ToObservableCollection();
         }
         catch (SqliteException ex)
         {

@@ -38,8 +38,7 @@ internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
     public async Task<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
     {
         List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
-
-        List<HistoryWishBuilder> historyWishBuilders = gachaEvents.Select(g => new HistoryWishBuilder(g, context)).ToList();
+        List<HistoryWishBuilder> historyWishBuilders = gachaEvents.SelectList(g => new HistoryWishBuilder(g, context));
 
         return CreateCore(items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible);
     }

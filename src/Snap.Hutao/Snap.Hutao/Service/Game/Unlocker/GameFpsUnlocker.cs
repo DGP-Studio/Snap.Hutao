@@ -122,20 +122,21 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private async Task LoopAdjustFpsAsync(TimeSpan adjustFpsDelay)
     {
-        while (true)
+        using (PeriodicTimer timer = new(adjustFpsDelay))
         {
-            if (!gameProcess.HasExited && fpsAddress != 0)
+            while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
             {
-                UnsafeWriteModuleMemory(gameProcess, fpsAddress, TargetFps);
+                if (!gameProcess.HasExited && fpsAddress != 0)
+                {
+                    UnsafeWriteModuleMemory(gameProcess, fpsAddress, TargetFps);
+                }
+                else
+                {
+                    isValid = false;
+                    fpsAddress = 0;
+                    return;
+                }
             }
-            else
-            {
-                isValid = false;
-                fpsAddress = 0;
-                return;
-            }
-
-            await Task.Delay(adjustFpsDelay).ConfigureAwait(false);
         }
     }
 

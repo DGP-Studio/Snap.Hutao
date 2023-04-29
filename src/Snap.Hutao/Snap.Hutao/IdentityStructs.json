@@ -50,9 +50,19 @@
     "Documentation": "6位 圣遗物副词条Id"
   },
   {
+    "Name": "ReliquaryId",
+    "Type": "int",
+    "Documentation": "5位 圣遗物Id"
+  },
+  {
     "Name": "ReliquaryMainAffixId",
     "Type": "int",
     "Documentation": "5位 圣遗物主属性Id"
+  },
+  {
+    "Name": "ReliquarySetId",
+    "Type": "int",
+    "Documentation": "5位 圣遗物套装Id"
   },
   {
     "Name": "SkillGroupId",

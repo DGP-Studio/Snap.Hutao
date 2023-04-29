@@ -48,7 +48,7 @@ internal sealed class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 
             if (authkeyResponse.IsOk())
             {
-                return new(true, new(GachaLogQueryOptions.AsQuery(data, authkeyResponse.Data), false));
+                return new(true, new(GachaLogQueryOptions.AsQuery(data, authkeyResponse.Data)));
             }
             else
             {

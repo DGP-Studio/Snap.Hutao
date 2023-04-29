@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Model.Entity.Database;
 
 namespace Snap.Hutao.Core.Database;
 
@@ -16,8 +17,7 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
     where TEntity : class, ISelectable
     where TMessage : Message.ValueChangedMessage<TEntity>, new()
 {
-    private readonly IServiceScopeFactory scopeFactory;
-    private readonly Func<IServiceProvider, DbSet<TEntity>> dbSetSelector;
+    private readonly IServiceProvider serviceProvider;
     private readonly IMessenger messenger;
 
     private TEntity? current;
@@ -25,14 +25,11 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
     /// <summary>
     /// 构造一个新的数据库当前项
     /// </summary>
-    /// <param name="scopeFactory">范围工厂</param>
-    /// <param name="dbSetSelector">数据集选择器</param>
-    /// <param name="messenger">消息器</param>
-    public ScopedDbCurrent(IServiceScopeFactory scopeFactory, Func<IServiceProvider, DbSet<TEntity>> dbSetSelector, IMessenger messenger)
+    /// <param name="serviceProvider">服务提供器</param>
+    public ScopedDbCurrent(IServiceProvider serviceProvider)
     {
-        this.scopeFactory = scopeFactory;
-        this.dbSetSelector = dbSetSelector;
-        this.messenger = messenger;
+        messenger = serviceProvider.GetRequiredService<IMessenger>();
+        this.serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -49,9 +46,10 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
                 return;
             }
 
-            using (IServiceScope scope = scopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                DbSet<TEntity> dbSet = dbSetSelector(scope.ServiceProvider);
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
 
                 // only update when not processing a deletion
                 if (value != null)

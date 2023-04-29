@@ -43,7 +43,7 @@ internal sealed class SummaryFactory : ISummaryFactory
         {
             Avatars = avatarInfos
                 .Where(a => !AvatarIds.IsPlayer(a.AvatarId))
-                .Select(a => new SummaryAvatarFactory(metadataContext, a).CreateAvatar())
+                .Select(a => new SummaryAvatarFactory(metadataContext, a).Create())
                 .OrderByDescending(a => (int)a.Quality)
                 .ThenByDescending(a => a.ActivatedConstellationCount)
                 .ToList(),

@@ -22,6 +22,11 @@ internal interface IAchievementService
     EntityArchive? CurrentArchive { get; set; }
 
     /// <summary>
+    /// 获取用于绑定的成就存档集合
+    /// </summary>
+    ObservableCollection<EntityArchive> ArchiveCollection { get; }
+
+    /// <summary>
     /// 异步导出到UIAF
     /// </summary>
     /// <param name="selectedArchive">存档</param>
@@ -42,12 +47,6 @@ internal interface IAchievementService
     /// <param name="achievementMap">成就映射</param>
     /// <returns>成就统计列表</returns>
     Task<List<ViewModel.Achievement.AchievementStatistics>> GetAchievementStatisticsAsync(Dictionary<AchievementId, MetadataAchievement> achievementMap);
-
-    /// <summary>
-    /// 异步获取用于绑定的成就存档集合
-    /// </summary>
-    /// <returns>成就存档集合</returns>
-    Task<ObservableCollection<EntityArchive>> GetArchiveCollectionAsync();
 
     /// <summary>
     /// 异步导入UIAF数据

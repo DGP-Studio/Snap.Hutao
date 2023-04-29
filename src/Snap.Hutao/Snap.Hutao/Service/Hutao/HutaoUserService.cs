@@ -14,6 +14,7 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
 {
     private readonly TaskCompletionSource initializeCompletionSource = new();
 
+    private readonly ITaskContext taskContext;
     private readonly HomaPassportClient passportClient;
     private readonly HutaoUserOptions options;
 
@@ -22,10 +23,12 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
     /// <summary>
     /// 构造一个新的胡桃用户服务
     /// </summary>
+    /// <param name="taskContext">任务上下文</param>
     /// <param name="passportClient">通行证客户端</param>
     /// <param name="options">选项</param>
-    public HutaoUserService(HomaPassportClient passportClient, HutaoUserOptions options)
+    public HutaoUserService(ITaskContext taskContext, HomaPassportClient passportClient, HutaoUserOptions options)
     {
+        this.taskContext = taskContext;
         this.passportClient = passportClient;
         this.options = options;
     }
@@ -49,13 +52,13 @@ internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceIni
 
             if (response.IsOk())
             {
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 options.LoginSucceed(userName, response.Data);
                 isInitialized = true;
             }
             else
             {
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 options.LoginFailed();
             }
         }

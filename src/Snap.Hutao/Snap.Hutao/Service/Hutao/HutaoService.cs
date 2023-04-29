@@ -18,24 +18,23 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Scoped, typeof(IHutaoService))]
 internal sealed class HutaoService : IHutaoService
 {
+    private static readonly TimeSpan CacheExpireTime = TimeSpan.FromHours(4);
     private readonly HomaSpiralAbyssClient homaClient;
     private readonly IMemoryCache memoryCache;
-    private readonly AppDbContext appDbContext;
     private readonly JsonSerializerOptions options;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的胡桃 API 服务
     /// </summary>
-    /// <param name="homaClient">胡桃 API 客户端</param>
-    /// <param name="memoryCache">内存缓存</param>
-    /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="options">Json序列化选项</param>
-    public HutaoService(HomaSpiralAbyssClient homaClient, IMemoryCache memoryCache, AppDbContext appDbContext, JsonSerializerOptions options)
+    /// <param name="serviceProvider">服务提供器</param>
+    public HutaoService(IServiceProvider serviceProvider)
     {
-        this.homaClient = homaClient;
-        this.memoryCache = memoryCache;
-        this.appDbContext = appDbContext;
-        this.options = options;
+        homaClient = serviceProvider.GetRequiredService<HomaSpiralAbyssClient>();
+        memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
+
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
@@ -88,17 +87,21 @@ internal sealed class HutaoService : IHutaoService
         {
             return (T)cache!;
         }
-
-        if (appDbContext.ObjectCache.SingleOrDefault(e => e.Key == key) is ObjectCacheEntry entry)
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            if (entry.IsExpired)
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            if (appDbContext.ObjectCache.SingleOrDefault(e => e.Key == key) is ObjectCacheEntry entry)
             {
-                await appDbContext.ObjectCache.RemoveAndSaveAsync(entry).ConfigureAwait(false);
-            }
-            else
-            {
-                T value = JsonSerializer.Deserialize<T>(entry.Value!, options)!;
-                return memoryCache.Set(key, value, TimeSpan.FromMinutes(30));
+                if (entry.IsExpired)
+                {
+                    await appDbContext.ObjectCache.RemoveAndSaveAsync(entry).ConfigureAwait(false);
+                }
+                else
+                {
+                    T value = JsonSerializer.Deserialize<T>(entry.Value!, options)!;
+                    return memoryCache.Set(key, value, TimeSpan.FromMinutes(30));
+                }
             }
         }
 
@@ -109,14 +112,19 @@ internal sealed class HutaoService : IHutaoService
         {
             if (data != null)
             {
-                appDbContext.ObjectCache.AddAndSave(new()
+                using (IServiceScope scope = serviceProvider.CreateScope())
                 {
-                    Key = key,
+                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                    // we hold the cache for 4 hours, then just expire it.
-                    ExpireTime = DateTimeOffset.Now.AddHours(4),
-                    Value = JsonSerializer.Serialize(data, options),
-                });
+                    appDbContext.ObjectCache.AddAndSave(new()
+                    {
+                        Key = key,
+
+                        // We hold the cache for 4 hours
+                        ExpireTime = DateTimeOffset.Now.Add(CacheExpireTime),
+                        Value = JsonSerializer.Serialize(data, options),
+                    });
+                }
             }
         }
         catch (Microsoft.EntityFrameworkCore.DbUpdateException)
@@ -125,6 +133,6 @@ internal sealed class HutaoService : IHutaoService
             // TODO: Not ignore it.
         }
 
-        return memoryCache.Set(key, data ?? new(), TimeSpan.FromHours(4));
+        return memoryCache.Set(key, data ?? new(), CacheExpireTime);
     }
 }

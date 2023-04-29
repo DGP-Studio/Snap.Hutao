@@ -19,5 +19,5 @@ internal sealed class ReliquaryAffix : ReliquaryMainAffix
     /// <summary>
     /// 值
     /// </summary>
-    public double Value { get; set; }
+    public float Value { get; set; }
 }

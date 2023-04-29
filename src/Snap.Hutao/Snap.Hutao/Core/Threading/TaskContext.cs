@@ -27,13 +27,13 @@ internal sealed class TaskContext : ITaskContext
     /// <inheritdoc/>
     public ThreadPoolSwitchOperation SwitchToBackgroundAsync()
     {
-        return default;
+        return new(dispatcherQueue);
     }
 
     /// <inheritdoc/>
     public DispatherQueueSwitchOperation SwitchToMainThreadAsync()
     {
-        return new(dispatcherQueue!);
+        return new(dispatcherQueue);
     }
 
     /// <inheritdoc/>

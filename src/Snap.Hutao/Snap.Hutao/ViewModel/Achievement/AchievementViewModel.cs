@@ -233,7 +233,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
                         .OrderBy(goal => goal.Order)
                         .Select(goal => new AchievementGoalView(goal))
                         .ToList();
-                    archives = await achievementService.GetArchiveCollectionAsync().ConfigureAwait(false);
+                    archives = achievementService.ArchiveCollection;
                 }
 
                 await ThreadHelper.SwitchToMainThreadAsync();

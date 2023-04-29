@@ -22,5 +22,5 @@ internal sealed class WeaponStat
     /// 值
     /// </summary>
     [JsonPropertyName("statValue")]
-    public double StatValue { get; set; }
+    public float StatValue { get; set; }
 }

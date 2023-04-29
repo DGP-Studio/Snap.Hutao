@@ -16,16 +16,19 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 {
     private static readonly string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 
+    private readonly ITaskContext taskContext;
     private readonly AnnouncementClient announcementClient;
     private readonly IMemoryCache memoryCache;
 
     /// <summary>
     /// 构造一个新的公告服务
     /// </summary>
+    /// <param name="taskContext">任务上下文</param>
     /// <param name="announcementClient">公告提供器</param>
     /// <param name="memoryCache">缓存</param>
-    public AnnouncementService(AnnouncementClient announcementClient, IMemoryCache memoryCache)
+    public AnnouncementService(ITaskContext taskContext, AnnouncementClient announcementClient, IMemoryCache memoryCache)
     {
+        this.taskContext = taskContext;
         this.announcementClient = announcementClient;
         this.memoryCache = memoryCache;
     }
@@ -39,7 +42,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             return (AnnouncementWrapper)cache!;
         }
 
-        await ThreadHelper.SwitchToBackgroundAsync();
+        await taskContext.SwitchToBackgroundAsync();
         Response<AnnouncementWrapper> announcementWrapperResponse = await announcementClient
             .GetAnnouncementsAsync(cancellationToken)
             .ConfigureAwait(false);

@@ -184,6 +184,11 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
                     case RefreshResult.APIUnavailable:
                         infoBarService.Warning(SH.ViewModelAvatarPropertyEnkaApiUnavailable);
                         break;
+
+                    case RefreshResult.StatusCodeNotSucceed:
+                        infoBarService.Warning(summary!.Message);
+                        break;
+
                     case RefreshResult.ShowcaseNotOpen:
                         infoBarService.Warning(SH.ViewModelAvatarPropertyShowcaseNotOpen);
                         break;

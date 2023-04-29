@@ -24,7 +24,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     /// <returns>特定等级的解释</returns>
     public static LevelParameters<string, ParameterDescription> Convert(DescriptionsParameters from, int level)
     {
-        LevelParameters<int, double> param = from.Parameters.Single(param => param.Level == level);
+        LevelParameters<int, float> param = from.Parameters.Single(param => param.Level == level);
         return new LevelParameters<string, ParameterDescription>($"Lv.{param.Level}", GetParameterDescription(from.Descriptions, param.Parameters));
     }
 
@@ -40,7 +40,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     [GeneratedRegex("{param[0-9]+.*?}")]
     private static partial Regex ParamRegex();
 
-    private static List<ParameterDescription> GetParameterDescription(List<string> descriptions, List<double> param)
+    private static List<ParameterDescription> GetParameterDescription(List<string> descriptions, List<float> param)
     {
         Span<string> span = CollectionsMarshal.AsSpan(descriptions);
         List<ParameterDescription> results = new(span.Length);
@@ -58,7 +58,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
         return results;
     }
 
-    private static string ReplaceParamInMatch(Match match, List<double> param)
+    private static string ReplaceParamInMatch(Match match, List<float> param)
     {
         if (match.Success)
         {

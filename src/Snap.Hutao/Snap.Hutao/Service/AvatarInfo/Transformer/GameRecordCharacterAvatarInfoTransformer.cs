@@ -3,35 +3,34 @@
 
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
-namespace Snap.Hutao.Service.AvatarInfo.Composer;
+namespace Snap.Hutao.Service.AvatarInfo.Transformer;
 
 /// <summary>
 /// 游戏记录角色转角色详情转换器
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Transient)]
-internal sealed class GameRecordCharacterAvatarInfoComposer : IAvatarInfoComposer<Character>
+internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTransformer<Character>
 {
-    private readonly IMetadataService metadataService;
-
     /// <summary>
     /// 构造一个新的游戏记录角色转角色详情转换器
     /// </summary>
-    /// <param name="metadataService">元数据服务</param>
-    public GameRecordCharacterAvatarInfoComposer(IMetadataService metadataService)
+    public GameRecordCharacterAvatarInfoTransformer()
     {
-        this.metadataService = metadataService;
     }
 
+    /// <summary>
+    /// Id 角色映射
+    /// </summary>
+    public Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? IdAvatarMap { get; set; }
+
     /// <inheritdoc/>
-    public async ValueTask<Web.Enka.Model.AvatarInfo> ComposeAsync(Web.Enka.Model.AvatarInfo avatarInfo, Character source)
+    public void Transform(ref Web.Enka.Model.AvatarInfo avatarInfo, Character source)
     {
-        Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> map = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-        Model.Metadata.Avatar.Avatar avatar = map[source.Id];
+        Model.Metadata.Avatar.Avatar avatar = Must.NotNull(IdAvatarMap!)[source.Id];
 
         // update fetter
         avatarInfo.FetterInfo ??= new();
@@ -39,7 +38,7 @@ internal sealed class GameRecordCharacterAvatarInfoComposer : IAvatarInfoCompose
 
         // update level
         avatarInfo.PropMap ??= new Dictionary<PlayerProperty, TypeValue>();
-        avatarInfo.PropMap[PlayerProperty.PROP_LEVEL] = new(PlayerProperty.PROP_LEVEL, source.Level.ToString());
+        avatarInfo.PropMap[PlayerProperty.PROP_LEVEL] = new(PlayerProperty.PROP_LEVEL, $"{source.Level}");
 
         // update constellations
         avatarInfo.TalentIdList = source.Constellations.Where(t => t.IsActived).Select(t => t.Id).ToList();
@@ -52,14 +51,14 @@ internal sealed class GameRecordCharacterAvatarInfoComposer : IAvatarInfoCompose
             Flat = new() { ItemType = ItemType.ITEM_RELIQUARY, EquipType = r.Position, },
         });
 
-        Equip? equip = avatarInfo.EquipList.LastOrDefault();
-        if (equip == null || equip.Weapon == null)
+        Equip? equipTest = avatarInfo.EquipList.LastOrDefault();
+        if (equipTest == null || equipTest.Weapon == null)
         {
             // 不存在武器则添加
             avatarInfo.EquipList.Add(new());
         }
 
-        equip = avatarInfo.EquipList.Last();
+        Equip equip = avatarInfo.EquipList.Last();
 
         equip.ItemId = source.Weapon.Id;
         equip.Weapon = new()
@@ -70,7 +69,5 @@ internal sealed class GameRecordCharacterAvatarInfoComposer : IAvatarInfoCompose
 
         // Special case here, don't set EQUIP_WEAPON
         equip.Flat = new() { ItemType = ItemType.ITEM_WEAPON, };
-
-        return avatarInfo;
     }
 }

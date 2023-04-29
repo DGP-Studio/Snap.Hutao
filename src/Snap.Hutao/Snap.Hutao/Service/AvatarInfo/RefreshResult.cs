@@ -25,6 +25,11 @@ internal enum RefreshResult
     APIUnavailable,
 
     /// <summary>
+    /// 状态码异常
+    /// </summary>
+    StatusCodeNotSucceed,
+
+    /// <summary>
     /// 角色橱窗未对外开放
     /// </summary>
     ShowcaseNotOpen,

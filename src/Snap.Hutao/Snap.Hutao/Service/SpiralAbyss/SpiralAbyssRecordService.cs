@@ -20,7 +20,6 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
 {
     private readonly IServiceProvider serviceProvider;
-    private readonly AppDbContext appDbContext;
 
     private string? uid;
     private ObservableCollection<SpiralAbyssEntry>? spiralAbysses;
@@ -31,7 +30,6 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
     /// <param name="serviceProvider">服务提供器</param>
     public SpiralAbyssRecordService(IServiceProvider serviceProvider)
     {
-        appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
         this.serviceProvider = serviceProvider;
     }
 
@@ -46,15 +44,18 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
         uid = userAndUid.Uid.Value;
         if (spiralAbysses == null)
         {
-            List<SpiralAbyssEntry> entries = await appDbContext.SpiralAbysses
-                .AsNoTracking()
-                .Where(s => s.Uid == userAndUid.Uid.Value)
-                .OrderByDescending(s => s.ScheduleId)
-                .ToListAsync()
-                .ConfigureAwait(false);
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            await ThreadHelper.SwitchToMainThreadAsync();
-            spiralAbysses = new(entries);
+                List<SpiralAbyssEntry> entries = await appDbContext.SpiralAbysses
+                    .Where(s => s.Uid == userAndUid.Uid.Value)
+                    .OrderByDescending(s => s.ScheduleId)
+                    .ToListAsync()
+                    .ConfigureAwait(false);
+
+                spiralAbysses = entries.ToObservableCollection();
+            }
         }
 
         return spiralAbysses;
@@ -79,23 +80,30 @@ internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
             Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss webSpiralAbyss = response.Data;
 
             SpiralAbyssEntry? existEntry = spiralAbysses!.SingleOrDefault(s => s.ScheduleId == webSpiralAbyss.ScheduleId);
-            if (existEntry != null)
+
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                await ThreadHelper.SwitchToMainThreadAsync();
-                existEntry.UpdateSpiralAbyss(webSpiralAbyss);
+                ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                await ThreadHelper.SwitchToBackgroundAsync();
-                await appDbContext.SpiralAbysses.UpdateAndSaveAsync(existEntry).ConfigureAwait(false);
-            }
-            else
-            {
-                SpiralAbyssEntry newEntry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, webSpiralAbyss);
+                if (existEntry != null)
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    existEntry.UpdateSpiralAbyss(webSpiralAbyss);
 
-                await ThreadHelper.SwitchToMainThreadAsync();
-                spiralAbysses!.Insert(0, newEntry);
+                    await taskContext.SwitchToBackgroundAsync();
+                    await appDbContext.SpiralAbysses.UpdateAndSaveAsync(existEntry).ConfigureAwait(false);
+                }
+                else
+                {
+                    SpiralAbyssEntry newEntry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, webSpiralAbyss);
 
-                await ThreadHelper.SwitchToBackgroundAsync();
-                await appDbContext.SpiralAbysses.AddAndSaveAsync(newEntry).ConfigureAwait(false);
+                    await taskContext.SwitchToMainThreadAsync();
+                    spiralAbysses!.Insert(0, newEntry);
+
+                    await taskContext.SwitchToBackgroundAsync();
+                    await appDbContext.SpiralAbysses.AddAndSaveAsync(newEntry).ConfigureAwait(false);
+                }
             }
         }
     }
