@@ -34,7 +34,6 @@ pr:
 pool:
   name: Default
   demands: agent.name -equals Hutao-Server
-  vmImage: 'windows-2022'
 
 variables:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -175,23 +174,17 @@ steps:
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
 
-- task: DownloadSecureFile@1
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
-  name: RcloneConfigFile
-  displayName: Download Rclone Config
-  inputs:
-    secureFile: 'rclone.conf'
 
 - task: rclone@1
   displayName: Upload CI via Rclone
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   inputs:
     arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/Alpha/'
-    configPath: '$(RcloneConfigFile.secureFilePath)'
+    configPath: 'C:\agent\_work\_tasks\rclone.conf'
 
 - task: rclone@1
   displayName: Upload PR CI via Rclone
   condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
   inputs:
     arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/PR/'
-    configPath: '$(RcloneConfigFile.secureFilePath)'
+    configPath: 'C:\agent\_work\_tasks\rclone.conf'
