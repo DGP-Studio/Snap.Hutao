@@ -38,6 +38,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
         11419, 11420, 11421, // 「一心传」名刀
     };
 
+    private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IHutaoCache hutaoCache;
@@ -55,6 +56,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public WikiWeaponViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         metadataService = serviceProvider.GetRequiredService<IMetadataService>();
         hutaoCache = serviceProvider.GetRequiredService<IHutaoCache>();
         this.serviceProvider = serviceProvider;
@@ -120,7 +122,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
 
             await CombineWithWeaponCollocationsAsync(sorted).ConfigureAwait(false);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
 
             Weapons = new AdvancedCollectionView(sorted, true);
             Selected = Weapons.Cast<Weapon>().FirstOrDefault();
@@ -146,10 +148,9 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
             if (userService.Current != null)
             {
                 // ContentDialog must be created by main thread.
-                await ThreadHelper.SwitchToMainThreadAsync();
-                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(null, weapon.ToCalculable())
-                    .GetPromotionDeltaAsync()
-                    .ConfigureAwait(false);
+                await taskContext.SwitchToMainThreadAsync();
+                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(weapon.ToCalculable());
+                (bool isOk, CalcAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {

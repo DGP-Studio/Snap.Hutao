@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
@@ -21,10 +22,9 @@ internal sealed class Team : List<AvatarView>
     public Team(ItemRate<string, int> team, Dictionary<AvatarId, Avatar> idAvatarMap)
         : base(4)
     {
-        IOrderedEnumerable<int> ids = team.Item.Split(',').Select(int.Parse).OrderByDescending(x => x);
-
-        foreach (int id in ids)
+        foreach (StringSegment item in new StringTokenizer(team.Item, new char[] { ',' }))
         {
+            int id = int.Parse(item.AsSpan());
             Add(new(idAvatarMap[id], 0));
         }
 

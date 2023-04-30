@@ -36,7 +36,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         this.window = window;
         this.serviceProvider = serviceProvider;
 
-        subclass = new(window.WindowOptions);
+        subclass = new(window);
 
         InitializeWindow();
     }
@@ -145,12 +145,12 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
         appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-        App app = serviceProvider.GetRequiredService<App>();
+        IAppResourceProvider resourceProvider = serviceProvider.GetRequiredService<IAppResourceProvider>();
 
-        Color systemBaseLowColor = (Color)app.Resources["SystemBaseLowColor"];
+        Color systemBaseLowColor = resourceProvider.GetResource<Color>("SystemBaseLowColor");
         appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
 
-        Color systemBaseMediumLowColor = (Color)app.Resources["SystemBaseMediumLowColor"];
+        Color systemBaseMediumLowColor = resourceProvider.GetResource<Color>("SystemBaseMediumLowColor");
         appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
 
         // The Foreground doesn't accept Alpha channel. So we translate it to gray.
@@ -158,7 +158,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
         appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
 
-        Color systemBaseHighColor = (Color)app.Resources["SystemBaseHighColor"];
+        Color systemBaseHighColor = resourceProvider.GetResource<Color>("SystemBaseHighColor");
         appTitleBar.ButtonForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;

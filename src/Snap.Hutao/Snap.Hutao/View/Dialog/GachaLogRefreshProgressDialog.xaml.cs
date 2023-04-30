@@ -21,11 +21,11 @@ internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     /// <summary>
     /// 构造一个新的对话框
     /// </summary>
-    /// <param name="window">窗体</param>
-    public GachaLogRefreshProgressDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public GachaLogRefreshProgressDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
     }
 
     /// <summary>

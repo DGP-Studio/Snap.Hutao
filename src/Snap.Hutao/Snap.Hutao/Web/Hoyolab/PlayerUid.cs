@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Request.QueryString;
+
 namespace Snap.Hutao.Web.Hoyolab;
 
 /// <summary>
@@ -56,6 +58,19 @@ internal readonly struct PlayerUid
     public override string ToString()
     {
         return Value;
+    }
+
+    /// <summary>
+    /// 转换到查询字符串
+    /// </summary>
+    /// <returns>查询字符串</returns>
+    public QueryString ToQueryString()
+    {
+        QueryString queryString = new();
+        queryString.Set("role_id", Value);
+        queryString.Set("server", Region);
+
+        return queryString;
     }
 
     private static string EvaluateRegion(char first)

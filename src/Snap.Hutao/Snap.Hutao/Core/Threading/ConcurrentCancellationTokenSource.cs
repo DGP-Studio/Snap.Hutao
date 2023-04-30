@@ -18,7 +18,7 @@ internal class ConcurrentCancellationTokenSource
     /// 注册取消令牌
     /// </summary>
     /// <returns>取消令牌</returns>
-    public CancellationToken Register()
+    public CancellationToken CancelPreviousOne()
     {
         source.Cancel();
         source = new();

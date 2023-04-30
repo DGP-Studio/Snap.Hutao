@@ -22,6 +22,8 @@ namespace Snap.Hutao.Core.LifeCycle;
 [HighQuality]
 internal static class Activation
 {
+    // TODO: make this class a dependency
+
     /// <summary>
     /// 操作
     /// </summary>
@@ -40,7 +42,7 @@ internal static class Activation
     /// <summary>
     /// 从剪贴板导入成就
     /// </summary>
-    public const string ImportUIAFFromClipBoard = nameof(ImportUIAFFromClipBoard);
+    public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
 
     private const string CategoryAchievement = "achievement";
     private const string CategoryDailyNote = "dailynote";
@@ -247,9 +249,10 @@ internal static class Activation
         {
             case UrlActionImport:
                 {
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
+                    await taskContext.SwitchToMainThreadAsync();
 
-                    INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipBoard);
+                    INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipboard);
                     await Ioc.Default
                         .GetRequiredService<INavigationService>()
                         .NavigateAsync<View.Page.AchievementPage>(navigationAwaiter, true)
@@ -268,7 +271,7 @@ internal static class Activation
                 {
                     await Ioc.Default
                         .GetRequiredService<IDailyNoteService>()
-                        .RefreshDailyNotesAsync(true)
+                        .RefreshDailyNotesAsync()
                         .ConfigureAwait(false);
 
                     // Check if it's redirected.

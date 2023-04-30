@@ -34,7 +34,9 @@ internal static class IocConfiguration
     /// <returns>可继续操作的集合</returns>
     public static IServiceCollection AddDatabase(this IServiceCollection services)
     {
-        return services.AddDbContext<AppDbContext>(AddDbContextCore);
+        return services
+            .AddTransient(typeof(Database.ScopedDbCurrent<,>))
+            .AddDbContext<AppDbContext>(AddDbContextCore);
     }
 
     /// <summary>

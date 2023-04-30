@@ -19,10 +19,12 @@ internal sealed partial class LaunchGamePackageConvertDialog : ContentDialog
     /// <summary>
     /// 构造一个新的启动游戏客户端转换对话框
     /// </summary>
-    public LaunchGamePackageConvertDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public LaunchGamePackageConvertDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
         DataContext = this;
     }
 

@@ -64,8 +64,8 @@ internal sealed class SummaryReliquaryFactory
         if (subProperty.Count > 0)
         {
             Span<ReliquarySubProperty> span = CollectionsMarshal.AsSpan(subProperty);
-            result.PrimarySubProperties = new(span[..^affixCount].ToEnumerable());
-            result.SecondarySubProperties = new(span[^affixCount..].ToEnumerable());
+            result.PrimarySubProperties = new(span[..^affixCount].ToArray());
+            result.SecondarySubProperties = new(span[^affixCount..].ToArray());
             result.ComposedSubProperties = equip.Flat.ReliquarySubstats!.SelectList(CreateComposedSubProperty);
 
             ReliquaryLevel relicLevel = metadataContext.ReliqueryLevels.Single(r => r.Level == equip.Reliquary!.Level && r.Quality == reliquary.RankLevel);

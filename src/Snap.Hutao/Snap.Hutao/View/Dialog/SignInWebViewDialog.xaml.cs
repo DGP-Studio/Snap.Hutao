@@ -22,11 +22,13 @@ internal sealed partial class SignInWebViewDialog : ContentDialog
     /// <summary>
     /// 构造一个新的签到网页视图对话框
     /// </summary>
-    public SignInWebViewDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public SignInWebViewDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        scope = Ioc.Default.CreateScope();
-        XamlRoot = scope.ServiceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        scope = serviceProvider.CreateScope();
     }
 
     private void OnGridLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

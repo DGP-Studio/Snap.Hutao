@@ -27,6 +27,7 @@ namespace Snap.Hutao.ViewModel;
 internal sealed class WelcomeViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
 
     private ObservableCollection<DownloadSummary>? downloadSummaries;
 
@@ -36,7 +37,9 @@ internal sealed class WelcomeViewModel : ObservableObject
     /// <param name="serviceProvider">服务提供器</param>
     public WelcomeViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         this.serviceProvider = serviceProvider;
+
         OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
     }
 
@@ -60,7 +63,7 @@ internal sealed class WelcomeViewModel : ObservableObject
         {
             if (await summary.DownloadAndExtractAsync().ConfigureAwait(false))
             {
-                ThreadHelper.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
+                taskContext.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
             }
         }).ConfigureAwait(true);
 
@@ -131,6 +134,7 @@ internal sealed class WelcomeViewModel : ObservableObject
     internal sealed class DownloadSummary : ObservableObject, IEquatable<DownloadSummary>
     {
         private readonly IServiceProvider serviceProvider;
+        private readonly ITaskContext taskContext;
         private readonly HttpClient httpClient;
         private readonly string fileName;
         private readonly string fileUrl;
@@ -146,6 +150,7 @@ internal sealed class WelcomeViewModel : ObservableObject
         /// <param name="fileName">压缩文件名称</param>
         public DownloadSummary(IServiceProvider serviceProvider, string fileName)
         {
+            taskContext = serviceProvider.GetRequiredService<ITaskContext>();
             httpClient = serviceProvider.GetRequiredService<HttpClient>();
             HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(hutaoOptions.UserAgent);
@@ -199,7 +204,7 @@ internal sealed class WelcomeViewModel : ObservableObject
                         await new StreamCopyWorker(content, temp, contentLength).CopyAsync(progress).ConfigureAwait(false);
                         ExtractFiles(temp);
 
-                        await ThreadHelper.SwitchToMainThreadAsync();
+                        await taskContext.SwitchToMainThreadAsync();
                         ProgressValue = 1;
                         Description = SH.ViewModelWelcomeDownloadSummaryComplete;
                         return true;
@@ -209,7 +214,7 @@ internal sealed class WelcomeViewModel : ObservableObject
             catch (Exception ex)
             {
                 logger.LogError(ex, "Download Static Zip failed");
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 Description = SH.ViewModelWelcomeDownloadSummaryException;
                 return false;
             }

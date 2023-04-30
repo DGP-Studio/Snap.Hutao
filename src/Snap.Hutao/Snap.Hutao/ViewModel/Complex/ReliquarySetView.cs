@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Snap.Hutao.ViewModel.Complex;
@@ -27,7 +28,7 @@ internal sealed class ReliquarySetView
             StringBuilder nameBuilder = new();
             List<Uri> icons = new(2);
 
-            foreach (ReliquarySet set in sets)
+            foreach (ReliquarySet set in CollectionsMarshal.AsSpan(sets))
             {
                 Model.Metadata.Reliquary.ReliquarySet metaSet = idReliquarySetMap[set.EquipAffixId / 10];
 

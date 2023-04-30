@@ -47,7 +47,6 @@ public static partial class Program
         IServiceProvider serviceProvider = Ioc.Default;
 
         ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        ThreadHelper.Initialize(taskContext);
         _ = serviceProvider.GetRequiredService<App>();
     }
 }

@@ -16,18 +16,21 @@ namespace Snap.Hutao.View.Dialog;
 [HighQuality]
 internal sealed partial class AdoptCalculatorDialog : ContentDialog
 {
+    private readonly ITaskContext taskContext;
     private readonly IServiceScope scope;
     private MiHoYoJSInterface? jsInterface;
 
     /// <summary>
     /// 构造一个新的养成计算器对话框
     /// </summary>
-    /// <param name="window">窗体</param>
-    public AdoptCalculatorDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public AdoptCalculatorDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        scope = Ioc.Default.CreateScope();
-        XamlRoot = scope.ServiceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        scope = serviceProvider.CreateScope();
     }
 
     private void OnGridLoaded(object sender, RoutedEventArgs e)
@@ -57,7 +60,7 @@ internal sealed partial class AdoptCalculatorDialog : ContentDialog
 
     private void OnClosePageRequested()
     {
-        ThreadHelper.InvokeOnMainThread(Hide);
+        taskContext.InvokeOnMainThread(Hide);
     }
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)

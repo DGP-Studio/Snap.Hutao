@@ -11,14 +11,18 @@ namespace Snap.Hutao.View.Dialog;
 [HighQuality]
 internal sealed partial class UserDialog : ContentDialog
 {
+    private readonly ITaskContext taskContext;
+
     /// <summary>
     /// 构造一个新的添加用户对话框
     /// </summary>
-    /// <param name="window">呈现的父窗口</param>
-    public UserDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public UserDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
     /// <summary>
@@ -27,7 +31,7 @@ internal sealed partial class UserDialog : ContentDialog
     /// <returns>输入的结果</returns>
     public async Task<ValueResult<bool, string>> GetInputCookieAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         string cookie = InputText.Text;
 

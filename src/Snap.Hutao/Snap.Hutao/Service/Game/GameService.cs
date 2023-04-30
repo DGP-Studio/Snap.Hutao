@@ -345,7 +345,8 @@ internal sealed class GameService : IGameService
             {
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();
-                (bool isOk, string name) = await new LaunchGameAccountNameDialog().GetInputNameAsync().ConfigureAwait(false);
+                LaunchGameAccountNameDialog dialog = serviceProvider.CreateInstance<LaunchGameAccountNameDialog>();
+                (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {
@@ -411,7 +412,9 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
-        (bool isOk, string name) = await new LaunchGameAccountNameDialog().GetInputNameAsync().ConfigureAwait(true);
+        await taskContext.SwitchToMainThreadAsync();
+        LaunchGameAccountNameDialog dialog = serviceProvider.CreateInstance<LaunchGameAccountNameDialog>();
+        (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(true);
 
         if (isOk)
         {

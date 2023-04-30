@@ -34,6 +34,7 @@ internal sealed class AchievementViewModelSlim : Abstraction.ViewModelSlim<View.
     {
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
+            ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
             IMetadataService metadataService = scope.ServiceProvider.GetRequiredService<IMetadataService>();
 
             if (await metadataService.InitializeAsync().ConfigureAwait(false))
@@ -46,7 +47,7 @@ internal sealed class AchievementViewModelSlim : Abstraction.ViewModelSlim<View.
                     .GetAchievementStatisticsAsync(achievementMap)
                     .ConfigureAwait(false);
 
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 StatisticsList = list;
                 IsInitialized = true;
             }

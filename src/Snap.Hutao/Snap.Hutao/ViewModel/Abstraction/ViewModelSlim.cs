@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Service.Navigation;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
@@ -12,7 +13,7 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 /// </summary>
 /// <typeparam name="TPage">页面类型</typeparam>
 internal abstract class ViewModelSlim<TPage> : ObservableObject
-    where TPage : Microsoft.UI.Xaml.Controls.Page
+    where TPage : Page
 {
     private bool isInitialized;
 
@@ -62,6 +63,7 @@ internal abstract class ViewModelSlim<TPage> : ObservableObject
     /// </summary>
     protected virtual void Navigate()
     {
-        ServiceProvider.GetRequiredService<INavigationService>().Navigate<TPage>(INavigationAwaiter.Default, true);
+        INavigationService navigationService = ServiceProvider.GetRequiredService<INavigationService>();
+        navigationService.Navigate<TPage>(INavigationAwaiter.Default, true);
     }
 }

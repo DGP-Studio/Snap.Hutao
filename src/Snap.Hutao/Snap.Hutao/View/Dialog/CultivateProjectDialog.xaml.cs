@@ -13,14 +13,18 @@ namespace Snap.Hutao.View.Dialog;
 [HighQuality]
 internal sealed partial class CultivateProjectDialog : ContentDialog
 {
+    private readonly ITaskContext taskContext;
+
     /// <summary>
     /// 构造一个新的养成计划对话框
     /// </summary>
-    /// <param name="window">窗体</param>
-    public CultivateProjectDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public CultivateProjectDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
     /// <summary>
@@ -29,7 +33,7 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
     /// <returns>计划</returns>
     public async ValueTask<ValueResult<bool, CultivateProject>> CreateProjectAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         if (result == ContentDialogResult.Primary)
         {
@@ -38,8 +42,7 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
                 ? Ioc.Default.GetRequiredService<IUserService>().Current?.SelectedUserGameRole?.GameUid
                 : null;
 
-            CultivateProject project = CultivateProject.Create(text, uid);
-            return new(true, project);
+            return new(true, CultivateProject.Create(text, uid));
         }
 
         return new(false, null!);

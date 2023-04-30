@@ -12,15 +12,17 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
 internal sealed class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     /// <summary>
     /// 构造一个新的手动输入方法提供器
     /// </summary>
     /// <param name="taskContext">任务上下文</param>
-    public GachaLogQueryManualInputProvider(ITaskContext taskContext)
+    public GachaLogQueryManualInputProvider(IServiceProvider serviceProvider)
     {
-        this.taskContext = taskContext;
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
@@ -31,7 +33,8 @@ internal sealed class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
     {
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
-        (bool isOk, string query) = await new GachaLogUrlDialog().GetInputUrlAsync().ConfigureAwait(false);
+        GachaLogUrlDialog dialog = serviceProvider.CreateInstance<GachaLogUrlDialog>();
+        (bool isOk, string query) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (isOk)
         {

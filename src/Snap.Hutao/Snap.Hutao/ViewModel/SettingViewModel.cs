@@ -34,6 +34,7 @@ namespace Snap.Hutao.ViewModel;
 internal sealed class SettingViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly AppDbContext appDbContext;
     private readonly IGameService gameService;
     private readonly ILogger<SettingViewModel> logger;
@@ -62,6 +63,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public SettingViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
         gameService = serviceProvider.GetRequiredService<IGameService>();
         logger = serviceProvider.GetRequiredService<ILogger<SettingViewModel>>();
@@ -215,7 +217,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
         if (isOk)
         {
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             Options.GamePath = path;
         }
     }
@@ -254,8 +256,9 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     private async Task ShowSignInWebViewDialogAsync()
     {
         // ContentDialog must be created by main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-        await new SignInWebViewDialog().ShowAsync().AsTask().ConfigureAwait(false);
+        await taskContext.SwitchToMainThreadAsync();
+        SignInWebViewDialog dialog = serviceProvider.CreateInstance<SignInWebViewDialog>();
+        await dialog.ShowAsync();
     }
 
     private async Task CheckUpdateAsync()

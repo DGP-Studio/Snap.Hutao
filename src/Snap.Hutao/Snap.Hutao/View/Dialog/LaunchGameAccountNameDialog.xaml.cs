@@ -11,14 +11,18 @@ namespace Snap.Hutao.View.Dialog;
 [HighQuality]
 internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
 {
+    private readonly ITaskContext taskContext;
+
     /// <summary>
     /// 构造一个新的游戏账号命名对话框
     /// </summary>
-    /// <param name="window">窗体</param>
-    public LaunchGameAccountNameDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public LaunchGameAccountNameDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
     /// <summary>
@@ -27,7 +31,7 @@ internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
     /// <returns>输入的结果</returns>
     public async Task<ValueResult<bool, string>> GetInputNameAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         string text = InputText.Text;
         return new(result == ContentDialogResult.Primary && (!string.IsNullOrEmpty(text)), text);

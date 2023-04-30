@@ -18,14 +18,19 @@ namespace Snap.Hutao.Core;
 [Injection(InjectAs.Singleton)]
 internal sealed class HutaoOptions : IOptions<HutaoOptions>
 {
+    private readonly ILogger<HutaoOptions> logger;
+
     private readonly bool isWebView2Supported;
     private readonly string webView2Version = SH.CoreWebView2HelperVersionUndetected;
 
     /// <summary>
     /// 构造一个新的胡桃选项
     /// </summary>
-    public HutaoOptions()
+    /// <param name="logger">日志器</param>
+    public HutaoOptions(ILogger<HutaoOptions> logger)
     {
+        this.logger = logger;
+
         DataFolder = GetDataFolderPath();
         LocalCache = ApplicationData.Current.LocalCacheFolder.Path;
         InstalledLocation = Package.Current.InstalledLocation.Path;
@@ -115,7 +120,7 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
         return Convert.ToMd5HexString($"{userName}{machineGuid}");
     }
 
-    private static void DetectWebView2Environment(ref string webView2Version, ref bool isWebView2Supported)
+    private void DetectWebView2Environment(ref string webView2Version, ref bool isWebView2Supported)
     {
         try
         {
@@ -124,7 +129,6 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
         }
         catch (FileNotFoundException ex)
         {
-            ILogger<WebView2Helper> logger = Ioc.Default.GetRequiredService<ILogger<WebView2Helper>>();
             logger.LogError(ex, "WebView2 Runtime not installed.");
         }
     }

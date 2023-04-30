@@ -38,7 +38,7 @@ internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTran
 
         // update level
         avatarInfo.PropMap ??= new Dictionary<PlayerProperty, TypeValue>();
-        avatarInfo.PropMap[PlayerProperty.PROP_LEVEL] = new(PlayerProperty.PROP_LEVEL, $"{source.Level}");
+        avatarInfo.PropMap[PlayerProperty.PROP_LEVEL] = new(PlayerProperty.PROP_LEVEL, source.Level);
 
         // update constellations
         avatarInfo.TalentIdList = source.Constellations.Where(t => t.IsActived).Select(t => t.Id).ToList();

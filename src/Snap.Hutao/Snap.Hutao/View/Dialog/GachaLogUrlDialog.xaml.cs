@@ -11,14 +11,18 @@ namespace Snap.Hutao.View.Dialog;
 [HighQuality]
 internal sealed partial class GachaLogUrlDialog : ContentDialog
 {
+    private readonly ITaskContext taskContext;
+
     /// <summary>
     /// 初始化一个新的祈愿记录Url对话框
     /// </summary>
-    /// <param name="window">窗体</param>
-    public GachaLogUrlDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public GachaLogUrlDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
     /// <summary>
@@ -27,7 +31,7 @@ internal sealed partial class GachaLogUrlDialog : ContentDialog
     /// <returns>输入的结果</returns>
     public async Task<ValueResult<bool, string>> GetInputUrlAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         string url = InputText.Text;
 

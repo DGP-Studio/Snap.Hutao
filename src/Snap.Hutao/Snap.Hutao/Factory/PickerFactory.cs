@@ -56,6 +56,23 @@ internal class PickerFactory : IPickerFactory
     }
 
     /// <inheritdoc/>
+    public FileSavePicker GetFileSavePicker(PickerLocationId location, string fileName, string commitButton, IDictionary<string, IList<string>> fileTypes)
+    {
+        FileSavePicker picker = GetInitializedPicker<FileSavePicker>();
+
+        picker.SuggestedStartLocation = location;
+        picker.SuggestedFileName = fileName;
+        picker.CommitButtonText = commitButton;
+
+        foreach (KeyValuePair<string, IList<string>> kvp in fileTypes)
+        {
+            picker.FileTypeChoices.Add(kvp);
+        }
+
+        return picker;
+    }
+
+    /// <inheritdoc/>
     public FolderPicker GetFolderPicker()
     {
         FolderPicker picker = GetInitializedPicker<FolderPicker>();

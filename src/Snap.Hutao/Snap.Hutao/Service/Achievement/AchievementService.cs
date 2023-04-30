@@ -101,7 +101,7 @@ internal sealed partial class AchievementService : IAchievementService
                 results.Add(new()
                 {
                     DisplayName = archive.Name,
-                    FinishDescription = $"{finished}/{totalCount} - {(double)finished / totalCount:P2}",
+                    FinishDescription = AchievementStatistics.Format(finished, totalCount, out _),
                     Achievements = achievements.SelectList(entity => new AchievementView(entity, achievementMap[entity.Id])),
                 });
             }

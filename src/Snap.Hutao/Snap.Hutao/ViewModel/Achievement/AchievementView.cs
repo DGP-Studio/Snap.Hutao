@@ -69,6 +69,6 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
     /// </summary>
     public string Time
     {
-        get => Entity.Time.ToString("yyyy.MM.dd HH:mm:ss");
+        get => $"{Entity.Time:yyyy.MM.dd HH:mm:ss}";
     }
 }

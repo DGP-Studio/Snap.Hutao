@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge;
+using Snap.Hutao.Web.Request.QueryString;
 
 namespace Snap.Hutao.View.Dialog;
 
@@ -16,6 +17,7 @@ namespace Snap.Hutao.View.Dialog;
 [SuppressMessage("", "CA1001")]
 internal sealed partial class DailyNoteVerificationDialog : ContentDialog
 {
+    private readonly ITaskContext taskContext;
     private readonly IServiceScope scope;
     private readonly UserAndUid userAndUid;
 
@@ -24,13 +26,16 @@ internal sealed partial class DailyNoteVerificationDialog : ContentDialog
     /// <summary>
     /// 构造一个新的实时便笺验证对话框
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="userAndUid">用户与角色</param>
-    public DailyNoteVerificationDialog(UserAndUid userAndUid)
+    public DailyNoteVerificationDialog(IServiceProvider serviceProvider, UserAndUid userAndUid)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        scope = serviceProvider.CreateScope();
         this.userAndUid = userAndUid;
-        scope = Ioc.Default.CreateScope();
     }
 
     private void OnGridLoaded(object sender, RoutedEventArgs e)
@@ -48,13 +53,13 @@ internal sealed partial class DailyNoteVerificationDialog : ContentDialog
         jsInterface = new(coreWebView2, scope.ServiceProvider);
         jsInterface.ClosePageRequested += OnClosePageRequested;
 
-        string query = $"?role_id={userAndUid.Uid.Value}&server={userAndUid.Uid.Region}";
-        coreWebView2.Navigate($"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/{query}");
+        QueryString query = userAndUid.Uid.ToQueryString();
+        coreWebView2.Navigate($"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/?{query}");
     }
 
     private void OnClosePageRequested()
     {
-        ThreadHelper.InvokeOnMainThread(Hide);
+        taskContext.InvokeOnMainThread(Hide);
     }
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)

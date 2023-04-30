@@ -15,11 +15,13 @@ internal sealed partial class DailyNoteNotificationDialog : ContentDialog
     /// <summary>
     /// 构造一个新的实时便笺通知设置对话框
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="entry">实时便笺</param>
-    public DailyNoteNotificationDialog(DailyNoteEntry entry)
+    public DailyNoteNotificationDialog(IServiceProvider serviceProvider, DailyNoteEntry entry)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
         DataContext = entry;
     }
 }

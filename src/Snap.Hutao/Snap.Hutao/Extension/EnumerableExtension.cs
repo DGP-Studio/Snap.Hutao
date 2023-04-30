@@ -61,20 +61,4 @@ internal static partial class EnumerableExtension
     {
         return new ObservableCollection<T>(source);
     }
-
-    /// <summary>
-    /// 转换为枚举对象
-    /// </summary>
-    /// <typeparam name="T">类型</typeparam>
-    /// <param name="span">源</param>
-    /// <returns>为枚举对象</returns>
-    [SuppressMessage("", "SH002")]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IEnumerable<T> ToEnumerable<T>(this Span<T> span)
-    {
-        for (int i = 0; i < span.Length; i++)
-        {
-            yield return span[i];
-        }
-    }
 }

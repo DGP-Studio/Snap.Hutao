@@ -33,11 +33,12 @@ internal sealed class GachaLogViewModelSlim : Abstraction.ViewModelSlim<View.Pag
         using (IServiceScope scope = ServiceProvider.CreateScope())
         {
             IGachaLogService gachaLogService = scope.ServiceProvider.GetRequiredService<IGachaLogService>();
+            ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
 
             if (await gachaLogService.InitializeAsync(default).ConfigureAwait(false))
             {
                 List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimsAsync().ConfigureAwait(false);
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 StatisticsList = list;
                 IsInitialized = true;
             }

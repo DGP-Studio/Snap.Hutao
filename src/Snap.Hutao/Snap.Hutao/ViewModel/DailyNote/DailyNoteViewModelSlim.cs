@@ -37,7 +37,9 @@ internal sealed class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<View.Pa
     {
         try
         {
-            await ThreadHelper.SwitchToBackgroundAsync();
+            ITaskContext taskContext = ServiceProvider.GetRequiredService<ITaskContext>();
+
+            await taskContext.SwitchToBackgroundAsync();
             _ = await ServiceProvider
                 .GetRequiredService<IUserService>()
                 .GetRoleCollectionAsync()
@@ -51,7 +53,7 @@ internal sealed class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<View.Pa
             // to prevent page add/remove failure.
             List<DailyNoteEntry> entryList = entries.ToList();
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             DailyNoteEntries = entryList;
             IsInitialized = true;
         }

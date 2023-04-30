@@ -39,6 +39,7 @@ internal class MiHoYoJSInterface
 
     private readonly CoreWebView2 webView;
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSInterface> logger;
     private readonly SemaphoreSlim webMessageSemaphore = new(1);
 
@@ -50,6 +51,7 @@ internal class MiHoYoJSInterface
     public MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
     {
         this.webView = webView;
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         this.serviceProvider = serviceProvider;
 
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
@@ -204,7 +206,7 @@ internal class MiHoYoJSInterface
             await userService.RefreshCookieTokenAsync(user).ConfigureAwait(false);
         }
 
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         webView.SetCookie(user.CookieToken, user.LToken);
         return new() { Data = new() { [Cookie.COOKIE_TOKEN] = user.CookieToken![Cookie.COOKIE_TOKEN] } };
     }
@@ -216,7 +218,7 @@ internal class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual async Task<IJsResult?> ClosePageAsync(JsParam param)
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         if (webView.CanGoBack)
         {
             webView.GoBack();
@@ -251,7 +253,7 @@ internal class MiHoYoJSInterface
 
     public virtual async Task<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         webView.Navigate(param.Payload.Page);
         return null;
     }
@@ -340,7 +342,7 @@ internal class MiHoYoJSInterface
 
         logger?.LogInformation("[ExecuteScript: {callback}]\n{payload}", callback, payload);
 
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         try
         {
             return await webView.ExecuteScriptAsync(js);

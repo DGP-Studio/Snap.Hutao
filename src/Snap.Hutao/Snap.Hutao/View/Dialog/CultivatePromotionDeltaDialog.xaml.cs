@@ -18,18 +18,51 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     private static readonly DependencyProperty AvatarProperty = Property<CultivatePromotionDeltaDialog>.Depend<ICalculableAvatar?>(nameof(Avatar));
     private static readonly DependencyProperty WeaponProperty = Property<CultivatePromotionDeltaDialog>.Depend<ICalculableWeapon?>(nameof(Weapon));
 
+    private readonly ITaskContext taskContext;
+
     /// <summary>
     /// 构造一个新的养成计算对话框
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="avatar">角色</param>
     /// <param name="weapon">武器</param>
-    public CultivatePromotionDeltaDialog(ICalculableAvatar? avatar, ICalculableWeapon? weapon)
+    public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, ICalculableAvatar? avatar, ICalculableWeapon? weapon)
+        : this(serviceProvider)
     {
-        InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
-        DataContext = this;
         Avatar = avatar;
         Weapon = weapon;
+    }
+
+    /// <summary>
+    /// 构造一个新的养成计算对话框
+    /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
+    /// <param name="avatar">角色</param>
+    public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, ICalculableAvatar? avatar)
+        : this(serviceProvider)
+    {
+        Avatar = avatar;
+    }
+
+    /// <summary>
+    /// 构造一个新的养成计算对话框
+    /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
+    /// <param name="weapon">武器</param>
+    public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, ICalculableWeapon? weapon)
+        : this(serviceProvider)
+    {
+        Weapon = weapon;
+    }
+
+    private CultivatePromotionDeltaDialog(IServiceProvider serviceProvider)
+    {
+        InitializeComponent();
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
+        DataContext = this;
     }
 
     /// <summary>
@@ -56,7 +89,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// <returns>提升差异</returns>
     public async Task<ValueResult<bool, AvatarPromotionDelta>> GetPromotionDeltaAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
 
         if (result == ContentDialogResult.Primary)

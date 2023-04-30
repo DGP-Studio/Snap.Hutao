@@ -22,4 +22,17 @@ internal sealed class AchievementStatistics
     /// 近期完成的成就
     /// </summary>
     public List<AchievementView> Achievements { get; set; } = default!;
+
+    /// <summary>
+    /// 格式化完成进度
+    /// </summary>
+    /// <param name="finished">完成的成就个数</param>
+    /// <param name="totalCount">总个数</param>
+    /// <param name="finishedPercent">完成进度</param>
+    /// <returns>格式化的完成进度</returns>
+    public static string Format(int finished, int totalCount, out double finishedPercent)
+    {
+        finishedPercent = (double)finished / totalCount;
+        return $"{finished}/{totalCount} - {finishedPercent:P2}";
+    }
 }

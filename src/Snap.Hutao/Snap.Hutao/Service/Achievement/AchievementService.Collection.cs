@@ -58,6 +58,7 @@ internal sealed partial class AchievementService
             // Sync cache
             await taskContext.SwitchToMainThreadAsync();
             archiveCollection!.Add(newArchive);
+            CurrentArchive = newArchive;
 
             // Sync database
             await taskContext.SwitchToBackgroundAsync();

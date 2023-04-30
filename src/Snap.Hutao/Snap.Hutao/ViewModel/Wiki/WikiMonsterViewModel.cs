@@ -18,6 +18,7 @@ namespace Snap.Hutao.ViewModel.Wiki;
 internal class WikiMonsterViewModel : Abstraction.ViewModel
 {
     private readonly IMetadataService metadataService;
+    private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView? monsters;
     private Monster? selected;
@@ -31,6 +32,7 @@ internal class WikiMonsterViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public WikiMonsterViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         metadataService = serviceProvider.GetRequiredService<IMetadataService>();
     }
 
@@ -78,7 +80,7 @@ internal class WikiMonsterViewModel : Abstraction.ViewModel
             }
 
             List<Monster> ordered = monsters.OrderBy(m => m.Id.Value).ToList();
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
 
             Monsters = new AdvancedCollectionView(ordered, true);
             Selected = Monsters.Cast<Monster>().FirstOrDefault();
