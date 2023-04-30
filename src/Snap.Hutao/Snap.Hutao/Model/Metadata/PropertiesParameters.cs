@@ -19,5 +19,5 @@ internal sealed class PropertiesParameters
     /// <summary>
     /// 参数
     /// </summary>
-    public List<LevelParameters<string, double>> Parameters { get; set; } = default!;
+    public List<LevelParameters<string, float>> Parameters { get; set; } = default!;
 }

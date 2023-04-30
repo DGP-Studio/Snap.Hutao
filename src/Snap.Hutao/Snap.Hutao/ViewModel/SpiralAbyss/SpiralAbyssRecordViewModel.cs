@@ -26,6 +26,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IMetadataService metadataService;
     private readonly IUserService userService;
@@ -45,6 +46,7 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
     /// <param name="messenger">消息器</param>
     public SpiralAbyssRecordViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         spiralAbyssRecordService = serviceProvider.GetRequiredService<ISpiralAbyssRecordService>();
         metadataService = serviceProvider.GetRequiredService<IMetadataService>();
         userService = serviceProvider.GetRequiredService<IUserService>();
@@ -117,7 +119,7 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
             if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
                 await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 IsInitialized = true;
             }
             else
@@ -143,7 +145,7 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
         {
         }
 
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         SpiralAbyssEntries = temp;
         SelectedEntry = SpiralAbyssEntries?.FirstOrDefault();
     }
@@ -167,7 +169,7 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
                 {
                 }
 
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 SelectedEntry = SpiralAbyssEntries.FirstOrDefault();
             }
         }

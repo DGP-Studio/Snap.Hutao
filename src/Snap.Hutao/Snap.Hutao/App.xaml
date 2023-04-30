@@ -89,7 +89,7 @@
             <shmmc:AvatarIconConverter x:Key="AvatarIconConverter"/>
             <shmmc:AvatarNameCardPicConverter x:Key="AvatarNameCardPicConverter"/>
             <shmmc:AvatarSideIconConverter x:Key="AvatarSideIconConverter"/>
-            <shmmc:ParameterDescriptor x:Key="DescParamDescriptor"/>
+            <shmmc:DescriptionsParametersDescriptor x:Key="DescParamDescriptor"/>
             <shmmc:ElementNameIconConverter x:Key="ElementNameIconConverter"/>
             <shmmc:EmotionIconConverter x:Key="EmotionIconConverter"/>
             <shmmc:EquipIconConverter x:Key="EquipIconConverter"/>
@@ -98,7 +98,7 @@
             <shmmc:GachaEquipIconConverter x:Key="GachaEquipIconConverter"/>
             <shmmc:ItemIconConverter x:Key="ItemIconConverter"/>
             <shmmc:MonsterIconConverter x:Key="MonsterIconConverter"/>
-            <shmmc:PropertyDescriptor x:Key="PropertyDescriptor"/>
+            <shmmc:PropertiesParametersDescriptor x:Key="PropertyDescriptor"/>
             <shmmc:QualityColorConverter x:Key="QualityColorConverter"/>
             <shmmc:WeaponTypeIconConverter x:Key="WeaponTypeIconConverter"/>
             <shvc:BoolToVisibilityRevertConverter x:Key="BoolToVisibilityRevertConverter"/>

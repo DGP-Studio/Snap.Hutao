@@ -10,8 +10,33 @@ namespace Snap.Hutao.Service.Game.Package;
 /// </summary>
 [HighQuality]
 [DebuggerDisplay("Action:{Type} Target:{Target} Cache:{Cache}")]
-internal sealed class ItemOperationInfo
+internal readonly struct ItemOperationInfo
 {
+    /// <summary>
+    /// 操作的类型
+    /// </summary>
+    public readonly ItemOperationType Type;
+
+    /// <summary>
+    /// 目标文件
+    /// </summary>
+    public readonly string Target;
+
+    /// <summary>
+    /// 移动至中时的名称
+    /// </summary>
+    public readonly string MoveTo;
+
+    /// <summary>
+    /// 文件的目标Md5
+    /// </summary>
+    public readonly string Md5;
+
+    /// <summary>
+    /// 文件的目标大小 Byte
+    /// </summary>
+    public readonly long TotalBytes;
+
     /// <summary>
     /// 构造一个新的包操作
     /// </summary>
@@ -26,29 +51,4 @@ internal sealed class ItemOperationInfo
         Md5 = target.Md5;
         TotalBytes = target.FileSize;
     }
-
-    /// <summary>
-    /// 操作的类型
-    /// </summary>
-    public ItemOperationType Type { get; }
-
-    /// <summary>
-    /// 目标文件
-    /// </summary>
-    public string Target { get; }
-
-    /// <summary>
-    /// 移动至中时的名称
-    /// </summary>
-    public string MoveTo { get; }
-
-    /// <summary>
-    /// 文件的目标Md5
-    /// </summary>
-    public string Md5 { get; }
-
-    /// <summary>
-    /// 文件的目标大小 Byte
-    /// </summary>
-    public long TotalBytes { get; }
 }

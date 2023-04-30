@@ -7,6 +7,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 武器类型
 /// </summary>
 [HighQuality]
+[Localization]
 [SuppressMessage("", "SA1124")]
 internal enum WeaponType
 {

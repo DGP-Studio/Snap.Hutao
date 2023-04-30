@@ -108,12 +108,12 @@ internal sealed partial class Cookie
         return new(cookieMap);
     }
 
-    public bool TryGetAsSToken(bool isOversea, [NotNullWhen(true)] out Cookie? cookie)
+    public bool TryGetSToken(bool isOversea, [NotNullWhen(true)] out Cookie? cookie)
     {
-        return isOversea ? TryGetAsLegacySToken(out cookie) : TryGetAsSToken(out cookie);
+        return isOversea ? TryGetLegacySToken(out cookie) : TryGetSToken(out cookie);
     }
 
-    public bool TryGetAsLToken([NotNullWhen(true)] out Cookie? cookie)
+    public bool TryGetLToken([NotNullWhen(true)] out Cookie? cookie)
     {
         bool hasLtoken = TryGetValue(LTOKEN, out string? ltoken);
         bool hasStuid = TryGetValue(LTUID, out string? ltuid);
@@ -133,7 +133,7 @@ internal sealed partial class Cookie
         return false;
     }
 
-    public bool TryGetAsCookieToken([NotNullWhen(true)] out Cookie? cookie)
+    public bool TryGetCookieToken([NotNullWhen(true)] out Cookie? cookie)
     {
         bool hasAccountId = TryGetValue(ACCOUNT_ID, out string? accountId);
         bool hasCookieToken = TryGetValue(COOKIE_TOKEN, out string? cookieToken);
@@ -178,7 +178,7 @@ internal sealed partial class Cookie
         return string.Join(';', inner.Select(kvp => $"{kvp.Key}={kvp.Value}"));
     }
 
-    private bool TryGetAsSToken([NotNullWhen(true)] out Cookie? cookie)
+    private bool TryGetSToken([NotNullWhen(true)] out Cookie? cookie)
     {
         bool hasMid = TryGetValue(MID, out string? mid);
         bool hasSToken = TryGetValue(STOKEN, out string? stoken);
@@ -200,7 +200,7 @@ internal sealed partial class Cookie
         return false;
     }
 
-    private bool TryGetAsLegacySToken([NotNullWhen(true)] out Cookie? cookie)
+    private bool TryGetLegacySToken([NotNullWhen(true)] out Cookie? cookie)
     {
         bool hasSToken = TryGetValue(STOKEN, out string? stoken);
         bool hasSTuid = TryGetValue(STUID, out string? stuid);

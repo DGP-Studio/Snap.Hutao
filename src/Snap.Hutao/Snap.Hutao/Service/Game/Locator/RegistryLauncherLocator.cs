@@ -15,17 +15,30 @@ namespace Snap.Hutao.Service.Game.Locator;
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
 internal sealed partial class RegistryLauncherLocator : IGameLocator
 {
+    private readonly ITaskContext taskContext;
+
+    /// <summary>
+    /// 构造一个新的注册表启动器位置定位器
+    /// </summary>
+    /// <param name="taskContext">任务上下文</param>
+    public RegistryLauncherLocator(ITaskContext taskContext)
+    {
+        this.taskContext = taskContext;
+    }
+
     /// <inheritdoc/>
     public string Name { get => nameof(RegistryLauncherLocator); }
 
     /// <inheritdoc/>
-    public Task<ValueResult<bool, string>> LocateGamePathAsync()
+    public async Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
+        await taskContext.SwitchToBackgroundAsync();
+
         ValueResult<bool, string> result = LocateInternal("DisplayIcon");
 
         if (result.IsOk == false)
         {
-            return Task.FromResult(result);
+            return result;
         }
         else
         {
@@ -43,11 +56,11 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
             if (escapedPath != null)
             {
                 string gamePath = Path.Combine(Unescape(escapedPath), GameConstants.YuanShenFileName);
-                return Task.FromResult<ValueResult<bool, string>>(new(true, gamePath));
+                return new(true, gamePath);
             }
         }
 
-        return Task.FromResult<ValueResult<bool, string>>(new(false, null!));
+        return new(false, string.Empty);
     }
 
     private static ValueResult<bool, string> LocateInternal(string key)
@@ -77,7 +90,8 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
         string? hex4Result = UTF16Regex().Replace(str, @"\u$1");
 
         // 不包含中文
-        if (!hex4Result.Contains(@"\u"))
+        // Some one's folder might begin with 'u'
+        if (!hex4Result.Contains(@"\u")) 
         {
             // fix path with \
             hex4Result = hex4Result.Replace(@"\", @"\\");

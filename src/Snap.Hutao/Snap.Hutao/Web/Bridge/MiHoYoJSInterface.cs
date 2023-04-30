@@ -39,6 +39,7 @@ internal class MiHoYoJSInterface
 
     private readonly CoreWebView2 webView;
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSInterface> logger;
     private readonly SemaphoreSlim webMessageSemaphore = new(1);
 
@@ -50,6 +51,7 @@ internal class MiHoYoJSInterface
     public MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
     {
         this.webView = webView;
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         this.serviceProvider = serviceProvider;
 
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
@@ -87,8 +89,8 @@ internal class MiHoYoJSInterface
             Data = new Dictionary<string, string>()
             {
                 { "x-rpc-client_type", "5" },
-                { "x-rpc-device_id",  Core.CoreEnvironment.HoyolabDeviceId },
-                { "x-rpc-app_version", Core.CoreEnvironment.HoyolabXrpcVersion },
+                { "x-rpc-device_id",  Core.HoyolabOptions.DeviceId },
+                { "x-rpc-app_version", Core.HoyolabOptions.XrpcVersion },
             },
         };
     }
@@ -120,7 +122,7 @@ internal class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
-        string salt = Core.CoreEnvironment.DynamicSecretSalts[SaltType.LK2];
+        string salt = Core.HoyolabOptions.Salts[SaltType.LK2];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         string r = GetRandomString();
         string check = Core.Convert.ToMd5HexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
@@ -151,7 +153,7 @@ internal class MiHoYoJSInterface
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
         // TODO: Salt X4 for hoyolab user
-        string salt = Core.CoreEnvironment.DynamicSecretSalts[SaltType.X4];
+        string salt = Core.HoyolabOptions.Salts[SaltType.X4];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int r = GetRandom();
         string b = param.Payload.Body;
@@ -204,7 +206,7 @@ internal class MiHoYoJSInterface
             await userService.RefreshCookieTokenAsync(user).ConfigureAwait(false);
         }
 
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         webView.SetCookie(user.CookieToken, user.LToken);
         return new() { Data = new() { [Cookie.COOKIE_TOKEN] = user.CookieToken![Cookie.COOKIE_TOKEN] } };
     }
@@ -216,7 +218,7 @@ internal class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual async Task<IJsResult?> ClosePageAsync(JsParam param)
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         if (webView.CanGoBack)
         {
             webView.GoBack();
@@ -251,7 +253,7 @@ internal class MiHoYoJSInterface
 
     public virtual async Task<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         webView.Navigate(param.Payload.Page);
         return null;
     }
@@ -340,7 +342,7 @@ internal class MiHoYoJSInterface
 
         logger?.LogInformation("[ExecuteScript: {callback}]\n{payload}", callback, payload);
 
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         try
         {
             return await webView.ExecuteScriptAsync(js);

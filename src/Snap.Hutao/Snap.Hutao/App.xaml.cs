@@ -21,19 +21,23 @@ namespace Snap.Hutao;
 [SuppressMessage("", "SH001")]
 public sealed partial class App : Application
 {
+    private const string AppInstanceKey = "main";
     private readonly ILogger<App> logger;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// Initializes the singleton application object.
     /// </summary>
-    /// <param name="logger">日志器</param>
-    public App(ILogger<App> logger)
+    /// <param name="serviceProvider">服务提供器</param>
+    public App(IServiceProvider serviceProvider)
     {
-        // load app resource
+        // Load app resource
         InitializeComponent();
-        this.logger = logger;
 
-        _ = new ExceptionRecorder(this, logger);
+        logger = serviceProvider.GetRequiredService<ILogger<App>>();
+        serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
+
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
@@ -42,7 +46,7 @@ public sealed partial class App : Application
         try
         {
             AppActivationArguments activatedEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
-            AppInstance firstInstance = AppInstance.FindOrRegisterForKey("main");
+            AppInstance firstInstance = AppInstance.FindOrRegisterForKey(AppInstanceKey);
 
             if (firstInstance.IsCurrent)
             {
@@ -51,10 +55,8 @@ public sealed partial class App : Application
                 firstInstance.Activated += Activation.Activate;
                 ToastNotificationManagerCompat.OnActivated += Activation.NotificationActivate;
 
-                logger.LogInformation("Snap Hutao | {name} : {version}", CoreEnvironment.FamilyName, CoreEnvironment.Version);
-                logger.LogInformation("Cache folder : {folder}", ApplicationData.Current.LocalCacheFolder.Path);
-
-                JumpListHelper.ConfigureAsync().SafeForget(logger);
+                LogDiagnosticInformation();
+                PostLaunchAsync().SafeForget(logger);
             }
             else
             {
@@ -68,5 +70,19 @@ public sealed partial class App : Application
             // AppInstance.GetCurrent() calls failed
             Process.GetCurrentProcess().Kill();
         }
+    }
+
+    private static async Task PostLaunchAsync()
+    {
+        await JumpListHelper.ConfigureAsync().ConfigureAwait(false);
+    }
+
+    private void LogDiagnosticInformation()
+    {
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+
+        logger.LogInformation("Snap Hutao FamilyName: {name}", hutaoOptions.FamilyName);
+        logger.LogInformation("Snap Hutao Version: {version}", hutaoOptions.Version);
+        logger.LogInformation("Snap Hutao LocalCache: {folder}", hutaoOptions.LocalCache);
     }
 }

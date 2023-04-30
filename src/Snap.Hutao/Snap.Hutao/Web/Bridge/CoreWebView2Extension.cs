@@ -15,29 +15,29 @@ internal static class CoreWebView2Extension
     /// <summary>
     /// 设置 移动端UA
     /// </summary>
-    /// <param name="webView">webview2</param>
+    /// <param name="webView">webView2</param>
     /// <returns>链式调用的WebView2</returns>
     public static CoreWebView2 SetMobileUserAgent(this CoreWebView2 webView)
     {
-        webView.Settings.UserAgent = Core.CoreEnvironment.HoyolabMobileUA;
+        webView.Settings.UserAgent = Core.HoyolabOptions.MobileUserAgent;
         return webView;
     }
 
     /// <summary>
     /// 设置 移动端OsUA
     /// </summary>
-    /// <param name="webView">webview2</param>
+    /// <param name="webView">webView2</param>
     /// <returns>链式调用的WebView2</returns>
     public static CoreWebView2 SetMobileOverseaUserAgent(this CoreWebView2 webView)
     {
-        webView.Settings.UserAgent = Core.CoreEnvironment.HoyolabOsMobileUA;
+        webView.Settings.UserAgent = Core.HoyolabOptions.MobileUserAgentOversea;
         return webView;
     }
 
     /// <summary>
     /// 设置WebView2的Cookie
     /// </summary>
-    /// <param name="webView">webview2</param>
+    /// <param name="webView">webView2</param>
     /// <param name="cookieToken">CookieToken</param>
     /// <param name="lToken">LToken</param>
     /// <param name="sToken">SToken</param>

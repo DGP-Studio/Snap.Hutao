@@ -47,8 +47,6 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
             // Copyright (c) DGP Studio. All rights reserved.
             // Licensed under the MIT license.
 
-            using Snap.Hutao.Core.ExpressionService;
-
             namespace Snap.Hutao.Model.Primitive.Converter;
 
             /// <summary>
@@ -57,19 +55,25 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
             /// <typeparam name="TWrapper">包装类型</typeparam>
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(IdentityGenerator)}}","1.0.0.0")]
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            internal sealed class IdentityConverter<TWrapper> : JsonConverter<TWrapper>
-                where TWrapper : struct
+            internal unsafe sealed class IdentityConverter<TWrapper> : JsonConverter<TWrapper>
+                where TWrapper : unmanaged
             {
                 /// <inheritdoc/>
                 public override TWrapper Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
                 {
-                    return CastTo<TWrapper>.From(reader.GetInt32());
+                    if (reader.TokenType == JsonTokenType.Number)
+                    {
+                        int value = reader.GetInt32();
+                        return *(TWrapper*)&value;
+                    }
+
+                    throw new JsonException();
                 }
 
                 /// <inheritdoc/>
                 public override void Write(Utf8JsonWriter writer, TWrapper value, JsonSerializerOptions options)
                 {
-                    writer.WriteNumberValue(CastTo<int>.From(value));
+                    writer.WriteNumberValue(*(int*)&value);
                 }
             }
             """;

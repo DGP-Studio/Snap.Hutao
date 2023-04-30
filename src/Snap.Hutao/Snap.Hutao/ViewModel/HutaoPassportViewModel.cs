@@ -18,6 +18,7 @@ namespace Snap.Hutao.ViewModel;
 internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly HomaPassportClient homaPassportClient;
 
     private string? userName;
@@ -30,6 +31,7 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public HutaoPassportViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         homaPassportClient = serviceProvider.GetRequiredService<HomaPassportClient>();
         this.serviceProvider = serviceProvider;
 
@@ -105,7 +107,7 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
             SaveUserNameAndPassword();
             serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
 
             await serviceProvider
@@ -134,7 +136,7 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
             SaveUserNameAndPassword();
             serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
 
             await serviceProvider
@@ -158,7 +160,7 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
             SaveUserNameAndPassword();
             serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
 
             await serviceProvider

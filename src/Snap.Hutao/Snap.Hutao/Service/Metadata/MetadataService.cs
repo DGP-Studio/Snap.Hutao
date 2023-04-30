@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
@@ -24,6 +25,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 {
     private const string MetaFileName = "Meta.json";
     private readonly string metadataFolderPath;
+
     private readonly IInfoBarService infoBarService;
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
@@ -41,26 +43,19 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     /// <summary>
     /// 构造一个新的元数据服务
     /// </summary>
-    /// <param name="infoBarService">信息条服务</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="httpClientFactory">http客户端工厂</param>
-    /// <param name="options">json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    /// <param name="memoryCache">内存缓存</param>
-    public MetadataService(
-        IInfoBarService infoBarService,
-        IHttpClientFactory httpClientFactory,
-        JsonSerializerOptions options,
-        ILogger<MetadataService> logger,
-        IMemoryCache memoryCache)
+    public MetadataService(IServiceProvider serviceProvider, IHttpClientFactory httpClientFactory)
     {
-        this.infoBarService = infoBarService;
-        this.options = options;
-        this.logger = logger;
-        this.memoryCache = memoryCache;
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
+        logger = serviceProvider.GetRequiredService<ILogger<MetadataService>>();
+        memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
         httpClient = httpClientFactory.CreateClient(nameof(MetadataService));
 
         locale = GetTextMapLocale();
-        metadataFolderPath = Path.Combine(Core.CoreEnvironment.DataFolder, "Metadata", locale);
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        metadataFolderPath = Path.Combine(hutaoOptions.DataFolder, "Metadata", locale);
         Directory.CreateDirectory(metadataFolderPath);
     }
 

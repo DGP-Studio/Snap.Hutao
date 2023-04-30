@@ -49,7 +49,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// 转换为基础物品
     /// </summary>
     /// <returns>基础物品</returns>
-    public Binding.Item ToItemBase()
+    public Model.Item ToItemBase()
     {
         return new()
         {

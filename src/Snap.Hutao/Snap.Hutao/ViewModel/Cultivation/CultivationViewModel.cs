@@ -21,6 +21,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 internal sealed class CultivationViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly ICultivationService cultivationService;
     private readonly IMetadataService metadataService;
     private readonly ILogger<CultivationViewModel> logger;
@@ -39,6 +40,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public CultivationViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         cultivationService = serviceProvider.GetRequiredService<ICultivationService>();
         metadataService = serviceProvider.GetRequiredService<IMetadataService>();
         logger = serviceProvider.GetRequiredService<ILogger<CultivationViewModel>>();
@@ -120,11 +122,15 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(true);
+        bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(false);
         if (metaInitialized)
         {
-            Projects = cultivationService.GetProjectCollection();
-            SelectedProject = cultivationService.Current;
+            ObservableCollection<CultivateProject> projects = cultivationService.ProjectCollection;
+            CultivateProject? selected = cultivationService.Current;
+
+            await taskContext.SwitchToMainThreadAsync();
+            Projects = projects;
+            SelectedProject = selected;
         }
 
         IsInitialized = metaInitialized;
@@ -133,8 +139,9 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     private async Task AddProjectAsync()
     {
         // ContentDialog must be created by main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-        (bool isOk, CultivateProject project) = await new CultivateProjectDialog().CreateProjectAsync().ConfigureAwait(false);
+        await taskContext.SwitchToMainThreadAsync();
+        CultivateProjectDialog dialog = serviceProvider.CreateInstance<CultivateProjectDialog>();
+        (bool isOk, CultivateProject project) = await dialog.CreateProjectAsync().ConfigureAwait(false);
 
         if (isOk)
         {
@@ -145,7 +152,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
             {
                 case ProjectAddResult.Added:
                     infoBarService.Success(SH.ViewModelCultivationProjectAdded);
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     SelectedProject = project;
                     break;
                 case ProjectAddResult.InvalidName:
@@ -166,7 +173,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         {
             await cultivationService.RemoveProjectAsync(project).ConfigureAwait(false);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             SelectedProject = Projects!.FirstOrDefault();
         }
     }
@@ -181,7 +188,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
                 .GetCultivateEntriesAsync(project)
                 .ConfigureAwait(false);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             CultivateEntries = entries;
             InventoryItems = cultivationService.GetInventoryItems(project, materials, SaveInventoryItemCommand);
 
@@ -222,8 +229,8 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     {
         if (SelectedProject != null)
         {
-            await ThreadHelper.SwitchToBackgroundAsync();
-            CancellationToken token = statisticsCancellationTokenSource.Register();
+            await taskContext.SwitchToBackgroundAsync();
+            CancellationToken token = statisticsCancellationTokenSource.CancelPreviousOne();
             ObservableCollection<StatisticsCultivateItem> statistics;
             try
             {
@@ -234,7 +241,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
                 return;
             }
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             StatisticsItems = statistics;
         }
     }

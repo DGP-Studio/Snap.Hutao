@@ -25,39 +25,36 @@ namespace Snap.Hutao.Service.DailyNote;
 [Injection(InjectAs.Singleton, typeof(IDailyNoteService))]
 internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
 {
-    private readonly IServiceScopeFactory scopeFactory;
+    private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
+    private readonly ITaskContext taskContext;
     private ObservableCollection<DailyNoteEntry>? entries;
 
     /// <summary>
     /// 构造一个新的实时便笺服务
     /// </summary>
-    /// <param name="scopeFactory">范围工厂</param>
-    /// <param name="userService">用户服务</param>
-    /// <param name="messenger">消息器</param>
-    public DailyNoteService(IServiceScopeFactory scopeFactory, IUserService userService, IMessenger messenger)
+    /// <param name="serviceProvider">服务提供器</param>
+    public DailyNoteService(IServiceProvider serviceProvider)
     {
-        this.scopeFactory = scopeFactory;
-        this.userService = userService;
+        userService = serviceProvider.GetRequiredService<IUserService>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        this.serviceProvider = serviceProvider;
 
-        messenger.Register(this);
+        serviceProvider.GetRequiredService<IMessenger>().Register(this);
     }
 
     /// <inheritdoc/>
     public void Receive(UserRemovedMessage message)
     {
-        ThreadHelper.InvokeOnMainThread(() =>
-        {
-            // Database items have been deleted by cascade deleting.
-            entries?.RemoveWhere(n => n.UserId == message.RemovedUserId);
-        });
+        // Database items have been deleted by cascade deleting.
+        taskContext.InvokeOnMainThread(() => entries?.RemoveWhere(n => n.UserId == message.RemovedUserId));
     }
 
     /// <inheritdoc/>
     public async Task AddDailyNoteAsync(UserAndUid role)
     {
         string roleUid = role.Uid.Value;
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
@@ -72,13 +69,13 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
 
                 if (dailyNoteResponse.IsOk())
                 {
-                    newEntry.DailyNote = dailyNoteResponse.Data;
+                    newEntry.UpdateDailyNote(dailyNoteResponse.Data);
                 }
 
                 newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
                 await appDbContext.DailyNotes.AddAndSaveAsync(newEntry).ConfigureAwait(false);
 
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 entries?.Add(newEntry);
             }
         }
@@ -89,12 +86,12 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
     {
         if (entries == null)
         {
-            await RefreshDailyNotesAsync(false).ConfigureAwait(false);
+            await RefreshDailyNotesAsync().ConfigureAwait(false);
 
-            using (IServiceScope scope = scopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                List<DailyNoteEntry> entryList = appDbContext.DailyNotes.AsNoTracking().ToList();
+                List<DailyNoteEntry> entryList = appDbContext.DailyNotes.ToList();
                 entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
                 entries = new(entryList);
             }
@@ -104,20 +101,11 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
     }
 
     /// <inheritdoc/>
-    public async ValueTask RefreshDailyNotesAsync(bool notify)
+    public async ValueTask RefreshDailyNotesAsync()
     {
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            DailyNoteOptions options = scope.ServiceProvider.GetRequiredService<DailyNoteOptions>();
-
-            bool isGameRunning = scope.ServiceProvider.GetRequiredService<IGameService>().IsGameRunning();
-
-            if (options.IsSilentWhenPlayingGame && isGameRunning)
-            {
-                // Prevent notify when we are in game && silent mode.
-                notify = false;
-            }
 
             foreach (DailyNoteEntry entry in appDbContext.DailyNotes.Include(n => n.User))
             {
@@ -126,22 +114,18 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
                     .GetDailyNoteAsync(new(entry.User, entry.Uid))
                     .ConfigureAwait(false);
 
-                if (dailyNoteResponse.ReturnCode == 0)
+                if (dailyNoteResponse.IsOk())
                 {
                     WebDailyNote dailyNote = dailyNoteResponse.Data!;
 
                     // database
-                    entry.DailyNote = dailyNote;
+                    entry.UpdateDailyNote(dailyNote);
 
                     // cache
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
 
-                    if (notify)
-                    {
-                        await new DailyNoteNotifier(scopeFactory, entry).NotifyAsync().ConfigureAwait(false);
-                    }
-
+                    await new DailyNoteNotifier(serviceProvider, entry).NotifyAsync().ConfigureAwait(false);
                     await appDbContext.DailyNotes.UpdateAndSaveAsync(entry).ConfigureAwait(false);
                 }
                 else
@@ -165,9 +149,11 @@ internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemov
     /// <inheritdoc/>
     public async Task RemoveDailyNoteAsync(DailyNoteEntry entry)
     {
+        await taskContext.SwitchToMainThreadAsync();
         entries!.Remove(entry);
 
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await appDbContext.DailyNotes.ExecuteDeleteWhereAsync(d => d.InnerId == entry.InnerId).ConfigureAwait(false);

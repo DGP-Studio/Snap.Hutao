@@ -11,14 +11,18 @@ namespace Snap.Hutao.View.Dialog;
 [HighQuality]
 internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
 {
+    private readonly ITaskContext taskContext;
+
     /// <summary>
     /// 构造一个新的成就存档创建对话框
     /// </summary>
-    /// <param name="window">窗体</param>
-    public AchievementArchiveCreateDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public AchievementArchiveCreateDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
     }
 
     /// <summary>
@@ -27,7 +31,7 @@ internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
     /// <returns>输入的结果</returns>
     public async Task<ValueResult<bool, string>> GetInputAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         string text = InputText.Text ?? string.Empty;
 

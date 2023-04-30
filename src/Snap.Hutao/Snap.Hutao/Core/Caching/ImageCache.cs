@@ -36,6 +36,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 
     private readonly ILogger logger;
     private readonly HttpClient httpClient;
+    private readonly IServiceProvider serviceProvider;
 
     private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
 
@@ -45,12 +46,15 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// <summary>
     /// Initializes a new instance of the <see cref="ImageCache"/> class.
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="logger">日志器</param>
     /// <param name="httpClientFactory">http客户端工厂</param>
-    public ImageCache(ILogger<ImageCache> logger, IHttpClientFactory httpClientFactory)
+    public ImageCache(IServiceProvider serviceProvider)
     {
-        this.logger = logger;
-        httpClient = httpClientFactory.CreateClient(nameof(ImageCache));
+        logger = serviceProvider.GetRequiredService<ILogger<ImageCache>>();
+        httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient(nameof(ImageCache));
+
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
@@ -73,9 +77,15 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     }
 
     /// <inheritdoc/>
-    public void Remove(IEnumerable<Uri> uriForCachedItems)
+    public void Remove(Uri uriForCachedItem)
     {
-        if (uriForCachedItems == null || !uriForCachedItems.Any())
+        Remove(new ReadOnlySpan<Uri>(uriForCachedItem));
+    }
+
+    /// <inheritdoc/>
+    public void Remove(in ReadOnlySpan<Uri> uriForCachedItems)
+    {
+        if (uriForCachedItems == null || uriForCachedItems.Length <= 0)
         {
             return;
         }
@@ -131,22 +141,8 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// <inheritdoc/>
     public string GetFilePathFromCategoryAndFileName(string category, string fileName)
     {
-        Uri dummyUri = new(Web.HutaoEndpoints.StaticFile(category, fileName));
+        Uri dummyUri = Web.HutaoEndpoints.StaticFile(category, fileName).ToUri();
         return Path.Combine(GetCacheFolder(), GetCacheFileName(dummyUri));
-    }
-
-    private static void RemoveInternal(IEnumerable<string> filePaths)
-    {
-        foreach (string filePath in filePaths)
-        {
-            try
-            {
-                File.Delete(filePath);
-            }
-            catch
-            {
-            }
-        }
     }
 
     private static string GetCacheFileName(Uri uri)
@@ -164,9 +160,23 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
             return treatNullFileAsInvalid;
         }
 
-        // Get extended properties.
         FileInfo fileInfo = new(file);
         return fileInfo.Length == 0;
+    }
+
+    private void RemoveInternal(IEnumerable<string> filePaths)
+    {
+        foreach (string filePath in filePaths)
+        {
+            try
+            {
+                File.Delete(filePath);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Remove Cache Image Failed:{file}", filePath);
+            }
+        }
     }
 
     private async Task DownloadFileAsync(Uri uri, string baseFile)
@@ -218,7 +228,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     {
         if (cacheFolder == null)
         {
-            baseFolder ??= ApplicationData.Current.LocalCacheFolder.Path;
+            baseFolder ??= serviceProvider.GetRequiredService<HutaoOptions>().LocalCache;
             DirectoryInfo info = Directory.CreateDirectory(Path.Combine(baseFolder, CacheFolderName));
             cacheFolder = info.FullName;
         }

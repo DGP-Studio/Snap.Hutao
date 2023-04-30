@@ -18,10 +18,10 @@ internal sealed class AvatarConstellationInfoView : AvatarView
     /// <param name="avatar">角色</param>
     /// <param name="rate">持有率</param>
     /// <param name="rates">命座比率</param>
-    public AvatarConstellationInfoView(Avatar avatar, double rate, IEnumerable<double> rates)
+    public AvatarConstellationInfoView(Avatar avatar, double rate, List<double> rates)
         : base(avatar, rate)
     {
-        Rates = rates.Select(r => $"{r:P3}").ToList();
+        Rates = rates.SelectList(r => $"{r:P3}");
     }
 
     /// <summary>

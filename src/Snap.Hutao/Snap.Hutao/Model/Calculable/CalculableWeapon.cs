@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Calculable;
 
@@ -25,7 +26,7 @@ internal class CalculableWeapon : ObservableObject, ICalculableWeapon
     {
         WeaponId = weapon.Id;
         LevelMin = 1;
-        LevelMax = (int)weapon.Quality >= 3 ? 90 : 70;
+        LevelMax = weapon.MaxLevel;
         Name = weapon.Name;
         Icon = EquipIconConverter.IconNameToUri(weapon.Icon);
         Quality = weapon.RankLevel;
@@ -38,11 +39,11 @@ internal class CalculableWeapon : ObservableObject, ICalculableWeapon
     /// 构造一个新的可计算武器
     /// </summary>
     /// <param name="weapon">武器</param>
-    public CalculableWeapon(Binding.AvatarProperty.WeaponView weapon)
+    public CalculableWeapon(WeaponView weapon)
     {
         WeaponId = weapon.Id;
         LevelMin = weapon.LevelNumber;
-        LevelMax = (int)weapon.Quality >= 3 ? 90 : 70;
+        LevelMax = weapon.MaxLevel;
         Name = weapon.Name;
         Icon = weapon.Icon;
         Quality = weapon.Quality;

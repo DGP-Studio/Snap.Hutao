@@ -24,8 +24,10 @@ namespace Snap.Hutao.ViewModel.User;
 internal sealed class UserViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
+    private readonly Core.HutaoOptions hutaoOptions;
 
     private User? selectedUser;
     private ObservableCollection<User>? users;
@@ -38,6 +40,8 @@ internal sealed class UserViewModel : ObservableObject
     /// <param name="infoBarService">信息条服务</param>
     public UserViewModel(IServiceProvider serviceProvider)
     {
+        hutaoOptions = serviceProvider.GetRequiredService<Core.HutaoOptions>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         userService = serviceProvider.GetRequiredService<IUserService>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         this.serviceProvider = serviceProvider;
@@ -130,7 +134,7 @@ internal sealed class UserViewModel : ObservableObject
             case UserOptionResult.Added:
                 if (Users!.Count == 1)
                 {
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     SelectedUser = Users.Single();
                 }
 
@@ -176,10 +180,11 @@ internal sealed class UserViewModel : ObservableObject
     private async Task AddUserCoreAsync(bool isOversea)
     {
         // ContentDialog must be created by main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
 
         // Get cookie from user input
-        ValueResult<bool, string> result = await new UserDialog().GetInputCookieAsync().ConfigureAwait(false);
+        UserDialog dialog = serviceProvider.CreateInstance<UserDialog>();
+        ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
 
         // User confirms the input
         if (result.IsOk)
@@ -194,9 +199,11 @@ internal sealed class UserViewModel : ObservableObject
 
     private void LoginMihoyoUser()
     {
-        if (Core.WebView2Helper.IsSupported)
+        if (hutaoOptions.IsWebView2Supported)
         {
-            serviceProvider.GetRequiredService<INavigationService>().Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+            serviceProvider
+                .GetRequiredService<INavigationService>()
+                .Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
         }
         else
         {
@@ -209,9 +216,11 @@ internal sealed class UserViewModel : ObservableObject
     /// </summary>
     private void LoginHoyoverseUser()
     {
-        if (Core.WebView2Helper.IsSupported)
+        if (hutaoOptions.IsWebView2Supported)
         {
-            serviceProvider.GetRequiredService<INavigationService>().Navigate<LoginHoyoverseUserPage>(INavigationAwaiter.Default);
+            serviceProvider
+                .GetRequiredService<INavigationService>()
+                .Navigate<LoginHoyoverseUserPage>(INavigationAwaiter.Default);
         }
         else
         {

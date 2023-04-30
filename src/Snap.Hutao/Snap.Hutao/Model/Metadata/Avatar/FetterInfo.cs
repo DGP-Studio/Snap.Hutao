@@ -62,6 +62,29 @@ internal sealed class FetterInfo
     public string ConstellationBefore { get; set; } = default!;
 
     /// <summary>
+    /// 命座-后
+    /// </summary>
+    public string ConstellationAfter { get; set; } = default!;
+
+    /// <summary>
+    /// 命座
+    /// </summary>
+    public string Constellation
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(ConstellationAfter))
+            {
+                return ConstellationBefore;
+            }
+            else
+            {
+                return ConstellationAfter;
+            }
+        }
+    }
+
+    /// <summary>
     /// 中文CV
     /// </summary>
     public string CvChinese { get; set; } = default!;

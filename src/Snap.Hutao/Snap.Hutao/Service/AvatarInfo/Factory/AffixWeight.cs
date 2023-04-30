@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// 词条权重
 /// </summary>
 [HighQuality]
-internal sealed class AffixWeight : Dictionary<FightProperty, double>
+internal sealed class AffixWeight : Dictionary<FightProperty, float>
 {
     /// <summary>
     /// 构造一个新的词条权重
@@ -27,14 +27,14 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// <param name="name">名称</param>
     public AffixWeight(
         int avatarId,
-        double hp,
-        double atk,
-        double def,
-        double crit,
-        double critHurt,
-        double mastery,
-        double charge,
-        double heal,
+        float hp,
+        float atk,
+        float def,
+        float crit,
+        float critHurt,
+        float mastery,
+        float charge,
+        float heal,
         string name = "通用")
     {
         AvatarId = avatarId;
@@ -65,7 +65,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Anemo(double value = 100)
+    public AffixWeight Anemo(float value = 100)
     {
         this[FightProperty.FIGHT_PROP_WIND_ADD_HURT] = value;
         return this;
@@ -76,7 +76,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Cryo(double value = 100)
+    public AffixWeight Cryo(float value = 100)
     {
         this[FightProperty.FIGHT_PROP_ICE_ADD_HURT] = value;
         return this;
@@ -87,7 +87,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Dendro(double value = 100)
+    public AffixWeight Dendro(float value = 100)
     {
         this[FightProperty.FIGHT_PROP_GRASS_ADD_HURT] = value;
         return this;
@@ -98,7 +98,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Electro(double value = 100)
+    public AffixWeight Electro(float value = 100)
     {
         this[FightProperty.FIGHT_PROP_ELEC_ADD_HURT] = value;
         return this;
@@ -109,7 +109,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Geo(double value = 100)
+    public AffixWeight Geo(float value = 100)
     {
         this[FightProperty.FIGHT_PROP_ROCK_ADD_HURT] = value;
         return this;
@@ -120,7 +120,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Hydro(double value = 100)
+    public AffixWeight Hydro(float value = 100)
     {
         this[FightProperty.FIGHT_PROP_WATER_ADD_HURT] = value;
         return this;
@@ -131,7 +131,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Pyro(double value = 100)
+    public AffixWeight Pyro(float value = 100)
     {
         this[FightProperty.FIGHT_PROP_FIRE_ADD_HURT] = value;
         return this;
@@ -142,7 +142,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, double>
     /// </summary>
     /// <param name="value">值</param>
     /// <returns>链式调用对象</returns>
-    public AffixWeight Physical(double value = 100)
+    public AffixWeight Physical(float value = 100)
     {
         this[FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT] = value;
         return this;

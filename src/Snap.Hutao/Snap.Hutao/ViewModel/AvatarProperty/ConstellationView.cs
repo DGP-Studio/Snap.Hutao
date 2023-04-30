@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.AvatarProperty;
+namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 命座信息

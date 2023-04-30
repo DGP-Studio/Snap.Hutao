@@ -1,9 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.ViewModel.AvatarProperty;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
@@ -43,7 +43,7 @@ internal sealed class SummaryFactory : ISummaryFactory
         {
             Avatars = avatarInfos
                 .Where(a => !AvatarIds.IsPlayer(a.AvatarId))
-                .Select(a => new SummaryAvatarFactory(metadataContext, a).CreateAvatar())
+                .Select(a => new SummaryAvatarFactory(metadataContext, a).Create())
                 .OrderByDescending(a => (int)a.Quality)
                 .ThenByDescending(a => a.ActivatedConstellationCount)
                 .ToList(),

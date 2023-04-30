@@ -14,40 +14,47 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Scoped, typeof(IGachaLogImportService))]
 internal sealed class GachaLogImportService : IGachaLogImportService
 {
-    private readonly AppDbContext appDbContext;
+    private readonly ITaskContext taskContext;
     private readonly ILogger<GachaLogImportService> logger;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的祈愿记录导入服务
     /// </summary>
-    /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="logger">日志器</param>
-    public GachaLogImportService(AppDbContext appDbContext, ILogger<GachaLogImportService> logger)
+    /// <param name="serviceProvider">服务提供器</param>
+    public GachaLogImportService(IServiceProvider serviceProvider)
     {
-        this.appDbContext = appDbContext;
-        this.logger = logger;
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        logger = serviceProvider.GetRequiredService<ILogger<GachaLogImportService>>();
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
     public async Task<GachaArchive> ImportFromUIGFAsync(GachaLogServiceContext context, List<UIGFItem> list, string uid)
     {
-        GachaArchive.Init(out GachaArchive? archive, uid, appDbContext.GachaArchives, context.ArchiveCollection);
-        await ThreadHelper.SwitchToBackgroundAsync();
-        Guid archiveId = archive.InnerId;
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        long trimId = appDbContext.GachaItems
-            .Where(i => i.ArchiveId == archiveId)
-            .OrderBy(i => i.Id)
-            .FirstOrDefault()?.Id ?? long.MaxValue;
+            GachaArchiveInitializationContext initContext = new(taskContext, uid, appDbContext.GachaArchives, context.ArchiveCollection);
+            GachaArchive.Init(initContext, out GachaArchive? archive);
+            Guid archiveId = archive.InnerId;
 
-        logger.LogInformation("Last Id to trim with [{id}]", trimId);
+            long trimId = appDbContext.GachaItems
+                .Where(i => i.ArchiveId == archiveId)
+                .OrderBy(i => i.Id)
+                .FirstOrDefault()?.Id ?? long.MaxValue;
 
-        IEnumerable<GachaItem> toAdd = list
-            .OrderByDescending(i => i.Id)
-            .Where(i => i.Id < trimId)
-            .Select(i => GachaItem.Create(archiveId, i, context.GetItemId(i)));
+            logger.LogInformation("Last Id to trim with: [{id}]", trimId);
 
-        await appDbContext.GachaItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
-        return archive;
+            IEnumerable<GachaItem> toAdd = list
+                .OrderByDescending(i => i.Id)
+                .Where(i => i.Id < trimId)
+                .Select(i => GachaItem.Create(archiveId, i, context.GetItemId(i)));
+
+            await appDbContext.GachaItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
+            return archive;
+        }
     }
 }

@@ -69,7 +69,7 @@
                     TextWrapping="Wrap"/>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingAboutHeader}"/>
                 <clw:SettingsCard
-                    Description="{Binding AppVersion}"
+                    Description="{Binding HutaoOptions.Version}"
                     Header="{shcm:ResourceString Name=AppName}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
                 <clw:SettingsCard
@@ -82,12 +82,12 @@
                     ActionIcon="{shcm:FontIcon Glyph=&#xE8C8;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCopyDeviceIdAction}"
                     Command="{Binding CopyDeviceIdCommand}"
-                    Description="{Binding DeviceId}"
+                    Description="{Binding HutaoOptions.DeviceId}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDeviceIdHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE975;}"
                     IsClickEnabled="True"/>
                 <clw:SettingsCard
-                    Description="{Binding WebView2Version}"
+                    Description="{Binding HutaoOptions.WebView2Version}"
                     Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
 

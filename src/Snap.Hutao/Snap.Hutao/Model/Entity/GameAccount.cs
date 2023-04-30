@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Entity.Primitive;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,11 +13,8 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("game_accounts")]
-internal sealed class GameAccount : INotifyPropertyChanged
+internal sealed class GameAccount : ObservableObject
 {
-    /// <inheritdoc/>
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     /// <summary>
     /// 内部Id
     /// </summary>
@@ -66,7 +64,7 @@ internal sealed class GameAccount : INotifyPropertyChanged
     public void UpdateAttachUid(string? uid)
     {
         AttachUid = uid;
-        PropertyChanged?.Invoke(this, new(nameof(AttachUid)));
+        OnPropertyChanged(nameof(AttachUid));
     }
 
     /// <summary>
@@ -76,6 +74,6 @@ internal sealed class GameAccount : INotifyPropertyChanged
     public void UpdateName(string name)
     {
         Name = name;
-        PropertyChanged?.Invoke(this, new(nameof(Name)));
+        OnPropertyChanged($"{nameof(Name)}");
     }
 }

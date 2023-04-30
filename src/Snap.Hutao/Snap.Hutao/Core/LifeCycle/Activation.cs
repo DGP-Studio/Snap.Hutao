@@ -22,6 +22,8 @@ namespace Snap.Hutao.Core.LifeCycle;
 [HighQuality]
 internal static class Activation
 {
+    // TODO: make this class a dependency
+
     /// <summary>
     /// 操作
     /// </summary>
@@ -40,12 +42,14 @@ internal static class Activation
     /// <summary>
     /// 从剪贴板导入成就
     /// </summary>
-    public const string ImportUIAFFromClipBoard = nameof(ImportUIAFFromClipBoard);
+    public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
 
     private const string CategoryAchievement = "achievement";
     private const string CategoryDailyNote = "dailynote";
     private const string UrlActionImport = "/import";
     private const string UrlActionRefresh = "/refresh";
+
+    private static readonly WeakReference<MainWindow> MainWindowReference = new(default!);
     private static readonly SemaphoreSlim ActivateSemaphore = new(1);
 
     /// <summary>
@@ -72,7 +76,7 @@ internal static class Activation
     /// <returns>任务</returns>
     public static async ValueTask RestartAsElevatedAsync()
     {
-        if (GetElevated())
+        if (!GetElevated())
         {
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
             Process.GetCurrentProcess().Kill();
@@ -182,12 +186,16 @@ internal static class Activation
 
     private static async Task WaitMainWindowAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
         IServiceProvider serviceProvider = Ioc.Default;
+        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        await taskContext.SwitchToMainThreadAsync();
 
-        serviceProvider.GetRequiredService<MainWindow>().Activate();
+        MainWindowReference.SetTarget(serviceProvider.GetRequiredService<MainWindow>());
 
-        await serviceProvider.GetRequiredService<IInfoBarService>().WaitInitializationAsync().ConfigureAwait(false);
+        await serviceProvider
+            .GetRequiredService<IInfoBarService>()
+            .WaitInitializationAsync()
+            .ConfigureAwait(false);
 
         serviceProvider
             .GetRequiredService<IMetadataService>()
@@ -241,9 +249,10 @@ internal static class Activation
         {
             case UrlActionImport:
                 {
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
+                    await taskContext.SwitchToMainThreadAsync();
 
-                    INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipBoard);
+                    INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipboard);
                     await Ioc.Default
                         .GetRequiredService<INavigationService>()
                         .NavigateAsync<View.Page.AchievementPage>(navigationAwaiter, true)
@@ -262,7 +271,7 @@ internal static class Activation
                 {
                     await Ioc.Default
                         .GetRequiredService<IDailyNoteService>()
-                        .RefreshDailyNotesAsync(true)
+                        .RefreshDailyNotesAsync()
                         .ConfigureAwait(false);
 
                     // Check if it's redirected.
@@ -279,16 +288,19 @@ internal static class Activation
 
     private static async Task HandleLaunchGameActionAsync(string? uid = null)
     {
-        Ioc.Default.GetRequiredService<IMemoryCache>().Set(ViewModel.Game.LaunchGameViewModel.DesiredUid, uid);
-        await ThreadHelper.SwitchToMainThreadAsync();
+        IServiceProvider serviceProvider = Ioc.Default;
+        IMemoryCache memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+        memoryCache.Set(ViewModel.Game.LaunchGameViewModel.DesiredUid, uid);
+        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        await taskContext.SwitchToMainThreadAsync();
 
-        if (!MainWindow.IsPresent)
+        if (!MainWindowReference.TryGetTarget(out _))
         {
-            _ = Ioc.Default.GetRequiredService<LaunchGameWindow>();
+            _ = serviceProvider.GetRequiredService<LaunchGameWindow>();
         }
         else
         {
-            await Ioc.Default
+            await serviceProvider
                 .GetRequiredService<INavigationService>()
                 .NavigateAsync<View.Page.LaunchGamePage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);

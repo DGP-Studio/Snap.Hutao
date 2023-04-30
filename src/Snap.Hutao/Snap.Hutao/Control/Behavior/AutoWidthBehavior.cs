@@ -12,8 +12,8 @@ namespace Snap.Hutao.Control.Behavior;
 [HighQuality]
 internal sealed class AutoWidthBehavior : BehaviorBase<FrameworkElement>
 {
-    private static readonly DependencyProperty TargetWidthProperty = Property<AutoWidthBehavior>.Depend(nameof(TargetWidth), 320D);
-    private static readonly DependencyProperty TargetHeightProperty = Property<AutoWidthBehavior>.Depend(nameof(TargetHeight), 1024D);
+    private static readonly DependencyProperty TargetWidthProperty = Property<AutoWidthBehavior>.DependBoxed<double>(nameof(TargetWidth), BoxedValues.DoubleOne);
+    private static readonly DependencyProperty TargetHeightProperty = Property<AutoWidthBehavior>.DependBoxed<double>(nameof(TargetHeight), BoxedValues.DoubleOne);
 
     /// <summary>
     /// 目标宽度

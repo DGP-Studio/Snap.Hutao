@@ -16,18 +16,21 @@ namespace Snap.Hutao.View.Dialog;
 [HighQuality]
 internal sealed partial class CommunityGameRecordDialog : ContentDialog
 {
+    private readonly ITaskContext taskContext;
     private readonly IServiceScope scope;
     private MiHoYoJSInterface? jsInterface;
 
     /// <summary>
     /// 构造一个新的社区游戏记录对话框
     /// </summary>
-    /// <param name="window">窗体</param>
-    public CommunityGameRecordDialog()
+    /// <param name="serviceProvider">服务提供器</param>
+    public CommunityGameRecordDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
-        scope = Ioc.Default.CreateScope();
-        XamlRoot = scope.ServiceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        scope = serviceProvider.CreateScope();
     }
 
     private void OnGridLoaded(object sender, RoutedEventArgs e)
@@ -55,7 +58,7 @@ internal sealed partial class CommunityGameRecordDialog : ContentDialog
 
     private void OnClosePageRequested()
     {
-        ThreadHelper.InvokeOnMainThread(Hide);
+        taskContext.InvokeOnMainThread(Hide);
     }
 
     private void OnContentDialogClosed(ContentDialog sender, ContentDialogClosedEventArgs args)

@@ -24,6 +24,7 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 internal sealed class DailyNoteViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly IDailyNoteService dailyNoteService;
     private readonly AppDbContext appDbContext;
@@ -37,6 +38,7 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public DailyNoteViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         userService = serviceProvider.GetRequiredService<IUserService>();
         dailyNoteService = serviceProvider.GetRequiredService<IDailyNoteService>();
         appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
@@ -95,11 +97,11 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
     {
         try
         {
-            await ThreadHelper.SwitchToBackgroundAsync();
+            await taskContext.SwitchToBackgroundAsync();
             ObservableCollection<UserAndUid> roles = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
             ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             UserAndUids = roles;
             DailyNoteEntries = entries;
         }
@@ -120,7 +122,7 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
 
     private async Task RefreshAsync()
     {
-        await dailyNoteService.RefreshDailyNotesAsync(false).ConfigureAwait(false);
+        await dailyNoteService.RefreshDailyNotesAsync().ConfigureAwait(false);
     }
 
     private async Task RemoveDailyNoteAsync(DailyNoteEntry? entry)
@@ -138,8 +140,9 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
             using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
                 // ContentDialog must be created by main thread.
-                await ThreadHelper.SwitchToMainThreadAsync();
-                await new DailyNoteNotificationDialog(entry).ShowAsync();
+                await taskContext.SwitchToMainThreadAsync();
+                DailyNoteNotificationDialog dialog = serviceProvider.CreateInstance<DailyNoteNotificationDialog>(entry);
+                await dialog.ShowAsync();
                 appDbContext.DailyNotes.UpdateAndSave(entry);
             }
         }
@@ -147,23 +150,26 @@ internal sealed class DailyNoteViewModel : Abstraction.ViewModel
 
     private async Task VerifyDailyNoteVerificationAsync()
     {
+        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
             // TODO: Add verify support for oversea user
             if (userAndUid.User.IsOversea)
             {
-                serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.ViewModelDailyNoteHoyolabVerificationUnsupported);
+                infoBarService.Warning(SH.ViewModelDailyNoteHoyolabVerificationUnsupported);
             }
             else
             {
                 // ContentDialog must be created by main thread.
-                await ThreadHelper.SwitchToMainThreadAsync();
-                await new DailyNoteVerificationDialog(userAndUid).ShowAsync();
+                await taskContext.SwitchToMainThreadAsync();
+                DailyNoteVerificationDialog dialog = serviceProvider.CreateInstance<DailyNoteVerificationDialog>(userAndUid);
+                await dialog.ShowAsync();
             }
         }
         else
         {
-            serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
+            infoBarService.Warning(SH.MustSelectUserAndUid);
         }
     }
 }

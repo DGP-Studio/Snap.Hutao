@@ -22,44 +22,45 @@ internal static class Persistence
     /// <summary>
     /// 设置窗体位置
     /// </summary>
-    /// <param name="options">选项</param>
+    /// <param name="window">选项窗口param>
     /// <typeparam name="TWindow">窗体类型</typeparam>
-    public static void RecoverOrInit<TWindow>(in WindowOptions<TWindow> options)
-        where TWindow : Window, IExtendedWindowSource
+    public static void RecoverOrInit<TWindow>(TWindow window)
+        where TWindow : Window, IWindowOptionsSource
     {
+        WindowOptions options = window.WindowOptions;
         // Set first launch size.
         double scale = GetScaleForWindowHandle(options.Hwnd);
-        SizeInt32 transformedSize = options.Window.InitSize.Scale(scale);
+        SizeInt32 transformedSize = options.InitSize.Scale(scale);
         RectInt32 rect = StructMarshal.RectInt32(transformedSize);
 
-        if (options.Window.PersistSize)
+        if (options.PersistSize)
         {
             RectInt32 persistedRect = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (ulong)(CompactRect)rect);
-            if (persistedRect.Size() >= options.Window.InitSize.Size())
+            if (persistedRect.Size() >= options.InitSize.Size())
             {
                 rect = persistedRect;
             }
         }
 
         TransformToCenterScreen(ref rect);
-        options.AppWindow.MoveAndResize(rect);
+        window.AppWindow.MoveAndResize(rect);
     }
 
     /// <summary>
     /// 保存窗体的位置
     /// </summary>
-    /// <param name="options">选项</param>
+    /// <param name="window">窗口</param>
     /// <typeparam name="TWindow">窗体类型</typeparam>
-    public static void Save<TWindow>(in WindowOptions<TWindow> options)
-        where TWindow : Window, IExtendedWindowSource
+    public static void Save<TWindow>(TWindow window)
+        where TWindow : Window, IWindowOptionsSource
     {
         WINDOWPLACEMENT windowPlacement = StructMarshal.WINDOWPLACEMENT();
-        GetWindowPlacement(options.Hwnd, ref windowPlacement);
+        GetWindowPlacement(window.WindowOptions.Hwnd, ref windowPlacement);
 
         // prevent save value when we are maximized.
         if (!windowPlacement.showCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
         {
-            LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)options.AppWindow.GetRect());
+            LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)window.AppWindow.GetRect());
         }
     }
 

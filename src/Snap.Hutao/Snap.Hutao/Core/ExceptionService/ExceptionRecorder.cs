@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using System.Collections;
-using System.Text;
 
 namespace Snap.Hutao.Core.ExceptionService;
 
@@ -11,50 +9,56 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// 异常记录器
 /// </summary>
 [HighQuality]
+[Injection(InjectAs.Singleton)]
 internal sealed class ExceptionRecorder
 {
-    private readonly ILogger logger;
+    private readonly ILogger<ExceptionRecorder> logger;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的异常记录器
     /// </summary>
-    /// <param name="application">应用程序</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="logger">日志器</param>
-    public ExceptionRecorder(Application application, ILogger logger)
+    public ExceptionRecorder(IServiceProvider serviceProvider)
     {
-        this.logger = logger;
+        logger = serviceProvider.GetRequiredService<ILogger<ExceptionRecorder>>();
+        this.serviceProvider = serviceProvider;
+    }
 
-        application.UnhandledException += OnAppUnhandledException;
-        application.DebugSettings.BindingFailed += OnXamlBindingFailed;
-        application.DebugSettings.XamlResourceReferenceFailed += OnXamlResourceReferenceFailed;
+    /// <summary>
+    /// 记录应用程序异常
+    /// </summary>
+    /// <param name="app">应用程序</param>
+    public void Record(Application app)
+    {
+        app.UnhandledException += OnAppUnhandledException;
+        app.DebugSettings.BindingFailed += OnXamlBindingFailed;
+        app.DebugSettings.XamlResourceReferenceFailed += OnXamlResourceReferenceFailed;
     }
 
     private void OnAppUnhandledException(object? sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
 #if RELEASE
 #pragma warning disable VSTHRD002
-        Ioc.Default.GetRequiredService<Web.Hutao.HomaLogUploadClient>().UploadLogAsync(e.Exception).GetAwaiter().GetResult();
+        serviceProvider
+            .GetRequiredService<Web.Hutao.HomaLogUploadClient>()
+            .UploadLogAsync(serviceProvider, e.Exception)
+            .GetAwaiter()
+            .GetResult();
 #pragma warning restore VSTHRD002
 #endif
-        StringBuilder dataDetailBuilder = new();
-        foreach (DictionaryEntry entry in e.Exception.Data)
-        {
-            string key = $"{entry.Key}";
-            string value = $"{entry.Value}";
 
-            dataDetailBuilder.Append(key).Append(':').Append(value).Append("\r\n");
-        }
-
-        logger.LogError(e.Exception, "未经处理的异常\r\n{detail}", dataDetailBuilder.ToString());
+        logger.LogError("未经处理的全局异常:\r\n{detail}", ExceptionFormat.Format(e.Exception));
     }
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
     {
-        logger.LogCritical("XAML绑定失败: {message}", e.Message);
+        logger.LogCritical("XAML 绑定失败:{message}", e.Message);
     }
 
     private void OnXamlResourceReferenceFailed(DebugSettings sender, XamlResourceReferenceFailedEventArgs e)
     {
-        logger.LogCritical("XAML资源引用失败: {message}", e.Message);
+        logger.LogCritical("XAML 资源引用失败:{message}", e.Message);
     }
 }

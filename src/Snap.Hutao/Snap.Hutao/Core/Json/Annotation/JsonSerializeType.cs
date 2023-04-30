@@ -10,14 +10,14 @@ namespace Snap.Hutao.Core.Json.Annotation;
 internal enum JsonSerializeType
 {
     /// <summary>
-    /// Int32
+    /// 数字
     /// </summary>
-    Int32,
+    Number,
 
     /// <summary>
     /// 字符串包裹的数字
     /// </summary>
-    Int32AsString,
+    NumberString,
 
     /// <summary>
     /// 名称字符串

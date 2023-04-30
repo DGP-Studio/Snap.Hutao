@@ -34,6 +34,16 @@ public class DependencyInjectionTest
         }
     }
 
+    [TestMethod]
+    public void GenericServicesCanBeResolved()
+    {
+        IServiceProvider services = new ServiceCollection()
+            .AddTransient(typeof(IGenericService<>),typeof(GenericService<>))
+            .BuildServiceProvider();
+
+        Assert.IsNotNull(services.GetService<IGenericService<int>>());
+    }
+
     private interface IService
     {
         Guid Id { get; }
@@ -52,6 +62,26 @@ public class DependencyInjectionTest
         public Guid Id
         {
             get => throw new NotImplementedException();
+        }
+    }
+
+    private interface IGenericService<T>
+    {
+    }
+
+    private sealed class GenericService<T> : IGenericService<T>
+    {
+    }
+
+    private sealed class NonInjectedServiceA
+    {
+    }
+
+    private sealed class NonInjectedServiceB
+    {
+        [ActivatorUtilitiesConstructor]
+        public NonInjectedServiceB(NonInjectedServiceA? serviceA)
+        {
         }
     }
 }

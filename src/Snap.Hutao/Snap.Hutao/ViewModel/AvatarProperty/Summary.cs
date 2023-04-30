@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.AvatarProperty;
+namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 玩家与角色列表的包装器
@@ -13,4 +13,9 @@ internal sealed class Summary
     /// 角色列表
     /// </summary>
     public List<AvatarView> Avatars { get; set; } = default!;
+
+    /// <summary>
+    /// 服务器消息
+    /// </summary>
+    public string Message { get; set; } = default!;
 }

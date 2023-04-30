@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 /// <summary>
@@ -13,7 +15,7 @@ internal class Skill
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; set; }
+    public SkillId Id { get; set; }
 
     /// <summary>
     /// 名称

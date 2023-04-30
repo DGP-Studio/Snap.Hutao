@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.ViewModel.Game;
-using Windows.Graphics;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Snap.Hutao;
@@ -14,7 +13,7 @@ namespace Snap.Hutao;
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton)]
-internal sealed partial class LaunchGameWindow : Window, IDisposable, IExtendedWindowSource
+internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOptionsSource
 {
     private const int MinWidth = 240;
     private const int MinHeight = 240;
@@ -22,6 +21,7 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IExtendedW
     private const int MaxWidth = 320;
     private const int MaxHeight = 320;
 
+    private readonly WindowOptions windowOptions;
     private readonly IServiceScope scope;
 
     /// <summary>
@@ -33,19 +33,13 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IExtendedW
         InitializeComponent();
 
         scope = scopeFactory.CreateScope();
+        windowOptions = new(this, DragableGrid, new(320, 320));
         ExtendedWindow<LaunchGameWindow>.Initialize(this, scope.ServiceProvider);
         RootGrid.DataContext = scope.ServiceProvider.GetRequiredService<LaunchGameViewModel>();
-        Closed += (s, e) => Dispose();
     }
 
     /// <inheritdoc/>
-    public FrameworkElement TitleBar { get => DragableGrid; }
-
-    /// <inheritdoc/>
-    public bool PersistSize { get => false; }
-
-    /// <inheritdoc/>
-    public SizeInt32 InitSize { get => new(320, 320); }
+    public WindowOptions WindowOptions { get => throw new NotImplementedException(); }
 
     /// <inheritdoc/>
     public void Dispose()

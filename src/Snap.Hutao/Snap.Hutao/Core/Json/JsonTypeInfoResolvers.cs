@@ -32,9 +32,8 @@ internal static class JsonTypeInfoResolvers
                 if (property.AttributeProvider is System.Reflection.ICustomAttributeProvider provider)
                 {
                     object[] attributes = provider.GetCustomAttributes(JsonEnumAttributeType, false);
-                    if (attributes.Length == 1)
+                    if (attributes.SingleOrDefault() is JsonEnumAttribute attr)
                     {
-                        JsonEnumAttribute attr = (JsonEnumAttribute)attributes[0];
                         property.CustomConverter = attr.CreateConverter(property);
                     }
                 }

@@ -1971,4 +1971,25 @@
   <data name="ViewAvatarPropertySyncDataButtonLabel" xml:space="preserve">
     <value>同步角色信息</value>
   </data>
+  <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
+    <value>错误的 UID 格式</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
+    <value>角色 UID 不存在</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
+    <value>游戏维护中</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
+    <value>请求过快，请稍后再试</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
+    <value>服务器偶发错误</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
+    <value>服务器严重错误</value>
+  </data>
+  <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
+    <value>未知的服务器错误</value>
+  </data>
 </root>

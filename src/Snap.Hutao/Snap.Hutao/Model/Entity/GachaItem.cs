@@ -68,8 +68,12 @@ internal sealed class GachaItem
     /// <returns>物品类型字符串</returns>
     public static string GetItemTypeStringByItemId(int itemId)
     {
-        int idLength = itemId.Place();
-        return idLength == 8 ? "角色" : idLength == 5 ? "武器" : "未知";
+        return itemId.Place() switch
+        {
+            8 => "角色",
+            5 => "武器",
+            _ => "未知",
+        };
     }
 
     /// <summary>

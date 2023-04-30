@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Snap.Hutao.Core;
+using Snap.Hutao.Core.Json;
 
 namespace Snap.Hutao.Model.Entity.Configuration;
 
@@ -18,8 +18,8 @@ internal sealed class JsonTextValueConverter<TProperty> : ValueConverter<TProper
     /// </summary>
     public JsonTextValueConverter()
         : base(
-            obj => JsonSerializer.Serialize(obj, CoreEnvironment.JsonOptions),
-            str => JsonSerializer.Deserialize<TProperty>(str, CoreEnvironment.JsonOptions)!)
+            obj => JsonSerializer.Serialize(obj, JsonOptions.Default),
+            str => JsonSerializer.Deserialize<TProperty>(str, JsonOptions.Default)!)
     {
     }
 }

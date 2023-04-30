@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.IO;
 using System.IO.Compression;
@@ -21,16 +22,19 @@ internal sealed class PackageConverter
 {
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的游戏文件转换器
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="options">Json序列化选项</param>
     /// <param name="httpClient">http客户端</param>
-    public PackageConverter(JsonSerializerOptions options, HttpClient httpClient)
+    public PackageConverter(IServiceProvider serviceProvider, HttpClient httpClient)
     {
-        this.options = options;
+        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
         this.httpClient = httpClient;
+        this.serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -49,24 +53,8 @@ internal sealed class PackageConverter
         ConvertDirection direction = targetScheme.IsOversea ? ConvertDirection.ChineseToOversea : ConvertDirection.OverseaToChinese;
 
         progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));
-        Dictionary<string, VersionItem> remoteItems;
-        try
-        {
-            using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUri).ConfigureAwait(false))
-            {
-                remoteItems = await GetRemoteVersionItemsAsync(remoteSteam).ConfigureAwait(false);
-            }
-        }
-        catch (IOException ex)
-        {
-            throw ThrowHelper.PackageConvert(SH.ServiceGamePackageRequestPackageVerionFailed, ex);
-        }
-
-        Dictionary<string, VersionItem> localItems;
-        using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, "pkg_version")))
-        {
-            localItems = await GetLocalVersionItemsAsync(localSteam, direction).ConfigureAwait(false);
-        }
+        Dictionary<string, VersionItem> remoteItems = await TryGetRemoteItemsAsync(pkgVersionUri).ConfigureAwait(false);
+        Dictionary<string, VersionItem> localItems = await TryGetLocalItemsAsync(gameFolder, direction).ConfigureAwait(false);
 
         IEnumerable<ItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).OrderBy(i => (int)i.Type);
         return await ReplaceGameResourceAsync(diffOperations, gameFolder, scatteredFilesUrl, direction, progress).ConfigureAwait(false);
@@ -83,6 +71,7 @@ internal sealed class PackageConverter
     {
         string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
         string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");
+
         string sdkVersionBackup = Path.Combine(gameFolder, "sdk_pkg_version.backup");
         string sdkVersion = Path.Combine(gameFolder, "sdk_pkg_version");
 
@@ -103,7 +92,8 @@ internal sealed class PackageConverter
                     {
                         foreach (ZipArchiveEntry entry in zip.Entries)
                         {
-                            if (entry.CompressedLength != 0)
+                            // skip folder entry.
+                            if (entry.Length != 0)
                             {
                                 string targetPath = Path.Combine(gameFolder, entry.FullName);
                                 Directory.CreateDirectory(Path.GetDirectoryName(targetPath)!);
@@ -152,9 +142,7 @@ internal sealed class PackageConverter
             }
         }
 
-        IEnumerable<ItemOperationInfo> removes = local.Select(kvp => new ItemOperationInfo(ItemOperationType.Remove, kvp.Value, kvp.Value));
-
-        foreach (ItemOperationInfo item in removes)
+        foreach (ItemOperationInfo item in local.Select(kvp => new ItemOperationInfo(ItemOperationType.Remove, kvp.Value, kvp.Value)))
         {
             yield return item;
         }
@@ -165,8 +153,6 @@ internal sealed class PackageConverter
         string yuanShenData = Path.Combine(gameFolder, YuanShenData);
         string genshinImpactData = Path.Combine(gameFolder, GenshinImpactData);
 
-        // We have check the exe path previously
-        // so we assume the data folder is present
         if (direction == ConvertDirection.ChineseToOversea)
         {
             if (Directory.Exists(yuanShenData))
@@ -189,28 +175,27 @@ internal sealed class PackageConverter
         File.Move(targetFullPath, cacheFilePath, true);
     }
 
-    private static async Task CopyToWithProgressAsync(Stream source, Stream target, string name, long totalBytes, IProgress<PackageReplaceStatus> progress)
+    private async Task<Dictionary<string, VersionItem>> TryGetLocalItemsAsync(string gameFolder, ConvertDirection direction)
     {
-        const int bufferSize = 81920;
-
-        int reportCounter = 0;
-        long totalBytesRead = 0;
-        int bytesRead;
-        Memory<byte> buffer = new byte[bufferSize];
-
-        do
+        using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, "pkg_version")))
         {
-            bytesRead = await source.ReadAsync(buffer).ConfigureAwait(false);
-            await target.WriteAsync(buffer[..bytesRead]).ConfigureAwait(false);
+            return await GetLocalVersionItemsAsync(localSteam, direction).ConfigureAwait(false);
+        }
+    }
 
-            totalBytesRead += bytesRead;
-
-            if ((++reportCounter) % 10 == 0)
+    private async Task<Dictionary<string, VersionItem>> TryGetRemoteItemsAsync(Uri pkgVersionUri)
+    {
+        try
+        {
+            using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUri).ConfigureAwait(false))
             {
-                progress.Report(new(name, totalBytesRead, totalBytes));
+                return await GetRemoteVersionItemsAsync(remoteSteam).ConfigureAwait(false);
             }
         }
-        while (bytesRead > 0);
+        catch (IOException ex)
+        {
+            throw ThrowHelper.PackageConvert(SH.ServiceGamePackageRequestPackageVerionFailed, ex);
+        }
     }
 
     private async Task<bool> ReplaceGameResourceAsync(IEnumerable<ItemOperationInfo> operations, string gameFolder, string scatteredFilesUrl, ConvertDirection direction, IProgress<PackageReplaceStatus> progress)
@@ -228,7 +213,8 @@ internal sealed class PackageConverter
         }
 
         // Cache folder
-        string cacheFolder = Path.Combine(Core.CoreEnvironment.DataFolder, "ServerCache");
+        Core.HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<Core.HutaoOptions>();
+        string cacheFolder = Path.Combine(hutaoOptions.DataFolder, "ServerCache");
 
         // 执行下载与移动操作
         foreach (ItemOperationInfo info in operations)
@@ -292,20 +278,23 @@ internal sealed class PackageConverter
                     {
                         try
                         {
-                            await CopyToWithProgressAsync(webStream, fileStream, info.Target, totalBytes, progress).ConfigureAwait(false);
+                            StreamCopyWorker<PackageReplaceStatus> streamCopyWorker = new(webStream, fileStream, bytesRead => new(info.Target, bytesRead, totalBytes));
+                            await streamCopyWorker.CopyAsync(progress).ConfigureAwait(false);
                             fileStream.Seek(0, SeekOrigin.Begin);
                             string remoteMd5 = await Digest.GetStreamMD5Async(fileStream).ConfigureAwait(false);
-                            if (info.Md5 == remoteMd5.ToLowerInvariant())
+                            if (string.Equals(info.Md5, remoteMd5, StringComparison.OrdinalIgnoreCase))
                             {
                                 return;
                             }
                         }
-                        catch
+                        catch (Exception ex)
                         {
                             // System.IO.IOException: The response ended prematurely.
                             // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
 
                             // We want to retry forever.
+                            serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
+                            await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
                         }
                     }
                 }

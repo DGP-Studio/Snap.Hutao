@@ -7,6 +7,7 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// 祈愿配置类型
 /// </summary>
 [HighQuality]
+[Localization]
 internal enum GachaConfigType
 {
     /// <summary>

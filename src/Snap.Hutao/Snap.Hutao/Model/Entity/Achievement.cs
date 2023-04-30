@@ -24,15 +24,15 @@ internal sealed class Achievement : IEquatable<Achievement>
     public Guid InnerId { get; set; }
 
     /// <summary>
+    /// 存档 Id
+    /// </summary>
+    public Guid ArchiveId { get; set; }
+
+    /// <summary>
     /// 存档
     /// </summary>
     [ForeignKey(nameof(ArchiveId))]
     public AchievementArchive Archive { get; set; } = default!;
-
-    /// <summary>
-    /// 存档Id
-    /// </summary>
-    public Guid ArchiveId { get; set; }
 
     /// <summary>
     /// Id
@@ -100,7 +100,7 @@ internal sealed class Achievement : IEquatable<Achievement>
             Id = Id,
             Current = Current,
             Status = Status,
-            Timestamp = Time.ToUniversalTime().ToUnixTimeSeconds(),
+            Timestamp = Time.ToUnixTimeSeconds(),
         };
     }
 

@@ -9,6 +9,7 @@ namespace Snap.Hutao.Service;
 
 /// <summary>
 /// 应用程序选项
+/// 存储服务相关的选项
 /// </summary>
 [Injection(InjectAs.Singleton)]
 internal sealed class AppOptions : DbStoreOptions

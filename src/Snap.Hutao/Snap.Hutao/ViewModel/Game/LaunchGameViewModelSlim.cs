@@ -16,6 +16,7 @@ namespace Snap.Hutao.ViewModel.Game;
 internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
 {
     private readonly IGameService gameService;
+    private readonly ITaskContext taskContext;
 
     private ObservableCollection<GameAccount>? gameAccounts;
     private GameAccount? selectedGameAccount;
@@ -28,6 +29,7 @@ internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.P
         : base(serviceProvider)
     {
         gameService = serviceProvider.GetRequiredService<IGameService>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
         LaunchCommand = new AsyncRelayCommand(LaunchAsync, AsyncRelayCommandOptions.AllowConcurrentExecutions);
     }
@@ -50,8 +52,8 @@ internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.P
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
-        await ThreadHelper.SwitchToMainThreadAsync();
+        ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
+        await taskContext.SwitchToMainThreadAsync();
         GameAccounts = accounts;
 
         // Try set to the current account.

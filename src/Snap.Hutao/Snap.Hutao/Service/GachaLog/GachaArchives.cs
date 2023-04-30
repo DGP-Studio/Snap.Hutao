@@ -1,25 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Model.Binding;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Model.InterChange.GachaLog;
-using Snap.Hutao.Model.Metadata.Abstraction;
-using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.GachaLog.Factory;
-using Snap.Hutao.Service.GachaLog.QueryProvider;
-using Snap.Hutao.Service.Metadata;
-using Snap.Hutao.ViewModel.GachaLog;
-using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using Snap.Hutao.Web.Response;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -38,7 +24,7 @@ internal static class GachaArchives
     {
         try
         {
-            collection = appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
+            collection = appDbContext.GachaArchives.ToObservableCollection();
         }
         catch (SqliteException ex)
         {

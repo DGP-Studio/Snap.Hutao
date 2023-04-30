@@ -60,17 +60,20 @@ internal sealed class UIIFInfo
     /// <summary>
     /// 构造一个新的专用 UIGF 信息
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="uid">uid</param>
     /// <returns>专用 UIGF 信息</returns>
-    public static UIIFInfo Create(string uid)
+    public static UIIFInfo Create(IServiceProvider serviceProvider, string uid)
     {
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+
         return new()
         {
             Uid = uid,
             Language = "zh-cn",
             ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
             ExportApp = "胡桃",
-            ExportAppVersion = CoreEnvironment.Version.ToString(),
+            ExportAppVersion = hutaoOptions.Version.ToString(),
             UIIFVersion = UIIF.CurrentVersion,
         };
     }

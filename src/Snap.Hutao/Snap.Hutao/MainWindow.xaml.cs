@@ -17,10 +17,12 @@ namespace Snap.Hutao;
 [HighQuality]
 [Injection(InjectAs.Singleton)]
 [SuppressMessage("", "CA1001")]
-internal sealed partial class MainWindow : Window, IExtendedWindowSource, IRecipient<WelcomeStateCompleteMessage>
+internal sealed partial class MainWindow : Window, IWindowOptionsSource, IRecipient<WelcomeStateCompleteMessage>
 {
     private const int MinWidth = 848;
     private const int MinHeight = 524;
+
+    private readonly WindowOptions windowOptions;
 
     /// <summary>
     /// 构造一个新的主窗体
@@ -29,29 +31,16 @@ internal sealed partial class MainWindow : Window, IExtendedWindowSource, IRecip
     public MainWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
+        windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
         ExtendedWindow<MainWindow>.Initialize(this, serviceProvider);
-        IsPresent = true;
-        Closed += (s, e) => IsPresent = false;
-
-        Ioc.Default.GetRequiredService<IMessenger>().Register(this);
+        serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         // If not complete we should present the welcome view.
         ContentSwitchPresenter.Value = StaticResource.IsAnyUnfulfilledContractPresent();
     }
 
-    /// <summary>
-    /// 是否打开
-    /// </summary>
-    public static bool IsPresent { get; private set; }
-
     /// <inheritdoc/>
-    public FrameworkElement TitleBar { get => TitleBarView.DragArea; }
-
-    /// <inheritdoc/>
-    public bool PersistSize { get => true; }
-
-    /// <inheritdoc/>
-    public SizeInt32 InitSize { get => new(1200, 741); }
+    public WindowOptions WindowOptions { get => windowOptions; }
 
     /// <inheritdoc/>
     public unsafe void ProcessMinMaxInfo(MINMAXINFO* pInfo, double scalingFactor)

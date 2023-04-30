@@ -30,8 +30,18 @@ internal struct AchievementGoalStatistics
     /// 构造一个新的成就分类统计
     /// </summary>
     /// <param name="goal">分类</param>
-    public AchievementGoalStatistics(BindingAchievementGoal goal)
+    private AchievementGoalStatistics(BindingAchievementGoal goal)
     {
         AchievementGoal = goal;
+    }
+
+    /// <summary>
+    /// 构造一个新的成就分类统计
+    /// </summary>
+    /// <param name="goal">分类</param>
+    /// <returns>新的成就分类统计</returns>
+    public static AchievementGoalStatistics Create(BindingAchievementGoal goal)
+    {
+        return new(goal);
     }
 }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
@@ -30,11 +29,12 @@ internal sealed class GameService : IGameService
 {
     private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
 
-    private readonly IServiceScopeFactory scopeFactory;
+    private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
     private readonly PackageConverter packageConverter;
     private readonly LaunchOptions launchOptions;
     private readonly AppOptions appOptions;
+    private readonly IServiceProvider serviceProvider;
     private volatile int runningGamesCounter;
 
     private ObservableCollection<GameAccount>? gameAccounts;
@@ -42,24 +42,40 @@ internal sealed class GameService : IGameService
     /// <summary>
     /// 构造一个新的游戏服务
     /// </summary>
-    /// <param name="scopeFactory">范围工厂</param>
-    /// <param name="memoryCache">内存缓存</param>
-    /// <param name="packageConverter">游戏文件包转换器</param>
-    /// <param name="launchOptions">启动游戏选项</param>
-    /// <param name="appOptions">应用选项</param>
-    public GameService(IServiceScopeFactory scopeFactory, IMemoryCache memoryCache, PackageConverter packageConverter, LaunchOptions launchOptions, AppOptions appOptions)
+    /// <param name="serviceProvider">服务提供器</param>
+    public GameService(IServiceProvider serviceProvider)
     {
-        this.scopeFactory = scopeFactory;
-        this.memoryCache = memoryCache;
-        this.packageConverter = packageConverter;
-        this.launchOptions = launchOptions;
-        this.appOptions = appOptions;
+        memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
+        packageConverter = serviceProvider.GetRequiredService<PackageConverter>();
+        launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
+        appOptions = serviceProvider.GetRequiredService<AppOptions>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
+        this.serviceProvider = serviceProvider;
+    }
+
+    /// <inheritdoc/>
+    public ObservableCollection<GameAccount> GameAccountCollection
+    {
+        get
+        {
+            if (gameAccounts == null)
+            {
+                using (IServiceScope scope = serviceProvider.CreateScope())
+                {
+                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                    gameAccounts = appDbContext.GameAccounts.ToObservableCollection();
+                }
+            }
+
+            return gameAccounts;
+        }
     }
 
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, string>> GetGamePathAsync()
     {
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             // Cannot find in setting
             if (string.IsNullOrEmpty(appOptions.GamePath))
@@ -84,7 +100,7 @@ internal sealed class GameService : IGameService
                 if (result.IsOk)
                 {
                     // Save result.
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     appOptions.GamePath = result.Value;
                 }
                 else
@@ -200,7 +216,7 @@ internal sealed class GameService : IGameService
 
         progress.Report(new(SH.ServiceGameEnsureGameResourceQueryResourceInformation));
         Response<GameResource> response;
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             response = await scope.ServiceProvider
                 .GetRequiredService<ResourceClient>()
@@ -223,7 +239,7 @@ internal sealed class GameService : IGameService
                     // We need to change the gamePath if we switched.
                     string exeName = launchScheme.IsOversea ? GenshinImpactFileName : YuanShenFileName;
 
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     appOptions.GamePath = Path.Combine(gameFolder, exeName);
                 }
                 else
@@ -261,22 +277,6 @@ internal sealed class GameService : IGameService
 
         return Process.GetProcessesByName(YuanShenProcessName).Any()
             || Process.GetProcessesByName(GenshinImpactProcessName).Any();
-    }
-
-    /// <inheritdoc/>
-    public async Task<ObservableCollection<GameAccount>> GetGameAccountCollectionAsync()
-    {
-        if (gameAccounts == null)
-        {
-            using (IServiceScope scope = scopeFactory.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                await ThreadHelper.SwitchToMainThreadAsync();
-                gameAccounts = appDbContext.GameAccounts.AsNoTracking().ToObservableCollection();
-            }
-        }
-
-        return gameAccounts;
     }
 
     /// <inheritdoc/>
@@ -344,16 +344,17 @@ internal sealed class GameService : IGameService
             if (account == null)
             {
                 // ContentDialog must be created by main thread.
-                await ThreadHelper.SwitchToMainThreadAsync();
-                (bool isOk, string name) = await new LaunchGameAccountNameDialog().GetInputNameAsync().ConfigureAwait(false);
+                await taskContext.SwitchToMainThreadAsync();
+                LaunchGameAccountNameDialog dialog = serviceProvider.CreateInstance<LaunchGameAccountNameDialog>();
+                (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {
                     account = GameAccount.Create(name, registrySdk);
 
                     // sync database
-                    await ThreadHelper.SwitchToBackgroundAsync();
-                    using (IServiceScope scope = scopeFactory.CreateScope())
+                    await taskContext.SwitchToBackgroundAsync();
+                    using (IServiceScope scope = serviceProvider.CreateScope())
                     {
                         await scope.ServiceProvider
                             .GetRequiredService<AppDbContext>()
@@ -363,7 +364,7 @@ internal sealed class GameService : IGameService
                     }
 
                     // sync cache
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     gameAccounts.Add(account);
                 }
             }
@@ -401,7 +402,7 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public void AttachGameAccountToUid(GameAccount gameAccount, string uid)
     {
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             gameAccount.UpdateAttachUid(uid);
             scope.ServiceProvider.GetRequiredService<AppDbContext>().GameAccounts.UpdateAndSave(gameAccount);
@@ -411,15 +412,17 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask ModifyGameAccountAsync(GameAccount gameAccount)
     {
-        (bool isOk, string name) = await new LaunchGameAccountNameDialog().GetInputNameAsync().ConfigureAwait(true);
+        await taskContext.SwitchToMainThreadAsync();
+        LaunchGameAccountNameDialog dialog = serviceProvider.CreateInstance<LaunchGameAccountNameDialog>();
+        (bool isOk, string name) = await dialog.GetInputNameAsync().ConfigureAwait(true);
 
         if (isOk)
         {
             gameAccount.UpdateName(name);
 
             // sync database
-            await ThreadHelper.SwitchToBackgroundAsync();
-            using (IServiceScope scope = scopeFactory.CreateScope())
+            await taskContext.SwitchToBackgroundAsync();
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 await appDbContext.GameAccounts.UpdateAndSaveAsync(gameAccount).ConfigureAwait(false);
@@ -430,11 +433,11 @@ internal sealed class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         gameAccounts!.Remove(gameAccount);
 
-        await ThreadHelper.SwitchToBackgroundAsync();
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             await scope.ServiceProvider.GetRequiredService<AppDbContext>().GameAccounts.RemoveAndSaveAsync(gameAccount).ConfigureAwait(false);
         }

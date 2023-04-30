@@ -12,6 +12,7 @@ namespace Snap.Hutao.Core;
 /// 必须为抽象类才能使用泛型日志器
 /// </summary>
 [HighQuality]
+[Obsolete("Use HutaoOptions instead")]
 internal abstract class WebView2Helper
 {
     private static bool hasEverDetected;

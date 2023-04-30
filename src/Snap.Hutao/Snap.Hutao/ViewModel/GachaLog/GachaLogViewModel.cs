@@ -26,6 +26,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed class GachaLogViewModel : Abstraction.ViewModel
 {
+    private readonly ITaskContext taskContext;
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
     private readonly IPickerFactory pickerFactory;
@@ -45,6 +46,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public GachaLogViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         gachaLogService = serviceProvider.GetRequiredService<IGachaLogService>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         pickerFactory = serviceProvider.GetRequiredService<IPickerFactory>();
@@ -150,8 +152,9 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         {
             if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(false))
             {
-                await ThreadHelper.SwitchToMainThreadAsync();
-                Archives = gachaLogService.GetArchiveCollection();
+                ObservableCollection<GachaArchive> archives = gachaLogService.ArchiveCollection;
+                await taskContext.SwitchToMainThreadAsync();
+                Archives = archives;
                 SetSelectedArchiveAndUpdateStatistics(Archives.SelectedOrDefault(), true);
             }
         }
@@ -188,10 +191,11 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
                 RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
 
                 // ContentDialog must be created by main thread.
-                await ThreadHelper.SwitchToMainThreadAsync();
-                GachaLogRefreshProgressDialog dialog = new();
-                IDisposable dialogHider = await dialog.BlockAsync().ConfigureAwait(false);
-                Progress<GachaLogFetchState> progress = new(dialog.OnReport);
+                await taskContext.SwitchToMainThreadAsync();
+
+                GachaLogRefreshProgressDialog dialog = serviceProvider.CreateInstance<GachaLogRefreshProgressDialog>();
+                IDisposable dialogHider = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+                Progress<GachaLogFetchStatus> progress = new(dialog.OnReport);
                 bool authkeyValid;
 
                 try
@@ -216,7 +220,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
                     infoBarService.Warning(SH.ViewModelGachaLogRefreshOperationCancel);
                 }
 
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 if (authkeyValid)
                 {
                     SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
@@ -261,20 +265,23 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     {
         if (SelectedArchive != null)
         {
-            FileSavePicker picker = pickerFactory.GetFileSavePicker();
-            picker.SuggestedStartLocation = PickerLocationId.Desktop;
-            picker.SuggestedFileName = SelectedArchive.Uid;
-            picker.CommitButtonText = SH.FilePickerExportCommit;
-            picker.FileTypeChoices.Add(SH.ViewModelGachaLogExportFileType, ".json".Enumerate().ToList());
+            Dictionary<string, IList<string>> fileTypes = new()
+            {
+                [SH.ViewModelGachaLogExportFileType] = ".json".Enumerate().ToList(),
+            };
+
+            FileSavePicker picker = pickerFactory.GetFileSavePicker(
+                PickerLocationId.Desktop,
+                $"{SelectedArchive.Uid}.json",
+                SH.FilePickerExportCommit,
+                fileTypes);
 
             (bool isPickerOk, ValueFile file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
 
             if (isPickerOk)
             {
                 UIGF uigf = await gachaLogService.ExportToUIGFAsync(SelectedArchive).ConfigureAwait(false);
-                bool isOk = await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false);
-
-                if (isOk)
+                if (await file.SerializeToJsonAsync(uigf, options).ConfigureAwait(false))
                 {
                     infoBarService.Success(SH.ViewModelExportSuccessTitle, SH.ViewModelExportSuccessMessage);
                 }
@@ -301,7 +308,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
                     await gachaLogService.RemoveArchiveAsync(SelectedArchive).ConfigureAwait(false);
 
                     // reselect first archive
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     SelectedArchive = Archives.FirstOrDefault();
                 }
             }
@@ -316,7 +323,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
 
             if (isOk)
             {
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 Archives?.AddIfNotContains(archive!);
                 SetSelectedArchiveAndUpdateStatistics(archive, true);
             }
@@ -364,7 +371,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         {
             GachaStatistics? temp = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             Statistics = temp;
             IsInitialized = true;
         }
@@ -379,19 +386,20 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         if (uigf.IsCurrentVersionSupported())
         {
             // ContentDialog must be created by main thread.
-            await ThreadHelper.SwitchToMainThreadAsync();
-            if (await new GachaLogImportDialog(uigf).GetShouldImportAsync().ConfigureAwait(true))
+            await taskContext.SwitchToMainThreadAsync();
+            GachaLogImportDialog importDialog = serviceProvider.CreateInstance<GachaLogImportDialog>(uigf);
+            if (await importDialog.GetShouldImportAsync().ConfigureAwait(true))
             {
                 if (uigf.IsValidList())
                 {
                     ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
-                    using (await dialog.BlockAsync().ConfigureAwait(false))
+                    using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                     {
                         await gachaLogService.ImportFromUIGFAsync(uigf.List, uigf.Info.Uid).ConfigureAwait(false);
                     }
 
                     infoBarService.Success(SH.ViewModelGachaLogImportComplete);
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
                     return true;
                 }

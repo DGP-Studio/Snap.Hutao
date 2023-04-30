@@ -11,9 +11,9 @@ using Snap.Hutao.Message;
 using Snap.Hutao.Service;
 using Snap.Hutao.Win32;
 using System.IO;
-using Windows.Win32.Foundation;
 using Windows.Graphics;
 using Windows.UI;
+using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Dwm;
 using static Windows.Win32.PInvoke;
 
@@ -25,21 +25,18 @@ namespace Snap.Hutao.Core.Windowing;
 /// <typeparam name="TWindow">窗体类型</typeparam>
 [SuppressMessage("", "CA1001")]
 internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessage>
-    where TWindow : Window, IExtendedWindowSource
+    where TWindow : Window, IWindowOptionsSource
 {
-    private readonly WindowOptions<TWindow> options;
-
+    private readonly TWindow window;
     private readonly IServiceProvider serviceProvider;
-    private readonly ILogger<ExtendedWindow<TWindow>> logger;
     private readonly WindowSubclass<TWindow> subclass;
 
-    private ExtendedWindow(TWindow window, FrameworkElement titleBar, IServiceProvider serviceProvider)
+    private ExtendedWindow(TWindow window, IServiceProvider serviceProvider)
     {
-        options = new(window, titleBar);
-        subclass = new(options);
-
-        logger = serviceProvider.GetRequiredService<ILogger<ExtendedWindow<TWindow>>>();
+        this.window = window;
         this.serviceProvider = serviceProvider;
+
+        subclass = new(window);
 
         InitializeWindow();
     }
@@ -52,7 +49,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
     /// <returns>实例</returns>
     public static ExtendedWindow<TWindow> Initialize(TWindow window, IServiceProvider serviceProvider)
     {
-        return new(window, window.TitleBar, serviceProvider);
+        return new(window, serviceProvider);
     }
 
     /// <inheritdoc/>
@@ -63,16 +60,19 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 
     private void InitializeWindow()
     {
-        options.AppWindow.Title = string.Format(SH.AppNameAndVersion, CoreEnvironment.Version);
-        options.AppWindow.SetIcon(Path.Combine(CoreEnvironment.InstalledLocation, "Assets/Logo.ico"));
+        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+
+        WindowOptions options = window.WindowOptions;
+        window.AppWindow.Title = string.Format(SH.AppNameAndVersion, hutaoOptions.Version);
+        window.AppWindow.SetIcon(Path.Combine(hutaoOptions.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
-        Persistence.RecoverOrInit(options);
+        Persistence.RecoverOrInit(window);
         UpdateImmersiveDarkMode(options.TitleBar, default!);
 
         // appWindow.Show(true);
         // appWindow.Show can't bring window to top.
-        // options.Window.Activate();
+        window.Activate();
         Persistence.BringToForeground(options.Hwnd);
 
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
@@ -83,7 +83,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
-        options.Window.Closed += OnWindowClosed;
+        window.Closed += OnWindowClosed;
         options.TitleBar.ActualThemeChanged += UpdateImmersiveDarkMode;
     }
 
@@ -97,9 +97,9 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 
     private void OnWindowClosed(object sender, WindowEventArgs args)
     {
-        if (options.Window.PersistSize)
+        if (window.WindowOptions.PersistSize)
         {
-            Persistence.Save(options);
+            Persistence.Save(window);
         }
 
         subclass?.Dispose();
@@ -107,15 +107,16 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 
     private void ExtendsContentIntoTitleBar()
     {
+        WindowOptions options = window.WindowOptions;
         if (options.UseLegacyDragBarImplementation)
         {
             // use normal Window method to extend.
-            options.Window.ExtendsContentIntoTitleBar = true;
-            options.Window.SetTitleBar(options.TitleBar);
+            window.ExtendsContentIntoTitleBar = true;
+            window.SetTitleBar(options.TitleBar);
         }
         else
         {
-            AppWindowTitleBar appTitleBar = options.AppWindow.TitleBar;
+            AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
             appTitleBar.IconShowOptions = IconShowOptions.HideIconAndSystemMenu;
             appTitleBar.ExtendsContentIntoTitleBar = true;
 
@@ -128,7 +129,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 
     private void UpdateSystemBackdrop(BackdropType backdropType)
     {
-        options.Window.SystemBackdrop = backdropType switch
+        window.SystemBackdrop = backdropType switch
         {
             BackdropType.MicaAlt => new MicaBackdrop() { Kind = MicaKind.BaseAlt },
             BackdropType.Mica => new MicaBackdrop() { Kind = MicaKind.Base },
@@ -139,17 +140,17 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 
     private void UpdateTitleButtonColor()
     {
-        AppWindowTitleBar appTitleBar = options.AppWindow.TitleBar;
+        AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
 
         appTitleBar.ButtonBackgroundColor = Colors.Transparent;
         appTitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 
-        App app = serviceProvider.GetRequiredService<App>();
+        IAppResourceProvider resourceProvider = serviceProvider.GetRequiredService<IAppResourceProvider>();
 
-        Color systemBaseLowColor = (Color)app.Resources["SystemBaseLowColor"];
+        Color systemBaseLowColor = resourceProvider.GetResource<Color>("SystemBaseLowColor");
         appTitleBar.ButtonHoverBackgroundColor = systemBaseLowColor;
 
-        Color systemBaseMediumLowColor = (Color)app.Resources["SystemBaseMediumLowColor"];
+        Color systemBaseMediumLowColor = resourceProvider.GetResource<Color>("SystemBaseMediumLowColor");
         appTitleBar.ButtonPressedBackgroundColor = systemBaseMediumLowColor;
 
         // The Foreground doesn't accept Alpha channel. So we translate it to gray.
@@ -157,7 +158,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         byte result = (byte)((systemBaseMediumLowColor.A / 255.0) * light);
         appTitleBar.ButtonInactiveForegroundColor = Color.FromArgb(0xFF, result, result, result);
 
-        Color systemBaseHighColor = (Color)app.Resources["SystemBaseHighColor"];
+        Color systemBaseHighColor = resourceProvider.GetResource<Color>("SystemBaseHighColor");
         appTitleBar.ButtonForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonHoverForegroundColor = systemBaseHighColor;
         appTitleBar.ButtonPressedForegroundColor = systemBaseHighColor;
@@ -166,12 +167,12 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
     private unsafe void UpdateImmersiveDarkMode(FrameworkElement titleBar, object discard)
     {
         BOOL isDarkMode = Control.Theme.ThemeHelper.IsDarkMode(titleBar.ActualTheme);
-        DwmSetWindowAttribute(options.Hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, &isDarkMode, unchecked((uint)sizeof(BOOL)));
+        DwmSetWindowAttribute(window.WindowOptions.Hwnd, DWMWINDOWATTRIBUTE.DWMWA_USE_IMMERSIVE_DARK_MODE, &isDarkMode, unchecked((uint)sizeof(BOOL)));
     }
 
     private void UpdateDragRectangles(bool isFlyoutOpened = false)
     {
-        AppWindowTitleBar appTitleBar = options.AppWindow.TitleBar;
+        AppWindowTitleBar appTitleBar = window.AppWindow.TitleBar;
 
         if (isFlyoutOpened)
         {
@@ -180,6 +181,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         }
         else
         {
+            WindowOptions options = window.WindowOptions;
             double scale = Persistence.GetScaleForWindowHandle(options.Hwnd);
 
             // 48 is the navigation button leftInset
@@ -187,9 +189,9 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
             appTitleBar.SetDragRectangles(dragRect.ToArray());
 
             // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976
-            SizeInt32 size = options.AppWindow.ClientSize;
+            SizeInt32 size = window.AppWindow.ClientSize;
             size.Height -= (int)(31 * scale);
-            options.AppWindow.ResizeClient(size);
+            window.AppWindow.ResizeClient(size);
         }
     }
 }

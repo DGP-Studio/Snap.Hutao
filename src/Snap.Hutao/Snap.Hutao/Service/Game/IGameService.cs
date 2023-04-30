@@ -14,6 +14,11 @@ namespace Snap.Hutao.Service.Game;
 internal interface IGameService
 {
     /// <summary>
+    /// 游戏内账号集合
+    /// </summary>
+    ObservableCollection<GameAccount> GameAccountCollection { get; }
+
+    /// <summary>
     /// 将账号绑定到对应的Uid
     /// 清除老账号的绑定状态
     /// </summary>
@@ -26,12 +31,6 @@ internal interface IGameService
     /// </summary>
     /// <returns>任务</returns>
     ValueTask DetectGameAccountAsync();
-
-    /// <summary>
-    /// 异步获取游戏内账号集合
-    /// </summary>
-    /// <returns>游戏内账号集合</returns>
-    Task<ObservableCollection<GameAccount>> GetGameAccountCollectionAsync();
 
     /// <summary>
     /// 异步获取游戏路径

@@ -1,11 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -14,6 +13,7 @@ using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -22,9 +22,10 @@ namespace Snap.Hutao.Service.Cultivation;
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Singleton, typeof(ICultivationService))]
-internal sealed class CultivationService : ICultivationService
+internal sealed partial class CultivationService : ICultivationService
 {
-    private readonly IServiceScopeFactory scopeFactory;
+    private readonly ITaskContext taskContext;
+    private readonly IServiceProvider serviceProvider;
     private readonly ScopedDbCurrent<CultivateProject, Message.CultivateProjectChangedMessage> dbCurrent;
 
     private ObservableCollection<CultivateProject>? projects;
@@ -32,105 +33,24 @@ internal sealed class CultivationService : ICultivationService
     /// <summary>
     /// 构造一个新的养成计算服务
     /// </summary>
-    /// <param name="scopeFactory">范围工厂</param>
+    /// <param name="serviceProvider">范围工厂</param>
     /// <param name="messenger">消息器</param>
-    public CultivationService(IServiceScopeFactory scopeFactory, IMessenger messenger)
+    public CultivationService(IServiceProvider serviceProvider)
     {
-        this.scopeFactory = scopeFactory;
-        dbCurrent = new(scopeFactory, provider => provider.GetRequiredService<AppDbContext>().CultivateProjects, messenger);
-    }
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        dbCurrent = new(serviceProvider);
 
-    /// <inheritdoc/>
-    public CultivateProject? Current
-    {
-        get => dbCurrent.Current;
-        set => dbCurrent.Current = value;
-    }
-
-    /// <inheritdoc/>
-    public ObservableCollection<CultivateProject> GetProjectCollection()
-    {
-        if (projects == null)
-        {
-            using (IServiceScope scope = scopeFactory.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                projects = appDbContext.CultivateProjects.AsNoTracking().ToObservableCollection();
-            }
-
-            try
-            {
-                Current ??= projects.SelectedOrDefault();
-            }
-            catch (DbUpdateConcurrencyException ex)
-            {
-                ThrowHelper.UserdataCorrupted(SH.ServiceCultivationProjectCurrentUserdataCourrpted, ex);
-            }
-            catch (InvalidOperationException ex)
-            {
-                ThrowHelper.UserdataCorrupted(SH.ServiceCultivationProjectCurrentUserdataCourrpted2, ex);
-            }
-        }
-
-        return projects;
-    }
-
-    /// <inheritdoc/>
-    public async Task<ProjectAddResult> TryAddProjectAsync(CultivateProject project)
-    {
-        if (string.IsNullOrWhiteSpace(project.Name))
-        {
-            return ProjectAddResult.InvalidName;
-        }
-
-        if (projects!.SingleOrDefault(a => a.Name == project.Name) != null)
-        {
-            return ProjectAddResult.AlreadyExists;
-        }
-        else
-        {
-            // Sync cache
-            await ThreadHelper.SwitchToMainThreadAsync();
-            projects!.Add(project);
-
-            // Sync database
-            await ThreadHelper.SwitchToBackgroundAsync();
-            using (IServiceScope scope = scopeFactory.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                await appDbContext.CultivateProjects.AddAndSaveAsync(project).ConfigureAwait(false);
-            }
-
-            return ProjectAddResult.Added;
-        }
-    }
-
-    /// <inheritdoc/>
-    public async Task RemoveProjectAsync(CultivateProject project)
-    {
-        // Sync cache
-        // Keep this on main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-        projects!.Remove(project);
-
-        // Sync database
-        await ThreadHelper.SwitchToBackgroundAsync();
-        using (IServiceScope scope = scopeFactory.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateProjects
-                .ExecuteDeleteWhereAsync(p => p.InnerId == project.InnerId)
-                .ConfigureAwait(false);
-        }
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
     public List<InventoryItemView> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand)
     {
-        Guid projectId = cultivateProject.InnerId;
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            Guid projectId = cultivateProject.InnerId;
             List<InventoryItem> entities = appDbContext.InventoryItems
                 .Where(a => a.ProjectId == projectId)
                 .ToList();
@@ -149,8 +69,8 @@ internal sealed class CultivationService : ICultivationService
     /// <inheritdoc/>
     public async Task<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject)
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             IMetadataService metadataService = scope.ServiceProvider.GetRequiredService<IMetadataService>();
@@ -159,12 +79,12 @@ internal sealed class CultivationService : ICultivationService
             Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
-            List<CultivateEntryView> results = new();
             List<CultivateEntry> entries = await appDbContext.CultivateEntries
                 .Where(e => e.ProjectId == cultivateProject.InnerId)
                 .ToListAsync()
                 .ConfigureAwait(false);
 
+            List<CultivateEntryView> results = new(entries.Count);
             foreach (CultivateEntry entry in entries)
             {
                 Guid entryId = entry.InnerId;
@@ -195,7 +115,8 @@ internal sealed class CultivationService : ICultivationService
     /// <inheritdoc/>
     public async Task<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, CancellationToken token)
     {
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             List<StatisticsCultivateItem> resultItems = new();
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
@@ -241,28 +162,28 @@ internal sealed class CultivationService : ICultivationService
 
             token.ThrowIfCancellationRequested();
 
-            await ThreadHelper.SwitchToMainThreadAsync();
-            return resultItems.OrderByDescending(i => i.Count).ToObservableCollection();
+            await taskContext.SwitchToMainThreadAsync();
+            return resultItems.OrderByDescending(i => i.TotalCount).ToObservableCollection();
         }
     }
 
     /// <inheritdoc/>
     public async Task RemoveCultivateEntryAsync(Guid entryId)
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
-        IEnumerable<CultivateItem> removed;
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            removed = await GetEntryItemsAsync(appDbContext, entryId).ConfigureAwait(false);
-            await appDbContext.CultivateEntries.Where(i => i.InnerId == entryId).ExecuteDeleteAsync().ConfigureAwait(false);
+            await appDbContext.CultivateEntries
+                .ExecuteDeleteWhereAsync(i => i.InnerId == entryId)
+                .ConfigureAwait(false);
         }
     }
 
     /// <inheritdoc/>
     public void SaveInventoryItem(InventoryItemView item)
     {
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             scope.ServiceProvider.GetRequiredService<AppDbContext>().InventoryItems.UpdateAndSave(item.Entity);
         }
@@ -271,7 +192,7 @@ internal sealed class CultivationService : ICultivationService
     /// <inheritdoc/>
     public void SaveCultivateItem(CultivateItem item)
     {
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             scope.ServiceProvider.GetRequiredService<AppDbContext>().CultivateItems.UpdateAndSave(item);
         }
@@ -285,13 +206,14 @@ internal sealed class CultivationService : ICultivationService
             return true;
         }
 
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             try
             {
-                Current ??= appDbContext.CultivateProjects.AsNoTracking().SelectedOrDefault();
+                Current ??= appDbContext.CultivateProjects.SelectedOrDefault();
             }
             catch (InvalidOperationException ex)
             {
@@ -328,7 +250,6 @@ internal sealed class CultivationService : ICultivationService
     private static Task<List<InventoryItem>> GetProjectInventoryAsync(AppDbContext appDbContext, Guid projectId)
     {
         return appDbContext.InventoryItems
-            .AsNoTracking()
             .Where(e => e.ProjectId == projectId)
             .ToListAsync();
     }
@@ -337,7 +258,6 @@ internal sealed class CultivationService : ICultivationService
     private static Task<List<CultivateEntry>> GetProjectEntriesAsync(AppDbContext appDbContext, Guid projectId)
     {
         return appDbContext.CultivateEntries
-            .AsNoTracking()
             .Where(e => e.ProjectId == projectId)
             .ToListAsync();
     }
@@ -346,7 +266,6 @@ internal sealed class CultivationService : ICultivationService
     private static Task<List<CultivateItem>> GetEntryItemsAsync(AppDbContext appDbContext, Guid entryId)
     {
         return appDbContext.CultivateItems
-            .AsNoTracking()
             .Where(i => i.EntryId == entryId)
             .OrderBy(i => i.ItemId)
             .ToListAsync();

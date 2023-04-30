@@ -1,10 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
@@ -20,7 +21,7 @@ internal static class SummaryHelper
     /// <param name="talents">全部命座</param>
     /// <param name="talentIds">激活的命座列表</param>
     /// <returns>命之座</returns>
-    public static List<ConstellationView> CreateConstellations(List<Skill> talents, List<int>? talentIds)
+    public static List<ConstellationView> CreateConstellations(List<Skill> talents, List<SkillId>? talentIds)
     {
         return talents.SelectList(talent => new ConstellationView()
         {
@@ -38,7 +39,7 @@ internal static class SummaryHelper
     /// <param name="proudSkillExtraLevelMap">额外提升等级映射</param>
     /// <param name="proudSkills">技能列表</param>
     /// <returns>技能</returns>
-    public static List<SkillView> CreateSkills(Dictionary<string, int> skillLevelMap, Dictionary<string, int>? proudSkillExtraLevelMap, IEnumerable<ProudableSkill> proudSkills)
+    public static List<SkillView> CreateSkills(Dictionary<string, int> skillLevelMap, Dictionary<string, int>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
     {
         if (skillLevelMap == null)
         {
@@ -49,34 +50,30 @@ internal static class SummaryHelper
 
         if (proudSkillExtraLevelMap != null)
         {
-            foreach ((string skillGroupId, int extraLevel) in proudSkillExtraLevelMap)
+            foreach ((string skillGroupIdString, int extraLevel) in proudSkillExtraLevelMap)
             {
-                int skillGroupIdInt32 = int.Parse(skillGroupId);
-                int skillId = proudSkills.Single(p => p.GroupId == skillGroupIdInt32).Id;
+                SkillGroupId skillGroupId = int.Parse(skillGroupIdString);
+                SkillId skillId = proudSkills.Single(p => p.GroupId == skillGroupId).Id;
 
-                skillExtraLeveledMap.Increase(skillId.ToString(), extraLevel);
+                skillExtraLeveledMap.Increase($"{skillId.Value}", extraLevel);
             }
         }
 
-        List<SkillView> skills = new();
-
-        foreach (ProudableSkill proudableSkill in proudSkills)
+        return proudSkills.SelectList(proudableSkill =>
         {
-            SkillView skill = new()
+            string skillId = $"{proudableSkill.Id.Value}";
+
+            return new SkillView()
             {
                 Name = proudableSkill.Name,
                 Icon = SkillIconConverter.IconNameToUri(proudableSkill.Icon),
                 Description = proudableSkill.Description,
 
                 GroupId = proudableSkill.GroupId,
-                LevelNumber = skillLevelMap[proudableSkill.Id.ToString()],
-                Info = ParameterDescriptor.Convert(proudableSkill.Proud, skillExtraLeveledMap[proudableSkill.Id.ToString()]),
+                LevelNumber = skillLevelMap[skillId],
+                Info = DescriptionsParametersDescriptor.Convert(proudableSkill.Proud, skillExtraLeveledMap[skillId]),
             };
-
-            skills.Add(skill);
-        }
-
-        return skills;
+        });
     }
 
     /// <summary>
@@ -103,32 +100,32 @@ internal static class SummaryHelper
     /// </summary>
     /// <param name="appendId">id</param>
     /// <returns>分数</returns>
-    public static double GetPercentSubAffixScore(int appendId)
+    public static float GetPercentSubAffixScore(int appendId)
     {
         int maxId = GetAffixMaxId(appendId);
         int delta = maxId - appendId;
 
         return (maxId / 100000, delta) switch
         {
-            (5, 0) => 100,
-            (5, 1) => 90,
-            (5, 2) => 80,
-            (5, 3) => 70,
+            (5, 0) => 100F,
+            (5, 1) => 90F,
+            (5, 2) => 80F,
+            (5, 3) => 70F,
 
-            (4, 0) => 100,
-            (4, 1) => 90,
-            (4, 2) => 80,
-            (4, 3) => 70,
+            (4, 0) => 100F,
+            (4, 1) => 90F,
+            (4, 2) => 80F,
+            (4, 3) => 70F,
 
-            (3, 0) => 100,
-            (3, 1) => 85,
-            (3, 2) => 70,
+            (3, 0) => 100F,
+            (3, 1) => 85F,
+            (3, 2) => 70F,
 
-            (2, 0) => 100,
-            (2, 1) => 80,
+            (2, 0) => 100F,
+            (2, 1) => 80F,
 
             // TODO: Not quite sure why can we hit this branch.
-            _ => 0,
+            _ => 0F,
         };
     }
 
@@ -137,15 +134,15 @@ internal static class SummaryHelper
     /// </summary>
     /// <param name="fightPropMap">属性</param>
     /// <returns>评分</returns>
-    public static double ScoreCrit(IDictionary<FightProperty, double> fightPropMap)
+    public static float ScoreCrit(Dictionary<FightProperty, float> fightPropMap)
     {
         if (fightPropMap == null)
         {
-            return 0.0;
+            return 0F;
         }
 
-        double cr = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL];
-        double cd = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL_HURT];
+        float cr = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL];
+        float cd = fightPropMap[FightProperty.FIGHT_PROP_CRITICAL_HURT];
 
         return 100 * ((cr * 2) + cd);
     }

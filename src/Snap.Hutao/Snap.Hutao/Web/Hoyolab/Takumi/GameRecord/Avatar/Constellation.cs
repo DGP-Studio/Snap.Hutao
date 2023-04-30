@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
 /// <summary>
@@ -13,7 +15,7 @@ internal sealed class Constellation
     /// Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public SkillId Id { get; set; }
 
     /// <summary>
     /// 名称

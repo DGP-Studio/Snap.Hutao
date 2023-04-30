@@ -53,7 +53,7 @@ internal sealed class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
         {
             string cacheFile = GetCacheFile(path);
 
-            using (TempFile? tempFile = TempFile.CreateCopyFrom(cacheFile))
+            using (TempFile? tempFile = TempFile.CopyFrom(cacheFile))
             {
                 if (tempFile == null)
                 {
@@ -69,7 +69,7 @@ internal sealed class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 
                         if (!string.IsNullOrEmpty(result))
                         {
-                            return new(true, new(result, result.Contains("hoyoverse.com")));
+                            return new(true, new(result));
                         }
                         else
                         {

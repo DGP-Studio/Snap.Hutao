@@ -9,17 +9,17 @@ namespace Snap.Hutao.Control.Image;
 /// <param name="Offset">便宜</param>
 /// <param name="Color">颜色</param>
 [HighQuality]
-internal struct GradientStop
+internal readonly struct GradientStop
 {
     /// <summary>
-    /// 便宜
+    /// 偏移
     /// </summary>
-    public float Offset;
+    public readonly float Offset;
 
     /// <summary>
     /// 颜色
     /// </summary>
-    public Windows.UI.Color Color;
+    public readonly Windows.UI.Color Color;
 
     /// <summary>
     /// 构造一个新的渐变锚点

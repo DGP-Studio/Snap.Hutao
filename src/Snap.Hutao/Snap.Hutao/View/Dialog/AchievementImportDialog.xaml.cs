@@ -17,14 +17,19 @@ internal sealed partial class AchievementImportDialog : ContentDialog
 {
     private static readonly DependencyProperty UIAFProperty = Property<AchievementImportDialog>.Depend(nameof(UIAF), default(UIAF));
 
+    private readonly ITaskContext taskContext;
+
     /// <summary>
     /// 构造一个新的成就对话框
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="uiaf">uiaf数据</param>
-    public AchievementImportDialog(UIAF uiaf)
+    public AchievementImportDialog(IServiceProvider serviceProvider, UIAF uiaf)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         UIAF = uiaf;
     }
 
@@ -43,7 +48,7 @@ internal sealed partial class AchievementImportDialog : ContentDialog
     /// <returns>导入选项</returns>
     public async Task<ValueResult<bool, ImportStrategy>> GetImportStrategyAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
         ImportStrategy strategy = (ImportStrategy)ImportModeSelector.SelectedIndex;
 

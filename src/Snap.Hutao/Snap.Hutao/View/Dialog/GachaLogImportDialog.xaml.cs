@@ -16,14 +16,19 @@ internal sealed partial class GachaLogImportDialog : ContentDialog
 {
     private static readonly DependencyProperty UIGFProperty = Property<AchievementImportDialog>.Depend(nameof(UIGF), default(UIGF));
 
+    private readonly ITaskContext taskContext;
+
     /// <summary>
     /// 构造一个新的祈愿记录导入对话框
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="uigf">uigf数据</param>
-    public GachaLogImportDialog(UIGF uigf)
+    public GachaLogImportDialog(IServiceProvider serviceProvider, UIGF uigf)
     {
         InitializeComponent();
-        XamlRoot = Ioc.Default.GetRequiredService<MainWindow>().Content.XamlRoot;
+        XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
+
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         UIGF = uigf;
     }
 
@@ -42,7 +47,7 @@ internal sealed partial class GachaLogImportDialog : ContentDialog
     /// <returns>是否导入</returns>
     public async Task<bool> GetShouldImportAsync()
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         return await ShowAsync() == ContentDialogResult.Primary;
     }
 }

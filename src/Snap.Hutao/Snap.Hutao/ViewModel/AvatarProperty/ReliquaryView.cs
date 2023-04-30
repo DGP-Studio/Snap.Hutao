@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.AvatarProperty;
+namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 圣遗物
@@ -32,5 +32,5 @@ internal sealed class ReliquaryView : Equip
     /// <summary>
     /// 评分
     /// </summary>
-    internal double Score { get; set; }
+    internal float Score { get; set; }
 }

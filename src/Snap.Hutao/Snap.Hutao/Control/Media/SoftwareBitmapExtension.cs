@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Win32;
@@ -27,15 +28,15 @@ internal static class SoftwareBitmapExtension
             using (IMemoryBufferReference reference = buffer.CreateReference())
             {
                 reference.As<IMemoryBufferByteAccess>().GetBuffer(out byte* data, out uint length);
-
-                for (int i = 0; i < length; i += 4)
+                Span<Bgra8> bytes = new(data, unchecked((int)length / (sizeof(Bgra8) / sizeof(uint))));
+                foreach (ref Bgra8 pixel in bytes)
                 {
-                    Bgra8* pixel = (Bgra8*)(data + i);
-                    byte baseAlpha = pixel->A;
-                    pixel->B = (byte)(((pixel->B * baseAlpha) + (tint.B * (0xFF - baseAlpha))) / 0xFF);
-                    pixel->G = (byte)(((pixel->G * baseAlpha) + (tint.G * (0xFF - baseAlpha))) / 0xFF);
-                    pixel->R = (byte)(((pixel->R * baseAlpha) + (tint.R * (0xFF - baseAlpha))) / 0xFF);
-                    pixel->A = 0xFF;
+                    byte baseAlpha = pixel.A;
+                    int opposite = 0xFF - baseAlpha;
+                    pixel.B = (byte)(((pixel.B * baseAlpha) + (tint.B * opposite)) / 0xFF);
+                    pixel.G = (byte)(((pixel.G * baseAlpha) + (tint.G * opposite)) / 0xFF);
+                    pixel.R = (byte)(((pixel.R * baseAlpha) + (tint.R * opposite)) / 0xFF);
+                    pixel.A = 0xFF;
                 }
             }
         }

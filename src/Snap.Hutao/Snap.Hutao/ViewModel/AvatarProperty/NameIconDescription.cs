@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-namespace Snap.Hutao.Model.Binding.AvatarProperty;
+using Snap.Hutao.Model;
+
+namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 名称与描述与图标抽象

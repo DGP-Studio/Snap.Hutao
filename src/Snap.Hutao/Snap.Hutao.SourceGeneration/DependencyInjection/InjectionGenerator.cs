@@ -26,9 +26,9 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses =
-            context.SyntaxProvider.CreateSyntaxProvider(FilterAttributedClasses, HttpClientClass)
-            .Where(GeneratorSyntaxContext2.NotNull)!
+        IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses = context.SyntaxProvider
+            .CreateSyntaxProvider(FilterAttributedClasses, HttpClientClass)
+            .Where(GeneratorSyntaxContext2.NotNull)
             .Collect();
 
         context.RegisterImplementationSourceOutput(injectionClasses, GenerateAddInjectionsImplementation);
@@ -96,13 +96,13 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
             switch (injectAsName)
             {
                 case InjectAsSingletonName:
-                    lineBuilder.Append(@"        services.AddSingleton<");
+                    lineBuilder.Append("        services.AddSingleton<");
                     break;
                 case InjectAsTransientName:
-                    lineBuilder.Append(@"        services.AddTransient<");
+                    lineBuilder.Append("        services.AddTransient<");
                     break;
                 case InjectAsScopedName:
-                    lineBuilder.Append(@"        services.AddScoped<");
+                    lineBuilder.Append("        services.AddScoped<");
                     break;
                 default:
                     production.ReportDiagnostic(Diagnostic.Create(invalidInjectionDescriptor, null, injectAsName));

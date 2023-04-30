@@ -17,6 +17,7 @@ namespace Snap.Hutao.Service.Navigation;
 [Injection(InjectAs.Singleton, typeof(INavigationService))]
 internal sealed class NavigationService : INavigationService
 {
+    private readonly ITaskContext taskContext;
     private readonly IInfoBarService infoBarService;
     private readonly ILogger<INavigationService> logger;
 
@@ -27,8 +28,9 @@ internal sealed class NavigationService : INavigationService
     /// </summary>
     /// <param name="infoBarService">信息条服务</param>
     /// <param name="logger">日志器</param>
-    public NavigationService(IInfoBarService infoBarService, ILogger<INavigationService> logger)
+    public NavigationService(ITaskContext taskContext, IInfoBarService infoBarService, ILogger<INavigationService> logger)
     {
+        this.taskContext = taskContext;
         this.infoBarService = infoBarService;
         this.logger = logger;
     }
@@ -181,7 +183,7 @@ internal sealed class NavigationService : INavigationService
     /// <inheritdoc/>
     public void GoBack()
     {
-        ThreadHelper.InvokeOnMainThread(() =>
+        taskContext.InvokeOnMainThread(() =>
         {
             bool canGoBack = Frame?.CanGoBack ?? false;
 

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Core.LifeCycle;
@@ -33,6 +34,7 @@ namespace Snap.Hutao.ViewModel;
 internal sealed class SettingViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly AppDbContext appDbContext;
     private readonly IGameService gameService;
     private readonly ILogger<SettingViewModel> logger;
@@ -61,12 +63,14 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public SettingViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
         gameService = serviceProvider.GetRequiredService<IGameService>();
         logger = serviceProvider.GetRequiredService<ILogger<SettingViewModel>>();
         Experimental = serviceProvider.GetRequiredService<ExperimentalFeaturesViewModel>();
         Options = serviceProvider.GetRequiredService<AppOptions>();
         UserOptions = serviceProvider.GetRequiredService<HutaoUserOptions>();
+        HutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
         this.serviceProvider = serviceProvider;
 
         selectedCulture = cultures.FirstOrDefault(c => c.Value == Options.CurrentCulture.Name);
@@ -83,36 +87,14 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     }
 
     /// <summary>
-    /// 版本
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public string AppVersion
-    {
-        get => Core.CoreEnvironment.Version.ToString();
-    }
-
-    /// <summary>
-    /// WebView2 版本
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public string WebView2Version
-    {
-        get => Core.WebView2Helper.Version;
-    }
-
-    /// <summary>
-    /// 设备Id
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public string DeviceId
-    {
-        get => Core.CoreEnvironment.HutaoDeviceId;
-    }
-
-    /// <summary>
     /// 应用程序设置
     /// </summary>
     public AppOptions Options { get; }
+
+    /// <summary>
+    /// 胡桃选项
+    /// </summary>
+    public HutaoOptions HutaoOptions { get; }
 
     /// <summary>
     /// 胡桃用户选项
@@ -235,7 +217,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
         if (isOk)
         {
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             Options.GamePath = path;
         }
     }
@@ -274,8 +256,9 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     private async Task ShowSignInWebViewDialogAsync()
     {
         // ContentDialog must be created by main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-        await new SignInWebViewDialog().ShowAsync().AsTask().ConfigureAwait(false);
+        await taskContext.SwitchToMainThreadAsync();
+        SignInWebViewDialog dialog = serviceProvider.CreateInstance<SignInWebViewDialog>();
+        await dialog.ShowAsync();
     }
 
     private async Task CheckUpdateAsync()
@@ -317,7 +300,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 
         try
         {
-            Clipboard.SetText(DeviceId);
+            Clipboard.SetText(HutaoOptions.DeviceId);
             infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
         catch (COMException ex)

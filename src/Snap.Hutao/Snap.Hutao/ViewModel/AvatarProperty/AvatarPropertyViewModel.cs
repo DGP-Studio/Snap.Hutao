@@ -11,7 +11,6 @@ using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
@@ -41,6 +40,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
     private Summary? summary;
@@ -52,6 +52,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
     /// <param name="serviceProvider">服务提供器</param>
     public AvatarPropertyViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         userService = serviceProvider.GetRequiredService<IUserService>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         this.serviceProvider = serviceProvider;
@@ -162,7 +163,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
                     .ConfigureAwait(false);
 
-                using (await dialog.BlockAsync().ConfigureAwait(false))
+                using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                 {
                     summaryResult = await serviceProvider
                         .GetRequiredService<IAvatarInfoService>()
@@ -174,7 +175,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
             (RefreshResult result, Summary? summary) = summaryResult;
             if (result == RefreshResult.Ok)
             {
-                await ThreadHelper.SwitchToMainThreadAsync();
+                await taskContext.SwitchToMainThreadAsync();
                 Summary = summary;
                 SelectedAvatar = Summary?.Avatars.FirstOrDefault();
             }
@@ -185,6 +186,11 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
                     case RefreshResult.APIUnavailable:
                         infoBarService.Warning(SH.ViewModelAvatarPropertyEnkaApiUnavailable);
                         break;
+
+                    case RefreshResult.StatusCodeNotSucceed:
+                        infoBarService.Warning(summary!.Message);
+                        break;
+
                     case RefreshResult.ShowcaseNotOpen:
                         infoBarService.Warning(SH.ViewModelAvatarPropertyShowcaseNotOpen);
                         break;
@@ -209,10 +215,9 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
                 }
 
                 // ContentDialog must be created by main thread.
-                await ThreadHelper.SwitchToMainThreadAsync();
-                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(avatar.ToCalculable(), avatar.Weapon.ToCalculable())
-                    .GetPromotionDeltaAsync()
-                    .ConfigureAwait(false);
+                await taskContext.SwitchToMainThreadAsync();
+                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
+                (bool isOk, CalcAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {
@@ -272,7 +277,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
             bool clipboardOpened = false;
             using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
             {
-                Color tintColor = (Color)serviceProvider.GetRequiredService<App>().Resources["CompatBackgroundColor"];
+                Color tintColor = serviceProvider.GetRequiredService<IAppResourceProvider>().GetResource<Color>("CompatBackgroundColor");
                 Bgra8 tint = Bgra8.FromColor(tintColor);
                 softwareBitmap.NormalBlend(tint);
                 using (InMemoryRandomAccessStream memory = new())
@@ -281,15 +286,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
                     encoder.SetSoftwareBitmap(softwareBitmap);
                     await encoder.FlushAsync();
 
-                    try
-                    {
-                        Clipboard.SetBitmap(memory);
-                        clipboardOpened = true;
-                    }
-                    catch (COMException)
-                    {
-                        // CLIPBRD_E_CANT_OPEN
-                    }
+                    clipboardOpened = serviceProvider.GetRequiredService<IClipboardInterop>().SetBitmap(memory);
                 }
             }
 

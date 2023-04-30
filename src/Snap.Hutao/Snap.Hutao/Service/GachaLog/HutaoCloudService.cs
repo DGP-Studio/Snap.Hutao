@@ -8,6 +8,7 @@ using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -18,17 +19,16 @@ namespace Snap.Hutao.Service.GachaLog;
 internal sealed class HutaoCloudService : IHutaoCloudService
 {
     private readonly HomaGachaLogClient homaGachaLogClient;
-    private readonly AppDbContext appDbContext;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的胡桃云服务
     /// </summary>
-    /// <param name="homaGachaLogClient">胡桃祈愿记录客户端</param>
-    /// <param name="appDbContext">数据库上下文</param>
-    public HutaoCloudService(HomaGachaLogClient homaGachaLogClient, AppDbContext appDbContext)
+    /// <param name="serviceProvider">服务提供器</param>
+    public HutaoCloudService(IServiceProvider serviceProvider)
     {
-        this.homaGachaLogClient = homaGachaLogClient;
-        this.appDbContext = appDbContext;
+        homaGachaLogClient = serviceProvider.GetRequiredService<HomaGachaLogClient>();
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
@@ -45,26 +45,14 @@ internal sealed class HutaoCloudService : IHutaoCloudService
         if (endIds != null)
         {
             List<GachaItem> items = new();
-            foreach ((GachaConfigType type, long endId) in endIds)
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                IEnumerable<GachaItem> part = appDbContext.GachaItems
-                    .AsNoTracking()
-                    .Where(i => i.ArchiveId == gachaArchive.InnerId)
-                    .Where(i => i.QueryType == type)
-                    .OrderByDescending(i => i.Id)
-                    .Where(i => i.Id > endId)
-
-                    // Keep this to make SQL generates correctly
-                    .Select(i => new GachaItem()
-                    {
-                        GachaType = i.GachaType,
-                        QueryType = i.QueryType,
-                        ItemId = i.ItemId,
-                        Time = i.Time,
-                        Id = i.Id,
-                    });
-
-                items.AddRange(part);
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                foreach ((GachaConfigType type, long endId) in endIds)
+                {
+                    IEnumerable<GachaItem> part = QueryArchiveGachaItemsByTypeAndEndId(appDbContext, gachaArchive, type, endId);
+                    items.AddRange(part);
+                }
             }
 
             return await homaGachaLogClient.UploadGachaItemsAsync(uid, items, token).ConfigureAwait(false);
@@ -76,43 +64,29 @@ internal sealed class HutaoCloudService : IHutaoCloudService
     /// <inheritdoc/>
     public async Task<ValueResult<bool, Model.Entity.GachaArchive?>> RetrieveGachaItemsAsync(string uid, CancellationToken token = default)
     {
-        Model.Entity.GachaArchive? archive = await appDbContext.GachaArchives
-            .AsNoTracking()
-            .SingleOrDefaultAsync(a => a.Uid == uid, token)
-            .ConfigureAwait(false);
-
-        EndIds endIds = new();
-        foreach (GachaConfigType type in GachaLog.QueryTypes)
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            if (archive != null)
-            {
-                Model.Entity.GachaItem? item = appDbContext.GachaItems
-                    .AsNoTracking()
-                    .Where(i => i.ArchiveId == archive.InnerId)
-                    .Where(i => i.QueryType == type)
-                    .OrderBy(i => i.Id)
-                    .FirstOrDefault();
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                if (item != null)
+            Model.Entity.GachaArchive? archive = await appDbContext.GachaArchives
+                .SingleOrDefaultAsync(a => a.Uid == uid, token)
+                .ConfigureAwait(false);
+
+            EndIds endIds = await EndIds.CreateAsync(appDbContext, archive, token).ConfigureAwait(false);
+            Response<List<GachaItem>> resp = await homaGachaLogClient.RetrieveGachaItemsAsync(uid, endIds, token).ConfigureAwait(false);
+
+            if (resp.IsOk())
+            {
+                if (archive == null)
                 {
-                    endIds[type] = item.Id;
+                    archive = Model.Entity.GachaArchive.Create(uid);
+                    await appDbContext.GachaArchives.AddAndSaveAsync(archive).ConfigureAwait(false);
                 }
+
+                List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.Create(archive.InnerId, i));
+                await appDbContext.GachaItems.AddRangeAndSaveAsync(gachaItems).ConfigureAwait(false);
+                return new(true, archive);
             }
-        }
-
-        Response<List<GachaItem>> resp = await homaGachaLogClient.RetrieveGachaItemsAsync(uid, endIds, token).ConfigureAwait(false);
-
-        if (resp.IsOk())
-        {
-            if (archive == null)
-            {
-                archive = Model.Entity.GachaArchive.Create(uid);
-                await appDbContext.GachaArchives.AddAndSaveAsync(archive).ConfigureAwait(false);
-            }
-
-            List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.Create(archive.InnerId, i));
-            await appDbContext.GachaItems.AddRangeAndSaveAsync(gachaItems).ConfigureAwait(false);
-            return new(true, archive);
         }
 
         return new(false, null);
@@ -122,6 +96,26 @@ internal sealed class HutaoCloudService : IHutaoCloudService
     public async Task<ValueResult<bool, string>> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
     {
         return await homaGachaLogClient.DeleteGachaItemsAsync(uid, token).ConfigureAwait(false);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static IEnumerable<GachaItem> QueryArchiveGachaItemsByTypeAndEndId(AppDbContext appDbContext, Model.Entity.GachaArchive gachaArchive, GachaConfigType type, long endId)
+    {
+        return appDbContext.GachaItems
+            .Where(i => i.ArchiveId == gachaArchive.InnerId)
+            .Where(i => i.QueryType == type)
+            .OrderByDescending(i => i.Id)
+            .Where(i => i.Id > endId)
+
+            // Keep this to make SQL generates correctly
+            .Select(i => new GachaItem()
+            {
+                GachaType = i.GachaType,
+                QueryType = i.QueryType,
+                ItemId = i.ItemId,
+                Time = i.Time,
+                Id = i.Id,
+            });
     }
 
     private async Task<EndIds?> GetEndIdsFromCloudAsync(string uid, CancellationToken token = default)

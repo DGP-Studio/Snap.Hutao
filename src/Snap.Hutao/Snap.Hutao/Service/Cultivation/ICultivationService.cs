@@ -22,6 +22,11 @@ internal interface ICultivationService
     CultivateProject? Current { get; set; }
 
     /// <summary>
+    /// 获取用于绑定的项目集合
+    /// </summary>
+    ObservableCollection<CultivateProject> ProjectCollection { get; }
+
+    /// <summary>
     /// 获取绑定用的养成列表
     /// </summary>
     /// <param name="cultivateProject">养成计划</param>
@@ -36,12 +41,6 @@ internal interface ICultivationService
     /// <param name="saveCommand">保存命令</param>
     /// <returns>物品列表</returns>
     List<InventoryItemView> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand);
-
-    /// <summary>
-    /// 获取用于绑定的项目集合
-    /// </summary>
-    /// <returns>项目集合</returns>
-    ObservableCollection<CultivateProject> GetProjectCollection();
 
     /// <summary>
     /// 异步获取统计物品列表

@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Converter;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -89,9 +90,7 @@ internal sealed class BaseValueInfo : ObservableObject
 
     private void UpdateValues(int level, bool promoted)
     {
-        List<NameValue<string>> values = new(propValues.Count);
-
-        foreach (PropertyCurveValue propValue in propValues)
+        Values = propValues.SelectList(propValue =>
         {
             float value = propValue.Value * growCurveMap[level].GetValueOrDefault(propValue.Type);
             if (promoteMap != null)
@@ -102,10 +101,8 @@ internal sealed class BaseValueInfo : ObservableObject
                 value += addValue;
             }
 
-            values.Add(Model.Metadata.Converter.PropertyDescriptor.FormatNameValue(propValue.Property, value));
-        }
-
-        Values = values;
+            return FightPropertyFormat.ToNameValue(propValue.Property, value);
+        });
     }
 
     private int GetPromoteLevel(int level, bool promoted)

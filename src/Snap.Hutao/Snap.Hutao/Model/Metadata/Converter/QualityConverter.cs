@@ -15,7 +15,7 @@ internal sealed class QualityConverter : ValueConverter<ItemQuality, Uri>
     /// <inheritdoc/>
     public override Uri Convert(ItemQuality from)
     {
-        string name = from.ToString();
+        string name = Enum.GetName(from) ?? from.ToString();
         if (name == nameof(ItemQuality.QUALITY_ORANGE_SP))
         {
             name = "QUALITY_RED";

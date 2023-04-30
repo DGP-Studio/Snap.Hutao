@@ -24,7 +24,8 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserService))]
 internal class UserService : IUserService
 {
-    private readonly IServiceScopeFactory scopeFactory;
+    private readonly ITaskContext taskContext;
+    private readonly IServiceProvider serviceProvider;
     private readonly IMessenger messenger;
     private readonly object currentUserLocker = new();
 
@@ -35,11 +36,13 @@ internal class UserService : IUserService
     /// <summary>
     /// 构造一个新的用户服务
     /// </summary>
-    /// <param name="scopeFactory">范围工厂</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="messenger">消息器</param>
-    public UserService(IServiceScopeFactory scopeFactory, IMessenger messenger)
+    public UserService(IServiceProvider serviceProvider, IMessenger messenger)
     {
-        this.scopeFactory = scopeFactory;
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
+        this.serviceProvider = serviceProvider;
         this.messenger = messenger;
     }
 
@@ -56,7 +59,7 @@ internal class UserService : IUserService
 
             lock (currentUserLocker)
             {
-                using (IServiceScope scope = scopeFactory.CreateScope())
+                using (IServiceScope scope = serviceProvider.CreateScope())
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
@@ -98,13 +101,13 @@ internal class UserService : IUserService
     public async Task RemoveUserAsync(BindingUser user)
     {
         // Sync cache
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         userCollection!.Remove(user);
         roleCollection?.RemoveWhere(r => r.User.Mid == user.Entity.Mid);
 
         // Sync database
-        await ThreadHelper.SwitchToBackgroundAsync();
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await appDbContext.Users
@@ -118,16 +121,16 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<ObservableCollection<BindingUser>> GetUserCollectionAsync()
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
+        await taskContext.SwitchToBackgroundAsync();
         if (userCollection == null)
         {
             List<BindingUser> users = new();
 
-            using (IServiceScope scope = scopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                foreach (Model.Entity.User entity in appDbContext.Users.AsNoTracking())
+                foreach (Model.Entity.User entity in appDbContext.Users)
                 {
                     BindingUser initialized = await BindingUser.ResumeAsync(entity).ConfigureAwait(false);
                     users.Add(initialized);
@@ -151,7 +154,7 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<ObservableCollection<UserAndUid>> GetRoleCollectionAsync()
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
+        await taskContext.SwitchToBackgroundAsync();
         if (roleCollection == null)
         {
             List<UserAndUid> userAndUids = new();
@@ -193,7 +196,7 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea)
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
+        await taskContext.SwitchToBackgroundAsync();
         string? mid = cookie.GetValueOrDefault(isOversea ? Cookie.STUID : Cookie.MID);
 
         if (mid == null)
@@ -204,15 +207,15 @@ internal class UserService : IUserService
         // 检查 mid 对应用户是否存在
         if (TryGetUser(userCollection!, mid, out BindingUser? user))
         {
-            using (IServiceScope scope = scopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                if (cookie.TryGetAsSToken(isOversea, out Cookie? stoken))
+                if (cookie.TryGetSToken(isOversea, out Cookie? stoken))
                 {
                     user.SToken = stoken;
-                    user.LToken = cookie.TryGetAsLToken(out Cookie? ltoken) ? ltoken : user.LToken;
-                    user.CookieToken = cookie.TryGetAsCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
+                    user.LToken = cookie.TryGetLToken(out Cookie? ltoken) ? ltoken : user.LToken;
+                    user.CookieToken = cookie.TryGetCookieToken(out Cookie? cookieToken) ? cookieToken : user.CookieToken;
 
                     await appDbContext.Users.UpdateAndSaveAsync(user.Entity).ConfigureAwait(false);
                     return new(UserOptionResult.Updated, mid);
@@ -232,7 +235,7 @@ internal class UserService : IUserService
     /// <inheritdoc/>
     public async Task<bool> RefreshCookieTokenAsync(BindingUser user)
     {
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
                 .PickRequiredService<IPassportClient>(user.Entity.IsOversea)
@@ -267,8 +270,8 @@ internal class UserService : IUserService
 
     private async Task<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie, bool isOversea)
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             BindingUser? newUser = await BindingUser.CreateAsync(cookie, isOversea).ConfigureAwait(false);
@@ -278,7 +281,7 @@ internal class UserService : IUserService
                 // Sync cache
                 if (userCollection != null)
                 {
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     {
                         userCollection!.Add(newUser);
 
@@ -293,7 +296,7 @@ internal class UserService : IUserService
                 }
 
                 // Sync database
-                await ThreadHelper.SwitchToBackgroundAsync();
+                await taskContext.SwitchToBackgroundAsync();
                 await appDbContext.Users.AddAndSaveAsync(newUser.Entity).ConfigureAwait(false);
                 return new(UserOptionResult.Added, newUser.UserInfo!.Uid);
             }

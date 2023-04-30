@@ -205,7 +205,7 @@ public static class JsonParser
 
             try
             {
-                return Enum.Parse(type, json, false);
+                return System.Enum.Parse(type, json, false);
             }
             catch
             {

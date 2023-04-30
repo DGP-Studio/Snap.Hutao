@@ -11,40 +11,39 @@ namespace Snap.Hutao.Model.Metadata;
 [HighQuality]
 internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
 {
+    private static readonly Lazy<ParameterFormat> LazyFormat = new();
+
     /// <summary>
     /// 格式化
     /// </summary>
     /// <param name="str">字符串</param>
     /// <param name="param">参数</param>
     /// <returns>格式化的字符串</returns>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Format(string str, object param)
     {
-        return string.Format(new ParameterFormat(), str, param);
+        return string.Format(LazyFormat.Value, str, param);
     }
 
     /// <inheritdoc/>
     public string Format(string? fmt, object? arg, IFormatProvider? formatProvider)
     {
-        if (fmt != null)
+        ReadOnlySpan<char> fmtSpan = fmt;
+        switch (fmtSpan.Length)
         {
-            switch (fmt.Length)
-            {
-                case 3: // FnP
-                    return string.Format($"{{0:P{fmt[1]}}}", arg);
-                case 2: // Fn
-                    return string.Format($"{{0:{fmt}}}", arg);
-                case 1: // P I
-                    switch (fmt[0])
-                    {
-                        case 'P':
-                            return string.Format($"{{0:P0}}", arg);
-                        case 'I':
-                            return arg == null ? "0" : ((IConvertible)arg).ToInt32(null).ToString();
-                    }
+            case 3: // FnP
+                return string.Format($"{{0:P{fmtSpan[1]}}}", arg);
+            case 2: // Fn
+                return string.Format($"{{0:{fmtSpan}}}", arg);
+            case 1: // P I
+                switch (fmtSpan[0])
+                {
+                    case 'P':
+                        return string.Format($"{{0:P0}}", arg);
+                    case 'I':
+                        return arg == null ? "0" : ((IConvertible)arg).ToInt32(default).ToString();
+                }
 
-                    break;
-            }
+                break;
         }
 
         return arg?.ToString() ?? string.Empty;

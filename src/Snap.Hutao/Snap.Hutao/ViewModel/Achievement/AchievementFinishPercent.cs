@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.UI;
+using Snap.Hutao.Model.Primitive;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -18,35 +19,34 @@ internal static class AchievementFinishPercent
     /// <param name="viewModel">视图模型</param>
     public static void Update(AchievementViewModel viewModel)
     {
-        int finished = 0;
-        int count = 0;
+        int totalFinished = 0;
+        int totalCount = 0;
 
         if (viewModel.Achievements is AdvancedCollectionView achievements)
         {
             if (viewModel.AchievementGoals is List<AchievementGoalView> achievementGoals)
             {
-                Dictionary<int, AchievementGoalStatistics> counter = achievementGoals.ToDictionary(x => x.Id, x => new AchievementGoalStatistics(x));
+                Dictionary<AchievementGoalId, AchievementGoalStatistics> counter = achievementGoals.ToDictionary(x => x.Id, AchievementGoalStatistics.Create);
                 foreach (AchievementView achievement in achievements.SourceCollection.Cast<AchievementView>())
                 {
-                    // We want to make the state update as fast as possible,
-                    // so we use CollectionsMarshal here to get the ref.
+                    // Make the state update as fast as possible
                     ref AchievementGoalStatistics stat = ref CollectionsMarshal.GetValueRefOrNullRef(counter, achievement.Inner.Goal);
 
                     stat.TotalCount += 1;
-                    count += 1;
+                    totalCount += 1;
                     if (achievement.IsChecked)
                     {
                         stat.Finished += 1;
-                        finished += 1;
+                        totalFinished += 1;
                     }
                 }
 
                 foreach (AchievementGoalStatistics statistics in counter.Values)
                 {
-                    statistics.AchievementGoal.UpdateFinishPercent(statistics.Finished, statistics.TotalCount);
+                    statistics.AchievementGoal.UpdateFinishPercent(statistics);
                 }
 
-                viewModel.FinishDescription = $"{finished}/{count} - {(double)finished / count:P2}";
+                viewModel.FinishDescription = AchievementStatistics.Format(totalFinished, totalCount, out _);
             }
         }
     }

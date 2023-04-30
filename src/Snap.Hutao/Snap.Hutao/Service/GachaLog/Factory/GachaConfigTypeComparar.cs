@@ -15,11 +15,11 @@ internal sealed class GachaConfigTypeComparar : IComparer<GachaConfigType>
     private static readonly GachaConfigTypeComparar InnerShared = new();
     private static readonly ImmutableDictionary<GachaConfigType, int> OrderMap = new Dictionary<GachaConfigType, int>()
     {
-        { GachaConfigType.AvatarEventWish, 0 },
-        { GachaConfigType.AvatarEventWish2, 1 },
-        { GachaConfigType.WeaponEventWish, 2 },
-        { GachaConfigType.StandardWish, 3 },
-        { GachaConfigType.NoviceWish, 4 },
+        [GachaConfigType.AvatarEventWish] = 0,
+        [GachaConfigType.AvatarEventWish2] = 1,
+        [GachaConfigType.WeaponEventWish] = 2,
+        [GachaConfigType.StandardWish] = 3,
+        [GachaConfigType.NoviceWish] = 4,
     }.ToImmutableDictionary();
 
     /// <summary>

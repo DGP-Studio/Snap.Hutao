@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using Snap.Hutao.Model.Binding;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -69,6 +69,6 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
     /// </summary>
     public string Time
     {
-        get => Entity.Time.ToString("yyyy.MM.dd HH:mm:ss");
+        get => $"{Entity.Time:yyyy.MM.dd HH:mm:ss}";
     }
 }

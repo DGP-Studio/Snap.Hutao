@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Dispatching;
 using Snap.Hutao.Core.Threading.Abstraction;
 
 namespace Snap.Hutao.Core.Threading;
@@ -12,9 +13,26 @@ namespace Snap.Hutao.Core.Threading;
 internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOperation>, IAwaiter, ICriticalAwaiter
 {
     private static readonly WaitCallback WaitCallbackRunAction = RunAction;
+    private readonly DispatcherQueue dispatherQueue;
+
+    /// <summary>
+    /// 构造一个新的线程池切换操作
+    /// </summary>
+    /// <param name="dispatherQueue">主线程队列</param>
+    public ThreadPoolSwitchOperation(DispatcherQueue dispatherQueue)
+    {
+        this.dispatherQueue = dispatherQueue;
+    }
 
     /// <inheritdoc/>
-    public bool IsCompleted { get => false; }
+    public bool IsCompleted
+    {
+        get
+        {
+            // 如果已经处于后台就不再切换新的线程
+            return !dispatherQueue.HasThreadAccess;
+        }
+    }
 
     /// <inheritdoc/>
     public ThreadPoolSwitchOperation GetAwaiter()

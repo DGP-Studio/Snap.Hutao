@@ -217,7 +217,7 @@ internal sealed class HutaoCache : IHutaoCache
 
         AvatarConstellationInfos = avatarConstellationInfosRaw.OrderBy(i => i.HoldingRate).Select(info =>
         {
-            return new AvatarConstellationInfoView(idAvatarMap[info.AvatarId], info.HoldingRate, info.Constellations.Select(x => x.Rate));
+            return new AvatarConstellationInfoView(idAvatarMap[info.AvatarId], info.HoldingRate, info.Constellations.SelectList(x => x.Rate));
         }).ToList();
     }
 

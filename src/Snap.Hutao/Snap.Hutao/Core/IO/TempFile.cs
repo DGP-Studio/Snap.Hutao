@@ -43,7 +43,7 @@ internal sealed class TempFile : IDisposable
     /// </summary>
     /// <param name="file">源文件</param>
     /// <returns>临时文件</returns>
-    public static TempFile? CreateCopyFrom(string file)
+    public static TempFile? CopyFrom(string file)
     {
         TempFile temporaryFile = new();
         try

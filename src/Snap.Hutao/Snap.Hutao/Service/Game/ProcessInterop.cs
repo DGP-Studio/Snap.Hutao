@@ -56,7 +56,7 @@ internal static class ProcessInterop
 
         TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
         TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);
-        TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(2000);
+        TimeSpan adjustFpsDelay = TimeSpan.FromMilliseconds(3000);
 
         return unlocker.UnlockAsync(findModuleDelay, findModuleLimit, adjustFpsDelay);
     }
@@ -70,9 +70,10 @@ internal static class ProcessInterop
     public static bool DisableProtection(Process game, string gamePath)
     {
         string? gameFolder = Path.GetDirectoryName(gamePath);
-        if (!string.IsNullOrEmpty(gameFolder))
+        string mhypbaseDll = Path.Combine(gameFolder ?? string.Empty, "mhypbase.dll");
+
+        if (File.Exists(mhypbaseDll))
         {
-            string mhypbaseDll = Path.Combine(gameFolder, "mhypbase.dll");
             using (File.OpenHandle(mhypbaseDll, share: FileShare.None))
             {
                 SpinWait.SpinUntil(() => game.MainWindowHandle != 0);

@@ -14,6 +14,7 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal sealed class TestViewModel : Abstraction.ViewModel
 {
+    private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
 
     /// <summary>
@@ -22,6 +23,7 @@ internal sealed class TestViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public TestViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         this.serviceProvider = serviceProvider;
 
         ShowCommunityGameRecordDialogCommand = new AsyncRelayCommand(ShowCommunityGameRecordDialogAsync);
@@ -53,15 +55,15 @@ internal sealed class TestViewModel : Abstraction.ViewModel
     private async Task ShowCommunityGameRecordDialogAsync()
     {
         // ContentDialog must be created by main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-        await new CommunityGameRecordDialog().ShowAsync();
+        await taskContext.SwitchToMainThreadAsync();
+        await serviceProvider.CreateInstance<CommunityGameRecordDialog>().ShowAsync();
     }
 
     private async Task ShowAdoptCalculatorDialogAsync()
     {
         // ContentDialog must be created by main thread.
-        await ThreadHelper.SwitchToMainThreadAsync();
-        await new AdoptCalculatorDialog().ShowAsync();
+        await taskContext.SwitchToMainThreadAsync();
+        await serviceProvider.CreateInstance<AdoptCalculatorDialog>().ShowAsync();
     }
 
     private void RestartApp(bool elevated)

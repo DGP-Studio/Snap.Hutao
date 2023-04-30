@@ -26,8 +26,8 @@ internal sealed class SignInJsInterface : MiHoYoJSInterface
             Data = new Dictionary<string, string>()
             {
                 { "x-rpc-client_type", "2" },
-                { "x-rpc-device_id",  Core.CoreEnvironment.HoyolabDeviceId },
-                { "x-rpc-app_version", Core.CoreEnvironment.HoyolabXrpcVersion },
+                { "x-rpc-device_id",  Core.HoyolabOptions.DeviceId },
+                { "x-rpc-app_version", Core.HoyolabOptions.XrpcVersion },
             },
         };
     }

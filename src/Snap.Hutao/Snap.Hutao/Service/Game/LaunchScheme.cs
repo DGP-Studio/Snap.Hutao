@@ -12,6 +12,8 @@ namespace Snap.Hutao.Service.Game;
 [HighQuality]
 internal sealed class LaunchScheme
 {
+    // TODO: fix detection
+
     /// <summary>
     /// 已知的启动方案
     /// </summary>
@@ -24,6 +26,14 @@ internal sealed class LaunchScheme
             Key = "eYd89JmJ",
             Channel = ChannelType.Official,
             SubChannel = SubChannelType.Official,
+            IsOversea = false,
+        },
+        new()
+        {
+            LauncherId = "18",
+            Key = "eYd89JmJ",
+            Channel = ChannelType.Official,
+            SubChannel = SubChannelType.NoTapTap,
             IsOversea = false,
         },
 

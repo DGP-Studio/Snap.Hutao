@@ -12,12 +12,12 @@ internal readonly struct ElementMasteryCoefficient
     /// <summary>
     /// 参数1
     /// </summary>
-    public readonly float P1;
+    public readonly float Param1;
 
     /// <summary>
     /// 参数2
     /// </summary>
-    public readonly float P2;
+    public readonly float Param2;
 
     /// <summary>
     /// 构造一个新的元素精通系数
@@ -26,7 +26,7 @@ internal readonly struct ElementMasteryCoefficient
     /// <param name="p2">参数2</param>
     public ElementMasteryCoefficient(float p1, float p2)
     {
-        P1 = p1;
-        P2 = p2;
+        Param1 = p1;
+        Param2 = p2;
     }
 }

@@ -16,6 +16,6 @@ internal sealed class UIGFItem : GachaLogItem
     /// 额外祈愿映射
     /// </summary>
     [JsonPropertyName("uigf_gacha_type")]
-    [JsonEnum(JsonSerializeType.Int32AsString)]
+    [JsonEnum(JsonSerializeType.NumberString)]
     public GachaConfigType UIGFGachaType { get; set; } = default!;
 }

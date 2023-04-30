@@ -60,7 +60,27 @@ internal enum ElementType
     AntiFire = 9,
 
     /// <summary>
-    /// 默认
+    /// 枫丹玩法
     /// </summary>
-    Default = 255,
+    VehicleMuteIce = 10,
+
+    /// <summary>
+    /// 弹弹菇
+    /// </summary>
+    Mushroom = 11,
+
+    /// <summary>
+    /// 激元素
+    /// </summary>
+    Overdose = 12,
+
+    /// <summary>
+    /// 木元素
+    /// </summary>
+    Wood = 13,
+
+    /// <summary>
+    /// 个数
+    /// </summary>
+    Count = 14,
 }

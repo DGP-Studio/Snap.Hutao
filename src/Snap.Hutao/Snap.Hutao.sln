@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Hutao.SourceGeneration", "Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj", "{8B96721E-5604-47D2-9B72-06FEBAD0CE00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap.Hutao.Test", "Snap.Hutao.Test\Snap.Hutao.Test.csproj", "{D691BA9F-904C-4229-87A5-E14F2EFF2F64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Snap.Hutao.Test", "Snap.Hutao.Test\Snap.Hutao.Test.csproj", "{D691BA9F-904C-4229-87A5-E14F2EFF2F64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

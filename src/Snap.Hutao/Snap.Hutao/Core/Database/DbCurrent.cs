@@ -13,6 +13,7 @@ namespace Snap.Hutao.Core.Database;
 /// <typeparam name="TEntity">实体的类型</typeparam>
 /// <typeparam name="TMessage">消息的类型</typeparam>
 [HighQuality]
+[Obsolete("Use ScopedDbCurrent instead")]
 internal sealed class DbCurrent<TEntity, TMessage>
     where TEntity : class, ISelectable
     where TMessage : Message.ValueChangedMessage<TEntity>, new()

@@ -21,17 +21,16 @@ internal interface IGachaLogService
     GachaArchive? CurrentArchive { get; set; }
 
     /// <summary>
+    /// 获取可用于绑定的存档集合
+    /// </summary>
+    ObservableCollection<GachaArchive> ArchiveCollection { get; }
+
+    /// <summary>
     /// 导出为一个新的UIGF对象
     /// </summary>
     /// <param name="archive">存档</param>
     /// <returns>UIGF对象</returns>
     Task<UIGF> ExportToUIGFAsync(GachaArchive archive);
-
-    /// <summary>
-    /// 获取可用于绑定的存档集合
-    /// </summary>
-    /// <returns>存档集合</returns>
-    ObservableCollection<GachaArchive> GetArchiveCollection();
 
     /// <summary>
     /// 获得对应的祈愿统计
@@ -70,7 +69,7 @@ internal interface IGachaLogService
     /// <param name="progress">进度</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证密钥是否可用</returns>
-    Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchState> progress, CancellationToken token);
+    Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token);
 
     /// <summary>
     /// 删除存档

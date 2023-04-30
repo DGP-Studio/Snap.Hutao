@@ -24,5 +24,5 @@ internal sealed class ReliquaryLevel
     /// <summary>
     /// 属性
     /// </summary>
-    public Dictionary<FightProperty, double> Properties { get; set; } = default!;
+    public Dictionary<FightProperty, float> Properties { get; set; } = default!;
 }

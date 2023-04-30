@@ -14,14 +14,17 @@ namespace Snap.Hutao.Service.Game.Locator;
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
 internal sealed class ManualGameLocator : IGameLocator
 {
+    private readonly ITaskContext taskContext;
     private readonly IPickerFactory pickerFactory;
 
     /// <summary>
     /// 构造一个新的手动模式提供器
     /// </summary>
+    /// <param name="taskContext">任务上下文</param>
     /// <param name="pickerFactory">选择器工厂</param>
-    public ManualGameLocator(IPickerFactory pickerFactory)
+    public ManualGameLocator(ITaskContext taskContext, IPickerFactory pickerFactory)
     {
+        this.taskContext = taskContext;
         this.pickerFactory = pickerFactory;
     }
 
@@ -31,6 +34,8 @@ internal sealed class ManualGameLocator : IGameLocator
     /// <inheritdoc/>
     public async Task<ValueResult<bool, string>> LocateGamePathAsync()
     {
+        await taskContext.SwitchToMainThreadAsync();
+
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(
             PickerLocationId.Desktop,
             SH.ServiceGameLocatorFileOpenPickerCommitText,

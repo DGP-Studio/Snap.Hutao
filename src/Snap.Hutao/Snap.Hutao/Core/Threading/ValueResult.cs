@@ -7,7 +7,6 @@ namespace Snap.Hutao.Core.Threading;
 
 /// <summary>
 /// 用于包装异步操作的结果
-/// 结构类型，在栈上分配
 /// </summary>
 /// <typeparam name="TResult">结果类型</typeparam>
 /// <typeparam name="TValue">值类型</typeparam>

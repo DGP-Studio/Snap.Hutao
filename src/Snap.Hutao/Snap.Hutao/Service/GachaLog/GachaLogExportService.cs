@@ -14,33 +14,40 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Scoped, typeof(IGachaLogExportService))]
 internal sealed class GachaLogExportService : IGachaLogExportService
 {
-    private readonly AppDbContext appDbContext;
+    private readonly ITaskContext taskContext;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的祈愿记录导出服务
     /// </summary>
-    /// <param name="appDbContext">数据库上下文</param>
-    public GachaLogExportService(AppDbContext appDbContext)
+    /// <param name="serviceProvider">服务提供器</param>
+    public GachaLogExportService(IServiceProvider serviceProvider)
     {
-        this.appDbContext = appDbContext;
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
     public async Task<UIGF> ExportToUIGFAsync(GachaLogServiceContext context, GachaArchive archive)
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
-        List<UIGFItem> list = appDbContext.GachaItems
-            .Where(i => i.ArchiveId == archive.InnerId)
-            .AsEnumerable()
-            .Select(i => i.ToUIGFItem(context.GetNameQualityByItemId(i.ItemId)))
-            .ToList();
-
-        UIGF uigf = new()
+        await taskContext.SwitchToBackgroundAsync();
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            Info = UIGFInfo.Create(archive.Uid),
-            List = list,
-        };
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        return uigf;
+            List<UIGFItem> list = appDbContext.GachaItems
+                .Where(i => i.ArchiveId == archive.InnerId)
+                .AsEnumerable()
+                .Select(i => i.ToUIGFItem(context.GetNameQualityByItemId(i.ItemId)))
+                .ToList();
+
+            UIGF uigf = new()
+            {
+                Info = UIGFInfo.Create(serviceProvider, archive.Uid),
+                List = list,
+            };
+
+            return uigf;
+        }
     }
 }

@@ -12,8 +12,18 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
 internal sealed class InfoBarService : IInfoBarService
 {
+    private readonly ITaskContext taskContext;
     private readonly TaskCompletionSource initializaionCompletionSource = new();
     private StackPanel? infoBarStack;
+
+    /// <summary>
+    /// 构造一个新的消息条服务
+    /// </summary>
+    /// <param name="taskContext">任务上下文</param>
+    public InfoBarService(ITaskContext taskContext)
+    {
+        this.taskContext = taskContext;
+    }
 
     /// <inheritdoc/>
     public void Initialize(StackPanel container)
@@ -111,7 +121,7 @@ internal sealed class InfoBarService : IInfoBarService
     /// <param name="delay">关闭延迟</param>
     private async Task PrepareInfoBarAndShowInternalAsync(InfoBarSeverity severity, string? title, string? message, int delay)
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
 
         InfoBar infoBar = new()
         {
@@ -136,7 +146,7 @@ internal sealed class InfoBarService : IInfoBarService
     [SuppressMessage("", "VSTHRD100")]
     private async void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
     {
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
 
         infoBarStack!.Children.Remove(sender);
         sender.Closed -= OnInfoBarClosed;

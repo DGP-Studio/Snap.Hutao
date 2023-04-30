@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata.Reliquary;
 
@@ -14,7 +15,7 @@ internal sealed class Reliquary
     /// <summary>
     /// 表示同种类的Id
     /// </summary>
-    public List<int> Ids { get; set; } = default!;
+    public List<ReliquaryId> Ids { get; set; } = default!;
 
     /// <summary>
     /// 允许出现的等级
@@ -24,7 +25,7 @@ internal sealed class Reliquary
     /// <summary>
     /// 套装Id
     /// </summary>
-    public int SetId { get; set; }
+    public ReliquarySetId SetId { get; set; }
 
     /// <summary>
     /// 装备类型

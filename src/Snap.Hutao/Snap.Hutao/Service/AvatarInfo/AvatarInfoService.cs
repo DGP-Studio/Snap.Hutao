@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Model.Binding.AvatarProperty;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Enka;
 using Snap.Hutao.Web.Enka.Model;
@@ -21,26 +21,25 @@ namespace Snap.Hutao.Service.AvatarInfo;
 [Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
 internal sealed class AvatarInfoService : IAvatarInfoService
 {
+    private readonly AvatarInfoDbBulkOperation avatarInfoDbBulkOperation;
     private readonly ISummaryFactory summaryFactory;
     private readonly IMetadataService metadataService;
     private readonly ILogger<AvatarInfoService> logger;
-
-    private readonly AvatarInfoDbOperation avatarInfoDbOperation;
+    private readonly IServiceProvider serviceProvider;
 
     /// <summary>
     /// 构造一个新的角色信息服务
     /// </summary>
     /// <param name="appDbContext">数据库上下文</param>
     /// <param name="serviceProvider">服务提供器</param>
-    public AvatarInfoService(
-        AppDbContext appDbContext,
-        IServiceProvider serviceProvider)
+    public AvatarInfoService(IServiceProvider serviceProvider)
     {
+        avatarInfoDbBulkOperation = serviceProvider.GetRequiredService<AvatarInfoDbBulkOperation>();
         metadataService = serviceProvider.GetRequiredService<IMetadataService>();
         summaryFactory = serviceProvider.GetRequiredService<ISummaryFactory>();
         logger = serviceProvider.GetRequiredService<ILogger<AvatarInfoService>>();
 
-        avatarInfoDbOperation = new(appDbContext, serviceProvider);
+        this.serviceProvider = serviceProvider;
     }
 
     /// <inheritdoc/>
@@ -58,36 +57,41 @@ internal sealed class AvatarInfoService : IAvatarInfoService
                         token.ThrowIfCancellationRequested();
                         if (resp == null)
                         {
-                            return new(RefreshResult.APIUnavailable, null);
+                            return new(RefreshResult.APIUnavailable, default);
+                        }
+
+                        if (!string.IsNullOrEmpty(resp.Message))
+                        {
+                            return new(RefreshResult.StatusCodeNotSucceed, new Summary { Message = resp.Message });
                         }
 
                         if (!resp.IsValid)
                         {
-                            return new(RefreshResult.ShowcaseNotOpen, null);
+                            return new(RefreshResult.ShowcaseNotOpen, default);
                         }
 
-                        List<EnkaAvatarInfo> list = avatarInfoDbOperation.UpdateDbAvatarInfos(userAndUid.Uid.Value, resp.AvatarInfoList, token);
+                        List<EnkaAvatarInfo> list = avatarInfoDbBulkOperation.UpdateDbAvatarInfos(userAndUid.Uid.Value, resp.AvatarInfoList, token);
                         Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
 
                 case RefreshOption.RequestFromHoyolabGameRecord:
                     {
-                        List<EnkaAvatarInfo> list = await avatarInfoDbOperation.UpdateDbAvatarInfosByGameRecordCharacterAsync(userAndUid, token).ConfigureAwait(false);
+                        List<EnkaAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosByGameRecordCharacterAsync(userAndUid, token).ConfigureAwait(false);
                         Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
 
                 case RefreshOption.RequestFromHoyolabCalculate:
                     {
-                        List<EnkaAvatarInfo> list = await avatarInfoDbOperation.UpdateDbAvatarInfosByCalculateAvatarDetailAsync(userAndUid, token).ConfigureAwait(false);
+                        List<EnkaAvatarInfo> list = await avatarInfoDbBulkOperation.UpdateDbAvatarInfosByCalculateAvatarDetailAsync(userAndUid, token).ConfigureAwait(false);
                         Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         return new(RefreshResult.Ok, summary);
                     }
 
                 default:
                     {
-                        List<EnkaAvatarInfo> list = avatarInfoDbOperation.GetDbAvatarInfos(userAndUid.Uid.Value);
+                        List<EnkaAvatarInfo> list = avatarInfoDbBulkOperation.GetDbAvatarInfos(userAndUid.Uid.Value);
                         Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         token.ThrowIfCancellationRequested();
                         return new(RefreshResult.Ok, summary.Avatars.Count == 0 ? null : summary);
@@ -100,9 +104,9 @@ internal sealed class AvatarInfoService : IAvatarInfoService
         }
     }
 
-    private static async Task<EnkaResponse?> GetEnkaResponseAsync(PlayerUid uid, CancellationToken token = default)
+    private async Task<EnkaResponse?> GetEnkaResponseAsync(PlayerUid uid, CancellationToken token = default)
     {
-        EnkaClient enkaClient = Ioc.Default.GetRequiredService<EnkaClient>();
+        EnkaClient enkaClient = serviceProvider.GetRequiredService<EnkaClient>();
 
         return await enkaClient.GetForwardDataAsync(uid, token).ConfigureAwait(false)
             ?? await enkaClient.GetDataAsync(uid, token).ConfigureAwait(false);
@@ -110,10 +114,9 @@ internal sealed class AvatarInfoService : IAvatarInfoService
 
     private async Task<Summary> GetSummaryCoreAsync(IEnumerable<EnkaAvatarInfo> avatarInfos, CancellationToken token)
     {
-        ValueStopwatch stopwatch = ValueStopwatch.StartNew();
-        Summary summary = await summaryFactory.CreateAsync(avatarInfos, token).ConfigureAwait(false);
-        logger.LogInformation("AvatarInfoSummary Generation toke {time} ms.", stopwatch.GetElapsedTime().TotalMilliseconds);
-
-        return summary;
+        using (ValueStopwatch.MeasureExecution(logger))
+        {
+            return await summaryFactory.CreateAsync(avatarInfos, token).ConfigureAwait(false);
+        }
     }
 }

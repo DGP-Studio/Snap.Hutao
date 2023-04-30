@@ -23,6 +23,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 internal sealed class AchievementImporter
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly IAchievementService achievementService;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
@@ -33,6 +34,7 @@ internal sealed class AchievementImporter
     /// <param name="serviceProvider">服务提供器</param>
     public AchievementImporter(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         achievementService = serviceProvider.GetRequiredService<IAchievementService>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
@@ -46,11 +48,11 @@ internal sealed class AchievementImporter
     /// <returns>是否导入成功</returns>
     public async Task<bool> FromClipboardAsync()
     {
-        if (achievementService.CurrentArchive != null)
+        if (achievementService.CurrentArchive is EntityAchievementArchive archive)
         {
-            if (await GetUIAFFromClipboardAsync().ConfigureAwait(false) is UIAF uiaf)
+            if (await TryCatchGetUIAFFromClipboardAsync().ConfigureAwait(false) is UIAF uiaf)
             {
-                return await TryImportAsync(achievementService.CurrentArchive!, uiaf).ConfigureAwait(false);
+                return await TryImportAsync(archive, uiaf).ConfigureAwait(false);
             }
             else
             {
@@ -71,21 +73,21 @@ internal sealed class AchievementImporter
     /// <returns>是否导入成功</returns>
     public async Task<bool> FromFileAsync()
     {
-        if (achievementService.CurrentArchive != null)
+        if (achievementService.CurrentArchive is EntityAchievementArchive archive)
         {
-            (bool isPickerOk, ValueFile file) = await serviceProvider
+            ValueResult<bool, ValueFile> pickerResult = await serviceProvider
                 .GetRequiredService<IPickerFactory>()
                 .GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json")
                 .TryPickSingleFileAsync()
                 .ConfigureAwait(false);
 
-            if (isPickerOk)
+            if (pickerResult.TryGetValue(out ValueFile file))
             {
-                (bool isOk, UIAF? uiaf) = await file.DeserializeFromJsonAsync<UIAF>(options).ConfigureAwait(false);
+                ValueResult<bool, UIAF?> uiafResult = await file.DeserializeFromJsonAsync<UIAF>(options).ConfigureAwait(false);
 
-                if (isOk)
+                if (uiafResult.TryGetValue(out UIAF? uiaf))
                 {
-                    return await TryImportAsync(achievementService.CurrentArchive, uiaf!).ConfigureAwait(false);
+                    return await TryImportAsync(archive, uiaf).ConfigureAwait(false);
                 }
                 else
                 {
@@ -101,11 +103,14 @@ internal sealed class AchievementImporter
         return false;
     }
 
-    private async Task<UIAF?> GetUIAFFromClipboardAsync()
+    private async Task<UIAF?> TryCatchGetUIAFFromClipboardAsync()
     {
         try
         {
-            return await Clipboard.DeserializeTextAsync<UIAF>(options).ConfigureAwait(false);
+            return await serviceProvider
+                .GetRequiredService<IClipboardInterop>()
+                .DeserializeTextAsync<UIAF>()
+                .ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -119,8 +124,9 @@ internal sealed class AchievementImporter
         if (uiaf.IsCurrentVersionSupported())
         {
             // ContentDialog must be created by main thread.
-            await ThreadHelper.SwitchToMainThreadAsync();
-            (bool isOk, ImportStrategy strategy) = await new AchievementImportDialog(uiaf).GetImportStrategyAsync().ConfigureAwait(true);
+            await taskContext.SwitchToMainThreadAsync();
+            AchievementImportDialog importDialog = serviceProvider.CreateInstance<AchievementImportDialog>(uiaf);
+            (bool isOk, ImportStrategy strategy) = await importDialog.GetImportStrategyAsync().ConfigureAwait(true);
 
             if (isOk)
             {
@@ -129,7 +135,7 @@ internal sealed class AchievementImporter
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
                     .ConfigureAwait(false);
 
-                using (await dialog.BlockAsync().ConfigureAwait(false))
+                using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                 {
                     result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
                 }

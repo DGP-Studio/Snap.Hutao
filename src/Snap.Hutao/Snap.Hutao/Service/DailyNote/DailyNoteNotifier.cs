@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Notifications;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
+using Snap.Hutao.Service.Game;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -19,17 +18,19 @@ namespace Snap.Hutao.Service.DailyNote;
 [HighQuality]
 internal sealed class DailyNoteNotifier
 {
-    private readonly IServiceScopeFactory scopeFactory;
+    private readonly ITaskContext taskContext;
+    private readonly IServiceProvider serviceProvider;
     private readonly DailyNoteEntry entry;
 
     /// <summary>
     /// 构造一个新的实时便笺通知器
     /// </summary>
-    /// <param name="scopeFactory">范围工厂</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="entry">实时便笺入口</param>
-    public DailyNoteNotifier(IServiceScopeFactory scopeFactory, DailyNoteEntry entry)
+    public DailyNoteNotifier(IServiceProvider serviceProvider, DailyNoteEntry entry)
     {
-        this.scopeFactory = scopeFactory;
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        this.serviceProvider = serviceProvider;
         this.entry = entry;
     }
 
@@ -53,7 +54,7 @@ internal sealed class DailyNoteNotifier
             return;
         }
 
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             DailyNoteOptions options = scope.ServiceProvider.GetRequiredService<DailyNoteOptions>();
             BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
@@ -121,8 +122,8 @@ internal sealed class DailyNoteNotifier
                 }
             }
 
-            await ThreadHelper.SwitchToMainThreadAsync();
-            builder.Show();
+            await taskContext.SwitchToMainThreadAsync();
+            builder.Show(toast => toast.SuppressPopup = ShouldSuppressPopup(options));
         }
     }
 
@@ -215,12 +216,27 @@ internal sealed class DailyNoteNotifier
         }
     }
 
-    private struct NotifyInfo
+    private bool ShouldSuppressPopup(DailyNoteOptions options)
     {
-        public string Title;
-        public string AdaptiveIcon;
-        public string AdaptiveHint;
-        public string Hint;
+        bool isGameRunning = serviceProvider.GetRequiredService<IGameService>().IsGameRunning();
+
+        if (options.IsSilentWhenPlayingGame && isGameRunning)
+        {
+            // Prevent notify when we are in game && silent mode.
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private readonly struct NotifyInfo
+    {
+        public readonly string Title;
+        public readonly string AdaptiveIcon;
+        public readonly string AdaptiveHint;
+        public readonly string Hint;
 
         public NotifyInfo(string title, string adaptiveIcon, string adaptiveHint, string hint)
         {

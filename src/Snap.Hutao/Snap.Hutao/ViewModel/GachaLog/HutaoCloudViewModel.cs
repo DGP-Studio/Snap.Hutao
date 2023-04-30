@@ -21,6 +21,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
 {
+    private readonly ITaskContext taskContext;
     private readonly IHutaoCloudService hutaoCloudService;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IInfoBarService infoBarService;
@@ -34,6 +35,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public HutaoCloudViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         hutaoCloudService = serviceProvider.GetRequiredService<IHutaoCloudService>();
         contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
@@ -87,7 +89,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
             .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogRetrieveFromHutaoCloudProgress)
             .ConfigureAwait(false);
 
-        using (await dialog.BlockAsync().ConfigureAwait(false))
+        using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
         {
             return await hutaoCloudService.RetrieveGachaItemsAsync(uid).ConfigureAwait(false);
         }
@@ -98,7 +100,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
     {
         await serviceProvider.GetRequiredService<IHutaoUserService>().InitializeAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         IsInitialized = true;
     }
 
@@ -113,7 +115,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
             bool isOk;
             string message;
 
-            using (await dialog.BlockAsync().ConfigureAwait(false))
+            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
             {
                 (isOk, message) = await hutaoCloudService.UploadGachaItemsAsync(gachaArchive).ConfigureAwait(false);
             }
@@ -152,7 +154,7 @@ internal sealed class HutaoCloudViewModel : Abstraction.ViewModel
     {
         Response<List<string>> resp = await hutaoCloudService.GetUidsAsync().ConfigureAwait(false);
 
-        await ThreadHelper.SwitchToMainThreadAsync();
+        await taskContext.SwitchToMainThreadAsync();
         if (Options.IsCloudServiceAllowed = resp.IsOk())
         {
             Uids = resp.Data!.ToObservableCollection();

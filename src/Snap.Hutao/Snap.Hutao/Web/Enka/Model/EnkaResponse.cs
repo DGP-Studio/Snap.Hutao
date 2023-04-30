@@ -36,4 +36,10 @@ internal sealed class EnkaResponse
         [MemberNotNullWhen(true, nameof(PlayerInfo), nameof(AvatarInfoList))]
         get => PlayerInfo != null && AvatarInfoList != null;
     }
+
+    /// <summary>
+    /// 消息
+    /// </summary>
+    [JsonIgnore]
+    public string Message { get; set; } = default!;
 }

@@ -36,6 +36,7 @@ namespace Snap.Hutao.ViewModel.Wiki;
 [Injection(InjectAs.Scoped)]
 internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
 {
+    private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IHutaoCache hutaoCache;
@@ -53,6 +54,7 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public WikiAvatarViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         metadataService = serviceProvider.GetRequiredService<IMetadataService>();
         hutaoCache = serviceProvider.GetRequiredService<IHutaoCache>();
         this.serviceProvider = serviceProvider;
@@ -117,7 +119,7 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
 
             await CombineComplexDataAsync(sorted, idMaterialMap).ConfigureAwait(false);
 
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             Avatars = new AdvancedCollectionView(sorted, true);
             Selected = Avatars.Cast<Avatar>().FirstOrDefault();
         }
@@ -148,10 +150,9 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
             if (userService.Current != null)
             {
                 // ContentDialog must be created by main thread.
-                await ThreadHelper.SwitchToMainThreadAsync();
-                (bool isOk, CalcAvatarPromotionDelta delta) = await new CultivatePromotionDeltaDialog(avatar.ToCalculable(), null)
-                    .GetPromotionDeltaAsync()
-                    .ConfigureAwait(false);
+                await taskContext.SwitchToMainThreadAsync();
+                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(avatar.ToCalculable());
+                (bool isOk, CalcAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {

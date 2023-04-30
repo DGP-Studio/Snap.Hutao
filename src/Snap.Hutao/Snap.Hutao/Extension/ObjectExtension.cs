@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.CompilerServices;
-
 namespace Snap.Hutao.Extension;
 
 /// <summary>
@@ -18,6 +16,6 @@ internal static class ObjectExtension
     /// <returns>数组</returns>
     public static T[] ToArray<T>(this T source)
     {
-        return new[] { source };
+        return new T[] { source };
     }
 }

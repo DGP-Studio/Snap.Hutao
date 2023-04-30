@@ -28,26 +28,21 @@ internal readonly struct GachaLogQuery
     /// 构造一个新的祈愿记录query
     /// </summary>
     /// <param name="query">query</param>
-    /// <param name="isOversea">是否为国际服</param>
-    public GachaLogQuery(string query, bool isOversea)
+    public GachaLogQuery(string query)
     {
         Query = query;
-        IsOversea = isOversea;
+        IsOversea = query.Contains("hoyoverse.com");
         Message = string.Empty;
     }
 
-    /// <summary>
-    /// 构造一个新的失败的祈愿记录query
-    /// </summary>
-    /// <param name="message">失败原因</param>
-    public GachaLogQuery(string message)
+    private GachaLogQuery(string query, string message)
     {
+        Query = query;
         Message = message;
-        Query = string.Empty;
     }
 
     public static implicit operator GachaLogQuery(string message)
     {
-        return new(message);
+        return new(default!, message);
     }
 }

@@ -31,14 +31,14 @@ internal sealed class AvatarInfo
     /// 命座 Id
     /// </summary>
     [JsonPropertyName("talentIdList")]
-    public List<int>? TalentIdList { get; set; }
+    public List<SkillId>? TalentIdList { get; set; }
 
     /// <summary>
     /// 属性 Map
     /// Map of Character's Combat Properties.
     /// </summary>
     [JsonPropertyName("fightPropMap")]
-    public Dictionary<FightProperty, double> FightPropMap { get; set; } = default!;
+    public Dictionary<FightProperty, float> FightPropMap { get; set; } = default!;
 
     /// <summary>
     /// 技能组Id
@@ -79,7 +79,7 @@ internal sealed class AvatarInfo
     /// 皮肤 Id
     /// </summary>
     [JsonPropertyName("costumeId")]
-    public int? CostumeId { get; set; }
+    public CostumeId? CostumeId { get; set; }
 
     /// <summary>
     /// 命座额外技能等级

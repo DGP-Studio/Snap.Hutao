@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Snap.Hutao.Test;
 
@@ -61,4 +62,30 @@ public class CSharpLanguageFeatureTest
         ValueB = 2,
         ValueC = 3,
     }
+
+    [TestMethod]
+    public void GetTwiceOnPropertyResultsNotSame()
+    {
+        Assert.AreNotEqual(UUID, UUID);
+    }
+
+    [TestMethod]
+    public void ListOfStringCanEnumerateAsReadOnlySpanOfChar()
+    {
+        List<string> strings = new()
+        {
+            "a", "b", "c"
+        };
+
+        int count = 0;
+        foreach (ReadOnlySpan<char> chars in strings)
+        {
+            Assert.IsTrue(chars.Length == 1);
+            ++count;
+        }
+
+        Assert.AreEqual(3, count);
+    }
+
+    public static Guid UUID { get => Guid.NewGuid(); }
 }

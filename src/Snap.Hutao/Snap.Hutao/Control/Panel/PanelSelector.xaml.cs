@@ -33,6 +33,11 @@ internal sealed partial class PanelSelector : SplitButton
         set => SetValue(CurrentProperty, value);
     }
 
+    private static void OnCurrentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+    {
+        OnCurrentChanged((PanelSelector)obj, (string)args.NewValue);
+    }
+
     private static void OnCurrentChanged(PanelSelector sender, string current)
     {
         MenuFlyout menuFlyout = (MenuFlyout)sender.RootSplitButton.Flyout;
@@ -43,21 +48,16 @@ internal sealed partial class PanelSelector : SplitButton
         sender.IconPresenter.Glyph = ((FontIcon)targetItem.Icon).Glyph;
     }
 
-    private static void OnCurrentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
-    {
-        OnCurrentChanged((PanelSelector)obj, (string)args.NewValue);
-    }
-
     private void OnRootControlLoaded(object sender, RoutedEventArgs e)
     {
         // because the GroupName shares in global
-        // we have to impl a control scoped GroupName.
+        // we have to implement a control scoped GroupName.
         PanelSelector selector = (PanelSelector)sender;
         MenuFlyout menuFlyout = (MenuFlyout)selector.RootSplitButton.Flyout;
         int hash = GetHashCode();
         foreach (RadioMenuFlyoutItem item in menuFlyout.Items.Cast<RadioMenuFlyoutItem>())
         {
-            item.GroupName = $"PanelSelector{hash}Group";
+            item.GroupName = $"{nameof(PanelSelector)}GroupOf@{hash}";
         }
 
         OnCurrentChanged(selector, Current);

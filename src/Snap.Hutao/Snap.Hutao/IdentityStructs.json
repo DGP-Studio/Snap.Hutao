@@ -1,8 +1,23 @@
 ﻿[
   {
+    "Name": "AchievementGoalId",
+    "Type": "int",
+    "Documentation": "1-2位 成就分类Id"
+  },
+  {
+    "Name": "AchievementId",
+    "Type": "int",
+    "Documentation": "5位 成就Id"
+  },
+  {
     "Name": "AvatarId",
     "Type": "int",
     "Documentation": "8位 角色Id"
+  },
+  {
+    "Name": "CostumeId",
+    "Type": "int",
+    "Documentation": "6位 角色装扮Id"
   },
   {
     "Name": "EquipAffixId",
@@ -35,18 +50,33 @@
     "Documentation": "6位 圣遗物副词条Id"
   },
   {
+    "Name": "ReliquaryId",
+    "Type": "int",
+    "Documentation": "5位 圣遗物Id"
+  },
+  {
     "Name": "ReliquaryMainAffixId",
     "Type": "int",
     "Documentation": "5位 圣遗物主属性Id"
   },
   {
+    "Name": "ReliquarySetId",
+    "Type": "int",
+    "Documentation": "5位 圣遗物套装Id"
+  },
+  {
+    "Name": "SkillGroupId",
+    "Type": "int",
+    "Documentation": "3-4位 技能组Id"
+  },
+  {
+    "Name": "SkillId",
+    "Type": "int",
+    "Documentation": "5-6位 技能Id"
+  },
+  {
     "Name": "WeaponId",
     "Type": "int",
     "Documentation": "5位 武器Id"
-  },
-  {
-    "Name": "AchievementId",
-    "Type": "int",
-    "Documentation": "5位 成就Id"
   }
 ]

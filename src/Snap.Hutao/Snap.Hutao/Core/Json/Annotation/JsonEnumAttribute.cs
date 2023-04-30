@@ -12,7 +12,7 @@ namespace Snap.Hutao.Core.Json.Annotation;
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
 internal class JsonEnumAttribute : Attribute
 {
-    private static readonly Type ConfigurableEnumConverterType = typeof(ConfigurableEnumConverter<>);
+    private static readonly Type UnsafeEnumConverterType = typeof(UnsafeEnumConverter<>);
 
     /// <summary>
     /// 构造一个新的Json枚举声明
@@ -52,7 +52,7 @@ internal class JsonEnumAttribute : Attribute
     /// <returns>Json转换器</returns>
     internal JsonConverter CreateConverter(JsonPropertyInfo info)
     {
-        Type converterType = ConfigurableEnumConverterType.MakeGenericType(info.PropertyType);
+        Type converterType = UnsafeEnumConverterType.MakeGenericType(info.PropertyType);
         return (JsonConverter)Activator.CreateInstance(converterType, ReadAs, WriteAs)!;
     }
 }

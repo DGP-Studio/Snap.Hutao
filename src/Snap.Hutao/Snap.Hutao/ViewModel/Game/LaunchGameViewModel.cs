@@ -33,6 +33,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     public const string DesiredUid = nameof(DesiredUid);
 
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
     private readonly IMemoryCache memoryCache;
 
@@ -49,6 +50,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// <param name="serviceProvider">服务提供器</param>
     public LaunchGameViewModel(IServiceProvider serviceProvider)
     {
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         gameService = serviceProvider.GetRequiredService<IGameService>();
         memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
         Options = serviceProvider.GetRequiredService<LaunchOptions>();
@@ -175,9 +177,9 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                         infoBarService.Warning(string.Format(SH.ViewModelLaunchGameMultiChannelReadFail, multi.ConfigFilePath));
                     }
 
-                    ObservableCollection<GameAccount> accounts = await gameService.GetGameAccountCollectionAsync().ConfigureAwait(false);
+                    ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
 
-                    await ThreadHelper.SwitchToMainThreadAsync();
+                    await taskContext.SwitchToMainThreadAsync();
                     GameAccounts = accounts;
 
                     // Sync uid
@@ -197,7 +199,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         else
         {
             infoBarService.Warning(SH.ViewModelLaunchGamePathInvalid);
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             await serviceProvider.GetRequiredService<INavigationService>()
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
@@ -206,7 +208,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
 
     private async Task UpdateGameResourceAsync(LaunchScheme scheme)
     {
-        await ThreadHelper.SwitchToBackgroundAsync();
+        await taskContext.SwitchToBackgroundAsync();
         Web.Response.Response<GameResource> response = await serviceProvider
             .GetRequiredService<ResourceClient>()
             .GetResourceAsync(scheme)
@@ -214,7 +216,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
 
         if (response.IsOk())
         {
-            await ThreadHelper.SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             GameResource = response.Data;
         }
     }
@@ -230,10 +232,10 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
                 if (gameService.SetMultiChannel(SelectedScheme))
                 {
                     // Channel changed, we need to change local file.
-                    await ThreadHelper.SwitchToMainThreadAsync();
-                    LaunchGamePackageConvertDialog dialog = new();
+                    await taskContext.SwitchToMainThreadAsync();
+                    LaunchGamePackageConvertDialog dialog = serviceProvider.CreateInstance<LaunchGamePackageConvertDialog>();
                     Progress<Service.Game.Package.PackageReplaceStatus> progress = new(state => dialog.State = state.Clone());
-                    using (await dialog.BlockAsync().ConfigureAwait(false))
+                    using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                     {
                         if (!await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false))
                         {
