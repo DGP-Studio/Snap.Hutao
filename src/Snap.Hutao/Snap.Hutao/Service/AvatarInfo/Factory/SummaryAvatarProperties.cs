@@ -28,10 +28,10 @@ internal static class SummaryAvatarProperties
         AvatarProperty hpProp = ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_HP, fightPropMap);
         AvatarProperty atkProp = ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_ATTACK, fightPropMap);
         AvatarProperty defProp = ToAvatarProperty(FightProperty.FIGHT_PROP_BASE_DEFENSE, fightPropMap);
-        AvatarProperty emProp = ToAvatarProperty(FightProperty.FIGHT_PROP_ELEMENT_MASTERY, fightPropMap);
-        AvatarProperty critRateProp = ToAvatarProperty(FightProperty.FIGHT_PROP_CRITICAL, fightPropMap);
-        AvatarProperty critDMGProp = ToAvatarProperty(FightProperty.FIGHT_PROP_CRITICAL_HURT, fightPropMap);
-        AvatarProperty chargeEffProp = ToAvatarProperty(FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY, fightPropMap);
+        AvatarProperty emProp = FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_ELEMENT_MASTERY, fightPropMap);
+        AvatarProperty critRateProp = FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CRITICAL, fightPropMap);
+        AvatarProperty critDMGProp = FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CRITICAL_HURT, fightPropMap);
+        AvatarProperty chargeEffProp = FightPropertyFormat.ToAvatarProperty(FightProperty.FIGHT_PROP_CHARGE_EFFICIENCY, fightPropMap);
 
         List<AvatarProperty> properties = new(9) { hpProp, atkProp, defProp, emProp, critRateProp, critDMGProp, chargeEffProp };
 
@@ -57,7 +57,7 @@ internal static class SummaryAvatarProperties
         return properties;
     }
 
-    private static AvatarProperty ToAvatarProperty(FightProperty baseProp, Dictionary<FightProperty, float> fightPropMap)
+    private static unsafe AvatarProperty ToAvatarProperty(FightProperty baseProp, Dictionary<FightProperty, float> fightPropMap)
     {
         // 1 2 3 2000
         // 4 5 6 2001
@@ -67,7 +67,9 @@ internal static class SummaryAvatarProperties
         float hpPercent = fightPropMap.GetValueOrDefault(baseProp + 2);
         float hpAdd = hp + (baseHp * hpPercent);
 
-        return FightPropertyFormat.ToAvatarProperty(baseProp + 1999, baseHp, hpAdd);
+        int basePropValue = *(int*)&baseProp;
+        basePropValue = ((basePropValue + 2) / 3) + 1999;
+        return FightPropertyFormat.ToAvatarProperty(*(FightProperty*)&basePropValue, baseHp, hpAdd);
     }
 
     private static bool TryGetBonusFightProperty(Dictionary<FightProperty, float> fightPropMap, out FightProperty value)
