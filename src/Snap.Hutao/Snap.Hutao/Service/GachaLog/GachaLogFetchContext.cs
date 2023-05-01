@@ -145,8 +145,13 @@ internal struct GachaLogFetchContext
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.EndId, appDbContext.GachaItems);
-            TargetArchive!.SaveItems(saveContext);
+
+            // While no item is fetched, archive can be null.
+            if (TargetArchive != null)
+            {
+                GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.EndId, appDbContext.GachaItems);
+                TargetArchive.SaveItems(saveContext);
+            }
         }
     }
 
