@@ -11,6 +11,7 @@ using Snap.Hutao.Control.Media;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Message;
+using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
@@ -177,7 +178,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();
-                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
+                CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
+                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(options);
                 (bool isOk, CalcAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
                 if (isOk)

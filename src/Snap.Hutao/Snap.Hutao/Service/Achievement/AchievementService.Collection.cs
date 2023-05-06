@@ -58,15 +58,10 @@ internal sealed partial class AchievementService
             // Sync cache
             await taskContext.SwitchToMainThreadAsync();
             archiveCollection!.Add(newArchive);
-            CurrentArchive = newArchive;
 
             // Sync database
             await taskContext.SwitchToBackgroundAsync();
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                await appDbContext.AchievementArchives.AddAndSaveAsync(newArchive).ConfigureAwait(false);
-            }
+            CurrentArchive = newArchive;
 
             return ArchiveAddResult.Added;
         }

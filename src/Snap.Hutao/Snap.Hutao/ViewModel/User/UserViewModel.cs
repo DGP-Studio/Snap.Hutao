@@ -38,7 +38,7 @@ internal sealed partial class UserViewModel : ObservableObject
     /// </summary>
     public User? SelectedUser
     {
-        get => selectedUser;
+        get => selectedUser ??= userService.Current;
         set
         {
             if (SetProperty(ref selectedUser, value))

@@ -24,44 +24,16 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// 构造一个新的养成计算对话框
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="avatar">角色</param>
-    /// <param name="weapon">武器</param>
-    public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, ICalculableAvatar? avatar, ICalculableWeapon? weapon)
-        : this(serviceProvider)
-    {
-        Avatar = avatar;
-        Weapon = weapon;
-    }
-
-    /// <summary>
-    /// 构造一个新的养成计算对话框
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="avatar">角色</param>
-    public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, ICalculableAvatar? avatar)
-        : this(serviceProvider)
-    {
-        Avatar = avatar;
-    }
-
-    /// <summary>
-    /// 构造一个新的养成计算对话框
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="weapon">武器</param>
-    public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, ICalculableWeapon? weapon)
-        : this(serviceProvider)
-    {
-        Weapon = weapon;
-    }
-
-    private CultivatePromotionDeltaDialog(IServiceProvider serviceProvider)
+    /// <param name="options">选项</param>
+    public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, CalculableOptions options)
     {
         InitializeComponent();
         XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
 
+        Avatar = options.Avatar;
+        Weapon = options.Weapon;
         DataContext = this;
     }
 
