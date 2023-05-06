@@ -3,9 +3,7 @@
 
 using Snap.Hutao.Control;
 using Snap.Hutao.Model.Metadata.Avatar;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Model.Metadata.Converter;

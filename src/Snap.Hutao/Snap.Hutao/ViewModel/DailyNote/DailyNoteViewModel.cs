@@ -1,13 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Input;
-using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;

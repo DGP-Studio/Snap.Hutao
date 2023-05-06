@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
-using Windows.Storage;
 
 namespace Snap.Hutao.Core.Caching;
 

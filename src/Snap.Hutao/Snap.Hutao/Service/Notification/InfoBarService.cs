@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Snap.Hutao.Service.Abstraction;
 
 namespace Snap.Hutao.Service.Notification;
 

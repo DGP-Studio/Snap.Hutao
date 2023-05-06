@@ -81,9 +81,7 @@ internal sealed partial class AchievementService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.AchievementArchives
-                .ExecuteDeleteWhereAsync(a => a.InnerId == archive.InnerId)
-                .ConfigureAwait(false);
+            await appDbContext.AchievementArchives.RemoveAndSaveAsync(archive).ConfigureAwait(false);
         }
     }
 }

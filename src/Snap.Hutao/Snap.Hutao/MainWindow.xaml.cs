@@ -6,7 +6,6 @@ using Microsoft.UI.Xaml;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Message;
-using Windows.Graphics;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Snap.Hutao;

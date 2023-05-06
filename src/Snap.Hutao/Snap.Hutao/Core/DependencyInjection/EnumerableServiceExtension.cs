@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.CompilerServices;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 

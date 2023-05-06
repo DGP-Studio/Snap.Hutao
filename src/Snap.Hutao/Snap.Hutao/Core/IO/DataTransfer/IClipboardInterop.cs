@@ -15,7 +15,7 @@ internal interface IClipboardInterop
     /// </summary>
     /// <typeparam name="T">目标类型</typeparam>
     /// <returns>实例</returns>
-    Task<T?> DeserializeTextAsync<T>()
+    Task<T?> DeserializeFromJsonAsync<T>()
         where T : class;
 
     /// <summary>
@@ -24,4 +24,11 @@ internal interface IClipboardInterop
     /// <param name="stream">图片流</param>
     /// <returns>是否设置成功</returns>
     bool SetBitmap(IRandomAccessStream stream);
+
+    /// <summary>
+    /// 设置文本
+    /// </summary>
+    /// <param name="text">文本</param>
+    /// <returns>是否设置成功</returns>
+    bool SetText(string text);
 }

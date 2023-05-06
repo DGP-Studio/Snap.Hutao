@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.AvatarInfo.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.AvatarProperty;

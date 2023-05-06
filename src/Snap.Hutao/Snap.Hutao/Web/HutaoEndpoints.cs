@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Hoyolab;
-
 namespace Snap.Hutao.Web;
 
 /// <summary>
@@ -56,11 +54,11 @@ internal static class HutaoEndpoints
     }
     #endregion
 
-        #region Passport
+    #region Passport
 
-        /// <summary>
-        /// 获取注册验证码
-        /// </summary>
+    /// <summary>
+    /// 获取注册验证码
+    /// </summary>
     public const string PassportVerify = $"{HomaSnapGenshinApi}/Passport/Verify";
 
     /// <summary>

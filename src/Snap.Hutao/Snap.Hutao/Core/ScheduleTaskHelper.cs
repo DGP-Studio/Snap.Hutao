@@ -5,7 +5,6 @@ using Microsoft.Win32.TaskScheduler;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Storage;
-using SchedulerTask = Microsoft.Win32.TaskScheduler.Task;
 
 namespace Snap.Hutao.Core;
 

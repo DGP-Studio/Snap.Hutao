@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Dispatching;
-using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Threading;
 

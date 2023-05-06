@@ -7,8 +7,6 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;

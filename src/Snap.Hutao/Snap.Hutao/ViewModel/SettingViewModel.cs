@@ -209,10 +209,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private void CopyDeviceId()
     {
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-
         try
         {
-            Clipboard.SetText(HutaoOptions.DeviceId);
+            serviceProvider.GetRequiredService<IClipboardInterop>().SetText(HutaoOptions.DeviceId);
             infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
         catch (COMException ex)

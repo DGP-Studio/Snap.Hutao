@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 using Windows.Graphics.Imaging;
 using Windows.Win32;

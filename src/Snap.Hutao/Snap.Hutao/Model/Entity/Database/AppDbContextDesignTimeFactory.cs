@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore.Design;
-using Snap.Hutao.Model.Entity.Database;
 
 namespace Snap.Hutao.Model.Entity.Database;
 

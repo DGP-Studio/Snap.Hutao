@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using System.Collections;
 
 namespace Snap.Hutao.Web.Hutao.GachaLog;
 

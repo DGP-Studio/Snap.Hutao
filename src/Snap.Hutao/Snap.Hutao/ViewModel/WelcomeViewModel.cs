@@ -3,12 +3,10 @@
 
 using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Notifications;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Setting;
 using System.Collections.ObjectModel;

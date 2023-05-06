@@ -3,8 +3,6 @@
 
 using Snap.Hutao.Control;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Intrinsic.Format;
-using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Metadata.Converter;
 

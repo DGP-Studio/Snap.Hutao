@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Service.Navigation;
@@ -196,8 +195,7 @@ internal sealed partial class UserViewModel : ObservableObject
                 .AppendIf(user.LToken != null, ';')
                 .Append(user.CookieToken)
                 .ToString();
-
-            Clipboard.SetText(cookieString);
+            serviceProvider.GetRequiredService<IClipboardInterop>().SetText(cookieString);
             infoBarService.Success(string.Format(SH.ViewModelUserCookieCopied, user.UserInfo!.Nickname));
         }
         catch (Exception e)

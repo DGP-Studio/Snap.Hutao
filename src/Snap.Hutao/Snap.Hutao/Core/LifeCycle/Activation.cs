@@ -5,7 +5,6 @@ using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;

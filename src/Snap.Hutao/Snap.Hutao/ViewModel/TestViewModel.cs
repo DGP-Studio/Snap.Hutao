@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.View.Dialog;
 

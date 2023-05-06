@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.Core.Setting;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;

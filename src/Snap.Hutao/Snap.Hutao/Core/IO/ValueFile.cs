@@ -34,16 +34,6 @@ internal readonly struct ValueFile
         return new(value);
     }
 
-    public static bool operator ==(ValueFile left, ValueFile right)
-    {
-        return left.Value == right.Value;
-    }
-
-    public static bool operator !=(ValueFile left, ValueFile right)
-    {
-        return !(left == right);
-    }
-
     /// <summary>
     /// 异步反序列化文件中的内容
     /// </summary>
@@ -90,12 +80,6 @@ internal readonly struct ValueFile
         {
             return false;
         }
-    }
-
-    /// <inheritdoc/>
-    public override bool Equals(object? obj)
-    {
-        return obj is ValueFile other && Equals(other);
     }
 
     /// <inheritdoc/>

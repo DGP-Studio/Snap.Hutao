@@ -7,7 +7,6 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.InterChange.Achievement;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
@@ -97,7 +96,7 @@ internal sealed partial class AchievementImporter
         {
             return await serviceProvider
                 .GetRequiredService<IClipboardInterop>()
-                .DeserializeTextAsync<UIAF>()
+                .DeserializeFromJsonAsync<UIAF>()
                 .ConfigureAwait(false);
         }
         catch (Exception ex)

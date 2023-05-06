@@ -15,7 +15,7 @@ internal static class ValueResultExtension
     /// <param name="valueResult">结果</param>
     /// <param name="value">值</param>
     /// <returns>是否获取成功</returns>
-    public static bool TryGetValue<TValue>(this in ValueResult<bool, TValue> valueResult,[NotNullWhen(true)] out TValue value)
+    public static bool TryGetValue<TValue>(this in ValueResult<bool, TValue> valueResult, [NotNullWhen(true)] out TValue value)
     {
         value = valueResult.Value;
         return valueResult.IsOk;

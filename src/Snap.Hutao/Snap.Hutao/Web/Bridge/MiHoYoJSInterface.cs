@@ -10,7 +10,6 @@ using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
-using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text;
 

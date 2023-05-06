@@ -27,6 +27,14 @@ public class CSharpLanguageFeatureTest
     }
 
     [TestMethod]
+    public unsafe void EmptyStringAsSpanIsZeroLength()
+    {
+        string testStr = string.Empty;
+        ReadOnlySpan<char> testSpan = testStr;
+        Assert.IsTrue(testSpan.Length == 0);
+    }
+
+    [TestMethod]
     public void EnumParseCanNotHandleEmptyString()
     {
         bool caught = false;

@@ -44,6 +44,7 @@ internal static class IocConfiguration
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     /// <returns>服务提供器，用于链式调用</returns>
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static IServiceProvider InitializeCulture(this IServiceProvider serviceProvider)
     {
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();

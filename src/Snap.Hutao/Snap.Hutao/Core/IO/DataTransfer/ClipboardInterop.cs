@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Streams;
 
 namespace Snap.Hutao.Core.IO.DataTransfer;
@@ -8,25 +9,46 @@ namespace Snap.Hutao.Core.IO.DataTransfer;
 /// <summary>
 /// 剪贴板互操作
 /// </summary>
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IClipboardInterop))]
-internal sealed class ClipboardInterop : IClipboardInterop
+internal sealed partial class ClipboardInterop : IClipboardInterop
 {
-    private readonly IServiceProvider serviceProvider;
+    private readonly JsonSerializerOptions options;
+    private readonly ITaskContext taskContext;
 
-    /// <summary>
-    /// 构造一个新的剪贴板互操作对象
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public ClipboardInterop(IServiceProvider serviceProvider)
+    /// <inheritdoc/>
+    public async Task<T?> DeserializeFromJsonAsync<T>()
+        where T : class
     {
-        this.serviceProvider = serviceProvider;
+        await taskContext.SwitchToMainThreadAsync();
+        DataPackageView view = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
+
+        if (view.Contains(StandardDataFormats.Text))
+        {
+            string json = await view.GetTextAsync();
+
+            await taskContext.SwitchToBackgroundAsync();
+            return JsonSerializer.Deserialize<T>(json, options);
+        }
+
+        return null;
     }
 
     /// <inheritdoc/>
-    public Task<T?> DeserializeTextAsync<T>()
-        where T : class
+    public bool SetText(string text)
     {
-        return Clipboard.DeserializeTextAsync<T>(serviceProvider);
+        try
+        {
+            DataPackage content = new() { RequestedOperation = DataPackageOperation.Copy };
+            content.SetText(text);
+            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(content);
+            Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
     /// <inheritdoc/>
@@ -34,10 +56,14 @@ internal sealed class ClipboardInterop : IClipboardInterop
     {
         try
         {
-            Clipboard.SetBitmap(stream);
+            RandomAccessStreamReference reference = RandomAccessStreamReference.CreateFromStream(stream);
+            DataPackage content = new() { RequestedOperation = DataPackageOperation.Copy };
+            content.SetBitmap(reference);
+            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(content);
+            Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
             return true;
         }
-        catch (Exception)
+        catch
         {
             return false;
         }

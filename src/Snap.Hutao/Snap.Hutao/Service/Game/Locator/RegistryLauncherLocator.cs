@@ -83,7 +83,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
 
         // 不包含中文
         // Some one's folder might begin with 'u'
-        if (!hex4Result.Contains(@"\u")) 
+        if (!hex4Result.Contains(@"\u"))
         {
             // fix path with \
             hex4Result = hex4Result.Replace(@"\", @"\\");

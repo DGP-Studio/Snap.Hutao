@@ -14,7 +14,9 @@ namespace Snap.Hutao.Core.ExceptionService;
 internal sealed partial class ExceptionRecorder
 {
     private readonly ILogger<ExceptionRecorder> logger;
+#if RELEASE
     private readonly IServiceProvider serviceProvider;
+#endif
 
     /// <summary>
     /// 记录应用程序异常

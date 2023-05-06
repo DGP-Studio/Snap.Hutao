@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
