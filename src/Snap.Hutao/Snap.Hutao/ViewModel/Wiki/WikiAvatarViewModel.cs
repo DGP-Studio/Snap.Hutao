@@ -15,6 +15,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Complex;
@@ -33,12 +34,13 @@ namespace Snap.Hutao.ViewModel.Wiki;
 /// 角色资料视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
+internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
 {
-    private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
+    private readonly ITaskContext taskContext;
     private readonly IHutaoCache hutaoCache;
 
     private AdvancedCollectionView? avatars;
@@ -47,21 +49,6 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     private BaseValueInfo? baseValueInfo;
     private Dictionary<int, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
     private List<Promote>? promotes;
-
-    /// <summary>
-    /// 构造一个新的角色资料视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public WikiAvatarViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        hutaoCache = serviceProvider.GetRequiredService<IHutaoCache>();
-        this.serviceProvider = serviceProvider;
-
-        CultivateCommand = new AsyncRelayCommand<Avatar>(CultivateAsync);
-        FilterCommand = new RelayCommand<string>(ApplyFilter);
-    }
 
     /// <summary>
     /// 角色列表
@@ -91,16 +78,6 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
     /// 筛选文本
     /// </summary>
     public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
-
-    /// <summary>
-    /// 养成命令
-    /// </summary>
-    public ICommand CultivateCommand { get; }
-
-    /// <summary>
-    /// 筛选命令
-    /// </summary>
-    public ICommand FilterCommand { get; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
@@ -140,6 +117,7 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("CultivateCommand")]
     private async Task CultivateAsync(Avatar? avatar)
     {
         if (avatar != null)
@@ -220,6 +198,7 @@ internal sealed class WikiAvatarViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("FilterCommand")]
     private void ApplyFilter(string? input)
     {
         if (Avatars != null)

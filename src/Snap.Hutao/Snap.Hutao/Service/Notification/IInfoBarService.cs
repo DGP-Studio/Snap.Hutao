@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.Service.Abstraction;
+namespace Snap.Hutao.Service.Notification;
 
 /// <summary>
 /// 消息条服务

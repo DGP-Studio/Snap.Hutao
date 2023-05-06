@@ -11,8 +11,9 @@ namespace Snap.Hutao.ViewModel.Complex;
 /// 胡桃数据库视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class HutaoDatabaseViewModel : Abstraction.ViewModel
+internal sealed partial class HutaoDatabaseViewModel : Abstraction.ViewModel
 {
     private readonly IHutaoCache hutaoCache;
 
@@ -21,15 +22,6 @@ internal sealed class HutaoDatabaseViewModel : Abstraction.ViewModel
     private List<AvatarConstellationInfoView>? avatarConstellationInfos;
     private List<TeamAppearanceView>? teamAppearances;
     private Overview? overview;
-
-    /// <summary>
-    /// 构造一个新的胡桃数据库视图模型
-    /// </summary>
-    /// <param name="hutaoCache">胡桃服务缓存</param>
-    public HutaoDatabaseViewModel(IHutaoCache hutaoCache)
-    {
-        this.hutaoCache = hutaoCache;
-    }
 
     /// <summary>
     /// 角色使用率

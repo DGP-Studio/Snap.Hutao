@@ -9,29 +9,16 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃用户服务
 /// </summary>
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IHutaoUserService))]
-internal sealed class HutaoUserService : IHutaoUserService, IHutaoUserServiceInitialization
+internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserServiceInitialization
 {
-    private readonly TaskCompletionSource initializeCompletionSource = new();
-
-    private readonly ITaskContext taskContext;
+    private readonly TaskCompletionSource initializeCompletionSource;
     private readonly HomaPassportClient passportClient;
+    private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;
 
     private bool isInitialized;
-
-    /// <summary>
-    /// 构造一个新的胡桃用户服务
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    /// <param name="passportClient">通行证客户端</param>
-    /// <param name="options">选项</param>
-    public HutaoUserService(ITaskContext taskContext, HomaPassportClient passportClient, HutaoUserOptions options)
-    {
-        this.taskContext = taskContext;
-        this.passportClient = passportClient;
-        this.options = options;
-    }
 
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync()

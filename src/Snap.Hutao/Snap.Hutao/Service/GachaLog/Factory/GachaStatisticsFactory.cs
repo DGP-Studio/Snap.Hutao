@@ -17,22 +17,12 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// 祈愿统计工厂
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IGachaStatisticsFactory))]
-internal sealed class GachaStatisticsFactory : IGachaStatisticsFactory
+internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 {
     private readonly IMetadataService metadataService;
     private readonly AppOptions options;
-
-    /// <summary>
-    /// 构造一个新的祈愿统计工厂
-    /// </summary>
-    /// <param name="metadataService">元数据服务</param>
-    /// <param name="options">选项</param>
-    public GachaStatisticsFactory(IMetadataService metadataService, AppOptions options)
-    {
-        this.metadataService = metadataService;
-        this.options = options;
-    }
 
     /// <inheritdoc/>
     public async Task<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)

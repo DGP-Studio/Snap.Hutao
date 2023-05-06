@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Snap.Hutao.SourceGeneration.Primitive;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -31,8 +32,8 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses =
-            context.SyntaxProvider.CreateSyntaxProvider(FilterAttributedClasses, HttpClientClass)
+        IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses = context.SyntaxProvider
+            .CreateSyntaxProvider(FilterAttributedClasses, HttpClientClass)
             .Where(GeneratorSyntaxContext2.NotNull)
             .Collect();
 
@@ -41,12 +42,13 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
 
     private static bool FilterAttributedClasses(SyntaxNode node, CancellationToken token)
     {
-        return node is ClassDeclarationSyntax classDeclarationSyntax && classDeclarationSyntax.AttributeLists.Count > 0;
+        return node is ClassDeclarationSyntax classDeclarationSyntax
+            && classDeclarationSyntax.HasAttributeLists();
     }
 
     private static GeneratorSyntaxContext2 HttpClientClass(GeneratorSyntaxContext context, CancellationToken token)
     {
-        if (context.SemanticModel.GetDeclaredSymbol(context.Node, token) is INamedTypeSymbol classSymbol)
+        if (context.TryGetDeclaredSymbol(token, out INamedTypeSymbol? classSymbol))
         {
             ImmutableArray<AttributeData> attributes = classSymbol.GetAttributes();
             if (attributes.Any(data => data.AttributeClass!.ToDisplayString() == AttributeName))
@@ -71,8 +73,7 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
             
             internal static partial class IocHttpClientConfiguration
             {
-                [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(HttpClientGenerator)}}","1.0.0.0")]
-                [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+                [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(HttpClientGenerator)}}", "1.0.0.0")]
                 public static partial IServiceCollection AddHttpClients(this IServiceCollection services)
                 {
             """);
@@ -94,12 +95,12 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
         List<string> lines = new();
         StringBuilder lineBuilder = new();
 
-        foreach (GeneratorSyntaxContext2 context in contexts)
+        foreach (GeneratorSyntaxContext2 context in contexts.DistinctBy(c => c.Symbol.ToDisplayString()))
         {
             lineBuilder.Clear().Append(CRLF);
             lineBuilder.Append(@"        services.AddHttpClient<");
 
-            AttributeData httpClientData = context.SingleAttributeWithName(AttributeName);
+            AttributeData httpClientData = context.SingleAttribute(AttributeName);
             ImmutableArray<TypedConstant> arguments = httpClientData.ConstructorArguments;
 
             if (arguments.Length == 2)
@@ -129,7 +130,7 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
                     break;
             }
 
-            if (context.SingleOrDefaultAttributeWithName(PrimaryHttpMessageHandlerAttributeName) is AttributeData handlerData)
+            if (context.SingleOrDefaultAttribute(PrimaryHttpMessageHandlerAttributeName) is AttributeData handlerData)
             {
                 ImmutableArray<KeyValuePair<string, TypedConstant>> properties = handlerData.NamedArguments;
                 lineBuilder.Append(@".ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler() {");

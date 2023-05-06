@@ -16,25 +16,13 @@ namespace Snap.Hutao.Web.Hoyolab.App.Account;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
-internal sealed class AccountClient
+internal sealed partial class AccountClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<AccountClient> logger;
-
-    /// <summary>
-    /// 构造一个新的账户客户端
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="options">选项</param>
-    /// <param name="logger">日志器</param>
-    public AccountClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<AccountClient> logger)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-        this.logger = logger;
-    }
 
     /// <summary>
     /// 异步生成米游社操作验证密钥

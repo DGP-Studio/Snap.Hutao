@@ -23,8 +23,9 @@ namespace Snap.Hutao.ViewModel;
 /// 欢迎视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class WelcomeViewModel : ObservableObject
+internal sealed partial class WelcomeViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
@@ -32,27 +33,11 @@ internal sealed class WelcomeViewModel : ObservableObject
     private ObservableCollection<DownloadSummary>? downloadSummaries;
 
     /// <summary>
-    /// 构造一个新的欢迎视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public WelcomeViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        this.serviceProvider = serviceProvider;
-
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
-    }
-
-    /// <summary>
     /// 下载信息
     /// </summary>
     public ObservableCollection<DownloadSummary>? DownloadSummaries { get => downloadSummaries; set => SetProperty(ref downloadSummaries, value); }
 
-    /// <summary>
-    /// 打开界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
+    [Command("OpenUICommand")]
     private async Task OpenUIAsync()
     {
         IEnumerable<DownloadSummary> downloadSummaries = GenerateStaticResourceDownloadTasks();
@@ -130,8 +115,7 @@ internal sealed class WelcomeViewModel : ObservableObject
     /// <summary>
     /// 下载信息
     /// </summary>
-    [SuppressMessage("", "CA1067")]
-    internal sealed class DownloadSummary : ObservableObject, IEquatable<DownloadSummary>
+    internal sealed class DownloadSummary : ObservableObject
     {
         private readonly IServiceProvider serviceProvider;
         private readonly ITaskContext taskContext;
@@ -178,12 +162,6 @@ internal sealed class WelcomeViewModel : ObservableObject
         /// 进度值，最大1
         /// </summary>
         public double ProgressValue { get => progressValue; set => SetProperty(ref progressValue, value); }
-
-        /// <inheritdoc/>
-        public bool Equals(DownloadSummary? other)
-        {
-            return fileName == other?.fileName;
-        }
 
         /// <summary>
         /// 异步下载并解压

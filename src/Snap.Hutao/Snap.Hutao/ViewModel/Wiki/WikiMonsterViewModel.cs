@@ -15,26 +15,16 @@ namespace Snap.Hutao.ViewModel.Wiki;
 /// 怪物资料视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal class WikiMonsterViewModel : Abstraction.ViewModel
+[ConstructorGenerated]
+internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
 {
     private readonly IMetadataService metadataService;
     private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView? monsters;
     private Monster? selected;
-    private string? filterText;
     private BaseValueInfo? baseValueInfo;
     private Dictionary<int, Dictionary<GrowCurveType, float>>? levelMonsterCurveMap;
-
-    /// <summary>
-    /// 构造一个新的怪物资料视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public WikiMonsterViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-    }
 
     /// <summary>
     /// 角色列表
@@ -59,11 +49,6 @@ internal class WikiMonsterViewModel : Abstraction.ViewModel
     /// 基础数值信息
     /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
-
-    /// <summary>
-    /// 筛选文本
-    /// </summary>
-    public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()

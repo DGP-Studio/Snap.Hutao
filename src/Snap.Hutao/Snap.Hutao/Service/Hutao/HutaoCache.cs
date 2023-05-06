@@ -16,28 +16,18 @@ namespace Snap.Hutao.Service.Hutao;
 /// 胡桃 API 缓存
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IHutaoCache))]
-internal sealed class HutaoCache : IHutaoCache
+internal sealed partial class HutaoCache : IHutaoCache
 {
     private readonly IMetadataService metadataService;
-    private readonly IServiceScopeFactory scopeFactory;
+    private readonly IServiceProvider serviceProvider;
 
     private Dictionary<AvatarId, Avatar>? idAvatarExtendedMap;
 
     private TaskCompletionSource<bool>? databaseViewModelTaskSource;
     private TaskCompletionSource<bool>? wikiAvatarViewModelTaskSource;
     private TaskCompletionSource<bool>? wikiWeaponViewModelTaskSource;
-
-    /// <summary>
-    /// 构造一个新的胡桃 API 缓存
-    /// </summary>
-    /// <param name="metadataService">元数据服务</param>
-    /// <param name="scopeFactory">范围工厂</param>
-    public HutaoCache(IMetadataService metadataService, IServiceScopeFactory scopeFactory)
-    {
-        this.metadataService = metadataService;
-        this.scopeFactory = scopeFactory;
-    }
 
     /// <inheritdoc/>
     public List<AvatarRankView>? AvatarUsageRanks { get; set; }
@@ -107,7 +97,7 @@ internal sealed class HutaoCache : IHutaoCache
             Dictionary<EquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap = await metadataService.GetEquipAffixIdToReliquarySetMapAsync().ConfigureAwait(false);
 
             List<AvatarCollocation> avatarCollocationsRaw;
-            using (IServiceScope scope = scopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
                 avatarCollocationsRaw = await hutaoService.GetAvatarCollocationsAsync().ConfigureAwait(false);
@@ -143,7 +133,7 @@ internal sealed class HutaoCache : IHutaoCache
             Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
 
             List<WeaponCollocation> weaponCollocationsRaw;
-            using (IServiceScope scope = scopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
                 weaponCollocationsRaw = await hutaoService.GetWeaponCollocationsAsync().ConfigureAwait(false);
@@ -177,7 +167,7 @@ internal sealed class HutaoCache : IHutaoCache
     private async Task AvatarAppearanceRankAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarAppearanceRank> avatarAppearanceRanksRaw;
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
             avatarAppearanceRanksRaw = await hutaoService.GetAvatarAppearanceRanksAsync().ConfigureAwait(false);
@@ -193,7 +183,7 @@ internal sealed class HutaoCache : IHutaoCache
     private async Task AvatarUsageRanksAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarUsageRank> avatarUsageRanksRaw;
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
             avatarUsageRanksRaw = await hutaoService.GetAvatarUsageRanksAsync().ConfigureAwait(false);
@@ -209,7 +199,7 @@ internal sealed class HutaoCache : IHutaoCache
     private async Task AvatarConstellationInfosAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarConstellationInfo> avatarConstellationInfosRaw;
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
             avatarConstellationInfosRaw = await hutaoService.GetAvatarConstellationInfosAsync().ConfigureAwait(false);
@@ -224,7 +214,7 @@ internal sealed class HutaoCache : IHutaoCache
     private async Task TeamAppearancesAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<TeamAppearance> teamAppearancesRaw;
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
             teamAppearancesRaw = await hutaoService.GetTeamAppearancesAsync().ConfigureAwait(false);
@@ -235,7 +225,7 @@ internal sealed class HutaoCache : IHutaoCache
 
     private async Task OverviewAsync()
     {
-        using (IServiceScope scope = scopeFactory.CreateScope())
+        using (IServiceScope scope = serviceProvider.CreateScope())
         {
             IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
             Overview = await hutaoService.GetOverviewAsync().ConfigureAwait(false);

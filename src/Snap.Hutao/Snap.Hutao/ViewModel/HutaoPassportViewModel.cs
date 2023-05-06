@@ -6,6 +6,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
 
@@ -14,8 +15,9 @@ namespace Snap.Hutao.ViewModel;
 /// <summary>
 /// 胡桃通行证视图模型
 /// </summary>
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
+internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
@@ -24,23 +26,6 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
     private string? userName;
     private string? password;
     private string? verifyCode;
-
-    /// <summary>
-    /// 构造一个新的胡桃通行证视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public HutaoPassportViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        homaPassportClient = serviceProvider.GetRequiredService<HomaPassportClient>();
-        this.serviceProvider = serviceProvider;
-
-        RegisterVerifyCommand = new AsyncRelayCommand(RegisterVerifyAsync);
-        RegisterCommand = new AsyncRelayCommand(RegisterAsync);
-        ResetPasswordVerifyCommand = new AsyncRelayCommand(ResetPasswordVerifyAsync);
-        ResetPasswordCommand = new AsyncRelayCommand(ResetPasswordAsync);
-        LoginCommand = new AsyncRelayCommand(LoginAsync);
-    }
 
     /// <summary>
     /// 用户名
@@ -57,42 +42,19 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
     /// </summary>
     public string? VerifyCode { get => verifyCode; set => SetProperty(ref verifyCode, value); }
 
-    /// <summary>
-    /// 注册验证命令
-    /// </summary>
-    public ICommand RegisterVerifyCommand { get; }
-
-    /// <summary>
-    /// 注册命令
-    /// </summary>
-    public ICommand RegisterCommand { get; }
-
-    /// <summary>
-    /// 注册验证命令
-    /// </summary>
-    public ICommand ResetPasswordVerifyCommand { get; }
-
-    /// <summary>
-    /// 注册命令
-    /// </summary>
-    public ICommand ResetPasswordCommand { get; }
-
-    /// <summary>
-    /// 登录命令
-    /// </summary>
-    public ICommand LoginCommand { get; }
-
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
     {
         return Task.CompletedTask;
     }
 
+    [Command("RegisterVerifyCommand")]
     private Task RegisterVerifyAsync()
     {
         return VerifyAsync(false);
     }
 
+    [Command("RegisterCommand")]
     private async Task RegisterAsync()
     {
         if (UserName == null || Password == null || VerifyCode == null)
@@ -117,11 +79,13 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("ResetPasswordVerifyCommand")]
     private Task ResetPasswordVerifyAsync()
     {
         return VerifyAsync(true);
     }
 
+    [Command("ResetPasswordCommand")]
     private async Task ResetPasswordAsync()
     {
         if (UserName == null || Password == null || VerifyCode == null)
@@ -146,6 +110,7 @@ internal sealed class HutaoPassportViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("LoginCommand")]
     private async Task LoginAsync()
     {
         if (UserName == null || Password == null)

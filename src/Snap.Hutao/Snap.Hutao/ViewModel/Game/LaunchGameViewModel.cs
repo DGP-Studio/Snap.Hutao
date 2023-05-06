@@ -11,6 +11,7 @@ using Snap.Hutao.Service;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
@@ -24,8 +25,9 @@ namespace Snap.Hutao.ViewModel.Game;
 /// 启动游戏视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class LaunchGameViewModel : Abstraction.ViewModel
+internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 {
     /// <summary>
     /// 启动游戏目标 Uid
@@ -33,11 +35,11 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     public const string DesiredUid = nameof(DesiredUid);
 
     private readonly IServiceProvider serviceProvider;
+    private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
     private readonly IMemoryCache memoryCache;
-
-    private readonly List<LaunchScheme> knownSchemes = LaunchScheme.KnownSchemes.ToList();
+    private readonly AppOptions appOptions;
 
     private LaunchScheme? selectedScheme;
     private ObservableCollection<GameAccount>? gameAccounts;
@@ -45,30 +47,9 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     private GameResource? gameResource;
 
     /// <summary>
-    /// 构造一个新的启动游戏视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public LaunchGameViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        gameService = serviceProvider.GetRequiredService<IGameService>();
-        memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
-        Options = serviceProvider.GetRequiredService<LaunchOptions>();
-        AppOptions = serviceProvider.GetRequiredService<AppOptions>();
-        this.serviceProvider = serviceProvider;
-
-        LaunchCommand = new AsyncRelayCommand(LaunchAsync, AsyncRelayCommandOptions.AllowConcurrentExecutions);
-        DetectGameAccountCommand = new AsyncRelayCommand(DetectGameAccountAsync);
-        ModifyGameAccountCommand = new AsyncRelayCommand<GameAccount>(ModifyGameAccountAsync);
-        RemoveGameAccountCommand = new AsyncRelayCommand<GameAccount>(RemoveGameAccountAsync);
-        AttachGameAccountCommand = new RelayCommand<GameAccount>(AttachGameAccountToCurrentUserGameRole);
-        OpenScreenshotFolderCommand = new AsyncRelayCommand(OpenScreenshotFolderAsync);
-    }
-
-    /// <summary>
     /// 已知的服务器方案
     /// </summary>
-    public List<LaunchScheme> KnownSchemes { get => knownSchemes; }
+    public List<LaunchScheme> KnownSchemes { get => LaunchScheme.KnownSchemes.ToList(); }
 
     /// <summary>
     /// 当前选择的服务器方案
@@ -100,12 +81,12 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// <summary>
     /// 启动选项
     /// </summary>
-    public LaunchOptions Options { get; }
+    public LaunchOptions Options { get => launchOptions; }
 
     /// <summary>
     /// 应用选项
     /// </summary>
-    public AppOptions AppOptions { get; }
+    public AppOptions AppOptions { get => appOptions; }
 
     /// <summary>
     /// 游戏资源
@@ -117,36 +98,6 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
     /// </summary>
     [SuppressMessage("", "CA1822")]
     public bool IsElevated { get => Activation.GetElevated(); }
-
-    /// <summary>
-    /// 启动游戏命令
-    /// </summary>
-    public ICommand LaunchCommand { get; }
-
-    /// <summary>
-    /// 检测游戏账号命令
-    /// </summary>
-    public ICommand DetectGameAccountCommand { get; }
-
-    /// <summary>
-    /// 修改游戏账号命令
-    /// </summary>
-    public ICommand ModifyGameAccountCommand { get; }
-
-    /// <summary>
-    /// 删除游戏账号命令
-    /// </summary>
-    public ICommand RemoveGameAccountCommand { get; }
-
-    /// <summary>
-    /// 绑定到Uid命令
-    /// </summary>
-    public ICommand AttachGameAccountCommand { get; }
-
-    /// <summary>
-    /// 打开截图文件夹命令
-    /// </summary>
-    public ICommand OpenScreenshotFolderCommand { get; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
@@ -221,6 +172,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("LaunchCommand", AllowConcurrentExecutions = true)]
     private async Task LaunchAsync()
     {
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
@@ -267,6 +219,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("DetectGameAccountCommand")]
     private async Task DetectGameAccountAsync()
     {
         try
@@ -279,6 +232,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("AttachGameAccountCommand")]
     private void AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
     {
         if (gameAccount != null)
@@ -297,6 +251,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("ModifyGameAccountCommand")]
     private async Task ModifyGameAccountAsync(GameAccount? gameAccount)
     {
         if (gameAccount != null)
@@ -305,6 +260,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("RemoveGameAccountCommand")]
     private async Task RemoveGameAccountAsync(GameAccount? gameAccount)
     {
         if (gameAccount != null)
@@ -313,6 +269,7 @@ internal sealed class LaunchGameViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("OpenScreenshotFolderCommand")]
     private async Task OpenScreenshotFolderAsync()
     {
         string game = serviceProvider.GetRequiredService<AppOptions>().GamePath;

@@ -7,8 +7,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Service.Abstraction;
-using System.Globalization;
+using Snap.Hutao.Service.Notification;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -19,45 +18,22 @@ namespace Snap.Hutao.Service.Metadata;
 /// 元数据服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IMetadataService))]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class MetadataService : IMetadataService, IMetadataServiceInitialization
 {
     private const string MetaFileName = "Meta.json";
-    private readonly string metadataFolderPath;
 
-    private readonly IInfoBarService infoBarService;
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
+    private readonly TaskCompletionSource initializeCompletionSource;
     private readonly ILogger<MetadataService> logger;
+    private readonly MetadataOptions metadataOptions;
+    private readonly IInfoBarService infoBarService;
+    private readonly JsonSerializerOptions options;
     private readonly IMemoryCache memoryCache;
-    private readonly string locale;
-
-    /// <summary>
-    /// 用于指示初始化是否完成
-    /// </summary>
-    private readonly TaskCompletionSource initializeCompletionSource = new();
+    private readonly HttpClient httpClient;
 
     private bool isInitialized;
-
-    /// <summary>
-    /// 构造一个新的元数据服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="httpClientFactory">http客户端工厂</param>
-    public MetadataService(IServiceProvider serviceProvider, IHttpClientFactory httpClientFactory)
-    {
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
-        logger = serviceProvider.GetRequiredService<ILogger<MetadataService>>();
-        memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
-        httpClient = httpClientFactory.CreateClient(nameof(MetadataService));
-
-        locale = GetTextMapLocale();
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
-        metadataFolderPath = Path.Combine(hutaoOptions.DataFolder, "Metadata", locale);
-        Directory.CreateDirectory(metadataFolderPath);
-    }
 
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeAsync()
@@ -83,48 +59,16 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         logger.LogInformation("Metadata initialization completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 
-    private static string GetTextMapLocale()
-    {
-        CultureInfo cultureInfo = CultureInfo.CurrentCulture;
-
-        while (true)
-        {
-            if (cultureInfo == CultureInfo.InvariantCulture)
-            {
-                // Fallback to Chinese.
-                return "CHS";
-            }
-
-            switch (cultureInfo.Name)
-            {
-                case "de": return "DE";         // German
-                case "en": return "EN";         // English
-                case "es": return "ES";         // Spanish
-                case "fr": return "FR";         // French
-                case "id": return "ID";         // Indonesian
-                case "it": return "IT";         // Italian
-                case "ja": return "JP";         // Japanese
-                case "ko": return "KR";         // Korean
-                case "pt": return "PT";         // Portuguese
-                case "ru": return "RU";         // Russian
-                case "th": return "TH";         // Thai
-                case "tr": return "TR";         // Turkish
-                case "vi": return "TR";         // Vietnamese
-                case "zh-CHS": return "CHS";    // Chinese (Simplified) Legacy
-                case "zh-CHT": return "CHT";    // Chinese (Traditional) Legacy
-                default: cultureInfo = cultureInfo.Parent; break;
-            }
-        }
-    }
-
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token)
     {
         IDictionary<string, string>? metaMd5Map;
         try
         {
+            string metadataFile = metadataOptions.GetLocalizedRemoteFile(MetaFileName);
+
             // download meta check file
             metaMd5Map = await httpClient
-                .GetFromJsonAsync<IDictionary<string, string>>(Web.HutaoEndpoints.HutaoMetadataFile(locale, MetaFileName), options, token)
+                .GetFromJsonAsync<IDictionary<string, string>>(metadataFile, options, token)
                 .ConfigureAwait(false);
 
             if (metaMd5Map is null)
@@ -150,7 +94,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         await CheckMetadataAsync(metaMd5Map, token).ConfigureAwait(false);
 
         // save metadataFile
-        using (FileStream metaFileStream = File.Create(Path.Combine(metadataFolderPath, MetaFileName)))
+        using (FileStream metaFileStream = File.Create(metadataOptions.GetLocalizedLocalFile(MetaFileName)))
         {
             await JsonSerializer
                 .SerializeAsync(metaFileStream, metaMd5Map, options, token)
@@ -175,7 +119,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             string fileFullName = $"{fileName}.json";
 
             bool skip = false;
-            string fileFullPath = Path.Combine(metadataFolderPath, fileFullName);
+            string fileFullPath = metadataOptions.GetLocalizedLocalFile(fileFullName);
             if (File.Exists(fileFullPath))
             {
                 skip = md5 == await Digest.GetFileMD5Async(fileFullPath, token).ConfigureAwait(false);
@@ -193,18 +137,22 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     private async Task DownloadMetadataAsync(string fileFullName, CancellationToken token)
     {
         Stream sourceStream = await httpClient
-            .GetStreamAsync(Web.HutaoEndpoints.HutaoMetadataFile(locale, fileFullName), token)
+            .GetStreamAsync(metadataOptions.GetLocalizedRemoteFile(fileFullName), token)
             .ConfigureAwait(false);
 
         // Write stream while convert LF to CRLF
         using (StreamReader streamReader = new(sourceStream))
         {
-            using (StreamWriter streamWriter = new(File.Create(Path.Combine(metadataFolderPath, fileFullName))))
+            using (StreamWriter streamWriter = File.CreateText(metadataOptions.GetLocalizedLocalFile(fileFullName)))
             {
                 while (await streamReader.ReadLineAsync(token).ConfigureAwait(false) is string line)
                 {
-                    Func<string?, Task> write = streamReader.EndOfStream ? streamWriter.WriteAsync : streamWriter.WriteLineAsync;
-                    await write(line).ConfigureAwait(false);
+                    await streamWriter.WriteAsync(line).ConfigureAwait(false);
+
+                    if (!streamReader.EndOfStream)
+                    {
+                        await streamWriter.WriteAsync(StringLiterals.CRLF).ConfigureAwait(false);
+                    }
                 }
             }
         }
@@ -223,7 +171,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             return Must.NotNull((T)value!);
         }
 
-        string path = Path.Combine(metadataFolderPath, $"{fileName}.json");
+        string path = metadataOptions.GetLocalizedLocalFile($"{fileName}.json");
         if (File.Exists(path))
         {
             using (Stream fileStream = File.OpenRead(path))
@@ -234,7 +182,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
         else
         {
-            throw ThrowHelper.UserdataCorrupted(SH.ServiceMetadataNotInitialized, null!);
+            throw ThrowHelper.UserdataCorrupted(SH.ServiceMetadataFileNotFound, null!);
         }
     }
 

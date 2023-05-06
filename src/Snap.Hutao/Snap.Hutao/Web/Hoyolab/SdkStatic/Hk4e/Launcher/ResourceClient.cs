@@ -12,25 +12,13 @@ namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 /// 游戏资源客户端
 /// </summary>
 [HighQuality]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class ResourceClient
+internal sealed partial class ResourceClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<ResourceClient> logger;
-
-    /// <summary>
-    /// 构造一个新的资源客户端
-    /// </summary>
-    /// <param name="httpClient">Http客户端</param>
-    /// <param name="options">Json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public ResourceClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<ResourceClient> logger)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-        this.logger = logger;
-    }
 
     /// <summary>
     /// 异步获取游戏资源

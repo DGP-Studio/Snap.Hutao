@@ -16,22 +16,14 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 /// 深渊记录服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordService))]
-internal class SpiralAbyssRecordService : ISpiralAbyssRecordService
+internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordService
 {
     private readonly IServiceProvider serviceProvider;
 
     private string? uid;
     private ObservableCollection<SpiralAbyssEntry>? spiralAbysses;
-
-    /// <summary>
-    /// 构造一个新的深渊记录服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public SpiralAbyssRecordService(IServiceProvider serviceProvider)
-    {
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <inheritdoc/>
     public async Task<ObservableCollection<SpiralAbyssEntry>> GetSpiralAbyssCollectionAsync(UserAndUid userAndUid)

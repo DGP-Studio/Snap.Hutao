@@ -18,29 +18,15 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// 角色信息服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IAvatarInfoService))]
-internal sealed class AvatarInfoService : IAvatarInfoService
+internal sealed partial class AvatarInfoService : IAvatarInfoService
 {
     private readonly AvatarInfoDbBulkOperation avatarInfoDbBulkOperation;
-    private readonly ISummaryFactory summaryFactory;
-    private readonly IMetadataService metadataService;
     private readonly ILogger<AvatarInfoService> logger;
+    private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的角色信息服务
-    /// </summary>
-    /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AvatarInfoService(IServiceProvider serviceProvider)
-    {
-        avatarInfoDbBulkOperation = serviceProvider.GetRequiredService<AvatarInfoDbBulkOperation>();
-        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        summaryFactory = serviceProvider.GetRequiredService<ISummaryFactory>();
-        logger = serviceProvider.GetRequiredService<ILogger<AvatarInfoService>>();
-
-        this.serviceProvider = serviceProvider;
-    }
+    private readonly ISummaryFactory summaryFactory;
 
     /// <inheritdoc/>
     public async Task<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default)

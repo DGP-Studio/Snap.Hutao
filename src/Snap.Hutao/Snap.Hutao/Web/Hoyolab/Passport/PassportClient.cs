@@ -16,25 +16,13 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc2)]
-internal sealed class PassportClient
+internal sealed partial class PassportClient
 {
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<PassportClient> logger;
-
-    /// <summary>
-    /// 构造一个新的通行证客户端
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="options">json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public PassportClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<PassportClient> logger)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-        this.logger = logger;
-    }
+    private readonly JsonSerializerOptions options;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 异步验证 LToken

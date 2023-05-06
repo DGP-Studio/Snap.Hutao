@@ -19,32 +19,18 @@ namespace Snap.Hutao.Service.User;
 
 /// <summary>
 /// 用户服务
-/// 主要负责将用户数据与数据库同步
 /// </summary>
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserService))]
-internal class UserService : IUserService
+internal sealed partial class UserService : IUserService
 {
     private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
     private readonly IMessenger messenger;
-    private readonly object currentUserLocker = new();
 
     private BindingUser? currentUser;
     private ObservableCollection<BindingUser>? userCollection;
     private ObservableCollection<UserAndUid>? roleCollection;
-
-    /// <summary>
-    /// 构造一个新的用户服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="messenger">消息器</param>
-    public UserService(IServiceProvider serviceProvider, IMessenger messenger)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-
-        this.serviceProvider = serviceProvider;
-        this.messenger = messenger;
-    }
 
     /// <inheritdoc/>
     public BindingUser? Current
@@ -57,42 +43,39 @@ internal class UserService : IUserService
                 return;
             }
 
-            lock (currentUserLocker)
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                using (IServiceScope scope = serviceProvider.CreateScope())
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                // only update when not processing a deletion
+                if (value != null)
                 {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                    // only update when not processing a deletion
-                    if (value != null)
-                    {
-                        if (currentUser != null)
-                        {
-                            currentUser.IsSelected = false;
-                            appDbContext.Users.UpdateAndSave(currentUser.Entity);
-                        }
-                    }
-
-                    UserChangedMessage message = new() { OldValue = currentUser, NewValue = value };
-
-                    // 当删除到无用户时也能正常反应状态
-                    currentUser = value;
-
                     if (currentUser != null)
                     {
-                        currentUser.IsSelected = true;
-                        try
-                        {
-                            appDbContext.Users.UpdateAndSave(currentUser.Entity);
-                        }
-                        catch (InvalidOperationException ex)
-                        {
-                            ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceUserCurrentUpdateAndSaveFailed, currentUser.UserInfo?.Uid), ex);
-                        }
+                        currentUser.IsSelected = false;
+                        appDbContext.Users.UpdateAndSave(currentUser.Entity);
                     }
-
-                    messenger.Send(message);
                 }
+
+                UserChangedMessage message = new() { OldValue = currentUser, NewValue = value };
+
+                // 当删除到无用户时也能正常反应状态
+                currentUser = value;
+
+                if (currentUser != null)
+                {
+                    currentUser.IsSelected = true;
+                    try
+                    {
+                        appDbContext.Users.UpdateAndSave(currentUser.Entity);
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceUserCurrentUpdateAndSaveFailed, currentUser.UserInfo?.Uid), ex);
+                    }
+                }
+
+                messenger.Send(message);
             }
         }
     }

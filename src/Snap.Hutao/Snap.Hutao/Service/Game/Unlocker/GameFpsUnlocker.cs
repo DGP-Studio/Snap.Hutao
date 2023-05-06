@@ -39,6 +39,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         TargetFps = targetFPS;
         this.gameProcess = gameProcess;
+
+        // TODO: use UnlockerOptions to replace parameters
     }
 
     /// <inheritdoc/>

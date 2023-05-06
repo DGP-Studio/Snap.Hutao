@@ -10,25 +10,13 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 /// <summary>
 /// 公告客户端
 /// </summary>
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class AnnouncementClient
+internal sealed partial class AnnouncementClient
 {
-    private readonly HttpClient httpClient;
-    private readonly ILogger<AnnouncementClient> logger;
     private readonly JsonSerializerOptions jsonSerializerOptions;
-
-    /// <summary>
-    /// 构造一个新的公告客户端
-    /// </summary>
-    /// <param name="httpClient">客户端</param>
-    /// <param name="logger">日志器</param>
-    /// <param name="jsonSerializerOptions">json序列化选项</param>
-    public AnnouncementClient(HttpClient httpClient, ILogger<AnnouncementClient> logger, JsonSerializerOptions jsonSerializerOptions)
-    {
-        this.httpClient = httpClient;
-        this.logger = logger;
-        this.jsonSerializerOptions = jsonSerializerOptions;
-    }
+    private readonly ILogger<AnnouncementClient> logger;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 异步获取公告列表

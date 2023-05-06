@@ -4,6 +4,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Page;
 
 namespace Snap.Hutao.View;
@@ -24,11 +25,15 @@ internal sealed partial class MainView : UserControl
     {
         InitializeComponent();
 
-        infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
+        IServiceProvider serviceProvider = Ioc.Default;
+
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         infoBarService.Initialize(InfoBarStack);
 
-        navigationService = Ioc.Default.GetRequiredService<INavigationService>();
-        navigationService.Initialize(NavView, ContentFrame);
+        navigationService = serviceProvider.GetRequiredService<INavigationService>();
+        navigationService
+            .As<INavigationInitialization>()?
+            .Initialize(NavView, ContentFrame);
 
         navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
     }

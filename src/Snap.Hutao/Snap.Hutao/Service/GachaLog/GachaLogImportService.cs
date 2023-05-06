@@ -11,23 +11,13 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录导入服务
 /// </summary>
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IGachaLogImportService))]
-internal sealed class GachaLogImportService : IGachaLogImportService
+internal sealed partial class GachaLogImportService : IGachaLogImportService
 {
-    private readonly ITaskContext taskContext;
     private readonly ILogger<GachaLogImportService> logger;
     private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的祈愿记录导入服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public GachaLogImportService(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        logger = serviceProvider.GetRequiredService<ILogger<GachaLogImportService>>();
-        this.serviceProvider = serviceProvider;
-    }
+    private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
     public async Task<GachaArchive> ImportFromUIGFAsync(GachaLogServiceContext context, List<UIGFItem> list, string uid)

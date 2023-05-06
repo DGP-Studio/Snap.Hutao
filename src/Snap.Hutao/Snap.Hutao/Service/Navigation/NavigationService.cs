@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
 
@@ -14,32 +15,19 @@ namespace Snap.Hutao.Service.Navigation;
 /// 导航服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(INavigationService))]
-internal sealed class NavigationService : INavigationService
+internal sealed partial class NavigationService : INavigationService, INavigationInitialization
 {
-    private readonly ITaskContext taskContext;
-    private readonly IInfoBarService infoBarService;
     private readonly ILogger<INavigationService> logger;
+    private readonly IInfoBarService infoBarService;
+    private readonly ITaskContext taskContext;
 
+    private Frame? frame;
     private NavigationView? navigationView;
+    private NavigationViewItem? selected;
 
-    /// <summary>
-    /// 构造一个新的导航服务
-    /// </summary>
-    /// <param name="infoBarService">信息条服务</param>
-    /// <param name="logger">日志器</param>
-    public NavigationService(ITaskContext taskContext, IInfoBarService infoBarService, ILogger<INavigationService> logger)
-    {
-        this.taskContext = taskContext;
-        this.infoBarService = infoBarService;
-        this.logger = logger;
-    }
-
-    /// <inheritdoc/>
-    public Frame? Frame { get; set; }
-
-    /// <inheritdoc/>
-    public NavigationView? NavigationView
+    private NavigationView? NavigationView
     {
         get => navigationView;
 
@@ -68,39 +56,9 @@ internal sealed class NavigationService : INavigationService
     }
 
     /// <inheritdoc/>
-    public NavigationViewItem? Selected { get; set; }
-
-    /// <inheritdoc/>
-    public bool HasEverNavigated { get; set; }
-
-    /// <inheritdoc/>
-    public bool SyncSelectedNavigationViewItemWith(Type? pageType)
-    {
-        if (NavigationView is null || pageType is null)
-        {
-            return false;
-        }
-
-        if (pageType == typeof(SettingPage))
-        {
-            NavigationView.SelectedItem = NavigationView.SettingsItem;
-        }
-        else
-        {
-            NavigationViewItem? target = EnumerateMenuItems(NavigationView.MenuItems)
-                .SingleOrDefault(menuItem => NavHelper.GetNavigateTo(menuItem) == pageType);
-
-            NavigationView.SelectedItem = target;
-        }
-
-        Selected = NavigationView.SelectedItem as NavigationViewItem;
-        return true;
-    }
-
-    /// <inheritdoc/>
     public NavigationResult Navigate(Type pageType, INavigationAwaiter data, bool syncNavigationViewItem = false)
     {
-        Type? currentType = Frame?.Content?.GetType();
+        Type? currentType = frame?.Content?.GetType();
 
         if (currentType == pageType)
         {
@@ -113,7 +71,7 @@ internal sealed class NavigationService : INavigationService
         bool navigated = false;
         try
         {
-            navigated = Frame?.Navigate(pageType, data) ?? false;
+            navigated = frame?.Navigate(pageType, data) ?? false;
             logger.LogInformation("Navigate to {pageType} : {result}", pageType, navigated ? "succeed" : "failed");
         }
         catch (Exception ex)
@@ -122,8 +80,6 @@ internal sealed class NavigationService : INavigationService
             infoBarService.Error(ex);
         }
 
-        // 首次导航失败时使属性持续保存为false
-        HasEverNavigated = HasEverNavigated || navigated;
         return navigated ? NavigationResult.Succeed : NavigationResult.Failed;
     }
 
@@ -159,7 +115,7 @@ internal sealed class NavigationService : INavigationService
 
             case NavigationResult.AlreadyNavigatedTo:
                 {
-                    if (Frame!.Content is ScopedPage scopedPage)
+                    if (frame!.Content is ScopedPage scopedPage)
                     {
                         await scopedPage.NotifyRecipentAsync((INavigationData)data).ConfigureAwait(false);
                     }
@@ -175,7 +131,7 @@ internal sealed class NavigationService : INavigationService
     public void Initialize(NavigationView navigationView, Frame frame)
     {
         NavigationView = navigationView;
-        Frame = frame;
+        this.frame = frame;
 
         NavigationView.IsPaneOpen = LocalSetting.Get(SettingKeys.IsNavPaneOpen, true);
     }
@@ -185,21 +141,39 @@ internal sealed class NavigationService : INavigationService
     {
         taskContext.InvokeOnMainThread(() =>
         {
-            bool canGoBack = Frame?.CanGoBack ?? false;
+            bool canGoBack = frame?.CanGoBack ?? false;
 
             if (canGoBack)
             {
-                Frame!.GoBack();
-                SyncSelectedNavigationViewItemWith(Frame.Content.GetType());
+                frame!.GoBack();
+                SyncSelectedNavigationViewItemWith(frame.Content.GetType());
             }
         });
     }
 
-    /// <summary>
-    /// 遍历所有子菜单项
-    /// </summary>
-    /// <param name="items">项列表</param>
-    /// <returns>枚举器</returns>
+    private bool SyncSelectedNavigationViewItemWith(Type? pageType)
+    {
+        if (NavigationView is null || pageType is null)
+        {
+            return false;
+        }
+
+        if (pageType == typeof(SettingPage))
+        {
+            NavigationView.SelectedItem = NavigationView.SettingsItem;
+        }
+        else
+        {
+            NavigationViewItem? target = EnumerateMenuItems(NavigationView.MenuItems)
+                .SingleOrDefault(menuItem => NavHelper.GetNavigateTo(menuItem) == pageType);
+
+            NavigationView.SelectedItem = target;
+        }
+
+        selected = NavigationView.SelectedItem as NavigationViewItem;
+        return true;
+    }
+
     private IEnumerable<NavigationViewItem> EnumerateMenuItems(IList<object> items)
     {
         foreach (NavigationViewItem item in items.OfType<NavigationViewItem>())
@@ -215,25 +189,25 @@ internal sealed class NavigationService : INavigationService
 
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
-        Selected = NavigationView?.SelectedItem as NavigationViewItem;
+        selected = NavigationView?.SelectedItem as NavigationViewItem;
         Type? targetType = args.IsSettingsInvoked
             ? typeof(SettingPage)
-            : NavHelper.GetNavigateTo(Selected);
+            : NavHelper.GetNavigateTo(selected);
 
         // ignore item that doesn't have nav type specified
         if (targetType != null)
         {
-            INavigationAwaiter navigationAwaiter = new NavigationExtra(NavHelper.GetExtraData(Selected));
+            INavigationAwaiter navigationAwaiter = new NavigationExtra(NavHelper.GetExtraData(selected));
             Navigate(targetType, navigationAwaiter, false);
         }
     }
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
     {
-        if (Frame != null && Frame.CanGoBack)
+        if (frame != null && frame.CanGoBack)
         {
-            Frame.GoBack();
-            SyncSelectedNavigationViewItemWith(Frame.Content.GetType());
+            frame.GoBack();
+            SyncSelectedNavigationViewItemWith(frame.Content.GetType());
         }
     }
 

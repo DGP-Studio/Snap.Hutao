@@ -16,13 +16,6 @@ namespace Snap.Hutao.Service.AvatarInfo.Transformer;
 internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTransformer<Character>
 {
     /// <summary>
-    /// 构造一个新的游戏记录角色转角色详情转换器
-    /// </summary>
-    public GameRecordCharacterAvatarInfoTransformer()
-    {
-    }
-
-    /// <summary>
     /// Id 角色映射
     /// </summary>
     public Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? IdAvatarMap { get; set; }

@@ -11,22 +11,12 @@ namespace Snap.Hutao.Web.Geetest;
 /// 极验客户端
 /// </summary>
 [HighQuality]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class GeetestClient
+internal sealed partial class GeetestClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
-
-    /// <summary>
-    /// 构造一个新的极验客户端
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="options">Json 序列化选项</param>
-    public GeetestClient(HttpClient httpClient, JsonSerializerOptions options)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-    }
 
     /// <summary>
     /// 获取gt类型

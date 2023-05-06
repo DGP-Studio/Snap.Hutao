@@ -9,22 +9,12 @@ namespace Snap.Hutao.Core.ExceptionService;
 /// 异常记录器
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed class ExceptionRecorder
+internal sealed partial class ExceptionRecorder
 {
     private readonly ILogger<ExceptionRecorder> logger;
     private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的异常记录器
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="logger">日志器</param>
-    public ExceptionRecorder(IServiceProvider serviceProvider)
-    {
-        logger = serviceProvider.GetRequiredService<ILogger<ExceptionRecorder>>();
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 记录应用程序异常

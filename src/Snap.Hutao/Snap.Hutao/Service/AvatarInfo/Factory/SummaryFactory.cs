@@ -12,19 +12,11 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 /// 简述工厂
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(ISummaryFactory))]
-internal sealed class SummaryFactory : ISummaryFactory
+internal sealed partial class SummaryFactory : ISummaryFactory
 {
     private readonly IMetadataService metadataService;
-
-    /// <summary>
-    /// 构造一个新的简述工厂
-    /// </summary>
-    /// <param name="metadataService">元数据服务</param>
-    public SummaryFactory(IMetadataService metadataService)
-    {
-        this.metadataService = metadataService;
-    }
 
     /// <inheritdoc/>
     public async Task<Summary> CreateAsync(IEnumerable<ModelAvatarInfo> avatarInfos, CancellationToken token)

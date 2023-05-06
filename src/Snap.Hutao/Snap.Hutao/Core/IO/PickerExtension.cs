@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Notification;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
@@ -94,7 +95,7 @@ internal static class PickerExtension
         if (exception != null)
         {
             Ioc.Default
-                .GetRequiredService<Service.Abstraction.IInfoBarService>()
+                .GetRequiredService<IInfoBarService>()
                 .Warning(
                     SH.CoreIOPickerExtensionPickerExceptionInfoBarTitle,
                     string.Format(SH.CoreIOPickerExtensionPickerExceptionInfoBarMessage, exception.Message));

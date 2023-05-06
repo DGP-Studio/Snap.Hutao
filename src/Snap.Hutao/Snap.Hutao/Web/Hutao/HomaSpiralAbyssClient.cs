@@ -19,27 +19,14 @@ namespace Snap.Hutao.Web.Hutao;
 /// 胡桃API客户端
 /// </summary>
 [HighQuality]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class HomaSpiralAbyssClient
+internal sealed partial class HomaSpiralAbyssClient
 {
-    private readonly IServiceProvider serviceProvider;
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<HomaSpiralAbyssClient> logger;
-
-    /// <summary>
-    /// 构造一个新的胡桃API客户端
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="serviceProvider">服务提供器</param>
-    public HomaSpiralAbyssClient(HttpClient httpClient, IServiceProvider serviceProvider)
-    {
-        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
-        logger = serviceProvider.GetRequiredService<ILogger<HomaSpiralAbyssClient>>();
-
-        this.serviceProvider = serviceProvider;
-        this.httpClient = httpClient;
-    }
+    private readonly IServiceProvider serviceProvider;
+    private readonly JsonSerializerOptions options;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 异步检查对应的uid当前是否上传了数据

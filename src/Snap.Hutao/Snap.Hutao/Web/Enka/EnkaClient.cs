@@ -16,26 +16,15 @@ namespace Snap.Hutao.Web.Enka;
 /// Enka API 客户端
 /// </summary>
 [HighQuality]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class EnkaClient
+internal sealed partial class EnkaClient
 {
     private const string EnkaAPI = "https://enka.network/api/uid/{0}";
     private const string EnkaAPIHutaoForward = "https://enka-api.hut.ao/{0}";
 
-    private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
-
-    /// <summary>
-    /// 构造一个新的 Enka API 客户端
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="options">序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public EnkaClient(HttpClient httpClient, JsonSerializerOptions options)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-    }
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 异步获取转发的 Enka API 响应

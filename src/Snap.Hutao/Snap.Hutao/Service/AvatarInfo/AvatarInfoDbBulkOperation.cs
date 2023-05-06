@@ -23,19 +23,11 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// 角色信息数据库操作
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class AvatarInfoDbBulkOperation
+internal sealed partial class AvatarInfoDbBulkOperation
 {
     private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的角色信息数据库操作
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AvatarInfoDbBulkOperation(IServiceProvider serviceProvider)
-    {
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 更新数据库角色信息

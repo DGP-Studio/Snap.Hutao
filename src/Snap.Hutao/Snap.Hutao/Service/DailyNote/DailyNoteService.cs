@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
@@ -22,26 +23,15 @@ namespace Snap.Hutao.Service.DailyNote;
 /// 实时便笺服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IDailyNoteService))]
-internal sealed class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
+internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
+
     private ObservableCollection<DailyNoteEntry>? entries;
-
-    /// <summary>
-    /// 构造一个新的实时便笺服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public DailyNoteService(IServiceProvider serviceProvider)
-    {
-        userService = serviceProvider.GetRequiredService<IUserService>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        this.serviceProvider = serviceProvider;
-
-        serviceProvider.GetRequiredService<IMessenger>().Register(this);
-    }
 
     /// <inheritdoc/>
     public void Receive(UserRemovedMessage message)

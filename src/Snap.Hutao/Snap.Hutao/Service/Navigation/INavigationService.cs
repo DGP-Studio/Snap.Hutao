@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 namespace Snap.Hutao.Service.Navigation;
 
@@ -9,35 +10,8 @@ namespace Snap.Hutao.Service.Navigation;
 /// 导航服务
 /// </summary>
 [HighQuality]
-internal interface INavigationService
+internal interface INavigationService : ICastableService
 {
-    /// <summary>
-    /// 管理的 <see cref="Frame"/>
-    /// </summary>
-    Frame? Frame { get; set; }
-
-    /// <summary>
-    /// 指示是否曾导航过,用于启动时导航判断
-    /// </summary>
-    bool HasEverNavigated { get; set; }
-
-    /// <summary>
-    /// 管理的 <see cref="NavigationView"/>
-    /// </summary>
-    NavigationView? NavigationView { get; set; }
-
-    /// <summary>
-    /// 选中的 <see cref="NavigationViewItem"/>
-    /// </summary>
-    NavigationViewItem? Selected { get; set; }
-
-    /// <summary>
-    /// 使用指定的对象进行初始化
-    /// </summary>
-    /// <param name="navigationView">管理的 <see cref="NavigationView"/></param>
-    /// <param name="frame">管理的 <see cref="Frame"/></param>
-    void Initialize(NavigationView navigationView, Frame frame);
-
     /// <summary>
     /// 导航到指定类型的页面
     /// </summary>
@@ -68,13 +42,6 @@ internal interface INavigationService
     /// <returns>是否导航成功</returns>
     Task<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
         where TPage : Page;
-
-    /// <summary>
-    /// 同步导航标签
-    /// </summary>
-    /// <param name="pageType">同步的页面类型</param>
-    /// <returns>是否同步成功</returns>
-    bool SyncSelectedNavigationViewItemWith(Type pageType);
 
     /// <summary>
     /// 尽可能尝试返回

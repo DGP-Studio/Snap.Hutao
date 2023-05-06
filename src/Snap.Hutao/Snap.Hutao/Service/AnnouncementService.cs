@@ -11,27 +11,15 @@ namespace Snap.Hutao.Service;
 
 /// <inheritdoc/>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IAnnouncementService))]
 internal sealed partial class AnnouncementService : IAnnouncementService
 {
     private static readonly string CacheKey = $"{nameof(AnnouncementService)}.Cache.{nameof(AnnouncementWrapper)}";
 
-    private readonly ITaskContext taskContext;
     private readonly AnnouncementClient announcementClient;
+    private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
-
-    /// <summary>
-    /// 构造一个新的公告服务
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    /// <param name="announcementClient">公告提供器</param>
-    /// <param name="memoryCache">缓存</param>
-    public AnnouncementService(ITaskContext taskContext, AnnouncementClient announcementClient, IMemoryCache memoryCache)
-    {
-        this.taskContext = taskContext;
-        this.announcementClient = announcementClient;
-        this.memoryCache = memoryCache;
-    }
 
     /// <inheritdoc/>
     public async ValueTask<AnnouncementWrapper> GetAnnouncementsAsync(CancellationToken cancellationToken = default)

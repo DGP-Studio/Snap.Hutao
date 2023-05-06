@@ -12,19 +12,11 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// 注册表启动器位置定位器
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
 internal sealed partial class RegistryLauncherLocator : IGameLocator
 {
     private readonly ITaskContext taskContext;
-
-    /// <summary>
-    /// 构造一个新的注册表启动器位置定位器
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    public RegistryLauncherLocator(ITaskContext taskContext)
-    {
-        this.taskContext = taskContext;
-    }
 
     /// <inheritdoc/>
     public string Name { get => nameof(RegistryLauncherLocator); }

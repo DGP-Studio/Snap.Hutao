@@ -98,7 +98,7 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xF2B7;}">
                     <ComboBox
                         DisplayMemberPath="Name"
-                        ItemsSource="{Binding Cultures}"
+                        ItemsSource="{Binding Options.Cultures}"
                         SelectedItem="{Binding SelectedCulture, Mode=TwoWay}"/>
                 </clw:SettingsCard>
                 <clw:SettingsCard
@@ -107,7 +107,7 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7F7;}">
                     <ComboBox
                         DisplayMemberPath="Name"
-                        ItemsSource="{Binding BackdropTypes}"
+                        ItemsSource="{Binding Options.BackdropTypes}"
                         SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                 </clw:SettingsCard>
 

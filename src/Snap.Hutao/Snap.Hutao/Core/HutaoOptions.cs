@@ -14,6 +14,7 @@ namespace Snap.Hutao.Core;
 /// <summary>
 /// 胡桃选项
 /// 存储环境相关的选项
+/// 运行时运算得到的选项，无数据库交互
 /// </summary>
 [Injection(InjectAs.Singleton)]
 internal sealed class HutaoOptions : IOptions<HutaoOptions>

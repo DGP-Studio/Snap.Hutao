@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Game.Package;
 [HighQuality]
 internal sealed class PackageConvertException : Exception
 {
-    /// <inheritdoc cref="Exception.Exception(string?, Exception?)"/>
+    /// <inheritdoc cref="Exception(string?, Exception?)"/>
     public PackageConvertException(string message, Exception innerException)
         : base(message, innerException)
     {

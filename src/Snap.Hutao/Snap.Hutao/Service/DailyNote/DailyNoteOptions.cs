@@ -5,6 +5,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Notification;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -33,7 +34,7 @@ internal sealed class DailyNoteOptions : DbStoreOptions
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     public DailyNoteOptions(IServiceProvider serviceProvider)
-        : base(serviceProvider.GetRequiredService<IServiceScopeFactory>())
+        : base(serviceProvider)
     {
         this.serviceProvider = serviceProvider;
     }

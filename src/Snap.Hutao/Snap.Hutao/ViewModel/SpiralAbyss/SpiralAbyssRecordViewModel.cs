@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
@@ -22,41 +23,20 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 深渊记录视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
+internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
-    private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
+    private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? idAvatarMap;
 
+    private Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? idAvatarMap;
     private ObservableCollection<SpiralAbyssEntry>? spiralAbyssEntries;
     private SpiralAbyssEntry? selectedEntry;
     private SpiralAbyssView? spiralAbyssView;
-
-    /// <summary>
-    /// 构造一个新的深渊记录视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="spiralAbyssRecordService">深渊记录服务</param>
-    /// <param name="metadataService">元数据服务</param>
-    /// <param name="userService">用户服务</param>
-    /// <param name="messenger">消息器</param>
-    public SpiralAbyssRecordViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        spiralAbyssRecordService = serviceProvider.GetRequiredService<ISpiralAbyssRecordService>();
-        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        userService = serviceProvider.GetRequiredService<IUserService>();
-        this.serviceProvider = serviceProvider;
-
-        RefreshCommand = new AsyncRelayCommand(RefreshAsync);
-        UploadSpiralAbyssRecordCommand = new AsyncRelayCommand(UploadSpiralAbyssRecordAsync);
-
-        serviceProvider.GetRequiredService<IMessenger>().Register(this);
-    }
 
     /// <summary>
     /// 深渊记录
@@ -84,16 +64,6 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
     /// 深渊的只读视图
     /// </summary>
     public SpiralAbyssView? SpiralAbyssView { get => spiralAbyssView; set => SetProperty(ref spiralAbyssView, value); }
-
-    /// <summary>
-    /// 刷新界面命令
-    /// </summary>
-    public ICommand RefreshCommand { get; }
-
-    /// <summary>
-    /// 上传深渊记录命令
-    /// </summary>
-    public ICommand UploadSpiralAbyssRecordCommand { get; }
 
     /// <inheritdoc/>
     public void Receive(UserChangedMessage message)
@@ -150,6 +120,7 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
         SelectedEntry = SpiralAbyssEntries?.FirstOrDefault();
     }
 
+    [Command("RefreshCommand")]
     private async Task RefreshAsync()
     {
         if (SpiralAbyssEntries != null)
@@ -175,6 +146,7 @@ internal sealed class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecip
         }
     }
 
+    [Command("UploadSpiralAbyssRecordCommand")]
     private async Task UploadSpiralAbyssRecordAsync()
     {
         HomaSpiralAbyssClient homaClient = serviceProvider.GetRequiredService<HomaSpiralAbyssClient>();

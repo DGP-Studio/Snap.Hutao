@@ -18,51 +18,27 @@ namespace Snap.Hutao.ViewModel;
 /// 实验性功能视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class ExperimentalFeaturesViewModel : ObservableObject
+internal sealed partial class ExperimentalFeaturesViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
 
-    /// <summary>
-    /// 构造一个新的实验性功能视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public ExperimentalFeaturesViewModel(IServiceProvider serviceProvider)
-    {
-        this.serviceProvider = serviceProvider;
-
-        OpenCacheFolderCommand = new AsyncRelayCommand(OpenCacheFolderAsync);
-        OpenDataFolderCommand = new AsyncRelayCommand(OpenDataFolderAsync);
-        DeleteUsersCommand = new AsyncRelayCommand(DangerousDeleteUsersAsync);
-    }
-
-    /// <summary>
-    /// 打开临时文件夹命令
-    /// </summary>
-    public ICommand OpenCacheFolderCommand { get; }
-
-    /// <summary>
-    /// 打开数据文件夹命令
-    /// </summary>
-    public ICommand OpenDataFolderCommand { get; }
-
-    /// <summary>
-    /// 清空用户命令
-    /// </summary>
-    public ICommand DeleteUsersCommand { get; }
-
+    [Command("OpenCacheFolderCommand")]
     private Task OpenCacheFolderAsync()
     {
         HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
         return Launcher.LaunchFolderPathAsync(hutaoOptions.LocalCache).AsTask();
     }
 
+    [Command("OpenDataFolderCommand")]
     private Task OpenDataFolderAsync()
     {
         HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
         return Launcher.LaunchFolderPathAsync(hutaoOptions.DataFolder).AsTask();
     }
 
+    [Command("DeleteUsersCommand")]
     private async Task DangerousDeleteUsersAsync()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())

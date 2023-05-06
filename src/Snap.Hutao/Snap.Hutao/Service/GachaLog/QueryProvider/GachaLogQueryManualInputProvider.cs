@@ -9,21 +9,12 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// 手动输入方法提供器
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
-internal sealed class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
+internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-
-    /// <summary>
-    /// 构造一个新的手动输入方法提供器
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    public GachaLogQueryManualInputProvider(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <inheritdoc/>
     public string Name { get => nameof(GachaLogQueryManualInputProvider); }

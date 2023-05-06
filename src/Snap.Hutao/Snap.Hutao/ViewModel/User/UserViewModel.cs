@@ -5,8 +5,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.View.Page;
@@ -20,41 +20,18 @@ namespace Snap.Hutao.ViewModel.User;
 /// 用户视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton)]
-internal sealed class UserViewModel : ObservableObject
+internal sealed partial class UserViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
-    private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
     private readonly Core.HutaoOptions hutaoOptions;
+    private readonly ITaskContext taskContext;
+    private readonly IUserService userService;
 
     private User? selectedUser;
     private ObservableCollection<User>? users;
-
-    /// <summary>
-    /// 构造一个新的用户视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="userService">用户服务</param>
-    /// <param name="infoBarService">信息条服务</param>
-    public UserViewModel(IServiceProvider serviceProvider)
-    {
-        hutaoOptions = serviceProvider.GetRequiredService<Core.HutaoOptions>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        userService = serviceProvider.GetRequiredService<IUserService>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        this.serviceProvider = serviceProvider;
-
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
-        AddUserCommand = new AsyncRelayCommand(AddUserAsync);
-        AddOverseaUserCommand = new AsyncRelayCommand(AddOverseaUserAsync);
-        LoginMihoyoUserCommand = new RelayCommand(LoginMihoyoUser);
-        LoginHoyoverseUserCommand = new RelayCommand(LoginHoyoverseUser);
-        RemoveUserCommand = new AsyncRelayCommand<User>(RemoveUserAsync);
-        CopyCookieCommand = new RelayCommand<User>(CopyCookie);
-        RefreshCookieTokenCommand = new AsyncRelayCommand(RefreshCookieTokenAsync);
-    }
 
     /// <summary>
     /// 当前选择的用户信息
@@ -80,46 +57,6 @@ internal sealed class UserViewModel : ObservableObject
     /// 用户信息集合
     /// </summary>
     public ObservableCollection<User>? Users { get => users; set => SetProperty(ref users, value); }
-
-    /// <summary>
-    /// 打开界面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
-    /// <summary>
-    /// 添加用户命令
-    /// </summary>
-    public ICommand AddUserCommand { get; }
-
-    /// <summary>
-    /// 添加国际服用户命令
-    /// </summary>
-    public ICommand AddOverseaUserCommand { get; }
-
-    /// <summary>
-    /// 登录米游社命令
-    /// </summary>
-    public ICommand LoginMihoyoUserCommand { get; }
-
-    /// <summary>
-    /// 登录米游社命令
-    /// </summary>
-    public ICommand LoginHoyoverseUserCommand { get; }
-
-    /// <summary>
-    /// 移除用户命令
-    /// </summary>
-    public ICommand RemoveUserCommand { get; }
-
-    /// <summary>
-    /// 复制Cookie命令
-    /// </summary>
-    public ICommand CopyCookieCommand { get; }
-
-    /// <summary>
-    /// 刷新 CookieToken 命令
-    /// </summary>
-    public ICommand RefreshCookieTokenCommand { get; }
 
     /// <summary>
     /// 处理用户操作结果
@@ -154,6 +91,7 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
+    [Command("OpenUICommand")]
     private async Task OpenUIAsync()
     {
         try
@@ -167,11 +105,13 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
+    [Command("AddUserCommand")]
     private Task AddUserAsync()
     {
         return AddUserCoreAsync(false);
     }
 
+    [Command("AddOverseaUserCommand")]
     private Task AddOverseaUserAsync()
     {
         return AddUserCoreAsync(true);
@@ -197,6 +137,7 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
+    [Command("LoginMihoyoUserCommand")]
     private void LoginMihoyoUser()
     {
         if (hutaoOptions.IsWebView2Supported)
@@ -211,9 +152,7 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
-    /// <summary>
-    /// 打开浏览器登录 hoyolab 以获取 cookie
-    /// </summary>
+    [Command("LoginHoyoverseUserCommand")]
     private void LoginHoyoverseUser()
     {
         if (hutaoOptions.IsWebView2Supported)
@@ -228,6 +167,7 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
+    [Command("RemoveUserCommand")]
     private async Task RemoveUserAsync(User? user)
     {
         if (user != null)
@@ -244,6 +184,7 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
+    [Command("CopyCookieCommand")]
     private void CopyCookie(User? user)
     {
         try
@@ -265,6 +206,7 @@ internal sealed class UserViewModel : ObservableObject
         }
     }
 
+    [Command("RefreshCookieTokenCommand")]
     private async Task RefreshCookieTokenAsync()
     {
         if (SelectedUser != null)

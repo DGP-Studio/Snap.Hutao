@@ -11,19 +11,11 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// Unity 日志游戏定位器
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
 internal sealed partial class UnityLogGameLocator : IGameLocator
 {
     private readonly ITaskContext taskContext;
-
-    /// <summary>
-    /// 构造一个新的 Unity 日志游戏定位器
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    public UnityLogGameLocator(ITaskContext taskContext)
-    {
-        this.taskContext = taskContext;
-    }
 
     /// <inheritdoc/>
     public string Name { get => nameof(UnityLogGameLocator); }

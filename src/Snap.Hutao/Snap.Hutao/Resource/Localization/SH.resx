@@ -1992,4 +1992,7 @@
   <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
     <value>未知的服务器错误</value>
   </data>
+  <data name="ServiceMetadataFileNotFound" xml:space="preserve">
+    <value>无法找到缓存的元数据文件</value>
+  </data>
 </root>

@@ -5,25 +5,18 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Snap.Hutao.Service.Abstraction;
 
-namespace Snap.Hutao.Service;
+namespace Snap.Hutao.Service.Notification;
 
 /// <inheritdoc/>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
-internal sealed class InfoBarService : IInfoBarService
+internal sealed partial class InfoBarService : IInfoBarService
 {
     private readonly ITaskContext taskContext;
-    private readonly TaskCompletionSource initializaionCompletionSource = new();
-    private StackPanel? infoBarStack;
+    private readonly TaskCompletionSource initializaionCompletionSource;
 
-    /// <summary>
-    /// 构造一个新的消息条服务
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    public InfoBarService(ITaskContext taskContext)
-    {
-        this.taskContext = taskContext;
-    }
+    private StackPanel? infoBarStack;
 
     /// <inheritdoc/>
     public void Initialize(StackPanel container)

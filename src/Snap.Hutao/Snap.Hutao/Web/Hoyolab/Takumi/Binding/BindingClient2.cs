@@ -15,25 +15,13 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
-internal sealed class BindingClient2
+internal sealed partial class BindingClient2
 {
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<BindingClient2> logger;
-
-    /// <summary>
-    /// 构造一个新的用户游戏角色提供器
-    /// </summary>
-    /// <param name="httpClient">请求器</param>
-    /// <param name="options">Json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public BindingClient2(HttpClient httpClient, JsonSerializerOptions options, ILogger<BindingClient2> logger)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-        this.logger = logger;
-    }
+    private readonly JsonSerializerOptions options;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 获取用户角色信息

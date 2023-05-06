@@ -13,19 +13,11 @@ namespace Snap.Hutao.Service.Achievement;
 /// 双指针操作
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class AchievementDbBulkOperation
+internal sealed partial class AchievementDbBulkOperation
 {
     private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的成就数据库操作
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AchievementDbBulkOperation(IServiceProvider serviceProvider)
-    {
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 合并

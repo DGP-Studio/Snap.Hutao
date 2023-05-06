@@ -8,6 +8,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 
@@ -17,42 +18,23 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 /// 养成视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class CultivationViewModel : Abstraction.ViewModel
+internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
-    private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
-    private readonly ICultivationService cultivationService;
-    private readonly IMetadataService metadataService;
-    private readonly ILogger<CultivationViewModel> logger;
+    private static readonly ConcurrentCancellationTokenSource StatisticsCancellationTokenSource = new();
 
-    private readonly ConcurrentCancellationTokenSource statisticsCancellationTokenSource = new();
+    private readonly ICultivationService cultivationService;
+    private readonly ILogger<CultivationViewModel> logger;
+    private readonly IServiceProvider serviceProvider;
+    private readonly IMetadataService metadataService;
+    private readonly ITaskContext taskContext;
 
     private ObservableCollection<CultivateProject>? projects;
     private CultivateProject? selectedProject;
     private List<InventoryItemView>? inventoryItems;
     private ObservableCollection<CultivateEntryView>? cultivateEntries;
     private ObservableCollection<StatisticsCultivateItem>? statisticsItems;
-
-    /// <summary>
-    /// 构造一个新的养成视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public CultivationViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        cultivationService = serviceProvider.GetRequiredService<ICultivationService>();
-        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        logger = serviceProvider.GetRequiredService<ILogger<CultivationViewModel>>();
-        this.serviceProvider = serviceProvider;
-
-        AddProjectCommand = new AsyncRelayCommand(AddProjectAsync);
-        RemoveProjectCommand = new AsyncRelayCommand<CultivateProject>(RemoveProjectAsync);
-        RemoveEntryCommand = new AsyncRelayCommand<CultivateEntryView>(RemoveEntryAsync);
-        SaveInventoryItemCommand = new RelayCommand<InventoryItemView>(SaveInventoryItem);
-        NavigateToPageCommand = new RelayCommand<string>(NavigateToPage);
-        FinishStateCommand = new RelayCommand<CultivateItemView>(UpdateFinishedState);
-    }
 
     /// <summary>
     /// 项目
@@ -89,36 +71,6 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
     /// </summary>
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
-    /// <summary>
-    /// 添加项目命令
-    /// </summary>
-    public ICommand AddProjectCommand { get; }
-
-    /// <summary>
-    /// 删除项目命令
-    /// </summary>
-    public ICommand RemoveProjectCommand { get; }
-
-    /// <summary>
-    /// 移除
-    /// </summary>
-    public ICommand RemoveEntryCommand { get; }
-
-    /// <summary>
-    /// 保存物品命令
-    /// </summary>
-    public ICommand SaveInventoryItemCommand { get; }
-
-    /// <summary>
-    /// 导航到指定的页面命令
-    /// </summary>
-    public ICommand NavigateToPageCommand { get; set; }
-
-    /// <summary>
-    /// 调整完成状态命令
-    /// </summary>
-    public ICommand FinishStateCommand { get; }
-
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
@@ -136,6 +88,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         IsInitialized = metaInitialized;
     }
 
+    [Command("AddProjectCommand")]
     private async Task AddProjectAsync()
     {
         // ContentDialog must be created by main thread.
@@ -167,6 +120,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("RemoveProjectCommand")]
     private async Task RemoveProjectAsync(CultivateProject? project)
     {
         if (project != null)
@@ -196,6 +150,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("RemoveEntryCommand")]
     private async Task RemoveEntryAsync(CultivateEntryView? entry)
     {
         if (entry != null)
@@ -206,6 +161,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("SaveInventoryItemCommand")]
     private void SaveInventoryItem(InventoryItemView? inventoryItem)
     {
         if (inventoryItem != null)
@@ -215,6 +171,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("FinishStateCommand")]
     private void UpdateFinishedState(CultivateItemView? item)
     {
         if (item != null)
@@ -230,7 +187,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         if (SelectedProject != null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            CancellationToken token = statisticsCancellationTokenSource.CancelPreviousOne();
+            CancellationToken token = StatisticsCancellationTokenSource.CancelPreviousOne();
             ObservableCollection<StatisticsCultivateItem> statistics;
             try
             {
@@ -246,6 +203,7 @@ internal sealed class CultivationViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("NavigateToPageCommand")]
     private void NavigateToPage(string? typeString)
     {
         if (typeString != null)

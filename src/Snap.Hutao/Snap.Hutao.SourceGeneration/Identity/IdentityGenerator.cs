@@ -53,8 +53,7 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
             /// Id 转换器
             /// </summary>
             /// <typeparam name="TWrapper">包装类型</typeparam>
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(IdentityGenerator)}}","1.0.0.0")]
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(IdentityGenerator)}}", "1.0.0.0")]
             internal unsafe sealed class IdentityConverter<TWrapper> : JsonConverter<TWrapper>
                 where TWrapper : unmanaged
             {
@@ -99,7 +98,6 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
             /// </summary>
             [JsonConverter(typeof(IdentityConverter<{{name}}>))]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(IdentityGenerator)}}","1.0.0.0")]
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal readonly struct {{name}} : IEquatable<{{name}}>
             {
                 /// <summary>

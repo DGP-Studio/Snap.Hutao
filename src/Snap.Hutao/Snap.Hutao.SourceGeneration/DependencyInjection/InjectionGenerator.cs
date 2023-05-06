@@ -36,12 +36,13 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
 
     private static bool FilterAttributedClasses(SyntaxNode node, CancellationToken token)
     {
-        return node is ClassDeclarationSyntax classDeclarationSyntax && classDeclarationSyntax.AttributeLists.Count > 0;
+        return node is ClassDeclarationSyntax classDeclarationSyntax
+            && classDeclarationSyntax.HasAttributeLists();
     }
 
     private static GeneratorSyntaxContext2 HttpClientClass(GeneratorSyntaxContext context, CancellationToken token)
     {
-        if (context.SemanticModel.GetDeclaredSymbol(context.Node, token) is INamedTypeSymbol classSymbol)
+        if (context.TryGetDeclaredSymbol(token, out INamedTypeSymbol? classSymbol))
         {
             ImmutableArray<AttributeData> attributes = classSymbol.GetAttributes();
             if (attributes.Any(data => data.AttributeClass!.ToDisplayString() == AttributeName))
@@ -63,8 +64,7 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
             
             internal static partial class ServiceCollectionExtension
             {
-                [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(InjectionGenerator)}}","1.0.0.0")]
-                [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+                [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(InjectionGenerator)}}", "1.0.0.0")]
                 public static partial IServiceCollection AddInjections(this IServiceCollection services)
                 {
             """);
@@ -85,11 +85,11 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
         List<string> lines = new();
         StringBuilder lineBuilder = new();
 
-        foreach (GeneratorSyntaxContext2 context in contexts)
+        foreach (GeneratorSyntaxContext2 context in contexts.DistinctBy(c => c.Symbol.ToDisplayString()))
         {
             lineBuilder.Clear().Append(CRLF);
 
-            AttributeData injectionInfo = context.SingleAttributeWithName(AttributeName);
+            AttributeData injectionInfo = context.SingleAttribute(AttributeName);
             ImmutableArray<TypedConstant> arguments = injectionInfo.ConstructorArguments;
 
             string injectAsName = arguments[0].ToCSharpString();

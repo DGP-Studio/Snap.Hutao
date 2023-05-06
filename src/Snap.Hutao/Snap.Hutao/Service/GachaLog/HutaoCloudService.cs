@@ -15,21 +15,12 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 胡桃云服务
 /// </summary>
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IHutaoCloudService))]
-internal sealed class HutaoCloudService : IHutaoCloudService
+internal sealed partial class HutaoCloudService : IHutaoCloudService
 {
     private readonly HomaGachaLogClient homaGachaLogClient;
     private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的胡桃云服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public HutaoCloudService(IServiceProvider serviceProvider)
-    {
-        homaGachaLogClient = serviceProvider.GetRequiredService<HomaGachaLogClient>();
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <inheritdoc/>
     public Task<Response<List<string>>> GetUidsAsync(CancellationToken token = default)

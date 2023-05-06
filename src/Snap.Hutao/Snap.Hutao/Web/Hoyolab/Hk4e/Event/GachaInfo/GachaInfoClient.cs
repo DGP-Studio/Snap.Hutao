@@ -11,25 +11,13 @@ namespace Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 /// 祈愿记录客户端
 /// </summary>
 [HighQuality]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class GachaInfoClient
+internal sealed partial class GachaInfoClient
 {
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<GachaInfoClient> logger;
-
-    /// <summary>
-    /// 构造一个新的祈愿记录客户端
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="options">Json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public GachaInfoClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<GachaInfoClient> logger)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-        this.logger = logger;
-    }
+    private readonly JsonSerializerOptions options;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 获取记录页面

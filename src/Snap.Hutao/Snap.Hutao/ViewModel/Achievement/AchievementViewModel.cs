@@ -1,19 +1,16 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.InterChange.Achievement;
-using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Achievement;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using Windows.Storage.Pickers;
@@ -27,23 +24,22 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 成就视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
+internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
     private static readonly SortDescription UncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
     private static readonly SortDescription CompletionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
 
-    private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
+    private readonly TaskCompletionSource<bool> openUITaskCompletionSource;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly AchievementImporter achievementImporter;
     private readonly IAchievementService achievementService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly JsonSerializerOptions options;
-
-    private readonly AchievementImporter achievementImporter;
-
-    private readonly TaskCompletionSource<bool> openUITaskCompletionSource = new();
+    private readonly ITaskContext taskContext;
 
     private AdvancedCollectionView? achievements;
     private List<AchievementGoalView>? achievementGoals;
@@ -53,31 +49,6 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
     private bool isUncompletedItemsFirst = true;
     private string searchText = string.Empty;
     private string? finishDescription;
-
-    /// <summary>
-    /// 构造一个新的成就视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AchievementViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        achievementService = serviceProvider.GetRequiredService<IAchievementService>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
-        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
-        achievementImporter = serviceProvider.GetRequiredService<AchievementImporter>();
-        this.serviceProvider = serviceProvider;
-
-        ImportUIAFFromClipboardCommand = new AsyncRelayCommand(ImportUIAFFromClipboardAsync);
-        ImportUIAFFromFileCommand = new AsyncRelayCommand(ImportUIAFFromFileAsync);
-        ExportAsUIAFToFileCommand = new AsyncRelayCommand(ExportAsUIAFToFileAsync);
-        AddArchiveCommand = new AsyncRelayCommand(AddArchiveAsync);
-        RemoveArchiveCommand = new AsyncRelayCommand(RemoveArchiveAsync);
-        SearchAchievementCommand = new RelayCommand<string>(UpdateAchievementsFilterBySearch);
-        SortUncompletedSwitchCommand = new RelayCommand(UpdateAchievementsSort);
-        SaveAchievementCommand = new RelayCommand<AchievementView>(SaveAchievement);
-    }
 
     /// <summary>
     /// 成就存档集合
@@ -163,46 +134,6 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         set => SetProperty(ref finishDescription, value);
     }
 
-    /// <summary>
-    /// 添加存档命令
-    /// </summary>
-    public ICommand AddArchiveCommand { get; }
-
-    /// <summary>
-    /// 删除存档命令
-    /// </summary>
-    public ICommand RemoveArchiveCommand { get; }
-
-    /// <summary>
-    /// 搜索成就命令
-    /// </summary>
-    public ICommand SearchAchievementCommand { get; }
-
-    /// <summary>
-    /// 从剪贴板导入UIAF命令
-    /// </summary>
-    public ICommand ImportUIAFFromClipboardCommand { get; }
-
-    /// <summary>
-    /// 从文件导入UIAF命令
-    /// </summary>
-    public ICommand ImportUIAFFromFileCommand { get; }
-
-    /// <summary>
-    /// 以 UIAF 文件格式导出
-    /// </summary>
-    public ICommand ExportAsUIAFToFileCommand { get; }
-
-    /// <summary>
-    /// 筛选未完成项开关命令
-    /// </summary>
-    public ICommand SortUncompletedSwitchCommand { get; }
-
-    /// <summary>
-    /// 保存单个成就命令
-    /// </summary>
-    public ICommand SaveAchievementCommand { get; }
-
     /// <inheritdoc/>
     public async Task<bool> ReceiveAsync(INavigationData data)
     {
@@ -259,6 +190,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         openUITaskCompletionSource.TrySetResult(metaInitialized);
     }
 
+    [Command("AddArchiveCommand")]
     private async Task AddArchiveAsync()
     {
         if (Archives != null)
@@ -292,6 +224,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
+    [Command("RemoveArchiveCommand")]
     private async Task RemoveArchiveAsync()
     {
         if (Archives != null && SelectedArchive != null)
@@ -322,6 +255,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
+    [Command("ExportAsUIAFToFileCommand")]
     private async Task ExportAsUIAFToFileAsync()
     {
         if (SelectedArchive != null && Achievements != null)
@@ -355,6 +289,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
+    [Command("ImportUIAFFromClipboardCommand")]
     private async Task ImportUIAFFromClipboardAsync()
     {
         if (await achievementImporter.FromClipboardAsync().ConfigureAwait(false))
@@ -363,6 +298,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
+    [Command("ImportUIAFFromFileCommand")]
     private async Task ImportUIAFFromFileAsync()
     {
         if (await achievementImporter.FromFileAsync().ConfigureAwait(false))
@@ -406,6 +342,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
+    [Command("SortUncompletedSwitchCommand")]
     private void UpdateAchievementsSort()
     {
         if (Achievements != null)
@@ -437,6 +374,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         }
     }
 
+    [Command("SearchAchievementCommand")]
     private void UpdateAchievementsFilterBySearch(string? search)
     {
         if (Achievements != null)
@@ -467,6 +405,7 @@ internal sealed class AchievementViewModel : Abstraction.ViewModel, INavigationR
         AchievementFinishPercent.Update(this);
     }
 
+    [Command("SaveAchievementCommand")]
     private void SaveAchievement(AchievementView? achievement)
     {
         if (achievement != null)

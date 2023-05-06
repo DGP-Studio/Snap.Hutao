@@ -1429,6 +1429,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 无法找到缓存的元数据文件 的本地化字符串。
+        /// </summary>
+        internal static string ServiceMetadataFileNotFound {
+            get {
+                return ResourceManager.GetString("ServiceMetadataFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 元数据服务尚未初始化，或初始化失败 的本地化字符串。
         /// </summary>
         internal static string ServiceMetadataNotInitialized {

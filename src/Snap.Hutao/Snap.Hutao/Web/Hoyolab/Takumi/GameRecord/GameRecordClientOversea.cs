@@ -15,28 +15,15 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// Hoyoverse game record provider
 /// </summary>
 [UseDynamicSecret]
+[ConstructorGenerated]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 [Injection(InjectAs.Transient, typeof(IGameRecordClient))]
-internal sealed class GameRecordClientOversea : IGameRecordClient
+internal sealed partial class GameRecordClientOversea : IGameRecordClient
 {
-    private readonly HttpClient httpClient;
-    private readonly JsonSerializerOptions options;
     private readonly ILogger<GameRecordClient> logger;
-
-    /// <summary>
-    /// 构造一个新的游戏记录提供器
-    /// </summary>
-    /// <param name="httpClientFactory">请求器工厂</param>
-    /// <param name="options">json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public GameRecordClientOversea(IHttpClientFactory httpClientFactory, JsonSerializerOptions options, ILogger<GameRecordClient> logger)
-    {
-        httpClient = httpClientFactory.CreateClient(nameof(GameRecordClientOversea));
-
-        this.options = options;
-        this.logger = logger;
-    }
+    private readonly JsonSerializerOptions options;
+    private readonly HttpClient httpClient;
 
     /// <inheritdoc/>
     public bool IsOversea

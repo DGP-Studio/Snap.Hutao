@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Windowing;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using System.Globalization;
@@ -14,9 +16,24 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed class AppOptions : DbStoreOptions
 {
+    private readonly List<NameValue<BackdropType>> backdropTypes = new()
+    {
+        new("Acrylic", BackdropType.Acrylic),
+        new("Mica", BackdropType.Mica),
+        new("MicaAlt", BackdropType.MicaAlt),
+    };
+
+    private readonly List<NameValue<string>> cultures = new()
+    {
+        ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
+        ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
+        ToNameValue(CultureInfo.GetCultureInfo("en")),
+        ToNameValue(CultureInfo.GetCultureInfo("ko")),
+    };
+
     private string? gamePath;
     private bool? isEmptyHistoryWishVisible;
-    private Core.Windowing.BackdropType? backdropType;
+    private BackdropType? backdropType;
     private CultureInfo? currentCulture;
     private bool? isAdvancedLaunchOptionsEnabled;
 
@@ -24,8 +41,8 @@ internal sealed class AppOptions : DbStoreOptions
     /// 构造一个新的应用程序选项
     /// </summary>
     /// <param name="serviceScopeFactory">服务范围工厂</param>
-    public AppOptions(IServiceScopeFactory serviceScopeFactory)
-        : base(serviceScopeFactory)
+    public AppOptions(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
     }
 
@@ -48,13 +65,23 @@ internal sealed class AppOptions : DbStoreOptions
     }
 
     /// <summary>
+    /// 所有支持的背景样式
+    /// </summary>
+    public List<NameValue<BackdropType>> BackdropTypes { get => backdropTypes; }
+
+    /// <summary>
     /// 背景类型 默认 Mica
     /// </summary>
-    public Core.Windowing.BackdropType BackdropType
+    public BackdropType BackdropType
     {
-        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, Enum.Parse<Core.Windowing.BackdropType>, Core.Windowing.BackdropType.Mica);
+        get => GetOption(ref backdropType, SettingEntry.SystemBackdropType, Enum.Parse<BackdropType>, BackdropType.Mica);
         set => SetOption(ref backdropType, SettingEntry.SystemBackdropType, value, value => value.ToString());
     }
+
+    /// <summary>
+    /// 所有支持的语言
+    /// </summary>
+    public List<NameValue<string>> Cultures { get => cultures; }
 
     /// <summary>
     /// 初始化前的语言
@@ -78,5 +105,10 @@ internal sealed class AppOptions : DbStoreOptions
     {
         get => GetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled);
         set => SetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled, value);
+    }
+
+    private static NameValue<string> ToNameValue(CultureInfo info)
+    {
+        return new(info.NativeName, info.Name);
     }
 }

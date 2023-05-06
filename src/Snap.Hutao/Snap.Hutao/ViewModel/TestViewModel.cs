@@ -11,40 +11,12 @@ namespace Snap.Hutao.ViewModel;
 /// 测试视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class TestViewModel : Abstraction.ViewModel
+internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
-    private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的测试视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public TestViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        this.serviceProvider = serviceProvider;
-
-        ShowCommunityGameRecordDialogCommand = new AsyncRelayCommand(ShowCommunityGameRecordDialogAsync);
-        ShowAdoptCalculatorDialogCommand = new AsyncRelayCommand(ShowAdoptCalculatorDialogAsync);
-        RestartAppCommand = new RelayCommand<bool>(RestartApp);
-    }
-
-    /// <summary>
-    /// 打开游戏社区记录对话框命令
-    /// </summary>
-    public ICommand ShowCommunityGameRecordDialogCommand { get; }
-
-    /// <summary>
-    /// 打开养成计算对话框命令
-    /// </summary>
-    public ICommand ShowAdoptCalculatorDialogCommand { get; }
-
-    /// <summary>
-    /// 重启命令
-    /// </summary>
-    public ICommand RestartAppCommand { get; }
+    private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
@@ -52,6 +24,7 @@ internal sealed class TestViewModel : Abstraction.ViewModel
         return Task.CompletedTask;
     }
 
+    [Command("ShowCommunityGameRecordDialogCommand")]
     private async Task ShowCommunityGameRecordDialogAsync()
     {
         // ContentDialog must be created by main thread.
@@ -59,6 +32,7 @@ internal sealed class TestViewModel : Abstraction.ViewModel
         await serviceProvider.CreateInstance<CommunityGameRecordDialog>().ShowAsync();
     }
 
+    [Command("ShowAdoptCalculatorDialogCommand")]
     private async Task ShowAdoptCalculatorDialogAsync()
     {
         // ContentDialog must be created by main thread.
@@ -66,6 +40,7 @@ internal sealed class TestViewModel : Abstraction.ViewModel
         await serviceProvider.CreateInstance<AdoptCalculatorDialog>().ShowAsync();
     }
 
+    [Command("RestartAppCommand")]
     private void RestartApp(bool elevated)
     {
         AppInstance.Restart(string.Empty);

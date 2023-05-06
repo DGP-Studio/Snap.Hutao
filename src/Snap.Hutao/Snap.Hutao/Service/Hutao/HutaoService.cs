@@ -15,27 +15,15 @@ namespace Snap.Hutao.Service.Hutao;
 /// 胡桃 API 服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IHutaoService))]
-internal sealed class HutaoService : IHutaoService
+internal sealed partial class HutaoService : IHutaoService
 {
     private static readonly TimeSpan CacheExpireTime = TimeSpan.FromHours(4);
     private readonly HomaSpiralAbyssClient homaClient;
-    private readonly IMemoryCache memoryCache;
-    private readonly JsonSerializerOptions options;
     private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的胡桃 API 服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public HutaoService(IServiceProvider serviceProvider)
-    {
-        homaClient = serviceProvider.GetRequiredService<HomaSpiralAbyssClient>();
-        memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
-        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
-
-        this.serviceProvider = serviceProvider;
-    }
+    private readonly JsonSerializerOptions options;
+    private readonly IMemoryCache memoryCache;
 
     /// <inheritdoc/>
     public ValueTask<Overview> GetOverviewAsync()
@@ -87,6 +75,7 @@ internal sealed class HutaoService : IHutaoService
         {
             return (T)cache!;
         }
+
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();

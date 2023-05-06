@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace Snap.Hutao.ViewModel.Abstraction;
 
@@ -10,17 +9,9 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 /// 视图模型抽象类
 /// </summary>
 [HighQuality]
-internal abstract class ViewModel : ObservableObject, IViewModel
+internal abstract partial class ViewModel : ObservableObject, IViewModel
 {
     private bool isInitialized;
-
-    /// <summary>
-    /// 构造一个新的视图模型
-    /// </summary>
-    public ViewModel()
-    {
-        OpenUICommand = new AsyncRelayCommand(OpenUIAsync);
-    }
 
     /// <summary>
     /// 是否初始化完成
@@ -37,14 +28,10 @@ internal abstract class ViewModel : ObservableObject, IViewModel
     public bool IsViewDisposed { get; set; }
 
     /// <summary>
-    /// 打开页面命令
-    /// </summary>
-    public ICommand OpenUICommand { get; }
-
-    /// <summary>
     /// 异步初始化UI
     /// </summary>
     /// <returns>任务</returns>
+    [Command("OpenUICommand")]
     protected abstract Task OpenUIAsync();
 
     /// <summary>

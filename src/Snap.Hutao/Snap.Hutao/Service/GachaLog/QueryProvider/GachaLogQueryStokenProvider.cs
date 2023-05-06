@@ -13,22 +13,12 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// 使用 SToken 提供祈愿 Url
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
-internal sealed class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
+internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
-    private readonly IUserService userService;
     private readonly BindingClient2 bindingClient2;
-
-    /// <summary>
-    /// 构造一个新的提供器
-    /// </summary>
-    /// <param name="userService">用户服务</param>
-    /// <param name="bindingClient2">绑定客户端</param>
-    public GachaLogQuerySTokenProvider(IUserService userService, BindingClient2 bindingClient2)
-    {
-        this.userService = userService;
-        this.bindingClient2 = bindingClient2;
-    }
+    private readonly IUserService userService;
 
     /// <inheritdoc/>
     public string Name { get => nameof(GachaLogQuerySTokenProvider); }

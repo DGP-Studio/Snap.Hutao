@@ -11,22 +11,12 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// 手动模式
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGameLocator))]
-internal sealed class ManualGameLocator : IGameLocator
+internal sealed partial class ManualGameLocator : IGameLocator
 {
     private readonly ITaskContext taskContext;
     private readonly IPickerFactory pickerFactory;
-
-    /// <summary>
-    /// 构造一个新的手动模式提供器
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    /// <param name="pickerFactory">选择器工厂</param>
-    public ManualGameLocator(ITaskContext taskContext, IPickerFactory pickerFactory)
-    {
-        this.taskContext = taskContext;
-        this.pickerFactory = pickerFactory;
-    }
 
     /// <inheritdoc/>
     public string Name { get => nameof(ManualGameLocator); }

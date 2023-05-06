@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
@@ -13,12 +12,12 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Globalization;
 using System.IO;
@@ -30,88 +29,44 @@ namespace Snap.Hutao.ViewModel;
 /// 设置视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class SettingViewModel : Abstraction.ViewModel
+internal sealed partial class SettingViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
     private readonly AppDbContext appDbContext;
     private readonly IGameService gameService;
     private readonly ILogger<SettingViewModel> logger;
-
-    private readonly List<NameValue<BackdropType>> backdropTypes = new()
-    {
-        new("Acrylic", BackdropType.Acrylic),
-        new("Mica", BackdropType.Mica),
-        new("MicaAlt", BackdropType.MicaAlt),
-    };
-
-    private readonly List<NameValue<string>> cultures = new()
-    {
-        ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
-        ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
-        ToNameValue(CultureInfo.GetCultureInfo("en")),
-        ToNameValue(CultureInfo.GetCultureInfo("ko")),
-    };
+    private readonly AppOptions options;
+    private readonly HutaoOptions hutaoOptions;
+    private readonly HutaoUserOptions hutaoUserOptions;
+    private readonly ExperimentalFeaturesViewModel experimental;
 
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<string>? selectedCulture;
 
     /// <summary>
-    /// 构造一个新的设置视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public SettingViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        appDbContext = serviceProvider.GetRequiredService<AppDbContext>();
-        gameService = serviceProvider.GetRequiredService<IGameService>();
-        logger = serviceProvider.GetRequiredService<ILogger<SettingViewModel>>();
-        Experimental = serviceProvider.GetRequiredService<ExperimentalFeaturesViewModel>();
-        Options = serviceProvider.GetRequiredService<AppOptions>();
-        UserOptions = serviceProvider.GetRequiredService<HutaoUserOptions>();
-        HutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
-        this.serviceProvider = serviceProvider;
-
-        selectedCulture = cultures.FirstOrDefault(c => c.Value == Options.CurrentCulture.Name);
-        selectedBackdropType = backdropTypes.Single(t => t.Value == Options.BackdropType);
-
-        SetGamePathCommand = new AsyncRelayCommand(SetGamePathAsync);
-        UpdateCheckCommand = new AsyncRelayCommand(CheckUpdateAsync);
-        DeleteGameWebCacheCommand = new RelayCommand(DeleteGameWebCache);
-        ShowSignInWebViewDialogCommand = new AsyncRelayCommand(ShowSignInWebViewDialogAsync);
-        SetDataFolderCommand = new AsyncRelayCommand(SetDataFolderAsync);
-        ResetStaticResourceCommand = new RelayCommand(ResetStaticResource);
-        CopyDeviceIdCommand = new RelayCommand(CopyDeviceId);
-        NavigateToHutaoPassportCommand = new RelayCommand(NavigateToHutaoPassport);
-    }
-
-    /// <summary>
     /// 应用程序设置
     /// </summary>
-    public AppOptions Options { get; }
+    public AppOptions Options { get => options; }
 
     /// <summary>
     /// 胡桃选项
     /// </summary>
-    public HutaoOptions HutaoOptions { get; }
+    public HutaoOptions HutaoOptions { get => hutaoOptions; }
 
     /// <summary>
     /// 胡桃用户选项
     /// </summary>
-    public HutaoUserOptions UserOptions { get; }
-
-    /// <summary>
-    /// 背景类型
-    /// </summary>
-    public List<NameValue<BackdropType>> BackdropTypes { get => backdropTypes; }
+    public HutaoUserOptions UserOptions { get => hutaoUserOptions; }
 
     /// <summary>
     /// 选中的背景类型
     /// </summary>
     public NameValue<BackdropType>? SelectedBackdropType
     {
-        get => selectedBackdropType;
+        get => selectedBackdropType ??= Options.BackdropTypes.Single(t => t.Value == Options.BackdropType);
         set
         {
             if (SetProperty(ref selectedBackdropType, value) && value != null)
@@ -122,16 +77,11 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     }
 
     /// <summary>
-    /// 语言
-    /// </summary>
-    public List<NameValue<string>> Cultures { get => cultures; }
-
-    /// <summary>
     /// 选中的语言
     /// </summary>
     public NameValue<string>? SelectedCulture
     {
-        get => selectedCulture;
+        get => selectedCulture ??= Options.Cultures.FirstOrDefault(c => c.Value == Options.CurrentCulture.Name);
         set
         {
             if (SetProperty(ref selectedCulture, value))
@@ -148,7 +98,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 实验性功能
     /// </summary>
-    public ExperimentalFeaturesViewModel Experimental { get; }
+    public ExperimentalFeaturesViewModel Experimental { get => experimental; }
 
     /// <summary>
     /// 是否提权
@@ -159,57 +109,13 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         get => Activation.GetElevated();
     }
 
-    /// <summary>
-    /// 设置游戏路径命令
-    /// </summary>
-    public ICommand SetGamePathCommand { get; }
-
-    /// <summary>
-    /// 调试异常命令
-    /// </summary>
-    public ICommand UpdateCheckCommand { get; }
-
-    /// <summary>
-    /// 删除游戏网页缓存命令
-    /// </summary>
-    public ICommand DeleteGameWebCacheCommand { get; }
-
-    /// <summary>
-    /// 签到对话框命令
-    /// </summary>
-    public ICommand ShowSignInWebViewDialogCommand { get; }
-
-    /// <summary>
-    /// 设置数据目录命令
-    /// </summary>
-    public ICommand SetDataFolderCommand { get; }
-
-    /// <summary>
-    /// 重置静态资源
-    /// </summary>
-    public ICommand ResetStaticResourceCommand { get; }
-
-    /// <summary>
-    /// 复制设备ID
-    /// </summary>
-    public ICommand CopyDeviceIdCommand { get; }
-
-    /// <summary>
-    /// 导航到胡桃通行证界面
-    /// </summary>
-    public ICommand NavigateToHutaoPassportCommand { get; }
-
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
     {
         return Task.CompletedTask;
     }
 
-    private static NameValue<string> ToNameValue(CultureInfo info)
-    {
-        return new(info.NativeName, info.Name);
-    }
-
+    [Command("SetGamePathCommand")]
     private async Task SetGamePathAsync()
     {
         IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>().Pick(nameof(ManualGameLocator));
@@ -222,6 +128,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("DeleteGameWebCacheCommand")]
     private void DeleteGameWebCache()
     {
         string gamePath = Options.GamePath;
@@ -253,6 +160,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("ShowSignInWebViewDialogCommand")]
     private async Task ShowSignInWebViewDialogAsync()
     {
         // ContentDialog must be created by main thread.
@@ -261,6 +169,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         await dialog.ShowAsync();
     }
 
+    [Command("UpdateCheckCommand")]
     private async Task CheckUpdateAsync()
     {
 #if DEBUG
@@ -273,6 +182,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
 #endif
     }
 
+    [Command("SetDataFolderCommand")]
     private async Task SetDataFolderAsync()
     {
         (bool isOk, string folder) = await serviceProvider
@@ -288,12 +198,14 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("ResetStaticResourceCommand")]
     private void ResetStaticResource()
     {
         StaticResource.UnfulfillAllContracts();
         AppInstance.Restart(string.Empty);
     }
 
+    [Command("CopyDeviceIdCommand")]
     private void CopyDeviceId()
     {
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
@@ -309,6 +221,7 @@ internal sealed class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("NavigateToHutaoPassportCommand")]
     private void NavigateToHutaoPassport()
     {
         serviceProvider.GetRequiredService<INavigationService>().Navigate<View.Page.HutaoPassportPage>(INavigationAwaiter.Default);

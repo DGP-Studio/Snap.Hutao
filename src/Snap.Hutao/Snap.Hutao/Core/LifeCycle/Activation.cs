@@ -10,6 +10,7 @@ using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.Service.Notification;
 using System.Diagnostics;
 using System.Security.Principal;
 using Windows.ApplicationModel;

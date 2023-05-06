@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Snap.Hutao.SourceGeneration.Primitive;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,8 @@ internal class LocalizedEnumGenerator : IIncrementalGenerator
 
     private static bool FilterAttributedEnums(SyntaxNode node, CancellationToken token)
     {
-        return node is EnumDeclarationSyntax enumDeclarationSyntax && enumDeclarationSyntax.AttributeLists.Count > 0;
+        return node is EnumDeclarationSyntax enumDeclarationSyntax
+            && enumDeclarationSyntax.HasAttributeLists();
     }
 
     private static GeneratorSyntaxContext2 LocalizationEnum(GeneratorSyntaxContext context, CancellationToken token)
@@ -50,8 +52,7 @@ internal class LocalizedEnumGenerator : IIncrementalGenerator
             
             namespace Snap.Hutao.Resource.Localization;
 
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(LocalizedEnumGenerator)}}","1.0.0.0")]
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(LocalizedEnumGenerator)}}", "1.0.0.0")]
             internal static class {{context2.Symbol.Name}}Extension
             {
                 /// <summary>
@@ -111,23 +112,23 @@ internal class LocalizedEnumGenerator : IIncrementalGenerator
 
     private static void FillUpWithSwitchBranches(StringBuilder sourceBuilder, GeneratorSyntaxContext2 context)
     {
-        EnumDeclarationSyntax enumSyntax = (EnumDeclarationSyntax)context.Context.Node;
+        IEnumerable<IFieldSymbol> fields = context.Symbol.GetMembers()
+            .Where(m => m.Kind == SymbolKind.Field)
+            .Cast<IFieldSymbol>();
 
-        foreach(EnumMemberDeclarationSyntax enumMemberSyntax in enumSyntax.Members)
+        foreach(IFieldSymbol fieldSymbol in fields)
         {
-            if (context.Context.SemanticModel.GetDeclaredSymbol(enumMemberSyntax) is IFieldSymbol fieldSymbol)
+            AttributeData? localizationKeyInfo = fieldSymbol.GetAttributes()
+                .SingleOrDefault(data => data.AttributeClass!.ToDisplayString() == LocalizationKeyName);
+            if (localizationKeyInfo != null)
             {
-                AttributeData? localizationKeyInfo = fieldSymbol.GetAttributes()
-                    .SingleOrDefault(data => data.AttributeClass!.ToDisplayString() == LocalizationKeyName);
-                if (localizationKeyInfo != null)
-                {
-                    sourceBuilder.Append("            ").Append(fieldSymbol).Append(" => \"").Append(localizationKeyInfo.ConstructorArguments[0].Value).AppendLine("\",");
-                }
+                sourceBuilder
+                    .Append("            ")
+                    .Append(fieldSymbol)
+                    .Append(" => \"")
+                    .Append(localizationKeyInfo.ConstructorArguments[0].Value)
+                    .AppendLine("\",");
             }
         }
-
-        sourceBuilder.Append($"""
-
-            """);
     }
 }

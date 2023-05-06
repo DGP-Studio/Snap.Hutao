@@ -1,10 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Input;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Game;
@@ -13,7 +12,7 @@ namespace Snap.Hutao.ViewModel.Game;
 /// 简化的启动游戏视图模型
 /// </summary>
 [Injection(InjectAs.Transient)]
-internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
+internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
 {
     private readonly IGameService gameService;
     private readonly ITaskContext taskContext;
@@ -30,8 +29,6 @@ internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.P
     {
         gameService = serviceProvider.GetRequiredService<IGameService>();
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-
-        LaunchCommand = new AsyncRelayCommand(LaunchAsync, AsyncRelayCommandOptions.AllowConcurrentExecutions);
     }
 
     /// <summary>
@@ -44,11 +41,6 @@ internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.P
     /// </summary>
     public GameAccount? SelectedGameAccount { get => selectedGameAccount; set => SetProperty(ref selectedGameAccount, value); }
 
-    /// <summary>
-    /// 启动游戏命令
-    /// </summary>
-    public ICommand LaunchCommand { get; }
-
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
@@ -60,6 +52,7 @@ internal sealed class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.P
         SelectedGameAccount ??= gameService.DetectCurrentGameAccount();
     }
 
+    [Command("LaunchCommand", AllowConcurrentExecutions = true)]
     private async Task LaunchAsync()
     {
         IInfoBarService infoBarService = ServiceProvider.GetRequiredService<IInfoBarService>();

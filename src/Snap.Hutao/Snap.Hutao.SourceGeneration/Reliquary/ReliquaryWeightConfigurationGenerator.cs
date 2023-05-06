@@ -43,7 +43,6 @@ internal sealed class ReliquaryWeightConfigurationGenerator : IIncrementalGenera
             /// 圣遗物评分权重配置
             /// </summary>
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(ReliquaryWeightConfigurationGenerator)}}","1.0.0.0")]
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             internal static class ReliquaryWeightConfiguration
             {
                 /// <summary>

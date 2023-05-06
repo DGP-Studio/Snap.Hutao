@@ -12,19 +12,11 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// <summary>
 /// 简化的祈愿统计工厂
 /// </summary>
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IGachaStatisticsSlimFactory))]
-internal sealed class GachaStatisticsSlimFactory : IGachaStatisticsSlimFactory
+internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimFactory
 {
     private readonly ITaskContext taskContext;
-
-    /// <summary>
-    /// 构造一个新的简化的祈愿统计工厂
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    public GachaStatisticsSlimFactory(ITaskContext taskContext)
-    {
-        this.taskContext = taskContext;
-    }
 
     /// <inheritdoc/>
     public async Task<GachaStatisticsSlim> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)

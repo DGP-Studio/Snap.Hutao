@@ -13,25 +13,13 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 /// 养成计算器客户端
 /// </summary>
 [HighQuality]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class CalculateClient
+internal sealed partial class CalculateClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<CalculateClient> logger;
-
-    /// <summary>
-    /// 构造一个新的养成计算器客户端
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="options">json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public CalculateClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<CalculateClient> logger)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-        this.logger = logger;
-    }
 
     /// <summary>
     /// 异步计算结果

@@ -29,9 +29,15 @@ internal static class DependencyInjection
             .AddHttpClients()
 
             // Discrete services
-            .AddSingleton<IMessenger>(WeakReferenceMessenger.Default)
+            .AddSingleton<IMessenger, WeakReferenceMessenger>()
+            .AddTransient(typeof(TaskCompletionSource))
+            .AddTransient(typeof(TaskCompletionSource<>))
 
-            .BuildServiceProvider(true);
+            .BuildServiceProvider(new ServiceProviderOptions()
+            {
+                ValidateOnBuild = true,
+                ValidateScopes = true,
+            });
 
         Ioc.Default.ConfigureServices(serviceProvider);
         return serviceProvider;

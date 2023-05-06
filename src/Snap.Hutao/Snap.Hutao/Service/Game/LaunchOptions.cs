@@ -36,8 +36,8 @@ internal sealed class LaunchOptions : DbStoreOptions
     /// 构造一个新的启动游戏选项
     /// </summary>
     /// <param name="serviceScopeFactory">服务范围工厂</param>
-    public LaunchOptions(IServiceScopeFactory serviceScopeFactory)
-        : base(serviceScopeFactory)
+    public LaunchOptions(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
         RectInt32 primaryRect = DisplayArea.Primary.OuterBounds;
         primaryScreenWidth = primaryRect.Width;

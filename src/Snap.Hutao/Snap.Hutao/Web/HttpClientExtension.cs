@@ -12,7 +12,7 @@ namespace Snap.Hutao.Web;
 /// <see cref="HttpClient"/> 扩展
 /// </summary>
 [HighQuality]
-internal static class HttpClientExtensions
+internal static class HttpClientExtension
 {
     private const string RequestErrorMessage = "请求异常已忽略";
 

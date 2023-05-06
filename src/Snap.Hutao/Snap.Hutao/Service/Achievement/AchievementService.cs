@@ -19,30 +19,17 @@ namespace Snap.Hutao.Service.Achievement;
 /// 成就服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IAchievementService))]
 internal sealed partial class AchievementService : IAchievementService
 {
     private readonly ScopedDbCurrent<AchievementArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
     private readonly AchievementDbBulkOperation achievementDbBulkOperation;
     private readonly ILogger<AchievementService> logger;
-    private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
 
     private ObservableCollection<AchievementArchive>? archiveCollection;
-
-    /// <summary>
-    /// 构造一个新的成就服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AchievementService(IServiceProvider serviceProvider)
-    {
-        achievementDbBulkOperation = serviceProvider.GetRequiredService<AchievementDbBulkOperation>();
-        logger = serviceProvider.GetRequiredService<ILogger<AchievementService>>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        this.serviceProvider = serviceProvider;
-
-        dbCurrent = new(serviceProvider);
-    }
 
     /// <inheritdoc/>
     public List<AchievementView> GetAchievements(AchievementArchive archive, List<MetadataAchievement> metadata)

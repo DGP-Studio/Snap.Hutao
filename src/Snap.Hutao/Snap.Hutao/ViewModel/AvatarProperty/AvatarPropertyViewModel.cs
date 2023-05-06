@@ -15,6 +15,7 @@ using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.AvatarInfo;
 using Snap.Hutao.Service.Cultivation;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.User;
@@ -36,8 +37,9 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 /// TODO: support page unload as cancellation
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
+internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
@@ -45,26 +47,6 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
     private readonly IInfoBarService infoBarService;
     private Summary? summary;
     private AvatarView? selectedAvatar;
-
-    /// <summary>
-    /// 构造一个新的角色属性视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AvatarPropertyViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        userService = serviceProvider.GetRequiredService<IUserService>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        this.serviceProvider = serviceProvider;
-
-        RefreshFromEnkaApiCommand = new AsyncRelayCommand(RefreshByEnkaApiAsync);
-        RefreshFromHoyolabGameRecordCommand = new AsyncRelayCommand(RefreshByHoyolabGameRecordAsync);
-        RefreshFromHoyolabCalculateCommand = new AsyncRelayCommand(RefreshByHoyolabCalculateAsync);
-        ExportAsImageCommand = new AsyncRelayCommand<FrameworkElement>(ExportAsImageAsync);
-        CultivateCommand = new AsyncRelayCommand<AvatarView>(CultivateAsync);
-
-        serviceProvider.GetRequiredService<IMessenger>().Register(this);
-    }
 
     /// <summary>
     /// 简述对象
@@ -75,31 +57,6 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
     /// 选中的角色
     /// </summary>
     public AvatarView? SelectedAvatar { get => selectedAvatar; set => SetProperty(ref selectedAvatar, value); }
-
-    /// <summary>
-    /// 从 Enka Api 同步命令
-    /// </summary>
-    public ICommand RefreshFromEnkaApiCommand { get; }
-
-    /// <summary>
-    /// 从游戏记录同步命令
-    /// </summary>
-    public ICommand RefreshFromHoyolabGameRecordCommand { get; set; }
-
-    /// <summary>
-    /// 从养成计算同步命令
-    /// </summary>
-    public ICommand RefreshFromHoyolabCalculateCommand { get; }
-
-    /// <summary>
-    /// 导出图片命令
-    /// </summary>
-    public ICommand ExportAsImageCommand { get; }
-
-    /// <summary>
-    /// 养成命令
-    /// </summary>
-    public ICommand CultivateCommand { get; }
 
     /// <inheritdoc/>
     public void Receive(UserChangedMessage message)
@@ -121,6 +78,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
         return Task.CompletedTask;
     }
 
+    [Command("RefreshFromEnkaApiCommand")]
     private Task RefreshByEnkaApiAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
@@ -131,6 +89,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
         return Task.CompletedTask;
     }
 
+    [Command("RefreshFromHoyolabGameRecordCommand")]
     private Task RefreshByHoyolabGameRecordAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
@@ -141,6 +100,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
         return Task.CompletedTask;
     }
 
+    [Command("RefreshFromHoyolabCalculateCommand")]
     private Task RefreshByHoyolabCalculateAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
@@ -202,6 +162,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
         }
     }
 
+    [Command("CultivateCommand")]
     private async Task CultivateAsync(AvatarView? avatar)
     {
         if (avatar != null)
@@ -266,6 +227,7 @@ internal sealed class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipien
         }
     }
 
+    [Command("ExportAsImageCommand")]
     private async Task ExportAsImageAsync(FrameworkElement? element)
     {
         if (element != null && element.IsLoaded)

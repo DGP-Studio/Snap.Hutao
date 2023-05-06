@@ -38,12 +38,12 @@ internal sealed class HistoryWishBuilder
         this.gachaEvent = gachaEvent;
         configType = gachaEvent.Type;
 
-        if (configType == GachaConfigType.AvatarEventWish || configType == GachaConfigType.AvatarEventWish2)
+        if (configType is GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2)
         {
             orangeUpCounter = gachaEvent.UpOrangeList.Select(name => context.NameAvatarMap[name]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
             purpleUpCounter = gachaEvent.UpPurpleList.Select(name => context.NameAvatarMap[name]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
         }
-        else if (configType == GachaConfigType.WeaponEventWish)
+        else if (configType is GachaConfigType.WeaponEventWish)
         {
             orangeUpCounter = gachaEvent.UpOrangeList.Select(name => context.NameWeaponMap[name]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
             purpleUpCounter = gachaEvent.UpPurpleList.Select(name => context.NameWeaponMap[name]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);

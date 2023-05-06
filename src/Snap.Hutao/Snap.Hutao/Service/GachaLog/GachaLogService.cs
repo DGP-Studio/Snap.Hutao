@@ -21,42 +21,22 @@ namespace Snap.Hutao.Service.GachaLog;
 /// 祈愿记录服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped, typeof(IGachaLogService))]
-internal sealed class GachaLogService : IGachaLogService
+internal sealed partial class GachaLogService : IGachaLogService
 {
-    private readonly ITaskContext taskContext;
+    private readonly ScopedDbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
+    private readonly IGachaStatisticsSlimFactory gachaStatisticsSlimFactory;
+    private readonly IGachaStatisticsFactory gachaStatisticsFactory;
     private readonly IGachaLogExportService gachaLogExportService;
     private readonly IGachaLogImportService gachaLogImportService;
-    private readonly GachaInfoClient gachaInfoClient;
-    private readonly IMetadataService metadataService;
-    private readonly IGachaStatisticsFactory gachaStatisticsFactory;
-    private readonly IGachaStatisticsSlimFactory gachaStatisticsSlimFactory;
-    private readonly ILogger<GachaLogService> logger;
     private readonly IServiceProvider serviceProvider;
-
-    private readonly ScopedDbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
+    private readonly IMetadataService metadataService;
+    private readonly ILogger<GachaLogService> logger;
+    private readonly GachaInfoClient gachaInfoClient;
+    private readonly ITaskContext taskContext;
 
     private GachaLogServiceContext context;
-
-    /// <summary>
-    /// 构造一个新的祈愿记录服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public GachaLogService(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        gachaLogExportService = serviceProvider.GetRequiredService<IGachaLogExportService>();
-        gachaLogImportService = serviceProvider.GetRequiredService<IGachaLogImportService>();
-        gachaInfoClient = serviceProvider.GetRequiredService<GachaInfoClient>();
-        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        logger = serviceProvider.GetRequiredService<ILogger<GachaLogService>>();
-        gachaStatisticsFactory = serviceProvider.GetRequiredService<IGachaStatisticsFactory>();
-        gachaStatisticsSlimFactory = serviceProvider.GetRequiredService<IGachaStatisticsSlimFactory>();
-
-        dbCurrent = new(serviceProvider);
-
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <inheritdoc/>
     public GachaArchive? CurrentArchive

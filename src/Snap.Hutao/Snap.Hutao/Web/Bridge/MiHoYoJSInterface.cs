@@ -46,9 +46,9 @@ internal class MiHoYoJSInterface
     /// <summary>
     /// 构造一个新的调用桥
     /// </summary>
-    /// <param name="webView">webview2</param>
     /// <param name="serviceProvider">服务提供器</param>
-    public MiHoYoJSInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
+    /// <param name="webView">webview2</param>
+    public MiHoYoJSInterface(IServiceProvider serviceProvider, CoreWebView2 webView)
     {
         this.webView = webView;
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();

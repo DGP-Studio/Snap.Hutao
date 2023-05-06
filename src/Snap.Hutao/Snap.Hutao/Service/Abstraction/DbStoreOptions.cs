@@ -12,19 +12,10 @@ namespace Snap.Hutao.Service.Abstraction;
 /// <summary>
 /// 数据库存储选项的设置
 /// </summary>
-/// <typeparam name="TOptions">选项类型自身</typeparam>
-internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptions>
+[ConstructorGenerated]
+internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbStoreOptions>
 {
-    private readonly IServiceScopeFactory serviceScopeFactory;
-
-    /// <summary>
-    /// 构造一个新的数据库存储选项的设置
-    /// </summary>
-    /// <param name="serviceScopeFactory">服务工厂</param>
-    public DbStoreOptions(IServiceScopeFactory serviceScopeFactory)
-    {
-        this.serviceScopeFactory = serviceScopeFactory;
-    }
+    private readonly IServiceProvider serviceProvider;
 
     /// <inheritdoc/>
     public DbStoreOptions Value { get => this; }
@@ -40,7 +31,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (storage == null)
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 storage = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value ?? defaultValue;
@@ -61,7 +52,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (storage == null)
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
@@ -83,7 +74,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (storage == null)
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
@@ -108,7 +99,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (storage == null)
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
@@ -133,7 +124,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (storage == null)
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
@@ -155,7 +146,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (SetProperty(ref storage, value, propertyName))
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
@@ -177,7 +168,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
         bool set = SetProperty(ref storage, value, propertyName);
         if (set)
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
@@ -199,7 +190,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (SetProperty(ref storage, value, propertyName))
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
@@ -222,7 +213,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (SetProperty(ref storage, value, propertyName))
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
@@ -245,7 +236,7 @@ internal abstract class DbStoreOptions : ObservableObject, IOptions<DbStoreOptio
     {
         if (SetProperty(ref storage, value, propertyName))
         {
-            using (IServiceScope scope = serviceScopeFactory.CreateScope())
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);

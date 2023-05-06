@@ -24,35 +24,21 @@ namespace Snap.Hutao.Service.Game;
 /// 游戏服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IGameService))]
-internal sealed class GameService : IGameService
+internal sealed partial class GameService : IGameService
 {
     private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
 
+    private readonly PackageConverter packageConverter;
+    private readonly IServiceProvider serviceProvider;
+    private readonly LaunchOptions launchOptions;
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
-    private readonly PackageConverter packageConverter;
-    private readonly LaunchOptions launchOptions;
     private readonly AppOptions appOptions;
-    private readonly IServiceProvider serviceProvider;
+
     private volatile int runningGamesCounter;
-
     private ObservableCollection<GameAccount>? gameAccounts;
-
-    /// <summary>
-    /// 构造一个新的游戏服务
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public GameService(IServiceProvider serviceProvider)
-    {
-        memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
-        packageConverter = serviceProvider.GetRequiredService<PackageConverter>();
-        launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
-        appOptions = serviceProvider.GetRequiredService<AppOptions>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <inheritdoc/>
     public ObservableCollection<GameAccount> GameAccountCollection

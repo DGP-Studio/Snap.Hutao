@@ -14,6 +14,7 @@ using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.Complex;
@@ -29,10 +30,11 @@ namespace Snap.Hutao.ViewModel.Wiki;
 /// <summary>
 /// 武器资料视图模型
 /// </summary>
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal class WikiWeaponViewModel : Abstraction.ViewModel
+internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 {
-    private readonly List<WeaponId> skippedWeapons = new()
+    private static readonly List<WeaponId> SkippedWeapons = new()
     {
         12304, 14306, 15306, 13304, // 石英大剑, 琥珀玥, 黑檀弓, 「旗杆」
         11419, 11420, 11421, // 「一心传」名刀
@@ -49,21 +51,6 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     private BaseValueInfo? baseValueInfo;
     private Dictionary<int, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
     private List<Promote>? promotes;
-
-    /// <summary>
-    /// 构造一个新的武器资料视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public WikiWeaponViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        hutaoCache = serviceProvider.GetRequiredService<IHutaoCache>();
-        this.serviceProvider = serviceProvider;
-
-        CultivateCommand = new AsyncRelayCommand<Weapon>(CultivateAsync);
-        FilterCommand = new RelayCommand<string>(ApplyFilter);
-    }
 
     /// <summary>
     /// 角色列表
@@ -94,16 +81,6 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
     /// </summary>
     public string? FilterText { get => filterText; set => SetProperty(ref filterText, value); }
 
-    /// <summary>
-    /// 养成命令
-    /// </summary>
-    public ICommand CultivateCommand { get; }
-
-    /// <summary>
-    /// 筛选命令
-    /// </summary>
-    public ICommand FilterCommand { get; }
-
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
@@ -114,7 +91,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
 
             List<Weapon> weapons = await metadataService.GetWeaponsAsync().ConfigureAwait(false);
             List<Weapon> sorted = weapons
-                .Where(weapon => !skippedWeapons.Contains(weapon.Id))
+                .Where(weapon => !SkippedWeapons.Contains(weapon.Id))
                 .OrderByDescending(weapon => weapon.RankLevel)
                 .ThenBy(weapon => weapon.WeaponType)
                 .ThenByDescending(weapon => weapon.Id.Value)
@@ -138,6 +115,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("CultivateCommand")]
     private async Task CultivateAsync(Weapon? weapon)
     {
         if (weapon != null)
@@ -211,6 +189,7 @@ internal class WikiWeaponViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("FilterCommand")]
     private void ApplyFilter(string? input)
     {
         if (Weapons != null)

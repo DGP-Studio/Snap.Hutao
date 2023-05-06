@@ -13,6 +13,7 @@ using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
 using Windows.Storage.Pickers;
@@ -23,47 +24,24 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 /// 祈愿记录视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class GachaLogViewModel : Abstraction.ViewModel
+internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
-    private readonly ITaskContext taskContext;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly HutaoCloudViewModel hutaoCloudViewModel;
+    private readonly IServiceProvider serviceProvider;
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
-    private readonly IPickerFactory pickerFactory;
-    private readonly IContentDialogFactory contentDialogFactory;
     private readonly JsonSerializerOptions options;
-    private readonly IServiceProvider serviceProvider;
+    private readonly IPickerFactory pickerFactory;
+    private readonly ITaskContext taskContext;
 
     private ObservableCollection<GachaArchive>? archives;
     private GachaArchive? selectedArchive;
     private GachaStatistics? statistics;
     private bool isAggressiveRefresh;
     private HistoryWish? selectedHistoryWish;
-
-    /// <summary>
-    /// 构造一个新的祈愿记录视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public GachaLogViewModel(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        gachaLogService = serviceProvider.GetRequiredService<IGachaLogService>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        pickerFactory = serviceProvider.GetRequiredService<IPickerFactory>();
-        contentDialogFactory = serviceProvider.GetRequiredService<IContentDialogFactory>();
-        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
-        this.serviceProvider = serviceProvider;
-
-        HutaoCloudViewModel = serviceProvider.GetRequiredService<HutaoCloudViewModel>();
-
-        RefreshByWebCacheCommand = new AsyncRelayCommand(RefreshByWebCacheAsync);
-        RefreshBySTokenCommand = new AsyncRelayCommand(RefreshBySTokenAsync);
-        RefreshByManualInputCommand = new AsyncRelayCommand(RefreshByManualInputAsync);
-        ImportFromUIGFJsonCommand = new AsyncRelayCommand(ImportFromUIGFJsonAsync);
-        ExportToUIGFJsonCommand = new AsyncRelayCommand(ExportToUIGFJsonAsync);
-        RemoveArchiveCommand = new AsyncRelayCommand(RemoveArchiveAsync);
-        RetrieveFromCloudCommand = new AsyncRelayCommand<string>(RetrieveAsync);
-    }
 
     /// <summary>
     /// 存档集合
@@ -108,42 +86,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
     /// <summary>
     /// 胡桃云服务视图
     /// </summary>
-    public HutaoCloudViewModel HutaoCloudViewModel { get; }
-
-    /// <summary>
-    /// 浏览器缓存刷新命令
-    /// </summary>
-    public ICommand RefreshByWebCacheCommand { get; }
-
-    /// <summary>
-    /// SToken 刷新命令
-    /// </summary>
-    public ICommand RefreshBySTokenCommand { get; }
-
-    /// <summary>
-    /// 手动输入Url刷新命令
-    /// </summary>
-    public ICommand RefreshByManualInputCommand { get; }
-
-    /// <summary>
-    /// 从 UIGF Json 导入命令
-    /// </summary>
-    public ICommand ImportFromUIGFJsonCommand { get; }
-
-    /// <summary>
-    /// 导出到 UIGF Json 命令
-    /// </summary>
-    public ICommand ExportToUIGFJsonCommand { get; }
-
-    /// <summary>
-    /// 删除存档命令
-    /// </summary>
-    public ICommand RemoveArchiveCommand { get; }
-
-    /// <summary>
-    /// 从云端获取记录命令
-    /// </summary>
-    public ICommand RetrieveFromCloudCommand { get; }
+    public HutaoCloudViewModel HutaoCloudViewModel { get => hutaoCloudViewModel; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
@@ -163,16 +106,19 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("RefreshByWebCacheCommand")]
     private Task RefreshByWebCacheAsync()
     {
         return RefreshInternalAsync(RefreshOption.WebCache);
     }
 
+    [Command("RefreshBySTokenCommand")]
     private Task RefreshBySTokenAsync()
     {
         return RefreshInternalAsync(RefreshOption.SToken);
     }
 
+    [Command("RefreshByManualInputCommand")]
     private Task RefreshByManualInputAsync()
     {
         return RefreshInternalAsync(RefreshOption.ManualInput);
@@ -243,6 +189,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("ImportFromUIGFJsonCommand")]
     private async Task ImportFromUIGFJsonAsync()
     {
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json");
@@ -261,6 +208,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("ExportToUIGFJsonCommand")]
     private async Task ExportToUIGFJsonAsync()
     {
         if (SelectedArchive != null)
@@ -293,6 +241,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("RemoveArchiveCommand")]
     private async Task RemoveArchiveAsync()
     {
         if (Archives != null && SelectedArchive != null)
@@ -315,6 +264,7 @@ internal sealed class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("RetrieveFromCloudCommand")]
     private async Task RetrieveAsync(string? uid)
     {
         if (uid != null)

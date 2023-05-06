@@ -21,27 +21,15 @@ namespace Snap.Hutao.Service.Cultivation;
 /// 养成计算服务
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(ICultivationService))]
 internal sealed partial class CultivationService : ICultivationService
 {
-    private readonly ITaskContext taskContext;
-    private readonly IServiceProvider serviceProvider;
     private readonly ScopedDbCurrent<CultivateProject, Message.CultivateProjectChangedMessage> dbCurrent;
+    private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
 
     private ObservableCollection<CultivateProject>? projects;
-
-    /// <summary>
-    /// 构造一个新的养成计算服务
-    /// </summary>
-    /// <param name="serviceProvider">范围工厂</param>
-    /// <param name="messenger">消息器</param>
-    public CultivationService(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        dbCurrent = new(serviceProvider);
-
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <inheritdoc/>
     public List<InventoryItemView> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand)

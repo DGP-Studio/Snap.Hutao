@@ -5,6 +5,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.IO;
 using System.IO.Compression;
@@ -17,25 +18,14 @@ namespace Snap.Hutao.Service.Game.Package;
 /// 游戏文件包转换器
 /// </summary>
 [HighQuality]
+[ConstructorGenerated(ResolveHttpClient = true)]
+[Injection(InjectAs.Transient)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class PackageConverter
+internal sealed partial class PackageConverter
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
-    private readonly IServiceProvider serviceProvider;
-
-    /// <summary>
-    /// 构造一个新的游戏文件转换器
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="options">Json序列化选项</param>
-    /// <param name="httpClient">http客户端</param>
-    public PackageConverter(IServiceProvider serviceProvider, HttpClient httpClient)
-    {
-        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
-        this.httpClient = httpClient;
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 异步检查替换游戏资源

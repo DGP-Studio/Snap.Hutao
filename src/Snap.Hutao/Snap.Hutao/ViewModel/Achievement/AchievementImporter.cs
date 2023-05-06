@@ -9,6 +9,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Achievement;
+using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using Windows.Storage.Pickers;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
@@ -19,28 +20,15 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 成就导入器
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class AchievementImporter
+internal sealed partial class AchievementImporter
 {
-    private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
     private readonly IAchievementService achievementService;
+    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
-
-    /// <summary>
-    /// 构造一个新的成就导入器
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AchievementImporter(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        achievementService = serviceProvider.GetRequiredService<IAchievementService>();
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
-
-        this.serviceProvider = serviceProvider;
-    }
+    private readonly ITaskContext taskContext;
 
     /// <summary>
     /// 从剪贴板导入

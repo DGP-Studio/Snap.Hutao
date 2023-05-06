@@ -16,25 +16,13 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class AuthClient
+internal sealed partial class AuthClient
 {
-    private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<BindingClient> logger;
-
-    /// <summary>
-    /// 构造一个新的授权客户端
-    /// </summary>
-    /// <param name="httpClient">Http客户端</param>
-    /// <param name="options">Json序列化选项</param>
-    /// <param name="logger">日志器</param>
-    public AuthClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<BindingClient> logger)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-        this.logger = logger;
-    }
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 异步获取操作凭证

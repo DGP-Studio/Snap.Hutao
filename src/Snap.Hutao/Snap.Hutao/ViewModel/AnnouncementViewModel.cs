@@ -10,21 +10,13 @@ namespace Snap.Hutao.ViewModel;
 /// 公告视图模型
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Scoped)]
-internal sealed class AnnouncementViewModel : Abstraction.ViewModel
+internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 {
     private readonly IAnnouncementService announcementService;
 
     private AnnouncementWrapper? announcement;
-
-    /// <summary>
-    /// 构造一个公告视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AnnouncementViewModel(IServiceProvider serviceProvider)
-    {
-        announcementService = serviceProvider.GetRequiredService<IAnnouncementService>();
-    }
 
     /// <summary>
     /// 公告
