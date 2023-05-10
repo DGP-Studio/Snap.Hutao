@@ -173,12 +173,12 @@
                         <shvca:AchievementCard/>
                         <shvca:DailyNoteCard/>
 
-                        <Border Style="{StaticResource BorderCardStyle}">
+                        <!--<Border Style="{StaticResource BorderCardStyle}">
                             <TextBlock Text="养成计划"/>
                         </Border>
                         <Border Style="{StaticResource BorderCardStyle}">
                             <TextBlock Text="深渊"/>
-                        </Border>
+                        </Border>-->
                     </cwucont:AdaptiveGridView>
                 </StackPanel>
 

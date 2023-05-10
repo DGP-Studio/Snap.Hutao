@@ -65,7 +65,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
         else if (rand >= 6 && rand < 57)
         {
             // TODO: retrieve days
-            GreetingText = string.Format(SH.ViewPageHomeGreetingTextEpic1, 0);
+            // GreetingText = string.Format(SH.ViewPageHomeGreetingTextEpic1, 0);
         }
         else if (rand >= 57 && rand < 1000)
         {
@@ -73,7 +73,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
             if (rand == 0)
             {
                 // TODO: impl game launch times
-                GreetingText = string.Format(SH.ViewPageHomeGreetingTextCommon1, 0);
+                // GreetingText = string.Format(SH.ViewPageHomeGreetingTextCommon1, 0);
             }
             else if (rand == 1)
             {

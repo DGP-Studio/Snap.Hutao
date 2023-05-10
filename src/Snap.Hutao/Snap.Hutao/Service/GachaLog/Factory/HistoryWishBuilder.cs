@@ -38,13 +38,13 @@ internal sealed class HistoryWishBuilder
 
         if (configType is GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2)
         {
-            orangeUpCounter = gachaEvent.UpOrangeList.Select(name => context.NameAvatarMap[name]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
-            purpleUpCounter = gachaEvent.UpPurpleList.Select(name => context.NameAvatarMap[name]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
+            orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
+            purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
         }
         else if (configType is GachaConfigType.WeaponEventWish)
         {
-            orangeUpCounter = gachaEvent.UpOrangeList.Select(name => context.NameWeaponMap[name]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
-            purpleUpCounter = gachaEvent.UpPurpleList.Select(name => context.NameWeaponMap[name]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+            orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+            purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
         }
     }
 

@@ -32,9 +32,11 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     /// 解锁器需要在管理员模式下才能正确的完成解锁操作，
     /// 非管理员模式不能解锁
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="gameProcess">游戏进程</param>
-    public GameFpsUnlocker(Process gameProcess)
+    public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess)
     {
+        launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
         this.gameProcess = gameProcess;
     }
 

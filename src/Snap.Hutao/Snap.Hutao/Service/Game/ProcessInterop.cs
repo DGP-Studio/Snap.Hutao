@@ -47,12 +47,12 @@ internal static class ProcessInterop
     /// <summary>
     /// 解锁帧率
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="game">游戏进程</param>
-    /// <param name="options">启动选项</param>
     /// <returns>任务</returns>
-    public static Task UnlockFpsAsync(Process game, LaunchOptions options)
+    public static Task UnlockFpsAsync(IServiceProvider serviceProvider, Process game)
     {
-        IGameFpsUnlocker unlocker = new GameFpsUnlocker(game);
+        IGameFpsUnlocker unlocker = serviceProvider.CreateInstance<GameFpsUnlocker>(game);
 
         TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
         TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);

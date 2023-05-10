@@ -49,7 +49,7 @@ internal sealed partial class MetadataService
     /// <inheritdoc/>
     public ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<GachaEvent>>("GachaEvent", token);
+        return FromCacheOrFileAsync<List<GachaEvent>>("GachaEvent2", token);
     }
 
     /// <inheritdoc/>
