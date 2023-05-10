@@ -51,7 +51,7 @@ internal sealed partial class LaunchScheme
         Key = SdkStaticLauncherGlobalKey,
         Channel = ChannelType.Official,
         SubChannel = SubChannelType.Default,
-        IsOversea = false,
+        IsOversea = true,
     };
 
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelEpic = new()
@@ -60,7 +60,7 @@ internal sealed partial class LaunchScheme
         Key = SdkStaticLauncherGlobalKey,
         Channel = ChannelType.Official,
         SubChannel = SubChannelType.Epic,
-        IsOversea = false,
+        IsOversea = true,
     };
 
     private static readonly LaunchScheme ServerGlobalChannelOfficialSubChannelGoogle = new()
@@ -69,7 +69,7 @@ internal sealed partial class LaunchScheme
         Key = SdkStaticLauncherGlobalKey,
         Channel = ChannelType.Official,
         SubChannel = SubChannelType.Google,
-        IsOversea = false,
+        IsOversea = true,
     };
 
     /// <summary>

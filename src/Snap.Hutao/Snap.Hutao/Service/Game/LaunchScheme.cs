@@ -18,13 +18,15 @@ internal sealed partial class LaunchScheme
     {
         get
         {
-            return (Channel, IsOversea) switch
+            string name = (Channel, IsOversea) switch
             {
                 (ChannelType.Official, false) => SH.ModelBindingLaunchGameLaunchSchemeChinese,
                 (ChannelType.Bili, false) => SH.ModelBindingLaunchGameLaunchSchemeBilibili,
-                (_, true) => $"{SH.ModelBindingLaunchGameLaunchSchemeOversea} | {SubChannel}",
+                (_, true) => SH.ModelBindingLaunchGameLaunchSchemeOversea,
                 _ => throw Must.NeverHappen(),
             };
+
+            return $"{name} | {SubChannel}";
         }
     }
 

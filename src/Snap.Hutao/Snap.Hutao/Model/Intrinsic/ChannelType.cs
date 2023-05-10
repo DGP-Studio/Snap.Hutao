@@ -6,6 +6,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// <summary>
 /// 渠道类型
 /// </summary>
+[Localization]
 internal enum ChannelType
 {
     /// <summary>
