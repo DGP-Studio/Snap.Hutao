@@ -42,7 +42,7 @@ internal interface IGameService
     /// 获取多通道值
     /// </summary>
     /// <returns>多通道值</returns>
-    MultiChannel GetMultiChannel();
+    ChannelOptions GetChannelOptions();
 
     /// <summary>
     /// 游戏是否正在运行

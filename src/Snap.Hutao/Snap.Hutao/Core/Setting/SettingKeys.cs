@@ -7,6 +7,7 @@ namespace Snap.Hutao.Core.Setting;
 /// 设置键
 /// </summary>
 [HighQuality]
+[SuppressMessage("", "SA1124")]
 internal static class SettingKeys
 {
     /// <summary>

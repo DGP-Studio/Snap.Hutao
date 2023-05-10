@@ -3553,6 +3553,51 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 胡桃已经为你启动了 {0} 次游戏 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHomeGreetingTextCommon1 {
+            get {
+                return ResourceManager.GetString("ViewPageHomeGreetingTextCommon1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 你已经启动了胡桃 {0} 次 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHomeGreetingTextCommon2 {
+            get {
+                return ResourceManager.GetString("ViewPageHomeGreetingTextCommon2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 旅行者，欢迎来到提瓦特大陆！ 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHomeGreetingTextDefault {
+            get {
+                return ResourceManager.GetString("ViewPageHomeGreetingTextDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 你说的对，但是《胡桃》是由 DGP Studio 自主研发的一款... 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHomeGreetingTextEasterEgg {
+            get {
+                return ResourceManager.GetString("ViewPageHomeGreetingTextEasterEgg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 呐，旅行者，这是你来到提瓦特大陆的第 {0} 天哦 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageHomeGreetingTextEpic1 {
+            get {
+                return ResourceManager.GetString("ViewPageHomeGreetingTextEpic1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 设置 的本地化字符串。
         /// </summary>
         internal static string ViewPageHomeLaunchGameSettingAction {

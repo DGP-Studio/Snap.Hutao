@@ -16,14 +16,14 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed class AppOptions : DbStoreOptions
 {
-    private readonly List<NameValue<BackdropType>> backdropTypes = new()
+    private static readonly List<NameValue<BackdropType>> SupportedBackdropTypes = new()
     {
         new("Acrylic", BackdropType.Acrylic),
         new("Mica", BackdropType.Mica),
         new("MicaAlt", BackdropType.MicaAlt),
     };
 
-    private readonly List<NameValue<string>> cultures = new()
+    private static readonly List<NameValue<string>> SupportedCultures = new()
     {
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
@@ -40,7 +40,7 @@ internal sealed class AppOptions : DbStoreOptions
     /// <summary>
     /// 构造一个新的应用程序选项
     /// </summary>
-    /// <param name="serviceScopeFactory">服务范围工厂</param>
+    /// <param name="serviceProvider">服务提供器</param>
     public AppOptions(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
@@ -67,7 +67,7 @@ internal sealed class AppOptions : DbStoreOptions
     /// <summary>
     /// 所有支持的背景样式
     /// </summary>
-    public List<NameValue<BackdropType>> BackdropTypes { get => backdropTypes; }
+    public List<NameValue<BackdropType>> BackdropTypes { get => SupportedBackdropTypes; }
 
     /// <summary>
     /// 背景类型 默认 Mica
@@ -81,7 +81,7 @@ internal sealed class AppOptions : DbStoreOptions
     /// <summary>
     /// 所有支持的语言
     /// </summary>
-    public List<NameValue<string>> Cultures { get => cultures; }
+    public List<NameValue<string>> Cultures { get => SupportedCultures; }
 
     /// <summary>
     /// 初始化前的语言

@@ -35,7 +35,7 @@ internal sealed class LaunchOptions : DbStoreOptions
     /// <summary>
     /// 构造一个新的启动游戏选项
     /// </summary>
-    /// <param name="serviceScopeFactory">服务范围工厂</param>
+    /// <param name="serviceProvider">服务提供器</param>
     public LaunchOptions(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {

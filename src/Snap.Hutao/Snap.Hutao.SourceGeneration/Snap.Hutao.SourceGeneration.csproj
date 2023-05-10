@@ -7,9 +7,14 @@
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <Configurations>Debug;Release;Debug As Fake Elevated</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug As Fake Elevated|x64'">
     <Optimize>True</Optimize>
   </PropertyGroup>
 

@@ -47,7 +47,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     /// <summary>
     /// 已知的服务器方案
     /// </summary>
-    public List<LaunchScheme> KnownSchemes { get => LaunchScheme.KnownSchemes.ToList(); }
+    public List<LaunchScheme> KnownSchemes { get => LaunchScheme.GetKnownSchemes(); }
 
     /// <summary>
     /// 当前选择的服务器方案
@@ -108,22 +108,24 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
             {
                 using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                 {
-                    MultiChannel multi = gameService.GetMultiChannel();
-                    if (string.IsNullOrEmpty(multi.ConfigFilePath))
+                    ChannelOptions options = gameService.GetChannelOptions();
+                    if (string.IsNullOrEmpty(options.ConfigFilePath))
                     {
                         try
                         {
-                            SelectedScheme = KnownSchemes.Single(scheme => scheme.MultiChannelEqual(multi));
+                            SelectedScheme = KnownSchemes
+                                .Where(scheme => scheme.IsOversea == options.IsOversea)
+                                .Single(scheme => scheme.MultiChannelEqual(options));
                         }
                         catch (InvalidOperationException)
                         {
-                            // 后台收集用
-                            throw new NotSupportedException($"不支持的 MultiChannel: [ChannelType:{multi.Channel}] [SubChannel:{multi.SubChannel}]");
+                            // 后台收集
+                            throw new NotSupportedException($"不支持的 MultiChannel: {options}");
                         }
                     }
                     else
                     {
-                        infoBarService.Warning(string.Format(SH.ViewModelLaunchGameMultiChannelReadFail, multi.ConfigFilePath));
+                        infoBarService.Warning(string.Format(SH.ViewModelLaunchGameMultiChannelReadFail, options.ConfigFilePath));
                     }
 
                     ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;

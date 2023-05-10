@@ -2,7 +2,6 @@
     x:Class="Snap.Hutao.View.Page.AnnouncementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:cwu="using:CommunityToolkit.WinUI.UI"
     xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
     xmlns:cwub="using:CommunityToolkit.WinUI.UI.Behaviors"
@@ -16,10 +15,10 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shv="using:Snap.Hutao.ViewModel"
     xmlns:shvca="using:Snap.Hutao.View.Card"
     xmlns:shvco="using:Snap.Hutao.View.Control"
-    d:DataContext="{d:DesignInstance shv:AnnouncementViewModel}"
+    xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
+    d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
@@ -160,8 +159,8 @@
                     <TextBlock
                         Margin="16,16,16,0"
                         Style="{StaticResource TitleTextBlockStyle}"
-                        Text="Greeting Text"/>
-                    <TextBlock Margin="16,0,16,0" Text="账号邮箱@xx.com"/>
+                        Text="{Binding GreetingText}"/>
+                    <TextBlock Margin="16,0,16,0" Text="{Binding UserOptions.UserName}"/>
                     <cwucont:AdaptiveGridView
                         Margin="16,16,0,0"
                         HorizontalAlignment="Stretch"

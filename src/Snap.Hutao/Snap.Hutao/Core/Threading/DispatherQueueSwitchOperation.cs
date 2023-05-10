@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.Threading;
 /// 等待此类型对象后上下文会被切换至主线程
 /// </summary>
 [HighQuality]
-internal readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOperation>, IAwaiter
+internal readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQueueSwitchOperation>, ICriticalAwaiter
 {
     private readonly DispatcherQueue dispatherQueue;
 
@@ -44,6 +44,15 @@ internal readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQue
     /// <inheritdoc/>
     public void OnCompleted(Action continuation)
     {
-        dispatherQueue.TryEnqueue(() => continuation());
+        dispatherQueue.TryEnqueue(continuation.Invoke);
+    }
+
+    /// <inheritdoc/>
+    public void UnsafeOnCompleted(Action continuation)
+    {
+        using (ExecutionContext.SuppressFlow())
+        {
+            dispatherQueue.TryEnqueue(continuation.Invoke);
+        }
     }
 }

@@ -1,12 +1,12 @@
 {
   "profiles": {
-    "Snap.Hutao (Package)": {
+    "Snap.Hutao": {
       "commandName": "MsixPackage",
       "nativeDebugging": false,
       "doNotLaunchApp": false,
       "allowLocalNetworkLoopbackProperty": true
     },
-    "Snap.Hutao (Unpackaged)": {
+    "[Unpackaged] Snap.Hutao": {
       "commandName": "Project"
     }
   }

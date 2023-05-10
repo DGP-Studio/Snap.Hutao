@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
-using System.Collections.Immutable;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -10,70 +9,8 @@ namespace Snap.Hutao.Service.Game;
 /// 启动方案
 /// </summary>
 [HighQuality]
-internal sealed class LaunchScheme
+internal sealed partial class LaunchScheme
 {
-    // TODO: fix detection
-
-    /// <summary>
-    /// 已知的启动方案
-    /// </summary>
-    public static readonly ImmutableList<LaunchScheme> KnownSchemes = new List<LaunchScheme>()
-    {
-        // 官服
-        new()
-        {
-            LauncherId = "18",
-            Key = "eYd89JmJ",
-            Channel = ChannelType.Official,
-            SubChannel = SubChannelType.Official,
-            IsOversea = false,
-        },
-        new()
-        {
-            LauncherId = "18",
-            Key = "eYd89JmJ",
-            Channel = ChannelType.Official,
-            SubChannel = SubChannelType.NoTapTap,
-            IsOversea = false,
-        },
-
-        // 渠道服
-        new()
-        {
-            LauncherId = "17",
-            Key = "KAtdSsoQ",
-            Channel = ChannelType.Bili,
-            SubChannel = SubChannelType.Default,
-            IsOversea = false,
-        },
-
-        // 国际服
-        new()
-        {
-            LauncherId = "10",
-            Key = "gcStgarh",
-            Channel = ChannelType.Official,
-            SubChannel = SubChannelType.Default,
-            IsOversea = true,
-        },
-        new()
-        {
-            LauncherId = "10",
-            Key = "gcStgarh",
-            Channel = ChannelType.Official,
-            SubChannel = SubChannelType.Epic,
-            IsOversea = true,
-        },
-        new()
-        {
-            LauncherId = "10",
-            Key = "gcStgarh",
-            Channel = ChannelType.Official,
-            SubChannel = SubChannelType.Google,
-            IsOversea = true,
-        },
-    }.ToImmutableList();
-
     /// <summary>
     /// 显示名称
     /// </summary>
@@ -104,7 +41,7 @@ internal sealed class LaunchScheme
     /// <summary>
     /// 启动器 Id
     /// </summary>
-    public string LauncherId { get; private set; } = default!;
+    public int LauncherId { get; private set; }
 
     /// <summary>
     /// API Key
@@ -121,7 +58,7 @@ internal sealed class LaunchScheme
     /// </summary>
     /// <param name="multiChannel">多通道</param>
     /// <returns>是否相等</returns>
-    public bool MultiChannelEqual(in MultiChannel multiChannel)
+    public bool MultiChannelEqual(in ChannelOptions multiChannel)
     {
         return Channel == multiChannel.Channel && SubChannel == multiChannel.SubChannel;
     }

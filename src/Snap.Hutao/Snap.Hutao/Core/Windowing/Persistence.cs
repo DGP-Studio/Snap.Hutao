@@ -22,12 +22,13 @@ internal static class Persistence
     /// <summary>
     /// 设置窗体位置
     /// </summary>
-    /// <param name="window">选项窗口param>
     /// <typeparam name="TWindow">窗体类型</typeparam>
+    /// <param name="window">选项窗口param>
     public static void RecoverOrInit<TWindow>(TWindow window)
         where TWindow : Window, IWindowOptionsSource
     {
         WindowOptions options = window.WindowOptions;
+
         // Set first launch size.
         double scale = GetScaleForWindowHandle(options.Hwnd);
         SizeInt32 transformedSize = options.InitSize.Scale(scale);

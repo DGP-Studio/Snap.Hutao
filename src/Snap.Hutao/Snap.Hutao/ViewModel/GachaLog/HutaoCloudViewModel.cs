@@ -133,8 +133,8 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             .Navigate<View.Page.SpiralAbyssRecordPage>(INavigationAwaiter.Default);
     }
 
-    [Command("NavigateToAfdianSKuCommand")]
-    private async Task NavigateToAfdianSKuAsync()
+    [Command("NavigateToAfdianSkuCommand")]
+    private async Task NavigateToAfdianSkuAsync()
     {
         await Windows.System.Launcher.LaunchUriAsync(new(@"ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
     }

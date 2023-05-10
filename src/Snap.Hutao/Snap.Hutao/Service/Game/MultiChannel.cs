@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Game;
 /// 多通道
 /// </summary>
 [HighQuality]
-internal readonly struct MultiChannel
+internal readonly struct ChannelOptions
 {
     /// <summary>
     /// 通道
@@ -22,6 +22,11 @@ internal readonly struct MultiChannel
     public readonly SubChannelType SubChannel;
 
     /// <summary>
+    /// 是否为国际服
+    /// </summary>
+    public readonly bool IsOversea;
+
+    /// <summary>
     /// 配置文件路径 当不为 null 时则存在文件读写问题
     /// </summary>
     public readonly string? ConfigFilePath;
@@ -31,12 +36,30 @@ internal readonly struct MultiChannel
     /// </summary>
     /// <param name="channel">通道</param>
     /// <param name="subChannel">子通道</param>
+    /// <param name="isOversea">是否为国际服</param>
     /// <param name="configFilePath">配置文件路径</param>
-    public MultiChannel(string? channel, string? subChannel, string? configFilePath = null)
+    public ChannelOptions(string? channel, string? subChannel, bool isOversea, string? configFilePath = null)
     {
-        Channel = string.IsNullOrEmpty(channel) ? ChannelType.Default : Enum.Parse<ChannelType>(channel);
-        SubChannel = string.IsNullOrEmpty(subChannel) ? SubChannelType.Default : Enum.Parse<SubChannelType>(subChannel);
-
+        _ = Enum.TryParse(channel, out Channel);
+        _ = Enum.TryParse(subChannel, out SubChannel);
+        IsOversea = isOversea;
         ConfigFilePath = configFilePath;
+    }
+
+    /// <summary>
+    /// 配置文件未找到
+    /// </summary>
+    /// <param name="isOversea">是否为国际服</param>
+    /// <param name="configFilePath">配置文件期望路径</param>
+    /// <returns>选项</returns>
+    public static ChannelOptions FileNotFound(bool isOversea, string configFilePath)
+    {
+        return new(null, null, isOversea, configFilePath);
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return $"[ChannelType:{Channel}] [SubChannel:{SubChannel}] [IsOversea: {IsOversea}]";
     }
 }

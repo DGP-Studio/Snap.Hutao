@@ -1995,4 +1995,19 @@
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>无法找到缓存的元数据文件</value>
   </data>
+  <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
+    <value>旅行者，欢迎来到提瓦特大陆！</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
+    <value>胡桃已经为你启动了 {0} 次游戏</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextCommon2" xml:space="preserve">
+    <value>你已经启动了胡桃 {0} 次</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
+    <value>你说的对，但是《胡桃》是由 DGP Studio 自主研发的一款...</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
+    <value>呐，旅行者，这是你来到提瓦特大陆的第 {0} 天哦</value>
+  </data>
 </root>

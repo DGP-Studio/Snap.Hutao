@@ -29,7 +29,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     /// <summary>
     /// 构造一个新的窗体子类管理器
     /// </summary>
-    /// <param name="options">选项</param>
+    /// <param name="window">窗口</param>
     public WindowSubclass(TWindow window)
     {
         this.window = window;

@@ -44,7 +44,11 @@ internal static class StructMarshal
     public static unsafe Windows.UI.Color Color(uint value)
     {
         Unsafe.SkipInit(out Windows.UI.Color color);
-        *(uint*)&color = BinaryPrimitives.ReverseEndianness(value);
+
+        // *(uint*)&color = BinaryPrimitives.ReverseEndianness(value);
+        // How .NET store struct in BE host?
+        Span<byte> colorSpan = new(&color, sizeof(uint));
+        BinaryPrimitives.WriteUInt32BigEndian(colorSpan, value);
         return color;
     }
 

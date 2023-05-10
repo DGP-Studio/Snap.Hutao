@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.Threading;
 /// 线程池切换操作
 /// 等待此类型对象后上下文会被切换至线程池线程
 /// </summary>
-internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOperation>, IAwaiter, ICriticalAwaiter
+internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitchOperation>, ICriticalAwaiter
 {
     private static readonly WaitCallback WaitCallbackRunAction = RunAction;
     private readonly DispatcherQueue dispatherQueue;
@@ -27,9 +27,8 @@ internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitch
     /// <inheritdoc/>
     public bool IsCompleted
     {
-        get =>
-            // 如果已经处于后台就不再切换新的线程
-            !dispatherQueue.HasThreadAccess;
+        // 如果已经处于后台就不再切换新的线程
+        get => !dispatherQueue.HasThreadAccess;
     }
 
     /// <inheritdoc/>

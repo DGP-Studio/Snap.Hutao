@@ -11,13 +11,15 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using System.Diagnostics;
-using System.Security.Principal;
 using Windows.ApplicationModel;
+#if !DEBUG_AS_FAKE_ELEVATED
+using System.Security.Principal;
+#endif
 
 namespace Snap.Hutao.Core.LifeCycle;
 
 /// <summary>
-/// 激活处理器
+/// 激活
 /// </summary>
 [HighQuality]
 internal static class Activation
@@ -58,16 +60,15 @@ internal static class Activation
     /// <returns>是否提升了权限</returns>
     public static bool GetElevated()
     {
-        if (Debugger.IsAttached)
-        {
-            return true;
-        }
-
+#if DEBUG_AS_FAKE_ELEVATED
+        return true;
+#else
         using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
         {
             WindowsPrincipal principal = new(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
+#endif
     }
 
     /// <summary>

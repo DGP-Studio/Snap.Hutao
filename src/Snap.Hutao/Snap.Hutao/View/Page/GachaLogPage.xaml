@@ -158,7 +158,7 @@
                                                     Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader}"
                                                     IsClickEnabled="True"/>
                                                 <clw:SettingsCard
-                                                    Command="{Binding HutaoCloudViewModel.NavigateToAfdianSKuCommand}"
+                                                    Command="{Binding HutaoCloudViewModel.NavigateToAfdianSkuCommand}"
                                                     Description="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseDescription}"
                                                     Header="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudAfdianPurchaseHeader}"
                                                     IsClickEnabled="True"/>

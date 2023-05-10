@@ -107,23 +107,24 @@ internal sealed partial class GameService : IGameService
     }
 
     /// <inheritdoc/>
-    public MultiChannel GetMultiChannel()
+    public ChannelOptions GetChannelOptions()
     {
         string gamePath = appOptions.GamePath;
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath) ?? string.Empty, ConfigFileName);
+        bool isOversea = string.Equals(Path.GetFileName(gamePath), GenshinImpactFileName, StringComparison.OrdinalIgnoreCase);
 
         if (!File.Exists(configPath))
         {
-            return new(null, null, configPath);
+            return ChannelOptions.FileNotFound(isOversea, configPath);
         }
 
         using (FileStream stream = File.OpenRead(configPath))
         {
-            IEnumerable<IniParameter> parameters = IniSerializer.Deserialize(stream).ToList().OfType<IniParameter>();
+            List<IniParameter> parameters = IniSerializer.Deserialize(stream).OfType<IniParameter>().ToList();
             string? channel = parameters.FirstOrDefault(p => p.Key == "channel")?.Value;
             string? subChannel = parameters.FirstOrDefault(p => p.Key == "sub_channel")?.Value;
 
-            return new(channel, subChannel);
+            return new(channel, subChannel, isOversea);
         }
     }
 

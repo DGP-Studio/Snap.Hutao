@@ -29,5 +29,8 @@ internal static class StringLiterals
     /// </summary>
     public const string False = "False";
 
+    /// <summary>
+    /// CRLF 换行符
+    /// </summary>
     public const string CRLF = "\r\n";
 }

@@ -64,7 +64,7 @@ public sealed partial class App : Application
                 Process.GetCurrentProcess().Kill();
             }
         }
-        catch (Exception)
+        catch
         {
             // AppInstance.GetCurrent() calls failed
             Process.GetCurrentProcess().Kill();
@@ -80,8 +80,8 @@ public sealed partial class App : Application
     {
         HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
 
-        logger.LogInformation("Snap Hutao FamilyName: {name}", hutaoOptions.FamilyName);
-        logger.LogInformation("Snap Hutao Version: {version}", hutaoOptions.Version);
-        logger.LogInformation("Snap Hutao LocalCache: {folder}", hutaoOptions.LocalCache);
+        logger.LogInformation("FamilyName: {name}", hutaoOptions.FamilyName);
+        logger.LogInformation("Version: {version}", hutaoOptions.Version);
+        logger.LogInformation("LocalCache: {folder}", hutaoOptions.LocalCache);
     }
 }
