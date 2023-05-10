@@ -1,4 +1,4 @@
-﻿{
+{
     "10000066": {
         "hp": 50,
         "atk": 75,
@@ -187,7 +187,7 @@
         "def": 0,
         "cpct": 0,
         "cdmg": 0,
-        "mastery": 0,
+        "mastery": 75,
         "dmg": 100,
         "phy": 0,
         "recharge": 55,
@@ -790,5 +790,18 @@
         "recharge": 55,
         "heal": 100,
         "element": "Cryo"
+    },
+    "10000082": {
+        "hp": 100,
+        "atk": 0,
+        "def": 0,
+        "cpct": 100,
+        "cdmg": 100,
+        "mastery": 75,
+        "dmg": 100,
+        "phy": 0,
+        "recharge": 75,
+        "heal": 100,
+        "element": "Dendro"
     }
 }
