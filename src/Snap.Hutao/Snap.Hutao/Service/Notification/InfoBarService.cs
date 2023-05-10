@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Notification;
 
@@ -15,13 +16,12 @@ internal sealed partial class InfoBarService : IInfoBarService
     private readonly ITaskContext taskContext;
     private readonly TaskCompletionSource initializaionCompletionSource;
 
-    private StackPanel? infoBarStack;
+    private ObservableCollection<InfoBar>? collection;
 
     /// <inheritdoc/>
-    public void Initialize(StackPanel container)
+    public ObservableCollection<InfoBar> Collection
     {
-        infoBarStack = container;
-        initializaionCompletionSource.TrySetResult();
+        get => collection ??= new();
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ internal sealed partial class InfoBarService : IInfoBarService
 
     private void PrepareInfoBarAndShow(InfoBarSeverity severity, string? title, string? message, int delay)
     {
-        if (infoBarStack is null)
+        if (collection is null)
         {
             return;
         }
@@ -125,12 +125,12 @@ internal sealed partial class InfoBarService : IInfoBarService
         };
 
         infoBar.Closed += OnInfoBarClosed;
-        infoBarStack!.Children.Add(infoBar);
+        collection!.Add(infoBar);
 
         if (delay > 0)
         {
             await Task.Delay(delay).ConfigureAwait(true);
-            infoBarStack.Children.Remove(infoBar);
+            collection.Remove(infoBar);
             infoBar.IsOpen = false;
         }
     }
@@ -140,7 +140,7 @@ internal sealed partial class InfoBarService : IInfoBarService
     {
         await taskContext.SwitchToMainThreadAsync();
 
-        infoBarStack!.Children.Remove(sender);
+        collection!.Remove(sender);
         sender.Closed -= OnInfoBarClosed;
     }
 }

@@ -52,7 +52,7 @@ internal static class ProcessInterop
     /// <returns>任务</returns>
     public static Task UnlockFpsAsync(Process game, LaunchOptions options)
     {
-        IGameFpsUnlocker unlocker = new GameFpsUnlocker(game, options.TargetFps);
+        IGameFpsUnlocker unlocker = new GameFpsUnlocker(game);
 
         TimeSpan findModuleDelay = TimeSpan.FromMilliseconds(100);
         TimeSpan findModuleLimit = TimeSpan.FromMilliseconds(10000);

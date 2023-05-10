@@ -1,0 +1,101 @@
+﻿<UserControl
+    x:Class="Snap.Hutao.View.InfoBarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    mc:Ignorable="d">
+
+    <Grid>
+        <ItemsControl
+            MaxWidth="640"
+            Margin="32,48,32,32"
+            VerticalAlignment="Bottom"
+            ItemsSource="{x:Bind InfoBars}"
+            Visibility="{Binding ElementName=VisibilityButton, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ItemsControl.Transitions>
+                <RepositionThemeTransition/>
+            </ItemsControl.Transitions>
+            <ItemsControl.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <AcrylicBrush
+                                x:Key="InfoBarErrorSeverityBackgroundBrush"
+                                FallbackColor="#FDE7E9"
+                                TintColor="#FDE7E9"
+                                TintOpacity="0.6"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarWarningSeverityBackgroundBrush"
+                                FallbackColor="#FFF4CE"
+                                TintColor="#FFF4CE"
+                                TintOpacity="0.6"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarSuccessSeverityBackgroundBrush"
+                                FallbackColor="#DFF6DD"
+                                TintColor="#DFF6DD"
+                                TintOpacity="0.6"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarInformationalSeverityBackgroundBrush"
+                                FallbackColor="#80F6F6F6"
+                                TintColor="#80F6F6F6"
+                                TintOpacity="0.6"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <AcrylicBrush
+                                x:Key="InfoBarErrorSeverityBackgroundBrush"
+                                FallbackColor="#442726"
+                                TintColor="#442726"
+                                TintOpacity="0.6"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarWarningSeverityBackgroundBrush"
+                                FallbackColor="#433519"
+                                TintColor="#433519"
+                                TintOpacity="0.6"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarSuccessSeverityBackgroundBrush"
+                                FallbackColor="#393D1B"
+                                TintColor="#393D1B"
+                                TintOpacity="0.6"/>
+                            <AcrylicBrush
+                                x:Key="InfoBarInformationalSeverityBackgroundBrush"
+                                FallbackColor="#34424d"
+                                TintColor="#34424d"
+                                TintOpacity="0.6"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ItemsControl.Resources>
+        </ItemsControl>
+
+        <Border
+            Margin="16"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Background="{ThemeResource SystemControlAcrylicElementBrush}"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
+            Visibility="{x:Bind InfoBars.Count, Mode=OneWay, Converter={StaticResource Int32ToVisibilityConverter}}">
+            <ToggleButton
+                Name="VisibilityButton"
+                Checked="OnVisibilityButtonCheckedChanged"
+                Unchecked="OnVisibilityButtonCheckedChanged">
+                <ToggleButton.Content>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition MinWidth="32"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Margin="0,0,6,0" Text="{shcm:ResourceString Name=ViewInfoBarToggleTitle}"/>
+                        <InfoBadge
+                            Grid.Column="1"
+                            Padding="0,1,0,0"
+                            HorizontalAlignment="Right"
+                            Style="{ThemeResource CriticalValueInfoBadgeStyle}"
+                            Value="{x:Bind InfoBars.Count, Mode=OneWay}"/>
+                    </Grid>
+                </ToggleButton.Content>
+            </ToggleButton>
+        </Border>
+    </Grid>
+</UserControl>

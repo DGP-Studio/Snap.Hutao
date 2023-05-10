@@ -46,7 +46,7 @@ public static partial class Program
     {
         IServiceProvider serviceProvider = Ioc.Default;
 
-        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        _ = serviceProvider.GetRequiredService<ITaskContext>();
         _ = serviceProvider.GetRequiredService<App>();
     }
 }

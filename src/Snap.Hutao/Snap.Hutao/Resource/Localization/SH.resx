@@ -2010,4 +2010,7 @@
   <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
     <value>呐，旅行者，这是你来到提瓦特大陆的第 {0} 天哦</value>
   </data>
+  <data name="ViewInfoBarToggleTitle" xml:space="preserve">
+    <value>有新的通知</value>
+  </data>
 </root>

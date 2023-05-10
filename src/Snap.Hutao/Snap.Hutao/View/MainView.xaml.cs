@@ -15,7 +15,6 @@ namespace Snap.Hutao.View;
 internal sealed partial class MainView : UserControl
 {
     private readonly INavigationService navigationService;
-    private readonly IInfoBarService infoBarService;
 
     /// <summary>
     /// 构造一个新的主视图
@@ -25,9 +24,6 @@ internal sealed partial class MainView : UserControl
         InitializeComponent();
 
         IServiceProvider serviceProvider = Ioc.Default;
-
-        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-        infoBarService.Initialize(InfoBarStack);
 
         navigationService = serviceProvider.GetRequiredService<INavigationService>();
         navigationService

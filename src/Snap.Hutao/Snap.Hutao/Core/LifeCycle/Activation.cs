@@ -193,11 +193,6 @@ internal static class Activation
 
         MainWindowReference.SetTarget(serviceProvider.GetRequiredService<MainWindow>());
 
-        await serviceProvider
-            .GetRequiredService<IInfoBarService>()
-            .WaitInitializationAsync()
-            .ConfigureAwait(false);
-
         serviceProvider
             .GetRequiredService<IMetadataService>()
             .As<IMetadataServiceInitialization>()?

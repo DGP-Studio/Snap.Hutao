@@ -37,7 +37,7 @@ internal sealed partial class UserService : IUserService
         get => currentUser;
         set
         {
-            if (currentUser == value)
+            if (currentUser?.Entity.InnerId == value?.Entity.InnerId)
             {
                 return;
             }

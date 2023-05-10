@@ -19,6 +19,7 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
     private readonly Process gameProcess;
+    private readonly LaunchOptions launchOptions;
 
     private nuint fpsAddress;
     private bool isValid = true;
@@ -32,19 +33,10 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     /// 非管理员模式不能解锁
     /// </summary>
     /// <param name="gameProcess">游戏进程</param>
-    /// <param name="targetFPS">目标fps</param>
-    public GameFpsUnlocker(Process gameProcess, int targetFPS)
+    public GameFpsUnlocker(Process gameProcess)
     {
-        Must.Range(targetFPS >= 30 && targetFPS <= 2000, "Target FPS threshold exceeded");
-
-        TargetFps = targetFPS;
         this.gameProcess = gameProcess;
-
-        // TODO: use UnlockerOptions to replace parameters
     }
-
-    /// <inheritdoc/>
-    public int TargetFps { get; set; }
 
     /// <inheritdoc/>
     public async Task UnlockAsync(TimeSpan findModuleDelay, TimeSpan findModuleLimit, TimeSpan adjustFpsDelay)
@@ -130,7 +122,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             {
                 if (!gameProcess.HasExited && fpsAddress != 0)
                 {
-                    UnsafeWriteModuleMemory(gameProcess, fpsAddress, TargetFps);
+                    UnsafeWriteModuleMemory(gameProcess, fpsAddress, launchOptions.TargetFps);
                 }
                 else
                 {

@@ -285,12 +285,12 @@ internal sealed partial class GameService : IGameService
 
         try
         {
-            Interlocked.Increment(ref runningGamesCounter);
+            bool isfirstInstance = Interlocked.Increment(ref runningGamesCounter) == 1;
 
             game.Start();
 
             bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled;
-            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances)
+            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance)
             {
                 ProcessInterop.DisableProtection(game, gamePath);
             }

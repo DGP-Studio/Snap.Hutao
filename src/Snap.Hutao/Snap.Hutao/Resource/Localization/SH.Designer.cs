@@ -2104,6 +2104,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 有新的通知 的本地化字符串。
+        /// </summary>
+        internal static string ViewInfoBarToggleTitle {
+            get {
+                return ResourceManager.GetString("ViewInfoBarToggleTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 启动游戏 的本地化字符串。
         /// </summary>
         internal static string ViewLaunchGameHeader {

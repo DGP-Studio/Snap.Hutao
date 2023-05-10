@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Notification;
 
@@ -11,6 +12,11 @@ namespace Snap.Hutao.Service.Notification;
 [HighQuality]
 internal interface IInfoBarService
 {
+    /// <summary>
+    /// 获取操作的集合
+    /// </summary>
+    ObservableCollection<InfoBar> Collection { get; }
+
     /// <summary>
     /// 显示错误消息
     /// </summary>
@@ -55,12 +61,6 @@ internal interface IInfoBarService
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
     void Information(string title, string message, int delay = 5000);
-
-    /// <summary>
-    /// 使用指定的 <see cref="StackPanel"/> 初始化服务
-    /// </summary>
-    /// <param name="container">信息条的目标容器</param>
-    void Initialize(StackPanel container);
 
     /// <summary>
     /// 显示成功信息

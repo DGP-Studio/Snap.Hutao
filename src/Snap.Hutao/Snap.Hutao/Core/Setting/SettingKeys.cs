@@ -11,7 +11,7 @@ namespace Snap.Hutao.Core.Setting;
 internal static class SettingKeys
 {
     /// <summary>
-    /// 窗体左侧
+    /// 窗体矩形
     /// </summary>
     public const string WindowRect = "WindowRect";
 
@@ -39,6 +39,11 @@ internal static class SettingKeys
     /// 通行证密码
     /// </summary>
     public const string PassportPassword = "PassportPassword";
+
+    /// <summary>
+    /// 消息是否显示
+    /// </summary>
+    public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
 
     #region StaticResource
 

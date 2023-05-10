@@ -10,11 +10,6 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 internal interface IGameFpsUnlocker
 {
     /// <summary>
-    /// 目标FPS,运行动态设置以动态更改帧率
-    /// </summary>
-    int TargetFps { get; set; }
-
-    /// <summary>
     /// 异步的解锁帧数限制
     /// </summary>
     /// <param name="findModuleDelay">每次查找UnityPlayer的延时,推荐100毫秒</param>
