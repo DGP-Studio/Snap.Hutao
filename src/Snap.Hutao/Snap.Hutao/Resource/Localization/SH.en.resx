@@ -1972,16 +1972,16 @@
     <value>Synchronize Character Data</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
-    <value>错误的 UID 格式</value>
+    <value>Wrong UID format</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
-    <value>角色 UID 不存在</value>
+    <value>Role UID does not exist</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
-    <value>游戏维护中</value>
+    <value>Game in maintenance</value>
   </data>
   <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
-    <value>请求过快，请稍后再试</value>
+    <value>Request too fast, please try again later</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
     <value>服务器偶发错误</value>
