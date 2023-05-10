@@ -526,16 +526,16 @@
     <value>查詢遊戲資源信息</value>
   </data>
   <data name="ServiceGameFileOperationExceptionMessage" xml:space="preserve">
-    <value>游戲文件操作失敗：{0}</value>
+    <value>遊戲檔案操作失敗：{0}</value>
   </data>
   <data name="ServiceGameLocatorFileOpenPickerCommitText" xml:space="preserve">
-    <value>請選擇游戲本體</value>
+    <value>請選擇遊戲本體</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
     <value>找不到 Unity 日志文件</value>
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
-    <value>在 Unity 日志文件中無法找到游戲路徑</value>
+    <value>在 Unity 日誌文件中無法找到遊戲路徑</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>重新命名資料文件夾名稱失敗</value>
@@ -547,7 +547,7 @@
     <value>獲取 Package Version 失敗</value>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
-    <value>無法找到游戲本體路徑，請前往設置修改</value>
+    <value>無法找到遊戲本體路徑，請前往設定修改</value>
   </data>
   <data name="ServiceGameRegisteryInteropLongPathsDisabled" xml:space="preserve">
     <value>未開啓長路徑功能，無法設定注冊表鍵值</value>
@@ -556,7 +556,7 @@
     <value>找不到 PowerShell 的安裝目錄</value>
   </data>
   <data name="ServiceGameSetMultiChannelConfigFileNotFound" xml:space="preserve">
-    <value>游戲配置文件 {0} 無法找到</value>
+    <value>無法找到遊戲配置檔案 {0}</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
     <value>無法讀取或保存配置文件，請用管理員模式重試</value>
@@ -609,7 +609,7 @@
   <data name="ViewControlStatisticsCardBlueText" xml:space="preserve">
     <value>三星</value>
   </data>
-  <data name="ViewControlStatisticsCardGuarenteeText" xml:space="preserve">
+  <data name="ViewControlStatisticsCardGuaranteeText" xml:space="preserve">
     <value>保底</value>
   </data>
   <data name="ViewControlStatisticsCardOrangeAveragePullText" xml:space="preserve">
@@ -916,10 +916,10 @@
     <value>切換伺服器失敗</value>
   </data>
   <data name="ViewModelLaunchGameMultiChannelReadFail" xml:space="preserve">
-    <value>無法讀取游戲設定文件</value>
+    <value>無法讀取遊戲設定文件: {0}</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
-    <value>游戲程式路徑不正塙，前往設定更改游戲路徑</value>
+    <value>游戲程式路徑不正確，前往設定更改遊戲路徑</value>
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
     <value>還未選擇任何伺服器</value>
@@ -1009,7 +1009,7 @@
     <value>活動公告</value>
   </data>
   <data name="ViewPageAnnouncementGame" xml:space="preserve">
-    <value>游戲公告</value>
+    <value>遊戲公告</value>
   </data>
   <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
     <value>聖遺物評分</value>
@@ -1042,7 +1042,7 @@
     <value>從 Enka API 同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>同步游戲内角色展櫃中的信息</value>
+    <value>同步遊戲內角色展櫃中的資訊</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
     <value>從 HoYoLAB - 養成計算器同步</value>
@@ -1195,7 +1195,7 @@
     <value>網頁緩存刷新</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
-    <value>使用游戲内瀏覽器的網頁緩存刷新祈願紀錄</value>
+    <value>使用遊戲內瀏覽器的網頁快取刷新祈願紀錄</value>
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>刪除當前存檔</value>
@@ -1885,37 +1885,37 @@
     <value>上傳深淵紀錄</value>
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
-    <value>添加到养成计划</value>
+    <value>添加到養成計畫</value>
   </data>
   <data name="ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder" xml:space="preserve">
-    <value>筛选角色</value>
+    <value>篩選角色</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
-    <value>所属</value>
+    <value>所屬</value>
   </data>
   <data name="ViewPageWiKiAvatarConstellationNameTitle" xml:space="preserve">
-    <value>命之座</value>
+    <value>命座</value>
   </data>
   <data name="ViewPageWiKiAvatarDateofBirthTitle" xml:space="preserve">
     <value>生日</value>
   </data>
   <data name="ViewPageWiKiAvatarChineseCVNameTitle" xml:space="preserve">
-    <value>汉语 CV</value>
+    <value>漢語 CV</value>
   </data>
   <data name="ViewPageWiKiAvatarJapaneseCVNameTitle" xml:space="preserve">
-    <value>日语 CV</value>
+    <value>日語 CV</value>
   </data>
   <data name="ViewPageWiKiAvatarEnglishCVNameTitle" xml:space="preserve">
-    <value>英语 CV</value>
+    <value>英語 CV</value>
   </data>
   <data name="ViewPageWiKiAvatarKoreanCVNameTitle" xml:space="preserve">
-    <value>韩语 CV</value>
+    <value>韓語 CV</value>
   </data>
   <data name="ViewPageWiKiAvatarAscensionMaterialsHeader" xml:space="preserve">
-    <value>养成材料</value>
+    <value>養成材料</value>
   </data>
   <data name="ViewPageWiKiAvatarTanlentHeader" xml:space="preserve">
-    <value>天赋</value>
+    <value>天賦</value>
   </data>
   <data name="ViewPageWiKiAvatarTeamCombinationHeader" xml:space="preserve">
     <value>搭配角色</value>
@@ -1924,7 +1924,7 @@
     <value>搭配武器</value>
   </data>
   <data name="ViewPageWiKiAvatarArtifactSetCombinationHeader" xml:space="preserve">
-    <value>搭配圣遗物</value>
+    <value>搭配聖遺物</value>
   </data>
   <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
     <value>其它</value>
@@ -1939,24 +1939,78 @@
     <value>原料理</value>
   </data>
   <data name="ViewPageWiKiAvatarCostumeHeader" xml:space="preserve">
-    <value>衣装</value>
+    <value>衣裝</value>
   </data>
   <data name="ViewPageWiKiAvatarQuotesHeader" xml:space="preserve">
-    <value>资料</value>
+    <value>資料</value>
   </data>
   <data name="ViewPageWiKiAvatarStoriesHeader" xml:space="preserve">
     <value>故事</value>
   </data>
   <data name="ViewPageWiKiMonsterAutoSuggestBoxPlaceHolder" xml:space="preserve">
-    <value>筛选怪物</value>
+    <value>篩選怪物</value>
   </data>
   <data name="ViewPageWiKiWeaponAutoSuggestBoxPlaceHolder" xml:space="preserve">
-    <value>筛选武器</value>
+    <value>篩選武器</value>
   </data>
   <data name="ViewPageWiKiWeaponBeforeAscensionTitle" xml:space="preserve">
     <value>突破前</value>
   </data>
   <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
-    <value>突破后</value>
+    <value>突破後</value>
+  </data>
+  <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
+    <value>保底計數</value>
+  </data>
+  <data name="ViewCardAchievementStatisticsTitle" xml:space="preserve">
+    <value>成就統計</value>
+  </data>
+  <data name="ViewAvatarPropertySyncDataButtonLabel" xml:space="preserve">
+    <value>同步角色資訊</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
+    <value>错误的 UID 格式</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
+    <value>角色 UID 不存在</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
+    <value>游戏维护中</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
+    <value>请求过快，请稍后再试</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
+    <value>服务器偶发错误</value>
+  </data>
+  <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
+    <value>服务器严重错误</value>
+  </data>
+  <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
+    <value>未知的服务器错误</value>
+  </data>
+  <data name="ServiceMetadataFileNotFound" xml:space="preserve">
+    <value>无法找到缓存的元数据文件</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
+    <value>旅行者，欢迎来到提瓦特大陆！</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
+    <value>胡桃已经为你启动了 {0} 次游戏</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextCommon2" xml:space="preserve">
+    <value>你已经启动了胡桃 {0} 次</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
+    <value>你说的对，但是《胡桃》是由 DGP Studio 自主研发的一款...</value>
+  </data>
+  <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
+    <value>呐，旅行者，这是你来到提瓦特大陆的第 {0} 天哦</value>
+  </data>
+  <data name="ViewInfoBarToggleTitle" xml:space="preserve">
+    <value>有新的通知</value>
   </data>
 </root>
