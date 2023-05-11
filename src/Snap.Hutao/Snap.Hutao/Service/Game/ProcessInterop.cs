@@ -5,6 +5,11 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Service.Game.Unlocker;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Memory;
+using Windows.Win32.System.Threading;
+using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -82,5 +87,69 @@ internal static class ProcessInterop
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 加载并注入指定路径的库
+    /// </summary>
+    /// <param name="hProcess">进程句柄</param>
+    /// <param name="libraryPathu8">库的路径，不包含'\0'</param>
+    [SuppressMessage("", "SH002")]
+    public static unsafe void LoadLibraryAndInject(HANDLE hProcess, ReadOnlySpan<byte> libraryPathu8)
+    {
+        HINSTANCE hKernelDll = GetModuleHandle("kernel32.dll");
+        Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+
+        FARPROC pLoadLibraryA = GetProcAddress(hKernelDll, libraryPathu8);
+        Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+
+        void* pNativeLibraryPath = default;
+        try
+        {
+            VIRTUAL_ALLOCATION_TYPE allocType = VIRTUAL_ALLOCATION_TYPE.MEM_RESERVE | VIRTUAL_ALLOCATION_TYPE.MEM_COMMIT;
+            pNativeLibraryPath = VirtualAllocEx(hProcess, default, unchecked((uint)libraryPathu8.Length + 1), allocType, PAGE_PROTECTION_FLAGS.PAGE_READWRITE);
+            Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+
+            WriteProcessMemory(hProcess, pNativeLibraryPath, libraryPathu8);
+            Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+
+            LPTHREAD_START_ROUTINE lpThreadLoadLibraryA = pLoadLibraryA.CreateDelegate<LPTHREAD_START_ROUTINE>();
+            HANDLE hLoadLibraryAThread = default;
+            try
+            {
+                hLoadLibraryAThread = CreateRemoteThread(hProcess, default, 0, lpThreadLoadLibraryA, pNativeLibraryPath, 0);
+                Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+
+                // What are we waiting for?
+                WaitForSingleObject(hLoadLibraryAThread, 2000);
+                Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
+            }
+            finally
+            {
+                CloseHandle(hLoadLibraryAThread);
+            }
+        }
+        finally
+        {
+            VirtualFreeEx(hProcess, pNativeLibraryPath, 0, VIRTUAL_FREE_TYPE.MEM_RELEASE);
+        }
+    }
+
+    [SuppressMessage("", "SH002")]
+    private static unsafe FARPROC GetProcAddress(HINSTANCE hModule, ReadOnlySpan<byte> lpProcName)
+    {
+        fixed (byte* lpProcNameLocal = lpProcName)
+        {
+            return Windows.Win32.PInvoke.GetProcAddress(hModule, new PCSTR(lpProcNameLocal));
+        }
+    }
+
+    [SuppressMessage("", "SH002")]
+    private static unsafe BOOL WriteProcessMemory(HANDLE hProcess, void* lpBaseAddress, ReadOnlySpan<byte> buffer)
+    {
+        fixed (void* lpBuffer = buffer)
+        {
+            return Windows.Win32.PInvoke.WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, unchecked((uint)buffer.Length));
+        }
     }
 }

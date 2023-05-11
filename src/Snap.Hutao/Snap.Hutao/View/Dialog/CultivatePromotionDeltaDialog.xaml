@@ -15,7 +15,10 @@
     PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
     Style="{StaticResource DefaultContentDialogStyle}"
     mc:Ignorable="d">
-
+    <ContentDialog.Resources>
+        <x:Double x:Key="NumberBoxMinWidth">180</x:Double>
+        <x:Double x:Key="ContentDialogMaxWidth">1200</x:Double>
+    </ContentDialog.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -48,11 +51,11 @@
                         TextTrimming="CharacterEllipsis"/>
                     <NumberBox
                         Grid.Column="2"
-                        MinWidth="100"
+                        MinWidth="{StaticResource NumberBoxMinWidth}"
                         VerticalAlignment="Center"
                         Maximum="{Binding LevelMax}"
                         Minimum="{Binding LevelMin}"
-                        SpinButtonPlacementMode="Compact"
+                        SpinButtonPlacementMode="Inline"
                         Value="{Binding LevelCurrent, Mode=TwoWay}"/>
                     <FontIcon
                         Grid.Column="3"
@@ -61,11 +64,11 @@
                         Glyph="&#xEBE7;"/>
                     <NumberBox
                         Grid.Column="4"
-                        MinWidth="100"
+                        MinWidth="{StaticResource NumberBoxMinWidth}"
                         VerticalAlignment="Center"
                         Maximum="{Binding LevelMax}"
                         Minimum="{Binding LevelMin}"
-                        SpinButtonPlacementMode="Compact"
+                        SpinButtonPlacementMode="Inline"
                         Value="{Binding LevelTarget, Mode=TwoWay}"/>
                 </Grid>
             </Border>
@@ -95,11 +98,11 @@
                                     TextTrimming="CharacterEllipsis"/>
                                 <NumberBox
                                     Grid.Column="2"
-                                    MinWidth="100"
+                                    MinWidth="{StaticResource NumberBoxMinWidth}"
                                     VerticalAlignment="Center"
                                     Maximum="{Binding LevelMax}"
                                     Minimum="{Binding LevelMin}"
-                                    SpinButtonPlacementMode="Compact"
+                                    SpinButtonPlacementMode="Inline"
                                     Value="{Binding LevelCurrent, Mode=TwoWay}"/>
                                 <FontIcon
                                     Grid.Column="3"
@@ -108,11 +111,11 @@
                                     Glyph="&#xEBE7;"/>
                                 <NumberBox
                                     Grid.Column="4"
-                                    MinWidth="100"
+                                    MinWidth="{StaticResource NumberBoxMinWidth}"
                                     VerticalAlignment="Center"
                                     Maximum="{Binding LevelMax}"
                                     Minimum="{Binding LevelMin}"
-                                    SpinButtonPlacementMode="Compact"
+                                    SpinButtonPlacementMode="Inline"
                                     Value="{Binding LevelTarget, Mode=TwoWay}"/>
                             </Grid>
                         </Border>
