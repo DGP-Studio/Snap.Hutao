@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
@@ -33,6 +34,7 @@ internal sealed partial class GameService : IGameService
     private readonly PackageConverter packageConverter;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
+    private readonly HutaoOptions hutaoOptions;
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
@@ -289,7 +291,7 @@ internal sealed partial class GameService : IGameService
 
             game.Start();
 
-            bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled;
+            bool isAdvancedOptionsAllowed = hutaoOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled;
             if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance)
             {
                 ProcessInterop.DisableProtection(game, gamePath);

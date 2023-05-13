@@ -18,23 +18,17 @@ internal sealed class SpiralAbyssView
     /// <param name="idAvatarMap">Id角色映射</param>
     public SpiralAbyssView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
     {
-        Schedule = string.Format(SH.ModelEntitySpiralAbyssScheduleFormat, spiralAbyss.ScheduleId);
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;
         TotalStar = spiralAbyss.TotalStar;
         MaxFloor = spiralAbyss.MaxFloor;
-        Reveals = spiralAbyss.RevealRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).ToList();
+        Reveals = spiralAbyss.RevealRank.SelectList(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap));
         Defeat = spiralAbyss.DefeatRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
         Damage = spiralAbyss.DamageRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
         TakeDamage = spiralAbyss.TakeDamageRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
         NormalSkill = spiralAbyss.NormalSkillRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
         EnergySkill = spiralAbyss.EnergySkillRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
-        Floors = spiralAbyss.Floors.Select(f => new FloorView(f, idAvatarMap)).ToList();
+        Floors = spiralAbyss.Floors.Select(f => new FloorView(f, idAvatarMap)).Reverse().ToList();
     }
-
-    /// <summary>
-    /// 期
-    /// </summary>
-    public string Schedule { get; }
 
     /// <summary>
     /// 战斗次数

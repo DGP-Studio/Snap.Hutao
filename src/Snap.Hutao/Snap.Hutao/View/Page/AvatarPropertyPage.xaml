@@ -508,6 +508,12 @@
                                                             <Button.Flyout>
                                                                 <Flyout Placement="Left">
                                                                     <StackPanel MaxWidth="320">
+                                                                        <StackPanel.Resources>
+                                                                            <Thickness x:Key="SettingsCardPadding">16</Thickness>
+                                                                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                                                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                                                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                                        </StackPanel.Resources>
                                                                         <shct:DescriptionTextBlock Description="{Binding Description}">
                                                                             <shct:DescriptionTextBlock.Resources>
                                                                                 <Style BasedOn="{StaticResource BodyTextBlockStyle}" TargetType="TextBlock">
@@ -522,7 +528,7 @@
                                                                                         Margin="0,2,0,0"
                                                                                         Padding="12,0"
                                                                                         Header="{Binding Description}">
-                                                                                        <TextBlock Text="{Binding Parameter}"/>
+                                                                                        <TextBlock Margin="0,8" Text="{Binding Parameter}"/>
                                                                                     </clw:SettingsCard>
                                                                                 </DataTemplate>
                                                                             </ItemsControl.ItemTemplate>
