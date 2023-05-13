@@ -9,11 +9,10 @@ using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.Service.Notification;
 using System.Diagnostics;
-using Windows.ApplicationModel;
 #if !DEBUG_AS_FAKE_ELEVATED
 using System.Security.Principal;
+using Windows.ApplicationModel;
 #endif
 
 namespace Snap.Hutao.Core.LifeCycle;
@@ -129,6 +128,16 @@ internal static class Activation
                 HandleLaunchGameActionAsync(uid).SafeForget();
             }
         }
+    }
+
+    /// <summary>
+    /// 是否加入了自启动计划
+    /// </summary>
+    /// <param name="set">是否设置</param>
+    /// <returns>是或否</returns>
+    public static bool IsIncludedInSelfStart(bool set = false)
+    {
+        return StaticResource.IsIncludeSelfStartOrSetState(set, !StaticResource.IsIncludeSelfStartOrSetState()); ;
     }
 
     /// <summary>

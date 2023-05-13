@@ -15,6 +15,7 @@ internal interface IGameLocator : INamedService
     /// 异步获取游戏位置
     /// 路径应当包含游戏文件名称
     /// </summary>
+    /// <param name="isSwitchToStarRailTool">是否是 星穹铁道 工具箱</param>
     /// <returns>游戏位置</returns>
-    Task<ValueResult<bool, string>> LocateGamePathAsync();
+    Task<ValueResult<bool, string>> LocateGamePathAsync(bool isSwitchToStarRailTool = false);
 }

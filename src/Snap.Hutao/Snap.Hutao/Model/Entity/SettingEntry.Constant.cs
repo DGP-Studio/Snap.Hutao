@@ -9,9 +9,14 @@ namespace Snap.Hutao.Model.Entity;
 internal sealed partial class SettingEntry
 {
     /// <summary>
-    /// 游戏路径
+    /// 原神 游戏路径
     /// </summary>
     public const string GamePath = "GamePath";
+
+    /// <summary>
+    /// 星穹铁道 游戏路径
+    /// </summary>
+    public const string StarRailGamePath = "StarRailGamePath";
 
     /// <summary>
     /// 空的历史记录卡池是否可见
@@ -27,6 +32,11 @@ internal sealed partial class SettingEntry
     /// 启用高级功能
     /// </summary>
     public const string IsAdvancedLaunchOptionsEnabled = "IsAdvancedLaunchOptionsEnabled";
+
+    /// <summary>
+    /// 自动以管理员模式启动
+    /// </summary>
+    public const string IsAlwaysAdvancedLaunchOptionsEnabled = "IsAlwaysAdvancedLaunchOptionsEnabled";
 
     /// <summary>
     /// 实时便笺刷新时间

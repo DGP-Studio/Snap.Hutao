@@ -22,7 +22,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
     public string Name { get => nameof(RegistryLauncherLocator); }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> LocateGamePathAsync()
+    public async Task<ValueResult<bool, string>> LocateGamePathAsync(bool isSwitchToStarRailTool = false)
     {
         await taskContext.SwitchToBackgroundAsync();
 

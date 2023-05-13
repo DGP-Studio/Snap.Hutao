@@ -1,0 +1,598 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+    <RootNamespace>Snap.Hutao</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platform>x64</Platform>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+    <UseWinUI>true</UseWinUI>
+    <UseWPF>False</UseWPF>
+    <UseWindowsForms>False</UseWindowsForms>
+    <ImplicitUsings>False</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
+    <NeutralLanguage>zh-CN</NeutralLanguage>
+    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <PackageCertificateThumbprint>D15C4474363D2AF157C5CC6F230C7BFF2CF19B25</PackageCertificateThumbprint>
+    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+    <AppxBundle>Never</AppxBundle>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <StartupObject>Snap.Hutao.Program</StartupObject>
+    <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN;DISABLE_XAML_GENERATED_BREAK_ON_UNHANDLED_EXCEPTION;DISABLE_XAML_GENERATED_BINDING_DEBUG_OUTPUT</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>embedded</DebugType>
+    <ApplicationIcon>Assets\Logo.ico</ApplicationIcon>
+    <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+  </PropertyGroup>
+  
+  <!-- Included Files -->
+  <ItemGroup>
+    <None Remove="Assets\LargeTile.scale-100.png" />
+    <None Remove="Assets\LargeTile.scale-200.png" />
+    <None Remove="Assets\LargeTile.scale-400.png" />
+    <None Remove="Assets\SmallTile.scale-100.png" />
+    <None Remove="Assets\SmallTile.scale-200.png" />
+    <None Remove="Assets\SmallTile.scale-400.png" />
+    <None Remove="Assets\SplashScreen.scale-100.png" />
+    <None Remove="Assets\SplashScreen.scale-200.png" />
+    <None Remove="Assets\SplashScreen.scale-400.png" />
+    <None Remove="Assets\Square150x150Logo.scale-100.png" />
+    <None Remove="Assets\Square150x150Logo.scale-200.png" />
+    <None Remove="Assets\Square150x150Logo.scale-400.png" />
+    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <None Remove="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <None Remove="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <None Remove="Assets\Square44x44Logo.scale-100.png" />
+    <None Remove="Assets\Square44x44Logo.scale-200.png" />
+    <None Remove="Assets\Square44x44Logo.scale-400.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-16.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-256.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-48.png" />
+    <None Remove="Assets\StoreLogo.png" />
+    <None Remove="Assets\StoreLogo.scale-100.png" />
+    <None Remove="Assets\StoreLogo.scale-200.png" />
+    <None Remove="Assets\StoreLogo.scale-400.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-100.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-200.png" />
+    <None Remove="Assets\Wide310x150Logo.scale-400.png" />
+    <None Remove="Control\Panel\PanelSelector.xaml" />
+    <None Remove="Control\Theme\FontStyle.xaml" />
+    <None Remove="IdentityStructs.json" />
+    <None Remove="LaunchGameWindow.xaml" />
+    <None Remove="NativeMethods.json" />
+    <None Remove="NativeMethods.txt" />
+    <None Remove="ReliquaryWeightConfiguration.json" />
+    <None Remove="Resource\Font\CascadiaMono.ttf" />
+    <None Remove="Resource\Font\MiSans-Regular.ttf" />
+    <None Remove="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
+    <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
+    <None Remove="Resource\Icon\UI_BagTabIcon_Avatar.png" />
+    <None Remove="Resource\Icon\UI_BagTabIcon_Weapon.png" />
+    <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
+    <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
+    <None Remove="Resource\Icon\UI_ChapterIcon_Hutao.png" />
+    <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
+    <None Remove="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
+    <None Remove="Resource\Icon\UI_HomeWorldTabIcon_2_Team.png" />
+    <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
+    <None Remove="Resource\Icon\UI_Icon_BoostUp.png" />
+    <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
+    <None Remove="Resource\Icon\UI_Icon_Locked.png" />
+    <None Remove="Resource\Icon\UI_Icon_None.png" />
+    <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_204.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_210.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_210_256.png" />
+    <None Remove="Resource\Icon\UI_ItemIcon_220021.png" />
+    <None Remove="Resource\Icon\UI_MarkCustom_TagMonster.png" />
+    <None Remove="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
+    <None Remove="Resource\Icon\UI_MarkTower.png" />
+    <None Remove="Resource\Icon\UI_MarkTower_Tower.png" />
+    <None Remove="Resource\Segoe Fluent Icons.ttf" />
+    <None Remove="Resource\WelcomeView_Background.png" />
+    <None Remove="stylecop.json" />
+    <None Remove="View\Card\AchievementCard.xaml" />
+    <None Remove="View\Card\DailyNoteCard.xaml" />
+    <None Remove="View\Card\GachaStatisticsCard.xaml" />
+    <None Remove="View\Card\LaunchGameCard.xaml" />
+    <None Remove="View\Control\BaseValueSlider.xaml" />
+    <None Remove="View\Control\BottomTextControl.xaml" />
+    <None Remove="View\Control\DescParamComboBox.xaml" />
+    <None Remove="View\Control\ItemIcon.xaml" />
+    <None Remove="View\Control\LaunchGameResourceExpander.xaml" />
+    <None Remove="View\Control\LoadingView.xaml" />
+    <None Remove="View\Control\LoadingViewSlim.xaml" />
+    <None Remove="View\Control\SkillPivot.xaml" />
+    <None Remove="View\Control\StatisticsCard.xaml" />
+    <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
+    <None Remove="View\Dialog\AchievementImportDialog.xaml" />
+    <None Remove="View\Dialog\AdoptCalculatorDialog.xaml" />
+    <None Remove="View\Dialog\CommunityGameRecordDialog.xaml" />
+    <None Remove="View\Dialog\CultivateProjectDialog.xaml" />
+    <None Remove="View\Dialog\CultivatePromotionDeltaDialog.xaml" />
+    <None Remove="View\Dialog\DailyNoteNotificationDialog.xaml" />
+    <None Remove="View\Dialog\DailyNoteVerificationDialog.xaml" />
+    <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
+    <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
+    <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
+    <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
+    <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
+    <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
+    <None Remove="View\Dialog\UserDialog.xaml" />
+    <None Remove="View\MainView.xaml" />
+    <None Remove="View\Page\AchievementPage.xaml" />
+    <None Remove="View\Page\AnnouncementContentPage.xaml" />
+    <None Remove="View\Page\AnnouncementPage.xaml" />
+    <None Remove="View\Page\AvatarPropertyPage.xaml" />
+    <None Remove="View\Page\CultivationPage.xaml" />
+    <None Remove="View\Page\DailyNotePage.xaml" />
+    <None Remove="View\Page\GachaLogPage.xaml" />
+    <None Remove="View\Page\HutaoDatabasePage.xaml" />
+    <None Remove="View\Page\HutaoPassportPage.xaml" />
+    <None Remove="View\Page\LaunchGamePage.xaml" />
+    <None Remove="View\Page\LoginMihoyoUserPage.xaml" />
+    <None Remove="View\Page\StarRailStarRail\MainView.xaml" />
+    <None Remove="View\Page\StarRailStarRail\Page\LaunchGamePage.xaml" />
+    <None Remove="View\Page\StarRailStarRail\Page\SettingPage.xaml" />
+    <None Remove="View\Page\SettingPage.xaml" />
+    <None Remove="View\Page\SpiralAbyssRecordPage.xaml" />
+    <None Remove="View\Page\TestPage.xaml" />
+    <None Remove="View\Page\WikiAvatarPage.xaml" />
+    <None Remove="View\Page\WikiMonsterPage.xaml" />
+    <None Remove="View\Page\WikiWeaponPage.xaml" />
+    <None Remove="View\TitleView.xaml" />
+    <None Remove="View\UserView.xaml" />
+    <None Remove="View\WelcomeView.xaml" />
+  </ItemGroup>
+  
+  <!-- Analyzer Files -->
+  <ItemGroup>
+    <AdditionalFiles Include="IdentityStructs.json" />
+    <AdditionalFiles Include="NativeMethods.json" />
+    <AdditionalFiles Include="NativeMethods.txt" />
+    <AdditionalFiles Include="ReliquaryWeightConfiguration.json" />
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+  
+  <!-- Assets Files -->
+  <ItemGroup>
+    <Content Update="Assets\Logo.ico" />
+    <Content Update="Assets\LargeTile.scale-100.png" />
+    <Content Update="Assets\LargeTile.scale-200.png" />
+    <Content Update="Assets\LargeTile.scale-400.png" />
+    <Content Update="Assets\SmallTile.scale-100.png" />
+    <Content Update="Assets\SmallTile.scale-200.png" />
+    <Content Update="Assets\SmallTile.scale-400.png" />
+    <Content Update="Assets\SplashScreen.scale-100.png" />
+    <Content Update="Assets\SplashScreen.scale-200.png" />
+    <Content Update="Assets\SplashScreen.scale-400.png" />
+    <Content Update="Assets\Square150x150Logo.scale-100.png" />
+    <Content Update="Assets\Square150x150Logo.scale-200.png" />
+    <Content Update="Assets\Square150x150Logo.scale-400.png" />
+    <Content Update="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
+    <Content Update="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
+    <Content Update="Assets\Square44x44Logo.altform-lightunplated_targetsize-48.png" />
+    <Content Update="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
+    <Content Update="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
+    <Content Update="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
+    <Content Update="Assets\Square44x44Logo.scale-100.png" />
+    <Content Update="Assets\Square44x44Logo.scale-200.png" />
+    <Content Update="Assets\Square44x44Logo.scale-400.png" />
+    <Content Update="Assets\Square44x44Logo.targetsize-16.png" />
+    <Content Update="Assets\Square44x44Logo.targetsize-256.png" />
+    <Content Update="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Update="Assets\StoreLogo.png" />
+    <Content Update="Assets\StoreLogo.scale-100.png" />
+    <Content Update="Assets\StoreLogo.scale-200.png" />
+    <Content Update="Assets\StoreLogo.scale-400.png" />
+    <Content Update="Assets\Wide310x150Logo.scale-100.png" />
+    <Content Update="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Update="Assets\Wide310x150Logo.scale-400.png" />
+  </ItemGroup>
+
+  <!-- Resources Files -->
+  <ItemGroup>
+    <Content Include="Resource\Font\CascadiaMono.ttf" />
+    <Content Include="Resource\Font\MiSans-Regular.ttf" />
+    <Content Include="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
+    <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
+    <Content Include="Resource\Icon\UI_BagTabIcon_Avatar.png" />
+    <Content Include="Resource\Icon\UI_BagTabIcon_Weapon.png" />
+    <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
+    <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
+    <Content Include="Resource\Icon\UI_ChapterIcon_Hutao.png" />
+    <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
+    <Content Include="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
+    <Content Include="Resource\Icon\UI_HomeWorldTabIcon_2_Team.png" />
+    <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
+    <Content Include="Resource\Icon\UI_Icon_BoostUp.png" />
+    <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
+    <Content Include="Resource\Icon\UI_Icon_Locked.png" />
+    <Content Include="Resource\Icon\UI_Icon_None.png" />
+    <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_204.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_210_256.png" />
+    <Content Include="Resource\Icon\UI_ItemIcon_220021.png" />
+    <Content Include="Resource\Icon\UI_MarkCustom_TagMonster.png" />
+    <Content Include="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
+    <Content Include="Resource\Icon\UI_MarkTower.png" />
+    <Content Include="Resource\Icon\UI_MarkTower_Tower.png" />
+    <Content Include="Resource\WelcomeView_Background.png" />
+  </ItemGroup>
+
+  <!-- Packages -->
+  <ItemGroup>
+    <!-- https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -->
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.5.22">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.6.11" />
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.2.221-beta">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230331000" />
+    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.435">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="TaskScheduler" Version="2.10.1" />
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <!-- Projects -->
+  <ItemGroup>
+    <ProjectReference Include="..\Snap.Hutao.SourceGeneration\Snap.Hutao.SourceGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" SetTargetFramework="TargetFramework=netstandard2.0" />
+  </ItemGroup>
+  
+  <!-- Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+       Tools extension to be activated for this project even if the Windows App SDK Nuget
+       package has not yet been restored -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnablePreviewMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resource\Localization\SH.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SH.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource\Localization\SH.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SH.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Page\StarRailStarRail\Page\SettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Card\DailyNoteCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Card\AchievementCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Card\GachaStatisticsCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Control\LoadingViewSlim.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Page\HutaoPassportPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  
+  <!-- Pages -->
+  <ItemGroup>
+    <Page Update="View\Dialog\LaunchGamePackageConvertDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\WelcomeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\TestPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\LoadingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\SpiralAbyssRecordPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\CommunityGameRecordDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\CultivatePromotionDeltaDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\CultivateProjectDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\CultivationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\AdoptCalculatorDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\WikiWeaponPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\DailyNoteVerificationDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\SignInWebViewDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\DailyNoteNotificationDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\DailyNotePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\BottomTextControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\LaunchGameAccountNameDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\LoginMihoyoUserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="LaunchGameWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\LaunchGamePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\HutaoDatabasePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\GachaLogUrlDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\AvatarPropertyPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\AchievementArchiveCreateDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\AchievementImportDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\DescParamComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\SkillPivot.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\UserView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\TitleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\AnnouncementContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\AnnouncementPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\AnnouncementContentPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\AnnouncementPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\SettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\WikiAvatarPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\AchievementPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\UserDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\ItemIcon.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\GachaLogImportDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\StatisticsCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Dialog\GachaLogRefreshProgressDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\GachaLogPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Panel\PanelSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Control\Style\FontStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\LaunchGameResourceExpander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\WikiMonsterPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Control\BaseValueSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Card\LaunchGameCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\StarRailStarRail\MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Page\StarRailStarRail\Page\LaunchGamePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>

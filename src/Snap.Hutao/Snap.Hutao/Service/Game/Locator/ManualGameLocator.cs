@@ -22,7 +22,7 @@ internal sealed partial class ManualGameLocator : IGameLocator
     public string Name { get => nameof(ManualGameLocator); }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> LocateGamePathAsync()
+    public async Task<ValueResult<bool, string>> LocateGamePathAsync(bool isSwitchToStarRailTool = false)
     {
         await taskContext.SwitchToMainThreadAsync();
 
@@ -36,7 +36,12 @@ internal sealed partial class ManualGameLocator : IGameLocator
         if (isPickerOk)
         {
             string fileName = System.IO.Path.GetFileName(file);
-            if (fileName == GameConstants.YuanShenFileName || fileName == GameConstants.GenshinImpactFileName)
+            if ((fileName == GameConstants.YuanShenFileName || fileName == GameConstants.GenshinImpactFileName) && !isSwitchToStarRailTool)
+            {
+                return new(true, file);
+            }
+
+            if (isSwitchToStarRailTool && fileName == GameConstants.StarRailFileName)
             {
                 return new(true, file);
             }

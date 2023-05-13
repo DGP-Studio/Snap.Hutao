@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Navigation;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Page;
 
 namespace Snap.Hutao.View;
@@ -23,12 +23,25 @@ internal sealed partial class MainView : UserControl
     {
         InitializeComponent();
 
+        // this must be called before 'InitializeComponent'
+        bool IsSwitchToStarRailTool = StaticResource.IsSwitchToStarRailTool();
+        ContentSwitchPresenter.Value = IsSwitchToStarRailTool;
+
         IServiceProvider serviceProvider = Ioc.Default;
 
         navigationService = serviceProvider.GetRequiredService<INavigationService>();
-        navigationService
-            .As<INavigationInitialization>()?
-            .Initialize(NavView, ContentFrame);
+        if (!IsSwitchToStarRailTool)
+        {
+            navigationService
+                .As<INavigationInitialization>()?
+                .Initialize(NavViewGenshin, ContentFrameGenshin);
+        }
+        else
+        {
+            navigationService
+                .As<INavigationInitialization>()?
+                .Initialize(NavViewStarRail, ContentFrameStarRail);
+        }
 
         navigationService.Navigate<AnnouncementPage>(INavigationAwaiter.Default, true);
     }

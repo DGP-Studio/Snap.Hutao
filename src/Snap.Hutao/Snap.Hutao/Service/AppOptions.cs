@@ -36,6 +36,8 @@ internal sealed class AppOptions : DbStoreOptions
     private BackdropType? backdropType;
     private CultureInfo? currentCulture;
     private bool? isAdvancedLaunchOptionsEnabled;
+    private bool? isAlwaysAdvancedLaunchOptionsEnabled;
+    private string? starRailGamePath;
 
     /// <summary>
     /// 构造一个新的应用程序选项
@@ -105,6 +107,24 @@ internal sealed class AppOptions : DbStoreOptions
     {
         get => GetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled);
         set => SetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled, value);
+    }
+
+    /// <summary>
+    /// 是否总是以管理员模式启动胡桃
+    /// </summary>
+    public bool IsAlwaysAdvancedLaunchOptionsEnabled
+    {
+        get => GetOption(ref isAlwaysAdvancedLaunchOptionsEnabled, SettingEntry.IsAlwaysAdvancedLaunchOptionsEnabled);
+        set => SetOption(ref isAlwaysAdvancedLaunchOptionsEnabled, SettingEntry.IsAlwaysAdvancedLaunchOptionsEnabled, value);
+    }
+
+    /// <summary>
+    /// 星穹铁道 游戏路径
+    /// </summary>
+    public string StarRailGamePath
+    {
+        get => GetOption(ref starRailGamePath, SettingEntry.StarRailGamePath);
+        set => SetOption(ref starRailGamePath, SettingEntry.StarRailGamePath, value);
     }
 
     private static NameValue<string> ToNameValue(CultureInfo info)

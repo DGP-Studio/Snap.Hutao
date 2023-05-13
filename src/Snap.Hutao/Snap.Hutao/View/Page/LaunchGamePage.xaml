@@ -203,7 +203,7 @@
                                     SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
                             </clw:SettingsCard>
 
-                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding AdvencedFeatureVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}"/>
                                 <clw:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesDescription}"

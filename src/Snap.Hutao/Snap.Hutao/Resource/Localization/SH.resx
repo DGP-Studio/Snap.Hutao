@@ -1546,7 +1546,7 @@
     <value>设置路径</value>
   </data>
   <data name="ViewPageSettingSetGamePathHeader" xml:space="preserve">
-    <value>游戏路径</value>
+    <value>原神 游戏路径</value>
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>设置游戏路径时，请选择游戏本体（YuanShen.exe 或 GenshinImpact.exe）而不是启动器（launcher.exe）</value>
@@ -2012,5 +2012,65 @@
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
+  </data>
+  <data name="ViewDialogSettingSwitchToStarRailTitle" xml:space="preserve">
+    <value>是否切换至星穹铁道工具箱</value>
+  </data>
+  <data name="ViewDialogSettingSwitchToStarRailToolsContent" xml:space="preserve">
+    <value>切换到星穹铁道工具箱，这是一个测试的项目，还有许多功能未被完善。</value>
+  </data>
+  <data name="ViewPageSettingSwitchBetweenStarRailOrGenshinToolActionIconToolTip" xml:space="preserve">
+    <value>在 原神 和 星穹铁道 工具箱间互相切换</value>
+  </data>
+  <data name="ViewPageSettingSwitchBetweenStarRailOrGenshinToolDescription" xml:space="preserve">
+    <value>用于让胡桃在原神工具箱和星穹铁道工具箱之间互相切换</value>
+  </data>
+  <data name="ViewPageSettingSwitchBetweenStarRailOrGenshinToolHeaderGenshin" xml:space="preserve">
+    <value>切换至原神工具箱</value>
+  </data>
+  <data name="ViewPageSettingSwitchBetweenStarRailOrGenshinToolHeaderStarRail" xml:space="preserve">
+    <value>切换至星穹铁道工具箱</value>
+  </data>
+  <data name="ViewDialogSettingExcludeSelfStartContent" xml:space="preserve">
+    <value>是否要取消胡桃的自启动？下次启动电脑时胡桃将不会被启动</value>
+  </data>
+  <data name="ViewDialogSettingExcludeSelfStartSuccessfulContent" xml:space="preserve">
+    <value>自启动取消成功！下次电脑启动时将不会自动启动胡桃</value>
+  </data>
+  <data name="ViewDialogSettingExcludeSelfStartTitle" xml:space="preserve">
+    <value>是否要取消胡桃的自启动</value>
+  </data>
+  <data name="ViewDialogSettingIncludeSelfStartContent" xml:space="preserve">
+    <value>是否要将胡桃加入自启动列表？他将会在下次启动电脑时被启动</value>
+  </data>
+  <data name="ViewDialogSettingIncludeSelfStartSuccessfulContent" xml:space="preserve">
+    <value>自启动设置成功！下次电脑启动时将自动启动胡桃</value>
+  </data>
+  <data name="ViewDialogSettingIncludeSelfStartTitle" xml:space="preserve">
+    <value>是否要将胡桃加入自启动</value>
+  </data>
+  <data name="ViewPageSettingAlwaysAdvancedLaunchDescription" xml:space="preserve">
+    <value>每次胡桃启动都将是以管理员模式启动</value>
+  </data>
+  <data name="ViewPageSettingAlwaysAdvancedLaunchHeader" xml:space="preserve">
+    <value>自动以管理员模式调用胡桃</value>
+  </data>
+  <data name="ViewPageSettingExcludeInSelfStartHeader" xml:space="preserve">
+    <value>取消自启动</value>
+  </data>
+  <data name="ViewPageSettingIncludeInSelfStartActionIconToolTip" xml:space="preserve">
+    <value>使胡桃加入自动启动列表名单中</value>
+  </data>
+  <data name="ViewPageSettingIncludeInSelfStartDescription" xml:space="preserve">
+    <value>使胡桃在每次电脑启动时伴随启动</value>
+  </data>
+  <data name="ViewPageSettingIncludeInSelfStartHeader" xml:space="preserve">
+    <value>添加自启动</value>
+  </data>
+  <data name="ViewPageSettingSetGameStarRailPathHint" xml:space="preserve">
+    <value>设置游戏路径时，请选择游戏本体（StarRail.exe）而不是启动器（launcher.exe）</value>
+  </data>
+  <data name="ViewPageSettingSetStarRailGamePathHeader" xml:space="preserve">
+    <value>星穹铁道 游戏路径</value>
   </data>
 </root>

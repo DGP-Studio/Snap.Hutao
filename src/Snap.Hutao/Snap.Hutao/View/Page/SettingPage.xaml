@@ -123,11 +123,13 @@
                 </clw:SettingsCard>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGameHeader}"/>
+
                 <InfoBar
                     IsClosable="False"
                     IsOpen="True"
+                    Severity="Informational"
                     Message="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"
-                    Severity="Informational"/>
+                    Visibility="{Binding IsSwitchToStarRailTool, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                 <clw:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
@@ -135,7 +137,23 @@
                     Description="{Binding Options.GamePath}"
                     Header="{shcm:ResourceString Name=ViewPageSettingSetGamePathHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7FC;}"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True"
+                    Visibility="{Binding IsSwitchToStarRailTool, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                <InfoBar
+                    IsClosable="False"
+                    IsOpen="True"
+                    Severity="Informational"
+                    Message="{shcm:ResourceString Name=ViewPageSettingSetGameStarRailPathHint}"
+                    Visibility="{Binding IsSwitchToStarRailTool, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <clw:SettingsCard
+                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
+                    Command="{Binding SetGamePathCommand}"
+                    Description="{Binding Options.StarRailGamePath}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingSetStarRailGamePathHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7FC;}"
+                    IsClickEnabled="True"
+                    Visibility="{Binding IsSwitchToStarRailTool, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <clw:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingDeleteCacheAction}"
@@ -194,6 +212,22 @@
                     Description="对当前选中的账号进行签到"
                     Header="米游社每日签到"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE9D5;}"
+                    IsClickEnabled="True"/>
+                <clw:SettingsCard
+                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSwitchBetweenStarRailOrGenshinToolActionIconToolTip}"
+                    Command="{Binding Experimental.SwitchToStarRailToolCommand}"
+                    Description="{shcm:ResourceString Name=ViewPageSettingSwitchBetweenStarRailOrGenshinToolDescription}"
+                    Header="{Binding SwitchToStarRailToolsOrGenshinToolsHeaderInfo}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xF1CB;}"
+                    IsClickEnabled="True"/>
+                <clw:SettingsCard
+                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingIncludeInSelfStartActionIconToolTip}"
+                    Command="{Binding Experimental.IncludeInSelfStartCommand}"
+                    Description="{shcm:ResourceString Name=ViewPageSettingIncludeInSelfStartDescription}"
+                    Header="{Binding IncludeInSelfStartHeaderInfo}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xF83D;}"
                     IsClickEnabled="True"/>
 
                 <TextBlock

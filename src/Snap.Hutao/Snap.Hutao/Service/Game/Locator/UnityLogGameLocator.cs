@@ -21,7 +21,7 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
     public string Name { get => nameof(UnityLogGameLocator); }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> LocateGamePathAsync()
+    public async Task<ValueResult<bool, string>> LocateGamePathAsync(bool isSwitchToStarRailTool = false)
     {
         await taskContext.SwitchToBackgroundAsync();
 

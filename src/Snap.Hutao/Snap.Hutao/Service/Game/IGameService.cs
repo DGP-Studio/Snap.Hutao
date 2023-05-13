@@ -19,6 +19,11 @@ internal interface IGameService
     ObservableCollection<GameAccount> GameAccountCollection { get; }
 
     /// <summary>
+    /// 是否切换到 星穹铁道 工具箱
+    /// </summary>
+    bool IsSwitchToStarRailTools { get; }
+
+    /// <summary>
     /// 将账号绑定到对应的Uid
     /// 清除老账号的绑定状态
     /// </summary>

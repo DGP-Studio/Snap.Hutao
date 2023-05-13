@@ -2041,6 +2041,78 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 是否要取消胡桃的自启动？下次启动电脑时胡桃将不会被启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingExcludeSelfStartContent {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingExcludeSelfStartContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自启动取消成功！下次电脑启动时将不会自动启动胡桃 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingExcludeSelfStartSuccessfulContent {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingExcludeSelfStartSuccessfulContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否要取消胡桃的自启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingExcludeSelfStartTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingExcludeSelfStartTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否要将胡桃加入自启动列表？他将会在下次启动电脑时被启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingIncludeSelfStartContent {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingIncludeSelfStartContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自启动设置成功！下次电脑启动时将自动启动胡桃 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingIncludeSelfStartSuccessfulContent {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingIncludeSelfStartSuccessfulContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否要将胡桃加入自启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingIncludeSelfStartTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingIncludeSelfStartTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 是否切换至星穹铁道工具箱 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingSwitchToStarRailTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingSwitchToStarRailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 切换到星穹铁道工具箱，这是一个测试的项目，还有许多功能未被完善。 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogSettingSwitchToStarRailToolsContent {
+            get {
+                return ResourceManager.GetString("ViewDialogSettingSwitchToStarRailToolsContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 立即前往 的本地化字符串。
         /// </summary>
         internal static string ViewDialogUserDocumentAction {
@@ -4327,6 +4399,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 每次胡桃启动都将是以管理员模式启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingAlwaysAdvancedLaunchDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingAlwaysAdvancedLaunchDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自动以管理员模式调用胡桃 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingAlwaysAdvancedLaunchHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingAlwaysAdvancedLaunchHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 外观 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingApperanceHeader {
@@ -4552,6 +4642,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 取消自启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingExcludeInSelfStartHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingExcludeInSelfStartHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 您解锁了含有违反原神服务条款风险的「启动游戏-高级功能」，将自行承担任何不良后果。 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingFeaturesDangerousHint {
@@ -4611,6 +4710,33 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingHutaoPassportHeader {
             get {
                 return ResourceManager.GetString("ViewPageSettingHutaoPassportHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 使胡桃加入自动启动列表名单中 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingIncludeInSelfStartActionIconToolTip {
+            get {
+                return ResourceManager.GetString("ViewPageSettingIncludeInSelfStartActionIconToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 使胡桃在每次电脑启动时伴随启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingIncludeInSelfStartDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingIncludeInSelfStartDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 添加自启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingIncludeInSelfStartHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingIncludeInSelfStartHeader", resourceCulture);
             }
         }
         
@@ -4714,7 +4840,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 游戏路径 的本地化字符串。
+        ///   查找类似 原神 游戏路径 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingSetGamePathHeader {
             get {
@@ -4728,6 +4854,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingSetGamePathHint {
             get {
                 return ResourceManager.GetString("ViewPageSettingSetGamePathHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 设置游戏路径时，请选择游戏本体（StarRail.exe）而不是启动器（launcher.exe） 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetGameStarRailPathHint {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetGameStarRailPathHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 星穹铁道 游戏路径 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetStarRailGamePathHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetStarRailGamePathHeader", resourceCulture);
             }
         }
         
@@ -4764,6 +4908,42 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingStorageSetAction {
             get {
                 return ResourceManager.GetString("ViewPageSettingStorageSetAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在 原神 和 星穹铁道 工具箱间互相切换 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSwitchBetweenStarRailOrGenshinToolActionIconToolTip {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSwitchBetweenStarRailOrGenshinToolActionIconToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用于让胡桃在原神工具箱和星穹铁道工具箱之间互相切换 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSwitchBetweenStarRailOrGenshinToolDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSwitchBetweenStarRailOrGenshinToolDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 切换至原神工具箱 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSwitchBetweenStarRailOrGenshinToolHeaderGenshin {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSwitchBetweenStarRailOrGenshinToolHeaderGenshin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 切换至星穹铁道工具箱 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSwitchBetweenStarRailOrGenshinToolHeaderStarRail {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSwitchBetweenStarRailOrGenshinToolHeaderStarRail", resourceCulture);
             }
         }
         

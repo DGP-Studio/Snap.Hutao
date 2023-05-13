@@ -43,4 +43,9 @@ internal static class GameConstants
     /// 外服进程名
     /// </summary>
     public const string GenshinImpactProcessName = "GenshinImpact";
+
+    /// <summary>
+    /// 星穹铁道 文件名
+    /// </summary>
+    public const string StarRailFileName = "StarRail.exe";
 }

@@ -62,6 +62,11 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     public HutaoUserOptions UserOptions { get => hutaoUserOptions; }
 
     /// <summary>
+    /// 是否切换到 星穹铁道 工具箱
+    /// </summary>
+    public bool IsSwitchToStarRailTool { get => StaticResource.IsSwitchToStarRailTool(); }
+
+    /// <summary>
     /// 选中的背景类型
     /// </summary>
     public NameValue<BackdropType>? SelectedBackdropType
@@ -109,6 +114,37 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         get => Activation.GetElevated();
     }
 
+    /// <summary>
+    /// 切换到星穹铁道工具或者箱原神工具箱
+    /// </summary>
+    public string SwitchToStarRailToolsOrGenshinToolsHeaderInfo
+    {
+        get
+        {
+            return gameService.IsSwitchToStarRailTools switch
+            {
+                false => SH.ViewPageSettingSwitchBetweenStarRailOrGenshinToolHeaderStarRail,
+                true => SH.ViewPageSettingSwitchBetweenStarRailOrGenshinToolHeaderGenshin,
+            };
+        }
+    }
+
+    /// <summary>
+    /// 添加自启动的头信息
+    /// 添加自启动 / 取消自启动
+    /// </summary>
+    public string IncludeInSelfStartHeaderInfo
+    {
+        get
+        {
+            return Activation.IsIncludedInSelfStart() switch
+            {
+                false => SH.ViewPageSettingIncludeInSelfStartHeader,
+                true => SH.ViewPageSettingExcludeInSelfStartHeader,
+            };
+        }
+    }
+
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
     {
@@ -120,11 +156,16 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     {
         IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>().Pick(nameof(ManualGameLocator));
 
-        (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
-        if (isOk)
+        (bool isOk, string path) = await locator.LocateGamePathAsync(gameService.IsSwitchToStarRailTools).ConfigureAwait(false);
+        if (isOk && !gameService.IsSwitchToStarRailTools)
         {
             await taskContext.SwitchToMainThreadAsync();
             Options.GamePath = path;
+        }
+        else if (isOk && gameService.IsSwitchToStarRailTools)
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            Options.StarRailGamePath = path;
         }
     }
 

@@ -47,6 +47,39 @@ internal static class StaticResource
             || (!LocalSetting.Get(SettingKeys.StaticResourceV4Contract, false));
     }
 
+    /// <summary>
+    /// 是否切换到 星穹铁道 服务器
+    /// </summary>
+    /// <returns>是否切换</returns>
+    public static bool IsSwitchToStarRailTool()
+    {
+        return LocalSetting.Get(SettingKeys.IsSwitchToStarRailTool, false);
+    }
+
+    /// <summary>
+    /// 星穹铁道 服务器 和 原神 服务器之间的切换
+    /// </summary>
+    public static void SwitchBetweenStarRailOrGenshin()
+    {
+        LocalSetting.Set(SettingKeys.IsSwitchToStarRailTool, !IsSwitchToStarRailTool());
+    }
+
+    /// <summary>
+    /// 判断是否需要自启动或者设置状态
+    /// </summary>
+    /// <param name="set">是否设置</param>
+    /// <param name="state">状态</param>
+    /// <returns>是否需要自启动</returns>
+    public static bool IsIncludeSelfStartOrSetState(bool set = false, bool state = false)
+    {
+        if (set)
+        {
+            LocalSetting.Set(SettingKeys.IsIncludeSelfStart, state);
+        }
+
+        return LocalSetting.Get(SettingKeys.IsIncludeSelfStart, false);
+    }
+
     private static void SetContractsState(bool state)
     {
         LocalSetting.Set(SettingKeys.StaticResourceV1Contract, state);

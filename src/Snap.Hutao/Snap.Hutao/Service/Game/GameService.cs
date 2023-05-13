@@ -6,6 +6,7 @@ using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Game.Locator;
@@ -56,6 +57,12 @@ internal sealed partial class GameService : IGameService
 
             return gameAccounts;
         }
+    }
+
+    /// <inheritdoc/>
+    public bool IsSwitchToStarRailTools
+    {
+        get => StaticResource.IsSwitchToStarRailTool();
     }
 
     /// <inheritdoc/>
@@ -275,33 +282,56 @@ internal sealed partial class GameService : IGameService
         }
 
         string gamePath = appOptions.GamePath;
-        if (string.IsNullOrWhiteSpace(gamePath))
+        string starRailGamePath = appOptions.StarRailGamePath;
+        Process? gameProcess = null;
+        if (IsSwitchToStarRailTools)
+        {
+            if (string.IsNullOrWhiteSpace(starRailGamePath))
+            {
+                // TODO: throw exceptiopn
+                return;
+            }
+
+            gameProcess = ProcessInterop.PrepareGameProcess(launchOptions, starRailGamePath);
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(gamePath))
+            {
+                // TODO: throw exception
+                return;
+            }
+
+            gameProcess = ProcessInterop.PrepareGameProcess(launchOptions, gamePath);
+        }
+
+        if (gameProcess == null)
         {
             // TODO: throw exception
             return;
         }
 
-        Process game = ProcessInterop.PrepareGameProcess(launchOptions, gamePath);
-
         try
         {
             bool isfirstInstance = Interlocked.Increment(ref runningGamesCounter) == 1;
 
-            game.Start();
+            gameProcess.Start();
 
+            // This options is not apply to StarRail now
             bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled;
-            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance)
+            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance && !IsSwitchToStarRailTools)
             {
-                ProcessInterop.DisableProtection(game, gamePath);
+                ProcessInterop.DisableProtection(gameProcess, gamePath);
             }
 
-            if (isAdvancedOptionsAllowed && launchOptions.UnlockFps)
+            // This options is not apply to StarRail now
+            if (isAdvancedOptionsAllowed && launchOptions.UnlockFps && !IsSwitchToStarRailTools)
             {
-                await ProcessInterop.UnlockFpsAsync(serviceProvider, game).ConfigureAwait(false);
+                await ProcessInterop.UnlockFpsAsync(serviceProvider, gameProcess).ConfigureAwait(false);
             }
             else
             {
-                await game.WaitForExitAsync().ConfigureAwait(false);
+                await gameProcess.WaitForExitAsync().ConfigureAwait(false);
             }
         }
         finally

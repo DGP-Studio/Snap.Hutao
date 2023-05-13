@@ -74,5 +74,15 @@ internal static class SettingKeys
     /// 静态资源合约V5 刷新 AvatarIcon
     /// </summary>
     public const string StaticResourceV5Contract = "StaticResourceV5Contract";
+
+    /// <summary>
+    /// 是否切换到 星穹铁道 服务器
+    /// </summary>
+    public const string IsSwitchToStarRailTool = "IsSwitchToStarRailTool";
+
+    /// <summary>
+    /// 是否加入自启动计划
+    /// </summary>
+    public const string IsIncludeSelfStart = "IsIncludeSelfStart";
     #endregion
 }

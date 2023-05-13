@@ -97,6 +97,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [SuppressMessage("", "CA1822")]
     public bool IsElevated { get => Activation.GetElevated(); }
 
+    /// <summary>
+    /// 展示风险功能的可见性
+    /// </summary>
+    public bool AdvencedFeatureVisibility
+    {
+        get => IsElevated && AppOptions.IsAdvancedLaunchOptionsEnabled && !gameService.IsSwitchToStarRailTools;
+    }
+
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
