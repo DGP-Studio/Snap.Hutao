@@ -10,12 +10,6 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-#if !DEBUG_AS_FAKE_ELEVATED
-using System.Security.Principal;
-using Windows.ApplicationModel;
-using Windows.System.Diagnostics;
-#endif
 
 namespace Snap.Hutao.Core.LifeCycle;
 
@@ -23,10 +17,10 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// 激活
 /// </summary>
 [HighQuality]
-internal static class Activation
+[Injection(InjectAs.Singleton, typeof(IActivation))]
+[SuppressMessage("", "CA1001")]
+internal sealed class Activation : IActivation
 {
-    // TODO: make this class a dependency
-
     /// <summary>
     /// 操作
     /// </summary>
@@ -52,74 +46,23 @@ internal static class Activation
     private const string UrlActionImport = "/import";
     private const string UrlActionRefresh = "/refresh";
 
-    private static readonly WeakReference<MainWindow> MainWindowReference = new(default!);
-    private static readonly SemaphoreSlim ActivateSemaphore = new(1);
+    private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
+    private readonly WeakReference<MainWindow> mainWindowReference = new(default!);
+    private readonly SemaphoreSlim activateSemaphore = new(1);
 
     /// <summary>
-    /// 获取是否提升了权限
+    /// 构造一个新的激活
     /// </summary>
-    /// <returns>是否提升了权限</returns>
-    public static bool GetElevated()
+    /// <param name="serviceProvider">服务提供器</param>
+    public Activation(IServiceProvider serviceProvider)
     {
-#if DEBUG_AS_FAKE_ELEVATED
-        return true;
-#else
-        using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
-        {
-            WindowsPrincipal principal = new(identity);
-            return principal.IsInRole(WindowsBuiltInRole.Administrator);
-        }
-#endif
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        this.serviceProvider = serviceProvider;
     }
 
-    /// <summary>
-    /// 以管理员模式重启
-    /// </summary>
-    /// <returns>任务</returns>
-    public static async ValueTask RestartAsElevatedAsync()
-    {
-        if (!GetElevated())
-        {
-            if (Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine)!
-                .Split(';')
-                .Any(path => path.EndsWith("System32\\WindowsPowerShell\\v1.0", StringComparison.OrdinalIgnoreCase)))
-            {
-                // TODO: throw exception
-                return;
-            }
-
-            string arguments = $"/c start powershell.exe " +
-                $"-ExecutionPolicy Bypass -Command \"Start-Process " +
-                $"-Verb RunAs " +
-                $"-FilePath 'shell:AppsFolder\\{Package.Current.Id.FamilyName}!App' \"";
-
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                WindowStyle = ProcessWindowStyle.Hidden,
-                UseShellExecute = true,
-                WorkingDirectory = Environment.CurrentDirectory,
-                FileName = "cmd.exe",
-                Arguments = arguments,
-            };
-
-            using (Process process = new Process { StartInfo = startInfo })
-            {
-                process.Start();
-            }
-
-            await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
-
-            Process.GetCurrentProcess().Kill();
-        }
-    }
-
-    /// <summary>
-    /// 响应激活事件
-    /// 激活事件一般不会在UI线程上触发
-    /// </summary>
-    /// <param name="sender">发送方</param>
-    /// <param name="args">激活参数</param>
-    public static void Activate(object? sender, AppActivationArguments args)
+    /// <inheritdoc/>
+    public void Activate(object? sender, AppActivationArguments args)
     {
         _ = sender;
         if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
@@ -128,12 +71,8 @@ internal static class Activation
         }
     }
 
-    /// <summary>
-    /// 触发激活事件
-    /// </summary>
-    /// <param name="sender">发送方</param>
-    /// <param name="args">激活参数</param>
-    public static void NonRedirectToActivate(object? sender, AppActivationArguments args)
+    /// <inheritdoc/>
+    public void NonRedirectToActivate(object? sender, AppActivationArguments args)
     {
         _ = sender;
         if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
@@ -142,11 +81,20 @@ internal static class Activation
         }
     }
 
-    /// <summary>
-    /// 响应通知激活事件
-    /// </summary>
-    /// <param name="args">参数</param>
-    public static void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)
+    /// <inheritdoc/>
+    public void InitializeWith(AppInstance appInstance)
+    {
+        appInstance.Activated += Activate;
+        ToastNotificationManagerCompat.OnActivated += NotificationActivate;
+    }
+
+    /// <inheritdoc/>
+    public bool IsIncludedInSelfStart(bool set = false)
+    {
+        return StaticResource.IsIncludeSelfStartOrSetState(set, !StaticResource.IsIncludeSelfStartOrSetState()); ;
+    }
+
+    private void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)
     {
         ToastArguments toastArgs = ToastArguments.Parse(args.Argument);
 
@@ -160,32 +108,18 @@ internal static class Activation
         }
     }
 
-    /// <summary>
-    /// 是否加入了自启动计划
-    /// </summary>
-    /// <param name="set">是否设置</param>
-    /// <returns>是或否</returns>
-    public static bool IsIncludedInSelfStart(bool set = false)
+    private async Task HandleActivationAsync(AppActivationArguments args, bool isRedirected)
     {
-        return StaticResource.IsIncludeSelfStartOrSetState(set, !StaticResource.IsIncludeSelfStartOrSetState()); ;
-    }
-
-    /// <summary>
-    /// 异步响应激活事件
-    /// </summary>
-    /// <returns>任务</returns>
-    private static async Task HandleActivationAsync(AppActivationArguments args, bool isRedirected)
-    {
-        if (ActivateSemaphore.CurrentCount > 0)
+        if (activateSemaphore.CurrentCount > 0)
         {
-            using (await ActivateSemaphore.EnterAsync().ConfigureAwait(false))
+            using (await activateSemaphore.EnterAsync().ConfigureAwait(false))
             {
                 await HandleActivationCoreAsync(args, isRedirected).ConfigureAwait(false);
             }
         }
     }
 
-    private static async Task HandleActivationCoreAsync(AppActivationArguments args, bool isRedirected)
+    private async Task HandleActivationCoreAsync(AppActivationArguments args, bool isRedirected)
     {
         if (args.Kind == ExtendedActivationKind.Protocol)
         {
@@ -216,7 +150,7 @@ internal static class Activation
         }
     }
 
-    private static async Task HandleNormalLaunchActionAsync()
+    private async Task HandleNormalLaunchActionAsync()
     {
         // Increase launch times
         LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
@@ -224,28 +158,29 @@ internal static class Activation
         await WaitMainWindowAsync().ConfigureAwait(false);
     }
 
-    private static async Task WaitMainWindowAsync()
+    private async Task WaitMainWindowAsync()
     {
-        IServiceProvider serviceProvider = Ioc.Default;
-        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        await taskContext.SwitchToMainThreadAsync();
+        if (!mainWindowReference.TryGetTarget(out _))
+        {
+            await taskContext.SwitchToMainThreadAsync();
 
-        MainWindowReference.SetTarget(serviceProvider.GetRequiredService<MainWindow>());
+            mainWindowReference.SetTarget(serviceProvider.GetRequiredService<MainWindow>());
 
-        serviceProvider
-            .GetRequiredService<IMetadataService>()
-            .As<IMetadataServiceInitialization>()?
-            .InitializeInternalAsync()
-            .SafeForget();
+            serviceProvider
+                .GetRequiredService<IMetadataService>()
+                .As<IMetadataServiceInitialization>()?
+                .InitializeInternalAsync()
+                .SafeForget();
 
-        serviceProvider
-            .GetRequiredService<IHutaoUserService>()
-            .As<IHutaoUserServiceInitialization>()?
-            .InitializeInternalAsync()
-            .SafeForget();
+            serviceProvider
+                .GetRequiredService<IHutaoUserService>()
+                .As<IHutaoUserServiceInitialization>()?
+                .InitializeInternalAsync()
+                .SafeForget();
+        }
     }
 
-    private static async Task HandleUrlActivationAsync(Uri uri, bool isRedirected)
+    private async Task HandleUrlActivationAsync(Uri uri, bool isRedirected)
     {
         UriBuilder builder = new(uri);
 
@@ -276,7 +211,7 @@ internal static class Activation
         }
     }
 
-    private static async Task HandleAchievementActionAsync(string action, string parameter, bool isRedirected)
+    private async Task HandleAchievementActionAsync(string action, string parameter, bool isRedirected)
     {
         _ = parameter;
         _ = isRedirected;
@@ -284,11 +219,10 @@ internal static class Activation
         {
             case UrlActionImport:
                 {
-                    ITaskContext taskContext = Ioc.Default.GetRequiredService<ITaskContext>();
                     await taskContext.SwitchToMainThreadAsync();
 
                     INavigationAwaiter navigationAwaiter = new NavigationExtra(ImportUIAFFromClipboard);
-                    await Ioc.Default
+                    await serviceProvider
                         .GetRequiredService<INavigationService>()
                         .NavigateAsync<View.Page.AchievementPage>(navigationAwaiter, true)
                         .ConfigureAwait(false);
@@ -297,14 +231,14 @@ internal static class Activation
         }
     }
 
-    private static async Task HandleDailyNoteActionAsync(string action, string parameter, bool isRedirected)
+    private async Task HandleDailyNoteActionAsync(string action, string parameter, bool isRedirected)
     {
         _ = parameter;
         switch (action)
         {
             case UrlActionRefresh:
                 {
-                    await Ioc.Default
+                    await serviceProvider
                         .GetRequiredService<IDailyNoteService>()
                         .RefreshDailyNotesAsync()
                         .ConfigureAwait(false);
@@ -321,15 +255,15 @@ internal static class Activation
         }
     }
 
-    private static async Task HandleLaunchGameActionAsync(string? uid = null)
+    private async Task HandleLaunchGameActionAsync(string? uid = null)
     {
-        IServiceProvider serviceProvider = Ioc.Default;
-        IMemoryCache memoryCache = serviceProvider.GetRequiredService<IMemoryCache>();
-        memoryCache.Set(ViewModel.Game.LaunchGameViewModel.DesiredUid, uid);
-        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        serviceProvider
+            .GetRequiredService<IMemoryCache>()
+            .Set(ViewModel.Game.LaunchGameViewModel.DesiredUid, uid);
+
         await taskContext.SwitchToMainThreadAsync();
 
-        if (!MainWindowReference.TryGetTarget(out _))
+        if (!mainWindowReference.TryGetTarget(out _))
         {
             _ = serviceProvider.GetRequiredService<LaunchGameWindow>();
         }

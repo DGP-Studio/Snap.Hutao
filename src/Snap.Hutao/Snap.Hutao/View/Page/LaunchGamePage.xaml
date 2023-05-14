@@ -188,13 +188,19 @@
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE76F;}">
-                                <NumberBox Width="156" Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
+                                <NumberBox
+                                    Width="156"
+                                    Padding="10,6,0,0"
+                                    Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
                             </clw:SettingsCard>
                             <clw:SettingsCard
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE784;}">
-                                <NumberBox Width="156" Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
+                                <NumberBox
+                                    Width="156"
+                                    Padding="10,6,0,0"
+                                    Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
                             </clw:SettingsCard>
 
                             <clw:SettingsCard
@@ -216,33 +222,30 @@
                                     Visibility="{Binding Options.DllInjector, Converter={StaticResource BoolToVisibilityRevertConverter}}"
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7C4;}">
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7C4;}"
+                                    IsEnabled="{Binding HutaoOptions.IsElevated}">
                                     <ToggleSwitch Width="120" IsOn="{Binding Options.MultipleInstances, Mode=TwoWay}"/>
                                 </clw:SettingsCard>
                                 <clw:SettingsCard
                                     Visibility="{Binding Options.DllInjector, Converter={StaticResource BoolToVisibilityRevertConverter}}"
-                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE785;}">
-                                    <ToggleSwitch
-                                        Width="120"
-                                        IsOn="{Binding Options.UnlockFps, Mode=TwoWay}"
-                                        OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
-                                        OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
-                                </clw:SettingsCard>
-                                <clw:SettingsCard Header="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsHeader}"
-                                                  Visibility="{Binding Options.DllInjector, Converter={StaticResource BoolToVisibilityRevertConverter}}">
-                                    <clw:SettingsCard.Description>
-                                        <StackPanel>
-                                            <TextBlock Text="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsDescription}"/>
-                                            <TextBlock Text="{Binding Options.TargetFps}"/>
-                                        </StackPanel>
-                                    </clw:SettingsCard.Description>
-                                    <Slider
-                                        Width="400"
-                                        Maximum="360"
-                                        Minimum="60"
-                                        Value="{Binding Options.TargetFps, Mode=TwoWay}"/>
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE785;}"
+                                    IsEnabled="{Binding HutaoOptions.IsElevated}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <NumberBox
+                                            MinWidth="156"
+                                            Padding="10,8,0,0"
+                                            Maximum="720"
+                                            Minimum="60"
+                                            SpinButtonPlacementMode="Inline"
+                                            Value="{Binding Options.TargetFps, Mode=TwoWay}"/>
+                                        <ToggleSwitch
+                                            Width="120"
+                                            IsOn="{Binding Options.UnlockFps, Mode=TwoWay}"
+                                            OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
+                                            OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
+                                    </StackPanel>
                                 </clw:SettingsCard>
 
                                 <clw:SettingsCard

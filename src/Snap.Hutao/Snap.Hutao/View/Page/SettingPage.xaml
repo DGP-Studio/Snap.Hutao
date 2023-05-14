@@ -245,7 +245,7 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
-                    IsEnabled="{Binding IsElevated}">
+                    IsEnabled="{Binding HutaoOptions.IsElevated}">
                     <ToggleSwitch Width="120" IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                 </clw:SettingsCard>
                 <InfoBar

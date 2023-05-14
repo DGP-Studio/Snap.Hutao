@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
@@ -35,6 +36,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
+    private readonly HutaoOptions hutaoOptions;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
     private readonly IMemoryCache memoryCache;
@@ -83,6 +85,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     public LaunchOptions Options { get => launchOptions; }
 
     /// <summary>
+    /// 胡桃选项
+    /// </summary>
+    public HutaoOptions HutaoOptions { get => hutaoOptions; }
+
+    /// <summary>
     /// 应用选项
     /// </summary>
     public AppOptions AppOptions { get => appOptions; }
@@ -93,17 +100,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     public GameResource? GameResource { get => gameResource; set => SetProperty(ref gameResource, value); }
 
     /// <summary>
-    /// 是否提权
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public bool IsElevated { get => Activation.GetElevated(); }
-
-    /// <summary>
     /// 展示风险功能的可见性
     /// </summary>
     public bool AdvencedFeatureVisibility
     {
-        get => IsElevated && AppOptions.IsAdvancedLaunchOptionsEnabled && !gameService.IsSwitchToStarRailTools;
+        get => hutaoOptions.IsElevated && AppOptions.IsAdvancedLaunchOptionsEnabled && !gameService.IsSwitchToStarRailTools;
     }
 
     /// <summary>

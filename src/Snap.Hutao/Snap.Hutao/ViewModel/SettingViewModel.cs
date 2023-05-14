@@ -106,15 +106,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     public ExperimentalFeaturesViewModel Experimental { get => experimental; }
 
     /// <summary>
-    /// 是否提权
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public bool IsElevated
-    {
-        get => Activation.GetElevated();
-    }
-
-    /// <summary>
     /// 切换到星穹铁道工具或者箱原神工具箱
     /// </summary>
     public string SwitchToStarRailToolsOrGenshinToolsHeaderInfo

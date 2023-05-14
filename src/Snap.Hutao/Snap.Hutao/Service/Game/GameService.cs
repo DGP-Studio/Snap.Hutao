@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -36,6 +36,7 @@ internal sealed partial class GameService : IGameService
     private readonly PackageConverter packageConverter;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
+    private readonly HutaoOptions hutaoOptions;
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
@@ -316,7 +317,7 @@ internal sealed partial class GameService : IGameService
             }
 
             // This options is not apply to StarRail now
-            bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled && !IsSwitchToStarRailTools;
+            bool isAdvancedOptionsAllowed = hutaoOptions.IsElevated() && appOptions.IsAdvancedLaunchOptionsEnabled && !IsSwitchToStarRailTools;
             if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance)
             {
                 ProcessInterop.DisableProtection(gameProcess, gamePath);
