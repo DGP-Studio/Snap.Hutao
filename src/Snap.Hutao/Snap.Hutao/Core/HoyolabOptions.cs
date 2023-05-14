@@ -41,7 +41,7 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
     /// <summary>
     /// Hoyolab Rpc 版本
     /// </summary>
-    public const string XrpcVersionOversea = "2.30.0";
+    public const string XrpcVersionOversea = "2.30.1";
 
     // https://github.com/UIGF-org/Hoyolab.Salt
     private static readonly ImmutableDictionary<SaltType, string> SaltsInner = new Dictionary<SaltType, string>()
@@ -53,7 +53,11 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
         [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
 
         // This SALT is not reliable
-        [SaltType.OSK2] = "6cqshh5dhw73bzxn20oexa9k516chk7s",
+        // [SaltType.OSK2] = "6cqshh5dhw73bzxn20oexa9k516chk7s",
+        [SaltType.OSK2] = "599uqkwc0dlqu3h6epzjzfhgyyrd44ae",
+        [SaltType.OSLK2] = "rk4xg2hakoi26nljpr099fv9fck1ah10",
+        [SaltType.OSX4] = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt",
+        [SaltType.OSX6] = "okr4obncj8bw5a65hbnn5oo6ixjc3l9w",
     }.ToImmutableDictionary();
 
     private static string? deviceId;
