@@ -85,11 +85,6 @@ internal static class ApiOsEndpoints
         return $"{ApiAccountOsAuthApi}/getActionTicketBySToken?action_type={actionType}&stoken={Uri.EscapeDataString(stoken)}&uid={uid}";
     }
 
-    /// <summary>
-    /// Game Authkey
-    /// </summary>
-    public static string BindingGenAuthKey = $"{ApiAccountOsBindingApi}/genAuthKey";
-
     #endregion
 
     #region ApiOsTaKumiApi
@@ -109,6 +104,12 @@ internal static class ApiOsEndpoints
     {
         return $"{ApiAccountOsBindingApi}/getUserGameRolesByLtoken?game_biz=hk4e_global&region={region}";
     }
+
+    /// <summary>
+    /// Game Authkey
+    /// </summary>
+    public const string BindingGenAuthKey = $"{ApiAccountOsBindingApi}/genAuthKey";
+
 
     #endregion
 
@@ -257,13 +258,15 @@ internal static class ApiOsEndpoints
     private const string ApiOsTakumi = "https://api-os-takumi.hoyoverse.com";
     private const string ApiOsTakumiBindingApi = $"{ApiOsTakumi}/binding/api";
 
-    private const string ApiAccountOs = "https://api-account-os.hoyolab.com";
+    // private const string ApiAccountOs = "https://api-account-os.hoyolab.com";
+    private const string ApiAccountOs = "https://api-account-os.hoyoverse.com";
     private const string ApiAccountOsBindingApi = $"{ApiAccountOs}/binding/api";
     private const string ApiAccountOsAuthApi = $"{ApiAccountOs}/account/auth/api";
 
-    private const string BbsApiOs = "https://bbs-api-os.hoyolab.com";
-    private const string BbsApiOsGameRecordAppApi = $"{BbsApiOs}/game_record/app/genshin/api";
+    // private const string BbsApiOs = "https://bbs-api-os.hoyolab.com";
     // private const string BbsApiOsGameRecordApi = $"{BbsApiOs}/game_record/genshin/api";
+    private const string BbsApiOs = "https://bbs-api-os.hoyoverse.com";
+    private const string BbsApiOsGameRecordAppApi = $"{BbsApiOs}/game_record/app/genshin/api";
 
     private const string Hk4eApiOs = "https://hk4e-api-os.hoyoverse.com";
     private const string Hk4eApiOsGachaInfoApi = $"{Hk4eApiOs}/event/gacha_info/api";
@@ -285,6 +288,11 @@ internal static class ApiOsEndpoints
     /// Act hoyolab referer
     /// </summary>
     public const string ActHoyolabReferer = "https://act.hoyolab.com/";
+
+    /// <summary>
+    /// App hoyolab referer
+    /// </summary>
+    public const string AppHoyolabReferer = "https://app.hoyolab.com/";
 
     #endregion
 }
