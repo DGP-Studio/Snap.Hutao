@@ -90,7 +90,7 @@ internal interface IGameService
     /// </summary>
     /// <param name="scheme">方案</param>
     /// <returns>是否更改了ini文件</returns>
-    bool SetMultiChannel(LaunchScheme scheme);
+    bool SetChannelOptions(LaunchScheme scheme);
 
     /// <summary>
     /// 检测账号
