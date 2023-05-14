@@ -156,7 +156,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     {
         IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>().Pick(nameof(ManualGameLocator));
 
-        (bool isOk, string path) = await locator.LocateGamePathAsync(gameService.IsSwitchToStarRailTools).ConfigureAwait(false);
+        (bool isOk, string path) = await locator.LocateGamePathAsync(new(gameService.IsSwitchToStarRailTools, false)).ConfigureAwait(false);
         if (isOk && !gameService.IsSwitchToStarRailTools)
         {
             await taskContext.SwitchToMainThreadAsync();

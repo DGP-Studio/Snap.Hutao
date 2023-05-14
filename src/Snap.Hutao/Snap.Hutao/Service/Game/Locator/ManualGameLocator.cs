@@ -22,26 +22,31 @@ internal sealed partial class ManualGameLocator : IGameLocator
     public string Name { get => nameof(ManualGameLocator); }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> LocateGamePathAsync(bool isSwitchToStarRailTool = false)
+    public async Task<ValueResult<bool, string>> LocateGamePathAsync(ValueResult<bool, bool> locateConfig)
     {
         await taskContext.SwitchToMainThreadAsync();
 
         FileOpenPicker picker = pickerFactory.GetFileOpenPicker(
-            PickerLocationId.Desktop,
-            SH.ServiceGameLocatorFileOpenPickerCommitText,
-            ".exe");
+                PickerLocationId.Desktop,
+                SH.ServiceGameLocatorFileOpenPickerCommitText,
+                locateConfig.Value ? ".dll" : ".exe");
 
         (bool isPickerOk, ValueFile file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
 
         if (isPickerOk)
         {
             string fileName = System.IO.Path.GetFileName(file);
-            if ((fileName == GameConstants.YuanShenFileName || fileName == GameConstants.GenshinImpactFileName) && !isSwitchToStarRailTool)
+            if (locateConfig.Value)
             {
                 return new(true, file);
             }
 
-            if (isSwitchToStarRailTool && fileName == GameConstants.StarRailFileName)
+            if ((fileName == GameConstants.YuanShenFileName || fileName == GameConstants.GenshinImpactFileName) && !locateConfig.IsOk)
+            {
+                return new(true, file);
+            }
+
+            if (locateConfig.IsOk && fileName == GameConstants.StarRailFileName)
             {
                 return new(true, file);
             }

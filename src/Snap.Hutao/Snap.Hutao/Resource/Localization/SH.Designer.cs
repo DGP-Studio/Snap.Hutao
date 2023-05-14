@@ -4102,6 +4102,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 路径 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameChooseDllPathDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameChooseDllPathDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 选择DLL的路径 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameChooseDllPathHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameChooseDllPathHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 常规 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameCommonHeader {
@@ -4116,6 +4134,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageLaunchGameConfigurationSaveHint {
             get {
                 return ResourceManager.GetString("ViewPageLaunchGameConfigurationSaveHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 可以通过胡桃来注入一些第三方运行库，请勿将其用于非法用途！ 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameDllInjectorDescription {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameDllInjectorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 DLL注入器 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageLaunchGameDllInjectorHeader {
+            get {
+                return ResourceManager.GetString("ViewPageLaunchGameDllInjectorHeader", resourceCulture);
             }
         }
         
@@ -4386,6 +4422,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageOpenScreenshotFolderAction {
             get {
                 return ResourceManager.GetString("ViewPageOpenScreenshotFolderAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 以管理员模式重启 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageRestartAsElevatedAction {
+            get {
+                return ResourceManager.GetString("ViewPageRestartAsElevatedAction", resourceCulture);
             }
         }
         

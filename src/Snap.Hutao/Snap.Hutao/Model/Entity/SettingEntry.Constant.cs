@@ -99,6 +99,16 @@ internal sealed partial class SettingEntry
     public const string MultipleInstances = "Launch.MultipleInstances";
 
     /// <summary>
+    /// 启动游戏 DLL注入器
+    /// </summary>
+    public const string DllInjector = "Launch.DllInjector";
+
+    /// <summary>
+    /// 启动游戏 DLL路径
+    /// </summary>
+    public const string DllPath = "Launch.DllPath";
+
+    /// <summary>
     /// 语言
     /// </summary>
     public const string Culture = "Culture";

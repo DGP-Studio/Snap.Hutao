@@ -17,6 +17,8 @@ using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
+using Windows.Win32.Foundation;
 using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game;
@@ -78,7 +80,7 @@ internal sealed partial class GameService : IGameService
                 // Try locate by unity log
                 ValueResult<bool, string> result = await gameLocators
                     .Pick(nameof(UnityLogGameLocator))
-                    .LocateGamePathAsync()
+                    .LocateGamePathAsync(new(IsSwitchToStarRailTools, false))
                     .ConfigureAwait(false);
 
                 if (!result.IsOk)
@@ -86,7 +88,7 @@ internal sealed partial class GameService : IGameService
                     // Try locate by registry
                     result = await gameLocators
                         .Pick(nameof(RegistryLauncherLocator))
-                        .LocateGamePathAsync()
+                        .LocateGamePathAsync(new(IsSwitchToStarRailTools, false))
                         .ConfigureAwait(false);
                 }
 
@@ -283,7 +285,6 @@ internal sealed partial class GameService : IGameService
 
         string gamePath = appOptions.GamePath;
         string starRailGamePath = appOptions.StarRailGamePath;
-        Process? gameProcess = null;
         if (IsSwitchToStarRailTools)
         {
             if (string.IsNullOrWhiteSpace(starRailGamePath))
@@ -291,8 +292,6 @@ internal sealed partial class GameService : IGameService
                 // TODO: throw exceptiopn
                 return;
             }
-
-            gameProcess = ProcessInterop.PrepareGameProcess(launchOptions, starRailGamePath);
         }
         else
         {
@@ -301,31 +300,30 @@ internal sealed partial class GameService : IGameService
                 // TODO: throw exception
                 return;
             }
-
-            gameProcess = ProcessInterop.PrepareGameProcess(launchOptions, gamePath);
         }
 
-        if (gameProcess == null)
-        {
-            // TODO: throw exception
-            return;
-        }
+        Process gameProcess = ProcessInterop.PrepareGameProcess(launchOptions, IsSwitchToStarRailTools == true ? starRailGamePath : gamePath);
 
         try
         {
             bool isfirstInstance = Interlocked.Increment(ref runningGamesCounter) == 1;
 
             gameProcess.Start();
+            if (launchOptions.DllInjector)
+            {
+                ProcessInterop.LoadLibraryAndInject((HANDLE)gameProcess.Handle, Encoding.UTF8.GetBytes(launchOptions.DllPath));
+                return;
+            }
 
             // This options is not apply to StarRail now
-            bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled;
-            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance && !IsSwitchToStarRailTools)
+            bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled && !IsSwitchToStarRailTools;
+            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance)
             {
                 ProcessInterop.DisableProtection(gameProcess, gamePath);
             }
 
             // This options is not apply to StarRail now
-            if (isAdvancedOptionsAllowed && launchOptions.UnlockFps && !IsSwitchToStarRailTools)
+            if (isAdvancedOptionsAllowed && launchOptions.UnlockFps)
             {
                 await ProcessInterop.UnlockFpsAsync(serviceProvider, gameProcess).ConfigureAwait(false);
             }

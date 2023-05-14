@@ -31,6 +31,8 @@ internal sealed class LaunchOptions : DbStoreOptions
     private int? targetFps;
     private NameValue<int>? monitor;
     private bool? multipleInstances;
+    private bool? dllInjector;
+    private string? dllPath;
 
     /// <summary>
     /// 构造一个新的启动游戏选项
@@ -165,6 +167,24 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref multipleInstances, SettingEntry.MultipleInstances);
         set => SetOption(ref multipleInstances, SettingEntry.MultipleInstances, value);
+    }
+
+    /// <summary>
+    /// DLL注入器
+    /// </summary>
+    public bool DllInjector
+    {
+        get => GetOption(ref dllInjector, SettingEntry.DllInjector);
+        set => SetOption(ref dllInjector, SettingEntry.DllInjector, value);
+    }
+
+    /// <summary>
+    /// DLL路径
+    /// </summary>
+    public string DllPath
+    {
+        get => GetOption(ref dllPath, SettingEntry.DllPath);
+        set => SetOption(ref dllPath, SettingEntry.DllPath, value);
     }
 
     private static void InitializeScreenFps(out int fps)

@@ -10,9 +10,11 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 #if !DEBUG_AS_FAKE_ELEVATED
 using System.Security.Principal;
 using Windows.ApplicationModel;
+using Windows.System.Diagnostics;
 #endif
 
 namespace Snap.Hutao.Core.LifeCycle;
@@ -78,7 +80,35 @@ internal static class Activation
     {
         if (!GetElevated())
         {
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            if (Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine)!
+                .Split(';')
+                .Any(path => path.EndsWith("System32\\WindowsPowerShell\\v1.0", StringComparison.OrdinalIgnoreCase)))
+            {
+                // TODO: throw exception
+                return;
+            }
+
+            string arguments = $"/c start powershell.exe " +
+                $"-ExecutionPolicy Bypass -Command \"Start-Process " +
+                $"-Verb RunAs " +
+                $"-FilePath 'shell:AppsFolder\\{Package.Current.Id.FamilyName}!App' \"";
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = true,
+                WorkingDirectory = Environment.CurrentDirectory,
+                FileName = "cmd.exe",
+                Arguments = arguments,
+            };
+
+            using (Process process = new Process { StartInfo = startInfo })
+            {
+                process.Start();
+            }
+
+            await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+
             Process.GetCurrentProcess().Kill();
         }
     }

@@ -10,6 +10,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.System.Memory;
 using Windows.Win32.System.Threading;
 using static Windows.Win32.PInvoke;
+using Windows.Win32;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -100,7 +101,7 @@ internal static class ProcessInterop
         HINSTANCE hKernelDll = GetModuleHandle("kernel32.dll");
         Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
-        FARPROC pLoadLibraryA = GetProcAddress(hKernelDll, libraryPathu8);
+        FARPROC pLoadLibraryA = GetProcAddress(hKernelDll, "LoadLibraryA"u8);
         Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
         void* pNativeLibraryPath = default;
@@ -140,7 +141,7 @@ internal static class ProcessInterop
     {
         fixed (byte* lpProcNameLocal = lpProcName)
         {
-            return Windows.Win32.PInvoke.GetProcAddress(hModule, new PCSTR(lpProcNameLocal));
+            return PInvoke.GetProcAddress(hModule, new PCSTR(lpProcNameLocal));
         }
     }
 
@@ -149,7 +150,7 @@ internal static class ProcessInterop
     {
         fixed (void* lpBuffer = buffer)
         {
-            return Windows.Win32.PInvoke.WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, unchecked((uint)buffer.Length));
+            return PInvoke.WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, unchecked((uint)buffer.Length));
         }
     }
 }

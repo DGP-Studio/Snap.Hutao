@@ -2073,4 +2073,19 @@
   <data name="ViewPageSettingSetStarRailGamePathHeader" xml:space="preserve">
     <value>星穹铁道 游戏路径</value>
   </data>
+  <data name="ViewPageLaunchGameChooseDllPathDescription" xml:space="preserve">
+    <value>路径</value>
+  </data>
+  <data name="ViewPageLaunchGameChooseDllPathHeader" xml:space="preserve">
+    <value>选择DLL的路径</value>
+  </data>
+  <data name="ViewPageLaunchGameDllInjectorDescription" xml:space="preserve">
+    <value>可以通过胡桃来注入一些第三方运行库，请勿将其用于非法用途！</value>
+  </data>
+  <data name="ViewPageLaunchGameDllInjectorHeader" xml:space="preserve">
+    <value>DLL注入器</value>
+  </data>
+  <data name="ViewPageRestartAsElevatedAction" xml:space="preserve">
+    <value>以管理员模式重启</value>
+  </data>
 </root>

@@ -8,6 +8,7 @@ using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -103,6 +104,14 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     public bool AdvencedFeatureVisibility
     {
         get => IsElevated && AppOptions.IsAdvancedLaunchOptionsEnabled && !gameService.IsSwitchToStarRailTools;
+    }
+
+    /// <summary>
+    /// 选择 DLL 路径的可见性
+    /// </summary>
+    public bool ChooseDllPathVisibility
+    {
+        get => (AppOptions.IsAdvancedLaunchOptionsEnabled && launchOptions.DllInjector) || AdvencedFeatureVisibility;
     }
 
     /// <inheritdoc/>
@@ -285,6 +294,32 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         if (Directory.Exists(screenshot))
         {
             await Windows.System.Launcher.LaunchFolderPathAsync(screenshot);
+        }
+    }
+
+    [Command("SetDllPathCommand")]
+    private async Task SetDllPathAsync()
+    {
+        IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>().Pick(nameof(ManualGameLocator));
+
+        (bool isOk, string path) = await locator.LocateGamePathAsync(new(false, true)).ConfigureAwait(false);
+        if (isOk)
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            Options.DllPath = path;
+        }
+    }
+
+    [Command("RestartAsElevatedCommand")]
+    private async Task RestartAsElevatedAsync()
+    {
+        try
+        {
+            await Activation.RestartAsElevatedAsync();
+        }
+        catch (Exception ex)
+        {
+            serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
         }
     }
 }

@@ -35,6 +35,11 @@
             <Pivot.RightHeader>
                 <CommandBar DefaultLabelPosition="Right">
                     <AppBarButton
+                        Command="{Binding RestartAsElevatedCommand}"
+                        Visibility="{Binding IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"
+                        Icon="{shcm:FontIcon Glyph=&#xE83D;}"
+                        Label="{shcm:ResourceString Name=ViewPageRestartAsElevatedAction}"/>
+                    <AppBarButton
                         Command="{Binding OpenScreenshotFolderCommand}"
                         Icon="{shcm:FontIcon Glyph=&#xED25;}"
                         Label="{shcm:ResourceString Name=ViewPageOpenScreenshotFolderAction}"/>
@@ -202,16 +207,20 @@
                                     ItemsSource="{Binding Options.Monitors}"
                                     SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
                             </clw:SettingsCard>
-
-                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding AdvencedFeatureVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}"/>
+                            
+                            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" 
+                                       Text="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}"
+                                       Visibility="{Binding ChooseDllPathVisibility}"/>
+                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding AdvencedFeatureVisibility}">
                                 <clw:SettingsCard
+                                    Visibility="{Binding Options.DllInjector, Converter={StaticResource BoolToVisibilityRevertConverter}}"
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7C4;}">
                                     <ToggleSwitch Width="120" IsOn="{Binding Options.MultipleInstances, Mode=TwoWay}"/>
                                 </clw:SettingsCard>
                                 <clw:SettingsCard
+                                    Visibility="{Binding Options.DllInjector, Converter={StaticResource BoolToVisibilityRevertConverter}}"
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE785;}">
@@ -221,7 +230,8 @@
                                         OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
                                         OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
                                 </clw:SettingsCard>
-                                <clw:SettingsCard Header="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsHeader}">
+                                <clw:SettingsCard Header="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsHeader}"
+                                                  Visibility="{Binding Options.DllInjector, Converter={StaticResource BoolToVisibilityRevertConverter}}">
                                     <clw:SettingsCard.Description>
                                         <StackPanel>
                                             <TextBlock Text="{shcm:ResourceString Name=ViewPageLaunchGameSetFpsDescription}"/>
@@ -234,7 +244,27 @@
                                         Minimum="60"
                                         Value="{Binding Options.TargetFps, Mode=TwoWay}"/>
                                 </clw:SettingsCard>
+
+                                <clw:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameDllInjectorDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameDllInjectorHeader}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xEA3C;}">
+                                    <ToggleSwitch Width="120" IsOn="{Binding Options.DllInjector, Mode=TwoWay}"/>
+                                </clw:SettingsCard>
                             </StackPanel>
+                            <clw:SettingsCard
+                                    Visibility="{Binding ChooseDllPathVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameChooseDllPathHeader}"
+                                    IsClickEnabled="True"
+                                    Command="{Binding SetDllPathCommand}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE838;}">
+                                <clw:SettingsCard.Description>
+                                    <StackPanel>
+                                        <TextBlock Text="{shcm:ResourceString Name=ViewPageLaunchGameChooseDllPathDescription}"/>
+                                        <TextBlock Text="{Binding Options.DllPath}"/>
+                                    </StackPanel>
+                                </clw:SettingsCard.Description>
+                            </clw:SettingsCard>
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
