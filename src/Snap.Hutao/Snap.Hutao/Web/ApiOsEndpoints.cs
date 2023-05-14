@@ -87,7 +87,7 @@ internal static class ApiOsEndpoints
 
     #endregion
 
-    #region ApiOsTaKumiApi
+    #region ApiOsTaKumiBindingApi
 
     /// <summary>
     /// 用户游戏角色
@@ -258,13 +258,10 @@ internal static class ApiOsEndpoints
     private const string ApiOsTakumi = "https://api-os-takumi.hoyoverse.com";
     private const string ApiOsTakumiBindingApi = $"{ApiOsTakumi}/binding/api";
 
-    // private const string ApiAccountOs = "https://api-account-os.hoyolab.com";
     private const string ApiAccountOs = "https://api-account-os.hoyoverse.com";
     private const string ApiAccountOsBindingApi = $"{ApiAccountOs}/binding/api";
     private const string ApiAccountOsAuthApi = $"{ApiAccountOs}/account/auth/api";
 
-    // private const string BbsApiOs = "https://bbs-api-os.hoyolab.com";
-    // private const string BbsApiOsGameRecordApi = $"{BbsApiOs}/game_record/genshin/api";
     private const string BbsApiOs = "https://bbs-api-os.hoyoverse.com";
     private const string BbsApiOsGameRecordAppApi = $"{BbsApiOs}/game_record/app/genshin/api";
 
@@ -274,7 +271,7 @@ internal static class ApiOsEndpoints
     private const string SdkOsStatic = "https://sdk-os-static.mihoyo.com";
     private const string SdkOsStaticLauncherApi = $"{SdkOsStatic}/hk4e_global/mdk/launcher/api";
 
-    private const string SgPublicApi = "https://sg-public-api.hoyolab.com";
+    private const string SgPublicApi = "https://sg-public-api.hoyoverse.com";
 
     private const string WebApiOs = "https://webapi-os.account.hoyoverse.com";
     private const string WebApiOsAccountApi = $"{WebApiOs}/Api";

@@ -41,7 +41,7 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
     /// <summary>
     /// Hoyolab Rpc 版本
     /// </summary>
-    public const string XrpcVersionOversea = "2.30.1";
+    public const string XrpcVersionOversea = "2.31.0";
 
     // https://github.com/UIGF-org/Hoyolab.Salt
     private static readonly ImmutableDictionary<SaltType, string> SaltsInner = new Dictionary<SaltType, string>()
