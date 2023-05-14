@@ -223,7 +223,7 @@
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7C4;}"
-                                    IsEnabled="{Binding HutaoOptions.IsElevated}">
+                                    IsEnabled="{Binding Hutao.IsElevated}">
                                     <ToggleSwitch Width="120" IsOn="{Binding Options.MultipleInstances, Mode=TwoWay}"/>
                                 </clw:SettingsCard>
                                 <clw:SettingsCard
