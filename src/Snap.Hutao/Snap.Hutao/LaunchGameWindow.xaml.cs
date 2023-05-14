@@ -39,7 +39,7 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
     }
 
     /// <inheritdoc/>
-    public WindowOptions WindowOptions { get => throw new NotImplementedException(); }
+    public WindowOptions WindowOptions { get => windowOptions; }
 
     /// <inheritdoc/>
     public void Dispose()

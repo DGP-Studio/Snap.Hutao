@@ -51,7 +51,7 @@ internal sealed partial class AuthClient
     /// <param name="isOversea">是否为国际服</param>
     /// <param name="token">取消令牌</param>
     /// <returns>包含token的字典</returns>
-    public async Task<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, bool isOversea, CancellationToken token)
+    public async Task<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
     {
         string loginTicket = cookie[Cookie.LOGIN_TICKET];
         string loginUid = cookie[Cookie.LOGIN_UID];

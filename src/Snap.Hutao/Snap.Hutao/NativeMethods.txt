@@ -8,6 +8,7 @@ WM_NULL
 // Type & Enum definition
 CWMO_FLAGS
 MINMAXINFO
+LPTHREAD_START_ROUTINE
 
 // COMCTL32
 DefSubclassProc
@@ -23,11 +24,17 @@ GetDeviceCaps
 
 // KERNEL32
 CreateEvent
+CreateRemoteThread
 CreateToolhelp32Snapshot
+GetModuleHandle
+GetProcAddress
 Module32First
 Module32Next
 ReadProcessMemory
 SetEvent
+VirtualAllocEx
+VirtualFreeEx
+WaitForSingleObject
 WriteProcessMemory
 
 // OLE32

@@ -6,6 +6,7 @@ using Microsoft.Web.WebView2.Core;
 using Microsoft.Win32;
 using Snap.Hutao.Core.Setting;
 using System.IO;
+using System.Security.Principal;
 using Windows.ApplicationModel;
 using Windows.Storage;
 
@@ -23,6 +24,8 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
 
     private readonly bool isWebView2Supported;
     private readonly string webView2Version = SH.CoreWebView2HelperVersionUndetected;
+
+    private bool? isElevated;
 
     /// <summary>
     /// 构造一个新的胡桃选项
@@ -55,14 +58,14 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
     public string UserAgent { get; }
 
     /// <summary>
-    /// 数据文件夹路径
-    /// </summary>
-    public string DataFolder { get; }
-
-    /// <summary>
     /// 安装位置
     /// </summary>
     public string InstalledLocation { get; }
+
+    /// <summary>
+    /// 数据文件夹路径
+    /// </summary>
+    public string DataFolder { get; }
 
     /// <summary>
     /// 本地缓存
@@ -88,6 +91,11 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
     /// 是否支持 WebView2
     /// </summary>
     public bool IsWebView2Supported { get => isWebView2Supported; }
+
+    /// <summary>
+    /// 是否为提升的权限
+    /// </summary>
+    public bool IsElevated { get => isElevated ??= GetElevated(); }
 
     /// <inheritdoc/>
     public HutaoOptions Value { get => this; }
@@ -119,6 +127,19 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
         string userName = Environment.UserName;
         object? machineGuid = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography\", "MachineGuid", userName);
         return Convert.ToMd5HexString($"{userName}{machineGuid}");
+    }
+
+    private static bool GetElevated()
+    {
+#if DEBUG_AS_FAKE_ELEVATED
+        return true;
+#else
+        using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+        {
+            WindowsPrincipal principal = new(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+#endif
     }
 
     private void DetectWebView2Environment(ref string webView2Version, ref bool isWebView2Supported)

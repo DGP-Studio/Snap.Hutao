@@ -70,7 +70,8 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         }
     }
 
-    private async Task HandleCurrentCookieAsync(CancellationToken token = default)
+    [Command("HandleCurrentCookieCommand")]
+    private async Task HandleCurrentCookieAsync()
     {
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://account.hoyoverse.com");
@@ -78,13 +79,13 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         IInfoBarService infoBarService = Ioc.Default.GetRequiredService<IInfoBarService>();
 
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
-        string uid = await GetUidFromCookieAsync(Ioc.Default, loginTicketCookie, token).ConfigureAwait(false);
+        string uid = await GetUidFromCookieAsync(Ioc.Default, loginTicketCookie).ConfigureAwait(false);
         loginTicketCookie[Cookie.LOGIN_UID] = uid;
 
         // 使用 loginTicket 获取 stoken
         Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
             .GetRequiredService<AuthClient>()
-            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, true, token)
+            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, true)
             .ConfigureAwait(false);
 
         if (!multiTokenResponse.IsOk())
@@ -107,11 +108,6 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
             .GetRequiredService<ViewModel.User.UserViewModel>()
             .HandleUserOptionResultAsync(result, nickname)
             .ConfigureAwait(false);
-    }
-
-    private void CookieButtonClick(object sender, RoutedEventArgs e)
-    {
-        HandleCurrentCookieAsync().SafeForget();
     }
 
     private sealed class WebApiResponse<TData>

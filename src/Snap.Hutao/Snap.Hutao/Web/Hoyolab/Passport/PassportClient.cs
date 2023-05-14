@@ -48,7 +48,7 @@ internal sealed partial class PassportClient
     /// <param name="token">取消令牌</param>
     /// <returns>登录数据</returns>
     [ApiInformation(Salt = SaltType.PROD)]
-    public async Task<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token)
+    public async Task<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token = default)
     {
         HttpResponseMessage message = await httpClient
             .SetHeader("Cookie", stokenV1.ToString())

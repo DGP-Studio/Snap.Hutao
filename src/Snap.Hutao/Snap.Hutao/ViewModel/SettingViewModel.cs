@@ -100,15 +100,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     /// </summary>
     public ExperimentalFeaturesViewModel Experimental { get => experimental; }
 
-    /// <summary>
-    /// 是否提权
-    /// </summary>
-    [SuppressMessage("", "CA1822")]
-    public bool IsElevated
-    {
-        get => Activation.GetElevated();
-    }
-
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
     {
