@@ -33,11 +33,7 @@ internal static class DependencyInjection
             .AddTransient(typeof(TaskCompletionSource))
             .AddTransient(typeof(TaskCompletionSource<>))
 
-            .BuildServiceProvider(new ServiceProviderOptions()
-            {
-                ValidateOnBuild = true,
-                ValidateScopes = true,
-            });
+            .BuildServiceProvider(true);
 
         Ioc.Default.ConfigureServices(serviceProvider);
         return serviceProvider;

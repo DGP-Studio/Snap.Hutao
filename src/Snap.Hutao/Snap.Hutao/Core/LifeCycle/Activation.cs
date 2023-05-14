@@ -64,15 +64,20 @@ internal sealed class Activation : IActivation
     /// <inheritdoc/>
     public void Activate(object? sender, AppActivationArguments args)
     {
-        _ = sender;
-        if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
+        if (!GetElevated())
         {
-            HandleActivationAsync(args, true).SafeForget();
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            Process.GetCurrentProcess().Kill();
         }
     }
 
-    /// <inheritdoc/>
-    public void NonRedirectToActivate(object? sender, AppActivationArguments args)
+    /// <summary>
+    /// 响应激活事件
+    /// 激活事件一般不会在UI线程上触发
+    /// </summary>
+    /// <param name="sender">发送方</param>
+    /// <param name="args">激活参数</param>
+    public static void Activate(object? sender, AppActivationArguments args)
     {
         _ = sender;
         if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
@@ -81,17 +86,18 @@ internal sealed class Activation : IActivation
         }
     }
 
-    /// <inheritdoc/>
-    public void InitializeWith(AppInstance appInstance)
+    /// <summary>
+    /// 触发激活事件
+    /// </summary>
+    /// <param name="sender">发送方</param>
+    /// <param name="args">激活参数</param>
+    public static void NonRedirectToActivate(object? sender, AppActivationArguments args)
     {
-        appInstance.Activated += Activate;
-        ToastNotificationManagerCompat.OnActivated += NotificationActivate;
-    }
-
-    /// <inheritdoc/>
-    public bool IsIncludedInSelfStart(bool set = false)
-    {
-        return StaticResource.IsIncludeSelfStartOrSetState(set, !StaticResource.IsIncludeSelfStartOrSetState()); ;
+        _ = sender;
+        if (!ToastNotificationManagerCompat.WasCurrentProcessToastActivated())
+        {
+            HandleActivationAsync(args, false).SafeForget();
+        }
     }
 
     private void NotificationActivate(ToastNotificationActivatedEventArgsCompat args)

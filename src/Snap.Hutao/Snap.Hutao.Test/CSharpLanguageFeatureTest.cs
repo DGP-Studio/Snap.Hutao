@@ -95,5 +95,13 @@ public class CSharpLanguageFeatureTest
         Assert.AreEqual(3, count);
     }
 
+    [TestMethod]
+    public void RangeTrimLastOne()
+    {
+        int[] array = { 1, 2, 3, 4 };
+
+        Assert.AreEqual(3, array[..^1].Length);
+    }
+
     public static Guid UUID { get => Guid.NewGuid(); }
 }

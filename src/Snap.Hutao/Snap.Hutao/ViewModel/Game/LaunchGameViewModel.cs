@@ -199,7 +199,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         {
             try
             {
-                if (gameService.SetMultiChannel(SelectedScheme))
+                if (gameService.SetChannelOptions(SelectedScheme))
                 {
                     // Channel changed, we need to change local file.
                     await taskContext.SwitchToMainThreadAsync();

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using System.Collections.Immutable;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Web.Hoyolab;
 
 /// <summary>
 /// 米游社选项

@@ -68,7 +68,7 @@
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE8AB;}"
-                                IsEnabled="{Binding IsElevated}">
+                                IsEnabled="{Binding HutaoOptions.IsElevated}">
                                 <ComboBox
                                     DisplayMemberPath="DisplayName"
                                     ItemsSource="{Binding KnownSchemes}"
