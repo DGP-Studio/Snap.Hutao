@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
+
 namespace Snap.Hutao.Model.Metadata.Avatar;
 
 /// <summary>
@@ -61,7 +63,16 @@ internal sealed class SkillDepot
         if (compositeSkillsNoInherents == null)
         {
             compositeSkillsNoInherents = new(Skills.Count + 1);
-            compositeSkillsNoInherents.AddRange(Skills);
+
+            foreach (ref ProudableSkill skill in CollectionsMarshal.AsSpan(Skills))
+            {
+                // 跳过 [替换冲刺的技能]
+                if (skill.Proud.Parameters.Count > 1)
+                {
+                    compositeSkillsNoInherents.Add(skill);
+                }
+            }
+
             compositeSkillsNoInherents.Add(EnergySkill);
         }
 
