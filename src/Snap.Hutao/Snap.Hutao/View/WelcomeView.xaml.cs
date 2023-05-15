@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
@@ -7,7 +7,7 @@ using Snap.Hutao.ViewModel;
 namespace Snap.Hutao.View;
 
 /// <summary>
-/// »¶Ó­ÊÓÍ¼
+/// æ¬¢è¿Žè§†å›¾
 /// </summary>
 [HighQuality]
 internal sealed partial class WelcomeView : UserControl
@@ -15,7 +15,7 @@ internal sealed partial class WelcomeView : UserControl
     private readonly IServiceScope serviceScope;
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öÐÂµÄ»¶Ó­ÊÓÍ¼
+    /// æž„é€ ä¸€ä¸ªæ–°çš„æ¬¢è¿Žè§†å›¾
     /// </summary>
     public WelcomeView()
     {

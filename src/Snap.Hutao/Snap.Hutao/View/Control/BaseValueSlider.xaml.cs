@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -9,7 +9,7 @@ using Snap.Hutao.ViewModel.Wiki;
 namespace Snap.Hutao.View.Control;
 
 /// <summary>
-/// »ù´¡ÊıÖµ»¬¶¯Ìõ
+/// åŸºç¡€æ•°å€¼æ»‘åŠ¨æ¡
 /// </summary>
 internal sealed partial class BaseValueSlider : UserControl
 {
@@ -17,7 +17,7 @@ internal sealed partial class BaseValueSlider : UserControl
     private static readonly DependencyProperty IsPromoteVisibleProperty = Property<BaseValueSlider>.DependBoxed<bool>(nameof(IsPromoteVisible), BoxedValues.True);
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄ»ù´¡ÊıÖµ»¬¶¯Ìõ
+    /// æ„é€ ä¸€ä¸ªæ–°çš„åŸºç¡€æ•°å€¼æ»‘åŠ¨æ¡
     /// </summary>
     public BaseValueSlider()
     {
@@ -25,7 +25,7 @@ internal sealed partial class BaseValueSlider : UserControl
     }
 
     /// <summary>
-    /// »ù´¡ÊıÖµĞÅÏ¢
+    /// åŸºç¡€æ•°å€¼ä¿¡æ¯
     /// </summary>
     public BaseValueInfo BaseValueInfo
     {
@@ -34,7 +34,7 @@ internal sealed partial class BaseValueSlider : UserControl
     }
 
     /// <summary>
-    /// ÌáÉı°´Å¥ÊÇ·ñ¿É¼û
+    /// æå‡æŒ‰é’®æ˜¯å¦å¯è§
     /// </summary>
     public bool IsPromoteVisible
     {

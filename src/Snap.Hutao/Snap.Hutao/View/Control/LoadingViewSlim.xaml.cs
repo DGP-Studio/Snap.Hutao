@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.UI.Controls;
@@ -6,12 +6,12 @@ using CommunityToolkit.WinUI.UI.Controls;
 namespace Snap.Hutao.View.Control;
 
 /// <summary>
-/// ¼òµ¥µÄ¼ÓÔØÊÓÍ¼
+/// ç®€å•çš„åŠ è½½è§†å›¾
 /// </summary>
 internal sealed partial class LoadingViewSlim : Loading
 {
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄ¼òµ¥µÄ¼ÓÔØÊÓÍ¼
+    /// æ„é€ ä¸€ä¸ªæ–°çš„ç®€å•çš„åŠ è½½è§†å›¾
     /// </summary>
     public LoadingViewSlim()
     {

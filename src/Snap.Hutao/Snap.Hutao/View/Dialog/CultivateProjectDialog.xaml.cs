@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation and Contributors.
+ï»¿// Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
@@ -8,7 +8,7 @@ using Snap.Hutao.Service.User;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// Ñø³É¼Æ»®¶Ô»°¿ò
+/// å…»æˆè®¡åˆ’å¯¹è¯æ¡†
 /// </summary>
 [HighQuality]
 internal sealed partial class CultivateProjectDialog : ContentDialog
@@ -16,9 +16,9 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
     private readonly ITaskContext taskContext;
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÑø³É¼Æ»®¶Ô»°¿ò
+    /// æ„é€ ä¸€ä¸ªæ–°çš„å…»æˆè®¡åˆ’å¯¹è¯æ¡†
     /// </summary>
-    /// <param name="serviceProvider">·şÎñÌá¹©Æ÷</param>
+    /// <param name="serviceProvider">æœåŠ¡æä¾›å™¨</param>
     public CultivateProjectDialog(IServiceProvider serviceProvider)
     {
         InitializeComponent();
@@ -28,9 +28,9 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
     }
 
     /// <summary>
-    /// ´´½¨Ò»¸öĞÂµÄ£¬ÓÃ»§Ö¸¶¨µÄ¼Æ»®
+    /// åˆ›å»ºä¸€ä¸ªæ–°çš„ï¼Œç”¨æˆ·æŒ‡å®šçš„è®¡åˆ’
     /// </summary>
-    /// <returns>¼Æ»®</returns>
+    /// <returns>è®¡åˆ’</returns>
     public async ValueTask<ValueResult<bool, CultivateProject>> CreateProjectAsync()
     {
         await taskContext.SwitchToMainThreadAsync();

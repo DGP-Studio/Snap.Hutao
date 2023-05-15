@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -10,7 +10,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// Ñø³É¼ÆËã¶Ô»°¿ò
+/// å…»æˆè®¡ç®—å¯¹è¯æ¡†
 /// </summary>
 [HighQuality]
 internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
@@ -21,10 +21,10 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     private readonly ITaskContext taskContext;
 
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÑø³É¼ÆËã¶Ô»°¿ò
+    /// æ„é€ ä¸€ä¸ªæ–°çš„å…»æˆè®¡ç®—å¯¹è¯æ¡†
     /// </summary>
-    /// <param name="serviceProvider">·şÎñÌá¹©Æ÷</param>
-    /// <param name="options">Ñ¡Ïî</param>
+    /// <param name="serviceProvider">æœåŠ¡æä¾›å™¨</param>
+    /// <param name="options">é€‰é¡¹</param>
     public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, CalculableOptions options)
     {
         InitializeComponent();
@@ -38,7 +38,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     }
 
     /// <summary>
-    /// ½ÇÉ«
+    /// è§’è‰²
     /// </summary>
     public ICalculableAvatar? Avatar
     {
@@ -47,7 +47,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     }
 
     /// <summary>
-    /// ÎäÆ÷
+    /// æ­¦å™¨
     /// </summary>
     public ICalculableWeapon? Weapon
     {
@@ -56,9 +56,9 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     }
 
     /// <summary>
-    /// Òì²½»ñÈ¡ÌáÉı²îÒì
+    /// å¼‚æ­¥è·å–æå‡å·®å¼‚
     /// </summary>
-    /// <returns>ÌáÉı²îÒì</returns>
+    /// <returns>æå‡å·®å¼‚</returns>
     public async Task<ValueResult<bool, AvatarPromotionDelta>> GetPromotionDeltaAsync()
     {
         await taskContext.SwitchToMainThreadAsync();

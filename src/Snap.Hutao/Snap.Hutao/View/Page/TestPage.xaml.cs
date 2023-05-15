@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
@@ -7,13 +7,13 @@ using Snap.Hutao.ViewModel;
 namespace Snap.Hutao.View.Page;
 
 /// <summary>
-/// ²âÊÔÒ³Ãæ
+/// æµ‹è¯•é¡µé¢
 /// </summary>
 [HighQuality]
 internal sealed partial class TestPage : ScopedPage
 {
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄ²âÊÔÒ³Ãæ
+    /// æ„é€ ä¸€ä¸ªæ–°çš„æµ‹è¯•é¡µé¢
     /// </summary>
     public TestPage()
     {

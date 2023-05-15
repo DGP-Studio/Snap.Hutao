@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
@@ -7,16 +7,16 @@ using Snap.Hutao.Model.Entity;
 namespace Snap.Hutao.View.Dialog;
 
 /// <summary>
-/// ÊµÊ±±ã¼ãÍ¨ÖªÉèÖÃ¶Ô»°¿ò
+/// å®æ—¶ä¾¿ç¬ºé€šçŸ¥è®¾ç½®å¯¹è¯æ¡†
 /// </summary>
 [HighQuality]
 internal sealed partial class DailyNoteNotificationDialog : ContentDialog
 {
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÊµÊ±±ã¼ãÍ¨ÖªÉèÖÃ¶Ô»°¿ò
+    /// æ„é€ ä¸€ä¸ªæ–°çš„å®æ—¶ä¾¿ç¬ºé€šçŸ¥è®¾ç½®å¯¹è¯æ¡†
     /// </summary>
-    /// <param name="serviceProvider">·şÎñÌá¹©Æ÷</param>
-    /// <param name="entry">ÊµÊ±±ã¼ã</param>
+    /// <param name="serviceProvider">æœåŠ¡æä¾›å™¨</param>
+    /// <param name="entry">å®æ—¶ä¾¿ç¬º</param>
     public DailyNoteNotificationDialog(IServiceProvider serviceProvider, DailyNoteEntry entry)
     {
         InitializeComponent();

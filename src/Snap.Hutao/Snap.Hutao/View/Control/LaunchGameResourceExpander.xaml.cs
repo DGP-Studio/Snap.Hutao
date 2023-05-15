@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
@@ -6,12 +6,12 @@ using Microsoft.UI.Xaml.Controls;
 namespace Snap.Hutao.View.Control;
 
 /// <summary>
-/// Æô¶¯ÓÎÏ·×ÊÔ´ Expander
+/// å¯åŠ¨æ¸¸æˆèµ„æº Expander
 /// </summary>
 internal sealed partial class LaunchGameResourceExpander : Expander
 {
     /// <summary>
-    /// ¹¹ÔìÒ»¸öĞÂµÄÆô¶¯ÓÎÏ·×ÊÔ´ Expander
+    /// æ„é€ ä¸€ä¸ªæ–°çš„å¯åŠ¨æ¸¸æˆèµ„æº Expander
     /// </summary>
     public LaunchGameResourceExpander()
     {
