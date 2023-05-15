@@ -19,7 +19,7 @@ internal static class CoreWebView2Extension
     /// <returns>链式调用的WebView2</returns>
     public static CoreWebView2 SetMobileUserAgent(this CoreWebView2 webView)
     {
-        webView.Settings.UserAgent = Core.HoyolabOptions.MobileUserAgent;
+        webView.Settings.UserAgent = HoyolabOptions.MobileUserAgent;
         return webView;
     }
 
@@ -30,7 +30,7 @@ internal static class CoreWebView2Extension
     /// <returns>链式调用的WebView2</returns>
     public static CoreWebView2 SetMobileOverseaUserAgent(this CoreWebView2 webView)
     {
-        webView.Settings.UserAgent = Core.HoyolabOptions.MobileUserAgentOversea;
+        webView.Settings.UserAgent = HoyolabOptions.MobileUserAgentOversea;
         return webView;
     }
 

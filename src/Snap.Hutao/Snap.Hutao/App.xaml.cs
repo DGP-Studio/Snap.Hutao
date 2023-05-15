@@ -21,8 +21,9 @@ namespace Snap.Hutao;
 public sealed partial class App : Application
 {
     private const string AppInstanceKey = "main";
-    private readonly ILogger<App> logger;
     private readonly IServiceProvider serviceProvider;
+    private readonly IActivation activation;
+    private readonly ILogger<App> logger;
 
     /// <summary>
     /// Initializes the singleton application object.
@@ -33,6 +34,7 @@ public sealed partial class App : Application
         // Load app resource
         InitializeComponent();
 
+        activation = serviceProvider.GetRequiredService<IActivation>();
         logger = serviceProvider.GetRequiredService<ILogger<App>>();
         serviceProvider.GetRequiredService<ExceptionRecorder>().Record(this);
 
@@ -50,9 +52,8 @@ public sealed partial class App : Application
             if (firstInstance.IsCurrent)
             {
                 // manually invoke
-                Activation.NonRedirectToActivate(firstInstance, activatedEventArgs);
-                firstInstance.Activated += Activation.Activate;
-                ToastNotificationManagerCompat.OnActivated += Activation.NotificationActivate;
+                activation.NonRedirectToActivate(firstInstance, activatedEventArgs);
+                activation.InitializeWith(firstInstance);
 
                 LogDiagnosticInformation();
                 PostLaunchAsync().SafeForget(logger);

@@ -71,15 +71,14 @@ internal sealed partial class AchievementService : IAchievementService
             {
                 int finished = await appDbContext.Achievements
                     .Where(a => a.ArchiveId == archive.InnerId)
-
-                    // We already filtered out incompleted achievements when save them.
-                    // .Where(a => (int)a.Status >= (int)Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
+                    .Where(a => (int)a.Status >= (int)Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
                     .CountAsync()
                     .ConfigureAwait(false);
                 int totalCount = achievementMap.Count;
 
                 List<EntityAchievement> achievements = await appDbContext.Achievements
                     .Where(a => a.ArchiveId == archive.InnerId)
+                    .Where(a => (int)a.Status >= (int)Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
                     .OrderByDescending(a => a.Time.ToString())
                     .Take(2)
                     .ToListAsync()

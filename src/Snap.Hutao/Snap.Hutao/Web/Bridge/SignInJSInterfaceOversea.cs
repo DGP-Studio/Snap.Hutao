@@ -3,6 +3,7 @@
 
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Web.Bridge.Model;
+using Snap.Hutao.Web.Hoyolab;
 
 namespace Snap.Hutao.Web.Bridge;
 
@@ -35,8 +36,8 @@ internal sealed class SignInJSInterfaceOversea : MiHoYoJSInterface
             Data = new Dictionary<string, string>()
             {
                 { "x-rpc-client_type", "2" },
-                { "x-rpc-device_id",  Core.HoyolabOptions.DeviceId },
-                { "x-rpc-app_version", Core.HoyolabOptions.XrpcVersionOversea },
+                { "x-rpc-device_id",  HoyolabOptions.DeviceId },
+                { "x-rpc-app_version", HoyolabOptions.XrpcVersionOversea },
             },
         };
     }

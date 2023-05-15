@@ -49,7 +49,8 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         }
     }
 
-    private async Task HandleCurrentCookieAsync(CancellationToken token = default)
+    [Command("HandleCurrentCookieCommand")]
+    private async Task HandleCurrentCookieAsync()
     {
         CoreWebView2CookieManager manager = WebView.CoreWebView2.CookieManager;
         IReadOnlyList<CoreWebView2Cookie> cookies = await manager.GetCookiesAsync("https://user.mihoyo.com");
@@ -57,7 +58,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie loginTicketCookie = Cookie.FromCoreWebView2Cookies(cookies);
         Response<ListWrapper<NameToken>> multiTokenResponse = await Ioc.Default
             .GetRequiredService<AuthClient>()
-            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, false, token)
+            .GetMultiTokenByLoginTicketAsync(loginTicketCookie, false)
             .ConfigureAwait(false);
 
         if (!multiTokenResponse.IsOk())
@@ -71,7 +72,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
 
         Response<LoginResult> loginResultResponse = await Ioc.Default
             .GetRequiredService<PassportClient>()
-            .LoginBySTokenAsync(stokenV1, token)
+            .LoginBySTokenAsync(stokenV1)
             .ConfigureAwait(false);
 
         if (!loginResultResponse.IsOk())
@@ -91,10 +92,5 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
             .GetRequiredService<ViewModel.User.UserViewModel>()
             .HandleUserOptionResultAsync(result, nickname)
             .ConfigureAwait(false);
-    }
-
-    private void CookieButtonClick(object sender, RoutedEventArgs e)
-    {
-        HandleCurrentCookieAsync().SafeForget();
     }
 }

@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Caching.Memory;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -36,6 +36,7 @@ internal sealed partial class GameService : IGameService
     private readonly PackageConverter packageConverter;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
+    private readonly HutaoOptions hutaoOptions;
     private readonly ITaskContext taskContext;
     private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
@@ -138,7 +139,7 @@ internal sealed partial class GameService : IGameService
     }
 
     /// <inheritdoc/>
-    public bool SetMultiChannel(LaunchScheme scheme)
+    public bool SetChannelOptions(LaunchScheme scheme)
     {
         string gamePath = appOptions.GamePath;
         string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFileName);
@@ -172,22 +173,12 @@ internal sealed partial class GameService : IGameService
             {
                 if (parameter.Key == "channel")
                 {
-                    string channel = scheme.Channel.ToString("D");
-                    if (parameter.Value != channel)
-                    {
-                        parameter.Value = channel;
-                        changed = true;
-                    }
+                    changed = parameter.Set(scheme.Channel.ToString("D"));
                 }
 
                 if (parameter.Key == "sub_channel")
                 {
-                    string subChannel = scheme.SubChannel.ToString("D");
-                    if (parameter.Value != subChannel)
-                    {
-                        parameter.Value = subChannel;
-                        changed = true;
-                    }
+                    changed = parameter.Set(scheme.SubChannel.ToString("D"));
                 }
             }
         }
@@ -315,8 +306,7 @@ internal sealed partial class GameService : IGameService
                 return;
             }
 
-            // This options is not apply to StarRail now
-            bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled && !IsSwitchToStarRailTools;
+            bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled;
             if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance)
             {
                 ProcessInterop.DisableProtection(gameProcess, gamePath);
