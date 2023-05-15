@@ -316,7 +316,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     {
         try
         {
-            await Activation.RestartAsElevatedAsync();
+            await hutaoOptions.RestartAsElevatedAsync();
         }
         catch (Exception ex)
         {

@@ -306,7 +306,7 @@ internal sealed partial class GameService : IGameService
                 return;
             }
 
-            bool isAdvancedOptionsAllowed = Activation.GetElevated() && appOptions.IsAdvancedLaunchOptionsEnabled;
+            bool isAdvancedOptionsAllowed = hutaoOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled;
             if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance)
             {
                 ProcessInterop.DisableProtection(gameProcess, gamePath);
