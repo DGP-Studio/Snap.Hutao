@@ -100,7 +100,7 @@ internal static class ProcessInterop
         HINSTANCE hKernelDll = GetModuleHandle("kernel32.dll");
         Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
-        FARPROC pLoadLibraryA = GetProcAddress(hKernelDll, libraryPathu8);
+        FARPROC pLoadLibraryA = GetProcAddress(hKernelDll, "LoadLibraryA"u8);
         Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
         void* pNativeLibraryPath = default;

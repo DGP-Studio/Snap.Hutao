@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录导出服务
 /// </summary>
-internal interface IGachaLogExportService
+internal interface IUIGFExportService
 {
     /// <summary>
     /// 异步导出存档到 UIGF
@@ -17,5 +17,5 @@ internal interface IGachaLogExportService
     /// <param name="context">元数据上下文</param>
     /// <param name="archive">存档</param>
     /// <returns>UIGF</returns>
-    Task<UIGF> ExportToUIGFAsync(GachaLogServiceContext context, GachaArchive archive);
+    Task<UIGF> ExportAsync(GachaLogServiceContext context, GachaArchive archive);
 }

@@ -28,8 +28,8 @@ internal sealed partial class GachaLogService : IGachaLogService
     private readonly ScopedDbCurrent<GachaArchive, Message.GachaArchiveChangedMessage> dbCurrent;
     private readonly IGachaStatisticsSlimFactory gachaStatisticsSlimFactory;
     private readonly IGachaStatisticsFactory gachaStatisticsFactory;
-    private readonly IGachaLogExportService gachaLogExportService;
-    private readonly IGachaLogImportService gachaLogImportService;
+    private readonly IUIGFExportService gachaLogExportService;
+    private readonly IUIGFImportService gachaLogImportService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly ILogger<GachaLogService> logger;
@@ -134,13 +134,13 @@ internal sealed partial class GachaLogService : IGachaLogService
     /// <inheritdoc/>
     public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
     {
-        return gachaLogExportService.ExportToUIGFAsync(context, archive);
+        return gachaLogExportService.ExportAsync(context, archive);
     }
 
     /// <inheritdoc/>
-    public async Task ImportFromUIGFAsync(List<UIGFItem> list, string uid)
+    public async Task ImportFromUIGFAsync(UIGF uigf)
     {
-        CurrentArchive = await gachaLogImportService.ImportFromUIGFAsync(context, list, uid).ConfigureAwait(false);
+        CurrentArchive = await gachaLogImportService.ImportAsync(context, uigf).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>

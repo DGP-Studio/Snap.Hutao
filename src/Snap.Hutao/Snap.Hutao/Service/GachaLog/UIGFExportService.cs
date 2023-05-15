@@ -11,14 +11,14 @@ namespace Snap.Hutao.Service.GachaLog;
 /// 祈愿记录导出服务
 /// </summary>
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IGachaLogExportService))]
-internal sealed partial class GachaLogExportService : IGachaLogExportService
+[Injection(InjectAs.Scoped, typeof(IUIGFExportService))]
+internal sealed partial class UIGFExportService : IUIGFExportService
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async Task<UIGF> ExportToUIGFAsync(GachaLogServiceContext context, GachaArchive archive)
+    public async Task<UIGF> ExportAsync(GachaLogServiceContext context, GachaArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
         using (IServiceScope scope = serviceProvider.CreateScope())

@@ -9,25 +9,25 @@ using Snap.Hutao.Model.InterChange.GachaLog;
 namespace Snap.Hutao.Service.GachaLog;
 
 /// <summary>
-/// 祈愿记录导入服务
+/// v2.1 v2.2 祈愿记录导入服务
 /// </summary>
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IGachaLogImportService))]
-internal sealed partial class GachaLogImportService : IGachaLogImportService
+[Injection(InjectAs.Scoped, typeof(IUIGFImportService))]
+internal sealed partial class UIGFImportService : IUIGFImportService
 {
-    private readonly ILogger<GachaLogImportService> logger;
+    private readonly ILogger<UIGFImportService> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async Task<GachaArchive> ImportFromUIGFAsync(GachaLogServiceContext context, List<UIGFItem> list, string uid)
+    public async Task<GachaArchive> ImportAsync(GachaLogServiceContext context, UIGF uigf)
     {
         await taskContext.SwitchToBackgroundAsync();
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            GachaArchiveInitializationContext initContext = new(taskContext, uid, appDbContext.GachaArchives, context.ArchiveCollection);
+            GachaArchiveInitializationContext initContext = new(taskContext, uigf.Info.Uid, appDbContext.GachaArchives, context.ArchiveCollection);
             GachaArchive.Init(initContext, out GachaArchive? archive);
             Guid archiveId = archive.InnerId;
 
@@ -38,10 +38,20 @@ internal sealed partial class GachaLogImportService : IGachaLogImportService
 
             logger.LogInformation("Last Id to trim with: [{id}]", trimId);
 
-            IEnumerable<GachaItem> toAdd = list
-                .OrderByDescending(i => i.Id)
-                .Where(i => i.Id < trimId)
-                .Select(i => GachaItem.Create(archiveId, i, context.GetItemId(i)));
+            _ = uigf.IsCurrentVersionSupported(out UIGFVersion version);
+
+            IEnumerable<GachaItem> toAdd = version switch
+            {
+                UIGFVersion.Major2Minor3OrHigher => uigf.List
+                    .OrderByDescending(i => i.Id)
+                    .Where(i => i.Id < trimId)
+                    .Select(i => GachaItem.CreateForMajor2Minor3OrHigher(archiveId, i)),
+                UIGFVersion.Major2Minor2OrLower => uigf.List
+                    .OrderByDescending(i => i.Id)
+                    .Where(i => i.Id < trimId)
+                    .Select(i => GachaItem.CreateForMajor2Minor2OrLower(archiveId, i, context.GetItemId(i))),
+                _ => Enumerable.Empty<GachaItem>(),
+            };
 
             await appDbContext.GachaItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
             return archive;

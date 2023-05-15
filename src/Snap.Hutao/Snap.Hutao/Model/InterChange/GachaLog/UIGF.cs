@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Collections.Immutable;
-
 namespace Snap.Hutao.Model.InterChange.GachaLog;
 
 /// <summary>
@@ -13,14 +11,9 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 internal sealed class UIGF
 {
     /// <summary>
-    /// 当前发行的版本
+    /// 当前版本
     /// </summary>
-    public const string CurrentVersion = "v2.2";
-
-    private static readonly ImmutableList<string> SupportedVersion = new List<string>()
-    {
-        "v2.1", CurrentVersion,
-    }.ToImmutableList();
+    public const string CurrentVersion = "v2.3";
 
     /// <summary>
     /// 信息
@@ -37,17 +30,26 @@ internal sealed class UIGF
     /// <summary>
     /// 确认当前UIGF对象的版本是否受支持
     /// </summary>
+    /// <param name="version">版本</param>
     /// <returns>当前UIAF对象是否受支持</returns>
-    public bool IsCurrentVersionSupported()
+    public bool IsCurrentVersionSupported(out UIGFVersion version)
     {
-        return SupportedVersion.Contains(Info?.UIGFVersion ?? string.Empty);
+        version = Info.UIGFVersion switch
+        {
+            "v2.1" => UIGFVersion.Major2Minor2OrLower,
+            "v2.2" => UIGFVersion.Major2Minor2OrLower,
+            "v2.3" => UIGFVersion.Major2Minor3OrHigher,
+            _ => UIGFVersion.NotSupported,
+        };
+
+        return version != UIGFVersion.NotSupported;
     }
 
     /// <summary>
     /// 列表物品是否正常
     /// </summary>
     /// <returns>是否正常</returns>
-    public bool IsValidList()
+    public bool IsMajor2Minor2OrLowerListValid()
     {
         foreach (UIGFItem item in List)
         {

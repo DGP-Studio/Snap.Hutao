@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Test;
 
@@ -11,6 +12,12 @@ public class JsonSerializeTest
         }
         """;
 
+    private const string SmapleNumberObjectJson = """
+        {
+            "A" : ""
+        }
+        """;
+
     [TestMethod]
     public void DelegatePropertyCanSerialize()
     {
@@ -18,9 +25,23 @@ public class JsonSerializeTest
         Assert.AreEqual(sample.B, 1);
     }
 
+    [TestMethod]
+    public void EmptyStringCanSerializeAsNumber()
+    {
+        // Throw
+        StringNumberSample sample = JsonSerializer.Deserialize<StringNumberSample>(SmapleNumberObjectJson)!;
+        Assert.AreEqual(sample.A, 0);
+    }
+
     private class Sample
     {
         public int A { get => B; set => B = value; }
         public int B { get; set; }
+    }
+
+    private class StringNumberSample
+    {
+        [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
+        public int A { get; set; }
     }
 }

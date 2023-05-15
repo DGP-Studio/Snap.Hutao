@@ -104,6 +104,20 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
+    private static bool CanImport(UIGFVersion version, UIGF uigf)
+    {
+        if (version == UIGFVersion.Major2Minor3OrHigher)
+        {
+            return true;
+        }
+        else if (version == UIGFVersion.Major2Minor2OrLower && uigf.IsMajor2Minor2OrLowerListValid())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     [Command("RefreshByWebCacheCommand")]
     private Task RefreshByWebCacheAsync()
     {
@@ -331,19 +345,19 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private async Task<bool> TryImportUIGFInternalAsync(UIGF uigf)
     {
-        if (uigf.IsCurrentVersionSupported())
+        if (uigf.IsCurrentVersionSupported(out UIGFVersion version))
         {
             // ContentDialog must be created by main thread.
             await taskContext.SwitchToMainThreadAsync();
             GachaLogImportDialog importDialog = serviceProvider.CreateInstance<GachaLogImportDialog>(uigf);
             if (await importDialog.GetShouldImportAsync().ConfigureAwait(true))
             {
-                if (uigf.IsValidList())
+                if (CanImport(version, uigf))
                 {
                     ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
                     using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                     {
-                        await gachaLogService.ImportFromUIGFAsync(uigf.List, uigf.Info.Uid).ConfigureAwait(false);
+                        await gachaLogService.ImportFromUIGFAsync(uigf).ConfigureAwait(false);
                     }
 
                     infoBarService.Success(SH.ViewModelGachaLogImportComplete);

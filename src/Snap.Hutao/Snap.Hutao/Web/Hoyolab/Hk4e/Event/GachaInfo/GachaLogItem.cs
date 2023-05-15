@@ -27,10 +27,10 @@ internal class GachaLogItem
 
     /// <summary>
     /// 总为 <see cref="string.Empty"/>
+    /// v2.3 使用了此值
     /// </summary>
-    [Obsolete("API set this property empty")]
     [JsonPropertyName("item_id")]
-    public string ItemId { get; set; } = string.Empty;
+    public string ItemId { get; set; } = default!;
 
     /// <summary>
     /// 个数 一般为 1
