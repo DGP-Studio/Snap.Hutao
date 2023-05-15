@@ -48,10 +48,9 @@ internal interface IGachaLogService
     /// <summary>
     /// 异步从UIGF导入数据
     /// </summary>
-    /// <param name="list">列表</param>
-    /// <param name="uid">Uid</param>
+    /// <param name="uigf">信息</param>
     /// <returns>任务</returns>
-    Task ImportFromUIGFAsync(List<UIGFItem> list, string uid);
+    Task ImportFromUIGFAsync(UIGF uigf);
 
     /// <summary>
     /// 异步初始化

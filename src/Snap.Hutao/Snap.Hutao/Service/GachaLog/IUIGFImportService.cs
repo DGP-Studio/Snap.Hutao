@@ -9,14 +9,13 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录导入服务
 /// </summary>
-internal interface IGachaLogImportService
+internal interface IUIGFImportService
 {
     /// <summary>
     /// 异步从 UIGF 导入
     /// </summary>
     /// <param name="context">祈愿记录服务上下文</param>
-    /// <param name="list">列表</param>
-    /// <param name="uid">uid</param>
+    /// <param name="uigf">数据</param>
     /// <returns>存档</returns>
-    Task<GachaArchive> ImportFromUIGFAsync(GachaLogServiceContext context, List<UIGFItem> list, string uid);
+    Task<GachaArchive> ImportAsync(GachaLogServiceContext context, UIGF uigf);
 }
