@@ -87,7 +87,7 @@ internal static class ApiOsEndpoints
 
     #endregion
 
-    #region ApiOsTaKumiBindingApi
+    #region ApiOsTakumiBindingApi
 
     /// <summary>
     /// 用户游戏角色

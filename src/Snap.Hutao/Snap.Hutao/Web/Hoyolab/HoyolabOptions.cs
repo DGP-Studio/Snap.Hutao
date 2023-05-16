@@ -46,14 +46,14 @@ internal sealed class HoyolabOptions : IOptions<HoyolabOptions>
     // https://github.com/UIGF-org/Hoyolab.Salt
     private static readonly ImmutableDictionary<SaltType, string> SaltsInner = new Dictionary<SaltType, string>()
     {
+        // Chinese
         [SaltType.K2] = "A4lPYtN0KGRVwE5M5Fm0DqQiC5VVMVM3",
         [SaltType.LK2] = "kkFiNdhyHqZ1VnDRHnU1podIvO4eiHcs",
         [SaltType.X4] = "xV8v4Qu54lUKrEYFZkJhB8cuOh9Asafs",
         [SaltType.X6] = "t0qEgfub6cvueAPgR5m9aQWWVciEer7v",
         [SaltType.PROD] = "JwYDpKvLj6MrMqqYU6jTKF17KNO2PXoS",
 
-        // This SALT is not reliable
-        // [SaltType.OSK2] = "6cqshh5dhw73bzxn20oexa9k516chk7s",
+        // Oversea
         [SaltType.OSK2] = "599uqkwc0dlqu3h6epzjzfhgyyrd44ae",
         [SaltType.OSLK2] = "rk4xg2hakoi26nljpr099fv9fck1ah10",
         [SaltType.OSX4] = "h4c1d6ywfq5bsbnbhm1bzq7bxzzv6srt",

@@ -15,6 +15,11 @@ internal enum SaltType
     None,
 
     /// <summary>
+    /// PROD
+    /// </summary>
+    PROD,
+
+    /// <summary>
     /// X4
     /// </summary>
     X4,
@@ -23,11 +28,6 @@ internal enum SaltType
     /// X6
     /// </summary>
     X6,
-
-    /// <summary>
-    /// PROD
-    /// </summary>
-    PROD,
 
     /// <summary>
     /// K2
