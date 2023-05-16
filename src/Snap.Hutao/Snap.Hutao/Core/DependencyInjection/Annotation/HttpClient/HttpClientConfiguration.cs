@@ -25,7 +25,7 @@ internal enum HttpClientConfiguration
     XRpc2,
 
     /// <summary>
-    /// 国际服Hoyolab请求配置
+    /// Hoyolab app
     /// </summary>
     XRpc3,
 }

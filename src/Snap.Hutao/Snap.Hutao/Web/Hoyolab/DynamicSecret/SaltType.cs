@@ -15,6 +15,11 @@ internal enum SaltType
     None,
 
     /// <summary>
+    /// PROD
+    /// </summary>
+    PROD,
+
+    /// <summary>
     /// X4
     /// </summary>
     X4,
@@ -23,11 +28,6 @@ internal enum SaltType
     /// X6
     /// </summary>
     X6,
-
-    /// <summary>
-    /// PROD
-    /// </summary>
-    PROD,
 
     /// <summary>
     /// K2
@@ -40,7 +40,22 @@ internal enum SaltType
     LK2,
 
     /// <summary>
-    /// Hoyolab K2
+    /// OSK2
     /// </summary>
     OSK2,
+
+    /// <summary>
+    /// OSLK
+    /// </summary>
+    OSLK2,
+
+    /// <summary>
+    /// OSX4
+    /// </summary>
+    OSX4,
+
+    /// <summary>
+    /// OSX6
+    /// </summary>
+    OSX6,
 }

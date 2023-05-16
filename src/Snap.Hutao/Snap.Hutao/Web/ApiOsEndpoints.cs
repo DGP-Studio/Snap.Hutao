@@ -87,7 +87,7 @@ internal static class ApiOsEndpoints
 
     #endregion
 
-    #region ApiOsTaKumiApi
+    #region ApiOsTakumiBindingApi
 
     /// <summary>
     /// 用户游戏角色
@@ -105,6 +105,12 @@ internal static class ApiOsEndpoints
         return $"{ApiAccountOsBindingApi}/getUserGameRolesByLtoken?game_biz=hk4e_global&region={region}";
     }
 
+    /// <summary>
+    /// Game Authkey
+    /// </summary>
+    public const string BindingGenAuthKey = $"{ApiAccountOsBindingApi}/genAuthKey";
+
+
     #endregion
 
     #region BbsApiOsApi
@@ -120,19 +126,24 @@ internal static class ApiOsEndpoints
     }
 
     /// <summary>
+    /// 用户详细信息
+    /// </summary>
+    public const string UserFullInfo = $"{BbsApiOs}/community/user/wapi/getUserFullInfo?gid=2";
+
+    /// <summary>
     /// 国际服角色基本信息
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>角色基本信息字符串</returns>
     public static string GameRecordRoleBasicInfo(in PlayerUid uid)
     {
-        return $"{BbsApiOsGameRecordApi}/roleBasicInfo?role_id={uid.Value}&server={uid.Region}";
+        return $"{BbsApiOsGameRecordAppApi}/roleBasicInfo?role_id={uid.Value}&server={uid.Region}";
     }
 
     /// <summary>
     /// 国际服角色信息
     /// </summary>
-    public const string GameRecordCharacter = $"{BbsApiOsGameRecordApi}/character";
+    public const string GameRecordCharacter = $"{BbsApiOsGameRecordAppApi}/character";
 
     /// <summary>
     /// 国际服游戏记录实时便笺
@@ -141,7 +152,7 @@ internal static class ApiOsEndpoints
     /// <returns>游戏记录实时便笺字符串</returns>
     public static string GameRecordDailyNote(in PlayerUid uid)
     {
-        return $"{BbsApiOsGameRecordApi}/dailyNote?server={uid.Region}&role_id={uid.Value}";
+        return $"{BbsApiOsGameRecordAppApi}/dailyNote?server={uid.Region}&role_id={uid.Value}";
     }
 
     /// <summary>
@@ -151,7 +162,7 @@ internal static class ApiOsEndpoints
     /// <returns>游戏记录主页字符串</returns>
     public static string GameRecordIndex(in PlayerUid uid)
     {
-        return $"{BbsApiOsGameRecordApi}/index?server={uid.Region}&role_id={uid.Value}";
+        return $"{BbsApiOsGameRecordAppApi}/index?server={uid.Region}&role_id={uid.Value}";
     }
 
     /// <summary>
@@ -162,7 +173,7 @@ internal static class ApiOsEndpoints
     /// <returns>深渊信息字符串</returns>
     public static string GameRecordSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyssSchedule scheduleType, in PlayerUid uid)
     {
-        return $"{BbsApiOsGameRecordApi}/spiralAbyss?schedule_type={(int)scheduleType}&role_id={uid.Value}&server={uid.Region}";
+        return $"{BbsApiOsGameRecordAppApi}/spiralAbyss?server={uid.Region}&role_id={uid.Value}&schedule_type={(int)scheduleType}";
     }
 
     #endregion
@@ -247,12 +258,12 @@ internal static class ApiOsEndpoints
     private const string ApiOsTakumi = "https://api-os-takumi.hoyoverse.com";
     private const string ApiOsTakumiBindingApi = $"{ApiOsTakumi}/binding/api";
 
-    private const string ApiAccountOs = "https://api-account-os.hoyolab.com";
+    private const string ApiAccountOs = "https://api-account-os.hoyoverse.com";
     private const string ApiAccountOsBindingApi = $"{ApiAccountOs}/binding/api";
     private const string ApiAccountOsAuthApi = $"{ApiAccountOs}/account/auth/api";
 
-    private const string BbsApiOs = "https://bbs-api-os.hoyolab.com";
-    private const string BbsApiOsGameRecordApi = $"{BbsApiOs}/game_record/genshin/api";
+    private const string BbsApiOs = "https://bbs-api-os.hoyoverse.com";
+    private const string BbsApiOsGameRecordAppApi = $"{BbsApiOs}/game_record/app/genshin/api";
 
     private const string Hk4eApiOs = "https://hk4e-api-os.hoyoverse.com";
     private const string Hk4eApiOsGachaInfoApi = $"{Hk4eApiOs}/event/gacha_info/api";
@@ -260,7 +271,7 @@ internal static class ApiOsEndpoints
     private const string SdkOsStatic = "https://sdk-os-static.mihoyo.com";
     private const string SdkOsStaticLauncherApi = $"{SdkOsStatic}/hk4e_global/mdk/launcher/api";
 
-    private const string SgPublicApi = "https://sg-public-api.hoyolab.com";
+    private const string SgPublicApi = "https://sg-public-api.hoyoverse.com";
 
     private const string WebApiOs = "https://webapi-os.account.hoyoverse.com";
     private const string WebApiOsAccountApi = $"{WebApiOs}/Api";
@@ -274,6 +285,11 @@ internal static class ApiOsEndpoints
     /// Act hoyolab referer
     /// </summary>
     public const string ActHoyolabReferer = "https://act.hoyolab.com/";
+
+    /// <summary>
+    /// App hoyolab referer
+    /// </summary>
+    public const string AppHoyolabReferer = "https://app.hoyolab.com/";
 
     #endregion
 }

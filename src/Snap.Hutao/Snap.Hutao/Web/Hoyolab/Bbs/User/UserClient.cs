@@ -47,22 +47,4 @@ internal sealed partial class UserClient : IUserClient
 
         return Response.Response.DefaultIfNull(resp);
     }
-
-    /// <summary>
-    /// 获取当前用户详细信息，使用 LToken
-    /// </summary>
-    /// <param name="user">用户</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>详细信息</returns>
-    [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.OSK2)]
-    public async Task<Response<UserFullInfoWrapper>> GetOsUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
-    {
-        Response<UserFullInfoWrapper>? resp = await httpClient
-            .SetUser(user, CookieType.LToken)
-            .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.OSK2, false)
-            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiOsEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
-            .ConfigureAwait(false);
-
-        return Response.Response.DefaultIfNull(resp);
-    }
 }

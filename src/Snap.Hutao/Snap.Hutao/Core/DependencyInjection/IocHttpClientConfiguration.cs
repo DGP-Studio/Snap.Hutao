@@ -68,10 +68,26 @@ internal static partial class IocHttpClientConfiguration
 
     /// <summary>
     /// 对于需要添加动态密钥的客户端使用此配置
-    /// 国际服 API 测试
+    /// Hoyolab app
     /// </summary>
     /// <param name="client">配置后的客户端</param>
     private static void XRpc3Configuration(HttpClient client)
+    {
+        client.Timeout = Timeout.InfiniteTimeSpan;
+        client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.UserAgentOversea);
+        client.DefaultRequestHeaders.Accept.ParseAdd(ApplicationJson);
+        client.DefaultRequestHeaders.Add("x-rpc-app_version", HoyolabOptions.XrpcVersionOversea);
+        client.DefaultRequestHeaders.Add("x-rpc-client_type", "5");
+        client.DefaultRequestHeaders.Add("x-rpc-language", "zh-cn");
+        client.DefaultRequestHeaders.Add("x-rpc-device_id", HoyolabOptions.DeviceId);
+    }
+
+    /// <summary>
+    /// 对于需要添加动态密钥的客户端使用此配置
+    /// Hoyolab web
+    /// </summary>
+    /// <param name="client">配置后的客户端</param>
+    private static void XRpc4Configuration(HttpClient client)
     {
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(HoyolabOptions.UserAgentOversea);
