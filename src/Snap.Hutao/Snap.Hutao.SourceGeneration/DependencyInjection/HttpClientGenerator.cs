@@ -19,16 +19,10 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
 {
     private const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientAttribute";
 
-    private const string DefaultName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.Default";
-    private const string XRpcName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.XRpc";
-    private const string XRpc2Name = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.XRpc2";
-    private const string XRpc3Name = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.XRpc3";
-
+    private const string HttpClientConfiguration = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.HttpClientConfiguration.";
     private const string PrimaryHttpMessageHandlerAttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient.PrimaryHttpMessageHandlerAttribute";
     private const string UseDynamicSecretAttributeName = "Snap.Hutao.Web.Hoyolab.DynamicSecret.UseDynamicSecretAttribute";
     private const string CRLF = "\r\n";
-
-    private static readonly DiagnosticDescriptor invalidConfigurationDescriptor = new("SH100", "无效的 HttpClientConfiguration", "尚未支持生成 {0} 配置", "Quality", DiagnosticSeverity.Error, true);
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -109,26 +103,7 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
             }
 
             lineBuilder.Append($"{context.Symbol.ToDisplayString()}>(");
-
-            string configurationName = arguments[0].ToCSharpString();
-            switch (configurationName)
-            {
-                case DefaultName:
-                    lineBuilder.Append("DefaultConfiguration)");
-                    break;
-                case XRpcName:
-                    lineBuilder.Append("XRpcConfiguration)");
-                    break;
-                case XRpc2Name:
-                    lineBuilder.Append("XRpc2Configuration)");
-                    break;
-                case XRpc3Name:
-                    lineBuilder.Append("XRpc3Configuration)");
-                    break;
-                default:
-                    production.ReportDiagnostic(Diagnostic.Create(invalidConfigurationDescriptor, null, configurationName));
-                    break;
-            }
+            lineBuilder.Append(arguments[0].ToCSharpString().Substring(HttpClientConfiguration.Length)).Append("Configuration)");
 
             if (context.SingleOrDefaultAttribute(PrimaryHttpMessageHandlerAttributeName) is AttributeData handlerData)
             {

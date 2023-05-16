@@ -4,19 +4,20 @@
 using Snap.Hutao.Core.LifeCycle;
 using Windows.UI.StartScreen;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Core.Shell;
 
 /// <summary>
-/// 跳转列表帮助类
+/// 跳转列表交互
 /// </summary>
 [HighQuality]
-internal static class JumpListHelper
+[Injection(InjectAs.Transient, typeof(IJumpListInterop))]
+internal sealed class JumpListInterop : IJumpListInterop
 {
     /// <summary>
     /// 异步配置跳转列表
     /// </summary>
     /// <returns>任务</returns>
-    public static async Task ConfigureAsync()
+    public async Task ConfigureAsync()
     {
         if (JumpList.IsSupported())
         {

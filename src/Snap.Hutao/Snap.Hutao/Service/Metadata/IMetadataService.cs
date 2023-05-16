@@ -18,6 +18,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// 元数据服务
 /// </summary>
 [HighQuality]
+[SuppressMessage("", "SA1124")]
 internal interface IMetadataService : ICastableService
 {
     /// <summary>
@@ -25,6 +26,8 @@ internal interface IMetadataService : ICastableService
     /// </summary>
     /// <returns>初始化是否成功</returns>
     ValueTask<bool> InitializeAsync();
+
+    #region RawData
 
     /// <summary>
     /// 异步获取成就列表
@@ -41,6 +44,13 @@ internal interface IMetadataService : ICastableService
     ValueTask<List<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default);
 
     /// <summary>
+    /// 异步获取角色突破列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>角色突破列表</returns>
+    ValueTask<List<Promote>> GetAvatarPromotesAsync(CancellationToken token = default);
+
+    /// <summary>
     /// 异步获取角色列表
     /// </summary>
     /// <param name="token">取消令牌</param>
@@ -48,18 +58,84 @@ internal interface IMetadataService : ICastableService
     ValueTask<List<Avatar>> GetAvatarsAsync(CancellationToken token = default);
 
     /// <summary>
-    /// 异步获取装备被动Id到圣遗物套装的映射
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>装备被动Id到圣遗物套装的映射</returns>
-    ValueTask<Dictionary<EquipAffixId, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default);
-
-    /// <summary>
     /// 异步获取卡池配置列表
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>卡池配置列表</returns>
     ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取材料列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>材料列表</returns>
+    ValueTask<List<Material>> GetMaterialsAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取怪物列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>怪物列表</returns>
+    ValueTask<List<Monster>> GetMonstersAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取圣遗物列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>圣遗物列表</returns>
+    ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取圣遗物强化属性列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>圣遗物强化属性列表</returns>
+    ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取圣遗物等级数据
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>圣遗物等级数据</returns>
+    ValueTask<List<ReliquaryLevel>> GetReliquaryLevelsAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取圣遗物主属性强化属性列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>圣遗物强化属性列表</returns>
+    ValueTask<List<ReliquaryMainAffix>> GetReliquaryMainAffixesAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取圣遗物套装
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>圣遗物套装列表</returns>
+    ValueTask<List<ReliquarySet>> GetReliquarySetsAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取武器突破列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>武器突破列表</returns>
+    ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取武器列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>武器列表</returns>
+    ValueTask<List<Weapon>> GetWeaponsAsync(CancellationToken token = default);
+    #endregion
+
+    #region IdDataMap
+
+    /// <summary>
+    /// 异步获取装备被动Id到圣遗物套装的映射
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>装备被动Id到圣遗物套装的映射</returns>
+    ValueTask<Dictionary<EquipAffixId, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取成就映射
@@ -109,6 +185,9 @@ internal interface IMetadataService : ICastableService
     /// <param name="token">取消令牌</param>
     /// <returns>Id到武器的字典</returns>
     ValueTask<Dictionary<WeaponId, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default);
+    #endregion
+
+    #region NameDataMap
 
     /// <summary>
     /// 异步获取名称到角色的字典
@@ -123,62 +202,9 @@ internal interface IMetadataService : ICastableService
     /// <param name="token">取消令牌</param>
     /// <returns>名称到武器的字典</returns>
     ValueTask<Dictionary<string, Weapon>> GetNameToWeaponMapAsync(CancellationToken token = default);
+    #endregion
 
-    /// <summary>
-    /// 异步获取圣遗物列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>圣遗物列表</returns>
-    ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取圣遗物强化属性列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>圣遗物强化属性列表</returns>
-    ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取圣遗物等级数据
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>圣遗物等级数据</returns>
-    ValueTask<List<ReliquaryLevel>> GetReliquaryLevelsAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取圣遗物主属性强化属性列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>圣遗物强化属性列表</returns>
-    ValueTask<List<ReliquaryMainAffix>> GetReliquaryMainAffixesAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取武器列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>武器列表</returns>
-    ValueTask<List<Weapon>> GetWeaponsAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取圣遗物套装
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>圣遗物套装列表</returns>
-    ValueTask<List<ReliquarySet>> GetReliquarySetsAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取材料列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>材料列表</returns>
-    ValueTask<List<Material>> GetMaterialsAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取怪物列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>怪物列表</returns>
-    ValueTask<List<Monster>> GetMonstersAsync(CancellationToken token = default);
+    #region LevelCurveMap
 
     /// <summary>
     /// 异步获取等级角色曲线映射
@@ -200,18 +226,5 @@ internal interface IMetadataService : ICastableService
     /// <param name="token">取消令牌</param>
     /// <returns>等级武器曲线映射</returns>
     ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取角色突破列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>角色突破列表</returns>
-    ValueTask<List<Promote>> GetAvatarPromotesAsync(CancellationToken token = default);
-
-    /// <summary>
-    /// 异步获取武器突破列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>武器突破列表</returns>
-    ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default);
+    #endregion
 }

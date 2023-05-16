@@ -1,12 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.Notifications;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Core.Shell;
 using System.Diagnostics;
 
 namespace Snap.Hutao;
@@ -56,7 +56,7 @@ public sealed partial class App : Application
                 activation.InitializeWith(firstInstance);
 
                 LogDiagnosticInformation();
-                PostLaunchAsync().SafeForget(logger);
+                serviceProvider.GetRequiredService<IJumpListInterop>().ConfigureAsync().SafeForget();
             }
             else
             {
@@ -70,11 +70,6 @@ public sealed partial class App : Application
             // AppInstance.GetCurrent() calls failed
             Process.GetCurrentProcess().Kill();
         }
-    }
-
-    private static async Task PostLaunchAsync()
-    {
-        await JumpListHelper.ConfigureAsync().ConfigureAwait(false);
     }
 
     private void LogDiagnosticInformation()

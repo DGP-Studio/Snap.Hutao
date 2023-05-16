@@ -6,13 +6,14 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Storage;
 
-namespace Snap.Hutao.Core;
+namespace Snap.Hutao.Core.Shell;
 
 /// <summary>
-/// 任务计划器服务
+/// 任务计划互操作
 /// </summary>
 [HighQuality]
-internal static class ScheduleTaskHelper
+[Injection(InjectAs.Transient, typeof(IScheduleTaskInterop))]
+internal sealed class ScheduleTaskInterop : IScheduleTaskInterop
 {
     private const string DailyNoteRefreshTaskName = "SnapHutaoDailyNoteRefreshTask";
 
@@ -21,7 +22,7 @@ internal static class ScheduleTaskHelper
     /// </summary>
     /// <param name="interval">间隔（秒）</param>
     /// <returns>是否注册或修改成功</returns>
-    public static bool RegisterForDailyNoteRefresh(int interval)
+    public bool RegisterForDailyNoteRefresh(int interval)
     {
         try
         {
@@ -43,7 +44,7 @@ internal static class ScheduleTaskHelper
     /// 卸载全部注册的任务
     /// </summary>
     /// <returns>是否卸载成功</returns>
-    public static bool UnregisterAllTasks()
+    public bool UnregisterAllTasks()
     {
         try
         {

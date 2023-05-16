@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core;
+using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
@@ -16,6 +16,7 @@ namespace Snap.Hutao.Service.DailyNote;
 internal sealed class DailyNoteOptions : DbStoreOptions
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IScheduleTaskInterop scheduleTaskInterop;
     private readonly List<NameValue<int>> refreshTimes = new()
     {
         new(SH.ViewModelDailyNoteRefreshTime4, 240),
@@ -36,6 +37,7 @@ internal sealed class DailyNoteOptions : DbStoreOptions
     public DailyNoteOptions(IServiceProvider serviceProvider)
         : base(serviceProvider)
     {
+        scheduleTaskInterop = serviceProvider.GetRequiredService<IScheduleTaskInterop>();
         this.serviceProvider = serviceProvider;
     }
 
@@ -54,7 +56,7 @@ internal sealed class DailyNoteOptions : DbStoreOptions
         {
             if (value != null)
             {
-                if (ScheduleTaskHelper.RegisterForDailyNoteRefresh(value.Value))
+                if (scheduleTaskInterop.RegisterForDailyNoteRefresh(value.Value))
                 {
                     SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, value => value.Value.ToString());
                 }
