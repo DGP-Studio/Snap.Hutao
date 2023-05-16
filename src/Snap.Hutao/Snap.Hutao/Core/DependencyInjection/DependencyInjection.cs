@@ -2,6 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Service;
+using System.Globalization;
+using Windows.Globalization;
 
 namespace Snap.Hutao.Core.DependencyInjection;
 
@@ -36,6 +39,23 @@ internal static class DependencyInjection
             .BuildServiceProvider(true);
 
         Ioc.Default.ConfigureServices(serviceProvider);
+
+        serviceProvider.InitializeCulture();
+
+        return serviceProvider;
+    }
+
+    private static IServiceProvider InitializeCulture(this IServiceProvider serviceProvider)
+    {
+        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+        appOptions.PreviousCulture = CultureInfo.CurrentCulture;
+
+        CultureInfo cultureInfo = appOptions.CurrentCulture;
+
+        CultureInfo.CurrentCulture = cultureInfo;
+        CultureInfo.CurrentUICulture = cultureInfo;
+        ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
+
         return serviceProvider;
     }
 }

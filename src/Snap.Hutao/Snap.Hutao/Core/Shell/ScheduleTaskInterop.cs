@@ -29,8 +29,10 @@ internal sealed class ScheduleTaskInterop : IScheduleTaskInterop
             TaskDefinition task = TaskService.Instance.NewTask();
             task.RegistrationInfo.Description = SH.CoreScheduleTaskHelperDailyNoteRefreshTaskDescription;
             task.Triggers.Add(new TimeTrigger() { Repetition = new(TimeSpan.FromSeconds(interval), TimeSpan.Zero), });
+
             string scriptPath = EnsureWScriptCreated("DailyNoteRefresh", "hutao://DailyNote/Refresh");
             task.Actions.Add("wscript", $@"/b ""{scriptPath}""");
+
             TaskService.Instance.RootFolder.RegisterTaskDefinition(DailyNoteRefreshTaskName, task);
             return true;
         }

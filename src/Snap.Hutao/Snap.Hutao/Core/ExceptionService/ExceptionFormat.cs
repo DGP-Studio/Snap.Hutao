@@ -20,6 +20,8 @@ internal sealed class ExceptionFormat
     /// <returns>格式化后的异常</returns>
     public static string Format(Exception exception)
     {
+        // TODO: handle WinRT.ExceptionHelpers+__RestrictedErrorObject
+
         StringBuilder builder = new();
         builder.AppendLine("Exception Data:");
 
