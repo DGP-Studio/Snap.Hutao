@@ -94,7 +94,8 @@
                                     DesiredWidth="320"
                                     ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                     ItemsSource="{Binding CultivateEntries}"
-                                    SelectionMode="None">
+                                    SelectionMode="None"
+                                    StretchContentForSingleRow="False">
                                     <cwucont:AdaptiveGridView.ItemTemplate>
                                         <DataTemplate>
                                             <Border Style="{StaticResource BorderCardStyle}">
@@ -244,7 +245,8 @@
                                     DesiredWidth="320"
                                     ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                     ItemsSource="{Binding StatisticsItems}"
-                                    SelectionMode="None">
+                                    SelectionMode="None"
+                                    StretchContentForSingleRow="False">
                                     <cwucont:AdaptiveGridView.Resources>
                                         <x:Double x:Key="GridViewItemMinHeight">0</x:Double>
                                     </cwucont:AdaptiveGridView.Resources>
@@ -323,7 +325,8 @@
                         Padding="16,16,4,4"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                         ItemsSource="{Binding InventoryItems}"
-                        SelectionMode="None">
+                        SelectionMode="None"
+                        StretchContentForSingleRow="False">
                         <cwucont:AdaptiveGridView.ItemTemplate>
                             <DataTemplate>
                                 <Button

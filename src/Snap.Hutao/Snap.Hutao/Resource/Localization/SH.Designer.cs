@@ -1591,6 +1591,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 需要管理员权限 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlElevationText {
+            get {
+                return ResourceManager.GetString("ViewControlElevationText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 加载中，请稍候 的本地化字符串。
         /// </summary>
         internal static string ViewControlLoadingText {

@@ -129,7 +129,8 @@
                 DesiredWidth="280"
                 ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                 ItemsSource="{Binding DailyNoteEntries}"
-                SelectionMode="None">
+                SelectionMode="None"
+                StretchContentForSingleRow="False">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Padding="8" Style="{StaticResource BorderCardStyle}">

@@ -25,6 +25,7 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <shc:ScopedPage.Resources>
+        <x:Double x:Key="AdaptiveGridViewDesiredWidth">300</x:Double>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="AnnouncementTemplate">
@@ -32,7 +33,7 @@
                 Margin="16,16,0,-4"
                 HorizontalAlignment="Stretch"
                 cwua:ItemsReorderAnimation.Duration="0:0:0.1"
-                DesiredWidth="300"
+                DesiredWidth="{StaticResource AdaptiveGridViewDesiredWidth}"
                 ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                 ItemsSource="{Binding List}"
                 SelectionMode="None">
@@ -165,9 +166,10 @@
                         Margin="16,16,0,0"
                         HorizontalAlignment="Stretch"
                         cwua:ItemsReorderAnimation.Duration="0:0:0.1"
-                        DesiredWidth="300"
+                        DesiredWidth="{StaticResource AdaptiveGridViewDesiredWidth}"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
-                        SelectionMode="None">
+                        SelectionMode="None"
+                        StretchContentForSingleRow="False">
                         <shvca:LaunchGameCard Height="{StaticResource HomeAdaptiveCardHeight}"/>
                         <shvca:GachaStatisticsCard/>
                         <shvca:AchievementCard/>

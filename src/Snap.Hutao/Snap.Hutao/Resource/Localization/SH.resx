@@ -2013,4 +2013,7 @@
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
   </data>
+  <data name="ViewControlElevationText" xml:space="preserve">
+    <value>需要管理员权限</value>
+  </data>
 </root>
