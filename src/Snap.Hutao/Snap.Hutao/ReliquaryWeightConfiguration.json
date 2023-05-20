@@ -803,5 +803,18 @@
     "recharge": 75,
     "heal": 100,
     "element": "Dendro"
+  },
+  "10000081": {
+    "hp": 0,
+    "atk": 75,
+    "def": 0,
+    "cpct": 100,
+    "cdmg": 100,
+    "mastery": 75,
+    "dmg": 100,
+    "phy": 0,
+    "recharge": 75,
+    "heal": 0,
+    "element": "Dendro"
   }
 }
