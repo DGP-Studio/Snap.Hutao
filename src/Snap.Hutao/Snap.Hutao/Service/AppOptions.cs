@@ -16,14 +16,14 @@ namespace Snap.Hutao.Service;
 [Injection(InjectAs.Singleton)]
 internal sealed class AppOptions : DbStoreOptions
 {
-    private static readonly List<NameValue<BackdropType>> SupportedBackdropTypes = new()
+    private readonly List<NameValue<BackdropType>> SupportedBackdropTypes = new()
     {
         new("Acrylic", BackdropType.Acrylic),
         new("Mica", BackdropType.Mica),
         new("MicaAlt", BackdropType.MicaAlt),
     };
 
-    private static readonly List<NameValue<string>> SupportedCultures = new()
+    private readonly List<NameValue<string>> SupportedCultures = new()
     {
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),

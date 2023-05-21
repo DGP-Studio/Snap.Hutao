@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service;
@@ -66,9 +67,9 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     {
         Regex timeTagRegrex = XmlTagRegex();
 
-        announcementListWrappers.ForEach(listWrapper =>
+        foreach (ref AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
-            listWrapper.List.ForEach(item =>
+            foreach (ref Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
             {
                 if (contentMap.TryGetValue(item.AnnId, out string? rawContent))
                 {
@@ -77,8 +78,8 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                 }
 
                 item.Content = rawContent ?? string.Empty;
-            });
-        });
+            }
+        }
     }
 
     /// <summary>

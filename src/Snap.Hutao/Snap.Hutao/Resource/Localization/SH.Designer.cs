@@ -493,20 +493,20 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 须弥 的本地化字符串。
-        /// </summary>
-        internal static string ModelIntrinsicAssociationTypeSemuru {
-            get {
-                return ResourceManager.GetString("ModelIntrinsicAssociationTypeSemuru", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 至冬 的本地化字符串。
         /// </summary>
         internal static string ModelIntrinsicAssociationTypeSnezhnaya {
             get {
                 return ResourceManager.GetString("ModelIntrinsicAssociationTypeSnezhnaya", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 须弥 的本地化字符串。
+        /// </summary>
+        internal static string ModelIntrinsicAssociationTypeSumeru {
+            get {
+                return ResourceManager.GetString("ModelIntrinsicAssociationTypeSumeru", resourceCulture);
             }
         }
         
@@ -745,7 +745,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 新增:{0} 个成就 | 更新:{1} 个成就 | 删除{2} 个成就 的本地化字符串。
+        ///   查找类似 新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就 的本地化字符串。
         /// </summary>
         internal static string ServiceAchievementImportResultFormat {
             get {

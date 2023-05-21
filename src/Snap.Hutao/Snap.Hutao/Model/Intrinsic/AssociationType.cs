@@ -53,7 +53,7 @@ internal enum AssociationType
     /// <summary>
     /// 须弥
     /// </summary>
-    [LocalizationKey("ModelIntrinsicAssociationTypeSemuru")]
+    [LocalizationKey("ModelIntrinsicAssociationTypeSumeru")]
     ASSOC_TYPE_SUMERU,
 
     /// <summary>

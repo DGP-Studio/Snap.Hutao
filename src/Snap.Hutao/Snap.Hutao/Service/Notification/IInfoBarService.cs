@@ -78,13 +78,6 @@ internal interface IInfoBarService
     void Success(string title, string message, int delay = 5000);
 
     /// <summary>
-    /// 异步等待加载完成
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>任务</returns>
-    Task WaitInitializationAsync(CancellationToken token = default);
-
-    /// <summary>
     /// 显示警告信息
     /// </summary>
     /// <param name="message">消息</param>

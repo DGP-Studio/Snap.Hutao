@@ -13,8 +13,8 @@ namespace Snap.Hutao.Service.Notification;
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
 internal sealed partial class InfoBarService : IInfoBarService
 {
+    private readonly ILogger<InfoBarService> logger;
     private readonly ITaskContext taskContext;
-    private readonly TaskCompletionSource initializaionCompletionSource;
 
     private ObservableCollection<InfoBar>? collection;
 
@@ -22,16 +22,6 @@ internal sealed partial class InfoBarService : IInfoBarService
     public ObservableCollection<InfoBar> Collection
     {
         get => collection ??= new();
-    }
-
-    /// <summary>
-    /// 异步等待主窗体加载完成
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>任务</returns>
-    public Task WaitInitializationAsync(CancellationToken token = default)
-    {
-        return initializaionCompletionSource.Task;
     }
 
     /// <inheritdoc/>
@@ -101,7 +91,7 @@ internal sealed partial class InfoBarService : IInfoBarService
             return;
         }
 
-        PrepareInfoBarAndShowInternalAsync(severity, title, message, delay).SafeForget();
+        PrepareInfoBarAndShowInternalAsync(severity, title, message, delay).SafeForget(logger);
     }
 
     /// <summary>
@@ -135,12 +125,9 @@ internal sealed partial class InfoBarService : IInfoBarService
         }
     }
 
-    [SuppressMessage("", "VSTHRD100")]
-    private async void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
+    private void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
     {
-        await taskContext.SwitchToMainThreadAsync();
-
-        collection!.Remove(sender);
+        taskContext.InvokeOnMainThread(() => collection!.Remove(sender));
         sender.Closed -= OnInfoBarClosed;
     }
 }

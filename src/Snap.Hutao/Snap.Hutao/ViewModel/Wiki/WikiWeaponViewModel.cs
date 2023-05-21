@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.UI;
-using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Intrinsic.Immutable;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
@@ -213,50 +211,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             {
                 Weapons.Filter = null!;
             }
-        }
-    }
-
-    private static class WeaponFilter
-    {
-        public static Predicate<object> Compile(string input)
-        {
-            return (object o) => o is Weapon weapon && DoFilter(input, weapon);
-        }
-
-        private static bool DoFilter(string input, Weapon weapon)
-        {
-            List<bool> matches = new();
-
-            foreach (StringSegment segment in new StringTokenizer(input, ' '.Enumerate().ToArray()))
-            {
-                string value = segment.ToString();
-
-                if (weapon.Name == value)
-                {
-                    matches.Add(true);
-                    continue;
-                }
-
-                if (IntrinsicImmutables.WeaponTypes.Contains(value))
-                {
-                    matches.Add(weapon.WeaponType.GetLocalizedDescriptionOrDefault() == value);
-                    continue;
-                }
-
-                if (IntrinsicImmutables.ItemQualities.Contains(value))
-                {
-                    matches.Add(weapon.Quality.GetLocalizedDescriptionOrDefault() == value);
-                    continue;
-                }
-
-                if (IntrinsicImmutables.FightProperties.Contains(value))
-                {
-                    matches.Add(weapon.GrowCurves.ElementAtOrDefault(1).Key.GetLocalizedDescriptionOrDefault() == value);
-                    continue;
-                }
-            }
-
-            return matches.Count > 0 && matches.Aggregate((a, b) => a && b);
         }
     }
 }

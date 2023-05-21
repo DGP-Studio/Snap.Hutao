@@ -258,7 +258,7 @@
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
     <value>游侠</value>
   </data>
-  <data name="ModelIntrinsicAssociationTypeSemuru" xml:space="preserve">
+  <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
     <value>须弥</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
@@ -343,7 +343,7 @@
     <value>必须先选择一个用户与角色</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
-    <value>新增:{0} 个成就 | 更新:{1} 个成就 | 删除{2} 个成就</value>
+    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>单个成就存档内发现多个相同的成就 Id</value>

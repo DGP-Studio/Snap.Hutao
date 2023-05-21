@@ -8,6 +8,7 @@
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shv:SettingViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -17,7 +18,7 @@
                 <ColumnDefinition MaxWidth="1000"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Margin="16,16,24,16" Spacing="{StaticResource SettingsCardSpacing}">
+            <StackPanel Margin="16,16,16,16" Spacing="{StaticResource SettingsCardSpacing}">
                 <Border Height="280" Style="{StaticResource BorderCardStyle}">
                     <Grid>
                         <Image
@@ -200,27 +201,30 @@
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                     Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewPageSettingDangerousHeader}"/>
+
                 <InfoBar
                     IsClosable="False"
                     IsOpen="{Binding Options.IsAdvancedLaunchOptionsEnabled}"
                     Message="{shcm:ResourceString Name=ViewPageSettingFeaturesDangerousHint}"
                     Severity="Error"/>
-
                 <clw:SettingsCard
-                    Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
                     Description="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE730;}"
                     IsEnabled="{Binding HutaoOptions.IsElevated}">
-                    <ToggleSwitch Width="120" IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
+                        <ToggleSwitch Width="120" IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
+                    </StackPanel>
+
                 </clw:SettingsCard>
+
                 <InfoBar
                     Margin="0,4,0,0"
                     IsClosable="False"
                     IsOpen="True"
                     Message="{shcm:ResourceString Name=ViewPageSettingDangerousHint}"
                     Severity="Error"/>
-
                 <clw:SettingsCard
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"
                     Command="{Binding Experimental.DeleteUsersCommand}"

@@ -20,9 +20,9 @@ namespace Snap.Hutao.Web.Hoyolab.App.Account;
 [HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed partial class AccountClient
 {
-    private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<AccountClient> logger;
+    private readonly HttpClient httpClient;
 
     /// <summary>
     /// 异步生成米游社操作验证密钥

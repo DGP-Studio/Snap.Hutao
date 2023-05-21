@@ -72,17 +72,19 @@
                 BorderThickness="0"
                 DefaultLabelPosition="Right">
                 <CommandBar.Content>
-                    <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
+                    <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="8,8,0,0"/>
                 </CommandBar.Content>
+                <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>
                 <AppBarElementContainer>
                     <AutoSuggestBox
                         Width="240"
                         Height="36"
-                        Margin="16,6,6,0"
+                        Margin="6,6,6,0"
                         HorizontalAlignment="Stretch"
                         VerticalContentAlignment="Center"
                         PlaceholderText="{shcm:ResourceString Name=ViewPageWiKiAvatarAutoSuggestBoxPlaceHolder}"
                         QueryIcon="{shcm:FontIcon Glyph=&#xE721;}"
+                        Style="{StaticResource DefaultAutoSuggestBoxStyle}"
                         Text="{Binding FilterText, Mode=TwoWay}">
                         <mxi:Interaction.Behaviors>
                             <mxic:EventTriggerBehavior EventName="QuerySubmitted">
@@ -97,15 +99,20 @@
                     Icon="{shcm:FontIcon Glyph=&#xE8EF;}"
                     Label="{shcm:ResourceString Name=ViewPageWiKiGeneralAddToDevPlanButtonLabel}"/>
             </CommandBar>
-            <SplitView
-                Grid.Row="1"
-                DisplayMode="Inline"
-                IsPaneOpen="True"
-                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
-                PaneBackground="{StaticResource CardBackgroundFillColorSecondaryBrush}">
-                <SplitView.Pane>
-                    <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                        <cwuc:Case Value="List">
+            <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                <cwuc:SwitchPresenter.ContentTransitions>
+                    <TransitionCollection>
+                        <ContentThemeTransition/>
+                    </TransitionCollection>
+                </cwuc:SwitchPresenter.ContentTransitions>
+                <cwuc:Case Value="List">
+                    <SplitView
+                        Grid.Row="1"
+                        DisplayMode="Inline"
+                        IsPaneOpen="True"
+                        OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
+                        PaneBackground="{StaticResource CardBackgroundFillColorSecondaryBrush}">
+                        <SplitView.Pane>
                             <ListView
                                 Grid.Row="1"
                                 ItemsSource="{Binding Avatars}"
@@ -133,469 +140,469 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                        </cwuc:Case>
-                        <cwuc:Case Value="Grid">
-                            <GridView
-                                Margin="6,6,0,0"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Left"
-                                ItemsSource="{Binding Avatars}"
-                                SelectedItem="{Binding Selected, Mode=TwoWay}"
-                                SelectionMode="Single">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <shvc:ItemIcon
-                                            Width="44"
-                                            Height="44"
-                                            Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
-                                            Quality="{Binding Quality}"/>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </cwuc:Case>
-                    </cwuc:SwitchPresenter>
-                </SplitView.Pane>
-                <SplitView.Content>
-                    <Grid>
-                        <!--  渐变背景  -->
-                        <shci:Gradient
-                            VerticalAlignment="Top"
-                            BackgroundDirection="RightTopToLeftBottom"
-                            ForegroundDirection="TopToBottom"
-                            Source="{Binding Selected, Converter={StaticResource AvatarNameCardPicConverter}}"/>
+                        </SplitView.Pane>
+                        <SplitView.Content>
+                            <Grid>
+                                <!--  渐变背景  -->
+                                <shci:Gradient
+                                    VerticalAlignment="Top"
+                                    BackgroundDirection="RightTopToLeftBottom"
+                                    ForegroundDirection="TopToBottom"
+                                    Source="{Binding Selected, Converter={StaticResource AvatarNameCardPicConverter}}"/>
 
-                        <ScrollViewer>
-                            <StackPanel
-                                MaxWidth="800"
-                                Margin="0,0,20,16"
-                                HorizontalAlignment="Left">
-                                <!--  简介  -->
-                                <Grid Margin="16,16,0,16" VerticalAlignment="Top">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0">
-                                        <Grid Margin="0,0,0,16">
+                                <ScrollViewer>
+                                    <StackPanel
+                                        MaxWidth="800"
+                                        Margin="0,0,20,16"
+                                        HorizontalAlignment="Left">
+                                        <!--  简介  -->
+                                        <Grid Margin="16,16,0,16" VerticalAlignment="Top">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
+                                                <ColumnDefinition Width="auto"/>
                                                 <ColumnDefinition/>
                                             </Grid.ColumnDefinitions>
-                                            <shci:MonoChrome
-                                                Grid.Column="0"
-                                                Width="32"
-                                                Height="32"
-                                                Source="{Binding Selected.FetterInfo.VisionBefore, Converter={StaticResource ElementNameIconConverter}}"/>
-                                            <shci:MonoChrome
-                                                Grid.Column="1"
-                                                Width="32"
-                                                Height="32"
-                                                Source="{Binding Selected.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
-                                        </Grid>
-                                        <shvc:ItemIcon
-                                            Width="100"
-                                            Height="100"
-                                            Icon="{Binding Selected.Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
-                                            Quality="{Binding Selected.Quality, Mode=OneWay}"/>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Column="1" Margin="16,0,0,0">
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock
-                                                Margin="0,0,0,2"
-                                                VerticalAlignment="Center"
-                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{Binding Selected.Name}"/>
-                                            <TextBlock
-                                                Margin="24,0,0,2"
-                                                VerticalAlignment="Center"
-                                                Style="{StaticResource SubtitleTextBlockStyle}"
-                                                Text="{Binding Selected.FetterInfo.Title}"/>
-                                        </StackPanel>
-
-                                        <TextBlock
-                                            Margin="0,12,0,0"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding Selected.FetterInfo.Detail}"
-                                            TextWrapping="NoWrap"/>
-
-                                        <cwuc:UniformGrid
-                                            Margin="0,12,0,0"
-                                            ColumnSpacing="12"
-                                            Columns="4">
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOccupationNameTitle}"/>
-                                                <TextBlock
-                                                    Margin="0,6,0,0"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Selected.FetterInfo.Native}"
-                                                    TextWrapping="NoWrap"/>
-                                            </StackPanel>
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
-                                                <TextBlock
-                                                    Margin="0,6,0,0"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Selected.FetterInfo.ConstellationBefore}"
-                                                    TextWrapping="NoWrap"/>
-                                            </StackPanel>
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarDateofBirthTitle}"/>
-                                                <TextBlock
-                                                    Margin="0,6,0,0"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Selected.FetterInfo.BirthFormatted}"
-                                                    TextWrapping="NoWrap"/>
-                                            </StackPanel>
-                                        </cwuc:UniformGrid>
-
-                                        <cwuc:UniformGrid
-                                            Margin="0,12,0,0"
-                                            ColumnSpacing="12"
-                                            Columns="4">
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarChineseCVNameTitle}"/>
-                                                <TextBlock
-                                                    Margin="0,6,0,0"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Selected.FetterInfo.CvChinese}"
-                                                    TextWrapping="NoWrap"/>
-                                            </StackPanel>
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarJapaneseCVNameTitle}"/>
-                                                <TextBlock
-                                                    Margin="0,6,0,0"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Selected.FetterInfo.CvJapanese}"
-                                                    TextWrapping="NoWrap"/>
-                                            </StackPanel>
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarEnglishCVNameTitle}"/>
-                                                <TextBlock
-                                                    Margin="0,6,0,0"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Selected.FetterInfo.CvEnglish}"
-                                                    TextWrapping="NoWrap"/>
-                                            </StackPanel>
-                                            <StackPanel>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarKoreanCVNameTitle}"/>
-                                                <TextBlock
-                                                    Margin="0,6,0,0"
-                                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                                    Text="{Binding Selected.FetterInfo.CvKorean}"
-                                                    TextWrapping="NoWrap"/>
-                                            </StackPanel>
-                                        </cwuc:UniformGrid>
-                                    </StackPanel>
-                                </Grid>
-                                <!--  属性  -->
-                                <shvc:BaseValueSlider
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
-                                <TextBlock
-                                    Margin="16,32,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
-                                <GridView
-                                    Margin="16,16,0,0"
-                                    ItemsSource="{Binding Selected.CultivationItemsView}"
-                                    SelectionMode="None">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <shvc:BottomTextControl Text="{Binding Name}">
-                                                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
-                                            </shvc:BottomTextControl>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </GridView>
-
-                                <TextBlock
-                                    Margin="16,32,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
-                                <shvc:SkillPivot
-                                    Margin="16,16,0,0"
-                                    ItemTemplate="{StaticResource SkillDataTemplate}"
-                                    Skills="{Binding Selected.SkillDepot.CompositeSkills}"/>
-
-                                <TextBlock
-                                    Margin="16,32,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
-                                <shvc:SkillPivot
-                                    Grid.Column="1"
-                                    Margin="16,16,0,0"
-                                    ItemTemplate="{StaticResource TalentDataTemplate}"
-                                    Skills="{Binding Selected.SkillDepot.Talents}"/>
-
-                                <TextBlock
-                                    Margin="16,32,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
-                                <GridView
-                                    Margin="16,16,0,0"
-                                    ItemsSource="{Binding Selected.Collocation.Avatars}"
-                                    SelectionMode="None">
-                                    <GridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
-                                                <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
-                                            </shvc:BottomTextControl>
-                                        </DataTemplate>
-                                    </GridView.ItemTemplate>
-                                </GridView>
-                                <TextBlock
-                                    Margin="16,0,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarWeaponCombinationHeader}"/>
-                                <GridView
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    ItemsSource="{Binding Selected.Collocation.Weapons}"
-                                    SelectionMode="None">
-                                    <GridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
-                                                <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
-                                            </shvc:BottomTextControl>
-                                        </DataTemplate>
-                                    </GridView.ItemTemplate>
-                                </GridView>
-                                <TextBlock
-                                    Margin="16,0,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarArtifactSetCombinationHeader}"/>
-                                <GridView
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    ItemsSource="{Binding Selected.Collocation.ReliquarySets}"
-                                    SelectionMode="None">
-                                    <GridView.ItemTemplate>
-                                        <DataTemplate>
-                                            <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
-                                                <cwuc:SwitchPresenter Value="{Binding Icons.Count, Mode=OneWay}">
-                                                    <cwuc:Case IsDefault="True">
-                                                        <cwuc:Case.Value>
-                                                            <x:Int32>0</x:Int32>
-                                                        </cwuc:Case.Value>
-                                                        <Grid>
-                                                            <shvc:ItemIcon
-                                                                Width="80"
-                                                                Height="80"
-                                                                Icon="{StaticResource UI_ItemIcon_None}"
-                                                                Quality="QUALITY_ORANGE"/>
-                                                        </Grid>
-                                                    </cwuc:Case>
-                                                    <cwuc:Case>
-                                                        <cwuc:Case.Value>
-                                                            <x:Int32>1</x:Int32>
-                                                        </cwuc:Case.Value>
-                                                        <Grid>
-                                                            <shvc:ItemIcon
-                                                                Width="80"
-                                                                Height="80"
-                                                                Icon="{Binding Icons[0]}"
-                                                                Quality="QUALITY_ORANGE"/>
-                                                        </Grid>
-                                                    </cwuc:Case>
-                                                    <cwuc:Case>
-                                                        <cwuc:Case.Value>
-                                                            <x:Int32>2</x:Int32>
-                                                        </cwuc:Case.Value>
-                                                        <Grid>
-                                                            <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
-                                                            <shci:CachedImage
-                                                                Width="54"
-                                                                Margin="0,4,0,0"
-                                                                HorizontalAlignment="Left"
-                                                                VerticalAlignment="Top"
-                                                                Source="{Binding Icons[0]}"/>
-                                                            <shci:CachedImage
-                                                                Width="54"
-                                                                Margin="0,0,0,4"
-                                                                HorizontalAlignment="Right"
-                                                                VerticalAlignment="Bottom"
-                                                                Source="{Binding Icons[1]}"/>
-                                                        </Grid>
-                                                    </cwuc:Case>
-                                                </cwuc:SwitchPresenter>
-                                            </shvc:BottomTextControl>
-                                        </DataTemplate>
-                                    </GridView.ItemTemplate>
-                                </GridView>
-
-                                <TextBlock
-                                    Margin="16,32,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarMiscHeader}"/>
-                                <Border Margin="16,16,0,0" Style="{StaticResource BorderCardStyle}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <mxi:Interaction.Behaviors>
-                                            <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
-                                        </mxi:Interaction.Behaviors>
-                                        <Border Margin="16" Style="{StaticResource BorderCardStyle}">
-                                            <shci:CachedImage HorizontalAlignment="Stretch" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
-                                        </Border>
-
-                                        <shci:CachedImage
-                                            Grid.ColumnSpan="2"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Stretch"
-                                            Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
-                                    </Grid>
-                                </Border>
-                                <!--  料理  -->
-                                <Expander
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}">
-                                    <Grid DataContext="{Binding Selected.CookBonusView}">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition Height="auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock
-                                            Grid.Column="0"
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
-                                        <shvc:BottomTextControl
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            Margin="0,16,0,0"
-                                            Text="{Binding Item.Name}">
-                                            <shvc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
-                                        </shvc:BottomTextControl>
-                                        <TextBlock
-                                            Grid.Column="1"
-                                            Margin="16,0,0,0"
-                                            Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
-                                        <shvc:BottomTextControl
-                                            Grid.Row="1"
-                                            Grid.Column="1"
-                                            Margin="16,16,0,0"
-                                            Text="{Binding OriginItem.Name}">
-                                            <shvc:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
-                                        </shvc:BottomTextControl>
-                                        <StackPanel
-                                            Grid.RowSpan="4"
-                                            Grid.Column="2"
-                                            Margin="16,0,0,0">
-                                            <TextBlock
-                                                Grid.Row="2"
-                                                Grid.ColumnSpan="4"
-                                                Text="{Binding Item.Description}"
-                                                TextWrapping="Wrap"/>
-                                            <TextBlock
-                                                Grid.Row="3"
-                                                Grid.ColumnSpan="4"
-                                                Margin="0,16,0,0"
-                                                Text="{Binding Item.EffectDescription}"
-                                                TextWrapping="Wrap"/>
-                                        </StackPanel>
-
-                                    </Grid>
-                                </Expander>
-                                <!--  衣装  -->
-                                <Expander
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarCostumeHeader}">
-                                    <ItemsControl Margin="0,0,0,-16" ItemsSource="{Binding Selected.Costumes}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
+                                            <StackPanel Grid.Column="0">
                                                 <Grid Margin="0,0,0,16">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="auto"/>
+                                                        <ColumnDefinition/>
                                                         <ColumnDefinition/>
                                                     </Grid.ColumnDefinitions>
-                                                    <shci:CachedImage
-                                                        Width="80"
-                                                        Height="80"
-                                                        Margin="0,0,16,0"
-                                                        Source="{StaticResource UI_AvatarIcon_Costume_Card}"/>
-                                                    <shci:CachedImage
-                                                        Width="80"
-                                                        Height="80"
-                                                        Margin="0,0,16,0"
-                                                        Source="{Binding Icon, Converter={StaticResource AvatarCardConverter}}"/>
-                                                    <StackPanel Grid.Column="1" Margin="0,0,16,-4">
-                                                        <TextBlock Text="{Binding Name}"/>
-                                                        <TextBlock
-                                                            Margin="0,8,0,16"
-                                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                                            Text="{Binding Description}"/>
-                                                    </StackPanel>
+                                                    <shci:MonoChrome
+                                                        Grid.Column="0"
+                                                        Width="32"
+                                                        Height="32"
+                                                        Source="{Binding Selected.FetterInfo.VisionBefore, Converter={StaticResource ElementNameIconConverter}}"/>
+                                                    <shci:MonoChrome
+                                                        Grid.Column="1"
+                                                        Width="32"
+                                                        Height="32"
+                                                        Source="{Binding Selected.Weapon, Converter={StaticResource WeaponTypeIconConverter}}"/>
                                                 </Grid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Expander>
-                                <!--  资料  -->
-                                <Expander
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarQuotesHeader}">
-                                    <ItemsControl ItemsSource="{Binding Selected.FetterInfo.Fetters}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Margin="0,0,0,0">
-                                                    <TextBlock Text="{Binding Title}"/>
-                                                    <shct:DescriptionTextBlock Margin="0,8,0,0" Description="{Binding Context}">
-                                                        <shct:DescriptionTextBlock.Resources>
-                                                            <Style BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock"/>
-                                                        </shct:DescriptionTextBlock.Resources>
-                                                    </shct:DescriptionTextBlock>
-                                                    <MenuFlyoutSeparator Margin="0,8"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Expander>
-                                <!--  故事  -->
-                                <Expander
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    Header="{shcm:ResourceString Name=ViewPageWiKiAvatarStoriesHeader}">
-                                    <ItemsControl ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Margin="0,0,0,0">
-                                                    <TextBlock Text="{Binding Title}"/>
+                                                <shvc:ItemIcon
+                                                    Width="100"
+                                                    Height="100"
+                                                    Icon="{Binding Selected.Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}"
+                                                    Quality="{Binding Selected.Quality, Mode=OneWay}"/>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                                                <StackPanel Orientation="Horizontal">
                                                     <TextBlock
-                                                        Margin="0,8,0,0"
-                                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding Context}"/>
-                                                    <MenuFlyoutSeparator Margin="0,8"/>
+                                                        Margin="0,0,0,2"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="{Binding Selected.Name}"/>
+                                                    <TextBlock
+                                                        Margin="24,0,0,2"
+                                                        VerticalAlignment="Center"
+                                                        Style="{StaticResource SubtitleTextBlockStyle}"
+                                                        Text="{Binding Selected.FetterInfo.Title}"/>
                                                 </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Expander>
-                            </StackPanel>
-                        </ScrollViewer>
-                    </Grid>
-                </SplitView.Content>
-            </SplitView>
+
+                                                <TextBlock
+                                                    Margin="0,12,0,0"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding Selected.FetterInfo.Detail}"
+                                                    TextWrapping="NoWrap"/>
+
+                                                <cwuc:UniformGrid
+                                                    Margin="0,12,0,0"
+                                                    ColumnSpacing="12"
+                                                    Columns="4">
+                                                    <StackPanel>
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOccupationNameTitle}"/>
+                                                        <TextBlock
+                                                            Margin="0,6,0,0"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{Binding Selected.FetterInfo.Native}"
+                                                            TextWrapping="NoWrap"/>
+                                                    </StackPanel>
+                                                    <StackPanel>
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
+                                                        <TextBlock
+                                                            Margin="0,6,0,0"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{Binding Selected.FetterInfo.ConstellationBefore}"
+                                                            TextWrapping="NoWrap"/>
+                                                    </StackPanel>
+                                                    <StackPanel>
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarDateofBirthTitle}"/>
+                                                        <TextBlock
+                                                            Margin="0,6,0,0"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{Binding Selected.FetterInfo.BirthFormatted}"
+                                                            TextWrapping="NoWrap"/>
+                                                    </StackPanel>
+                                                </cwuc:UniformGrid>
+
+                                                <cwuc:UniformGrid
+                                                    Margin="0,12,0,0"
+                                                    ColumnSpacing="12"
+                                                    Columns="4">
+                                                    <StackPanel>
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarChineseCVNameTitle}"/>
+                                                        <TextBlock
+                                                            Margin="0,6,0,0"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{Binding Selected.FetterInfo.CvChinese}"
+                                                            TextWrapping="NoWrap"/>
+                                                    </StackPanel>
+                                                    <StackPanel>
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarJapaneseCVNameTitle}"/>
+                                                        <TextBlock
+                                                            Margin="0,6,0,0"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{Binding Selected.FetterInfo.CvJapanese}"
+                                                            TextWrapping="NoWrap"/>
+                                                    </StackPanel>
+                                                    <StackPanel>
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarEnglishCVNameTitle}"/>
+                                                        <TextBlock
+                                                            Margin="0,6,0,0"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{Binding Selected.FetterInfo.CvEnglish}"
+                                                            TextWrapping="NoWrap"/>
+                                                    </StackPanel>
+                                                    <StackPanel>
+                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageWiKiAvatarKoreanCVNameTitle}"/>
+                                                        <TextBlock
+                                                            Margin="0,6,0,0"
+                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                            Text="{Binding Selected.FetterInfo.CvKorean}"
+                                                            TextWrapping="NoWrap"/>
+                                                    </StackPanel>
+                                                </cwuc:UniformGrid>
+                                            </StackPanel>
+                                        </Grid>
+                                        <!--  属性  -->
+                                        <shvc:BaseValueSlider
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"/>
+                                        <TextBlock
+                                            Margin="16,32,0,0"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
+                                        <GridView
+                                            Margin="16,16,0,0"
+                                            ItemsSource="{Binding Selected.CultivationItemsView}"
+                                            SelectionMode="None">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <shvc:BottomTextControl Text="{Binding Name}">
+                                                        <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
+                                                    </shvc:BottomTextControl>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </GridView>
+
+                                        <TextBlock
+                                            Margin="16,32,0,0"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
+                                        <shvc:SkillPivot
+                                            Margin="16,16,0,0"
+                                            ItemTemplate="{StaticResource SkillDataTemplate}"
+                                            Skills="{Binding Selected.SkillDepot.CompositeSkills}"/>
+
+                                        <TextBlock
+                                            Margin="16,32,0,0"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarConstellationNameTitle}"/>
+                                        <shvc:SkillPivot
+                                            Grid.Column="1"
+                                            Margin="16,16,0,0"
+                                            ItemTemplate="{StaticResource TalentDataTemplate}"
+                                            Skills="{Binding Selected.SkillDepot.Talents}"/>
+
+                                        <TextBlock
+                                            Margin="16,32,0,0"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarTeamCombinationHeader}"/>
+                                        <GridView
+                                            Margin="16,16,0,0"
+                                            ItemsSource="{Binding Selected.Collocation.Avatars}"
+                                            SelectionMode="None">
+                                            <GridView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
+                                                        <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                                                    </shvc:BottomTextControl>
+                                                </DataTemplate>
+                                            </GridView.ItemTemplate>
+                                        </GridView>
+                                        <TextBlock
+                                            Margin="16,0,0,0"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarWeaponCombinationHeader}"/>
+                                        <GridView
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            ItemsSource="{Binding Selected.Collocation.Weapons}"
+                                            SelectionMode="None">
+                                            <GridView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
+                                                        <shvc:ItemIcon Icon="{Binding Icon}" Quality="{Binding Quality}"/>
+                                                    </shvc:BottomTextControl>
+                                                </DataTemplate>
+                                            </GridView.ItemTemplate>
+                                        </GridView>
+                                        <TextBlock
+                                            Margin="16,0,0,0"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarArtifactSetCombinationHeader}"/>
+                                        <GridView
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            ItemsSource="{Binding Selected.Collocation.ReliquarySets}"
+                                            SelectionMode="None">
+                                            <GridView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <shvc:BottomTextControl Text="{Binding Rate}" ToolTipService.ToolTip="{Binding Name}">
+                                                        <cwuc:SwitchPresenter Value="{Binding Icons.Count, Mode=OneWay}">
+                                                            <cwuc:Case IsDefault="True">
+                                                                <cwuc:Case.Value>
+                                                                    <x:Int32>0</x:Int32>
+                                                                </cwuc:Case.Value>
+                                                                <Grid>
+                                                                    <shvc:ItemIcon
+                                                                        Width="80"
+                                                                        Height="80"
+                                                                        Icon="{StaticResource UI_ItemIcon_None}"
+                                                                        Quality="QUALITY_ORANGE"/>
+                                                                </Grid>
+                                                            </cwuc:Case>
+                                                            <cwuc:Case>
+                                                                <cwuc:Case.Value>
+                                                                    <x:Int32>1</x:Int32>
+                                                                </cwuc:Case.Value>
+                                                                <Grid>
+                                                                    <shvc:ItemIcon
+                                                                        Width="80"
+                                                                        Height="80"
+                                                                        Icon="{Binding Icons[0]}"
+                                                                        Quality="QUALITY_ORANGE"/>
+                                                                </Grid>
+                                                            </cwuc:Case>
+                                                            <cwuc:Case>
+                                                                <cwuc:Case.Value>
+                                                                    <x:Int32>2</x:Int32>
+                                                                </cwuc:Case.Value>
+                                                                <Grid>
+                                                                    <shvc:ItemIcon Quality="QUALITY_ORANGE"/>
+                                                                    <shci:CachedImage
+                                                                        Width="54"
+                                                                        Margin="0,4,0,0"
+                                                                        HorizontalAlignment="Left"
+                                                                        VerticalAlignment="Top"
+                                                                        Source="{Binding Icons[0]}"/>
+                                                                    <shci:CachedImage
+                                                                        Width="54"
+                                                                        Margin="0,0,0,4"
+                                                                        HorizontalAlignment="Right"
+                                                                        VerticalAlignment="Bottom"
+                                                                        Source="{Binding Icons[1]}"/>
+                                                                </Grid>
+                                                            </cwuc:Case>
+                                                        </cwuc:SwitchPresenter>
+                                                    </shvc:BottomTextControl>
+                                                </DataTemplate>
+                                            </GridView.ItemTemplate>
+                                        </GridView>
+
+                                        <TextBlock
+                                            Margin="16,32,0,0"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarMiscHeader}"/>
+                                        <Border Margin="16,16,0,0" Style="{StaticResource BorderCardStyle}">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <mxi:Interaction.Behaviors>
+                                                    <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
+                                                </mxi:Interaction.Behaviors>
+                                                <Border Margin="16" Style="{StaticResource BorderCardStyle}">
+                                                    <shci:CachedImage HorizontalAlignment="Stretch" Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarIconConverter}}"/>
+                                                </Border>
+
+                                                <shci:CachedImage
+                                                    Grid.ColumnSpan="2"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Stretch"
+                                                    Source="{Binding Selected.Icon, Converter={StaticResource GachaAvatarImgConverter}}"/>
+                                            </Grid>
+                                        </Border>
+                                        <!--  料理  -->
+                                        <Expander
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            Header="{shcm:ResourceString Name=ViewPageWiKiAvatarFoodHeader}">
+                                            <Grid DataContext="{Binding Selected.CookBonusView}">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                    <RowDefinition Height="auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Grid.Column="0"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarSpecialFoodTitle}"/>
+                                                <shvc:BottomTextControl
+                                                    Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Margin="0,16,0,0"
+                                                    Text="{Binding Item.Name}">
+                                                    <shvc:ItemIcon Icon="{Binding Item.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding Item.RankLevel}"/>
+                                                </shvc:BottomTextControl>
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="16,0,0,0"
+                                                    Style="{StaticResource BaseTextBlockStyle}"
+                                                    Text="{shcm:ResourceString Name=ViewPageWiKiAvatarOriginalFoodTitle}"/>
+                                                <shvc:BottomTextControl
+                                                    Grid.Row="1"
+                                                    Grid.Column="1"
+                                                    Margin="16,16,0,0"
+                                                    Text="{Binding OriginItem.Name}">
+                                                    <shvc:ItemIcon Icon="{Binding OriginItem.Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding OriginItem.RankLevel}"/>
+                                                </shvc:BottomTextControl>
+                                                <StackPanel
+                                                    Grid.RowSpan="4"
+                                                    Grid.Column="2"
+                                                    Margin="16,0,0,0">
+                                                    <TextBlock
+                                                        Grid.Row="2"
+                                                        Grid.ColumnSpan="4"
+                                                        Text="{Binding Item.Description}"
+                                                        TextWrapping="Wrap"/>
+                                                    <TextBlock
+                                                        Grid.Row="3"
+                                                        Grid.ColumnSpan="4"
+                                                        Margin="0,16,0,0"
+                                                        Text="{Binding Item.EffectDescription}"
+                                                        TextWrapping="Wrap"/>
+                                                </StackPanel>
+
+                                            </Grid>
+                                        </Expander>
+                                        <!--  衣装  -->
+                                        <Expander
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            Header="{shcm:ResourceString Name=ViewPageWiKiAvatarCostumeHeader}">
+                                            <ItemsControl Margin="0,0,0,-16" ItemsSource="{Binding Selected.Costumes}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Margin="0,0,0,16">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="auto"/>
+                                                                <ColumnDefinition/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <shci:CachedImage
+                                                                Width="80"
+                                                                Height="80"
+                                                                Margin="0,0,16,0"
+                                                                Source="{StaticResource UI_AvatarIcon_Costume_Card}"/>
+                                                            <shci:CachedImage
+                                                                Width="80"
+                                                                Height="80"
+                                                                Margin="0,0,16,0"
+                                                                Source="{Binding Icon, Converter={StaticResource AvatarCardConverter}}"/>
+                                                            <StackPanel Grid.Column="1" Margin="0,0,16,-4">
+                                                                <TextBlock Text="{Binding Name}"/>
+                                                                <TextBlock
+                                                                    Margin="0,8,0,16"
+                                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                                    Text="{Binding Description}"/>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Expander>
+                                        <!--  资料  -->
+                                        <Expander
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            Header="{shcm:ResourceString Name=ViewPageWiKiAvatarQuotesHeader}">
+                                            <ItemsControl ItemsSource="{Binding Selected.FetterInfo.Fetters}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Margin="0,0,0,0">
+                                                            <TextBlock Text="{Binding Title}"/>
+                                                            <shct:DescriptionTextBlock Margin="0,8,0,0" Description="{Binding Context}">
+                                                                <shct:DescriptionTextBlock.Resources>
+                                                                    <Style BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock"/>
+                                                                </shct:DescriptionTextBlock.Resources>
+                                                            </shct:DescriptionTextBlock>
+                                                            <MenuFlyoutSeparator Margin="0,8"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Expander>
+                                        <!--  故事  -->
+                                        <Expander
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            Header="{shcm:ResourceString Name=ViewPageWiKiAvatarStoriesHeader}">
+                                            <ItemsControl ItemsSource="{Binding Selected.FetterInfo.FetterStories}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Margin="0,0,0,0">
+                                                            <TextBlock Text="{Binding Title}"/>
+                                                            <TextBlock
+                                                                Margin="0,8,0,0"
+                                                                Style="{StaticResource CaptionTextBlockStyle}"
+                                                                Text="{Binding Context}"/>
+                                                            <MenuFlyoutSeparator Margin="0,8"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Expander>
+                                    </StackPanel>
+                                </ScrollViewer>
+                            </Grid>
+                        </SplitView.Content>
+                    </SplitView>
+                </cwuc:Case>
+                <cwuc:Case Value="Grid">
+                    <GridView
+                        Padding="12,12,6,0"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                        ItemsSource="{Binding Avatars}"
+                        SelectedItem="{Binding Selected, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <shvc:BottomTextControl Text="{Binding Name}">
+                                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource AvatarIconConverter}, Mode=OneWay}" Quality="{Binding Quality}"/>
+                                </shvc:BottomTextControl>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </cwuc:Case>
+            </cwuc:SwitchPresenter>
+
         </Grid>
         <shvc:LoadingView IsLoading="{Binding Avatars, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>
