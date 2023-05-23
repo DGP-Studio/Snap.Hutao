@@ -57,7 +57,7 @@ internal static class TypeNameHelper
     public static string GetTypeDisplayName(Type type, bool fullName = true, bool includeGenericParameterNames = false, bool includeGenericParameters = true, char nestedTypeDelimiter = DefaultNestedTypeDelimiter)
     {
         StringBuilder? builder = null;
-        string? name = ProcessType(ref builder, type, new DisplayNameOptions(fullName, includeGenericParameterNames, includeGenericParameters, nestedTypeDelimiter));
+        string? name = ProcessType(ref builder, type, new(fullName, includeGenericParameterNames, includeGenericParameters, nestedTypeDelimiter));
         return name ?? builder?.ToString() ?? string.Empty;
     }
 

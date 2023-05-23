@@ -38,6 +38,7 @@ internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?
         return avatarName switch
         {
             "Yae" => "Yae1",
+            "Momoka" => "Kirara",
             _ => avatarName,
         };
     }
