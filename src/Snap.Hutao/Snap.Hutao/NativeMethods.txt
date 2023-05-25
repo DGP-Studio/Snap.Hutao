@@ -32,7 +32,9 @@ Module32First
 Module32Next
 ReadProcessMemory
 SetEvent
+VirtualAlloc
 VirtualAllocEx
+VirtualFree
 VirtualFreeEx
 WaitForSingleObject
 WriteProcessMemory

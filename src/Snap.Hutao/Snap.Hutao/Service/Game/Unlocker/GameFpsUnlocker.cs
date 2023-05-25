@@ -5,6 +5,7 @@ using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Win32;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Text;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Diagnostics.ToolHelp;
 using static Windows.Win32.PInvoke;
@@ -14,12 +15,15 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 /// <summary>
 /// 游戏帧率解锁器
 /// Credit to https://github.com/34736384/genshin-fps-unlock
+/// 
+/// TODO: Save memory alloc on GameModuleEntryInfo
 /// </summary>
 [HighQuality]
 internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
     private readonly Process gameProcess;
     private readonly LaunchOptions launchOptions;
+    private readonly ILogger<GameFpsUnlocker> logger;
 
     private nuint fpsAddress;
     private bool isValid = true;
@@ -37,31 +41,43 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess)
     {
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
+        logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
         this.gameProcess = gameProcess;
     }
 
     /// <inheritdoc/>
     public async Task UnlockAsync(TimeSpan findModuleDelay, TimeSpan findModuleLimit, TimeSpan adjustFpsDelay)
     {
+        logger.LogInformation("UnlockAsync called");
         Verify.Operation(isValid, "This Unlocker is invalid");
 
-        MODULEENTRY32 unityPlayer = await FindModuleAsync(findModuleDelay, findModuleLimit).ConfigureAwait(false);
+        GameModuleEntryInfo moduleEntryInfo = await FindModuleAsync(findModuleDelay, findModuleLimit).ConfigureAwait(false);
+        Must.Argument(moduleEntryInfo.HasValue, "读取游戏内存失败");
 
         // Read UnityPlayer.dll
-        UnsafeTryReadModuleMemoryFindFpsAddress(unityPlayer);
+        UnsafeTryReadModuleMemoryFindFpsAddress(moduleEntryInfo);
 
         // When player switch between scenes, we have to re adjust the fps
         // So we keep a loop here
         await LoopAdjustFpsAsync(adjustFpsDelay).ConfigureAwait(false);
     }
 
-    private static unsafe bool UnsafeReadModuleMemory(Process process, MODULEENTRY32 entry, out Span<byte> memory)
+    private static unsafe bool UnsafeReadModulesMemory(Process process, GameModuleEntryInfo moduleEntryInfo, out VirtualMemory memory)
     {
-        memory = new byte[entry.modBaseSize];
+        MODULEENTRY32 unityPlayer = moduleEntryInfo.UnityPlayer;
+        MODULEENTRY32 userAssembly = moduleEntryInfo.UserAssembly;
 
-        fixed (byte* lpBuffer = memory)
+        memory = new VirtualMemory(unityPlayer.modBaseSize + userAssembly.modBaseSize);
+        byte* lpBuffer = (byte*)memory.Pointer;
+        return ReadProcessMemory((HANDLE)process.Handle, unityPlayer.modBaseAddr, lpBuffer, unityPlayer.modBaseSize, default)
+            && ReadProcessMemory((HANDLE)process.Handle, userAssembly.modBaseAddr, lpBuffer + unityPlayer.modBaseSize, userAssembly.modBaseSize, default);
+    }
+
+    private static unsafe bool UnsafeReadProcessMemory(Process process, nuint offset, out nuint value)
+    {
+        fixed (nuint* pValue = &value)
         {
-            return ReadProcessMemory((HANDLE)process.Handle, entry.modBaseAddr, lpBuffer, entry.modBaseSize, null);
+            return ReadProcessMemory((HANDLE)process.Handle, (void*)offset, &pValue, unchecked((uint)sizeof(nuint)));
         }
     }
 
@@ -93,24 +109,62 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
     }
 
-    private async Task<MODULEENTRY32> FindModuleAsync(TimeSpan findModuleDelay, TimeSpan findModuleLimit)
+    private static int FindPatternOffsetImplmentation(ReadOnlySpan<byte> memory)
     {
-        ValueStopwatch watch = ValueStopwatch.StartNew();
+        // E8 ?? ?? ?? ?? 85 C0 7E 07 E8 ?? ?? ?? ?? EB 05
+        int second = 0;
+        ReadOnlySpan<byte> secondPart = new byte[] { 0x85, 0xC0, 0x7E, 0x07, 0xE8, };
+        ReadOnlySpan<byte> thirdPart = new byte[] { 0xEB, 0x05, };
 
-        while (true)
+        while (second >= 0 && second < memory.Length)
         {
-            MODULEENTRY32 module = UnsafeFindModule(gameProcess.Id, "UnityPlayer.dll"u8);
-            if (!StructMarshal.IsDefault(module))
+            second += memory[second..].IndexOf(secondPart);
+            if (memory[second - 5].Equals(0xE8) && memory.Slice(second + 9, 2).SequenceEqual(thirdPart))
             {
-                return module;
+                return second - 5;
             }
 
-            if (watch.GetElapsedTime() > findModuleLimit)
-            {
-                break;
-            }
+            second += 5;
+        }
 
-            await Task.Delay(findModuleDelay).ConfigureAwait(false);
+        return -1;
+    }
+
+    private unsafe GameModuleEntryInfo UnsafeGetGameModuleEntryInfo(int processId)
+    {
+        logger.LogInformation("UnsafeGetGameModuleEntryInfo called");
+
+        MODULEENTRY32 unityPlayer = UnsafeFindModule(processId, "UnityPlayer.dll"u8);
+        MODULEENTRY32 userAssembly = UnsafeFindModule(processId, "UserAssembly.dll"u8);
+
+        if (unityPlayer.modBaseSize != 0 && userAssembly.modBaseSize != 0)
+        {
+            return new(unityPlayer, userAssembly);
+        }
+
+        return default;
+    }
+
+    private async Task<GameModuleEntryInfo> FindModuleAsync(TimeSpan findModuleDelay, TimeSpan findModuleLimit)
+    {
+        logger.LogInformation("FindModuleAsync called");
+
+        ValueStopwatch watch = ValueStopwatch.StartNew();
+        using (PeriodicTimer timer = new(findModuleDelay))
+        {
+            while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
+            {
+                GameModuleEntryInfo moduleInfo = UnsafeGetGameModuleEntryInfo(gameProcess.Id);
+                if (moduleInfo.HasValue)
+                {
+                    return moduleInfo;
+                }
+
+                if (watch.GetElapsedTime() > findModuleLimit)
+                {
+                    break;
+                }
+            }
         }
 
         return default;
@@ -118,6 +172,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private async Task LoopAdjustFpsAsync(TimeSpan adjustFpsDelay)
     {
+        logger.LogInformation("LoopAdjustFpsAsync called");
+
         using (PeriodicTimer timer = new(adjustFpsDelay))
         {
             while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
@@ -136,24 +192,80 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         }
     }
 
-    private unsafe void UnsafeTryReadModuleMemoryFindFpsAddress(MODULEENTRY32 unityPlayer)
+    private unsafe void UnsafeTryReadModuleMemoryFindFpsAddress(GameModuleEntryInfo moduleEntryInfo)
     {
-        bool readOk = UnsafeReadModuleMemory(gameProcess, unityPlayer, out Span<byte> memory);
+        logger.LogInformation("UnsafeTryReadModuleMemoryFindFpsAddress called");
+
+        bool readOk = UnsafeReadModulesMemory(gameProcess, moduleEntryInfo, out VirtualMemory localMemory);
         Verify.Operation(readOk, "读取内存失败");
 
-        // Find FPS offset
-        // 7F 0F              jg   0x11
-        // 8B 05 ? ? ? ?      mov eax, dword ptr[rip+?]
-        int adr = memory.IndexOf(new byte[] { 0x7F, 0x0F, 0x8B, 0x05 });
-
-        Must.Range(adr >= 0, $"未匹配到FPS字节");
-
-        fixed (byte* pSpan = memory)
+        using (localMemory)
         {
-            int rip = adr + 2;
-            int rel = *(int*)(pSpan + rip + 2); // Unsafe.ReadUnaligned<int>(ref image[rip + 2]);
-            int ofs = rip + rel + 6;
-            fpsAddress = (nuint)(unityPlayer.modBaseAddr + ofs);
+            int offset = FindPatternOffsetImplmentation(localMemory.GetBuffer().Slice(unchecked((int)moduleEntryInfo.UnityPlayer.modBaseSize)));
+            Must.Range(offset > 0, "未匹配到FPS字节");
+
+            byte* pLocalMemory = (byte*)localMemory.Pointer;
+            MODULEENTRY32 unityPlayer = moduleEntryInfo.UnityPlayer;
+            MODULEENTRY32 userAssembly = moduleEntryInfo.UserAssembly;
+
+            logger.LogInformation("Pattern: {bytes}", BitConverter.ToString(localMemory.GetBuffer().Slice((int)(offset + unityPlayer.modBaseSize), 16).ToArray())); //
+
+            nuint localMemoryUnityPlayerAddress = (nuint)pLocalMemory;
+            nuint localMemoryUserAssemblyAddress = localMemoryUnityPlayerAddress + unityPlayer.modBaseSize;
+            {
+                logger.LogInformation("localMemoryUnityPlayerAddress {addr:X8}", localMemoryUnityPlayerAddress);
+                logger.LogInformation("localMemoryUserAssemblyAddress {addr:X8}", localMemoryUserAssemblyAddress);
+                logger.LogInformation("memory end at {addr:X8}", localMemoryUserAssemblyAddress + userAssembly.modBaseSize);
+            }
+
+            nuint rip = localMemoryUserAssemblyAddress + (uint)offset;
+            rip += *(uint*)(rip + 1) + 5;
+            rip += *(uint*)(rip + 3) + 7;
+
+            nuint ptr = 0;
+            nuint address = rip - localMemoryUserAssemblyAddress + (nuint)userAssembly.modBaseAddr;
+            logger.LogInformation("UnsafeReadModuleMemory at {addr:x8}|{uaAddr:x8}", address, (nuint)userAssembly.modBaseAddr);
+            while (ptr == 0)
+            {
+                // Critial: The pointer here is always returning 0
+                // Make this a dead loop.
+                if (UnsafeReadProcessMemory(gameProcess, address, out ptr))
+                {
+                    logger.LogInformation("UnsafeReadProcessMemory succeed {addr:x8}", ptr);
+                }
+                else
+                {
+                    logger.LogInformation("UnsafeReadProcessMemory failed");
+                }
+
+                Thread.Sleep(100);
+            }
+
+            logger.LogInformation("ptr {addr}", ptr);
+            rip = ptr - (nuint)unityPlayer.modBaseAddr + localMemoryUnityPlayerAddress;
+
+            while (*(byte*)rip == 0xE8 || *(byte*)rip == 0xE9)
+            {
+                rip += *(uint*)(rip + 1) + 5;
+            }
+
+            nuint localMemoryActualAddress = rip + *(uint*)(rip + 2) + 6;
+            nuint actualOffset = localMemoryActualAddress - localMemoryUnityPlayerAddress;
+            fpsAddress = (nuint)(unityPlayer.modBaseAddr + actualOffset);
+        }
+    }
+
+    private readonly struct GameModuleEntryInfo
+    {
+        public readonly bool HasValue = false;
+        public readonly MODULEENTRY32 UnityPlayer;
+        public readonly MODULEENTRY32 UserAssembly;
+
+        public GameModuleEntryInfo(MODULEENTRY32 unityPlayer, MODULEENTRY32 userAssembly)
+        {
+            HasValue = true;
+            UnityPlayer = unityPlayer;
+            UserAssembly = userAssembly;
         }
     }
 }

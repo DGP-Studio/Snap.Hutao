@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using System.Globalization;
 using Windows.Globalization;
@@ -22,7 +23,7 @@ internal static class DependencyInjection
         ServiceProvider serviceProvider = new ServiceCollection()
 
             // Microsoft extension
-            .AddLogging(builder => builder.AddDebug())
+            .AddLogging(builder => builder.AddUnconditionalDebug())
             .AddMemoryCache()
 
             // Hutao extensions
