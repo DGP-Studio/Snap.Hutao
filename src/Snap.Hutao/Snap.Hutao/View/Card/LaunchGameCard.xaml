@@ -66,7 +66,7 @@
                 VerticalAlignment="Bottom"
                 DisplayMemberPath="Name"
                 ItemsSource="{Binding GameAccounts}"
-                PlaceholderText="选择账号或直接启动"
+                PlaceholderText="{shcm:ResourceString Name=ViewCardLaunchGameSelectAccountPlaceholder}"
                 SelectedItem="{Binding SelectedGameAccount, Mode=TwoWay}"/>
         </Grid>
     </Grid>
