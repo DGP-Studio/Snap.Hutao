@@ -29,6 +29,20 @@ internal static class ThrowHelper
     }
 
     /// <summary>
+    /// 无效操作
+    /// </summary>
+    /// <param name="message">消息</param>
+    /// <param name="inner">内部错误</param>
+    /// <returns>nothing</returns>
+    /// <exception cref="InvalidOperationException">无效操作异常</exception>
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static InvalidOperationException InvalidOperation(string message, Exception? inner)
+    {
+        throw new InvalidOperationException(message, inner);
+    }
+
+    /// <summary>
     /// 游戏文件操作失败
     /// </summary>
     /// <param name="message">消息</param>
