@@ -51,6 +51,7 @@ GetForegroundWindow
 GetWindowPlacement
 GetWindowThreadProcessId
 SetForegroundWindow
+ReleaseDC
 
 // WinRT
 IMemoryBufferByteAccess
