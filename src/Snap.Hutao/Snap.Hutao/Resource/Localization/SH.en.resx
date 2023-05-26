@@ -172,7 +172,7 @@
     <value>Quick Actions</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
-    <value>Snap Hutao DailyNote refresh task. Do NOT edit or delete it.</value>
+    <value>Snap Hutao Realtime Notes refresh task. Do NOT edit or delete it.</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>Semaphore disposed, operation cancelled</value>
@@ -256,9 +256,9 @@
     <value>Natlan</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
-    <value>Rebels</value>
+    <value>Ranger</value>
   </data>
-  <data name="ModelIntrinsicAssociationTypeSemuru" xml:space="preserve">
+  <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
     <value>Sumeru</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
@@ -343,7 +343,7 @@
     <value>You must select a user and a role first</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
-    <value>New:{0} Achievements | Updated:{1} Achievements | Delete{2} Achievements</value>
+    <value>New: {0} Achievements | Updated: {1} Achievements | Delete: {2} Achievements</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>Multiple identical achievement IDs found in a single achievement archive</value>
@@ -463,7 +463,7 @@
     <value>Realm Currency</value>
   </data>
   <data name="ServiceDailyNoteNotifierHomeCoinCurrent" xml:space="preserve">
-    <value>Current Realm Currency：{0}</value>
+    <value>Current Realm Currency: {0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierMultiValueReached" xml:space="preserve">
     <value>Multiple alarms reached the set value</value>
@@ -472,10 +472,10 @@
     <value>Original Resin</value>
   </data>
   <data name="ServiceDailyNoteNotifierResinCurrent" xml:space="preserve">
-    <value>Current Original Resin：{0}</value>
+    <value>Current Original Resin: {0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierTitle" xml:space="preserve">
-    <value>DailyNote Notification</value>
+    <value>Realtime Notes Notification</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformer" xml:space="preserve">
     <value>Parametric Transformer</value>
@@ -634,7 +634,7 @@
     <value>Dev Plan</value>
   </data>
   <data name="ViewDailyNoteHeader" xml:space="preserve">
-    <value>DailyNote</value>
+    <value>Realtime Notes</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
     <value>Data</value>
@@ -688,7 +688,7 @@
     <value>Show widget on Home page</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
-    <value>DailyNote Notification Settings</value>
+    <value>Realtime Notes Notification Settings</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
     <value>Parametric Transformer Notification</value>
@@ -1765,7 +1765,7 @@
     <value>{0} Seconds</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>Verification failed. Please check MiHoYo BBS - My Character - DailyNote manually</value>
+    <value>Verification failed. Please check MiHoYo BBS - My Character - Realtime Notes manually</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
     <value>Character Event Wish</value>
@@ -1813,7 +1813,7 @@
     <value>SToken refresh does not support HoYoLab account</value>
   </data>
   <data name="ViewModelDailyNoteHoyolabVerificationUnsupported" xml:space="preserve">
-    <value>HoYoLab account does not support DailyNotes</value>
+    <value>HoYoLab account does not support Realtime Notes</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>Enter your HoYoLab UID</value>
@@ -2012,5 +2012,8 @@
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
+  </data>
+  <data name="ViewControlElevationText" xml:space="preserve">
+    <value>Admin Privileges Required</value>
   </data>
 </root>
