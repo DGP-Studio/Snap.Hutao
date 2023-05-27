@@ -2016,4 +2016,7 @@
   <data name="ViewControlElevationText" xml:space="preserve">
     <value>Admin Privileges Required</value>
   </data>
+  <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
+    <value>Select account or start now</value>
+  </data>
 </root>
