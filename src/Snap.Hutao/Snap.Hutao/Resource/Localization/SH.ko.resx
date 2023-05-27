@@ -258,8 +258,8 @@
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
     <value>궁수</value>
   </data>
-  <data name="ModelIntrinsicAssociationTypeSemuru" xml:space="preserve">
-    <value>수메르</value>
+  <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
+    <value>须弥</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
     <value>스네즈나야</value>
@@ -343,7 +343,7 @@
     <value>유저와 UID를 선택하세요</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
-    <value>추가: {0} 업적 | 수정: {1} 업적 | 삭제 {2} 업적</value>
+    <value>新增：{0} 个成就 | 更新：{1} 个成就 | 删除：{2} 个成就</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>한 업적 아카이브에서 Id 동일한 업적 발견됨</value>
@@ -2012,5 +2012,11 @@
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
+  </data>
+  <data name="ViewControlElevationText" xml:space="preserve">
+    <value>需要管理员权限</value>
+  </data>
+  <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
+    <value>选择账号或直接启动</value>
   </data>
 </root>

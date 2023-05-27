@@ -172,7 +172,7 @@
     <value>快捷操作</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
-    <value>胡桃實時便箋重新整理任務 | 請勿編輯或刪除。</value>
+    <value>胡桃即時便箋重新整理任務 | 請勿編輯或刪除。</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>信號量已經被釋放，操作取消</value>
@@ -258,7 +258,7 @@
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
     <value>遊俠</value>
   </data>
-  <data name="ModelIntrinsicAssociationTypeSemuru" xml:space="preserve">
+  <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
     <value>須彌</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
@@ -343,7 +343,7 @@
     <value>必須先選擇一個用戶與角色</value>
   </data>
   <data name="ServiceAchievementImportResultFormat" xml:space="preserve">
-    <value>新增:{0} 個成就 | 更新:{1} 個成就 | 刪除{2} 個成就</value>
+    <value>新增：{0} 個成就 | 更新：{1} 個成就 | 删除：{2} 個成就</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
     <value>單個成就存檔內發現多個相同的成就 Id</value>
@@ -673,13 +673,13 @@
     <value>添加到當前養成計劃</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
-    <value>每日委托上綫提醒</value>
+    <value>每日委託上線提醒</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
     <value>探索派遣完成提醒</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>洞天寳錢提醒閾值</value>
+    <value>洞天寶錢提醒閾值</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
     <value>原粹樹脂提醒數值</value>
@@ -1624,7 +1624,7 @@
     <value>出戰次數</value>
   </data>
   <data name="ViewSpiralAbyssStatistics" xml:space="preserve">
-    <value>统计数据</value>
+    <value>統計數據</value>
   </data>
   <data name="ViewSpiralAbyssTakeDamage" xml:space="preserve">
     <value>最多承傷</value>
@@ -1639,7 +1639,7 @@
     <value>工具</value>
   </data>
   <data name="ViewUserCookieOperation" xml:space="preserve">
-    <value>HoYoLAB</value>
+    <value>米游社</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>網頁登陸</value>
@@ -1804,7 +1804,7 @@
     <value>登入失敗，請重新登入</value>
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
-    <value>立即登入或注册</value>
+    <value>立即登入或註冊</value>
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>網路連線錯誤</value>
@@ -1972,19 +1972,19 @@
     <value>同步角色資訊</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
-    <value>错误的 UID 格式</value>
+    <value>錯誤的 UID 格式</value>
   </data>
   <data name="WebEnkaResponseStatusCode404" xml:space="preserve">
     <value>角色 UID 不存在</value>
   </data>
   <data name="WebEnkaResponseStatusCode424" xml:space="preserve">
-    <value>游戏维护中</value>
+    <value>遊戲維護中</value>
   </data>
   <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
-    <value>请求过快，请稍后再试</value>
+    <value>請求過快，請稍後再試</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
-    <value>服务器偶发错误</value>
+    <value>伺服器偶發錯誤</value>
   </data>
   <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
     <value>服务器严重错误</value>
@@ -1993,7 +1993,7 @@
     <value>未知的服务器错误</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
-    <value>无法找到缓存的元数据文件</value>
+    <value>無法找到暫存的元數據文件</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
     <value>旅行者，欢迎来到提瓦特大陆！</value>
@@ -2002,7 +2002,7 @@
     <value>胡桃已经为你启动了 {0} 次游戏</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon2" xml:space="preserve">
-    <value>你已经启动了胡桃 {0} 次</value>
+    <value>你已經啟動了胡桃 {0} 次</value>
   </data>
   <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
     <value>你说的对，但是《胡桃》是由 DGP Studio 自主研发的一款...</value>
@@ -2012,5 +2012,11 @@
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
+  </data>
+  <data name="ViewControlElevationText" xml:space="preserve">
+    <value>需要管理者權限</value>
+  </data>
+  <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
+    <value>選擇帳號或直接啟動</value>
   </data>
 </root>
