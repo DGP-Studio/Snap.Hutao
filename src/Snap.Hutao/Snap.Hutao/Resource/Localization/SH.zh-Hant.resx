@@ -172,7 +172,7 @@
     <value>快捷操作</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
-    <value>胡桃實時便箋重新整理任務 | 請勿編輯或刪除。</value>
+    <value>胡桃即時便箋重新整理任務 | 請勿編輯或刪除。</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>信號量已經被釋放，操作取消</value>
@@ -1804,7 +1804,7 @@
     <value>登入失敗，請重新登入</value>
   </data>
   <data name="ViewServiceHutaoUserLoginOrRegisterHint" xml:space="preserve">
-    <value>立即登入或注册</value>
+    <value>立即登入或註冊</value>
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>網路連線錯誤</value>
@@ -2015,5 +2015,8 @@
   </data>
   <data name="ViewControlElevationText" xml:space="preserve">
     <value>需要管理者權限</value>
+  </data>
+  <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
+    <value>選擇帳號或直接啟動</value>
   </data>
 </root>
