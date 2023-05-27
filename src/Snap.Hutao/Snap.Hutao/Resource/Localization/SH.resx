@@ -2016,4 +2016,7 @@
   <data name="ViewControlElevationText" xml:space="preserve">
     <value>需要管理员权限</value>
   </data>
+  <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
+    <value>选择账号或直接启动</value>
+  </data>
 </root>
