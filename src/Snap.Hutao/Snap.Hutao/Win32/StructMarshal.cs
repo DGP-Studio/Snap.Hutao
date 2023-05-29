@@ -24,7 +24,7 @@ internal static class StructMarshal
     /// <returns>新的实例</returns>
     public static unsafe MODULEENTRY32 MODULEENTRY32()
     {
-        return new() { dwSize = unchecked((uint)sizeof(MODULEENTRY32)) };
+        return new() { dwSize = SizeOf<MODULEENTRY32>() };
     }
 
     /// <summary>
@@ -33,7 +33,19 @@ internal static class StructMarshal
     /// <returns>新的实例</returns>
     public static unsafe WINDOWPLACEMENT WINDOWPLACEMENT()
     {
-        return new() { length = unchecked((uint)sizeof(WINDOWPLACEMENT)) };
+        return new() { length = SizeOf<WINDOWPLACEMENT>() };
+    }
+
+    /// <summary>
+    /// 获取结构的大小
+    /// </summary>
+    /// <typeparam name="TStruct">结构类型</typeparam>
+    /// <returns>结构的大小</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static unsafe uint SizeOf<TStruct>()
+        where TStruct : unmanaged
+    {
+        return unchecked((uint)sizeof(TStruct));
     }
 
     /// <summary>
@@ -44,11 +56,7 @@ internal static class StructMarshal
     public static unsafe Windows.UI.Color Color(uint value)
     {
         Unsafe.SkipInit(out Windows.UI.Color color);
-
-        // *(uint*)&color = BinaryPrimitives.ReverseEndianness(value);
-        // How .NET store struct in BE host?
-        Span<byte> colorSpan = new(&color, sizeof(uint));
-        BinaryPrimitives.WriteUInt32BigEndian(colorSpan, value);
+        *(uint*)&color = BinaryPrimitives.ReverseEndianness(value);
         return color;
     }
 
@@ -90,29 +98,18 @@ internal static class StructMarshal
     /// <param name="snapshot">快照</param>
     /// <returns>模块枚举</returns>
     [SuppressMessage("", "SH002")]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IEnumerable<MODULEENTRY32> EnumerateModuleEntry32(HANDLE snapshot)
     {
         MODULEENTRY32 entry = MODULEENTRY32();
 
-        if (!Module32First(snapshot, ref entry))
+        if (Module32First(snapshot, ref entry))
         {
-            yield break;
+            do
+            {
+                yield return entry;
+            }
+            while (Module32Next(snapshot, ref entry));
         }
-
-        do
-        {
-            yield return entry;
-        }
-        while (Module32Next(snapshot, ref entry));
-    }
-
-    /// <summary>
-    /// 判断结构实例是否为默认结构
-    /// </summary>
-    /// <param name="moduleEntry32">待测试的结构</param>
-    /// <returns>是否为默认结构</returns>
-    public static bool IsDefault(MODULEENTRY32 moduleEntry32)
-    {
-        return moduleEntry32.dwSize == 0;
     }
 }

@@ -116,7 +116,6 @@ internal static class ProcessInterop
                 hLoadLibraryAThread = CreateRemoteThread(hProcess, default, 0, lpThreadLoadLibraryA, pNativeLibraryPath, 0);
                 Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
 
-                // What are we waiting for?
                 WaitForSingleObject(hLoadLibraryAThread, 2000);
                 Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
             }

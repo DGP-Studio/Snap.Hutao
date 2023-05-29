@@ -1,16 +1,4 @@
-﻿// Const value
-INFINITE
-WM_GETMINMAXINFO
-WM_NCRBUTTONDOWN
-WM_NCRBUTTONUP
-WM_NULL
-
-// Type & Enum definition
-CWMO_FLAGS
-MINMAXINFO
-LPTHREAD_START_ROUTINE
-
-// COMCTL32
+﻿// COMCTL32
 DefSubclassProc
 RemoveWindowSubclass
 SetWindowSubclass
@@ -23,10 +11,11 @@ DwmSetWindowAttribute
 GetDeviceCaps
 
 // KERNEL32
-CreateEvent
+CloseHandle
+CreateEventW
 CreateRemoteThread
 CreateToolhelp32Snapshot
-GetModuleHandle
+GetModuleHandleW
 GetProcAddress
 Module32First
 Module32Next
@@ -44,14 +33,32 @@ CoWaitForMultipleObjects
 
 // USER32
 AttachThreadInput
-FindWindowEx
+FindWindowExW
 GetDC
 GetDpiForWindow
 GetForegroundWindow
 GetWindowPlacement
 GetWindowThreadProcessId
-SetForegroundWindow
 ReleaseDC
+SetForegroundWindow
 
 // WinRT
 IMemoryBufferByteAccess
+
+// Const value
+INFINITE
+WM_GETMINMAXINFO
+WM_NCRBUTTONDOWN
+WM_NCRBUTTONUP
+WM_NULL
+
+// Type & Enum definition
+
+// System.Threading
+LPTHREAD_START_ROUTINE
+
+// UI.WindowsAndMessaging
+MINMAXINFO
+
+// System.Com
+CWMO_FLAGS

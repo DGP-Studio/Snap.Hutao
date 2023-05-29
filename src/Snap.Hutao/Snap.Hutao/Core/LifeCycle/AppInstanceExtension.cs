@@ -15,6 +15,8 @@ namespace Snap.Hutao.Core.LifeCycle;
 [HighQuality]
 internal static class AppInstanceExtension
 {
+    private static readonly WaitCallback RunActionWaitCallback = new(RunAction);
+
     // Hold the reference here to prevent memory corruption.
     private static HANDLE redirectEventHandle = HANDLE.Null;
 
@@ -29,13 +31,14 @@ internal static class AppInstanceExtension
         redirectEventHandle = CreateEvent(default(SECURITY_ATTRIBUTES*), true, false, null);
 
         // use ThreadPool.UnsafeQueueUserWorkItem to cancel stacktrace
-        ThreadPool.UnsafeQueueUserWorkItem(new(RunAction), () =>
+        // like ExecutionContext.SuppressFlow
+        ThreadPool.UnsafeQueueUserWorkItem(RunActionWaitCallback, () =>
         {
             appInstance.RedirectActivationToAsync(args).AsTask().Wait();
             SetEvent(redirectEventHandle);
         });
 
-        ReadOnlySpan<HANDLE> handles = new(in redirectEventHandle);
+        ReadOnlySpan<HANDLE> handles = new(redirectEventHandle);
         CoWaitForMultipleObjects((uint)CWMO_FLAGS.CWMO_DEFAULT, INFINITE, handles, out uint _);
     }
 

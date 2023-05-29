@@ -74,7 +74,7 @@
                 <CommandBar.Content>
                     <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="8,8,0,0"/>
                 </CommandBar.Content>
-                <AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>
+                <!--<AppBarButton Icon="{shcm:FontIcon Glyph=&#xE946;}" Label="搜索提示"/>-->
                 <AppBarElementContainer>
                     <AutoSuggestBox
                         Width="240"

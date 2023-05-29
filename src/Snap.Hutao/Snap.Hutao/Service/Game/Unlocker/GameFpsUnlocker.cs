@@ -93,14 +93,15 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private static unsafe MODULEENTRY32 UnsafeFindModule(int processId, in ReadOnlySpan<byte> moduleName)
     {
-        HANDLE snapshot = CreateToolhelp32Snapshot(CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE, (uint)processId);
+        CREATE_TOOLHELP_SNAPSHOT_FLAGS flags = CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE | CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPMODULE32;
+        HANDLE snapshot = CreateToolhelp32Snapshot(flags, (uint)processId);
         try
         {
             Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
             foreach (MODULEENTRY32 entry in StructMarshal.EnumerateModuleEntry32(snapshot))
             {
-                ReadOnlySpan<byte> szModuleLocal = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)&entry.szModule);
-                if (entry.th32ProcessID == processId && szModuleLocal.SequenceEqual(moduleName))
+                ReadOnlySpan<byte> szModuleNameLocal = MemoryMarshal.CreateReadOnlySpanFromNullTerminated((byte*)&entry.szModule);
+                if (entry.th32ProcessID == processId && szModuleNameLocal.SequenceEqual(moduleName))
                 {
                     return entry;
                 }
@@ -199,7 +200,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         using (localMemory)
         {
             int offset = IndexOfPattern(localMemory.GetBuffer()[(int)moduleEntryInfo.UnityPlayer.modBaseSize..]);
-            Must.Range(offset > 0, "未匹配到FPS字节");
+            Must.Range(offset >= 0, "未匹配到FPS字节");
 
             byte* pLocalMemory = (byte*)localMemory.Pointer;
             MODULEENTRY32 unityPlayer = moduleEntryInfo.UnityPlayer;
