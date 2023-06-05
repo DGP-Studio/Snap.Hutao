@@ -23,7 +23,7 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
 
     /// <inheritdoc/>
     [JsonIgnore]
-    public ItemQuality Quality
+    public QualityType Quality
     {
         get => RankLevel;
     }
@@ -31,7 +31,7 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     /// <summary>
     /// 最大等级
     /// </summary>
-    internal int MaxLevel { get => ((int)Quality) >= 3 ? 90 : 70; }
+    internal uint MaxLevel { get => ((int)Quality) >= 3 ? 90U : 70U; }
 
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()

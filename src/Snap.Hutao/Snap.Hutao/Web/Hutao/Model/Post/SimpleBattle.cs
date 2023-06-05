@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
 namespace Snap.Hutao.Web.Hutao.Model.Post;
@@ -29,5 +30,5 @@ internal sealed class SimpleBattle
     /// <summary>
     /// 角色列表
     /// </summary>
-    public IEnumerable<int> Avatars { get; set; } = default!;
+    public IEnumerable<AvatarId> Avatars { get; set; } = default!;
 }

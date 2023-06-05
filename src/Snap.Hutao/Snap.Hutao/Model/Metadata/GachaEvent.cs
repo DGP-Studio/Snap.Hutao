@@ -22,9 +22,19 @@ internal sealed class GachaEvent
     public string Version { get; set; } = default!;
 
     /// <summary>
+    /// 顺序
+    /// </summary>
+    public uint Order { get; set; }
+
+    /// <summary>
     /// 卡池图
     /// </summary>
     public Uri Banner { get; set; } = default!;
+
+    /// <summary>
+    /// 卡池图2
+    /// </summary>
+    public Uri Banner2 { get; set; } = default!;
 
     /// <summary>
     /// 开始时间
@@ -44,10 +54,10 @@ internal sealed class GachaEvent
     /// <summary>
     /// 五星列表
     /// </summary>
-    public List<int> UpOrangeList { get; set; } = default!;
+    public List<uint> UpOrangeList { get; set; } = default!;
 
     /// <summary>
     /// 四星列表
     /// </summary>
-    public List<int> UpPurpleList { get; set; } = default!;
+    public List<uint> UpPurpleList { get; set; } = default!;
 }

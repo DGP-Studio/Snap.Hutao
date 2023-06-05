@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Hutao.Model;
 
 /// <summary>
@@ -17,5 +19,5 @@ internal sealed class AvatarAppearanceRank
     /// <summary>
     /// 排行
     /// </summary>
-    public List<ItemRate<int, double>> Ranks { get; set; } = default!;
+    public List<ItemRate<AvatarId, double>> Ranks { get; set; } = default!;
 }

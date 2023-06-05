@@ -186,7 +186,7 @@ internal sealed partial class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> SaveConsumptionAsync(CultivateType type, int itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
+    public async Task<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<Web.Hoyolab.Takumi.Event.Calculate.Item> items)
     {
         if (items.Count == 0)
         {

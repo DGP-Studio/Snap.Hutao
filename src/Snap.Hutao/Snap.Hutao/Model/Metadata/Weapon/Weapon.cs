@@ -30,7 +30,7 @@ internal sealed partial class Weapon
     /// <summary>
     /// 等级
     /// </summary>
-    public ItemQuality RankLevel { get; set; }
+    public QualityType RankLevel { get; set; }
 
     /// <summary>
     /// 名称
@@ -55,7 +55,7 @@ internal sealed partial class Weapon
     /// <summary>
     /// 生长曲线
     /// </summary>
-    public Dictionary<FightProperty, GrowCurveTypeValue> GrowCurves { get; set; } = default!;
+    public List<WeaponTypeValue> GrowCurves { get; set; } = default!;
 
     /// <summary>
     /// 被动信息, 无被动的武器为 <see langword="null"/>

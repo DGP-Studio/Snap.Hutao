@@ -20,7 +20,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     /// <param name="from">源</param>
     /// <param name="level">等级</param>
     /// <returns>特定等级的解释</returns>
-    public static LevelParameters<string, ParameterDescription> Convert(DescriptionsParameters from, int level)
+    public static LevelParameters<string, ParameterDescription> Convert(DescriptionsParameters from, uint level)
     {
         LevelParameters<int, float> param = from.Parameters.Single(param => param.Level == level);
         return new LevelParameters<string, ParameterDescription>($"Lv.{param.Level}", GetParameterDescription(from.Descriptions, param.Parameters));

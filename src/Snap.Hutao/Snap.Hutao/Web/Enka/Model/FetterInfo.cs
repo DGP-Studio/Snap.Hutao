@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Enka.Model;
 
 /// <summary>
@@ -13,5 +15,5 @@ internal sealed class FetterInfo
     /// 好感度等级
     /// </summary>
     [JsonPropertyName("expLevel")]
-    public int ExpLevel { get; set; }
+    public FetterLevel ExpLevel { get; set; }
 }

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Enka.Model;
 
 /// <summary>
@@ -14,18 +16,18 @@ internal sealed class ShowAvatarInfo
     /// Character ID
     /// </summary>
     [JsonPropertyName("avatarId")]
-    public int AvatarId { get; set; }
+    public AvatarId AvatarId { get; set; }
 
     /// <summary>
     /// 角色等级
     /// Character Level
     /// </summary>
     [JsonPropertyName("level")]
-    public int Level { get; set; }
+    public Level Level { get; set; }
 
     /// <summary>
     /// 可能的皮肤Id
     /// </summary>
     [JsonPropertyName("costumeId")]
-    public int? CostumeId { get; set; }
+    public CostumeId? CostumeId { get; set; }
 }

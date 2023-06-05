@@ -73,15 +73,15 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
     {
         switch (nameQuality.Quality)
         {
-            case ItemQuality.QUALITY_ORANGE:
+            case QualityType.QUALITY_ORANGE:
                 orangeTracker = 0;
                 ++purpleTracker;
                 break;
-            case ItemQuality.QUALITY_PURPLE:
+            case QualityType.QUALITY_PURPLE:
                 ++orangeTracker;
                 purpleTracker = 0;
                 break;
-            case ItemQuality.QUALITY_BLUE:
+            case QualityType.QUALITY_BLUE:
                 ++orangeTracker;
                 ++purpleTracker;
                 break;

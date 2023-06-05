@@ -24,7 +24,7 @@ internal static class IntrinsicImmutables
     /// <summary>
     /// 物品类型
     /// </summary>
-    public static readonly ImmutableHashSet<string> ItemQualities = Enum.GetValues<ItemQuality>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToImmutableHashSet();
+    public static readonly ImmutableHashSet<string> ItemQualities = Enum.GetValues<QualityType>().Select(e => e.GetLocalizedDescriptionOrDefault()).OfType<string>().ToImmutableHashSet();
 
     /// <summary>
     /// 身材类型

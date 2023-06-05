@@ -46,7 +46,7 @@ internal class AvatarView : INameIconSide
     /// <summary>
     /// 星级
     /// </summary>
-    public ItemQuality Quality { get; }
+    public QualityType Quality { get; }
 
     /// <summary>
     /// 比率

@@ -34,7 +34,7 @@ internal sealed class InventoryItem
     /// <summary>
     /// 物品Id
     /// </summary>
-    public int ItemId { get; set; }
+    public uint ItemId { get; set; }
 
     /// <summary>
     /// 个数 4294967295
@@ -47,7 +47,7 @@ internal sealed class InventoryItem
     /// <param name="projectId">项目Id</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的个数为0的物品</returns>
-    public static InventoryItem Create(in Guid projectId, int itemId)
+    public static InventoryItem Create(in Guid projectId, uint itemId)
     {
         return new()
         {

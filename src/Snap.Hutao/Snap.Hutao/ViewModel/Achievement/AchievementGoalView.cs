@@ -38,7 +38,7 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon
     /// <summary>
     /// 排序顺序
     /// </summary>
-    public int Order { get; }
+    public uint Order { get; }
 
     /// <summary>
     /// 名称

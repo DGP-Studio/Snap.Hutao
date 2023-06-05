@@ -18,5 +18,5 @@ internal sealed class Reward
     /// <summary>
     /// 数量
     /// </summary>
-    public int Count { get; set; }
+    public uint Count { get; set; }
 }

@@ -19,14 +19,14 @@ internal sealed class EnkaResponse
     /// 展示的角色详细信息列表
     /// </summary>
     [JsonPropertyName("avatarInfoList")]
-    public IList<AvatarInfo>? AvatarInfoList { get; set; } = default!;
+    public List<AvatarInfo>? AvatarInfoList { get; set; } = default!;
 
     /// <summary>
     /// 刷新剩余秒数
     /// 生存时间值
     /// </summary>
     [JsonPropertyName("ttl")]
-    public int? Ttl { get; set; }
+    public int? TimeToLive { get; set; }
 
     /// <summary>
     /// 此响应是否有效

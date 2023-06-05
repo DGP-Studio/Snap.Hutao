@@ -15,8 +15,8 @@ namespace Snap.Hutao.Model.Calculable;
 [HighQuality]
 internal class CalculableWeapon : ObservableObject, ICalculableWeapon
 {
-    private int levelCurrent;
-    private int levelTarget;
+    private uint levelCurrent;
+    private uint levelTarget;
 
     /// <summary>
     /// 构造一个新的可计算武器
@@ -56,10 +56,10 @@ internal class CalculableWeapon : ObservableObject, ICalculableWeapon
     public WeaponId WeaponId { get; }
 
     /// <inheritdoc/>
-    public int LevelMin { get; }
+    public uint LevelMin { get; }
 
     /// <inheritdoc/>
-    public int LevelMax { get; }
+    public uint LevelMax { get; }
 
     /// <inheritdoc/>
     public string Name { get; }
@@ -68,11 +68,11 @@ internal class CalculableWeapon : ObservableObject, ICalculableWeapon
     public Uri Icon { get; }
 
     /// <inheritdoc/>
-    public ItemQuality Quality { get; }
+    public QualityType Quality { get; }
 
     /// <inheritdoc/>
-    public int LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
+    public uint LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
 
     /// <inheritdoc/>
-    public int LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
+    public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
 }

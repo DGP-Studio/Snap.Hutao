@@ -40,7 +40,7 @@ internal sealed class CultivateEntry
     /// <summary>
     /// 角色/武器/家具 Id
     /// </summary>
-    public int Id { get; set; }
+    public uint Id { get; set; }
 
     /// <summary>
     /// 创建一个新的养成入口点
@@ -49,7 +49,7 @@ internal sealed class CultivateEntry
     /// <param name="type">类型</param>
     /// <param name="id">主Id</param>
     /// <returns>养成入口点</returns>
-    public static CultivateEntry Create(in Guid projectId, CultivateType type, int id)
+    public static CultivateEntry Create(in Guid projectId, CultivateType type, uint id)
     {
         return new()
         {

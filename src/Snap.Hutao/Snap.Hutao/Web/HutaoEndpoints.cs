@@ -157,6 +157,28 @@ internal static class HutaoEndpoints
     {
         return $"{HutaoMetadataSnapGenshinApi}/{locale}/{fileName}";
     }
+
+    /// <summary>
+    /// 胡桃元数据2文件
+    /// </summary>
+    /// <param name="locale">语言</param>
+    /// <param name="fileName">文件名称</param>
+    /// <returns>路径</returns>
+    public static string HutaoMetadata2File(string locale, string fileName)
+    {
+        return $"{HutaoMetadata2SnapGenshinApi}/Genshin/{locale}/{fileName}";
+    }
+
+    /// <summary>
+    /// Github 元数据文件
+    /// </summary>
+    /// <param name="locale">语言</param>
+    /// <param name="fileName">文件名称</param>
+    /// <returns>路径</returns>
+    public static string RawGithubUserContentMetadataFile(string locale, string fileName)
+    {
+        return $"{RawGithubUserContentSnapMetadataApi}/Genshin/{locale}/{fileName}";
+    }
     #endregion
 
     #region Static & Zip
@@ -200,6 +222,8 @@ internal static class HutaoEndpoints
 
     private const string HomaSnapGenshinApi = "https://homa.snapgenshin.com";
     private const string HutaoMetadataSnapGenshinApi = "https://hutao-metadata.snapgenshin.com";
+    private const string HutaoMetadata2SnapGenshinApi = "https://hutao-metadata2.snapgenshin.com";
+    private const string RawGithubUserContentSnapMetadataApi = "https://raw.githubusercontent.com/DGP-Studio/Snap.Metadata/main";
     private const string StaticSnapGenshinApi = "https://static.snapgenshin.com";
     private const string StaticZipSnapGenshinApi = "https://static-zip.snapgenshin.com";
 }

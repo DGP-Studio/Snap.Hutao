@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Model.Calculable;
 
 /// <summary>
@@ -12,15 +14,15 @@ internal interface ICalculableSkill : ICalculable
     /// <summary>
     /// 技能组Id
     /// </summary>
-    int GruopId { get; }
+    SkillGroupId GruopId { get; }
 
     /// <summary>
     /// 最小等级
     /// </summary>
-    int LevelMin { get; }
+    uint LevelMin { get; }
 
     /// <summary>
     /// 最大等级
     /// </summary>
-    int LevelMax { get; }
+    uint LevelMax { get; }
 }

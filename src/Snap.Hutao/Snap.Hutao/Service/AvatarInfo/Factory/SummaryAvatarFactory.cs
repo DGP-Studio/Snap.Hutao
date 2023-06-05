@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Enka.Model;
@@ -79,7 +80,7 @@ internal sealed class SummaryAvatarFactory
             Model.Metadata.Avatar.Costume costume = avatar.Costumes.Single(c => c.Id == avatarInfo.CostumeId.Value);
 
             // Set to costume icon
-            propertyAvatar.Icon = AvatarIconConverter.IconNameToUri(costume.Icon);
+            propertyAvatar.Icon = AvatarIconConverter.IconNameToUri(costume.FrontIcon);
             propertyAvatar.SideIcon = AvatarIconConverter.IconNameToUri(costume.SideIcon);
         }
         else
@@ -116,9 +117,9 @@ internal sealed class SummaryAvatarFactory
     {
         MetadataWeapon weapon = metadataContext.IdWeaponMap[equip.ItemId];
 
-        // AffixMap can be empty when it's a white weapon.
-        KeyValuePair<string, int>? idLevel = equip.Weapon!.AffixMap?.Single();
-        int affixLevel = idLevel?.Value ?? 0;
+        // AffixMap can be null when it's a white weapon.
+        KeyValuePair<EquipAffixId, WeaponAffixLevel>? idLevel = equip.Weapon!.AffixMap?.Single();
+        uint affixLevel = idLevel?.Value ?? 0U;
 
         WeaponStat? mainStat = equip.Flat.WeaponStats?.ElementAtOrDefault(0);
         WeaponStat? subStat = equip.Flat.WeaponStats?.ElementAtOrDefault(1);
@@ -145,7 +146,7 @@ internal sealed class SummaryAvatarFactory
             Description = weapon.Description,
 
             // EquipBase
-            Level = $"Lv.{equip.Weapon!.Level}",
+            Level = $"Lv.{equip.Weapon!.Level.Value}",
             Quality = weapon.Quality,
             MainProperty = mainStat != null ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue) : default!,
 

@@ -25,7 +25,6 @@ internal class Package : PathMd5
     /// 尺寸
     /// </summary>
     [JsonPropertyName("size")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public long Size { get; set; } = default!;
 
     /// <summary>
@@ -52,6 +51,5 @@ internal class Package : PathMd5
     /// 包大小 bytes
     /// </summary>
     [JsonPropertyName("package_size")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public long PackageSize { get; set; } = default!;
 }

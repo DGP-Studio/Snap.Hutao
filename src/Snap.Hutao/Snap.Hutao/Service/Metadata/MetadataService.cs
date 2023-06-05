@@ -6,7 +6,7 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Service.Notification;
 using System.IO;
 using System.Net.Http;
@@ -122,12 +122,12 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             string fileFullPath = metadataOptions.GetLocalizedLocalFile(fileFullName);
             if (File.Exists(fileFullPath))
             {
-                skip = md5 == await Digest.GetFileMD5Async(fileFullPath, token).ConfigureAwait(false);
+                skip = md5 == await XXH64.HashFileAsync(fileFullPath, token).ConfigureAwait(false);
             }
 
             if (!skip)
             {
-                logger.LogInformation("MD5 of {file} not matched, begin downloading", fileFullName);
+                logger.LogInformation("{hash} of {file} not matched, begin downloading", nameof(XXH64), fileFullName);
 
                 await DownloadMetadataAsync(fileFullName, token).ConfigureAwait(false);
             }
@@ -182,6 +182,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
         else
         {
+            FileNotFoundException exception = new(SH.ServiceMetadataFileNotFound, fileName);
             throw ThrowHelper.UserdataCorrupted(SH.ServiceMetadataFileNotFound, null!);
         }
     }

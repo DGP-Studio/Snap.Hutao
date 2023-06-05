@@ -31,7 +31,7 @@ internal sealed class CultivateEntryView : Item
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; set; }
+    public uint Id { get; set; }
 
     /// <summary>
     /// 入口Id

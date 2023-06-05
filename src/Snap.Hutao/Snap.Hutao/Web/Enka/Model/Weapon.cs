@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Enka.Model;
 
 /// <summary>
@@ -14,19 +16,19 @@ internal sealed class Weapon
     /// Weapon Level
     /// </summary>
     [JsonPropertyName("level")]
-    public int Level { get; set; }
+    public Level Level { get; set; }
 
     /// <summary>
     /// 突破等级
     /// Weapon Ascension Level
     /// </summary>
     [JsonPropertyName("promoteLevel")]
-    public int PromoteLevel { get; set; }
+    public Level PromoteLevel { get; set; }
 
     /// <summary>
     /// 精炼 相较于实际等级 -1
     /// Weapon Refinement Level [0-4]
     /// </summary>
     [JsonPropertyName("affixMap")]
-    public Dictionary<string, int> AffixMap { get; set; } = default!;
+    public Dictionary<EquipAffixId, WeaponAffixLevel> AffixMap { get; set; } = default!;
 }

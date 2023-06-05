@@ -24,7 +24,7 @@ internal sealed class Achievement
     /// <summary>
     /// 排序顺序
     /// </summary>
-    public int Order { get; set; }
+    public uint Order { get; set; }
 
     /// <summary>
     /// 标题
@@ -44,7 +44,7 @@ internal sealed class Achievement
     /// <summary>
     /// 总进度
     /// </summary>
-    public int Progress { get; set; }
+    public uint Progress { get; set; }
 
     /// <summary>
     /// 图标

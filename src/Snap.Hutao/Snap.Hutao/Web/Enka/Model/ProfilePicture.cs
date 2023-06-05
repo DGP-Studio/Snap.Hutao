@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Enka.Model;
 
 /// <summary>
@@ -13,11 +15,11 @@ internal sealed class ProfilePicture
     /// 使用的角色Id
     /// </summary>
     [JsonPropertyName("avatarId")]
-    public int AvatarId { get; set; }
+    public AvatarId AvatarId { get; set; }
 
     /// <summary>
     /// 衣装Id
     /// </summary>
     [JsonPropertyName("costumeId")]
-    public int? CostumeId { get; set; }
+    public CostumeId? CostumeId { get; set; }
 }

@@ -24,7 +24,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     private AdvancedCollectionView? monsters;
     private Monster? selected;
     private BaseValueInfo? baseValueInfo;
-    private Dictionary<int, Dictionary<GrowCurveType, float>>? levelMonsterCurveMap;
+    private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelMonsterCurveMap;
 
     /// <summary>
     /// 角色列表
@@ -58,7 +58,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
             levelMonsterCurveMap = await metadataService.GetLevelToMonsterCurveMapAsync().ConfigureAwait(false);
 
             List<Monster> monsters = await metadataService.GetMonstersAsync().ConfigureAwait(false);
-            Dictionary<MaterialId, Display> idDisplayMap = await metadataService.GetIdToDisplayAndMaterialMapAsync().ConfigureAwait(false);
+            Dictionary<MaterialId, DisplayItem> idDisplayMap = await metadataService.GetIdToDisplayAndMaterialMapAsync().ConfigureAwait(false);
             foreach (Monster monster in monsters)
             {
                 monster.DropsView ??= monster.Drops?.SelectList(i => idDisplayMap.GetValueOrDefault(i)!);
@@ -81,7 +81,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
         else
         {
             List<PropertyCurveValue> propertyCurveValues = monster.GrowCurves
-                .Select(curveInfo => new PropertyCurveValue(curveInfo.Key, curveInfo.Value, monster.BaseValue.GetValue(curveInfo.Key)))
+                .Select(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, monster.BaseValue.GetValue(curveInfo.Type)))
                 .ToList();
 
             BaseValueInfo = new(100, propertyCurveValues, levelMonsterCurveMap!);

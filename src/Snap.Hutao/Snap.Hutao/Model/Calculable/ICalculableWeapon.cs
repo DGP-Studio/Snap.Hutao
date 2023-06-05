@@ -19,10 +19,10 @@ internal interface ICalculableWeapon : ICalculable
     /// <summary>
     /// 最小等级
     /// </summary>
-    int LevelMin { get; }
+    uint LevelMin { get; }
 
     /// <summary>
     /// 最大等级
     /// </summary>
-    int LevelMax { get; }
+    uint LevelMax { get; }
 }

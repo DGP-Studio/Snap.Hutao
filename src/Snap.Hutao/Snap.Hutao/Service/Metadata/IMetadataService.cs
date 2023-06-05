@@ -90,14 +90,14 @@ internal interface IMetadataService : ICastableService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>圣遗物强化属性列表</returns>
-    ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default);
+    ValueTask<List<ReliquarySubAffix>> GetReliquarySubAffixesAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物等级数据
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>圣遗物等级数据</returns>
-    ValueTask<List<ReliquaryLevel>> GetReliquaryLevelsAsync(CancellationToken token = default);
+    ValueTask<List<ReliquaryMainAffixLevel>> GetReliquaryLevelsAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物主属性强化属性列表
@@ -156,7 +156,7 @@ internal interface IMetadataService : ICastableService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>显示与材料映射</returns>
-    ValueTask<Dictionary<MaterialId, Display>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<MaterialId, DisplayItem>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取Id到材料的字典
@@ -170,7 +170,7 @@ internal interface IMetadataService : ICastableService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>字典</returns>
-    ValueTask<Dictionary<ReliquaryAffixId, ReliquaryAffix>> GetIdToReliquaryAffixMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<ReliquarySubAffixId, ReliquarySubAffix>> GetIdToReliquarySubAffixMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取圣遗物主词条Id与属性的字典
@@ -211,20 +211,20 @@ internal interface IMetadataService : ICastableService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>等级角色曲线映射</returns>
-    ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取等级怪物曲线映射
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>等级怪物曲线映射</returns>
-    ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取等级武器曲线映射
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>等级武器曲线映射</returns>
-    ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default);
+    ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default);
     #endregion
 }

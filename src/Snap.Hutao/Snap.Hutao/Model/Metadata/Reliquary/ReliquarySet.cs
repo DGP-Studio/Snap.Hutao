@@ -14,7 +14,7 @@ internal sealed class ReliquarySet
     /// <summary>
     /// 套装Id
     /// </summary>
-    public int SetId { get; set; }
+    public ReliquarySetId SetId { get; set; }
 
     /// <summary>
     /// 装备被动Id

@@ -40,13 +40,13 @@ internal sealed class Weapon
     /// 稀有度
     /// </summary>
     [JsonPropertyName("rarity")]
-    public ItemQuality Rarity { get; set; }
+    public QualityType Rarity { get; set; }
 
     /// <summary>
     /// 等级
     /// </summary>
     [JsonPropertyName("level")]
-    public int Level { get; set; }
+    public Level Level { get; set; }
 
     /// <summary>
     /// 突破等级
@@ -70,5 +70,5 @@ internal sealed class Weapon
     /// 精炼等级
     /// </summary>
     [JsonPropertyName("affix_level")]
-    public int AffixLevel { get; set; }
+    public uint AffixLevel { get; set; }
 }

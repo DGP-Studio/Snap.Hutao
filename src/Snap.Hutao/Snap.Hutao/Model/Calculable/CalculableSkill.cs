@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
 
 namespace Snap.Hutao.Model.Calculable;
@@ -15,8 +16,8 @@ namespace Snap.Hutao.Model.Calculable;
 [HighQuality]
 internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
 {
-    private int levelCurrent;
-    private int levelTarget;
+    private uint levelCurrent;
+    private uint levelTarget;
 
     /// <summary>
     /// 构造一个新的可计算的技能
@@ -29,7 +30,7 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
         LevelMax = 10; // hard coded 10 here
         Name = skill.Name;
         Icon = SkillIconConverter.IconNameToUri(skill.Icon);
-        Quality = ItemQuality.QUALITY_NONE;
+        Quality = QualityType.QUALITY_NONE;
 
         LevelCurrent = LevelMin;
         LevelTarget = LevelMax;
@@ -46,20 +47,20 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
         LevelMax = 10; // hard coded 10 here
         Name = skill.Name;
         Icon = skill.Icon;
-        Quality = ItemQuality.QUALITY_NONE;
+        Quality = QualityType.QUALITY_NONE;
 
         LevelCurrent = LevelMin;
         LevelTarget = LevelMax;
     }
 
     /// <inheritdoc/>
-    public int GruopId { get; }
+    public SkillGroupId GruopId { get; }
 
     /// <inheritdoc/>
-    public int LevelMin { get; }
+    public uint LevelMin { get; }
 
     /// <inheritdoc/>
-    public int LevelMax { get; }
+    public uint LevelMax { get; }
 
     /// <inheritdoc/>
     public string Name { get; }
@@ -68,11 +69,11 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
     public Uri Icon { get; }
 
     /// <inheritdoc/>
-    public ItemQuality Quality { get; }
+    public QualityType Quality { get; }
 
     /// <inheritdoc/>
-    public int LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
+    public uint LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
 
     /// <inheritdoc/>
-    public int LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
+    public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
 }

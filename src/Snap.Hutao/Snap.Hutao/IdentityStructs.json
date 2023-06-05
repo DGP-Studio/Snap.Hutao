@@ -1,82 +1,166 @@
 ﻿[
   {
     "Name": "AchievementGoalId",
-    "Type": "int",
-    "Documentation": "1-2位 成就分类Id"
+    "Documentation": "成就分类 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "AchievementId",
-    "Type": "int",
-    "Documentation": "5位 成就Id"
+    "Documentation": "成就 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "AvatarId",
-    "Type": "int",
-    "Documentation": "8位 角色Id"
+    "Documentation": "角色 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "CostumeId",
-    "Type": "int",
-    "Documentation": "6位 角色装扮Id"
+    "Documentation": "角色装扮 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "EquipAffixId",
-    "Type": "int",
-    "Documentation": "6位 装备属性Id"
+    "Documentation": "装备属性 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "ExtendedEquipAffixId",
-    "Type": "int",
-    "Documentation": "7位 装备属性Id"
+    "Documentation": "装备属性 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "FetterLevel",
+    "Documentation": "好感等级 1 - 10",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "Level",
+    "Documentation": "等级 1 - 90",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "MaterialId",
-    "Type": "int",
-    "Documentation": "3-6位 材料Id"
+    "Documentation": "材料 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "MonsterDescribeId",
+    "Documentation": "怪物描述 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "MonsterId",
-    "Type": "int",
-    "Documentation": "8位 怪物Id"
+    "Documentation": "怪物 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "PromoteId",
-    "Type": "int",
-    "Documentation": "1-5位 角色突破提升Id"
+    "Documentation": "角色突破提升 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
-    "Name": "ReliquaryAffixId",
-    "Type": "int",
-    "Documentation": "6位 圣遗物副词条Id"
+    "Name": "PromoteLevel",
+    "Documentation": "突破等级 0 - 6",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "ReliquaryLevel",
+    "Documentation": "圣遗物等级 1 - 21",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "ReliquarySubAffixId",
+    "Documentation": "圣遗物副词条 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "ReliquaryId",
-    "Type": "int",
-    "Documentation": "5位 圣遗物Id"
+    "Documentation": "圣遗物 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "ReliquaryMainAffixId",
-    "Type": "int",
-    "Documentation": "5位 圣遗物主属性Id"
+    "Documentation": "圣遗物主属性 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "ReliquarySetId",
-    "Type": "int",
-    "Documentation": "5位 圣遗物套装Id"
+    "Documentation": "圣遗物套装 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "SkillGroupId",
-    "Type": "int",
-    "Documentation": "3-4位 技能组Id"
+    "Documentation": "技能组 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "SkillId",
-    "Type": "int",
-    "Documentation": "5-6位 技能Id"
+    "Documentation": "技能 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "SkillLevel",
+    "Documentation": "技能等级 1 - 15",
+    "Equatable": true,
+    "EqualityOperators": true,
+    "AdditionOperators": true,
+    "IncrementOperators": true
+  },
+  {
+    "Name": "TowerLevelId",
+    "Documentation": "深渊间 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "TowerLevelGroupId",
+    "Documentation": "深渊间分组 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "TowerFloorId",
+    "Documentation": "深渊层 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "TowerScheduleId",
+    "Documentation": "深渊计划 Id",
+    "Equatable": true,
+    "EqualityOperators": true
+  },
+  {
+    "Name": "WeaponAffixLevel",
+    "Documentation": "武器精炼等级 0 - 4",
+    "Equatable": true,
+    "EqualityOperators": true
   },
   {
     "Name": "WeaponId",
-    "Type": "int",
-    "Documentation": "5位 武器Id"
+    "Documentation": "武器 Id",
+    "Equatable": true,
+    "EqualityOperators": true
   }
 ]

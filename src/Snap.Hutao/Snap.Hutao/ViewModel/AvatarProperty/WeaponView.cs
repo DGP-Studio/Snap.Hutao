@@ -20,7 +20,7 @@ internal sealed class WeaponView : Equip, ICalculableSource<ICalculableWeapon>
     /// <summary>
     /// 精炼等级
     /// </summary>
-    public int AffixLevelNumber { get; set; }
+    public uint AffixLevelNumber { get; set; }
 
     /// <summary>
     /// 精炼属性
@@ -45,12 +45,12 @@ internal sealed class WeaponView : Equip, ICalculableSource<ICalculableWeapon>
     /// <summary>
     /// 等级数字
     /// </summary>
-    internal int LevelNumber { get; set; }
+    internal uint LevelNumber { get; set; }
 
     /// <summary>
     /// 最大等级
     /// </summary>
-    internal int MaxLevel { get => ((int)Quality) >= 3 ? 90 : 70; }
+    internal uint MaxLevel { get => ((int)Quality) >= 3 ? 90U : 70U; }
 
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()

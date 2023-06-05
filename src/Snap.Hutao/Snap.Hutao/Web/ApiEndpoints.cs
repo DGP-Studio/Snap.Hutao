@@ -102,6 +102,11 @@ internal static class ApiEndpoints
     public const string CardWidgetData = $"{ApiTakumiCardApi}/getWidgetData?game_id=2";
 
     /// <summary>
+    /// 小组件数据v2
+    /// </summary>
+    public const string CardWidgetData2 = $"{ApiTakumiRecordAapi}/widget/v2?game_id=2";
+
+    /// <summary>
     /// 发起验证码
     /// </summary>
     public const string CardCreateVerification = $"{ApiTakumiCardWApi}/createVerification?is_high=false";
@@ -346,6 +351,7 @@ internal static class ApiEndpoints
 
     private const string ApiTakumiRecord = "https://api-takumi-record.mihoyo.com";
     private const string ApiTakumiRecordApi = $"{ApiTakumiRecord}/game_record/app/genshin/api";
+    private const string ApiTakumiRecordAapi = $"{ApiTakumiRecord}/game_record/app/genshin/aapi";
 
     /// <summary>
     /// Referer: https://app.mihoyo.com

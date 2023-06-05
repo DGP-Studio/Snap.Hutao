@@ -19,7 +19,7 @@ internal sealed class AchievementGoal
     /// <summary>
     /// 排序顺序
     /// </summary>
-    public int Order { get; set; }
+    public uint Order { get; set; }
 
     /// <summary>
     /// 名称

@@ -5,7 +5,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Widget;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -78,12 +77,12 @@ internal sealed class CardClient
     /// <param name="token">取消令牌</param>
     /// <returns>桌面小组件数据</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.X6)]
-    public async Task<Response<DataWrapper<WidgetData>>> GetWidgetDataAsync(User user, CancellationToken token)
+    public async Task<Response<DailyNote.WidgetDailyNote>> GetWidgetDataAsync(User user, CancellationToken token)
     {
-        Response<DataWrapper<WidgetData>>? resp = await httpClient
+        Response<DailyNote.WidgetDailyNote>? resp = await httpClient
             .SetUser(user, CookieType.SToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X6, false)
-            .TryCatchGetFromJsonAsync<Response<DataWrapper<WidgetData>>>(ApiEndpoints.CardWidgetData, options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<DailyNote.WidgetDailyNote>>(ApiEndpoints.CardWidgetData2, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

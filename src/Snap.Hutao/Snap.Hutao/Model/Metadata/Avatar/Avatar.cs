@@ -26,12 +26,11 @@ internal partial class Avatar
     /// <summary>
     /// 排序号
     /// </summary>
-    public int Sort { get; set; }
+    public uint Sort { get; set; }
 
     /// <summary>
     /// 体型
     /// </summary>
-    [JsonEnum(JsonSerializeType.String)]
     public BodyType Body { get; set; } = default!;
 
     /// <summary>
@@ -62,7 +61,7 @@ internal partial class Avatar
     /// <summary>
     /// 星级
     /// </summary>
-    public ItemQuality Quality { get; set; }
+    public QualityType Quality { get; set; }
 
     /// <summary>
     /// 武器类型
@@ -72,12 +71,12 @@ internal partial class Avatar
     /// <summary>
     /// 基础数值
     /// </summary>
-    public BaseValue BaseValue { get; set; } = default!;
+    public AvatarBaseValue BaseValue { get; set; } = default!;
 
     /// <summary>
     /// 生长曲线
     /// </summary>
-    public Dictionary<FightProperty, GrowCurveType> GrowCurves { get; set; } = default!;
+    public List<TypeValue<FightProperty, GrowCurveType>> GrowCurves { get; set; } = default!;
 
     /// <summary>
     /// 技能

@@ -19,7 +19,6 @@ internal sealed class Battle
     /// 时间戳
     /// </summary>
     [JsonPropertyName("timestamp")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long Timestamp { get; set; } = default!;
 
     /// <summary>

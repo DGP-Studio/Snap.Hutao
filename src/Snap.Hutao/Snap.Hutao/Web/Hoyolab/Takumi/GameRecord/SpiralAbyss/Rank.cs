@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
 /// <summary>
@@ -13,7 +15,7 @@ internal sealed class Rank
     /// 角色Id
     /// </summary>
     [JsonPropertyName("avatar_id")]
-    public int AvatarId { get; set; }
+    public AvatarId AvatarId { get; set; }
 
     /// <summary>
     /// 角色图标

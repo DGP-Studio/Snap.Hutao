@@ -57,7 +57,10 @@ internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTran
         equip.Weapon = new()
         {
             Level = source.Weapon.Level,
-            AffixMap = new() { { $"1{source.Weapon.Id}", source.Weapon.AffixLevel - 1 }, },
+            AffixMap = new()
+            {
+                [100000 + source.Weapon.Id] = source.Weapon.AffixLevel - 1,
+            },
         };
 
         // Special case here, don't set EQUIP_WEAPON

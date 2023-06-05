@@ -50,7 +50,7 @@ internal static class WeaponFilter
 
             if (IntrinsicImmutables.FightProperties.Contains(value))
             {
-                matches.Add(weapon.GrowCurves.ElementAtOrDefault(1).Key.GetLocalizedDescriptionOrDefault() == value);
+                matches.Add(weapon.GrowCurves.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
         }

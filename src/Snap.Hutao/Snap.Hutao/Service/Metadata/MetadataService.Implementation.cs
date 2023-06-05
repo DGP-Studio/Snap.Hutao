@@ -19,84 +19,84 @@ internal sealed partial class MetadataService
     /// <inheritdoc/>
     public ValueTask<List<AchievementGoal>> GetAchievementGoalsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<AchievementGoal>>("AchievementGoal", token);
+        return FromCacheOrFileAsync<List<AchievementGoal>>(FileNameAchievementGoal, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Model.Metadata.Achievement.Achievement>> GetAchievementsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<Model.Metadata.Achievement.Achievement>>("Achievement", token);
+        return FromCacheOrFileAsync<List<Model.Metadata.Achievement.Achievement>>(FileNameAchievement, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Avatar>> GetAvatarsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<Avatar>>("Avatar", token);
+        return FromCacheOrFileAsync<List<Avatar>>(FileNameAvatar, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Promote>> GetAvatarPromotesAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<Promote>>("AvatarPromote", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<Promote>>("WeaponPromote", token);
+        return FromCacheOrFileAsync<List<Promote>>(FileNameAvatarPromote, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<GachaEvent>> GetGachaEventsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<GachaEvent>>("GachaEvent2", token);
+        return FromCacheOrFileAsync<List<GachaEvent>>(FileNameGachaEvent, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Material>> GetMaterialsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<Material>>("Material", token);
+        return FromCacheOrFileAsync<List<Material>>(FileNameMaterial, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Monster>> GetMonstersAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<Monster>>("Monster", token);
+        return FromCacheOrFileAsync<List<Monster>>(FileNameMonster, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Reliquary>> GetReliquariesAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<Reliquary>>("Reliquary", token);
+        return FromCacheOrFileAsync<List<Reliquary>>(FileNameReliquary, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<List<ReliquaryAffix>> GetReliquaryAffixesAsync(CancellationToken token = default)
+    public ValueTask<List<ReliquaryMainAffixLevel>> GetReliquaryLevelsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<ReliquaryAffix>>("ReliquaryAffix", token);
-    }
-
-    /// <inheritdoc/>
-    public ValueTask<List<ReliquaryLevel>> GetReliquaryLevelsAsync(CancellationToken token = default)
-    {
-        return FromCacheOrFileAsync<List<ReliquaryLevel>>("ReliquaryMainAffixLevel", token);
+        return FromCacheOrFileAsync<List<ReliquaryMainAffixLevel>>(FileNameReliquaryMainAffixLevel, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<ReliquaryMainAffix>> GetReliquaryMainAffixesAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<ReliquaryMainAffix>>("ReliquaryMainAffix", token);
+        return FromCacheOrFileAsync<List<ReliquaryMainAffix>>(FileNameReliquaryMainAffix, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<ReliquarySet>> GetReliquarySetsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<ReliquarySet>>("ReliquarySet", token);
+        return FromCacheOrFileAsync<List<ReliquarySet>>(FileNameReliquarySet, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<List<ReliquarySubAffix>> GetReliquarySubAffixesAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<ReliquarySubAffix>>(FileNameReliquarySubAffix, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<List<Weapon>> GetWeaponsAsync(CancellationToken token = default)
     {
-        return FromCacheOrFileAsync<List<Weapon>>("Weapon", token);
+        return FromCacheOrFileAsync<List<Weapon>>(FileNameWeapon, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<List<Promote>> GetWeaponPromotesAsync(CancellationToken token = default)
+    {
+        return FromCacheOrFileAsync<List<Promote>>(FileNameWeaponPromote, token);
     }
 }

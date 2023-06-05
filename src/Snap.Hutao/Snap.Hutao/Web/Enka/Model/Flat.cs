@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Json.Annotation;
 using Snap.Hutao.Model.Intrinsic;
 
 namespace Snap.Hutao.Web.Enka.Model;
@@ -16,21 +17,21 @@ internal sealed class Flat
     /// Hash for Equipment Name
     /// </summary>
     [JsonPropertyName("nameTextMapHash")]
-    public string NameTextMapHash { get; set; } = default!;
+    public ulong NameTextMapHash { get; set; }
 
     /// <summary>
     /// 套装名称
     /// Hash for Artifact Set Name
     /// </summary>
     [JsonPropertyName("setNameTextMapHash")]
-    public string? SetNameTextMapHash { get; set; }
+    public ulong SetNameTextMapHash { get; set; }
 
     /// <summary>
     /// 等级
     /// Rarity Level of Equipment
     /// </summary>
     [JsonPropertyName("rankLevel")]
-    public int RankLevel { get; set; }
+    public QualityType RankLevel { get; set; }
 
     /// <summary>
     /// 圣遗物主属性
@@ -53,7 +54,7 @@ internal sealed class Flat
     /// ITEM_RELIQUARY
     /// </summary>
     [JsonPropertyName("itemType")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonEnum(JsonSerializeType.String)]
     public ItemType ItemType { get; set; } = default!;
 
     /// <summary>
@@ -69,7 +70,7 @@ internal sealed class Flat
     /// 值为 <see cref="EquipType.EQUIP_NONE"/>
     /// </summary>
     [JsonPropertyName("equipType")]
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonEnum(JsonSerializeType.String)]
     public EquipType EquipType { get; set; }
 
     /// <summary>

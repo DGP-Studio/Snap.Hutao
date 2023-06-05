@@ -15,8 +15,8 @@ namespace Snap.Hutao.Model.Calculable;
 [HighQuality]
 internal sealed class CalculableAvatar : ObservableObject, ICalculableAvatar
 {
-    private int levelCurrent;
-    private int levelTarget;
+    private uint levelCurrent;
+    private uint levelTarget;
 
     /// <summary>
     /// 构造一个新的可计算角色
@@ -58,10 +58,10 @@ internal sealed class CalculableAvatar : ObservableObject, ICalculableAvatar
     public AvatarId AvatarId { get; }
 
     /// <inheritdoc/>
-    public int LevelMin { get; }
+    public uint LevelMin { get; }
 
     /// <inheritdoc/>
-    public int LevelMax { get; }
+    public uint LevelMax { get; }
 
     /// <inheritdoc/>
     public List<ICalculableSkill> Skills { get; }
@@ -73,11 +73,11 @@ internal sealed class CalculableAvatar : ObservableObject, ICalculableAvatar
     public Uri Icon { get; }
 
     /// <inheritdoc/>
-    public ItemQuality Quality { get; }
+    public QualityType Quality { get; }
 
     /// <inheritdoc/>
-    public int LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
+    public uint LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
 
     /// <inheritdoc/>
-    public int LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
+    public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
 }

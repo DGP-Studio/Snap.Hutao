@@ -20,7 +20,7 @@ internal sealed class PlayerInfo
     /// 等级
     /// </summary>
     [JsonPropertyName("level")]
-    public int Level { get; set; }
+    public uint Level { get; set; }
 
     /// <summary>
     /// 签名
@@ -34,42 +34,42 @@ internal sealed class PlayerInfo
     /// Player World Level
     /// </summary>
     [JsonPropertyName("worldLevel")]
-    public int WorldLevel { get; set; }
+    public uint WorldLevel { get; set; }
 
     /// <summary>
     /// 名片的Id
     /// Profile Namecard ID
     /// </summary>
     [JsonPropertyName("nameCardId")]
-    public int NameCardId { get; set; }
+    public uint NameCardId { get; set; }
 
     /// <summary>
     /// 完成的成就个数
     /// Number of Completed Achievements
     /// </summary>
     [JsonPropertyName("finishAchievementNum")]
-    public int FinishAchievementNum { get; set; }
+    public uint FinishAchievementNum { get; set; }
 
     /// <summary>
     /// 深渊层数
     /// Abyss Floor
     /// </summary>
     [JsonPropertyName("towerFloorIndex")]
-    public int TowerFloorIndex { get; set; }
+    public uint TowerFloorIndex { get; set; }
 
     /// <summary>
     /// 深渊间数
     /// Abyss Floor's Level
     /// </summary>
     [JsonPropertyName("towerLevelIndex")]
-    public int TowerLevelIndex { get; set; }
+    public uint TowerLevelIndex { get; set; }
 
     /// <summary>
     /// 展示的角色信息
     /// List of Character IDs and Levels
     /// </summary>
     [JsonPropertyName("showAvatarInfoList")]
-    public IList<ShowAvatarInfo> ShowAvatarInfoList { get; set; } = default!;
+    public List<ShowAvatarInfo> ShowAvatarInfoList { get; set; } = default!;
 
     /// <summary>
     /// 展示的名片信息

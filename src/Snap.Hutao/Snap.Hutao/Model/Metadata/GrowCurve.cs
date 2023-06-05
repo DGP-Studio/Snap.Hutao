@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Model.Metadata;
 
@@ -11,13 +12,23 @@ namespace Snap.Hutao.Model.Metadata;
 [HighQuality]
 internal sealed class GrowCurve
 {
+    private Dictionary<GrowCurveType, float>? curveMap;
+
     /// <summary>
     /// 等级
     /// </summary>
-    public int Level { get; set; }
+    public Level Level { get; set; }
 
     /// <summary>
     /// 曲线 值相乘
     /// </summary>
-    public Dictionary<GrowCurveType, float> Curves { get; set; } = default!;
+    public List<TypeValue<GrowCurveType, float>> Curves { get; set; } = default!;
+
+    /// <summary>
+    /// 曲线映射
+    /// </summary>
+    public Dictionary<GrowCurveType, float> CurveMap
+    {
+        get => curveMap ??= Curves.ToDictionary(v => v.Type, v => v.Value);
+    }
 }

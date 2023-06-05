@@ -39,7 +39,6 @@ internal sealed class Expedition
     /// 剩余时间
     /// </summary>
     [JsonPropertyName("remained_time")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public int RemainedTime { get; set; }
 
     /// <summary>

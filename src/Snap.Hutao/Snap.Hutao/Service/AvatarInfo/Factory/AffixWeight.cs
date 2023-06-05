@@ -26,7 +26,7 @@ internal sealed class AffixWeight : Dictionary<FightProperty, float>
     /// <param name="heal">治疗加成</param>
     /// <param name="name">名称</param>
     public AffixWeight(
-        int avatarId,
+        uint avatarId,
         float hp,
         float atk,
         float def,

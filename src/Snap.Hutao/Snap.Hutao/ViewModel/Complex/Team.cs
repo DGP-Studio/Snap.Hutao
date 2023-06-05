@@ -24,7 +24,7 @@ internal sealed class Team : List<AvatarView>
     {
         foreach (StringSegment item in new StringTokenizer(team.Item, new char[] { ',' }))
         {
-            int id = int.Parse(item.AsSpan());
+            uint id = uint.Parse(item.AsSpan());
             Add(new(idAvatarMap[id], 0));
         }
 
