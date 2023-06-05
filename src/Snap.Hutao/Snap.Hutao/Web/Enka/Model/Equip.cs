@@ -14,7 +14,7 @@ internal sealed class Equip
     /// Equipment ID
     /// </summary>
     [JsonPropertyName("itemId")]
-    public int ItemId { get; set; }
+    public uint ItemId { get; set; }
 
     /// <summary>
     /// 圣遗物

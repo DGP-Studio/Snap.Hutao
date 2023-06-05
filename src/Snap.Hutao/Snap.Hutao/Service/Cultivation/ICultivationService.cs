@@ -71,7 +71,7 @@ internal interface ICultivationService
     /// <param name="itemId">主Id</param>
     /// <param name="items">待存物品</param>
     /// <returns>是否保存成功</returns>
-    Task<bool> SaveConsumptionAsync(CultivateType type, int itemId, List<Item> items);
+    Task<bool> SaveConsumptionAsync(CultivateType type, uint itemId, List<Item> items);
 
     /// <summary>
     /// 保存养成物品状态

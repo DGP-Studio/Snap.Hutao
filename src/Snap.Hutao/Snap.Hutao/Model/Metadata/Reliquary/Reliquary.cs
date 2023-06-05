@@ -20,7 +20,7 @@ internal sealed class Reliquary
     /// <summary>
     /// 允许出现的等级
     /// </summary>
-    public ItemQuality RankLevel { get; set; } = default!;
+    public QualityType RankLevel { get; set; } = default!;
 
     /// <summary>
     /// 套装Id

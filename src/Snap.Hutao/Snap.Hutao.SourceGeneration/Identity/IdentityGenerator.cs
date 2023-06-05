@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Snap.Hutao.SourceGeneration.Identity;
 
@@ -32,8 +33,6 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
 
         if (identities.Any())
         {
-            GenerateIdentityConverter(context);
-
             foreach (IdentityStructMetadata identityStruct in identities)
             {
                 GenerateIdentityStruct(context, identityStruct);
@@ -41,109 +40,48 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
         }
     }
 
-    private static void GenerateIdentityConverter(SourceProductionContext context)
+    private static void GenerateIdentityStruct(SourceProductionContext context, IdentityStructMetadata metadata)
     {
-        string source = $$"""
-            // Copyright (c) DGP Studio. All rights reserved.
-            // Licensed under the MIT license.
+        string name = metadata.Name;
 
-            namespace Snap.Hutao.Model.Primitive.Converter;
-
-            /// <summary>
-            /// Id 转换器
-            /// </summary>
-            /// <typeparam name="TWrapper">包装类型</typeparam>
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(IdentityGenerator)}}", "1.0.0.0")]
-            internal unsafe sealed class IdentityConverter<TWrapper> : JsonConverter<TWrapper>
-                where TWrapper : unmanaged
-            {
-                /// <inheritdoc/>
-                public override TWrapper Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
-                {
-                    if (reader.TokenType == JsonTokenType.Number)
-                    {
-                        int value = reader.GetInt32();
-                        return *(TWrapper*)&value;
-                    }
-
-                    throw new JsonException();
-                }
-
-                /// <inheritdoc/>
-                public override void Write(Utf8JsonWriter writer, TWrapper value, JsonSerializerOptions options)
-                {
-                    writer.WriteNumberValue(*(int*)&value);
-                }
-            }
-            """;
-
-        context.AddSource("IdentityConverter.g.cs", source);
-    }
-
-    private static void GenerateIdentityStruct(SourceProductionContext context, IdentityStructMetadata identityStruct)
-    {
-        string name = identityStruct.Name;
-        string type = identityStruct.Type;
-
-        string source = $$"""
+        StringBuilder sourceBuilder = new StringBuilder().AppendLine($$"""
             // Copyright (c) DGP Studio. All rights reserved.
             // Licensed under the MIT license.
 
             using Snap.Hutao.Model.Primitive.Converter;
+            using System.Numerics;
 
             namespace Snap.Hutao.Model.Primitive;
 
             /// <summary>
-            /// {{identityStruct.Documentation}}
+            /// {{metadata.Documentation}}
             /// </summary>
             [JsonConverter(typeof(IdentityConverter<{{name}}>))]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(IdentityGenerator)}}","1.0.0.0")]
-            internal readonly struct {{name}} : IEquatable<{{name}}>
+            internal readonly partial struct {{name}}
             {
                 /// <summary>
                 /// 值
                 /// </summary>
-                public readonly {{type}} Value;
+                public readonly uint Value;
 
                 /// <summary>
                 /// Initializes a new instance of the <see cref="{{name}}"/> struct.
                 /// </summary>
                 /// <param name="value">value</param>
-                public {{name}}({{type}} value)
+                public {{name}}(uint value)
                 {
                     Value = value;
                 }
 
-                public static implicit operator {{type}}({{name}} value)
+                public static implicit operator uint({{name}} value)
                 {
                     return value.Value;
                 }
 
-                public static implicit operator {{name}}({{type}} value)
+                public static implicit operator {{name}}(uint value)
                 {
                     return new(value);
-                }
-
-                public static bool operator ==({{name}} left, {{name}} right)
-                {
-                    return left.Value == right.Value;
-                }
-
-                public static bool operator !=({{name}} left, {{name}} right)
-                {
-                    return !(left == right);
-                }
-
-                /// <inheritdoc/>
-                public bool Equals({{name}} other)
-                {
-                    return Value == other.Value;
-                }
-
-                /// <inheritdoc/>
-                public override bool Equals(object obj)
-                {
-                    return obj is {{name}} other && Equals(other);
                 }
 
                 /// <inheritdoc/>
@@ -152,26 +90,107 @@ internal sealed class IdentityGenerator : IIncrementalGenerator
                     return Value.GetHashCode();
                 }
             }
-            """;
+            """);
 
-        context.AddSource($"{name}.g.cs", source);
+        if (metadata.Equatable)
+        {
+            sourceBuilder.AppendLine($$"""
+
+                internal readonly partial struct {{name}} : IEquatable<{{name}}>
+                {
+                    /// <inheritdoc/>
+                    public override bool Equals(object obj)
+                    {
+                        return obj is {{name}} other && Equals(other);
+                    }
+
+                    /// <inheritdoc/>
+                    public bool Equals({{name}} other)
+                    {
+                        return Value == other.Value;
+                    }
+                }
+                """);
+        }
+
+        if (metadata.EqualityOperators)
+        {
+            sourceBuilder.AppendLine($$"""
+
+                internal readonly partial struct {{name}} : IEqualityOperators<{{name}}, {{name}}, bool>, IEqualityOperators<{{name}}, uint, bool>
+                {
+                    public static bool operator ==({{name}} left, {{name}} right)
+                    {
+                        return left.Value == right.Value;
+                    }
+                
+                    public static bool operator ==({{name}} left, uint right)
+                    {
+                        return left.Value == right;
+                    }
+
+                    public static bool operator !=({{name}} left, {{name}} right)
+                    {
+                        return !(left == right);
+                    }
+
+                    public static bool operator !=({{name}} left, uint right)
+                    {
+                        return !(left == right);
+                    }
+                }
+                """);
+        }
+
+        if (metadata.AdditionOperators)
+        {
+            sourceBuilder.AppendLine($$"""
+
+                internal readonly partial struct {{name}} : IAdditionOperators<{{name}}, {{name}}, {{name}}>, IAdditionOperators<{{name}}, uint, {{name}}>
+                {
+                    public static {{name}} operator +({{name}} left, {{name}} right)
+                    {
+                        return left.Value + right.Value;
+                    }
+
+                    public static {{name}} operator +({{name}} left, uint right)
+                    {
+                        return left.Value + right;
+                    }
+                }
+                """);
+        }
+
+        if (metadata.IncrementOperators)
+        {
+            sourceBuilder.AppendLine($$"""
+
+                internal readonly partial struct {{name}} : IIncrementOperators<{{name}}>
+                {
+                    public static unsafe {{name}} operator ++({{name}} value)
+                    {
+                        ++*(uint*)&value;
+                        return value;
+                    }
+                }
+                """);
+        }
+
+        context.AddSource($"{name}.g.cs", sourceBuilder.ToString());
     }
 
     private sealed class IdentityStructMetadata
     {
-        /// <summary>
-        /// 名称
-        /// </summary>
         public string Name { get; set; } = default!;
 
-        /// <summary>
-        /// 基底类型
-        /// </summary>
-        public string Type { get; set; } = default!;
-
-        /// <summary>
-        /// 文档
-        /// </summary>
         public string? Documentation { get; set; }
+
+        public bool Equatable { get; set; }
+
+        public bool EqualityOperators { get; set; }
+
+        public bool AdditionOperators { get; set; }
+
+        public bool IncrementOperators { get; set; }
     }
 }

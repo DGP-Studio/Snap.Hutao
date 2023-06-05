@@ -46,7 +46,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
     private Avatar? selected;
     private string? filterText;
     private BaseValueInfo? baseValueInfo;
-    private Dictionary<int, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
+    private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelAvatarCurveMap;
     private List<Promote>? promotes;
 
     /// <summary>
@@ -182,15 +182,15 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
         }
         else
         {
-            Dictionary<int, Promote> avatarPromoteMap = promotes!.Where(p => p.Id == avatar.PromoteId).ToDictionary(p => p.Level);
-
-            FightProperty promoteProperty = avatarPromoteMap[0].AddProperties.Keys.Last();
+            Dictionary<PromoteLevel, Promote> avatarPromoteMap = promotes!.Where(p => p.Id == avatar.PromoteId).ToDictionary(p => p.Level);
+            Dictionary<FightProperty, GrowCurveType> avatarGrowCurve = avatar.GrowCurves.ToDictionary(g => g.Type, g => g.Value);
+            FightProperty promoteProperty = avatarPromoteMap[0].AddProperties.Last().Type;
 
             List<PropertyCurveValue> propertyCurveValues = new()
             {
-                new(FightProperty.FIGHT_PROP_BASE_HP, avatar.GrowCurves[FightProperty.FIGHT_PROP_BASE_HP], avatar.BaseValue.HpBase),
-                new(FightProperty.FIGHT_PROP_BASE_ATTACK, avatar.GrowCurves[FightProperty.FIGHT_PROP_BASE_ATTACK], avatar.BaseValue.AttackBase),
-                new(FightProperty.FIGHT_PROP_BASE_DEFENSE, avatar.GrowCurves[FightProperty.FIGHT_PROP_BASE_DEFENSE], avatar.BaseValue.DefenseBase),
+                new(FightProperty.FIGHT_PROP_BASE_HP, avatarGrowCurve[FightProperty.FIGHT_PROP_BASE_HP], avatar.BaseValue.HpBase),
+                new(FightProperty.FIGHT_PROP_BASE_ATTACK, avatarGrowCurve[FightProperty.FIGHT_PROP_BASE_ATTACK], avatar.BaseValue.AttackBase),
+                new(FightProperty.FIGHT_PROP_BASE_DEFENSE, avatarGrowCurve[FightProperty.FIGHT_PROP_BASE_DEFENSE], avatar.BaseValue.DefenseBase),
                 new(promoteProperty, GrowCurveType.GROW_CURVE_NONE, 0),
             };
 

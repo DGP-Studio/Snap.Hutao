@@ -60,19 +60,19 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             // It's an avatar
             switch (item.ItemId.Place())
             {
-                case 8:
+                case 8U:
                     {
                         Avatar avatar = context.IdAvatarMap[item.ItemId];
 
                         bool isUp = false;
                         switch (avatar.Quality)
                         {
-                            case ItemQuality.QUALITY_ORANGE:
-                                orangeAvatarCounter.Increase(avatar);
+                            case QualityType.QUALITY_ORANGE:
+                                orangeAvatarCounter.IncreaseOne(avatar);
                                 isUp = targetHistoryWishBuilder?.IncreaseOrange(avatar) ?? false;
                                 break;
-                            case ItemQuality.QUALITY_PURPLE:
-                                purpleAvatarCounter.Increase(avatar);
+                            case QualityType.QUALITY_PURPLE:
+                                purpleAvatarCounter.IncreaseOne(avatar);
                                 targetHistoryWishBuilder?.IncreasePurple(avatar);
                                 break;
                         }
@@ -83,24 +83,24 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                         break;
                     }
 
-                case 5:
+                case 5U:
                     {
                         Weapon weapon = context.IdWeaponMap[item.ItemId];
 
                         bool isUp = false;
                         switch (weapon.RankLevel)
                         {
-                            case ItemQuality.QUALITY_ORANGE:
+                            case QualityType.QUALITY_ORANGE:
                                 isUp = targetHistoryWishBuilder?.IncreaseOrange(weapon) ?? false;
-                                orangeWeaponCounter.Increase(weapon);
+                                orangeWeaponCounter.IncreaseOne(weapon);
                                 break;
-                            case ItemQuality.QUALITY_PURPLE:
+                            case QualityType.QUALITY_PURPLE:
                                 targetHistoryWishBuilder?.IncreasePurple(weapon);
-                                purpleWeaponCounter.Increase(weapon);
+                                purpleWeaponCounter.IncreaseOne(weapon);
                                 break;
-                            case ItemQuality.QUALITY_BLUE:
+                            case QualityType.QUALITY_BLUE:
                                 targetHistoryWishBuilder?.IncreaseBlue(weapon);
-                                blueWeaponCounter.Increase(weapon);
+                                blueWeaponCounter.IncreaseOne(weapon);
                                 break;
                         }
 

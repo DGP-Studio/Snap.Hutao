@@ -20,6 +20,7 @@ internal static class JsonOptions
         ReadCommentHandling = JsonCommentHandling.Skip,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
         PropertyNameCaseInsensitive = true,
         WriteIndented = true,
         TypeInfoResolver = new DefaultJsonTypeInfoResolver()

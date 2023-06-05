@@ -30,7 +30,7 @@ internal class BaseValue
     /// </summary>
     /// <param name="fightProperty">战斗属性</param>
     /// <returns>值</returns>
-    public float GetValue(FightProperty fightProperty)
+    public virtual float GetValue(FightProperty fightProperty)
     {
         return fightProperty switch
         {

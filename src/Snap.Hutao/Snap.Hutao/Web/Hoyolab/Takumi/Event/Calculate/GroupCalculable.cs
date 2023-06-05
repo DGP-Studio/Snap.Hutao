@@ -13,7 +13,7 @@ internal abstract class GroupCalculable : Calculable
     /// 组Id
     /// </summary>
     [JsonPropertyName("group_id")]
-    public int GroupId { get; set; }
+    public uint GroupId { get; set; }
 
     /// <inheritdoc/>
     public override PromotionDelta ToPromotionDelta()

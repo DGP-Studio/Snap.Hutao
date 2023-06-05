@@ -52,13 +52,13 @@ internal sealed class AvatarInfo
     /// 被动天赋
     /// </summary>
     [JsonPropertyName("inherentProudSkillList")]
-    public List<int> InherentProudSkillList { get; set; } = default!;
+    public List<SkillId> InherentProudSkillList { get; set; } = default!;
 
     /// <summary>
     /// Map of Skill Levels
     /// </summary>
     [JsonPropertyName("skillLevelMap")]
-    public Dictionary<string, int> SkillLevelMap { get; set; } = default!;
+    public Dictionary<SkillId, SkillLevel> SkillLevelMap { get; set; } = default!;
 
     /// <summary>
     /// 装备列表
@@ -85,5 +85,5 @@ internal sealed class AvatarInfo
     /// 命座额外技能等级
     /// </summary>
     [JsonPropertyName("proudSkillExtraLevelMap")]
-    public Dictionary<string, int>? ProudSkillExtraLevelMap { get; set; } = default!;
+    public Dictionary<SkillGroupId, SkillLevel>? ProudSkillExtraLevelMap { get; set; } = default!;
 }

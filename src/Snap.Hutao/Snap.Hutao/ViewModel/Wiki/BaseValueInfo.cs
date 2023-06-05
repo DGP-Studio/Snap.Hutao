@@ -6,6 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -15,10 +16,10 @@ namespace Snap.Hutao.ViewModel.Wiki;
 internal sealed class BaseValueInfo : ObservableObject
 {
     private readonly List<PropertyCurveValue> propValues;
-    private readonly Dictionary<int, Dictionary<GrowCurveType, float>> growCurveMap;
-    private readonly Dictionary<int, Promote>? promoteMap;
+    private readonly Dictionary<Level, Dictionary<GrowCurveType, float>> growCurveMap;
+    private readonly Dictionary<PromoteLevel, Promote>? promoteMap;
 
-    private int currentLevel;
+    private uint currentLevel;
     private List<NameValue<string>> values = default!;
     private bool promoted = true;
 
@@ -29,7 +30,7 @@ internal sealed class BaseValueInfo : ObservableObject
     /// <param name="propValues">属性与初始值</param>
     /// <param name="growCurveMap">生长曲线</param>
     /// <param name="promoteMap">突破加成</param>
-    public BaseValueInfo(int maxLevel, List<PropertyCurveValue> propValues, Dictionary<int, Dictionary<GrowCurveType, float>> growCurveMap, Dictionary<int, Promote>? promoteMap = null)
+    public BaseValueInfo(uint maxLevel, List<PropertyCurveValue> propValues, Dictionary<Level, Dictionary<GrowCurveType, float>> growCurveMap, Dictionary<PromoteLevel, Promote>? promoteMap = null)
     {
         this.propValues = propValues;
         this.growCurveMap = growCurveMap;
@@ -42,7 +43,7 @@ internal sealed class BaseValueInfo : ObservableObject
     /// <summary>
     /// 最大等级
     /// </summary>
-    public int MaxLevel { get; }
+    public uint MaxLevel { get; }
 
     /// <summary>
     /// 对应的基础值
@@ -52,7 +53,7 @@ internal sealed class BaseValueInfo : ObservableObject
     /// <summary>
     /// 当前等级
     /// </summary>
-    public int CurrentLevel
+    public uint CurrentLevel
     {
         get => currentLevel;
         set
@@ -88,15 +89,16 @@ internal sealed class BaseValueInfo : ObservableObject
         }
     }
 
-    private void UpdateValues(int level, bool promoted)
+    [SuppressMessage("", "SH002")]
+    private void UpdateValues(Level level, bool promoted)
     {
         Values = propValues.SelectList(propValue =>
         {
             float value = propValue.Value * growCurveMap[level].GetValueOrDefault(propValue.Type);
             if (promoteMap != null)
             {
-                int promoteLevel = GetPromoteLevel(level, promoted);
-                float addValue = promoteMap[promoteLevel].AddProperties.GetValueOrDefault(propValue.Property, 0F);
+                PromoteLevel promoteLevel = GetPromoteLevel(level, promoted);
+                float addValue = promoteMap[promoteLevel].AddPropertyMap.GetValueOrDefault(propValue.Property, 0F);
 
                 value += addValue;
             }
@@ -105,29 +107,29 @@ internal sealed class BaseValueInfo : ObservableObject
         });
     }
 
-    private int GetPromoteLevel(int level, bool promoted)
+    private PromoteLevel GetPromoteLevel(in Level level, bool promoted)
     {
         if (MaxLevel <= 70)
         {
             if (promoted)
             {
-                return level switch
+                return level.Value switch
                 {
-                    >= 60 => 4,
-                    >= 50 => 3,
-                    >= 40 => 2,
-                    >= 20 => 1,
+                    >= 60U => 4,
+                    >= 50U => 3,
+                    >= 40U => 2,
+                    >= 20U => 1,
                     _ => 0,
                 };
             }
             else
             {
-                return level switch
+                return level.Value switch
                 {
-                    > 60 => 4,
-                    > 50 => 3,
-                    > 40 => 2,
-                    > 20 => 1,
+                    > 60U => 4,
+                    > 50U => 3,
+                    > 40U => 2,
+                    > 20U => 1,
                     _ => 0,
                 };
             }
@@ -136,27 +138,27 @@ internal sealed class BaseValueInfo : ObservableObject
         {
             if (promoted)
             {
-                return level switch
+                return level.Value switch
                 {
-                    >= 80 => 6,
-                    >= 70 => 5,
-                    >= 60 => 4,
-                    >= 50 => 3,
-                    >= 40 => 2,
-                    >= 20 => 1,
+                    >= 80U => 6,
+                    >= 70U => 5,
+                    >= 60U => 4,
+                    >= 50U => 3,
+                    >= 40U => 2,
+                    >= 20U => 1,
                     _ => 0,
                 };
             }
             else
             {
-                return level switch
+                return level.Value switch
                 {
-                    > 80 => 6,
-                    > 70 => 5,
-                    > 60 => 4,
-                    > 50 => 3,
-                    > 40 => 2,
-                    > 20 => 1,
+                    > 80U => 6,
+                    > 70U => 5,
+                    > 60U => 4,
+                    > 50U => 3,
+                    > 40U => 2,
+                    > 20U => 1,
                     _ => 0,
                 };
             }

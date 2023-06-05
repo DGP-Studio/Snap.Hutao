@@ -39,29 +39,26 @@ internal static class SummaryHelper
     /// <param name="proudSkillExtraLevelMap">额外提升等级映射</param>
     /// <param name="proudSkills">技能列表</param>
     /// <returns>技能</returns>
-    public static List<SkillView> CreateSkills(Dictionary<string, int> skillLevelMap, Dictionary<string, int>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
+    public static List<SkillView> CreateSkills(Dictionary<SkillId, SkillLevel> skillLevelMap, Dictionary<SkillGroupId, SkillLevel>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
     {
         if (skillLevelMap == null)
         {
             return new();
         }
 
-        Dictionary<string, int> skillExtraLeveledMap = new(skillLevelMap);
+        Dictionary<SkillId, SkillLevel> skillExtraLeveledMap = new(skillLevelMap);
 
         if (proudSkillExtraLevelMap != null)
         {
-            foreach ((string skillGroupIdString, int extraLevel) in proudSkillExtraLevelMap)
+            foreach ((SkillGroupId groupId, SkillLevel extraLevel) in proudSkillExtraLevelMap)
             {
-                SkillGroupId skillGroupId = int.Parse(skillGroupIdString);
-                SkillId skillId = proudSkills.Single(p => p.GroupId == skillGroupId).Id;
-
-                skillExtraLeveledMap.Increase($"{skillId.Value}", extraLevel);
+                skillExtraLeveledMap.IncreaseValue(proudSkills.Single(p => p.GroupId == groupId).Id, extraLevel);
             }
         }
 
         return proudSkills.SelectList(proudableSkill =>
         {
-            string skillId = $"{proudableSkill.Id.Value}";
+            SkillId skillId = proudableSkill.Id;
 
             return new SkillView()
             {
@@ -81,10 +78,10 @@ internal static class SummaryHelper
     /// </summary>
     /// <param name="appendId">属性Id</param>
     /// <returns>最大属性Id</returns>
-    public static int GetAffixMaxId(int appendId)
+    public static ReliquarySubAffixId GetAffixMaxId(in ReliquarySubAffixId appendId)
     {
-        int value = appendId / 100000;
-        int max = value switch
+        uint value = (uint)appendId / 100000U;
+        uint max = value switch
         {
             1 => 2,
             2 => 3,
@@ -100,10 +97,10 @@ internal static class SummaryHelper
     /// </summary>
     /// <param name="appendId">id</param>
     /// <returns>分数</returns>
-    public static float GetPercentSubAffixScore(int appendId)
+    public static float GetPercentSubAffixScore(ReliquarySubAffixId appendId)
     {
-        int maxId = GetAffixMaxId(appendId);
-        int delta = maxId - appendId;
+        uint maxId = GetAffixMaxId(appendId);
+        uint delta = maxId - appendId;
 
         return (maxId / 100000, delta) switch
         {

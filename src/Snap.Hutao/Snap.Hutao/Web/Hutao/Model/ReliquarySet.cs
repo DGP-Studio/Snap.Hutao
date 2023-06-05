@@ -19,7 +19,7 @@ internal sealed class ReliquarySet
     {
         string[]? deconstructed = set.Split('-');
 
-        EquipAffixId = int.Parse(deconstructed[0]);
+        EquipAffixId = uint.Parse(deconstructed[0]);
         Count = int.Parse(deconstructed[1]);
     }
 
@@ -36,6 +36,6 @@ internal sealed class ReliquarySet
     /// <inheritdoc/>
     public override string ToString()
     {
-        return $"{(int)EquipAffixId}-{Count}";
+        return $"{EquipAffixId.Value}-{Count}";
     }
 }

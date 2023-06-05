@@ -10,13 +10,13 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// 物品等级转换器
 /// </summary>
 [HighQuality]
-internal sealed class QualityConverter : ValueConverter<ItemQuality, Uri>
+internal sealed class QualityConverter : ValueConverter<QualityType, Uri>
 {
     /// <inheritdoc/>
-    public override Uri Convert(ItemQuality from)
+    public override Uri Convert(QualityType from)
     {
         string name = Enum.GetName(from) ?? from.ToString();
-        if (name == nameof(ItemQuality.QUALITY_ORANGE_SP))
+        if (name == nameof(QualityType.QUALITY_ORANGE_SP))
         {
             name = "QUALITY_RED";
         }

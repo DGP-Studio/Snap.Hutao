@@ -58,7 +58,7 @@ internal static class ProcessInterop
     public static Task UnlockFpsAsync(IServiceProvider serviceProvider, Process game)
     {
         IGameFpsUnlocker unlocker = serviceProvider.CreateInstance<GameFpsUnlocker>(game);
-        UnlockTimingOptions options = new(100, 10000, 3000);
+        UnlockTimingOptions options = new(100, 20000, 3000);
         return unlocker.UnlockAsync(options);
     }
 

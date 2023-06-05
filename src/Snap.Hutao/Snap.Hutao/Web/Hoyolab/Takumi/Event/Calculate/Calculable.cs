@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 
 /// <summary>
@@ -13,7 +15,7 @@ internal class Calculable
     /// Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public uint Id { get; set; }
 
     /// <summary>
     /// 名称
@@ -31,7 +33,7 @@ internal class Calculable
     /// 默认值设为1，因为部分API不返回该字段
     /// </summary>
     [JsonPropertyName("level_current")]
-    public int LevelCurrent { get; set; } = 1;
+    public uint LevelCurrent { get; set; } = 1;
 
     /// <summary>
     /// 最大等级
@@ -43,7 +45,7 @@ internal class Calculable
     /// 目标等级
     /// </summary>
     [JsonIgnore]
-    public int LevelTarget { get; set; }
+    public uint LevelTarget { get; set; }
 
     /// <summary>
     /// 转化到提升差异

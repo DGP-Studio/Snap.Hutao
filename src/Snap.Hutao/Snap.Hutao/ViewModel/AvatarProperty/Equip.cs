@@ -20,7 +20,7 @@ internal abstract class Equip : NameIconDescription
     /// <summary>
     /// 品质
     /// </summary>
-    public ItemQuality Quality { get; set; }
+    public QualityType Quality { get; set; }
 
     /// <summary>
     /// 主属性

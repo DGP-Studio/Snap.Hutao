@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Transformer;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.User;
@@ -202,7 +203,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AddOrUpdateAvatarInfo<TSource>(ModelAvatarInfo? entity, int avatarId, string uid, AppDbContext appDbContext, IAvatarInfoTransformer<TSource> transformer, TSource source)
+    private static void AddOrUpdateAvatarInfo<TSource>(ModelAvatarInfo? entity, AvatarId avatarId, string uid, AppDbContext appDbContext, IAvatarInfoTransformer<TSource> transformer, TSource source)
     {
         if (entity == null)
         {

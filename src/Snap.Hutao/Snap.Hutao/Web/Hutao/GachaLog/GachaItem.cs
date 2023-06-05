@@ -25,7 +25,7 @@ internal sealed class GachaItem
     /// <summary>
     /// 物品Id
     /// </summary>
-    public int ItemId { get; set; }
+    public uint ItemId { get; set; }
 
     /// <summary>
     /// 获取时间

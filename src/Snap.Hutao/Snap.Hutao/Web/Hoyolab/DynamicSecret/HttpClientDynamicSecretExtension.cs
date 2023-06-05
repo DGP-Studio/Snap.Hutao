@@ -10,7 +10,7 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// 动态密钥扩展
 /// </summary>
 [HighQuality]
-internal static class HttpClientDynamicSecretExtensions
+internal static class HttpClientDynamicSecretExtension
 {
     /// <summary>
     /// 使用动态密钥

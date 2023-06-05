@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
@@ -15,7 +16,7 @@ internal sealed class Reliquary
     /// Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public ReliquaryId Id { get; set; }
 
     /// <summary>
     /// 名称
@@ -39,13 +40,13 @@ internal sealed class Reliquary
     /// 稀有度
     /// </summary>
     [JsonPropertyName("rarity")]
-    public ItemQuality Rarity { get; set; }
+    public QualityType Rarity { get; set; }
 
     /// <summary>
     /// 等级
     /// </summary>
     [JsonPropertyName("level")]
-    public int Level { get; set; }
+    public uint Level { get; set; }
 
     /// <summary>
     /// 圣遗物套装

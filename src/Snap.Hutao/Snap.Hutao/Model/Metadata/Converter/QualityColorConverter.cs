@@ -13,18 +13,18 @@ namespace Snap.Hutao.Model.Metadata.Converter;
 /// 品质颜色转换器
 /// </summary>
 [HighQuality]
-internal sealed class QualityColorConverter : ValueConverter<ItemQuality, Color>
+internal sealed class QualityColorConverter : ValueConverter<QualityType, Color>
 {
     /// <inheritdoc/>
-    public override Color Convert(ItemQuality from)
+    public override Color Convert(QualityType from)
     {
         return from switch
         {
-            ItemQuality.QUALITY_WHITE => StructMarshal.Color(0xFF72778B),
-            ItemQuality.QUALITY_GREEN => StructMarshal.Color(0xFF2A8F72),
-            ItemQuality.QUALITY_BLUE => StructMarshal.Color(0xFF5180CB),
-            ItemQuality.QUALITY_PURPLE => StructMarshal.Color(0xFFA156E0),
-            ItemQuality.QUALITY_ORANGE or ItemQuality.QUALITY_ORANGE_SP => StructMarshal.Color(0xFFBC6932),
+            QualityType.QUALITY_WHITE => StructMarshal.Color(0xFF72778B),
+            QualityType.QUALITY_GREEN => StructMarshal.Color(0xFF2A8F72),
+            QualityType.QUALITY_BLUE => StructMarshal.Color(0xFF5180CB),
+            QualityType.QUALITY_PURPLE => StructMarshal.Color(0xFFA156E0),
+            QualityType.QUALITY_ORANGE or QualityType.QUALITY_ORANGE_SP => StructMarshal.Color(0xFFBC6932),
             _ => Colors.Transparent,
         };
     }

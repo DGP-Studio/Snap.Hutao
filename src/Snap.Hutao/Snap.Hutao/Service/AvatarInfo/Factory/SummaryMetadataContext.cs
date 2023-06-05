@@ -34,12 +34,12 @@ internal sealed class SummaryMetadataContext
     /// <summary>
     /// 圣遗物副属性映射
     /// </summary>
-    public Dictionary<ReliquaryAffixId, ReliquaryAffix> IdReliquaryAffixMap { get; set; } = default!;
+    public Dictionary<ReliquarySubAffixId, ReliquarySubAffix> IdReliquarySubAffixMap { get; set; } = default!;
 
     /// <summary>
     /// 圣遗物等级
     /// </summary>
-    public List<ReliquaryLevel> ReliqueryLevels { get; set; } = default!;
+    public List<ReliquaryMainAffixLevel> ReliqueryLevels { get; set; } = default!;
 
     /// <summary>
     /// 圣遗物

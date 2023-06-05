@@ -14,7 +14,7 @@ internal sealed class UIAFItem
     /// 成就Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public uint Id { get; set; }
 
     /// <summary>
     /// 完成时间
@@ -27,7 +27,7 @@ internal sealed class UIAFItem
     /// 对于progress为1的项，该属性始终为0
     /// </summary>
     [JsonPropertyName("current")]
-    public int Current { get; set; }
+    public uint Current { get; set; }
 
     /// <summary>
     /// 完成状态

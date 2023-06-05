@@ -39,5 +39,5 @@ internal sealed class Item
     /// 物品星级 仅有家具为有效值
     /// </summary>
     [JsonPropertyName("level")]
-    public ItemQuality Level { get; set; }
+    public QualityType Level { get; set; }
 }

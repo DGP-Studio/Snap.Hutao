@@ -12,6 +12,7 @@ namespace Snap.Hutao.Model.Metadata;
 [SuppressMessage("", "SA1600")]
 internal static class AvatarIds
 {
+    // 此处的变量名称以 UI_AvatarIcon 为准
     public static readonly AvatarId Ayaka = 10000002;
     public static readonly AvatarId Qin = 10000003;
 
@@ -106,7 +107,7 @@ internal static class AvatarIds
                 Name = "旅行者",
                 Icon = "UI_AvatarIcon_PlayerBoy",
                 SideIcon = "UI_AvatarIcon_Side_PlayerBoy",
-                Quality = Intrinsic.ItemQuality.QUALITY_ORANGE,
+                Quality = Intrinsic.QualityType.QUALITY_ORANGE,
             },
 
             [PlayerGirl] = new()
@@ -114,7 +115,7 @@ internal static class AvatarIds
                 Name = "旅行者",
                 Icon = "UI_AvatarIcon_PlayerGirl",
                 SideIcon = "UI_AvatarIcon_Side_PlayerGirl",
-                Quality = Intrinsic.ItemQuality.QUALITY_ORANGE,
+                Quality = Intrinsic.QualityType.QUALITY_ORANGE,
             },
         };
     }

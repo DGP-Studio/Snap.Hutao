@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
+using Snap.Hutao.Core.IO.Hashing;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.IO;
@@ -240,7 +241,7 @@ internal sealed partial class PackageConverter
     {
         if (File.Exists(cacheFilePath))
         {
-            string remoteMd5 = await Digest.GetFileMD5Async(cacheFilePath).ConfigureAwait(false);
+            string remoteMd5 = await MD5.HashFileAsync(cacheFilePath).ConfigureAwait(false);
             if (info.Md5 == remoteMd5.ToLowerInvariant() && new FileInfo(cacheFilePath).Length == info.TotalBytes)
             {
                 // Valid, move it to target path
@@ -270,7 +271,7 @@ internal sealed partial class PackageConverter
                             StreamCopyWorker<PackageReplaceStatus> streamCopyWorker = new(webStream, fileStream, bytesRead => new(info.Target, bytesRead, totalBytes));
                             await streamCopyWorker.CopyAsync(progress).ConfigureAwait(false);
                             fileStream.Seek(0, SeekOrigin.Begin);
-                            string remoteMd5 = await Digest.GetStreamMD5Async(fileStream).ConfigureAwait(false);
+                            string remoteMd5 = await MD5.HashAsync(fileStream).ConfigureAwait(false);
                             if (string.Equals(info.Md5, remoteMd5, StringComparison.OrdinalIgnoreCase))
                             {
                                 return;

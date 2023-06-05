@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Metadata;
 
@@ -20,38 +21,38 @@ internal sealed partial class MetadataService
     /// <inheritdoc/>
     public ValueTask<Dictionary<EquipAffixId, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<EquipAffixId, ReliquarySet>("ReliquarySet", r => r.EquipAffixId, token);
+        return FromCacheAsDictionaryAsync<EquipAffixId, ReliquarySet>(FileNameReliquarySet, r => r.EquipAffixId, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<Dictionary<AchievementId, Model.Metadata.Achievement.Achievement>> GetIdToAchievementMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<AchievementId, Model.Metadata.Achievement.Achievement>("Achievement", a => a.Id, token);
+        return FromCacheAsDictionaryAsync<AchievementId, Model.Metadata.Achievement.Achievement>(FileNameAchievement, a => a.Id, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<Dictionary<AvatarId, Avatar>> GetIdToAvatarMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<AvatarId, Avatar>("Avatar", a => a.Id, token);
+        return FromCacheAsDictionaryAsync<AvatarId, Avatar>(FileNameAvatar, a => a.Id, token);
     }
 
     /// <inheritdoc/>
-    public async ValueTask<Dictionary<MaterialId, Display>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default)
+    public async ValueTask<Dictionary<MaterialId, DisplayItem>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default)
     {
         string cacheKey = $"{nameof(MetadataService)}.Cache.DisplayAndMaterial.Map.{typeof(MaterialId).Name}";
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {
-            return Must.NotNull((Dictionary<MaterialId, Display>)value!);
+            return Must.NotNull((Dictionary<MaterialId, DisplayItem>)value!);
         }
 
-        Dictionary<MaterialId, Display> displays = await FromCacheAsDictionaryAsync<MaterialId, Display>("Display", a => a.Id, token).ConfigureAwait(false);
+        Dictionary<MaterialId, DisplayItem> displays = await FromCacheAsDictionaryAsync<MaterialId, DisplayItem>(FileNameDisplayItem, a => a.Id, token).ConfigureAwait(false);
         Dictionary<MaterialId, Material> materials = await GetIdToMaterialMapAsync(token).ConfigureAwait(false);
 
         // TODO: Cache this
-        Dictionary<MaterialId, Display> results = new(displays);
+        Dictionary<MaterialId, DisplayItem> results = new(displays);
 
-        foreach ((MaterialId id, Display material) in materials)
+        foreach ((MaterialId id, DisplayItem material) in materials)
         {
             results[id] = material;
         }
@@ -62,54 +63,54 @@ internal sealed partial class MetadataService
     /// <inheritdoc/>
     public ValueTask<Dictionary<MaterialId, Material>> GetIdToMaterialMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<MaterialId, Material>("Material", a => a.Id, token);
+        return FromCacheAsDictionaryAsync<MaterialId, Material>(FileNameMaterial, a => a.Id, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<ReliquaryAffixId, ReliquaryAffix>> GetIdToReliquaryAffixMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<ReliquarySubAffixId, ReliquarySubAffix>> GetIdToReliquarySubAffixMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<ReliquaryAffixId, ReliquaryAffix>("ReliquaryAffix", a => a.Id, token);
+        return FromCacheAsDictionaryAsync<ReliquarySubAffixId, ReliquarySubAffix>(FileNameReliquarySubAffix, a => a.Id, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<Dictionary<ReliquaryMainAffixId, FightProperty>> GetIdToReliquaryMainPropertyMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<ReliquaryMainAffixId, FightProperty, ReliquaryMainAffix>("ReliquaryMainAffix", r => r.Id, r => r.Type, token);
+        return FromCacheAsDictionaryAsync<ReliquaryMainAffixId, FightProperty, ReliquaryMainAffix>(FileNameReliquaryMainAffix, r => r.Id, r => r.Type, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<Dictionary<WeaponId, Weapon>> GetIdToWeaponMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<WeaponId, Weapon>("Weapon", w => w.Id, token);
+        return FromCacheAsDictionaryAsync<WeaponId, Weapon>(FileNameWeapon, w => w.Id, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<int, Dictionary<GrowCurveType, float>, GrowCurve>("AvatarCurve", a => a.Level, a => a.Curves, token);
+        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameAvatarCurve, a => a.Level, a => a.CurveMap, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<int, Dictionary<GrowCurveType, float>, GrowCurve>("MonsterCurve", m => m.Level, m => m.Curves, token);
+        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameMonsterCurve, m => m.Level, m => m.CurveMap, token);
     }
 
     /// <inheritdoc/>
-    public ValueTask<Dictionary<int, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default)
+    public ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<int, Dictionary<GrowCurveType, float>, GrowCurve>("WeaponCurve", w => w.Level, w => w.Curves, token);
+        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameWeaponCurve, w => w.Level, w => w.CurveMap, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<Dictionary<string, Avatar>> GetNameToAvatarMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<string, Avatar>("Avatar", a => a.Name, token);
+        return FromCacheAsDictionaryAsync<string, Avatar>(FileNameAvatar, a => a.Name, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<Dictionary<string, Weapon>> GetNameToWeaponMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<string, Weapon>("Weapon", w => w.Name, token);
+        return FromCacheAsDictionaryAsync<string, Weapon>(FileNameWeapon, w => w.Name, token);
     }
 }

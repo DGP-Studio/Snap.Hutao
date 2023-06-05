@@ -15,7 +15,7 @@ internal interface ISummaryItemSource
     /// <summary>
     /// 星级
     /// </summary>
-    ItemQuality Quality { get; }
+    QualityType Quality { get; }
 
     /// <summary>
     /// 转换到简述统计物品

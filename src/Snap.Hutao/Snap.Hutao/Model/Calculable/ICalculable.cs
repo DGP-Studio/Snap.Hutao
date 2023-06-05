@@ -14,15 +14,15 @@ internal interface ICalculable : INameIcon
     /// <summary>
     /// 星级
     /// </summary>
-    ItemQuality Quality { get; }
+    QualityType Quality { get; }
 
     /// <summary>
     /// 当前等级
     /// </summary>
-    int LevelCurrent { get; set; }
+    uint LevelCurrent { get; set; }
 
     /// <summary>
     /// 目标等级
     /// </summary>
-    int LevelTarget { get; set; }
+    uint LevelTarget { get; set; }
 }

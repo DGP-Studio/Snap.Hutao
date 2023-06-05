@@ -13,17 +13,17 @@ internal sealed class PromotionDelta
     /// 物品Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public uint Id { get; set; }
 
     /// <summary>
     /// 当前等级
     /// </summary>
     [JsonPropertyName("level_current")]
-    public int LevelCurrent { get; set; }
+    public uint LevelCurrent { get; set; }
 
     /// <summary>
     /// 目标等级
     /// </summary>
     [JsonPropertyName("level_target")]
-    public int LevelTarget { get; set; }
+    public uint LevelTarget { get; set; }
 }

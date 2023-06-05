@@ -12,6 +12,8 @@ namespace Snap.Hutao.Model.Metadata;
 [HighQuality]
 internal sealed class Promote
 {
+    private Dictionary<FightProperty, float>? addPropertyMap;
+
     /// <summary>
     /// Id
     /// </summary>
@@ -20,10 +22,18 @@ internal sealed class Promote
     /// <summary>
     /// 突破等级
     /// </summary>
-    public int Level { get; set; }
+    public PromoteLevel Level { get; set; }
 
     /// <summary>
     /// 增加的属性
     /// </summary>
-    public Dictionary<FightProperty, float> AddProperties { get; set; } = default!;
+    public List<TypeValue<FightProperty, float>> AddProperties { get; set; } = default!;
+
+    /// <summary>
+    /// 属性映射
+    /// </summary>
+    public Dictionary<FightProperty, float> AddPropertyMap
+    {
+        get => addPropertyMap ??= AddProperties.ToDictionary(a => a.Type, a => a.Value);
+    }
 }

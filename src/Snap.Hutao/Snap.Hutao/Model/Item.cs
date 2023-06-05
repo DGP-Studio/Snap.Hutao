@@ -29,5 +29,5 @@ internal class Item : INameIcon
     /// <summary>
     /// 星级
     /// </summary>
-    public ItemQuality Quality { get; set; }
+    public QualityType Quality { get; set; }
 }

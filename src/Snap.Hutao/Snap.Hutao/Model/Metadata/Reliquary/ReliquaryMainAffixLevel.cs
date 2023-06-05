@@ -9,20 +9,20 @@ namespace Snap.Hutao.Model.Metadata.Reliquary;
 /// 圣遗物等级
 /// </summary>
 [HighQuality]
-internal sealed class ReliquaryLevel
+internal sealed partial class ReliquaryMainAffixLevel
 {
     /// <summary>
     /// 品质
     /// </summary>
-    public ItemQuality Quality { get; set; }
+    public QualityType Rank { get; set; }
 
     /// <summary>
     /// 等级 1-21
     /// </summary>
-    public int Level { get; set; }
+    public uint Level { get; set; }
 
     /// <summary>
     /// 属性
     /// </summary>
-    public Dictionary<FightProperty, float> Properties { get; set; } = default!;
+    public List<TypeValue<FightProperty, float>> Properties { get; set; } = default!;
 }

@@ -37,12 +37,12 @@ internal sealed class Achievement : IEquatable<Achievement>
     /// <summary>
     /// Id
     /// </summary>
-    public int Id { get; set; }
+    public uint Id { get; set; }
 
     /// <summary>
     /// 当前进度
     /// </summary>
-    public int Current { get; set; }
+    public uint Current { get; set; }
 
     /// <summary>
     /// 完成时间

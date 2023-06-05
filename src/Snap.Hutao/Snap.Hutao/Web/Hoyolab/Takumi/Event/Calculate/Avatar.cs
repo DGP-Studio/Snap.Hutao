@@ -15,7 +15,7 @@ internal sealed class Avatar : Calculable
     /// 角色的星级
     /// </summary>
     [JsonPropertyName("avatar_level")]
-    public ItemQuality AvatarLevel { get; set; }
+    public QualityType AvatarLevel { get; set; }
 
     /// <summary>
     /// 武器类型

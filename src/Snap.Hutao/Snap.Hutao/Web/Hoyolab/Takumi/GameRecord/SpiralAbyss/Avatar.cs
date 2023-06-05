@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
 /// <summary>
@@ -13,7 +15,7 @@ internal sealed class Avatar
     /// Id
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public AvatarId Id { get; set; }
 
     /// <summary>
     /// 图标

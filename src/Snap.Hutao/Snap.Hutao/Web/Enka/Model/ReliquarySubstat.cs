@@ -10,7 +10,7 @@ namespace Snap.Hutao.Web.Enka.Model;
 /// 圣遗物副属性
 /// </summary>
 [HighQuality]
-internal sealed class ReliquarySubstat
+internal class ReliquarySubstat : Stat
 {
     /// <summary>
     /// 增加属性
@@ -18,10 +18,4 @@ internal sealed class ReliquarySubstat
     [JsonPropertyName("appendPropId")]
     [JsonEnum(JsonSerializeType.String)]
     public FightProperty AppendPropId { get; set; }
-
-    /// <summary>
-    /// 值
-    /// </summary>
-    [JsonPropertyName("statValue")]
-    public double StatValue { get; set; }
 }

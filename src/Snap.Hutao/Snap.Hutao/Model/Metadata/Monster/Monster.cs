@@ -18,6 +18,11 @@ internal sealed class Monster
     public MonsterId Id { get; set; }
 
     /// <summary>
+    /// 描述 Id
+    /// </summary>
+    public MonsterDescribeId DescribeId { get; set; }
+
+    /// <summary>
     /// 内部代号
     /// </summary>
     public string MonsterName { get; set; } = default!;
@@ -60,10 +65,11 @@ internal sealed class Monster
     /// <summary>
     /// 生长曲线
     /// </summary>
-    public Dictionary<FightProperty, GrowCurveType> GrowCurves { get; set; } = default!;
+    public List<TypeValue<FightProperty, GrowCurveType>> GrowCurves { get; set; } = default!;
 
     /// <summary>
     /// 养成物品视图
     /// </summary>
-    public List<Display>? DropsView { get; set; }
+    [JsonIgnore]
+    public List<DisplayItem>? DropsView { get; set; }
 }

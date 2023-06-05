@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 
 namespace Snap.Hutao.Web.Hutao.Model.Post;
@@ -26,12 +27,12 @@ internal sealed class SimpleAvatar
     /// <summary>
     /// 角色 Id
     /// </summary>
-    public int AvatarId { get; set; }
+    public AvatarId AvatarId { get; set; }
 
     /// <summary>
     /// 武器 Id
     /// </summary>
-    public int WeaponId { get; set; }
+    public WeaponId WeaponId { get; set; }
 
     /// <summary>
     /// 圣遗物套装Id

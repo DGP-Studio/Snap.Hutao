@@ -40,7 +40,7 @@ internal sealed class WeaponView : INameIcon
     /// <summary>
     /// 星级
     /// </summary>
-    public ItemQuality Quality { get; }
+    public QualityType Quality { get; }
 
     /// <summary>
     /// 比率

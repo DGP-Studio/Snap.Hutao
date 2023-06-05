@@ -46,7 +46,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
     private Weapon? selected;
     private string? filterText;
     private BaseValueInfo? baseValueInfo;
-    private Dictionary<int, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
+    private Dictionary<Level, Dictionary<GrowCurveType, float>>? levelWeaponCurveMap;
     private List<Promote>? promotes;
 
     /// <summary>
@@ -177,10 +177,10 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
         else
         {
-            Dictionary<int, Promote> weaponPromoteMap = promotes!.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
+            Dictionary<PromoteLevel, Promote> weaponPromoteMap = promotes!.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
 
             List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves
-                .Select(curveInfo => new PropertyCurveValue(curveInfo.Key, curveInfo.Value.Type, curveInfo.Value.Value))
+                .Select(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, curveInfo.InitValue))
                 .ToList();
 
             BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap!, weaponPromoteMap);

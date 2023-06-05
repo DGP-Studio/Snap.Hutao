@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Snap.Hutao.Test;
@@ -18,6 +19,13 @@ public class JsonSerializeTest
         }
         """;
 
+    private const string SmapleNumberDictionaryJson = """
+        {
+            "111" : "12",
+            "222" : "34"
+        }
+        """;
+
     [TestMethod]
     public void DelegatePropertyCanSerialize()
     {
@@ -26,11 +34,33 @@ public class JsonSerializeTest
     }
 
     [TestMethod]
-    public void EmptyStringCanSerializeAsNumber()
+    public void EmptyStringCannotSerializeAsNumber()
     {
-        // Throw
-        StringNumberSample sample = JsonSerializer.Deserialize<StringNumberSample>(SmapleNumberObjectJson)!;
-        Assert.AreEqual(sample.A, 0);
+        bool caught = false;
+        try
+        {
+            // Throw
+            StringNumberSample sample = JsonSerializer.Deserialize<StringNumberSample>(SmapleNumberObjectJson)!;
+            Assert.AreEqual(sample.A, 0);
+        }
+        catch
+        {
+            caught = true;
+        }
+
+        Assert.IsTrue(caught);
+    }
+
+    [TestMethod]
+    public void NumberStringKeyCanSerializeAsKey()
+    {
+        JsonSerializerOptions options = new()
+        {
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
+        };
+
+        Dictionary<int,string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberDictionaryJson, options)!;
+        Assert.AreEqual(sample[111], "12");
     }
 
     private class Sample

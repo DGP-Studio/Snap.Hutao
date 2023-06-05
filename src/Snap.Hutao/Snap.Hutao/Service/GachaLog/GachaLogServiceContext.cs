@@ -104,13 +104,13 @@ internal readonly struct GachaLogServiceContext
     /// </summary>
     /// <param name="id">Id</param>
     /// <returns>名称星级</returns>
-    public INameQuality GetNameQualityByItemId(int id)
+    public INameQuality GetNameQualityByItemId(uint id)
     {
-        int place = id.Place();
+        uint place = id.Place();
         return place switch
         {
-            8 => IdAvatarMap![id],
-            5 => IdWeaponMap![id],
+            8U => IdAvatarMap![id],
+            5U => IdWeaponMap![id],
             _ => throw Must.NeverHappen($"Id places: {place}"),
         };
     }
@@ -121,13 +121,13 @@ internal readonly struct GachaLogServiceContext
     /// </summary>
     /// <param name="item">祈愿物品</param>
     /// <returns>物品 Id</returns>
-    public int GetItemId(GachaLogItem item)
+    public uint GetItemId(GachaLogItem item)
     {
         return item.ItemType switch
         {
             "角色" => NameAvatarMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
             "武器" => NameWeaponMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
-            _ => 0,
+            _ => 0U,
         };
     }
 }

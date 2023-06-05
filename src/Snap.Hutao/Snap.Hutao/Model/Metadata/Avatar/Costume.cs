@@ -34,7 +34,7 @@ internal sealed class Costume
     /// <summary>
     /// 图标
     /// </summary>
-    public string Icon { get; set; } = default!;
+    public string FrontIcon { get; set; } = default!;
 
     /// <summary>
     /// 侧面图标

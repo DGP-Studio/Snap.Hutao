@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.Metadata.Item;
 /// 展示物品
 /// </summary>
 [HighQuality]
-internal class Display
+internal class DisplayItem
 {
     /// <summary>
     /// 物品Id
@@ -20,7 +20,7 @@ internal class Display
     /// <summary>
     /// 等级
     /// </summary>
-    public ItemQuality RankLevel { get; set; }
+    public QualityType RankLevel { get; set; }
 
     /// <summary>
     /// 物品类型

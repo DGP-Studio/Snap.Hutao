@@ -36,7 +36,7 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// <summary>
     /// 星级
     /// </summary>
-    public ItemQuality Quality { get; set; }
+    public QualityType Quality { get; set; }
 
     /// <summary>
     /// 元素类型
@@ -91,7 +91,7 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// <summary>
     /// 好感度等级
     /// </summary>
-    public int FetterLevel { get; set; }
+    public uint FetterLevel { get; set; }
 
     /// <summary>
     /// Id
@@ -101,7 +101,7 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// <summary>
     /// 等级数字
     /// </summary>
-    internal int LevelNumber { get; set; }
+    internal uint LevelNumber { get; set; }
 
     /// <inheritdoc/>
     public ICalculableAvatar ToCalculable()

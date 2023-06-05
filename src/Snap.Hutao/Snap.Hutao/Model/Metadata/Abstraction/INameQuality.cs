@@ -19,5 +19,5 @@ internal interface INameQuality
     /// <summary>
     /// 星级
     /// </summary>
-    ItemQuality Quality { get; }
+    QualityType Quality { get; }
 }

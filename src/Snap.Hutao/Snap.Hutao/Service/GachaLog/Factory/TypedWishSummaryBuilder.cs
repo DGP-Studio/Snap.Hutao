@@ -87,7 +87,7 @@ internal sealed class TypedWishSummaryBuilder
 
             switch (source.Quality)
             {
-                case ItemQuality.QUALITY_ORANGE:
+                case QualityType.QUALITY_ORANGE:
                     {
                         TrackMinMaxOrangePull(lastOrangePullTracker);
                         averageOrangePullTracker.Add(lastOrangePullTracker);
@@ -105,14 +105,14 @@ internal sealed class TypedWishSummaryBuilder
                         break;
                     }
 
-                case ItemQuality.QUALITY_PURPLE:
+                case QualityType.QUALITY_PURPLE:
                     {
                         lastPurplePullTracker = 0;
                         ++totalPurplePullTracker;
                         break;
                     }
 
-                case ItemQuality.QUALITY_BLUE:
+                case QualityType.QUALITY_BLUE:
                     {
                         ++totalBluePullTracker;
                         break;

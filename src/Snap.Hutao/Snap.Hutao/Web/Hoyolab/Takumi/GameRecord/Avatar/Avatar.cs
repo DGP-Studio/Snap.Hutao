@@ -40,19 +40,19 @@ internal class Avatar
     /// 好感度
     /// </summary>
     [JsonPropertyName("fetter")]
-    public int Fetter { get; set; }
+    public FetterLevel Fetter { get; set; }
 
     /// <summary>
     /// 等级
     /// </summary>
     [JsonPropertyName("level")]
-    public int Level { get; set; }
+    public Level Level { get; set; }
 
     /// <summary>
     /// 稀有度
     /// </summary>
     [JsonPropertyName("rarity")]
-    public ItemQuality Rarity { get; set; }
+    public QualityType Rarity { get; set; }
 
     /// <summary>
     /// 激活的命座数

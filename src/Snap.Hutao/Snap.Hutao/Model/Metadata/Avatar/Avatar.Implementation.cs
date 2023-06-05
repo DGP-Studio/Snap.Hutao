@@ -18,6 +18,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
 {
     /// <summary>
     /// [非元数据] 搭配数据
+    /// TODO:Add View suffix.
     /// </summary>
     [JsonIgnore]
     public AvatarCollocationView? Collocation { get; set; }
@@ -37,7 +38,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// 最大等级
     /// </summary>
     [SuppressMessage("", "CA1822")]
-    public int MaxLevel { get => 90; }
+    public uint MaxLevel { get => 90U; }
 
     /// <inheritdoc/>
     public ICalculableAvatar ToCalculable()

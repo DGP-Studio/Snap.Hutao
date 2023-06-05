@@ -350,10 +350,11 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             // ContentDialog must be created by main thread.
             await taskContext.SwitchToMainThreadAsync();
             GachaLogImportDialog importDialog = serviceProvider.CreateInstance<GachaLogImportDialog>(uigf);
-            if (await importDialog.GetShouldImportAsync().ConfigureAwait(true))
+            if (await importDialog.GetShouldImportAsync().ConfigureAwait(false))
             {
                 if (CanImport(version, uigf))
                 {
+                    await taskContext.SwitchToMainThreadAsync();
                     ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
                     using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                     {

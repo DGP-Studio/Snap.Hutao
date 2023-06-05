@@ -521,7 +521,7 @@
                                                                 Width="80"
                                                                 Height="80"
                                                                 Margin="0,0,16,0"
-                                                                Source="{Binding Icon, Converter={StaticResource AvatarCardConverter}}"/>
+                                                                Source="{Binding FrontIcon, Converter={StaticResource AvatarCardConverter}}"/>
                                                             <StackPanel Grid.Column="1" Margin="0,0,16,-4">
                                                                 <TextBlock Text="{Binding Name}"/>
                                                                 <TextBlock

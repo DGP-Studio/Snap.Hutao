@@ -21,13 +21,13 @@ internal sealed class AvatarPromotionDelta
     /// 当前角色等级
     /// </summary>
     [JsonPropertyName("avatar_level_current")]
-    public int AvatarLevelCurrent { get; set; }
+    public uint AvatarLevelCurrent { get; set; }
 
     /// <summary>
     /// 目标角色等级
     /// </summary>
     [JsonPropertyName("avatar_level_target")]
-    public int AvatarLevelTarget { get; set; }
+    public uint AvatarLevelTarget { get; set; }
 
     /// <summary>
     /// 元素类型

@@ -25,7 +25,6 @@ internal sealed class FetterInfo
     /// <summary>
     /// 地区
     /// </summary>
-    [JsonEnum(JsonSerializeType.String)]
     public AssociationType Association { get; set; } = default!;
 
     /// <summary>
@@ -36,12 +35,12 @@ internal sealed class FetterInfo
     /// <summary>
     /// 生月
     /// </summary>
-    public int BirthMonth { get; set; }
+    public uint BirthMonth { get; set; }
 
     /// <summary>
     /// 生日
     /// </summary>
-    public int BirthDay { get; set; }
+    public uint BirthDay { get; set; }
 
     /// <summary>
     /// 格式化的生日日期

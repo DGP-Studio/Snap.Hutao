@@ -25,13 +25,11 @@ internal sealed class VoicePackage : PathMd5
     /// 解压尺寸
     /// </summary>
     [JsonPropertyName("size")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public long Size { get; set; }
 
     /// <summary>
     /// 包尺寸
     /// </summary>
     [JsonPropertyName("package_size")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public long PackageSize { get; set; } = default!;
 }

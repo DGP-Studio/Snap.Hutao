@@ -49,7 +49,7 @@ internal sealed class GachaItem
     /// <summary>
     /// 物品Id
     /// </summary>
-    public int ItemId { get; set; }
+    public uint ItemId { get; set; }
 
     /// <summary>
     /// 获取时间
@@ -66,12 +66,12 @@ internal sealed class GachaItem
     /// </summary>
     /// <param name="itemId">物品Id</param>
     /// <returns>物品类型字符串</returns>
-    public static string GetItemTypeStringByItemId(int itemId)
+    public static string GetItemTypeStringByItemId(uint itemId)
     {
         return itemId.Place() switch
         {
-            8 => "角色",
-            5 => "武器",
+            8U => "角色",
+            5U => "武器",
             _ => "未知",
         };
     }
@@ -83,7 +83,7 @@ internal sealed class GachaItem
     /// <param name="item">祈愿物品</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem Create(in Guid archiveId, GachaLogItem item, int itemId)
+    public static GachaItem Create(in Guid archiveId, GachaLogItem item, uint itemId)
     {
         return new()
         {
@@ -103,7 +103,7 @@ internal sealed class GachaItem
     /// <param name="item">祈愿物品</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem CreateForMajor2Minor2OrLower(in Guid archiveId, UIGFItem item, int itemId)
+    public static GachaItem CreateForMajor2Minor2OrLower(in Guid archiveId, UIGFItem item, uint itemId)
     {
         return new()
         {
@@ -129,7 +129,7 @@ internal sealed class GachaItem
             ArchiveId = archiveId,
             GachaType = item.GachaType,
             QueryType = item.UIGFGachaType,
-            ItemId = int.Parse(item.ItemId),
+            ItemId = uint.Parse(item.ItemId),
             Time = item.Time,
             Id = item.Id,
         };

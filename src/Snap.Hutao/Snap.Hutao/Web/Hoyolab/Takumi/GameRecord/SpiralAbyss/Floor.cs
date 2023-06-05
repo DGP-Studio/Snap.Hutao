@@ -31,7 +31,6 @@ internal sealed class Floor
     /// 结束时间
     /// </summary>
     [JsonPropertyName("settle_time")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
     public long SettleTime { get; set; } = default!;
 
     /// <summary>

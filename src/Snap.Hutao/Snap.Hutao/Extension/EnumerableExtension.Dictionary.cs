@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -15,10 +16,12 @@ internal static partial class EnumerableExtension
     /// 增加计数
     /// </summary>
     /// <typeparam name="TKey">键类型</typeparam>
+    /// <typeparam name="TValue">值类型</typeparam>
     /// <param name="dict">字典</param>
     /// <param name="key">键</param>
-    public static void Increase<TKey>(this Dictionary<TKey, int> dict, TKey key)
+    public static void IncreaseOne<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key)
         where TKey : notnull
+        where TValue : struct, IIncrementOperators<TValue>
     {
         ++CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
     }
@@ -27,14 +30,16 @@ internal static partial class EnumerableExtension
     /// 增加计数
     /// </summary>
     /// <typeparam name="TKey">键类型</typeparam>
+    /// <typeparam name="TValue">值类型</typeparam>
     /// <param name="dict">字典</param>
     /// <param name="key">键</param>
     /// <param name="value">增加的值</param>
-    public static void Increase<TKey>(this Dictionary<TKey, int> dict, TKey key, int value)
+    public static void IncreaseValue<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value)
         where TKey : notnull
+        where TValue : struct, IAdditionOperators<TValue, TValue, TValue>
     {
         // ref the value, so that we can manipulate it outside the dict.
-        ref int current = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
+        ref TValue current = ref CollectionsMarshal.GetValueRefOrAddDefault(dict, key, out _);
         current += value;
     }
 
@@ -42,13 +47,15 @@ internal static partial class EnumerableExtension
     /// 增加计数
     /// </summary>
     /// <typeparam name="TKey">键类型</typeparam>
+    /// <typeparam name="TValue">值类型</typeparam>
     /// <param name="dict">字典</param>
     /// <param name="key">键</param>
     /// <returns>是否存在键值</returns>
-    public static bool TryIncrease<TKey>(this Dictionary<TKey, int> dict, TKey key)
+    public static bool TryIncreaseOne<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key)
         where TKey : notnull
+        where TValue : struct, IIncrementOperators<TValue>
     {
-        ref int value = ref CollectionsMarshal.GetValueRefOrNullRef(dict, key);
+        ref TValue value = ref CollectionsMarshal.GetValueRefOrNullRef(dict, key);
         if (!Unsafe.IsNullRef(ref value))
         {
             ++value;

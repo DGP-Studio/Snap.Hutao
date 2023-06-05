@@ -69,7 +69,7 @@ internal class GachaLogItem
     /// </summary>
     [JsonPropertyName("rank_type")]
     [JsonEnum(JsonSerializeType.NumberString)]
-    public ItemQuality Rank { get; set; } = default!;
+    public QualityType Rank { get; set; } = default!;
 
     /// <summary>
     /// Id

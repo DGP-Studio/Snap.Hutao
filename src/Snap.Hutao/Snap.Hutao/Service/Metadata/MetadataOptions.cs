@@ -84,7 +84,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     /// <returns>服务器上的本地化元数据文件</returns>
     public string GetLocalizedRemoteFile(string fileNameWithExtension)
     {
-        return Web.HutaoEndpoints.HutaoMetadataFile(LocaleName, fileNameWithExtension);
+        return Web.HutaoEndpoints.RawGithubUserContentMetadataFile(LocaleName, fileNameWithExtension);
     }
 
     private string GetLocaleName()

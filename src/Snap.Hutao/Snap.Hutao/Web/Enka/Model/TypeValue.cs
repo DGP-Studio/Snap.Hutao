@@ -7,6 +7,7 @@ namespace Snap.Hutao.Web.Enka.Model;
 
 /// <summary>
 /// 类型与值
+/// 与元数据的 TypeValue 不同!
 /// </summary>
 [HighQuality]
 internal sealed class TypeValue
@@ -24,7 +25,7 @@ internal sealed class TypeValue
     /// </summary>
     /// <param name="type">类型</param>
     /// <param name="value">值</param>
-    public TypeValue(PlayerProperty type, int value)
+    public TypeValue(PlayerProperty type, uint value)
     {
         Type = type;
         Value = value;
@@ -40,6 +41,5 @@ internal sealed class TypeValue
     /// 值
     /// </summary>
     [JsonPropertyName("val")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
-    public int Value { get; set; }
+    public uint Value { get; set; }
 }

@@ -8,7 +8,7 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// </summary>
 [HighQuality]
 [Localization]
-internal enum ItemQuality
+internal enum QualityType
 {
     /// <summary>
     /// 无

@@ -34,7 +34,7 @@ internal sealed partial class AchievementService : IAchievementService
     /// <inheritdoc/>
     public List<AchievementView> GetAchievements(AchievementArchive archive, List<MetadataAchievement> metadata)
     {
-        Dictionary<int, EntityAchievement> entityMap;
+        Dictionary<AchievementId, EntityAchievement> entityMap;
         try
         {
             using (IServiceScope scope = serviceProvider.CreateScope())
@@ -43,7 +43,7 @@ internal sealed partial class AchievementService : IAchievementService
                 entityMap = appDbContext.Achievements
                     .Where(a => a.ArchiveId == archive.InnerId)
                     .AsEnumerable()
-                    .ToDictionary(a => a.Id);
+                    .ToDictionary(a => (AchievementId)a.Id);
             }
         }
         catch (ArgumentException ex)

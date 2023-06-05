@@ -9,12 +9,12 @@ namespace Snap.Hutao.Model.Metadata.Reliquary;
 /// 圣遗物突破属性
 /// </summary>
 [HighQuality]
-internal sealed class ReliquaryAffix : ReliquaryMainAffix
+internal sealed class ReliquarySubAffix : ReliquaryMainAffix
 {
     /// <summary>
     /// Id
     /// </summary>
-    public new ReliquaryAffixId Id { get; set; }
+    public new ReliquarySubAffixId Id { get; set; }
 
     /// <summary>
     /// 值

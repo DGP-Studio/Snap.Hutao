@@ -25,7 +25,6 @@ internal sealed class PluginItem : NameMd5
     /// 尺寸
     /// </summary>
     [JsonPropertyName("size")]
-    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public long Size { get; set; } = default!;
 
     /// <summary>
