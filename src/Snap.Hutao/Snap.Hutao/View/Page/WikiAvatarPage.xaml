@@ -153,7 +153,7 @@
                                 <ScrollViewer>
                                     <StackPanel
                                         MaxWidth="800"
-                                        Margin="0,0,20,16"
+                                        Margin="0,0,16,16"
                                         HorizontalAlignment="Left">
                                         <!--  简介  -->
                                         <Grid Margin="16,16,0,16" VerticalAlignment="Top">
@@ -585,7 +585,7 @@
                 </cwuc:Case>
                 <cwuc:Case Value="Grid">
                     <GridView
-                        Padding="12,12,6,0"
+                        Padding="12,12,2,0"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"

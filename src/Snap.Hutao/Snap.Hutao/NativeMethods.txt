@@ -4,7 +4,6 @@ RemoveWindowSubclass
 SetWindowSubclass
 
 // DWMAPI
-DwmGetWindowAttribute
 DwmSetWindowAttribute
 
 // GDI32
@@ -14,14 +13,11 @@ GetDeviceCaps
 CloseHandle
 CreateEventW
 CreateRemoteThread
-CreateToolhelp32Snapshot
 GetModuleHandleW
 GetProcAddress
 K32EnumProcessModules
-K32GetModuleBaseName
+K32GetModuleBaseNameW
 K32GetModuleInformation
-Module32First
-Module32Next
 ReadProcessMemory
 SetEvent
 VirtualAlloc

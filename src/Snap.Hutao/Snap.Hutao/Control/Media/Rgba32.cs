@@ -4,6 +4,7 @@
 // https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 
 using CommunityToolkit.WinUI;
+using System.Buffers.Binary;
 using System.Runtime.InteropServices;
 using Windows.UI;
 
@@ -13,61 +14,71 @@ namespace Snap.Hutao.Control.Media;
 /// RGBA 颜色
 /// </summary>
 [HighQuality]
-[StructLayout(LayoutKind.Explicit)]
-internal struct Rgba8
+internal struct Rgba32
 {
     /// <summary>
     /// R
     /// </summary>
-    [FieldOffset(3)]
     public byte R;
 
     /// <summary>
     /// G
     /// </summary>
-    [FieldOffset(2)]
     public byte G;
 
     /// <summary>
     /// B
     /// </summary>
-    [FieldOffset(1)]
     public byte B;
 
     /// <summary>
     /// A
     /// </summary>
-    [FieldOffset(0)]
     public byte A;
-
-    [FieldOffset(0)]
-    private readonly uint data;
 
     /// <summary>
     /// 构造一个新的 RGBA8 颜色
     /// </summary>
     /// <param name="hex">色值字符串</param>
-    public Rgba8(in ReadOnlySpan<char> hex)
+    public unsafe Rgba32(string hex)
+        : this(Convert.ToUInt32(hex, 16))
     {
-        R = 0;
-        G = 0;
-        B = 0;
-        A = 0;
-        data = Convert.ToUInt32(hex.ToString(), 16);
     }
 
-    private Rgba8(byte r, byte g, byte b, byte a)
+    /// <summary>
+    /// 使用 RGBA 代码初始化新的结构
+    /// </summary>
+    /// <param name="code">RGBA 代码</param>
+    public unsafe Rgba32(uint code)
     {
-        data = 0;
+        // RRGGBBAA -> AABBGGRR
+        fixed (Rgba32* pSelf = &this)
+        {
+            *(uint*)pSelf = BinaryPrimitives.ReverseEndianness(code);
+        }
+    }
+
+    private Rgba32(byte r, byte g, byte b, byte a)
+    {
         R = r;
         G = g;
         B = b;
         A = a;
     }
 
-    public static implicit operator Color(Rgba8 hexColor)
+    public static unsafe implicit operator Color(Rgba32 hexColor)
     {
-        return Color.FromArgb(hexColor.A, hexColor.R, hexColor.G, hexColor.B);
+        // AABBGGRR -> BBGGRRAA
+        // AABBGGRR -> 000000AA
+        uint a = (*(uint*)&hexColor) >> 24;
+
+        // AABBGGRR -> BBGGRR00
+        uint rgb = (*(uint*)&hexColor) << 8;
+
+        // BBGGRR00 + 000000AA
+        uint rgba = rgb + a;
+
+        return *(Color*)&rgba;
     }
 
     /// <summary>
@@ -75,7 +86,7 @@ internal struct Rgba8
     /// </summary>
     /// <param name="hsl">HSL 颜色</param>
     /// <returns>RGBA8颜色</returns>
-    public static Rgba8 FromHsl(HslColor hsl)
+    public static Rgba32 FromHsl(HslColor hsl)
     {
         double chroma = (1 - Math.Abs((2 * hsl.L) - 1)) * hsl.S;
         double h1 = hsl.H / 60;

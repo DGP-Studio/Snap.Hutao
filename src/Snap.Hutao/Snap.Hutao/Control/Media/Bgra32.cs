@@ -8,10 +8,10 @@ using Windows.UI;
 namespace Snap.Hutao.Control.Media;
 
 /// <summary>
-/// BGRA8 结构
+/// BGRA 结构
 /// </summary>
 [HighQuality]
-internal struct Bgra8
+internal struct Bgra32
 {
     /// <summary>
     /// B
@@ -38,9 +38,9 @@ internal struct Bgra8
     /// </summary>
     /// <param name="color">颜色</param>
     /// <returns>新的 BGRA8 结构</returns>
-    public static unsafe Bgra8 FromColor(Color color)
+    public static unsafe Bgra32 FromColor(Color color)
     {
-        Unsafe.SkipInit(out Bgra8 bgra8);
+        Unsafe.SkipInit(out Bgra32 bgra8);
         *(uint*)&bgra8 = BinaryPrimitives.ReverseEndianness(*(uint*)&color);
         return bgra8;
     }

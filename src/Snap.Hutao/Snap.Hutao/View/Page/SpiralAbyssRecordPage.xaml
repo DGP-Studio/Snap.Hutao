@@ -30,7 +30,10 @@
             PaneBackground="Transparent"
             Visibility="{Binding SpiralAbyssView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <SplitView.Pane>
-                <ListView ItemsSource="{Binding SpiralAbyssEntries}" SelectedItem="{Binding SelectedEntry, Mode=TwoWay}">
+                <ListView
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    ItemsSource="{Binding SpiralAbyssEntries}"
+                    SelectedItem="{Binding SelectedEntry, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Schedule}"/>
@@ -254,19 +257,12 @@
                                                                                         ItemsSource="{Binding Avatars}">
                                                                                         <ItemsControl.ItemTemplate>
                                                                                             <DataTemplate>
-                                                                                                <shvc:BottomTextControl Margin="0,0,8,0" Text="{Binding Name}">
-                                                                                                    <shvc:BottomTextControl.Resources>
-                                                                                                        <Style BasedOn="{StaticResource CaptionTextBlockStyle}" TargetType="TextBlock">
-                                                                                                            <Setter Property="TextWrapping" Value="NoWrap"/>
-                                                                                                            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-                                                                                                        </Style>
-                                                                                                    </shvc:BottomTextControl.Resources>
-                                                                                                    <shvc:ItemIcon
-                                                                                                        Width="60"
-                                                                                                        Height="60"
-                                                                                                        Icon="{Binding Icon}"
-                                                                                                        Quality="{Binding Quality}"/>
-                                                                                                </shvc:BottomTextControl>
+                                                                                                <shvc:ItemIcon
+                                                                                                    Width="60"
+                                                                                                    Height="60"
+                                                                                                    Margin="0,0,8,0"
+                                                                                                    Icon="{Binding Icon}"
+                                                                                                    Quality="{Binding Quality}"/>
                                                                                             </DataTemplate>
                                                                                         </ItemsControl.ItemTemplate>
                                                                                     </ItemsControl>

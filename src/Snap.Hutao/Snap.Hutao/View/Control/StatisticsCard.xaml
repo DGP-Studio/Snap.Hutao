@@ -93,30 +93,30 @@
             TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
 
         <DataTemplate x:Key="OrangeGridTemplate" d:DataType="shvg:SummaryItem">
-            <Grid Width="40" Margin="0,4,4,0">
-                <Border
-                    Background="{Binding IsUp, Converter={StaticResource BoolToBrushConverter}}"
-                    Style="{StaticResource BorderCardStyle}"
-                    ToolTipService.ToolTip="{Binding TimeFormatted}">
-                    <StackPanel>
-                        <shvcoont:ItemIcon
-                            Width="40"
-                            Height="40"
-                            Icon="{Binding Icon}"
-                            Quality="QUALITY_ORANGE"/>
-                        <TextBlock
-                            HorizontalTextAlignment="Center"
-                            Style="{StaticResource CaptionTextBlockStyle}"
-                            Text="{Binding LastPull}"
-                            TextTrimming="None"
-                            TextWrapping="NoWrap">
-                            <TextBlock.Foreground>
-                                <SolidColorBrush Color="{Binding Color}"/>
-                            </TextBlock.Foreground>
-                        </TextBlock>
-                    </StackPanel>
-                </Border>
-            </Grid>
+            <Border
+                Width="40"
+                Margin="0,4,4,0"
+                Background="{Binding IsUp, Converter={StaticResource BoolToBrushConverter}}"
+                Style="{StaticResource BorderCardStyle}"
+                ToolTipService.ToolTip="{Binding TimeFormatted}">
+                <StackPanel>
+                    <shvcoont:ItemIcon
+                        Width="40"
+                        Height="40"
+                        Icon="{Binding Icon}"
+                        Quality="QUALITY_ORANGE"/>
+                    <TextBlock
+                        HorizontalTextAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="{Binding LastPull}"
+                        TextTrimming="None"
+                        TextWrapping="NoWrap">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{Binding Color}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                </StackPanel>
+            </Border>
         </DataTemplate>
     </UserControl.Resources>
 

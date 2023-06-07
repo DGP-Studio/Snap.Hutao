@@ -54,15 +54,15 @@
                     </AutoSuggestBox>
                 </AppBarElementContainer>
             </CommandBar>
-            <SplitView
-                Grid.Row="1"
-                DisplayMode="Inline"
-                IsPaneOpen="True"
-                OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
-                PaneBackground="{StaticResource CardBackgroundFillColorSecondary}">
-                <SplitView.Pane>
-                    <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                        <cwuc:Case Value="List">
+
+            <cwuc:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                <cwuc:Case Value="List">
+                    <SplitView
+                        DisplayMode="Inline"
+                        IsPaneOpen="True"
+                        OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
+                        PaneBackground="{StaticResource CardBackgroundFillColorSecondary}">
+                        <SplitView.Pane>
                             <ListView
                                 Grid.Row="1"
                                 ItemsSource="{Binding Monsters}"
@@ -99,111 +99,111 @@
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
-                        </cwuc:Case>
-                        <cwuc:Case Value="Grid">
-                            <GridView
-                                Margin="6,6,0,0"
-                                HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Left"
-                                ItemsSource="{Binding Monsters}"
-                                SelectedItem="{Binding Selected, Mode=TwoWay}"
-                                SelectionMode="Single">
-                                <GridView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </GridView.ItemsPanel>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <shvc:ItemIcon
-                                            Width="46"
-                                            Height="46"
-                                            Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}"
-                                            Quality="QUALITY_NONE"/>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </cwuc:Case>
-                    </cwuc:SwitchPresenter>
-                </SplitView.Pane>
-                <SplitView.Content>
-                    <ScrollViewer>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition MaxWidth="800"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Margin="0,0,20,0">
-                                <TextBlock
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding Selected.Title}"/>
-                                <ItemsControl Margin="16,8,0,0" ItemsSource="{Binding Selected.Affixes}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <cwuc:WrapPanel HorizontalSpacing="8" Orientation="Horizontal"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <shvc:BaseValueSlider
-                                    Margin="16,16,0,0"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Stretch"
-                                    BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"
-                                    IsPromoteVisible="False"/>
-                                <ItemsControl Margin="16,16,0,0" ItemsSource="{Binding Selected.BaseValue.SubHurts}">
-                                    <ItemsControl.Resources>
-                                        <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                                        <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                                        <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                                    </ItemsControl.Resources>
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <cwuc:UniformGrid
-                                                ColumnSpacing="2"
-                                                Columns="2"
-                                                RowSpacing="2"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <clw:SettingsCard Header="{Binding Name}">
-                                                <TextBlock Text="{Binding Value}"/>
-                                            </clw:SettingsCard>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock
-                                    Margin="16,32,0,0"
-                                    Style="{StaticResource BaseTextBlockStyle}"
-                                    Text="{shcm:ResourceString Name=ViewPageWikiMonsterDropItems}"
-                                    Visibility="{Binding Selected.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
-                                <GridView
-                                    Margin="16,16,-4,12"
-                                    Padding="0"
-                                    ItemsSource="{Binding Selected.DropsView}"
-                                    SelectionMode="None"
-                                    Visibility="{Binding Selected.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <shvc:BottomTextControl Text="{Binding Name}">
-                                                <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
-                                            </shvc:BottomTextControl>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </GridView>
-                            </StackPanel>
-                        </Grid>
-                    </ScrollViewer>
-                </SplitView.Content>
-            </SplitView>
+                        </SplitView.Pane>
+                        <SplitView.Content>
+                            <ScrollViewer>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition MaxWidth="800"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Margin="0,0,16,0">
+                                        <TextBlock
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            Style="{StaticResource SubtitleTextBlockStyle}"
+                                            Text="{Binding Selected.Title}"/>
+                                        <ItemsControl Margin="16,8,0,0" ItemsSource="{Binding Selected.Affixes}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <cwuc:WrapPanel HorizontalSpacing="8" Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <shvc:BaseValueSlider
+                                            Margin="16,16,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            BaseValueInfo="{Binding BaseValueInfo, Mode=OneWay}"
+                                            IsPromoteVisible="False"/>
+                                        <ItemsControl Margin="16,16,0,0" ItemsSource="{Binding Selected.BaseValue.SubHurts}">
+                                            <ItemsControl.Resources>
+                                                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                                                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                                                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                                            </ItemsControl.Resources>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <cwuc:UniformGrid
+                                                        ColumnSpacing="2"
+                                                        Columns="2"
+                                                        RowSpacing="2"/>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <clw:SettingsCard Header="{Binding Name}">
+                                                        <TextBlock Text="{Binding Value}"/>
+                                                    </clw:SettingsCard>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock
+                                            Margin="16,32,0,0"
+                                            Style="{StaticResource BaseTextBlockStyle}"
+                                            Text="{shcm:ResourceString Name=ViewPageWikiMonsterDropItems}"
+                                            Visibility="{Binding Selected.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}"/>
+                                        <GridView
+                                            Margin="16,16,-4,12"
+                                            Padding="0"
+                                            ItemsSource="{Binding Selected.DropsView}"
+                                            SelectionMode="None"
+                                            Visibility="{Binding Selected.DropsView, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <shvc:BottomTextControl Text="{Binding Name}">
+                                                        <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
+                                                    </shvc:BottomTextControl>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </GridView>
+                                    </StackPanel>
+                                </Grid>
+                            </ScrollViewer>
+                        </SplitView.Content>
+                    </SplitView>
+                </cwuc:Case>
+                <cwuc:Case Value="Grid">
+                    <GridView
+                        Padding="12,12,2,0"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
+                        ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                        ItemsSource="{Binding Monsters}"
+                        SelectedItem="{Binding Selected, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        <GridView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </GridView.ItemsPanel>
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <shvc:BottomTextControl Text="{Binding Title}">
+                                    <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource MonsterIconConverter}, Mode=OneWay}" Quality="QUALITY_NONE"/>
+                                </shvc:BottomTextControl>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </cwuc:Case>
+            </cwuc:SwitchPresenter>
+
         </Grid>
         <shvc:LoadingView IsLoading="{Binding Monsters, Converter={StaticResource EmptyObjectToBoolRevertConverter}}"/>
     </Grid>

@@ -5,10 +5,7 @@ using System.Buffers.Binary;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.Graphics;
-using Windows.Win32.Foundation;
-using Windows.Win32.System.Diagnostics.ToolHelp;
 using Windows.Win32.UI.WindowsAndMessaging;
-using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Win32;
 
@@ -18,15 +15,6 @@ namespace Snap.Hutao.Win32;
 [HighQuality]
 internal static class StructMarshal
 {
-    /// <summary>
-    /// 构造一个新的 <see cref="Windows.Win32.System.Diagnostics.ToolHelp.MODULEENTRY32"/>
-    /// </summary>
-    /// <returns>新的实例</returns>
-    public static unsafe MODULEENTRY32 MODULEENTRY32()
-    {
-        return new() { dwSize = SizeOf<MODULEENTRY32>() };
-    }
-
     /// <summary>
     /// 构造一个新的 <see cref="Windows.Win32.UI.WindowsAndMessaging.WINDOWPLACEMENT"/>
     /// </summary>
@@ -90,26 +78,5 @@ internal static class StructMarshal
     public static RectInt32 RectInt32(PointInt32 point, SizeInt32 size)
     {
         return new(point.X, point.Y, size.Width, size.Height);
-    }
-
-    /// <summary>
-    /// 枚举快照的模块
-    /// </summary>
-    /// <param name="snapshot">快照</param>
-    /// <returns>模块枚举</returns>
-    [SuppressMessage("", "SH002")]
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IEnumerable<MODULEENTRY32> EnumerateModuleEntry32(HANDLE snapshot)
-    {
-        MODULEENTRY32 entry = MODULEENTRY32();
-
-        if (Module32First(snapshot, ref entry))
-        {
-            do
-            {
-                yield return entry;
-            }
-            while (Module32Next(snapshot, ref entry));
-        }
     }
 }

@@ -239,7 +239,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
             {
                 Color tintColor = serviceProvider.GetRequiredService<IAppResourceProvider>().GetResource<Color>("CompatBackgroundColor");
-                Bgra8 tint = Bgra8.FromColor(tintColor);
+                Bgra32 tint = Bgra32.FromColor(tintColor);
                 softwareBitmap.NormalBlend(tint);
                 using (InMemoryRandomAccessStream memory = new())
                 {

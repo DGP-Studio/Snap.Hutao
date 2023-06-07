@@ -44,8 +44,9 @@
             <CornerRadius x:Key="CompatCornerRadiusSmall">2</CornerRadius>
             <!--  OpenPaneLength  -->
             <x:Double x:Key="CompatSplitViewOpenPaneLength">212</x:Double>
-            <x:Double x:Key="CompatSplitViewOpenPaneLength2">284</x:Double>
-            <GridLength x:Key="CompatGridLength2">268</GridLength>
+
+            <x:Double x:Key="CompatSplitViewOpenPaneLength2">304</x:Double>
+            <GridLength x:Key="CompatGridLength2">288</GridLength>
 
             <x:Double x:Key="HomeAdaptiveCardHeight">180</x:Double>
 

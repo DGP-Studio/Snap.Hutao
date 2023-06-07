@@ -20,15 +20,15 @@ internal static class SoftwareBitmapExtension
     /// </summary>
     /// <param name="softwareBitmap">软件位图</param>
     /// <param name="tint">底色</param>
-    public static unsafe void NormalBlend(this SoftwareBitmap softwareBitmap, Bgra8 tint)
+    public static unsafe void NormalBlend(this SoftwareBitmap softwareBitmap, Bgra32 tint)
     {
         using (BitmapBuffer buffer = softwareBitmap.LockBuffer(BitmapBufferAccessMode.ReadWrite))
         {
             using (IMemoryBufferReference reference = buffer.CreateReference())
             {
                 reference.As<IMemoryBufferByteAccess>().GetBuffer(out byte* data, out uint length);
-                Span<Bgra8> bytes = new(data, unchecked((int)length / (sizeof(Bgra8) / sizeof(uint))));
-                foreach (ref Bgra8 pixel in bytes)
+                Span<Bgra32> bytes = new(data, unchecked((int)length / sizeof(Bgra32)));
+                foreach (ref Bgra32 pixel in bytes)
                 {
                     byte baseAlpha = pixel.A;
                     int opposite = 0xFF - baseAlpha;

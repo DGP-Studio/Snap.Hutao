@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
@@ -57,10 +58,10 @@ internal sealed class DescriptionTextBlock : ContentControl
         TextBlock text = (TextBlock)((DescriptionTextBlock)d).Content;
         ReadOnlySpan<char> description = (string)e.NewValue;
 
-        ApplyDescription(text, description);
+        UpdateDescription(text, description);
     }
 
-    private static void ApplyDescription(TextBlock text, in ReadOnlySpan<char> description)
+    private static void UpdateDescription(TextBlock text, in ReadOnlySpan<char> description)
     {
         text.Inlines.Clear();
 
@@ -68,7 +69,7 @@ internal sealed class DescriptionTextBlock : ContentControl
         for (int i = 0; i < description.Length;)
         {
             // newline
-            if (description[i] == '\\' && description[i + 1] == 'n')
+            if (description.Slice(i, 2).SequenceEqual(@"\n"))
             {
                 AppendText(text, description[last..i]);
                 AppendLineBreak(text);
@@ -77,10 +78,10 @@ internal sealed class DescriptionTextBlock : ContentControl
             }
 
             // color tag
-            else if (description[i] == '<' && description[i + 1] == 'c')
+            else if (description.Slice(i, 2).SequenceEqual("<c"))
             {
                 AppendText(text, description[last..i]);
-                Rgba8 color = new(description.Slice(i + 8, 8));
+                Rgba32 color = new(description.Slice(i + 8, 8).ToString());
                 int length = description[(i + ColorTagLeftLength)..].IndexOf('<');
                 AppendColorText(text, description.Slice(i + ColorTagLeftLength, length), color);
 
@@ -89,7 +90,7 @@ internal sealed class DescriptionTextBlock : ContentControl
             }
 
             // italic
-            else if (description[i] == '<' && description[i + 1] == 'i')
+            else if (description.Slice(i, 2).SequenceEqual("<i"))
             {
                 AppendText(text, description[last..i]);
 
@@ -116,7 +117,7 @@ internal sealed class DescriptionTextBlock : ContentControl
         text.Inlines.Add(new Run { Text = slice.ToString() });
     }
 
-    private static void AppendColorText(TextBlock text, in ReadOnlySpan<char> slice, Rgba8 color)
+    private static void AppendColorText(TextBlock text, in ReadOnlySpan<char> slice, Rgba32 color)
     {
         Color targetColor;
         if (ThemeHelper.IsDarkMode(text.ActualTheme))
@@ -127,7 +128,7 @@ internal sealed class DescriptionTextBlock : ContentControl
         {
             HslColor hsl = color.ToHsl();
             hsl.L *= 0.3;
-            targetColor = Rgba8.FromHsl(hsl);
+            targetColor = Rgba32.FromHsl(hsl);
         }
 
         text.Inlines.Add(new Run
@@ -154,6 +155,6 @@ internal sealed class DescriptionTextBlock : ContentControl
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
         // Simply re-apply texts
-        ApplyDescription((TextBlock)Content, Description);
+        UpdateDescription((TextBlock)Content, Description);
     }
 }

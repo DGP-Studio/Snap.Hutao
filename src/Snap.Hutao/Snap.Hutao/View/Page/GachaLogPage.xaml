@@ -213,7 +213,7 @@
                     <SplitView
                         DisplayMode="Inline"
                         IsPaneOpen="True"
-                        OpenPaneLength="296"
+                        OpenPaneLength="323"
                         PaneBackground="Transparent">
                         <SplitView.Pane>
                             <ListView ItemsSource="{Binding Statistics.HistoryWishes}" SelectedItem="{Binding SelectedHistoryWish, Mode=TwoWay}">
@@ -241,64 +241,66 @@
                                                 HorizontalAlignment="Right"
                                                 Style="{StaticResource BaseTextBlockStyle}"
                                                 Text="{Binding TotalCountFormatted}"/>
-                                            <Border
+                                            <ItemsControl
                                                 Grid.Row="1"
                                                 Margin="0,6,0,0"
-                                                Padding="2"
                                                 HorizontalAlignment="Left"
-                                                Background="{StaticResource CardBackgroundFillColorDefault}"
-                                                CornerRadius="{StaticResource CompatCornerRadiusSmall}">
-                                                <ItemsControl ItemsSource="{Binding OrangeUpList}">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <StackPanel Orientation="Horizontal"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Margin="2">
-                                                                <shci:CachedImage
-                                                                    Width="32"
-                                                                    Height="32"
-                                                                    Source="{Binding Icon}"/>
+                                                ItemsSource="{Binding OrangeUpList}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="2"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Width="40" Style="{StaticResource BorderCardStyle}">
+                                                            <StackPanel>
+                                                                <shvc:ItemIcon
+                                                                    Width="40"
+                                                                    Height="40"
+                                                                    Icon="{Binding Icon}"
+                                                                    Quality="{Binding Quality}"/>
                                                                 <TextBlock
-                                                                    Margin="0,2,0,0"
-                                                                    HorizontalAlignment="Center"
-                                                                    Text="{Binding Count}"/>
+                                                                    HorizontalTextAlignment="Center"
+                                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                                    Text="{Binding Count}"
+                                                                    TextTrimming="None"
+                                                                    TextWrapping="NoWrap"/>
                                                             </StackPanel>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </Border>
-                                            <Border
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                            <ItemsControl
                                                 Grid.Row="1"
                                                 Margin="0,6,0,0"
-                                                Padding="2"
                                                 HorizontalAlignment="Right"
-                                                Background="{StaticResource CardBackgroundFillColorDefault}"
-                                                CornerRadius="{StaticResource CompatCornerRadiusSmall}">
-                                                <ItemsControl ItemsSource="{Binding PurpleUpList}">
-                                                    <ItemsControl.ItemsPanel>
-                                                        <ItemsPanelTemplate>
-                                                            <StackPanel Orientation="Horizontal"/>
-                                                        </ItemsPanelTemplate>
-                                                    </ItemsControl.ItemsPanel>
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <StackPanel Margin="2">
-                                                                <shci:CachedImage
-                                                                    Width="32"
-                                                                    Height="32"
-                                                                    Source="{Binding Icon}"/>
+                                                ItemsSource="{Binding PurpleUpList}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="2"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Width="40" Style="{StaticResource BorderCardStyle}">
+                                                            <StackPanel>
+                                                                <shvc:ItemIcon
+                                                                    Width="40"
+                                                                    Height="40"
+                                                                    Icon="{Binding Icon}"
+                                                                    Quality="{Binding Quality}"/>
                                                                 <TextBlock
-                                                                    Margin="0,2,0,0"
-                                                                    HorizontalAlignment="Center"
-                                                                    Text="{Binding Count}"/>
+                                                                    HorizontalTextAlignment="Center"
+                                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                                    Text="{Binding Count}"
+                                                                    TextTrimming="None"
+                                                                    TextWrapping="NoWrap"/>
                                                             </StackPanel>
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </Border>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
                                             <StackPanel
                                                 Grid.Row="2"
                                                 Margin="0,6,0,8"
