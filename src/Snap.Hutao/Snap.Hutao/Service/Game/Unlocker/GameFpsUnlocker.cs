@@ -3,11 +3,9 @@
 
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Win32;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
-using Windows.Win32.System.Diagnostics.ToolHelp;
 using Windows.Win32.System.ProcessStatus;
 using static Windows.Win32.PInvoke;
 
@@ -23,8 +21,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     private readonly Process gameProcess;
     private readonly LaunchOptions launchOptions;
     private readonly ILogger<GameFpsUnlocker> logger;
-
-    private UnlockerStatus status = new();
+    private readonly UnlockerStatus status = new();
 
     /// <summary>
     /// 构造一个新的 <see cref="GameFpsUnlocker"/> 对象，
