@@ -13,6 +13,8 @@ internal interface IGameFpsUnlocker
     /// 异步的解锁帧数限制
     /// </summary>
     /// <param name="options">选项</param>
+    /// <param name="progress">进度</param>
+    /// <param name="token">取消令牌</param>
     /// <returns>解锁的结果</returns>
-    Task UnlockAsync(UnlockTimingOptions options);
+    Task UnlockAsync(UnlockTimingOptions options, IProgress<UnlockerStatus> progress, CancellationToken token = default);
 }

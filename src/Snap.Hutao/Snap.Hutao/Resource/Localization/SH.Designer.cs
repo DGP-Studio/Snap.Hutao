@@ -1429,6 +1429,51 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameUnlockerFindModuleNoModuleFound {
+            get {
+                return ResourceManager.GetString("ServiceGameUnlockerFindModuleNoModuleFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在查找必要的模块时遇到问题：查找模块超时 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameUnlockerFindModuleTimeLimitExeeded {
+            get {
+                return ResourceManager.GetString("ServiceGameUnlockerFindModuleTimeLimitExeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在匹配内存时遇到问题：无法匹配到期望的内容 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameUnlockerInterestedPatternNotFound {
+            get {
+                return ResourceManager.GetString("ServiceGameUnlockerInterestedPatternNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在读取必要的模块内存时遇到问题：无法将模块内存复制到指定位置 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed {
+            get {
+                return ResourceManager.GetString("ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameUnlockerReadProcessMemoryPointerAddressFailed {
+            get {
+                return ResourceManager.GetString("ServiceGameUnlockerReadProcessMemoryPointerAddressFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到缓存的元数据文件 的本地化字符串。
         /// </summary>
         internal static string ServiceMetadataFileNotFound {
@@ -1569,6 +1614,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewCardGachaStatisticsTitle {
             get {
                 return ResourceManager.GetString("ViewCardGachaStatisticsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 选择账号或直接启动 的本地化字符串。
+        /// </summary>
+        internal static string ViewCardLaunchGameSelectAccountPlaceholder {
+            get {
+                return ResourceManager.GetString("ViewCardLaunchGameSelectAccountPlaceholder", resourceCulture);
             }
         }
         

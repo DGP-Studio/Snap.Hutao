@@ -6,10 +6,12 @@
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
-    xmlns:shvc="using:Snap.Hutao.View.Control"
+    xmlns:shvconv="using:Snap.Hutao.View.Converter"
+    xmlns:shvcoont="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
     d:DataContext="{d:DesignInstance shvg:TypedWishSummary}"
     mc:Ignorable="d">
@@ -19,15 +21,35 @@
         <SolidColorBrush x:Key="PurpleBrush" Color="#FFA156E0"/>
         <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
 
+        <shvconv:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
+
+        <shc:BindingProxy x:Key="SummaryProxy" DataContext="{Binding}"/>
+
         <DataTemplate x:Key="OrangeListTemplate" d:DataType="shvg:SummaryItem">
-            <Grid Margin="0,4,4,0" Background="Transparent">
+            <Grid Margin="0,4,0,0" Background="Transparent">
                 <ToolTipService.ToolTip>
                     <TextBlock Text="{Binding TimeFormatted}"/>
                 </ToolTipService.ToolTip>
+
+                <Border Style="{StaticResource BorderCardStyle}">
+                    <ProgressBar
+                        MinHeight="32"
+                        Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                        CornerRadius="{StaticResource CompatCornerRadius}"
+                        Maximum="{Binding Path=DataContext.GuaranteeOrangeThreshold, Source={StaticResource SummaryProxy}}"
+                        Opacity="0.2"
+                        Value="{Binding LastPull}">
+                        <ProgressBar.Foreground>
+                            <SolidColorBrush Color="{Binding LastPull, Converter={StaticResource Int32ToGradientColorConverter}}"/>
+                        </ProgressBar.Foreground>
+                    </ProgressBar>
+                </Border>
+
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <shci:CachedImage
                         Width="32"
                         Height="32"
+                        CornerRadius="{ThemeResource ControlCornerRadius}"
                         Source="{Binding Icon}"/>
                     <TextBlock
                         Margin="8,0,0,0"
@@ -55,6 +77,7 @@
 
                     <TextBlock
                         Width="24"
+                        Margin="0,0,8,0"
                         VerticalAlignment="Center"
                         Style="{StaticResource BodyTextBlockStyle}"
                         Text="{Binding LastPull}"
@@ -76,7 +99,7 @@
                     Style="{StaticResource BorderCardStyle}"
                     ToolTipService.ToolTip="{Binding TimeFormatted}">
                     <StackPanel>
-                        <shvc:ItemIcon
+                        <shvcoont:ItemIcon
                             Width="40"
                             Height="40"
                             Icon="{Binding Icon}"

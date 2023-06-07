@@ -17,6 +17,9 @@ CreateRemoteThread
 CreateToolhelp32Snapshot
 GetModuleHandleW
 GetProcAddress
+K32EnumProcessModules
+K32GetModuleBaseName
+K32GetModuleInformation
 Module32First
 Module32Next
 ReadProcessMemory

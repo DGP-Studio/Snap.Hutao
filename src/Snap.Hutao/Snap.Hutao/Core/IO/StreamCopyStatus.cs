@@ -6,14 +6,14 @@ namespace Snap.Hutao.Core.IO;
 /// <summary>
 /// 流复制状态
 /// </summary>
-internal sealed class StreamCopyState
+internal sealed class StreamCopyStatus
 {
     /// <summary>
     /// 构造一个新的流复制状态
     /// </summary>
     /// <param name="bytesCopied">已复制字节</param>
     /// <param name="totalBytes">总字节数</param>
-    public StreamCopyState(long bytesCopied, long totalBytes)
+    public StreamCopyStatus(long bytesCopied, long totalBytes)
     {
         BytesCopied = bytesCopied;
         TotalBytes = totalBytes;

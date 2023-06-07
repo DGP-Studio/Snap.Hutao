@@ -120,7 +120,7 @@ internal sealed partial class WelcomeViewModel : ObservableObject
         private readonly HttpClient httpClient;
         private readonly string fileName;
         private readonly string fileUrl;
-        private readonly Progress<StreamCopyState> progress;
+        private readonly Progress<StreamCopyStatus> progress;
         private string description = SH.ViewModelWelcomeDownloadSummaryDefault;
         private double progressValue;
         private long updateCount;
@@ -196,7 +196,7 @@ internal sealed partial class WelcomeViewModel : ObservableObject
             }
         }
 
-        private void UpdateProgressStatus(StreamCopyState status)
+        private void UpdateProgressStatus(StreamCopyStatus status)
         {
             if (Interlocked.Increment(ref updateCount) % 40 == 0)
             {

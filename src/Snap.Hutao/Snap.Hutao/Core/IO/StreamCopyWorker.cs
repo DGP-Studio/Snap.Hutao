@@ -38,7 +38,7 @@ internal sealed class StreamCopyWorker
     /// </summary>
     /// <param name="progress">进度</param>
     /// <returns>任务</returns>
-    public async Task CopyAsync(IProgress<StreamCopyState> progress)
+    public async Task CopyAsync(IProgress<StreamCopyStatus> progress)
     {
         long totalBytesRead = 0;
         int bytesRead;

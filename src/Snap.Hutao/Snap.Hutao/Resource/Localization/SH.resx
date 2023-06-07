@@ -2019,4 +2019,19 @@
   <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
     <value>选择账号或直接启动</value>
   </data>
+  <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
+    <value>在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成</value>
+  </data>
+  <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
+    <value>在查找必要的模块时遇到问题：查找模块超时</value>
+  </data>
+  <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
+    <value>在匹配内存时遇到问题：无法匹配到期望的内容</value>
+  </data>
+  <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
+    <value>在读取必要的模块内存时遇到问题：无法将模块内存复制到指定位置</value>
+  </data>
+  <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
+    <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
+  </data>
 </root>

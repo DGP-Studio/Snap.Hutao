@@ -289,7 +289,7 @@ internal sealed partial class GameService : IGameService
 
             if (isAdvancedOptionsAllowed && launchOptions.UnlockFps)
             {
-                await ProcessInterop.UnlockFpsAsync(serviceProvider, game).ConfigureAwait(false);
+                await ProcessInterop.UnlockFpsAsync(serviceProvider, game, default).ConfigureAwait(false);
             }
             else
             {

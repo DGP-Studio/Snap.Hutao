@@ -41,13 +41,15 @@
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{Binding FinishDescription}"/>
 
-                <CommandBar Grid.Column="1" DefaultLabelPosition="Right">
-
+                <CommandBar
+                    Grid.Column="1"
+                    Margin="16,0,0,0"
+                    DefaultLabelPosition="Right">
                     <CommandBar.Content>
                         <AutoSuggestBox
                             Width="240"
                             Height="36"
-                            Margin="12,6,6,0"
+                            Margin="3,6,6,0"
                             HorizontalAlignment="Stretch"
                             VerticalContentAlignment="Center"
                             PlaceholderText="{shcm:ResourceString Name=ViewPageAchievementSearchPlaceholder}"
@@ -123,6 +125,11 @@
                         ItemsSource="{Binding AchievementGoals}"
                         SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
                         SelectionMode="Single">
+                        <ListView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                <Setter Property="Margin" Value="0,0,6,0"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Margin="0,6">
@@ -157,7 +164,7 @@
                 <SplitView.Content>
                     <ScrollViewer Padding="0,0,16,0">
                         <ItemsControl
-                            Margin="16,0,0,16"
+                            Margin="8,0,0,16"
                             ItemsPanel="{StaticResource ItemsStackPanelTemplate}"
                             ItemsSource="{Binding Achievements}">
                             <ItemsControl.ItemContainerTransitions>
@@ -229,6 +236,7 @@
                 </SplitView.Content>
             </SplitView>
         </Grid>
+
         <Grid Visibility="{Binding SelectedArchive, Converter={StaticResource EmptyObjectToVisibilityRevertConverter}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image
