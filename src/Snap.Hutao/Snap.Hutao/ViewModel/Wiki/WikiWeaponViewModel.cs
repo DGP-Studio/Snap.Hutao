@@ -125,7 +125,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();
                 CalculableOptions options = new(null, weapon.ToCalculable());
-                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(weapon.ToCalculable());
+                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(options);
                 (bool isOk, CalcAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
                 if (isOk)

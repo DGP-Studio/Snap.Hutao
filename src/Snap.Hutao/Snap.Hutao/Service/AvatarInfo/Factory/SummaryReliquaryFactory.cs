@@ -118,11 +118,6 @@ internal sealed class SummaryReliquaryFactory
             ReliquaryAffixWeight affixWeight = metadataContext.IdReliquaryAffixWeightMap.GetValueOrDefault(avatarInfo.AvatarId, ReliquaryAffixWeight.Default);
             ReliquaryMainAffixLevel maxRelicLevel = metadataContext.ReliqueryLevels.Where(r => r.Rank == reliquary.RankLevel).MaxBy(r => r.Level)!;
 
-            if (property == FightProperty.FIGHT_PROP_ELEC_ADD_HURT)
-            {
-                System.Diagnostics.Debugger.Break();
-            }
-
             float percent = relicLevel.PropertyMap[property] / maxRelicLevel.PropertyMap[property];
             float baseScore = 8 * percent * affixWeight[property];
 
