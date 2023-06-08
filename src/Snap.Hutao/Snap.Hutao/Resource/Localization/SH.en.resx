@@ -2019,4 +2019,19 @@
   <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
     <value>Select account or start now</value>
   </data>
+  <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
+    <value>Error finding necessary modules: could not read any module, the protection driver may has been loaded</value>
+  </data>
+  <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
+    <value>Error finding necessary modules: timeout</value>
+  </data>
+  <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
+    <value>Error finding necessary modules: no expected content</value>
+  </data>
+  <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
+    <value>Error finding necessary modules: could not copy module memory to destination</value>
+  </data>
+  <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
+    <value>Error finding necessary modules: could not read valid value in given address</value>
+  </data>
 </root>
