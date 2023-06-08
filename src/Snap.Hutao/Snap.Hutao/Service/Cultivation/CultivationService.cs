@@ -150,7 +150,10 @@ internal sealed partial class CultivationService : ICultivationService
             token.ThrowIfCancellationRequested();
 
             await taskContext.SwitchToMainThreadAsync();
-            return resultItems.OrderByDescending(i => i.TotalCount).ToObservableCollection();
+            return resultItems
+                .OrderByDescending(i => i.TotalCount)
+                .ThenByDescending(i => i.Count)
+                .ToObservableCollection();
         }
     }
 
