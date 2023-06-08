@@ -37,7 +37,7 @@ internal sealed partial class MetadataService
     }
 
     /// <inheritdoc/>
-    public async ValueTask<Dictionary<MaterialId, DisplayItem>> GetIdToDisplayAndMaterialMapAsync(CancellationToken token = default)
+    public async ValueTask<Dictionary<MaterialId, DisplayItem>> GetIdToDisplayItemAndMaterialMapAsync(CancellationToken token = default)
     {
         string cacheKey = $"{nameof(MetadataService)}.Cache.DisplayAndMaterial.Map.{typeof(MaterialId).Name}";
 
@@ -64,6 +64,12 @@ internal sealed partial class MetadataService
     public ValueTask<Dictionary<MaterialId, Material>> GetIdToMaterialMapAsync(CancellationToken token = default)
     {
         return FromCacheAsDictionaryAsync<MaterialId, Material>(FileNameMaterial, a => a.Id, token);
+    }
+
+    /// <inheritdoc/>
+    public ValueTask<Dictionary<AvatarId, ReliquaryAffixWeight>> GetIdToReliquaryAffixWeightMapAsync(CancellationToken token = default)
+    {
+        return FromCacheAsDictionaryAsync<AvatarId, ReliquaryAffixWeight>(FileNameReliquaryAffixWeight, r => r.AvatarId, token);
     }
 
     /// <inheritdoc/>

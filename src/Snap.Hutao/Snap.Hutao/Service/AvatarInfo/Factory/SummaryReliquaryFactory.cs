@@ -10,9 +10,7 @@ using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Enka.Model;
 using System.Runtime.InteropServices;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
-using MetadataReliquaryAffix = Snap.Hutao.Model.Metadata.Reliquary.ReliquarySubAffix;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using PropertyReliquary = Snap.Hutao.ViewModel.AvatarProperty.ReliquaryView;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
@@ -43,14 +41,14 @@ internal sealed class SummaryReliquaryFactory
     /// 构造圣遗物
     /// </summary>
     /// <returns>圣遗物</returns>
-    public PropertyReliquary CreateReliquary()
+    public ReliquaryView CreateReliquary()
     {
         MetadataReliquary reliquary = metadataContext.Reliquaries.Single(r => r.Ids.Contains(equip.ItemId));
         List<ReliquarySubProperty> subProperty = equip.Reliquary!.AppendPropIdList.EmptyIfNull().SelectList(CreateSubProperty);
 
         int affixCount = GetSecondaryAffixCount(reliquary);
 
-        PropertyReliquary result = new()
+        ReliquaryView result = new()
         {
             // NameIconDescription
             Name = reliquary.Name,
@@ -69,7 +67,7 @@ internal sealed class SummaryReliquaryFactory
             result.SecondarySubProperties = new(span[^affixCount..].ToArray());
             result.ComposedSubProperties = equip.Flat.ReliquarySubstats!.SelectList(CreateComposedSubProperty);
             ReliquaryMainAffixLevel relicLevel = metadataContext.ReliqueryLevels.Single(r => r.Level == equip.Reliquary!.Level && r.Rank == reliquary.RankLevel);
-            FightProperty property = metadataContext.IdRelicMainPropMap[equip.Reliquary.MainPropId];
+            FightProperty property = metadataContext.IdReliquaryMainAffixMap[equip.Reliquary.MainPropId];
 
             result.MainProperty = FightPropertyFormat.ToNameValue(property, relicLevel.PropertyMap[property]);
             result.Score = ScoreReliquary(property, reliquary, relicLevel, subProperty);
@@ -115,13 +113,18 @@ internal sealed class SummaryReliquaryFactory
     {
         // 沙 杯 头
         // equip.Flat.EquipType is EquipType.EQUIP_SHOES or EquipType.EQUIP_RING or EquipType.EQUIP_DRESS
-        if ((int)equip.Flat.EquipType > 3)
+        if (equip.Flat.EquipType > EquipType.EQUIP_SHOES)
         {
-            AffixWeight weightConfig = GetAffixWeightForAvatarId();
+            ReliquaryAffixWeight affixWeight = metadataContext.IdReliquaryAffixWeightMap.GetValueOrDefault(avatarInfo.AvatarId, ReliquaryAffixWeight.Default);
             ReliquaryMainAffixLevel maxRelicLevel = metadataContext.ReliqueryLevels.Where(r => r.Rank == reliquary.RankLevel).MaxBy(r => r.Level)!;
 
+            if (property == FightProperty.FIGHT_PROP_ELEC_ADD_HURT)
+            {
+                System.Diagnostics.Debugger.Break();
+            }
+
             float percent = relicLevel.PropertyMap[property] / maxRelicLevel.PropertyMap[property];
-            float baseScore = 8 * percent * weightConfig.GetValueOrDefault(property);
+            float baseScore = 8 * percent * affixWeight[property];
 
             float score = subProperties.Sum(p => p.Score);
             return ((score + baseScore) / 1700) * 66;
@@ -131,11 +134,6 @@ internal sealed class SummaryReliquaryFactory
             float score = subProperties.Sum(p => p.Score);
             return (score / 900) * 66;
         }
-    }
-
-    private AffixWeight GetAffixWeightForAvatarId()
-    {
-        return ReliquaryWeightConfiguration.AffixWeights.FirstOrDefault(w => w.AvatarId == avatarInfo.AvatarId, ReliquaryWeightConfiguration.Default);
     }
 
     private ReliquarySubProperty CreateComposedSubProperty(ReliquarySubstat substat)
@@ -154,7 +152,7 @@ internal sealed class SummaryReliquaryFactory
     [SuppressMessage("", "SH002")]
     private ReliquarySubProperty CreateSubProperty(ReliquarySubAffixId appendPropId)
     {
-        MetadataReliquaryAffix affix = metadataContext.IdReliquarySubAffixMap[appendPropId];
+        ReliquarySubAffix affix = metadataContext.IdReliquarySubAffixMap[appendPropId];
         FightProperty property = affix.Type;
 
         return new(
@@ -165,10 +163,10 @@ internal sealed class SummaryReliquaryFactory
 
     private float ScoreSubAffix(in ReliquarySubAffixId appendId)
     {
-        MetadataReliquaryAffix affix = metadataContext.IdReliquarySubAffixMap[appendId];
+        ReliquarySubAffix affix = metadataContext.IdReliquarySubAffixMap[appendId];
 
-        AffixWeight weightConfig = GetAffixWeightForAvatarId();
-        float weight = weightConfig.GetValueOrDefault(affix.Type) / 100F;
+        ReliquaryAffixWeight affixWeight = metadataContext.IdReliquaryAffixWeightMap.GetValueOrDefault(avatarInfo.AvatarId, ReliquaryAffixWeight.Default);
+        float weight = affixWeight[affix.Type] / 100F;
 
         // 小字词条，转换到等效百分比计算
         if (affix.Type is FightProperty.FIGHT_PROP_HP or FightProperty.FIGHT_PROP_ATTACK or FightProperty.FIGHT_PROP_DEFENSE)
@@ -177,10 +175,10 @@ internal sealed class SummaryReliquaryFactory
             float equalPercent = affix.Value / avatarInfo.FightPropMap[affix.Type - 1];
 
             // 获取对应百分比词条权重
-            weight = weightConfig.GetValueOrDefault(affix.Type + 1) / 100F;
+            weight = affixWeight[affix.Type + 1] / 100F;
 
             // 最大同属性百分比数值 最大同属性百分比Id 第四五位是战斗属性位
-            MetadataReliquaryAffix maxPercentAffix = metadataContext.IdReliquarySubAffixMap[SummaryHelper.GetAffixMaxId(appendId + 10U)];
+            ReliquarySubAffix maxPercentAffix = metadataContext.IdReliquarySubAffixMap[SummaryHelper.GetAffixMaxId(appendId + 10U)];
             float equalScore = equalPercent / maxPercentAffix.Value;
 
             return weight * equalScore * 100;

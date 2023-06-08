@@ -50,13 +50,11 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             return;
         }
 
-        ValueStopwatch stopwatch = ValueStopwatch.StartNew();
-        logger.LogInformation("Metadata initialization begin");
-
-        isInitialized = await TryUpdateMetadataAsync(token).ConfigureAwait(false);
-        initializeCompletionSource.TrySetResult();
-
-        logger.LogInformation("Metadata initialization completed in {time}ms", stopwatch.GetElapsedTime().TotalMilliseconds);
+        using (ValueStopwatch.MeasureExecution(logger))
+        {
+            isInitialized = await TryUpdateMetadataAsync(token).ConfigureAwait(false);
+            initializeCompletionSource.TrySetResult();
+        }
     }
 
     private async Task<bool> TryUpdateMetadataAsync(CancellationToken token)

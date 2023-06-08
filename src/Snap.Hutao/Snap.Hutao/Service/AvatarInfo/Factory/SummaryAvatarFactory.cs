@@ -58,10 +58,10 @@ internal sealed class SummaryAvatarFactory
             Skills = SummaryHelper.CreateSkills(avatarInfo.SkillLevelMap, avatarInfo.ProudSkillExtraLevelMap, avatar.SkillDepot.CompositeSkillsNoInherents()),
 
             // webinfo part
-            FetterLevel = avatarInfo.FetterInfo?.ExpLevel ?? 0,
+            FetterLevel = avatarInfo.FetterInfo?.ExpLevel ?? 0U,
             Properties = SummaryAvatarProperties.Create(avatarInfo.FightPropMap),
             CritScore = $"{SummaryHelper.ScoreCrit(avatarInfo.FightPropMap):F2}",
-            LevelNumber = avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].Value ?? 0,
+            LevelNumber = avatarInfo.PropMap?[PlayerProperty.PROP_LEVEL].Value ?? 0U,
 
             // processed webinfo part
             Weapon = reliquaryAndWeapon.Weapon,

@@ -27,9 +27,14 @@ internal sealed class SummaryMetadataContext
     public Dictionary<WeaponId, MetadataWeapon> IdWeaponMap { get; set; } = default!;
 
     /// <summary>
+    /// 权重映射
+    /// </summary>
+    public Dictionary<AvatarId, ReliquaryAffixWeight> IdReliquaryAffixWeightMap { get; set; } = default!;
+
+    /// <summary>
     /// 圣遗物主属性映射
     /// </summary>
-    public Dictionary<ReliquaryMainAffixId, FightProperty> IdRelicMainPropMap { get; set; } = default!;
+    public Dictionary<ReliquaryMainAffixId, FightProperty> IdReliquaryMainAffixMap { get; set; } = default!;
 
     /// <summary>
     /// 圣遗物副属性映射

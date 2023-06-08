@@ -77,7 +77,6 @@
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="NativeMethods.json" />
     <None Remove="NativeMethods.txt" />
-    <None Remove="ReliquaryWeightConfiguration.json" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
     <None Remove="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
@@ -166,7 +165,6 @@
     <AdditionalFiles Include="IdentityStructs.json" />
     <AdditionalFiles Include="NativeMethods.json" />
     <AdditionalFiles Include="NativeMethods.txt" />
-    <AdditionalFiles Include="ReliquaryWeightConfiguration.json" />
     <AdditionalFiles Include="stylecop.json" />
   </ItemGroup>
   

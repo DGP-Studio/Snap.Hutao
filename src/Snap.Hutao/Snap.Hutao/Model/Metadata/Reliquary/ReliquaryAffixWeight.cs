@@ -11,6 +11,29 @@ namespace Snap.Hutao.Model.Metadata.Reliquary;
 /// </summary>
 internal sealed class ReliquaryAffixWeight
 {
+    private static ReliquaryAffixWeight? defaultValue;
+
+    /// <summary>
+    /// 默认权重
+    /// </summary>
+    public static ReliquaryAffixWeight Default
+    {
+        get
+        {
+            return defaultValue ??= new()
+            {
+                HpPercent = 0,
+                AttackPercent = 75,
+                DefensePercent = 0,
+                Critical = 100,
+                CriticalHurt = 100,
+                ElementMastery = 0,
+                ChargeEfficiency = 55,
+                HealAdd = 0,
+            };
+        }
+    }
+
     /// <summary>
     /// 角色 Id
     /// </summary>
