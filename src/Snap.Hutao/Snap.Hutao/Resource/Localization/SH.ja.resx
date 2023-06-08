@@ -202,7 +202,7 @@
     <value>水曜日/土曜/日</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
-    <value>{0:f2} 抽</value>
+    <value>{0:f2} 回目</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryLastPullFormat" xml:space="preserve">
     <value>已垫 {0} 抽</value>
@@ -229,7 +229,7 @@
     <value>渠道服</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
-    <value>官方服</value>
+    <value>天空島・世界樹サーバー</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
     <value>グローバルサーバー</value>
@@ -304,7 +304,7 @@
     <value>星3</value>
   </data>
   <data name="ModelIntrinsicItemQualityGreen" xml:space="preserve">
-    <value>二星</value>
+    <value>星2</value>
   </data>
   <data name="ModelIntrinsicItemQualityOrange" xml:space="preserve">
     <value>星5</value>
@@ -313,10 +313,10 @@
     <value>星4</value>
   </data>
   <data name="ModelIntrinsicItemQualityRed" xml:space="preserve">
-    <value>限定五星</value>
+    <value>限定星5</value>
   </data>
   <data name="ModelIntrinsicItemQualityWhite" xml:space="preserve">
-    <value>一星</value>
+    <value>星1</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>弓</value>
@@ -328,7 +328,7 @@
     <value>両手剣</value>
   </data>
   <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
-    <value>长柄武器</value>
+    <value>長柄武器</value>
   </data>
   <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
     <value>片手剣</value>
@@ -364,7 +364,7 @@
     <value>会心ダメージ</value>
   </data>
   <data name="ServiceAvatarInfoPropertyCE" xml:space="preserve">
-    <value>元素充能效率</value>
+    <value>元素チャージ効率</value>
   </data>
   <data name="ServiceAvatarInfoPropertyCR" xml:space="preserve">
     <value>会心率</value>
@@ -406,28 +406,28 @@
     <value>HP</value>
   </data>
   <data name="ServiceAvatarInfoPropertyRESElec" xml:space="preserve">
-    <value>雷元素抗性</value>
+    <value>雷元素耐性</value>
   </data>
   <data name="ServiceAvatarInfoPropertyRESFire" xml:space="preserve">
-    <value>火元素抗性</value>
+    <value>炎元素耐性</value>
   </data>
   <data name="ServiceAvatarInfoPropertyRESGrass" xml:space="preserve">
-    <value>草元素抗性</value>
+    <value>草元素耐性</value>
   </data>
   <data name="ServiceAvatarInfoPropertyRESIce" xml:space="preserve">
-    <value>冰元素抗性</value>
+    <value>氷元素耐性</value>
   </data>
   <data name="ServiceAvatarInfoPropertyRESPhysical" xml:space="preserve">
-    <value>物理抗性</value>
+    <value>物理耐性</value>
   </data>
   <data name="ServiceAvatarInfoPropertyRESRock" xml:space="preserve">
-    <value>岩元素抗性</value>
+    <value>岩元素耐性</value>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWater" xml:space="preserve">
-    <value>水元素抗性</value>
+    <value>水元素耐性</value>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
-    <value>风元素抗性</value>
+    <value>風元素耐性</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>保存养成计划状态失败</value>
@@ -478,7 +478,7 @@
     <value>实时便笺提醒</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformer" xml:space="preserve">
-    <value>参量质变仪</value>
+    <value>参量物質変化器</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformerAdaptiveHint" xml:space="preserve">
     <value>准备完成</value>
@@ -607,7 +607,7 @@
     <value>加载中，请稍候</value>
   </data>
   <data name="ViewControlStatisticsCardBlueText" xml:space="preserve">
-    <value>三星</value>
+    <value>星3</value>
   </data>
   <data name="ViewControlStatisticsCardGuaranteeText" xml:space="preserve">
     <value>天井</value>
@@ -616,13 +616,13 @@
     <value>五星平均抽数</value>
   </data>
   <data name="ViewControlStatisticsCardOrangeText" xml:space="preserve">
-    <value>五星</value>
+    <value>星5</value>
   </data>
   <data name="ViewControlStatisticsCardPullText" xml:space="preserve">
     <value>抽</value>
   </data>
   <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
-    <value>四星</value>
+    <value>星4</value>
   </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
     <value>UP 平均抽数</value>
@@ -637,7 +637,7 @@
     <value>实时便笺</value>
   </data>
   <data name="ViewDataHeader" xml:space="preserve">
-    <value>数据</value>
+    <value>ステータス</value>
   </data>
   <data name="ViewDialogAchievementArchiveCreateInputPlaceholder" xml:space="preserve">
     <value>ここに入力してください</value>
@@ -724,7 +724,7 @@
     <value>アチーブメント</value>
   </data>
   <data name="ViewDialogImportUIAFExportUIAFVersion" xml:space="preserve">
-    <value>UIAF 版本</value>
+    <value>UIAFバージョン</value>
   </data>
   <data name="ViewDialogImportUIGFExportListCount" xml:space="preserve">
     <value>记录条数</value>
@@ -733,7 +733,7 @@
     <value>UID</value>
   </data>
   <data name="ViewDialogImportUIGFExportUIGFVersion" xml:space="preserve">
-    <value>UIGF 版本</value>
+    <value>UIAFバージョン</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
     <value>在此处输入名称</value>
@@ -781,7 +781,7 @@
     <value>UIAF 文件</value>
   </data>
   <data name="ViewModelAchievementImportProgress" xml:space="preserve">
-    <value>导入成就中</value>
+    <value>アチーブメントをインポート</value>
   </data>
   <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
     <value>数据的 UIAF 版本过低，无法导入</value>
@@ -802,7 +802,7 @@
     <value>已导出到剪贴板</value>
   </data>
   <data name="ViewModelAvatarPropertyFetch" xml:space="preserve">
-    <value>获取数据中</value>
+    <value>データを取得中</value>
   </data>
   <data name="ViewModelAvatarPropertyOpenClipboardFail" xml:space="preserve">
     <value>打开剪贴板失败</value>
@@ -814,7 +814,7 @@
     <value>无圣遗物或散件</value>
   </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
-    <value>养成计划添加失败</value>
+    <value>育成計画の追加に失敗しました</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功添加至当前养成计划</value>
@@ -823,10 +823,10 @@
     <value>请先前往养成计划页面创建计划并选中</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
-    <value>添加成功</value>
+    <value>追加完了</value>
   </data>
   <data name="ViewModelCultivationProjectAlreadyExists" xml:space="preserve">
-    <value>不能添加名称重复的计划</value>
+    <value>育成計画名は重複のため、別の名前を使ってください</value>
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
     <value>不能添加名称无效的计划</value>
@@ -904,10 +904,10 @@
     <value>剪贴板中的文本格式不正确</value>
   </data>
   <data name="ViewModelImportWarningMessage" xml:space="preserve">
-    <value>数据格式不正确</value>
+    <value>データ形式が正しくありません</value>
   </data>
   <data name="ViewModelImportWarningMessage2" xml:space="preserve">
-    <value>请先创建一个成就存档</value>
+    <value>アチーブメントアーカイブを作成してください</value>
   </data>
   <data name="ViewModelImportWarningTitle" xml:space="preserve">
     <value>インポート失敗</value>
@@ -934,7 +934,7 @@
     <value>清除失败，找不到目录：{0}</value>
   </data>
   <data name="ViewModelSettingClearWebCacheSuccess" xml:space="preserve">
-    <value>清除完成</value>
+    <value>消去しました</value>
   </data>
   <data name="ViewModelSettingCopyDeviceIdSuccess" xml:space="preserve">
     <value>复制成功</value>
@@ -970,7 +970,7 @@
     <value>ダウンロード完了</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryComplete" xml:space="preserve">
-    <value>完成</value>
+    <value>完了</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryDefault" xml:space="preserve">
     <value>等待中</value>
@@ -988,7 +988,7 @@
     <value>エクスポート</value>
   </data>
   <data name="ViewPageAchievementImportFromClipboard" xml:space="preserve">
-    <value>从剪贴板导入</value>
+    <value>クリップボードからインポート</value>
   </data>
   <data name="ViewPageAchievementImportFromFile" xml:space="preserve">
     <value>从 UIAF 文件导入</value>
@@ -1030,13 +1030,13 @@
     <value>详细数据</value>
   </data>
   <data name="ViewPageAvatarPropertyPivotOverviewHeader" xml:space="preserve">
-    <value>总览数据</value>
+    <value>ステータス一覧</value>
   </data>
   <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
     <value>初始词条</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshAction" xml:space="preserve">
-    <value>同步</value>
+    <value>同期する</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApi" xml:space="preserve">
     <value>从 Enka API 同步</value>
@@ -1048,7 +1048,7 @@
     <value>从米游社养成计算同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculateDescription" xml:space="preserve">
-    <value>同步角色天赋信息</value>
+    <value>キャラクターの天賦情報を同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecord" xml:space="preserve">
     <value>从米游社我的角色同步</value>
@@ -1057,7 +1057,7 @@
     <value>同步角色天赋外的大部分信息</value>
   </data>
   <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
-    <value>评分</value>
+    <value>評価する</value>
   </data>
   <data name="ViewPageAvatarPropertySecondaryProperties" xml:space="preserve">
     <value>强化词条</value>
@@ -1072,7 +1072,7 @@
     <value>新建计划</value>
   </data>
   <data name="ViewPageCultivationAddProjectAction" xml:space="preserve">
-    <value>新建</value>
+    <value>新規</value>
   </data>
   <data name="ViewPageCultivationAddProjectContinue" xml:space="preserve">
     <value>新建养成计划以继续</value>
@@ -1087,7 +1087,7 @@
     <value>养成物品</value>
   </data>
   <data name="ViewPageCultivationInventoryItem" xml:space="preserve">
-    <value>背包物品</value>
+    <value>アイテム</value>
   </data>
   <data name="ViewPageCultivationMaterialList" xml:space="preserve">
     <value>材料清单</value>
@@ -1111,7 +1111,7 @@
     <value>添加任意武器到养成计划</value>
   </data>
   <data name="ViewPageDailyNoteAddEntry" xml:space="preserve">
-    <value>添加角色</value>
+    <value>キャラクターを追加する</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
     <value>添加角色以定时刷新</value>
@@ -1123,10 +1123,10 @@
     <value>通知</value>
   </data>
   <data name="ViewPageDailyNoteNotificationSetting" xml:space="preserve">
-    <value>通知设置</value>
+    <value>通知設定</value>
   </data>
   <data name="ViewPageDailyNoteRefresh" xml:space="preserve">
-    <value>立即刷新</value>
+    <value>すぐに更新</value>
   </data>
   <data name="ViewPageDailyNoteRefreshTime" xml:space="preserve">
     <value>刷新间隔时间</value>
@@ -1162,7 +1162,7 @@
     <value>尚未获取任何祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogImportAction" xml:space="preserve">
-    <value>导入</value>
+    <value>インポート</value>
   </data>
   <data name="ViewPageGachaLogImportDescription" xml:space="preserve">
     <value>导入来自其它 App 的数据</value>
@@ -1171,7 +1171,7 @@
     <value>导入 UIGF Json</value>
   </data>
   <data name="ViewPageGachaLogInputAction" xml:space="preserve">
-    <value>输入</value>
+    <value>入力</value>
   </data>
   <data name="ViewPageGachaLogRefresh" xml:space="preserve">
     <value>刷新</value>
@@ -1207,7 +1207,7 @@
     <value>履歴</value>
   </data>
   <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
-    <value>总览</value>
+    <value>一覧</value>
   </data>
   <data name="ViewPageGahcaLogPivotWeapon" xml:space="preserve">
     <value>武器</value>
@@ -1312,7 +1312,7 @@
     <value>フルスクリーン</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceHeader" xml:space="preserve">
-    <value>外观</value>
+    <value>外観</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceScreenHeightDescription" xml:space="preserve">
     <value>覆盖默认屏幕高度</value>
@@ -1327,7 +1327,7 @@
     <value>宽度</value>
   </data>
   <data name="ViewPageLaunchGameCommonHeader" xml:space="preserve">
-    <value>常规</value>
+    <value>一般</value>
   </data>
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>所有选项仅会在启动游戏成功后保存</value>
@@ -1339,7 +1339,7 @@
     <value>在指定的显示器上运行</value>
   </data>
   <data name="ViewPageLaunchGameMonitorsHeader" xml:space="preserve">
-    <value>显示器</value>
+    <value>モニター</value>
   </data>
   <data name="ViewPageLaunchGameMultipleInstancesDescription" xml:space="preserve">
     <value>同时运行多个游戏客户端</value>
@@ -1369,7 +1369,7 @@
     <value>设置帧率上限</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
-    <value>该账号尚未绑定 UID</value>
+    <value>このアカウントは UID と紐付けしていません</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidToolTip" xml:space="preserve">
     <value>绑定当前用户的角色</value>
@@ -1423,7 +1423,7 @@
     <value>胡桃について</value>
   </data>
   <data name="ViewPageSettingApperanceHeader" xml:space="preserve">
-    <value>外观</value>
+    <value>外観</value>
   </data>
   <data name="ViewPageSettingApperanceLanguageDescription" xml:space="preserve">
     <value>表示言語を設定する</value>
@@ -1444,7 +1444,7 @@
     <value>打开 缓存 文件夹</value>
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
-    <value>复制</value>
+    <value>コピー</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>执行</value>
@@ -1510,7 +1510,7 @@
     <value>Github 上反馈的问题会优先处理</value>
   </data>
   <data name="ViewPageSettingFeedbackHeader" xml:space="preserve">
-    <value>反馈</value>
+    <value>フィードバック</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
     <value>前往反馈</value>
@@ -1525,7 +1525,7 @@
     <value>相关链接</value>
   </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
-    <value>重置</value>
+    <value>リセット</value>
   </data>
   <data name="ViewPageSettingResetStaticResourceDescription" xml:space="preserve">
     <value>下次启动时会重新下载所有图像资源</value>
@@ -1669,7 +1669,7 @@
     <value>キャラクター</value>
   </data>
   <data name="ViewUserUser" xml:space="preserve">
-    <value>用户</value>
+    <value>ユーザー</value>
   </data>
   <data name="ViewWelcomeBase" xml:space="preserve">
     <value>我们将为你下载最基本的图像资源</value>
@@ -1774,10 +1774,10 @@
     <value>角色活动祈愿-2</value>
   </data>
   <data name="WebGachaConfigTypeNoviceWish" xml:space="preserve">
-    <value>新手祈愿</value>
+    <value>初心者祈願</value>
   </data>
   <data name="WebGachaConfigTypePermanentWish" xml:space="preserve">
-    <value>常驻祈愿</value>
+    <value>常設祈願</value>
   </data>
   <data name="WebGachaConfigTypeWeaponEventWish" xml:space="preserve">
     <value>武器活动祈愿</value>
@@ -1828,7 +1828,7 @@
     <value>请输入密码</value>
   </data>
   <data name="ViewPageHutaoPassportRegisterHeader" xml:space="preserve">
-    <value>注册</value>
+    <value>アカウント作成</value>
   </data>
   <data name="ViewPageHutaoPassportResetPasswordHeader" xml:space="preserve">
     <value>重置密码</value>
@@ -1960,7 +1960,7 @@
     <value>突破后</value>
   </data>
   <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
-    <value>设置</value>
+    <value>設定</value>
   </data>
   <data name="ViewCardGachaStatisticsTitle" xml:space="preserve">
     <value>天井までの回数</value>
