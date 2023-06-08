@@ -2020,18 +2020,18 @@
     <value>選擇帳號或直接啟動</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleNoModuleFound" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：无法读取任何模块，可能是保护驱动已经加载完成</value>
+    <value>在尋找必要的模組時遇到問題：無法讀取任何模組，可能是保護驅動已經載入完成</value>
   </data>
   <data name="ServiceGameUnlockerFindModuleTimeLimitExeeded" xml:space="preserve">
-    <value>在查找必要的模块时遇到问题：查找模块超时</value>
+    <value>在尋找必要的模組時遇到問題：尋找模組超時</value>
   </data>
   <data name="ServiceGameUnlockerInterestedPatternNotFound" xml:space="preserve">
-    <value>在匹配内存时遇到问题：无法匹配到期望的内容</value>
+    <value>在比對內存時遇到問題：無法比對到期望的內容</value>
   </data>
   <data name="ServiceGameUnlockerReadModuleMemoryCopyVirtualMemoryFailed" xml:space="preserve">
-    <value>在读取必要的模块内存时遇到问题：无法将模块内存复制到指定位置</value>
+    <value>在讀取必要的模組內存時遇到問題：無法將模組內存複製到指定位置</value>
   </data>
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
-    <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
+    <value>在讀取遊戲程序內存時遇到問題：無法讀取到指定地址的有效值</value>
   </data>
 </root>
