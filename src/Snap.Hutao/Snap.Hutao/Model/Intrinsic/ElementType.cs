@@ -7,80 +7,22 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 元素类型
 /// </summary>
 [HighQuality]
+[SuppressMessage("", "SA1602")]
 internal enum ElementType
 {
-    /// <summary>
-    /// 无元素
-    /// </summary>
-    None = 0,
-
-    /// <summary>
-    /// 火元素
-    /// </summary>
-    Fire = 1,
-
-    /// <summary>
-    /// 水元素
-    /// </summary>
-    Water = 2,
-
-    /// <summary>
-    /// 草元素
-    /// </summary>
-    Grass = 3,
-
-    /// <summary>
-    /// 雷元素
-    /// </summary>
-    Electric = 4,
-
-    /// <summary>
-    /// 冰元素
-    /// </summary>
-    Ice = 5,
-
-    /// <summary>
-    /// 冻元素
-    /// </summary>
-    Frozen = 6,
-
-    /// <summary>
-    /// 风元素
-    /// </summary>
-    Wind = 7,
-
-    /// <summary>
-    /// 岩元素
-    /// </summary>
-    Rock = 8,
-
-    /// <summary>
-    /// 燃元素
-    /// </summary>
-    AntiFire = 9,
-
-    /// <summary>
-    /// 枫丹玩法
-    /// </summary>
-    VehicleMuteIce = 10,
-
-    /// <summary>
-    /// 弹弹菇
-    /// </summary>
-    Mushroom = 11,
-
-    /// <summary>
-    /// 激元素
-    /// </summary>
-    Overdose = 12,
-
-    /// <summary>
-    /// 木元素
-    /// </summary>
-    Wood = 13,
-
-    /// <summary>
-    /// 个数
-    /// </summary>
-    Count = 14,
+    None = 0, // 无元素
+    Fire = 1, // 火元素
+    Water = 2, // 水元素
+    Grass = 3, // 草元素
+    Electric = 4, // 雷元素
+    Ice = 5, // 冰元素
+    Frozen = 6, // 冻元素
+    Wind = 7, // 风元素
+    Rock = 8, // 岩元素
+    AntiFire = 9, // 燃元素
+    VehicleMuteIce = 10, // 枫丹玩法
+    Mushroom = 11, // 弹弹菇
+    Overdose = 12, // 激元素
+    Wood = 13, // 木元素
+    Count = 14, // 个数
 }

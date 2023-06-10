@@ -25,7 +25,7 @@ public static partial class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        System.Diagnostics.Debug.WriteLine($"[Arguments]:{args}");
+        System.Diagnostics.Debug.WriteLine($"[Arguments]:[{EnumerableExtension.ToString(args)}]");
 
         XamlCheckProcessRequirements();
         ComWrappersSupport.InitializeComWrappers();

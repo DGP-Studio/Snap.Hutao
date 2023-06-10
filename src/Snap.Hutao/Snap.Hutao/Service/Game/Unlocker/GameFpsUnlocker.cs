@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Win32.Memory;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
@@ -235,7 +236,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         using (localMemory)
         {
-            int offset = IndexOfPattern(localMemory.GetBuffer()[(int)moduleEntryInfo.UnityPlayer.Size..]);
+            int offset = IndexOfPattern(localMemory.Span[(int)moduleEntryInfo.UnityPlayer.Size..]);
             Must.Range(offset >= 0, SH.ServiceGameUnlockerInterestedPatternNotFound);
 
             byte* pLocalMemory = (byte*)localMemory.Pointer;

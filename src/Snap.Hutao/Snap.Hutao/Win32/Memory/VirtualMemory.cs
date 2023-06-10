@@ -4,22 +4,22 @@
 using Windows.Win32.System.Memory;
 using static Windows.Win32.PInvoke;
 
-namespace Snap.Hutao.Service.Game.Unlocker;
+namespace Snap.Hutao.Win32.Memory;
 
 /// <summary>
 /// NativeMemory.AllocZeroed wrapper
 /// </summary>
-internal readonly unsafe struct VirtualMemory : IDisposable
+internal readonly unsafe struct VirtualMemory : IUnmanagedMemory
 {
     /// <summary>
     /// 缓冲区地址
     /// </summary>
-    public readonly void* Pointer;
+    private readonly void* pointer;
 
     /// <summary>
     /// 长度
     /// </summary>
-    public readonly uint Length;
+    private readonly uint size;
 
     /// <summary>
     /// 构造一个新的本地内存
@@ -27,28 +27,23 @@ internal readonly unsafe struct VirtualMemory : IDisposable
     /// <param name="dwSize">长度</param>
     public unsafe VirtualMemory(uint dwSize)
     {
-        Length = dwSize;
+        size = dwSize;
         VIRTUAL_ALLOCATION_TYPE commitAndReserve = VIRTUAL_ALLOCATION_TYPE.MEM_COMMIT | VIRTUAL_ALLOCATION_TYPE.MEM_RESERVE;
-        Pointer = VirtualAlloc(default, dwSize, commitAndReserve, PAGE_PROTECTION_FLAGS.PAGE_READWRITE);
+        pointer = VirtualAlloc(default, dwSize, commitAndReserve, PAGE_PROTECTION_FLAGS.PAGE_READWRITE);
     }
 
-    public static unsafe implicit operator Span<byte>(VirtualMemory memory)
-    {
-        return memory.GetBuffer();
-    }
+    /// <inheritdoc/>
+    public void* Pointer { get => pointer; }
 
-    /// <summary>
-    /// 获取缓冲区
-    /// </summary>
-    /// <returns>内存</returns>
-    public unsafe Span<byte> GetBuffer()
-    {
-        return new Span<byte>(Pointer, (int)Length);
-    }
+    /// <inheritdoc/>
+    public uint Size { get => size; }
+
+    /// <inheritdoc/>
+    public Span<byte> Span { get => new(pointer, (int)size); }
 
     /// <inheritdoc/>
     public void Dispose()
     {
-        VirtualFree(Pointer, 0, VIRTUAL_FREE_TYPE.MEM_RELEASE);
+        VirtualFree(pointer, 0, VIRTUAL_FREE_TYPE.MEM_RELEASE);
     }
 }

@@ -15,7 +15,7 @@ internal enum AchievementStatus
     STATUS_UNRECOGNIZED = -1,
 
     /// <summary>
-    /// 非法值
+    /// 不使用的成就
     /// </summary>
     STATUS_INVALID = 0,
 
