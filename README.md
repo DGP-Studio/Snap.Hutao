@@ -44,7 +44,6 @@ Snap Hutao is an open-source Genshin Impact toolbox on Windows platform, aim to 
 
 * [Snap.Hutao.Server](https://github.com/DGP-Studio/Snap.Hutao.Server)
 * [Snap.Metadata](https://github.com/DGP-Studio/Snap.Metadata)
-* [Snap.Data.Mapper](https://github.com/DGP-Studio/Snap.Data.Mapper)
 
 ## 近期活跃数据 / Active Stat
 ![Snap.Hutao](https://repobeats.axiom.co/api/embed/f029553fbe0c60689b1710476ec8512452163fc9.svg)

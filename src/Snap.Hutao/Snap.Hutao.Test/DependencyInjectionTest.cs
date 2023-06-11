@@ -6,6 +6,12 @@ namespace Snap.Hutao.Test;
 [TestClass]
 public class DependencyInjectionTest
 {
+    [ClassInitialize]
+    public void Setup()
+    {
+
+    }
+
     [TestMethod]
     public void OriginalTypeNotDiscoverable()
     {
