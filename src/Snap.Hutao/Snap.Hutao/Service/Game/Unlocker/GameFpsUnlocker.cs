@@ -141,8 +141,8 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     {
         // E8 ?? ?? ?? ?? 85 C0 7E 07 E8 ?? ?? ?? ?? EB 05
         int second = 0;
-        ReadOnlySpan<byte> secondPart = new byte[] { 0x85, 0xC0, 0x7E, 0x07, 0xE8, };
-        ReadOnlySpan<byte> thirdPart = new byte[] { 0xEB, 0x05, };
+        ReadOnlySpan<byte> secondPart = stackalloc byte[] { 0x85, 0xC0, 0x7E, 0x07, 0xE8, };
+        ReadOnlySpan<byte> thirdPart = stackalloc byte[] { 0xEB, 0x05, };
 
         while (second >= 0 && second < memory.Length)
         {

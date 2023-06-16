@@ -42,7 +42,6 @@ internal sealed partial class AchievementService : IAchievementService
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 entityMap = appDbContext.Achievements
                     .Where(a => a.ArchiveId == archive.InnerId)
-                    .AsEnumerable()
                     .ToDictionary(a => (AchievementId)a.Id);
             }
         }

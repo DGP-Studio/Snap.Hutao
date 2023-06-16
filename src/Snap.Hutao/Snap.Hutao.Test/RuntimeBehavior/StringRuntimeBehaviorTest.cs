@@ -3,7 +3,7 @@
 namespace Snap.Hutao.Test.RuntimeBehavior;
 
 [TestClass]
-internal sealed class StringRuntimeBehaviorTest
+public sealed class StringRuntimeBehaviorTest
 {
     [TestMethod]
     public unsafe void NullStringFixedIsNullPointer()

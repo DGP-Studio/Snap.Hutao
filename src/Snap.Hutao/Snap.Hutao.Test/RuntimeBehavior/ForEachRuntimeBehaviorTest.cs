@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Snap.Hutao.Test.RuntimeBehavior;
 
 [TestClass]
-public class ForEachRuntimeBehaviorTest
+public sealed class ForEachRuntimeBehaviorTest
 {
     [TestMethod]
     public void ListOfStringCanEnumerateAsReadOnlySpanOfChar()

@@ -2,7 +2,8 @@
 
 namespace Snap.Hutao.Test.RuntimeBehavior;
 
-public class RangeRuntimeBehaviorTest
+[TestClass]
+public sealed class RangeRuntimeBehaviorTest
 {
     [TestMethod]
     public void RangeTrimLastOne()

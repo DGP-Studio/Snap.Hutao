@@ -116,20 +116,6 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                     await new DailyNoteNotifier(serviceProvider, entry).NotifyAsync().ConfigureAwait(false);
                     await appDbContext.DailyNotes.UpdateAndSaveAsync(entry).ConfigureAwait(false);
                 }
-                else
-                {
-                    IInfoBarService infoBarService = scope.ServiceProvider.GetRequiredService<IInfoBarService>();
-
-                    // Special retcode handling for dailynote
-                    if (dailyNoteResponse.ReturnCode == (int)Web.Response.KnownReturnCode.CODE1034)
-                    {
-                        infoBarService.Warning(dailyNoteResponse.ToString());
-                    }
-                    else
-                    {
-                        infoBarService.Error(dailyNoteResponse.ToString());
-                    }
-                }
             }
         }
     }

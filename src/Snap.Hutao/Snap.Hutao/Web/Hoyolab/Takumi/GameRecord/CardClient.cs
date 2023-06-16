@@ -46,7 +46,7 @@ internal sealed class CardClient
         Response<VerificationRegistration>? resp = await httpClient
             .SetUser(user, CookieType.LToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen2, SaltType.X4, false)
-            .TryCatchGetFromJsonAsync<Response<VerificationRegistration>>(ApiEndpoints.CardCreateVerification, options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<VerificationRegistration>>(ApiEndpoints.CardCreateVerification(false), options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

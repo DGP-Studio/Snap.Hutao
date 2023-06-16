@@ -3,7 +3,7 @@
 namespace Snap.Hutao.Test.RuntimeBehavior;
 
 [TestClass]
-internal sealed class EnumRuntimeBehaviorTest
+public sealed class EnumRuntimeBehaviorTest
 {
     [TestMethod]
     [ExpectedException(typeof(ArgumentException))]
@@ -20,7 +20,6 @@ internal sealed class EnumRuntimeBehaviorTest
     }
 
     [TestMethod]
-    [ExpectedException(typeof(Exception), AllowDerivedTypes = true)]
     public void EnumToStringDecimal()
     {
         Assert.AreEqual("2", EnumA.ValueB.ToString("D"));

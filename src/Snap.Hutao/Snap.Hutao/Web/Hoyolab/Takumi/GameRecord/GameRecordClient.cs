@@ -51,6 +51,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         // We have a verification procedure to handle
         if (resp?.ReturnCode == (int)KnownReturnCode.CODE1034)
         {
+            // Replace message
             resp.Message = SH.WebDailyNoteVerificationFailed;
             CardVerifier cardVerifier = serviceProvider.GetRequiredService<CardVerifier>();
 

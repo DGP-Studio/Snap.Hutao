@@ -6,6 +6,7 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using Microsoft.UI.Xaml.Media;
+using Snap.Hutao.Control.Animation;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Service.Notification;
 using System.IO;
@@ -183,7 +184,11 @@ internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
             if (EnableLazyLoading)
             {
-                await AnimationBuilder.Create().Opacity(from: 0D, to: 1D).StartAsync(this, token).ConfigureAwait(true);
+                await AnimationBuilder
+                    .Create()
+                    .Opacity(from: 0D, to: 1D, duration: AnimationDurations.ImageFadeIn)
+                    .StartAsync(this, token)
+                    .ConfigureAwait(true);
             }
             else
             {
@@ -200,7 +205,11 @@ internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 
             if (EnableLazyLoading)
             {
-                await AnimationBuilder.Create().Opacity(from: 1D, to: 0D).StartAsync(this, token).ConfigureAwait(true);
+                await AnimationBuilder
+                    .Create()
+                    .Opacity(from: 1D, to: 0D, duration: AnimationDurations.ImageFadeOut)
+                    .StartAsync(this, token)
+                    .ConfigureAwait(true);
             }
             else
             {

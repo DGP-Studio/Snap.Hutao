@@ -38,7 +38,7 @@ internal struct Bgra32
     /// </summary>
     /// <param name="color">颜色</param>
     /// <returns>新的 BGRA8 结构</returns>
-    public static unsafe Bgra32 FromColor(Color color)
+    public static unsafe implicit operator Bgra32(Color color)
     {
         Unsafe.SkipInit(out Bgra32 bgra8);
         *(uint*)&bgra8 = BinaryPrimitives.ReverseEndianness(*(uint*)&color);

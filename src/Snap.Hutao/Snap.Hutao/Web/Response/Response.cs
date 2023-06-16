@@ -130,10 +130,10 @@ internal sealed class Response<TData> : Response, IJsResult
     /// <summary>
     /// 响应是否正常
     /// </summary>
-    /// <param name="response">响应</param>
+    /// <param name="showInfoBar">是否显示错误信息</param>
     /// <returns>是否Ok</returns>
     [MemberNotNullWhen(true, nameof(Data))]
-    public bool IsOk()
+    public bool IsOk(bool showInfoBar = true)
     {
         if (ReturnCode == 0)
         {
@@ -143,7 +143,11 @@ internal sealed class Response<TData> : Response, IJsResult
         }
         else
         {
-            Ioc.Default.GetRequiredService<IInfoBarService>().Error(ToString());
+            if (showInfoBar)
+            {
+                Ioc.Default.GetRequiredService<IInfoBarService>().Error(ToString());
+            }
+
             return false;
         }
     }

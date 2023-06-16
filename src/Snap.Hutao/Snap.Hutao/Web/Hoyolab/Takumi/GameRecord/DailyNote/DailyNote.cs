@@ -26,6 +26,11 @@ internal sealed class DailyNote : DailyNoteCommon
     {
         get
         {
+            if (ResinRecoveryTime == 0)
+            {
+                return SH.WebDailyNoteResinRecoveryCompleted;
+            }
+
             DateTime reach = DateTime.Now.AddSeconds(ResinRecoveryTime);
             int totalDays = (reach - DateTime.Today).Days;
             string day = totalDays switch

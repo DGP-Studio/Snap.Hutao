@@ -13,13 +13,13 @@ public class JsonSerializeTest
         }
         """;
 
-    private const string SmapleNumberObjectJson = """
+    private const string SmapleEmptyStringObjectJson = """
         {
             "A" : ""
         }
         """;
 
-    private const string SmapleNumberDictionaryJson = """
+    private const string SmapleNumberKeyDictionaryJson = """
         {
             "111" : "12",
             "222" : "34"
@@ -34,21 +34,11 @@ public class JsonSerializeTest
     }
 
     [TestMethod]
+    [ExpectedException(typeof(JsonException))]
     public void EmptyStringCannotSerializeAsNumber()
     {
-        bool caught = false;
-        try
-        {
-            // Throw
-            StringNumberSample sample = JsonSerializer.Deserialize<StringNumberSample>(SmapleNumberObjectJson)!;
-            Assert.AreEqual(sample.A, 0);
-        }
-        catch
-        {
-            caught = true;
-        }
-
-        Assert.IsTrue(caught);
+        StringNumberSample sample = JsonSerializer.Deserialize<StringNumberSample>(SmapleEmptyStringObjectJson)!;
+        Assert.AreEqual(sample.A, 0);
     }
 
     [TestMethod]
@@ -59,7 +49,7 @@ public class JsonSerializeTest
             NumberHandling = JsonNumberHandling.AllowReadingFromString,
         };
 
-        Dictionary<int,string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberDictionaryJson, options)!;
+        Dictionary<int,string> sample = JsonSerializer.Deserialize<Dictionary<int, string>>(SmapleNumberKeyDictionaryJson, options)!;
         Assert.AreEqual(sample[111], "12");
     }
 

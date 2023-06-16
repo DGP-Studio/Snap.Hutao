@@ -1711,16 +1711,16 @@
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
-    <value>今日完成委托次数不足</value>
+    <value>今日完成委托数量不足</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
-    <value>「每日委托」奖励待领取</value>
+    <value>「每日委托」奖励未领取</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
-    <value>已领取「每日委托」奖励</value>
+    <value>「每日委托」奖励已领取</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>{0} {1:HH:mm} 达到上限</value>
+    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>今天</value>
@@ -1735,7 +1735,7 @@
     <value>{0} 天</value>
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
-    <value>{0} {1:HH:mm} 后全部恢复</value>
+    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
   </data>
   <data name="WebDailyNoteSenselessVerificationSuccess" xml:space="preserve">
     <value>无感验证成功</value>
@@ -2033,5 +2033,8 @@
   </data>
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
     <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
+    <value>原粹树脂已完全恢复</value>
   </data>
 </root>

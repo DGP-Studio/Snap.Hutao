@@ -3,7 +3,7 @@
 namespace Snap.Hutao.Test.RuntimeBehavior;
 
 [TestClass]
-internal sealed class PropertyRuntimeBehaviorTest
+public sealed class PropertyRuntimeBehaviorTest
 {
     [TestMethod]
     public void GetTwiceOnPropertyResultsNotSame()

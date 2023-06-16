@@ -5524,7 +5524,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 今日完成委托次数不足 的本地化字符串。
+        ///   查找类似 今日完成委托数量不足 的本地化字符串。
         /// </summary>
         internal static string WebDailyNoteExtraTaskRewardNotAllowed {
             get {
@@ -5533,7 +5533,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 「每日委托」奖励待领取 的本地化字符串。
+        ///   查找类似 「每日委托」奖励未领取 的本地化字符串。
         /// </summary>
         internal static string WebDailyNoteExtraTaskRewardNotTaken {
             get {
@@ -5542,7 +5542,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 已领取「每日委托」奖励 的本地化字符串。
+        ///   查找类似 「每日委托」奖励已领取 的本地化字符串。
         /// </summary>
         internal static string WebDailyNoteExtraTaskRewardReceived {
             get {
@@ -5551,7 +5551,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0} {1:HH:mm} 达到上限 的本地化字符串。
+        ///   查找类似 预计 {0} {1:HH:mm} 达到存储上限 的本地化字符串。
         /// </summary>
         internal static string WebDailyNoteHomeCoinRecoveryFormat {
             get {
@@ -5596,7 +5596,16 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0} {1:HH:mm} 后全部恢复 的本地化字符串。
+        ///   查找类似 原粹树脂已完全恢复 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteResinRecoveryCompleted {
+            get {
+                return ResourceManager.GetString("WebDailyNoteResinRecoveryCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 将于 {0} {1:HH:mm} 后全部恢复 的本地化字符串。
         /// </summary>
         internal static string WebDailyNoteResinRecoveryFormat {
             get {

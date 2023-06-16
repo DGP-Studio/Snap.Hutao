@@ -4,50 +4,41 @@ using System;
 namespace Snap.Hutao.Test;
 
 [TestClass]
-public class DependencyInjectionTest
+public sealed class DependencyInjectionTest
 {
-    [ClassInitialize]
-    public void Setup()
-    {
-
-    }
+    private readonly IServiceProvider services = new ServiceCollection()
+        .AddSingleton<IService, ServiceA>()
+        .AddSingleton<IService, ServiceB>()
+        .AddScoped<IScopedService, ServiceA>()
+        .AddTransient(typeof(IGenericService<>), typeof(GenericService<>))
+        .BuildServiceProvider();
 
     [TestMethod]
-    public void OriginalTypeNotDiscoverable()
+    public void OriginalTypeCannotResolved()
     {
-        IServiceProvider services = new ServiceCollection()
-            .AddSingleton<IService, ServiceA>()
-            .AddSingleton<IService, ServiceB>()
-            .BuildServiceProvider();
-
         Assert.IsNull(services.GetService<ServiceA>());
         Assert.IsNull(services.GetService<ServiceB>());
-    }
-
-    [TestMethod]
-    public void ScopedServiceInitializeMultipleTimesInScope()
-    {
-        IServiceProvider services = new ServiceCollection()
-            .AddScoped<IService, ServiceA>()
-            .BuildServiceProvider();
-
-        IServiceScopeFactory scopeFactory = services.GetRequiredService<IServiceScopeFactory>();
-        using (IServiceScope scope = scopeFactory.CreateScope())
-        {
-            IService service1 = scope.ServiceProvider.GetRequiredService<IService>();
-            IService service2 = scope.ServiceProvider.GetRequiredService<IService>();
-            Assert.AreNotEqual(service1.Id, service2.Id);
-        }
     }
 
     [TestMethod]
     public void GenericServicesCanBeResolved()
     {
         IServiceProvider services = new ServiceCollection()
-            .AddTransient(typeof(IGenericService<>),typeof(GenericService<>))
+            .AddTransient(typeof(IGenericService<>), typeof(GenericService<>))
             .BuildServiceProvider();
 
         Assert.IsNotNull(services.GetService<IGenericService<int>>());
+    }
+
+    [TestMethod]
+    public void ScopedServiceInitializeMultipleTimesInScope()
+    {
+        using (IServiceScope scope = services.CreateScope())
+        {
+            IScopedService service1 = scope.ServiceProvider.GetRequiredService<IScopedService>();
+            IScopedService service2 = scope.ServiceProvider.GetRequiredService<IScopedService>();
+            Assert.AreNotEqual(service1.Id, service2.Id);
+        }
     }
 
     private interface IService
@@ -55,7 +46,12 @@ public class DependencyInjectionTest
         Guid Id { get; }
     }
 
-    private sealed class ServiceA : IService
+    private interface IScopedService
+    {
+        Guid Id { get; }
+    }
+
+    private sealed class ServiceA : IService, IScopedService
     {
         public Guid Id
         {

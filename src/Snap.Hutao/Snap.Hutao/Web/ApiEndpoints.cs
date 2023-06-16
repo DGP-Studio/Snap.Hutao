@@ -109,7 +109,12 @@ internal static class ApiEndpoints
     /// <summary>
     /// 发起验证码
     /// </summary>
-    public const string CardCreateVerification = $"{ApiTakumiCardWApi}/createVerification?is_high=false";
+    /// <param name="highRisk">是否为高风险</param>
+    /// <returns>发起验证码Url</returns>
+    public static string CardCreateVerification(bool highRisk)
+    {
+        return $"{ApiTakumiCardWApi}/createVerification?is_high={Core.StringLiterals.LowerBoolean(highRisk)}";
+    }
 
     /// <summary>
     /// 验证验证码
