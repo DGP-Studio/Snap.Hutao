@@ -169,7 +169,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
             return FindModuleResult.Ok;
         }
 
-        if (unityPlayerResult == FindModuleResult.NoModuleFound || userAssemblyResult == FindModuleResult.NoModuleFound)
+        if (unityPlayerResult == FindModuleResult.NoModuleFound && userAssemblyResult == FindModuleResult.NoModuleFound)
         {
             info = default;
             return FindModuleResult.NoModuleFound;
