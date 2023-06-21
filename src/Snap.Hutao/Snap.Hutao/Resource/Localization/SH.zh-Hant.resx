@@ -1711,16 +1711,16 @@
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
-    <value>今日完成委託次數不足</value>
+    <value>今日完成委託數量不足</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
-    <value>「每日委託」獎勵待領取</value>
+    <value>「每日委託」獎勵未領取</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
-    <value>已領取「每日委托」獎勵</value>
+    <value>「每日委託」獎勵已領取</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>{0} {1:HH:mm} 達到上限</value>
+    <value>預計 {0} {1:HH:mm} 達到存儲上限</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>今天</value>
@@ -1735,7 +1735,7 @@
     <value>{0} 天</value>
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
-    <value>{0} {1:HH:mm} 後全部恢復</value>
+    <value>將於 {0} {1:HH:mm} 後全部恢復</value>
   </data>
   <data name="WebDailyNoteSenselessVerificationSuccess" xml:space="preserve">
     <value>無感驗證成功</value>
@@ -1990,25 +1990,25 @@
     <value>伺服器嚴重錯誤</value>
   </data>
   <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
-    <value>未知的服务器错误</value>
+    <value>未知的伺服器錯誤</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>無法找到暫存的元數據文件</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
-    <value>旅行者，欢迎来到提瓦特大陆！</value>
+    <value>旅行者，歡迎來到提瓦特大陸!</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon1" xml:space="preserve">
-    <value>胡桃已经为你启动了 {0} 次游戏</value>
+    <value>胡桃已經為你啟動了 {0} 次遊戲</value>
   </data>
   <data name="ViewPageHomeGreetingTextCommon2" xml:space="preserve">
     <value>你已經啟動了胡桃 {0} 次</value>
   </data>
   <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
-    <value>你说的对，但是《胡桃》是由 DGP Studio 自主研发的一款...</value>
+    <value>你說的對，但是《胡桃》是由 DGP Studio 自主研發的一款...</value>
   </data>
   <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
-    <value>呐，旅行者，这是你来到提瓦特大陆的第 {0} 天哦</value>
+    <value>吶，旅行者，這是你來到提瓦特大陸的第 {0} 天哦</value>
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
     <value>有新的通知</value>
@@ -2033,5 +2033,8 @@
   </data>
   <data name="ServiceGameUnlockerReadProcessMemoryPointerAddressFailed" xml:space="preserve">
     <value>在讀取遊戲程序內存時遇到問題：無法讀取到指定地址的有效值</value>
+  </data>
+  <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
+    <value>原粹樹脂已完全恢復</value>
   </data>
 </root>
