@@ -118,8 +118,8 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
                 case "th": return "TH";         // Thai
                 case "tr": return "TR";         // Turkish
                 case "vi": return "TR";         // Vietnamese
-                case "zh-CHS": return "CHS";    // Chinese (Simplified) Legacy
-                case "zh-CHT": return "CHT";    // Chinese (Traditional) Legacy
+                case "zh-Hans": return "CHS";    // Chinese (Simplified)
+                case "zh-Hant": return "CHT";    // Chinese (Traditional)
                 default: cultureInfo = cultureInfo.Parent; break;
             }
         }
