@@ -29,13 +29,15 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <returns>值</returns>
     protected string GetOption(ref string? storage, string key, string defaultValue = "")
     {
-        if (storage == null)
+        if (storage is not null)
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                storage = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value ?? defaultValue;
-            }
+            return storage;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            storage = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value ?? defaultValue;
         }
 
         return storage;
@@ -50,14 +52,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <returns>值</returns>
     protected bool GetOption(ref bool? storage, string key, bool defaultValue = false)
     {
-        if (storage == null)
+        if (storage is not null)
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-                storage = value == null ? defaultValue : bool.Parse(value);
-            }
+            return storage.Value;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
+            storage = value == null ? defaultValue : bool.Parse(value);
         }
 
         return storage.Value;
@@ -72,14 +76,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <returns>值</returns>
     protected int GetOption(ref int? storage, string key, int defaultValue = 0)
     {
-        if (storage == null)
+        if (storage is not null)
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-                storage = value == null ? defaultValue : int.Parse(value);
-            }
+            return storage.Value;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
+            storage = value == null ? defaultValue : int.Parse(value);
         }
 
         return storage.Value;
@@ -97,14 +103,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, T defaultValue)
         where T : class
     {
-        if (storage == null)
+        if (storage != null)
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-                storage = value == null ? defaultValue : deserializer(value);
-            }
+            return storage;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
+            storage = value == null ? defaultValue : deserializer(value);
         }
 
         return storage;
@@ -122,14 +130,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, T defaultValue)
         where T : struct
     {
-        if (storage == null)
+        if (storage is not null)
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-                storage = value == null ? defaultValue : deserializer(value);
-            }
+            return storage.Value;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
+            storage = value == null ? defaultValue : deserializer(value);
         }
 
         return storage.Value;
@@ -144,14 +154,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <param name="propertyName">属性名称</param>
     protected void SetOption(ref string? storage, string key, string value, [CallerMemberName] string? propertyName = null)
     {
-        if (SetProperty(ref storage, value, propertyName))
+        if (!SetProperty(ref storage, value, propertyName))
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
-                appDbContext.Settings.AddAndSave(new(key, value));
-            }
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.AddAndSave(new(key, value));
         }
     }
 
@@ -166,14 +178,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     protected bool SetOption(ref bool? storage, string key, bool value, [CallerMemberName] string? propertyName = null)
     {
         bool set = SetProperty(ref storage, value, propertyName);
-        if (set)
+        if (!set)
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
-                appDbContext.Settings.AddAndSave(new(key, value.ToString()));
-            }
+            return set;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.AddAndSave(new(key, value.ToString()));
         }
 
         return set;
@@ -188,14 +202,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     /// <param name="propertyName">属性名称</param>
     protected void SetOption(ref int? storage, string key, int value, [CallerMemberName] string? propertyName = null)
     {
-        if (SetProperty(ref storage, value, propertyName))
+        if (!SetProperty(ref storage, value, propertyName))
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
-                appDbContext.Settings.AddAndSave(new(key, value.ToString()));
-            }
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.AddAndSave(new(key, value.ToString()));
         }
     }
 
@@ -211,14 +227,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer, [CallerMemberName] string? propertyName = null)
         where T : class
     {
-        if (SetProperty(ref storage, value, propertyName))
+        if (!SetProperty(ref storage, value, propertyName))
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
-                appDbContext.Settings.AddAndSave(new(key, serializer(value)));
-            }
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.AddAndSave(new(key, serializer(value)));
         }
     }
 
@@ -234,14 +252,16 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     protected void SetOption<T>(ref T? storage, string key, T value, Func<T, string> serializer, [CallerMemberName] string? propertyName = null)
         where T : struct
     {
-        if (SetProperty(ref storage, value, propertyName))
+        if (!SetProperty(ref storage, value, propertyName))
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
-                appDbContext.Settings.AddAndSave(new(key, serializer(value)));
-            }
+            return;
+        }
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
+            appDbContext.Settings.AddAndSave(new(key, serializer(value)));
         }
     }
 }

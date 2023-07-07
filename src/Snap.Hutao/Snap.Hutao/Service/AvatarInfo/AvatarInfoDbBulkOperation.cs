@@ -6,7 +6,6 @@ using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.AvatarInfo.Transformer;
-using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
@@ -105,10 +104,6 @@ internal sealed partial class AvatarInfoDbBulkOperation
                     List<RecordCharacter> characters = charactersResponse.Data.Avatars;
 
                     GameRecordCharacterAvatarInfoTransformer transformer = serviceProvider.GetRequiredService<GameRecordCharacterAvatarInfoTransformer>();
-                    transformer.IdAvatarMap = await serviceProvider
-                        .GetRequiredService<IMetadataService>()
-                        .GetIdToAvatarMapAsync(token)
-                        .ConfigureAwait(false);
 
                     foreach (RecordCharacter character in characters)
                     {

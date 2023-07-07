@@ -31,8 +31,8 @@ internal sealed class TypedWishSummaryBuilder
     public static readonly Func<GachaConfigType, bool> IsWeaponEventWish = type => type is GachaConfigType.WeaponEventWish;
 
     private readonly string name;
-    private readonly int guarenteeOrangeThreshold;
-    private readonly int guarenteePurpleThreshold;
+    private readonly int guaranteeOrangeThreshold;
+    private readonly int guaranteePurpleThreshold;
     private readonly Func<GachaConfigType, bool> typeEvaluator;
 
     private readonly List<int> averageOrangePullTracker = new();
@@ -57,14 +57,14 @@ internal sealed class TypedWishSummaryBuilder
     /// </summary>
     /// <param name="name">祈愿配置</param>
     /// <param name="typeEvaluator">祈愿类型判断器</param>
-    /// <param name="guarenteeOrangeThreshold">五星保底</param>
-    /// <param name="guarenteePurpleThreshold">四星保底</param>
-    public TypedWishSummaryBuilder(string name, Func<GachaConfigType, bool> typeEvaluator, int guarenteeOrangeThreshold, int guarenteePurpleThreshold)
+    /// <param name="guaranteeOrangeThreshold">五星保底</param>
+    /// <param name="guaranteePurpleThreshold">四星保底</param>
+    public TypedWishSummaryBuilder(string name, Func<GachaConfigType, bool> typeEvaluator, int guaranteeOrangeThreshold, int guaranteePurpleThreshold)
     {
         this.name = name;
         this.typeEvaluator = typeEvaluator;
-        this.guarenteeOrangeThreshold = guarenteeOrangeThreshold;
-        this.guarenteePurpleThreshold = guarenteePurpleThreshold;
+        this.guaranteeOrangeThreshold = guaranteeOrangeThreshold;
+        this.guaranteePurpleThreshold = guaranteePurpleThreshold;
     }
 
     /// <summary>
@@ -142,9 +142,9 @@ internal sealed class TypedWishSummaryBuilder
             MaxOrangePull = maxOrangePullTracker,
             MinOrangePull = minOrangePullTracker,
             LastOrangePull = lastOrangePullTracker,
-            GuaranteeOrangeThreshold = guarenteeOrangeThreshold,
+            GuaranteeOrangeThreshold = guaranteeOrangeThreshold,
             LastPurplePull = lastPurplePullTracker,
-            GuaranteePurpleThreshold = guarenteePurpleThreshold,
+            GuaranteePurpleThreshold = guaranteePurpleThreshold,
             TotalOrangePull = totalOrangePullTracker,
             TotalPurplePull = totalPurplePullTracker,
             TotalBluePull = totalBluePullTracker,

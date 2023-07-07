@@ -44,7 +44,7 @@ internal sealed class SummaryMetadataContext
     /// <summary>
     /// 圣遗物等级
     /// </summary>
-    public List<ReliquaryMainAffixLevel> ReliqueryLevels { get; set; } = default!;
+    public List<ReliquaryMainAffixLevel> ReliquaryLevels { get; set; } = default!;
 
     /// <summary>
     /// 圣遗物

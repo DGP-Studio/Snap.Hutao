@@ -10,9 +10,9 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// <summary>
 /// 祈愿配置类型比较器
 /// </summary>
-internal sealed class GachaConfigTypeComparar : IComparer<GachaConfigType>
+internal sealed class GachaConfigTypeComparer : IComparer<GachaConfigType>
 {
-    private static readonly GachaConfigTypeComparar InnerShared = new();
+    private static readonly GachaConfigTypeComparer InnerShared = new();
     private static readonly ImmutableDictionary<GachaConfigType, int> OrderMap = new Dictionary<GachaConfigType, int>()
     {
         [GachaConfigType.AvatarEventWish] = 0,
@@ -25,7 +25,7 @@ internal sealed class GachaConfigTypeComparar : IComparer<GachaConfigType>
     /// <summary>
     /// 共享的比较器
     /// </summary>
-    public static GachaConfigTypeComparar Shared { get => InnerShared; }
+    public static GachaConfigTypeComparer Shared { get => InnerShared; }
 
     /// <inheritdoc/>
     public int Compare(GachaConfigType x, GachaConfigType y)

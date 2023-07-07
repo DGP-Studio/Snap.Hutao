@@ -18,9 +18,9 @@ internal static class SummaryAvatarProperties
     /// </summary>
     /// <param name="fightPropMap">属性映射</param>
     /// <returns>列表</returns>
-    public static List<AvatarProperty> Create(Dictionary<FightProperty, float> fightPropMap)
+    public static List<AvatarProperty> Create(Dictionary<FightProperty, float>? fightPropMap)
     {
-        if (fightPropMap == null)
+        if (fightPropMap is null)
         {
             return new();
         }

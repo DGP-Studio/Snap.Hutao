@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model;
 /// <typeparam name="TEntity">实体</typeparam>
 /// <typeparam name="TMetadata">元数据</typeparam>
 [HighQuality]
-internal interface IEntityWithMetadata<TEntity, TMetadata>
+internal interface IEntityWithMetadata<out TEntity, out TMetadata>
 {
     /// <summary>
     /// 实体

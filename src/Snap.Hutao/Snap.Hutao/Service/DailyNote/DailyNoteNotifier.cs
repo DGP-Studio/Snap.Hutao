@@ -57,8 +57,6 @@ internal sealed class DailyNoteNotifier
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             DailyNoteOptions options = scope.ServiceProvider.GetRequiredService<DailyNoteOptions>();
-            BindingClient bindingClient = scope.ServiceProvider.GetRequiredService<BindingClient>();
-            AuthClient authClient = scope.ServiceProvider.GetRequiredService<AuthClient>();
 
             string? attribution = SH.ServiceDailyNoteNotifierAttribution;
 

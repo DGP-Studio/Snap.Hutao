@@ -29,6 +29,7 @@ internal sealed class Weapon
     /// 精炼 相较于实际等级 -1
     /// Weapon Refinement Level [0-4]
     /// </summary>
+    [MaybeNull]
     [JsonPropertyName("affixMap")]
     public Dictionary<EquipAffixId, WeaponAffixLevel> AffixMap { get; set; } = default!;
 }

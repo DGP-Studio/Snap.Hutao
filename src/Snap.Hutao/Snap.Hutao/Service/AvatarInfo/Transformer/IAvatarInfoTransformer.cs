@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Transformer;
 /// </summary>
 /// <typeparam name="TSource">源类型</typeparam>
 [HighQuality]
-internal interface IAvatarInfoTransformer<TSource>
+internal interface IAvatarInfoTransformer<in TSource>
 {
     /// <summary>
     /// 合并到角色信息

@@ -66,7 +66,7 @@ internal sealed class SummaryReliquaryFactory
             result.PrimarySubProperties = new(span[..^affixCount].ToArray());
             result.SecondarySubProperties = new(span[^affixCount..].ToArray());
             result.ComposedSubProperties = equip.Flat.ReliquarySubstats!.SelectList(CreateComposedSubProperty);
-            ReliquaryMainAffixLevel relicLevel = metadataContext.ReliqueryLevels.Single(r => r.Level == equip.Reliquary!.Level && r.Rank == reliquary.RankLevel);
+            ReliquaryMainAffixLevel relicLevel = metadataContext.ReliquaryLevels.Single(r => r.Level == equip.Reliquary!.Level && r.Rank == reliquary.RankLevel);
             FightProperty property = metadataContext.IdReliquaryMainAffixMap[equip.Reliquary.MainPropId];
 
             result.MainProperty = FightPropertyFormat.ToNameValue(property, relicLevel.PropertyMap[property]);
@@ -116,7 +116,7 @@ internal sealed class SummaryReliquaryFactory
         if (equip.Flat.EquipType > EquipType.EQUIP_SHOES)
         {
             ReliquaryAffixWeight affixWeight = metadataContext.IdReliquaryAffixWeightMap.GetValueOrDefault(avatarInfo.AvatarId, ReliquaryAffixWeight.Default);
-            ReliquaryMainAffixLevel maxRelicLevel = metadataContext.ReliqueryLevels.Where(r => r.Rank == reliquary.RankLevel).MaxBy(r => r.Level)!;
+            ReliquaryMainAffixLevel maxRelicLevel = metadataContext.ReliquaryLevels.Where(r => r.Rank == reliquary.RankLevel).MaxBy(r => r.Level)!;
 
             float percent = relicLevel.PropertyMap[property] / maxRelicLevel.PropertyMap[property];
             float baseScore = 8 * percent * affixWeight[property];
@@ -136,9 +136,9 @@ internal sealed class SummaryReliquaryFactory
         FormatMethod method = substat.AppendPropId.GetFormatMethod();
         string valueFormatted = method switch
         {
-            FormatMethod.Integer => Math.Round((double)substat.StatValue, MidpointRounding.AwayFromZero).ToString(),
+            FormatMethod.Integer => $"{MathF.Round(substat.StatValue, MidpointRounding.AwayFromZero)}",
             FormatMethod.Percent => $"{substat.StatValue}%",
-            _ => substat.StatValue.ToString(),
+            _ => $"{substat.StatValue}",
         };
 
         return new(substat.AppendPropId.GetLocalizedDescription(), valueFormatted, 0);

@@ -61,7 +61,7 @@ internal sealed partial class AchievementDbBulkOperation
                             EntityAchievement? entity = entityEnumerator.Current;
                             UIAFItem? uiaf = uiafEnumerator.Current;
 
-                            if (entity == null && uiaf != null)
+                            if (entity is null && uiaf is not null)
                             {
                                 appDbContext.Achievements.AddAndSave(EntityAchievement.Create(archiveId, uiaf));
                                 add++;
@@ -146,7 +146,7 @@ internal sealed partial class AchievementDbBulkOperation
                             EntityAchievement? oldEntity = oldDataEnumerator.Current;
                             EntityAchievement? newEntity = newDataEnumerator.Current;
 
-                            if (oldEntity == null && newEntity != null)
+                            if (oldEntity is null && newEntity is not null)
                             {
                                 appDbContext.Achievements.AddAndSave(newEntity);
                                 add++;

@@ -123,7 +123,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             HistoryWishes = historyWishBuilders
                 .Where(b => isEmptyHistoryWishVisible || (!b.IsEmpty))
                 .OrderByDescending(builder => builder.From)
-                .ThenBy(builder => builder.ConfigType, GachaConfigTypeComparar.Shared)
+                .ThenBy(builder => builder.ConfigType, GachaConfigTypeComparer.Shared)
                 .Select(builder => builder.ToHistoryWish())
                 .ToList(),
 

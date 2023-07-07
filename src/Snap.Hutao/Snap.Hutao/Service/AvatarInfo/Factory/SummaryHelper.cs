@@ -39,9 +39,9 @@ internal static class SummaryHelper
     /// <param name="proudSkillExtraLevelMap">额外提升等级映射</param>
     /// <param name="proudSkills">技能列表</param>
     /// <returns>技能</returns>
-    public static List<SkillView> CreateSkills(Dictionary<SkillId, SkillLevel> skillLevelMap, Dictionary<SkillGroupId, SkillLevel>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
+    public static List<SkillView> CreateSkills(Dictionary<SkillId, SkillLevel>? skillLevelMap, Dictionary<SkillGroupId, SkillLevel>? proudSkillExtraLevelMap, List<ProudableSkill> proudSkills)
     {
-        if (skillLevelMap == null)
+        if (skillLevelMap is null)
         {
             return new();
         }
@@ -80,7 +80,7 @@ internal static class SummaryHelper
     /// <returns>最大属性Id</returns>
     public static ReliquarySubAffixId GetAffixMaxId(in ReliquarySubAffixId appendId)
     {
-        uint value = (uint)appendId / 100000U;
+        uint value = appendId / 100000U;
         uint max = value switch
         {
             1 => 2,
@@ -131,9 +131,9 @@ internal static class SummaryHelper
     /// </summary>
     /// <param name="fightPropMap">属性</param>
     /// <returns>评分</returns>
-    public static float ScoreCrit(Dictionary<FightProperty, float> fightPropMap)
+    public static float ScoreCrit(Dictionary<FightProperty, float>? fightPropMap)
     {
-        if (fightPropMap == null)
+        if (fightPropMap is null)
         {
             return 0F;
         }

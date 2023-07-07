@@ -52,7 +52,7 @@ internal sealed partial class AchievementService : IAchievementService
 
         return metadata.SelectList(meta =>
         {
-            EntityAchievement? entity = entityMap.GetValueOrDefault(meta.Id) ?? EntityAchievement.Create(archive.InnerId, meta.Id);
+            EntityAchievement entity = entityMap.GetValueOrDefault(meta.Id) ?? EntityAchievement.Create(archive.InnerId, meta.Id);
             return new AchievementView(entity, meta);
         });
     }

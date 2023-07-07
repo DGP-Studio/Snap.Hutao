@@ -24,6 +24,7 @@ internal sealed class AvatarInfo
     /// Character Info Properties List
     /// <see cref="PlayerProperty.PROP_EXP"/>
     /// </summary>
+    [MaybeNull]
     [JsonPropertyName("propMap")]
     public Dictionary<PlayerProperty, TypeValue> PropMap { get; set; } = default!;
 
@@ -65,6 +66,7 @@ internal sealed class AvatarInfo
     /// 最后一个为武器
     /// List of Equipments: Weapon, Artifacts
     /// </summary>
+    [MaybeNull]
     [JsonPropertyName("equipList")]
     public List<Equip> EquipList { get; set; } = default!;
 
@@ -72,6 +74,7 @@ internal sealed class AvatarInfo
     /// 好感度信息
     /// Character Friendship Level
     /// </summary>
+    [MaybeNull]
     [JsonPropertyName("fetterInfo")]
     public FetterInfo FetterInfo { get; set; } = default!;
 

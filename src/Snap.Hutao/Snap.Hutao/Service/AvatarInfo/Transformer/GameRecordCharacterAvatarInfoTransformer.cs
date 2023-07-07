@@ -15,16 +15,9 @@ namespace Snap.Hutao.Service.AvatarInfo.Transformer;
 [Injection(InjectAs.Transient)]
 internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTransformer<Character>
 {
-    /// <summary>
-    /// Id 角色映射
-    /// </summary>
-    public Dictionary<AvatarId, Model.Metadata.Avatar.Avatar>? IdAvatarMap { get; set; }
-
     /// <inheritdoc/>
     public void Transform(ref Web.Enka.Model.AvatarInfo avatarInfo, Character source)
     {
-        Model.Metadata.Avatar.Avatar avatar = Must.NotNull(IdAvatarMap!)[source.Id];
-
         // update fetter
         avatarInfo.FetterInfo ??= new();
         avatarInfo.FetterInfo.ExpLevel = source.Fetter;
@@ -45,7 +38,7 @@ internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTran
         });
 
         Equip? equipTest = avatarInfo.EquipList.LastOrDefault();
-        if (equipTest == null || equipTest.Weapon == null)
+        if (equipTest?.Weapon is null)
         {
             // 不存在武器则添加
             avatarInfo.EquipList.Add(new());

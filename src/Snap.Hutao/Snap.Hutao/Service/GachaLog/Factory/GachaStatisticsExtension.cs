@@ -29,6 +29,11 @@ internal static class GachaStatisticsExtension
             count++;
         }
 
+        if (count == 0)
+        {
+            return 0;
+        }
+
         return unchecked((byte)(sum / count));
     }
 

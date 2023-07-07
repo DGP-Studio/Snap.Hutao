@@ -110,7 +110,7 @@ internal sealed partial class CultivationService : ICultivationService
 
             List<Material> materials = await scope.ServiceProvider
                 .GetRequiredService<IMetadataService>()
-                .GetMaterialsAsync(default)
+                .GetMaterialsAsync(token)
                 .ConfigureAwait(false);
 
             Guid projectId = cultivateProject.InnerId;
@@ -126,13 +126,13 @@ internal sealed partial class CultivationService : ICultivationService
                         continue;
                     }
 
-                    if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is StatisticsCultivateItem existedItem)
+                    if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is { } existedItem)
                     {
                         existedItem.Count += item.Count;
                     }
                     else
                     {
-                        resultItems.Add(new(materials!.Single(m => m.Id == item.ItemId), item));
+                        resultItems.Add(new(materials.Single(m => m.Id == item.ItemId), item));
                     }
                 }
             }
@@ -141,7 +141,7 @@ internal sealed partial class CultivationService : ICultivationService
 
             foreach (InventoryItem inventoryItem in await GetProjectInventoryAsync(appDbContext, projectId).ConfigureAwait(false))
             {
-                if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is StatisticsCultivateItem existedItem)
+                if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
                 {
                     existedItem.TotalCount += inventoryItem.Count;
                 }
