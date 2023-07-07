@@ -167,6 +167,9 @@ csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_readonly_struct = true:suggestion
 csharp_style_prefer_utf8_string_literals = true:suggestion
 
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = none
+
 [*.vb]
 #### 命名样式 ####
 

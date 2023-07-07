@@ -114,17 +114,6 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task RefreshUidCollectionAsync()
-    {
-        Response<List<string>> resp = await hutaoCloudService.GetUidsAsync().ConfigureAwait(false);
-
-        await taskContext.SwitchToMainThreadAsync();
-        if (Options.IsCloudServiceAllowed = resp.IsOk())
-        {
-            Uids = resp.Data!.ToObservableCollection();
-        }
-    }
-
     [Command("NavigateToSpiralAbyssRecordCommand")]
     private void NavigateToSpiralAbyssRecord()
     {
@@ -137,5 +126,16 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     private async Task NavigateToAfdianSkuAsync()
     {
         await Windows.System.Launcher.LaunchUriAsync("https://afdian.net/item/80d3b9decf9011edb5f452540025c377".ToUri());
+    }
+
+    private async Task RefreshUidCollectionAsync()
+    {
+        Response<List<string>> resp = await hutaoCloudService.GetUidsAsync().ConfigureAwait(false);
+
+        await taskContext.SwitchToMainThreadAsync();
+        if (Options.IsCloudServiceAllowed = resp.IsOk())
+        {
+            Uids = resp.Data!.ToObservableCollection();
+        }
     }
 }

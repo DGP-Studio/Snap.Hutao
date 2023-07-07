@@ -87,6 +87,9 @@ internal static class AvatarIds
     public static readonly AvatarId Mika = 10000080;
     public static readonly AvatarId Kaveh = 10000081;
     public static readonly AvatarId Baizhuer = 10000082;
+    public static readonly AvatarId Lynette = 10000083;
+    public static readonly AvatarId Lyney = 10000084;
+    public static readonly AvatarId Freminet = 10000085;
 
     /// <summary>
     /// 检查该角色是否为主角

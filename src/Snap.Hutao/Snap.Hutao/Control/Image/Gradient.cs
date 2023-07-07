@@ -13,30 +13,11 @@ namespace Snap.Hutao.Control.Image;
 /// 渐变图像
 /// </summary>
 [HighQuality]
-internal sealed class Gradient : CompositionImage
+[DependencyProperty("BackgroundDirection", typeof(GradientDirection), GradientDirection.TopToBottom)]
+[DependencyProperty("ForegroundDirection", typeof(GradientDirection), GradientDirection.TopToBottom)]
+internal sealed partial class Gradient : CompositionImage
 {
-    private static readonly DependencyProperty BackgroundDirectionProperty = Property<Gradient>.Depend(nameof(BackgroundDirection), GradientDirection.TopToBottom);
-    private static readonly DependencyProperty ForegroundDirectionProperty = Property<Gradient>.Depend(nameof(ForegroundDirection), GradientDirection.TopToBottom);
-
     private double imageAspectRatio;
-
-    /// <summary>
-    /// 背景方向
-    /// </summary>
-    public GradientDirection BackgroundDirection
-    {
-        get => (GradientDirection)GetValue(BackgroundDirectionProperty);
-        set => SetValue(BackgroundDirectionProperty, value);
-    }
-
-    /// <summary>
-    /// 前景方向
-    /// </summary>
-    public GradientDirection ForegroundDirection
-    {
-        get => (GradientDirection)GetValue(ForegroundDirectionProperty);
-        set => SetValue(ForegroundDirectionProperty, value);
-    }
 
     /// <inheritdoc/>
     protected override void OnUpdateVisual(SpriteVisual spriteVisual)

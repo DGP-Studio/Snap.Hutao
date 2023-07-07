@@ -20,10 +20,10 @@ namespace Snap.Hutao.Control.Image;
 /// 为其他图像类控件提供基类
 /// </summary>
 [HighQuality]
-internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
+[DependencyProperty("EnableLazyLoading", typeof(bool), true)]
+internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 {
     private static readonly DependencyProperty SourceProperty = Property<CompositionImage>.Depend(nameof(Source), default(Uri), OnSourceChanged);
-    private static readonly DependencyProperty EnableLazyLoadingProperty = Property<CompositionImage>.DependBoxed<bool>(nameof(EnableLazyLoading), BoxedValues.True);
     private static readonly ConcurrentCancellationTokenSource<CompositionImage> LoadingTokenSource = new();
 
     private readonly IServiceProvider serviceProvider;
@@ -55,15 +55,6 @@ internal abstract class CompositionImage : Microsoft.UI.Xaml.Controls.Control
     {
         get => (Uri)GetValue(SourceProperty);
         set => SetValue(SourceProperty, value);
-    }
-
-    /// <summary>
-    /// 启用延迟加载
-    /// </summary>
-    public bool EnableLazyLoading
-    {
-        get => (bool)GetValue(EnableLazyLoadingProperty);
-        set => SetValue(EnableLazyLoadingProperty, value);
     }
 
     /// <summary>

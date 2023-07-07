@@ -10,30 +10,10 @@ namespace Snap.Hutao.Control.Behavior;
 /// 在元素加载完成后执行命令的行为
 /// </summary>
 [HighQuality]
-internal sealed class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
+[DependencyProperty("Command", typeof(ICommand))]
+[DependencyProperty("CommandParameter", typeof(object))]
+internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIElement>
 {
-    private static readonly DependencyProperty CommandProperty = Property<InvokeCommandOnLoadedBehavior>.Depend<ICommand>(nameof(Command));
-    private static readonly DependencyProperty CommandParameterProperty = Property<InvokeCommandOnLoadedBehavior>.Depend<object>(nameof(CommandParameter));
-
-    /// <summary>
-    /// 待执行的命令
-    /// </summary>
-    public ICommand Command
-    {
-        get => (ICommand)GetValue(CommandProperty);
-        set => SetValue(CommandProperty, value);
-    }
-
-    /// <summary>
-    /// 命令参数
-    /// </summary>
-    [MaybeNull]
-    public object CommandParameter
-    {
-        get => GetValue(CommandParameterProperty);
-        set => SetValue(CommandParameterProperty, value);
-    }
-
     /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()
     {

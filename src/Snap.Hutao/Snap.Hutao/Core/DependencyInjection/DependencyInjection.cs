@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Logging;
 using Snap.Hutao.Service;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using Windows.Globalization;
 
 namespace Snap.Hutao.Core.DependencyInjection;
@@ -46,6 +47,7 @@ internal static class DependencyInjection
         return serviceProvider;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static IServiceProvider InitializeCulture(this IServiceProvider serviceProvider)
     {
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();

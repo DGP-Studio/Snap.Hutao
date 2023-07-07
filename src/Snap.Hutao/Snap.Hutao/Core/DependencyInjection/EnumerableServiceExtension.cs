@@ -18,6 +18,7 @@ internal static class EnumerableServiceExtension
     /// <param name="services">服务集合</param>
     /// <param name="name">名称</param>
     /// <returns>对应的服务</returns>
+    [Obsolete("该方法会导致不必要的服务实例化")]
     public static TService Pick<TService>(this IEnumerable<TService> services, string name)
         where TService : INamedService
     {
@@ -31,6 +32,7 @@ internal static class EnumerableServiceExtension
     /// <param name="services">服务集合</param>
     /// <param name="isOversea">是否为海外服/Hoyolab</param>
     /// <returns>对应的服务</returns>
+    [Obsolete("该方法会导致不必要的服务实例化")]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TService Pick<TService>(this IEnumerable<TService> services, bool isOversea)
         where TService : IOverseaSupport
@@ -45,6 +47,7 @@ internal static class EnumerableServiceExtension
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="isOversea">是否为海外服/Hoyolab</param>
     /// <returns>对应的服务</returns>
+    [Obsolete("该方法会导致不必要的服务实例化")]
     public static TService PickRequiredService<TService>(this IServiceProvider serviceProvider, bool isOversea)
         where TService : IOverseaSupport
     {
