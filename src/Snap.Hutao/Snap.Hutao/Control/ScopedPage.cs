@@ -64,7 +64,7 @@ internal class ScopedPage : Page
     /// </summary>
     /// <param name="extra">额外内容</param>
     /// <returns>任务</returns>
-    public async Task NotifyRecipentAsync(INavigationData extra)
+    public async Task NotifyRecipientAsync(INavigationData extra)
     {
         if (extra.Data != null && DataContext is INavigationRecipient recipient)
         {
@@ -100,7 +100,7 @@ internal class ScopedPage : Page
     {
         if (e.Parameter is INavigationData extra)
         {
-            NotifyRecipentAsync(extra).SafeForget();
+            NotifyRecipientAsync(extra).SafeForget();
         }
     }
 

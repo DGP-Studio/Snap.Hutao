@@ -33,7 +33,8 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             ? GameConstants.GenshinImpactData
             : GameConstants.YuanShenData;
 
-        return Path.Combine(Path.GetDirectoryName(path)!, dataFolder, @"webCaches\Cache\Cache_Data\data_2");
+        // TODO: make sure how the cache file located.
+        return Path.Combine(Path.GetDirectoryName(path)!, dataFolder, @"webCaches\2.13.0.1\Cache\Cache_Data\data_2");
     }
 
     /// <inheritdoc/>

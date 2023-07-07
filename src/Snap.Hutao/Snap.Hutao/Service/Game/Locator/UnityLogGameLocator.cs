@@ -27,16 +27,16 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
 
         string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         string logFilePathChinese = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\原神\output_log.txt");
-        string logFilePathOvsesea = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\Genshin Impact\output_log.txt");
+        string logFilePathOversea = Path.Combine(appDataPath, @"..\LocalLow\miHoYo\Genshin Impact\output_log.txt");
 
         // Fallback to the CN server.
-        string logFilePathFinal = File.Exists(logFilePathOvsesea) ? logFilePathOvsesea : logFilePathChinese;
+        string logFilePathFinal = File.Exists(logFilePathOversea) ? logFilePathOversea : logFilePathChinese;
 
         using (TempFile? tempFile = TempFile.CopyFrom(logFilePathFinal))
         {
             if (tempFile != null)
             {
-                string content = File.ReadAllText(tempFile.Path);
+                string content = await File.ReadAllTextAsync(tempFile.Path).ConfigureAwait(false);
 
                 Match matchResult = WarmupFileLine().Match(content);
                 if (!matchResult.Success)

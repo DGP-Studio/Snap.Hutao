@@ -25,6 +25,7 @@ internal static partial class IocHttpClientConfiguration
     /// <summary>
     /// 默认配置
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="client">配置后的客户端</param>
     private static void DefaultConfiguration(IServiceProvider serviceProvider, HttpClient client)
     {
@@ -68,7 +69,7 @@ internal static partial class IocHttpClientConfiguration
 
     /// <summary>
     /// 对于需要添加动态密钥的客户端使用此配置
-    /// Hoyolab app
+    /// HoYoLAB app
     /// </summary>
     /// <param name="client">配置后的客户端</param>
     private static void XRpc3Configuration(HttpClient client)
@@ -84,7 +85,7 @@ internal static partial class IocHttpClientConfiguration
 
     /// <summary>
     /// 对于需要添加动态密钥的客户端使用此配置
-    /// Hoyolab web
+    /// HoYoLAB web
     /// </summary>
     /// <param name="client">配置后的客户端</param>
     private static void XRpc4Configuration(HttpClient client)

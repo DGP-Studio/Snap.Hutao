@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.DependencyInjection;
 /// 对象扩展
 /// </summary>
 [HighQuality]
-internal static class CastableServiceExtension
+internal static class CastServiceExtension
 {
     /// <summary>
     /// <see langword="as"/> 的链式调用扩展
@@ -17,7 +17,7 @@ internal static class CastableServiceExtension
     /// <typeparam name="T">目标转换类型</typeparam>
     /// <param name="service">对象</param>
     /// <returns>转换类型后的对象</returns>
-    public static T? As<T>(this ICastableService service)
+    public static T? As<T>(this ICastService service)
         where T : class
     {
         return service as T;

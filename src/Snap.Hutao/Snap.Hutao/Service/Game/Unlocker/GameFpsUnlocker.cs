@@ -21,7 +21,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 {
     private readonly Process gameProcess;
     private readonly LaunchOptions launchOptions;
-    private readonly ILogger<GameFpsUnlocker> logger;
     private readonly UnlockerStatus status = new();
 
     /// <summary>
@@ -37,7 +36,6 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     public GameFpsUnlocker(IServiceProvider serviceProvider, Process gameProcess)
     {
         launchOptions = serviceProvider.GetRequiredService<LaunchOptions>();
-        logger = serviceProvider.GetRequiredService<ILogger<GameFpsUnlocker>>();
         this.gameProcess = gameProcess;
     }
 
@@ -65,14 +63,14 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         memory = new VirtualMemory(unityPlayer.Size + userAssembly.Size);
         byte* lpBuffer = (byte*)memory.Pointer;
-        return ReadProcessMemory((HANDLE)process.Handle, (void*)unityPlayer.Address, lpBuffer, unityPlayer.Size, default)
-            && ReadProcessMemory((HANDLE)process.Handle, (void*)userAssembly.Address, lpBuffer + unityPlayer.Size, userAssembly.Size, default);
+        return ReadProcessMemory((HANDLE)process.Handle, (void*)unityPlayer.Address, lpBuffer, unityPlayer.Size)
+            && ReadProcessMemory((HANDLE)process.Handle, (void*)userAssembly.Address, lpBuffer + unityPlayer.Size, userAssembly.Size);
     }
 
     private static unsafe bool UnsafeReadProcessMemory(Process process, nuint baseAddress, out nuint value)
     {
         ulong temp = 0;
-        bool result = ReadProcessMemory((HANDLE)process.Handle, (void*)baseAddress, (byte*)&temp, 8, default);
+        bool result = ReadProcessMemory((HANDLE)process.Handle, (void*)baseAddress, (byte*)&temp, 8);
         if (!result)
         {
             ThrowHelper.InvalidOperation(SH.ServiceGameUnlockerReadProcessMemoryPointerAddressFailed, null);
@@ -84,13 +82,13 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
     private static unsafe bool UnsafeWriteProcessMemory(Process process, nuint baseAddress, int value)
     {
-        return WriteProcessMemory((HANDLE)process.Handle, (void*)baseAddress, &value, sizeof(int), default);
+        return WriteProcessMemory((HANDLE)process.Handle, (void*)baseAddress, &value, sizeof(int));
     }
 
     private static unsafe FindModuleResult UnsafeTryFindModule(in HANDLE hProcess, in ReadOnlySpan<char> moduleName, out Module module)
     {
         HMODULE[] buffer = new HMODULE[128];
-        uint actualSize = 0;
+        uint actualSize;
         fixed (HMODULE* pBuffer = buffer)
         {
             if (!K32EnumProcessModules(hProcess, pBuffer, unchecked((uint)(buffer.Length * sizeof(HMODULE))), out actualSize))
@@ -158,7 +156,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         return -1;
     }
 
-    private static unsafe FindModuleResult UnsafeGetGameModuleInfo(in HANDLE hProcess, out GameModule info)
+    private static FindModuleResult UnsafeGetGameModuleInfo(in HANDLE hProcess, out GameModule info)
     {
         FindModuleResult unityPlayerResult = UnsafeTryFindModule(hProcess, "UnityPlayer.dll", out Module unityPlayer);
         FindModuleResult userAssemblyResult = UnsafeTryFindModule(hProcess, "UserAssembly.dll", out Module userAssembly);

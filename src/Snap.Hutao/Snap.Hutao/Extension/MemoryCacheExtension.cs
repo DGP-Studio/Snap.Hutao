@@ -19,12 +19,12 @@ internal static class MemoryCacheExtension
     /// <returns>是否移除成功</returns>
     public static bool TryRemove(this IMemoryCache memoryCache, string key, out object? value)
     {
-        if (memoryCache.TryGetValue(key, out value))
+        if (!memoryCache.TryGetValue(key, out value))
         {
-            memoryCache.Remove(key);
-            return true;
+            return false;
         }
 
-        return false;
+        memoryCache.Remove(key);
+        return true;
     }
 }

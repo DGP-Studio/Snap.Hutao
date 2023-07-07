@@ -36,19 +36,19 @@ internal static class WeaponFilter
                 continue;
             }
 
-            if (IntrinsicImmutables.WeaponTypes.Contains(value))
+            if (IntrinsicImmutable.WeaponTypes.Contains(value))
             {
                 matches.Add(weapon.WeaponType.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutables.ItemQualities.Contains(value))
+            if (IntrinsicImmutable.ItemQualities.Contains(value))
             {
                 matches.Add(weapon.Quality.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutables.FightProperties.Contains(value))
+            if (IntrinsicImmutable.FightProperties.Contains(value))
             {
                 matches.Add(weapon.GrowCurves.ElementAtOrDefault(1)?.Type.GetLocalizedDescriptionOrDefault() == value);
                 continue;

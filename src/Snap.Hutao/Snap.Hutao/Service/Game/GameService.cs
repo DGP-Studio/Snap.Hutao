@@ -29,14 +29,11 @@ namespace Snap.Hutao.Service.Game;
 [Injection(InjectAs.Singleton, typeof(IGameService))]
 internal sealed partial class GameService : IGameService
 {
-    private const string GamePathKey = $"{nameof(GameService)}.Cache.{SettingEntry.GamePath}";
-
     private readonly PackageConverter packageConverter;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
     private readonly HutaoOptions hutaoOptions;
     private readonly ITaskContext taskContext;
-    private readonly IMemoryCache memoryCache;
     private readonly AppOptions appOptions;
 
     private volatile int runningGamesCounter;
@@ -277,12 +274,12 @@ internal sealed partial class GameService : IGameService
 
         try
         {
-            bool isfirstInstance = Interlocked.Increment(ref runningGamesCounter) == 1;
+            bool isFirstInstance = Interlocked.Increment(ref runningGamesCounter) == 1;
 
             game.Start();
 
             bool isAdvancedOptionsAllowed = hutaoOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled;
-            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isfirstInstance)
+            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isFirstInstance)
             {
                 ProcessInterop.DisableProtection(game, gamePath);
             }

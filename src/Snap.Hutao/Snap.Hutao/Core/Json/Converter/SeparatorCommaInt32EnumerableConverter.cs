@@ -16,7 +16,7 @@ internal sealed class SeparatorCommaInt32EnumerableConverter : JsonConverter<IEn
     /// <inheritdoc/>
     public override IEnumerable<int> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.GetString() is string source)
+        if (reader.GetString() is { } source)
         {
             return EnumerateNumbers(source);
         }
@@ -32,7 +32,7 @@ internal sealed class SeparatorCommaInt32EnumerableConverter : JsonConverter<IEn
 
     private static IEnumerable<int> EnumerateNumbers(string source)
     {
-        foreach (StringSegment id in new StringTokenizer(source, Comma.Enumerate().ToArray()))
+        foreach (StringSegment id in new StringTokenizer(source, new[] { Comma }))
         {
             yield return int.Parse(id.AsSpan());
         }

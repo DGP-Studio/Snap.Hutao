@@ -4,12 +4,12 @@
 namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 
 /// <summary>
-/// 海外服/Hoyolab 可区分
+/// 海外服/HoYoLAB 可区分
 /// </summary>
 internal interface IOverseaSupport
 {
     /// <summary>
-    /// 是否为 海外服/Hoyolab
+    /// 是否为 海外服/HoYoLAB
     /// </summary>
     public bool IsOversea { get; }
 }

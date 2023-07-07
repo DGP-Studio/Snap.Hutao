@@ -44,7 +44,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
                 options.LoginSucceed(userName, response.Data);
 
                 await taskContext.SwitchToBackgroundAsync();
-                Web.Response.Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(response.Data).ConfigureAwait(false);
+                Web.Response.Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(response.Data, token).ConfigureAwait(false);
                 if (userInfoResponse.IsOk())
                 {
                     await taskContext.SwitchToMainThreadAsync();

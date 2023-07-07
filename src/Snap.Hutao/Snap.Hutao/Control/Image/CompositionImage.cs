@@ -34,7 +34,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
     /// <summary>
     /// 构造一个新的单色图像
     /// </summary>
-    public CompositionImage()
+    protected CompositionImage()
     {
         serviceProvider = Ioc.Default;
 
@@ -74,7 +74,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
     protected virtual async Task<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
     {
         TaskCompletionSource loadCompleteTaskSource = new();
-        LoadedImageSurface surface = LoadedImageSurface.StartLoadFromUri(new(file));
+        LoadedImageSurface surface = LoadedImageSurface.StartLoadFromUri(file.ToUri());
         surface.LoadCompleted += (s, e) => loadCompleteTaskSource.TrySetResult();
         await loadCompleteTaskSource.Task.ConfigureAwait(true);
         return surface;

@@ -82,7 +82,6 @@ internal struct GachaLogFetchContext
     /// <summary>
     /// 为下一个物品页面重置
     /// </summary>
-    /// <param name="configType">卡池类型</param>
     public void ResetForProcessingPage()
     {
         FetchStatus = new(CurrentType);

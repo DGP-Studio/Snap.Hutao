@@ -20,23 +20,24 @@ internal static class FileOperation
     /// <returns>是否发生了移动操作</returns>
     public static bool Move(string sourceFileName, string destFileName, bool overwrite)
     {
-        if (File.Exists(sourceFileName))
+        if (!File.Exists(sourceFileName))
         {
-            if (overwrite)
-            {
-                File.Move(sourceFileName, destFileName, true);
-                return true;
-            }
-            else
-            {
-                if (!File.Exists(destFileName))
-                {
-                    File.Move(sourceFileName, destFileName, false);
-                    return true;
-                }
-            }
+            return false;
         }
 
-        return false;
+        if (overwrite)
+        {
+            File.Move(sourceFileName, destFileName, true);
+            return true;
+        }
+
+        if (File.Exists(destFileName))
+        {
+            return false;
+        }
+
+        File.Move(sourceFileName, destFileName, false);
+        return true;
+
     }
 }

@@ -43,10 +43,10 @@ internal readonly struct ValueStopwatch
     /// <param name="logger">日志器</param>
     /// <param name="callerName">调用方法名称</param>
     /// <returns>结束测量</returns>
-    public static IDisposable MeasureExecution(ILogger logger, [CallerMemberName] string callerName = default!)
+    public static MeasureExecutionToken MeasureExecution(ILogger logger, [CallerMemberName] string callerName = default!)
     {
         ValueStopwatch stopwatch = StartNew();
-        return new MeasureExecutionDisposable(stopwatch, logger, callerName);
+        return new MeasureExecutionToken(stopwatch, logger, callerName);
     }
 
     /// <summary>
@@ -74,26 +74,5 @@ internal readonly struct ValueStopwatch
     public TimeSpan GetElapsedTime()
     {
         return new TimeSpan(GetElapsedTimestamp());
-    }
-}
-
-[SuppressMessage("", "SA1400")]
-[SuppressMessage("", "SA1600")]
-file readonly struct MeasureExecutionDisposable : IDisposable
-{
-    private readonly ValueStopwatch stopwatch;
-    private readonly ILogger logger;
-    private readonly string callerName;
-
-    public MeasureExecutionDisposable(in ValueStopwatch stopwatch, ILogger logger, string callerName)
-    {
-        this.stopwatch = stopwatch;
-        this.logger = logger;
-        this.callerName = callerName;
-    }
-
-    public void Dispose()
-    {
-        logger.LogInformation("{caller} toke {time} ms.", callerName, stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 }

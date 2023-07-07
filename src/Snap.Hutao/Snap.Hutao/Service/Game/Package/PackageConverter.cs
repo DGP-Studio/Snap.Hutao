@@ -322,11 +322,13 @@ internal sealed partial class PackageConverter
         {
             while (await reader.ReadLineAsync().ConfigureAwait(false) is string raw)
             {
-                if (!string.IsNullOrEmpty(raw))
+                if (string.IsNullOrEmpty(raw))
                 {
-                    VersionItem item = JsonSerializer.Deserialize<VersionItem>(raw, options)!;
-                    results.Add(item.RemoteName, item);
+                    continue;
                 }
+
+                VersionItem item = JsonSerializer.Deserialize<VersionItem>(raw, options)!;
+                results.Add(item.RemoteName, item);
             }
         }
 
@@ -341,25 +343,27 @@ internal sealed partial class PackageConverter
         {
             while (await reader.ReadLineAsync().ConfigureAwait(false) is string raw)
             {
-                if (!string.IsNullOrEmpty(raw))
+                if (string.IsNullOrEmpty(raw))
                 {
-                    VersionItem item = JsonSerializer.Deserialize<VersionItem>(raw, options)!;
-
-                    string remoteName = item.RemoteName;
-
-                    // 我们已经提前重命名了整个 Data 文件夹 所以需要将 RemoteName 中的 Data 同样替换
-                    if (remoteName.StartsWith(YuanShenData) || remoteName.StartsWith(GenshinImpactData))
-                    {
-                        remoteName = direction switch
-                        {
-                            ConvertDirection.OverseaToChinese => $"{YuanShenData}{remoteName[GenshinImpactData.Length..]}",
-                            ConvertDirection.ChineseToOversea => $"{GenshinImpactData}{remoteName[YuanShenData.Length..]}",
-                            _ => remoteName,
-                        };
-                    }
-
-                    results.Add(remoteName, item);
+                    continue;
                 }
+
+                VersionItem item = JsonSerializer.Deserialize<VersionItem>(raw, options)!;
+
+                string remoteName = item.RemoteName;
+
+                // 我们已经提前重命名了整个 Data 文件夹 所以需要将 RemoteName 中的 Data 同样替换
+                if (remoteName.StartsWith(YuanShenData) || remoteName.StartsWith(GenshinImpactData))
+                {
+                    remoteName = direction switch
+                    {
+                        ConvertDirection.OverseaToChinese => $"{YuanShenData}{remoteName[GenshinImpactData.Length..]}",
+                        ConvertDirection.ChineseToOversea => $"{GenshinImpactData}{remoteName[YuanShenData.Length..]}",
+                        _ => remoteName,
+                    };
+                }
+
+                results.Add(remoteName, item);
             }
         }
 

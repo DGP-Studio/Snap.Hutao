@@ -92,7 +92,8 @@
                                                             Margin="0,6,0,0"
                                                             HorizontalTextAlignment="Center"
                                                             Style="{StaticResource CaptionTextBlockStyle}"
-                                                            Text="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudDeveloperHint}"/>
+                                                            Text="{shcm:ResourceString Name=ViewPageGachaLogHutaoCloudDeveloperHint}"
+                                                            Visibility="{Binding HutaoCloudViewModel.Options.IsLicensedDeveloper, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                                     </StackPanel>
                                                 </Grid>
                                                 <ScrollViewer Grid.Row="1" Margin="0,0,0,8">

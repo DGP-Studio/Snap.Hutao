@@ -9,7 +9,7 @@ namespace Snap.Hutao.Core.Abstraction;
 /// <typeparam name="T1">元组的第一个类型</typeparam>
 /// <typeparam name="T2">元组的第二个类型</typeparam>
 [HighQuality]
-internal interface IDeconstructable<T1, T2>
+internal interface IDeconstruct<T1, T2>
 {
     /// <summary>
     /// 解构

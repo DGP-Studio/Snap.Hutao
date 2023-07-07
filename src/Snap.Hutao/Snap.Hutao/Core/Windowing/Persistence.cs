@@ -23,20 +23,20 @@ internal static class Persistence
     /// 设置窗体位置
     /// </summary>
     /// <typeparam name="TWindow">窗体类型</typeparam>
-    /// <param name="window">选项窗口param>
+    /// <param name="window">选项窗口</param>
     public static void RecoverOrInit<TWindow>(TWindow window)
         where TWindow : Window, IWindowOptionsSource
     {
         WindowOptions options = window.WindowOptions;
 
-        // Set first launch size.
+        // Set first launch size
         double scale = GetScaleForWindowHandle(options.Hwnd);
         SizeInt32 transformedSize = options.InitSize.Scale(scale);
         RectInt32 rect = StructMarshal.RectInt32(transformedSize);
 
         if (options.PersistSize)
         {
-            RectInt32 persistedRect = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (ulong)(CompactRect)rect);
+            RectInt32 persistedRect = (CompactRect)LocalSetting.Get(SettingKeys.WindowRect, (CompactRect)rect);
             if (persistedRect.Size() >= options.InitSize.Size())
             {
                 rect = persistedRect;
@@ -108,24 +108,24 @@ internal static class Persistence
         rect.Y = workAreaRect.Y + ((workAreaRect.Height - rect.Height) / 2);
     }
 
-    private struct CompactRect
+    private readonly struct CompactRect
     {
-        public short X;
-        public short Y;
-        public short Width;
-        public short Height;
+        private readonly short x;
+        private readonly short y;
+        private readonly short width;
+        private readonly short height;
 
         private CompactRect(int x, int y, int width, int height)
         {
-            X = (short)x;
-            Y = (short)y;
-            Width = (short)width;
-            Height = (short)height;
+            this.x = (short)x;
+            this.y = (short)y;
+            this.width = (short)width;
+            this.height = (short)height;
         }
 
         public static implicit operator RectInt32(CompactRect rect)
         {
-            return new(rect.X, rect.Y, rect.Width, rect.Height);
+            return new(rect.x, rect.y, rect.width, rect.height);
         }
 
         public static explicit operator CompactRect(RectInt32 rect)

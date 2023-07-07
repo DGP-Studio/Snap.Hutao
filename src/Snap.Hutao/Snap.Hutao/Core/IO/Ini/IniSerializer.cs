@@ -20,28 +20,28 @@ internal static class IniSerializer
     {
         using (StreamReader reader = new(fileStream))
         {
-            while (reader.ReadLine() is string line)
+            while (reader.ReadLine() is { } line)
             {
-                if (line.Length > 0)
+                if (line.Length <= 0)
                 {
-                    if (line[0] == '[')
-                    {
-                        yield return new IniSection(line[1..^1]);
-                    }
-
-                    if (line[0] == ';')
-                    {
-                        yield return new IniComment(line[1..]);
-                    }
-
-                    if (line.IndexOf('=') > 0)
-                    {
-                        string[] parameters = line.Split('=', 2);
-                        yield return new IniParameter(parameters[0], parameters[1]);
-                    }
+                    continue;
                 }
 
-                continue;
+                if (line[0] == '[')
+                {
+                    yield return new IniSection(line[1..^1]);
+                }
+
+                if (line[0] == ';')
+                {
+                    yield return new IniComment(line[1..]);
+                }
+
+                if (line.IndexOf('=') > 0)
+                {
+                    string[] parameters = line.Split('=', 2);
+                    yield return new IniParameter(parameters[0], parameters[1]);
+                }
             }
         }
     }

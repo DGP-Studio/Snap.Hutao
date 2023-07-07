@@ -23,7 +23,7 @@ internal abstract class ValueChangedMessage<TValue>
     /// </summary>
     /// <param name="oldValue">旧值</param>
     /// <param name="newValue">新值</param>
-    public ValueChangedMessage(TValue? oldValue, TValue? newValue)
+    protected ValueChangedMessage(TValue? oldValue, TValue? newValue)
     {
         OldValue = oldValue;
         NewValue = newValue;

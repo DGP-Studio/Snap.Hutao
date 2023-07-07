@@ -18,14 +18,9 @@ internal sealed class ItemIconConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        if (name.StartsWith("UI_RelicIcon_"))
-        {
-            return RelicIconConverter.IconNameToUri(name);
-        }
-        else
-        {
-            return Web.HutaoEndpoints.StaticFile("ItemIcon", $"{name}.png").ToUri();
-        }
+        return name.StartsWith("UI_RelicIcon_")
+            ? RelicIconConverter.IconNameToUri(name)
+            : Web.HutaoEndpoints.StaticFile("ItemIcon", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

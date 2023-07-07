@@ -192,7 +192,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("ResetStaticResourceCommand")]
     private void ResetStaticResource()
     {
-        StaticResource.UnfulfillAllContracts();
+        StaticResource.FailAllContracts();
         AppInstance.Restart(string.Empty);
     }
 

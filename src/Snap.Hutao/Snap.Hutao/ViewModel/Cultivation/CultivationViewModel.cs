@@ -185,7 +185,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         if (SelectedProject != null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            CancellationToken token = StatisticsCancellationTokenSource.CancelPreviousOne();
+            CancellationToken token = StatisticsCancellationTokenSource.Register();
             ObservableCollection<StatisticsCultivateItem> statistics;
             try
             {

@@ -29,9 +29,9 @@ internal sealed class MonoChrome : CompositionImage
     /// <inheritdoc/>
     protected override SpriteVisual CompositeSpriteVisual(Compositor compositor, LoadedImageSurface imageSurface)
     {
-        CompositionColorBrush blackLayerBursh = compositor.CreateColorBrush(Colors.Black);
+        CompositionColorBrush blackLayerBrush = compositor.CreateColorBrush(Colors.Black);
         CompositionSurfaceBrush imageSurfaceBrush = compositor.CompositeSurfaceBrush(imageSurface, stretch: CompositionStretch.Uniform, vRatio: 0f);
-        CompositionEffectBrush overlayBrush = compositor.CompositeBlendEffectBrush(blackLayerBursh, imageSurfaceBrush, BlendEffectMode.Overlay);
+        CompositionEffectBrush overlayBrush = compositor.CompositeBlendEffectBrush(blackLayerBrush, imageSurfaceBrush, BlendEffectMode.Overlay);
         CompositionEffectBrush opacityBrush = compositor.CompositeLuminanceToAlphaEffectBrush(overlayBrush);
 
         backgroundBrush = compositor.CreateColorBrush();

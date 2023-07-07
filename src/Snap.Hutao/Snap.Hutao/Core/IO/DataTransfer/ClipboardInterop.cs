@@ -21,17 +21,17 @@ internal sealed partial class ClipboardInterop : IClipboardInterop
         where T : class
     {
         await taskContext.SwitchToMainThreadAsync();
-        DataPackageView view = Windows.ApplicationModel.DataTransfer.Clipboard.GetContent();
+        DataPackageView view = Clipboard.GetContent();
 
-        if (view.Contains(StandardDataFormats.Text))
+        if (!view.Contains(StandardDataFormats.Text))
         {
-            string json = await view.GetTextAsync();
-
-            await taskContext.SwitchToBackgroundAsync();
-            return JsonSerializer.Deserialize<T>(json, options);
+            return null;
         }
 
-        return null;
+        string json = await view.GetTextAsync();
+
+        await taskContext.SwitchToBackgroundAsync();
+        return JsonSerializer.Deserialize<T>(json, options);
     }
 
     /// <inheritdoc/>
@@ -41,8 +41,8 @@ internal sealed partial class ClipboardInterop : IClipboardInterop
         {
             DataPackage content = new() { RequestedOperation = DataPackageOperation.Copy };
             content.SetText(text);
-            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(content);
-            Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+            Clipboard.SetContent(content);
+            Clipboard.Flush();
             return true;
         }
         catch
@@ -59,8 +59,8 @@ internal sealed partial class ClipboardInterop : IClipboardInterop
             RandomAccessStreamReference reference = RandomAccessStreamReference.CreateFromStream(stream);
             DataPackage content = new() { RequestedOperation = DataPackageOperation.Copy };
             content.SetBitmap(reference);
-            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(content);
-            Windows.ApplicationModel.DataTransfer.Clipboard.Flush();
+            Clipboard.SetContent(content);
+            Clipboard.Flush();
             return true;
         }
         catch

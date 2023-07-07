@@ -78,7 +78,7 @@ internal sealed class DescriptionTextBlock : ContentControl
             }
 
             // color tag
-            else if (description.Slice(i, 2).SequenceEqual("<c"))
+            else if (description.Slice(i, 2) is "<c")
             {
                 AppendText(text, description[last..i]);
                 Rgba32 color = new(description.Slice(i + 8, 8).ToString());
@@ -90,7 +90,7 @@ internal sealed class DescriptionTextBlock : ContentControl
             }
 
             // italic
-            else if (description.Slice(i, 2).SequenceEqual("<i"))
+            else if (description.Slice(i, 2) is "<i")
             {
                 AppendText(text, description[last..i]);
 

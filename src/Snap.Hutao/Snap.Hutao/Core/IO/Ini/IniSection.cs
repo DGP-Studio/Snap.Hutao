@@ -13,7 +13,6 @@ internal sealed class IniSection : IniElement
     /// 构造一个新的Ini 节
     /// </summary>
     /// <param name="name">名称</param>
-    /// <param name="elements">元素</param>
     public IniSection(string name)
     {
         Name = name;

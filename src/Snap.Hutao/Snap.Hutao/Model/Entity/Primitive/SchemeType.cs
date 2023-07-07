@@ -17,7 +17,7 @@ internal enum SchemeType
     /// <summary>
     /// 国服官服
     /// </summary>
-    Officical,
+    Official,
 
     /// <summary>
     /// 渠道服

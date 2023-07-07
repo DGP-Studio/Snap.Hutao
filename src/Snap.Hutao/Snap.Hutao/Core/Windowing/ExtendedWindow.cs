@@ -29,7 +29,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 {
     private readonly TWindow window;
     private readonly IServiceProvider serviceProvider;
-    private readonly WindowSubclass<TWindow> subclass;
+    private readonly WindowSubclass<TWindow>? subclass;
 
     private ExtendedWindow(TWindow window, IServiceProvider serviceProvider)
     {
@@ -79,7 +79,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
         UpdateSystemBackdrop(appOptions.BackdropType);
         appOptions.PropertyChanged += OnOptionsPropertyChanged;
 
-        bool subClassApplied = subclass.Initialize();
+        subclass!.Initialize();
 
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
@@ -122,8 +122,8 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
 
             UpdateTitleButtonColor();
             UpdateDragRectangles();
-            options.TitleBar.ActualThemeChanged += (s, e) => UpdateTitleButtonColor();
-            options.TitleBar.SizeChanged += (s, e) => UpdateDragRectangles();
+            options.TitleBar.ActualThemeChanged += (_, _) => UpdateTitleButtonColor();
+            options.TitleBar.SizeChanged += (_, _) => UpdateDragRectangles();
         }
     }
 

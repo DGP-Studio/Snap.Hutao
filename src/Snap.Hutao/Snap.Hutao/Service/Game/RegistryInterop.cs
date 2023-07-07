@@ -90,9 +90,9 @@ internal static class RegistryInterop
     {
         string paths = Environment.GetEnvironmentVariable("Path")!;
 
-        foreach (StringSegment path in new StringTokenizer(paths, ';'.Enumerate().ToArray()))
+        foreach (StringSegment path in new StringTokenizer(paths, ';'.ToArray()))
         {
-            if (path.HasValue && path.Length > 0)
+            if (path is { HasValue: true, Length: > 0 })
             {
                 if (path.Value.Contains("WindowsPowerShell", StringComparison.OrdinalIgnoreCase))
                 {

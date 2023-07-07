@@ -15,7 +15,7 @@ namespace Snap.Hutao.Core.LifeCycle;
 [HighQuality]
 internal static class AppInstanceExtension
 {
-    private static readonly WaitCallback RunActionWaitCallback = new(RunAction);
+    private static readonly WaitCallback RunActionWaitCallback = RunAction;
 
     // Hold the reference here to prevent memory corruption.
     private static HANDLE redirectEventHandle = HANDLE.Null;

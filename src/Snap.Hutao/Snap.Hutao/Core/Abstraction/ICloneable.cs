@@ -8,7 +8,7 @@ namespace Snap.Hutao.Core.Abstraction;
 /// </summary>
 /// <typeparam name="TSelf">自身类型</typeparam>
 [HighQuality]
-internal interface ICloneable<TSelf>
+internal interface ICloneable<out TSelf>
 {
     /// <summary>
     /// 克隆

@@ -12,7 +12,7 @@ internal class DateTimeOffsetConverter : JsonConverter<DateTimeOffset>
     /// <inheritdoc/>
     public override DateTimeOffset Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.GetString() is string dataTimeString)
+        if (reader.GetString() is { } dataTimeString)
         {
             return DateTimeOffset.Parse(dataTimeString);
         }

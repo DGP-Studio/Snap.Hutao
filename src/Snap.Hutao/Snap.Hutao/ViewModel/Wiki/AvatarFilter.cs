@@ -36,31 +36,31 @@ internal static class AvatarFilter
                 continue;
             }
 
-            if (IntrinsicImmutables.ElementNames.Contains(value))
+            if (IntrinsicImmutable.ElementNames.Contains(value))
             {
                 matches.Add(avatar.FetterInfo.VisionBefore == value);
                 continue;
             }
 
-            if (IntrinsicImmutables.AssociationTypes.Contains(value))
+            if (IntrinsicImmutable.AssociationTypes.Contains(value))
             {
                 matches.Add(avatar.FetterInfo.Association.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutables.WeaponTypes.Contains(value))
+            if (IntrinsicImmutable.WeaponTypes.Contains(value))
             {
                 matches.Add(avatar.Weapon.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutables.ItemQualities.Contains(value))
+            if (IntrinsicImmutable.ItemQualities.Contains(value))
             {
                 matches.Add(avatar.Quality.GetLocalizedDescriptionOrDefault() == value);
                 continue;
             }
 
-            if (IntrinsicImmutables.BodyTypes.Contains(value))
+            if (IntrinsicImmutable.BodyTypes.Contains(value))
             {
                 matches.Add(avatar.Body.GetLocalizedDescriptionOrDefault() == value);
                 continue;

@@ -13,7 +13,7 @@ internal sealed class FeatureOptions : IReadOnlyCollection<Feature>
     /// <summary>
     /// 启用实时便笺无感验证
     /// </summary>
-    public Feature IsDailyNoteSlientVerificationEnabled { get; } = new("IsDailyNoteSlientVerificationEnabled", "启用实时便笺无感验证", "IsDailyNoteSlientVerificationEnabled", true);
+    public Feature IsDailyNoteSilentVerificationEnabled { get; } = new("IsDailyNoteSilentVerificationEnabled", "启用实时便笺无感验证", "IsDailyNoteSilentVerificationEnabled", true);
 
     /// <inheritdoc/>
     public int Count { get => 1; }
@@ -22,7 +22,7 @@ internal sealed class FeatureOptions : IReadOnlyCollection<Feature>
     public IEnumerator<Feature> GetEnumerator()
     {
         // TODO: Use source generator
-        yield return IsDailyNoteSlientVerificationEnabled;
+        yield return IsDailyNoteSilentVerificationEnabled;
     }
 
     /// <inheritdoc/>

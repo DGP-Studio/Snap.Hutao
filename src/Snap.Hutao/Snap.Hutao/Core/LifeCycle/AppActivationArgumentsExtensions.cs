@@ -21,13 +21,13 @@ internal static class AppActivationArgumentsExtensions
     public static bool TryGetProtocolActivatedUri(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out Uri? uri)
     {
         uri = null;
-        if (activatedEventArgs.Data is IProtocolActivatedEventArgs protocolArgs)
+        if (activatedEventArgs.Data is not IProtocolActivatedEventArgs protocolArgs)
         {
-            uri = protocolArgs.Uri;
-            return true;
+            return false;
         }
 
-        return false;
+        uri = protocolArgs.Uri;
+        return true;
     }
 
     /// <summary>
@@ -39,12 +39,12 @@ internal static class AppActivationArgumentsExtensions
     public static bool TryGetLaunchActivatedArgument(this AppActivationArguments activatedEventArgs, [NotNullWhen(true)] out string? arguments)
     {
         arguments = null;
-        if (activatedEventArgs.Data is ILaunchActivatedEventArgs launchArgs)
+        if (activatedEventArgs.Data is not ILaunchActivatedEventArgs launchArgs)
         {
-            arguments = launchArgs.Arguments.Trim();
-            return true;
+            return false;
         }
 
-        return false;
+        arguments = launchArgs.Arguments.Trim();
+        return true;
     }
 }

@@ -41,7 +41,7 @@ internal sealed class CachedImage : ImageEx
             token.ThrowIfCancellationRequested();
 
             // BitmapImage initialize with a uri will increase image quality and loading speed.
-            return new BitmapImage(new(file));
+            return new BitmapImage(file.ToUri());
         }
         catch (COMException)
         {
@@ -53,10 +53,6 @@ internal sealed class CachedImage : ImageEx
         {
             // task was explicitly canceled
             return null;
-        }
-        catch
-        {
-            throw;
         }
     }
 }

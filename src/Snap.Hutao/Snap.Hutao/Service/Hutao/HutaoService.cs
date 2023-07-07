@@ -80,7 +80,7 @@ internal sealed partial class HutaoService : IHutaoService
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            if (appDbContext.ObjectCache.SingleOrDefault(e => e.Key == key) is ObjectCacheEntry entry)
+            if (appDbContext.ObjectCache.SingleOrDefault(e => e.Key == key) is { } entry)
             {
                 if (entry.IsExpired)
                 {
@@ -105,14 +105,14 @@ internal sealed partial class HutaoService : IHutaoService
                 {
                     AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-                    appDbContext.ObjectCache.AddAndSave(new()
+                    await appDbContext.ObjectCache.AddAndSaveAsync(new()
                     {
                         Key = key,
 
                         // We hold the cache for 4 hours
                         ExpireTime = DateTimeOffset.Now.Add(CacheExpireTime),
                         Value = JsonSerializer.Serialize(data, options),
-                    });
+                    }).ConfigureAwait(false);
                 }
             }
         }

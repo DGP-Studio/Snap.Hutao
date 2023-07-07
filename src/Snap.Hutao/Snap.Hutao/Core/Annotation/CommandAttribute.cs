@@ -6,7 +6,7 @@ namespace Snap.Hutao.Core.Annotation;
 /// <summary>
 /// 指示此方法为命令的调用方法
 /// </summary>
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Method, Inherited = false)]
 internal sealed class CommandAttribute : Attribute
 {
     /// <summary>

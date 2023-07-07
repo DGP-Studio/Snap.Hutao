@@ -18,9 +18,9 @@ internal static class StaticResource
     }
 
     /// <summary>
-    /// 完成所有合约
+    /// 取消完成所有合约
     /// </summary>
-    public static void UnfulfillAllContracts()
+    public static void FailAllContracts()
     {
         SetContractsState(false);
     }

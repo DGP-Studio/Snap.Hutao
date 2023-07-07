@@ -8,7 +8,6 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// 为扩展窗体提供必要的选项
 /// </summary>
-/// <typeparam name="TWindow">窗体类型</typeparam>
 internal interface IWindowOptionsSource
 {
     /// <summary>

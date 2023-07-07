@@ -48,7 +48,7 @@ internal static class DependencyInjection
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static IServiceProvider InitializeCulture(this IServiceProvider serviceProvider)
+    private static void InitializeCulture(this IServiceProvider serviceProvider)
     {
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
         appOptions.PreviousCulture = CultureInfo.CurrentCulture;
@@ -58,7 +58,5 @@ internal static class DependencyInjection
         CultureInfo.CurrentCulture = cultureInfo;
         CultureInfo.CurrentUICulture = cultureInfo;
         ApplicationLanguages.PrimaryLanguageOverride = cultureInfo.Name;
-
-        return serviceProvider;
     }
 }

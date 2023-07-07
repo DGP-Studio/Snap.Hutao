@@ -35,6 +35,6 @@ internal sealed partial class AutoHeightBehavior : BehaviorBase<FrameworkElement
 
     private void UpdateElement()
     {
-        AssociatedObject.Height = (double)AssociatedObject.ActualWidth * (TargetHeight / TargetWidth);
+        AssociatedObject.Height = AssociatedObject.ActualWidth * (TargetHeight / TargetWidth);
     }
 }

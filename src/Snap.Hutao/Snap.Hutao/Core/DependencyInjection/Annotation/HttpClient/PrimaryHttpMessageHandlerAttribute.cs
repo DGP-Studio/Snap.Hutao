@@ -7,7 +7,7 @@ namespace Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 /// 配置首选Http消息处理器特性
 /// </summary>
 [HighQuality]
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 internal sealed class PrimaryHttpMessageHandlerAttribute : Attribute
 {
     /// <inheritdoc cref="System.Net.Http.HttpClientHandler.MaxConnectionsPerServer"/>

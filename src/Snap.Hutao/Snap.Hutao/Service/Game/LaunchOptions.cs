@@ -146,14 +146,15 @@ internal sealed class LaunchOptions : DbStoreOptions
     /// <summary>
     /// 目标帧率
     /// </summary>
+    [AllowNull]
     public NameValue<int> Monitor
     {
         get => GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[int.Parse(index) - 1], Monitors[0]);
         set
         {
-            if (value != null)
+            if (value is not null)
             {
-                SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString() ?? "1");
+                SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString());
             }
         }
     }

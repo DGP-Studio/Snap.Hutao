@@ -68,12 +68,14 @@ internal sealed class ScheduleTaskInterop : IScheduleTaskInterop
         string tempFolder = ApplicationData.Current.TemporaryFolder.Path;
         string fullName = Path.Combine(tempFolder, "Script", $"{name}.vbs");
 
-        if (!File.Exists(fullName) || forceCreate)
+        if (File.Exists(fullName) && !forceCreate)
         {
-            Directory.CreateDirectory(Path.Combine(tempFolder, "Script"));
-            string script = $"""CreateObject("WScript.Shell").Run "cmd /c start {url}", 0, False""";
-            File.WriteAllText(fullName, script);
+            return fullName;
         }
+
+        Directory.CreateDirectory(Path.Combine(tempFolder, "Script"));
+        string script = $"""CreateObject("WScript.Shell").Run "cmd /c start {url}", 0, False""";
+        File.WriteAllText(fullName, script);
 
         return fullName;
     }

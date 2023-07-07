@@ -10,7 +10,7 @@ namespace Snap.Hutao.Service.Navigation;
 /// 导航服务
 /// </summary>
 [HighQuality]
-internal interface INavigationService : ICastableService
+internal interface INavigationService : ICastService
 {
     /// <summary>
     /// 导航到指定类型的页面

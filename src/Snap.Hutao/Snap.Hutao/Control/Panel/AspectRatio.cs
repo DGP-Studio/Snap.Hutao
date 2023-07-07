@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml;
 using Windows.Foundation;
 
 namespace Snap.Hutao.Control.Panel;
@@ -35,7 +34,7 @@ internal sealed partial class AspectRatio : Microsoft.UI.Xaml.Controls.Control
         }
 
         // 更高
-        else if (ratioAvailable < ratio)
+        if (ratioAvailable < ratio)
         {
             double newHeight = availableSize.Width / ratio;
             return new Size(availableSize.Width, newHeight);

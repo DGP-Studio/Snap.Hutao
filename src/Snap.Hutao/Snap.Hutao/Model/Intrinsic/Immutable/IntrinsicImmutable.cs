@@ -9,7 +9,7 @@ namespace Snap.Hutao.Model.Intrinsic.Immutable;
 /// 本地化的不可变的原生枚举
 /// </summary>
 [HighQuality]
-internal static class IntrinsicImmutables
+internal static class IntrinsicImmutable
 {
     /// <summary>
     /// 所属地区

@@ -72,14 +72,9 @@ internal sealed class FetterInfo
     {
         get
         {
-            if (string.IsNullOrEmpty(ConstellationAfter))
-            {
-                return ConstellationBefore;
-            }
-            else
-            {
-                return ConstellationAfter;
-            }
+            return string.IsNullOrEmpty(ConstellationAfter)
+                ? ConstellationBefore
+                : ConstellationAfter;
         }
     }
 

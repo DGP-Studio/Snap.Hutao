@@ -16,7 +16,7 @@ internal static class SemaphoreSlimExtension
     /// <param name="semaphoreSlim">信号量</param>
     /// <param name="token">取消令牌</param>
     /// <returns>可释放的对象，用于释放信号量</returns>
-    public static async ValueTask<IDisposable> EnterAsync(this SemaphoreSlim semaphoreSlim, CancellationToken token = default)
+    public static async ValueTask<SemaphoreSlimToken> EnterAsync(this SemaphoreSlim semaphoreSlim, CancellationToken token = default)
     {
         try
         {
@@ -27,24 +27,6 @@ internal static class SemaphoreSlimExtension
             ThrowHelper.OperationCanceled(SH.CoreThreadingSemaphoreSlimDisposed, ex);
         }
 
-        return new SemaphoreSlimReleaser(semaphoreSlim);
-    }
-}
-
-[SuppressMessage("", "SA1201")]
-[SuppressMessage("", "SA1400")]
-[SuppressMessage("", "SA1600")]
-file readonly struct SemaphoreSlimReleaser : IDisposable
-{
-    private readonly SemaphoreSlim semaphoreSlim;
-
-    public SemaphoreSlimReleaser(SemaphoreSlim semaphoreSlim)
-    {
-        this.semaphoreSlim = semaphoreSlim;
-    }
-
-    public void Dispose()
-    {
-        semaphoreSlim.Release();
+        return new SemaphoreSlimToken(semaphoreSlim);
     }
 }

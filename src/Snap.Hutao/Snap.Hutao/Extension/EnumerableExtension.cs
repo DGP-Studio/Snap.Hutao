@@ -47,7 +47,19 @@ internal static partial class EnumerableExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource? FirstOrFirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate)
     {
-        return source.FirstOrDefault(predicate) ?? source.FirstOrDefault();
+        TSource? first = default;
+
+        foreach (TSource element in source)
+        {
+            first ??= element;
+
+            if (predicate(element))
+            {
+                return element;
+            }
+        }
+
+        return first;
     }
 
     /// <summary>
@@ -68,19 +80,11 @@ internal static partial class EnumerableExtension
     /// <typeparam name="T">Type of array elements.</typeparam>
     /// <param name="collection">Collection to convert. Cannot be <see langword="null"/>.</param>
     /// <param name="separator">Delimiter between elements in the final string.</param>
-    /// <param name="defaultValue">A string to be returned if collection has no elements.</param>
     /// <returns>Converted collection into string.</returns>
-    public static string ToString<T>(this IEnumerable<T> collection, string separator, string defaultValue = "")
+    public static string ToString<T>(this IEnumerable<T> collection, char separator = ',')
     {
         string result = string.Join(separator, collection);
-        if (result.Length > 0)
-        {
-            return result;
-        }
-        else
-        {
-            return defaultValue;
-        }
+        return result.Length > 0 ? result : string.Empty;
     }
 
     /// <summary>
@@ -94,13 +98,6 @@ internal static partial class EnumerableExtension
     public static string ToString<T>(this IEnumerable<T> collection, char separator = ',', string defaultValue = "")
     {
         string result = string.Join(separator, collection);
-        if (result.Length > 0)
-        {
-            return result;
-        }
-        else
-        {
-            return defaultValue;
-        }
+        return result.Length > 0 ? result : defaultValue;
     }
 }

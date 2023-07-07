@@ -58,11 +58,13 @@ internal sealed class CommandLineBuilder
             s.Append(WhiteSpace);
             s.Append(key);
 
-            if (!string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
             {
-                s.Append(WhiteSpace);
-                s.Append(value);
+                continue;
             }
+
+            s.Append(WhiteSpace);
+            s.Append(value);
         }
 
         return s.ToString();

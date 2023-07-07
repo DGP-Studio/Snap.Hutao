@@ -49,7 +49,7 @@ internal sealed class Feature : ObservableObject
         set
         {
             LocalSetting.Set(settingKey, value);
-            OnPropertyChanged(nameof(Value));
+            OnPropertyChanged();
         }
     }
 }

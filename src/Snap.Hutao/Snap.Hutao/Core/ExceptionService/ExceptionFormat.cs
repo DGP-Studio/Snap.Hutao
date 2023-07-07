@@ -35,7 +35,7 @@ internal sealed class ExceptionFormat
         }
 
         builder.AppendLine(SectionSeparator);
-        builder.Append(exception.ToString());
+        builder.Append(exception);
 
         return builder.ToString();
     }

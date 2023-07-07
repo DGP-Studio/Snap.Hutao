@@ -27,16 +27,20 @@ internal static class JsonTypeInfoResolvers
 
         foreach (JsonPropertyInfo property in typeInfo.Properties)
         {
-            if (property.PropertyType.IsEnum)
+            if (!property.PropertyType.IsEnum)
             {
-                if (property.AttributeProvider is System.Reflection.ICustomAttributeProvider provider)
-                {
-                    object[] attributes = provider.GetCustomAttributes(JsonEnumAttributeType, false);
-                    if (attributes.SingleOrDefault() is JsonEnumAttribute attr)
-                    {
-                        property.CustomConverter = attr.CreateConverter(property);
-                    }
-                }
+                continue;
+            }
+
+            if (property.AttributeProvider is not { } provider)
+            {
+                continue;
+            }
+
+            object[] attributes = provider.GetCustomAttributes(JsonEnumAttributeType, false);
+            if (attributes.SingleOrDefault() is JsonEnumAttribute attr)
+            {
+                property.CustomConverter = attr.CreateConverter(property);
             }
         }
     }

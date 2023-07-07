@@ -103,8 +103,8 @@ internal static class FightPropertyFormat
     {
         return method switch
         {
-            FormatMethod.Integer => $"{Math.Round((double)value, MidpointRounding.AwayFromZero)}",
-            FormatMethod.Percent => string.Format("{0:P1}", value),
+            FormatMethod.Integer => $"{MathF.Round(value, MidpointRounding.AwayFromZero)}",
+            FormatMethod.Percent => $"{value:P1}",
             _ => value.ToString(),
         };
     }

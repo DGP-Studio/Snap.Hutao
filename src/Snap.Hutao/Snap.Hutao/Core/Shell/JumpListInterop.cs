@@ -26,7 +26,7 @@ internal sealed class JumpListInterop : IJumpListInterop
             list.Items.Clear();
 
             JumpListItem launchGameItem = JumpListItem.CreateWithArguments(Activation.LaunchGame, SH.CoreJumpListHelperLaunchGameItemDisplayName);
-            launchGameItem.Logo = new("ms-appx:///Resource/Icon/UI_GuideIcon_PlayMethod.png");
+            launchGameItem.Logo = "ms-appx:///Resource/Icon/UI_GuideIcon_PlayMethod.png".ToUri();
 
             list.Items.Add(launchGameItem);
 

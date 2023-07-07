@@ -21,12 +21,9 @@ internal sealed class AvatarCardConverter : ValueConverter<string, Uri>
     /// <returns>链接</returns>
     public static Uri IconNameToUri(string name)
     {
-        if (string.IsNullOrEmpty(name))
-        {
-            return UIAvatarIconCostumeCard;
-        }
-
-        return Web.HutaoEndpoints.StaticFile("AvatarCard", $"{name}_Card.png").ToUri();
+        return string.IsNullOrEmpty(name)
+            ? UIAvatarIconCostumeCard
+            : Web.HutaoEndpoints.StaticFile("AvatarCard", $"{name}_Card.png").ToUri();
     }
 
     /// <inheritdoc/>

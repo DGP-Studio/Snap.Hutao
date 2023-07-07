@@ -6,7 +6,7 @@ namespace Snap.Hutao.Core.Annotation;
 /// <summary>
 /// 指示此类自动生成构造器
 /// </summary>
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+[AttributeUsage(AttributeTargets.Class, Inherited = false)]
 internal sealed class ConstructorGeneratedAttribute : Attribute
 {
     /// <summary>

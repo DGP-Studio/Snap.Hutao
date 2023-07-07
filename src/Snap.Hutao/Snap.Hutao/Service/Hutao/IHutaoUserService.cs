@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.Hutao;
 /// <summary>
 /// 胡桃用户服务
 /// </summary>
-internal interface IHutaoUserService : ICastableService
+internal interface IHutaoUserService : ICastService
 {
     /// <summary>
     /// 异步初始化

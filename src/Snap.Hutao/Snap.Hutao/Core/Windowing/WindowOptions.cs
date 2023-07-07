@@ -12,7 +12,6 @@ namespace Snap.Hutao.Core.Windowing;
 /// <summary>
 /// Window 选项
 /// </summary>
-/// <typeparam name="TWindow">窗体类型</typeparam>
 internal readonly struct WindowOptions
 {
     /// <summary>

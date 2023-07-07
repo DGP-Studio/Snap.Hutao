@@ -36,7 +36,7 @@ internal sealed class TempFile : IDisposable
     /// <summary>
     /// 路径
     /// </summary>
-    public string Path { get; private set; }
+    public string Path { get; }
 
     /// <summary>
     /// 创建临时文件并复制内容
@@ -55,15 +55,6 @@ internal sealed class TempFile : IDisposable
         {
             return null;
         }
-    }
-
-    /// <summary>
-    /// 作为写入模式打开
-    /// </summary>
-    /// <returns>文件流</returns>
-    public FileStream OpenWrite()
-    {
-        return File.OpenWrite(Path);
     }
 
     /// <summary>

@@ -19,7 +19,7 @@ namespace Snap.Hutao.Service.Metadata;
 /// </summary>
 [HighQuality]
 [SuppressMessage("", "SA1124")]
-internal interface IMetadataService : ICastableService
+internal interface IMetadataService : ICastService
 {
     /// <summary>
     /// 异步初始化服务，尝试更新元数据

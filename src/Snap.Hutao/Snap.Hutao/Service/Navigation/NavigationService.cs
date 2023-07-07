@@ -116,7 +116,7 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
                 {
                     if (frame!.Content is ScopedPage scopedPage)
                     {
-                        await scopedPage.NotifyRecipentAsync((INavigationData)data).ConfigureAwait(false);
+                        await scopedPage.NotifyRecipientAsync((INavigationData)data).ConfigureAwait(false);
                     }
                 }
 

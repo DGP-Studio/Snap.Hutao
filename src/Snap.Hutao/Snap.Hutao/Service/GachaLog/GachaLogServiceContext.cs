@@ -109,8 +109,8 @@ internal readonly struct GachaLogServiceContext
         uint place = id.Place();
         return place switch
         {
-            8U => IdAvatarMap![id],
-            5U => IdWeaponMap![id],
+            8U => IdAvatarMap[id],
+            5U => IdWeaponMap[id],
             _ => throw Must.NeverHappen($"Id places: {place}"),
         };
     }

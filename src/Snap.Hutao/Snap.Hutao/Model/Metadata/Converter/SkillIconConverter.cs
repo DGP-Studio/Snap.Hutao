@@ -23,14 +23,9 @@ internal sealed class SkillIconConverter : ValueConverter<string, Uri>
             return Web.HutaoEndpoints.UIIconNone;
         }
 
-        if (name.StartsWith("UI_Talent_"))
-        {
-            return Web.HutaoEndpoints.StaticFile("Talent", $"{name}.png").ToUri();
-        }
-        else
-        {
-            return Web.HutaoEndpoints.StaticFile("Skill", $"{name}.png").ToUri();
-        }
+        return name.StartsWith("UI_Talent_")
+            ? Web.HutaoEndpoints.StaticFile("Talent", $"{name}.png").ToUri()
+            : Web.HutaoEndpoints.StaticFile("Skill", $"{name}.png").ToUri();
     }
 
     /// <inheritdoc/>

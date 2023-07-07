@@ -35,6 +35,6 @@ internal sealed partial class AutoWidthBehavior : BehaviorBase<FrameworkElement>
 
     private void UpdateElement()
     {
-        AssociatedObject.Width = (double)AssociatedObject.Height * (TargetWidth / TargetHeight);
+        AssociatedObject.Width = AssociatedObject.Height * (TargetWidth / TargetHeight);
     }
 }

@@ -43,23 +43,27 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     {
         WindowOptions options = window.WindowOptions;
 
-        windowProc = new(OnSubclassProcedure);
+        windowProc = OnSubclassProcedure;
         bool windowHooked = SetWindowSubclass(options.Hwnd, windowProc, WindowSubclassId, 0);
 
         bool titleBarHooked = true;
 
         // only hook up drag bar proc when use legacy Window.ExtendsContentIntoTitleBar
-        if (options.UseLegacyDragBarImplementation)
+        if (!options.UseLegacyDragBarImplementation)
         {
-            titleBarHooked = false;
-            HWND hwndDragBar = FindWindowEx(options.Hwnd, default, "DRAG_BAR_WINDOW_CLASS", default);
-
-            if (!hwndDragBar.IsNull)
-            {
-                dragBarProc = new(OnDragBarProcedure);
-                titleBarHooked = SetWindowSubclass(hwndDragBar, dragBarProc, DragBarSubclassId, 0);
-            }
+            return windowHooked && titleBarHooked;
         }
+
+        titleBarHooked = false;
+        HWND hwndDragBar = FindWindowEx(options.Hwnd, default, "DRAG_BAR_WINDOW_CLASS", default);
+
+        if (hwndDragBar.IsNull)
+        {
+            return windowHooked && titleBarHooked;
+        }
+
+        dragBarProc = OnDragBarProcedure;
+        titleBarHooked = SetWindowSubclass(hwndDragBar, dragBarProc, DragBarSubclassId, 0);
 
         return windowHooked && titleBarHooked;
     }
@@ -72,11 +76,13 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
         RemoveWindowSubclass(options.Hwnd, windowProc, WindowSubclassId);
         windowProc = null;
 
-        if (options.UseLegacyDragBarImplementation)
+        if (!options.UseLegacyDragBarImplementation)
         {
-            RemoveWindowSubclass(options.Hwnd, dragBarProc, DragBarSubclassId);
-            dragBarProc = null;
+            return;
         }
+
+        RemoveWindowSubclass(options.Hwnd, dragBarProc, DragBarSubclassId);
+        dragBarProc = null;
     }
 
     [SuppressMessage("", "SH002")]

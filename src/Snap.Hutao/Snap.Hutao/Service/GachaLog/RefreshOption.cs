@@ -22,7 +22,7 @@ internal enum RefreshOption
     WebCache,
 
     /// <summary>
-    /// 通过Stoken刷新
+    /// 通过SToken刷新
     /// </summary>
     SToken,
 

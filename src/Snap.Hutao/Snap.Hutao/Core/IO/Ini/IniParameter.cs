@@ -37,13 +37,13 @@ internal sealed class IniParameter : IniElement
     /// <returns>是否修改了值</returns>
     public bool Set(string value)
     {
-        if (Value != value)
+        if (Value == value)
         {
-            Value = value;
-            return true;
+            return false;
         }
 
-        return false;
+        Value = value;
+        return true;
     }
 
     /// <inheritdoc/>

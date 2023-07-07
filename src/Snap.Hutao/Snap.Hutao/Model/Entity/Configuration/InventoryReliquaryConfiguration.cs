@@ -18,7 +18,7 @@ internal sealed class InventoryReliquaryConfiguration : IEntityTypeConfiguration
         builder.Property(e => e.AppendPropIdList)
             .HasColumnType("TEXT")
             .HasConversion(
-                list => string.Join(',', list),
-                text => text.Split(',', StringSplitOptions.None).Select(x => int.Parse(x)).ToList());
+                list => list.ToString(','),
+                text => text.Split(',', StringSplitOptions.None).Select(int.Parse).ToList());
     }
 }

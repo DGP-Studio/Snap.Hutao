@@ -50,12 +50,6 @@ internal class PickerFactory : IPickerFactory
     }
 
     /// <inheritdoc/>
-    public FileSavePicker GetFileSavePicker()
-    {
-        return GetInitializedPicker<FileSavePicker>();
-    }
-
-    /// <inheritdoc/>
     public FileSavePicker GetFileSavePicker(PickerLocationId location, string fileName, string commitButton, IDictionary<string, IList<string>> fileTypes)
     {
         FileSavePicker picker = GetInitializedPicker<FileSavePicker>();

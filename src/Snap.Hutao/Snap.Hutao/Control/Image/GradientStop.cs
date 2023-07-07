@@ -6,8 +6,6 @@ namespace Snap.Hutao.Control.Image;
 /// <summary>
 /// 渐变锚点
 /// </summary>
-/// <param name="Offset">便宜</param>
-/// <param name="Color">颜色</param>
 [HighQuality]
 internal readonly struct GradientStop
 {

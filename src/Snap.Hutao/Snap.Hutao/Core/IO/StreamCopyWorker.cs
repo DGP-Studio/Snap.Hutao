@@ -74,7 +74,6 @@ internal sealed class StreamCopyWorker<TStatus>
     /// <param name="source">源</param>
     /// <param name="destination">目标</param>
     /// <param name="statusFactory">状态工厂</param>
-    /// <param name="totalBytes">总字节</param>
     /// <param name="bufferSize">字节尺寸</param>
     public StreamCopyWorker(Stream source, Stream destination, Func<long, TStatus> statusFactory, int bufferSize = 81920)
     {

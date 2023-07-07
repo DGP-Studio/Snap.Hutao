@@ -38,7 +38,7 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
             return GetEnum(ref reader, enumTypeCode);
         }
 
-        if (reader.GetString() is string str)
+        if (reader.GetString() is { } str)
         {
             return Enum.Parse<TEnum>(str);
         }
@@ -116,6 +116,8 @@ internal sealed class UnsafeEnumConverter<TEnum> : JsonConverter<TEnum>
                 }
 
                 break;
+            default:
+                throw new JsonException();
         }
 
         throw new JsonException();

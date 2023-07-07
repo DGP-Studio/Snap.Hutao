@@ -6,6 +6,6 @@ namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 /// <summary>
 /// 可转换类型服务
 /// </summary>
-internal interface ICastableService
+internal interface ICastService
 {
 }

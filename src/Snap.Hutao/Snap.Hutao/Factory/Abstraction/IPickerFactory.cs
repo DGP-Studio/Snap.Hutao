@@ -23,13 +23,6 @@ internal interface IPickerFactory
     /// <summary>
     /// 获取 经过初始化的 <see cref="FileSavePicker"/>
     /// </summary>
-    /// <returns>经过初始化的 <see cref="FileSavePicker"/></returns>
-    [Obsolete]
-    FileSavePicker GetFileSavePicker();
-
-    /// <summary>
-    /// 获取 经过初始化的 <see cref="FileSavePicker"/>
-    /// </summary>
     /// <param name="location">初始位置</param>
     /// <param name="fileName">文件名</param>
     /// <param name="commitButton">提交按钮文本</param>

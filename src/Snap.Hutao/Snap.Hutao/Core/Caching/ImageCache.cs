@@ -46,8 +46,6 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// Initializes a new instance of the <see cref="ImageCache"/> class.
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="logger">日志器</param>
-    /// <param name="httpClientFactory">http客户端工厂</param>
     public ImageCache(IServiceProvider serviceProvider)
     {
         logger = serviceProvider.GetRequiredService<ILogger<ImageCache>>();
@@ -84,7 +82,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// <inheritdoc/>
     public void Remove(in ReadOnlySpan<Uri> uriForCachedItems)
     {
-        if (uriForCachedItems == null || uriForCachedItems.Length <= 0)
+        if (uriForCachedItems.Length <= 0)
         {
             return;
         }
@@ -112,26 +110,28 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
         string fileName = GetCacheFileName(uri);
         string filePath = Path.Combine(GetCacheFolder(), fileName);
 
-        if (!File.Exists(filePath) || new FileInfo(filePath).Length == 0)
+        if (File.Exists(filePath) && new FileInfo(filePath).Length != 0)
         {
-            TaskCompletionSource taskCompletionSource = new();
-            try
-            {
-                if (concurrentTasks.TryAdd(fileName, taskCompletionSource.Task))
-                {
-                    await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
-                }
-                else if (concurrentTasks.TryGetValue(fileName, out Task? task))
-                {
-                    await task.ConfigureAwait(false);
-                }
+            return filePath;
+        }
 
-                concurrentTasks.TryRemove(fileName, out _);
-            }
-            finally
+        TaskCompletionSource taskCompletionSource = new();
+        try
+        {
+            if (concurrentTasks.TryAdd(fileName, taskCompletionSource.Task))
             {
-                taskCompletionSource.TrySetResult();
+                await DownloadFileAsync(uri, filePath).ConfigureAwait(false);
             }
+            else if (concurrentTasks.TryGetValue(fileName, out Task? task))
+            {
+                await task.ConfigureAwait(false);
+            }
+
+            concurrentTasks.TryRemove(fileName, out _);
+        }
+        finally
+        {
+            taskCompletionSource.TrySetResult();
         }
 
         return filePath;
@@ -198,21 +198,24 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
                         }
                     }
                 }
-                else if (message.StatusCode == HttpStatusCode.NotFound)
+
+                switch (message.StatusCode)
                 {
-                    // directly goto https://static.hut.ao
-                    retryCount += 3;
-                }
-                else if (message.StatusCode == HttpStatusCode.TooManyRequests)
-                {
-                    retryCount++;
-                    TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
-                    logger.LogInformation("Retry {uri} after {delay}.", uri, delay);
-                    await Task.Delay(delay).ConfigureAwait(false);
-                }
-                else
-                {
-                    return;
+                    case HttpStatusCode.NotFound:
+                        // directly goto https://static.hut.ao
+                        retryCount += 3;
+                        break;
+                    case HttpStatusCode.TooManyRequests:
+                    {
+                        retryCount++;
+                        TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
+                        logger.LogInformation("Retry {uri} after {delay}.", uri, delay);
+                        await Task.Delay(delay).ConfigureAwait(false);
+                        break;
+                    }
+
+                    default:
+                        return;
                 }
             }
 
@@ -225,12 +228,14 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 
     private string GetCacheFolder()
     {
-        if (cacheFolder == null)
+        if (cacheFolder is not null)
         {
-            baseFolder ??= serviceProvider.GetRequiredService<HutaoOptions>().LocalCache;
-            DirectoryInfo info = Directory.CreateDirectory(Path.Combine(baseFolder, CacheFolderName));
-            cacheFolder = info.FullName;
+            return cacheFolder!;
         }
+
+        baseFolder ??= serviceProvider.GetRequiredService<HutaoOptions>().LocalCache;
+        DirectoryInfo info = Directory.CreateDirectory(Path.Combine(baseFolder, CacheFolderName));
+        cacheFolder = info.FullName;
 
         return cacheFolder!;
     }

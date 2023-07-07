@@ -40,7 +40,7 @@ internal struct Rgba32
     /// 构造一个新的 RGBA8 颜色
     /// </summary>
     /// <param name="hex">色值字符串</param>
-    public unsafe Rgba32(string hex)
+    public Rgba32(string hex)
         : this(Convert.ToUInt32(hex, 16))
     {
     }

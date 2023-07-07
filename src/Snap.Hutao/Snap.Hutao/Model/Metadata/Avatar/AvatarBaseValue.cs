@@ -16,6 +16,6 @@ internal sealed class AvatarBaseValue : BaseValue
     public PropertyCurveValue GetPropertyCurveValue(FightProperty fightProperty)
     {
         // TODO: impl
-        return null;
+        return default!;
     }
 }

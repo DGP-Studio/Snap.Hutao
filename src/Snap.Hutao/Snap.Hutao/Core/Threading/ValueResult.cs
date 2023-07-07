@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.Threading;
 /// </summary>
 /// <typeparam name="TResult">结果类型</typeparam>
 /// <typeparam name="TValue">值类型</typeparam>
-internal readonly struct ValueResult<TResult, TValue> : IDeconstructable<TResult, TValue>
+internal readonly struct ValueResult<TResult, TValue> : IDeconstruct<TResult, TValue>
 {
     /// <summary>
     /// 是否成功

@@ -17,7 +17,7 @@ internal static class DateTimeOffsetExtension
     /// <returns>转换的时间</returns>
     public static DateTimeOffset FromUnixTime(long? timestamp, in DateTimeOffset defaultValue)
     {
-        if (timestamp is long value)
+        if (timestamp is { } value)
         {
             try
             {
