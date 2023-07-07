@@ -1474,6 +1474,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 祈愿记录上传服务将于 {0:yyyy-MM-dd HH:mm:ss} 到期 的本地化字符串。
+        /// </summary>
+        internal static string ServiceHutaoUserGachaLogExpiredAt {
+            get {
+                return ResourceManager.GetString("ServiceHutaoUserGachaLogExpiredAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到缓存的元数据文件 的本地化字符串。
         /// </summary>
         internal static string ServiceMetadataFileNotFound {
@@ -3423,6 +3432,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageGachaLogHutaoCloudDelete {
             get {
                 return ResourceManager.GetString("ViewPageGachaLogHutaoCloudDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已注册为开发者，即使服务过期依旧能使用 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGachaLogHutaoCloudDeveloperHint {
+            get {
+                return ResourceManager.GetString("ViewPageGachaLogHutaoCloudDeveloperHint", resourceCulture);
             }
         }
         

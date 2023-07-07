@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Options;
+using Snap.Hutao.Web.Hutao.Model;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -16,6 +17,8 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     private string? token;
     private bool isLoggedIn;
     private bool isHutaoCloudServiceAllowed;
+    private bool isLicensedDeveloper;
+    private string? gachaLogExpireAt;
 
     /// <summary>
     /// 用户名
@@ -42,6 +45,16 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// </summary>
     public bool IsCloudServiceAllowed { get => isHutaoCloudServiceAllowed; set => SetProperty(ref isHutaoCloudServiceAllowed, value); }
 
+    /// <summary>
+    /// 是否为开发者
+    /// </summary>
+    public bool IsLicensedDeveloper { get => isLicensedDeveloper; set => SetProperty(ref isLicensedDeveloper, value); }
+
+    /// <summary>
+    /// 祈愿记录服务到期时间
+    /// </summary>
+    public string? GachaLogExpireAt { get => gachaLogExpireAt; set => SetProperty(ref gachaLogExpireAt, value); }
+
     /// <inheritdoc/>
     public HutaoUserOptions Value { get => this; }
 
@@ -63,5 +76,15 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     public void LoginFailed()
     {
         UserName = SH.ViewServiceHutaoUserLoginFailHint;
+    }
+
+    /// <summary>
+    /// 刷新用户信息
+    /// </summary>
+    /// <param name="userInfo">用户信息</param>
+    public void UpdateUserInfo(UserInfo userInfo)
+    {
+        IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
+        GachaLogExpireAt = string.Format(SH.ServiceHutaoUserGachaLogExpiredAt, userInfo.GachaLogExpireAt);
     }
 }

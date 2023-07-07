@@ -2037,4 +2037,10 @@
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>原粹树脂已完全恢复</value>
   </data>
+  <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
+    <value>祈愿记录上传服务将于 {0:yyyy-MM-dd HH:mm:ss} 到期</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
+    <value>已注册为开发者，即使服务过期依旧能使用</value>
+  </data>
 </root>

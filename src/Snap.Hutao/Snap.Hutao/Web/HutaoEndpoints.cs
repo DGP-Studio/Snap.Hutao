@@ -75,6 +75,11 @@ internal static class HutaoEndpoints
     /// 登录
     /// </summary>
     public const string PassportLogin = $"{HomaSnapGenshinApi}/Passport/Login";
+
+    /// <summary>
+    /// 用户信息
+    /// </summary>
+    public const string PassportUserInfo = $"{HomaSnapGenshinApi}/Passport/UserInfo";
     #endregion
 
     #region HutaoAPI

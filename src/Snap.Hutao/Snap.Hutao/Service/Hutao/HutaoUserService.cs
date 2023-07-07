@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.Model;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -41,7 +42,15 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
             {
                 await taskContext.SwitchToMainThreadAsync();
                 options.LoginSucceed(userName, response.Data);
-                isInitialized = true;
+
+                await taskContext.SwitchToBackgroundAsync();
+                Web.Response.Response<UserInfo> userInfoResponse = await passportClient.GetUserInfoAsync(response.Data).ConfigureAwait(false);
+                if (userInfoResponse.IsOk())
+                {
+                    await taskContext.SwitchToMainThreadAsync();
+                    options.UpdateUserInfo(userInfoResponse.Data);
+                    isInitialized = true;
+                }
             }
             else
             {

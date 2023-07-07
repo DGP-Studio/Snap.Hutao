@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Web.Hutao.Model;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -14,7 +15,8 @@ namespace Snap.Hutao.Web.Hutao;
 /// </summary>
 [HighQuality]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed class HomaPassportClient
+[ConstructorGenerated(ResolveHttpClient = true)]
+internal sealed partial class HomaPassportClient
 {
     /// <summary>
     /// 通行证请求公钥
@@ -32,15 +34,8 @@ internal sealed class HomaPassportClient
         """;
 
     private readonly HttpClient httpClient;
-
-    /// <summary>
-    /// 构造一个新的胡桃通行证客户端
-    /// </summary>
-    /// <param name="httpClient">Http客户端</param>
-    public HomaPassportClient(HttpClient httpClient)
-    {
-        this.httpClient = httpClient;
-    }
+    private readonly JsonSerializerOptions options;
+    private readonly ILogger<HomaPassportClient> logger;
 
     /// <summary>
     /// 异步获取验证码
@@ -58,7 +53,7 @@ internal sealed class HomaPassportClient
         };
 
         Response.Response? resp = await httpClient
-            .TryCatchPostAsJsonAsync<Dictionary<string, object>, Response.Response>(HutaoEndpoints.PassportVerify, data, token)
+            .TryCatchPostAsJsonAsync<Dictionary<string, object>, Response.Response>(HutaoEndpoints.PassportVerify, data, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -82,7 +77,7 @@ internal sealed class HomaPassportClient
         };
 
         Response<string>? resp = await httpClient
-            .TryCatchPostAsJsonAsync<Dictionary<string, string>, Response<string>>(HutaoEndpoints.PassportRegister, data, token)
+            .TryCatchPostAsJsonAsync<Dictionary<string, string>, Response<string>>(HutaoEndpoints.PassportRegister, data, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -106,7 +101,7 @@ internal sealed class HomaPassportClient
         };
 
         Response<string>? resp = await httpClient
-            .TryCatchPostAsJsonAsync<Dictionary<string, string>, Response<string>>(HutaoEndpoints.PassportResetPassword, data, token)
+            .TryCatchPostAsJsonAsync<Dictionary<string, string>, Response<string>>(HutaoEndpoints.PassportResetPassword, data, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);
@@ -128,8 +123,27 @@ internal sealed class HomaPassportClient
         };
 
         Response<string>? resp = await httpClient
-            .TryCatchPostAsJsonAsync<Dictionary<string, string>, Response<string>>(HutaoEndpoints.PassportLogin, data, token)
+            .TryCatchPostAsJsonAsync<Dictionary<string, string>, Response<string>>(HutaoEndpoints.PassportLogin, data, options, logger, token)
             .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    /// <summary>
+    /// 获取用户信息
+    /// </summary>
+    /// <param name="authToken">验证令牌</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>用户信息</returns>
+    public async Task<Response<UserInfo>> GetUserInfoAsync(string authToken, CancellationToken token = default)
+    {
+        httpClient.DefaultRequestHeaders.Authorization = new("Bearer", authToken);
+
+        Response<UserInfo>? resp = await httpClient
+            .TryCatchGetFromJsonAsync<Response<UserInfo>>(HutaoEndpoints.PassportUserInfo, options, logger, token)
+            .ConfigureAwait(false);
+
+        httpClient.DefaultRequestHeaders.Authorization = default;
 
         return Response.Response.DefaultIfNull(resp);
     }

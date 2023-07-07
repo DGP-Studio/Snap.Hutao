@@ -35,6 +35,8 @@ internal sealed class HomaGachaLogClient
         httpClient.DefaultRequestHeaders.Authorization = new("Bearer", hutaoUserOptions.Token);
     }
 
+
+
     /// <summary>
     /// 异步获取 Uid 列表
     /// </summary>
