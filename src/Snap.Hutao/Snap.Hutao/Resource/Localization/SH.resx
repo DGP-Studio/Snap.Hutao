@@ -2043,4 +2043,7 @@
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>已注册为开发者，即使服务过期依旧能使用</value>
   </data>
+  <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
+    <value>统计</value>
+  </data>
 </root>

@@ -27,6 +27,7 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
     private readonly HutaoCloudViewModel hutaoCloudViewModel;
     private readonly IServiceProvider serviceProvider;
     private readonly IGachaLogService gachaLogService;
@@ -85,6 +86,11 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     /// 胡桃云服务视图
     /// </summary>
     public HutaoCloudViewModel HutaoCloudViewModel { get => hutaoCloudViewModel; }
+
+    /// <summary>
+    /// 胡桃云祈愿统计试图
+    /// </summary>
+    public HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get => hutaoCloudStatisticsViewModel; }
 
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()

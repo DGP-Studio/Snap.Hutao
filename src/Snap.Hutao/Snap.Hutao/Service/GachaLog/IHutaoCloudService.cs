@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -18,6 +19,13 @@ internal interface IHutaoCloudService
     /// <param name="token">取消令牌</param>
     /// <returns>是否删除成功</returns>
     Task<ValueResult<bool, string>> DeleteGachaItemsAsync(string uid, CancellationToken token = default);
+
+    /// <summary>
+    /// 异步获取祈愿统计信息
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>祈愿统计信息</returns>
+    Task<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default(CancellationToken));
 
     /// <summary>
     /// 异步获取服务器上的 Uid 列表

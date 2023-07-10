@@ -10,9 +10,7 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 /// <summary>
 /// 简化的视图模型抽象类
 /// </summary>
-/// <typeparam name="TPage">页面类型</typeparam>
-internal abstract partial class ViewModelSlim<TPage> : ObservableObject
-    where TPage : Page
+internal abstract partial class ViewModelSlim : ObservableObject
 {
     private bool isInitialized;
 
@@ -43,6 +41,24 @@ internal abstract partial class ViewModelSlim<TPage> : ObservableObject
     protected virtual Task OpenUIAsync()
     {
         return Task.CompletedTask;
+    }
+}
+
+/// <summary>
+/// 简化的视图模型抽象类
+/// 可导航
+/// </summary>
+/// <typeparam name="TPage">页面类型</typeparam>
+internal abstract partial class ViewModelSlim<TPage> : ViewModelSlim
+    where TPage : Page
+{
+    /// <summary>
+    /// 构造一个新的简化的视图模型抽象类
+    /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
+    public ViewModelSlim(IServiceProvider serviceProvider)
+        : base(serviceProvider)
+    {
     }
 
     /// <summary>

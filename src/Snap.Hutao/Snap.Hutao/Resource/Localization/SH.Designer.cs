@@ -3634,6 +3634,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 统计 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageGahcaLogPivotStatistics {
+            get {
+                return ResourceManager.GetString("ViewPageGahcaLogPivotStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 武器 的本地化字符串。
         /// </summary>
         internal static string ViewPageGahcaLogPivotWeapon {

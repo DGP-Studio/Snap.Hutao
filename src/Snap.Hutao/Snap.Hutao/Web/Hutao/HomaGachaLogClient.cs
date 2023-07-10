@@ -43,7 +43,7 @@ internal sealed class HomaGachaLogClient
     public async Task<Response<GachaEventStatistics>> GetGachaEventStatisticsAsync(CancellationToken token = default)
     {
         Response<GachaEventStatistics>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<GachaEventStatistics>>(HutaoEndpoints.GachaLogUids, options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<GachaEventStatistics>>(HutaoEndpoints.GachaLogStatisticsCurrentEvents, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

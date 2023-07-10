@@ -115,6 +115,7 @@
     <None Remove="View\Control\BottomTextControl.xaml" />
     <None Remove="View\Control\DescParamComboBox.xaml" />
     <None Remove="View\Control\Elevation.xaml" />
+    <None Remove="View\Control\HutaoStatisticsCard.xaml" />
     <None Remove="View\Control\ItemIcon.xaml" />
     <None Remove="View\Control\LaunchGameResourceExpander.xaml" />
     <None Remove="View\Control\LoadingView.xaml" />
@@ -299,6 +300,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Control\HutaoStatisticsCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
