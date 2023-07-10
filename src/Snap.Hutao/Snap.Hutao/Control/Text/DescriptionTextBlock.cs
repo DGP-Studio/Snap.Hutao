@@ -69,7 +69,7 @@ internal sealed class DescriptionTextBlock : ContentControl
         for (int i = 0; i < description.Length;)
         {
             // newline
-            if (description.Slice(i, 2).SequenceEqual(@"\n"))
+            if (description.Slice(i, 2) is @"\n")
             {
                 AppendText(text, description[last..i]);
                 AppendLineBreak(text);
