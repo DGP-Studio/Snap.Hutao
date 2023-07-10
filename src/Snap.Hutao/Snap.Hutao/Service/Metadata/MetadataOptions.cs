@@ -97,7 +97,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
 
         while (true)
         {
-            if (cultureInfo == CultureInfo.InvariantCulture)
+            if (Equals(cultureInfo, CultureInfo.InvariantCulture))
             {
                 // Fallback to Chinese.
                 return "CHS";

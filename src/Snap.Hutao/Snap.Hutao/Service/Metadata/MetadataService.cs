@@ -144,7 +144,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         {
             using (StreamWriter streamWriter = File.CreateText(metadataOptions.GetLocalizedLocalFile(fileFullName)))
             {
-                while (await streamReader.ReadLineAsync(token).ConfigureAwait(false) is string line)
+                while (await streamReader.ReadLineAsync(token).ConfigureAwait(false) is { } line)
                 {
                     await streamWriter.WriteAsync(line).ConfigureAwait(false);
 
@@ -182,7 +182,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         else
         {
             FileNotFoundException exception = new(SH.ServiceMetadataFileNotFound, fileName);
-            throw ThrowHelper.UserdataCorrupted(SH.ServiceMetadataFileNotFound, null!);
+            throw ThrowHelper.UserdataCorrupted(SH.ServiceMetadataFileNotFound, exception);
         }
     }
 

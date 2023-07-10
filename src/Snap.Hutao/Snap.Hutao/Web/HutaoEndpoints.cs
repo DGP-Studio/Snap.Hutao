@@ -52,6 +52,11 @@ internal static class HutaoEndpoints
     {
         return $"{HomaSnapGenshinApi}/GachaLog/Delete?Uid={uid}";
     }
+
+    /// <summary>
+    /// 获取祈愿统计信息
+    /// </summary>
+    public const string GachaLogStatisticsCurrentEvents = $"{HomaSnapGenshinApi}/GachaLog/Statistics/CurrentEventStatistics";
     #endregion
 
     #region Passport

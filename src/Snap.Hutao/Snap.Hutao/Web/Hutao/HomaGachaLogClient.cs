@@ -35,7 +35,19 @@ internal sealed class HomaGachaLogClient
         httpClient.DefaultRequestHeaders.Authorization = new("Bearer", hutaoUserOptions.Token);
     }
 
+    /// <summary>
+    /// 异步获取祈愿统计信息
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>祈愿统计信息</returns>
+    public async Task<Response<GachaEventStatistics>> GetGachaEventStatisticsAsync(CancellationToken token = default)
+    {
+        Response<GachaEventStatistics>? resp = await httpClient
+            .TryCatchGetFromJsonAsync<Response<GachaEventStatistics>>(HutaoEndpoints.GachaLogUids, options, logger, token)
+            .ConfigureAwait(false);
 
+        return Response.Response.DefaultIfNull(resp);
+    }
 
     /// <summary>
     /// 异步获取 Uid 列表

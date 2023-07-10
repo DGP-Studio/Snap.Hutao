@@ -36,7 +36,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
         {
             string? path = Path.GetDirectoryName(result.Value);
             string configPath = Path.Combine(path!, GameConstants.ConfigFileName);
-            string? escapedPath = null;
+            string? escapedPath;
             using (FileStream stream = File.OpenRead(configPath))
             {
                 IEnumerable<IniElement> elements = IniSerializer.Deserialize(stream);
@@ -79,7 +79,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
 
     private static string Unescape(string str)
     {
-        string? hex4Result = UTF16Regex().Replace(str, @"\u$1");
+        string hex4Result = UTF16Regex().Replace(str, @"\u$1");
 
         // 不包含中文
         // Some one's folder might begin with 'u'

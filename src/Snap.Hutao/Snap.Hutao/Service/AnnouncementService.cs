@@ -65,7 +65,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
 
     private static void JoinAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
     {
-        Regex timeTagRegrex = XmlTagRegex();
+        Regex timeTagRegex = XmlTagRegex();
 
         foreach (ref AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
@@ -74,7 +74,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                 if (contentMap.TryGetValue(item.AnnId, out string? rawContent))
                 {
                     // remove <t/> tag
-                    rawContent = timeTagRegrex.Replace(rawContent!, x => x.Groups[1].Value);
+                    rawContent = timeTagRegex.Replace(rawContent, x => x.Groups[1].Value);
                 }
 
                 item.Content = rawContent ?? string.Empty;

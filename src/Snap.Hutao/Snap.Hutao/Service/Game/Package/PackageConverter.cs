@@ -320,7 +320,7 @@ internal sealed partial class PackageConverter
         Dictionary<string, VersionItem> results = new();
         using (StreamReader reader = new(stream))
         {
-            while (await reader.ReadLineAsync().ConfigureAwait(false) is string raw)
+            while (await reader.ReadLineAsync().ConfigureAwait(false) is { } raw)
             {
                 if (string.IsNullOrEmpty(raw))
                 {
@@ -341,7 +341,7 @@ internal sealed partial class PackageConverter
 
         using (StreamReader reader = new(stream))
         {
-            while (await reader.ReadLineAsync().ConfigureAwait(false) is string raw)
+            while (await reader.ReadLineAsync().ConfigureAwait(false) is { } raw)
             {
                 if (string.IsNullOrEmpty(raw))
                 {

@@ -130,12 +130,15 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 
     private async Task RefreshUidCollectionAsync()
     {
-        Response<List<string>> resp = await hutaoCloudService.GetUidsAsync().ConfigureAwait(false);
-
-        await taskContext.SwitchToMainThreadAsync();
-        if (Options.IsCloudServiceAllowed = resp.IsOk())
+        if (Options.IsCloudServiceAllowed)
         {
-            Uids = resp.Data!.ToObservableCollection();
+            Response<List<string>> resp = await hutaoCloudService.GetUidsAsync().ConfigureAwait(false);
+
+            await taskContext.SwitchToMainThreadAsync();
+            if (resp.IsOk())
+            {
+                Uids = resp.Data!.ToObservableCollection();
+            }
         }
     }
 }

@@ -72,7 +72,7 @@ internal class MiHoYoJSInterface
         User user = serviceProvider.GetRequiredService<IUserService>().Current!;
         return await serviceProvider
             .GetRequiredService<AuthClient>()
-            .GetActionTicketBySTokenAsync(jsParam.Payload!.ActionType, user.Entity)
+            .GetActionTicketBySTokenAsync(jsParam.Payload.ActionType, user.Entity)
             .ConfigureAwait(false);
     }
 
@@ -200,7 +200,7 @@ internal class MiHoYoJSInterface
     {
         IUserService userService = serviceProvider.GetRequiredService<IUserService>();
         User user = userService.Current!;
-        if (param.Payload!.ForceRefresh)
+        if (param.Payload.ForceRefresh)
         {
             await userService.RefreshCookieTokenAsync(user).ConfigureAwait(false);
         }

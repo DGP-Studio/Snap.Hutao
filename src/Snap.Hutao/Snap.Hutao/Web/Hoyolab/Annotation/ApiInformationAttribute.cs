@@ -9,7 +9,6 @@ namespace Snap.Hutao.Web.Hoyolab.Annotation;
 /// API 信息
 /// 指示此API 已经经过验证，且明确其调用
 /// </summary>
-/// <typeparam name="TReturnType">API 的返回类型</typeparam>
 [AttributeUsage(AttributeTargets.Method)]
 internal sealed class ApiInformationAttribute : Attribute
 {

@@ -85,6 +85,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     public void UpdateUserInfo(UserInfo userInfo)
     {
         IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
+        IsCloudServiceAllowed = userInfo.GachaLogExpireAt > DateTimeOffset.Now;
         GachaLogExpireAt = string.Format(SH.ServiceHutaoUserGachaLogExpiredAt, userInfo.GachaLogExpireAt);
     }
 }

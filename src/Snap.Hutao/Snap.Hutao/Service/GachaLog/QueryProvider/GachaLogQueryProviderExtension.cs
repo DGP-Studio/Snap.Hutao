@@ -21,7 +21,7 @@ internal static class GachaLogQueryProviderExtension
         string? name = option switch
         {
             RefreshOption.WebCache => nameof(GachaLogQueryWebCacheProvider),
-            RefreshOption.SToken => nameof(GachaLogQuerySToken2Provider),
+            RefreshOption.SToken => nameof(GachaLogQuerySTokenProvider),
             RefreshOption.ManualInput => nameof(GachaLogQueryManualInputProvider),
             _ => null,
         };

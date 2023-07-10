@@ -28,3 +28,24 @@ internal sealed class GachaStatisticsSlim
     /// </summary>
     public TypedWishSummarySlim StandardWish { get; set; } = default!;
 }
+
+/// <summary>
+/// 简化的祈愿统计
+/// </summary>
+internal sealed class HutaoStatistics
+{
+    /// <summary>
+    /// 角色活动
+    /// </summary>
+    public TypedWishSummarySlim AvatarEvent { get; set; } = default!;
+
+    /// <summary>
+    /// 角色活动2
+    /// </summary>
+    public TypedWishSummarySlim AvatarEvent2 { get; set; } = default!;
+
+    /// <summary>
+    /// 神铸赋形
+    /// </summary>
+    public TypedWishSummarySlim WeaponWish { get; set; } = default!;
+}

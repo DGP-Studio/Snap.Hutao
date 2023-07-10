@@ -203,7 +203,7 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
     {
-        if (frame != null && frame.CanGoBack)
+        if (frame is { CanGoBack: true })
         {
             frame.GoBack();
             SyncSelectedNavigationViewItemWith(frame.Content.GetType());

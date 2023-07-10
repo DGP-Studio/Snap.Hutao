@@ -15,13 +15,13 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [HighQuality]
 [ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
-internal sealed partial class GachaLogQuerySToken2Provider : IGachaLogQueryProvider
+internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
     private readonly BindingClient2 bindingClient2;
     private readonly IUserService userService;
 
     /// <inheritdoc/>
-    public string Name { get => nameof(GachaLogQuerySToken2Provider); }
+    public string Name { get => nameof(GachaLogQuerySTokenProvider); }
 
     /// <inheritdoc/>
     public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
