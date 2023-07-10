@@ -4,6 +4,7 @@ desktop.ini
 *.pubxml
 
 .vs/
+.idea/
 src/Snap.Hutao/_ReSharper.Caches
 
 src/Snap.Hutao/Snap.Hutao/bin/
