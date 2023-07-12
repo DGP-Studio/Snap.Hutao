@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Web.Hutao.Model;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -86,6 +87,6 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     {
         IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
         IsCloudServiceAllowed = userInfo.GachaLogExpireAt > DateTimeOffset.Now;
-        GachaLogExpireAt = string.Format(SH.ServiceHutaoUserGachaLogExpiredAt, userInfo.GachaLogExpireAt);
+        GachaLogExpireAt = string.Format(Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt), userInfo.GachaLogExpireAt);
     }
 }

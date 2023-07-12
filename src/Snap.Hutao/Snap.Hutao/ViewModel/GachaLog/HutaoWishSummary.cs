@@ -16,6 +16,11 @@ internal sealed class HutaoWishSummary
     public GachaEvent Event { get; set; } = default!;
 
     /// <summary>
+    /// Up 物品
+    /// </summary>
+    public List<StatisticsItem> UpItems { get; set; } = default!;
+
+    /// <summary>
     /// 五星物品
     /// </summary>
     public List<StatisticsItem> OrangeItems { get; set; } = default!;

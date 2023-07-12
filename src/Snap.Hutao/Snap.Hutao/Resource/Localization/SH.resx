@@ -2038,10 +2038,10 @@
     <value>原粹树脂已完全恢复</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈愿记录上传服务将于 {0:yyyy-MM-dd HH:mm:ss} 到期</value>
+    <value>祈愿记录上传服务有效期至\n{0:yyyy-MM-dd HH:mm:ss}</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
-    <value>已注册为开发者，即使服务过期依旧能使用</value>
+    <value>开发者账号无视服务到期时间</value>
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
     <value>统计</value>

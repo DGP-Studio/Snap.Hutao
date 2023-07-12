@@ -45,6 +45,7 @@ internal sealed class HutaoStatisticsFactory
 
     private HutaoWishSummary CreateWishSummary(GachaEvent gachaEvent, List<ItemCount> items)
     {
+        List<StatisticsItem> upItems = new();
         List<StatisticsItem> orangeItems = new();
         List<StatisticsItem> purpleItems = new();
         List<StatisticsItem> blueItems = new();
@@ -59,19 +60,27 @@ internal sealed class HutaoStatisticsFactory
             };
             StatisticsItem statisticsItem = source.ToStatisticsItem(unchecked((int)item.Count));
 
-            List<StatisticsItem> list = statisticsItem.Quality switch
+            if (gachaEvent.UpOrangeList.Contains(item.Item) || gachaEvent.UpPurpleList.Contains(item.Item))
             {
-                QualityType.QUALITY_ORANGE => orangeItems,
-                QualityType.QUALITY_PURPLE => purpleItems,
-                QualityType.QUALITY_BLUE => blueItems,
-                _ => throw Must.NeverHappen("意外的物品等级"),
-            };
-            list.Add(statisticsItem);
+                upItems.Add(statisticsItem);
+            }
+            else
+            {
+                List<StatisticsItem> list = statisticsItem.Quality switch
+                {
+                    QualityType.QUALITY_ORANGE => orangeItems,
+                    QualityType.QUALITY_PURPLE => purpleItems,
+                    QualityType.QUALITY_BLUE => blueItems,
+                    _ => throw Must.NeverHappen("意外的物品等级"),
+                };
+                list.Add(statisticsItem);
+            }
         }
 
         return new()
         {
             Event = gachaEvent,
+            UpItems = upItems.OrderByDescending(i => i.Quality).ThenByDescending(i => i.Count).ToList(),
             OrangeItems = orangeItems.OrderByDescending(i => i.Count).ToList(),
             PurpleItems = purpleItems.OrderByDescending(i => i.Count).ToList(),
             BlueItems = blueItems.OrderByDescending(i => i.Count).ToList(),

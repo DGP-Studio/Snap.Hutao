@@ -5,6 +5,7 @@ using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Game;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
@@ -50,7 +51,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             {
                 if (tempFile == null)
                 {
-                    return new(false, string.Format(SH.ServiceGachaLogUrlProviderCachePathNotFound, cacheFile));
+                    return new(false, string.Format(Regex.Unescape(SH.ServiceGachaLogUrlProviderCachePathNotFound), cacheFile));
                 }
 
                 using (FileStream fileStream = new(tempFile.Path, FileMode.Open, FileAccess.Read, FileShare.Read))

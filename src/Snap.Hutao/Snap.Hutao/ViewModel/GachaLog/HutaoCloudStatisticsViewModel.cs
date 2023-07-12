@@ -30,12 +30,15 @@ internal sealed class HutaoCloudStatisticsViewModel : Abstraction.ViewModelSlim
 
     protected override async Task OpenUIAsync()
     {
+        ITaskContext taskContext = ServiceProvider.GetRequiredService<ITaskContext>();
+        await taskContext.SwitchToBackgroundAsync();
         IHutaoCloudService hutaoCloudService = ServiceProvider.GetRequiredService<IHutaoCloudService>();
         (bool isOk, HutaoStatistics statistics) = await hutaoCloudService.GetCurrentEventStatisticsAsync().ConfigureAwait(false);
         if (isOk)
         {
-            await ServiceProvider.GetRequiredService<ITaskContext>().SwitchToMainThreadAsync();
+            await taskContext.SwitchToMainThreadAsync();
             Statistics = statistics;
+            IsInitialized = true;
         }
     }
 }
