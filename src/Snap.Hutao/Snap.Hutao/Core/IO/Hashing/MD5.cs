@@ -19,7 +19,7 @@ internal static class MD5
     /// <returns>文件 Md5 摘要</returns>
     public static async Task<string> HashFileAsync(string filePath, CancellationToken token = default)
     {
-        using (FileStream stream = File.OpenRead(filePath))
+        await using (FileStream stream = File.OpenRead(filePath))
         {
             return await HashAsync(stream, token).ConfigureAwait(false);
         }

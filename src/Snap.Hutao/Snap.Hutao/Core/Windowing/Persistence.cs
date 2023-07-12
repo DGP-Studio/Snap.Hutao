@@ -85,13 +85,13 @@ internal static class Persistence
         HWND fgHwnd = GetForegroundWindow();
 
         uint threadIdHwnd = GetWindowThreadProcessId(hwnd);
-        uint threadIdfgHwnd = GetWindowThreadProcessId(fgHwnd);
+        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd);
 
-        if (threadIdHwnd != threadIdfgHwnd)
+        if (threadIdHwnd != threadIdFgHwnd)
         {
-            AttachThreadInput(threadIdHwnd, threadIdfgHwnd, true);
+            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, true);
             SetForegroundWindow(hwnd);
-            AttachThreadInput(threadIdHwnd, threadIdfgHwnd, false);
+            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, false);
         }
         else
         {

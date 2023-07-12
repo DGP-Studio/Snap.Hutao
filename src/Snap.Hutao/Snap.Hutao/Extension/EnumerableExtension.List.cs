@@ -12,7 +12,7 @@ namespace Snap.Hutao.Extension;
 internal static partial class EnumerableExtension
 {
     /// <inheritdoc cref="Enumerable.Average(IEnumerable{int})"/>
-    public static unsafe double UnsafeAverage(this List<int> source)
+    public static double SpanAverage(this List<int> source)
     {
         Span<int> span = CollectionsMarshal.AsSpan(source);
         if (span.IsEmpty)

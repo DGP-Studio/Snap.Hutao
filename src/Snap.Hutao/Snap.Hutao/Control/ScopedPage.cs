@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Snap.Hutao.Service.Navigation;
@@ -25,7 +26,7 @@ internal class ScopedPage : Page
     /// <summary>
     /// 构造一个新的页面
     /// </summary>
-    public ScopedPage()
+    protected ScopedPage()
     {
         Unloaded += OnScopedPageUnloaded;
         currentScope = Ioc.Default.CreateScope();
@@ -51,7 +52,7 @@ internal class ScopedPage : Page
     /// 应当在 InitializeComponent() 前调用
     /// </summary>
     /// <typeparam name="TViewModel">视图模型类型</typeparam>
-    public void InitializeWith<TViewModel>()
+    protected void InitializeWith<TViewModel>()
         where TViewModel : class, IViewModel
     {
         IViewModel viewModel = currentScope.ServiceProvider.GetRequiredService<TViewModel>();

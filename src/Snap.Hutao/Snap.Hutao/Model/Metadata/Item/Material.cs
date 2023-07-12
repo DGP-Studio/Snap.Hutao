@@ -5,6 +5,8 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Immutable;
+using System.Text.RegularExpressions;
+using Snap.Hutao.Model.Intrinsic.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Item;
 
@@ -46,24 +48,19 @@ internal sealed class Material : DisplayItem
             return true;
         }
 
-        // TODO: support non-CHS
-        if (TypeDescription.EndsWith("区域特产"))
+        if (Regex.IsMatch(TypeDescription, SH.ModelMetadataMaterialLocalSpecialtyRegex))
         {
             return true;
         }
 
-        // TODO: support non-CHS
-        return TypeDescription switch
-        {
-            "角色与武器培养素材" => true, // 怪物掉落
-            "角色经验素材" => true,      // 经验书
-            "角色突破素材" => true,      // 元素晶石
-            "角色天赋素材" => true,      // 天赋本
-            "角色培养素材" => true,      // 40体BOSS/周本掉落
-            "武器强化素材" => true,      // 魔矿
-            "武器突破素材" => true,      // 武器本
-            _ => false,
-        };
+        // Character and Weapon Enhancement Material // 怪物掉落
+        // Character EXP Material                    // 经验书
+        // Character Ascension Material              // 元素晶石
+        // Character Talent Material                 // 天赋本
+        // Character Level-Up Material               // 40体BOSS/周本掉落
+        // Weapon Enhancement Material               // 魔矿
+        // Weapon Ascension Material                 // 武器本
+        return IntrinsicImmutable.MaterialTypeDescriptions.Contains(TypeDescription);
     }
 
     /// <summary>

@@ -21,7 +21,7 @@ internal sealed class IniComment : IniElement
     /// <summary>
     /// 注释
     /// </summary>
-    public string Comment { get; set; }
+    public string Comment { get; }
 
     /// <inheritdoc/>
     public override string ToString()

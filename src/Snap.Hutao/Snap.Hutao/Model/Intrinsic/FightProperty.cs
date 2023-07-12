@@ -18,55 +18,55 @@ internal enum FightProperty
     /// <summary>
     /// 基础生命值
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyBaseHp")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyBaseHp))]
     FIGHT_PROP_BASE_HP = 1,
 
     /// <summary>
     /// 小生命值加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyHp")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyHp))]
     FIGHT_PROP_HP = 2,
 
     /// <summary>
     /// 生命值加成百分比
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyHp")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyHp))]
     FIGHT_PROP_HP_PERCENT = 3,
 
     /// <summary>
     /// 基础攻击力
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyBaseAtk")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyBaseAtk))]
     FIGHT_PROP_BASE_ATTACK = 4,
 
     /// <summary>
     /// 攻击力加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyAtk")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyAtk))]
     FIGHT_PROP_ATTACK = 5,
 
     /// <summary>
     /// 攻击力百分比
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyAtk")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyAtk))]
     FIGHT_PROP_ATTACK_PERCENT = 6,
 
     /// <summary>
     /// 基础防御力
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyBaseDef")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyBaseDef))]
     FIGHT_PROP_BASE_DEFENSE = 7,
 
     /// <summary>
     /// 防御力加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDef")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDef))]
     FIGHT_PROP_DEFENSE = 8,
 
     /// <summary>
     /// 防御力百分比
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDef")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDef))]
     FIGHT_PROP_DEFENSE_PERCENT = 9,
 
     /// <summary>
@@ -92,7 +92,7 @@ internal enum FightProperty
     /// <summary>
     /// 暴击率
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyCR")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyCR))]
     FIGHT_PROP_CRITICAL = 20,
 
     /// <summary>
@@ -103,13 +103,13 @@ internal enum FightProperty
     /// <summary>
     /// 暴击伤害
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyCDmg")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyCDmg))]
     FIGHT_PROP_CRITICAL_HURT = 22,
 
     /// <summary>
     /// 元素充能效率
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyCE")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyCE))]
     FIGHT_PROP_CHARGE_EFFICIENCY = 23,
 
     /// <summary>
@@ -125,7 +125,7 @@ internal enum FightProperty
     /// <summary>
     /// 治疗提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyHB")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyHB))]
     FIGHT_PROP_HEAL_ADD = 26,
 
     /// <summary>
@@ -136,19 +136,19 @@ internal enum FightProperty
     /// <summary>
     /// 元素精通
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyEM")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyEM))]
     FIGHT_PROP_ELEMENT_MASTERY = 28,
 
     /// <summary>
     /// 物理抗性提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyRESPhysical")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESPhysical))]
     FIGHT_PROP_PHYSICAL_SUB_HURT = 29,
 
     /// <summary>
     /// 物理伤害加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDBPhyiscal")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDBPhyiscal))]
     FIGHT_PROP_PHYSICAL_ADD_HURT = 30,
 
     /// <summary>
@@ -164,43 +164,43 @@ internal enum FightProperty
     /// <summary>
     /// 火元素伤害加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDBFire")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDBFire))]
     FIGHT_PROP_FIRE_ADD_HURT = 40,
 
     /// <summary>
     /// 雷元素伤害加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDBElec")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDBElec))]
     FIGHT_PROP_ELEC_ADD_HURT = 41,
 
     /// <summary>
     /// 水元素伤害加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDBWater")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDBWater))]
     FIGHT_PROP_WATER_ADD_HURT = 42,
 
     /// <summary>
     /// 草元素伤害加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDBGrass")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDBGrass))]
     FIGHT_PROP_GRASS_ADD_HURT = 43,
 
     /// <summary>
     /// 风元素伤害加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDBWind")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDBWind))]
     FIGHT_PROP_WIND_ADD_HURT = 44,
 
     /// <summary>
     /// 岩元素伤害加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDBRock")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDBRock))]
     FIGHT_PROP_ROCK_ADD_HURT = 45,
 
     /// <summary>
     /// 冰元素伤害加成
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDBIce")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDBIce))]
     FIGHT_PROP_ICE_ADD_HURT = 46,
 
     /// <summary>
@@ -211,43 +211,43 @@ internal enum FightProperty
     /// <summary>
     /// 火元素抗性提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyRESFire")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESFire))]
     FIGHT_PROP_FIRE_SUB_HURT = 50,
 
     /// <summary>
     /// 雷元素抗性提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyRESElec")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESElec))]
     FIGHT_PROP_ELEC_SUB_HURT = 51,
 
     /// <summary>
     /// 雷元素抗性提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyRESWater")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESWater))]
     FIGHT_PROP_WATER_SUB_HURT = 52,
 
     /// <summary>
     /// 草元素抗性提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyRESGrass")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESGrass))]
     FIGHT_PROP_GRASS_SUB_HURT = 53,
 
     /// <summary>
     /// 风元素抗性提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyRESWind")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESWind))]
     FIGHT_PROP_WIND_SUB_HURT = 54,
 
     /// <summary>
     /// 岩元素抗性提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyRESRock")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESRock))]
     FIGHT_PROP_ROCK_SUB_HURT = 55,
 
     /// <summary>
     /// 冰元素抗性提升
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyRESIce")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyRESIce))]
     FIGHT_PROP_ICE_SUB_HURT = 56,
 
     /// <summary>
@@ -378,19 +378,19 @@ internal enum FightProperty
     /// <summary>
     /// 最大生命值
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyHp")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyHp))]
     FIGHT_PROP_MAX_HP = 2000,
 
     /// <summary>
     /// 当前攻击力
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyAtk")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyAtk))]
     FIGHT_PROP_CUR_ATTACK = 2001,
 
     /// <summary>
     /// 当前防御力
     /// </summary>
-    [LocalizationKey("ServiceAvatarInfoPropertyDef")]
+    [LocalizationKey(nameof(SH.ServiceAvatarInfoPropertyDef))]
     FIGHT_PROP_CUR_DEFENSE = 2002,
 
     /// <summary>

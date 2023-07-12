@@ -34,7 +34,7 @@ internal sealed class AppDbContext : DbContext
         : this(options)
     {
         this.logger = logger;
-        logger.LogInformation("{name}[{id}] created.", nameof(AppDbContext), ContextId);
+        logger.LogInformation("{Name}[{Id}] created", nameof(AppDbContext), ContextId);
     }
 
     /// <summary>
@@ -136,7 +136,7 @@ internal sealed class AppDbContext : DbContext
     public override void Dispose()
     {
         base.Dispose();
-        logger?.LogInformation("AppDbContext[{id}] disposed.", ContextId);
+        logger?.LogInformation("{Name}[{Id}] disposed", nameof(AppDbContext), ContextId);
     }
 
     /// <inheritdoc/>

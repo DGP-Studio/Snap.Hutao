@@ -185,7 +185,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
             double scale = Persistence.GetScaleForWindowHandle(options.Hwnd);
 
             // 48 is the navigation button leftInset
-            RectInt32 dragRect = StructMarshal.RectInt32(new(48, 0), options.TitleBar.ActualSize).Scale(scale);
+            RectInt32 dragRect = StructMarshal.RectInt32(48, 0, options.TitleBar.ActualSize).Scale(scale);
             appTitleBar.SetDragRectangles(dragRect.ToArray());
 
             // workaround for https://github.com/microsoft/WindowsAppSDK/issues/2976

@@ -16,7 +16,7 @@ internal sealed class TempFile : IDisposable
     /// 构造一个新的临时文件
     /// </summary>
     /// <param name="delete">是否在创建时删除文件</param>
-    public TempFile(bool delete = false)
+    private TempFile(bool delete = false)
     {
         try
         {

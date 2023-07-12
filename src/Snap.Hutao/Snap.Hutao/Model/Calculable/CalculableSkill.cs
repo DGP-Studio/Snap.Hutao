@@ -25,7 +25,7 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
     /// <param name="skill">技能</param>
     public CalculableSkill(ProudableSkill skill)
     {
-        GruopId = skill.GroupId;
+        GroupId = skill.GroupId;
         LevelMin = 1;
         LevelMax = 10; // hard coded 10 here
         Name = skill.Name;
@@ -42,7 +42,7 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
     /// <param name="skill">技能</param>
     public CalculableSkill(SkillView skill)
     {
-        GruopId = skill.GroupId;
+        GroupId = skill.GroupId;
         LevelMin = skill.LevelNumber;
         LevelMax = 10; // hard coded 10 here
         Name = skill.Name;
@@ -54,7 +54,7 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
     }
 
     /// <inheritdoc/>
-    public SkillGroupId GruopId { get; }
+    public SkillGroupId GroupId { get; }
 
     /// <inheritdoc/>
     public uint LevelMin { get; }

@@ -18,36 +18,36 @@ internal enum QualityType
     /// <summary>
     /// 一星
     /// </summary>
-    [LocalizationKey("ModelIntrinsicItemQualityWhite")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicItemQualityWhite))]
     QUALITY_WHITE = 1,
 
     /// <summary>
     /// 二星
     /// </summary>
-    [LocalizationKey("ModelIntrinsicItemQualityGreen")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicItemQualityGreen))]
     QUALITY_GREEN = 2,
 
     /// <summary>
     /// 三星
     /// </summary>
-    [LocalizationKey("ModelIntrinsicItemQualityBlue")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicItemQualityBlue))]
     QUALITY_BLUE = 3,
 
     /// <summary>
     /// 四星
     /// </summary>
-    [LocalizationKey("ModelIntrinsicItemQualityPurple")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicItemQualityPurple))]
     QUALITY_PURPLE = 4,
 
     /// <summary>
     /// 五星
     /// </summary>
-    [LocalizationKey("ModelIntrinsicItemQualityOrange")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicItemQualityOrange))]
     QUALITY_ORANGE = 5,
 
     /// <summary>
     /// 限定五星
     /// </summary>
-    [LocalizationKey("ModelIntrinsicItemQualityRed")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicItemQualityRed))]
     QUALITY_ORANGE_SP = 105,
 }

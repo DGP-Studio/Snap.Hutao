@@ -35,7 +35,7 @@ internal static class TaskExtension
             }
         }
 #else
-        catch (Exception)
+        catch
         {
         }
 #endif
@@ -46,7 +46,7 @@ internal static class TaskExtension
     /// </summary>
     /// <param name="task">任务</param>
     /// <param name="logger">日志器</param>
-    public static async void SafeForget(this Task task, ILogger? logger = null)
+    public static async void SafeForget(this Task task, ILogger logger)
     {
         try
         {
@@ -58,7 +58,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), e.GetBaseException());
         }
     }
 
@@ -68,7 +68,7 @@ internal static class TaskExtension
     /// <param name="task">任务</param>
     /// <param name="logger">日志器</param>
     /// <param name="onException">发生异常时调用</param>
-    public static async void SafeForget(this Task task, ILogger? logger = null, Action<Exception>? onException = null)
+    public static async void SafeForget(this Task task, ILogger logger, Action<Exception> onException)
     {
         try
         {
@@ -80,7 +80,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), e.GetBaseException());
             onException?.Invoke(e);
         }
     }
@@ -92,7 +92,7 @@ internal static class TaskExtension
     /// <param name="logger">日志器</param>
     /// <param name="onCanceled">任务取消时调用</param>
     /// <param name="onException">发生异常时调用</param>
-    public static async void SafeForget(this Task task, ILogger? logger = null, Action? onCanceled = null, Action<Exception>? onException = null)
+    public static async void SafeForget(this Task task, ILogger logger, Action onCanceled, Action<Exception>? onException = null)
     {
         try
         {
@@ -104,7 +104,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{caller}:\r\n{exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), e.GetBaseException());
             onException?.Invoke(e);
         }
     }

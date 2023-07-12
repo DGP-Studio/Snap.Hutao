@@ -19,7 +19,7 @@ internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
     /// <returns>图标链接</returns>
     public static Uri WeaponTypeToIconUri(WeaponType type)
     {
-        string element = type switch
+        string weapon = type switch
         {
             WeaponType.WEAPON_SWORD_ONE_HAND => "01",
             WeaponType.WEAPON_BOW => "02",
@@ -29,7 +29,7 @@ internal sealed class WeaponTypeIconConverter : ValueConverter<WeaponType, Uri>
             _ => throw Must.NeverHappen(),
         };
 
-        return Web.HutaoEndpoints.StaticFile("Skill", $"Skill_A_{element}.png").ToUri();
+        return Web.HutaoEndpoints.StaticFile("Skill", $"Skill_A_{weapon}.png").ToUri();
     }
 
     /// <inheritdoc/>

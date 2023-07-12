@@ -23,6 +23,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
 {
     private const string CacheFolderName = nameof(ImageCache);
 
+    // TODO: use FrozenDictionary
     private static readonly Dictionary<int, TimeSpan> RetryCountToDelay = new()
     {
         [0] = TimeSpan.FromSeconds(4),
@@ -173,14 +174,14 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
             }
             catch (Exception ex)
             {
-                logger.LogWarning(ex, "Remove Cache Image Failed:{file}", filePath);
+                logger.LogWarning(ex, "Remove Cache Image Failed:{File}", filePath);
             }
         }
     }
 
     private async Task DownloadFileAsync(Uri uri, string baseFile)
     {
-        logger.LogInformation("Begin downloading for {uri}", uri);
+        logger.LogInformation("Begin downloading for {Uri}", uri);
 
         int retryCount = 0;
         while (retryCount < 6)
@@ -209,7 +210,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
                     {
                         retryCount++;
                         TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
-                        logger.LogInformation("Retry {uri} after {delay}.", uri, delay);
+                        logger.LogInformation("Retry {Uri} after {Delay}.", uri, delay);
                         await Task.Delay(delay).ConfigureAwait(false);
                         break;
                     }

@@ -14,7 +14,7 @@ internal interface ICalculableSkill : ICalculable
     /// <summary>
     /// 技能组Id
     /// </summary>
-    SkillGroupId GruopId { get; }
+    SkillGroupId GroupId { get; }
 
     /// <summary>
     /// 最小等级

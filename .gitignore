@@ -2,6 +2,7 @@ desktop.ini
 
 *.csproj.user
 *.pubxml
+*.DotSettings.user
 
 .vs/
 .idea/

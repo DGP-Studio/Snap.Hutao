@@ -39,7 +39,7 @@ internal static class IniSerializer
 
                 if (line.IndexOf('=') > 0)
                 {
-                    string[] parameters = line.Split('=', 2);
+                    string[] parameters = line.Split('=', 2, StringSplitOptions.TrimEntries);
                     yield return new IniParameter(parameters[0], parameters[1]);
                 }
             }

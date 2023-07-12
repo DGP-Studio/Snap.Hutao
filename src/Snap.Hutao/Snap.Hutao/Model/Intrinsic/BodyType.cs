@@ -18,30 +18,30 @@ internal enum BodyType
     /// <summary>
     /// 男孩
     /// </summary>
-    [LocalizationKey("ModelIntrinsicBodyTypeBoy")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicBodyTypeBoy))]
     BODY_BOY,
 
     /// <summary>
     /// 女孩
     /// </summary>
-    [LocalizationKey("ModelIntrinsicBodyTypeGirl")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicBodyTypeGirl))]
     BODY_GIRL,
 
     /// <summary>
     /// 成女
     /// </summary>
-    [LocalizationKey("ModelIntrinsicBodyTypeLady")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicBodyTypeLady))]
     BODY_LADY,
 
     /// <summary>
     /// 成男
     /// </summary>
-    [LocalizationKey("ModelIntrinsicBodyTypeMale")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicBodyTypeMale))]
     BODY_MALE,
 
     /// <summary>
     /// 萝莉
     /// </summary>
-    [LocalizationKey("ModelIntrinsicBodyTypeLoli")]
+    [LocalizationKey(nameof(SH.ModelIntrinsicBodyTypeLoli))]
     BODY_LOLI,
 }

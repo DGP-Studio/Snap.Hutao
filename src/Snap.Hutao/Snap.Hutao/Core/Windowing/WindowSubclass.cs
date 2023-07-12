@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.InteropServices;
 using Microsoft.UI.Xaml;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
@@ -24,7 +25,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
 
     // We have to explicitly hold a reference to SUBCLASSPROC
     private SUBCLASSPROC? windowProc;
-    private SUBCLASSPROC? dragBarProc;
+    private SUBCLASSPROC? legacyDragBarProc;
 
     /// <summary>
     /// 构造一个新的窗体子类管理器
@@ -62,8 +63,8 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
             return windowHooked && titleBarHooked;
         }
 
-        dragBarProc = OnDragBarProcedure;
-        titleBarHooked = SetWindowSubclass(hwndDragBar, dragBarProc, DragBarSubclassId, 0);
+        legacyDragBarProc = OnLegacyDragBarProcedure;
+        titleBarHooked = SetWindowSubclass(hwndDragBar, legacyDragBarProc, DragBarSubclassId, 0);
 
         return windowHooked && titleBarHooked;
     }
@@ -81,8 +82,8 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
             return;
         }
 
-        RemoveWindowSubclass(options.Hwnd, dragBarProc, DragBarSubclassId);
-        dragBarProc = null;
+        RemoveWindowSubclass(options.Hwnd, legacyDragBarProc, DragBarSubclassId);
+        legacyDragBarProc = null;
     }
 
     [SuppressMessage("", "SH002")]
@@ -108,7 +109,7 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
     }
 
     [SuppressMessage("", "SH002")]
-    private LRESULT OnDragBarProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
+    private LRESULT OnLegacyDragBarProcedure(HWND hwnd, uint uMsg, WPARAM wParam, LPARAM lParam, nuint uIdSubclass, nuint dwRefData)
     {
         switch (uMsg)
         {

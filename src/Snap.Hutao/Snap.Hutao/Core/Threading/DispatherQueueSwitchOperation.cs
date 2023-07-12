@@ -44,7 +44,7 @@ internal readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQue
     /// <inheritdoc/>
     public void OnCompleted(Action continuation)
     {
-        dispatherQueue.TryEnqueue(continuation.Invoke);
+        dispatherQueue.TryEnqueue(new DispatcherQueueHandler(continuation));
     }
 
     /// <inheritdoc/>
@@ -52,7 +52,7 @@ internal readonly struct DispatherQueueSwitchOperation : IAwaitable<DispatherQue
     {
         using (ExecutionContext.SuppressFlow())
         {
-            dispatherQueue.TryEnqueue(continuation.Invoke);
+            dispatherQueue.TryEnqueue(new DispatcherQueueHandler(continuation));
         }
     }
 }

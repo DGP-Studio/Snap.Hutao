@@ -10,23 +10,20 @@ namespace Snap.Hutao.Core.IO;
 /// </summary>
 internal readonly struct ValueFile
 {
-    /// <summary>
-    /// 值
-    /// </summary>
-    public readonly string Value;
+    private readonly string value;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ValueFile"/> struct.
     /// </summary>
     /// <param name="value">value</param>
-    public ValueFile(string value)
+    private ValueFile(string value)
     {
-        Value = value;
+        this.value = value;
     }
 
     public static implicit operator string(ValueFile value)
     {
-        return value.Value;
+        return value.value;
     }
 
     public static implicit operator ValueFile(string value)
@@ -45,7 +42,7 @@ internal readonly struct ValueFile
     {
         try
         {
-            using (FileStream stream = File.OpenRead(Value))
+            using (FileStream stream = File.OpenRead(value))
             {
                 T? t = await JsonSerializer.DeserializeAsync<T>(stream, options).ConfigureAwait(false);
                 return new(true, t);
@@ -69,7 +66,7 @@ internal readonly struct ValueFile
     {
         try
         {
-            using (FileStream stream = File.Create(Value))
+            using (FileStream stream = File.Create(value))
             {
                 await JsonSerializer.SerializeAsync(stream, obj, options).ConfigureAwait(false);
             }
@@ -85,6 +82,6 @@ internal readonly struct ValueFile
     /// <inheritdoc/>
     public override int GetHashCode()
     {
-        return Value.GetHashCode();
+        return value.GetHashCode();
     }
 }

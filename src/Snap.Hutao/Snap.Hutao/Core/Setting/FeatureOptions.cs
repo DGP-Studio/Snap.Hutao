@@ -28,6 +28,7 @@ internal sealed class FeatureOptions : IReadOnlyCollection<Feature>
     {
         // TODO: Use source generator
         yield return IsDailyNoteSilentVerificationEnabled;
+        yield return IsMetadataUpdateCheckSuppressed;
     }
 
     /// <inheritdoc/>

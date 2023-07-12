@@ -14,17 +14,17 @@ internal sealed class HttpClientAttribute : Attribute
     /// <summary>
     /// 构造一个新的特性
     /// </summary>
-    /// <param name="configration">配置</param>
-    public HttpClientAttribute(HttpClientConfiguration configration)
+    /// <param name="configuration">配置</param>
+    public HttpClientAttribute(HttpClientConfiguration configuration)
     {
     }
 
     /// <summary>
     /// 构造一个新的特性
     /// </summary>
-    /// <param name="configration">配置</param>
+    /// <param name="configuration">配置</param>
     /// <param name="interfaceType">实现的接口类型</param>
-    public HttpClientAttribute(HttpClientConfiguration configration, Type interfaceType)
+    public HttpClientAttribute(HttpClientConfiguration configuration, Type interfaceType)
     {
     }
 }

@@ -8,6 +8,7 @@ namespace Snap.Hutao.Message;
 /// </summary>
 /// <typeparam name="TValue">值的类型</typeparam>
 [HighQuality]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)]
 internal abstract class ValueChangedMessage<TValue>
     where TValue : class
 {

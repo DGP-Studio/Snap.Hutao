@@ -41,16 +41,16 @@ internal sealed partial class ExceptionRecorder
 #pragma warning restore VSTHRD002
 #endif
 
-        logger.LogError("未经处理的全局异常:\r\n{detail}", ExceptionFormat.Format(e.Exception));
+        logger.LogError("未经处理的全局异常:\r\n{Detail}", ExceptionFormat.Format(e.Exception));
     }
 
     private void OnXamlBindingFailed(object? sender, BindingFailedEventArgs e)
     {
-        logger.LogCritical("XAML 绑定失败:{message}", e.Message);
+        logger.LogCritical("XAML 绑定失败:{Message}", e.Message);
     }
 
     private void OnXamlResourceReferenceFailed(DebugSettings sender, XamlResourceReferenceFailedEventArgs e)
     {
-        logger.LogCritical("XAML 资源引用失败:{message}", e.Message);
+        logger.LogCritical("XAML 资源引用失败:{Message}", e.Message);
     }
 }

@@ -17,6 +17,6 @@ internal readonly struct MeasureExecutionToken : IDisposable
 
     public void Dispose()
     {
-        logger.LogInformation("{caller} toke {time} ms.", callerName, stopwatch.GetElapsedTime().TotalMilliseconds);
+        logger.LogInformation("{Caller} toke {Time} ms", callerName, stopwatch.GetElapsedTime().TotalMilliseconds);
     }
 }

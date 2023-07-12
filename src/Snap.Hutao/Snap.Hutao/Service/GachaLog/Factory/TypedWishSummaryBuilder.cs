@@ -151,8 +151,8 @@ internal sealed class TypedWishSummaryBuilder
             TotalOrangePercent = totalOrangePullTracker / totalCount,
             TotalPurplePercent = totalPurplePullTracker / totalCount,
             TotalBluePercent = totalBluePullTracker / totalCount,
-            AverageOrangePull = averageOrangePullTracker.UnsafeAverage(),
-            AverageUpOrangePull = averageUpOrangePullTracker.UnsafeAverage(),
+            AverageOrangePull = averageOrangePullTracker.SpanAverage(),
+            AverageUpOrangePull = averageUpOrangePullTracker.SpanAverage(),
             OrangeList = summaryItems,
         };
     }

@@ -23,12 +23,12 @@ internal sealed class IniParameter : IniElement
     /// <summary>
     /// 键
     /// </summary>
-    public string Key { get; set; }
+    public string Key { get; }
 
     /// <summary>
     /// 值
     /// </summary>
-    public string Value { get; set; }
+    public string Value { get; private set; }
 
     /// <summary>
     /// 设置值

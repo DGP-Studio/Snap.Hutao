@@ -273,7 +273,7 @@
   <data name="ModelIntrinsicBodyTypeLady" xml:space="preserve">
     <value>成女</value>
   </data>
-  <data name="ModelIntrinsicBodyTypeloli" xml:space="preserve">
+  <data name="ModelIntrinsicBodyTypeLoli" xml:space="preserve">
     <value>萝莉</value>
   </data>
   <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
@@ -2045,5 +2045,29 @@
   </data>
   <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
     <value>统计</value>
+  </data>
+  <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
+    <value>角色与武器培养素材</value>
+  </data>
+  <data name="ModelMetadataMaterialCharacterEXPMaterial" xml:space="preserve">
+    <value>角色经验素材</value>
+  </data>
+  <data name="ModelMetadataMaterialCharacterAscensionMaterial" xml:space="preserve">
+    <value>角色突破素材</value>
+  </data>
+  <data name="ModelMetadataMaterialCharacterTalentMaterial" xml:space="preserve">
+    <value>角色天赋素材</value>
+  </data>
+  <data name="ModelMetadataMaterialCharacterLevelUpMaterial" xml:space="preserve">
+    <value>角色培养素材</value>
+  </data>
+  <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
+    <value>武器强化素材</value>
+  </data>
+  <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
+    <value>武器突破素材</value>
+  </data>
+  <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
+    <value>[\u4e00-\u9fa5]{2}区域特产$</value>
   </data>
 </root>

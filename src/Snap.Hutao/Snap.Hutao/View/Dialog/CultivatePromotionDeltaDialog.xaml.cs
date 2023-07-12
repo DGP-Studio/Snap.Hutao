@@ -73,7 +73,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
                 AvatarLevelTarget = Avatar?.LevelTarget ?? 0,
                 SkillList = Avatar?.Skills.Select(s => new PromotionDelta()
                 {
-                    Id = s.GruopId,
+                    Id = s.GroupId,
                     LevelCurrent = s.LevelCurrent,
                     LevelTarget = s.LevelTarget,
                 }),
