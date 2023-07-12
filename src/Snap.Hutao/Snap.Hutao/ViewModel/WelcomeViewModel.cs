@@ -191,7 +191,9 @@ internal sealed partial class WelcomeViewModel : ObservableObject
             {
                 logger.LogError(ex, "Download Static Zip failed");
                 await taskContext.SwitchToMainThreadAsync();
-                Description = SH.ViewModelWelcomeDownloadSummaryException;
+                Description = ex is HttpRequestException httpRequestException
+                    ? $"{SH.ViewModelWelcomeDownloadSummaryException} - HTTP {httpRequestException.StatusCode:D}"
+                    : SH.ViewModelWelcomeDownloadSummaryException;
                 return false;
             }
         }
