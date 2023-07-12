@@ -21,7 +21,7 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     [JsonIgnore]
     public WeaponCollocationView? Collocation { get; set; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="INameQuality.Quality" />
     [JsonIgnore]
     public QualityType Quality
     {

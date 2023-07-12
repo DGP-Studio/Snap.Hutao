@@ -117,6 +117,9 @@ internal sealed class TypedWishSummaryBuilder
                         ++totalBluePullTracker;
                         break;
                     }
+
+                default:
+                    break;
             }
         }
     }

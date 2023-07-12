@@ -55,7 +55,7 @@ internal sealed class HutaoStatisticsFactory
             {
                 8U => idAvatarMap[item.Item],
                 5U => idWeaponMap[item.Item],
-                _ => throw Must.NeverHappen("不支持的物品 Id"),
+                _ => throw Must.NeverHappen($"不支持的物品 Id：{item.Item}"),
             };
             StatisticsItem statisticsItem = source.ToStatisticsItem(unchecked((int)item.Count));
 

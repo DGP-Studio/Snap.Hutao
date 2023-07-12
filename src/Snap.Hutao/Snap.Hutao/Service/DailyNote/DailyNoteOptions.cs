@@ -17,14 +17,6 @@ internal sealed class DailyNoteOptions : DbStoreOptions
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IScheduleTaskInterop scheduleTaskInterop;
-    private readonly List<NameValue<int>> refreshTimes = new()
-    {
-        new(SH.ViewModelDailyNoteRefreshTime4, 240),
-        new(SH.ViewModelDailyNoteRefreshTime8, 480),
-        new(SH.ViewModelDailyNoteRefreshTime30, 1800),
-        new(SH.ViewModelDailyNoteRefreshTime40, 2400),
-        new(SH.ViewModelDailyNoteRefreshTime60, 3600),
-    };
 
     private NameValue<int>? selectedRefreshTime;
     private bool? isReminderNotification;
@@ -44,7 +36,14 @@ internal sealed class DailyNoteOptions : DbStoreOptions
     /// <summary>
     /// 刷新时间
     /// </summary>
-    public List<NameValue<int>> RefreshTimes { get => refreshTimes; }
+    public List<NameValue<int>> RefreshTimes { get; } = new()
+    {
+        new(SH.ViewModelDailyNoteRefreshTime4, 240),
+        new(SH.ViewModelDailyNoteRefreshTime8, 480),
+        new(SH.ViewModelDailyNoteRefreshTime30, 1800),
+        new(SH.ViewModelDailyNoteRefreshTime40, 2400),
+        new(SH.ViewModelDailyNoteRefreshTime60, 3600),
+    };
 
     /// <summary>
     /// 选中的刷新时间

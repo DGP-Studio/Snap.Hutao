@@ -15,7 +15,6 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 internal sealed class HistoryWishBuilder
 {
     private readonly GachaEvent gachaEvent;
-    private readonly GachaConfigType configType;
 
     private readonly Dictionary<IStatisticsItemSource, int> orangeUpCounter = new();
     private readonly Dictionary<IStatisticsItemSource, int> purpleUpCounter = new();
@@ -34,24 +33,25 @@ internal sealed class HistoryWishBuilder
     public HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceContext context)
     {
         this.gachaEvent = gachaEvent;
-        configType = gachaEvent.Type;
+        ConfigType = gachaEvent.Type;
 
-        if (configType is GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2)
+        switch (ConfigType)
         {
-            orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
-            purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
-        }
-        else if (configType is GachaConfigType.WeaponEventWish)
-        {
-            orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
-            purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+            case GachaConfigType.AvatarEventWish or GachaConfigType.AvatarEventWish2:
+                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
+                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdAvatarMap[id]).ToDictionary(a => (IStatisticsItemSource)a, a => 0);
+                break;
+            case GachaConfigType.WeaponEventWish:
+                orangeUpCounter = gachaEvent.UpOrangeList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+                purpleUpCounter = gachaEvent.UpPurpleList.Select(id => context.IdWeaponMap[id]).ToDictionary(w => (IStatisticsItemSource)w, w => 0);
+                break;
         }
     }
 
     /// <summary>
     /// 祈愿配置类型
     /// </summary>
-    public GachaConfigType ConfigType { get => configType; }
+    public GachaConfigType ConfigType { get; }
 
     /// <inheritdoc cref="GachaEvent.From"/>
     public DateTimeOffset From { get => gachaEvent.From; }

@@ -51,6 +51,8 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
                 case GachaConfigType.WeaponEventWish:
                     Track(nameQuality, ref weaponOrangeTracker, ref weaponPurpleTracker);
                     break;
+                default:
+                    break;
             }
         }
 
@@ -84,6 +86,8 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
             case QualityType.QUALITY_BLUE:
                 ++orangeTracker;
                 ++purpleTracker;
+                break;
+            default:
                 break;
         }
     }

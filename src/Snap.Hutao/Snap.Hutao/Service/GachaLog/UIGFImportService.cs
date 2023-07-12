@@ -36,7 +36,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
                 .OrderBy(i => i.Id)
                 .FirstOrDefault()?.Id ?? long.MaxValue;
 
-            logger.LogInformation("Last Id to trim with: [{id}]", trimId);
+            logger.LogInformation("Last Id to trim with: [{Id}]", trimId);
 
             _ = uigf.IsCurrentVersionSupported(out UIGFVersion version);
 

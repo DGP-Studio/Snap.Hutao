@@ -36,7 +36,7 @@ internal sealed partial class ManualGameLocator : IGameLocator
         if (isPickerOk)
         {
             string fileName = System.IO.Path.GetFileName(file);
-            if (fileName == GameConstants.YuanShenFileName || fileName == GameConstants.GenshinImpactFileName)
+            if (fileName is GameConstants.YuanShenFileName or GameConstants.GenshinImpactFileName)
             {
                 return new(true, file);
             }

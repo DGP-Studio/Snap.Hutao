@@ -23,7 +23,7 @@ internal static class GachaStatisticsExtension
     {
         int sum = 0;
         int count = 0;
-        foreach (byte b in span)
+        foreach (ref readonly byte b in span)
         {
             sum += b;
             count++;
