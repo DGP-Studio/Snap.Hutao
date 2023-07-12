@@ -69,7 +69,7 @@ internal sealed class DescriptionTextBlock : ContentControl
         for (int i = 0; i < description.Length;)
         {
             // newline
-            if (description.Slice(i, 2) is @"\n")
+            if (description[i..].IndexOf(@"\n") is 0)
             {
                 AppendText(text, description[last..i]);
                 AppendLineBreak(text);
@@ -78,7 +78,7 @@ internal sealed class DescriptionTextBlock : ContentControl
             }
 
             // color tag
-            else if (description.Slice(i, 2) is "<c")
+            else if (description[i..].IndexOf("<c") is 0)
             {
                 AppendText(text, description[last..i]);
                 Rgba32 color = new(description.Slice(i + 8, 8).ToString());
@@ -90,7 +90,7 @@ internal sealed class DescriptionTextBlock : ContentControl
             }
 
             // italic
-            else if (description.Slice(i, 2) is "<i")
+            else if (description[i..].IndexOf("<i") is 0)
             {
                 AppendText(text, description[last..i]);
 

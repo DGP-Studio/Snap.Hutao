@@ -13,6 +13,11 @@ namespace Snap.Hutao.Model.Metadata.Item;
 /// </summary>
 internal sealed class Material : DisplayItem
 {
+    public static readonly Material Default = new()
+    {
+        Name = "？？？",
+    };
+
     /// <summary>
     /// 材料类型
     /// </summary>

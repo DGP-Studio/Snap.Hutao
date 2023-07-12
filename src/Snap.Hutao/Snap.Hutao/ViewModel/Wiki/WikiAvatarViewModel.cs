@@ -111,7 +111,7 @@ internal sealed partial class WikiAvatarViewModel : Abstraction.ViewModel
             {
                 avatar.Collocation = idCollocations.GetValueOrDefault(avatar.Id);
                 avatar.CookBonusView ??= CookBonusView.Create(avatar.FetterInfo.CookBonus, idMaterialMap);
-                avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => idMaterialMap[i]);
+                avatar.CultivationItemsView ??= avatar.CultivationItems.SelectList(i => idMaterialMap.GetValueOrDefault(i, Material.Default)!);
             }
         }
     }
