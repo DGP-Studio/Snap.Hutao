@@ -772,7 +772,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 [\u4e00-\u9fa5]{2}区域特产$ 的本地化字符串。
+        ///   查找类似 ^[\u4e00-\u9fa5]{2}区域特产$ 的本地化字符串。
         /// </summary>
         internal static string ModelMetadataMaterialLocalSpecialtyRegex {
             get {
