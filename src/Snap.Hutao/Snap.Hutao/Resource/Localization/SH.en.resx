@@ -2127,9 +2127,9 @@
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>Expect to get next 5-stars in {0} pulls with a probability of {1:P3}</value>
+    <value>{1:00.000%} 概率 {0} 抽后获得五星物品</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>Probability of getting 5-stars in next pull: {0:P3}</value>
+    <value>{0:00.000%} 概率下一抽获得五星物品</value>
   </data>
 </root>
