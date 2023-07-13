@@ -145,7 +145,7 @@
     <value>HTTP GET {0}</value>
   </data>
   <data name="ControlImageCompositionImageSystemException" xml:space="preserve">
-    <value>应用 CompositionImage 的源时发生异常</value>
+    <value>CompositionImageのソースで例外が発生しました。</value>
   </data>
   <data name="ControlPanelPanelSelectorDropdownGridName" xml:space="preserve">
     <value>アイコン</value>
@@ -160,7 +160,7 @@
     <value>管理者モードでこの機能を使わないでください： {0}</value>
   </data>
   <data name="CoreIOPickerExtensionPickerExceptionInfoBarTitle" xml:space="preserve">
-    <value>无法打开文件选择器</value>
+    <value>ファイル選択画面を開けませんでした</value>
   </data>
   <data name="CoreIOTempFileCreateFail" xml:space="preserve">
     <value>権限不足のため、一時ファイルを作成できませんでした</value>
@@ -187,10 +187,10 @@
     <value>インポート</value>
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
-    <value>选择账号并启动</value>
+    <value>アカウントを選択して開始します</value>
   </data>
   <data name="ModelBindingAvatarPropertyWeaponAffixFormat" xml:space="preserve">
-    <value>精炼 {0}</value>
+    <value>精錬ランク {0}</value>
   </data>
   <data name="ModelBindingCultivationDaysOfWeek14" xml:space="preserve">
     <value>月/木/日</value>
@@ -226,7 +226,7 @@
     <value>上场 {0} 次</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
-    <value>渠道服</value>
+    <value>BiliBiliサーバー</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
     <value>天空島・世界樹サーバー</value>
@@ -239,30 +239,39 @@
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
     <value>ファデュイ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeFontaine" xml:space="preserve">
     <value>フォンテーヌ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeInazuma" xml:space="preserve">
     <value>稲妻</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeLiyue" xml:space="preserve">
     <value>璃月</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeMondstadt" xml:space="preserve">
     <value>モンド</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeNatlan" xml:space="preserve">
     <value>ナタ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeRanger" xml:space="preserve">
     <value>レンジャー</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeSumeru" xml:space="preserve">
     <value>スメール</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicAssociationTypeSnezhnaya" xml:space="preserve">
     <value>スネージナヤ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicBodyTypeBoy" xml:space="preserve">
     <value>少年</value>
@@ -274,31 +283,38 @@
     <value>女性</value>
   </data>
   <data name="ModelIntrinsicBodyTypeLoli" xml:space="preserve">
-    <value>幼女</value>
+    <value>萝莉</value>
   </data>
   <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
     <value>男性</value>
   </data>
   <data name="ModelIntrinsicElementNameElec" xml:space="preserve">
     <value>雷</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameFire" xml:space="preserve">
     <value>炎</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameGrass" xml:space="preserve">
     <value>草</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameIce" xml:space="preserve">
     <value>氷</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameRock" xml:space="preserve">
     <value>岩</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameWater" xml:space="preserve">
     <value>水</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicElementNameWind" xml:space="preserve">
     <value>風</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicItemQualityBlue" xml:space="preserve">
     <value>星3</value>
@@ -320,18 +336,23 @@
   </data>
   <data name="ModelIntrinsicWeaponTypeBow" xml:space="preserve">
     <value>弓</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeCatalyst" xml:space="preserve">
     <value>法器</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeClaymore" xml:space="preserve">
     <value>両手剣</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypePole" xml:space="preserve">
     <value>長柄武器</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelIntrinsicWeaponTypeSwordOneHand" xml:space="preserve">
     <value>片手剣</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
     <value>{0} 月 {1} 日</value>
@@ -350,84 +371,111 @@
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseAtk" xml:space="preserve">
     <value>基礎攻撃力</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseDef" xml:space="preserve">
     <value>基礎防御力</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyBaseHp" xml:space="preserve">
     <value>基礎HP</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyCDmg" xml:space="preserve">
     <value>会心ダメージ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyCE" xml:space="preserve">
     <value>元素チャージ効率</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyCR" xml:space="preserve">
     <value>会心率</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBElec" xml:space="preserve">
     <value>雷元素ダメージアップ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBFire" xml:space="preserve">
     <value>炎元素ダメージアップ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBGrass" xml:space="preserve">
     <value>草元素ダメージアップ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBIce" xml:space="preserve">
     <value>氷元素ダメージアップ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBPhyiscal" xml:space="preserve">
     <value>物理攻撃ダメージアップ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBRock" xml:space="preserve">
     <value>岩元素ダメージアップ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBWater" xml:space="preserve">
     <value>水元素ダメージアップ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDBWind" xml:space="preserve">
     <value>風元素ダメージアップ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyDef" xml:space="preserve">
     <value>防御力</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyEM" xml:space="preserve">
     <value>元素熟知</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHB" xml:space="preserve">
     <value>回復バフ</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyHp" xml:space="preserve">
     <value>HP</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESElec" xml:space="preserve">
     <value>雷元素耐性</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESFire" xml:space="preserve">
     <value>炎元素耐性</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESGrass" xml:space="preserve">
     <value>草元素耐性</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESIce" xml:space="preserve">
     <value>氷元素耐性</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESPhysical" xml:space="preserve">
     <value>物理耐性</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESRock" xml:space="preserve">
     <value>岩元素耐性</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWater" xml:space="preserve">
     <value>水元素耐性</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
     <value>風元素耐性</value>
+    <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>保存养成计划状态失败</value>
@@ -532,13 +580,13 @@
     <value>ゲーム本体を選択する</value>
   </data>
   <data name="ServiceGameLocatorUnityLogFileNotFound" xml:space="preserve">
-    <value>找不到 Unity 日志文件</value>
+    <value>Unity ログファイルが見つかりません</value>
   </data>
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
-    <value>在 Unity 日志文件中找不到游戏路径</value>
+    <value>Unity ログファイル内にはゲームパスが見つかりません</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
-    <value>重命名数据文件夹名称失败</value>
+    <value>データフォルダの名前を変更できませんでした</value>
   </data>
   <data name="ServiceGamePackageRequestPackageVerion" xml:space="preserve">
     <value>Package Versionを取得</value>
@@ -559,7 +607,7 @@
     <value>找不到游戏配置文件 {0}</value>
   </data>
   <data name="ServiceGameSetMultiChannelUnauthorizedAccess" xml:space="preserve">
-    <value>无法读取或保存配置文件，请以管理员模式重试</value>
+    <value>設定ファイルを読み取れない、または保存できませんでした。管理者モードで再試行してください。</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>元数据服务尚未初始化，或初始化失败</value>
@@ -664,7 +712,7 @@
     <value>绑定当前用户与角色</value>
   </data>
   <data name="ViewDialogCultivateProjectInputPlaceholder" xml:space="preserve">
-    <value>在此处输入计划名称</value>
+    <value>ここに計画名を入力してください</value>
   </data>
   <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
     <value>新規育成計画</value>
@@ -709,7 +757,7 @@
     <value>Urlを入力してください</value>
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
-    <value>手动输入祈愿记录 Url</value>
+    <value>祈願履歴のURLを直接入力</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>导出 App</value>
@@ -736,7 +784,7 @@
     <value>UIAFバージョン</value>
   </data>
   <data name="ViewDialogLaunchGameAccountInputPlaceholder" xml:space="preserve">
-    <value>在此处输入名称</value>
+    <value>ここに名前を入力してください</value>
   </data>
   <data name="ViewDialogLaunchGameAccountTitle" xml:space="preserve">
     <value>名前を変更</value>
@@ -757,7 +805,7 @@
     <value>操作文档</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
-    <value>在此处输入包含 SToken 的 Cookie</value>
+    <value>STokenが含めているCookieを入力してください</value>
   </data>
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>祈願履歴</value>
@@ -799,7 +847,7 @@
     <value>角色信息服务 [Enka API] 当前不可用</value>
   </data>
   <data name="ViewModelAvatarPropertyExportImageSuccess" xml:space="preserve">
-    <value>已导出到剪贴板</value>
+    <value>クリップボードにコピーしました</value>
   </data>
   <data name="ViewModelAvatarPropertyFetch" xml:space="preserve">
     <value>データを取得中</value>
@@ -829,7 +877,7 @@
     <value>育成計画名は重複のため、別の名前を使ってください</value>
   </data>
   <data name="ViewModelCultivationProjectInvalidName" xml:space="preserve">
-    <value>不能添加名称无效的计划</value>
+    <value>育成計画名に無効な言葉が入っています</value>
   </data>
   <data name="ViewModelDailyNoteRefreshTime30" xml:space="preserve">
     <value>30 分 | 3.75樹脂</value>
@@ -919,7 +967,7 @@
     <value>无法读取游戏配置文件: {0}</value>
   </data>
   <data name="ViewModelLaunchGamePathInvalid" xml:space="preserve">
-    <value>游戏路径不正确，前往设置更改游戏路径</value>
+    <value>指定されたパスにアクセスできません。設定で変更してください。</value>
   </data>
   <data name="ViewModelLaunchGameSchemeNotSelected" xml:space="preserve">
     <value>サーバーが選択されていません</value>
@@ -943,22 +991,22 @@
     <value>设置数据目录成功，重启以应用更改</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
-    <value>用户 [{0}] 添加成功</value>
+    <value>ユーザー [{0}] を正常に追加しました</value>
   </data>
   <data name="ViewModelUserCookieCopied" xml:space="preserve">
-    <value>用户 [{0}] 的 Cookie 复制成功</value>
+    <value>ユーザー [{0}] の Cookie をコピーしました</value>
   </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
     <value>此 Cookie 不完整，操作失败</value>
   </data>
   <data name="ViewModelUserInvalid" xml:space="preserve">
-    <value>此 Cookie 无效，操作失败</value>
+    <value>このCookieが無効のため、操作できません</value>
   </data>
   <data name="ViewModelUserRemoved" xml:space="preserve">
     <value>ユーザー [{0}] は削除されました</value>
   </data>
   <data name="ViewModelUserUpdated" xml:space="preserve">
-    <value>用户 [{0}] 的 Cookie 更新成功</value>
+    <value>ユーザー [{0}] の Cookie が更新されました。</value>
   </data>
   <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
     <value>页面资源已经被释放，操作取消</value>
@@ -976,13 +1024,13 @@
     <value>待機中</value>
   </data>
   <data name="ViewModelWelcomeDownloadSummaryException" xml:space="preserve">
-    <value>文件下载异常</value>
+    <value>ファイルダウンロード異常</value>
   </data>
   <data name="ViewPageAchievementAddArchive" xml:space="preserve">
-    <value>新規セーブデータ</value>
+    <value>新規アーカイブ</value>
   </data>
   <data name="ViewPageAchievementAddArchiveHint" xml:space="preserve">
-    <value>创建新存档以继续</value>
+    <value>続けるにはアーカイブを作成してください</value>
   </data>
   <data name="ViewPageAchievementExportLabel" xml:space="preserve">
     <value>エクスポート</value>
@@ -1015,13 +1063,13 @@
     <value>聖遺物スコア</value>
   </data>
   <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
-    <value>双暴评分</value>
+    <value>会心スコア</value>
   </data>
   <data name="ViewPageAvatarPropertyDefaultDescription" xml:space="preserve">
     <value>旅人の仲間の情報まだ入手していない</value>
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
-    <value>导出图片</value>
+    <value>画像をエクスポート</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>キャラクターの元素タイプ</value>
@@ -1099,7 +1147,7 @@
     <value>前往</value>
   </data>
   <data name="ViewPageCultivationRemoveEntry" xml:space="preserve">
-    <value>删除清单</value>
+    <value>リストを削除</value>
   </data>
   <data name="ViewPageCultivationRemoveProject" xml:space="preserve">
     <value>現在の育成計画を削除</value>
@@ -1114,10 +1162,10 @@
     <value>キャラクターを追加する</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryHint" xml:space="preserve">
-    <value>添加角色以定时刷新</value>
+    <value>利用するには通行証をログインが必要</value>
   </data>
   <data name="ViewPageDailyNoteAddEntryToolTip" xml:space="preserve">
-    <value>添加</value>
+    <value>追加</value>
   </data>
   <data name="ViewPageDailyNoteNotificationHeader" xml:space="preserve">
     <value>通知</value>
@@ -1138,7 +1186,7 @@
     <value>提醒通知</value>
   </data>
   <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
-    <value>移除角色</value>
+    <value>カードを削除</value>
   </data>
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
     <value>本周已消耗减半次数</value>
@@ -1177,7 +1225,7 @@
     <value>情報更新</value>
   </data>
   <data name="ViewPageGachaLogRefreshAction" xml:space="preserve">
-    <value>获取</value>
+    <value>フェッチ</value>
   </data>
   <data name="ViewPageGachaLogRefreshBymanualInput" xml:space="preserve">
     <value>手动输入 Url</value>
@@ -1213,16 +1261,16 @@
     <value>武器</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverview" xml:space="preserve">
-    <value>详情</value>
+    <value>詳細</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewAvatarAppearanceRank" xml:space="preserve">
-    <value>角色出场</value>
+    <value>キャラ出場率</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewAvatarConstellation" xml:space="preserve">
-    <value>角色持有</value>
+    <value>キャラ所持率</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewAvatarUsageRank" xml:space="preserve">
-    <value>角色使用</value>
+    <value>キャラ使用率</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewConstellation0" xml:space="preserve">
     <value>0凸</value>
@@ -1252,22 +1300,22 @@
     <value>所持率</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewDataCollect" xml:space="preserve">
-    <value>数据收集统计</value>
+    <value>データ集計</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewRecordTotal" xml:space="preserve">
-    <value>上传记录总数</value>
+    <value>アップされた総件数</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewRefreshTime" xml:space="preserve">
-    <value>数据刷新时间</value>
+    <value>データの更新時間</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyss" xml:space="preserve">
     <value>深境螺旋データ集計</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage" xml:space="preserve">
-    <value>平均战斗次数</value>
+    <value>平均戦闘回数</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar" xml:space="preserve">
-    <value>满星深渊记录</value>
+    <value>淵星全獲得数</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssPassed" xml:space="preserve">
     <value>螺旋クリア履歴</value>
@@ -1276,7 +1324,7 @@
     <value>淵星獲得平均数</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewSpiralAbyssTotal" xml:space="preserve">
-    <value>总计深渊记录</value>
+    <value>螺旋有効件数</value>
   </data>
   <data name="ViewPageHutaoDatabaseOverviewTeamAppearance" xml:space="preserve">
     <value>出場パーティー</value>
@@ -1288,7 +1336,7 @@
     <value>启用「启动游戏-高级功能」的任意功能 您需要在设置里解锁它</value>
   </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
-    <value>高级功能</value>
+    <value>上級者向け設定</value>
   </data>
   <data name="ViewPageLaunchGameAdvanceHint" xml:space="preserve">
     <value>以下の機能は厳重な注意が必要であり、リスクを伴うので、有効化は推奨しません</value>
@@ -1303,7 +1351,7 @@
     <value>与游戏内浏览器不兼容，切屏等操作也能使游戏闪退</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceExclusiveHeader" xml:space="preserve">
-    <value>独占全屏</value>
+    <value>エクスクルーシブフルスクリーン</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceFullscreenDescription" xml:space="preserve">
     <value>覆盖默认的全屏状态</value>
@@ -1345,19 +1393,19 @@
     <value>同时运行多个游戏客户端</value>
   </data>
   <data name="ViewPageLaunchGameMultipleInstancesHeader" xml:space="preserve">
-    <value>多客户端</value>
+    <value>マルチクライアント</value>
   </data>
   <data name="ViewPageLaunchGameOptionsHeader" xml:space="preserve">
     <value>ゲームオプション</value>
   </data>
   <data name="ViewPageLaunchGameResourceDiffHeader" xml:space="preserve">
-    <value>增量包</value>
+    <value>増分パック</value>
   </data>
   <data name="ViewPageLaunchGameResourceHeader" xml:space="preserve">
     <value>リソースダウンロード</value>
   </data>
   <data name="ViewPageLaunchGameResourceLatestHeader" xml:space="preserve">
-    <value>客户端</value>
+    <value>クライアント</value>
   </data>
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>事前ダウンロード</value>
@@ -1390,7 +1438,7 @@
     <value>リネーム</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>切换游戏服务器（国服/渠道服/国际服）</value>
+    <value>ゲームサーバーを切り替える(天空島/世界樹/グローバル)</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>サーバー</value>
@@ -1447,7 +1495,7 @@
     <value>コピー</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
-    <value>执行</value>
+    <value>実行</value>
   </data>
   <data name="ViewPageSettingDangerousHeader" xml:space="preserve">
     <value>潜在的に危険な機能</value>
@@ -1459,10 +1507,10 @@
     <value>ユーザーデータ／メタデータはここに格納</value>
   </data>
   <data name="ViewPageSettingDataFolderHeader" xml:space="preserve">
-    <value>打开 数据 文件夹</value>
+    <value>データフォルダを開く</value>
   </data>
   <data name="ViewPageSettingDeleteCacheAction" xml:space="preserve">
-    <value>删除</value>
+    <value>削除</value>
   </data>
   <data name="ViewPageSettingDeleteCacheDescription" xml:space="preserve">
     <value>若祈愿记录缓存刷新频繁提示验证密钥过期，可以尝试此操作</value>
@@ -1507,7 +1555,7 @@
     <value>您解锁了含有违反原神服务条款风险的「启动游戏-高级功能」，将自行承担任何不良后果。</value>
   </data>
   <data name="ViewPageSettingFeedbackDescription" xml:space="preserve">
-    <value>Github 上反馈的问题会优先处理</value>
+    <value>Github でのフィードバックは優先する</value>
   </data>
   <data name="ViewPageSettingFeedbackHeader" xml:space="preserve">
     <value>フィードバック</value>
@@ -1552,7 +1600,7 @@
     <value>ゲームのパスを設定する際、本体（YuanShen.exe または GenshinImpact.exe）を選んでください。ランチャー（launcher.exe）ではありません</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
-    <value>赞助我们</value>
+    <value>スポンサーになる</value>
   </data>
   <data name="ViewPageSettingStorageHeader" xml:space="preserve">
     <value>ストレージ</value>
@@ -1564,7 +1612,7 @@
     <value>更改</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
-    <value>贡献翻译</value>
+    <value>和訳を提供</value>
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>ストアで表示</value>
@@ -1597,7 +1645,7 @@
     <value>最多撃破数</value>
   </data>
   <data name="ViewSpiralAbyssDetail" xml:space="preserve">
-    <value>详细数据</value>
+    <value>詳細</value>
   </data>
   <data name="ViewSpiralAbyssEnergySkill" xml:space="preserve">
     <value>元素爆発</value>
@@ -1663,7 +1711,7 @@
     <value>CookieTokenを更新できませんでした</value>
   </data>
   <data name="ViewUserRemoveAction" xml:space="preserve">
-    <value>移除用户</value>
+    <value>ユーザーを削除</value>
   </data>
   <data name="ViewUserRole" xml:space="preserve">
     <value>キャラクター</value>
@@ -1693,16 +1741,16 @@
     <value>武器一覧</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
-    <value>{0} 天后开始</value>
+    <value>{0} 日後に開始</value>
   </data>
   <data name="WebAnnouncementTimeDaysEndFormat" xml:space="preserve">
-    <value>{0} 天后结束</value>
+    <value>{0} 日後に終了</value>
   </data>
   <data name="WebAnnouncementTimeHoursBeginFormat" xml:space="preserve">
-    <value>{0} 小时后开始</value>
+    <value>{0} 時間後に開始</value>
   </data>
   <data name="WebAnnouncementTimeHoursEndFormat" xml:space="preserve">
-    <value>{0} 小时后结束</value>
+    <value>{0} 時間後に終了</value>
   </data>
   <data name="WebDailyNoteExpeditionRemainHoursFormat" xml:space="preserve">
     <value>{0} 時</value>
@@ -1711,16 +1759,16 @@
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotAllowed" xml:space="preserve">
-    <value>今日完成委托数量不足</value>
+    <value>依頼の達成数まだ足りません</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardNotTaken" xml:space="preserve">
-    <value>「每日委托」奖励未领取</value>
+    <value>「デイリー依頼」の報酬はまだ受け取っていません</value>
   </data>
   <data name="WebDailyNoteExtraTaskRewardReceived" xml:space="preserve">
-    <value>「每日委托」奖励已领取</value>
+    <value>「デイリー依頼」の報酬は受け取りました</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>预计 {0} {1:HH:mm} 达到存储上限</value>
+    <value>あと{0}{1:HH:mm}に上限に達する</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>今日</value>
@@ -1735,7 +1783,7 @@
     <value>{0} 日</value>
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
-    <value>将于 {0} {1:HH:mm} 后全部恢复</value>
+    <value>{0} {1:HH:mm} 後ですべて回復</value>
   </data>
   <data name="WebDailyNoteSenselessVerificationSuccess" xml:space="preserve">
     <value>无感验证成功</value>
@@ -1795,7 +1843,7 @@
     <value>该操作是不可逆的，所有用户登录状态会丢失</value>
   </data>
   <data name="ViewDialogSettingDeleteUserDataTitle" xml:space="preserve">
-    <value>是否永久删除用户数据</value>
+    <value>ユーザーデータを完全に削除しますか</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃アカウント</value>
@@ -1807,7 +1855,7 @@
     <value>ログインまたはサインアップ</value>
   </data>
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
-    <value>网络异常</value>
+    <value>ネットワーク接続エラー</value>
   </data>
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>HoYoLabユーザーのSToken 更新はサポートしていません。</value>
@@ -1846,16 +1894,16 @@
     <value>最低８文字以上</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudEndIdFetchFailed" xml:space="preserve">
-    <value>获取云端祈愿记录失败</value>
+    <value>胡桃クラウドの祈願履歴を取得できません</value>
   </data>
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
     <value>祈愿记录上传服务不可用</value>
   </data>
   <data name="ViewModelGachaLogRetrieveFromHutaoCloudProgress" xml:space="preserve">
-    <value>从胡桃云服务同步祈愿记录</value>
+    <value>胡桃クラウドから祈願履歴を同期します</value>
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
-    <value>正在上传到胡桃云服务</value>
+    <value>胡桃クラウドにアップロード中</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloud" xml:space="preserve">
     <value>胡桃クラウド</value>
@@ -1882,7 +1930,7 @@
     <value>每期深渊首次上传可免费获得5天时长</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
-    <value>上传深渊记录</value>
+    <value>螺旋の記録をアップロード</value>
   </data>
   <data name="ViewPageWiKiGeneralAddToDevPlanButtonLabel" xml:space="preserve">
     <value>育成計画に追加</value>
@@ -1927,7 +1975,7 @@
     <value>おすすめ聖遺物</value>
   </data>
   <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
-    <value>其它</value>
+    <value>その他</value>
   </data>
   <data name="ViewPageWiKiAvatarFoodHeader" xml:space="preserve">
     <value>料理</value>
@@ -1939,7 +1987,7 @@
     <value>元料理</value>
   </data>
   <data name="ViewPageWiKiAvatarCostumeHeader" xml:space="preserve">
-    <value>衣装</value>
+    <value>コスチューム</value>
   </data>
   <data name="ViewPageWiKiAvatarQuotesHeader" xml:space="preserve">
     <value>プロフィール</value>
@@ -1957,7 +2005,7 @@
     <value>突破前</value>
   </data>
   <data name="ViewPageWiKiWeaponAfterAscensionTitle" xml:space="preserve">
-    <value>突破后</value>
+    <value>突破後</value>
   </data>
   <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
     <value>設定</value>
@@ -1981,7 +2029,7 @@
     <value>ゲームメンテナンス中</value>
   </data>
   <data name="WebEnkaResponseStatusCode429" xml:space="preserve">
-    <value>请求过快，请稍后再试</value>
+    <value>リクエストが多すぎます。時間をおいてから試してください。</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
     <value>服务器偶发错误</value>
@@ -2036,5 +2084,52 @@
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
     <value>原粹树脂已完全恢复</value>
+  </data>
+  <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
+    <value>祈愿记录上传服务有效期至\n{0:yyyy-MM-dd HH:mm:ss}</value>
+  </data>
+  <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
+    <value>开发者账号无视服务到期时间</value>
+  </data>
+  <data name="ViewPageGahcaLogPivotStatistics" xml:space="preserve">
+    <value>统计</value>
+  </data>
+  <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
+    <value>角色与武器培养素材</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterEXPMaterial" xml:space="preserve">
+    <value>角色经验素材</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterAscensionMaterial" xml:space="preserve">
+    <value>キャラクターの突破素材</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterTalentMaterial" xml:space="preserve">
+    <value>キャラクターの天賦素材</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialCharacterLevelUpMaterial" xml:space="preserve">
+    <value>角色培养素材</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
+    <value>武器强化素材</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
+    <value>武器の突破素材</value>
+    <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
+    <value>^[\u4e00-\u9fa5]{2}区域特产$</value>
+    <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
+  </data>
+  <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
+    <value>预计还需要 {0} 抽到五星，概率：{1:P3}</value>
+  </data>
+  <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
+    <value>下一抽抽到五星的概率：{0:P3}</value>
   </data>
 </root>
