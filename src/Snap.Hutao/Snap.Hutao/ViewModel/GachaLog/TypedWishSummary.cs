@@ -1,14 +1,23 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace Snap.Hutao.ViewModel.GachaLog;
 
 /// <summary>
 /// 类型化的祈愿概览
 /// </summary>
 [HighQuality]
-internal sealed class TypedWishSummary : Wish
+[INotifyPropertyChanged]
+[SuppressMessage("", "SA1124")]
+internal sealed partial class TypedWishSummary : Wish
 {
+    private bool isPredictPullAvailable;
+    private int predictedPullLeftToOrange;
+    private double probabilityOfPredictedPullLeftToOrange;
+    private double probabilityOfNextPullIsOrange;
+
     /// <summary>
     /// 最大五星抽数
     /// </summary>
@@ -78,6 +87,11 @@ internal sealed class TypedWishSummary : Wish
     }
 
     /// <summary>
+    /// 抽数预测是否可用
+    /// </summary>
+    public bool IsPredictPullAvailable { get => isPredictPullAvailable; set => SetProperty(ref isPredictPullAvailable, value); }
+
+    /// <summary>
     /// 平均Up五星抽数
     /// </summary>
     public string AverageUpOrangePullFormatted
@@ -86,9 +100,27 @@ internal sealed class TypedWishSummary : Wish
     }
 
     /// <summary>
+    /// 预计出金的抽数与概率
+    /// </summary>
+    public string PredictedPullLeftToOrangeFormatted
+    {
+        get => string.Format(SH.ViewModelGachaLogPredictedPullLeftToOrange, PredictedPullLeftToOrange, ProbabilityOfPredictedPullLeftToOrange);
+    }
+
+    /// <summary>
+    /// 预计出金的抽数与概率
+    /// </summary>
+    public string ProbabilityOfNextPullIsOrangeFormatted
+    {
+        get => string.Format(SH.ViewModelGachaLogProbabilityOfNextPullIsOrange, ProbabilityOfNextPullIsOrange);
+    }
+
+    /// <summary>
     /// 五星列表
     /// </summary>
     public List<SummaryItem> OrangeList { get; set; } = default!;
+
+    #region Internal properties for string formatting
 
     /// <summary>
     /// 最大五星抽数
@@ -139,4 +171,44 @@ internal sealed class TypedWishSummary : Wish
     /// 平均Up五星抽数
     /// </summary>
     internal double AverageUpOrangePull { get; set; }
+
+    /// <summary>
+    /// 预测的x抽后出金
+    /// </summary>
+    internal int PredictedPullLeftToOrange
+    {
+        get => predictedPullLeftToOrange;
+        set
+        {
+            predictedPullLeftToOrange = value;
+            OnPropertyChanged(nameof(PredictedPullLeftToOrangeFormatted));
+        }
+    }
+
+    /// <summary>
+    /// 预测的x抽后出金概率
+    /// </summary>
+    internal double ProbabilityOfPredictedPullLeftToOrange
+    {
+        get => probabilityOfPredictedPullLeftToOrange;
+        set
+        {
+            probabilityOfPredictedPullLeftToOrange = value;
+            OnPropertyChanged(nameof(PredictedPullLeftToOrangeFormatted));
+        }
+    }
+
+    /// <summary>
+    /// 下抽出金的概率
+    /// </summary>
+    internal double ProbabilityOfNextPullIsOrange
+    {
+        get => probabilityOfNextPullIsOrange;
+        set
+        {
+            probabilityOfNextPullIsOrange = value;
+            OnPropertyChanged(nameof(ProbabilityOfNextPullIsOrangeFormatted));
+        }
+    }
+    #endregion
 }

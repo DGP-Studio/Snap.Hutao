@@ -2070,4 +2070,10 @@
   <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
     <value>[\u4e00-\u9fa5]{2}区域特产$</value>
   </data>
+  <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
+    <value>预计还需要 {0} 抽到五星，概率：{1:P3}</value>
+  </data>
+  <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
+    <value>下一抽抽到五星的概率：{0:P3}</value>
+  </data>
 </root>

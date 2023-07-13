@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Web.Hutao.GachaLog;
+
 namespace Snap.Hutao.Web;
 
 /// <summary>
@@ -57,6 +59,16 @@ internal static class HutaoEndpoints
     /// 获取祈愿统计信息
     /// </summary>
     public const string GachaLogStatisticsCurrentEvents = $"{HomaSnapGenshinApi}/GachaLog/Statistics/CurrentEventStatistics";
+
+    /// <summary>
+    /// 获取祈愿统计信息
+    /// </summary>
+    /// <param name="distributionType">分布类型</param>
+    /// <returns>祈愿统计信息Url</returns>
+    public static string GachaLogStatisticsDistribution(GachaDistributionType distributionType)
+    {
+        return $"{HomaSnapGenshinApi}/GachaLog/Statistics/Distribution/{distributionType}";
+    }
     #endregion
 
     #region Passport

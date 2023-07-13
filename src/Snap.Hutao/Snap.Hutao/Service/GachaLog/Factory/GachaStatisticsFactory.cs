@@ -20,6 +20,7 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 [Injection(InjectAs.Scoped, typeof(IGachaStatisticsFactory))]
 internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 {
+    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly AppOptions options;
 
@@ -29,18 +30,37 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
         List<HistoryWishBuilder> historyWishBuilders = gachaEvents.SelectList(g => new HistoryWishBuilder(g, context));
 
-        return CreateCore(items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible);
+        return CreateCore(serviceProvider, items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible);
     }
 
     private static GachaStatistics CreateCore(
+        IServiceProvider serviceProvider,
         IOrderedQueryable<GachaItem> items,
         List<HistoryWishBuilder> historyWishBuilders,
         in GachaLogServiceContext context,
         bool isEmptyHistoryWishVisible)
     {
-        TypedWishSummaryBuilder standardWishBuilder = new(SH.ServiceGachaLogFactoryPermanentWishName, TypedWishSummaryBuilder.IsStandardWish, 90, 10);
-        TypedWishSummaryBuilder avatarWishBuilder = new(SH.ServiceGachaLogFactoryAvatarWishName, TypedWishSummaryBuilder.IsAvatarEventWish, 90, 10);
-        TypedWishSummaryBuilder weaponWishBuilder = new(SH.ServiceGachaLogFactoryWeaponWishName, TypedWishSummaryBuilder.IsWeaponEventWish, 80, 10);
+        TypedWishSummaryBuilder standardWishBuilder = new(
+            serviceProvider,
+            SH.ServiceGachaLogFactoryPermanentWishName,
+            TypedWishSummaryBuilder.IsStandardWish,
+            Web.Hutao.GachaLog.GachaDistributionType.Standard,
+            90,
+            10);
+        TypedWishSummaryBuilder avatarWishBuilder = new(
+            serviceProvider,
+            SH.ServiceGachaLogFactoryAvatarWishName,
+            TypedWishSummaryBuilder.IsAvatarEventWish,
+            Web.Hutao.GachaLog.GachaDistributionType.AvatarEvent,
+            90,
+            10);
+        TypedWishSummaryBuilder weaponWishBuilder = new(
+            serviceProvider,
+            SH.ServiceGachaLogFactoryWeaponWishName,
+            TypedWishSummaryBuilder.IsWeaponEventWish,
+            Web.Hutao.GachaLog.GachaDistributionType.WeaponEvent,
+            80,
+            10);
 
         Dictionary<Avatar, int> orangeAvatarCounter = new();
         Dictionary<Avatar, int> purpleAvatarCounter = new();

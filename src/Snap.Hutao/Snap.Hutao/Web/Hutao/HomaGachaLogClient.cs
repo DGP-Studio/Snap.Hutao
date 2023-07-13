@@ -50,6 +50,21 @@ internal sealed class HomaGachaLogClient
     }
 
     /// <summary>
+    /// 异步获取祈愿分布
+    /// </summary>
+    /// <param name="distributionType">分布类型</param>
+    /// <param name="token">取消令牌</param>
+    /// <returns>祈愿分布</returns>
+    public async Task<Response<GachaDistribution>> GetGachaDistributionAsync(GachaDistributionType distributionType, CancellationToken token = default)
+    {
+        Response<GachaDistribution>? resp = await httpClient
+            .TryCatchGetFromJsonAsync<Response<GachaDistribution>>(HutaoEndpoints.GachaLogStatisticsDistribution(distributionType), options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    /// <summary>
     /// 异步获取 Uid 列表
     /// </summary>
     /// <param name="token">取消令牌</param>

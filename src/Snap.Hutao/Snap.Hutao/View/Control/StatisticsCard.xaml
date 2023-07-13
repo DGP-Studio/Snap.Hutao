@@ -276,7 +276,7 @@
                         </StackPanel>
                     </StackPanel>
                     <MenuFlyoutSeparator Margin="-12,0"/>
-                    <StackPanel Grid.Row="3" Margin="0,12,0,0">
+                    <StackPanel Margin="0,12,0,0">
                         <Grid>
                             <TextBlock
                                 Foreground="{StaticResource OrangeBrush}"
@@ -343,6 +343,11 @@
                                 Style="{StaticResource BodyTextBlockStyle}"
                                 Text="{Binding MinOrangePullFormatted}"/>
                         </Grid>
+
+                        <StackPanel Margin="0,2,0,0" Visibility="{Binding IsPredictPullAvailable, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PredictedPullLeftToOrangeFormatted}"/>
+                            <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding ProbabilityOfNextPullIsOrangeFormatted}"/>
+                        </StackPanel>
                     </StackPanel>
                     <MenuFlyoutSeparator Margin="-12,12,-12,0"/>
                 </StackPanel>

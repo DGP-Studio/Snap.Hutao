@@ -103,6 +103,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 await taskContext.SwitchToMainThreadAsync();
                 Archives = archives;
                 SetSelectedArchiveAndUpdateStatistics(Archives.SelectedOrDefault(), true);
+
+                HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
             }
         }
         catch (OperationCanceledException)

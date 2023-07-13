@@ -86,4 +86,18 @@ internal static partial class EnumerableExtension
 
         return results;
     }
+
+    /// <summary>
+    /// 按元素的键排序
+    /// </summary>
+    /// <typeparam name="TSource">元素类型</typeparam>
+    /// <typeparam name="TKey">键类型</typeparam>
+    /// <param name="list">列表</param>
+    /// <param name="keySelector">键选择器</param>
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
+    public static void SortBy<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector)
+        where TKey : IComparable
+    {
+        list.Sort((left, right) => keySelector(left).CompareTo(keySelector(right)));
+    }
 }

@@ -28,12 +28,12 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;
 
-    private ObservableCollection<string>? uids;
+    private ObservableCollection<HutaoCloudUidOperationViewModel>? uidOperations;
 
     /// <summary>
     /// Uid集合
     /// </summary>
-    public ObservableCollection<string>? Uids { get => uids; set => SetProperty(ref uids, value); }
+    public ObservableCollection<HutaoCloudUidOperationViewModel>? UidOperations { get => uidOperations; set => SetProperty(ref uidOperations, value); }
 
     /// <summary>
     /// 选项
@@ -41,11 +41,16 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     public HutaoUserOptions Options { get => options; }
 
     /// <summary>
+    /// 获取记录命令
+    /// </summary>
+    internal ICommand RetrieveCommand { get; set; }
+
+    /// <summary>
     /// 异步获取祈愿记录
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>祈愿记录</returns>
-    public async Task<ValueResult<bool, GachaArchive?>> RetrieveAsync(string uid)
+    internal async Task<ValueResult<bool, GachaArchive?>> RetrieveAsync(string uid)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogRetrieveFromHutaoCloudProgress)
@@ -137,7 +142,9 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             if (resp.IsOk())
             {
-                Uids = resp.Data!.ToObservableCollection();
+                UidOperations = resp.Data!
+                    .SelectList(uid => new HutaoCloudUidOperationViewModel(uid, RetrieveCommand, DeleteCommand))
+                    .ToObservableCollection();
             }
         }
     }

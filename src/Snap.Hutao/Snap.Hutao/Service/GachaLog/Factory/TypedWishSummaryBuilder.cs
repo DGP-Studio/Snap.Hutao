@@ -30,10 +30,12 @@ internal sealed class TypedWishSummaryBuilder
     /// </summary>
     public static readonly Func<GachaConfigType, bool> IsWeaponEventWish = type => type is GachaConfigType.WeaponEventWish;
 
+    private readonly IServiceProvider serviceProvider;
     private readonly string name;
     private readonly int guaranteeOrangeThreshold;
     private readonly int guaranteePurpleThreshold;
     private readonly Func<GachaConfigType, bool> typeEvaluator;
+    private readonly Web.Hutao.GachaLog.GachaDistributionType distributionType;
 
     private readonly List<int> averageOrangePullTracker = new();
     private readonly List<int> averageUpOrangePullTracker = new();
@@ -55,16 +57,26 @@ internal sealed class TypedWishSummaryBuilder
     /// <summary>
     /// 构造一个新的类型化祈愿统计信息构建器
     /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="name">祈愿配置</param>
     /// <param name="typeEvaluator">祈愿类型判断器</param>
+    /// <param name="distributionType">分布类型</param>
     /// <param name="guaranteeOrangeThreshold">五星保底</param>
     /// <param name="guaranteePurpleThreshold">四星保底</param>
-    public TypedWishSummaryBuilder(string name, Func<GachaConfigType, bool> typeEvaluator, int guaranteeOrangeThreshold, int guaranteePurpleThreshold)
+    public TypedWishSummaryBuilder(
+        IServiceProvider serviceProvider,
+        string name,
+        Func<GachaConfigType, bool> typeEvaluator,
+        Web.Hutao.GachaLog.GachaDistributionType distributionType,
+        int guaranteeOrangeThreshold,
+        int guaranteePurpleThreshold)
     {
+        this.serviceProvider = serviceProvider;
         this.name = name;
         this.typeEvaluator = typeEvaluator;
         this.guaranteeOrangeThreshold = guaranteeOrangeThreshold;
         this.guaranteePurpleThreshold = guaranteePurpleThreshold;
+        this.distributionType = distributionType;
     }
 
     /// <summary>
@@ -133,7 +145,7 @@ internal sealed class TypedWishSummaryBuilder
         summaryItems.CompleteAdding();
         double totalCount = totalCountTracker;
 
-        return new()
+        TypedWishSummary summary = new()
         {
             // base
             Name = name,
@@ -158,6 +170,10 @@ internal sealed class TypedWishSummaryBuilder
             AverageUpOrangePull = averageUpOrangePullTracker.SpanAverage(),
             OrangeList = summaryItems,
         };
+
+        new PullPrediction(serviceProvider, summary, distributionType).PredictAsync().SafeForget();
+
+        return summary;
     }
 
     private void TrackMinMaxOrangePull(int lastOrangePull)

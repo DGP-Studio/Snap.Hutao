@@ -2635,6 +2635,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 预计还需要 {0} 抽到五星，概率：{1:P3} 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogPredictedPullLeftToOrange {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogPredictedPullLeftToOrange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下一抽抽到五星的概率：{0:P3} 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGachaLogProbabilityOfNextPullIsOrange {
+            get {
+                return ResourceManager.GetString("ViewModelGachaLogProbabilityOfNextPullIsOrange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 获取祈愿记录失败 的本地化字符串。
         /// </summary>
         internal static string ViewModelGachaLogRefreshFail {

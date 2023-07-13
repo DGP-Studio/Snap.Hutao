@@ -76,10 +76,6 @@
                                         </mxi:Interaction.Behaviors>
                                         <Grid Visibility="{Binding HutaoCloudViewModel.IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <Grid Visibility="{Binding HutaoCloudViewModel.Options.IsCloudServiceAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <Grid.Resources>
-                                                    <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
-                                                    <shc:BindingProxy x:Key="HutaoCloudViewModelBindingProxy" DataContext="{Binding HutaoCloudViewModel}"/>
-                                                </Grid.Resources>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition Height="auto"/>
                                                     <RowDefinition Height="auto"/>
@@ -100,7 +96,11 @@
                                                     </StackPanel>
                                                 </Grid>
                                                 <ScrollViewer Grid.Row="1" Margin="0,0,0,8">
-                                                    <ItemsControl ItemsSource="{Binding HutaoCloudViewModel.Uids}">
+                                                    <ScrollViewer.Resources>
+                                                        <shc:BindingProxy x:Key="ViewModelBindingProxy" DataContext="{Binding}"/>
+                                                        <shc:BindingProxy x:Key="HutaoCloudViewModelBindingProxy" DataContext="{Binding HutaoCloudViewModel}"/>
+                                                    </ScrollViewer.Resources>
+                                                    <ItemsControl ItemsSource="{Binding HutaoCloudViewModel.UidOperations}">
                                                         <ItemsControl.ItemTemplate>
                                                             <DataTemplate>
                                                                 <Grid Margin="0,0,0,8">
@@ -112,7 +112,7 @@
                                                                         Grid.Column="0"
                                                                         VerticalAlignment="Center"
                                                                         Style="{StaticResource BaseTextBlockStyle}"
-                                                                        Text="{Binding}"/>
+                                                                        Text="{Binding Uid}"/>
                                                                     <StackPanel
                                                                         Grid.Column="1"
                                                                         Margin="6,0,0,0"
@@ -121,8 +121,8 @@
                                                                             Margin="6,0,0,0"
                                                                             VerticalAlignment="Stretch"
                                                                             Background="Transparent"
-                                                                            Command="{Binding DataContext.RetrieveFromCloudCommand, Source={StaticResource ViewModelBindingProxy}}"
-                                                                            CommandParameter="{Binding}"
+                                                                            Command="{Binding RetrieveCommand}"
+                                                                            CommandParameter="{Binding Uid}"
                                                                             Content="&#xE896;"
                                                                             FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                                             Style="{StaticResource ButtonRevealStyle}"
@@ -132,8 +132,8 @@
                                                                             HorizontalAlignment="Right"
                                                                             VerticalAlignment="Stretch"
                                                                             Background="Transparent"
-                                                                            Command="{Binding DataContext.DeleteCommand, Source={StaticResource HutaoCloudViewModelBindingProxy}}"
-                                                                            CommandParameter="{Binding}"
+                                                                            Command="{Binding DeleteCommand}"
+                                                                            CommandParameter="{Binding Uid}"
                                                                             Content="&#xE74D;"
                                                                             FontFamily="{StaticResource SymbolThemeFontFamily}"
                                                                             Style="{StaticResource ButtonRevealStyle}"
