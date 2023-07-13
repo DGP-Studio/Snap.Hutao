@@ -2635,7 +2635,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 预计还需要 {0} 抽到五星，概率：{1:P3} 的本地化字符串。
+        ///   查找类似 {1:00.000%} 概率 {0} 抽后获得五星物品 的本地化字符串。
         /// </summary>
         internal static string ViewModelGachaLogPredictedPullLeftToOrange {
             get {
@@ -2644,7 +2644,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 下一抽抽到五星的概率：{0:P3} 的本地化字符串。
+        ///   查找类似 {0:00.000%} 概率下一抽获得五星物品 的本地化字符串。
         /// </summary>
         internal static string ViewModelGachaLogProbabilityOfNextPullIsOrange {
             get {
