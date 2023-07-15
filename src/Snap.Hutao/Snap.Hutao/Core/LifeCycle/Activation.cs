@@ -9,6 +9,7 @@ using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
+using Snap.Hutao.ViewModel.Guide;
 using System.Diagnostics;
 
 namespace Snap.Hutao.Core.LifeCycle;
@@ -149,7 +150,15 @@ internal sealed class Activation : IActivation
         // Increase launch times
         LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
 
-        await WaitMainWindowAsync().ConfigureAwait(false);
+        if (LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.None) < (uint)GuideState.Completed)
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            serviceProvider.GetRequiredService<GuideWindow>();
+        }
+        else
+        {
+            await WaitMainWindowAsync().ConfigureAwait(false);
+        }
     }
 
     private async Task WaitMainWindowAsync()

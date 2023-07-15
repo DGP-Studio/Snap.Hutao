@@ -73,6 +73,7 @@
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
     <None Remove="Control\Panel\PanelSelector.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
+    <None Remove="GuideWindow.xaml" />
     <None Remove="IdentityStructs.json" />
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="NativeMethods.json" />
@@ -137,6 +138,7 @@
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
     <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
     <None Remove="View\Dialog\UserDialog.xaml" />
+    <None Remove="View\Guide\GuideView.xaml" />
     <None Remove="View\InfoBarView.xaml" />
     <None Remove="View\MainView.xaml" />
     <None Remove="View\Page\AchievementPage.xaml" />
@@ -300,6 +302,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="GuideWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
@@ -593,6 +601,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\Card\LaunchGameCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="View\Guide\GuideView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

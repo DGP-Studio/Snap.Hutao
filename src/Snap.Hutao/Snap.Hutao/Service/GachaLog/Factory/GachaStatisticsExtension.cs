@@ -41,7 +41,8 @@ internal static class GachaStatisticsExtension
     /// 完成添加
     /// </summary>
     /// <param name="summaryItems">简述物品列表</param>
-    public static void CompleteAdding(this List<SummaryItem> summaryItems)
+    /// <param name="guaranteeOrangeThreshold">五星保底阈值</param>
+    public static void CompleteAdding(this List<SummaryItem> summaryItems, int guaranteeOrangeThreshold)
     {
         // we can't trust first item's prev state.
         bool isPreviousUp = true;
@@ -56,6 +57,7 @@ internal static class GachaStatisticsExtension
 
             isPreviousUp = item.IsUp;
             item.Color = GetColorByName(item.Name);
+            item.GuaranteeOrangeThreshold = guaranteeOrangeThreshold;
         }
 
         // reverse items

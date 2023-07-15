@@ -22,7 +22,6 @@
         <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
 
         <shvconv:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
-
         <shc:BindingProxy x:Key="SummaryProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="OrangeListTemplate" d:DataType="shvg:SummaryItem">
@@ -36,7 +35,7 @@
                         MinHeight="32"
                         Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
                         CornerRadius="{StaticResource CompatCornerRadius}"
-                        Maximum="{Binding Path=DataContext.GuaranteeOrangeThreshold, Source={StaticResource SummaryProxy}}"
+                        Maximum="{Binding GuaranteeOrangeThreshold}"
                         Opacity="0.2"
                         Value="{Binding LastPull}">
                         <ProgressBar.Foreground>

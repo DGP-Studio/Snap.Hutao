@@ -27,13 +27,13 @@ internal sealed partial class LaunchGameWindow : Window, IDisposable, IWindowOpt
     /// <summary>
     /// 构造一个新的启动游戏窗口
     /// </summary>
-    /// <param name="scopeFactory">范围工厂</param>
-    public LaunchGameWindow(IServiceScopeFactory scopeFactory)
+    /// <param name="serviceProvider">服务提供器</param>
+    public LaunchGameWindow(IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
-        scope = scopeFactory.CreateScope();
-        windowOptions = new(this, DragableGrid, new(320, 320));
+        scope = serviceProvider.CreateScope();
+        windowOptions = new(this, DragableGrid, new(MaxWidth, MaxHeight));
         ExtendedWindow<LaunchGameWindow>.Initialize(this, scope.ServiceProvider);
         RootGrid.DataContext = scope.ServiceProvider.GetRequiredService<LaunchGameViewModel>();
     }

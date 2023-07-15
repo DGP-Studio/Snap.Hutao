@@ -268,6 +268,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 欢迎使用胡桃 的本地化字符串。
+        /// </summary>
+        internal static string GuideWindowTitle {
+            get {
+                return ResourceManager.GetString("GuideWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 选择账号并启动 的本地化字符串。
         /// </summary>
         internal static string LaunchGameTitle {

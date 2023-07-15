@@ -11,7 +11,6 @@
     mc:Ignorable="d">
 
     <Grid Name="RootGrid" d:DataContext="{d:DesignInstance shvg:LaunchGameViewModel}">
-
         <mxi:Interaction.Behaviors>
             <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
         </mxi:Interaction.Behaviors>

@@ -2132,4 +2132,7 @@
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
     <value>{0:00.000%} 概率下一抽获得五星物品</value>
   </data>
+  <data name="GuideWindowTitle" xml:space="preserve">
+    <value>欢迎使用胡桃</value>
+  </data>
 </root>

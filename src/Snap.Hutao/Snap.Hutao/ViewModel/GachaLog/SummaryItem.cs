@@ -22,6 +22,11 @@ internal sealed class SummaryItem : Item
     public bool IsGuarantee { get; set; }
 
     /// <summary>
+    /// 五星保底阈值
+    /// </summary>
+    public int GuaranteeOrangeThreshold { get; set; }
+
+    /// <summary>
     /// 据上次
     /// </summary>
     public int LastPull { get; set; }

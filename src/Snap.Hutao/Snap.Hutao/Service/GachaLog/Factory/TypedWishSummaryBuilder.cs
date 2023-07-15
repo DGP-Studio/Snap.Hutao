@@ -142,7 +142,7 @@ internal sealed class TypedWishSummaryBuilder
     /// <returns>类型化祈愿统计信息</returns>
     public TypedWishSummary ToTypedWishSummary()
     {
-        summaryItems.CompleteAdding();
+        summaryItems.CompleteAdding(guaranteeOrangeThreshold);
         double totalCount = totalCountTracker;
 
         TypedWishSummary summary = new()

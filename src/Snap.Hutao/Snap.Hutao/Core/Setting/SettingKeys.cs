@@ -45,6 +45,11 @@ internal static class SettingKeys
     /// </summary>
     public const string IsInfoBarToggleChecked = "IsInfoBarToggleChecked";
 
+    /// <summary>
+    /// 1.7.0 版本指引状态
+    /// </summary>
+    public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
+
     #region StaticResource
 
     /// <summary>
