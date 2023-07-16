@@ -3,6 +3,9 @@
 
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Metadata;
+using Snap.Hutao.Web.Request.QueryString;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -18,6 +21,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IGameService gameService;
+    private readonly MetadataOptions metadataOptions;
 
     /// <inheritdoc/>
     public string Name { get => nameof(GachaLogQueryWebCacheProvider); }
@@ -63,7 +67,20 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
 
                         if (!string.IsNullOrEmpty(result))
                         {
-                            return new(true, new(result));
+                            QueryString query = QueryString.Parse(result.TrimEnd("#/log"));
+                            string queryLanguageCode = query["lang"];
+                            if (metadataOptions.IsCurrentLocale(queryLanguageCode))
+                            {
+                                return new(true, new(result));
+                            }
+                            else
+                            {
+                                string message = string.Format(
+                                    SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale,
+                                    queryLanguageCode,
+                                    metadataOptions.LocaleName);
+                                return new(false, message);
+                            }
                         }
                         else
                         {

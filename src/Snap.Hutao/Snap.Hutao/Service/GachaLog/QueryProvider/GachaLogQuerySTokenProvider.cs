@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -18,6 +19,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
     private readonly BindingClient2 bindingClient2;
+    private readonly MetadataOptions metadataOptions;
     private readonly IUserService userService;
 
     /// <inheritdoc/>
@@ -38,7 +40,7 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
 
             if (authkeyResponse.IsOk())
             {
-                return new(true, new(GachaLogQueryOptions.AsQuery(data, authkeyResponse.Data)));
+                return new(true, new(GachaLogQueryOptions.AsQuery(data, authkeyResponse.Data, metadataOptions.LanguageCode)));
             }
             else
             {

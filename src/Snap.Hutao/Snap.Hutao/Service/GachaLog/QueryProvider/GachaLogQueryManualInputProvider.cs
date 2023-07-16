@@ -1,7 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.Web.Request.QueryString;
 
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
@@ -14,6 +16,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly MetadataOptions metadataOptions;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
@@ -25,13 +28,26 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
         GachaLogUrlDialog dialog = serviceProvider.CreateInstance<GachaLogUrlDialog>();
-        (bool isOk, string query) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
+        (bool isOk, string queryString) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (isOk)
         {
-            if (query.Contains("&auth_appid=webview_gacha"))
+            QueryString query = QueryString.Parse(queryString);
+            string queryLanguageCode = query["lang"];
+            if (query["auth_appid"] == "webview_gacha")
             {
-                return new(true, new(query));
+                if (metadataOptions.IsCurrentLocale(queryLanguageCode))
+                {
+                    return new(true, new(queryString));
+                }
+                else
+                {
+                    string message = string.Format(
+                        SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale,
+                        queryLanguageCode,
+                        metadataOptions.LocaleName);
+                    return new(false, message);
+                }
             }
             else
             {

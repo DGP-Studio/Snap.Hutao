@@ -33,7 +33,7 @@ internal sealed partial class GachaLogUrlDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-        string url = InputText.Text;
+        string url = InputText.Text.TrimEnd("#/log");
 
         return new(result == ContentDialogResult.Primary, url);
     }

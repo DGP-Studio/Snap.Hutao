@@ -56,7 +56,7 @@ internal struct GachaLogQueryOptions
         IsOversea = query.IsOversea;
         innerQuery = QueryString.Parse(query.Query);
 
-        innerQuery.Set("lang", "zh-cn");
+        // innerQuery.Set("lang", "zh-cn");
         innerQuery.Set("gacha_type", (int)type);
         innerQuery.Set("size", Size);
 
@@ -68,10 +68,12 @@ internal struct GachaLogQueryOptions
     /// </summary>
     /// <param name="genAuthKeyData">生成信息</param>
     /// <param name="gameAuthKey">验证包装</param>
+    /// <param name="lang">语言</param>
     /// <returns>查询</returns>
-    public static string AsQuery(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey)
+    public static string AsQuery(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)
     {
         QueryString queryString = new();
+        queryString.Set("lang", lang);
         queryString.Set("auth_appid", genAuthKeyData.AuthAppId);
         queryString.Set("authkey", Uri.EscapeDataString(gameAuthKey.AuthKey));
         queryString.Set("authkey_ver", gameAuthKey.AuthKeyVersion);

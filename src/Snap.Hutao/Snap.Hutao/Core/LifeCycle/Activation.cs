@@ -150,7 +150,7 @@ internal sealed class Activation : IActivation
         // Increase launch times
         LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
 
-        if (LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.None) < (uint)GuideState.Completed)
+        if (false && LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.None) < (uint)GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();
             serviceProvider.GetRequiredService<GuideWindow>();

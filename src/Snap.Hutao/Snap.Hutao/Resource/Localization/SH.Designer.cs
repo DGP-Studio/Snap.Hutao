@@ -1375,6 +1375,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 Url 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale {
+            get {
+                return ResourceManager.GetString("ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 不支持的 Item Id：{0} 的本地化字符串。
         /// </summary>
         internal static string ServiceGachaStatisticsFactoryItemIdInvalid {
