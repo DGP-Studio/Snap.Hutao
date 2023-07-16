@@ -214,15 +214,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 快捷操作 的本地化字符串。
-        /// </summary>
-        internal static string CoreJumpListHelperLaunchGameItemGroupName {
-            get {
-                return ResourceManager.GetString("CoreJumpListHelperLaunchGameItemGroupName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 胡桃实时便笺刷新任务 | 请勿编辑或删除。 的本地化字符串。
         /// </summary>
         internal static string CoreScheduleTaskHelperDailyNoteRefreshTaskDescription {
@@ -327,15 +318,6 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ModelBindingGachaTypedWishSummaryAveragePullFormat {
             get {
                 return ResourceManager.GetString("ModelBindingGachaTypedWishSummaryAveragePullFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 已垫 {0} 抽 的本地化字符串。
-        /// </summary>
-        internal static string ModelBindingGachaTypedWishSummaryLastPullFormat {
-            get {
-                return ResourceManager.GetString("ModelBindingGachaTypedWishSummaryLastPullFormat", resourceCulture);
             }
         }
         
@@ -1978,20 +1960,11 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 洞天宝钱提醒阈值 的本地化字符串。
+        ///   查找类似 原粹树脂提醒阈值 的本地化字符串。
         /// </summary>
         internal static string ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold {
             get {
                 return ResourceManager.GetString("ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 原粹树脂提醒阈值 的本地化字符串。
-        /// </summary>
-        internal static string ViewDialogDailyNoteNotificationResinNotifyThreshold {
-            get {
-                return ResourceManager.GetString("ViewDialogDailyNoteNotificationResinNotifyThreshold", resourceCulture);
             }
         }
         
@@ -2536,33 +2509,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 清除计划任务成功 的本地化字符串。
-        /// </summary>
-        internal static string ViewModelExperimentalDeleteTaskSuccess {
-            get {
-                return ResourceManager.GetString("ViewModelExperimentalDeleteTaskSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 清除计划任务失败，请使用管理员模式重试 的本地化字符串。
-        /// </summary>
-        internal static string ViewModelExperimentalDeleteTaskWarning {
-            get {
-                return ResourceManager.GetString("ViewModelExperimentalDeleteTaskWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 清除用户数据成功，请立即重启胡桃 的本地化字符串。
-        /// </summary>
-        internal static string ViewModelExperimentalDeleteUserSuccess {
-            get {
-                return ResourceManager.GetString("ViewModelExperimentalDeleteUserSuccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 成功保存到指定位置 的本地化字符串。
         /// </summary>
         internal static string ViewModelExportSuccessMessage {
@@ -3103,24 +3049,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 详细数据 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageAvatarPropertyPivotDetailHeader {
-            get {
-                return ResourceManager.GetString("ViewPageAvatarPropertyPivotDetailHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 总览数据 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageAvatarPropertyPivotOverviewHeader {
-            get {
-                return ResourceManager.GetString("ViewPageAvatarPropertyPivotOverviewHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 初始词条 的本地化字符串。
         /// </summary>
         internal static string ViewPageAvatarPropertyPrimaryProperties {
@@ -3216,15 +3144,6 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageCultivateCalculate {
             get {
                 return ResourceManager.GetString("ViewPageCultivateCalculate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 新建 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageCultivationAddAction {
-            get {
-                return ResourceManager.GetString("ViewPageCultivationAddAction", resourceCulture);
             }
         }
         
@@ -3654,18 +3573,18 @@ namespace Snap.Hutao.Resource.Localization {
         /// <summary>
         ///   查找类似 手动输入 Url 的本地化字符串。
         /// </summary>
-        internal static string ViewPageGachaLogRefreshBymanualInput {
+        internal static string ViewPageGachaLogRefreshByManualInput {
             get {
-                return ResourceManager.GetString("ViewPageGachaLogRefreshBymanualInput", resourceCulture);
+                return ResourceManager.GetString("ViewPageGachaLogRefreshByManualInput", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 使用由你提供的 Url 刷新祈愿记录 的本地化字符串。
         /// </summary>
-        internal static string ViewPageGachaLogRefreshBymanualInputDescription {
+        internal static string ViewPageGachaLogRefreshByManualInputDescription {
             get {
-                return ResourceManager.GetString("ViewPageGachaLogRefreshBymanualInputDescription", resourceCulture);
+                return ResourceManager.GetString("ViewPageGachaLogRefreshByManualInputDescription", resourceCulture);
             }
         }
         
@@ -4102,29 +4021,11 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 启用「启动游戏-高级功能」的任意功能 您需要在设置里解锁它 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageLaunchGameAdvancedFeatureElevationHint {
-            get {
-                return ResourceManager.GetString("ViewPageLaunchGameAdvancedFeatureElevationHint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 高级功能 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameAdvanceHeader {
             get {
                 return ResourceManager.GetString("ViewPageLaunchGameAdvanceHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 下面的功能十分危险，如果您不愿承担因此可能带来的后果，请勿启用！ 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageLaunchGameAdvanceHint {
-            get {
-                return ResourceManager.GetString("ViewPageLaunchGameAdvanceHint", resourceCulture);
             }
         }
         
@@ -4246,15 +4147,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 某些选项处于禁用状态，它们只在管理员模式下生效！ 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageLaunchGameElevationHint {
-            get {
-                return ResourceManager.GetString("ViewPageLaunchGameElevationHint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 在指定的显示器上运行 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameMonitorsDescription {
@@ -4336,24 +4228,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在游戏时可以随时调整 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageLaunchGameSetFpsDescription {
-            get {
-                return ResourceManager.GetString("ViewPageLaunchGameSetFpsDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 设置帧率上限 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageLaunchGameSetFpsHeader {
-            get {
-                return ResourceManager.GetString("ViewPageLaunchGameSetFpsHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 该账号尚未绑定 UID 的本地化字符串。
         /// </summary>
         internal static string ViewPageLaunchGameSwitchAccountAttachUidNull {
@@ -4431,15 +4305,6 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageLaunchGameSwitchSchemeHeader {
             get {
                 return ResourceManager.GetString("ViewPageLaunchGameSwitchSchemeHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 切换国际服功能会在游戏截图文件夹内创建缓存文件夹 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageLaunchGameSwitchSchemeHint {
-            get {
-                return ResourceManager.GetString("ViewPageLaunchGameSwitchSchemeHint", resourceCulture);
             }
         }
         
@@ -4669,24 +4534,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 删除注册的计划任务，卸载前务必点击此项 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingDeleteTaskDescription {
-            get {
-                return ResourceManager.GetString("ViewPageSettingDeleteTaskDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 删除所有计划任务 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingDeleteTaskHeader {
-            get {
-                return ResourceManager.GetString("ViewPageSettingDeleteTaskHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 直接删除用户表的所有记录，用于修复特定的账号冲突问题 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingDeleteUserDescription {
@@ -4759,24 +4606,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 Github 上反馈的问题会优先处理 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingFeedbackDescription {
-            get {
-                return ResourceManager.GetString("ViewPageSettingFeedbackDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 反馈 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingFeedbackHeader {
-            get {
-                return ResourceManager.GetString("ViewPageSettingFeedbackHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 前往反馈 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingFeedbackNavigate {
@@ -4831,15 +4660,6 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 相关链接 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingLinks {
-            get {
-                return ResourceManager.GetString("ViewPageSettingLinks", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 前往官网 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingOfficialSiteNavigate {
@@ -4858,7 +4678,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 下次启动时会重新下载所有图像资源 的本地化字符串。
+        ///   查找类似 重新下载所有图像资源 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingResetStaticResourceDescription {
             get {
@@ -4872,15 +4692,6 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingResetStaticResourceHeader {
             get {
                 return ResourceManager.GetString("ViewPageSettingResetStaticResourceHeader", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 重置成功 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingResetSuccessMessage {
-            get {
-                return ResourceManager.GetString("ViewPageSettingResetSuccessMessage", resourceCulture);
             }
         }
         
@@ -4980,24 +4791,6 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingUpdateCheckAction {
             get {
                 return ResourceManager.GetString("ViewPageSettingUpdateCheckAction", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 前往微软商店查看 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingUpdateCheckDescription {
-            get {
-                return ResourceManager.GetString("ViewPageSettingUpdateCheckDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 检查更新 的本地化字符串。
-        /// </summary>
-        internal static string ViewPageSettingUpdateCheckHeader {
-            get {
-                return ResourceManager.GetString("ViewPageSettingUpdateCheckHeader", resourceCulture);
             }
         }
         
@@ -5358,15 +5151,6 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewSpiralAbyssRefresh {
             get {
                 return ResourceManager.GetString("ViewSpiralAbyssRefresh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 刷新 的本地化字符串。
-        /// </summary>
-        internal static string ViewSpiralAbyssRefreshAction {
-            get {
-                return ResourceManager.GetString("ViewSpiralAbyssRefreshAction", resourceCulture);
             }
         }
         
@@ -5745,15 +5529,6 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string WebDailyNoteResinRecoveryFormat {
             get {
                 return ResourceManager.GetString("WebDailyNoteResinRecoveryFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 无感验证成功 的本地化字符串。
-        /// </summary>
-        internal static string WebDailyNoteSenselessVerificationSuccess {
-            get {
-                return ResourceManager.GetString("WebDailyNoteSenselessVerificationSuccess", resourceCulture);
             }
         }
         

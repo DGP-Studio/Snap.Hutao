@@ -17,18 +17,18 @@ internal enum DaysOfWeek
     /// <summary>
     /// 周一/周四/周日
     /// </summary>
-    [LocalizationKey("ModelBindingCultivationDaysOfWeek14")]
+    [LocalizationKey(nameof(SH.ModelBindingCultivationDaysOfWeek14))]
     MondayAndThursday,
 
     /// <summary>
     /// 周二/周五/周日
     /// </summary>
-    [LocalizationKey("ModelBindingCultivationDaysOfWeek25")]
+    [LocalizationKey(nameof(SH.ModelBindingCultivationDaysOfWeek25))]
     TuesdayAndFriday,
 
     /// <summary>
     /// 周三/周六/周日
     /// </summary>
-    [LocalizationKey("ModelBindingCultivationDaysOfWeek36")]
+    [LocalizationKey(nameof(SH.ModelBindingCultivationDaysOfWeek36))]
     WednesdayAndSaturday,
 }

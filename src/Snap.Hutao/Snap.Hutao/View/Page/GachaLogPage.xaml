@@ -58,7 +58,7 @@
                                     <MenuFlyoutItem
                                         Command="{Binding RefreshByManualInputCommand}"
                                         Icon="{shcm:FontIcon Glyph=&#xE765;}"
-                                        Text="{shcm:ResourceString Name=ViewPageGachaLogRefreshBymanualInput}"/>
+                                        Text="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInput}"/>
                                     <ToggleMenuFlyoutItem
                                         Icon="{shcm:FontIcon Glyph=&#xE1CD;}"
                                         IsChecked="{Binding IsAggressiveRefresh}"
@@ -644,8 +644,8 @@
                     <clw:SettingsCard
                         ActionIconToolTip="{shcm:ResourceString Name=ViewPageGachaLogInputAction}"
                         Command="{Binding RefreshByManualInputCommand}"
-                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshBymanualInputDescription}"
-                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshBymanualInput}"
+                        Description="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInputDescription}"
+                        Header="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInput}"
                         HeaderIcon="{shcm:FontIcon Glyph=&#xE765;}"
                         IsClickEnabled="True"/>
                     <clw:SettingsCard
