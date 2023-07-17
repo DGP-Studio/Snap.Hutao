@@ -14,17 +14,24 @@ namespace Snap.Hutao.Control.Behavior;
 [DependencyProperty("TargetHeight", typeof(double), 1.0D)]
 internal sealed partial class AutoWidthBehavior : BehaviorBase<FrameworkElement>
 {
+    private readonly SizeChangedEventHandler sizeChangedEventHandler;
+
+    public AutoWidthBehavior()
+    {
+        sizeChangedEventHandler = OnSizeChanged;
+    }
+
     /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()
     {
         UpdateElement();
-        AssociatedObject.SizeChanged += OnSizeChanged;
+        AssociatedObject.SizeChanged += sizeChangedEventHandler;
     }
 
     /// <inheritdoc/>
     protected override void OnDetaching()
     {
-        AssociatedObject.SizeChanged -= OnSizeChanged;
+        AssociatedObject.SizeChanged -= sizeChangedEventHandler;
         base.OnDetaching();
     }
 

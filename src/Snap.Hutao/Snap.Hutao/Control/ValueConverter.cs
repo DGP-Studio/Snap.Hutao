@@ -25,9 +25,9 @@ internal abstract class ValueConverter<TFrom, TTo> : IValueConverter
             Ioc.Default
                 .GetRequiredService<ILogger<ValueConverter<TFrom, TTo>>>()
                 .LogError(ex, "值转换器异常");
-        }
 
-        return null;
+            throw;
+        }
 #else
         return Convert((TFrom)value);
 #endif

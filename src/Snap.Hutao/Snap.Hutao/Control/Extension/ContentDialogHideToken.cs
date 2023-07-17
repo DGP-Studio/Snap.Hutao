@@ -5,10 +5,13 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.Control.Extension;
 
-internal readonly struct ContentDialogHideToken : IDisposable
+internal struct ContentDialogHideToken : IDisposable, IAsyncDisposable
 {
     private readonly ContentDialog contentDialog;
     private readonly ITaskContext taskContext;
+
+    private bool disposed = false;
+    private bool disposing = false;
 
     public ContentDialogHideToken(ContentDialog contentDialog, ITaskContext taskContext)
     {
@@ -18,7 +21,24 @@ internal readonly struct ContentDialogHideToken : IDisposable
 
     public void Dispose()
     {
-        // Hide() must be called on main thread.
-        taskContext.InvokeOnMainThread(contentDialog.Hide);
+        if (!disposed && !disposing)
+        {
+            disposing = true;
+            taskContext.InvokeOnMainThread(contentDialog.Hide); // Hide() must be called on main thread.
+            disposing = false;
+            disposed = true;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (!disposed && !disposing)
+        {
+            disposing = true;
+            await taskContext.SwitchToMainThreadAsync();
+            contentDialog.Hide();
+            disposing = false;
+            disposed = true;
+        }
     }
 }

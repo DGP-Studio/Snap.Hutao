@@ -46,6 +46,7 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
                 return;
             }
 
+            // TODO: Troubeshooting why the serviceProvider will NRE
             using (IServiceScope scope = serviceProvider.CreateScope())
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();

@@ -20,6 +20,7 @@ internal class ScopedPage : Page
     // Allow GC to Collect the IServiceScope
     private static readonly WeakReference<IServiceScope> PreviousScopeReference = new(null!);
 
+    private readonly RoutedEventHandler unloadEventHandler;
     private readonly CancellationTokenSource viewCancellationTokenSource = new();
     private readonly IServiceScope currentScope;
 
@@ -28,7 +29,8 @@ internal class ScopedPage : Page
     /// </summary>
     protected ScopedPage()
     {
-        Unloaded += OnScopedPageUnloaded;
+        unloadEventHandler = OnUnloaded;
+        Unloaded += unloadEventHandler;
         currentScope = Ioc.Default.CreateScope();
         DisposePreviousScope();
 
@@ -48,19 +50,6 @@ internal class ScopedPage : Page
     }
 
     /// <summary>
-    /// 初始化
-    /// 应当在 InitializeComponent() 前调用
-    /// </summary>
-    /// <typeparam name="TViewModel">视图模型类型</typeparam>
-    protected void InitializeWith<TViewModel>()
-        where TViewModel : class, IViewModel
-    {
-        IViewModel viewModel = currentScope.ServiceProvider.GetRequiredService<TViewModel>();
-        viewModel.CancellationToken = viewCancellationTokenSource.Token;
-        DataContext = viewModel;
-    }
-
-    /// <summary>
     /// 异步通知接收器
     /// </summary>
     /// <param name="extra">额外内容</param>
@@ -73,6 +62,19 @@ internal class ScopedPage : Page
         }
 
         extra.NotifyNavigationCompleted();
+    }
+
+    /// <summary>
+    /// 初始化
+    /// 应当在 InitializeComponent() 前调用
+    /// </summary>
+    /// <typeparam name="TViewModel">视图模型类型</typeparam>
+    protected void InitializeWith<TViewModel>()
+        where TViewModel : class, IViewModel
+    {
+        IViewModel viewModel = currentScope.ServiceProvider.GetRequiredService<TViewModel>();
+        viewModel.CancellationToken = viewCancellationTokenSource.Token;
+        DataContext = viewModel;
     }
 
     /// <inheritdoc/>
@@ -105,9 +107,9 @@ internal class ScopedPage : Page
         }
     }
 
-    private void OnScopedPageUnloaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void OnUnloaded(object sender, RoutedEventArgs e)
     {
         DataContext = null;
-        Unloaded -= OnScopedPageUnloaded;
+        Unloaded -= unloadEventHandler;
     }
 }

@@ -25,13 +25,7 @@ internal sealed class ExceptionFormat
 
         foreach (DictionaryEntry entry in exception.Data)
         {
-            builder
-                .Append(entry.Key)
-                .Append(":[")
-                .Append(TypeNameHelper.GetTypeDisplayName(entry.Value))
-                .Append("]:")
-                .Append(entry.Value)
-                .Append(StringLiterals.CRLF);
+            builder.AppendLine($"{entry.Key}:[{TypeNameHelper.GetTypeDisplayName(entry.Value)}]:entry.Value");
         }
 
         builder.AppendLine(SectionSeparator);

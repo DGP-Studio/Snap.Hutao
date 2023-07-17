@@ -35,7 +35,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     };
 
     private readonly ILogger logger;
-    private readonly HttpClient httpClient;
+    private readonly IHttpClientFactory httpClientFactory;
     private readonly IServiceProvider serviceProvider;
 
     private readonly ConcurrentDictionary<string, Task> concurrentTasks = new();
@@ -50,7 +50,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     public ImageCache(IServiceProvider serviceProvider)
     {
         logger = serviceProvider.GetRequiredService<ILogger<ImageCache>>();
-        httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient(nameof(ImageCache));
+        httpClientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
 
         this.serviceProvider = serviceProvider;
     }
@@ -58,20 +58,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     /// <inheritdoc/>
     public void RemoveInvalid()
     {
-        string folder = GetCacheFolder();
-        string[] files = Directory.GetFiles(folder);
-
-        List<string> filesToDelete = new();
-
-        foreach (string file in files)
-        {
-            if (IsFileInvalid(file, false))
-            {
-                filesToDelete.Add(file);
-            }
-        }
-
-        RemoveInternal(filesToDelete);
+        RemoveInternal(Directory.GetFiles(GetCacheFolder()).Where(file => IsFileInvalid(file, false)));
     }
 
     /// <inheritdoc/>
@@ -92,11 +79,10 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
         string[] files = Directory.GetFiles(folder);
 
         List<string> filesToDelete = new();
-
-        foreach (Uri uri in uriForCachedItems)
+        foreach (ref readonly Uri uri in uriForCachedItems)
         {
             string filePath = Path.Combine(folder, GetCacheFileName(uri));
-            if (Array.IndexOf(files, filePath) >= 0)
+            if (files.Contains(filePath))
             {
                 filesToDelete.Add(filePath);
             }
@@ -184,6 +170,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
         logger.LogInformation("Begin downloading for {Uri}", uri);
 
         int retryCount = 0;
+        HttpClient httpClient = httpClientFactory.CreateClient(nameof(ImageCache));
         while (retryCount < 6)
         {
             using (HttpResponseMessage message = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))

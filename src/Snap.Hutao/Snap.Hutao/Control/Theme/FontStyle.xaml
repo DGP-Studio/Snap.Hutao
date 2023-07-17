@@ -97,7 +97,7 @@
     <Style BasedOn="{StaticResource DefaultScrollViewerStyle}" TargetType="ScrollViewer">
         <Setter Property="FontFamily" Value="{StaticResource MiSans}"/>
     </Style>
-
+    <!--  TODO: When will DefaultInfoBarStyle added  -->
     <Style TargetType="InfoBar">
         <Setter Property="FontFamily" Value="{StaticResource MiSans}"/>
     </Style>

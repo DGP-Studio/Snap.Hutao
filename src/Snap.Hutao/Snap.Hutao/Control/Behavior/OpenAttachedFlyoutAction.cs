@@ -17,6 +17,6 @@ internal sealed class OpenAttachedFlyoutAction : DependencyObject, IAction
     public object Execute(object sender, object parameter)
     {
         FlyoutBase.ShowAttachedFlyout(sender as FrameworkElement);
-        return null!;
+        return default!;
     }
 }

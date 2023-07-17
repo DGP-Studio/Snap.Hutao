@@ -24,7 +24,7 @@ namespace Snap.Hutao.Core.Windowing;
 /// </summary>
 /// <typeparam name="TWindow">窗体类型</typeparam>
 [SuppressMessage("", "CA1001")]
-internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessage>
+internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMessage>
     where TWindow : Window, IWindowOptionsSource
 {
     private readonly TWindow window;
@@ -53,7 +53,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutOpenCloseMessag
     }
 
     /// <inheritdoc/>
-    public void Receive(FlyoutOpenCloseMessage message)
+    public void Receive(FlyoutStateChangedMessage message)
     {
         UpdateDragRectangles(message.IsOpen);
     }

@@ -5,27 +5,26 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    Name="RootSplitButton"
     Padding="0,6"
-    Click="SplitButtonClick"
-    Loaded="OnRootControlLoaded"
     mc:Ignorable="d">
 
     <SplitButton.Content>
         <FontIcon Name="IconPresenter" Glyph="&#xE8FD;"/>
     </SplitButton.Content>
+
     <SplitButton.Flyout>
         <MenuFlyout>
             <RadioMenuFlyoutItem
-                Click="RadioMenuFlyoutItemClick"
+                Click="OnMenuItemClick"
                 Icon="{shcm:FontIcon Glyph=&#xE8FD;}"
                 Tag="List"
                 Text="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownListName}"/>
             <RadioMenuFlyoutItem
-                Click="RadioMenuFlyoutItemClick"
+                Click="OnMenuItemClick"
                 Icon="{shcm:FontIcon Glyph=&#xF0E2;}"
                 Tag="Grid"
                 Text="{shcm:ResourceString Name=ControlPanelPanelSelectorDropdownGridName}"/>
         </MenuFlyout>
     </SplitButton.Flyout>
+
 </SplitButton>

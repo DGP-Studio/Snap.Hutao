@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation;
 
 namespace Snap.Hutao.Control.Panel;
 
@@ -16,12 +17,28 @@ internal sealed partial class PanelSelector : SplitButton
 
     private static readonly DependencyProperty CurrentProperty = Property<PanelSelector>.Depend(nameof(Current), List, OnCurrentChanged);
 
+    private readonly RoutedEventHandler loadedEventHandler;
+    private readonly RoutedEventHandler unloadedEventHandler;
+    private readonly TypedEventHandler<SplitButton, SplitButtonClickEventArgs> clickEventHandler;
+    private readonly RoutedEventHandler menuItemClickEventHandler;
+
     /// <summary>
     /// 构造一个新的面板选择器
     /// </summary>
     public PanelSelector()
     {
         InitializeComponent();
+
+        loadedEventHandler = OnRootLoaded;
+        Loaded += loadedEventHandler;
+
+        clickEventHandler = OnRootClick;
+        Click += clickEventHandler;
+
+        menuItemClickEventHandler = OnMenuItemClick;
+
+        unloadedEventHandler = OnRootUnload;
+        Unloaded += unloadedEventHandler;
     }
 
     /// <summary>
@@ -33,37 +50,54 @@ internal sealed partial class PanelSelector : SplitButton
         set => SetValue(CurrentProperty, value);
     }
 
-    private static void OnCurrentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+    private static void InitializeItems(PanelSelector selector)
     {
-        OnCurrentChanged((PanelSelector)obj, (string)args.NewValue);
+        MenuFlyout menuFlyout = (MenuFlyout)selector.Flyout;
+        int hash = selector.GetHashCode();
+        foreach (RadioMenuFlyoutItem item in menuFlyout.Items.Cast<RadioMenuFlyoutItem>())
+        {
+            item.GroupName = $"{nameof(PanelSelector)}GroupOf@{hash}";
+            item.Click += selector.menuItemClickEventHandler;
+        }
     }
 
-    private static void OnCurrentChanged(PanelSelector sender, string current)
+    private static void OnCurrentChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
     {
-        MenuFlyout menuFlyout = (MenuFlyout)sender.RootSplitButton.Flyout;
-        RadioMenuFlyoutItem targetItem = menuFlyout.Items
-            .Cast<RadioMenuFlyoutItem>()
+        UpdateRootGlyphAndItemIsCheck((PanelSelector)obj, (string)args.NewValue);
+    }
+
+    private static void UpdateRootGlyphAndItemIsCheck(PanelSelector sender, string current)
+    {
+        RadioMenuFlyoutItem targetItem = (RadioMenuFlyoutItem)((MenuFlyout)sender.Flyout).Items
             .Single(i => (string)i.Tag == current);
+
         targetItem.IsChecked = true;
         sender.IconPresenter.Glyph = ((FontIcon)targetItem.Icon).Glyph;
     }
 
-    private void OnRootControlLoaded(object sender, RoutedEventArgs e)
+    private void OnRootLoaded(object sender, RoutedEventArgs e)
     {
         // because the GroupName shares in global
         // we have to implement a control scoped GroupName.
         PanelSelector selector = (PanelSelector)sender;
-        MenuFlyout menuFlyout = (MenuFlyout)selector.RootSplitButton.Flyout;
-        int hash = GetHashCode();
-        foreach (RadioMenuFlyoutItem item in menuFlyout.Items.Cast<RadioMenuFlyoutItem>())
-        {
-            item.GroupName = $"{nameof(PanelSelector)}GroupOf@{hash}";
-        }
-
-        OnCurrentChanged(selector, Current);
+        InitializeItems(selector);
+        UpdateRootGlyphAndItemIsCheck(selector, Current);
     }
 
-    private void SplitButtonClick(SplitButton sender, SplitButtonClickEventArgs args)
+    private void OnRootUnload(object sender, RoutedEventArgs e)
+    {
+        Loaded -= loadedEventHandler;
+        Click -= clickEventHandler;
+
+        foreach (MenuFlyoutItemBase item in ((MenuFlyout)((PanelSelector)sender).Flyout).Items)
+        {
+            ((RadioMenuFlyoutItem)item).Click -= menuItemClickEventHandler;
+        }
+
+        Unloaded -= unloadedEventHandler;
+    }
+
+    private void OnRootClick(SplitButton sender, SplitButtonClickEventArgs args)
     {
         MenuFlyout menuFlyout = (MenuFlyout)sender.Flyout;
 
@@ -84,9 +118,8 @@ internal sealed partial class PanelSelector : SplitButton
         Current = (string)item.Tag;
     }
 
-    private void RadioMenuFlyoutItemClick(object sender, RoutedEventArgs e)
+    private void OnMenuItemClick(object sender, RoutedEventArgs e)
     {
-        RadioMenuFlyoutItem item = (RadioMenuFlyoutItem)sender;
-        Current = (string)item.Tag;
+        Current = (string)((FrameworkElement)sender).Tag;
     }
 }

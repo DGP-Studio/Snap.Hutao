@@ -20,10 +20,10 @@ internal static class ContentDialogExtension
     public static async ValueTask<ContentDialogHideToken> BlockAsync(this ContentDialog contentDialog, ITaskContext taskContext)
     {
         await taskContext.SwitchToMainThreadAsync();
-        contentDialog.ShowAsync().AsTask().SafeForget();
 
         // E_ASYNC_OPERATION_NOT_STARTED 0x80000019
         // Only a single ContentDialog can be open at any time.
+        contentDialog.ShowAsync().AsTask().SafeForget();
         return new ContentDialogHideToken(contentDialog, taskContext);
     }
 }

@@ -14,6 +14,8 @@ namespace Snap.Hutao.Control.Behavior;
 internal sealed class ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior : BehaviorBase<ComboBox>
 {
     private readonly IMessenger messenger;
+    private readonly EventHandler<object> dropDownOpenedHandler;
+    private readonly EventHandler<object> dropDownClosedHandler;
 
     /// <summary>
     /// AppTitleBar Workaround
@@ -21,31 +23,33 @@ internal sealed class ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior : Beh
     public ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior()
     {
         messenger = Ioc.Default.GetRequiredService<IMessenger>();
+        dropDownOpenedHandler = OnDropDownOpened;
+        dropDownClosedHandler = OnDropDownClosed;
     }
 
     /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()
     {
-        AssociatedObject.DropDownOpened += OnDropDownOpened;
-        AssociatedObject.DropDownClosed += OnDropDownClosed;
+        AssociatedObject.DropDownOpened += dropDownOpenedHandler;
+        AssociatedObject.DropDownClosed += dropDownClosedHandler;
     }
 
     /// <inheritdoc/>
     protected override void OnDetaching()
     {
-        AssociatedObject.DropDownOpened -= OnDropDownOpened;
-        AssociatedObject.DropDownClosed -= OnDropDownClosed;
+        AssociatedObject.DropDownOpened -= dropDownOpenedHandler;
+        AssociatedObject.DropDownClosed -= dropDownClosedHandler;
 
         base.OnDetaching();
     }
 
     private void OnDropDownOpened(object? sender, object e)
     {
-        messenger.Send(new Message.FlyoutOpenCloseMessage(true));
+        messenger.Send(Message.FlyoutStateChangedMessage.Open);
     }
 
     private void OnDropDownClosed(object? sender, object e)
     {
-        messenger.Send(new Message.FlyoutOpenCloseMessage(false));
+        messenger.Send(Message.FlyoutStateChangedMessage.Close);
     }
 }

@@ -20,7 +20,7 @@ internal sealed partial class Gradient : CompositionImage
     private double imageAspectRatio;
 
     /// <inheritdoc/>
-    protected override void OnUpdateVisual(SpriteVisual? spriteVisual)
+    protected override void UpdateVisual(SpriteVisual? spriteVisual)
     {
         if (spriteVisual is null)
         {
@@ -31,15 +31,9 @@ internal sealed partial class Gradient : CompositionImage
         spriteVisual.Size = ActualSize;
     }
 
-    /// <inheritdoc/>
-    protected override async Task<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
+    protected override void LoadImageSurfaceCompleted(LoadedImageSurface surface)
     {
-        TaskCompletionSource loadCompleteTaskSource = new();
-        LoadedImageSurface surface = LoadedImageSurface.StartLoadFromUri(file.ToUri());
-        surface.LoadCompleted += (_, _) => loadCompleteTaskSource.TrySetResult();
-        await loadCompleteTaskSource.Task.ConfigureAwait(true);
         imageAspectRatio = surface.NaturalSize.AspectRatio();
-        return surface;
     }
 
     /// <inheritdoc/>

@@ -7,8 +7,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Media;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Control.Media;
 using Snap.Hutao.Control.Theme;
+using Windows.Foundation;
 using Windows.UI;
 
 namespace Snap.Hutao.Control.Text;
@@ -29,19 +31,22 @@ internal sealed class DescriptionTextBlock : ContentControl
     private static readonly int ItalicTagFullLength = "<i></i>".Length;
     private static readonly int ItalicTagLeftLength = "<i>".Length;
 
+    private readonly TypedEventHandler<FrameworkElement, object> actualThemeChangedEventHandler;
+
     /// <summary>
     /// 构造一个新的呈现描述文本的文本块
     /// </summary>
     public DescriptionTextBlock()
     {
-        IsTabStop = false;
+        this.DisableInteraction();
 
         Content = new TextBlock()
         {
             TextWrapping = TextWrapping.Wrap,
         };
 
-        ActualThemeChanged += OnActualThemeChanged;
+        actualThemeChangedEventHandler = OnActualThemeChanged;
+        ActualThemeChanged += actualThemeChangedEventHandler;
     }
 
     /// <summary>
@@ -55,47 +60,47 @@ internal sealed class DescriptionTextBlock : ContentControl
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        TextBlock text = (TextBlock)((DescriptionTextBlock)d).Content;
+        TextBlock textBlock = (TextBlock)((DescriptionTextBlock)d).Content;
         ReadOnlySpan<char> description = (string)e.NewValue;
 
-        UpdateDescription(text, description);
+        UpdateDescription(textBlock, description);
     }
 
-    private static void UpdateDescription(TextBlock text, in ReadOnlySpan<char> description)
+    private static void UpdateDescription(TextBlock textBlock, in ReadOnlySpan<char> description)
     {
-        text.Inlines.Clear();
+        textBlock.Inlines.Clear();
 
         int last = 0;
         for (int i = 0; i < description.Length;)
         {
             // newline
-            if (description[i..].IndexOf(@"\n") is 0)
+            if (description[i..].StartsWith(@"\n"))
             {
-                AppendText(text, description[last..i]);
-                AppendLineBreak(text);
+                AppendText(textBlock, description[last..i]);
+                AppendLineBreak(textBlock);
                 i += 1;
                 last = i;
             }
 
             // color tag
-            else if (description[i..].IndexOf("<c") is 0)
+            else if (description[i..].StartsWith("<c"))
             {
-                AppendText(text, description[last..i]);
+                AppendText(textBlock, description[last..i]);
                 Rgba32 color = new(description.Slice(i + 8, 8).ToString());
                 int length = description[(i + ColorTagLeftLength)..].IndexOf('<');
-                AppendColorText(text, description.Slice(i + ColorTagLeftLength, length), color);
+                AppendColorText(textBlock, description.Slice(i + ColorTagLeftLength, length), color);
 
                 i += length + ColorTagFullLength;
                 last = i;
             }
 
             // italic
-            else if (description[i..].IndexOf("<i") is 0)
+            else if (description[i..].StartsWith("<i"))
             {
-                AppendText(text, description[last..i]);
+                AppendText(textBlock, description[last..i]);
 
                 int length = description[(i + ItalicTagLeftLength)..].IndexOf('<');
-                AppendItalicText(text, description.Slice(i + ItalicTagLeftLength, length));
+                AppendItalicText(textBlock, description.Slice(i + ItalicTagLeftLength, length));
 
                 i += length + ItalicTagFullLength;
                 last = i;
@@ -107,7 +112,7 @@ internal sealed class DescriptionTextBlock : ContentControl
 
             if (i == description.Length - 1)
             {
-                AppendText(text, description[last..(i + 1)]);
+                AppendText(textBlock, description[last..(i + 1)]);
             }
         }
     }
@@ -126,6 +131,7 @@ internal sealed class DescriptionTextBlock : ContentControl
         }
         else
         {
+            // Make lighter in light mode
             HslColor hsl = color.ToHsl();
             hsl.L *= 0.3;
             targetColor = Rgba32.FromHsl(hsl);

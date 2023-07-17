@@ -15,7 +15,7 @@ internal static class BoxedValues
     public static readonly object DoubleZero = 0D;
 
     /// <summary>
-    /// <see cref="double"/> 0
+    /// <see cref="double"/> 1
     /// </summary>
     public static readonly object DoubleOne = 1D;
 

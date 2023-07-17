@@ -10,6 +10,7 @@ namespace Snap.Hutao.Control;
 /// </summary>
 /// <typeparam name="TOwner">所有者的类型</typeparam>
 [HighQuality]
+[Obsolete("Use DependencyPropertyAttribute whenever possible")]
 internal static class Property<TOwner>
 {
     /// <summary>

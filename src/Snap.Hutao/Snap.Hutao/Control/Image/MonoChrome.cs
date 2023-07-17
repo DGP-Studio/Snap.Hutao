@@ -7,6 +7,7 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Snap.Hutao.Control.Theme;
+using Windows.Foundation;
 
 namespace Snap.Hutao.Control.Image;
 
@@ -16,6 +17,8 @@ namespace Snap.Hutao.Control.Image;
 [HighQuality]
 internal sealed class MonoChrome : CompositionImage
 {
+    private readonly TypedEventHandler<FrameworkElement, object> actualThemeChangedEventHandler;
+
     private CompositionColorBrush? backgroundBrush;
 
     /// <summary>
@@ -23,7 +26,8 @@ internal sealed class MonoChrome : CompositionImage
     /// </summary>
     public MonoChrome()
     {
-        ActualThemeChanged += OnActualThemeChanged;
+        actualThemeChangedEventHandler = OnActualThemeChanged;
+        ActualThemeChanged += actualThemeChangedEventHandler;
     }
 
     /// <inheritdoc/>
@@ -39,6 +43,16 @@ internal sealed class MonoChrome : CompositionImage
         CompositionEffectBrush alphaMaskEffectBrush = compositor.CompositeAlphaMaskEffectBrush(backgroundBrush, opacityBrush);
 
         return compositor.CompositeSpriteVisual(alphaMaskEffectBrush);
+    }
+
+    protected override void Unloading()
+    {
+        ActualThemeChanged -= actualThemeChangedEventHandler;
+
+        backgroundBrush?.Dispose();
+        backgroundBrush = null;
+
+        base.Unloading();
     }
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
