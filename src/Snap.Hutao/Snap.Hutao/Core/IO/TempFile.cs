@@ -10,13 +10,18 @@ namespace Snap.Hutao.Core.IO;
 /// 封装一个临时文件
 /// </summary>
 [HighQuality]
-internal sealed class TempFile : IDisposable
+internal readonly struct TempFile : IDisposable
 {
+    /// <summary>
+    /// 路径
+    /// </summary>
+    public readonly string Path;
+
     /// <summary>
     /// 构造一个新的临时文件
     /// </summary>
     /// <param name="delete">是否在创建时删除文件</param>
-    private TempFile(bool delete = false)
+    private TempFile(bool delete)
     {
         try
         {
@@ -34,18 +39,13 @@ internal sealed class TempFile : IDisposable
     }
 
     /// <summary>
-    /// 路径
-    /// </summary>
-    public string Path { get; }
-
-    /// <summary>
     /// 创建临时文件并复制内容
     /// </summary>
     /// <param name="file">源文件</param>
     /// <returns>临时文件</returns>
     public static TempFile? CopyFrom(string file)
     {
-        TempFile temporaryFile = new();
+        TempFile temporaryFile = new(false);
         try
         {
             File.Copy(file, temporaryFile.Path, true);

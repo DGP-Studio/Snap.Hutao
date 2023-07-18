@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Core.IO;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Net;
@@ -92,7 +93,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     }
 
     /// <inheritdoc/>
-    public async Task<string> GetFileFromCacheAsync(Uri uri)
+    public async Task<ValueFile> GetFileFromCacheAsync(Uri uri)
     {
         string fileName = GetCacheFileName(uri);
         string filePath = Path.Combine(GetCacheFolder(), fileName);
@@ -125,7 +126,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     }
 
     /// <inheritdoc/>
-    public string GetFilePathFromCategoryAndFileName(string category, string fileName)
+    public ValueFile GetFileFromCategoryAndName(string category, string fileName)
     {
         Uri dummyUri = Web.HutaoEndpoints.StaticFile(category, fileName).ToUri();
         return Path.Combine(GetCacheFolder(), GetCacheFileName(dummyUri));

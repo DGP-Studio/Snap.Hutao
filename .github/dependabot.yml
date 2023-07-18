@@ -9,3 +9,7 @@ updates:
     directory: "/src/Snap.Hutao" # Snap.Hutao.csproj
     schedule:
       interval: "weekly"
+    groups:
+      main-dependencies:
+        patterns:
+          - "*"

@@ -32,7 +32,7 @@ internal sealed class SeparatorCommaInt32EnumerableConverter : JsonConverter<IEn
 
     private static IEnumerable<int> EnumerateNumbers(string source)
     {
-        foreach (StringSegment id in new StringTokenizer(source, new[] { Comma }))
+        foreach (StringSegment id in new StringTokenizer(source, new[] { Comma })) // TODO: Use CL
         {
             yield return int.Parse(id.AsSpan());
         }

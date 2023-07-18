@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -168,9 +168,6 @@
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
     <value>Game Launcher</value>
   </data>
-  <data name="CoreJumpListHelperLaunchGameItemGroupName" xml:space="preserve">
-    <value>Quick Actions</value>
-  </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
     <value>Snap Hutao Realtime Notes refresh task. Do NOT edit or delete it.</value>
   </data>
@@ -203,9 +200,6 @@
   </data>
   <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
     <value>{0:f2} Pulls</value>
-  </data>
-  <data name="ModelBindingGachaTypedWishSummaryLastPullFormat" xml:space="preserve">
-    <value>Current Pity {0} Pulls</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
     <value>Unluckiest {0} Pulls</value>
@@ -729,9 +723,6 @@
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
     <value>Realm Currency Alarm Threshold</value>
   </data>
-  <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>Original Resin Alarm Threshold</value>
-  </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
     <value>Show widget on Home page</value>
   </data>
@@ -896,15 +887,6 @@
   </data>
   <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
     <value>Failed to add Scheduled Task, please try again in administrator mode</value>
-  </data>
-  <data name="ViewModelExperimentalDeleteTaskSuccess" xml:space="preserve">
-    <value>Clear scheduled task successful</value>
-  </data>
-  <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
-    <value>Failed to delete Scheduled Task, please try again in administrator mode</value>
-  </data>
-  <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
-    <value>Delete user data successfully. Please restart Snap Hutao now.</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>Successfully saved to selected patch</value>
@@ -1074,12 +1056,6 @@
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>Character Attributes</value>
   </data>
-  <data name="ViewPageAvatarPropertyPivotDetailHeader" xml:space="preserve">
-    <value>Details</value>
-  </data>
-  <data name="ViewPageAvatarPropertyPivotOverviewHeader" xml:space="preserve">
-    <value>Overview</value>
-  </data>
   <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
     <value>Primary Substat</value>
   </data>
@@ -1112,9 +1088,6 @@
   </data>
   <data name="ViewPageCultivateCalculate" xml:space="preserve">
     <value>Development Plan</value>
-  </data>
-  <data name="ViewPageCultivationAddAction" xml:space="preserve">
-    <value>Create</value>
   </data>
   <data name="ViewPageCultivationAddProject" xml:space="preserve">
     <value>Create Plan</value>
@@ -1227,12 +1200,6 @@
   <data name="ViewPageGachaLogRefreshAction" xml:space="preserve">
     <value>Fetch</value>
   </data>
-  <data name="ViewPageGachaLogRefreshBymanualInput" xml:space="preserve">
-    <value>Manual Input</value>
-  </data>
-  <data name="ViewPageGachaLogRefreshBymanualInputDescription" xml:space="preserve">
-    <value>Use URL you provided to refresh wish history</value>
-  </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken Refresh</value>
   </data>
@@ -1332,14 +1299,8 @@
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
     <value>Launch</value>
   </data>
-  <data name="ViewPageLaunchGameAdvancedFeatureElevationHint" xml:space="preserve">
-    <value>To enable any feature in「Game Launcher - Advanced Features」, you need to unlock it in Settings.</value>
-  </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>Advanced Features</value>
-  </data>
-  <data name="ViewPageLaunchGameAdvanceHint" xml:space="preserve">
-    <value>The following features are dangerous. Please do not enable if you do not want to bear the consequences that this may entail!</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>Create window as popup, without frame</value>
@@ -1380,9 +1341,6 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>All options will be saved only after the game is launched successfully.</value>
   </data>
-  <data name="ViewPageLaunchGameElevationHint" xml:space="preserve">
-    <value>Some options are disabled. They will only be enabled in administrator mode!</value>
-  </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>Run the software on the selected display</value>
   </data>
@@ -1410,12 +1368,6 @@
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>Pre-download</value>
   </data>
-  <data name="ViewPageLaunchGameSetFpsDescription" xml:space="preserve">
-    <value>Can adjust at any time during game</value>
-  </data>
-  <data name="ViewPageLaunchGameSetFpsHeader" xml:space="preserve">
-    <value>Set Frame Rate Limit</value>
-  </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>No UID bound</value>
   </data>
@@ -1442,9 +1394,6 @@
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
-  </data>
-  <data name="ViewPageLaunchGameSwitchSchemeHint" xml:space="preserve">
-    <value>Server switch feature will create a cache folder in the game screenshot folder</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>Please turn off V-Sync in the game settings. You may need a high-performance graphic card to support a high frame rate limit.</value>
@@ -1518,12 +1467,6 @@
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
     <value>Delete Game Embedded Browser Web Cache</value>
   </data>
-  <data name="ViewPageSettingDeleteTaskDescription" xml:space="preserve">
-    <value>Deleted registered Schedule Tasks. Execute this before uninstalling the software.</value>
-  </data>
-  <data name="ViewPageSettingDeleteTaskHeader" xml:space="preserve">
-    <value>Delete All Scheduled Tasks</value>
-  </data>
   <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
     <value>Delete all records in the user table to fix specific conflicts of accounts</value>
   </data>
@@ -1554,12 +1497,6 @@
   <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
     <value>You have unlocked the「Game Launcher - Advanced Features」that may violate the Terms of Service of Genshin Impact, and you will take responsibility for any adverse consequences.</value>
   </data>
-  <data name="ViewPageSettingFeedbackDescription" xml:space="preserve">
-    <value>Issues on GitHub will be prioritized</value>
-  </data>
-  <data name="ViewPageSettingFeedbackHeader" xml:space="preserve">
-    <value>Feedback</value>
-  </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
     <value>Feedback</value>
   </data>
@@ -1569,9 +1506,6 @@
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>Game</value>
   </data>
-  <data name="ViewPageSettingLinks" xml:space="preserve">
-    <value>Related links</value>
-  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>Reset</value>
   </data>
@@ -1580,9 +1514,6 @@
   </data>
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>Reset Image Resource</value>
-  </data>
-  <data name="ViewPageSettingResetSuccessMessage" xml:space="preserve">
-    <value>Reset successfully</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>You need to move data in the directory manually, otherwise new user data will be created.</value>
@@ -1616,12 +1547,6 @@
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>Go to Store</value>
-  </data>
-  <data name="ViewPageSettingUpdateCheckDescription" xml:space="preserve">
-    <value>View in Microsoft Store</value>
-  </data>
-  <data name="ViewPageSettingUpdateCheckHeader" xml:space="preserve">
-    <value>Check Update</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>Webview2 Runtime</value>
@@ -1661,9 +1586,6 @@
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>Refresh Data</value>
-  </data>
-  <data name="ViewSpiralAbyssRefreshAction" xml:space="preserve">
-    <value>Refresh</value>
   </data>
   <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
     <value>Sync Spiral Abyss data from Hoyolab</value>
@@ -1784,9 +1706,6 @@
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
     <value>Fully replenished in {0} {1:HH:mm}</value>
-  </data>
-  <data name="WebDailyNoteSenselessVerificationSuccess" xml:space="preserve">
-    <value>Imperceptible verification successful</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Ready for use again after</value>

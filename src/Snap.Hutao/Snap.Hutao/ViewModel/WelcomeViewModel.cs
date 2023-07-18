@@ -215,7 +215,7 @@ internal sealed partial class WelcomeViewModel : ObservableObject
             {
                 foreach (ZipArchiveEntry entry in archive.Entries)
                 {
-                    string destPath = imageCache.GetFilePathFromCategoryAndFileName(fileName, entry.FullName);
+                    string destPath = imageCache.GetFileFromCategoryAndName(fileName, entry.FullName);
                     entry.ExtractToFile(destPath, true);
                 }
             }

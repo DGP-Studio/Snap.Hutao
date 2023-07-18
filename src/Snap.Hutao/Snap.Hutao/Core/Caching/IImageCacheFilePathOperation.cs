@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.IO;
+
 namespace Snap.Hutao.Core.Caching;
 
 /// <summary>
@@ -15,5 +17,5 @@ internal interface IImageCacheFilePathOperation
     /// <param name="category">分类</param>
     /// <param name="fileName">文件名</param>
     /// <returns>文件路径</returns>
-    string GetFilePathFromCategoryAndFileName(string category, string fileName);
+    ValueFile GetFileFromCategoryAndName(string category, string fileName);
 }

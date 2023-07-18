@@ -38,6 +38,5 @@ internal static class FileOperation
 
         File.Move(sourceFileName, destFileName, false);
         return true;
-
     }
 }

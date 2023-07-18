@@ -119,6 +119,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_AutoApplyExistingTranslations = False
+		RESX_NeutralResourcesLanguage = zh-CN
 		SolutionGuid = {E4449B1C-0E6A-4D19-955E-1CA491656ABA}
 	EndGlobalSection
 EndGlobal

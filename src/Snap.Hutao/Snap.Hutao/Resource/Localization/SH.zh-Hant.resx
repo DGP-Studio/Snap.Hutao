@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -168,9 +168,6 @@
   <data name="CoreJumpListHelperLaunchGameItemDisplayName" xml:space="preserve">
     <value>啟動遊戲</value>
   </data>
-  <data name="CoreJumpListHelperLaunchGameItemGroupName" xml:space="preserve">
-    <value>快捷操作</value>
-  </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
     <value>胡桃即時便箋重新整理任務 | 請勿編輯或刪除。</value>
   </data>
@@ -203,9 +200,6 @@
   </data>
   <data name="ModelBindingGachaTypedWishSummaryAveragePullFormat" xml:space="preserve">
     <value>{0:f2} 抽</value>
-  </data>
-  <data name="ModelBindingGachaTypedWishSummaryLastPullFormat" xml:space="preserve">
-    <value>已墊 {0} 抽</value>
   </data>
   <data name="ModelBindingGachaTypedWishSummaryMaxOrangePullFormat" xml:space="preserve">
     <value>最非 {0} 抽</value>
@@ -729,9 +723,6 @@
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
     <value>洞天寶錢提醒閾值</value>
   </data>
-  <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>原粹樹脂提醒數值</value>
-  </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
     <value>在主頁顯示卡片</value>
   </data>
@@ -896,15 +887,6 @@
   </data>
   <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
     <value>注冊計劃任務失敗，請以管理員模式重試</value>
-  </data>
-  <data name="ViewModelExperimentalDeleteTaskSuccess" xml:space="preserve">
-    <value>清除計劃任務成功</value>
-  </data>
-  <data name="ViewModelExperimentalDeleteTaskWarning" xml:space="preserve">
-    <value>注冊計劃任務失敗，請以管理員模式重試</value>
-  </data>
-  <data name="ViewModelExperimentalDeleteUserSuccess" xml:space="preserve">
-    <value>清除用戶數據成功，請立即重啓 胡桃</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>成功保存到指定位置</value>
@@ -1074,12 +1056,6 @@
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>角色屬性</value>
   </data>
-  <data name="ViewPageAvatarPropertyPivotDetailHeader" xml:space="preserve">
-    <value>詳細數據</value>
-  </data>
-  <data name="ViewPageAvatarPropertyPivotOverviewHeader" xml:space="preserve">
-    <value>總覽數據</value>
-  </data>
   <data name="ViewPageAvatarPropertyPrimaryProperties" xml:space="preserve">
     <value>初始詞條</value>
   </data>
@@ -1112,9 +1088,6 @@
   </data>
   <data name="ViewPageCultivateCalculate" xml:space="preserve">
     <value>養成計算</value>
-  </data>
-  <data name="ViewPageCultivationAddAction" xml:space="preserve">
-    <value>新建</value>
   </data>
   <data name="ViewPageCultivationAddProject" xml:space="preserve">
     <value>新建計劃</value>
@@ -1227,12 +1200,6 @@
   <data name="ViewPageGachaLogRefreshAction" xml:space="preserve">
     <value>獲取</value>
   </data>
-  <data name="ViewPageGachaLogRefreshBymanualInput" xml:space="preserve">
-    <value>手動輸入 Url</value>
-  </data>
-  <data name="ViewPageGachaLogRefreshBymanualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 URL 刷新祈願紀錄</value>
-  </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken 刷新</value>
   </data>
@@ -1332,14 +1299,8 @@
   <data name="ViewPageLaunchGameAction" xml:space="preserve">
     <value>啟動遊戲</value>
   </data>
-  <data name="ViewPageLaunchGameAdvancedFeatureElevationHint" xml:space="preserve">
-    <value>啟動「啟動游戲 - 高級功能」的任意功能，你需要在設置裏解鎖它</value>
-  </data>
   <data name="ViewPageLaunchGameAdvanceHeader" xml:space="preserve">
     <value>進階功能</value>
-  </data>
-  <data name="ViewPageLaunchGameAdvanceHint" xml:space="preserve">
-    <value>下面的功能十分危險，如果您不願承擔因此可能帶來的後果，請勿啓用！</value>
   </data>
   <data name="ViewPageLaunchGameAppearanceBorderlessDescription" xml:space="preserve">
     <value>將窗口創建為彈出窗口，不帶邊框</value>
@@ -1380,9 +1341,6 @@
   <data name="ViewPageLaunchGameConfigurationSaveHint" xml:space="preserve">
     <value>所有選項盡會在啓動游戲成功後保存</value>
   </data>
-  <data name="ViewPageLaunchGameElevationHint" xml:space="preserve">
-    <value>某些選項處於禁用狀態，他們只在管理員模式下生效！</value>
-  </data>
   <data name="ViewPageLaunchGameMonitorsDescription" xml:space="preserve">
     <value>在指定的屏幕上運行</value>
   </data>
@@ -1410,12 +1368,6 @@
   <data name="ViewPageLaunchGameResourcePreDownloadHeader" xml:space="preserve">
     <value>預下載</value>
   </data>
-  <data name="ViewPageLaunchGameSetFpsDescription" xml:space="preserve">
-    <value>在游戲時可以隨時調整</value>
-  </data>
-  <data name="ViewPageLaunchGameSetFpsHeader" xml:space="preserve">
-    <value>設置 FPS 上限</value>
-  </data>
   <data name="ViewPageLaunchGameSwitchAccountAttachUidNull" xml:space="preserve">
     <value>該賬號尚未綁定 UID</value>
   </data>
@@ -1442,9 +1394,6 @@
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>伺服器</value>
-  </data>
-  <data name="ViewPageLaunchGameSwitchSchemeHint" xml:space="preserve">
-    <value>切換國際服功能會在游戲截圖文件夾内創建緩存文件夾</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
     <value>請在游戲内關閉 V-Sync 選項，需要高性能的顯示卡以支持更高的 FPS</value>
@@ -1518,12 +1467,6 @@
   <data name="ViewPageSettingDeleteCacheHeader" xml:space="preserve">
     <value>刪除游戲内網頁緩存</value>
   </data>
-  <data name="ViewPageSettingDeleteTaskDescription" xml:space="preserve">
-    <value>刪除注冊的計劃任務，卸載前務必點擊此項</value>
-  </data>
-  <data name="ViewPageSettingDeleteTaskHeader" xml:space="preserve">
-    <value>刪除所有計劃任務</value>
-  </data>
   <data name="ViewPageSettingDeleteUserDescription" xml:space="preserve">
     <value>直接刪除用戶表的所有記錄，用於修復特定的賬號衝突問題</value>
   </data>
@@ -1554,12 +1497,6 @@
   <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
     <value>您解鎖了含有違反原神服務條款風險的「啟動遊戲-高級功能」，將自行承擔任何不良後果。</value>
   </data>
-  <data name="ViewPageSettingFeedbackDescription" xml:space="preserve">
-    <value>Github 上反饋的問題會優先處理</value>
-  </data>
-  <data name="ViewPageSettingFeedbackHeader" xml:space="preserve">
-    <value>反饋</value>
-  </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
     <value>前往反饋</value>
   </data>
@@ -1569,9 +1506,6 @@
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>游戲</value>
   </data>
-  <data name="ViewPageSettingLinks" xml:space="preserve">
-    <value>相關連結</value>
-  </data>
   <data name="ViewPageSettingResetAction" xml:space="preserve">
     <value>重設</value>
   </data>
@@ -1580,9 +1514,6 @@
   </data>
   <data name="ViewPageSettingResetStaticResourceHeader" xml:space="preserve">
     <value>重設圖片資源</value>
-  </data>
-  <data name="ViewPageSettingResetSuccessMessage" xml:space="preserve">
-    <value>重設成功</value>
   </data>
   <data name="ViewPageSettingSetDataFolderDescription" xml:space="preserve">
     <value>更改目錄后需要手動移動目錄内的數據，否則會重新創建用戶數據</value>
@@ -1616,12 +1547,6 @@
   </data>
   <data name="ViewPageSettingUpdateCheckAction" xml:space="preserve">
     <value>前往商店</value>
-  </data>
-  <data name="ViewPageSettingUpdateCheckDescription" xml:space="preserve">
-    <value>前往微軟商店查看</value>
-  </data>
-  <data name="ViewPageSettingUpdateCheckHeader" xml:space="preserve">
-    <value>檢查更新</value>
   </data>
   <data name="ViewPageSettingWebview2Header" xml:space="preserve">
     <value>WebView 2 運行時</value>
@@ -1661,9 +1586,6 @@
   </data>
   <data name="ViewSpiralAbyssRefresh" xml:space="preserve">
     <value>重新整理數據</value>
-  </data>
-  <data name="ViewSpiralAbyssRefreshAction" xml:space="preserve">
-    <value>重新整理</value>
   </data>
   <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
     <value>同步 HoYo-LAB 的深淵挑戰記錄</value>
@@ -1784,9 +1706,6 @@
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
     <value>將於 {0} {1:HH:mm} 後全部恢復</value>
-  </data>
-  <data name="WebDailyNoteSenselessVerificationSuccess" xml:space="preserve">
-    <value>無感驗證成功</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>後可再次使用</value>

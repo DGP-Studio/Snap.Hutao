@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Core.IO;
 
 namespace Snap.Hutao.Core.Caching;
 
@@ -16,7 +17,7 @@ internal interface IImageCache : ICastService
     /// </summary>
     /// <param name="uri">Uri of the item.</param>
     /// <returns>a string path</returns>
-    Task<string> GetFileFromCacheAsync(Uri uri);
+    Task<ValueFile> GetFileFromCacheAsync(Uri uri);
 
     /// <summary>
     /// Removed items based on uri list passed
