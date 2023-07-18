@@ -43,7 +43,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// <inheritdoc/>
     public ICalculableAvatar ToCalculable()
     {
-        return new CalculableAvatar(this);
+        return CalculableAvatar.From(this);
     }
 
     /// <summary>

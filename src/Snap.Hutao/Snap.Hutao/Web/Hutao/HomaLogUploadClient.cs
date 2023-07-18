@@ -45,7 +45,7 @@ internal sealed class HomaLogUploadClient
 
     private static HutaoLog BuildFromException(IServiceProvider serviceProvider, Exception exception)
     {
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         return new()
         {

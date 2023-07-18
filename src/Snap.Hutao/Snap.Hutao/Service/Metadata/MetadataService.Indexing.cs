@@ -43,7 +43,8 @@ internal sealed partial class MetadataService
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {
-            return Must.NotNull((Dictionary<MaterialId, DisplayItem>)value!);
+            ArgumentNullException.ThrowIfNull(value);
+            return (Dictionary<MaterialId, DisplayItem>)value;
         }
 
         Dictionary<MaterialId, DisplayItem> displays = await FromCacheAsDictionaryAsync<MaterialId, DisplayItem>(FileNameDisplayItem, a => a.Id, token).ConfigureAwait(false);

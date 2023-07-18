@@ -203,7 +203,7 @@ internal sealed partial class PackageConverter
         }
 
         // Cache folder
-        Core.HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<Core.HutaoOptions>();
+        Core.RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<Core.RuntimeOptions>();
         string cacheFolder = Path.Combine(hutaoOptions.DataFolder, "ServerCache");
 
         // 执行下载与移动操作

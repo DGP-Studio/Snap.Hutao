@@ -39,7 +39,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IGameService gameService;
     private readonly ILogger<SettingViewModel> logger;
     private readonly AppOptions options;
-    private readonly HutaoOptions hutaoOptions;
+    private readonly RuntimeOptions hutaoOptions;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly ExperimentalFeaturesViewModel experimental;
 
@@ -54,7 +54,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 胡桃选项
     /// </summary>
-    public HutaoOptions HutaoOptions { get => hutaoOptions; }
+    public RuntimeOptions HutaoOptions { get => hutaoOptions; }
 
     /// <summary>
     /// 胡桃用户选项

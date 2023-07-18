@@ -37,7 +37,7 @@ internal static class IocConfiguration
 
     private static void AddDbContextCore(IServiceProvider provider, DbContextOptionsBuilder builder)
     {
-        HutaoOptions hutaoOptions = provider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = provider.GetRequiredService<RuntimeOptions>();
         string dbFile = System.IO.Path.Combine(hutaoOptions.DataFolder, "Userdata.db");
         string sqlConnectionString = $"Data Source={dbFile}";
 

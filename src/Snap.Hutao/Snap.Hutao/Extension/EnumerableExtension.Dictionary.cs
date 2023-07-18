@@ -66,7 +66,7 @@ internal static partial class EnumerableExtension
     }
 
     /// <inheritdoc cref="Enumerable.ToDictionary{TSource, TKey}(IEnumerable{TSource}, Func{TSource, TKey})"/>
-    public static Dictionary<TKey, TSource> ToDictionaryOverride<TKey, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
+    public static Dictionary<TKey, TSource> ToDictionaryIgnoringDuplicateKeys<TKey, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         where TKey : notnull
     {
         Dictionary<TKey, TSource> dictionary = new();
@@ -80,14 +80,14 @@ internal static partial class EnumerableExtension
     }
 
     /// <inheritdoc cref="Enumerable.ToDictionary{TSource, TKey, TElement}(IEnumerable{TSource}, Func{TSource, TKey}, Func{TSource, TElement})"/>
-    public static Dictionary<TKey, TValue> ToDictionaryOverride<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> valueSelector)
+    public static Dictionary<TKey, TValue> ToDictionaryIgnoringDuplicateKeys<TKey, TValue, TSource>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TValue> elementSelector)
         where TKey : notnull
     {
         Dictionary<TKey, TValue> dictionary = new();
 
         foreach (TSource value in source)
         {
-            dictionary[keySelector(value)] = valueSelector(value);
+            dictionary[keySelector(value)] = elementSelector(value);
         }
 
         return dictionary;

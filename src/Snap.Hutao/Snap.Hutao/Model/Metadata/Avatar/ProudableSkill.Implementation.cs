@@ -13,6 +13,6 @@ internal sealed partial class ProudableSkill : ICalculableSource<ICalculableSkil
     /// <inheritdoc/>
     public ICalculableSkill ToCalculable()
     {
-        return new CalculableSkill(this);
+        return CalculableSkill.From(this);
     }
 }

@@ -28,7 +28,7 @@ internal sealed partial class TitleView : UserControl
     {
         get
         {
-            Core.HutaoOptions hutaoOptions = Ioc.Default.GetRequiredService<Core.HutaoOptions>();
+            Core.RuntimeOptions hutaoOptions = Ioc.Default.GetRequiredService<Core.RuntimeOptions>();
 
             string format =
 #if DEBUG

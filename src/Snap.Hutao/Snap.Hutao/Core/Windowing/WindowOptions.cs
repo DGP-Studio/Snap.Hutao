@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Windows.Graphics;
 using Windows.Win32.Foundation;
 using WinRT.Interop;
+using static Windows.Win32.PInvoke;
 
 namespace Snap.Hutao.Core.Windowing;
 
@@ -52,5 +53,38 @@ internal readonly struct WindowOptions
         TitleBar = titleBar;
         InitSize = initSize;
         PersistSize = persistSize;
+    }
+
+    /// <summary>
+    /// 获取窗体当前的DPI缩放比
+    /// </summary>
+    /// <returns>缩放比</returns>
+    public double GetWindowScale()
+    {
+        uint dpi = GetDpiForWindow(Hwnd);
+        return Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
+    }
+
+    /// <summary>
+    /// 将窗口设为前台窗口
+    /// </summary>
+    /// <param name="hwnd">窗口句柄</param>
+    public unsafe void BringToForeground()
+    {
+        HWND fgHwnd = GetForegroundWindow();
+
+        uint threadIdHwnd = GetWindowThreadProcessId(Hwnd);
+        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd);
+
+        if (threadIdHwnd != threadIdFgHwnd)
+        {
+            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, true);
+            SetForegroundWindow(Hwnd);
+            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, false);
+        }
+        else
+        {
+            SetForegroundWindow(Hwnd);
+        }
     }
 }

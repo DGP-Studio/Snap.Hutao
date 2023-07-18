@@ -74,7 +74,7 @@ public sealed partial class App : Application
 
     private void LogDiagnosticInformation()
     {
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         logger.LogInformation("FamilyName: {name}", hutaoOptions.FamilyName);
         logger.LogInformation("Version: {version}", hutaoOptions.Version);

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("cultivate_projects")]
-internal sealed class CultivateProject : ISelectable
+internal sealed class CultivateProject : ISelectable, IMappingFrom<CultivateProject, string, string>
 {
     /// <summary>
     /// 内部Id
@@ -42,7 +43,7 @@ internal sealed class CultivateProject : ISelectable
     /// <param name="name">名称</param>
     /// <param name="attachedUid">绑定的Uid</param>
     /// <returns>新的养成计划</returns>
-    public static CultivateProject Create(string name, string? attachedUid = null)
+    public static CultivateProject From(string name, string? attachedUid = null)
     {
         return new() { Name = name, AttachedUid = attachedUid };
     }

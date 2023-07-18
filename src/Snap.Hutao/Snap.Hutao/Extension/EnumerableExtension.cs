@@ -31,6 +31,7 @@ internal static partial class EnumerableExtension
     /// <typeparam name="TSource">源的类型</typeparam>
     /// <param name="source">源</param>
     /// <returns>集合</returns>
+    [Obsolete("Use C# 12 Collection Literal instead")]
     public static IEnumerable<TSource> Enumerate<TSource>(this TSource source)
     {
         yield return source;

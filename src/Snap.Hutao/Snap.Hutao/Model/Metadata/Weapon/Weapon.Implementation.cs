@@ -36,7 +36,7 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()
     {
-        return new CalculableWeapon(this);
+        return CalculableWeapon.From(this);
     }
 
     /// <summary>

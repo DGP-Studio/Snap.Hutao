@@ -29,7 +29,7 @@ internal static partial class IocHttpClientConfiguration
     /// <param name="client">配置后的客户端</param>
     private static void DefaultConfiguration(IServiceProvider serviceProvider, HttpClient client)
     {
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         client.Timeout = Timeout.InfiniteTimeSpan;
         client.DefaultRequestHeaders.UserAgent.ParseAdd(hutaoOptions.UserAgent);

@@ -25,7 +25,7 @@ internal sealed partial class UserViewModel : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
-    private readonly Core.HutaoOptions hutaoOptions;
+    private readonly Core.RuntimeOptions hutaoOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 

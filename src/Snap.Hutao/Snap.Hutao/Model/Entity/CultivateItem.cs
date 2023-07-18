@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Entity.Abstraction;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,7 +12,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("cultivate_items")]
-internal sealed class CultivateItem
+internal sealed class CultivateItem : IDbMappingForeignKeyFrom<CultivateItem, Web.Hoyolab.Takumi.Event.Calculate.Item>
 {
     /// <summary>
     /// 内部Id
@@ -50,16 +51,15 @@ internal sealed class CultivateItem
     /// 创建一个新的养成物品
     /// </summary>
     /// <param name="entryId">入口点 Id</param>
-    /// <param name="itemId">物品 Id</param>
-    /// <param name="count">个数</param>
+    /// <param name="item">物品</param>
     /// <returns>养成物品</returns>
-    public static CultivateItem Create(in Guid entryId, int itemId, int count)
+    public static CultivateItem From(in Guid entryId, in Web.Hoyolab.Takumi.Event.Calculate.Item item)
     {
         return new()
         {
             EntryId = entryId,
-            ItemId = itemId,
-            Count = count,
+            ItemId = item.Id,
+            Count = item.Num,
         };
     }
 }

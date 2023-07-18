@@ -202,7 +202,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
             if (isOk)
             {
-                ArchiveAddResult result = await achievementService.TryAddArchiveAsync(EntityAchievementArchive.Create(name)).ConfigureAwait(false);
+                ArchiveAddResult result = await achievementService.TryAddArchiveAsync(EntityAchievementArchive.From(name)).ConfigureAwait(false);
 
                 switch (result)
                 {
@@ -230,7 +230,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         if (Archives != null && SelectedArchive != null)
         {
             ContentDialogResult result = await contentDialogFactory
-                .ConfirmCancelAsync(
+                .CreateForConfirmCancelAsync(
                     string.Format(SH.ViewModelAchievementRemoveArchiveTitle, SelectedArchive.Name),
                     SH.ViewModelAchievementRemoveArchiveContent)
                 .ConfigureAwait(false);

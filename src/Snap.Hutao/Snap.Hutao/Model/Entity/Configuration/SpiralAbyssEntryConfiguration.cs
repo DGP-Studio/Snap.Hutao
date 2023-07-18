@@ -16,7 +16,7 @@ internal sealed class SpiralAbyssEntryConfiguration : IEntityTypeConfiguration<S
     public void Configure(EntityTypeBuilder<SpiralAbyssEntry> builder)
     {
         builder.Property(e => e.SpiralAbyss)
-            .HasColumnType("TEXT")
+            .HasColumnType(SqliteTypeNames.Text)
             .HasConversion<JsonTextValueConverter<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss>>();
     }
 }

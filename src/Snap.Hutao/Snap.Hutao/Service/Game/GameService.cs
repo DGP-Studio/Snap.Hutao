@@ -32,7 +32,7 @@ internal sealed partial class GameService : IGameService
     private readonly PackageConverter packageConverter;
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
-    private readonly HutaoOptions hutaoOptions;
+    private readonly RuntimeOptions hutaoOptions;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
@@ -302,7 +302,7 @@ internal sealed partial class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask DetectGameAccountAsync()
     {
-        Must.NotNull(gameAccounts!);
+        ArgumentNullException.ThrowIfNull(gameAccounts);
 
         string? registrySdk = RegistryInterop.Get();
         if (!string.IsNullOrEmpty(registrySdk))
@@ -350,7 +350,7 @@ internal sealed partial class GameService : IGameService
     /// <inheritdoc/>
     public GameAccount? DetectCurrentGameAccount()
     {
-        Must.NotNull(gameAccounts!);
+        ArgumentNullException.ThrowIfNull(gameAccounts);
 
         string? registrySdk = RegistryInterop.Get();
 

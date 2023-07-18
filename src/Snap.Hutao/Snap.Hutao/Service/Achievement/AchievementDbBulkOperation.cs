@@ -63,7 +63,7 @@ internal sealed partial class AchievementDbBulkOperation
 
                             if (entity is null && uiaf is not null)
                             {
-                                appDbContext.Achievements.AddAndSave(EntityAchievement.Create(archiveId, uiaf));
+                                appDbContext.Achievements.AddAndSave(EntityAchievement.From(archiveId, uiaf));
                                 add++;
                                 continue;
                             }
@@ -86,7 +86,7 @@ internal sealed partial class AchievementDbBulkOperation
                                 if (aggressive)
                                 {
                                     appDbContext.Achievements.RemoveAndSave(entity);
-                                    appDbContext.Achievements.AddAndSave(EntityAchievement.Create(archiveId, uiaf));
+                                    appDbContext.Achievements.AddAndSave(EntityAchievement.From(archiveId, uiaf));
                                     update++;
                                 }
                             }
@@ -96,7 +96,7 @@ internal sealed partial class AchievementDbBulkOperation
                                 moveEntity = false;
                                 moveUIAF = true;
 
-                                appDbContext.Achievements.AddAndSave(EntityAchievement.Create(archiveId, uiaf));
+                                appDbContext.Achievements.AddAndSave(EntityAchievement.From(archiveId, uiaf));
                                 add++;
                             }
                         }

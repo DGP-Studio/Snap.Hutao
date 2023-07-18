@@ -64,7 +64,7 @@ internal sealed class UIGFInfo
     /// <returns>专用 UIGF 信息</returns>
     public static UIGFInfo Create(IServiceProvider serviceProvider, string uid)
     {
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         return new()
         {

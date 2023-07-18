@@ -16,7 +16,7 @@ internal sealed class InventoryReliquaryConfiguration : IEntityTypeConfiguration
     public void Configure(EntityTypeBuilder<InventoryReliquary> builder)
     {
         builder.Property(e => e.AppendPropIdList)
-            .HasColumnType("TEXT")
+            .HasColumnType(SqliteTypeNames.Text)
             .HasConversion(
                 list => list.ToString(','),
                 text => text.Split(',', StringSplitOptions.None).Select(int.Parse).ToList());

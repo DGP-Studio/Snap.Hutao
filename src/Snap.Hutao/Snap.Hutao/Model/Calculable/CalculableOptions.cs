@@ -6,8 +6,18 @@ namespace Snap.Hutao.Model.Calculable;
 /// <summary>
 /// 可计算物品选项
 /// </summary>
-internal sealed class CalculableOptions
+internal readonly struct CalculableOptions
 {
+    /// <summary>
+    /// 角色
+    /// </summary>
+    public readonly ICalculableAvatar? Avatar;
+
+    /// <summary>
+    /// 武器
+    /// </summary>
+    public readonly ICalculableWeapon? Weapon;
+
     /// <summary>
     /// 构造一个新的可计算物品选项
     /// </summary>
@@ -18,14 +28,4 @@ internal sealed class CalculableOptions
         Avatar = avatar;
         Weapon = weapon;
     }
-
-    /// <summary>
-    /// 角色
-    /// </summary>
-    public ICalculableAvatar? Avatar { get; }
-
-    /// <summary>
-    /// 武器
-    /// </summary>
-    public ICalculableWeapon? Weapon { get; }
 }

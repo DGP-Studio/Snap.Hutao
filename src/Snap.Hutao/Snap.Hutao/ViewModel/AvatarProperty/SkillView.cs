@@ -36,6 +36,6 @@ internal sealed class SkillView : NameIconDescription, ICalculableSource<ICalcul
     /// <inheritdoc/>
     public ICalculableSkill ToCalculable()
     {
-        return new CalculableSkill(this);
+        return CalculableSkill.From(this);
     }
 }

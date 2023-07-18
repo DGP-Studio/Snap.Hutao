@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
@@ -15,7 +16,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("daily_notes")]
-internal sealed class DailyNoteEntry : ObservableObject
+internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteEntry, UserAndUid>
 {
     /// <summary>
     /// 内部Id
@@ -106,7 +107,7 @@ internal sealed class DailyNoteEntry : ObservableObject
     /// </summary>
     /// <param name="userAndUid">用户与角色</param>
     /// <returns>新的实时便笺</returns>
-    public static DailyNoteEntry Create(UserAndUid userAndUid)
+    public static DailyNoteEntry From(UserAndUid userAndUid)
     {
         return new()
         {

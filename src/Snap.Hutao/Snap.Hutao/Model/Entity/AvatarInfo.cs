@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,10 +12,10 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("avatar_infos")]
-internal sealed class AvatarInfo
+internal sealed class AvatarInfo : IMappingFrom<AvatarInfo, string, Web.Enka.Model.AvatarInfo>
 {
     /// <summary>
-    /// 内部Id
+    /// 内部 Id
     /// </summary>
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -36,7 +37,7 @@ internal sealed class AvatarInfo
     /// <param name="uid">uid</param>
     /// <param name="info">角色信息</param>
     /// <returns>实体角色信息</returns>
-    public static AvatarInfo Create(string uid, Web.Enka.Model.AvatarInfo info)
+    public static AvatarInfo From(string uid, Web.Enka.Model.AvatarInfo info)
     {
         return new() { Uid = uid, Info = info };
     }

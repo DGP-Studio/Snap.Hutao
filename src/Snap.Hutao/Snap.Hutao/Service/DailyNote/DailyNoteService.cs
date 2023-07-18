@@ -48,7 +48,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
             if (!appDbContext.DailyNotes.Any(n => n.Uid == roleUid))
             {
-                DailyNoteEntry newEntry = DailyNoteEntry.Create(role);
+                DailyNoteEntry newEntry = DailyNoteEntry.From(role);
 
                 Web.Response.Response<WebDailyNote> dailyNoteResponse = await scope.ServiceProvider
                     .PickRequiredService<IGameRecordClient>(PlayerUid.IsOversea(roleUid))

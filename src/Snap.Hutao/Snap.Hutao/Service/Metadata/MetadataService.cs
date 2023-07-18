@@ -167,7 +167,8 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {
-            return Must.NotNull((T)value!);
+            ArgumentNullException.ThrowIfNull(value);
+            return (T)value;
         }
 
         string path = metadataOptions.GetLocalizedLocalFile($"{fileName}.json");
@@ -176,7 +177,8 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             using (Stream fileStream = File.OpenRead(path))
             {
                 T? result = await JsonSerializer.DeserializeAsync<T>(fileStream, options, token).ConfigureAwait(false);
-                return memoryCache.Set(cacheKey, Must.NotNull(result!));
+                ArgumentNullException.ThrowIfNull(result);
+                return memoryCache.Set(cacheKey, result);
             }
         }
         else
@@ -193,11 +195,12 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {
-            return Must.NotNull((Dictionary<TKey, TValue>)value!);
+            ArgumentNullException.ThrowIfNull(value);
+            return (Dictionary<TKey, TValue>)value;
         }
 
         List<TValue> list = await FromCacheOrFileAsync<List<TValue>>(fileName, token).ConfigureAwait(false);
-        Dictionary<TKey, TValue> dict = list.ToDictionaryOverride(keySelector);
+        Dictionary<TKey, TValue> dict = list.ToDictionaryIgnoringDuplicateKeys(keySelector); // There are duplicate name items
         return memoryCache.Set(cacheKey, dict);
     }
 
@@ -208,11 +211,12 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {
-            return Must.NotNull((Dictionary<TKey, TValue>)value!);
+            ArgumentNullException.ThrowIfNull(value);
+            return (Dictionary<TKey, TValue>)value;
         }
 
         List<TData> list = await FromCacheOrFileAsync<List<TData>>(fileName, token).ConfigureAwait(false);
-        Dictionary<TKey, TValue> dict = list.ToDictionaryOverride(keySelector, valueSelector);
+        Dictionary<TKey, TValue> dict = list.ToDictionaryIgnoringDuplicateKeys(keySelector, valueSelector); // There are duplicate name items
         return memoryCache.Set(cacheKey, dict);
     }
 }

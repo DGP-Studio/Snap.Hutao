@@ -10,6 +10,31 @@ namespace Snap.Hutao.Core.Setting;
 internal static class StaticResource
 {
     /// <summary>
+    /// 静态资源合约
+    /// </summary>
+    public const string V1Contract = "StaticResourceV1Contract";
+
+    /// <summary>
+    /// 静态资源合约V2 成就图标与物品图标
+    /// </summary>
+    public const string V2Contract = "StaticResourceV2Contract";
+
+    /// <summary>
+    /// 静态资源合约V3 刷新 Skill Talent
+    /// </summary>
+    public const string V3Contract = "StaticResourceV3Contract";
+
+    /// <summary>
+    /// 静态资源合约V4 刷新 AvatarIcon
+    /// </summary>
+    public const string V4Contract = "StaticResourceV4Contract";
+
+    /// <summary>
+    /// 静态资源合约V5 刷新 AvatarIcon
+    /// </summary>
+    public const string V5Contract = "StaticResourceV5Contract";
+
+    /// <summary>
     /// 完成所有合约
     /// </summary>
     public static void FulfillAllContracts()
@@ -41,18 +66,19 @@ internal static class StaticResource
     /// <returns>静态资源合约尚未完成</returns>
     public static bool IsAnyUnfulfilledContractPresent()
     {
-        return !LocalSetting.Get(SettingKeys.StaticResourceV1Contract, false)
-            || (!LocalSetting.Get(SettingKeys.StaticResourceV2Contract, false))
-            || (!LocalSetting.Get(SettingKeys.StaticResourceV3Contract, false))
-            || (!LocalSetting.Get(SettingKeys.StaticResourceV4Contract, false));
+        return !LocalSetting.Get(V1Contract, false)
+            || (!LocalSetting.Get(V2Contract, false))
+            || (!LocalSetting.Get(V3Contract, false))
+            || (!LocalSetting.Get(V4Contract, false))
+            || (!LocalSetting.Get(V5Contract, false));
     }
 
     private static void SetContractsState(bool state)
     {
-        LocalSetting.Set(SettingKeys.StaticResourceV1Contract, state);
-        LocalSetting.Set(SettingKeys.StaticResourceV2Contract, state);
-        LocalSetting.Set(SettingKeys.StaticResourceV3Contract, state);
-        LocalSetting.Set(SettingKeys.StaticResourceV4Contract, state);
-        LocalSetting.Set(SettingKeys.StaticResourceV5Contract, state);
+        LocalSetting.Set(V1Contract, state);
+        LocalSetting.Set(V2Contract, state);
+        LocalSetting.Set(V3Contract, state);
+        LocalSetting.Set(V4Contract, state);
+        LocalSetting.Set(V5Contract, state);
     }
 }

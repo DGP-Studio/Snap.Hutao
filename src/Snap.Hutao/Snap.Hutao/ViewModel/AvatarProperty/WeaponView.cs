@@ -55,6 +55,6 @@ internal sealed class WeaponView : Equip, ICalculableSource<ICalculableWeapon>
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()
     {
-        return new CalculableWeapon(this);
+        return CalculableWeapon.From(this);
     }
 }

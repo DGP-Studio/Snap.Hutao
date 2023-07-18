@@ -52,19 +52,4 @@ internal static class Must
     {
         throw new NotSupportedException(context);
     }
-
-    /// <summary>
-    /// Throws an <see cref="ArgumentNullException"/> if the specified parameter's value is null.
-    /// </summary>
-    /// <typeparam name="T">The type of the parameter.</typeparam>
-    /// <param name="value">The value of the argument.</param>
-    /// <param name="parameterName">The name of the parameter to include in any thrown exception.</param>
-    /// <returns>The value of the parameter.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <c>null</c>.</exception>
-    [MethodImpl(MethodImplOptions.NoInlining)]
-    public static T NotNull<T>([NotNull] T value, [CallerArgumentExpression(nameof(value))] string? parameterName = null)
-        where T : class // ensures value-types aren't passed to a null checking method
-    {
-        return value ?? throw new ArgumentNullException(parameterName);
-    }
 }

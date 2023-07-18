@@ -221,7 +221,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
             return cacheFolder!;
         }
 
-        baseFolder ??= serviceProvider.GetRequiredService<HutaoOptions>().LocalCache;
+        baseFolder ??= serviceProvider.GetRequiredService<RuntimeOptions>().LocalCache;
         DirectoryInfo info = Directory.CreateDirectory(Path.Combine(baseFolder, CacheFolderName));
         cacheFolder = info.FullName;
 

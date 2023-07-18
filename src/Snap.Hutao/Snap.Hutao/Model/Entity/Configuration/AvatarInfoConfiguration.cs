@@ -16,7 +16,7 @@ internal sealed class AvatarInfoConfiguration : IEntityTypeConfiguration<AvatarI
     public void Configure(EntityTypeBuilder<AvatarInfo> builder)
     {
         builder.Property(e => e.Info)
-            .HasColumnType("TEXT")
+            .HasColumnType(SqliteTypeNames.Text)
             .HasConversion<JsonTextValueConverter<Web.Enka.Model.AvatarInfo>>();
     }
 }

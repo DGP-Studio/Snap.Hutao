@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
+
 namespace Snap.Hutao.Core.Threading;
 
 /// <summary>
@@ -30,7 +32,7 @@ internal static class TaskExtension
         {
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                _ = ex;
+                System.Diagnostics.Debug.WriteLine(ExceptionFormat.Format(ex));
                 System.Diagnostics.Debugger.Break();
             }
         }
@@ -58,7 +60,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
         }
     }
 
@@ -80,7 +82,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
     }
@@ -104,7 +106,7 @@ internal static class TaskExtension
         }
         catch (Exception e)
         {
-            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), e.GetBaseException());
+            logger?.LogError(e, "{Caller}:\r\n{Exception}", nameof(SafeForget), ExceptionFormat.Format(e.GetBaseException()));
             onException?.Invoke(e);
         }
     }

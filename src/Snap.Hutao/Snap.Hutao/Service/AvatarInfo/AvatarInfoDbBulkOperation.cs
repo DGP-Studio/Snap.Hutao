@@ -204,7 +204,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
         {
             EnkaAvatarInfo avatarInfo = new() { AvatarId = avatarId };
             transformer.Transform(ref avatarInfo, source);
-            entity = ModelAvatarInfo.Create(uid, avatarInfo);
+            entity = ModelAvatarInfo.From(uid, avatarInfo);
             appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
@@ -221,7 +221,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     {
         if (entity == null)
         {
-            entity = ModelAvatarInfo.Create(uid, webInfo);
+            entity = ModelAvatarInfo.From(uid, webInfo);
             appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else

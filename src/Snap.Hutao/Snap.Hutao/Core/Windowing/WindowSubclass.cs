@@ -93,7 +93,8 @@ internal sealed class WindowSubclass<TWindow> : IDisposable
         {
             case WM_GETMINMAXINFO:
                 {
-                    double scalingFactor = Persistence.GetScaleForWindowHandle(hwnd);
+                    uint dpi = GetDpiForWindow(hwnd);
+                    double scalingFactor = Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
                     window.ProcessMinMaxInfo((MINMAXINFO*)lParam.Value, scalingFactor);
                     break;
                 }

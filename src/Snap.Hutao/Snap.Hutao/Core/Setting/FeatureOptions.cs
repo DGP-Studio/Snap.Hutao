@@ -13,12 +13,14 @@ internal sealed class FeatureOptions : IReadOnlyCollection<Feature>
     /// <summary>
     /// 启用实时便笺无感验证
     /// </summary>
-    public Feature IsDailyNoteSilentVerificationEnabled { get; } = new("IsDailyNoteSilentVerificationEnabled", "启用实时便笺无感验证", "IsDailyNoteSilentVerificationEnabled", true);
+    public Feature IsDailyNoteSilentVerificationEnabled { get; } = new(
+        "IsDailyNoteSilentVerificationEnabled", "启用实时便笺无感验证", "IsDailyNoteSilentVerificationEnabled", true);
 
     /// <summary>
     /// 元数据检查是否忽略
     /// </summary>
-    public Feature IsMetadataUpdateCheckSuppressed { get; } = new("IsMetadataUpdateCheckSuppressed", "禁用元数据更新检查", "IsMetadataUpdateCheckSuppressed", false);
+    public Feature IsMetadataUpdateCheckSuppressed { get; } = new(
+        "IsMetadataUpdateCheckSuppressed", "禁用元数据更新检查", "IsMetadataUpdateCheckSuppressed", false);
 
     /// <inheritdoc/>
     public int Count { get => 2; }

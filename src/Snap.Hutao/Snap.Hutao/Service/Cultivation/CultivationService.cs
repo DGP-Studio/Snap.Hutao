@@ -222,14 +222,14 @@ internal sealed partial class CultivationService : ICultivationService
 
             if (entry == null)
             {
-                entry = CultivateEntry.Create(projectId, type, itemId);
+                entry = CultivateEntry.From(projectId, type, itemId);
                 await appDbContext.CultivateEntries.AddAndSaveAsync(entry).ConfigureAwait(false);
             }
 
             Guid entryId = entry.InnerId;
             await appDbContext.CultivateItems.ExecuteDeleteWhereAsync(i => i.EntryId == entryId).ConfigureAwait(false);
 
-            IEnumerable<CultivateItem> toAdd = items.Select(i => CultivateItem.Create(entryId, i.Id, i.Num));
+            IEnumerable<CultivateItem> toAdd = items.Select(item => CultivateItem.From(entryId, item));
             await appDbContext.CultivateItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
         }
 

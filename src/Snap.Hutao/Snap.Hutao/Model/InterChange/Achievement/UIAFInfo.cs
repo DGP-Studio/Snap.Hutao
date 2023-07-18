@@ -51,7 +51,7 @@ internal sealed class UIAFInfo
     /// <returns>专用 UIAF 信息</returns>
     public static UIAFInfo Create(IServiceProvider serviceProvider)
     {
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         return new()
         {

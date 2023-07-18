@@ -42,7 +42,7 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
                 ? Ioc.Default.GetRequiredService<IUserService>().Current?.SelectedUserGameRole?.GameUid
                 : null;
 
-            return new(true, CultivateProject.Create(text, uid));
+            return new(true, CultivateProject.From(text, uid));
         }
 
         return new(false, null!);

@@ -8,30 +8,31 @@ using Snap.Hutao.Core.Setting;
 using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Snap.Hutao.Core;
 
 /// <summary>
-/// 胡桃选项
 /// 存储环境相关的选项
 /// 运行时运算得到的选项，无数据库交互
 /// </summary>
 [Injection(InjectAs.Singleton)]
-internal sealed class HutaoOptions : IOptions<HutaoOptions>
+internal sealed class RuntimeOptions : IOptions<RuntimeOptions>
 {
-    private readonly ILogger<HutaoOptions> logger;
+    private readonly ILogger<RuntimeOptions> logger;
 
     private readonly bool isWebView2Supported;
     private readonly string webView2Version = SH.CoreWebView2HelperVersionUndetected;
 
     private bool? isElevated;
+    private bool? isWindows11;
 
     /// <summary>
     /// 构造一个新的胡桃选项
     /// </summary>
     /// <param name="logger">日志器</param>
-    public HutaoOptions(ILogger<HutaoOptions> logger)
+    public RuntimeOptions(ILogger<RuntimeOptions> logger)
     {
         this.logger = logger;
 
@@ -97,8 +98,14 @@ internal sealed class HutaoOptions : IOptions<HutaoOptions>
     /// </summary>
     public bool IsElevated { get => isElevated ??= GetElevated(); }
 
+    /// <summary>
+    /// 系统版本是否大于等于 Windows 11
+    /// %programfiles(x86)%\Windows Kits\10\Platforms\UAP\10.0.22000.0\PreviousPlatforms.xml
+    /// </summary>
+    public bool Windows11OrHigher { get => isWindows11 ?? ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 14); }
+
     /// <inheritdoc/>
-    public HutaoOptions Value { get => this; }
+    public RuntimeOptions Value { get => this; }
 
     private static string GetDataFolderPath()
     {

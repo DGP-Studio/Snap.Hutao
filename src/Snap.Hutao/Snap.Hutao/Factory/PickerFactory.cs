@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Factory.Abstraction;
-using Windows.Foundation.Metadata;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
@@ -10,21 +10,14 @@ namespace Snap.Hutao.Factory;
 
 /// <inheritdoc cref="IPickerFactory"/>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Transient, typeof(IPickerFactory))]
-internal class PickerFactory : IPickerFactory
+internal sealed partial class PickerFactory : IPickerFactory
 {
     private const string AnyType = "*";
 
     private readonly MainWindow mainWindow;
-
-    /// <summary>
-    /// 构造一个新的文件选择器工厂
-    /// </summary>
-    /// <param name="mainWindow">主窗体的引用注入</param>
-    public PickerFactory(MainWindow mainWindow)
-    {
-        this.mainWindow = mainWindow;
-    }
+    private readonly RuntimeOptions runtimeOptions;
 
     /// <inheritdoc/>
     public FileOpenPicker GetFileOpenPicker(PickerLocationId location, string commitButton, params string[] fileTypes)
@@ -40,7 +33,7 @@ internal class PickerFactory : IPickerFactory
         }
 
         // below Windows 11
-        if (!ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 13))
+        if (!runtimeOptions.Windows11OrHigher)
         {
             // https://github.com/microsoft/WindowsAppSDK/issues/2931
             picker.FileTypeFilter.Add(AnyType);
@@ -72,7 +65,7 @@ internal class PickerFactory : IPickerFactory
         FolderPicker picker = GetInitializedPicker<FolderPicker>();
 
         // below Windows 11
-        if (!ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 13))
+        if (!runtimeOptions.Windows11OrHigher)
         {
             // https://github.com/microsoft/WindowsAppSDK/issues/2931
             picker.FileTypeFilter.Add(AnyType);

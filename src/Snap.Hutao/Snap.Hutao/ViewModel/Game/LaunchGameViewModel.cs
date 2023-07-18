@@ -35,7 +35,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
     private readonly IServiceProvider serviceProvider;
     private readonly LaunchOptions launchOptions;
-    private readonly HutaoOptions hutaoOptions;
+    private readonly RuntimeOptions hutaoOptions;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
     private readonly IMemoryCache memoryCache;
@@ -86,7 +86,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     /// <summary>
     /// 胡桃选项
     /// </summary>
-    public HutaoOptions HutaoOptions { get => hutaoOptions; }
+    public RuntimeOptions HutaoOptions { get => hutaoOptions; }
 
     /// <summary>
     /// 应用选项

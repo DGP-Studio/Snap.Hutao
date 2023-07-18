@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
 
@@ -13,7 +15,11 @@ namespace Snap.Hutao.Model.Calculable;
 /// 可计算武器
 /// </summary>
 [HighQuality]
-internal class CalculableWeapon : ObservableObject, ICalculableWeapon
+internal sealed class CalculableWeapon
+    : ObservableObject,
+    ICalculableWeapon,
+    IMappingFrom<CalculableWeapon, Weapon>,
+    IMappingFrom<CalculableWeapon, WeaponView>
 {
     private uint levelCurrent;
     private uint levelTarget;
@@ -22,7 +28,7 @@ internal class CalculableWeapon : ObservableObject, ICalculableWeapon
     /// 构造一个新的可计算武器
     /// </summary>
     /// <param name="weapon">武器</param>
-    public CalculableWeapon(Metadata.Weapon.Weapon weapon)
+    private CalculableWeapon(Weapon weapon)
     {
         WeaponId = weapon.Id;
         LevelMin = 1;
@@ -39,7 +45,7 @@ internal class CalculableWeapon : ObservableObject, ICalculableWeapon
     /// 构造一个新的可计算武器
     /// </summary>
     /// <param name="weapon">武器</param>
-    public CalculableWeapon(WeaponView weapon)
+    private CalculableWeapon(WeaponView weapon)
     {
         WeaponId = weapon.Id;
         LevelMin = weapon.LevelNumber;
@@ -75,4 +81,14 @@ internal class CalculableWeapon : ObservableObject, ICalculableWeapon
 
     /// <inheritdoc/>
     public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
+
+    public static CalculableWeapon From(Weapon source)
+    {
+        return new(source);
+    }
+
+    public static CalculableWeapon From(WeaponView source)
+    {
+        return new(source);
+    }
 }

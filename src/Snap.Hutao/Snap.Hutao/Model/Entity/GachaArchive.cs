@@ -3,6 +3,7 @@
 
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Service.GachaLog;
@@ -17,7 +18,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("gacha_archives")]
-internal sealed class GachaArchive : ISelectable
+internal sealed class GachaArchive : ISelectable, IMappingFrom<GachaArchive, string>
 {
     /// <summary>
     /// 内部Id
@@ -39,7 +40,7 @@ internal sealed class GachaArchive : ISelectable
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>新的卡池存档</returns>
-    public static GachaArchive Create(string uid)
+    public static GachaArchive From(string uid)
     {
         return new() { Uid = uid };
     }
@@ -69,7 +70,7 @@ internal sealed class GachaArchive : ISelectable
 
         if (archive == null)
         {
-            GachaArchive created = Create(context.Uid);
+            GachaArchive created = From(context.Uid);
             context.GachaArchives.AddAndSave(created);
             context.TaskContext.InvokeOnMainThread(() => context.ArchiveCollection.Add(created));
             archive = created;

@@ -16,7 +16,7 @@ internal sealed class DailyNoteEntryConfiguration : IEntityTypeConfiguration<Dai
     public void Configure(EntityTypeBuilder<DailyNoteEntry> builder)
     {
         builder.Property(e => e.DailyNote)
-            .HasColumnType("TEXT")
+            .HasColumnType(SqliteTypeNames.Text)
             .HasConversion<JsonTextValueConverter<Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote>>();
     }
 }

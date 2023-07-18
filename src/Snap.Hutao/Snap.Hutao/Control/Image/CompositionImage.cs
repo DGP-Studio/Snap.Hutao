@@ -26,7 +26,7 @@ namespace Snap.Hutao.Control.Image;
 internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 {
     private static readonly DependencyProperty SourceProperty = Property<CompositionImage>.Depend(nameof(Source), default(Uri), OnSourceChanged);
-    private static readonly ConcurrentCancellationTokenSource<CompositionImage> LoadingTokenSource = new();
+    private readonly ConcurrentCancellationTokenSource loadingTokenSource = new();
 
     private readonly IServiceProvider serviceProvider;
 
@@ -92,7 +92,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs arg)
     {
         CompositionImage image = (CompositionImage)sender;
-        CancellationToken token = LoadingTokenSource.Register(image);
+        CancellationToken token = image.loadingTokenSource.Register();
         IServiceProvider serviceProvider = image.serviceProvider;
         ILogger<CompositionImage> logger = serviceProvider.GetRequiredService<ILogger<CompositionImage>>();
 

@@ -49,35 +49,4 @@ internal static class SettingKeys
     /// 1.7.0 版本指引状态
     /// </summary>
     public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
-
-    #region StaticResource
-
-    /// <summary>
-    /// 静态资源合约
-    /// 新增合约时 请注意
-    /// <see cref="StaticResource.FulfillAllContracts"/>
-    /// 与 <see cref="StaticResource.IsAnyUnfulfilledContractPresent"/>
-    /// </summary>
-    public const string StaticResourceV1Contract = "StaticResourceV1Contract";
-
-    /// <summary>
-    /// 静态资源合约V2 成就图标与物品图标
-    /// </summary>
-    public const string StaticResourceV2Contract = "StaticResourceV2Contract";
-
-    /// <summary>
-    /// 静态资源合约V3 刷新 Skill Talent
-    /// </summary>
-    public const string StaticResourceV3Contract = "StaticResourceV3Contract";
-
-    /// <summary>
-    /// 静态资源合约V4 刷新 AvatarIcon
-    /// </summary>
-    public const string StaticResourceV4Contract = "StaticResourceV4Contract";
-
-    /// <summary>
-    /// 静态资源合约V5 刷新 AvatarIcon
-    /// </summary>
-    public const string StaticResourceV5Contract = "StaticResourceV5Contract";
-    #endregion
 }

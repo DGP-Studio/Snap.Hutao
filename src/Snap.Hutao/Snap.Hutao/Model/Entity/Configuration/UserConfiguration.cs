@@ -17,15 +17,15 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.Property(e => e.CookieToken)
-            .HasColumnType("TEXT")
+            .HasColumnType(SqliteTypeNames.Text)
             .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
 
         builder.Property(e => e.LToken)
-            .HasColumnType("TEXT")
+            .HasColumnType(SqliteTypeNames.Text)
             .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
 
         builder.Property(e => e.SToken)
-            .HasColumnType("TEXT")
+            .HasColumnType(SqliteTypeNames.Text)
             .HasConversion(e => e!.ToString(), e => Cookie.Parse(e));
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,7 +12,7 @@ namespace Snap.Hutao.Model.Entity;
 /// 成就存档
 /// </summary>
 [Table("achievement_archives")]
-internal sealed class AchievementArchive : ISelectable
+internal sealed class AchievementArchive : ISelectable, IMappingFrom<AchievementArchive, string>
 {
     /// <summary>
     /// 内部Id
@@ -35,7 +36,7 @@ internal sealed class AchievementArchive : ISelectable
     /// </summary>
     /// <param name="name">名称</param>
     /// <returns>新存档</returns>
-    public static AchievementArchive Create(string name)
+    public static AchievementArchive From(string name)
     {
         return new() { Name = name };
     }

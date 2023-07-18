@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
@@ -13,7 +15,11 @@ namespace Snap.Hutao.Model.Calculable;
 /// 可计算角色
 /// </summary>
 [HighQuality]
-internal sealed class CalculableAvatar : ObservableObject, ICalculableAvatar
+internal sealed class CalculableAvatar
+    : ObservableObject,
+    ICalculableAvatar,
+    IMappingFrom<CalculableAvatar, Avatar>,
+    IMappingFrom<CalculableAvatar, AvatarView>
 {
     private uint levelCurrent;
     private uint levelTarget;
@@ -22,7 +28,7 @@ internal sealed class CalculableAvatar : ObservableObject, ICalculableAvatar
     /// 构造一个新的可计算角色
     /// </summary>
     /// <param name="avatar">角色</param>
-    public CalculableAvatar(Metadata.Avatar.Avatar avatar)
+    private CalculableAvatar(Avatar avatar)
     {
         AvatarId = avatar.Id;
         LevelMin = 1;
@@ -40,7 +46,7 @@ internal sealed class CalculableAvatar : ObservableObject, ICalculableAvatar
     /// 构造一个新的可计算角色
     /// </summary>
     /// <param name="avatar">角色</param>
-    public CalculableAvatar(AvatarView avatar)
+    private CalculableAvatar(AvatarView avatar)
     {
         AvatarId = avatar.Id;
         LevelMin = avatar.LevelNumber;
@@ -80,4 +86,14 @@ internal sealed class CalculableAvatar : ObservableObject, ICalculableAvatar
 
     /// <inheritdoc/>
     public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
+
+    public static CalculableAvatar From(Avatar source)
+    {
+        return new(source);
+    }
+
+    public static CalculableAvatar From(AvatarView source)
+    {
+        return new(source);
+    }
 }

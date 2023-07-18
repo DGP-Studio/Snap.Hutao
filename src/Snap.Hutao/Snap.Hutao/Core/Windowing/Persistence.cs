@@ -30,7 +30,7 @@ internal static class Persistence
         WindowOptions options = window.WindowOptions;
 
         // Set first launch size
-        double scale = GetScaleForWindowHandle(options.Hwnd);
+        double scale = options.GetWindowScale();
         SizeInt32 transformedSize = options.InitSize.Scale(scale);
         RectInt32 rect = StructMarshal.RectInt32(transformedSize);
 
@@ -62,40 +62,6 @@ internal static class Persistence
         if (!windowPlacement.showCmd.HasFlag(SHOW_WINDOW_CMD.SW_SHOWMAXIMIZED))
         {
             LocalSetting.Set(SettingKeys.WindowRect, (CompactRect)window.AppWindow.GetRect());
-        }
-    }
-
-    /// <summary>
-    /// 获取窗体当前的DPI缩放比
-    /// </summary>
-    /// <param name="hwnd">窗体句柄</param>
-    /// <returns>缩放比</returns>
-    public static double GetScaleForWindowHandle(in HWND hwnd)
-    {
-        uint dpi = GetDpiForWindow(hwnd);
-        return Math.Round(dpi / 96D, 2, MidpointRounding.AwayFromZero);
-    }
-
-    /// <summary>
-    /// 将窗口设为前台窗口
-    /// </summary>
-    /// <param name="hwnd">窗口句柄</param>
-    public static unsafe void BringToForeground(in HWND hwnd)
-    {
-        HWND fgHwnd = GetForegroundWindow();
-
-        uint threadIdHwnd = GetWindowThreadProcessId(hwnd);
-        uint threadIdFgHwnd = GetWindowThreadProcessId(fgHwnd);
-
-        if (threadIdHwnd != threadIdFgHwnd)
-        {
-            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, true);
-            SetForegroundWindow(hwnd);
-            AttachThreadInput(threadIdHwnd, threadIdFgHwnd, false);
-        }
-        else
-        {
-            SetForegroundWindow(hwnd);
         }
     }
 

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.Model.Entity.Primitive;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,7 +13,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("cultivate_entries")]
-internal sealed class CultivateEntry
+internal sealed class CultivateEntry : IDbMappingForeignKeyFrom<CultivateEntry, CultivateType, uint>
 {
     /// <summary>
     /// 内部Id
@@ -49,7 +50,7 @@ internal sealed class CultivateEntry
     /// <param name="type">类型</param>
     /// <param name="id">主Id</param>
     /// <returns>养成入口点</returns>
-    public static CultivateEntry Create(in Guid projectId, CultivateType type, uint id)
+    public static CultivateEntry From(in Guid projectId, in CultivateType type, in uint id)
     {
         return new()
         {

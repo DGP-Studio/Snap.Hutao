@@ -25,14 +25,14 @@ internal sealed partial class ExperimentalFeaturesViewModel : ObservableObject
     [Command("OpenCacheFolderCommand")]
     private Task OpenCacheFolderAsync()
     {
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         return Launcher.LaunchFolderPathAsync(hutaoOptions.LocalCache).AsTask();
     }
 
     [Command("OpenDataFolderCommand")]
     private Task OpenDataFolderAsync()
     {
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         return Launcher.LaunchFolderPathAsync(hutaoOptions.DataFolder).AsTask();
     }
 
@@ -43,7 +43,7 @@ internal sealed partial class ExperimentalFeaturesViewModel : ObservableObject
         {
             ContentDialogResult result = await scope.ServiceProvider
                 .GetRequiredService<IContentDialogFactory>()
-                .ConfirmCancelAsync(SH.ViewDialogSettingDeleteUserDataTitle, SH.ViewDialogSettingDeleteUserDataContent)
+                .CreateForConfirmCancelAsync(SH.ViewDialogSettingDeleteUserDataTitle, SH.ViewDialogSettingDeleteUserDataContent)
                 .ConfigureAwait(false);
 
             if (result == ContentDialogResult.Primary)

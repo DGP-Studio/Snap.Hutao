@@ -70,7 +70,7 @@ internal sealed partial class WelcomeViewModel : ObservableObject
     {
         Dictionary<string, DownloadSummary> downloadSummaries = new();
 
-        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV1Contract))
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V1Contract))
         {
             downloadSummaries.TryAdd("Bg", new(serviceProvider, "Bg"));
             downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
@@ -83,7 +83,7 @@ internal sealed partial class WelcomeViewModel : ObservableObject
             downloadSummaries.TryAdd("Talent", new(serviceProvider, "Talent"));
         }
 
-        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV2Contract))
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V2Contract))
         {
             downloadSummaries.TryAdd("AchievementIcon", new(serviceProvider, "AchievementIcon"));
             downloadSummaries.TryAdd("ItemIcon", new(serviceProvider, "ItemIcon"));
@@ -91,18 +91,18 @@ internal sealed partial class WelcomeViewModel : ObservableObject
             downloadSummaries.TryAdd("RelicIcon", new(serviceProvider, "RelicIcon"));
         }
 
-        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV3Contract))
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V3Contract))
         {
             downloadSummaries.TryAdd("Skill", new(serviceProvider, "Skill"));
             downloadSummaries.TryAdd("Talent", new(serviceProvider, "Talent"));
         }
 
-        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV4Contract))
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V4Contract))
         {
             downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
         }
 
-        if (StaticResource.IsContractUnfulfilled(SettingKeys.StaticResourceV5Contract))
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V5Contract))
         {
             downloadSummaries.TryAdd("MonsterIcon", new(serviceProvider, "MonsterIcon"));
         }
@@ -134,7 +134,7 @@ internal sealed partial class WelcomeViewModel : ObservableObject
         {
             taskContext = serviceProvider.GetRequiredService<ITaskContext>();
             httpClient = serviceProvider.GetRequiredService<HttpClient>();
-            HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+            RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
             httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(hutaoOptions.UserAgent);
 
             this.serviceProvider = serviceProvider;

@@ -1,6 +1,8 @@
-﻿namespace Snap.Hutao.Core.Threading;
+﻿// Copyright (c) DGP Studio. All rights reserved.
+// Licensed under the MIT license.
 
-[SuppressMessage("", "SA1201")]
+namespace Snap.Hutao.Core.Threading;
+
 internal readonly struct SemaphoreSlimToken : IDisposable
 {
     private readonly SemaphoreSlim semaphoreSlim;

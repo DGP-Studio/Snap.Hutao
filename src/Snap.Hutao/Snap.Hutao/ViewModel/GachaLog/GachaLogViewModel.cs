@@ -223,7 +223,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             }
             else
             {
-                await contentDialogFactory.ConfirmAsync(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage).ConfigureAwait(false);
+                await contentDialogFactory.CreateForConfirmAsync(SH.ViewModelImportWarningTitle, SH.ViewModelImportWarningMessage).ConfigureAwait(false);
             }
         }
     }
@@ -267,7 +267,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         if (Archives != null && SelectedArchive != null)
         {
             ContentDialogResult result = await contentDialogFactory
-                .ConfirmCancelAsync(string.Format(SH.ViewModelGachaLogRemoveArchiveTitle, SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
+                .CreateForConfirmCancelAsync(string.Format(SH.ViewModelGachaLogRemoveArchiveTitle, SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
                 .ConfigureAwait(false);
 
             if (result == ContentDialogResult.Primary)

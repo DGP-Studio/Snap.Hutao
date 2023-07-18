@@ -76,7 +76,7 @@ internal sealed partial class HutaoCloudService : IHutaoCloudService
             {
                 if (archive == null)
                 {
-                    archive = Model.Entity.GachaArchive.Create(uid);
+                    archive = Model.Entity.GachaArchive.From(uid);
                     await appDbContext.GachaArchives.AddAndSaveAsync(archive).ConfigureAwait(false);
                 }
 

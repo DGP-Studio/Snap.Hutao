@@ -37,7 +37,7 @@ internal sealed partial class AchievementService
             case ImportStrategy.Overwrite:
                 {
                     IEnumerable<EntityAchievement> orederedUIAF = list
-                        .Select(uiaf => EntityAchievement.Create(archiveId, uiaf))
+                        .Select(uiaf => EntityAchievement.From(archiveId, uiaf))
                         .OrderBy(a => a.Id);
                     return achievementDbBulkOperation.Overwrite(archiveId, orederedUIAF);
                 }
@@ -58,7 +58,7 @@ internal sealed partial class AchievementService
             List<UIAFItem> list = appDbContext.Achievements
                 .Where(i => i.ArchiveId == archive.InnerId)
                 .AsEnumerable()
-                .Select(i => i.ToUIAFItem())
+                .Select(UIAFItem.From)
                 .ToList();
 
             return new()

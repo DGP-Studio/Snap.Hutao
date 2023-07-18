@@ -41,7 +41,8 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
                 navigationView.PaneOpened -= OnPaneStateChanged;
             }
 
-            navigationView = Must.NotNull(value!);
+            ArgumentNullException.ThrowIfNull(value);
+            navigationView = value;
 
             // add new listener
             if (navigationView != null)

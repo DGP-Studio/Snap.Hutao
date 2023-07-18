@@ -19,7 +19,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
 
 
     private readonly AppOptions appOptions;
-    private readonly HutaoOptions hutaoOptions;
+    private readonly RuntimeOptions hutaoOptions;
 
     private string? localeName;
     private string? fallbackDataFolder;

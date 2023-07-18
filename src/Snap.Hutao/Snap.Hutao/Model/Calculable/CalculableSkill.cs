@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -14,7 +15,11 @@ namespace Snap.Hutao.Model.Calculable;
 /// 可计算的技能
 /// </summary>
 [HighQuality]
-internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
+internal sealed class CalculableSkill
+    : ObservableObject,
+    ICalculableSkill,
+    IMappingFrom<CalculableSkill, ProudableSkill>,
+    IMappingFrom<CalculableSkill, SkillView>
 {
     private uint levelCurrent;
     private uint levelTarget;
@@ -23,7 +28,7 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
     /// 构造一个新的可计算的技能
     /// </summary>
     /// <param name="skill">技能</param>
-    public CalculableSkill(ProudableSkill skill)
+    private CalculableSkill(ProudableSkill skill)
     {
         GroupId = skill.GroupId;
         LevelMin = 1;
@@ -40,7 +45,7 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
     /// 构造一个新的可计算的技能
     /// </summary>
     /// <param name="skill">技能</param>
-    public CalculableSkill(SkillView skill)
+    private CalculableSkill(SkillView skill)
     {
         GroupId = skill.GroupId;
         LevelMin = skill.LevelNumber;
@@ -76,4 +81,14 @@ internal sealed class CalculableSkill : ObservableObject, ICalculableSkill
 
     /// <inheritdoc/>
     public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
+
+    public static CalculableSkill From(ProudableSkill source)
+    {
+        return new(source);
+    }
+
+    public static CalculableSkill From(SkillView source)
+    {
+        return new(source);
+    }
 }

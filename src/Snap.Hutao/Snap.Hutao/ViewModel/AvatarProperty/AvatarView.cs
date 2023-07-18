@@ -106,6 +106,6 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// <inheritdoc/>
     public ICalculableAvatar ToCalculable()
     {
-        return new CalculableAvatar(this);
+        return CalculableAvatar.From(this);
     }
 }

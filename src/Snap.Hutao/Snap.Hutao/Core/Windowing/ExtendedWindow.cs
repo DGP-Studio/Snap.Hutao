@@ -60,7 +60,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
 
     private void InitializeWindow()
     {
-        HutaoOptions hutaoOptions = serviceProvider.GetRequiredService<HutaoOptions>();
+        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         WindowOptions options = window.WindowOptions;
         window.AppWindow.Title = string.Format(SH.AppNameAndVersion, hutaoOptions.Version);
@@ -73,7 +73,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
         // appWindow.Show(true);
         // appWindow.Show can't bring window to top.
         window.Activate();
-        Persistence.BringToForeground(options.Hwnd);
+        options.BringToForeground();
 
         AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
         UpdateSystemBackdrop(appOptions.BackdropType);
@@ -182,7 +182,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
         else
         {
             WindowOptions options = window.WindowOptions;
-            double scale = Persistence.GetScaleForWindowHandle(options.Hwnd);
+            double scale = options.GetWindowScale();
 
             // 48 is the navigation button leftInset
             RectInt32 dragRect = StructMarshal.RectInt32(48, 0, options.TitleBar.ActualSize).Scale(scale);

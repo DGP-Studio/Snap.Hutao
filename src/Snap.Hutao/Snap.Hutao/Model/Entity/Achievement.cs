@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.Model.InterChange.Achievement;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
@@ -14,7 +15,11 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("achievements")]
-internal sealed class Achievement : IEquatable<Achievement>
+[SuppressMessage("", "SA1124")]
+internal sealed class Achievement
+    : IEquatable<Achievement>,
+    IDbMappingForeignKeyFrom<Achievement, AchievementId>,
+    IDbMappingForeignKeyFrom<Achievement, UIAFItem>
 {
     /// <summary>
     /// 内部Id
@@ -57,14 +62,14 @@ internal sealed class Achievement : IEquatable<Achievement>
     /// <summary>
     /// 创建一个新的成就
     /// </summary>
-    /// <param name="userId">对应的用户id</param>
+    /// <param name="archiveId">对应的用户id</param>
     /// <param name="id">成就Id</param>
     /// <returns>新创建的成就</returns>
-    public static Achievement Create(in Guid userId, in AchievementId id)
+    public static Achievement From(in Guid archiveId, in AchievementId id)
     {
         return new()
         {
-            ArchiveId = userId,
+            ArchiveId = archiveId,
             Id = id,
             Current = 0,
             Time = DateTimeOffset.MinValue,
@@ -77,7 +82,7 @@ internal sealed class Achievement : IEquatable<Achievement>
     /// <param name="userId">对应的用户id</param>
     /// <param name="uiaf">uiaf项</param>
     /// <returns>新创建的成就</returns>
-    public static Achievement Create(in Guid userId, UIAFItem uiaf)
+    public static Achievement From(in Guid userId, in UIAFItem uiaf)
     {
         return new()
         {
@@ -86,21 +91,6 @@ internal sealed class Achievement : IEquatable<Achievement>
             Current = uiaf.Current,
             Status = uiaf.Status,
             Time = DateTimeOffset.FromUnixTimeSeconds(uiaf.Timestamp).ToLocalTime(),
-        };
-    }
-
-    /// <summary>
-    /// 转换到UIAF物品
-    /// </summary>
-    /// <returns>UIAF物品</returns>
-    public UIAFItem ToUIAFItem()
-    {
-        return new()
-        {
-            Id = Id,
-            Current = Current,
-            Status = Status,
-            Timestamp = Time.ToUnixTimeSeconds(),
         };
     }
 
@@ -121,6 +111,8 @@ internal sealed class Achievement : IEquatable<Achievement>
         }
     }
 
+    #region Object
+
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
@@ -132,4 +124,5 @@ internal sealed class Achievement : IEquatable<Achievement>
     {
         return HashCode.Combine(ArchiveId, Id, Current, Status, Time);
     }
+    #endregion
 }

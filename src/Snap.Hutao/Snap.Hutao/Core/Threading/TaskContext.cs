@@ -38,7 +38,7 @@ internal sealed class TaskContext : ITaskContext
     /// <inheritdoc/>
     public void InvokeOnMainThread(Action action)
     {
-        if (dispatcherQueue!.HasThreadAccess)
+        if (dispatcherQueue.HasThreadAccess)
         {
             action();
         }
