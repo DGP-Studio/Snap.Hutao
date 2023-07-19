@@ -68,16 +68,16 @@ internal sealed partial class AchievementService : IAchievementService
             List<AchievementStatistics> results = new();
             foreach (AchievementArchive archive in appDbContext.AchievementArchives)
             {
-                int finished = await appDbContext.Achievements
+                int finishedCount = await appDbContext.Achievements
                     .Where(a => a.ArchiveId == archive.InnerId)
-                    .Where(a => (int)a.Status >= (int)Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
+                    .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
                     .CountAsync()
                     .ConfigureAwait(false);
                 int totalCount = achievementMap.Count;
 
                 List<EntityAchievement> achievements = await appDbContext.Achievements
                     .Where(a => a.ArchiveId == archive.InnerId)
-                    .Where(a => (int)a.Status >= (int)Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
+                    .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
                     .OrderByDescending(a => a.Time.ToString())
                     .Take(2)
                     .ToListAsync()
@@ -86,7 +86,7 @@ internal sealed partial class AchievementService : IAchievementService
                 results.Add(new()
                 {
                     DisplayName = archive.Name,
-                    FinishDescription = AchievementStatistics.Format(finished, totalCount, out _),
+                    FinishDescription = AchievementStatistics.Format(finishedCount, totalCount, out _),
                     Achievements = achievements.SelectList(entity => new AchievementView(entity, achievementMap[entity.Id])),
                 });
             }

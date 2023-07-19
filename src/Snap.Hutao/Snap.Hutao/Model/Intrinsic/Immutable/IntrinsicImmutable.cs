@@ -51,13 +51,13 @@ internal static class IntrinsicImmutable
     }.ToImmutableHashSet();
 
     public static readonly ImmutableHashSet<string> MaterialTypeDescriptions = new HashSet<string>(7)
-        {
-            SH.ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial,
-            SH.ModelMetadataMaterialCharacterEXPMaterial,
-            SH.ModelMetadataMaterialCharacterAscensionMaterial,
-            SH.ModelMetadataMaterialCharacterTalentMaterial,
-            SH.ModelMetadataMaterialCharacterLevelUpMaterial,
-            SH.ModelMetadataMaterialWeaponEnhancementMaterial,
-            SH.ModelMetadataMaterialWeaponAscensionMaterial,
-        }.ToImmutableHashSet();
+    {
+        SH.ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial,
+        SH.ModelMetadataMaterialCharacterEXPMaterial,
+        SH.ModelMetadataMaterialCharacterAscensionMaterial,
+        SH.ModelMetadataMaterialCharacterTalentMaterial,
+        SH.ModelMetadataMaterialCharacterLevelUpMaterial,
+        SH.ModelMetadataMaterialWeaponEnhancementMaterial,
+        SH.ModelMetadataMaterialWeaponAscensionMaterial,
+    }.ToImmutableHashSet();
 }

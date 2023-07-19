@@ -421,6 +421,33 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 角色 的本地化字符串。
+        /// </summary>
+        internal static string ModelInterchangeUIGFItemTypeAvatar {
+            get {
+                return ResourceManager.GetString("ModelInterchangeUIGFItemTypeAvatar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未知 的本地化字符串。
+        /// </summary>
+        internal static string ModelInterchangeUIGFItemTypeUnknown {
+            get {
+                return ResourceManager.GetString("ModelInterchangeUIGFItemTypeUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 武器 的本地化字符串。
+        /// </summary>
+        internal static string ModelInterchangeUIGFItemTypeWeapon {
+            get {
+                return ResourceManager.GetString("ModelInterchangeUIGFItemTypeWeapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 愚人众 的本地化字符串。
         /// </summary>
         internal static string ModelIntrinsicAssociationTypeFatui {

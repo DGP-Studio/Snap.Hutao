@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Service.Metadata;
 
 namespace Snap.Hutao.Model.InterChange.GachaLog;
 
@@ -9,7 +11,7 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// UIGF格式的信息
 /// </summary>
 [HighQuality]
-internal sealed class UIGFInfo
+internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, IServiceProvider, string>
 {
     /// <summary>
     /// 用户Uid
@@ -62,17 +64,18 @@ internal sealed class UIGFInfo
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="uid">uid</param>
     /// <returns>专用 UIGF 信息</returns>
-    public static UIGFInfo Create(IServiceProvider serviceProvider, string uid)
+    public static UIGFInfo From(IServiceProvider serviceProvider, string uid)
     {
-        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
 
         return new()
         {
             Uid = uid,
-            Language = "zh-cn",
+            Language = metadataOptions.LanguageCode,
             ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
-            ExportAppVersion = hutaoOptions.Version.ToString(),
+            ExportAppVersion = runtimeOptions.Version.ToString(),
             UIGFVersion = UIGF.CurrentVersion,
         };
     }

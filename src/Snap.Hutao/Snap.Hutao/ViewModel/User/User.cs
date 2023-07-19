@@ -126,7 +126,7 @@ internal sealed class User : ObservableObject
     internal static async Task<User?> CreateAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
     {
         // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
-        EntityUser entity = EntityUser.Create(cookie, isOversea);
+        EntityUser entity = EntityUser.From(cookie, isOversea);
 
         entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
         entity.Mid = isOversea ? entity.Aid : cookie.GetValueOrDefault(Cookie.MID);

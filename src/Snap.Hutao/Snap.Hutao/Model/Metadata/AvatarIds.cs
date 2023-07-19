@@ -101,7 +101,12 @@ internal static class AvatarIds
         return avatarId == PlayerBoy || avatarId == PlayerGirl;
     }
 
-    public static Dictionary<AvatarId, Avatar.Avatar> InsertPlayers(Dictionary<AvatarId, Avatar.Avatar> idAvatarMap)
+    /// <summary>
+    /// 复制一个映射并加入旅行者的基本信息
+    /// </summary>
+    /// <param name="idAvatarMap">映射</param>
+    /// <returns>加入旅行者基本信息的映射</returns>
+    public static Dictionary<AvatarId, Avatar.Avatar> WithPlayers(Dictionary<AvatarId, Avatar.Avatar> idAvatarMap)
     {
         return new(idAvatarMap)
         {

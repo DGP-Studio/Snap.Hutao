@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
@@ -63,7 +64,7 @@ internal sealed partial class AchievementService
 
             return new()
             {
-                Info = UIAFInfo.Create(serviceProvider),
+                Info = UIAFInfo.From(scope.ServiceProvider.GetRequiredService<RuntimeOptions>()),
                 List = list,
             };
         }

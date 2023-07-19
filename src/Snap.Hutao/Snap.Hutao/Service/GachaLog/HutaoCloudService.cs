@@ -80,7 +80,7 @@ internal sealed partial class HutaoCloudService : IHutaoCloudService
                     await appDbContext.GachaArchives.AddAndSaveAsync(archive).ConfigureAwait(false);
                 }
 
-                List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.Create(archive.InnerId, i));
+                List<Model.Entity.GachaItem> gachaItems = resp.Data.SelectList(i => Model.Entity.GachaItem.From(archive.InnerId, i));
                 await appDbContext.GachaItems.AddRangeAndSaveAsync(gachaItems).ConfigureAwait(false);
                 return new(true, archive);
             }

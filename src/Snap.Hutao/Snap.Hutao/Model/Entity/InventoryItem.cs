@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Entity.Abstraction;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,7 +12,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("inventory_items")]
-internal sealed class InventoryItem
+internal sealed class InventoryItem : IDbMappingForeignKeyFrom<InventoryItem, uint>
 {
     /// <summary>
     /// 内部Id
@@ -47,7 +48,7 @@ internal sealed class InventoryItem
     /// <param name="projectId">项目Id</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的个数为0的物品</returns>
-    public static InventoryItem Create(in Guid projectId, uint itemId)
+    public static InventoryItem From(in Guid projectId, in uint itemId)
     {
         return new()
         {

@@ -131,7 +131,7 @@ internal struct GachaLogFetchContext
     /// <param name="item">物品</param>
     public void AddItem(GachaLogItem item)
     {
-        ItemsToAdd.Add(GachaItem.Create(TargetArchive!.InnerId, item, serviceContext.GetItemId(item)));
+        ItemsToAdd.Add(GachaItem.From(TargetArchive!.InnerId, item, serviceContext.GetItemId(item)));
         FetchStatus.Items.Add(serviceContext.GetItemByNameAndType(item.Name, item.ItemType));
         QueryOptions.EndId = item.Id;
     }

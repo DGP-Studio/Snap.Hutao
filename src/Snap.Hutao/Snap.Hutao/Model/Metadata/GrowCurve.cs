@@ -12,7 +12,7 @@ namespace Snap.Hutao.Model.Metadata;
 [HighQuality]
 internal sealed class GrowCurve
 {
-    private Dictionary<GrowCurveType, float>? curveMap;
+    private Dictionary<GrowCurveType, float>? map;
 
     /// <summary>
     /// 等级
@@ -27,8 +27,8 @@ internal sealed class GrowCurve
     /// <summary>
     /// 曲线映射
     /// </summary>
-    public Dictionary<GrowCurveType, float> CurveMap
+    public Dictionary<GrowCurveType, float> Map
     {
-        get => curveMap ??= Curves.ToDictionary(v => v.Type, v => v.Value);
+        get => map ??= Curves.ToDictionary(v => v.Type, v => v.Value);
     }
 }

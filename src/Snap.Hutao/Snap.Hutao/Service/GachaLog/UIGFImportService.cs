@@ -45,11 +45,11 @@ internal sealed partial class UIGFImportService : IUIGFImportService
                 UIGFVersion.Major2Minor3OrHigher => uigf.List
                     .OrderByDescending(i => i.Id)
                     .Where(i => i.Id < trimId)
-                    .Select(i => GachaItem.CreateForMajor2Minor3OrHigher(archiveId, i)),
+                    .Select(i => GachaItem.From(archiveId, i)),
                 UIGFVersion.Major2Minor2OrLower => uigf.List
                     .OrderByDescending(i => i.Id)
                     .Where(i => i.Id < trimId)
-                    .Select(i => GachaItem.CreateForMajor2Minor2OrLower(archiveId, i, context.GetItemId(i))),
+                    .Select(i => GachaItem.From(archiveId, i, context.GetItemId(i))),
                 _ => Enumerable.Empty<GachaItem>(),
             };
 

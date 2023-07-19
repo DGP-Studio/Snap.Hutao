@@ -94,19 +94,19 @@ internal sealed partial class MetadataService
     /// <inheritdoc/>
     public ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToAvatarCurveMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameAvatarCurve, a => a.Level, a => a.CurveMap, token);
+        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameAvatarCurve, a => a.Level, a => a.Map, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToMonsterCurveMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameMonsterCurve, m => m.Level, m => m.CurveMap, token);
+        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameMonsterCurve, m => m.Level, m => m.Map, token);
     }
 
     /// <inheritdoc/>
     public ValueTask<Dictionary<Level, Dictionary<GrowCurveType, float>>> GetLevelToWeaponCurveMapAsync(CancellationToken token = default)
     {
-        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameWeaponCurve, w => w.Level, w => w.CurveMap, token);
+        return FromCacheAsDictionaryAsync<Level, Dictionary<GrowCurveType, float>, GrowCurve>(FileNameWeaponCurve, w => w.Level, w => w.Map, token);
     }
 
     /// <inheritdoc/>

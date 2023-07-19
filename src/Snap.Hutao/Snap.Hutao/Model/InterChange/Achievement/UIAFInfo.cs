@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core;
+using Snap.Hutao.Core.Abstraction;
 
 namespace Snap.Hutao.Model.InterChange.Achievement;
 
@@ -9,7 +10,7 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 /// UIAF格式的信息
 /// </summary>
 [HighQuality]
-internal sealed class UIAFInfo
+internal sealed class UIAFInfo : IMappingFrom<UIAFInfo, RuntimeOptions>
 {
     /// <summary>
     /// 导出的 App 名称
@@ -47,17 +48,15 @@ internal sealed class UIAFInfo
     /// <summary>
     /// 构造一个新的专用 UIAF 信息
     /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
+    /// <param name="runtimeOptions">运行时信息</param>
     /// <returns>专用 UIAF 信息</returns>
-    public static UIAFInfo Create(IServiceProvider serviceProvider)
+    public static UIAFInfo From(RuntimeOptions runtimeOptions)
     {
-        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-
         return new()
         {
             ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
             ExportApp = SH.AppName,
-            ExportAppVersion = hutaoOptions.Version.ToString(),
+            ExportAppVersion = runtimeOptions.Version.ToString(),
             UIAFVersion = UIAF.CurrentVersion,
         };
     }

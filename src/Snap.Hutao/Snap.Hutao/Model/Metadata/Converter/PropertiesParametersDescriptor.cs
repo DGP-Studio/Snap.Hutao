@@ -24,15 +24,11 @@ internal sealed class PropertiesParametersDescriptor : ValueConverter<Properties
 
     private static List<ParameterDescription> GetParameterDescriptions(List<float> parameters, List<FightProperty> properties)
     {
-        List<ParameterDescription> results = new();
+        List<ParameterDescription> results = new(parameters.Count);
 
         foreach ((float param, FightProperty property) in parameters.Zip(properties))
         {
-            results.Add(new ParameterDescription
-            {
-                Description = property.GetLocalizedDescription(),
-                Parameter = FightPropertyFormat.FormatValue(property, param),
-            });
+            results.Add(FightPropertyFormat.ToParameterDescription(property, param));
         }
 
         return results;

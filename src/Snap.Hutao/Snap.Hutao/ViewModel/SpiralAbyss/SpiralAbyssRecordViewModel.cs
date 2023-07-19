@@ -82,7 +82,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            idAvatarMap = AvatarIds.InsertPlayers(idAvatarMap);
+            idAvatarMap = AvatarIds.WithPlayers(idAvatarMap);
 
             if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {

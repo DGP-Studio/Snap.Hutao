@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model.Entity.Primitive;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,7 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("game_accounts")]
-internal sealed class GameAccount : ObservableObject
+internal sealed class GameAccount : ObservableObject, IMappingFrom<GameAccount, string, string>
 {
     /// <summary>
     /// 内部Id
@@ -48,7 +49,7 @@ internal sealed class GameAccount : ObservableObject
     /// <param name="name">名称</param>
     /// <param name="sdk">sdk</param>
     /// <returns>游戏内账号</returns>
-    public static GameAccount Create(string name, string sdk)
+    public static GameAccount From(string name, string sdk)
     {
         return new()
         {

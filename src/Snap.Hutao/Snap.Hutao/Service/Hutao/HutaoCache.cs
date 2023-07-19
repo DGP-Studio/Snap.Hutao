@@ -158,7 +158,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         if (idAvatarExtendedMap == null)
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            idAvatarExtendedMap = AvatarIds.InsertPlayers(idAvatarMap);
+            idAvatarExtendedMap = AvatarIds.WithPlayers(idAvatarMap);
         }
 
         return idAvatarExtendedMap;

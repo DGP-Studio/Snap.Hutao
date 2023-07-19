@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Control;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Metadata.Avatar;
+using Snap.Hutao.Model.Primitive;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -22,8 +24,8 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     /// <returns>特定等级的解释</returns>
     public static LevelParameters<string, ParameterDescription> Convert(DescriptionsParameters from, uint level)
     {
-        LevelParameters<int, float> param = from.Parameters.Single(param => param.Level == level);
-        return new LevelParameters<string, ParameterDescription>($"Lv.{param.Level}", GetParameterDescription(from.Descriptions, param.Parameters));
+        LevelParameters<SkillLevel, float> param = from.Parameters.Single(param => param.Level == level);
+        return new LevelParameters<string, ParameterDescription>($"Lv.{param.Level.Value}", GetParameterDescription(from.Descriptions, param.Parameters));
     }
 
     /// <inheritdoc/>
@@ -35,36 +37,36 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
         return parameters;
     }
 
-    [GeneratedRegex("{param[0-9]+.*?}")]
+    [GeneratedRegex("{param([1-9][0-9]*?):(.+?)}")]
     private static partial Regex ParamRegex();
 
-    private static List<ParameterDescription> GetParameterDescription(List<string> descriptions, List<float> param)
+    private static List<ParameterDescription> GetParameterDescription(List<string> descriptions, List<float> paramList)
     {
         Span<string> span = CollectionsMarshal.AsSpan(descriptions);
         List<ParameterDescription> results = new(span.Length);
 
-        foreach (ReadOnlySpan<char> desc in span)
+        foreach (string desc in span)
         {
-            int indexOfSeparator = desc.IndexOf('|');
-            ReadOnlySpan<char> description = desc[..indexOfSeparator];
-            ReadOnlySpan<char> format = desc[(indexOfSeparator + 1)..];
-
-            string resultFormatted = ParamRegex().Replace(format.ToString(), match => ReplaceParamInMatch(match, param));
-            results.Add(new ParameterDescription { Description = description.ToString(), Parameter = resultFormatted });
+            if (desc.AsSpan().TrySplitIntoTwo('|', out ReadOnlySpan<char> description, out ReadOnlySpan<char> format))
+            {
+                string resultFormatted = ParamRegex().Replace(format.ToString(), match => ReplaceParamInMatch(match, paramList));
+                results.Add(new ParameterDescription { Description = description.ToString(), Parameter = resultFormatted });
+            }
+            else
+            {
+                ThrowHelper.InvalidOperation($"ParameterFormat failed, value: `{desc}`", default);
+            }
         }
 
         return results;
     }
 
-    private static string ReplaceParamInMatch(Match match, List<float> param)
+    private static string ReplaceParamInMatch(Match match, List<float> paramList)
     {
         if (match.Success)
         {
-            // remove parentheses and split by {value:format} like {param1:F}
-            string[] parts = match.Value[1..^1].Split(':', 2);
-
-            int index = int.Parse(parts[0]["param".Length..]) - 1;
-            return ParameterFormat.Format($"{{0:{parts[1]}}}", param[index]);
+            int index = int.Parse(match.Groups[1].Value) - 1;
+            return ParameterFormat.Format($"{{0:{match.Groups[2].Value}}}", paramList[index]);
         }
         else
         {

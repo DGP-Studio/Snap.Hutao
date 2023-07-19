@@ -62,16 +62,15 @@ internal sealed class UIIFInfo
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="uid">uid</param>
     /// <returns>专用 UIGF 信息</returns>
-    public static UIIFInfo Create(IServiceProvider serviceProvider, string uid)
+    public static UIIFInfo From(IServiceProvider serviceProvider, string uid)
     {
         RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         return new()
         {
             Uid = uid,
-            Language = "zh-cn",
             ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),
-            ExportApp = "胡桃",
+            ExportApp = SH.AppName,
             ExportAppVersion = hutaoOptions.Version.ToString(),
             UIIFVersion = UIIF.CurrentVersion,
         };

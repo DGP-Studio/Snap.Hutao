@@ -33,4 +33,22 @@ internal static class SpanExtension
 
         return maxIndex;
     }
+
+    public static bool TrySplitIntoTwo<T>(this in ReadOnlySpan<T> span, T separator, out ReadOnlySpan<T> left, out ReadOnlySpan<T> right)
+        where T : IEquatable<T>?
+    {
+        int indexOfSeparator = span.IndexOf(separator);
+
+        if (indexOfSeparator > 0)
+        {
+            left = span[..indexOfSeparator];
+            right = span[(indexOfSeparator + 1)..];
+
+            return true;
+        }
+
+        left = default;
+        right = default;
+        return false;
+    }
 }

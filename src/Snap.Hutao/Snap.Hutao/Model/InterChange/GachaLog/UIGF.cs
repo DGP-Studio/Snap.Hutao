@@ -53,8 +53,7 @@ internal sealed class UIGF
     {
         foreach (UIGFItem item in List)
         {
-            // Hard coded type name
-            if (item.ItemType != "角色" && item.ItemType != "武器")
+            if (item.ItemType != SH.ModelInterchangeUIGFItemTypeAvatar && item.ItemType != SH.ModelInterchangeUIGFItemTypeWeapon)
             {
                 return false;
             }

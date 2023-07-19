@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -14,7 +15,11 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("gacha_items")]
-internal sealed class GachaItem
+internal sealed partial class GachaItem
+    : IDbMappingForeignKeyFrom<GachaItem, GachaLogItem, uint>,
+    IDbMappingForeignKeyFrom<GachaItem, UIGFItem, uint>,
+    IDbMappingForeignKeyFrom<GachaItem, UIGFItem>,
+    IDbMappingForeignKeyFrom<GachaItem, Web.Hutao.GachaLog.GachaItem>
 {
     /// <summary>
     /// 内部Id
@@ -62,34 +67,19 @@ internal sealed class GachaItem
     public long Id { get; set; }
 
     /// <summary>
-    /// 获取物品类型字符串
-    /// </summary>
-    /// <param name="itemId">物品Id</param>
-    /// <returns>物品类型字符串</returns>
-    public static string GetItemTypeStringByItemId(uint itemId)
-    {
-        return itemId.Place() switch
-        {
-            8U => "角色",
-            5U => "武器",
-            _ => "未知",
-        };
-    }
-
-    /// <summary>
     /// 构造一个新的数据库祈愿物品
     /// </summary>
     /// <param name="archiveId">存档Id</param>
     /// <param name="item">祈愿物品</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem Create(in Guid archiveId, GachaLogItem item, uint itemId)
+    public static GachaItem From(in Guid archiveId, in GachaLogItem item, in uint itemId)
     {
         return new()
         {
             ArchiveId = archiveId,
             GachaType = item.GachaType,
-            QueryType = ToQueryType(item.GachaType),
+            QueryType = item.GachaType.ToQueryType(),
             ItemId = itemId,
             Time = item.Time,
             Id = item.Id,
@@ -103,7 +93,7 @@ internal sealed class GachaItem
     /// <param name="item">祈愿物品</param>
     /// <param name="itemId">物品Id</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem CreateForMajor2Minor2OrLower(in Guid archiveId, UIGFItem item, uint itemId)
+    public static GachaItem From(in Guid archiveId, in UIGFItem item, in uint itemId)
     {
         return new()
         {
@@ -122,7 +112,7 @@ internal sealed class GachaItem
     /// <param name="archiveId">存档Id</param>
     /// <param name="item">祈愿物品</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem CreateForMajor2Minor3OrHigher(in Guid archiveId, UIGFItem item)
+    public static GachaItem From(in Guid archiveId, in UIGFItem item)
     {
         return new()
         {
@@ -141,7 +131,7 @@ internal sealed class GachaItem
     /// <param name="archiveId">存档Id</param>
     /// <param name="item">祈愿物品</param>
     /// <returns>新的祈愿物品</returns>
-    public static GachaItem Create(in Guid archiveId, Web.Hutao.GachaLog.GachaItem item)
+    public static GachaItem From(in Guid archiveId, in Web.Hutao.GachaLog.GachaItem item)
     {
         return new()
         {
@@ -151,41 +141,6 @@ internal sealed class GachaItem
             ItemId = item.ItemId,
             Time = item.Time,
             Id = item.Id,
-        };
-    }
-
-    /// <summary>
-    /// 将祈愿配置类型转换到祈愿查询类型
-    /// </summary>
-    /// <param name="configType">配置类型</param>
-    /// <returns>祈愿查询类型</returns>
-    public static GachaConfigType ToQueryType(GachaConfigType configType)
-    {
-        return configType switch
-        {
-            GachaConfigType.AvatarEventWish2 => GachaConfigType.AvatarEventWish,
-            _ => configType,
-        };
-    }
-
-    /// <summary>
-    /// 转换到UIGF物品
-    /// </summary>
-    /// <param name="nameQuality">物品</param>
-    /// <returns>UIGF 物品</returns>
-    public UIGFItem ToUIGFItem(INameQuality nameQuality)
-    {
-        return new()
-        {
-            GachaType = GachaType,
-            ItemId = $"{ItemId}",
-            Count = 1,
-            Time = Time,
-            Name = nameQuality.Name,
-            ItemType = GetItemTypeStringByItemId(ItemId),
-            Rank = nameQuality.Quality,
-            Id = Id,
-            UIGFGachaType = QueryType,
         };
     }
 }

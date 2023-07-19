@@ -28,12 +28,12 @@ internal sealed partial class UIGFExportService : IUIGFExportService
             List<UIGFItem> list = appDbContext.GachaItems
                 .Where(i => i.ArchiveId == archive.InnerId)
                 .AsEnumerable()
-                .Select(i => i.ToUIGFItem(context.GetNameQualityByItemId(i.ItemId)))
+                .Select(i => UIGFItem.From(i, context.GetNameQualityByItemId(i.ItemId)))
                 .ToList();
 
             UIGF uigf = new()
             {
-                Info = UIGFInfo.Create(serviceProvider, archive.Uid),
+                Info = UIGFInfo.From(serviceProvider, archive.Uid),
                 List = list,
             };
 

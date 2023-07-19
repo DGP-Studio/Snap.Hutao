@@ -45,7 +45,7 @@ internal sealed partial class CultivationService : ICultivationService
             List<InventoryItemView> results = new();
             foreach (Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id.Value))
             {
-                InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.Create(projectId, meta.Id);
+                InventoryItem entity = entities.SingleOrDefault(e => e.ItemId == meta.Id) ?? InventoryItem.From(projectId, meta.Id);
                 results.Add(new(entity, meta, saveCommand));
             }
 

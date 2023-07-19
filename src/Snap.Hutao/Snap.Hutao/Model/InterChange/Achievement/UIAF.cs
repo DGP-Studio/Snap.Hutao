@@ -24,8 +24,7 @@ internal sealed class UIAF
     /// 信息
     /// </summary>
     [JsonPropertyName("info")]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public UIAFInfo Info { get; set; } = default!;
+    public required UIAFInfo Info { get; set; } = default!;
 
     /// <summary>
     /// 列表

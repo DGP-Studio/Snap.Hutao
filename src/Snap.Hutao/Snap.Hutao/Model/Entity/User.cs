@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Web.Hoyolab;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +14,7 @@ namespace Snap.Hutao.Model.Entity;
 /// </summary>
 [HighQuality]
 [Table("users")]
-internal sealed class User : ISelectable
+internal sealed class User : ISelectable, IMappingFrom<User, Cookie, bool>
 {
     /// <summary>
     /// 内部Id
@@ -65,7 +66,7 @@ internal sealed class User : ISelectable
     /// <param name="cookie">cookie</param>
     /// <param name="isOversea">是否为国际服</param>
     /// <returns>新创建的用户</returns>
-    public static User Create(Cookie cookie, bool isOversea)
+    public static User From(Cookie cookie, bool isOversea)
     {
         _ = cookie.TryGetSToken(isOversea, out Cookie? sToken);
         _ = cookie.TryGetLToken(out Cookie? lToken);

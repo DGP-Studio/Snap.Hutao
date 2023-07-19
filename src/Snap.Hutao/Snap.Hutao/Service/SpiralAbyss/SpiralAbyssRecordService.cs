@@ -88,7 +88,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
                 }
                 else
                 {
-                    SpiralAbyssEntry newEntry = SpiralAbyssEntry.Create(userAndUid.Uid.Value, webSpiralAbyss);
+                    SpiralAbyssEntry newEntry = SpiralAbyssEntry.From(userAndUid.Uid.Value, webSpiralAbyss);
 
                     await taskContext.SwitchToMainThreadAsync();
                     spiralAbysses!.Insert(0, newEntry);

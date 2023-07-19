@@ -30,8 +30,9 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     public CookBonusView? CookBonusView { get; set; }
 
     /// <summary>
-    /// 养成物品视图
+    /// [非元数据] 养成物品视图
     /// </summary>
+    [JsonIgnore]
     public List<Material>? CultivationItemsView { get; set; }
 
     /// <summary>

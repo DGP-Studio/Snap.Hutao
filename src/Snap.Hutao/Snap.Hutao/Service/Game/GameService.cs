@@ -326,7 +326,7 @@ internal sealed partial class GameService : IGameService
 
                 if (isOk)
                 {
-                    account = GameAccount.Create(name, registrySdk);
+                    account = GameAccount.From(name, registrySdk);
 
                     // sync database
                     await taskContext.SwitchToBackgroundAsync();
