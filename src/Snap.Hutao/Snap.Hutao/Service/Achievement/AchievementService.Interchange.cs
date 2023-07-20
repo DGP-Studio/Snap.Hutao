@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
@@ -15,7 +14,7 @@ namespace Snap.Hutao.Service.Achievement;
 internal sealed partial class AchievementService
 {
     /// <inheritdoc/>
-    public async Task<ImportResult> ImportFromUIAFAsync(AchievementArchive archive, List<UIAFItem> list, ImportStrategy strategy)
+    public async ValueTask<ImportResult> ImportFromUIAFAsync(AchievementArchive archive, List<UIAFItem> list, ImportStrategy strategy)
     {
         await taskContext.SwitchToBackgroundAsync();
 
@@ -49,22 +48,20 @@ internal sealed partial class AchievementService
     }
 
     /// <inheritdoc/>
-    public async Task<UIAF> ExportToUIAFAsync(AchievementArchive archive)
+    public async ValueTask<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            List<UIAFItem> list = appDbContext.Achievements
-                .Where(i => i.ArchiveId == archive.InnerId)
-                .AsEnumerable()
-                .Select(UIAFItem.From)
-                .ToList();
+            List<UIAFItem> list = achievementDbService
+                .GetAchievementListByArchiveId(archive.InnerId)
+                .SelectList(UIAFItem.From);
 
             return new()
             {
-                Info = UIAFInfo.From(scope.ServiceProvider.GetRequiredService<RuntimeOptions>()),
+                Info = UIAFInfo.From(scope.ServiceProvider),
                 List = list,
             };
         }

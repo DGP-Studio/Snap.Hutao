@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Enka.Model;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
@@ -69,15 +69,15 @@ internal sealed class SummaryAvatarFactory
             Score = $"{reliquaryAndWeapon.Reliquaries.Sum(r => r.Score):F2}",
         };
 
-        TryApplyCostumeIcon(ref propertyAvatar, avatar);
+        ApplyCostumeIconOrDefault(ref propertyAvatar, avatar);
         return propertyAvatar;
     }
 
-    private void TryApplyCostumeIcon(ref PropertyAvatar propertyAvatar, MetadataAvatar avatar)
+    private void ApplyCostumeIconOrDefault(ref PropertyAvatar propertyAvatar, MetadataAvatar avatar)
     {
-        if (avatarInfo.CostumeId.HasValue)
+        if (avatarInfo.CostumeId.TryGetValue(out CostumeId id))
         {
-            Model.Metadata.Avatar.Costume costume = avatar.Costumes.Single(c => c.Id == avatarInfo.CostumeId.Value);
+            Model.Metadata.Avatar.Costume costume = avatar.Costumes.Single(c => c.Id == id);
 
             // Set to costume icon
             propertyAvatar.Icon = AvatarIconConverter.IconNameToUri(costume.FrontIcon);
@@ -95,7 +95,6 @@ internal sealed class SummaryAvatarFactory
         List<PropertyReliquary> reliquaryList = new();
         PropertyWeapon? weapon = null;
 
-        // equipments can be null
         foreach (Web.Enka.Model.Equip equip in equipments)
         {
             switch (equip.Flat.ItemType)
@@ -118,8 +117,7 @@ internal sealed class SummaryAvatarFactory
         MetadataWeapon weapon = metadataContext.IdWeaponMap[equip.ItemId];
 
         // AffixMap can be null when it's a white weapon.
-        KeyValuePair<EquipAffixId, WeaponAffixLevel>? idLevel = equip.Weapon!.AffixMap?.Single();
-        uint affixLevel = idLevel?.Value ?? 0U;
+        uint affixLevel = equip.Weapon!.AffixMap?.SingleOrDefault().Value ?? 0U;
 
         WeaponStat? mainStat = equip.Flat.WeaponStats?.ElementAtOrDefault(0);
         WeaponStat? subStat = equip.Flat.WeaponStats?.ElementAtOrDefault(1);
@@ -132,11 +130,13 @@ internal sealed class SummaryAvatarFactory
         else
         {
             // 是否为整数
-            subStat.StatValue = subStat.StatValue == MathF.Truncate(subStat.StatValue)
+            float statValue = subStat.StatValue == MathF.Truncate(subStat.StatValue)
                 ? subStat.StatValue / 100F
                 : subStat.StatValue;
-            subProperty = FightPropertyFormat.ToNameDescription(subStat.AppendPropId, subStat.StatValue);
+            subProperty = FightPropertyFormat.ToNameDescription(subStat.AppendPropId, statValue);
         }
+
+        ArgumentNullException.ThrowIfNull(equip.Weapon);
 
         return new()
         {
@@ -146,13 +146,13 @@ internal sealed class SummaryAvatarFactory
             Description = weapon.Description,
 
             // EquipBase
-            Level = $"Lv.{equip.Weapon!.Level.Value}",
+            Level = $"Lv.{equip.Weapon.Level.Value}",
             Quality = weapon.Quality,
             MainProperty = mainStat != null ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue) : default!,
 
             // Weapon
             Id = weapon.Id,
-            LevelNumber = equip.Weapon!.Level,
+            LevelNumber = equip.Weapon.Level,
             SubProperty = subProperty,
             AffixLevelNumber = affixLevel + 1,
             AffixName = weapon.Affix?.Name ?? string.Empty,

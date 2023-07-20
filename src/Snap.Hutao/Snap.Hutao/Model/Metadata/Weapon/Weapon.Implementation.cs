@@ -13,10 +13,11 @@ namespace Snap.Hutao.Model.Metadata.Weapon;
 /// <summary>
 /// 武器的接口实现
 /// </summary>
-internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource, INameQuality, ICalculableSource<ICalculableWeapon>
+internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableWeapon>
 {
     /// <summary>
     /// [非元数据] 搭配数据
+    /// TODO:Add View suffix.
     /// </summary>
     [JsonIgnore]
     public WeaponCollocationView? Collocation { get; set; }
@@ -43,7 +44,7 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     /// 转换为基础物品
     /// </summary>
     /// <returns>基础物品</returns>
-    public Model.Item ToItemBase()
+    public Model.Item ToItem()
     {
         return new()
         {

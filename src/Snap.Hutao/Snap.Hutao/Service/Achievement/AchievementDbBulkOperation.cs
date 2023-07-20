@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.Achievement;
@@ -18,6 +19,7 @@ namespace Snap.Hutao.Service.Achievement;
 internal sealed partial class AchievementDbBulkOperation
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly ILogger<AchievementDbBulkOperation> logger;
 
     /// <summary>
     /// 合并
@@ -29,11 +31,13 @@ internal sealed partial class AchievementDbBulkOperation
     [SuppressMessage("", "SH002")]
     public ImportResult Merge(Guid archiveId, IEnumerable<UIAFItem> items, bool aggressive)
     {
+        logger.LogInformation("Perform {Method} Operation for archive: {Id}, Aggressive: {Aggressive}", nameof(Merge), archiveId, aggressive);
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             IOrderedQueryable<EntityAchievement> oldData = appDbContext.Achievements
+                .AsNoTracking()
                 .Where(a => a.ArchiveId == archiveId)
                 .OrderBy(a => a.Id);
 
@@ -104,6 +108,7 @@ internal sealed partial class AchievementDbBulkOperation
                 }
             }
 
+            logger.LogInformation("{Method} Operation Complete, Add: {Add}, Update: {Update}", nameof(Merge), add, update);
             return new(add, update, 0);
         }
     }
@@ -117,11 +122,13 @@ internal sealed partial class AchievementDbBulkOperation
     [SuppressMessage("", "SH002")]
     public ImportResult Overwrite(Guid archiveId, IEnumerable<EntityAchievement> items)
     {
+        logger.LogInformation("Perform {Method} Operation for archive: {Id}", nameof(Overwrite), archiveId);
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             IOrderedQueryable<EntityAchievement> oldData = appDbContext.Achievements
+                .AsNoTracking()
                 .Where(a => a.ArchiveId == archiveId)
                 .OrderBy(a => a.Id);
 
@@ -200,6 +207,7 @@ internal sealed partial class AchievementDbBulkOperation
                 }
             }
 
+            logger.LogInformation("{Method} Operation Complete, Add: {Add}, Update: {Update}, Remove: {Remove}", nameof(Overwrite), add, update, remove);
             return new(add, update, remove);
         }
     }

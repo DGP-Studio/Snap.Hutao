@@ -36,9 +36,8 @@ internal static class SummaryAvatarProperties
         List<AvatarProperty> properties = new(9) { hpProp, atkProp, defProp, emProp, critRateProp, critDMGProp, chargeEffProp };
 
         // 元素伤害
-        if (TryGetBonusFightProperty(fightPropMap, out FightProperty bonusProperty))
+        if (TryGetBonusFightProperty(fightPropMap, out FightProperty bonusProperty, out float value))
         {
-            float value = fightPropMap[bonusProperty];
             if (value > 0)
             {
                 properties.Add(FightPropertyFormat.ToAvatarProperty(bonusProperty, value));
@@ -72,51 +71,59 @@ internal static class SummaryAvatarProperties
         return FightPropertyFormat.ToAvatarProperty(*(FightProperty*)&basePropValue, baseHp, hpAdd);
     }
 
-    private static bool TryGetBonusFightProperty(Dictionary<FightProperty, float> fightPropMap, out FightProperty value)
+    private static bool TryGetBonusFightProperty(Dictionary<FightProperty, float> fightPropMap, out FightProperty property, out float value)
     {
         if (fightPropMap.ContainsKey(FightProperty.FIGHT_PROP_MAX_FIRE_ENERGY))
         {
-            value = FightProperty.FIGHT_PROP_FIRE_ADD_HURT; // 70 40
+            property = FightProperty.FIGHT_PROP_FIRE_ADD_HURT; // 70 40
+            value = fightPropMap[property];
             return true;
         }
 
         if (fightPropMap.ContainsKey(FightProperty.FIGHT_PROP_MAX_ELEC_ENERGY))
         {
-            value = FightProperty.FIGHT_PROP_ELEC_ADD_HURT; // 71 41
+            property = FightProperty.FIGHT_PROP_ELEC_ADD_HURT; // 71 41
+            value = fightPropMap[property];
             return true;
         }
 
         if (fightPropMap.ContainsKey(FightProperty.FIGHT_PROP_MAX_WATER_ENERGY))
         {
-            value = FightProperty.FIGHT_PROP_WATER_ADD_HURT; // 72 42
+            property = FightProperty.FIGHT_PROP_WATER_ADD_HURT; // 72 42
+            value = fightPropMap[property];
             return true;
         }
 
         if (fightPropMap.ContainsKey(FightProperty.FIGHT_PROP_MAX_GRASS_ENERGY))
         {
-            value = FightProperty.FIGHT_PROP_GRASS_ADD_HURT; // 73 43
+            property = FightProperty.FIGHT_PROP_GRASS_ADD_HURT; // 73 43
+            value = fightPropMap[property];
             return true;
         }
 
         if (fightPropMap.ContainsKey(FightProperty.FIGHT_PROP_MAX_WIND_ENERGY))
         {
-            value = FightProperty.FIGHT_PROP_WIND_ADD_HURT; // 74 44
+            property = FightProperty.FIGHT_PROP_WIND_ADD_HURT; // 74 44
+            value = fightPropMap[property];
             return true;
         }
 
         if (fightPropMap.ContainsKey(FightProperty.FIGHT_PROP_MAX_ICE_ENERGY))
         {
-            value = FightProperty.FIGHT_PROP_ICE_ADD_HURT; // 75 46
+            property = FightProperty.FIGHT_PROP_ICE_ADD_HURT; // 75 46
+            value = fightPropMap[property];
             return true;
         }
 
         if (fightPropMap.ContainsKey(FightProperty.FIGHT_PROP_MAX_ROCK_ENERGY))
         {
-            value = FightProperty.FIGHT_PROP_ROCK_ADD_HURT; // 76 45
+            property = FightProperty.FIGHT_PROP_ROCK_ADD_HURT; // 76 45
+            value = fightPropMap[property];
             return true;
         }
 
-        value = FightProperty.FIGHT_PROP_NONE;
+        property = FightProperty.FIGHT_PROP_NONE;
+        value = 0F;
         return false;
     }
 }

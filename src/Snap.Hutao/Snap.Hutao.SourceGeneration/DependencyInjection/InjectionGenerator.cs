@@ -105,7 +105,7 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
                     lineBuilder.Append("        services.AddScoped<");
                     break;
                 default:
-                    production.ReportDiagnostic(Diagnostic.Create(invalidInjectionDescriptor, null, injectAsName));
+                    production.ReportDiagnostic(Diagnostic.Create(invalidInjectionDescriptor, context.Context.Node.GetLocation(), injectAsName));
                     break;
             }
 

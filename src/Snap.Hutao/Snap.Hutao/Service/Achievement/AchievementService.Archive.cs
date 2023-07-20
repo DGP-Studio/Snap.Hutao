@@ -29,12 +29,7 @@ internal sealed partial class AchievementService
         {
             if (archiveCollection == null)
             {
-                using (IServiceScope scope = serviceProvider.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    archiveCollection = appDbContext.AchievementArchives.ToObservableCollection();
-                }
-
+                archiveCollection = achievementDbService.GetAchievementArchiveCollection();
                 CurrentArchive = archiveCollection.SelectedOrDefault();
             }
 
@@ -43,47 +38,43 @@ internal sealed partial class AchievementService
     }
 
     /// <inheritdoc/>
-    public async Task<ArchiveAddResult> TryAddArchiveAsync(AchievementArchive newArchive)
+    public async ValueTask<ArchiveAddResult> AddArchiveAsync(AchievementArchive newArchive)
     {
         if (string.IsNullOrWhiteSpace(newArchive.Name))
         {
             return ArchiveAddResult.InvalidName;
         }
 
+        ArgumentNullException.ThrowIfNull(archiveCollection);
+
         // 查找是否有相同的名称
-        if (archiveCollection!.SingleOrDefault(a => a.Name == newArchive.Name) != null)
+        if (archiveCollection.Any(a => a.Name == newArchive.Name))
         {
             return ArchiveAddResult.AlreadyExists;
         }
-        else
-        {
-            // Sync cache
-            await taskContext.SwitchToMainThreadAsync();
-            archiveCollection!.Add(newArchive);
 
-            // Sync database
-            await taskContext.SwitchToBackgroundAsync();
-            CurrentArchive = newArchive;
-
-            return ArchiveAddResult.Added;
-        }
-    }
-
-    /// <inheritdoc/>
-    public async Task RemoveArchiveAsync(AchievementArchive archive)
-    {
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        archiveCollection!.Remove(archive);
+        archiveCollection.Add(newArchive);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
+        CurrentArchive = newArchive;
 
-        // Cascade deleted the achievements.
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.AchievementArchives.RemoveAndSaveAsync(archive).ConfigureAwait(false);
-        }
+        return ArchiveAddResult.Added;
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask RemoveArchiveAsync(AchievementArchive archive)
+    {
+        ArgumentNullException.ThrowIfNull(archiveCollection);
+
+        // Sync cache
+        await taskContext.SwitchToMainThreadAsync();
+        archiveCollection.Remove(archive);
+
+        // Sync database
+        await taskContext.SwitchToBackgroundAsync();
+        await achievementDbService.DeleteAchievementArchiveAsync(archive).ConfigureAwait(false);
     }
 }

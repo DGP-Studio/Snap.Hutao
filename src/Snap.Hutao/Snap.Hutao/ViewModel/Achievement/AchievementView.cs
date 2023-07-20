@@ -30,7 +30,7 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
         Entity = entity;
         Inner = inner;
 
-        isChecked = (int)entity.Status >= (int)AchievementStatus.STATUS_FINISHED;
+        isChecked = entity.Status >= AchievementStatus.STATUS_FINISHED;
     }
 
     /// <summary>
@@ -58,6 +58,12 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
                 {
                     Entity.Status = AchievementStatus.STATUS_REWARD_TAKEN;
                     Entity.Time = DateTimeOffset.Now;
+                    OnPropertyChanged(nameof(Time));
+                }
+                else
+                {
+                    Entity.Status = AchievementStatus.STATUS_UNFINISHED;
+                    Entity.Time = default;
                     OnPropertyChanged(nameof(Time));
                 }
             }

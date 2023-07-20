@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Item;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Navigation;
@@ -135,14 +136,16 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         if (project != null)
         {
             List<Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
+            Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
+            Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
 
             ObservableCollection<CultivateEntryView> entries = await cultivationService
-                .GetCultivateEntriesAsync(project)
+                .GetCultivateEntriesAsync(project, materials, idAvatarMap, idWeaponMap)
                 .ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
             CultivateEntries = entries;
-            InventoryItems = cultivationService.GetInventoryItems(project, materials, SaveInventoryItemCommand);
+            InventoryItems = cultivationService.GetInventoryItemViews(project, materials, SaveInventoryItemCommand);
 
             await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
@@ -175,7 +178,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         if (item != null)
         {
             item.IsFinished = !item.IsFinished;
-            cultivationService.SaveCultivateItem(item.Entity);
+            cultivationService.SaveCultivateItem(item);
             UpdateStatisticsItemsAsync().SafeForget();
         }
     }
@@ -189,7 +192,8 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             ObservableCollection<StatisticsCultivateItem> statistics;
             try
             {
-                statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(SelectedProject, token).ConfigureAwait(false);
+                List<Material> materials = await metadataService.GetMaterialsAsync(token).ConfigureAwait(false);
+                statistics = await cultivationService.GetStatisticsCultivateItemCollectionAsync(SelectedProject, materials, token).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {

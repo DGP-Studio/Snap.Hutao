@@ -88,8 +88,8 @@ internal readonly struct GachaLogServiceContext
         {
             result = type switch
             {
-                "角色" => NameAvatarMap[name].ToItemBase(),
-                "武器" => NameWeaponMap[name].ToItemBase(),
+                "角色" => NameAvatarMap[name].ToItem(),
+                "武器" => NameWeaponMap[name].ToItem(),
                 _ => throw Must.NeverHappen(),
             };
 

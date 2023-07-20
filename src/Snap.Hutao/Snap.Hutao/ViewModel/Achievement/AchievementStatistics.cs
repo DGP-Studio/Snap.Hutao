@@ -25,6 +25,7 @@ internal sealed class AchievementStatistics
 
     /// <summary>
     /// 格式化完成进度
+    /// "xxx/yyy - zz.zz%"
     /// </summary>
     /// <param name="finished">完成的成就个数</param>
     /// <param name="totalCount">总个数</param>

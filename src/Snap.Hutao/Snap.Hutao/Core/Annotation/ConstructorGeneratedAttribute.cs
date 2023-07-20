@@ -17,6 +17,11 @@ internal sealed class ConstructorGeneratedAttribute : Attribute
     }
 
     /// <summary>
+    /// 是否调用基类构造函数
+    /// </summary>
+    public bool CallBaseConstructor { get; set; }
+
+    /// <summary>
     /// 在构造函数中插入 HttpClient
     /// </summary>
     public bool ResolveHttpClient { get; set; }

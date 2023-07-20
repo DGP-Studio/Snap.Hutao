@@ -42,6 +42,24 @@ internal static partial class EnumerableExtension
         return source ?? new();
     }
 
+    public static List<T> GetRange<T>(this List<T> list, in Range range)
+    {
+        (int start, int length) = range.GetOffsetAndLength(list.Count);
+        return list.GetRange(start, length);
+    }
+
+    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)] this List<TSource>? source)
+    {
+        if (source is { } list)
+        {
+            // empty
+            return list.Count <= 0;
+        }
+
+        // null
+        return true;
+    }
+
     /// <summary>
     /// 移除表中首个满足条件的项
     /// </summary>

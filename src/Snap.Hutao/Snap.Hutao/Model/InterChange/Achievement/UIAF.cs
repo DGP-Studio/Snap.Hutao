@@ -23,8 +23,9 @@ internal sealed class UIAF
     /// <summary>
     /// 信息
     /// </summary>
+    [JsonRequired]
     [JsonPropertyName("info")]
-    public required UIAFInfo Info { get; set; } = default!;
+    public UIAFInfo Info { get; set; } = default!;
 
     /// <summary>
     /// 列表

@@ -12,6 +12,7 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
 /// <summary>
 /// 简述元数据上下文
+/// 包含了所有制造简述需要的元数据
 /// </summary>
 [HighQuality]
 internal sealed class SummaryMetadataContext

@@ -3103,7 +3103,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 从 Enka API 同步 的本地化字符串。
+        ///   查找类似 从游戏内角色橱窗同步 的本地化字符串。
         /// </summary>
         internal static string ViewPageAvatarPropertyRefreshFromEnkaApi {
             get {

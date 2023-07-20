@@ -18,7 +18,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 [ConstructorGenerated]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
-[Injection(InjectAs.Transient, typeof(IGameRecordClient))]
+[Injection(InjectAs.Transient)]
 internal sealed partial class GameRecordClientOversea : IGameRecordClient
 {
     private readonly ILogger<GameRecordClient> logger;

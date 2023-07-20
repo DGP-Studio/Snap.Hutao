@@ -1063,7 +1063,7 @@
     <value>同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApi" xml:space="preserve">
-    <value>从 Enka API 同步</value>
+    <value>从游戏内角色橱窗同步</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
     <value>同步游戏内角色展柜中的信息</value>

@@ -27,7 +27,7 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             List<AchievementStatistics> results = new();
-            foreach (AchievementArchive archive in appDbContext.AchievementArchives)
+            foreach (AchievementArchive archive in achievementDbService.GetAchievementArchiveList())
             {
                 int finishedCount = await achievementDbService
                     .GetFinishedAchievementCountByArchiveIdAsync(archive.InnerId)

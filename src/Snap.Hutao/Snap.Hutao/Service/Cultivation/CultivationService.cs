@@ -25,22 +25,19 @@ namespace Snap.Hutao.Service.Cultivation;
 internal sealed partial class CultivationService : ICultivationService
 {
     private readonly ScopedDbCurrent<CultivateProject, Message.CultivateProjectChangedMessage> dbCurrent;
+    private readonly ICultivationDbService cultivationDbService;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    private ObservableCollection<CultivateProject>? projects;
-
     /// <inheritdoc/>
-    public List<InventoryItemView> GetInventoryItems(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand)
+    public List<InventoryItemView> GetInventoryItemViews(CultivateProject cultivateProject, List<Material> metadata, ICommand saveCommand)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             Guid projectId = cultivateProject.InnerId;
-            List<InventoryItem> entities = appDbContext.InventoryItems
-                .Where(a => a.ProjectId == projectId)
-                .ToList();
+            List<InventoryItem> entities = cultivationDbService.GetInventoryItemListByProjectId(projectId);
 
             List<InventoryItemView> results = new();
             foreach (Material meta in metadata.Where(m => m.IsInventoryItem()).OrderBy(m => m.Id.Value))
@@ -54,138 +51,111 @@ internal sealed partial class CultivationService : ICultivationService
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(CultivateProject cultivateProject)
+    public async ValueTask<ObservableCollection<CultivateEntryView>> GetCultivateEntriesAsync(
+        CultivateProject cultivateProject,
+        List<Material> materials,
+        Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap,
+        Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap)
     {
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        List<CultivateEntry> entries = await cultivationDbService
+            .GetCultivateEntryListByProjectIdAsync(cultivateProject.InnerId)
+            .ConfigureAwait(false);
+
+        List<CultivateEntryView> resultEntries = new(entries.Count);
+        foreach (CultivateEntry entry in entries)
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            IMetadataService metadataService = scope.ServiceProvider.GetRequiredService<IMetadataService>();
-
-            List<Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
-            Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
-            Dictionary<WeaponId, Model.Metadata.Weapon.Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
-
-            List<CultivateEntry> entries = await appDbContext.CultivateEntries
-                .Where(e => e.ProjectId == cultivateProject.InnerId)
-                .ToListAsync()
-                .ConfigureAwait(false);
-
-            List<CultivateEntryView> results = new(entries.Count);
-            foreach (CultivateEntry entry in entries)
+            List<CultivateItemView> entryItems = new();
+            foreach (CultivateItem item in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
             {
-                Guid entryId = entry.InnerId;
-
-                List<CultivateItemView> resultItems = new();
-
-                foreach (CultivateItem item in await GetEntryItemsAsync(appDbContext, entryId).ConfigureAwait(false))
-                {
-                    resultItems.Add(new(item, materials.Single(m => m.Id == item.ItemId)));
-                }
-
-                Item itemBase = entry.Type switch
-                {
-                    CultivateType.AvatarAndSkill => idAvatarMap[entry.Id].ToItemBase(),
-                    CultivateType.Weapon => idWeaponMap[entry.Id].ToItemBase(),
-                    _ => null!, // TODO: support furniture calc
-                };
-
-                results.Add(new(entry, itemBase, resultItems));
+                entryItems.Add(new(item, materials.Single(m => m.Id == item.ItemId)));
             }
 
-            return results
-                .OrderByDescending(e => e.IsToday)
-                .ToObservableCollection();
+            Item itemBase = entry.Type switch
+            {
+                CultivateType.AvatarAndSkill => idAvatarMap[entry.Id].ToItem(),
+                CultivateType.Weapon => idWeaponMap[entry.Id].ToItem(),
+
+                // TODO: support furniture calc
+                _ => default!,
+            };
+
+            resultEntries.Add(new(entry, itemBase, entryItems));
         }
+
+        return resultEntries
+            .OrderByDescending(e => e.IsToday)
+            .ToObservableCollection();
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(CultivateProject cultivateProject, CancellationToken token)
+    public async ValueTask<ObservableCollection<StatisticsCultivateItem>> GetStatisticsCultivateItemCollectionAsync(
+        CultivateProject cultivateProject,
+        List<Material> materials,
+        CancellationToken token)
     {
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        List<StatisticsCultivateItem> resultItems = new();
+
+        Guid projectId = cultivateProject.InnerId;
+
+        token.ThrowIfCancellationRequested();
+
+        foreach (CultivateEntry entry in await cultivationDbService.GetCultivateEntryListByProjectIdAsync(projectId).ConfigureAwait(false))
         {
-            List<StatisticsCultivateItem> resultItems = new();
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            List<Material> materials = await scope.ServiceProvider
-                .GetRequiredService<IMetadataService>()
-                .GetMaterialsAsync(token)
-                .ConfigureAwait(false);
-
-            Guid projectId = cultivateProject.InnerId;
-
-            token.ThrowIfCancellationRequested();
-
-            foreach (CultivateEntry entry in await GetProjectEntriesAsync(appDbContext, projectId).ConfigureAwait(false))
+            foreach (CultivateItem item in await cultivationDbService.GetCultivateItemListByEntryIdAsync(entry.InnerId).ConfigureAwait(false))
             {
-                foreach (CultivateItem item in await GetEntryItemsAsync(appDbContext, entry.InnerId).ConfigureAwait(false))
+                if (item.IsFinished)
                 {
-                    if (item.IsFinished)
-                    {
-                        continue;
-                    }
+                    continue;
+                }
 
-                    if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is { } existedItem)
-                    {
-                        existedItem.Count += item.Count;
-                    }
-                    else
-                    {
-                        resultItems.Add(new(materials.Single(m => m.Id == item.ItemId), item));
-                    }
+                if (resultItems.SingleOrDefault(i => i.Inner.Id == item.ItemId) is { } existedItem)
+                {
+                    existedItem.Count += item.Count;
+                }
+                else
+                {
+                    resultItems.Add(new(materials.Single(m => m.Id == item.ItemId), item));
                 }
             }
-
-            token.ThrowIfCancellationRequested();
-
-            foreach (InventoryItem inventoryItem in await GetProjectInventoryAsync(appDbContext, projectId).ConfigureAwait(false))
-            {
-                if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
-                {
-                    existedItem.TotalCount += inventoryItem.Count;
-                }
-            }
-
-            token.ThrowIfCancellationRequested();
-
-            await taskContext.SwitchToMainThreadAsync();
-            return resultItems
-                .OrderByDescending(i => i.TotalCount)
-                .ThenByDescending(i => i.Count)
-                .ToObservableCollection();
         }
+
+        token.ThrowIfCancellationRequested();
+
+        foreach (InventoryItem inventoryItem in await cultivationDbService.GetInventoryItemListByProjectIdAsync(projectId).ConfigureAwait(false))
+        {
+            if (resultItems.SingleOrDefault(i => i.Inner.Id == inventoryItem.ItemId) is { } existedItem)
+            {
+                existedItem.TotalCount += inventoryItem.Count;
+            }
+        }
+
+        token.ThrowIfCancellationRequested();
+
+        return resultItems
+            .OrderByDescending(i => i.TotalCount)
+            .ThenByDescending(i => i.Count)
+            .ToObservableCollection();
     }
 
     /// <inheritdoc/>
-    public async Task RemoveCultivateEntryAsync(Guid entryId)
+    public async ValueTask RemoveCultivateEntryAsync(Guid entryId)
     {
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateEntries
-                .ExecuteDeleteWhereAsync(i => i.InnerId == entryId)
-                .ConfigureAwait(false);
-        }
+        await cultivationDbService.DeleteCultivateEntryByIdAsync(entryId).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public void SaveInventoryItem(InventoryItemView item)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            scope.ServiceProvider.GetRequiredService<AppDbContext>().InventoryItems.UpdateAndSave(item.Entity);
-        }
+        cultivationDbService.UpdateInventoryItem(item.Entity);
     }
 
     /// <inheritdoc/>
-    public void SaveCultivateItem(CultivateItem item)
+    public void SaveCultivateItem(CultivateItemView item)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            scope.ServiceProvider.GetRequiredService<AppDbContext>().CultivateItems.UpdateAndSave(item);
-        }
+        cultivationDbService.UpdateCultivateItem(item.Entity);
     }
 
     /// <inheritdoc/>
@@ -234,30 +204,5 @@ internal sealed partial class CultivationService : ICultivationService
         }
 
         return true;
-    }
-
-    [SuppressMessage("", "SH002")]
-    private static Task<List<InventoryItem>> GetProjectInventoryAsync(AppDbContext appDbContext, Guid projectId)
-    {
-        return appDbContext.InventoryItems
-            .Where(e => e.ProjectId == projectId)
-            .ToListAsync();
-    }
-
-    [SuppressMessage("", "SH002")]
-    private static Task<List<CultivateEntry>> GetProjectEntriesAsync(AppDbContext appDbContext, Guid projectId)
-    {
-        return appDbContext.CultivateEntries
-            .Where(e => e.ProjectId == projectId)
-            .ToListAsync();
-    }
-
-    [SuppressMessage("", "SH002")]
-    private static Task<List<CultivateItem>> GetEntryItemsAsync(AppDbContext appDbContext, Guid entryId)
-    {
-        return appDbContext.CultivateItems
-            .Where(i => i.EntryId == entryId)
-            .OrderBy(i => i.ItemId)
-            .ToListAsync();
     }
 }

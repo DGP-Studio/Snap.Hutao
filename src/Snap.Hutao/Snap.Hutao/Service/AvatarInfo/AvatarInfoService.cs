@@ -22,13 +22,14 @@ namespace Snap.Hutao.Service.AvatarInfo;
 internal sealed partial class AvatarInfoService : IAvatarInfoService
 {
     private readonly AvatarInfoDbBulkOperation avatarInfoDbBulkOperation;
+    private readonly IAvatarInfoDbService avatarInfoDbService;
     private readonly ILogger<AvatarInfoService> logger;
     private readonly IMetadataService metadataService;
     private readonly IServiceProvider serviceProvider;
     private readonly ISummaryFactory summaryFactory;
 
     /// <inheritdoc/>
-    public async Task<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default)
+    public async ValueTask<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default)
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -76,7 +77,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
 
                 default:
                     {
-                        List<EnkaAvatarInfo> list = avatarInfoDbBulkOperation.GetDbAvatarInfos(userAndUid.Uid.Value);
+                        List<EnkaAvatarInfo> list = avatarInfoDbService.GetAvatarInfoInfoListByUid(userAndUid.Uid.Value);
                         Summary summary = await GetSummaryCoreAsync(list, token).ConfigureAwait(false);
                         token.ThrowIfCancellationRequested();
                         return new(RefreshResult.Ok, summary.Avatars.Count == 0 ? null : summary);
@@ -89,7 +90,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
         }
     }
 
-    private async Task<EnkaResponse?> GetEnkaResponseAsync(PlayerUid uid, CancellationToken token = default)
+    private async ValueTask<EnkaResponse?> GetEnkaResponseAsync(PlayerUid uid, CancellationToken token = default)
     {
         EnkaClient enkaClient = serviceProvider.GetRequiredService<EnkaClient>();
 
@@ -97,7 +98,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
             ?? await enkaClient.GetDataAsync(uid, token).ConfigureAwait(false);
     }
 
-    private async Task<Summary> GetSummaryCoreAsync(IEnumerable<EnkaAvatarInfo> avatarInfos, CancellationToken token)
+    private async ValueTask<Summary> GetSummaryCoreAsync(IEnumerable<EnkaAvatarInfo> avatarInfos, CancellationToken token)
     {
         using (ValueStopwatch.MeasureExecution(logger))
         {

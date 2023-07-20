@@ -12,22 +12,22 @@ internal static class ElementMastery
     /// <summary>
     /// 增幅反应
     /// </summary>
-    public static readonly ElementMasteryCoefficient ElementAddHurt = new(2.78f, 1400);
+    public static readonly ElementMasteryCoefficient ElementAddHurt = new(2.78F, 1400F);
 
     /// <summary>
     /// 剧变反应
     /// </summary>
-    public static readonly ElementMasteryCoefficient ReactionAddHurt = new(16, 2000);
+    public static readonly ElementMasteryCoefficient ReactionAddHurt = new(16F, 2000F);
 
     /// <summary>
     /// 激化反应
     /// </summary>
-    public static readonly ElementMasteryCoefficient ReactionOverdoseAddHurt = new(5, 1200);
+    public static readonly ElementMasteryCoefficient ReactionOverdoseAddHurt = new(5F, 1200F);
 
     /// <summary>
     /// 结晶盾厚度
     /// </summary>
-    public static readonly ElementMasteryCoefficient CrystalShieldHp = new(4.44f, 1400);
+    public static readonly ElementMasteryCoefficient CrystalShieldHp = new(4.44F, 1400F);
 
     /// <summary>
     /// 获取差异

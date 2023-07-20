@@ -14,7 +14,7 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 角色的接口实现部分
 /// </summary>
-internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, INameQuality, ICalculableSource<ICalculableAvatar>
+internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IItemSource, INameQuality, ICalculableSource<ICalculableAvatar>
 {
     /// <summary>
     /// [非元数据] 搭配数据
@@ -51,7 +51,7 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IName
     /// 转换为基础物品
     /// </summary>
     /// <returns>基础物品</returns>
-    public Model.Item ToItemBase()
+    public Model.Item ToItem()
     {
         return new()
         {

@@ -202,7 +202,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
 
             if (isOk)
             {
-                ArchiveAddResult result = await achievementService.TryAddArchiveAsync(EntityAchievementArchive.From(name)).ConfigureAwait(false);
+                ArchiveAddResult result = await achievementService.AddArchiveAsync(EntityAchievementArchive.From(name)).ConfigureAwait(false);
 
                 switch (result)
                 {
@@ -331,7 +331,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         try
         {
-            combined = achievementService.GetAchievements(archive, achievements);
+            combined = achievementService.GetAchievementViews(archive, achievements);
             return true;
         }
         catch (Core.ExceptionService.UserdataCorruptedException ex)

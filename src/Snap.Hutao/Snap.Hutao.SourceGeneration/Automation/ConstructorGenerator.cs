@@ -18,6 +18,8 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 {
     private const string AttributeName = "Snap.Hutao.Core.Annotation.ConstructorGeneratedAttribute";
 
+    private static readonly DiagnosticDescriptor genericTypeNotSupportedDescriptor = new("SH102", "Generic type is not supported to generate .ctor", "Type [{0}] is not supported", "Quality", DiagnosticSeverity.Error, true);
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses =
@@ -59,12 +61,19 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 
     private static void GenerateConstructorImplementation(SourceProductionContext production, GeneratorSyntaxContext2 context2)
     {
+        if (context2.Symbol.IsGenericType)
+        {
+            production.ReportDiagnostic(Diagnostic.Create(genericTypeNotSupportedDescriptor, context2.Context.Node.GetLocation(), context2.Symbol));
+            return;
+        }
+
         AttributeData constructorInfo = context2.SingleAttribute(AttributeName);
 
         bool resolveHttpClient = constructorInfo.HasNamedArgumentWith<bool>("ResolveHttpClient", value => value);
+        bool callBaseConstructor = constructorInfo.HasNamedArgumentWith<bool>("CallBaseConstructor", value => value);
         string httpclient = resolveHttpClient ? ", System.Net.Http.HttpClient httpClient" : string.Empty;
 
-        FieldValueAssignmentOptions options = new(resolveHttpClient);
+        FieldValueAssignmentOptions options = new(resolveHttpClient, callBaseConstructor);
 
         StringBuilder sourceBuilder = new StringBuilder().Append($$"""
             namespace {{context2.Symbol.ContainingNamespace}};
@@ -73,6 +82,7 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
             partial class {{context2.Symbol.Name}}
             {
                 public {{context2.Symbol.Name}}(System.IServiceProvider serviceProvider{{httpclient}})
+                    {{(options.CallBaseConstructor? ": base(serviceProvider)" : string.Empty)}}
                 {
 
             """);
@@ -137,7 +147,7 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
             }
         }
 
-        foreach(INamedTypeSymbol interfaceSymbol in context2.Symbol.Interfaces)
+        foreach (INamedTypeSymbol interfaceSymbol in context2.Symbol.Interfaces)
         {
             if (interfaceSymbol.Name == "IRecipient")
             {
@@ -152,10 +162,12 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
     private readonly struct FieldValueAssignmentOptions
     {
         public readonly bool ResolveHttpClient;
+        public readonly bool CallBaseConstructor;
 
-        public FieldValueAssignmentOptions(bool resolveHttpClient)
+        public FieldValueAssignmentOptions(bool resolveHttpClient, bool callBaseConstructor)
         {
             ResolveHttpClient  = resolveHttpClient;
+            CallBaseConstructor = callBaseConstructor;
         }
     }
 }

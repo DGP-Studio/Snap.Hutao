@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
+using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Primitive;
+using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 
 namespace Snap.Hutao.Service.Achievement;
@@ -27,6 +30,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
             {
                 AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 entities = appDbContext.Achievements
+                    .AsNoTracking()
                     .Where(a => a.ArchiveId == archiveId)
                     .ToDictionary(a => (AchievementId)a.Id);
             }
@@ -39,12 +43,13 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         return entities;
     }
 
-    public async Task<int> GetFinishedAchievementCountByArchiveIdAsync(Guid archiveId)
+    public async ValueTask<int> GetFinishedAchievementCountByArchiveIdAsync(Guid archiveId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             return await appDbContext.Achievements
+                .AsNoTracking()
                 .Where(a => a.ArchiveId == archiveId)
                 .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
                 .CountAsync()
@@ -52,18 +57,75 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
     }
 
-    public async Task<List<EntityAchievement>> GetLatestFinishedAchievementListByArchiveIdAsync(Guid archiveId, int take)
+    public async ValueTask<List<EntityAchievement>> GetLatestFinishedAchievementListByArchiveIdAsync(Guid archiveId, int take)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             return await appDbContext.Achievements
+                .AsNoTracking()
                 .Where(a => a.ArchiveId == archiveId)
                 .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
                 .OrderByDescending(a => a.Time.ToString())
                 .Take(take)
                 .ToListAsync()
                 .ConfigureAwait(false);
+        }
+    }
+
+    public void OverwriteAchievement(EntityAchievement achievement)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // Delete exists one.
+            appDbContext.Achievements.ExecuteDeleteWhere(e => e.InnerId == achievement.InnerId);
+            if (achievement.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
+            {
+                appDbContext.Achievements.AddAndSave(achievement);
+            }
+        }
+    }
+
+    public ObservableCollection<AchievementArchive> GetAchievementArchiveCollection()
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return appDbContext.AchievementArchives.AsNoTracking().ToObservableCollection();
+        }
+    }
+
+    public async ValueTask DeleteAchievementArchiveAsync(AchievementArchive archive)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // It will cascade deleted the achievements.
+            await appDbContext.AchievementArchives.RemoveAndSaveAsync(archive).ConfigureAwait(false);
+        }
+    }
+
+    public List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return appDbContext.Achievements
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId)
+                .ToList();
+        }
+    }
+
+    public List<AchievementArchive> GetAchievementArchiveList()
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return appDbContext.AchievementArchives.AsNoTracking().ToList();
         }
     }
 }

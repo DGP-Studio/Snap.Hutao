@@ -19,7 +19,7 @@ internal sealed partial class SummaryFactory : ISummaryFactory
     private readonly IMetadataService metadataService;
 
     /// <inheritdoc/>
-    public async Task<Summary> CreateAsync(IEnumerable<ModelAvatarInfo> avatarInfos, CancellationToken token)
+    public async ValueTask<Summary> CreateAsync(IEnumerable<ModelAvatarInfo> avatarInfos, CancellationToken token)
     {
         SummaryMetadataContext metadataContext = new()
         {
@@ -37,9 +37,12 @@ internal sealed partial class SummaryFactory : ISummaryFactory
             Avatars = avatarInfos
                 .Where(a => !AvatarIds.IsPlayer(a.AvatarId))
                 .Select(a => new SummaryAvatarFactory(metadataContext, a).Create())
-                .OrderByDescending(a => (int)a.Quality)
-                .ThenByDescending(a => a.ActivatedConstellationCount)
+                .OrderByDescending(a => a.LevelNumber)
+                .ThenByDescending(a => a.Name)
                 .ToList(),
+
+                // .ThenByDescending(a => a.Quality)
+                // .ThenByDescending(a => a.ActivatedConstellationCount)
         };
     }
 }

@@ -13,6 +13,8 @@ namespace Snap.Hutao.Service.Cultivation;
 /// </summary>
 internal sealed partial class CultivationService
 {
+    private ObservableCollection<CultivateProject>? projects;
+
     /// <inheritdoc/>
     public CultivateProject? Current
     {

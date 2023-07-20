@@ -12,6 +12,19 @@ namespace Snap.Hutao.Extension;
 /// </summary>
 internal static partial class EnumerableExtension
 {
+    public static bool IsNullOrEmpty<TKey, TValue>([NotNullWhen(false)] this Dictionary<TKey, TValue>? source)
+        where TKey : notnull
+    {
+        if (source is { } dict)
+        {
+            // empty
+            return dict.Count <= 0;
+        }
+
+        // null
+        return true;
+    }
+
     /// <summary>
     /// 增加计数
     /// </summary>
