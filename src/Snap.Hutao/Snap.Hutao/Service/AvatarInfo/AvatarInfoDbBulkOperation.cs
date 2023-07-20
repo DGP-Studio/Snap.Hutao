@@ -217,7 +217,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
         // This means that there are duplicate items.
         if (distinctCount < dbInfos.Count)
         {
-            avatarInfoDbService.DeleteAvatarInfoByUid(uid);
+            avatarInfoDbService.DeleteAvatarInfoRangeByUid(uid);
             dbInfos = new();
         }
     }

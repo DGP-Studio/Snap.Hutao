@@ -50,44 +50,36 @@ internal sealed partial class CultivationService
             return ProjectAddResult.InvalidName;
         }
 
-        if (projects!.SingleOrDefault(a => a.Name == project.Name) != null)
+        ArgumentNullException.ThrowIfNull(projects);
+
+        if (projects.Any(a => a.Name == project.Name))
         {
             return ProjectAddResult.AlreadyExists;
         }
-        else
-        {
-            // Sync cache
-            await taskContext.SwitchToMainThreadAsync();
-            projects!.Add(project);
 
-            // Sync database
-            await taskContext.SwitchToBackgroundAsync();
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                await appDbContext.CultivateProjects.AddAndSaveAsync(project).ConfigureAwait(false);
-            }
+        // Sync cache
+        await taskContext.SwitchToMainThreadAsync();
+        projects.Add(project);
 
-            return ProjectAddResult.Added;
-        }
+        // Sync database
+        await taskContext.SwitchToBackgroundAsync();
+        await cultivationDbService.AddCultivateProjectAsync(project).ConfigureAwait(false);
+
+        return ProjectAddResult.Added;
     }
 
     /// <inheritdoc/>
     public async Task RemoveProjectAsync(CultivateProject project)
     {
+        ArgumentNullException.ThrowIfNull(projects);
+
         // Sync cache
         // Keep this on main thread.
         await taskContext.SwitchToMainThreadAsync();
-        projects!.Remove(project);
+        projects.Remove(project);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.CultivateProjects
-                .ExecuteDeleteWhereAsync(p => p.InnerId == project.InnerId)
-                .ConfigureAwait(false);
-        }
+        await cultivationDbService.DeleteCultivateProjectByIdAsync(project.InnerId).ConfigureAwait(false);
     }
 }

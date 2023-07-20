@@ -37,7 +37,7 @@ internal sealed partial class AvatarInfoDbService : IAvatarInfoDbService
         }
     }
 
-    public void DeleteAvatarInfoByUid(string uid)
+    public void DeleteAvatarInfoRangeByUid(string uid)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

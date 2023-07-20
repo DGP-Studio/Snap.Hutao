@@ -167,41 +167,27 @@ internal sealed partial class CultivationService : ICultivationService
         }
 
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
+
+        if (Current is null)
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            try
-            {
-                Current ??= appDbContext.CultivateProjects.SelectedOrDefault();
-            }
-            catch (InvalidOperationException ex)
-            {
-                ThrowHelper.UserdataCorrupted(SH.ServiceCultivationProjectCurrentUserdataCourrpted2, ex);
-            }
-
-            if (Current == null)
-            {
-                return false;
-            }
-
-            Guid projectId = Current!.InnerId;
-            CultivateEntry? entry = await appDbContext.CultivateEntries
-                .SingleOrDefaultAsync(e => e.ProjectId == projectId && e.Id == itemId)
-                .ConfigureAwait(false);
-
-            if (entry == null)
-            {
-                entry = CultivateEntry.From(projectId, type, itemId);
-                await appDbContext.CultivateEntries.AddAndSaveAsync(entry).ConfigureAwait(false);
-            }
-
-            Guid entryId = entry.InnerId;
-            await appDbContext.CultivateItems.ExecuteDeleteWhereAsync(i => i.EntryId == entryId).ConfigureAwait(false);
-
-            IEnumerable<CultivateItem> toAdd = items.Select(item => CultivateItem.From(entryId, item));
-            await appDbContext.CultivateItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
+            return false;
         }
+
+        CultivateEntry? entry = await cultivationDbService
+            .GetCultivateEntryByProjectIdAndItemIdAsync(Current.InnerId, itemId)
+            .ConfigureAwait(false);
+
+        if (entry == null)
+        {
+            entry = CultivateEntry.From(Current.InnerId, type, itemId);
+            await cultivationDbService.InsertCultivateEntryAsync(entry).ConfigureAwait(false);
+        }
+
+        Guid entryId = entry.InnerId;
+        await cultivationDbService.DeleteCultivateItemRangeByEntryIdAsync(entryId).ConfigureAwait(false);
+
+        IEnumerable<CultivateItem> toAdd = items.Select(item => CultivateItem.From(entryId, item));
+        await cultivationDbService.InsertCultivateItemRangeAsync(toAdd).ConfigureAwait(false);
 
         return true;
     }

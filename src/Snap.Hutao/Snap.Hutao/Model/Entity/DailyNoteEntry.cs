@@ -52,6 +52,8 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
     /// </summary>
     public DailyNote? DailyNote { get; set; }
 
+    // TODO: Add RefreshTime
+
     /// <summary>
     /// 树脂提醒阈值
     /// </summary>

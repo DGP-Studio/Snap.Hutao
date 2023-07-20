@@ -93,4 +93,64 @@ internal sealed partial class CultivationDbService : ICultivationDbService
             appDbContext.CultivateItems.UpdateAndSave(item);
         }
     }
+
+    public async ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.CultivateEntries
+                .SingleOrDefaultAsync(e => e.ProjectId == projectId && e.Id == itemId)
+                .ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask InsertCultivateEntryAsync(CultivateEntry entry)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.CultivateEntries.AddAndSaveAsync(entry).ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask DeleteCultivateItemRangeByEntryIdAsync(Guid entryId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.CultivateItems
+                .ExecuteDeleteWhereAsync(i => i.EntryId == entryId)
+                .ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask InsertCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.CultivateItems.AddRangeAndSaveAsync(toAdd).ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask AddCultivateProjectAsync(CultivateProject project)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.CultivateProjects.AddAndSaveAsync(project).ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask DeleteCultivateProjectByIdAsync(Guid projectId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.CultivateProjects
+                .ExecuteDeleteWhereAsync(p => p.InnerId == projectId)
+                .ConfigureAwait(false);
+        }
+    }
 }

@@ -7,7 +7,13 @@ namespace Snap.Hutao.Service.Cultivation;
 
 internal interface ICultivationDbService
 {
+    ValueTask AddCultivateProjectAsync(CultivateProject project);
+
     ValueTask DeleteCultivateEntryByIdAsync(Guid entryId);
+
+    ValueTask DeleteCultivateItemRangeByEntryIdAsync(Guid entryId);
+    ValueTask DeleteCultivateProjectByIdAsync(Guid projectId);
+    ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId);
 
     ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId);
 
@@ -16,6 +22,10 @@ internal interface ICultivationDbService
     List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId);
 
     ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId);
+
+    ValueTask InsertCultivateEntryAsync(CultivateEntry entry);
+
+    ValueTask InsertCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd);
 
     void UpdateCultivateItem(CultivateItem item);
 

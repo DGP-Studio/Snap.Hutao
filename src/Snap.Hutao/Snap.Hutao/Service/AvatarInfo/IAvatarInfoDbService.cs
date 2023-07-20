@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.AvatarInfo;
 
 internal interface IAvatarInfoDbService
 {
-    void DeleteAvatarInfoByUid(string uid);
+    void DeleteAvatarInfoRangeByUid(string uid);
 
     List<EnkaAvatarInfo> GetAvatarInfoInfoListByUid(string uid);
 
