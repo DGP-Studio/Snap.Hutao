@@ -42,13 +42,6 @@ internal interface IAchievementService
     List<BindingAchievement> GetAchievements(EntityArchive archive, List<MetadataAchievement> metadata);
 
     /// <summary>
-    /// 异步获取成就统计列表
-    /// </summary>
-    /// <param name="achievementMap">成就映射</param>
-    /// <returns>成就统计列表</returns>
-    Task<List<ViewModel.Achievement.AchievementStatistics>> GetAchievementStatisticsAsync(Dictionary<AchievementId, MetadataAchievement> achievementMap);
-
-    /// <summary>
     /// 异步导入UIAF数据
     /// </summary>
     /// <param name="archive">用户</param>

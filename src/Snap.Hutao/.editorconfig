@@ -169,6 +169,8 @@ csharp_style_prefer_utf8_string_literals = true:suggestion
 
 # SA1600: Elements should be documented
 dotnet_diagnostic.SA1600.severity = none
+dotnet_diagnostic.SA1601.severity = silent
+dotnet_diagnostic.SA1602.severity = silent
 
 [*.vb]
 #### 命名样式 ####

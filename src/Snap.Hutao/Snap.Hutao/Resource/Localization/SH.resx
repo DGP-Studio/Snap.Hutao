@@ -2072,4 +2072,7 @@
   <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
     <value>未知</value>
   </data>
+  <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
+    <value>数据库已损坏：{0}</value>
+  </data>
 </root>

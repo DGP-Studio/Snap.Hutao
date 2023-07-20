@@ -169,6 +169,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 数据库已损坏：{0} 的本地化字符串。
+        /// </summary>
+        internal static string CoreExceptionServiceDatabaseCorruptedMessage {
+            get {
+                return ResourceManager.GetString("CoreExceptionServiceDatabaseCorruptedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 用户数据已损坏：{0} 的本地化字符串。
         /// </summary>
         internal static string CoreExceptionServiceUserdataCorruptedMessage {

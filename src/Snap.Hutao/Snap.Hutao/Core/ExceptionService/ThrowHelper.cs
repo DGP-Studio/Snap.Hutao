@@ -82,6 +82,13 @@ internal static class ThrowHelper
         throw new UserdataCorruptedException(message, inner);
     }
 
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static DatabaseCorruptedException DatabaseCorrupted(string message, Exception inner)
+    {
+        throw new DatabaseCorruptedException(message, inner);
+    }
+
     /// <summary>
     /// 运行环境异常
     /// </summary>

@@ -43,7 +43,7 @@ internal sealed class AchievementViewModelSlim : Abstraction.ViewModelSlim<View.
                     .GetIdToAchievementMapAsync()
                     .ConfigureAwait(false);
                 List<AchievementStatistics> list = await scope.ServiceProvider
-                    .GetRequiredService<IAchievementService>()
+                    .GetRequiredService<IAchievementStatisticsService>()
                     .GetAchievementStatisticsAsync(achievementMap)
                     .ConfigureAwait(false);
 

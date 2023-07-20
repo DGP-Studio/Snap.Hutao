@@ -13,6 +13,8 @@ namespace Snap.Hutao.Service.Achievement;
 /// </summary>
 internal sealed partial class AchievementService
 {
+    private ObservableCollection<AchievementArchive>? archiveCollection;
+
     /// <inheritdoc/>
     public AchievementArchive? CurrentArchive
     {

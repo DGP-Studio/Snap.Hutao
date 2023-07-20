@@ -1,15 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Achievement;
-using System.Collections.ObjectModel;
 using EntityAchievement = Snap.Hutao.Model.Entity.Achievement;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
 
@@ -25,74 +22,21 @@ internal sealed partial class AchievementService : IAchievementService
 {
     private readonly ScopedDbCurrent<AchievementArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
     private readonly AchievementDbBulkOperation achievementDbBulkOperation;
+    private readonly IAchievementDbService achievementDbService;
     private readonly ILogger<AchievementService> logger;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
-    private ObservableCollection<AchievementArchive>? archiveCollection;
-
     /// <inheritdoc/>
     public List<AchievementView> GetAchievements(AchievementArchive archive, List<MetadataAchievement> metadata)
     {
-        Dictionary<AchievementId, EntityAchievement> entityMap;
-        try
-        {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                entityMap = appDbContext.Achievements
-                    .Where(a => a.ArchiveId == archive.InnerId)
-                    .ToDictionary(a => (AchievementId)a.Id);
-            }
-        }
-        catch (ArgumentException ex)
-        {
-            throw ThrowHelper.UserdataCorrupted(SH.ServiceAchievementUserdataCorruptedInnerIdNotUnique, ex);
-        }
+        Dictionary<AchievementId, EntityAchievement> entities = achievementDbService.GetAchievementMapByArchiveId(archive.InnerId);
 
         return metadata.SelectList(meta =>
         {
-            EntityAchievement entity = entityMap.GetValueOrDefault(meta.Id) ?? EntityAchievement.From(archive.InnerId, meta.Id);
+            EntityAchievement entity = entities.GetValueOrDefault(meta.Id) ?? EntityAchievement.From(archive.InnerId, meta.Id);
             return new AchievementView(entity, meta);
         });
-    }
-
-    /// <inheritdoc/>
-    public async Task<List<AchievementStatistics>> GetAchievementStatisticsAsync(Dictionary<AchievementId, MetadataAchievement> achievementMap)
-    {
-        await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            List<AchievementStatistics> results = new();
-            foreach (AchievementArchive archive in appDbContext.AchievementArchives)
-            {
-                int finishedCount = await appDbContext.Achievements
-                    .Where(a => a.ArchiveId == archive.InnerId)
-                    .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
-                    .CountAsync()
-                    .ConfigureAwait(false);
-                int totalCount = achievementMap.Count;
-
-                List<EntityAchievement> achievements = await appDbContext.Achievements
-                    .Where(a => a.ArchiveId == archive.InnerId)
-                    .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
-                    .OrderByDescending(a => a.Time.ToString())
-                    .Take(2)
-                    .ToListAsync()
-                    .ConfigureAwait(false);
-
-                results.Add(new()
-                {
-                    DisplayName = archive.Name,
-                    FinishDescription = AchievementStatistics.Format(finishedCount, totalCount, out _),
-                    Achievements = achievements.SelectList(entity => new AchievementView(entity, achievementMap[entity.Id])),
-                });
-            }
-
-            return results;
-        }
     }
 
     /// <inheritdoc/>
