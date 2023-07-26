@@ -48,7 +48,7 @@
                             <TextBlock HorizontalAlignment="Center" Text="{Binding Uid}"/>
                             <Border Grid.Row="1" Style="{StaticResource BorderCardStyle}">
                                 <StackPanel VerticalAlignment="Center">
-                                    <Image Width="64" Source="ms-appx:///Resource/Icon/UI_ItemIcon_210_256.png"/>
+                                    <Image Width="64" Source="ms-appx:///Resource/Icon/UI_ItemIcon_210.png"/>
                                     <TextBlock
                                         Grid.Column="1"
                                         HorizontalAlignment="Center"

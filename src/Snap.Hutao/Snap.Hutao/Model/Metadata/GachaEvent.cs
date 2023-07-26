@@ -54,10 +54,10 @@ internal sealed class GachaEvent
     /// <summary>
     /// 五星列表
     /// </summary>
-    public List<uint> UpOrangeList { get; set; } = default!;
+    public HashSet<uint> UpOrangeList { get; set; } = default!;
 
     /// <summary>
     /// 四星列表
     /// </summary>
-    public List<uint> UpPurpleList { get; set; } = default!;
+    public HashSet<uint> UpPurpleList { get; set; } = default!;
 }

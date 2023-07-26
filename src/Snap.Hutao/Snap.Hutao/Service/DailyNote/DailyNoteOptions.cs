@@ -15,6 +15,8 @@ namespace Snap.Hutao.Service.DailyNote;
 [Injection(InjectAs.Singleton)]
 internal sealed class DailyNoteOptions : DbStoreOptions
 {
+    private const int OneMinute = 60;
+
     private readonly IServiceProvider serviceProvider;
     private readonly IScheduleTaskInterop scheduleTaskInterop;
 
@@ -38,11 +40,11 @@ internal sealed class DailyNoteOptions : DbStoreOptions
     /// </summary>
     public List<NameValue<int>> RefreshTimes { get; } = new()
     {
-        new(SH.ViewModelDailyNoteRefreshTime4, 240),
-        new(SH.ViewModelDailyNoteRefreshTime8, 480),
-        new(SH.ViewModelDailyNoteRefreshTime30, 1800),
-        new(SH.ViewModelDailyNoteRefreshTime40, 2400),
-        new(SH.ViewModelDailyNoteRefreshTime60, 3600),
+        new(SH.ViewModelDailyNoteRefreshTime4, OneMinute * 4),
+        new(SH.ViewModelDailyNoteRefreshTime8, OneMinute * 8),
+        new(SH.ViewModelDailyNoteRefreshTime30, OneMinute * 30),
+        new(SH.ViewModelDailyNoteRefreshTime40, OneMinute * 40),
+        new(SH.ViewModelDailyNoteRefreshTime60, OneMinute * 60),
     };
 
     /// <summary>

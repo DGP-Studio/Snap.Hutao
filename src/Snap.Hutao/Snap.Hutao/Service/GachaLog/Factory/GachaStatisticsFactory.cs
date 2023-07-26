@@ -22,11 +22,13 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
+    private readonly ITaskContext taskContext;
     private readonly AppOptions options;
 
     /// <inheritdoc/>
     public async Task<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
     {
+        await taskContext.SwitchToBackgroundAsync();
         List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
         List<HistoryWishBuilder> historyWishBuilders = gachaEvents.SelectList(g => new HistoryWishBuilder(g, context));
 
@@ -44,23 +46,18 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             serviceProvider,
             SH.ServiceGachaLogFactoryPermanentWishName,
             TypedWishSummaryBuilder.IsStandardWish,
-            Web.Hutao.GachaLog.GachaDistributionType.Standard,
-            90,
-            10);
+            Web.Hutao.GachaLog.GachaDistributionType.Standard);
         TypedWishSummaryBuilder avatarWishBuilder = new(
             serviceProvider,
             SH.ServiceGachaLogFactoryAvatarWishName,
             TypedWishSummaryBuilder.IsAvatarEventWish,
-            Web.Hutao.GachaLog.GachaDistributionType.AvatarEvent,
-            90,
-            10);
+            Web.Hutao.GachaLog.GachaDistributionType.AvatarEvent);
         TypedWishSummaryBuilder weaponWishBuilder = new(
             serviceProvider,
             SH.ServiceGachaLogFactoryWeaponWishName,
             TypedWishSummaryBuilder.IsWeaponEventWish,
             Web.Hutao.GachaLog.GachaDistributionType.WeaponEvent,
-            80,
-            10);
+            80);
 
         Dictionary<Avatar, int> orangeAvatarCounter = new();
         Dictionary<Avatar, int> purpleAvatarCounter = new();
@@ -77,8 +74,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                 .Where(w => w.ConfigType == item.GachaType)
                 .SingleOrDefault(w => w.From <= item.Time && w.To >= item.Time);
 
-            // It's an avatar
-            switch (item.ItemId.Place())
+            switch (item.ItemId.StringLength())
             {
                 case 8U:
                     {
@@ -135,7 +131,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
                     }
 
                 default:
-                    // ItemId place not correct.
+                    // ItemId string length not correct.
                     ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaStatisticsFactoryItemIdInvalid, item.ItemId), null!);
                     break;
             }

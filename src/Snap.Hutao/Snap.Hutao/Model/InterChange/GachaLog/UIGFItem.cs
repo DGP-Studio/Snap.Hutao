@@ -40,7 +40,7 @@ internal sealed class UIGFItem : GachaLogItem, IMappingFrom<UIGFItem, GachaItem,
 
     private static string GetItemTypeStringByItemId(uint itemId)
     {
-        return itemId.Place() switch
+        return itemId.StringLength() switch
         {
             8U => SH.ModelInterchangeUIGFItemTypeAvatar,
             5U => SH.ModelInterchangeUIGFItemTypeWeapon,

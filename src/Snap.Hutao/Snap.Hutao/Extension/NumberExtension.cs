@@ -17,7 +17,7 @@ internal static class NumberExtension
     /// <param name="x">给定的整数</param>
     /// <returns>位数</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint Place(in this uint x)
+    public static uint StringLength(in this uint x)
     {
         // Benchmarked and compared as a most optimized solution
         return (uint)(MathF.Log10(x) + 1);

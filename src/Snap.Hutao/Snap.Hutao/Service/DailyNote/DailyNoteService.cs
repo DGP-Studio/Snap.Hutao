@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -26,6 +27,7 @@ namespace Snap.Hutao.Service.DailyNote;
 internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IDailyNoteDbService dailyNoteDbService;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
 
@@ -42,30 +44,27 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     public async Task AddDailyNoteAsync(UserAndUid role)
     {
         string roleUid = role.Uid.Value;
-        using (IServiceScope scope = serviceProvider.CreateScope())
+
+        if (!dailyNoteDbService.ContainsUid(roleUid))
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            DailyNoteEntry newEntry = DailyNoteEntry.From(role);
 
-            if (!appDbContext.DailyNotes.Any(n => n.Uid == roleUid))
+            Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
+                .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+                .Create(PlayerUid.IsOversea(roleUid))
+                .GetDailyNoteAsync(role)
+                .ConfigureAwait(false);
+
+            if (dailyNoteResponse.IsOk())
             {
-                DailyNoteEntry newEntry = DailyNoteEntry.From(role);
-
-                Web.Response.Response<WebDailyNote> dailyNoteResponse = await scope.ServiceProvider
-                    .PickRequiredService<IGameRecordClient>(PlayerUid.IsOversea(roleUid))
-                    .GetDailyNoteAsync(role)
-                    .ConfigureAwait(false);
-
-                if (dailyNoteResponse.IsOk())
-                {
-                    newEntry.UpdateDailyNote(dailyNoteResponse.Data);
-                }
-
-                newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
-                await appDbContext.DailyNotes.AddAndSaveAsync(newEntry).ConfigureAwait(false);
-
-                await taskContext.SwitchToMainThreadAsync();
-                entries?.Add(newEntry);
+                newEntry.UpdateDailyNote(dailyNoteResponse.Data);
             }
+
+            newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
+            await dailyNoteDbService.AddDailyNoteEntryAsync(newEntry).ConfigureAwait(false);
+
+            await taskContext.SwitchToMainThreadAsync();
+            entries?.Add(newEntry);
         }
     }
 
@@ -76,13 +75,9 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
         {
             await RefreshDailyNotesAsync().ConfigureAwait(false);
 
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                List<DailyNoteEntry> entryList = appDbContext.DailyNotes.ToList();
-                entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
-                entries = new(entryList);
-            }
+            List<DailyNoteEntry> entryList = dailyNoteDbService.GetDailyNoteEntryList();
+            entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
+            entries = new(entryList);
         }
 
         return entries;
@@ -91,31 +86,26 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     /// <inheritdoc/>
     public async ValueTask RefreshDailyNotesAsync()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        foreach (DailyNoteEntry entry in dailyNoteDbService.GetDailyNoteEntryIncludeUserList())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
+                .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+                .Create(PlayerUid.IsOversea(entry.Uid))
+                .GetDailyNoteAsync(new(entry.User, entry.Uid))
+                .ConfigureAwait(false);
 
-            foreach (DailyNoteEntry entry in appDbContext.DailyNotes.Include(n => n.User))
+            if (dailyNoteResponse.IsOk())
             {
-                Web.Response.Response<WebDailyNote> dailyNoteResponse = await scope.ServiceProvider
-                    .PickRequiredService<IGameRecordClient>(PlayerUid.IsOversea(entry.Uid))
-                    .GetDailyNoteAsync(new(entry.User, entry.Uid))
-                    .ConfigureAwait(false);
+                WebDailyNote dailyNote = dailyNoteResponse.Data!;
 
-                if (dailyNoteResponse.IsOk())
-                {
-                    WebDailyNote dailyNote = dailyNoteResponse.Data!;
+                // cache
+                await taskContext.SwitchToMainThreadAsync();
+                entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
 
-                    // database
-                    entry.UpdateDailyNote(dailyNote);
-
-                    // cache
-                    await taskContext.SwitchToMainThreadAsync();
-                    entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
-
-                    await new DailyNoteNotifier(serviceProvider, entry).NotifyAsync().ConfigureAwait(false);
-                    await appDbContext.DailyNotes.UpdateAndSaveAsync(entry).ConfigureAwait(false);
-                }
+                // database
+                await new DailyNoteNotificationOperation(serviceProvider, entry).SendAsync().ConfigureAwait(false);
+                entry.DailyNote = dailyNote;
+                await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
             }
         }
     }
@@ -124,13 +114,10 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     public async Task RemoveDailyNoteAsync(DailyNoteEntry entry)
     {
         await taskContext.SwitchToMainThreadAsync();
-        entries!.Remove(entry);
+        ArgumentNullException.ThrowIfNull(entries);
+        entries.Remove(entry);
 
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.DailyNotes.ExecuteDeleteWhereAsync(d => d.InnerId == entry.InnerId).ConfigureAwait(false);
-        }
+        await dailyNoteDbService.DeleteDailyNoteEntryByIdAsync(entry.InnerId).ConfigureAwait(false);
     }
 }

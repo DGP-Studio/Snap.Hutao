@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
@@ -99,17 +100,19 @@ internal sealed partial class HutaoCloudService : IHutaoCloudService
     public async Task<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default)
     {
         IMetadataService metadataService = serviceProvider.GetRequiredService<IMetadataService>();
-        if (await metadataService.InitializeAsync().ConfigureAwait(false))
-        {
-            Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
-            Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
-            List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync(token).ConfigureAwait(false);
 
-            Response<GachaEventStatistics> response = await homaGachaLogClient.GetGachaEventStatisticsAsync(token).ConfigureAwait(false);
-            if (response.IsOk())
+        Response<GachaEventStatistics> response = await homaGachaLogClient.GetGachaEventStatisticsAsync(token).ConfigureAwait(false);
+        if (response.IsOk())
+        {
+            if (await metadataService.InitializeAsync().ConfigureAwait(false))
             {
+                Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);
+                Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync(token).ConfigureAwait(false);
+                List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync(token).ConfigureAwait(false);
+                HutaoStatisticsFactoryMetadataContext context = new(idAvatarMap, idWeaponMap, gachaEvents);
+
                 GachaEventStatistics raw = response.Data;
-                Factory.HutaoStatisticsFactory factory = new(idAvatarMap, idWeaponMap, gachaEvents);
+                HutaoStatisticsFactory factory = new(context);
                 HutaoStatistics statistics = factory.Create(raw);
                 return new(true, statistics);
             }

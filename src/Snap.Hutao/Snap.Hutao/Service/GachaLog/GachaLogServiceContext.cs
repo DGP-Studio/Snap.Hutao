@@ -106,7 +106,7 @@ internal readonly struct GachaLogServiceContext
     /// <returns>名称星级</returns>
     public INameQuality GetNameQualityByItemId(uint id)
     {
-        uint place = id.Place();
+        uint place = id.StringLength();
         return place switch
         {
             8U => IdAvatarMap[id],

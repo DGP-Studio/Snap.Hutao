@@ -12,7 +12,9 @@ internal interface ICultivationDbService
     ValueTask DeleteCultivateEntryByIdAsync(Guid entryId);
 
     ValueTask DeleteCultivateItemRangeByEntryIdAsync(Guid entryId);
+
     ValueTask DeleteCultivateProjectByIdAsync(Guid projectId);
+
     ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId);
 
     ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId);

@@ -99,7 +99,6 @@
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_204.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_210.png" />
-    <None Remove="Resource\Icon\UI_ItemIcon_210_256.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_220021.png" />
     <None Remove="Resource\Icon\UI_MarkCustom_TagMonster.png" />
     <None Remove="Resource\Icon\UI_MarkQuest_Events_Proce.png" />
@@ -230,7 +229,6 @@
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_204.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
-    <Content Include="Resource\Icon\UI_ItemIcon_210_256.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_220021.png" />
     <Content Include="Resource\Icon\UI_MarkCustom_TagMonster.png" />
     <Content Include="Resource\Icon\UI_MarkQuest_Events_Proce.png" />

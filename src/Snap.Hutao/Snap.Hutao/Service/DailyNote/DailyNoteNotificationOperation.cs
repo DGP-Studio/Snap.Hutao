@@ -18,7 +18,7 @@ namespace Snap.Hutao.Service.DailyNote;
 /// 实时便笺通知器
 /// </summary>
 [HighQuality]
-internal sealed class DailyNoteNotifier
+internal sealed class DailyNoteNotificationOperation
 {
     private const string ToastHeaderIdArgument = "DAILYNOTE";
     private const string ToastAttributionUnknown = "Unknown";
@@ -31,7 +31,7 @@ internal sealed class DailyNoteNotifier
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="entry">实时便笺入口</param>
-    public DailyNoteNotifier(IServiceProvider serviceProvider, DailyNoteEntry entry)
+    public DailyNoteNotificationOperation(IServiceProvider serviceProvider, DailyNoteEntry entry)
     {
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         this.serviceProvider = serviceProvider;
@@ -42,7 +42,7 @@ internal sealed class DailyNoteNotifier
     /// 异步通知
     /// </summary>
     /// <returns>任务</returns>
-    public async ValueTask NotifyAsync()
+    public async ValueTask SendAsync()
     {
         if (entry.DailyNote == null)
         {
@@ -131,6 +131,9 @@ internal sealed class DailyNoteNotifier
 
     private static void CheckNotifySuppressed(DailyNoteEntry entry, List<NotifyInfo> notifyInfos)
     {
+        // https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=uwp#adding-images
+        // Image limitation.
+
         // NotifySuppressed judge
         if (entry.DailyNote!.CurrentResin >= entry.ResinNotifyThreshold)
         {
@@ -138,7 +141,7 @@ internal sealed class DailyNoteNotifier
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierResin,
-                    "ms-appx:///Resource/Icon/UI_ItemIcon_210_256.png",
+                    Web.Hoyolab.OssImages.UIItemIcon210,
                     $"{entry.DailyNote.CurrentResin}",
                     string.Format(SH.ServiceDailyNoteNotifierResinCurrent, entry.DailyNote.CurrentResin)));
                 entry.ResinNotifySuppressed = true;
@@ -155,7 +158,7 @@ internal sealed class DailyNoteNotifier
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierHomeCoin,
-                    "ms-appx:///Resource/Icon/UI_ItemIcon_204.png",
+                    Web.Hoyolab.OssImages.UIItemIcon204,
                     $"{entry.DailyNote.CurrentHomeCoin}",
                     string.Format(SH.ServiceDailyNoteNotifierHomeCoinCurrent, entry.DailyNote.CurrentHomeCoin)));
                 entry.HomeCoinNotifySuppressed = true;
@@ -172,7 +175,7 @@ internal sealed class DailyNoteNotifier
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierDailyTask,
-                    "ms-appx:///Resource/Icon/UI_MarkQuest_Events_Proce.png",
+                    Web.Hoyolab.OssImages.UIMarkQuestEventsProce,
                     SH.ServiceDailyNoteNotifierDailyTaskHint,
                     entry.DailyNote.ExtraTaskRewardDescription));
                 entry.DailyTaskNotifySuppressed = true;
@@ -189,7 +192,7 @@ internal sealed class DailyNoteNotifier
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierTransformer,
-                    "ms-appx:///Resource/Icon/UI_ItemIcon_220021.png",
+                    Web.Hoyolab.OssImages.UIItemIcon220021,
                     SH.ServiceDailyNoteNotifierTransformerAdaptiveHint,
                     SH.ServiceDailyNoteNotifierTransformerHint));
                 entry.TransformerNotifySuppressed = true;
@@ -206,7 +209,7 @@ internal sealed class DailyNoteNotifier
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierExpedition,
-                    Web.HutaoEndpoints.UIAvatarIconSideNone.ToString(), // TODO: embed this
+                    Web.Hoyolab.OssImages.UIIconInteeExplore1,
                     SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint,
                     SH.ServiceDailyNoteNotifierExpeditionHint));
                 entry.ExpeditionNotifySuppressed = true;
@@ -220,17 +223,8 @@ internal sealed class DailyNoteNotifier
 
     private bool ShouldSuppressPopup(DailyNoteOptions options)
     {
-        bool isGameRunning = serviceProvider.GetRequiredService<IGameService>().IsGameRunning();
-
-        if (options.IsSilentWhenPlayingGame && isGameRunning)
-        {
-            // Prevent notify when we are in game && silent mode.
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        // Prevent notify when we are in game && silent mode.
+        return options.IsSilentWhenPlayingGame && serviceProvider.GetRequiredService<IGameService>().IsGameRunning();
     }
 
     private readonly struct NotifyInfo

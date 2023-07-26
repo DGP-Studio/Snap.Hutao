@@ -1,12 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Abstraction;
-using Snap.Hutao.Model.Metadata.Avatar;
-using Snap.Hutao.Model.Metadata.Weapon;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
@@ -16,21 +14,19 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 
 internal sealed class HutaoStatisticsFactory
 {
-    private readonly Dictionary<AvatarId, Avatar> idAvatarMap;
-    private readonly Dictionary<WeaponId, Weapon> idWeaponMap;
+    private readonly HutaoStatisticsFactoryMetadataContext context;
     private readonly GachaEvent avatarEvent;
     private readonly GachaEvent avatarEvent2;
     private readonly GachaEvent weaponEvent;
 
-    public HutaoStatisticsFactory(Dictionary<AvatarId, Avatar> idAvatarMap, Dictionary<WeaponId, Weapon> idWeaponMap, List<GachaEvent> gachaEvents)
+    public HutaoStatisticsFactory(in HutaoStatisticsFactoryMetadataContext context)
     {
-        this.idAvatarMap = idAvatarMap;
-        this.idWeaponMap = idWeaponMap;
+        this.context = context;
 
         DateTimeOffset now = DateTimeOffset.Now;
-        avatarEvent = gachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish);
-        avatarEvent2 = gachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish2);
-        weaponEvent = gachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.WeaponEventWish);
+        avatarEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish);
+        avatarEvent2 = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.AvatarEventWish2);
+        weaponEvent = context.GachaEvents.Single(g => g.From < now && g.To > now && g.Type == GachaConfigType.WeaponEventWish);
     }
 
     public HutaoStatistics Create(GachaEventStatistics raw)
@@ -52,11 +48,11 @@ internal sealed class HutaoStatisticsFactory
 
         foreach (ref readonly ItemCount item in CollectionsMarshal.AsSpan(items))
         {
-            IStatisticsItemSource source = item.Item.Place() switch
+            IStatisticsItemSource source = item.Item.StringLength() switch
             {
-                8U => idAvatarMap[item.Item],
-                5U => idWeaponMap[item.Item],
-                _ => throw Must.NeverHappen($"不支持的物品 Id：{item.Item}"),
+                8U => context.IdAvatarMap[item.Item],
+                5U => context.IdWeaponMap[item.Item],
+                _ => throw ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaStatisticsFactoryItemIdInvalid, item.Item), null!),
             };
             StatisticsItem statisticsItem = source.ToStatisticsItem(unchecked((int)item.Count));
 
@@ -73,6 +69,7 @@ internal sealed class HutaoStatisticsFactory
                     QualityType.QUALITY_BLUE => blueItems,
                     _ => throw Must.NeverHappen("意外的物品等级"),
                 };
+
                 list.Add(statisticsItem);
             }
         }

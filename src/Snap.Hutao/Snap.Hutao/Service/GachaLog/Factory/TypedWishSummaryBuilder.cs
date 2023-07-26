@@ -68,8 +68,8 @@ internal sealed class TypedWishSummaryBuilder
         string name,
         Func<GachaConfigType, bool> typeEvaluator,
         Web.Hutao.GachaLog.GachaDistributionType distributionType,
-        int guaranteeOrangeThreshold,
-        int guaranteePurpleThreshold)
+        int guaranteeOrangeThreshold = 90,
+        int guaranteePurpleThreshold = 10)
     {
         this.serviceProvider = serviceProvider;
         this.name = name;
@@ -171,6 +171,7 @@ internal sealed class TypedWishSummaryBuilder
             OrangeList = summaryItems,
         };
 
+        // TODO: barrier all predictions.
         new PullPrediction(serviceProvider, summary, distributionType).PredictAsync().SafeForget();
 
         return summary;

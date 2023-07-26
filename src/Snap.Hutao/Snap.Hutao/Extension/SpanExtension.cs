@@ -51,4 +51,27 @@ internal static class SpanExtension
         right = default;
         return false;
     }
+
+    /// <summary>
+    /// 求平均值
+    /// </summary>
+    /// <param name="span">跨度</param>
+    /// <returns>平均值</returns>
+    public static byte Average(this in ReadOnlySpan<byte> span)
+    {
+        if (span.Length == 0)
+        {
+            return 0;
+        }
+
+        int sum = 0;
+        int count = 0;
+        foreach (ref readonly byte b in span)
+        {
+            sum += b;
+            count++;
+        }
+
+        return unchecked((byte)(sum / count));
+    }
 }

@@ -15,29 +15,6 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 internal static class GachaStatisticsExtension
 {
     /// <summary>
-    /// 求平均值
-    /// </summary>
-    /// <param name="span">跨度</param>
-    /// <returns>平均值</returns>
-    public static byte Average(this in Span<byte> span)
-    {
-        int sum = 0;
-        int count = 0;
-        foreach (ref readonly byte b in span)
-        {
-            sum += b;
-            count++;
-        }
-
-        if (count == 0)
-        {
-            return 0;
-        }
-
-        return unchecked((byte)(sum / count));
-    }
-
-    /// <summary>
     /// 完成添加
     /// </summary>
     /// <param name="summaryItems">简述物品列表</param>
@@ -82,7 +59,7 @@ internal static class GachaStatisticsExtension
     [SuppressMessage("", "IDE0057")]
     private static Color GetColorByName(string name)
     {
-        Span<byte> codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
+        ReadOnlySpan<byte> codes = MD5.HashData(Encoding.UTF8.GetBytes(name));
         return Color.FromArgb(255, codes.Slice(0, 5).Average(), codes.Slice(5, 5).Average(), codes.Slice(10, 5).Average());
     }
 }
