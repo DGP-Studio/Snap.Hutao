@@ -26,7 +26,6 @@ internal sealed class RuntimeOptions : IOptions<RuntimeOptions>
     private readonly string webView2Version = SH.CoreWebView2HelperVersionUndetected;
 
     private bool? isElevated;
-    private bool? isWindows11;
 
     /// <summary>
     /// 构造一个新的胡桃选项
@@ -97,12 +96,6 @@ internal sealed class RuntimeOptions : IOptions<RuntimeOptions>
     /// 是否为提升的权限
     /// </summary>
     public bool IsElevated { get => isElevated ??= GetElevated(); }
-
-    /// <summary>
-    /// 系统版本是否大于等于 Windows 11
-    /// %programfiles(x86)%\Windows Kits\10\Platforms\UAP\10.0.22000.0\PreviousPlatforms.xml
-    /// </summary>
-    public bool Windows11OrHigher { get => isWindows11 ?? ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 14); }
 
     /// <inheritdoc/>
     public RuntimeOptions Value { get => this; }

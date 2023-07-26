@@ -17,7 +17,6 @@ internal sealed partial class PickerFactory : IPickerFactory
     private const string AnyType = "*";
 
     private readonly MainWindow mainWindow;
-    private readonly RuntimeOptions runtimeOptions;
 
     /// <inheritdoc/>
     public FileOpenPicker GetFileOpenPicker(PickerLocationId location, string commitButton, params string[] fileTypes)
@@ -33,7 +32,7 @@ internal sealed partial class PickerFactory : IPickerFactory
         }
 
         // below Windows 11
-        if (!runtimeOptions.Windows11OrHigher)
+        if (!UniversalApiContract.IsPresent(WindowsVersion.Windows11))
         {
             // https://github.com/microsoft/WindowsAppSDK/issues/2931
             picker.FileTypeFilter.Add(AnyType);
@@ -65,7 +64,7 @@ internal sealed partial class PickerFactory : IPickerFactory
         FolderPicker picker = GetInitializedPicker<FolderPicker>();
 
         // below Windows 11
-        if (!runtimeOptions.Windows11OrHigher)
+        if (!UniversalApiContract.IsPresent(WindowsVersion.Windows11))
         {
             // https://github.com/microsoft/WindowsAppSDK/issues/2931
             picker.FileTypeFilter.Add(AnyType);

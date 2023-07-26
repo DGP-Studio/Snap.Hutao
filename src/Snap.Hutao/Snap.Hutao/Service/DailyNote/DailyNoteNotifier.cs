@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.Notifications;
+using Snap.Hutao.Core;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
@@ -18,6 +20,8 @@ namespace Snap.Hutao.Service.DailyNote;
 [HighQuality]
 internal sealed class DailyNoteNotifier
 {
+    private const string ToastHeaderIdArgument = "DAILYNOTE";
+    private const string ToastAttributionUnknown = "Unknown";
     private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
     private readonly DailyNoteEntry entry;
@@ -68,16 +72,16 @@ internal sealed class DailyNoteNotifier
             if (rolesResponse.IsOk())
             {
                 List<UserGameRole> roles = rolesResponse.Data.List;
-                attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? "Unknown";
+                attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
             }
 
             ToastContentBuilder builder = new ToastContentBuilder()
-                .AddHeader("DAILYNOTE", SH.ServiceDailyNoteNotifierTitle, "DAILYNOTE")
+                .AddHeader(ToastHeaderIdArgument, SH.ServiceDailyNoteNotifierTitle, ToastHeaderIdArgument)
                 .AddAttributionText(attribution)
                 .AddButton(new ToastButton()
                     .SetContent(SH.ServiceDailyNoteNotifierActionLaunchGameButton)
-                    .AddArgument(Core.LifeCycle.Activation.Action, Core.LifeCycle.Activation.LaunchGame)
-                    .AddArgument(Core.LifeCycle.Activation.Uid, entry.Uid))
+                    .AddArgument(Activation.Action, Activation.LaunchGame)
+                    .AddArgument(Activation.Uid, entry.Uid))
                 .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
 
             if (options.IsReminderNotification)
@@ -90,7 +94,7 @@ internal sealed class DailyNoteNotifier
                 builder.AddText(SH.ServiceDailyNoteNotifierMultiValueReached);
 
                 // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3))
+                if (UniversalApiContract.IsPresent(WindowsVersion.Windows10AnniversaryUpdate))
                 {
                     AdaptiveGroup group = new();
                     foreach (NotifyInfo info in notifyInfos)
