@@ -161,11 +161,6 @@ internal sealed partial class GachaLogService : IGachaLogService
         await gachaLogDbService.DeleteGachaArchiveByIdAsync(archive.InnerId).ConfigureAwait(false);
     }
 
-    private static Task RandomDelayAsync(CancellationToken token)
-    {
-        return Task.Delay(TimeSpan.FromSeconds(Random.Shared.NextDouble() + 1), token);
-    }
-
     private async Task<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
     {
         GachaLogFetchContext fetchContext = new(serviceProvider, context, isLazy);
@@ -214,7 +209,7 @@ internal sealed partial class GachaLogService : IGachaLogService
                     break;
                 }
 
-                await RandomDelayAsync(token).ConfigureAwait(false);
+                await Delay.RandomAsync(1000, 2000).ConfigureAwait(false);
             }
             while (true);
 
@@ -225,7 +220,7 @@ internal sealed partial class GachaLogService : IGachaLogService
 
             token.ThrowIfCancellationRequested();
             fetchContext.SaveItems();
-            await RandomDelayAsync(token).ConfigureAwait(false);
+            await Delay.RandomAsync(1000, 2000).ConfigureAwait(false);
         }
 
         return new(!fetchContext.FetchStatus.AuthKeyTimeout, fetchContext.TargetArchive);
@@ -283,6 +278,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
 internal interface IGachaLogDbService
 {
     ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId);
+
     ObservableCollection<GachaArchive> GetGachaArchiveCollection();
 
     List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId);

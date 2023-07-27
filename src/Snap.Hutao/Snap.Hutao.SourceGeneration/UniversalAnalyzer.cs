@@ -22,10 +22,10 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         get
         {
             return new DiagnosticDescriptor[]
-    {
-        typeInternalDescriptor,
-        readOnlyStructRefDescriptor,
-    }.ToImmutableArray();
+            {
+                typeInternalDescriptor,
+                readOnlyStructRefDescriptor,
+            }.ToImmutableArray();
         }
     }
 
@@ -90,9 +90,9 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
     private void HandleMethodDeclaration(SyntaxNodeAnalysisContext context)
     {
         MethodDeclarationSyntax methodSyntax = (MethodDeclarationSyntax)context.Node;
-
+        INamedTypeSymbol? returnTypeSymbol = context.SemanticModel.GetDeclaredSymbol(methodSyntax.ReturnType) as INamedTypeSymbol;
         // 跳过异步方法，因为异步方法无法使用 ref in out
-        if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.AsyncKeyword)))
+        if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.AsyncKeyword)) || IsTaskOrValueTask(returnTypeSymbol))
         {
             return;
         }
@@ -163,7 +163,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private bool IsBuiltInType(ITypeSymbol symbol)
+    private static bool IsBuiltInType(ITypeSymbol symbol)
     {
         return symbol.SpecialType switch
         {
@@ -184,5 +184,24 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
             SpecialType.System_UIntPtr => true,
             _ => false,
         };
+    }
+
+    private static bool IsTaskOrValueTask(INamedTypeSymbol? symbol)
+    {
+        if (symbol == null)
+        {
+            return false;
+        }
+
+        string typeName = symbol.MetadataName;
+        if (typeName == "System.Threading.Tasks.Task" ||
+            typeName == "System.Threading.Tasks.Task`1" ||
+            typeName == "System.Threading.Tasks.ValueTask" ||
+            typeName == "System.Threading.Tasks.ValueTask`1")
+        {
+            return true;
+        }
+
+        return false;
     }
 }
