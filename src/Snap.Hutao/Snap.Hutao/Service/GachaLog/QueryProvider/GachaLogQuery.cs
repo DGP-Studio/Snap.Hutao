@@ -4,7 +4,7 @@
 namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 
 /// <summary>
-/// 祈愿记录query
+/// 祈愿记录 query
 /// </summary>
 [HighQuality]
 internal readonly struct GachaLogQuery

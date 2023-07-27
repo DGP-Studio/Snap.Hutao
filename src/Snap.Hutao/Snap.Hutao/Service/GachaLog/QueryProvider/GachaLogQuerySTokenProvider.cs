@@ -15,7 +15,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
+[Injection(InjectAs.Transient)]
 internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvider
 {
     private readonly BindingClient2 bindingClient2;

@@ -86,13 +86,17 @@ internal readonly struct GachaLogServiceContext
     {
         if (!ItemCache.TryGetValue(name, out Item? result))
         {
-            result = type switch
+            if (type == SH.ModelInterchangeUIGFItemTypeAvatar)
             {
-                "角色" => NameAvatarMap[name].ToItem(),
-                "武器" => NameWeaponMap[name].ToItem(),
-                _ => throw Must.NeverHappen(),
-            };
+                result = NameAvatarMap[name].ToItem();
+            }
 
+            if (type == SH.ModelInterchangeUIGFItemTypeWeapon)
+            {
+                result = NameWeaponMap[name].ToItem();
+            }
+
+            ArgumentNullException.ThrowIfNull(result);
             ItemCache[name] = result;
         }
 
@@ -123,11 +127,16 @@ internal readonly struct GachaLogServiceContext
     /// <returns>物品 Id</returns>
     public uint GetItemId(GachaLogItem item)
     {
-        return item.ItemType switch
+        if (item.ItemType == SH.ModelInterchangeUIGFItemTypeAvatar)
         {
-            "角色" => NameAvatarMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
-            "武器" => NameWeaponMap!.GetValueOrDefault(item.Name)?.Id ?? 0,
-            _ => 0U,
-        };
+            return NameAvatarMap!.GetValueOrDefault(item.Name)?.Id ?? 0;
+        }
+
+        if (item.ItemType == SH.ModelInterchangeUIGFItemTypeWeapon)
+        {
+            return NameWeaponMap!.GetValueOrDefault(item.Name)?.Id ?? 0;
+        }
+
+        return 0U;
     }
 }

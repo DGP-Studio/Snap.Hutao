@@ -46,7 +46,7 @@ internal sealed partial class GachaLogService : IGachaLogService
     }
 
     /// <inheritdoc/>
-    public ObservableCollection<GachaArchive> ArchiveCollection
+    public ObservableCollection<GachaArchive>? ArchiveCollection
     {
         get => context.ArchiveCollection;
     }
@@ -67,14 +67,10 @@ internal sealed partial class GachaLogService : IGachaLogService
             Dictionary<string, Model.Metadata.Avatar.Avatar> nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
             Dictionary<string, Model.Metadata.Weapon.Weapon> nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
 
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                GachaArchives.Initialize(appDbContext, out ObservableCollection<GachaArchive> collection);
+            GachaArchives.Initialize(serviceProvider, out ObservableCollection<GachaArchive> collection);
 
-                context = new(idAvatarMap, idWeaponMap, nameAvatarMap, nameWeaponMap, collection);
-                return true;
-            }
+            context = new(idAvatarMap, idWeaponMap, nameAvatarMap, nameWeaponMap, collection);
+            return true;
         }
         else
         {
@@ -83,29 +79,23 @@ internal sealed partial class GachaLogService : IGachaLogService
     }
 
     /// <inheritdoc/>
-    public async Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive)
+    public async ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive? archive)
     {
         archive ??= CurrentArchive;
+        ArgumentNullException.ThrowIfNull(archive);
 
         // Return statistics
-        if (archive != null)
+        using (ValueStopwatch.MeasureExecution(logger))
         {
-            using (ValueStopwatch.MeasureExecution(logger))
+            using (IServiceScope scope = serviceProvider.CreateScope())
             {
-                using (IServiceScope scope = serviceProvider.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    IOrderedQueryable<GachaItem> items = appDbContext.GachaItems
-                        .Where(i => i.ArchiveId == archive.InnerId)
-                        .OrderBy(i => i.Id);
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                IOrderedQueryable<GachaItem> items = appDbContext.GachaItems
+                    .Where(i => i.ArchiveId == archive.InnerId)
+                    .OrderBy(i => i.Id);
 
-                    return await gachaStatisticsFactory.CreateAsync(items, context).ConfigureAwait(false);
-                }
+                return await gachaStatisticsFactory.CreateAsync(items, context).ConfigureAwait(false);
             }
-        }
-        else
-        {
-            throw Must.NeverHappen();
         }
     }
 
@@ -250,4 +240,15 @@ internal sealed partial class GachaLogService : IGachaLogService
 
         return new(!fetchContext.FetchStatus.AuthKeyTimeout, fetchContext.TargetArchive);
     }
+}
+
+[ConstructorGenerated]
+[Injection(InjectAs.Scoped, typeof(IGachaLogDbService))]
+internal sealed partial class GachaLogDbService : IGachaLogDbService
+{
+
+}
+
+internal interface IGachaLogDbService
+{
 }

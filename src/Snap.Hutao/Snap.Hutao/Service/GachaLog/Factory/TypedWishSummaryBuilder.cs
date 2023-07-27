@@ -54,15 +54,6 @@ internal sealed class TypedWishSummaryBuilder
     private DateTimeOffset fromTimeTracker = DateTimeOffset.MaxValue;
     private DateTimeOffset toTimeTracker = DateTimeOffset.MinValue;
 
-    /// <summary>
-    /// 构造一个新的类型化祈愿统计信息构建器
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="name">祈愿配置</param>
-    /// <param name="typeEvaluator">祈愿类型判断器</param>
-    /// <param name="distributionType">分布类型</param>
-    /// <param name="guaranteeOrangeThreshold">五星保底</param>
-    /// <param name="guaranteePurpleThreshold">四星保底</param>
     public TypedWishSummaryBuilder(
         IServiceProvider serviceProvider,
         string name,
@@ -140,7 +131,7 @@ internal sealed class TypedWishSummaryBuilder
     /// 转换到类型化祈愿统计信息
     /// </summary>
     /// <returns>类型化祈愿统计信息</returns>
-    public TypedWishSummary ToTypedWishSummary()
+    public TypedWishSummary ToTypedWishSummary(AsyncBarrier barrier)
     {
         summaryItems.CompleteAdding(guaranteeOrangeThreshold);
         double totalCount = totalCountTracker;
@@ -172,7 +163,7 @@ internal sealed class TypedWishSummaryBuilder
         };
 
         // TODO: barrier all predictions.
-        new PullPrediction(serviceProvider, summary, distributionType).PredictAsync().SafeForget();
+        new PullPrediction(serviceProvider, summary, distributionType).PredictAsync(barrier).SafeForget();
 
         return summary;
     }

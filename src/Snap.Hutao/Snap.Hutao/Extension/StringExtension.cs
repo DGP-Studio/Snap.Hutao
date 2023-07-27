@@ -22,19 +22,9 @@ internal static class StringExtension
         return new(value);
     }
 
-    /// <summary>
-    /// 移除结尾可能存在的字符串
-    /// </summary>
-    /// <param name="source">源</param>
-    /// <param name="value">值</param>
-    /// <returns>新的字符串</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string TrimEnd(this string source, string value)
     {
-        while (source.EndsWith(value))
-        {
-            source = source[..^value.Length];
-        }
-
-        return source;
+        return source.AsSpan().TrimEnd(value).ToString();
     }
 }

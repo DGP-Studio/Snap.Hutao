@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
@@ -17,13 +18,17 @@ internal static class GachaArchives
     /// <summary>
     /// 初始化存档集合
     /// </summary>
-    /// <param name="appDbContext">数据库上下文</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <param name="collection">集合</param>
-    public static void Initialize(AppDbContext appDbContext, out ObservableCollection<GachaArchive> collection)
+    public static void Initialize(IServiceProvider serviceProvider, out ObservableCollection<GachaArchive> collection)
     {
         try
         {
-            collection = appDbContext.GachaArchives.ToObservableCollection();
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                collection = appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
+            }
         }
         catch (SqliteException ex)
         {

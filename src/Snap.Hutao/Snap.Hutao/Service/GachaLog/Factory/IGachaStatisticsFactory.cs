@@ -18,5 +18,5 @@ internal interface IGachaStatisticsFactory
     /// <param name="items">物品列表</param>
     /// <param name="context">祈愿记录上下文</param>
     /// <returns>祈愿统计对象</returns>
-    Task<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context);
+    ValueTask<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context);
 }

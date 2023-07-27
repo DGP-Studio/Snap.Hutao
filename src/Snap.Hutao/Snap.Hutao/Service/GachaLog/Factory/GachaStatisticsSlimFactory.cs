@@ -19,7 +19,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async Task<GachaStatisticsSlim> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
+    public async ValueTask<GachaStatisticsSlim> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
 

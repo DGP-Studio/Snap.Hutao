@@ -23,7 +23,7 @@ internal interface IGachaLogService
     /// <summary>
     /// 获取可用于绑定的存档集合
     /// </summary>
-    ObservableCollection<GachaArchive> ArchiveCollection { get; }
+    ObservableCollection<GachaArchive>? ArchiveCollection { get; }
 
     /// <summary>
     /// 导出为一个新的UIGF对象
@@ -37,7 +37,7 @@ internal interface IGachaLogService
     /// </summary>
     /// <param name="archive">存档</param>
     /// <returns>祈愿统计</returns>
-    Task<GachaStatistics> GetStatisticsAsync(GachaArchive? archive);
+    ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive? archive);
 
     /// <summary>
     /// 异步获取简化的祈愿统计列表

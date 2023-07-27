@@ -5,6 +5,7 @@ namespace Snap.Hutao.Core.Threading;
 
 /// <summary>
 /// An asynchronous barrier that blocks the signaler until all other participants have signaled.
+/// FIFO
 /// </summary>
 internal class AsyncBarrier
 {
@@ -16,7 +17,7 @@ internal class AsyncBarrier
     /// <summary>
     /// The set of participants who have reached the barrier, with their awaiters that can resume those participants.
     /// </summary>
-    private readonly Stack<TaskCompletionSource> waiters;
+    private readonly Queue<TaskCompletionSource> waiters;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AsyncBarrier"/> class.
@@ -24,7 +25,7 @@ internal class AsyncBarrier
     /// <param name="participants">The number of participants.</param>
     public AsyncBarrier(int participants)
     {
-        Requires.Range(participants > 0, nameof(participants));
+        Must.Range(participants >= 1, "Participants of AsyncBarrier can not be less than 1");
         participantCount = participants;
 
         // Allocate the stack so no resizing is necessary.
@@ -47,7 +48,7 @@ internal class AsyncBarrier
                 // Unleash everyone that preceded this one.
                 while (waiters.Count > 0)
                 {
-                    _ = Task.Factory.StartNew(state => ((TaskCompletionSource)state!).SetResult(), waiters.Pop(), default, TaskCreationOptions.None, TaskScheduler.Default);
+                    _ = Task.Factory.StartNew(state => ((TaskCompletionSource)state!).SetResult(), waiters.Dequeue(), default, TaskCreationOptions.None, TaskScheduler.Default);
                 }
 
                 // And allow this one to continue immediately.
@@ -57,7 +58,7 @@ internal class AsyncBarrier
             {
                 // We need more folks. So suspend this caller.
                 TaskCompletionSource tcs = new();
-                waiters.Push(tcs);
+                waiters.Enqueue(tcs);
                 return tcs.Task;
             }
         }

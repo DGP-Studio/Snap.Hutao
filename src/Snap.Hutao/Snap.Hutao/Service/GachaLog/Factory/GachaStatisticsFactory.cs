@@ -26,11 +26,11 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     private readonly AppOptions options;
 
     /// <inheritdoc/>
-    public async Task<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
+    public async ValueTask<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
         List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
-        List<HistoryWishBuilder> historyWishBuilders = gachaEvents.SelectList(g => new HistoryWishBuilder(g, context));
+        List<HistoryWishBuilder> historyWishBuilders = gachaEvents.SelectList(gachaEvent => new HistoryWishBuilder(gachaEvent, context));
 
         return CreateCore(serviceProvider, items, historyWishBuilders, context, options.IsEmptyHistoryWishVisible);
     }
@@ -137,6 +137,8 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             }
         }
 
+        AsyncBarrier barrier = new(3);
+
         return new()
         {
             // history
@@ -157,9 +159,9 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
             BlueWeapons = blueWeaponCounter.ToStatisticsList(),
 
             // typed wish summary
-            StandardWish = standardWishBuilder.ToTypedWishSummary(),
-            AvatarWish = avatarWishBuilder.ToTypedWishSummary(),
-            WeaponWish = weaponWishBuilder.ToTypedWishSummary(),
+            StandardWish = standardWishBuilder.ToTypedWishSummary(barrier),
+            AvatarWish = avatarWishBuilder.ToTypedWishSummary(barrier),
+            WeaponWish = weaponWishBuilder.ToTypedWishSummary(barrier),
         };
     }
 }

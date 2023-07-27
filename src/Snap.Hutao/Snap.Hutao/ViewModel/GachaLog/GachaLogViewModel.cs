@@ -146,65 +146,62 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private async Task RefreshInternalAsync(RefreshOption option)
     {
-        IGachaLogQueryProvider? provider = serviceProvider.PickProvider(option);
+        IGachaLogQueryProvider provider = serviceProvider.GetRequiredService<IGachaLogQueryProviderFactory>().Create(option);
 
-        if (provider != null)
+        (bool isOk, GachaLogQuery query) = await provider.GetQueryAsync().ConfigureAwait(false);
+
+        if (isOk)
         {
-            (bool isOk, GachaLogQuery query) = await provider.GetQueryAsync().ConfigureAwait(false);
+            RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
 
-            if (isOk)
+            // ContentDialog must be created by main thread.
+            await taskContext.SwitchToMainThreadAsync();
+
+            GachaLogRefreshProgressDialog dialog = serviceProvider.CreateInstance<GachaLogRefreshProgressDialog>();
+            IDisposable dialogHider = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+            Progress<GachaLogFetchStatus> progress = new(dialog.OnReport);
+            bool authkeyValid;
+
+            try
             {
-                RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
-
-                // ContentDialog must be created by main thread.
-                await taskContext.SwitchToMainThreadAsync();
-
-                GachaLogRefreshProgressDialog dialog = serviceProvider.CreateInstance<GachaLogRefreshProgressDialog>();
-                IDisposable dialogHider = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
-                Progress<GachaLogFetchStatus> progress = new(dialog.OnReport);
-                bool authkeyValid;
-
-                try
+                using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
                 {
-                    using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
+                    try
                     {
-                        try
-                        {
-                            authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
-                        }
-                        catch (UserdataCorruptedException ex)
-                        {
-                            authkeyValid = false;
-                            infoBarService.Error(ex);
-                        }
+                        authkeyValid = await gachaLogService.RefreshGachaLogAsync(query, strategy, progress, CancellationToken).ConfigureAwait(false);
+                    }
+                    catch (UserdataCorruptedException ex)
+                    {
+                        authkeyValid = false;
+                        infoBarService.Error(ex);
                     }
                 }
-                catch (OperationCanceledException)
-                {
-                    // We set true here in order to hide the dialog.
-                    authkeyValid = true;
-                    infoBarService.Warning(SH.ViewModelGachaLogRefreshOperationCancel);
-                }
+            }
+            catch (OperationCanceledException)
+            {
+                // We set true here in order to hide the dialog.
+                authkeyValid = true;
+                infoBarService.Warning(SH.ViewModelGachaLogRefreshOperationCancel);
+            }
 
-                await taskContext.SwitchToMainThreadAsync();
-                if (authkeyValid)
-                {
-                    SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
-                    dialogHider.Dispose();
-                }
-                else
-                {
-                    dialog.Title = SH.ViewModelGachaLogRefreshFail;
-                    dialog.PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText;
-                    dialog.DefaultButton = ContentDialogButton.Primary;
-                }
+            await taskContext.SwitchToMainThreadAsync();
+            if (authkeyValid)
+            {
+                SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
+                dialogHider.Dispose();
             }
             else
             {
-                if (!string.IsNullOrEmpty(query.Message))
-                {
-                    infoBarService.Warning(query.Message);
-                }
+                dialog.Title = SH.ViewModelGachaLogRefreshFail;
+                dialog.PrimaryButtonText = SH.ContentDialogConfirmPrimaryButtonText;
+                dialog.DefaultButton = ContentDialogButton.Primary;
+            }
+        }
+        else
+        {
+            if (!string.IsNullOrEmpty(query.Message))
+            {
+                infoBarService.Warning(query.Message);
             }
         }
     }

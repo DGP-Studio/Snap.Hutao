@@ -17,7 +17,7 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGachaLogQueryProvider))]
+[Injection(InjectAs.Transient)]
 internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProvider
 {
     private readonly IGameService gameService;
@@ -38,8 +38,15 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             ? GameConstants.GenshinImpactData
             : GameConstants.YuanShenData;
 
-        // TODO: make sure how the cache file located.
-        return Path.Combine(Path.GetDirectoryName(path)!, dataFolder, @"webCaches\2.13.0.1\Cache\Cache_Data\data_2");
+        DirectoryInfo webCacheFolder = new(Path.Combine(Path.GetDirectoryName(path)!, dataFolder, "webCaches"));
+        Regex versionRegex = VersionRegex();
+        DirectoryInfo? lastestVersionCacheFolder = webCacheFolder
+            .EnumerateDirectories()
+            .Where(dir => versionRegex.IsMatch(dir.Name))
+            .MaxBy(dir => new Version(dir.Name));
+
+        lastestVersionCacheFolder ??= webCacheFolder;
+        return Path.Combine(lastestVersionCacheFolder.FullName, @"Cache\Cache_Data\data_2");
     }
 
     /// <inheritdoc/>
@@ -112,4 +119,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
 
         return null;
     }
+
+    [GeneratedRegex("^[1-9]+?\\.[0-9]+?\\.[0-9]+?\\.[0-9]+?$")]
+    private static partial Regex VersionRegex();
 }

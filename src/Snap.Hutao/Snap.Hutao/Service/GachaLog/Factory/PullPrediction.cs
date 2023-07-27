@@ -34,7 +34,7 @@ internal sealed class PullPrediction
         this.distributionType = distributionType;
     }
 
-    public async Task PredictAsync()
+    public async Task PredictAsync(AsyncBarrier barrier)
     {
         await taskContext.SwitchToBackgroundAsync();
         HomaGachaLogClient gachaLogClient = serviceProvider.GetRequiredService<HomaGachaLogClient>();
@@ -43,9 +43,9 @@ internal sealed class PullPrediction
         if (response.IsOk())
         {
             PredictResult result = PredictCore(response.Data.Distribution, typedWishSummary);
+            await barrier.SignalAndWaitAsync().ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
-
             typedWishSummary.ProbabilityOfNextPullIsOrange = result.ProbabilityOfNextPullIsOrange;
             typedWishSummary.ProbabilityOfPredictedPullLeftToOrange = result.ProbabilityOfPredictedPullLeftToOrange;
             typedWishSummary.PredictedPullLeftToOrange = result.PredictedPullLeftToOrange;
