@@ -20,7 +20,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async Task<GachaArchive> ImportAsync(GachaLogServiceContext context, UIGF uigf)
+    public async Task<GachaArchive> ImportAsync(GachaLogServiceMetadataContext context, UIGF uigf)
     {
         await taskContext.SwitchToBackgroundAsync();
         using (IServiceScope scope = serviceProvider.CreateScope())

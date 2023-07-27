@@ -18,7 +18,7 @@ internal sealed partial class UIGFExportService : IUIGFExportService
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async Task<UIGF> ExportAsync(GachaLogServiceContext context, GachaArchive archive)
+    public async ValueTask<UIGF> ExportAsync(GachaLogServiceMetadataContext context, GachaArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
         using (IServiceScope scope = serviceProvider.CreateScope())

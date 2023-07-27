@@ -17,5 +17,5 @@ internal interface IUIGFImportService
     /// <param name="context">祈愿记录服务上下文</param>
     /// <param name="uigf">数据</param>
     /// <returns>存档</returns>
-    Task<GachaArchive> ImportAsync(GachaLogServiceContext context, UIGF uigf);
+    Task<GachaArchive> ImportAsync(GachaLogServiceMetadataContext context, UIGF uigf);
 }

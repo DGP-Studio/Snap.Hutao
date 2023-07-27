@@ -127,10 +127,6 @@ internal sealed class TypedWishSummaryBuilder
         }
     }
 
-    /// <summary>
-    /// 转换到类型化祈愿统计信息
-    /// </summary>
-    /// <returns>类型化祈愿统计信息</returns>
     public TypedWishSummary ToTypedWishSummary(AsyncBarrier barrier)
     {
         summaryItems.CompleteAdding(guaranteeOrangeThreshold);
@@ -157,12 +153,11 @@ internal sealed class TypedWishSummaryBuilder
             TotalOrangePercent = totalOrangePullTracker / totalCount,
             TotalPurplePercent = totalPurplePullTracker / totalCount,
             TotalBluePercent = totalBluePullTracker / totalCount,
-            AverageOrangePull = averageOrangePullTracker.SpanAverage(),
-            AverageUpOrangePull = averageUpOrangePullTracker.SpanAverage(),
+            AverageOrangePull = averageOrangePullTracker.Average(),
+            AverageUpOrangePull = averageUpOrangePullTracker.Average(),
             OrangeList = summaryItems,
         };
 
-        // TODO: barrier all predictions.
         new PullPrediction(serviceProvider, summary, distributionType).PredictAsync(barrier).SafeForget();
 
         return summary;

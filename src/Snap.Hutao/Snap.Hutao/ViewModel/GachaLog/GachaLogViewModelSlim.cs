@@ -37,7 +37,7 @@ internal sealed class GachaLogViewModelSlim : Abstraction.ViewModelSlim<View.Pag
 
             if (await gachaLogService.InitializeAsync(default).ConfigureAwait(false))
             {
-                List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimsAsync().ConfigureAwait(false);
+                List<GachaStatisticsSlim> list = await gachaLogService.GetStatisticsSlimListAsync().ConfigureAwait(false);
                 await taskContext.SwitchToMainThreadAsync();
                 StatisticsList = list;
                 IsInitialized = true;

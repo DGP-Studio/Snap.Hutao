@@ -17,5 +17,5 @@ internal interface IGachaStatisticsSlimFactory
     /// <param name="items">排序的物品</param>
     /// <param name="context">祈愿记录服务上下文</param>
     /// <returns>简化的祈愿统计</returns>
-    ValueTask<GachaStatisticsSlim> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context);
+    ValueTask<GachaStatisticsSlim> CreateAsync(List<GachaItem> items, GachaLogServiceMetadataContext context);
 }

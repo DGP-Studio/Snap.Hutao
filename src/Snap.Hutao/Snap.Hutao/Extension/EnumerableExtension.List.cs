@@ -12,7 +12,7 @@ namespace Snap.Hutao.Extension;
 internal static partial class EnumerableExtension
 {
     /// <inheritdoc cref="Enumerable.Average(IEnumerable{int})"/>
-    public static double SpanAverage(this List<int> source)
+    public static double Average(this List<int> source)
     {
         Span<int> span = CollectionsMarshal.AsSpan(source);
         if (span.IsEmpty)
@@ -21,7 +21,7 @@ internal static partial class EnumerableExtension
         }
 
         long sum = 0;
-        foreach (int item in span)
+        foreach (ref readonly int item in span)
         {
             sum += item;
         }

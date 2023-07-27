@@ -15,7 +15,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 祈愿记录服务上下文
 /// </summary>
-internal readonly struct GachaLogServiceContext
+internal readonly struct GachaLogServiceMetadataContext
 {
     /// <summary>
     /// 物品缓存
@@ -45,6 +45,7 @@ internal readonly struct GachaLogServiceContext
     /// <summary>
     /// 存档集合
     /// </summary>
+    [Obsolete]
     public readonly ObservableCollection<GachaArchive> ArchiveCollection;
 
     /// <summary>
@@ -59,19 +60,16 @@ internal readonly struct GachaLogServiceContext
     /// <param name="idWeaponMap">Id 武器 映射</param>
     /// <param name="nameAvatarMap">名称 角色 映射</param>
     /// <param name="nameWeaponMap">名称 武器 映射</param>
-    /// <param name="archiveCollection">存档集合</param>
-    public GachaLogServiceContext(
+    public GachaLogServiceMetadataContext(
         Dictionary<AvatarId, Avatar> idAvatarMap,
         Dictionary<WeaponId, Weapon> idWeaponMap,
         Dictionary<string, Avatar> nameAvatarMap,
-        Dictionary<string, Weapon> nameWeaponMap,
-        ObservableCollection<GachaArchive> archiveCollection)
+        Dictionary<string, Weapon> nameWeaponMap)
     {
         IdAvatarMap = idAvatarMap;
         IdWeaponMap = idWeaponMap;
         NameAvatarMap = nameAvatarMap;
         NameWeaponMap = nameWeaponMap;
-        ArchiveCollection = archiveCollection;
 
         IsInitialized = true;
     }

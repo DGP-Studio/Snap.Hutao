@@ -9,6 +9,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.GachaLog;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
@@ -26,7 +27,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     private readonly AppOptions options;
 
     /// <inheritdoc/>
-    public async ValueTask<GachaStatistics> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
+    public async ValueTask<GachaStatistics> CreateAsync(List<GachaItem> items, GachaLogServiceMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
         List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
@@ -37,9 +38,9 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 
     private static GachaStatistics CreateCore(
         IServiceProvider serviceProvider,
-        IOrderedQueryable<GachaItem> items,
+        List<GachaItem> items,
         List<HistoryWishBuilder> historyWishBuilders,
-        in GachaLogServiceContext context,
+        in GachaLogServiceMetadataContext context,
         bool isEmptyHistoryWishVisible)
     {
         TypedWishSummaryBuilder standardWishBuilder = new(
@@ -65,9 +66,9 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<Weapon, int> purpleWeaponCounter = new();
         Dictionary<Weapon, int> blueWeaponCounter = new();
 
-        // Items are ordered by precise time
-        // first is oldest
-        foreach (GachaItem item in items)
+        // Items are ordered by precise time, first is oldest
+        // 'ref' is not allowed here because we have lambda below
+        foreach (GachaItem item in CollectionsMarshal.AsSpan(items))
         {
             // Find target history wish to operate.
             HistoryWishBuilder? targetHistoryWishBuilder = historyWishBuilders

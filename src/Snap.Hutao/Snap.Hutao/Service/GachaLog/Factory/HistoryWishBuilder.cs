@@ -30,7 +30,7 @@ internal sealed class HistoryWishBuilder
     /// <param name="gachaEvent">卡池配置</param>
     /// <param name="context">祈愿记录上下文</param>
     [SuppressMessage("", "SH002")]
-    public HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceContext context)
+    public HistoryWishBuilder(GachaEvent gachaEvent, GachaLogServiceMetadataContext context)
     {
         this.gachaEvent = gachaEvent;
         ConfigType = gachaEvent.Type;

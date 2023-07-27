@@ -1,20 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.DependencyInjection.Abstraction;
-using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Service.User;
-using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hoyolab;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
-using System.Collections.ObjectModel;
-using WebDailyNote = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote.DailyNote;
 
 namespace Snap.Hutao.Service.DailyNote;
 

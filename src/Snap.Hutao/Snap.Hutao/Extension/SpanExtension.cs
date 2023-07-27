@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Extension;
 
@@ -59,7 +60,7 @@ internal static class SpanExtension
     /// <returns>平均值</returns>
     public static byte Average(this in ReadOnlySpan<byte> span)
     {
-        if (span.Length == 0)
+        if (span.IsEmpty)
         {
             return 0;
         }
@@ -73,5 +74,10 @@ internal static class SpanExtension
         }
 
         return unchecked((byte)(sum / count));
+    }
+
+    public static Span<T> AsSpan<T>(this List<T> list)
+    {
+        return CollectionsMarshal.AsSpan(list);
     }
 }

@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
@@ -19,10 +20,36 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async ValueTask<GachaStatisticsSlim> CreateAsync(IOrderedQueryable<GachaItem> items, GachaLogServiceContext context)
+    public async ValueTask<GachaStatisticsSlim> CreateAsync(List<GachaItem> items, GachaLogServiceMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
 
+        return CreateCore(items, context);
+    }
+
+    private static void Track(INameQuality nameQuality, ref int orangeTracker, ref int purpleTracker)
+    {
+        switch (nameQuality.Quality)
+        {
+            case QualityType.QUALITY_ORANGE:
+                orangeTracker = 0;
+                ++purpleTracker;
+                break;
+            case QualityType.QUALITY_PURPLE:
+                ++orangeTracker;
+                purpleTracker = 0;
+                break;
+            case QualityType.QUALITY_BLUE:
+                ++orangeTracker;
+                ++purpleTracker;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private GachaStatisticsSlim CreateCore(List<GachaItem> items, GachaLogServiceMetadataContext context)
+    {
         int standardOrangeTracker = 0;
         int standardPurpleTracker = 0;
         TypedWishSummarySlim standardWish = new(SH.ServiceGachaLogFactoryPermanentWishName, 90, 10);
@@ -36,7 +63,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
         TypedWishSummarySlim weaponWish = new(SH.ServiceGachaLogFactoryWeaponWishName, 80, 10);
 
         // O(n) operation
-        foreach (GachaItem item in items)
+        foreach (ref readonly GachaItem item in CollectionsMarshal.AsSpan(items))
         {
             INameQuality nameQuality = context.GetNameQualityByItemId(item.ItemId);
             switch (item.QueryType)
@@ -69,26 +96,5 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
             WeaponWish = weaponWish,
             StandardWish = standardWish,
         };
-    }
-
-    private static void Track(INameQuality nameQuality, ref int orangeTracker, ref int purpleTracker)
-    {
-        switch (nameQuality.Quality)
-        {
-            case QualityType.QUALITY_ORANGE:
-                orangeTracker = 0;
-                ++purpleTracker;
-                break;
-            case QualityType.QUALITY_PURPLE:
-                ++orangeTracker;
-                purpleTracker = 0;
-                break;
-            case QualityType.QUALITY_BLUE:
-                ++orangeTracker;
-                ++purpleTracker;
-                break;
-            default:
-                break;
-        }
     }
 }

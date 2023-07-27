@@ -15,6 +15,7 @@ internal readonly struct GachaArchiveInitializationContext
     /// <summary>
     /// 任务上下文
     /// </summary>
+    [Obsolete]
     public readonly ITaskContext TaskContext;
 
     /// <summary>

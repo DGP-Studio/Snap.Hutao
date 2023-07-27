@@ -30,7 +30,7 @@ internal interface IGachaLogService
     /// </summary>
     /// <param name="archive">存档</param>
     /// <returns>UIGF对象</returns>
-    Task<UIGF> ExportToUIGFAsync(GachaArchive archive);
+    ValueTask<UIGF> ExportToUIGFAsync(GachaArchive archive);
 
     /// <summary>
     /// 获得对应的祈愿统计
@@ -42,22 +42,23 @@ internal interface IGachaLogService
     /// <summary>
     /// 异步获取简化的祈愿统计列表
     /// </summary>
+    /// <param name="token">取消令牌</param>
     /// <returns>简化的祈愿统计列表</returns>
-    Task<List<GachaStatisticsSlim>> GetStatisticsSlimsAsync();
+    ValueTask<List<GachaStatisticsSlim>> GetStatisticsSlimListAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步从UIGF导入数据
     /// </summary>
     /// <param name="uigf">信息</param>
     /// <returns>任务</returns>
-    Task ImportFromUIGFAsync(UIGF uigf);
+    ValueTask ImportFromUIGFAsync(UIGF uigf);
 
     /// <summary>
     /// 异步初始化
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>是否初始化成功</returns>
-    ValueTask<bool> InitializeAsync(CancellationToken token);
+    ValueTask<bool> InitializeAsync(CancellationToken token = default);
 
     /// <summary>
     /// 刷新祈愿记录

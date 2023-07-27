@@ -1,8 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
@@ -34,9 +37,11 @@ internal sealed partial class GachaLogService : IGachaLogService
     private readonly IMetadataService metadataService;
     private readonly ILogger<GachaLogService> logger;
     private readonly GachaInfoClient gachaInfoClient;
+    private readonly IGachaLogDbService gachaLogDbService;
     private readonly ITaskContext taskContext;
 
-    private GachaLogServiceContext context;
+    private GachaLogServiceMetadataContext context;
+    private ObservableCollection<GachaArchive>? archiveCollection;
 
     /// <inheritdoc/>
     public GachaArchive? CurrentArchive
@@ -48,11 +53,11 @@ internal sealed partial class GachaLogService : IGachaLogService
     /// <inheritdoc/>
     public ObservableCollection<GachaArchive>? ArchiveCollection
     {
-        get => context.ArchiveCollection;
+        get => archiveCollection;
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> InitializeAsync(CancellationToken token)
+    public async ValueTask<bool> InitializeAsync(CancellationToken token = default)
     {
         if (context.IsInitialized)
         {
@@ -67,9 +72,9 @@ internal sealed partial class GachaLogService : IGachaLogService
             Dictionary<string, Model.Metadata.Avatar.Avatar> nameAvatarMap = await metadataService.GetNameToAvatarMapAsync(token).ConfigureAwait(false);
             Dictionary<string, Model.Metadata.Weapon.Weapon> nameWeaponMap = await metadataService.GetNameToWeaponMapAsync(token).ConfigureAwait(false);
 
-            GachaArchives.Initialize(serviceProvider, out ObservableCollection<GachaArchive> collection);
+            ObservableCollection<GachaArchive> collection = gachaLogDbService.GetGachaArchiveCollection();
 
-            context = new(idAvatarMap, idWeaponMap, nameAvatarMap, nameWeaponMap, collection);
+            context = new(idAvatarMap, idWeaponMap, nameAvatarMap, nameWeaponMap);
             return true;
         }
         else
@@ -87,48 +92,37 @@ internal sealed partial class GachaLogService : IGachaLogService
         // Return statistics
         using (ValueStopwatch.MeasureExecution(logger))
         {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                IOrderedQueryable<GachaItem> items = appDbContext.GachaItems
-                    .Where(i => i.ArchiveId == archive.InnerId)
-                    .OrderBy(i => i.Id);
-
-                return await gachaStatisticsFactory.CreateAsync(items, context).ConfigureAwait(false);
-            }
+            List<GachaItem> items = gachaLogDbService.GetGachaItemListByArchiveId(archive.InnerId);
+            return await gachaStatisticsFactory.CreateAsync(items, context).ConfigureAwait(false);
         }
     }
 
     /// <inheritdoc/>
-    public async Task<List<GachaStatisticsSlim>> GetStatisticsSlimsAsync()
+    public async ValueTask<List<GachaStatisticsSlim>> GetStatisticsSlimListAsync(CancellationToken token = default)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        await InitializeAsync(token).ConfigureAwait(false);
+        ArgumentNullException.ThrowIfNull(ArchiveCollection);
+
+        List<GachaStatisticsSlim> statistics = new();
+        foreach (GachaArchive archive in ArchiveCollection)
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            List<GachaStatisticsSlim> statistics = new();
-            foreach (GachaArchive archive in appDbContext.GachaArchives)
-            {
-                IOrderedQueryable<GachaItem> items = appDbContext.GachaItems
-                    .Where(i => i.ArchiveId == archive.InnerId)
-                    .OrderBy(i => i.Id);
-
-                GachaStatisticsSlim slim = await gachaStatisticsSlimFactory.CreateAsync(items, context).ConfigureAwait(false);
-                slim.Uid = archive.Uid;
-                statistics.Add(slim);
-            }
-
-            return statistics;
+            List<GachaItem> items = gachaLogDbService.GetGachaItemListByArchiveId(archive.InnerId);
+            GachaStatisticsSlim slim = await gachaStatisticsSlimFactory.CreateAsync(items, context).ConfigureAwait(false);
+            slim.Uid = archive.Uid;
+            statistics.Add(slim);
         }
+
+        return statistics;
     }
 
     /// <inheritdoc/>
-    public Task<UIGF> ExportToUIGFAsync(GachaArchive archive)
+    public ValueTask<UIGF> ExportToUIGFAsync(GachaArchive archive)
     {
         return gachaLogExportService.ExportAsync(context, archive);
     }
 
     /// <inheritdoc/>
-    public async Task ImportFromUIGFAsync(UIGF uigf)
+    public async ValueTask ImportFromUIGFAsync(UIGF uigf)
     {
         CurrentArchive = await gachaLogImportService.ImportAsync(context, uigf).ConfigureAwait(false);
     }
@@ -156,19 +150,15 @@ internal sealed partial class GachaLogService : IGachaLogService
     /// <inheritdoc/>
     public async Task RemoveArchiveAsync(GachaArchive archive)
     {
+        ArgumentNullException.ThrowIfNull(archiveCollection);
+
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        context.ArchiveCollection.Remove(archive);
+        archiveCollection.Remove(archive);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GachaArchives
-                .ExecuteDeleteWhereAsync(a => a.InnerId == archive.InnerId)
-                .ConfigureAwait(false);
-        }
+        await gachaLogDbService.DeleteGachaArchiveByIdAsync(archive.InnerId).ConfigureAwait(false);
     }
 
     private static Task RandomDelayAsync(CancellationToken token)
@@ -246,9 +236,54 @@ internal sealed partial class GachaLogService : IGachaLogService
 [Injection(InjectAs.Scoped, typeof(IGachaLogDbService))]
 internal sealed partial class GachaLogDbService : IGachaLogDbService
 {
+    private readonly IServiceProvider serviceProvider;
 
+    public ObservableCollection<GachaArchive> GetGachaArchiveCollection()
+    {
+        try
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                return appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
+            }
+        }
+        catch (SqliteException ex)
+        {
+            string message = string.Format(SH.ServiceGachaLogArchiveCollectionUserdataCorruptedMessage, ex.Message);
+            throw ThrowHelper.UserdataCorrupted(message, ex);
+        }
+    }
+
+    public List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return appDbContext.GachaItems
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId)
+                .OrderBy(i => i.Id)
+                .ToList();
+        }
+    }
+
+    public async ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.GachaArchives
+                .ExecuteDeleteWhereAsync(a => a.InnerId == archiveId)
+                .ConfigureAwait(false);
+        }
+    }
 }
 
 internal interface IGachaLogDbService
 {
+    ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId);
+    ObservableCollection<GachaArchive> GetGachaArchiveCollection();
+
+    List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId);
 }

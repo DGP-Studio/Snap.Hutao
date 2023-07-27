@@ -20,5 +20,5 @@ internal static class GachaLog
         GachaConfigType.StandardWish,
         GachaConfigType.AvatarEventWish,
         GachaConfigType.WeaponEventWish,
-    }.ToImmutableList();
+    }.ToImmutableList(); // TODO: FrozenSet
 }

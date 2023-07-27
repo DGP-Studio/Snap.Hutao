@@ -49,7 +49,7 @@ internal struct GachaLogFetchContext
     public GachaConfigType CurrentType;
 
     private readonly IServiceProvider serviceProvider;
-    private readonly GachaLogServiceContext serviceContext;
+    private readonly GachaLogServiceMetadataContext serviceContext;
     private readonly bool isLazy;
 
     /// <summary>
@@ -58,7 +58,7 @@ internal struct GachaLogFetchContext
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="serviceContext">祈愿服务上下文</param>
     /// <param name="isLazy">是否为懒惰模式</param>
-    public GachaLogFetchContext(IServiceProvider serviceProvider, in GachaLogServiceContext serviceContext, bool isLazy)
+    public GachaLogFetchContext(IServiceProvider serviceProvider, in GachaLogServiceMetadataContext serviceContext, bool isLazy)
     {
         this.serviceProvider = serviceProvider;
         this.serviceContext = serviceContext;
@@ -99,8 +99,8 @@ internal struct GachaLogFetchContext
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
 
-            GachaArchiveInitializationContext initContext = new(taskContext, item.Uid, appDbContext.GachaArchives, serviceContext.ArchiveCollection);
-            GachaArchive.SkipOrInit(initContext, ref TargetArchive);
+            GachaArchiveInitializationContext context = new(taskContext, item.Uid, appDbContext.GachaArchives, serviceContext.ArchiveCollection);
+            GachaArchive.SkipOrInit(context, ref TargetArchive);
             DbEndId ??= TargetArchive.GetEndId(CurrentType, appDbContext.GachaItems);
         }
     }
