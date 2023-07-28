@@ -68,7 +68,7 @@ internal interface IGachaLogService
     /// <param name="strategy">刷新策略</param>
     /// <param name="progress">进度</param>
     /// <param name="token">取消令牌</param>
-    /// <returns>验证密钥是否可用</returns>
+    /// <returns>验证密钥是否有效</returns>
     Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token);
 
     /// <summary>

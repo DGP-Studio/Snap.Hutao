@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -92,17 +93,16 @@ internal struct GachaLogFetchContext
     /// 确保 存档 与 EndId 不为空
     /// </summary>
     /// <param name="item">物品</param>
-    public void EnsureArchiveAndEndId(GachaLogItem item)
+    /// <param name="archives">存档集合</param>
+    /// <param name="gachaLogDbService">祈愿记录数据库服务</param>
+    public void EnsureArchiveAndEndId(GachaLogItem item, ObservableCollection<GachaArchive> archives, IGachaLogDbService gachaLogDbService)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        if (TargetArchive == null)
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            ITaskContext taskContext = scope.ServiceProvider.GetRequiredService<ITaskContext>();
-
-            GachaArchiveInitializationContext context = new(taskContext, item.Uid, appDbContext.GachaArchives, serviceContext.ArchiveCollection);
-            GachaArchive.SkipOrInit(context, ref TargetArchive);
-            DbEndId ??= TargetArchive.GetEndId(CurrentType, appDbContext.GachaItems);
+            GachaArchiveOperation.GetOrAdd(serviceProvider, item.Uid, archives, out TargetArchive);
         }
+
+        DbEndId ??= gachaLogDbService.GetLastGachaItemIdByArchiveIdAndQueryType(TargetArchive.InnerId, CurrentType);
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ internal struct GachaLogFetchContext
     /// </summary>
     /// <param name="item">物品</param>
     /// <returns>是否应添加</returns>
-    public bool ShouldAdd(GachaLogItem item)
+    public bool ShouldAddItem(GachaLogItem item)
     {
         return !isLazy || item.Id > DbEndId;
     }

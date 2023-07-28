@@ -70,7 +70,7 @@ internal struct GachaLogQueryOptions
     /// <param name="gameAuthKey">验证包装</param>
     /// <param name="lang">语言</param>
     /// <returns>查询</returns>
-    public static string AsQuery(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)
+    public static string ToQueryString(GenAuthKeyData genAuthKeyData, GameAuthKey gameAuthKey, string lang)
     {
         QueryString queryString = new();
         queryString.Set("lang", lang);
@@ -86,7 +86,7 @@ internal struct GachaLogQueryOptions
     /// 转换到查询字符串
     /// </summary>
     /// <returns>匹配的查询字符串</returns>
-    public string AsQuery()
+    public string ToQueryString()
     {
         // Make the cached end id into query.
         innerQuery.Set("end_id", EndId);

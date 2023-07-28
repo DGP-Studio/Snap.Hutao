@@ -131,21 +131,22 @@ internal sealed class Response<TData> : Response, IJsResult
     /// 响应是否正常
     /// </summary>
     /// <param name="showInfoBar">是否显示错误信息</param>
+    /// <param name="serviceProvider">服务提供器</param>
     /// <returns>是否Ok</returns>
     [MemberNotNullWhen(true, nameof(Data))]
-    public bool IsOk(bool showInfoBar = true)
+    public bool IsOk(bool showInfoBar = true, IServiceProvider? serviceProvider = null)
     {
         if (ReturnCode == 0)
         {
-#pragma warning disable CS8775
+            ArgumentNullException.ThrowIfNull(Data);
             return true;
-#pragma warning restore CS8775
         }
         else
         {
             if (showInfoBar)
             {
-                Ioc.Default.GetRequiredService<IInfoBarService>().Error(ToString());
+                serviceProvider ??= Ioc.Default;
+                serviceProvider.GetRequiredService<IInfoBarService>().Error(ToString());
             }
 
             return false;

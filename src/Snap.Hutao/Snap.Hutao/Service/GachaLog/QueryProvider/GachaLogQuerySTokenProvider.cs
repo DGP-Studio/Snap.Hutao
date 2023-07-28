@@ -40,7 +40,7 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
 
             if (authkeyResponse.IsOk())
             {
-                return new(true, new(GachaLogQueryOptions.AsQuery(data, authkeyResponse.Data, metadataOptions.LanguageCode)));
+                return new(true, new(GachaLogQueryOptions.ToQueryString(data, authkeyResponse.Data, metadataOptions.LanguageCode)));
             }
             else
             {

@@ -22,19 +22,19 @@ internal sealed partial class GachaInfoClient
     /// <summary>
     /// 获取记录页面
     /// </summary>
-    /// <param name="config">查询</param>
+    /// <param name="options">查询</param>
     /// <param name="token">取消令牌</param>
     /// <returns>单个祈愿记录页面</returns>
-    public async Task<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogQueryOptions config, CancellationToken token = default)
+    public async Task<Response<GachaLogPage>> GetGachaLogPageAsync(GachaLogQueryOptions options, CancellationToken token = default)
     {
-        string query = config.AsQuery();
+        string query = options.ToQueryString();
 
-        string url = config.IsOversea
+        string url = options.IsOversea
             ? ApiOsEndpoints.GachaInfoGetGachaLog(query)
             : ApiEndpoints.GachaInfoGetGachaLog(query);
 
         Response<GachaLogPage>? response = await httpClient
-            .TryCatchGetFromJsonAsync<Response<GachaLogPage>>(url, options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<GachaLogPage>>(url, this.options, logger, token)
             .ConfigureAwait(false);
         return Response.Response.DefaultIfNull(response);
     }

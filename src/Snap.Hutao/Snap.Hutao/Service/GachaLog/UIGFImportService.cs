@@ -27,8 +27,7 @@ internal sealed partial class UIGFImportService : IUIGFImportService
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            GachaArchiveInitializationContext initContext = new(taskContext, uigf.Info.Uid, appDbContext.GachaArchives, context.ArchiveCollection);
-            GachaArchive.Init(initContext, out GachaArchive? archive);
+            GachaArchiveOperation.GetOrAdd(serviceProvider, uigf.Info.Uid, context.ArchiveCollection, out GachaArchive? archive);
             Guid archiveId = archive.InnerId;
 
             long trimId = appDbContext.GachaItems
