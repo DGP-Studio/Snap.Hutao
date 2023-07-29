@@ -12,10 +12,9 @@ namespace Snap.Hutao.View.Dialog;
 /// 祈愿记录导入对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("UIGF", typeof(UIGF))]
 internal sealed partial class GachaLogImportDialog : ContentDialog
 {
-    private static readonly DependencyProperty UIGFProperty = Property<AchievementImportDialog>.Depend(nameof(UIGF), default(UIGF));
-
     private readonly ITaskContext taskContext;
 
     /// <summary>
@@ -30,15 +29,6 @@ internal sealed partial class GachaLogImportDialog : ContentDialog
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         UIGF = uigf;
-    }
-
-    /// <summary>
-    /// UIAF数据
-    /// </summary>
-    public UIGF UIGF
-    {
-        get => (UIGF)GetValue(UIGFProperty);
-        set => SetValue(UIGFProperty, value);
     }
 
     /// <summary>

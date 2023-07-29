@@ -69,10 +69,25 @@ internal sealed class HomaGachaLogClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>Uid 列表</returns>
+    [Obsolete("Use GetGachaEntriesAsync instead")]
     public async Task<Response<List<string>>> GetUidsAsync(CancellationToken token = default)
     {
         Response<List<string>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<string>>>(HutaoEndpoints.GachaLogUids, options, logger, token)
+            .ConfigureAwait(false);
+
+        return Response.Response.DefaultIfNull(resp);
+    }
+
+    /// <summary>
+    /// 异步获取 Uid 列表
+    /// </summary>
+    /// <param name="token">取消令牌</param>
+    /// <returns>Uid 列表</returns>
+    public async ValueTask<Response<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
+    {
+        Response<List<GachaEntry>>? resp = await httpClient
+            .TryCatchGetFromJsonAsync<Response<List<GachaEntry>>>(HutaoEndpoints.GachaLogUids, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

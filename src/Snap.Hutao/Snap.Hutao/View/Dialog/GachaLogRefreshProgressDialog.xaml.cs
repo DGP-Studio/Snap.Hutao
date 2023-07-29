@@ -14,10 +14,9 @@ namespace Snap.Hutao.View.Dialog;
 /// 祈愿记录刷新进度对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("Status", typeof(GachaLogFetchStatus))]
 internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
 {
-    private static readonly DependencyProperty StatusProperty = Property<GachaLogRefreshProgressDialog>.Depend<GachaLogFetchStatus>(nameof(Status));
-
     /// <summary>
     /// 构造一个新的对话框
     /// </summary>
@@ -26,15 +25,6 @@ internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     {
         InitializeComponent();
         XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
-    }
-
-    /// <summary>
-    /// 刷新状态
-    /// </summary>
-    public GachaLogFetchStatus Status
-    {
-        get => (GachaLogFetchStatus)GetValue(StatusProperty);
-        set => SetValue(StatusProperty, value);
     }
 
     /// <summary>

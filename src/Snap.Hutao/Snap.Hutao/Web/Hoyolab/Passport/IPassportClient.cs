@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Response;
 
@@ -10,7 +9,7 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// 通行证客户端
 /// </summary>
-internal interface IPassportClient : IOverseaSupport
+internal interface IPassportClient
 {
     /// <summary>
     /// 异步获取 CookieToken

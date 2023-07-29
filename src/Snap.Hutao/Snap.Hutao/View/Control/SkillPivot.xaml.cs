@@ -12,44 +12,16 @@ namespace Snap.Hutao.View.Control;
 /// 技能展柜
 /// </summary>
 [HighQuality]
+[DependencyProperty("Skills", typeof(IList))]
+[DependencyProperty("Selected", typeof(object))]
+[DependencyProperty("ItemTemplate", typeof(DataTemplate))]
 internal sealed partial class SkillPivot : UserControl
 {
-    private static readonly DependencyProperty SkillsProperty = Property<SkillPivot>.Depend<IList>(nameof(Skills));
-    private static readonly DependencyProperty SelectedProperty = Property<SkillPivot>.Depend<object>(nameof(Selected));
-    private static readonly DependencyProperty ItemTemplateProperty = Property<SkillPivot>.Depend<DataTemplate>(nameof(ItemTemplate));
-
     /// <summary>
     /// 创建一个新的技能展柜
     /// </summary>
     public SkillPivot()
     {
         InitializeComponent();
-    }
-
-    /// <summary>
-    /// 技能列表
-    /// </summary>
-    public IList Skills
-    {
-        get => (IList)GetValue(SkillsProperty);
-        set => SetValue(SkillsProperty, value);
-    }
-
-    /// <summary>
-    /// 选中的项
-    /// </summary>
-    public object Selected
-    {
-        get => GetValue(SelectedProperty);
-        set => SetValue(SelectedProperty, value);
-    }
-
-    /// <summary>
-    /// 项目模板
-    /// </summary>
-    public DataTemplate ItemTemplate
-    {
-        get => (DataTemplate)GetValue(ItemTemplateProperty);
-        set => SetValue(ItemTemplateProperty, value);
     }
 }

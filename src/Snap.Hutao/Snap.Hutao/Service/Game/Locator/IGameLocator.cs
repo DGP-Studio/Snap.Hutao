@@ -9,12 +9,12 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// 游戏位置定位器
 /// </summary>
 [HighQuality]
-internal interface IGameLocator : INamedService
+internal interface IGameLocator
 {
     /// <summary>
     /// 异步获取游戏位置
     /// 路径应当包含游戏文件名称
     /// </summary>
     /// <returns>游戏位置</returns>
-    Task<ValueResult<bool, string>> LocateGamePathAsync();
+    ValueTask<ValueResult<bool, string>> LocateGamePathAsync();
 }

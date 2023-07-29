@@ -16,11 +16,10 @@ namespace Snap.Hutao.SourceGeneration.DependencyInjection;
 [Generator(LanguageNames.CSharp)]
 internal sealed class InjectionGenerator : IIncrementalGenerator
 {
-    private const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectionAttribute";
+    public const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectionAttribute";
     private const string InjectAsSingletonName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Singleton";
-    private const string InjectAsTransientName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Transient";
+    public const string InjectAsTransientName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Transient";
     private const string InjectAsScopedName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Scoped";
-    private const string CRLF = "\r\n";
 
     private static readonly DiagnosticDescriptor invalidInjectionDescriptor = new("SH101", "无效的 InjectAs 枚举值", "尚未支持生成 {0} 配置", "Quality", DiagnosticSeverity.Error, true);
 
@@ -87,7 +86,7 @@ internal sealed class InjectionGenerator : IIncrementalGenerator
 
         foreach (GeneratorSyntaxContext2 context in contexts.DistinctBy(c => c.Symbol.ToDisplayString()))
         {
-            lineBuilder.Clear().Append(CRLF);
+            lineBuilder.Clear().AppendLine();
 
             AttributeData injectionInfo = context.SingleAttribute(AttributeName);
             ImmutableArray<TypedConstant> arguments = injectionInfo.ConstructorArguments;

@@ -109,7 +109,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("SetGamePathCommand")]
     private async Task SetGamePathAsync()
     {
-        IGameLocator locator = serviceProvider.GetRequiredService<IEnumerable<IGameLocator>>().Pick(nameof(ManualGameLocator));
+        IGameLocator locator = serviceProvider.GetRequiredService<IGameLocatorFactory>().Create(GameLocationSource.Manual);
 
         (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
         if (isOk)

@@ -20,10 +20,7 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public string Name { get => nameof(GachaLogQueryManualInputProvider); }
-
-    /// <inheritdoc/>
-    public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
+    public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();

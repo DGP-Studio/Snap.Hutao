@@ -46,6 +46,11 @@ internal static class HutaoEndpoints
     public const string GachaLogUids = $"{HomaSnapGenshinApi}/GachaLog/Uids";
 
     /// <summary>
+    /// 获取Uid列表
+    /// </summary>
+    public const string GachaLogEntries = $"{HomaSnapGenshinApi}/GachaLog/Entries";
+
+    /// <summary>
     /// 删除祈愿记录
     /// </summary>
     /// <param name="uid">uid</param>

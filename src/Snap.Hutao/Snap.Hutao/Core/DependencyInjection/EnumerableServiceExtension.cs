@@ -16,20 +16,6 @@ internal static class EnumerableServiceExtension
     /// </summary>
     /// <typeparam name="TService">服务类型</typeparam>
     /// <param name="services">服务集合</param>
-    /// <param name="name">名称</param>
-    /// <returns>对应的服务</returns>
-    [Obsolete("该方法会导致不必要的服务实例化")]
-    public static TService Pick<TService>(this IEnumerable<TService> services, string name)
-        where TService : INamedService
-    {
-        return services.Single(s => s.Name == name);
-    }
-
-    /// <summary>
-    /// 选择对应的服务
-    /// </summary>
-    /// <typeparam name="TService">服务类型</typeparam>
-    /// <param name="services">服务集合</param>
     /// <param name="isOversea">是否为海外服/Hoyolab</param>
     /// <returns>对应的服务</returns>
     [Obsolete("该方法会导致不必要的服务实例化")]

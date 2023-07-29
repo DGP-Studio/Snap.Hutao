@@ -23,9 +23,6 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
     private readonly IGameService gameService;
     private readonly MetadataOptions metadataOptions;
 
-    /// <inheritdoc/>
-    public string Name { get => nameof(GachaLogQueryWebCacheProvider); }
-
     /// <summary>
     /// 获取缓存文件路径
     /// </summary>
@@ -50,7 +47,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
+    public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         (bool isOk, string path) = await gameService.GetGamePathAsync().ConfigureAwait(false);
 

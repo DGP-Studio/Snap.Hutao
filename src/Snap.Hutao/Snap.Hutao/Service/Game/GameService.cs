@@ -65,19 +65,19 @@ internal sealed partial class GameService : IGameService
             // Cannot find in setting
             if (string.IsNullOrEmpty(appOptions.GamePath))
             {
-                IEnumerable<IGameLocator> gameLocators = scope.ServiceProvider.GetRequiredService<IEnumerable<IGameLocator>>();
+                IGameLocatorFactory locatorFactory = scope.ServiceProvider.GetRequiredService<IGameLocatorFactory>();
 
                 // Try locate by unity log
-                ValueResult<bool, string> result = await gameLocators
-                    .Pick(nameof(UnityLogGameLocator))
+                ValueResult<bool, string> result = await locatorFactory
+                    .Create(GameLocationSource.UnityLog)
                     .LocateGamePathAsync()
                     .ConfigureAwait(false);
 
                 if (!result.IsOk)
                 {
                     // Try locate by registry
-                    result = await gameLocators
-                        .Pick(nameof(RegistryLauncherLocator))
+                    result = await locatorFactory
+                        .Create(GameLocationSource.Registry)
                         .LocateGamePathAsync()
                         .ConfigureAwait(false);
                 }

@@ -12,14 +12,10 @@ namespace Snap.Hutao.View.Control;
 /// 描述参数组合框
 /// </summary>
 [HighQuality]
+[DependencyProperty("Source", typeof(List<LevelParameters<string, ParameterDescription>>), default!, nameof(OnSourceChanged))]
+[DependencyProperty("PreferredSelectedIndex", typeof(int), 0)]
 internal sealed partial class DescParamComboBox : UserControl
 {
-    private static readonly DependencyProperty SourceProperty = Property<DescParamComboBox>
-        .Depend<List<LevelParameters<string, ParameterDescription>>>(nameof(Source), default!, OnSourceChanged);
-
-    private static readonly DependencyProperty PreferredSelectedIndexProperty = Property<DescParamComboBox>
-        .DependBoxed<int>(nameof(PreferredSelectedIndex), BoxedValues.Int32Zero);
-
     /// <summary>
     /// 构造一个新的描述参数组合框
     /// </summary>
@@ -28,31 +24,13 @@ internal sealed partial class DescParamComboBox : UserControl
         InitializeComponent();
     }
 
-    /// <summary>
-    /// 技能列表
-    /// </summary>
-    public List<LevelParameters<string, ParameterDescription>> Source
-    {
-        get => (List<LevelParameters<string, ParameterDescription>>)GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
-    }
-
-    /// <summary>
-    /// 期望的选中索引
-    /// </summary>
-    public int PreferredSelectedIndex
-    {
-        get => (int)GetValue(PreferredSelectedIndexProperty);
-        set => SetValue(PreferredSelectedIndexProperty, value);
-    }
-
     private static void OnSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         // Some of the {x:Bind} feature is not working properly,
         // so we use this simple code behind approach to achieve selection function
         if (sender is DescParamComboBox descParamComboBox)
         {
-            if (args.NewValue != args.OldValue && args.NewValue is IList<LevelParameters<string, ParameterDescription>> list)
+            if (args.NewValue != args.OldValue && args.NewValue is List<LevelParameters<string, ParameterDescription>> list)
             {
                 descParamComboBox.ItemHost.ItemsSource = list;
                 descParamComboBox.ItemHost.SelectedIndex = Math.Min(descParamComboBox.PreferredSelectedIndex, list.Count - 1);

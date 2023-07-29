@@ -23,10 +23,7 @@ internal sealed partial class GachaLogQuerySTokenProvider : IGachaLogQueryProvid
     private readonly IUserService userService;
 
     /// <inheritdoc/>
-    public string Name { get => nameof(GachaLogQuerySTokenProvider); }
-
-    /// <inheritdoc/>
-    public async Task<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
+    public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {

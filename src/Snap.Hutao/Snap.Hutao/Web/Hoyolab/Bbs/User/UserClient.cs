@@ -16,18 +16,11 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 [UseDynamicSecret]
 [ConstructorGenerated]
 [HttpClient(HttpClientConfiguration.XRpc)]
-[Injection(InjectAs.Transient, typeof(IUserClient))]
 internal sealed partial class UserClient : IUserClient
 {
     private readonly JsonSerializerOptions options;
     private readonly ILogger<UserClient> logger;
     private readonly HttpClient httpClient;
-
-    /// <inheritdoc/>
-    public bool IsOversea
-    {
-        get => false;
-    }
 
     /// <summary>
     /// 获取当前用户详细信息

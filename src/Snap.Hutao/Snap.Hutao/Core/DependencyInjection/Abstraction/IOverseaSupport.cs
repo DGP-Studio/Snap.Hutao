@@ -6,6 +6,7 @@ namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 /// <summary>
 /// 海外服/HoYoLAB 可区分
 /// </summary>
+[Obsolete("Use IOverseaSupportFactory instead")]
 internal interface IOverseaSupport
 {
     /// <summary>

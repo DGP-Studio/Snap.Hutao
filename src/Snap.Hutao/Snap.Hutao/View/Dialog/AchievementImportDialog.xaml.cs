@@ -13,10 +13,9 @@ namespace Snap.Hutao.View.Dialog;
 /// 成就对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("UIAF", typeof(UIAF))]
 internal sealed partial class AchievementImportDialog : ContentDialog
 {
-    private static readonly DependencyProperty UIAFProperty = Property<AchievementImportDialog>.Depend(nameof(UIAF), default(UIAF));
-
     private readonly ITaskContext taskContext;
 
     /// <summary>
@@ -31,15 +30,6 @@ internal sealed partial class AchievementImportDialog : ContentDialog
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         UIAF = uiaf;
-    }
-
-    /// <summary>
-    /// UIAF数据
-    /// </summary>
-    public UIAF UIAF
-    {
-        get => (UIAF)GetValue(UIAFProperty);
-        set => SetValue(UIAFProperty, value);
     }
 
     /// <summary>

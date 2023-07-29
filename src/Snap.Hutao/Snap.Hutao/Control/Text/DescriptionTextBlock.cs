@@ -21,10 +21,9 @@ namespace Snap.Hutao.Control.Text;
 /// https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 /// </summary>
 [HighQuality]
-internal sealed class DescriptionTextBlock : ContentControl
+[DependencyProperty("Description", typeof(string), "", nameof(OnDescriptionChanged))]
+internal sealed partial class DescriptionTextBlock : ContentControl
 {
-    private static readonly DependencyProperty DescriptionProperty = Property<DescriptionTextBlock>.Depend(nameof(Description), string.Empty, OnDescriptionChanged);
-
     private static readonly int ColorTagFullLength = "<color=#FFFFFFFF></color>".Length;
     private static readonly int ColorTagLeftLength = "<color=#FFFFFFFF>".Length;
 
@@ -47,15 +46,6 @@ internal sealed class DescriptionTextBlock : ContentControl
 
         actualThemeChangedEventHandler = OnActualThemeChanged;
         ActualThemeChanged += actualThemeChangedEventHandler;
-    }
-
-    /// <summary>
-    /// 可绑定的描述文本
-    /// </summary>
-    public string Description
-    {
-        get => (string)GetValue(DescriptionProperty);
-        set => SetValue(DescriptionProperty, value);
     }
 
     private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

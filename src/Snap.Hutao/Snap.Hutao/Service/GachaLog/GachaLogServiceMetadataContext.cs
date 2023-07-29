@@ -43,12 +43,6 @@ internal readonly struct GachaLogServiceMetadataContext
     public readonly Dictionary<string, Weapon> NameWeaponMap;
 
     /// <summary>
-    /// 存档集合
-    /// </summary>
-    [Obsolete]
-    public readonly ObservableCollection<GachaArchive> ArchiveCollection;
-
-    /// <summary>
     /// 是否初始化完成
     /// </summary>
     public readonly bool IsInitialized;

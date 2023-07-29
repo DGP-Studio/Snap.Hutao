@@ -30,7 +30,7 @@ internal class AsyncBarrier
 
         // Allocate the stack so no resizing is necessary.
         // We don't need space for the last participant, since we never have to store it.
-        waiters = new Stack<TaskCompletionSource>(participants - 1);
+        waiters = new Queue<TaskCompletionSource>(participants - 1);
     }
 
     /// <summary>

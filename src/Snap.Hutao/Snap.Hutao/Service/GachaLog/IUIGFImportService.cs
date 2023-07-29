@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.InterChange.GachaLog;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -16,6 +17,7 @@ internal interface IUIGFImportService
     /// </summary>
     /// <param name="context">祈愿记录服务上下文</param>
     /// <param name="uigf">数据</param>
+    /// <param name="archives">存档集合</param>
     /// <returns>存档</returns>
-    Task<GachaArchive> ImportAsync(GachaLogServiceMetadataContext context, UIGF uigf);
+    ValueTask<GachaArchive> ImportAsync(GachaLogServiceMetadataContext context, UIGF uigf, ObservableCollection<GachaArchive> archives);
 }

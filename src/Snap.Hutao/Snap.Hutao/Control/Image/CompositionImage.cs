@@ -22,10 +22,10 @@ namespace Snap.Hutao.Control.Image;
 /// 为其他图像类控件提供基类
 /// </summary>
 [HighQuality]
-[DependencyProperty("EnableLazyLoading", typeof(bool), true)]
+[DependencyProperty("EnableLazyLoading", typeof(bool), true, nameof(OnSourceChanged))]
+[DependencyProperty("Source", typeof(Uri), default!, nameof(OnSourceChanged))]
 internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Control
 {
-    private static readonly DependencyProperty SourceProperty = Property<CompositionImage>.Depend(nameof(Source), default(Uri), OnSourceChanged);
     private readonly ConcurrentCancellationTokenSource loadingTokenSource = new();
 
     private readonly IServiceProvider serviceProvider;
@@ -53,15 +53,6 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         SizeChanged += sizeChangedEventHandler;
 
         loadedImageSourceLoadCompletedEventHandler = OnLoadImageSurfaceLoadCompleted;
-    }
-
-    /// <summary>
-    /// 源
-    /// </summary>
-    public Uri Source
-    {
-        get => (Uri)GetValue(SourceProperty);
-        set => SetValue(SourceProperty, value);
     }
 
     /// <summary>
@@ -131,7 +122,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         }
     }
 
-    private async Task ApplyImageAsync(Uri? uri, CancellationToken token)
+    private async ValueTask ApplyImageAsync(Uri? uri, CancellationToken token)
     {
         await HideAsync(token).ConfigureAwait(true);
 
@@ -170,7 +161,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         }
     }
 
-    private async Task<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
+    private async ValueTask<LoadedImageSurface> LoadImageSurfaceAsync(string file, CancellationToken token)
     {
         surfaceLoadTaskCompletionSource = new();
         LoadedImageSurface surface = LoadedImageSurface.StartLoadFromUri(file.ToUri());
@@ -180,7 +171,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         return surface;
     }
 
-    private async Task ShowAsync(CancellationToken token)
+    private async ValueTask ShowAsync(CancellationToken token)
     {
         if (!isShow)
         {
@@ -201,7 +192,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
         }
     }
 
-    private async Task HideAsync(CancellationToken token)
+    private async ValueTask HideAsync(CancellationToken token)
     {
         if (isShow)
         {

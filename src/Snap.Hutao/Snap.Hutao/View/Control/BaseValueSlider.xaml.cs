@@ -11,34 +11,15 @@ namespace Snap.Hutao.View.Control;
 /// <summary>
 /// 基础数值滑动条
 /// </summary>
+[DependencyProperty("BaseValueInfo", typeof(BaseValueInfo))]
+[DependencyProperty("IsPromoteVisible", typeof(bool), true)]
 internal sealed partial class BaseValueSlider : UserControl
 {
-    private static readonly DependencyProperty BaseValueInfoProperty = Property<BaseValueSlider>.Depend<BaseValueInfo>(nameof(BaseValueInfo));
-    private static readonly DependencyProperty IsPromoteVisibleProperty = Property<BaseValueSlider>.DependBoxed<bool>(nameof(IsPromoteVisible), BoxedValues.True);
-
     /// <summary>
     /// 构造一个新的基础数值滑动条
     /// </summary>
     public BaseValueSlider()
     {
         InitializeComponent();
-    }
-
-    /// <summary>
-    /// 基础数值信息
-    /// </summary>
-    public BaseValueInfo BaseValueInfo
-    {
-        get => (BaseValueInfo)GetValue(BaseValueInfoProperty);
-        set => SetValue(BaseValueInfoProperty, value);
-    }
-
-    /// <summary>
-    /// 提升按钮是否可见
-    /// </summary>
-    public bool IsPromoteVisible
-    {
-        get => (bool)GetValue(IsPromoteVisibleProperty);
-        set => SetValue(IsPromoteVisibleProperty, value);
     }
 }

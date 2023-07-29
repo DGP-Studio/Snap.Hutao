@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -195,7 +196,8 @@ internal sealed class User : ObservableObject
         }
 
         Response<LTokenWrapper> lTokenResponse = await provider
-            .PickRequiredService<IPassportClient>(Entity.IsOversea)
+            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+            .Create(Entity.IsOversea)
             .GetLTokenBySTokenAsync(Entity, token)
             .ConfigureAwait(false);
 
@@ -218,7 +220,8 @@ internal sealed class User : ObservableObject
         }
 
         Response<UidCookieToken> cookieTokenResponse = await provider
-            .PickRequiredService<IPassportClient>(Entity.IsOversea)
+            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+            .Create(Entity.IsOversea)
             .GetCookieAccountInfoBySTokenAsync(Entity, token)
             .ConfigureAwait(false);
 
@@ -236,7 +239,8 @@ internal sealed class User : ObservableObject
     private async Task<bool> TrySetUserInfoAsync(IServiceProvider provider, CancellationToken token)
     {
         Response<UserFullInfoWrapper> response = await provider
-            .PickRequiredService<IUserClient>(Entity.IsOversea)
+            .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
+            .Create(Entity.IsOversea)
             .GetUserFullInfoAsync(Entity, token)
             .ConfigureAwait(false);
 

@@ -14,45 +14,17 @@ namespace Snap.Hutao.View.Control;
 /// </summary>
 [HighQuality]
 [ContentProperty(Name = nameof(TopContent))]
+[DependencyProperty("Text", typeof(string), "", nameof(OnTextChanged))]
+[DependencyProperty("TopContent", typeof(UIElement), default!, nameof(OnContentChanged))]
+[DependencyProperty("Fill", typeof(Brush), default!, nameof(OnFillChanged))]
 internal sealed partial class BottomTextControl : ContentControl
 {
-    private static readonly DependencyProperty TextProperty = Property<BottomTextControl>.Depend(nameof(Text), string.Empty, OnTextChanged);
-    private static readonly DependencyProperty TopContentProperty = Property<BottomTextControl>.Depend<UIElement>(nameof(TopContent), default!, OnContentChanged);
-    private static readonly DependencyProperty FillProperty = Property<BottomTextControl>.Depend(nameof(Fill), default(Brush), OnFillChanged);
-
     /// <summary>
     /// 构造一个新的底部带有文本的控件
     /// </summary>
     public BottomTextControl()
     {
         InitializeComponent();
-    }
-
-    /// <summary>
-    /// 顶部内容
-    /// </summary>
-    public UIElement TopContent
-    {
-        get => (UIElement)GetValue(TopContentProperty);
-        set => SetValue(TopContentProperty, value);
-    }
-
-    /// <summary>
-    /// 文本
-    /// </summary>
-    public string Text
-    {
-        get => (string)GetValue(TextProperty);
-        set => SetValue(TextProperty, value);
-    }
-
-    /// <summary>
-    /// 填充
-    /// </summary>
-    public Brush Fill
-    {
-        get => (Brush)GetValue(FillProperty);
-        set => SetValue(FillProperty, value);
     }
 
     private static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)

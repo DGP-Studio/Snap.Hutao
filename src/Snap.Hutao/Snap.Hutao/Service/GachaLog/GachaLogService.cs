@@ -1,13 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.GachaLog.Factory;
@@ -123,11 +119,12 @@ internal sealed partial class GachaLogService : IGachaLogService
     /// <inheritdoc/>
     public async ValueTask ImportFromUIGFAsync(UIGF uigf)
     {
-        CurrentArchive = await gachaLogImportService.ImportAsync(context, uigf).ConfigureAwait(false);
+        ArgumentNullException.ThrowIfNull(ArchiveCollection);
+        CurrentArchive = await gachaLogImportService.ImportAsync(context, uigf, ArchiveCollection).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
-    public async Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
+    public async ValueTask<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
     {
         bool isLazy = strategy switch
         {
@@ -147,7 +144,7 @@ internal sealed partial class GachaLogService : IGachaLogService
     }
 
     /// <inheritdoc/>
-    public async Task RemoveArchiveAsync(GachaArchive archive)
+    public async ValueTask RemoveArchiveAsync(GachaArchive archive)
     {
         ArgumentNullException.ThrowIfNull(archiveCollection);
 
@@ -160,7 +157,7 @@ internal sealed partial class GachaLogService : IGachaLogService
         await gachaLogDbService.DeleteGachaArchiveByIdAsync(archive.InnerId).ConfigureAwait(false);
     }
 
-    private async Task<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
+    private async ValueTask<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(ArchiveCollection);
         GachaLogFetchContext fetchContext = new(serviceProvider, context, isLazy);
@@ -225,103 +222,4 @@ internal sealed partial class GachaLogService : IGachaLogService
 
         return new(!fetchContext.FetchStatus.AuthKeyTimeout, fetchContext.TargetArchive);
     }
-}
-
-[ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IGachaLogDbService))]
-internal sealed partial class GachaLogDbService : IGachaLogDbService
-{
-    private readonly IServiceProvider serviceProvider;
-
-    public ObservableCollection<GachaArchive> GetGachaArchiveCollection()
-    {
-        try
-        {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                return appDbContext.GachaArchives.AsNoTracking().ToObservableCollection();
-            }
-        }
-        catch (SqliteException ex)
-        {
-            string message = string.Format(SH.ServiceGachaLogArchiveCollectionUserdataCorruptedMessage, ex.Message);
-            throw ThrowHelper.UserdataCorrupted(message, ex);
-        }
-    }
-
-    public List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.GachaItems
-                .AsNoTracking()
-                .Where(i => i.ArchiveId == archiveId)
-                .OrderBy(i => i.Id)
-                .ToList();
-        }
-    }
-
-    public async ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GachaArchives
-                .ExecuteDeleteWhereAsync(a => a.InnerId == archiveId)
-                .ConfigureAwait(false);
-        }
-    }
-
-    public long GetLastGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaConfigType queryType)
-    {
-        GachaItem? item = null;
-
-        try
-        {
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                // TODO: replace with MaxBy
-                // https://github.com/dotnet/efcore/issues/25566
-                // .MaxBy(i => i.Id);
-                item = appDbContext.GachaItems
-                    .AsNoTracking()
-                    .Where(i => i.ArchiveId == archiveId)
-                    .Where(i => i.QueryType == queryType)
-                    .OrderByDescending(i => i.Id)
-                    .FirstOrDefault();
-            }
-        }
-        catch (SqliteException ex)
-        {
-            ThrowHelper.UserdataCorrupted(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
-        }
-
-        return item?.Id ?? 0L;
-    }
-
-    public void AddGachaArchive(GachaArchive archive)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.GachaArchives.AddAndSave(archive);
-        }
-    }
-}
-
-internal interface IGachaLogDbService
-{
-    void AddGachaArchive(GachaArchive archive);
-
-    ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId);
-
-    ObservableCollection<GachaArchive> GetGachaArchiveCollection();
-
-    List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId);
-
-    long GetLastGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaConfigType queryType);
 }

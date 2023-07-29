@@ -12,10 +12,9 @@ namespace Snap.Hutao.View.Dialog;
 /// 启动游戏客户端转换对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("State", typeof(PackageReplaceStatus))]
 internal sealed partial class LaunchGamePackageConvertDialog : ContentDialog
 {
-    private static readonly DependencyProperty StateProperty = Property<LaunchGamePackageConvertDialog>.Depend<PackageReplaceStatus>(nameof(State));
-
     /// <summary>
     /// 构造一个新的启动游戏客户端转换对话框
     /// </summary>
@@ -26,14 +25,5 @@ internal sealed partial class LaunchGamePackageConvertDialog : ContentDialog
         XamlRoot = serviceProvider.GetRequiredService<MainWindow>().Content.XamlRoot;
 
         DataContext = this;
-    }
-
-    /// <summary>
-    /// 描述
-    /// </summary>
-    public PackageReplaceStatus State
-    {
-        get => (PackageReplaceStatus)GetValue(StateProperty);
-        set => SetValue(StateProperty, value);
     }
 }

@@ -9,6 +9,7 @@ using Snap.Hutao.Service.GachaLog;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
 using System.Collections.ObjectModel;
 
@@ -22,18 +23,18 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
-    private readonly IHutaoCloudService hutaoCloudService;
+    private readonly IGachaLogHutaoCloudService hutaoCloudService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;
 
-    private ObservableCollection<HutaoCloudUidOperationViewModel>? uidOperations;
+    private ObservableCollection<HutaoCloudEntryOperationViewModel>? uidOperations;
 
     /// <summary>
     /// Uid集合
     /// </summary>
-    public ObservableCollection<HutaoCloudUidOperationViewModel>? UidOperations { get => uidOperations; set => SetProperty(ref uidOperations, value); }
+    public ObservableCollection<HutaoCloudEntryOperationViewModel>? UidOperations { get => uidOperations; set => SetProperty(ref uidOperations, value); }
 
     /// <summary>
     /// 选项
@@ -69,6 +70,12 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
         await RefreshUidCollectionAsync().ConfigureAwait(false);
         await taskContext.SwitchToMainThreadAsync();
         IsInitialized = true;
+    }
+
+    [Command("NavigateToAfdianSkuCommand")]
+    private static async Task NavigateToAfdianSkuAsync()
+    {
+        await Windows.System.Launcher.LaunchUriAsync("https://afdian.net/item/80d3b9decf9011edb5f452540025c377".ToUri());
     }
 
     [Command("UploadCommand")]
@@ -127,23 +134,17 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             .Navigate<View.Page.SpiralAbyssRecordPage>(INavigationAwaiter.Default);
     }
 
-    [Command("NavigateToAfdianSkuCommand")]
-    private async Task NavigateToAfdianSkuAsync()
-    {
-        await Windows.System.Launcher.LaunchUriAsync("https://afdian.net/item/80d3b9decf9011edb5f452540025c377".ToUri());
-    }
-
     private async Task RefreshUidCollectionAsync()
     {
         if (Options.IsCloudServiceAllowed)
         {
-            Response<List<string>> resp = await hutaoCloudService.GetUidsAsync().ConfigureAwait(false);
+            Response<List<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
             if (resp.IsOk())
             {
                 UidOperations = resp.Data!
-                    .SelectList(uid => new HutaoCloudUidOperationViewModel(uid, RetrieveCommand, DeleteCommand))
+                    .SelectList(entry => new HutaoCloudEntryOperationViewModel(entry, RetrieveCommand, DeleteCommand))
                     .ToObservableCollection();
             }
         }

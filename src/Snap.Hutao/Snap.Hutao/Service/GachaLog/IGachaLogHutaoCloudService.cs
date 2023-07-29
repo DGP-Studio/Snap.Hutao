@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.ViewModel.GachaLog;
+using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
 
 namespace Snap.Hutao.Service.GachaLog;
@@ -10,7 +11,7 @@ namespace Snap.Hutao.Service.GachaLog;
 /// <summary>
 /// 胡桃云服务
 /// </summary>
-internal interface IHutaoCloudService
+internal interface IGachaLogHutaoCloudService
 {
     /// <summary>
     /// 异步删除服务器上的祈愿记录
@@ -25,14 +26,9 @@ internal interface IHutaoCloudService
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>祈愿统计信息</returns>
-    Task<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default(CancellationToken));
+    Task<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default);
 
-    /// <summary>
-    /// 异步获取服务器上的 Uid 列表
-    /// </summary>
-    /// <param name="token">取消令牌</param>
-    /// <returns>服务器上的 Uid 列表</returns>
-    Task<Response<List<string>>> GetUidsAsync(CancellationToken token = default);
+    ValueTask<Response<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default);
 
     /// <summary>
     /// 异步获取祈愿记录
@@ -48,5 +44,5 @@ internal interface IHutaoCloudService
     /// <param name="gachaArchive">祈愿档案</param>
     /// <param name="token">取消令牌</param>
     /// <returns>是否上传成功</returns>
-    Task<ValueResult<bool, string>> UploadGachaItemsAsync(GachaArchive gachaArchive, CancellationToken token = default);
+    ValueTask<ValueResult<bool, string>> UploadGachaItemsAsync(GachaArchive gachaArchive, CancellationToken token = default);
 }

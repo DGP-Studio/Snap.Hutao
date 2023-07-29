@@ -18,18 +18,11 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 [ConstructorGenerated]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
-[Injection(InjectAs.Transient)]
 internal sealed partial class GameRecordClientOversea : IGameRecordClient
 {
     private readonly ILogger<GameRecordClient> logger;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
-
-    /// <inheritdoc/>
-    public bool IsOversea
-    {
-        get => true;
-    }
 
     /// <summary>
     /// 异步获取实时便笺

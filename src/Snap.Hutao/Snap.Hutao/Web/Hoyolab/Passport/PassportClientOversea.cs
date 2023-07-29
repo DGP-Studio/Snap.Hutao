@@ -14,18 +14,11 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// </summary>
 [ConstructorGenerated]
 [HttpClient(HttpClientConfiguration.XRpc3)]
-[Injection(InjectAs.Transient, typeof(IPassportClient))]
 internal sealed partial class PassportClientOversea : IPassportClient
 {
     private readonly ILogger<PassportClientOversea> logger;
     private readonly JsonSerializerOptions options;
     private readonly HttpClient httpClient;
-
-    /// <inheritdoc/>
-    public bool IsOversea
-    {
-        get => true;
-    }
 
     /// <summary>
     /// 异步获取 CookieToken

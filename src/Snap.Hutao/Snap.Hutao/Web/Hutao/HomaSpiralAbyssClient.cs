@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.ViewModel.User;
@@ -173,7 +174,9 @@ internal sealed partial class HomaSpiralAbyssClient
     /// <returns>玩家记录</returns>
     public async Task<SimpleRecord?> GetPlayerRecordAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
-        IGameRecordClient gameRecordClient = serviceProvider.PickRequiredService<IGameRecordClient>(userAndUid.User.IsOversea);
+        IGameRecordClient gameRecordClient = serviceProvider
+            .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+            .Create(userAndUid.User.IsOversea);
 
         Response<PlayerInfo> playerInfoResponse = await gameRecordClient
             .GetPlayerInfoAsync(userAndUid, token)

@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.ViewModel.User;
@@ -63,7 +64,8 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
     private async Task RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule)
     {
         Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await serviceProvider
-            .PickRequiredService<IGameRecordClient>(userAndUid.User.IsOversea)
+            .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+            .Create(userAndUid.User.IsOversea)
             .GetSpiralAbyssAsync(userAndUid, schedule)
             .ConfigureAwait(false);
 

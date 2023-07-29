@@ -22,7 +22,6 @@ internal sealed class FlyoutStateChangedMessage
 
     public static FlyoutStateChangedMessage Close { get; } = new(false);
 
-
     /// <summary>
     /// 是否为开启状态
     /// </summary>

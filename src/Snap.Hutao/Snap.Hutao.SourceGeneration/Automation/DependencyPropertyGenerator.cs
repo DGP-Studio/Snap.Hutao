@@ -4,6 +4,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Snap.Hutao.SourceGeneration.Primitive;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
@@ -58,41 +59,80 @@ internal sealed class DependencyPropertyGenerator : IIncrementalGenerator
     {
         foreach (AttributeData propertyInfo in context2.Attributes.Where(attr => attr.AttributeClass!.ToDisplayString() == AttributeName))
         {
+            string owner = context2.Symbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+            Dictionary<string, TypedConstant> namedArguments = propertyInfo.NamedArguments.ToDictionary();
+            bool isAttached = namedArguments.TryGetValue("IsAttached", out TypedConstant constant) && (bool)constant.Value!;
+            string register = isAttached ? "RegisterAttached" : "Register";
+
             ImmutableArray<TypedConstant> arguments = propertyInfo.ConstructorArguments;
 
             string propertyName = (string)arguments[0].Value!;
-            string propertyType = arguments[0].Type!.ToDisplayString();
-            string type = arguments[1].Value!.ToString();
-            string defaultValue = arguments.Length > 2
-                ? GetLiteralString(arguments[2])
-                : "default";
-            string className = context2.Symbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
+            string propertyType = arguments[1].Value!.ToString();
+            string defaultValue = GetLiteralString(arguments.ElementAtOrDefault(2)) ?? "default";
+            string propertyChangedCallback = arguments.ElementAtOrDefault(3) is { IsNull: false } arg3 ? $", {arg3.Value}" : string.Empty;
 
-            string code = $$"""
-                using Microsoft.UI.Xaml;
+            string code;
+            if (isAttached)
+            {
+                string objType = namedArguments.TryGetValue("AttachedType", out TypedConstant attachedType)
+                    ? attachedType.Value!.ToString()
+                    : "object";
 
-                namespace {{context2.Symbol.ContainingNamespace}};
+                code = $$"""
+                    using Microsoft.UI.Xaml;
 
-                partial class {{className}}
-                {
-                    private DependencyProperty {{propertyName}}Property =
-                        DependencyProperty.Register(nameof({{propertyName}}), typeof({{type}}), typeof({{className}}), new PropertyMetadata(({{type}}){{defaultValue}}));
+                    namespace {{context2.Symbol.ContainingNamespace}};
 
-                    public {{type}} {{propertyName}}
+                    partial class {{owner}}
                     {
-                        get => ({{type}})GetValue({{propertyName}}Property);
-                        set => SetValue({{propertyName}}Property, value);
+                        private static readonly DependencyProperty {{propertyName}}Property =
+                            DependencyProperty.RegisterAttached("{{propertyName}}", typeof({{propertyType}}), typeof({{owner}}), new PropertyMetadata(({{propertyType}}){{defaultValue}}{{propertyChangedCallback}}));
+
+                        public static {{propertyType}} Get{{propertyName}}({{objType}} obj)
+                        {
+                            return obj?.GetValue({{propertyName}}Property) as Type;
+                        }
+
+                        public static void Set{{propertyName}}({{objType}} obj, {{propertyType}} value)
+                        {
+                            obj.SetValue({{propertyName}}Property, value);
+                        }
                     }
-                }
-                """;
+                    """;
+            }
+            else
+            {
+                code = $$"""
+                    using Microsoft.UI.Xaml;
+
+                    namespace {{context2.Symbol.ContainingNamespace}};
+
+                    partial class {{owner}}
+                    {
+                        private readonly DependencyProperty {{propertyName}}Property =
+                            DependencyProperty.Register(nameof({{propertyName}}), typeof({{propertyType}}), typeof({{owner}}), new PropertyMetadata(({{propertyType}}){{defaultValue}}{{propertyChangedCallback}}));
+
+                        public {{propertyType}} {{propertyName}}
+                        {
+                            get => ({{propertyType}})GetValue({{propertyName}}Property);
+                            set => SetValue({{propertyName}}Property, value);
+                        }
+                    }
+                    """;
+            }
 
             string normalizedClassName = context2.Symbol.ToDisplayString().Replace('<', '{').Replace('>', '}');
             production.AddSource($"{normalizedClassName}.{propertyName}.g.cs", code);
         }
     }
 
-    private static string GetLiteralString(TypedConstant typedConstant)
+    private static string? GetLiteralString(TypedConstant typedConstant)
     {
+        if (typedConstant.IsNull)
+        {
+            return default;
+        }
+
         if (typedConstant.Value is bool boolValue)
         {
             return boolValue ? "true" : "false";

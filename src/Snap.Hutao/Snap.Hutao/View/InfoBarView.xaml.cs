@@ -14,9 +14,9 @@ namespace Snap.Hutao.View;
 /// <summary>
 /// 信息条视图
 /// </summary>
+[DependencyProperty("InfoBars", typeof(ObservableCollection<InfoBar>))]
 internal sealed partial class InfoBarView : UserControl
 {
-    private static readonly DependencyProperty InfoBarsProperty = Property<InfoBarView>.Depend<ObservableCollection<InfoBar>>(nameof(InfoBars));
     private readonly IInfoBarService infoBarService;
 
     /// <summary>
@@ -30,15 +30,6 @@ internal sealed partial class InfoBarView : UserControl
         infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         InfoBars = infoBarService.Collection;
         VisibilityButton.IsChecked = LocalSetting.Get(SettingKeys.IsInfoBarToggleChecked, true);
-    }
-
-    /// <summary>
-    /// 信息条
-    /// </summary>
-    public ObservableCollection<InfoBar> InfoBars
-    {
-        get => (ObservableCollection<InfoBar>)GetValue(InfoBarsProperty);
-        set => SetValue(InfoBarsProperty, value);
     }
 
     private void OnVisibilityButtonCheckedChanged(object sender, RoutedEventArgs e)

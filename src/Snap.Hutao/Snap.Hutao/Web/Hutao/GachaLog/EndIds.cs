@@ -77,37 +77,6 @@ internal sealed class EndIds
     }
 
     /// <summary>
-    /// 异步创建一个新的 End Id集合
-    /// </summary>
-    /// <param name="appDbContext">数据库上下文</param>
-    /// <param name="archive">存档</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>新的 End Id集合</returns>
-    public static async Task<EndIds> CreateAsync(AppDbContext appDbContext, GachaArchive? archive, CancellationToken token)
-    {
-        EndIds endIds = new();
-        foreach (GachaConfigType type in Service.GachaLog.GachaLog.QueryTypes)
-        {
-            if (archive != null)
-            {
-                Snap.Hutao.Model.Entity.GachaItem? item = await appDbContext.GachaItems
-                    .Where(i => i.ArchiveId == archive.InnerId)
-                    .Where(i => i.QueryType == type)
-                    .OrderBy(i => i.Id)
-                    .FirstOrDefaultAsync(token)
-                    .ConfigureAwait(false);
-
-                if (item != null)
-                {
-                    endIds[type] = item.Id;
-                }
-            }
-        }
-
-        return endIds;
-    }
-
-    /// <summary>
     /// 获取枚举器
     /// </summary>
     /// <returns>枚举器</returns>

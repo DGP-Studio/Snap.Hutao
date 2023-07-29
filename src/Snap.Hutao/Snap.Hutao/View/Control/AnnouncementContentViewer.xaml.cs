@@ -14,6 +14,7 @@ namespace Snap.Hutao.View.Control;
 /// 公告内容页面
 /// </summary>
 [HighQuality]
+[DependencyProperty("Announcement", typeof(Announcement))]
 internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Controls.UserControl
 {
     // apply in dark mode, Dark theme
@@ -42,23 +43,12 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
         }
         """;
 
-    private static readonly DependencyProperty AnnouncementProperty = Property<AnnouncementContentViewer>.Depend<Announcement>(nameof(Announcement));
-
     /// <summary>
     /// 构造一个新的公告窗体
     /// </summary>
     public AnnouncementContentViewer()
     {
         InitializeComponent();
-    }
-
-    /// <summary>
-    /// 目标公告
-    /// </summary>
-    public Announcement Announcement
-    {
-        get => (Announcement)GetValue(AnnouncementProperty);
-        set => SetValue(AnnouncementProperty, value);
     }
 
     private static string? GenerateHtml(Announcement? announcement, ElementTheme theme)

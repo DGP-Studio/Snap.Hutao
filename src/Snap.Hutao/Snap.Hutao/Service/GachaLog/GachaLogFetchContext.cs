@@ -102,7 +102,7 @@ internal struct GachaLogFetchContext
             GachaArchiveOperation.GetOrAdd(serviceProvider, item.Uid, archives, out TargetArchive);
         }
 
-        DbEndId ??= gachaLogDbService.GetLastGachaItemIdByArchiveIdAndQueryType(TargetArchive.InnerId, CurrentType);
+        DbEndId ??= gachaLogDbService.GetNewestGachaItemIdByArchiveIdAndQueryType(TargetArchive.InnerId, CurrentType);
     }
 
     /// <summary>

@@ -71,7 +71,7 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         Cookie stokenV1 = Cookie.FromSToken(loginTicketCookie[Cookie.LOGIN_UID], multiTokenMap[Cookie.STOKEN]);
 
         Response<LoginResult> loginResultResponse = await Ioc.Default
-            .GetRequiredService<PassportClient>()
+            .GetRequiredService<PassportClient2>()
             .LoginBySTokenAsync(stokenV1)
             .ConfigureAwait(false);
 

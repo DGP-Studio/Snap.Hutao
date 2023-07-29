@@ -12,17 +12,14 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGameLocator))]
+[Injection(InjectAs.Transient)]
 internal sealed partial class ManualGameLocator : IGameLocator
 {
     private readonly ITaskContext taskContext;
     private readonly IPickerFactory pickerFactory;
 
     /// <inheritdoc/>
-    public string Name { get => nameof(ManualGameLocator); }
-
-    /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> LocateGamePathAsync()
+    public async ValueTask<ValueResult<bool, string>> LocateGamePathAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
 

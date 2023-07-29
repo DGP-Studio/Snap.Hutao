@@ -24,6 +24,8 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
     private const string UseDynamicSecretAttributeName = "Snap.Hutao.Web.Hoyolab.DynamicSecret.UseDynamicSecretAttribute";
     private const string CRLF = "\r\n";
 
+    private static readonly DiagnosticDescriptor injectionShouldOmitDescriptor = new("SH201", "Injection 特性可以省略", "HttpClient 特性已将 {0} 注册为 Transient 服务", "Quality", DiagnosticSeverity.Warning, true);
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         IncrementalValueProvider<ImmutableArray<GeneratorSyntaxContext2>> injectionClasses = context.SyntaxProvider
@@ -91,6 +93,17 @@ internal sealed class HttpClientGenerator : IIncrementalGenerator
 
         foreach (GeneratorSyntaxContext2 context in contexts.DistinctBy(c => c.Symbol.ToDisplayString()))
         {
+            if (context.SingleOrDefaultAttribute(InjectionGenerator.AttributeName) is AttributeData injectionData)
+            {
+                if (injectionData.ConstructorArguments[0].ToCSharpString() == InjectionGenerator.InjectAsTransientName)
+                {
+                    if (injectionData.ConstructorArguments.Length < 2)
+                    {
+                        production.ReportDiagnostic(Diagnostic.Create(injectionShouldOmitDescriptor, context.Context.Node.GetLocation(), context.Context.Node));
+                    }
+                }
+            }
+
             lineBuilder.Clear().Append(CRLF);
             lineBuilder.Append(@"        services.AddHttpClient<");
 

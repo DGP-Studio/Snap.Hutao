@@ -69,12 +69,12 @@ internal interface IGachaLogService
     /// <param name="progress">进度</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证密钥是否有效</returns>
-    Task<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token);
+    ValueTask<bool> RefreshGachaLogAsync(GachaLogQuery query, RefreshStrategy strategy, IProgress<GachaLogFetchStatus> progress, CancellationToken token);
 
     /// <summary>
     /// 删除存档
     /// </summary>
     /// <param name="archive">存档</param>
     /// <returns>任务</returns>
-    Task RemoveArchiveAsync(GachaArchive archive);
+    ValueTask RemoveArchiveAsync(GachaArchive archive);
 }

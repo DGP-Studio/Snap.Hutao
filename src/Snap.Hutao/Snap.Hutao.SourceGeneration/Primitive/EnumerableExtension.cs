@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Snap.Hutao.SourceGeneration.Primitive;
 
@@ -31,5 +32,10 @@ internal static class EnumerableExtension
             }
             while (enumerator.MoveNext());
         }
+    }
+
+    public static Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> source)
+    {
+        return source.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
     }
 }

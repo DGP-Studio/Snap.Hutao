@@ -14,7 +14,7 @@ internal class LocalizedEnumGenerator : IIncrementalGenerator
 {
     private const string AttributeName = "Snap.Hutao.Resource.Localization.LocalizationAttribute";
     private const string LocalizationKeyName = "Snap.Hutao.Resource.Localization.LocalizationKeyAttribute";
-    
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         IncrementalValuesProvider<GeneratorSyntaxContext2> localizationEnums = context.SyntaxProvider

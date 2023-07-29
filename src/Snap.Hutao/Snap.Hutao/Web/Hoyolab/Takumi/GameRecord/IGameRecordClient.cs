@@ -11,7 +11,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// <summary>
 /// 游戏记录提供器
 /// </summary>
-internal interface IGameRecordClient : IOverseaSupport
+internal interface IGameRecordClient
 {
     /// <summary>
     /// 获取玩家角色详细信息

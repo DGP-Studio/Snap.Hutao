@@ -11,11 +11,10 @@ namespace Snap.Hutao.Control.Panel;
 /// 面板选择器
 /// </summary>
 [HighQuality]
+[DependencyProperty("Current", typeof(string), List, nameof(OnCurrentChanged))]
 internal sealed partial class PanelSelector : SplitButton
 {
     private const string List = nameof(List);
-
-    private static readonly DependencyProperty CurrentProperty = Property<PanelSelector>.Depend(nameof(Current), List, OnCurrentChanged);
 
     private readonly RoutedEventHandler loadedEventHandler;
     private readonly RoutedEventHandler unloadedEventHandler;
@@ -39,15 +38,6 @@ internal sealed partial class PanelSelector : SplitButton
 
         unloadedEventHandler = OnRootUnload;
         Unloaded += unloadedEventHandler;
-    }
-
-    /// <summary>
-    /// 当前选择
-    /// </summary>
-    public string Current
-    {
-        get => (string)GetValue(CurrentProperty);
-        set => SetValue(CurrentProperty, value);
     }
 
     private static void InitializeItems(PanelSelector selector)

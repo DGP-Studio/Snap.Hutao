@@ -11,24 +11,14 @@ namespace Snap.Hutao.View.Control;
 /// 统计卡片
 /// </summary>
 [HighQuality]
+[DependencyProperty("ShowUpPull", typeof(bool), true)]
 internal sealed partial class StatisticsCard : UserControl
 {
-    private static readonly DependencyProperty ShowUpPullProperty = Property<StatisticsCard>.DependBoxed<bool>(nameof(ShowUpPull), BoxedValues.True);
-
     /// <summary>
     /// 构造一个新的统计卡片
     /// </summary>
     public StatisticsCard()
     {
         InitializeComponent();
-    }
-
-    /// <summary>
-    /// 显示Up抽数
-    /// </summary>
-    public bool ShowUpPull
-    {
-        get => (bool)GetValue(ShowUpPullProperty);
-        set => SetValue(ShowUpPullProperty, value);
     }
 }

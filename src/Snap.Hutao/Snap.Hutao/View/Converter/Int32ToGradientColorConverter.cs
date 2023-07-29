@@ -13,53 +13,21 @@ namespace Snap.Hutao.View.Converter;
 /// <summary>
 /// Int32 转 色阶颜色
 /// </summary>
-internal sealed class Int32ToGradientColorConverter : DependencyObject, IValueConverter
+[DependencyProperty("MaximumValue", typeof(int), 90)]
+[DependencyProperty("MinimumValue", typeof(int), 1)]
+[DependencyProperty("Maximum", typeof(Color))]
+[DependencyProperty("Minimum", typeof(Color))]
+internal sealed partial class Int32ToGradientColorConverter : DependencyValueConverter<int, Color>
 {
-    private static readonly DependencyProperty MaximumProperty = Property<Int32ToGradientColorConverter>.Depend(nameof(Maximum), StructMarshal.Color(0xFFFF4949));
-    private static readonly DependencyProperty MinimumProperty = Property<Int32ToGradientColorConverter>.Depend(nameof(Minimum), StructMarshal.Color(0xFF48FF7A));
-    private static readonly DependencyProperty MaximumValueProperty = Property<Int32ToGradientColorConverter>.Depend(nameof(MaximumValue), 90);
-    private static readonly DependencyProperty MinimumValueProperty = Property<Int32ToGradientColorConverter>.Depend(nameof(MinimumValue), 1);
-
-    /// <summary>
-    /// 最小颜色
-    /// </summary>
-    public Color Minimum
+    public Int32ToGradientColorConverter()
     {
-        get => (Color)GetValue(MinimumProperty);
-        set => SetValue(MinimumProperty, value);
+        Minimum = StructMarshal.Color(0xFFFF4949);
+        Maximum = StructMarshal.Color(0xFF48FF7A);
     }
 
-    /// <summary>
-    /// 最大颜色
-    /// </summary>
-    public Color Maximum
+    public override Color Convert(int from)
     {
-        get => (Color)GetValue(MaximumProperty);
-        set => SetValue(MaximumProperty, value);
-    }
-
-    /// <summary>
-    /// 最小值
-    /// </summary>
-    public int MinimumValue
-    {
-        get => (int)GetValue(MinimumValueProperty);
-        set => SetValue(MinimumValueProperty, value);
-    }
-
-    /// <summary>
-    /// 最大值
-    /// </summary>
-    public int MaximumValue
-    {
-        get => (int)GetValue(MaximumValueProperty);
-        set => SetValue(MaximumValueProperty, value);
-    }
-
-    /// <inheritdoc/>
-    public object Convert(object value, Type targetType, object parameter, string language)
-    {
-        double n = (value != null ? (int)value : MinimumValue) - MinimumValue;
+        double n = Math.Clamp(from, MinimumValue, MaximumValue) - MinimumValue;
         int step = MaximumValue - MinimumValue;
         double a = Minimum.A + ((Maximum.A - Minimum.A) * n / step);
         double r = Minimum.R + ((Maximum.R - Minimum.R) * n / step);
@@ -72,11 +40,5 @@ internal sealed class Int32ToGradientColorConverter : DependencyObject, IValueCo
         color.G = (byte)g;
         color.B = (byte)b;
         return color;
-    }
-
-    /// <inheritdoc/>
-    public object ConvertBack(object value, Type targetType, object parameter, string language)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -15,29 +15,24 @@ namespace Snap.Hutao.Service.GachaLog;
 internal sealed partial class UIGFExportService : IUIGFExportService
 {
     private readonly IServiceProvider serviceProvider;
+    private readonly IGachaLogDbService gachaLogDbService;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
     public async ValueTask<UIGF> ExportAsync(GachaLogServiceMetadataContext context, GachaArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
+
+        List<UIGFItem> list = gachaLogDbService
+            .GetGachaItemListByArchiveId(archive.InnerId)
+            .SelectList(i => UIGFItem.From(i, context.GetNameQualityByItemId(i.ItemId)));
+
+        UIGF uigf = new()
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            Info = UIGFInfo.From(serviceProvider, archive.Uid),
+            List = list,
+        };
 
-            List<UIGFItem> list = appDbContext.GachaItems
-                .Where(i => i.ArchiveId == archive.InnerId)
-                .AsEnumerable()
-                .Select(i => UIGFItem.From(i, context.GetNameQualityByItemId(i.ItemId)))
-                .ToList();
-
-            UIGF uigf = new()
-            {
-                Info = UIGFInfo.From(serviceProvider, archive.Uid),
-                List = list,
-            };
-
-            return uigf;
-        }
+        return uigf;
     }
 }

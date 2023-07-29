@@ -13,11 +13,10 @@ namespace Snap.Hutao.View.Dialog;
 /// 养成计算对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("Avatar", typeof(ICalculableAvatar))]
+[DependencyProperty("Weapon", typeof(ICalculableWeapon))]
 internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 {
-    private static readonly DependencyProperty AvatarProperty = Property<CultivatePromotionDeltaDialog>.Depend<ICalculableAvatar?>(nameof(Avatar));
-    private static readonly DependencyProperty WeaponProperty = Property<CultivatePromotionDeltaDialog>.Depend<ICalculableWeapon?>(nameof(Weapon));
-
     private readonly ITaskContext taskContext;
 
     /// <summary>
@@ -35,24 +34,6 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
         Avatar = options.Avatar;
         Weapon = options.Weapon;
         DataContext = this;
-    }
-
-    /// <summary>
-    /// 角色
-    /// </summary>
-    public ICalculableAvatar? Avatar
-    {
-        get => (ICalculableAvatar?)GetValue(AvatarProperty);
-        set => SetValue(AvatarProperty, value);
-    }
-
-    /// <summary>
-    /// 武器
-    /// </summary>
-    public ICalculableWeapon? Weapon
-    {
-        get => (ICalculableWeapon?)GetValue(WeaponProperty);
-        set => SetValue(WeaponProperty, value);
     }
 
     /// <summary>

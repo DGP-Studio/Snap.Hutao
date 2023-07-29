@@ -99,6 +99,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             if (await gachaLogService.InitializeAsync(CancellationToken).ConfigureAwait(false))
             {
+                ArgumentNullException.ThrowIfNull(gachaLogService.ArchiveCollection);
                 ObservableCollection<GachaArchive> archives = gachaLogService.ArchiveCollection;
                 await taskContext.SwitchToMainThreadAsync();
                 Archives = archives;

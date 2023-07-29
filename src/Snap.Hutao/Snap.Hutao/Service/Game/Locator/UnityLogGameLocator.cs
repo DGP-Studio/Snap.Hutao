@@ -12,16 +12,13 @@ namespace Snap.Hutao.Service.Game.Locator;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Transient, typeof(IGameLocator))]
+[Injection(InjectAs.Transient)]
 internal sealed partial class UnityLogGameLocator : IGameLocator
 {
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public string Name { get => nameof(UnityLogGameLocator); }
-
-    /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> LocateGamePathAsync()
+    public async ValueTask<ValueResult<bool, string>> LocateGamePathAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
 
@@ -32,11 +29,11 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
         // Fallback to the CN server.
         string logFilePathFinal = File.Exists(logFilePathOversea) ? logFilePathOversea : logFilePathChinese;
 
-        using (TempFile? tempFile = TempFile.CopyFrom(logFilePathFinal))
+        if (TempFile.CopyFrom(logFilePathFinal) is TempFile file)
         {
-            if (tempFile != null)
+            using (file)
             {
-                string content = await File.ReadAllTextAsync(tempFile.Path).ConfigureAwait(false);
+                string content = await File.ReadAllTextAsync(file.Path).ConfigureAwait(false);
 
                 Match matchResult = WarmupFileLine().Match(content);
                 if (!matchResult.Success)
@@ -44,17 +41,17 @@ internal sealed partial class UnityLogGameLocator : IGameLocator
                     return new(false, SH.ServiceGameLocatorUnityLogGamePathNotFound);
                 }
 
-                string entryName = matchResult.Groups[0].Value.Replace("_Data", ".exe");
+                string entryName = $"{matchResult.Value}.exe";
                 string fullPath = Path.GetFullPath(Path.Combine(matchResult.Value, "..", entryName));
                 return new(true, fullPath);
             }
-            else
-            {
-                return new(false, SH.ServiceGameLocatorUnityLogFileNotFound);
-            }
+        }
+        else
+        {
+            return new(false, SH.ServiceGameLocatorUnityLogFileNotFound);
         }
     }
 
-    [GeneratedRegex(@"(?m).:/.+(GenshinImpact_Data|YuanShen_Data)")]
+    [GeneratedRegex(@".:/.+(?:GenshinImpact|YuanShen)(?=_Data)")]
     private static partial Regex WarmupFileLine();
 }

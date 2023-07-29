@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.ViewModel.Cultivation;
-using System.Collections.Immutable;
-using System.Text.RegularExpressions;
 using Snap.Hutao.Model.Intrinsic.Immutable;
+using Snap.Hutao.ViewModel.Cultivation;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Model.Metadata.Item;
 

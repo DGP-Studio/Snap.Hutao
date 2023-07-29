@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Snap.Hutao.SourceGeneration.Primitive;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -16,6 +17,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
 {
     private static readonly DiagnosticDescriptor typeInternalDescriptor = new("SH001", "Type should be internal", "Type [{0}] should be internal", "Quality", DiagnosticSeverity.Info, true);
     private static readonly DiagnosticDescriptor readOnlyStructRefDescriptor = new("SH002", "ReadOnly struct should be passed with ref-like key word", "ReadOnly Struct [{0}] should be passed with ref-like key word", "Quality", DiagnosticSeverity.Info, true);
+    private static readonly DiagnosticDescriptor useValueTaskIfPossibleDescriptor = new("SH003", "Use ValueTask instead of Task whenever possible", "Use ValueTask instead of Task", "Quality", DiagnosticSeverity.Info, true);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
     {
@@ -25,6 +27,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
             {
                 typeInternalDescriptor,
                 readOnlyStructRefDescriptor,
+                useValueTaskIfPossibleDescriptor,
             }.ToImmutableArray();
         }
     }
@@ -90,9 +93,22 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
     private void HandleMethodDeclaration(SyntaxNodeAnalysisContext context)
     {
         MethodDeclarationSyntax methodSyntax = (MethodDeclarationSyntax)context.Node;
-        INamedTypeSymbol? returnTypeSymbol = context.SemanticModel.GetDeclaredSymbol(methodSyntax.ReturnType) as INamedTypeSymbol;
+        IMethodSymbol methodSymbol = context.SemanticModel.GetDeclaredSymbol(methodSyntax)!;
+        if (methodSymbol.ReturnType.IsOrInheritsFrom("System.Threading.Tasks.Task"))
+        {
+            Location location = methodSyntax.ReturnType.GetLocation();
+            Diagnostic diagnostic = Diagnostic.Create(useValueTaskIfPossibleDescriptor, location);
+            context.ReportDiagnostic(diagnostic);
+            return;
+        }
+
+        if (methodSymbol.ReturnType.IsOrInheritsFrom("System.Threading.Tasks.ValueTask"))
+        {
+            return;
+        }
+
         // 跳过异步方法，因为异步方法无法使用 ref in out
-        if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.AsyncKeyword)) || IsTaskOrValueTask(returnTypeSymbol))
+        if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.AsyncKeyword)))
         {
             return;
         }
@@ -184,24 +200,5 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
             SpecialType.System_UIntPtr => true,
             _ => false,
         };
-    }
-
-    private static bool IsTaskOrValueTask(INamedTypeSymbol? symbol)
-    {
-        if (symbol == null)
-        {
-            return false;
-        }
-
-        string typeName = symbol.MetadataName;
-        if (typeName == "System.Threading.Tasks.Task" ||
-            typeName == "System.Threading.Tasks.Task`1" ||
-            typeName == "System.Threading.Tasks.ValueTask" ||
-            typeName == "System.Threading.Tasks.ValueTask`1")
-        {
-            return true;
-        }
-
-        return false;
     }
 }

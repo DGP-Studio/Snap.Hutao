@@ -19,7 +19,6 @@ namespace Snap.Hutao.Service.Game.Package;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated(ResolveHttpClient = true)]
-[Injection(InjectAs.Transient)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class PackageConverter
 {

@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.Database;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity.Database;
@@ -220,7 +221,8 @@ internal sealed partial class UserService : IUserService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             Response<UidCookieToken> cookieTokenResponse = await scope.ServiceProvider
-                .PickRequiredService<IPassportClient>(user.Entity.IsOversea)
+                .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
+                .Create(user.Entity.IsOversea)
                 .GetCookieAccountInfoBySTokenAsync(user.Entity)
                 .ConfigureAwait(false);
 

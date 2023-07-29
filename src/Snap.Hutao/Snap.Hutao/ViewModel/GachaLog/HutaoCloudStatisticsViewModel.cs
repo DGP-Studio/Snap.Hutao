@@ -32,7 +32,7 @@ internal sealed class HutaoCloudStatisticsViewModel : Abstraction.ViewModelSlim
     {
         ITaskContext taskContext = ServiceProvider.GetRequiredService<ITaskContext>();
         await taskContext.SwitchToBackgroundAsync();
-        IHutaoCloudService hutaoCloudService = ServiceProvider.GetRequiredService<IHutaoCloudService>();
+        IGachaLogHutaoCloudService hutaoCloudService = ServiceProvider.GetRequiredService<IGachaLogHutaoCloudService>();
         (bool isOk, HutaoStatistics statistics) = await hutaoCloudService.GetCurrentEventStatisticsAsync().ConfigureAwait(false);
         if (isOk)
         {

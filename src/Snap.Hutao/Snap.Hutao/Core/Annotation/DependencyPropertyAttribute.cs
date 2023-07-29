@@ -13,4 +13,12 @@ internal sealed class DependencyPropertyAttribute : Attribute
     public DependencyPropertyAttribute(string name, Type type, object defaultValue)
     {
     }
+
+    public DependencyPropertyAttribute(string name, Type type, object defaultValue, string valueChangedCallbackName)
+    {
+    }
+
+    public bool IsAttached { get; set; }
+
+    public Type AttachedType { get; set; } = default!;
 }

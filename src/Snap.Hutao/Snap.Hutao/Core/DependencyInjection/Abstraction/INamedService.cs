@@ -7,6 +7,7 @@ namespace Snap.Hutao.Core.DependencyInjection.Abstraction;
 /// 有名称的对象
 /// 指示该对象可通过名称区分
 /// </summary>
+[Obsolete("无意义的接口")]
 [HighQuality]
 internal interface INamedService
 {
