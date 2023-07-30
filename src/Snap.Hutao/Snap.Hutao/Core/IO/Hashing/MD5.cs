@@ -17,7 +17,7 @@ internal static class MD5
     /// <param name="filePath">文件路径</param>
     /// <param name="token">取消令牌</param>
     /// <returns>文件 Md5 摘要</returns>
-    public static async Task<string> HashFileAsync(string filePath, CancellationToken token = default)
+    public static async ValueTask<string> HashFileAsync(string filePath, CancellationToken token = default)
     {
         await using (FileStream stream = File.OpenRead(filePath))
         {
@@ -31,7 +31,7 @@ internal static class MD5
     /// <param name="stream">流</param>
     /// <param name="token">取消令牌</param>
     /// <returns>流 Md5 摘要</returns>
-    public static async Task<string> HashAsync(Stream stream, CancellationToken token = default)
+    public static async ValueTask<string> HashAsync(Stream stream, CancellationToken token = default)
     {
         using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
         {

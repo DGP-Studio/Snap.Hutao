@@ -93,7 +93,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     }
 
     /// <inheritdoc/>
-    public async Task<ValueFile> GetFileFromCacheAsync(Uri uri)
+    public async ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri)
     {
         string fileName = GetCacheFileName(uri);
         string filePath = Path.Combine(GetCacheFolder(), fileName);
@@ -166,6 +166,7 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
         }
     }
 
+    [SuppressMessage("", "SH003")]
     private async Task DownloadFileAsync(Uri uri, string baseFile)
     {
         logger.LogInformation("Begin downloading for {Uri}", uri);

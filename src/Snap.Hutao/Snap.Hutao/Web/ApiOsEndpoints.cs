@@ -109,8 +109,6 @@ internal static class ApiOsEndpoints
     /// Game Authkey
     /// </summary>
     public const string BindingGenAuthKey = $"{ApiAccountOsBindingApi}/genAuthKey";
-
-
     #endregion
 
     #region BbsApiOsApi

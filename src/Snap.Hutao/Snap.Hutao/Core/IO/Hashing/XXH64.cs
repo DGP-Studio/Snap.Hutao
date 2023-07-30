@@ -17,7 +17,7 @@ internal static class XXH64
     /// <param name="stream">流</param>
     /// <param name="token">取消令牌</param>
     /// <returns>摘要</returns>
-    public static async Task<string> HashAsync(Stream stream, CancellationToken token = default)
+    public static async ValueTask<string> HashAsync(Stream stream, CancellationToken token = default)
     {
         XxHash64 xxHash64 = new();
         await xxHash64.AppendAsync(stream, token).ConfigureAwait(false);
@@ -31,7 +31,7 @@ internal static class XXH64
     /// <param name="path">路径</param>
     /// <param name="token">取消令牌</param>
     /// <returns>摘要</returns>
-    public static async Task<string> HashFileAsync(string path, CancellationToken token = default)
+    public static async ValueTask<string> HashFileAsync(string path, CancellationToken token = default)
     {
         await using (FileStream stream = File.OpenRead(path))
         {

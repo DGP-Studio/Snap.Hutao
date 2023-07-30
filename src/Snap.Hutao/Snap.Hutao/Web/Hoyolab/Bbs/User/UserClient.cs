@@ -32,9 +32,11 @@ internal sealed partial class UserClient : IUserClient
     public async Task<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
         Response<UserFullInfoWrapper>? resp = await httpClient
-            //.SetUser(user, CookieType.SToken)
+
+            // .SetUser(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.BbsReferer)
-            //.UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
+
+            // .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
             .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
             .ConfigureAwait(false);
 

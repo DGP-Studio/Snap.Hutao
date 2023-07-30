@@ -13,7 +13,7 @@ namespace Snap.Hutao.Core.IO;
 internal static class PickerExtension
 {
     /// <inheritdoc cref="FileOpenPicker.PickSingleFileAsync"/>
-    public static async Task<ValueResult<bool, ValueFile>> TryPickSingleFileAsync(this FileOpenPicker picker)
+    public static async ValueTask<ValueResult<bool, ValueFile>> TryPickSingleFileAsync(this FileOpenPicker picker)
     {
         StorageFile? file;
         Exception? exception = null;
@@ -39,7 +39,7 @@ internal static class PickerExtension
     }
 
     /// <inheritdoc cref="FileSavePicker.PickSaveFileAsync"/>
-    public static async Task<ValueResult<bool, ValueFile>> TryPickSaveFileAsync(this FileSavePicker picker)
+    public static async ValueTask<ValueResult<bool, ValueFile>> TryPickSaveFileAsync(this FileSavePicker picker)
     {
         StorageFile? file;
         Exception? exception = null;
@@ -65,7 +65,7 @@ internal static class PickerExtension
     }
 
     /// <inheritdoc cref="FolderPicker.PickSingleFolderAsync"/>
-    public static async Task<ValueResult<bool, string>> TryPickSingleFolderAsync(this FolderPicker picker)
+    public static async ValueTask<ValueResult<bool, string>> TryPickSingleFolderAsync(this FolderPicker picker)
     {
         StorageFolder? folder;
         Exception? exception = null;

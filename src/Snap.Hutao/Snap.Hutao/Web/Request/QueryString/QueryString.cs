@@ -38,11 +38,14 @@ internal readonly struct QueryString
         }
     }
 
+#if NET8_0
+
     private static QueryString Parse(ReadOnlySpan<char> value)
     {
         // TODO: .NET 8 ReadOnlySpan Split
         return default;
     }
+#endif
 
     /// <summary>
     /// Parses a query string into a <see cref="QueryString"/> object. Keys/values are automatically URL decoded.

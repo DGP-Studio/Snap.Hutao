@@ -35,8 +35,8 @@ internal static class QueryableExtension
     /// <param name="token">取消令牌</param>
     /// <returns>SQL返回个数</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Task<int> ExecuteDeleteWhereAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken token = default)
+    public static ValueTask<int> ExecuteDeleteWhereAsync<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate, CancellationToken token = default)
     {
-        return source.Where(predicate).ExecuteDeleteAsync(token);
+        return source.Where(predicate).ExecuteDeleteAsync(token).AsValueTask();
     }
 }

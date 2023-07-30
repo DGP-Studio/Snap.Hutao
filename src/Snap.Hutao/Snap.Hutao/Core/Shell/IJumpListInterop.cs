@@ -12,5 +12,5 @@ internal interface IJumpListInterop
     /// 异步配置跳转列表
     /// </summary>
     /// <returns>任务</returns>
-    Task ConfigureAsync();
+    ValueTask ConfigureAsync();
 }

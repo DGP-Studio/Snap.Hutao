@@ -54,7 +54,7 @@ internal class ScopedPage : Page
     /// </summary>
     /// <param name="extra">额外内容</param>
     /// <returns>任务</returns>
-    public async Task NotifyRecipientAsync(INavigationData extra)
+    public async ValueTask NotifyRecipientAsync(INavigationData extra)
     {
         if (extra.Data != null && DataContext is INavigationRecipient recipient)
         {

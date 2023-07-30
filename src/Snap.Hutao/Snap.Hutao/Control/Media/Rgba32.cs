@@ -143,7 +143,7 @@ internal struct Rgba32
     /// 转换到 HSL 颜色
     /// </summary>
     /// <returns>HSL 颜色</returns>
-    public HslColor ToHsl()
+    public readonly HslColor ToHsl()
     {
         const double toDouble = 1.0 / 255;
         double r = toDouble * R;

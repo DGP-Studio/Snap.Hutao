@@ -138,6 +138,12 @@ internal sealed class DependencyPropertyGenerator : IIncrementalGenerator
             return boolValue ? "true" : "false";
         }
 
-        return typedConstant.Value!.ToString();
+        string result = typedConstant.Value!.ToString();
+        if (string.IsNullOrEmpty(result))
+        {
+            return default;
+        }
+
+        return result;
     }
 }

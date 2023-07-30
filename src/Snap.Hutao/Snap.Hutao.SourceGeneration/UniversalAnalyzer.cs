@@ -40,7 +40,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         context.RegisterCompilationStartAction(CompilationStart);
     }
 
-    private void CompilationStart(CompilationStartAnalysisContext context)
+    private static void CompilationStart(CompilationStartAnalysisContext context)
     {
         SyntaxKind[] types = new SyntaxKind[]
         {
@@ -50,13 +50,14 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
             SyntaxKind.EnumDeclaration
         };
 
-        context.RegisterSyntaxNodeAction(HandleTypeDeclaration, types);
+        context.RegisterSyntaxNodeAction(HandleTypeShouldBeInternal, types);
 
-        context.RegisterSyntaxNodeAction(HandleMethodDeclaration, SyntaxKind.MethodDeclaration);
-        context.RegisterSyntaxNodeAction(HandleConstructorDeclaration, SyntaxKind.ConstructorDeclaration);
+        context.RegisterSyntaxNodeAction(HandleMethodParameterShouldUseRefLikeKeyword, SyntaxKind.MethodDeclaration);
+        context.RegisterSyntaxNodeAction(HandleMethodReturnTypeShouldUseValueTaskInsteadOfTask, SyntaxKind.MethodDeclaration);
+        context.RegisterSyntaxNodeAction(HandleConstructorParameterShouldUseRefLikeKeyword, SyntaxKind.ConstructorDeclaration);
     }
 
-    private void HandleTypeDeclaration(SyntaxNodeAnalysisContext context)
+    private static void HandleTypeShouldBeInternal(SyntaxNodeAnalysisContext context)
     {
         BaseTypeDeclarationSyntax syntax = (BaseTypeDeclarationSyntax)context.Node;
 
@@ -90,15 +91,31 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private void HandleMethodDeclaration(SyntaxNodeAnalysisContext context)
+    private static void HandleMethodReturnTypeShouldUseValueTaskInsteadOfTask(SyntaxNodeAnalysisContext context)
     {
         MethodDeclarationSyntax methodSyntax = (MethodDeclarationSyntax)context.Node;
         IMethodSymbol methodSymbol = context.SemanticModel.GetDeclaredSymbol(methodSyntax)!;
+
+        // 跳过重载方法
+        if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.OverrideKeyword)))
+        {
+            return;
+        }
+
         if (methodSymbol.ReturnType.IsOrInheritsFrom("System.Threading.Tasks.Task"))
         {
             Location location = methodSyntax.ReturnType.GetLocation();
             Diagnostic diagnostic = Diagnostic.Create(useValueTaskIfPossibleDescriptor, location);
             context.ReportDiagnostic(diagnostic);
+        }
+    }
+
+    private static void HandleMethodParameterShouldUseRefLikeKeyword(SyntaxNodeAnalysisContext context)
+    {
+        MethodDeclarationSyntax methodSyntax = (MethodDeclarationSyntax)context.Node;
+        IMethodSymbol methodSymbol = context.SemanticModel.GetDeclaredSymbol(methodSyntax)!;
+        if (methodSymbol.ReturnType.IsOrInheritsFrom("System.Threading.Tasks.Task"))
+        {
             return;
         }
 
@@ -150,7 +167,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         }
     }
 
-    private void HandleConstructorDeclaration(SyntaxNodeAnalysisContext context)
+    private static void HandleConstructorParameterShouldUseRefLikeKeyword(SyntaxNodeAnalysisContext context)
     {
         ConstructorDeclarationSyntax constructorSyntax = (ConstructorDeclarationSyntax)context.Node;
 

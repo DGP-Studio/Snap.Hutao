@@ -17,7 +17,7 @@ internal interface IImageCache : ICastService
     /// </summary>
     /// <param name="uri">Uri of the item.</param>
     /// <returns>a string path</returns>
-    Task<ValueFile> GetFileFromCacheAsync(Uri uri);
+    ValueTask<ValueFile> GetFileFromCacheAsync(Uri uri);
 
     /// <summary>
     /// Removed items based on uri list passed

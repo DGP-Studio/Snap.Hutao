@@ -37,7 +37,7 @@ internal readonly struct ValueFile
     /// <typeparam name="T">内容的类型</typeparam>
     /// <param name="options">序列化选项</param>
     /// <returns>操作是否成功，反序列化后的内容</returns>
-    public async Task<ValueResult<bool, T?>> DeserializeFromJsonAsync<T>(JsonSerializerOptions options)
+    public async ValueTask<ValueResult<bool, T?>> DeserializeFromJsonAsync<T>(JsonSerializerOptions options)
         where T : class
     {
         try
@@ -62,7 +62,7 @@ internal readonly struct ValueFile
     /// <param name="obj">对象</param>
     /// <param name="options">序列化选项</param>
     /// <returns>操作是否成功</returns>
-    public async Task<bool> SerializeToJsonAsync<T>(T obj, JsonSerializerOptions options)
+    public async ValueTask<bool> SerializeToJsonAsync<T>(T obj, JsonSerializerOptions options)
     {
         try
         {

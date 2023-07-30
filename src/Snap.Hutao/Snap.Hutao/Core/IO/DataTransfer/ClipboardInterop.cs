@@ -17,7 +17,7 @@ internal sealed partial class ClipboardInterop : IClipboardInterop
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async Task<T?> DeserializeFromJsonAsync<T>()
+    public async ValueTask<T?> DeserializeFromJsonAsync<T>()
         where T : class
     {
         await taskContext.SwitchToMainThreadAsync();

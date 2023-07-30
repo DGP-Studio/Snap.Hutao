@@ -38,7 +38,7 @@ internal class AsyncBarrier
     /// that completes when all other participants have also signaled ready.
     /// </summary>
     /// <returns>A Task, which will complete (or may already be completed) when the last participant calls this method.</returns>
-    public Task SignalAndWaitAsync()
+    public ValueTask SignalAndWaitAsync()
     {
         lock (waiters)
         {
@@ -52,14 +52,14 @@ internal class AsyncBarrier
                 }
 
                 // And allow this one to continue immediately.
-                return Task.CompletedTask;
+                return ValueTask.CompletedTask;
             }
             else
             {
                 // We need more folks. So suspend this caller.
                 TaskCompletionSource tcs = new();
                 waiters.Enqueue(tcs);
-                return tcs.Task;
+                return tcs.Task.AsValueTask();
             }
         }
     }

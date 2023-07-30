@@ -15,7 +15,7 @@ internal interface IClipboardInterop
     /// </summary>
     /// <typeparam name="T">目标类型</typeparam>
     /// <returns>实例</returns>
-    Task<T?> DeserializeFromJsonAsync<T>()
+    ValueTask<T?> DeserializeFromJsonAsync<T>()
         where T : class;
 
     /// <summary>

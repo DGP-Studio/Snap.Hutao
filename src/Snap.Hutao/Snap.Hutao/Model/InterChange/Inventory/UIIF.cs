@@ -32,4 +32,13 @@ internal sealed class UIIF
     /// </summary>
     [JsonPropertyName("list")]
     public List<UIIFItem> List { get; set; } = default!;
+
+    /// <summary>
+    /// 确认当前UIIF对象的版本是否受支持
+    /// </summary>
+    /// <returns>当前UIIF对象是否受支持</returns>
+    public bool IsCurrentVersionSupported()
+    {
+        return SupportedVersion.Contains(Info?.UIIFVersion ?? string.Empty);
+    }
 }

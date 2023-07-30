@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Core.Threading;
 
@@ -13,6 +14,20 @@ namespace Snap.Hutao.Core.Threading;
 [SuppressMessage("", "VSTHRD100")]
 internal static class TaskExtension
 {
+    [SuppressMessage("", "VSTHRD200")]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ValueTask AsValueTask(this Task task)
+    {
+        return new(task);
+    }
+
+    [SuppressMessage("", "VSTHRD200")]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ValueTask<T> AsValueTask<T>(this Task<T> task)
+    {
+        return new(task);
+    }
+
     /// <summary>
     /// 安全的触发任务
     /// </summary>

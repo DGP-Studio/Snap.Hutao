@@ -17,7 +17,7 @@ internal sealed class JumpListInterop : IJumpListInterop
     /// 异步配置跳转列表
     /// </summary>
     /// <returns>任务</returns>
-    public async Task ConfigureAsync()
+    public async ValueTask ConfigureAsync()
     {
         if (JumpList.IsSupported())
         {

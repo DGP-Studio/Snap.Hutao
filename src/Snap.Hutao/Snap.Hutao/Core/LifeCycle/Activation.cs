@@ -103,7 +103,7 @@ internal sealed class Activation : IActivation
         }
     }
 
-    private async Task HandleActivationAsync(AppActivationArguments args, bool isRedirected)
+    private async ValueTask HandleActivationAsync(AppActivationArguments args, bool isRedirected)
     {
         if (activateSemaphore.CurrentCount > 0)
         {
@@ -114,7 +114,7 @@ internal sealed class Activation : IActivation
         }
     }
 
-    private async Task HandleActivationCoreAsync(AppActivationArguments args, bool isRedirected)
+    private async ValueTask HandleActivationCoreAsync(AppActivationArguments args, bool isRedirected)
     {
         if (args.Kind == ExtendedActivationKind.Protocol)
         {
@@ -145,7 +145,7 @@ internal sealed class Activation : IActivation
         }
     }
 
-    private async Task HandleNormalLaunchActionAsync()
+    private async ValueTask HandleNormalLaunchActionAsync()
     {
         // Increase launch times
         LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
@@ -161,7 +161,7 @@ internal sealed class Activation : IActivation
         }
     }
 
-    private async Task WaitMainWindowAsync()
+    private async ValueTask WaitMainWindowAsync()
     {
         if (!mainWindowReference.TryGetTarget(out _))
         {
@@ -183,7 +183,7 @@ internal sealed class Activation : IActivation
         }
     }
 
-    private async Task HandleUrlActivationAsync(Uri uri, bool isRedirected)
+    private async ValueTask HandleUrlActivationAsync(Uri uri, bool isRedirected)
     {
         UriBuilder builder = new(uri);
 
@@ -214,7 +214,7 @@ internal sealed class Activation : IActivation
         }
     }
 
-    private async Task HandleAchievementActionAsync(string action, string parameter, bool isRedirected)
+    private async ValueTask HandleAchievementActionAsync(string action, string parameter, bool isRedirected)
     {
         _ = parameter;
         _ = isRedirected;
@@ -234,7 +234,7 @@ internal sealed class Activation : IActivation
         }
     }
 
-    private async Task HandleDailyNoteActionAsync(string action, string parameter, bool isRedirected)
+    private async ValueTask HandleDailyNoteActionAsync(string action, string parameter, bool isRedirected)
     {
         _ = parameter;
         switch (action)
@@ -258,7 +258,7 @@ internal sealed class Activation : IActivation
         }
     }
 
-    private async Task HandleLaunchGameActionAsync(string? uid = null)
+    private async ValueTask HandleLaunchGameActionAsync(string? uid = null)
     {
         serviceProvider
             .GetRequiredService<IMemoryCache>()

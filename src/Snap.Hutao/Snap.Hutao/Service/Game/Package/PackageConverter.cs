@@ -35,7 +35,7 @@ internal sealed partial class PackageConverter
     /// <param name="gameFolder">游戏目录</param>
     /// <param name="progress">进度</param>
     /// <returns>替换结果与资源</returns>
-    public async Task<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResource, string gameFolder, IProgress<PackageReplaceStatus> progress)
+    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme targetScheme, GameResource gameResource, string gameFolder, IProgress<PackageReplaceStatus> progress)
     {
         string scatteredFilesUrl = gameResource.Game.Latest.DecompressedPath;
         Uri pkgVersionUri = $"{scatteredFilesUrl}/pkg_version".ToUri();
@@ -56,7 +56,7 @@ internal sealed partial class PackageConverter
     /// <param name="resource">游戏资源</param>
     /// <param name="gameFolder">游戏文件夹</param>
     /// <returns>任务</returns>
-    public async Task EnsureDeprecatedFilesAndSdkAsync(GameResource resource, string gameFolder)
+    public async ValueTask EnsureDeprecatedFilesAndSdkAsync(GameResource resource, string gameFolder)
     {
         string sdkDllBackup = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll.backup");
         string sdkDll = Path.Combine(gameFolder, YuanShenData, "Plugins\\PCGameSDK.dll");
@@ -164,7 +164,7 @@ internal sealed partial class PackageConverter
         File.Move(targetFullPath, cacheFilePath, true);
     }
 
-    private async Task<Dictionary<string, VersionItem>> TryGetLocalItemsAsync(string gameFolder, ConvertDirection direction)
+    private async ValueTask<Dictionary<string, VersionItem>> TryGetLocalItemsAsync(string gameFolder, ConvertDirection direction)
     {
         using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, "pkg_version")))
         {
@@ -172,7 +172,7 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async Task<Dictionary<string, VersionItem>> TryGetRemoteItemsAsync(Uri pkgVersionUri)
+    private async ValueTask<Dictionary<string, VersionItem>> TryGetRemoteItemsAsync(Uri pkgVersionUri)
     {
         try
         {
@@ -187,7 +187,7 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async Task<bool> ReplaceGameResourceAsync(IEnumerable<ItemOperationInfo> operations, string gameFolder, string scatteredFilesUrl, ConvertDirection direction, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask<bool> ReplaceGameResourceAsync(IEnumerable<ItemOperationInfo> operations, string gameFolder, string scatteredFilesUrl, ConvertDirection direction, IProgress<PackageReplaceStatus> progress)
     {
         // 重命名 _Data 目录
         try
@@ -236,7 +236,7 @@ internal sealed partial class PackageConverter
         return true;
     }
 
-    private async Task ReplaceFromCacheOrWebAsync(string cacheFilePath, string targetFilePath, string scatteredFilesUrl, ItemOperationInfo info, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask ReplaceFromCacheOrWebAsync(string cacheFilePath, string targetFilePath, string scatteredFilesUrl, ItemOperationInfo info, IProgress<PackageReplaceStatus> progress)
     {
         if (File.Exists(cacheFilePath))
         {
@@ -291,7 +291,7 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async Task ReplacePackageVersionsAsync(string scatteredFilesUrl, string gameFolder)
+    private async ValueTask ReplacePackageVersionsAsync(string scatteredFilesUrl, string gameFolder)
     {
         foreach (string versionFilePath in Directory.EnumerateFiles(gameFolder, "*pkg_version"))
         {
@@ -314,7 +314,7 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async Task<Dictionary<string, VersionItem>> GetRemoteVersionItemsAsync(Stream stream)
+    private async ValueTask<Dictionary<string, VersionItem>> GetRemoteVersionItemsAsync(Stream stream)
     {
         Dictionary<string, VersionItem> results = new();
         using (StreamReader reader = new(stream))
@@ -334,7 +334,7 @@ internal sealed partial class PackageConverter
         return results;
     }
 
-    private async Task<Dictionary<string, VersionItem>> GetLocalVersionItemsAsync(Stream stream, ConvertDirection direction)
+    private async ValueTask<Dictionary<string, VersionItem>> GetLocalVersionItemsAsync(Stream stream, ConvertDirection direction)
     {
         Dictionary<string, VersionItem> results = new();
 
