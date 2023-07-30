@@ -2078,4 +2078,7 @@
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
     <value>UIGF 文件的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
   </data>
+  <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
+    <value>下载客户端文件失败：{0}</value>
+  </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
@@ -10,6 +11,7 @@ using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using static Snap.Hutao.Service.Game.GameConstants;
 
 namespace Snap.Hutao.Service.Game.Package;
@@ -23,9 +25,11 @@ namespace Snap.Hutao.Service.Game.Package;
 internal sealed partial class PackageConverter
 {
     private const string PackageVersion = "pkg_version";
-
+    private const string OverseaFolder = "Oversea";
+    private const string ChineseFolder = "Chinese";
     private readonly IServiceProvider serviceProvider;
     private readonly JsonSerializerOptions options;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
 
     /// <summary>
@@ -57,15 +61,26 @@ internal sealed partial class PackageConverter
         // 4. 全部资源下载完成后，根据操作信息项，进行文件替换
         //    处理顺序：备份/替换/新增
         //    替换操作等于 先备份国服文件，随后新增国际服文件
+
+        // 准备下载链接
         string scatteredFilesUrl = gameResource.Game.Latest.DecompressedPath;
-        Uri pkgVersionUri = $"{scatteredFilesUrl}/{PackageVersion}".ToUri();
-        ConvertDirection direction = targetScheme.IsOversea ? ConvertDirection.ChineseToOversea : ConvertDirection.OverseaToChinese;
+        string pkgVersionUrl = $"{scatteredFilesUrl}/{PackageVersion}";
 
+        PackageConvertContext context = new(targetScheme.IsOversea, runtimeOptions.DataFolder, gameFolder, scatteredFilesUrl);
+
+        // Step 1
         progress.Report(new(SH.ServiceGamePackageRequestPackageVerion));
-        Dictionary<string, VersionItem> remoteItems = await GetRemoteItemsAsync(pkgVersionUri).ConfigureAwait(false);
-        Dictionary<string, VersionItem> localItems = await GetLocalItemsAsync(gameFolder, direction).ConfigureAwait(false);
+        Dictionary<string, VersionItem> remoteItems = await GetRemoteItemsAsync(pkgVersionUrl).ConfigureAwait(false);
+        Dictionary<string, VersionItem> localItems = await GetLocalItemsAsync(gameFolder).ConfigureAwait(false);
 
-        IEnumerable<ItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).OrderBy(i => i.Type);
+        // Step 2
+        List<ItemOperationInfo> diffOperations = GetItemOperationInfos(remoteItems, localItems).ToList();
+        diffOperations.SortBy(i => i.Type);
+
+        // Step 3
+        await PrepareCacheFilesAsync(diffOperations, direction, scatteredFilesUrl, cacheFolder, progress).ConfigureAwait(false);
+
+        // Step 4
         return await ReplaceGameResourceAsync(diffOperations, gameFolder, scatteredFilesUrl, direction, progress).ConfigureAwait(false);
     }
 
@@ -158,46 +173,39 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private static void TryRenameDataFolder(string gameFolder, ConvertDirection direction)
-    {
-        string yuanShenData = Path.Combine(gameFolder, YuanShenData);
-        string genshinImpactData = Path.Combine(gameFolder, GenshinImpactData);
-
-        try
-        {
-            _ = direction == ConvertDirection.ChineseToOversea
-                ? DirectoryOperation.Move(yuanShenData, genshinImpactData)
-                : DirectoryOperation.Move(genshinImpactData, yuanShenData);
-        }
-        catch (IOException ex)
-        {
-            // Access to the path is denied.
-            // When user install the game in special folder like 'Program Files'
-            throw ThrowHelper.GameFileOperation(SH.ServiceGamePackageRenameDataFolderFailed, ex);
-        }
-    }
-
     private static void MoveToCache(string cacheFilePath, string targetFullPath)
     {
         Directory.CreateDirectory(Path.GetDirectoryName(cacheFilePath)!);
         File.Move(targetFullPath, cacheFilePath, true);
     }
 
-    private async ValueTask<Dictionary<string, VersionItem>> GetLocalItemsAsync(string gameFolder, ConvertDirection direction)
+    [GeneratedRegex("^(?:YuanShen_Data|GenshinImpact_Data)(?=/)")]
+    private static partial Regex DataFolderRegex();
+
+    private async ValueTask<Dictionary<string, VersionItem>> GetVersionItemsAsync(Stream stream)
     {
-        using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, PackageVersion)))
+        Dictionary<string, VersionItem> results = new();
+        using (StreamReader reader = new(stream))
         {
-            return await GetLocalVersionItemsAsync(localSteam, direction).ConfigureAwait(false);
+            Regex dataFolderRegex = DataFolderRegex();
+            while (await reader.ReadLineAsync().ConfigureAwait(false) is { } row && !string.IsNullOrEmpty(row))
+            {
+                VersionItem item = JsonSerializer.Deserialize<VersionItem>(row, options)!;
+                item.RelativePath = dataFolderRegex.Replace(item.RelativePath, "{0}");
+                results.Add(item.RelativePath, item);
+            }
         }
+
+        return results;
     }
 
-    private async ValueTask<Dictionary<string, VersionItem>> GetRemoteItemsAsync(Uri pkgVersionUri)
+    private async ValueTask<Dictionary<string, VersionItem>> GetRemoteItemsAsync(string pkgVersionUrl)
     {
         try
         {
-            using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUri).ConfigureAwait(false))
+            using (Stream remoteSteam = await httpClient.GetStreamAsync(pkgVersionUrl).ConfigureAwait(false))
             {
-                return await GetRemoteVersionItemsAsync(remoteSteam).ConfigureAwait(false);
+                return await GetVersionItemsAsync(remoteSteam).ConfigureAwait(false);
             }
         }
         catch (IOException ex)
@@ -206,104 +214,136 @@ internal sealed partial class PackageConverter
         }
     }
 
-    private async ValueTask<bool> ReplaceGameResourceAsync(IEnumerable<ItemOperationInfo> operations, string gameFolder, string scatteredFilesUrl, ConvertDirection direction, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask<Dictionary<string, VersionItem>> GetLocalItemsAsync(string gameFolder)
     {
-        // 重命名 _Data 目录
-        TryRenameDataFolder(gameFolder, direction);
+        using (FileStream localSteam = File.OpenRead(Path.Combine(gameFolder, PackageVersion)))
+        {
+            return await GetVersionItemsAsync(localSteam).ConfigureAwait(false);
+        }
+    }
 
-        // Cache folder
-        Core.RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<Core.RuntimeOptions>();
-        string cacheFolder = Path.Combine(runtimeOptions.DataFolder, "ServerCache");
-
-        // 执行下载与移动操作
+    private async ValueTask PrepareCacheFilesAsync(List<ItemOperationInfo> operations, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
+    {
         foreach (ItemOperationInfo info in operations)
         {
-            progress.Report(new($"{info.Target}"));
-
-            string targetFilePath = Path.Combine(gameFolder, info.Target);
-            string cacheFilePath = Path.Combine(cacheFolder, info.Target);
-            string moveToFilePath = Path.Combine(cacheFolder, info.MoveTo);
-
             switch (info.Type)
             {
                 case ItemOperationType.Backup:
-                    MoveToCache(moveToFilePath, targetFilePath);
-                    break;
+                    continue;
                 case ItemOperationType.Replace:
-                    MoveToCache(moveToFilePath, targetFilePath);
-                    await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info, progress).ConfigureAwait(false);
-                    break;
                 case ItemOperationType.Add:
-                    await ReplaceFromCacheOrWebAsync(cacheFilePath, targetFilePath, scatteredFilesUrl, info, progress).ConfigureAwait(false);
-                    break;
-                default:
+                    await SkipOrDownloadAsync(info, context, progress).ConfigureAwait(false);
                     break;
             }
         }
-
-        // 重新下载所有 *pkg_version 文件
-        await ReplacePackageVersionFilesAsync(scatteredFilesUrl, gameFolder).ConfigureAwait(false);
-        return true;
     }
 
-    private async ValueTask ReplaceFromCacheOrWebAsync(string cacheFilePath, string targetFilePath, string scatteredFilesUrl, ItemOperationInfo info, IProgress<PackageReplaceStatus> progress)
+    private async ValueTask SkipOrDownloadAsync(ItemOperationInfo info, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
     {
-        if (File.Exists(cacheFilePath))
+        // 还原正确的远程地址
+        string remoteName = string.Format(info.Remote.RelativePath, context.ToDataFolderName);
+        string cacheFile = context.GetServerCacheTargetFilePath(remoteName);
+
+        if (File.Exists(cacheFile))
         {
-            string remoteMd5 = await MD5.HashFileAsync(cacheFilePath).ConfigureAwait(false);
-            if (info.Md5 == remoteMd5.ToLowerInvariant() && new FileInfo(cacheFilePath).Length == info.TotalBytes)
+            if (info.Remote.FileSize == new FileInfo(cacheFile).Length)
             {
-                // Valid, move it to target path
-                // There shouldn't be any file in the path/name
-                File.Move(cacheFilePath, targetFilePath, false);
-                return;
+                string cacheMd5 = await MD5.HashFileAsync(cacheFile).ConfigureAwait(false);
+                if (info.Remote.Md5.Equals(cacheMd5, StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
             }
-            else
-            {
-                // Invalid file, delete it
-                File.Delete(cacheFilePath);
-            }
+
+            // Invalid file, delete it
+            File.Delete(cacheFile);
         }
 
-        // Cache no item, download it anyway.
-        while (true)
+        // Cache no matching item, download
+        using (FileStream fileStream = File.Create(cacheFile))
         {
-            using (FileStream fileStream = File.Create(targetFilePath))
+            string remoteUrl = context.GetScatteredFilesUrl(remoteName);
+            using (HttpResponseMessage response = await httpClient.GetAsync(remoteUrl, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
             {
-                using (HttpResponseMessage response = await httpClient.GetAsync($"{scatteredFilesUrl}/{info.Target}", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
+                // This stream's length is incorrect,
+                // so we use length in the header
+                long totalBytes = response.Content.Headers.ContentLength ?? 0;
+                using (Stream webStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
                 {
-                    long totalBytes = response.Content.Headers.ContentLength ?? 0;
-                    using (Stream webStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
+                    try
                     {
-                        try
+                        StreamCopyWorker<PackageReplaceStatus> streamCopyWorker = new(webStream, fileStream, bytesRead => new(remoteName, bytesRead, totalBytes));
+                        await streamCopyWorker.CopyAsync(progress).ConfigureAwait(false);
+                        fileStream.Position = 0;
+                        string cacheMd5 = await MD5.HashAsync(fileStream).ConfigureAwait(false);
+                        if (string.Equals(info.Remote.Md5, cacheMd5, StringComparison.OrdinalIgnoreCase))
                         {
-                            StreamCopyWorker<PackageReplaceStatus> streamCopyWorker = new(webStream, fileStream, bytesRead => new(info.Target, bytesRead, totalBytes));
-                            await streamCopyWorker.CopyAsync(progress).ConfigureAwait(false);
-                            fileStream.Position = 0;
-                            string remoteMd5 = await MD5.HashAsync(fileStream).ConfigureAwait(false);
-                            if (string.Equals(info.Md5, remoteMd5, StringComparison.OrdinalIgnoreCase))
-                            {
-                                return;
-                            }
+                            return;
                         }
-                        catch (Exception ex)
-                        {
-                            // System.IO.IOException: The response ended prematurely.
-                            // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
-
-                            // We want to retry forever.
-                            serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
-                            await Delay.FromSeconds(2).ConfigureAwait(false);
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // System.IO.IOException: The response ended prematurely.
+                        // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
+                        ThrowHelper.PackageConvert(string.Format(SH.ServiceGamePackageRequestScatteredFileFailed, remoteName), ex);
                     }
                 }
             }
         }
     }
 
-    private async ValueTask ReplacePackageVersionFilesAsync(string scatteredFilesUrl, string gameFolder)
+    private async ValueTask<bool> ReplaceGameResourceAsync(List<ItemOperationInfo> operations, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
     {
-        foreach (string versionFilePath in Directory.EnumerateFiles(gameFolder, "*pkg_version"))
+        // 重命名 _Data 目录
+        try
+        {
+            DirectoryOperation.Move(context.FromDataFolder, context.ToDataFolder);
+        }
+        catch (IOException ex)
+        {
+            // Access to the path is denied.
+            // When user install the game in special folder like 'Program Files'
+            throw ThrowHelper.GameFileOperation(SH.ServiceGamePackageRenameDataFolderFailed, ex);
+        }
+
+        // 执行下载与移动操作
+        foreach (ItemOperationInfo info in operations)
+        {
+            progress.Report(new($"{info.Remote}"));
+
+            (bool backup, bool target) = info.Type switch
+            {
+                ItemOperationType.Backup => (true, false),
+                ItemOperationType.Replace => (true, true),
+                ItemOperationType.Add => (false, true),
+                _ => (false, false),
+            };
+
+            if (backup)
+            {
+                string localFileName = string.Format(info.Local.RelativePath, context.FromDataFolder);
+                string localFilePath = context.GetGameFolderFilePath(localFileName);
+                Directory.CreateDirectory(Path.GetDirectoryName(localFilePath)!);
+                File.Move(localFilePath, context.GetServerCacheBackupFilePath(localFileName), true);
+            }
+
+            if (target)
+            {
+                string targetFileName = string.Format(info.Remote.RelativePath, context.ToDataFolder);
+                string targetFilePath = context.GetGameFolderFilePath(targetFileName);
+                Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath)!);
+                File.Move(context.GetServerCacheTargetFilePath(targetFileName), targetFilePath, true);
+            }
+        }
+
+        // 重新下载所有 *pkg_version 文件
+        await ReplacePackageVersionFilesAsync(context).ConfigureAwait(false);
+        return true;
+    }
+
+    private async ValueTask ReplacePackageVersionFilesAsync(PackageConvertContext context)
+    {
+        foreach (string versionFilePath in Directory.EnumerateFiles(context.GameFolder, "*pkg_version"))
         {
             string versionFileName = Path.GetFileName(versionFilePath);
 
@@ -316,66 +356,11 @@ internal sealed partial class PackageConverter
 
             using (FileStream versionFileStream = File.Create(versionFilePath))
             {
-                using (Stream webStream = await httpClient.GetStreamAsync($"{scatteredFilesUrl}/{versionFileName}").ConfigureAwait(false))
+                using (Stream webStream = await httpClient.GetStreamAsync(context.GetScatteredFilesUrl(versionFileName)).ConfigureAwait(false))
                 {
                     await webStream.CopyToAsync(versionFileStream).ConfigureAwait(false);
                 }
             }
         }
-    }
-
-    private async ValueTask<Dictionary<string, VersionItem>> GetRemoteVersionItemsAsync(Stream stream)
-    {
-        Dictionary<string, VersionItem> results = new();
-        using (StreamReader reader = new(stream))
-        {
-            while (await reader.ReadLineAsync().ConfigureAwait(false) is { } raw)
-            {
-                if (string.IsNullOrEmpty(raw))
-                {
-                    continue;
-                }
-
-                VersionItem item = JsonSerializer.Deserialize<VersionItem>(raw, options)!;
-                results.Add(item.RemoteName, item);
-            }
-        }
-
-        return results;
-    }
-
-    private async ValueTask<Dictionary<string, VersionItem>> GetLocalVersionItemsAsync(Stream stream, ConvertDirection direction)
-    {
-        Dictionary<string, VersionItem> results = new();
-
-        using (StreamReader reader = new(stream))
-        {
-            while (await reader.ReadLineAsync().ConfigureAwait(false) is { } row)
-            {
-                if (string.IsNullOrEmpty(row))
-                {
-                    continue;
-                }
-
-                VersionItem item = JsonSerializer.Deserialize<VersionItem>(row, options)!;
-
-                string remoteName = item.RemoteName;
-
-                // 我们已经提前重命名了整个 Data 文件夹 所以需要将 RemoteName 中的 Data 同样替换
-                if (remoteName.StartsWith(YuanShenData) || remoteName.StartsWith(GenshinImpactData))
-                {
-                    remoteName = direction switch
-                    {
-                        ConvertDirection.OverseaToChinese => $"{YuanShenData}{remoteName[GenshinImpactData.Length..]}",
-                        ConvertDirection.ChineseToOversea => $"{GenshinImpactData}{remoteName[YuanShenData.Length..]}",
-                        _ => remoteName,
-                    };
-                }
-
-                results.Add(remoteName, item);
-            }
-        }
-
-        return results;
     }
 }

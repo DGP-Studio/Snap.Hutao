@@ -20,35 +20,23 @@ internal readonly struct ItemOperationInfo
     /// <summary>
     /// 目标文件
     /// </summary>
-    public readonly string Target;
+    public readonly VersionItem Remote;
 
     /// <summary>
     /// 移动至中时的名称
     /// </summary>
-    public readonly string MoveTo;
-
-    /// <summary>
-    /// 文件的目标Md5
-    /// </summary>
-    public readonly string Md5;
-
-    /// <summary>
-    /// 文件的目标大小 Byte
-    /// </summary>
-    public readonly long TotalBytes;
+    public readonly VersionItem Local;
 
     /// <summary>
     /// 构造一个新的包操作
     /// </summary>
     /// <param name="type">操作类型</param>
-    /// <param name="target">目标</param>
-    /// <param name="moveTo">缓存</param>
-    public ItemOperationInfo(ItemOperationType type, VersionItem target, VersionItem moveTo)
+    /// <param name="remote">远程</param>
+    /// <param name="local">本地</param>
+    public ItemOperationInfo(ItemOperationType type, VersionItem remote, VersionItem local)
     {
         Type = type;
-        Target = target.RemoteName;
-        MoveTo = moveTo.RemoteName;
-        Md5 = target.Md5;
-        TotalBytes = target.FileSize;
+        Remote = remote;
+        Local = local;
     }
 }

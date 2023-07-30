@@ -13,7 +13,7 @@ internal sealed class VersionItem
     /// 服务器上的名称
     /// </summary>
     [JsonPropertyName("remoteName")]
-    public string RemoteName { get; set; } = default!;
+    public string RelativePath { get; set; } = default!;
 
     /// <summary>
     /// MD5校验值

@@ -1501,6 +1501,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 下载客户端文件失败：{0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGamePackageRequestScatteredFileFailed {
+            get {
+                return ResourceManager.GetString("ServiceGamePackageRequestScatteredFileFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 无法找到游戏路径，请前往设置修改 的本地化字符串。
         /// </summary>
         internal static string ServiceGamePathLocateFailed {
