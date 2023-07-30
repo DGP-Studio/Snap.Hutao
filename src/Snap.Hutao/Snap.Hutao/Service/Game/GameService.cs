@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
@@ -29,6 +30,7 @@ internal sealed partial class GameService : IGameService
 {
     private readonly PackageConverter packageConverter;
     private readonly IServiceProvider serviceProvider;
+    private readonly IGameDbService gameDbService;
     private readonly LaunchOptions launchOptions;
     private readonly RuntimeOptions hutaoOptions;
     private readonly ITaskContext taskContext;
@@ -40,19 +42,7 @@ internal sealed partial class GameService : IGameService
     /// <inheritdoc/>
     public ObservableCollection<GameAccount> GameAccountCollection
     {
-        get
-        {
-            if (gameAccounts == null)
-            {
-                using (IServiceScope scope = serviceProvider.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    gameAccounts = appDbContext.GameAccounts.ToObservableCollection();
-                }
-            }
-
-            return gameAccounts;
-        }
+        get => gameAccounts ??= gameDbService.GetGameAccountCollection();
     }
 
     /// <inheritdoc/>
@@ -83,7 +73,6 @@ internal sealed partial class GameService : IGameService
                 if (result.IsOk)
                 {
                     // Save result.
-                    await taskContext.SwitchToMainThreadAsync();
                     appOptions.GamePath = result.Value;
                 }
                 else
@@ -419,18 +408,32 @@ internal sealed partial class GameService : IGameService
 
     private static bool LaunchSchemeMatchesExecutable(LaunchScheme launchScheme, string gameFileName)
     {
-        return (launchScheme.IsOversea && gameFileName == GenshinImpactFileName)
-            || (!launchScheme.IsOversea && gameFileName == YuanShenFileName);
+        return (launchScheme.IsOversea, gameFileName) switch
+        {
+            (true, GenshinImpactFileName) => true,
+            (false, YuanShenFileName) => true,
+            _ => false,
+        };
     }
 }
 
 [ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGameDbSservice))]
-internal sealed partial class GameDbSservice : IGameDbSservice
+[Injection(InjectAs.Singleton, typeof(IGameDbService))]
+internal sealed partial class GameDbService : IGameDbService
 {
+    private readonly IServiceProvider serviceProvider;
 
+    public ObservableCollection<GameAccount> GetGameAccountCollection()
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return appDbContext.GameAccounts.AsNoTracking().ToObservableCollection();
+        }
+    }
 }
 
-internal interface IGameDbSservice
+internal interface IGameDbService
 {
+    ObservableCollection<GameAccount> GetGameAccountCollection();
 }
