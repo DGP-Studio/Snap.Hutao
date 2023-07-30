@@ -56,7 +56,7 @@ internal static class ProcessInterop
     /// <param name="game">游戏进程</param>
     /// <param name="token">取消令牌</param>
     /// <returns>任务</returns>
-    public static Task UnlockFpsAsync(IServiceProvider serviceProvider, Process game, CancellationToken token)
+    public static ValueTask UnlockFpsAsync(IServiceProvider serviceProvider, Process game, CancellationToken token)
     {
         IGameFpsUnlocker unlocker = serviceProvider.CreateInstance<GameFpsUnlocker>(game);
         UnlockTimingOptions options = new(100, 20000, 3000);

@@ -1,12 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Game.Locator;
@@ -424,4 +422,15 @@ internal sealed partial class GameService : IGameService
         return (launchScheme.IsOversea && gameFileName == GenshinImpactFileName)
             || (!launchScheme.IsOversea && gameFileName == YuanShenFileName);
     }
+}
+
+[ConstructorGenerated]
+[Injection(InjectAs.Singleton, typeof(IGameDbSservice))]
+internal sealed partial class GameDbSservice : IGameDbSservice
+{
+
+}
+
+internal interface IGameDbSservice
+{
 }
