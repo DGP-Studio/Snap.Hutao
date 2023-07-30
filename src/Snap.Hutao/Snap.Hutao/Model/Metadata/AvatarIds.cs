@@ -9,7 +9,6 @@ namespace Snap.Hutao.Model.Metadata;
 /// 角色ID
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "SA1600")]
 internal static class AvatarIds
 {
     // 此处的变量名称以 UI_AvatarIcon 为准

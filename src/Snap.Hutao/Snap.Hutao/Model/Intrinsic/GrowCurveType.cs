@@ -7,7 +7,6 @@ namespace Snap.Hutao.Model.Intrinsic;
 /// 生长曲线
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "SA1602")]
 internal enum GrowCurveType
 {
     GROW_CURVE_NONE = 0,

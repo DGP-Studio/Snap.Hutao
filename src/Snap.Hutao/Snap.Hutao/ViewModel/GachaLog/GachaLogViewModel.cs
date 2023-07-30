@@ -362,9 +362,17 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
-                    using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+                    try
                     {
-                        await gachaLogService.ImportFromUIGFAsync(uigf).ConfigureAwait(false);
+                        using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+                        {
+                            await gachaLogService.ImportFromUIGFAsync(uigf).ConfigureAwait(false);
+                        }
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        infoBarService.Error(ex);
+                        return false;
                     }
 
                     infoBarService.Success(SH.ViewModelGachaLogImportComplete);

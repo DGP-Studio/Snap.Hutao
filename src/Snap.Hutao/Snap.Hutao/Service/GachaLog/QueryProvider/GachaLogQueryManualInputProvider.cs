@@ -42,7 +42,7 @@ internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryP
                     string message = string.Format(
                         SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale,
                         queryLanguageCode,
-                        metadataOptions.LocaleName);
+                        metadataOptions.LanguageCode);
                     return new(false, message);
                 }
             }

@@ -110,7 +110,7 @@ internal struct GachaLogFetchContext
     /// </summary>
     /// <param name="item">物品</param>
     /// <returns>是否应添加</returns>
-    public bool ShouldAddItem(GachaLogItem item)
+    public readonly bool ShouldAddItem(GachaLogItem item)
     {
         return !isLazy || item.Id > DbEndId;
     }
@@ -120,7 +120,7 @@ internal struct GachaLogFetchContext
     /// </summary>
     /// <param name="items">物品集合</param>
     /// <returns>当前类型已经处理完成</returns>
-    public bool ItemsHaveReachEnd(List<GachaLogItem> items)
+    public readonly bool ItemsHaveReachEnd(List<GachaLogItem> items)
     {
         return CurrentTypeAddingCompleted || items.Count < GachaLogQueryOptions.Size;
     }
@@ -139,7 +139,7 @@ internal struct GachaLogFetchContext
     /// <summary>
     /// 保存物品
     /// </summary>
-    public void SaveItems()
+    public readonly void SaveItems()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -167,7 +167,7 @@ internal struct GachaLogFetchContext
     /// </summary>
     /// <param name="progress">进度</param>
     /// <param name="isAuthKeyTimeout">验证密钥是否过期</param>
-    public void Report(IProgress<GachaLogFetchStatus> progress, bool isAuthKeyTimeout = false)
+    public readonly void Report(IProgress<GachaLogFetchStatus> progress, bool isAuthKeyTimeout = false)
     {
         FetchStatus.AuthKeyTimeout = isAuthKeyTimeout;
         progress.Report(FetchStatus);

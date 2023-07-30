@@ -42,12 +42,12 @@ internal readonly struct ItemOperationInfo
     /// </summary>
     /// <param name="type">操作类型</param>
     /// <param name="target">目标</param>
-    /// <param name="cache">缓存</param>
-    public ItemOperationInfo(ItemOperationType type, VersionItem target, VersionItem cache)
+    /// <param name="moveTo">缓存</param>
+    public ItemOperationInfo(ItemOperationType type, VersionItem target, VersionItem moveTo)
     {
         Type = type;
         Target = target.RemoteName;
-        MoveTo = cache.RemoteName;
+        MoveTo = moveTo.RemoteName;
         Md5 = target.Md5;
         TotalBytes = target.FileSize;
     }

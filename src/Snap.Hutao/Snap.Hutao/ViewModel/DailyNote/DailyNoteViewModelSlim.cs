@@ -45,7 +45,7 @@ internal sealed class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<View.Pa
                 .ConfigureAwait(false);
             ObservableCollection<DailyNoteEntry> entries = await ServiceProvider
                 .GetRequiredService<IDailyNoteService>()
-                .GetDailyNoteEntriesAsync()
+                .GetDailyNoteEntryCollectionAsync()
                 .ConfigureAwait(false);
 
             // We have to create a copy here,

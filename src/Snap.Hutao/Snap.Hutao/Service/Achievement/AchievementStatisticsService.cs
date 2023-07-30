@@ -15,39 +15,34 @@ namespace Snap.Hutao.Service.Achievement;
 internal sealed partial class AchievementStatisticsService : IAchievementStatisticsService
 {
     private readonly IAchievementDbService achievementDbService;
-    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public async Task<List<AchievementStatistics>> GetAchievementStatisticsAsync(Dictionary<AchievementId, MetadataAchievement> achievementMap)
+    public async ValueTask<List<AchievementStatistics>> GetAchievementStatisticsAsync(Dictionary<AchievementId, MetadataAchievement> achievementMap)
     {
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
+
+        List<AchievementStatistics> results = new();
+        foreach (AchievementArchive archive in achievementDbService.GetAchievementArchiveList())
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            int finishedCount = await achievementDbService
+                .GetFinishedAchievementCountByArchiveIdAsync(archive.InnerId)
+                .ConfigureAwait(false);
 
-            List<AchievementStatistics> results = new();
-            foreach (AchievementArchive archive in achievementDbService.GetAchievementArchiveList())
+            int totalCount = achievementMap.Count;
+
+            List<EntityAchievement> achievements = await achievementDbService
+                .GetLatestFinishedAchievementListByArchiveIdAsync(archive.InnerId, 2)
+                .ConfigureAwait(false);
+
+            results.Add(new()
             {
-                int finishedCount = await achievementDbService
-                    .GetFinishedAchievementCountByArchiveIdAsync(archive.InnerId)
-                    .ConfigureAwait(false);
-
-                int totalCount = achievementMap.Count;
-
-                List<EntityAchievement> achievements = await achievementDbService
-                    .GetLatestFinishedAchievementListByArchiveIdAsync(archive.InnerId, 2)
-                    .ConfigureAwait(false);
-
-                results.Add(new()
-                {
-                    DisplayName = archive.Name,
-                    FinishDescription = AchievementStatistics.Format(finishedCount, totalCount, out _),
-                    Achievements = achievements.SelectList(entity => new AchievementView(entity, achievementMap[entity.Id])),
-                });
-            }
-
-            return results;
+                DisplayName = archive.Name,
+                FinishDescription = AchievementStatistics.Format(finishedCount, totalCount, out _),
+                Achievements = achievements.SelectList(entity => new AchievementView(entity, achievementMap[entity.Id])),
+            });
         }
+
+        return results;
     }
 }

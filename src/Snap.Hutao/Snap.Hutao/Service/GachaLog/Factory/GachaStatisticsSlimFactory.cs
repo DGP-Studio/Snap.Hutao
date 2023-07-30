@@ -48,7 +48,7 @@ internal sealed partial class GachaStatisticsSlimFactory : IGachaStatisticsSlimF
         }
     }
 
-    private static GachaStatisticsSlim CreateCore(GachaLogServiceMetadataContext context, List<GachaItem> items, string uid)
+    private static GachaStatisticsSlim CreateCore(in GachaLogServiceMetadataContext context, List<GachaItem> items, string uid)
     {
         int standardOrangeTracker = 0;
         int standardPurpleTracker = 0;

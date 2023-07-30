@@ -10,9 +10,9 @@ namespace Snap.Hutao.Service.Game.Package;
 internal enum ItemOperationType
 {
     /// <summary>
-    /// 删除
+    /// 添加
     /// </summary>
-    Remove = 0,
+    Add = 0,
 
     /// <summary>
     /// 替换
@@ -20,7 +20,7 @@ internal enum ItemOperationType
     Replace = 1,
 
     /// <summary>
-    /// 添加
+    /// 需要备份
     /// </summary>
-    Add = 2,
+    Backup = 2,
 }

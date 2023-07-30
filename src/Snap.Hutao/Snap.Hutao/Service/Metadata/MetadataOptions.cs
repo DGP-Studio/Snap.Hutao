@@ -103,6 +103,11 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     /// <returns>是否为当前语言名称</returns>
     public bool IsCurrentLocale(string languageCode)
     {
+        if (string.IsNullOrEmpty(languageCode))
+        {
+            return false;
+        }
+
         CultureInfo cultureInfo = CultureInfo.GetCultureInfo(languageCode);
         return GetLocaleName(cultureInfo) == LocaleName;
     }

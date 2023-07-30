@@ -19,14 +19,14 @@ internal interface IGachaLogHutaoCloudService
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>是否删除成功</returns>
-    Task<ValueResult<bool, string>> DeleteGachaItemsAsync(string uid, CancellationToken token = default);
+    ValueTask<ValueResult<bool, string>> DeleteGachaItemsAsync(string uid, CancellationToken token = default);
 
     /// <summary>
     /// 异步获取祈愿统计信息
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>祈愿统计信息</returns>
-    Task<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default);
+    ValueTask<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default);
 
     ValueTask<Response<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default);
 
@@ -36,7 +36,7 @@ internal interface IGachaLogHutaoCloudService
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>是否获取成功</returns>
-    Task<ValueResult<bool, GachaArchive?>> RetrieveGachaItemsAsync(string uid, CancellationToken token = default);
+    ValueTask<ValueResult<bool, GachaArchive?>> RetrieveGachaItemsAsync(string uid, CancellationToken token = default);
 
     /// <summary>
     /// 异步上传祈愿记录

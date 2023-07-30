@@ -72,7 +72,7 @@ internal interface ICultivationService
     /// </summary>
     /// <param name="project">项目</param>
     /// <returns>任务</returns>
-    Task RemoveProjectAsync(CultivateProject project);
+    ValueTask RemoveProjectAsync(CultivateProject project);
 
     /// <summary>
     /// 异步保存养成物品
@@ -100,5 +100,5 @@ internal interface ICultivationService
     /// </summary>
     /// <param name="project">项目</param>
     /// <returns>添加操作的结果</returns>
-    Task<ProjectAddResult> TryAddProjectAsync(CultivateProject project);
+    ValueTask<ProjectAddResult> TryAddProjectAsync(CultivateProject project);
 }

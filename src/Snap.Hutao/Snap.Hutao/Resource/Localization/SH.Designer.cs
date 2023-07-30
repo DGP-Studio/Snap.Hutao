@@ -1411,6 +1411,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 UIGF 文件的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGachaUIGFImportLanguageNotMatch {
+            get {
+                return ResourceManager.GetString("ServiceGachaUIGFImportLanguageNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 存在多个匹配账号，请删除重复的账号 的本地化字符串。
         /// </summary>
         internal static string ServiceGameDetectGameAccountMultiMatched {

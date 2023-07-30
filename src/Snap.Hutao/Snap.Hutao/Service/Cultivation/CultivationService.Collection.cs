@@ -43,7 +43,7 @@ internal sealed partial class CultivationService
     }
 
     /// <inheritdoc/>
-    public async Task<ProjectAddResult> TryAddProjectAsync(CultivateProject project)
+    public async ValueTask<ProjectAddResult> TryAddProjectAsync(CultivateProject project)
     {
         if (string.IsNullOrWhiteSpace(project.Name))
         {
@@ -69,7 +69,7 @@ internal sealed partial class CultivationService
     }
 
     /// <inheritdoc/>
-    public async Task RemoveProjectAsync(CultivateProject project)
+    public async ValueTask RemoveProjectAsync(CultivateProject project)
     {
         ArgumentNullException.ThrowIfNull(projects);
 

@@ -55,7 +55,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, GachaArchive?>> RetrieveGachaItemsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<ValueResult<bool, GachaArchive?>> RetrieveGachaItemsAsync(string uid, CancellationToken token = default)
     {
         GachaArchive? archive = await gachaLogDbService
                 .GetGachaArchiveByUidAsync(uid, token)
@@ -81,13 +81,13 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, string>> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<ValueResult<bool, string>> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
     {
         return await homaGachaLogClient.DeleteGachaItemsAsync(uid, token).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
-    public async Task<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default)
+    public async ValueTask<ValueResult<bool, HutaoStatistics>> GetCurrentEventStatisticsAsync(CancellationToken token = default)
     {
         Response<GachaEventStatistics> response = await homaGachaLogClient.GetGachaEventStatisticsAsync(token).ConfigureAwait(false);
         if (response.IsOk())
@@ -110,7 +110,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         return new(false, default!);
     }
 
-    private async Task<EndIds?> GetEndIdsFromCloudAsync(string uid, CancellationToken token = default)
+    private async ValueTask<EndIds?> GetEndIdsFromCloudAsync(string uid, CancellationToken token = default)
     {
         Response<EndIds> resp = await homaGachaLogClient.GetEndIdsAsync(uid, token).ConfigureAwait(false);
         return resp.IsOk() ? resp.Data : default;

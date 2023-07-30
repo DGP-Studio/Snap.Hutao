@@ -13,9 +13,4 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// </summary>
 internal sealed class AvatarBaseValue : BaseValue
 {
-    public PropertyCurveValue GetPropertyCurveValue(FightProperty fightProperty)
-    {
-        // TODO: impl
-        return default!;
-    }
 }

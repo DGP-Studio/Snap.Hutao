@@ -41,7 +41,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async Task AddDailyNoteAsync(UserAndUid role)
+    public async ValueTask AddDailyNoteAsync(UserAndUid role)
     {
         string roleUid = role.Uid.Value;
 
@@ -69,7 +69,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntriesAsync()
+    public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync()
     {
         if (entries == null)
         {
@@ -111,7 +111,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async Task RemoveDailyNoteAsync(DailyNoteEntry entry)
+    public async ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry)
     {
         await taskContext.SwitchToMainThreadAsync();
         ArgumentNullException.ThrowIfNull(entries);

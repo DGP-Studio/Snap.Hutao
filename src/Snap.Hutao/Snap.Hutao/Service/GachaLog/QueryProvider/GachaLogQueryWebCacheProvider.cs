@@ -79,7 +79,7 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
                                     string message = string.Format(
                                         SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale,
                                         queryLanguageCode,
-                                        metadataOptions.LocaleName);
+                                        metadataOptions.LanguageCode);
                                     return new(false, message);
                                 }
                             }

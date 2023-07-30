@@ -53,7 +53,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
         {
             await taskContext.SwitchToBackgroundAsync();
             ObservableCollection<UserAndUid> roles = await userService.GetRoleCollectionAsync().ConfigureAwait(false);
-            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntriesAsync().ConfigureAwait(false);
+            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService.GetDailyNoteEntryCollectionAsync().ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
             UserAndUids = roles;

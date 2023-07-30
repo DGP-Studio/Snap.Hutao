@@ -23,7 +23,7 @@ internal static class ThrowHelper
     /// <exception cref="OperationCanceledException">操作取消异常</exception>
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static OperationCanceledException OperationCanceled(string message, Exception? inner)
+    public static OperationCanceledException OperationCanceled(string message, Exception? inner = default)
     {
         throw new OperationCanceledException(message, inner);
     }
@@ -37,7 +37,7 @@ internal static class ThrowHelper
     /// <exception cref="InvalidOperationException">无效操作异常</exception>
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]
-    public static InvalidOperationException InvalidOperation(string message, Exception? inner)
+    public static InvalidOperationException InvalidOperation(string message, Exception? inner = default)
     {
         throw new InvalidOperationException(message, inner);
     }

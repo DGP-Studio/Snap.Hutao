@@ -206,7 +206,7 @@ internal sealed partial class GachaLogService : IGachaLogService
                     break;
                 }
 
-                await Delay.RandomAsync(1000, 2000).ConfigureAwait(false);
+                await Delay.Random(1000, 2000).ConfigureAwait(false);
             }
             while (true);
 
@@ -217,7 +217,7 @@ internal sealed partial class GachaLogService : IGachaLogService
 
             token.ThrowIfCancellationRequested();
             fetchContext.SaveItems();
-            await Delay.RandomAsync(1000, 2000).ConfigureAwait(false);
+            await Delay.Random(1000, 2000).ConfigureAwait(false);
         }
 
         return new(!fetchContext.FetchStatus.AuthKeyTimeout, fetchContext.TargetArchive);

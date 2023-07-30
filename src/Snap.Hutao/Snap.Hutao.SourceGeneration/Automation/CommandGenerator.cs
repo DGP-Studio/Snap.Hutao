@@ -16,7 +16,7 @@ namespace Snap.Hutao.SourceGeneration.Automation;
 [Generator(LanguageNames.CSharp)]
 internal sealed class CommandGenerator : IIncrementalGenerator
 {
-    private const string AttributeName = "Snap.Hutao.Core.Annotation.CommandAttribute";
+    public const string AttributeName = "Snap.Hutao.Core.Annotation.CommandAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

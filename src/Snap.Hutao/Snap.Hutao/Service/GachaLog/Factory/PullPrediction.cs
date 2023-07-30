@@ -34,7 +34,7 @@ internal sealed class PullPrediction
         this.distributionType = distributionType;
     }
 
-    public async Task PredictAsync(AsyncBarrier barrier)
+    public async ValueTask PredictAsync(AsyncBarrier barrier)
     {
         await taskContext.SwitchToBackgroundAsync();
         HomaGachaLogClient gachaLogClient = serviceProvider.GetRequiredService<HomaGachaLogClient>();

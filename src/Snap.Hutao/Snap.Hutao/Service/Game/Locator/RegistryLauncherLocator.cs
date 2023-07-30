@@ -76,7 +76,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
 
     private static string Unescape(string str)
     {
-        string hex4Result = UTF16Regex().Replace(str, @"\u$1");
+        string hex4Result = UTF16Regex().Replace(str, @"\u");
 
         // 不包含中文
         // Some one's folder might begin with 'u'
@@ -89,6 +89,6 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
         return Regex.Unescape(hex4Result);
     }
 
-    [GeneratedRegex("\\\\x([0-9a-f]{4})")]
+    [GeneratedRegex(@"\\x(?=[0-9a-f]{4})")]
     private static partial Regex UTF16Regex();
 }

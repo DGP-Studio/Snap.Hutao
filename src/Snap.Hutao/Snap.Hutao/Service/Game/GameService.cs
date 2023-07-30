@@ -184,7 +184,7 @@ internal sealed partial class GameService : IGameService
     }
 
     /// <inheritdoc/>
-    public async Task<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
+    public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
     {
         string gamePath = appOptions.GamePath;
         string gameFolder = Path.GetDirectoryName(gamePath)!;

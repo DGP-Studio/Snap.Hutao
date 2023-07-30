@@ -144,7 +144,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GachaArchives.AddAndSaveAsync(archive);
+            await appDbContext.GachaArchives.AddAndSaveAsync(archive).ConfigureAwait(false);
         }
     }
 

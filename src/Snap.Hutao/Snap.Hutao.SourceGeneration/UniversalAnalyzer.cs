@@ -19,6 +19,12 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor readOnlyStructRefDescriptor = new("SH002", "ReadOnly struct should be passed with ref-like key word", "ReadOnly Struct [{0}] should be passed with ref-like key word", "Quality", DiagnosticSeverity.Info, true);
     private static readonly DiagnosticDescriptor useValueTaskIfPossibleDescriptor = new("SH003", "Use ValueTask instead of Task whenever possible", "Use ValueTask instead of Task", "Quality", DiagnosticSeverity.Info, true);
 
+    private static readonly ImmutableHashSet<string> RefLikeKeySkipTypes = new HashSet<string>()
+    {
+        "System.Threading.CancellationToken",
+        "System.Guid"
+    }.ToImmutableHashSet();
+
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
     {
         get
@@ -51,7 +57,6 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         };
 
         context.RegisterSyntaxNodeAction(HandleTypeShouldBeInternal, types);
-
         context.RegisterSyntaxNodeAction(HandleMethodParameterShouldUseRefLikeKeyword, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(HandleMethodReturnTypeShouldUseValueTaskInsteadOfTask, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(HandleConstructorParameterShouldUseRefLikeKeyword, SyntaxKind.ConstructorDeclaration);
@@ -102,6 +107,12 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
             return;
         }
 
+        // ICommand can only use Task or Task<T>
+        if (methodSymbol.GetAttributes().Any(attr=>attr.AttributeClass!.ToDisplayString() == Automation.CommandGenerator.AttributeName))
+        {
+            return;
+        }
+
         if (methodSymbol.ReturnType.IsOrInheritsFrom("System.Threading.Tasks.Task"))
         {
             Location location = methodSyntax.ReturnType.GetLocation();
@@ -113,7 +124,15 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
     private static void HandleMethodParameterShouldUseRefLikeKeyword(SyntaxNodeAnalysisContext context)
     {
         MethodDeclarationSyntax methodSyntax = (MethodDeclarationSyntax)context.Node;
+
+        // 跳过方法定义 如 接口
+        if (methodSyntax.Body == null)
+        {
+            return;
+        }
+
         IMethodSymbol methodSymbol = context.SemanticModel.GetDeclaredSymbol(methodSyntax)!;
+
         if (methodSymbol.ReturnType.IsOrInheritsFrom("System.Threading.Tasks.Task"))
         {
             return;
@@ -124,22 +143,19 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        // 跳过异步方法，因为异步方法无法使用 ref in out
-        if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.AsyncKeyword)))
+        foreach (SyntaxToken token in methodSyntax.Modifiers)
         {
-            return;
-        }
+            // 跳过异步方法，因为异步方法无法使用 ref/in/out
+            if (token.IsKind(SyntaxKind.AsyncKeyword))
+            {
+                return;
+            }
 
-        // 跳过重载方法
-        if (methodSyntax.Modifiers.Any(token => token.IsKind(SyntaxKind.OverrideKeyword)))
-        {
-            return;
-        }
-
-        // 跳过方法定义 如 接口
-        if (methodSyntax.Body == null)
-        {
-            return;
+            // 跳过重载方法
+            if (token.IsKind(SyntaxKind.OverrideKeyword))
+            {
+                return;
+            }
         }
 
         foreach (ParameterSyntax parameter in methodSyntax.ParameterList.Parameters)
@@ -151,8 +167,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
                     continue;
                 }
 
-                // 跳过 CancellationToken
-                if (symbol.Type.ToDisplayString() == "System.Threading.CancellationToken")
+                if (RefLikeKeySkipTypes.Contains(symbol.Type.ToDisplayString()))
                 {
                     continue;
                 }
