@@ -78,10 +78,10 @@ internal sealed partial class PackageConverter
         diffOperations.SortBy(i => i.Type);
 
         // Step 3
-        await PrepareCacheFilesAsync(diffOperations, direction, scatteredFilesUrl, cacheFolder, progress).ConfigureAwait(false);
+        await PrepareCacheFilesAsync(diffOperations, context, progress).ConfigureAwait(false);
 
         // Step 4
-        return await ReplaceGameResourceAsync(diffOperations, gameFolder, scatteredFilesUrl, direction, progress).ConfigureAwait(false);
+        return await ReplaceGameResourceAsync(diffOperations, context, progress).ConfigureAwait(false);
     }
 
     /// <summary>
