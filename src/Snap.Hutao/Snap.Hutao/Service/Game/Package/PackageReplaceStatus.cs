@@ -29,8 +29,11 @@ internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
     public PackageReplaceStatus(string name, long bytesRead, long totalBytes)
     {
         Percent = (double)bytesRead / totalBytes;
-        Description = $"{name}\n{Converters.ToFileSizeString(bytesRead)}/{Converters.ToFileSizeString(totalBytes)}";
+        Name = name;
+        Description = $"{Converters.ToFileSizeString(bytesRead)}/{Converters.ToFileSizeString(totalBytes)}";
     }
+
+    public string Name { get; set; }
 
     /// <summary>
     /// 描述

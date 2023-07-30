@@ -16,5 +16,5 @@ internal interface IGameFpsUnlocker
     /// <param name="progress">进度</param>
     /// <param name="token">取消令牌</param>
     /// <returns>解锁的结果</returns>
-    Task UnlockAsync(UnlockTimingOptions options, IProgress<UnlockerStatus> progress, CancellationToken token = default);
+    ValueTask UnlockAsync(UnlockTimingOptions options, IProgress<UnlockerStatus> progress, CancellationToken token = default);
 }

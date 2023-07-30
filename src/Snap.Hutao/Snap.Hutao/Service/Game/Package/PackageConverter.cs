@@ -6,7 +6,6 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.Hashing;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
 using System.IO;
 using System.IO.Compression;
@@ -260,6 +259,7 @@ internal sealed partial class PackageConverter
         }
 
         // Cache no matching item, download
+        Directory.CreateDirectory(context.ServerCacheTargetFolder);
         using (FileStream fileStream = File.Create(cacheFile))
         {
             string remoteUrl = context.GetScatteredFilesUrl(remoteName);

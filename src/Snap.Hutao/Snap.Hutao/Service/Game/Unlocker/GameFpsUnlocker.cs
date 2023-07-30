@@ -40,7 +40,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
     }
 
     /// <inheritdoc/>
-    public async Task UnlockAsync(UnlockTimingOptions options, IProgress<UnlockerStatus> progress, CancellationToken token = default)
+    public async ValueTask UnlockAsync(UnlockTimingOptions options, IProgress<UnlockerStatus> progress, CancellationToken token = default)
     {
         Verify.Operation(status.IsUnlockerValid, "This Unlocker is invalid");
 
@@ -177,7 +177,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         return FindModuleResult.ModuleNotLoaded;
     }
 
-    private async Task<ValueResult<FindModuleResult, GameModule>> FindModuleAsync(TimeSpan findModuleDelay, TimeSpan findModuleLimit)
+    private async ValueTask<ValueResult<FindModuleResult, GameModule>> FindModuleAsync(TimeSpan findModuleDelay, TimeSpan findModuleLimit)
     {
         ValueStopwatch watch = ValueStopwatch.StartNew();
         using (PeriodicTimer timer = new(findModuleDelay))
@@ -205,7 +205,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
         return new(FindModuleResult.TimeLimitExeeded, default);
     }
 
-    private async Task LoopAdjustFpsAsync(TimeSpan adjustFpsDelay, IProgress<UnlockerStatus> progress, CancellationToken token)
+    private async ValueTask LoopAdjustFpsAsync(TimeSpan adjustFpsDelay, IProgress<UnlockerStatus> progress, CancellationToken token)
     {
         using (PeriodicTimer timer = new(adjustFpsDelay))
         {
