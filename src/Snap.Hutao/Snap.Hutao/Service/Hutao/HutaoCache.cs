@@ -95,21 +95,7 @@ internal sealed partial class HutaoCache : IHutaoCache
             Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
             Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
             Dictionary<EquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap = await metadataService.GetEquipAffixIdToReliquarySetMapAsync().ConfigureAwait(false);
-
-            List<AvatarCollocation> avatarCollocationsRaw;
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
-                avatarCollocationsRaw = await hutaoService.GetAvatarCollocationsAsync().ConfigureAwait(false);
-            }
-
-            AvatarCollocations = avatarCollocationsRaw.Select(co => new AvatarCollocationView()
-            {
-                AvatarId = co.AvatarId,
-                Avatars = co.Avatars.Select(a => new AvatarView(idAvatarMap[a.Item], a.Rate)).ToList(),
-                Weapons = co.Weapons.Select(w => new WeaponView(idWeaponMap[w.Item], w.Rate)).ToList(),
-                ReliquarySets = co.Reliquaries.Select(r => new ReliquarySetView(r, idReliquarySetMap)).ToList(),
-            }).ToList();
+            await AvatarCollocationsAsync(idAvatarMap, idWeaponMap, idReliquarySetMap).ConfigureAwait(false);
 
             wikiAvatarViewModelTaskSource.TrySetResult(true);
             return true;
@@ -131,19 +117,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
-
-            List<WeaponCollocation> weaponCollocationsRaw;
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
-                weaponCollocationsRaw = await hutaoService.GetWeaponCollocationsAsync().ConfigureAwait(false);
-            }
-
-            WeaponCollocations = weaponCollocationsRaw.Select(co => new WeaponCollocationView()
-            {
-                WeaponId = co.WeaponId,
-                Avatars = co.Avatars.Select(a => new AvatarView(idAvatarMap[a.Item], a.Rate)).ToList(),
-            }).ToList();
+            await WeaponCollocationsAsync(idAvatarMap).ConfigureAwait(false);
 
             wikiWeaponViewModelTaskSource.TrySetResult(true);
             return true;
@@ -164,6 +138,41 @@ internal sealed partial class HutaoCache : IHutaoCache
         return idAvatarExtendedMap;
     }
 
+    private async ValueTask AvatarCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap, Dictionary<WeaponId, Weapon> idWeaponMap, Dictionary<EquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
+    {
+        List<AvatarCollocation> avatarCollocationsRaw;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            avatarCollocationsRaw = await hutaoService.GetAvatarCollocationsAsync().ConfigureAwait(false);
+        }
+
+        AvatarCollocations = avatarCollocationsRaw.SelectList(co => new AvatarCollocationView()
+        {
+            AvatarId = co.AvatarId,
+            Avatars = co.Avatars.SelectList(a => new AvatarView(idAvatarMap[a.Item], a.Rate)),
+            Weapons = co.Weapons.SelectList(w => new WeaponView(idWeaponMap[w.Item], w.Rate)),
+            ReliquarySets = co.Reliquaries.SelectList(r => new ReliquarySetView(r, idReliquarySetMap)),
+        });
+    }
+
+    private async ValueTask WeaponCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
+    {
+        List<WeaponCollocation> weaponCollocationsRaw;
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            weaponCollocationsRaw = await hutaoService.GetWeaponCollocationsAsync().ConfigureAwait(false);
+        }
+
+        WeaponCollocations = weaponCollocationsRaw.SelectList(co => new WeaponCollocationView()
+        {
+            WeaponId = co.WeaponId,
+            Avatars = co.Avatars.SelectList(a => new AvatarView(idAvatarMap[a.Item], a.Rate)),
+        });
+    }
+
+    [SuppressMessage("", "SH003")]
     private async Task AvatarAppearanceRankAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarAppearanceRank> avatarAppearanceRanksRaw;
@@ -173,13 +182,14 @@ internal sealed partial class HutaoCache : IHutaoCache
             avatarAppearanceRanksRaw = await hutaoService.GetAvatarAppearanceRanksAsync().ConfigureAwait(false);
         }
 
-        AvatarAppearanceRanks = avatarAppearanceRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new AvatarRankView
+        AvatarAppearanceRanks = avatarAppearanceRanksRaw.SortByDescending(r => r.Floor).SelectList(rank => new AvatarRankView
         {
             Floor = string.Format(SH.ModelBindingHutaoComplexRankFloor, rank.Floor),
-            Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)).ToList(),
-        }).ToList();
+            Avatars = rank.Ranks.SortByDescending(r => r.Rate).SelectList(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)),
+        });
     }
 
+    [SuppressMessage("", "SH003")]
     private async Task AvatarUsageRanksAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarUsageRank> avatarUsageRanksRaw;
@@ -189,13 +199,14 @@ internal sealed partial class HutaoCache : IHutaoCache
             avatarUsageRanksRaw = await hutaoService.GetAvatarUsageRanksAsync().ConfigureAwait(false);
         }
 
-        AvatarUsageRanks = avatarUsageRanksRaw.OrderByDescending(r => r.Floor).Select(rank => new AvatarRankView
+        AvatarUsageRanks = avatarUsageRanksRaw.SortByDescending(r => r.Floor).SelectList(rank => new AvatarRankView
         {
             Floor = string.Format(SH.ModelBindingHutaoComplexRankFloor, rank.Floor),
-            Avatars = rank.Ranks.OrderByDescending(r => r.Rate).Select(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)).ToList(),
-        }).ToList();
+            Avatars = rank.Ranks.SortByDescending(r => r.Rate).SelectList(rank => new AvatarView(idAvatarMap[rank.Item], rank.Rate)),
+        });
     }
 
+    [SuppressMessage("", "SH003")]
     private async Task AvatarConstellationInfosAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<AvatarConstellationInfo> avatarConstellationInfosRaw;
@@ -205,12 +216,13 @@ internal sealed partial class HutaoCache : IHutaoCache
             avatarConstellationInfosRaw = await hutaoService.GetAvatarConstellationInfosAsync().ConfigureAwait(false);
         }
 
-        AvatarConstellationInfos = avatarConstellationInfosRaw.OrderBy(i => i.HoldingRate).Select(info =>
+        AvatarConstellationInfos = avatarConstellationInfosRaw.SortBy(i => i.HoldingRate).SelectList(info =>
         {
             return new AvatarConstellationInfoView(idAvatarMap[info.AvatarId], info.HoldingRate, info.Constellations.SelectList(x => x.Rate));
-        }).ToList();
+        });
     }
 
+    [SuppressMessage("", "SH003")]
     private async Task TeamAppearancesAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
     {
         List<TeamAppearance> teamAppearancesRaw;
@@ -220,9 +232,10 @@ internal sealed partial class HutaoCache : IHutaoCache
             teamAppearancesRaw = await hutaoService.GetTeamAppearancesAsync().ConfigureAwait(false);
         }
 
-        TeamAppearances = teamAppearancesRaw.OrderByDescending(t => t.Floor).Select(team => new TeamAppearanceView(team, idAvatarMap)).ToList();
+        TeamAppearances = teamAppearancesRaw.SortByDescending(t => t.Floor).SelectList(team => new TeamAppearanceView(team, idAvatarMap));
     }
 
+    [SuppressMessage("", "SH003")]
     private async Task OverviewAsync()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())

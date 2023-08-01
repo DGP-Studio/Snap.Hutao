@@ -108,8 +108,6 @@ internal sealed partial class HutaoService : IHutaoService
                     await appDbContext.ObjectCache.AddAndSaveAsync(new()
                     {
                         Key = key,
-
-                        // We hold the cache for 4 hours
                         ExpireTime = DateTimeOffset.Now.Add(CacheExpireTime),
                         Value = JsonSerializer.Serialize(data, options),
                     }).ConfigureAwait(false);

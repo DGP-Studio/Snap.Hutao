@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
     Padding="0"
@@ -75,7 +76,7 @@
                             </Grid.RowDefinitions>
                             <Border Style="{StaticResource BorderCardStyle}">
                                 <StackPanel VerticalAlignment="Center">
-                                    <Image Width="32" Source="ms-appx:///Resource/Icon/UI_ItemIcon_204.png"/>
+                                    <shci:CachedImage Width="32" Source="{StaticResource UI_ItemIcon_204}"/>
                                     <TextBlock
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"

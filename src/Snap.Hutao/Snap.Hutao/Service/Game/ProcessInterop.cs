@@ -24,7 +24,7 @@ internal static class ProcessInterop
     /// <param name="options">启动选项</param>
     /// <param name="gamePath">游戏路径</param>
     /// <returns>初始化后的游戏进程</returns>
-    public static Process PrepareGameProcess(LaunchOptions options, string gamePath)
+    public static Process InitializeGameProcess(LaunchOptions options, string gamePath)
     {
         // https://docs.unity.cn/cn/current/Manual/PlayerCommandLineArguments.html
         string commandLine = new CommandLineBuilder()

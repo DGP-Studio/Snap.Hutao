@@ -11,6 +11,9 @@ namespace Snap.Hutao.Service.Game;
 [HighQuality]
 internal readonly struct ChannelOptions
 {
+    public const string ChannelName = "channel";
+    public const string SubChannelName = "sub_channel";
+
     /// <summary>
     /// 通道
     /// </summary>

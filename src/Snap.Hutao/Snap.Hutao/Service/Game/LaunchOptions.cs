@@ -43,16 +43,7 @@ internal sealed class LaunchOptions : DbStoreOptions
         primaryScreenWidth = primaryRect.Width;
         primaryScreenHeight = primaryRect.Height;
 
-        // This list can't use foreach
-        // https://github.com/microsoft/microsoft-ui-xaml/issues/6454
-        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
-        for (int i = 0; i < displayAreas.Count; i++)
-        {
-            DisplayArea displayArea = displayAreas[i];
-            int index = i + 1;
-            Monitors.Add(new($"{displayArea.DisplayId.Value:X8}:{index}", index));
-        }
-
+        InitializeMonitors(Monitors);
         InitializeScreenFps(out primaryScreenFps);
     }
 
@@ -166,6 +157,19 @@ internal sealed class LaunchOptions : DbStoreOptions
     {
         get => GetOption(ref multipleInstances, SettingEntry.MultipleInstances);
         set => SetOption(ref multipleInstances, SettingEntry.MultipleInstances, value);
+    }
+
+    private static void InitializeMonitors(List<NameValue<int>> monitors)
+    {
+        // This list can't use foreach
+        // https://github.com/microsoft/microsoft-ui-xaml/issues/6454
+        IReadOnlyList<DisplayArea> displayAreas = DisplayArea.FindAll();
+        for (int i = 0; i < displayAreas.Count; i++)
+        {
+            DisplayArea displayArea = displayAreas[i];
+            int index = i + 1;
+            monitors.Add(new($"{displayArea.DisplayId.Value:X8}:{index}", index));
+        }
     }
 
     private static void InitializeScreenFps(out int fps)

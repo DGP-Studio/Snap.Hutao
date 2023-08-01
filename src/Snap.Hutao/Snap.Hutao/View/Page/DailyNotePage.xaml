@@ -229,7 +229,7 @@
                                             Width="40"
                                             Height="40"
                                             VerticalAlignment="Center">
-                                            <Image Width="32" Source="ms-appx:///Resource/Icon/UI_ItemIcon_204.png"/>
+                                            <shci:CachedImage Width="32" Source="{StaticResource UI_ItemIcon_204}"/>
                                             <ProgressRing
                                                 Width="40"
                                                 Height="40"

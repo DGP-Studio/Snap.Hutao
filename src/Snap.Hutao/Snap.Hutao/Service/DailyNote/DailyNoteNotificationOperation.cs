@@ -141,7 +141,7 @@ internal sealed class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierResin,
-                    Web.Hoyolab.OssImages.UIItemIcon210,
+                    Web.Hoyolab.Images.UIItemIcon210,
                     $"{entry.DailyNote.CurrentResin}",
                     string.Format(SH.ServiceDailyNoteNotifierResinCurrent, entry.DailyNote.CurrentResin)));
                 entry.ResinNotifySuppressed = true;
@@ -158,7 +158,7 @@ internal sealed class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierHomeCoin,
-                    Web.Hoyolab.OssImages.UIItemIcon204,
+                    Web.Hoyolab.Images.UIItemIcon204,
                     $"{entry.DailyNote.CurrentHomeCoin}",
                     string.Format(SH.ServiceDailyNoteNotifierHomeCoinCurrent, entry.DailyNote.CurrentHomeCoin)));
                 entry.HomeCoinNotifySuppressed = true;
@@ -175,7 +175,7 @@ internal sealed class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierDailyTask,
-                    Web.Hoyolab.OssImages.UIMarkQuestEventsProce,
+                    Web.Hoyolab.Images.UIMarkQuestEventsProce,
                     SH.ServiceDailyNoteNotifierDailyTaskHint,
                     entry.DailyNote.ExtraTaskRewardDescription));
                 entry.DailyTaskNotifySuppressed = true;
@@ -192,7 +192,7 @@ internal sealed class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierTransformer,
-                    Web.Hoyolab.OssImages.UIItemIcon220021,
+                    Web.Hoyolab.Images.UIItemIcon220021,
                     SH.ServiceDailyNoteNotifierTransformerAdaptiveHint,
                     SH.ServiceDailyNoteNotifierTransformerHint));
                 entry.TransformerNotifySuppressed = true;
@@ -209,7 +209,7 @@ internal sealed class DailyNoteNotificationOperation
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierExpedition,
-                    Web.Hoyolab.OssImages.UIIconInteeExplore1,
+                    Web.Hoyolab.Images.UIIconInteeExplore1,
                     SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint,
                     SH.ServiceDailyNoteNotifierExpeditionHint));
                 entry.ExpeditionNotifySuppressed = true;

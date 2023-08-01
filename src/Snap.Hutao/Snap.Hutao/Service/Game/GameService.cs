@@ -1,13 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Ini;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.View.Dialog;
@@ -32,7 +29,7 @@ internal sealed partial class GameService : IGameService
     private readonly IServiceProvider serviceProvider;
     private readonly IGameDbService gameDbService;
     private readonly LaunchOptions launchOptions;
-    private readonly RuntimeOptions hutaoOptions;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
 
@@ -48,47 +45,44 @@ internal sealed partial class GameService : IGameService
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, string>> GetGamePathAsync()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        // Cannot find in setting
+        if (string.IsNullOrEmpty(appOptions.GamePath))
         {
-            // Cannot find in setting
-            if (string.IsNullOrEmpty(appOptions.GamePath))
-            {
-                IGameLocatorFactory locatorFactory = scope.ServiceProvider.GetRequiredService<IGameLocatorFactory>();
+            IGameLocatorFactory locatorFactory = serviceProvider.GetRequiredService<IGameLocatorFactory>();
 
-                // Try locate by unity log
-                ValueResult<bool, string> result = await locatorFactory
-                    .Create(GameLocationSource.UnityLog)
+            // Try locate by unity log
+            ValueResult<bool, string> result = await locatorFactory
+                .Create(GameLocationSource.UnityLog)
+                .LocateGamePathAsync()
+                .ConfigureAwait(false);
+
+            if (!result.IsOk)
+            {
+                // Try locate by registry
+                result = await locatorFactory
+                    .Create(GameLocationSource.Registry)
                     .LocateGamePathAsync()
                     .ConfigureAwait(false);
-
-                if (!result.IsOk)
-                {
-                    // Try locate by registry
-                    result = await locatorFactory
-                        .Create(GameLocationSource.Registry)
-                        .LocateGamePathAsync()
-                        .ConfigureAwait(false);
-                }
-
-                if (result.IsOk)
-                {
-                    // Save result.
-                    appOptions.GamePath = result.Value;
-                }
-                else
-                {
-                    return new(false, SH.ServiceGamePathLocateFailed);
-                }
             }
 
-            if (!string.IsNullOrEmpty(appOptions.GamePath))
+            if (result.IsOk)
             {
-                return new(true, appOptions.GamePath);
+                // Save result.
+                appOptions.GamePath = result.Value;
             }
             else
             {
-                return new(false, null!);
+                return new(false, SH.ServiceGamePathLocateFailed);
             }
+        }
+
+        if (!string.IsNullOrEmpty(appOptions.GamePath))
+        {
+            return new(true, appOptions.GamePath);
+        }
+        else
+        {
+            return new(false, null!);
         }
     }
 
@@ -107,8 +101,8 @@ internal sealed partial class GameService : IGameService
         using (FileStream stream = File.OpenRead(configPath))
         {
             List<IniParameter> parameters = IniSerializer.Deserialize(stream).OfType<IniParameter>().ToList();
-            string? channel = parameters.FirstOrDefault(p => p.Key == "channel")?.Value;
-            string? subChannel = parameters.FirstOrDefault(p => p.Key == "sub_channel")?.Value;
+            string? channel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.ChannelName)?.Value;
+            string? subChannel = parameters.FirstOrDefault(p => p.Key == ChannelOptions.SubChannelName)?.Value;
 
             return new(channel, subChannel, isOversea);
         }
@@ -178,14 +172,10 @@ internal sealed partial class GameService : IGameService
         string gameFileName = Path.GetFileName(gamePath);
 
         progress.Report(new(SH.ServiceGameEnsureGameResourceQueryResourceInformation));
-        Response<GameResource> response;
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            response = await scope.ServiceProvider
-                .GetRequiredService<ResourceClient>()
-                .GetResourceAsync(launchScheme)
-                .ConfigureAwait(false);
-        }
+        Response<GameResource> response = await serviceProvider
+            .GetRequiredService<ResourceClient>()
+            .GetResourceAsync(launchScheme)
+            .ConfigureAwait(false);
 
         if (response.IsOk())
         {
@@ -257,7 +247,7 @@ internal sealed partial class GameService : IGameService
             return;
         }
 
-        Process game = ProcessInterop.PrepareGameProcess(launchOptions, gamePath);
+        Process game = ProcessInterop.InitializeGameProcess(launchOptions, gamePath);
 
         try
         {
@@ -265,7 +255,7 @@ internal sealed partial class GameService : IGameService
 
             game.Start();
 
-            bool isAdvancedOptionsAllowed = hutaoOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled;
+            bool isAdvancedOptionsAllowed = runtimeOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled;
             if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isFirstInstance)
             {
                 ProcessInterop.DisableProtection(game, gamePath);
@@ -317,14 +307,7 @@ internal sealed partial class GameService : IGameService
 
                     // sync database
                     await taskContext.SwitchToBackgroundAsync();
-                    using (IServiceScope scope = serviceProvider.CreateScope())
-                    {
-                        await scope.ServiceProvider
-                            .GetRequiredService<AppDbContext>()
-                            .GameAccounts
-                            .AddAndSaveAsync(account)
-                            .ConfigureAwait(false);
-                    }
+                    await gameDbService.AddGameAccountAsync(account).ConfigureAwait(false);
 
                     // sync cache
                     await taskContext.SwitchToMainThreadAsync();
@@ -365,11 +348,8 @@ internal sealed partial class GameService : IGameService
     /// <inheritdoc/>
     public void AttachGameAccountToUid(GameAccount gameAccount, string uid)
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            gameAccount.UpdateAttachUid(uid);
-            scope.ServiceProvider.GetRequiredService<AppDbContext>().GameAccounts.UpdateAndSave(gameAccount);
-        }
+        gameAccount.UpdateAttachUid(uid);
+        gameDbService.UpdateGameAccount(gameAccount);
     }
 
     /// <inheritdoc/>
@@ -385,11 +365,7 @@ internal sealed partial class GameService : IGameService
 
             // sync database
             await taskContext.SwitchToBackgroundAsync();
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                await appDbContext.GameAccounts.UpdateAndSaveAsync(gameAccount).ConfigureAwait(false);
-            }
+            await gameDbService.UpdateGameAccountAsync(gameAccount).ConfigureAwait(false);
         }
     }
 
@@ -400,10 +376,7 @@ internal sealed partial class GameService : IGameService
         gameAccounts!.Remove(gameAccount);
 
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            await scope.ServiceProvider.GetRequiredService<AppDbContext>().GameAccounts.RemoveAndSaveAsync(gameAccount).ConfigureAwait(false);
-        }
+        await gameDbService.DeleteGameAccountByIdAsync(gameAccount.InnerId).ConfigureAwait(false);
     }
 
     private static bool LaunchSchemeMatchesExecutable(LaunchScheme launchScheme, string gameFileName)
@@ -415,25 +388,4 @@ internal sealed partial class GameService : IGameService
             _ => false,
         };
     }
-}
-
-[ConstructorGenerated]
-[Injection(InjectAs.Singleton, typeof(IGameDbService))]
-internal sealed partial class GameDbService : IGameDbService
-{
-    private readonly IServiceProvider serviceProvider;
-
-    public ObservableCollection<GameAccount> GetGameAccountCollection()
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.GameAccounts.AsNoTracking().ToObservableCollection();
-        }
-    }
-}
-
-internal interface IGameDbService
-{
-    ObservableCollection<GameAccount> GetGameAccountCollection();
 }
