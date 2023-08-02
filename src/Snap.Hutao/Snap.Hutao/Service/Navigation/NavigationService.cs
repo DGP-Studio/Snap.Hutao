@@ -7,6 +7,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Helper;
 using Snap.Hutao.View.Page;
+using Windows.Foundation;
 
 namespace Snap.Hutao.Service.Navigation;
 
@@ -14,17 +15,33 @@ namespace Snap.Hutao.Service.Navigation;
 /// 导航服务
 /// </summary>
 [HighQuality]
-[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(INavigationService))]
-internal sealed partial class NavigationService : INavigationService, INavigationInitialization
+internal sealed class NavigationService : INavigationService, INavigationInitialization
 {
     private readonly ILogger<INavigationService> logger;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
+    private readonly TypedEventHandler<NavigationView, NavigationViewItemInvokedEventArgs> itemInvokedEventHandler;
+    private readonly TypedEventHandler<NavigationView, NavigationViewBackRequestedEventArgs> backRequestedEventHandler;
+    private readonly TypedEventHandler<NavigationView, object> paneOpenedEventHandler;
+    private readonly TypedEventHandler<NavigationView, object> paneClosedEventHandler;
+
     private Frame? frame;
     private NavigationView? navigationView;
     private NavigationViewItem? selected;
+
+    public NavigationService(IServiceProvider serviceProvider)
+    {
+        logger = serviceProvider.GetRequiredService<ILogger<INavigationService>>();
+        infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
+        itemInvokedEventHandler = OnItemInvoked;
+        backRequestedEventHandler = OnBackRequested;
+        paneOpenedEventHandler = OnPaneStateChanged;
+        paneClosedEventHandler = OnPaneStateChanged;
+    }
 
     private NavigationView? NavigationView
     {
@@ -33,24 +50,24 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
         set
         {
             // remove old listener
-            if (navigationView != null)
+            if (navigationView is not null)
             {
-                navigationView.ItemInvoked -= OnItemInvoked;
-                navigationView.BackRequested -= OnBackRequested;
-                navigationView.PaneClosed -= OnPaneStateChanged;
-                navigationView.PaneOpened -= OnPaneStateChanged;
+                navigationView.ItemInvoked -= itemInvokedEventHandler;
+                navigationView.BackRequested -= backRequestedEventHandler;
+                navigationView.PaneClosed -= paneOpenedEventHandler;
+                navigationView.PaneOpened -= paneClosedEventHandler;
             }
 
             ArgumentNullException.ThrowIfNull(value);
             navigationView = value;
 
             // add new listener
-            if (navigationView != null)
+            if (navigationView is not null)
             {
-                navigationView.ItemInvoked += OnItemInvoked;
-                navigationView.BackRequested += OnBackRequested;
-                navigationView.PaneClosed += OnPaneStateChanged;
-                navigationView.PaneOpened += OnPaneStateChanged;
+                navigationView.ItemInvoked += itemInvokedEventHandler;
+                navigationView.BackRequested += backRequestedEventHandler;
+                navigationView.PaneClosed += paneOpenedEventHandler;
+                navigationView.PaneOpened += paneClosedEventHandler;
             }
         }
     }
@@ -91,7 +108,7 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
     }
 
     /// <inheritdoc/>
-    public async Task<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
+    public async ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
         where TPage : Page
     {
         NavigationResult result = Navigate<TPage>(data, syncNavigationViewItem);
@@ -180,9 +197,13 @@ internal sealed partial class NavigationService : INavigationService, INavigatio
         {
             yield return item;
 
-            foreach (NavigationViewItem subItem in EnumerateMenuItems(item.MenuItems))
+            // Suppress recursion method call if possible
+            if (item.MenuItems.Count > 0)
             {
-                yield return subItem;
+                foreach (NavigationViewItem subItem in EnumerateMenuItems(item.MenuItems))
+                {
+                    yield return subItem;
+                }
             }
         }
     }

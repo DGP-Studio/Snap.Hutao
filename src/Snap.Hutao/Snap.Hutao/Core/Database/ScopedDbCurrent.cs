@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.EntityFrameworkCore;
+using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
 
 namespace Snap.Hutao.Core.Database;
@@ -70,6 +71,73 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
                 {
                     current.IsSelected = true;
                     dbSet.UpdateAndSave(current);
+                }
+
+                messenger.Send(message);
+            }
+        }
+    }
+}
+
+[SuppressMessage("", "SA1402")]
+internal sealed class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
+    where TEntityOnly : class, IEntityOnly<TEntity>
+    where TEntity : class, ISelectable
+    where TMessage : Message.ValueChangedMessage<TEntityOnly>, new()
+{
+    private readonly IServiceProvider serviceProvider;
+    private readonly IMessenger messenger;
+
+    private TEntityOnly? current;
+
+    /// <summary>
+    /// 构造一个新的数据库当前项
+    /// </summary>
+    /// <param name="serviceProvider">服务提供器</param>
+    public ScopedDbCurrent(IServiceProvider serviceProvider)
+    {
+        messenger = serviceProvider.GetRequiredService<IMessenger>();
+        this.serviceProvider = serviceProvider;
+    }
+
+    /// <summary>
+    /// 当前选中的项
+    /// </summary>
+    public TEntityOnly? Current
+    {
+        get => current;
+        set
+        {
+            // prevent useless sets
+            if (current == value)
+            {
+                return;
+            }
+
+            // TODO: Troubeshooting why the serviceProvider will NRE
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
+
+                // only update when not processing a deletion
+                if (value != null)
+                {
+                    if (current != null)
+                    {
+                        current.Entity.IsSelected = false;
+                        dbSet.UpdateAndSave(current.Entity);
+                    }
+                }
+
+                TMessage message = new() { OldValue = current, NewValue = value };
+
+                current = value;
+
+                if (current != null)
+                {
+                    current.Entity.IsSelected = true;
+                    dbSet.UpdateAndSave(current.Entity);
                 }
 
                 messenger.Send(message);

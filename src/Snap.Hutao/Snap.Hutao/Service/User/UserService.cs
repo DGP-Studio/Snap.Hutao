@@ -25,84 +25,38 @@ namespace Snap.Hutao.Service.User;
 internal sealed partial class UserService : IUserService
 {
     private readonly ITaskContext taskContext;
+    private readonly IUserDbService userDbService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMessenger messenger;
+    private readonly ScopedDbCurrent<BindingUser, Model.Entity.User, UserChangedMessage> dbCurrent;
 
-    private BindingUser? currentUser;
     private ObservableCollection<BindingUser>? userCollection;
-    private ObservableCollection<UserAndUid>? roleCollection;
+    private ObservableCollection<UserAndUid>? userAndUidCollection;
 
     /// <inheritdoc/>
     public BindingUser? Current
     {
-        get => currentUser;
-        set
-        {
-            if (currentUser?.Entity.InnerId == value?.Entity.InnerId)
-            {
-                return;
-            }
-
-            using (IServiceScope scope = serviceProvider.CreateScope())
-            {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                // only update when not processing a deletion
-                if (value != null)
-                {
-                    if (currentUser != null)
-                    {
-                        currentUser.IsSelected = false;
-                        appDbContext.Users.UpdateAndSave(currentUser.Entity);
-                    }
-                }
-
-                UserChangedMessage message = new() { OldValue = currentUser, NewValue = value };
-
-                // 当删除到无用户时也能正常反应状态
-                currentUser = value;
-
-                if (currentUser != null)
-                {
-                    currentUser.IsSelected = true;
-                    try
-                    {
-                        appDbContext.Users.UpdateAndSave(currentUser.Entity);
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceUserCurrentUpdateAndSaveFailed, currentUser.UserInfo?.Uid), ex);
-                    }
-                }
-
-                messenger.Send(message);
-            }
-        }
+        get => dbCurrent.Current;
+        set => dbCurrent.Current = value;
     }
 
     /// <inheritdoc/>
-    public async Task RemoveUserAsync(BindingUser user)
+    public async ValueTask RemoveUserAsync(BindingUser user)
     {
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
         userCollection!.Remove(user);
-        roleCollection?.RemoveWhere(r => r.User.Mid == user.Entity.Mid);
+        userAndUidCollection?.RemoveWhere(r => r.User.Mid == user.Entity.Mid);
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.Users
-                .ExecuteDeleteWhereAsync(u => u.InnerId == user.Entity.InnerId)
-                .ConfigureAwait(false);
-        }
+        await userDbService.DeleteUserByIdAsync(user.Entity.InnerId).ConfigureAwait(false);
 
         messenger.Send(new UserRemovedMessage(user.Entity));
     }
 
     /// <inheritdoc/>
-    public async Task<ObservableCollection<BindingUser>> GetUserCollectionAsync()
+    public async ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
         if (userCollection == null)
@@ -138,7 +92,7 @@ internal sealed partial class UserService : IUserService
     public async Task<ObservableCollection<UserAndUid>> GetRoleCollectionAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
-        if (roleCollection == null)
+        if (userAndUidCollection == null)
         {
             List<UserAndUid> userAndUids = new();
             ObservableCollection<BindingUser> observableUsers = await GetUserCollectionAsync().ConfigureAwait(false);
@@ -150,10 +104,10 @@ internal sealed partial class UserService : IUserService
                 }
             }
 
-            roleCollection = userAndUids.ToObservableCollection();
+            userAndUidCollection = userAndUids.ToObservableCollection();
         }
 
-        return roleCollection;
+        return userAndUidCollection;
     }
 
     /// <inheritdoc/>
@@ -269,11 +223,11 @@ internal sealed partial class UserService : IUserService
                     {
                         userCollection!.Add(newUser);
 
-                        if (roleCollection != null)
+                        if (userAndUidCollection != null)
                         {
                             foreach (UserGameRole role in newUser.UserGameRoles)
                             {
-                                roleCollection.Add(new(newUser.Entity, role));
+                                userAndUidCollection.Add(new(newUser.Entity, role));
                             }
                         }
                     }
@@ -290,4 +244,25 @@ internal sealed partial class UserService : IUserService
             }
         }
     }
+}
+
+[ConstructorGenerated]
+[Injection(InjectAs.Singleton, typeof(IUserDbService))]
+internal sealed partial class UserDbService : IUserDbService
+{
+    private readonly IServiceProvider serviceProvider;
+
+    public async ValueTask DeleteUserByIdAsync(Guid id)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.Users.ExecuteDeleteWhereAsync(u => u.InnerId == id).ConfigureAwait(false);
+        }
+    }
+}
+
+internal interface IUserDbService
+{
+    ValueTask DeleteUserByIdAsync(Guid id);
 }

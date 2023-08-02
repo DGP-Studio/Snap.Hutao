@@ -4,19 +4,29 @@
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using System.Collections.ObjectModel;
+using Windows.Foundation;
 
 namespace Snap.Hutao.Service.Notification;
 
 /// <inheritdoc/>
 [HighQuality]
-[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IInfoBarService))]
-internal sealed partial class InfoBarService : IInfoBarService
+internal sealed class InfoBarService : IInfoBarService
 {
     private readonly ILogger<InfoBarService> logger;
     private readonly ITaskContext taskContext;
 
+    private readonly TypedEventHandler<InfoBar, InfoBarClosedEventArgs> infobarClosedEventHandler;
+
     private ObservableCollection<InfoBar>? collection;
+
+    public InfoBarService(IServiceProvider serviceProvider)
+    {
+        logger = serviceProvider.GetRequiredService<ILogger<InfoBarService>>();
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+
+        infobarClosedEventHandler = OnInfoBarClosed;
+    }
 
     /// <inheritdoc/>
     public ObservableCollection<InfoBar> Collection
@@ -101,7 +111,7 @@ internal sealed partial class InfoBarService : IInfoBarService
     /// <param name="title">标题</param>
     /// <param name="message">消息</param>
     /// <param name="delay">关闭延迟</param>
-    private async Task PrepareInfoBarAndShowInternalAsync(InfoBarSeverity severity, string? title, string? message, int delay)
+    private async ValueTask PrepareInfoBarAndShowInternalAsync(InfoBarSeverity severity, string? title, string? message, int delay)
     {
         await taskContext.SwitchToMainThreadAsync();
 
@@ -114,12 +124,12 @@ internal sealed partial class InfoBarService : IInfoBarService
             Transitions = new() { new AddDeleteThemeTransition() },
         };
 
-        infoBar.Closed += OnInfoBarClosed;
+        infoBar.Closed += infobarClosedEventHandler;
         collection!.Add(infoBar);
 
         if (delay > 0)
         {
-            await Task.Delay(delay).ConfigureAwait(true);
+            await Delay.FromMilliSeconds(delay).ConfigureAwait(true);
             collection.Remove(infoBar);
             infoBar.IsOpen = false;
         }
@@ -128,6 +138,6 @@ internal sealed partial class InfoBarService : IInfoBarService
     private void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
     {
         taskContext.InvokeOnMainThread(() => collection!.Remove(sender));
-        sender.Closed -= OnInfoBarClosed;
+        sender.Closed -= infobarClosedEventHandler;
     }
 }

@@ -27,9 +27,9 @@ internal sealed class NavigationExtra : INavigationData, INavigationAwaiter
     public object? Data { get; set; }
 
     /// <inheritdoc/>
-    public Task WaitForCompletionAsync()
+    public ValueTask WaitForCompletionAsync()
     {
-        return navigationCompletedTaskCompletionSource.Task;
+        return navigationCompletedTaskCompletionSource.Task.AsValueTask();
     }
 
     /// <inheritdoc/>

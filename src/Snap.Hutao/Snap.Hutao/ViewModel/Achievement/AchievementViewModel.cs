@@ -135,7 +135,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     }
 
     /// <inheritdoc/>
-    public async Task<bool> ReceiveAsync(INavigationData data)
+    public async ValueTask<bool> ReceiveAsync(INavigationData data)
     {
         if (await openUITaskCompletionSource.Task.ConfigureAwait(false))
         {

@@ -4,6 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Model;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.Passport;
@@ -17,7 +18,7 @@ namespace Snap.Hutao.ViewModel.User;
 /// 用于视图绑定的用户
 /// </summary>
 [HighQuality]
-internal sealed class User : ObservableObject
+internal sealed class User : ObservableObject, IEntityOnly<EntityUser>
 {
     private readonly EntityUser inner;
 

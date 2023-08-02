@@ -16,5 +16,5 @@ internal interface INavigationRecipient
     /// </summary>
     /// <param name="data">导航数据</param>
     /// <returns>接收处理结果是否成功</returns>
-    Task<bool> ReceiveAsync(INavigationData data);
+    ValueTask<bool> ReceiveAsync(INavigationData data);
 }

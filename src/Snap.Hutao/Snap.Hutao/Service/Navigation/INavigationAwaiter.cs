@@ -18,5 +18,5 @@ internal interface INavigationAwaiter
     /// 等待导航完成，或直到抛出异常
     /// </summary>
     /// <returns>导航完成的任务</returns>
-    Task WaitForCompletionAsync();
+    ValueTask WaitForCompletionAsync();
 }

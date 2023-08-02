@@ -32,6 +32,7 @@ internal static class IocConfiguration
     {
         return services
             .AddTransient(typeof(Database.ScopedDbCurrent<,>))
+            .AddTransient(typeof(Database.ScopedDbCurrent<,,>))
             .AddDbContext<AppDbContext>(AddDbContextCore);
     }
 

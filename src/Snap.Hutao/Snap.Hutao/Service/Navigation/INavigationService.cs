@@ -40,7 +40,7 @@ internal interface INavigationService : ICastService
     /// <param name="data">要传递的数据</param>
     /// <param name="syncNavigationViewItem">是否同步标签，当在代码中调用时应设为 true</param>
     /// <returns>是否导航成功</returns>
-    Task<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
+    ValueTask<NavigationResult> NavigateAsync<TPage>(INavigationAwaiter data, bool syncNavigationViewItem = false)
         where TPage : Page;
 
     /// <summary>

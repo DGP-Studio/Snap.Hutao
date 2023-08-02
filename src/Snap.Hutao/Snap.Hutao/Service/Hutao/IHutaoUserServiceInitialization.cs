@@ -13,5 +13,5 @@ internal interface IHutaoUserServiceInitialization
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>任务</returns>
-    Task InitializeInternalAsync(CancellationToken token = default);
+    ValueTask InitializeInternalAsync(CancellationToken token = default);
 }

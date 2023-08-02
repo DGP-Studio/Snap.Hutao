@@ -33,7 +33,7 @@ internal interface IUserService
     /// 此操作不能取消
     /// </summary>
     /// <returns>准备完成的用户信息集合</returns>
-    Task<ObservableCollection<BindingUser>> GetUserCollectionAsync();
+    ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync();
 
     /// <summary>
     /// 获取角色信息
@@ -62,5 +62,5 @@ internal interface IUserService
     /// </summary>
     /// <param name="user">待移除的用户</param>
     /// <returns>任务</returns>
-    Task RemoveUserAsync(BindingUser user);
+    ValueTask RemoveUserAsync(BindingUser user);
 }

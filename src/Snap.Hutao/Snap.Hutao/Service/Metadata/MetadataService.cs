@@ -44,7 +44,7 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
     }
 
     /// <inheritdoc/>
-    public async Task InitializeInternalAsync(CancellationToken token = default)
+    public async ValueTask InitializeInternalAsync(CancellationToken token = default)
     {
         if (isInitialized)
         {
@@ -58,19 +58,19 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
         }
     }
 
-    private async Task<bool> TryUpdateMetadataAsync(CancellationToken token)
+    private async ValueTask<bool> TryUpdateMetadataAsync(CancellationToken token)
     {
-        IDictionary<string, string>? metaMd5Map;
+        Dictionary<string, string>? metaXXH64Map;
         try
         {
             string metadataFile = metadataOptions.GetLocalizedRemoteFile(MetaFileName);
 
             // download meta check file
-            metaMd5Map = await httpClient
-                .GetFromJsonAsync<IDictionary<string, string>>(metadataFile, options, token)
+            metaXXH64Map = await httpClient
+                .GetFromJsonAsync<Dictionary<string, string>>(metadataFile, options, token)
                 .ConfigureAwait(false);
 
-            if (metaMd5Map is null)
+            if (metaXXH64Map is null)
             {
                 infoBarService.Error(SH.ServiceMetadataParseFailed);
                 return false;
@@ -90,27 +90,20 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
             return false;
         }
 
-        await CheckMetadataAsync(metaMd5Map, token).ConfigureAwait(false);
+        await CheckMetadataSourceFilesAsync(metaXXH64Map, token).ConfigureAwait(false);
 
         // save metadataFile
         using (FileStream metaFileStream = File.Create(metadataOptions.GetLocalizedLocalFile(MetaFileName)))
         {
             await JsonSerializer
-                .SerializeAsync(metaFileStream, metaMd5Map, options, token)
+                .SerializeAsync(metaFileStream, metaXXH64Map, options, token)
                 .ConfigureAwait(false);
         }
 
         return true;
     }
 
-    /// <summary>
-    /// 检查元数据的Md5值是否匹配
-    /// 如果不匹配则尝试下载
-    /// </summary>
-    /// <param name="metaMd5Map">元数据校验表</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>令牌</returns>
-    private Task CheckMetadataAsync(IDictionary<string, string> metaMd5Map, CancellationToken token)
+    private ValueTask CheckMetadataSourceFilesAsync(Dictionary<string, string> metaMd5Map, CancellationToken token)
     {
         return Parallel.ForEachAsync(metaMd5Map, token, async (pair, token) =>
         {
@@ -126,14 +119,14 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
             if (!skip)
             {
-                logger.LogInformation("{hash} of {file} not matched, begin downloading", nameof(XXH64), fileFullName);
+                logger.LogInformation("{Hash} of {File} not matched, begin downloading", nameof(XXH64), fileFullName);
 
-                await DownloadMetadataAsync(fileFullName, token).ConfigureAwait(false);
+                await DownloadMetadataSourceFilesAsync(fileFullName, token).ConfigureAwait(false);
             }
-        });
+        }).AsValueTask();
     }
 
-    private async Task DownloadMetadataAsync(string fileFullName, CancellationToken token)
+    private async ValueTask DownloadMetadataSourceFilesAsync(string fileFullName, CancellationToken token)
     {
         Stream sourceStream = await httpClient
             .GetStreamAsync(metadataOptions.GetLocalizedRemoteFile(fileFullName), token)

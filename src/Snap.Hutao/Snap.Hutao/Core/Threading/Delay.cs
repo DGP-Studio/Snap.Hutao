@@ -22,4 +22,10 @@ internal readonly struct Delay
     {
         return Task.Delay(TimeSpan.FromSeconds(seconds)).AsValueTask();
     }
+
+    [SuppressMessage("", "VSTHRD200")]
+    public static ValueTask FromMilliSeconds(int seconds)
+    {
+        return Task.Delay(TimeSpan.FromMilliseconds(seconds)).AsValueTask();
+    }
 }

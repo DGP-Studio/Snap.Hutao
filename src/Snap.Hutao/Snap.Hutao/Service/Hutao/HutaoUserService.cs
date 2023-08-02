@@ -29,7 +29,7 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
     }
 
     /// <inheritdoc/>
-    public async Task InitializeInternalAsync(CancellationToken token = default)
+    public async ValueTask InitializeInternalAsync(CancellationToken token = default)
     {
         string userName = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
         string passport = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
