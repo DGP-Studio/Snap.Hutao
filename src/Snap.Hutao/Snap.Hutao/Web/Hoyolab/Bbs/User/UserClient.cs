@@ -14,7 +14,7 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
-[ConstructorGenerated]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
 internal sealed partial class UserClient : IUserClient
 {

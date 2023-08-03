@@ -15,7 +15,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// Hoyoverse game record provider
 /// </summary>
 [UseDynamicSecret]
-[ConstructorGenerated]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 [PrimaryHttpMessageHandler(UseCookies = false)]
 internal sealed partial class GameRecordClientOversea : IGameRecordClient

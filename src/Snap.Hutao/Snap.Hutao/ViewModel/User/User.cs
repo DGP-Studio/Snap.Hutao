@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Web.Hoyolab;
@@ -18,7 +19,7 @@ namespace Snap.Hutao.ViewModel.User;
 /// 用于视图绑定的用户
 /// </summary>
 [HighQuality]
-internal sealed class User : ObservableObject, IEntityOnly<EntityUser>
+internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, ISelectable
 {
     private readonly EntityUser inner;
 
@@ -60,6 +61,8 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>
             }
         }
     }
+
+    public Guid InnerId { get => inner.InnerId; }
 
     /// <inheritdoc cref="EntityUser.IsSelected"/>
     public bool IsSelected
@@ -105,7 +108,7 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>
     /// <param name="inner">数据库实体</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户</returns>
-    internal static async Task<User> ResumeAsync(EntityUser inner, CancellationToken token = default)
+    internal static async ValueTask<User> ResumeAsync(EntityUser inner, CancellationToken token = default)
     {
         User user = new(inner);
 

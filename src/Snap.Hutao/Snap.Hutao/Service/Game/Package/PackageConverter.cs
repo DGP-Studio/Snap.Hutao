@@ -24,8 +24,6 @@ namespace Snap.Hutao.Service.Game.Package;
 internal sealed partial class PackageConverter
 {
     private const string PackageVersion = "pkg_version";
-    private const string OverseaFolder = "Oversea";
-    private const string ChineseFolder = "Chinese";
     private readonly IServiceProvider serviceProvider;
     private readonly JsonSerializerOptions options;
     private readonly RuntimeOptions runtimeOptions;

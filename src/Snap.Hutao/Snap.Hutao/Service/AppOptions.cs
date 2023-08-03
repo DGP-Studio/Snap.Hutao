@@ -14,7 +14,7 @@ namespace Snap.Hutao.Service;
 /// 存储服务相关的选项
 /// </summary>
 [Injection(InjectAs.Singleton)]
-internal sealed class AppOptions : DbStoreOptions
+internal sealed partial class AppOptions : DbStoreOptions
 {
     private readonly List<NameValue<BackdropType>> supportedBackdropTypes = new()
     {

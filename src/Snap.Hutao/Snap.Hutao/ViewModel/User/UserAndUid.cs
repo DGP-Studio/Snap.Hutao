@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Web.Hoyolab;
 using EntityUser = Snap.Hutao.Model.Entity.User;
 
@@ -12,7 +13,7 @@ namespace Snap.Hutao.ViewModel.User;
 /// 抽象此类用于简化这类调用
 /// </summary>
 [HighQuality]
-internal sealed class UserAndUid
+internal sealed class UserAndUid : IMappingFrom<UserAndUid, EntityUser, PlayerUid>
 {
     /// <summary>
     /// 构造一个新的实体用户与角色
@@ -34,6 +35,11 @@ internal sealed class UserAndUid
     /// 角色
     /// </summary>
     public PlayerUid Uid { get; private set; }
+
+    public static UserAndUid From(EntityUser user, PlayerUid role)
+    {
+        return new(user, role);
+    }
 
     /// <summary>
     /// 尝试转换到用户与角色

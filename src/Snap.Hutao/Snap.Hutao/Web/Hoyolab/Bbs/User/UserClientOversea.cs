@@ -13,7 +13,7 @@ namespace Snap.Hutao.Web.Hoyolab.Bbs.User;
 /// 用户信息客户端 Hoyolab版
 /// </summary>
 [UseDynamicSecret]
-[ConstructorGenerated]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
 internal sealed partial class UserClientOversea : IUserClient
 {

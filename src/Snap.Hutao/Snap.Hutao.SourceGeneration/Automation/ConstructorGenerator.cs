@@ -105,6 +105,7 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 
         foreach (IFieldSymbol fieldSymbol in fields)
         {
+            if(fieldSymbol.Kind == SymbolKind.Field)
             if (fieldSymbol.IsReadOnly && !fieldSymbol.IsStatic)
             {
                 switch (fieldSymbol.Type.ToDisplayString())

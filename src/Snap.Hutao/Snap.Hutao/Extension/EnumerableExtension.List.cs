@@ -105,6 +105,30 @@ internal static partial class EnumerableExtension
         return results;
     }
 
+    public static async ValueTask<List<TResult>> SelectListAsync<TSource, TResult>(this List<TSource> list, Func<TSource, ValueTask<TResult>> selector)
+    {
+        List<TResult> results = new(list.Count);
+
+        foreach (TSource item in list)
+        {
+            results.Add(await selector(item).ConfigureAwait(false));
+        }
+
+        return results;
+    }
+
+    public static async ValueTask<List<TResult>> SelectListAsync<TSource, TResult>(this List<TSource> list, Func<TSource, CancellationToken, ValueTask<TResult>> selector, CancellationToken token)
+    {
+        List<TResult> results = new(list.Count);
+
+        foreach (TSource item in list)
+        {
+            results.Add(await selector(item, token).ConfigureAwait(false));
+        }
+
+        return results;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public static List<TSource> SortBy<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector)
         where TKey : IComparable

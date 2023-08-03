@@ -17,6 +17,7 @@ internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
     /// <param name="description">描述</param>
     public PackageReplaceStatus(string description)
     {
+        Name = default!;
         Description = description;
     }
 

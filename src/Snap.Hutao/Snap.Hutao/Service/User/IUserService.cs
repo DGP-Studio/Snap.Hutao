@@ -24,7 +24,7 @@ internal interface IUserService
     /// 异步获取角色与用户集合
     /// </summary>
     /// <returns>角色与用户集合</returns>
-    Task<ObservableCollection<UserAndUid>> GetRoleCollectionAsync();
+    ValueTask<ObservableCollection<UserAndUid>> GetRoleCollectionAsync();
 
     /// <summary>
     /// 初始化用户服务及所有用户
@@ -48,14 +48,14 @@ internal interface IUserService
     /// <param name="cookie">Cookie</param>
     /// <param name="isOversea">是否为国际服</param>
     /// <returns>处理的结果</returns>
-    Task<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea);
+    ValueTask<ValueResult<UserOptionResult, string>> ProcessInputCookieAsync(Cookie cookie, bool isOversea);
 
     /// <summary>
     /// 异步刷新 Cookie 的 CookieToken
     /// </summary>
     /// <param name="user">用户</param>
     /// <returns>是否刷新成功</returns>
-    Task<bool> RefreshCookieTokenAsync(BindingUser user);
+    ValueTask<bool> RefreshCookieTokenAsync(BindingUser user);
 
     /// <summary>
     /// 异步移除用户
