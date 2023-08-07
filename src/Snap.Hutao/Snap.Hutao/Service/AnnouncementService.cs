@@ -86,6 +86,6 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     /// 匹配特殊的时间格式: <t.*?>(.*?)</t>
     /// </summary>
     /// <returns>正则</returns>
-    [GeneratedRegex("&lt;t class=\"t_gl\".*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline)]
+    [GeneratedRegex("&lt;t class=\"t_(?:gl|lc)\".*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline)]
     private static partial Regex XmlTagRegex();
 }

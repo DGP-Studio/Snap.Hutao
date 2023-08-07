@@ -29,7 +29,7 @@ Snap Hutao is an open-source Genshin Impact toolbox on Windows platform, aim to 
 
 * [CommunityToolkit/dotnet](https://github.com/CommunityToolkit/dotnet)
 * [CommunityToolkit/Labs-Windows](https://github.com/CommunityToolkit/Labs-Windows)
-* [CommunityToolkit/WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+* [CommunityToolkit/Windows](https://github.com/CommunityToolkit/Windows)
 * [dahall/taskscheduler](https://github.com/dahall/taskscheduler)
 * [dotnet/efcore](https://github.com/dotnet/efcore)
 * [dotnet/runtime](https://github.com/dotnet/runtime)
