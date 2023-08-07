@@ -57,7 +57,7 @@ internal sealed class MonoChrome : CompositionImage
 
     private void OnActualThemeChanged(FrameworkElement sender, object args)
     {
-        if (backgroundBrush != null)
+        if (backgroundBrush is not null)
         {
             SetBackgroundColor(backgroundBrush);
         }

@@ -15,7 +15,7 @@ internal static class GachaArchiveOperation
     {
         archive = archives.SingleOrDefault(a => a.Uid == uid);
 
-        if (archive == null)
+        if (archive is null)
         {
             GachaArchive created = GachaArchive.From(uid);
             using (IServiceScope scope = serviceProvider.CreateScope())

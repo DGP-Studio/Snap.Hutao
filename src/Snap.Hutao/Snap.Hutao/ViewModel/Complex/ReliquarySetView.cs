@@ -23,18 +23,19 @@ internal sealed class ReliquarySetView
     {
         ReliquarySets sets = reliquarySetRate.Item;
 
-        if (sets.Count >= 1)
+        if (!sets.IsNullOrEmpty())
         {
             StringBuilder nameBuilder = new();
             List<Uri> icons = new(2);
 
             foreach (ReliquarySet set in CollectionsMarshal.AsSpan(sets))
             {
+                // TODO use set EquipAffixSetIds
                 Model.Metadata.Reliquary.ReliquarySet metaSet = idReliquarySetMap[set.EquipAffixId / 10];
 
-                if (nameBuilder.Length != 0)
+                if (nameBuilder.Length > 0)
                 {
-                    nameBuilder.Append(Environment.NewLine);
+                    nameBuilder.AppendLine();
                 }
 
                 nameBuilder.Append(set.Count).Append('×').Append(metaSet.Name);

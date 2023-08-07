@@ -70,7 +70,7 @@ internal sealed partial class AchievementDbBulkOperation
                                 add++;
                                 continue;
                             }
-                            else if (entity != null && uiaf == null)
+                            else if (entity is not null && uiaf is null)
                             {
                                 // skip
                                 continue;
@@ -157,7 +157,7 @@ internal sealed partial class AchievementDbBulkOperation
                                 add++;
                                 continue;
                             }
-                            else if (oldEntity != null && newEntity == null)
+                            else if (oldEntity is not null && newEntity is null)
                             {
                                 appDbContext.Achievements.RemoveAndSave(oldEntity);
                                 remove++;

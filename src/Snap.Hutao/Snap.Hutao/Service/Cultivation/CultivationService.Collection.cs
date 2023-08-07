@@ -27,7 +27,7 @@ internal sealed partial class CultivationService
     {
         get
         {
-            if (projects == null)
+            if (projects is null)
             {
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {

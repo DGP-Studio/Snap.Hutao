@@ -24,7 +24,6 @@ namespace Snap.Hutao.Service.Game.Package;
 internal sealed partial class PackageConverter
 {
     private const string PackageVersion = "pkg_version";
-    private readonly IServiceProvider serviceProvider;
     private readonly JsonSerializerOptions options;
     private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
@@ -97,7 +96,7 @@ internal sealed partial class PackageConverter
         string sdkVersion = Path.Combine(gameFolder, "sdk_pkg_version");
 
         // Only bilibili's sdk is not null
-        if (resource.Sdk != null)
+        if (resource.Sdk is not null)
         {
             // TODO: verify sdk md5
             if (File.Exists(sdkDllBackup) && File.Exists(sdkVersionBackup))
@@ -132,7 +131,7 @@ internal sealed partial class PackageConverter
             FileOperation.Move(sdkVersion, sdkVersionBackup, true);
         }
 
-        if (resource.DeprecatedFiles != null)
+        if (resource.DeprecatedFiles is not null)
         {
             foreach (NameMd5 file in resource.DeprecatedFiles)
             {
@@ -168,12 +167,6 @@ internal sealed partial class PackageConverter
         {
             yield return new(ItemOperationType.Backup, localItem, localItem);
         }
-    }
-
-    private static void MoveToCache(string cacheFilePath, string targetFullPath)
-    {
-        Directory.CreateDirectory(Path.GetDirectoryName(cacheFilePath)!);
-        File.Move(targetFullPath, cacheFilePath, true);
     }
 
     [GeneratedRegex("^(?:YuanShen_Data|GenshinImpact_Data)(?=/)")]

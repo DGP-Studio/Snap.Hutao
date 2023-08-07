@@ -17,17 +17,17 @@ internal static class ItemHelper
     /// <returns>合并且排序好的列表</returns>
     public static List<Item> Merge(List<Item>? left, List<Item>? right)
     {
-        if (left == null && right == null)
+        if (left.IsNullOrEmpty() && right.IsNullOrEmpty())
         {
             return new(0);
         }
 
-        if (right == null)
+        if (right.IsNullOrEmpty())
         {
             return left!;
         }
 
-        if (left == null)
+        if (left.IsNullOrEmpty())
         {
             return right!;
         }
@@ -37,7 +37,7 @@ internal static class ItemHelper
 
         foreach (Item item in right)
         {
-            if (result.SingleOrDefault(i => i.Id == item.Id) is Item existed)
+            if (result.SingleOrDefault(i => i.Id == item.Id) is { } existed)
             {
                 existed.Num += item.Num;
             }

@@ -41,7 +41,7 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
                     {
                         EnkaResponse? resp = await GetEnkaResponseAsync(userAndUid.Uid, token).ConfigureAwait(false);
                         token.ThrowIfCancellationRequested();
-                        if (resp == null)
+                        if (resp is null)
                         {
                             return new(RefreshResult.APIUnavailable, default);
                         }

@@ -13,6 +13,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 [HighQuality]
 internal sealed class AvatarProperty : INameIcon
 {
+    // TODO: use FrozenDictionary
     private static readonly ImmutableDictionary<FightProperty, Uri> PropertyIcons = new Dictionary<FightProperty, Uri>()
     {
         [FightProperty.FIGHT_PROP_SKILL_CD_MINUS_RATIO] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_CDReduce.png").ToUri(),

@@ -61,7 +61,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value == null ? defaultValue : bool.Parse(value);
+            storage = value is null ? defaultValue : bool.Parse(value);
         }
 
         return storage.Value;
@@ -85,7 +85,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value == null ? defaultValue : int.Parse(value);
+            storage = value is null ? defaultValue : int.Parse(value);
         }
 
         return storage.Value;
@@ -103,7 +103,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
     protected T GetOption<T>(ref T? storage, string key, Func<string, T> deserializer, T defaultValue)
         where T : class
     {
-        if (storage != null)
+        if (storage is not null)
         {
             return storage;
         }
@@ -112,7 +112,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value == null ? defaultValue : deserializer(value);
+            storage = value is null ? defaultValue : deserializer(value);
         }
 
         return storage;
@@ -139,7 +139,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value == null ? defaultValue : deserializer(value);
+            storage = value is null ? defaultValue : deserializer(value);
         }
 
         return storage.Value;

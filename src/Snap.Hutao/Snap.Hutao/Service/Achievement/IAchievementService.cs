@@ -38,7 +38,7 @@ internal interface IAchievementService
     /// <param name="archive">用户</param>
     /// <param name="metadata">元数据</param>
     /// <returns>整合的成就</returns>
-    List<AchievementView> GetAchievementViews(EntityArchive archive, List<MetadataAchievement> metadata);
+    List<AchievementView> GetAchievementViewList(EntityArchive archive, List<MetadataAchievement> metadata);
 
     /// <summary>
     /// 异步导入UIAF数据

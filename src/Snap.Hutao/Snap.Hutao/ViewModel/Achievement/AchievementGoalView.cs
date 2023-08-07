@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Metadata.Achievement;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -13,7 +14,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 绑定成就分类
 /// </summary>
 [HighQuality]
-internal sealed class AchievementGoalView : ObservableObject, INameIcon
+internal sealed class AchievementGoalView : ObservableObject, INameIcon, IMappingFrom<AchievementGoalView, AchievementGoal>
 {
     private double finishPercent;
     private string? finishDescription;
@@ -22,7 +23,7 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon
     /// 构造一个新的成就分类
     /// </summary>
     /// <param name="goal">分类</param>
-    public AchievementGoalView(AchievementGoal goal)
+    private AchievementGoalView(AchievementGoal goal)
     {
         Id = goal.Id;
         Order = goal.Order;
@@ -60,26 +61,18 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon
     /// </summary>
     public string? FinishDescription { get => finishDescription; set => SetProperty(ref finishDescription, value); }
 
-    /// <summary>
-    /// 创建新的列表
-    /// </summary>
-    /// <param name="goals">目标</param>
-    /// <returns>列表</returns>
-    public static List<AchievementGoalView> List(List<AchievementGoal> goals)
+    public static AchievementGoalView From(AchievementGoal source)
     {
-        return goals
-            .OrderBy(goal => goal.Order)
-            .Select(goal => new AchievementGoalView(goal))
-            .ToList();
+        return new(source);
     }
 
     /// <summary>
     /// 更新进度
     /// </summary>
     /// <param name="statistics">统计</param>
-    public void UpdateFinishPercent(AchievementGoalStatistics statistics)
+    public void UpdateFinishDescriptionAndPercent(AchievementGoalStatistics statistics)
     {
-        UpdateFinishPercent(statistics.Finished, statistics.TotalCount);
+        UpdateFinishDescriptionAndPercent(statistics.Finished, statistics.TotalCount);
     }
 
     /// <summary>
@@ -87,7 +80,7 @@ internal sealed class AchievementGoalView : ObservableObject, INameIcon
     /// </summary>
     /// <param name="finished">完成项</param>
     /// <param name="count">总项</param>
-    private void UpdateFinishPercent(int finished, int count)
+    private void UpdateFinishDescriptionAndPercent(int finished, int count)
     {
         FinishDescription = AchievementStatistics.Format(finished, count, out double finishPercent);
         FinishPercent = finishPercent;

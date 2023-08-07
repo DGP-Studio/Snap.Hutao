@@ -79,7 +79,6 @@ internal sealed class CommandGenerator : IIncrementalGenerator
 
         string className = classSymbol.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat);
 
-        // TODO: 支持嵌套类
         string code = $$"""
             using CommunityToolkit.Mvvm.Input;
 

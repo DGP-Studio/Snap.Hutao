@@ -99,7 +99,7 @@ internal sealed partial class HutaoService : IHutaoService
 
         try
         {
-            if (data != null)
+            if (data is not null)
             {
                 using (IServiceScope scope = serviceProvider.CreateScope())
                 {

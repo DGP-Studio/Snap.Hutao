@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using BindingAchievementGoal = Snap.Hutao.ViewModel.Achievement.AchievementGoalView;
 
 namespace Snap.Hutao.ViewModel.Achievement;
@@ -9,7 +10,7 @@ namespace Snap.Hutao.ViewModel.Achievement;
 /// 成就分类统计
 /// </summary>
 [HighQuality]
-internal struct AchievementGoalStatistics
+internal struct AchievementGoalStatistics : IMappingFrom<AchievementGoalStatistics, BindingAchievementGoal>
 {
     /// <summary>
     /// 成就分类
@@ -40,7 +41,7 @@ internal struct AchievementGoalStatistics
     /// </summary>
     /// <param name="goal">分类</param>
     /// <returns>新的成就分类统计</returns>
-    public static AchievementGoalStatistics Create(BindingAchievementGoal goal)
+    public static AchievementGoalStatistics From(BindingAchievementGoal goal)
     {
         return new(goal);
     }

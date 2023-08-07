@@ -27,7 +27,7 @@ internal static class PickerExtension
             file = null;
         }
 
-        if (file != null)
+        if (file is not null)
         {
             return new(true, file.Path);
         }
@@ -53,7 +53,7 @@ internal static class PickerExtension
             file = null;
         }
 
-        if (file != null)
+        if (file is not null)
         {
             return new(true, file.Path);
         }
@@ -79,7 +79,7 @@ internal static class PickerExtension
             folder = null;
         }
 
-        if (folder != null)
+        if (folder is not null)
         {
             return new(true, folder.Path);
         }
@@ -92,7 +92,7 @@ internal static class PickerExtension
 
     private static void InfoBarWaringPickerException(Exception? exception)
     {
-        if (exception != null)
+        if (exception is not null)
         {
             Ioc.Default
                 .GetRequiredService<IInfoBarService>()

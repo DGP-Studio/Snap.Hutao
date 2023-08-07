@@ -178,7 +178,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void AddOrUpdateAvatarInfo<TSource>(ModelAvatarInfo? entity, in AvatarId avatarId, string uid, AppDbContext appDbContext, IAvatarInfoTransformer<TSource> transformer, TSource source)
     {
-        if (entity == null)
+        if (entity is null)
         {
             EnkaAvatarInfo avatarInfo = new() { AvatarId = avatarId };
             transformer.Transform(ref avatarInfo, source);
@@ -197,7 +197,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void AddOrUpdateAvatarInfo(ModelAvatarInfo? entity, string uid, AppDbContext appDbContext, EnkaAvatarInfo webInfo)
     {
-        if (entity == null)
+        if (entity is null)
         {
             entity = ModelAvatarInfo.From(uid, webInfo);
             appDbContext.AvatarInfos.AddAndSave(entity);

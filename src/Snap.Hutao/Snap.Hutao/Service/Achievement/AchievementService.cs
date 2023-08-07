@@ -27,7 +27,7 @@ internal sealed partial class AchievementService : IAchievementService
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
-    public List<AchievementView> GetAchievementViews(AchievementArchive archive, List<MetadataAchievement> metadata)
+    public List<AchievementView> GetAchievementViewList(AchievementArchive archive, List<MetadataAchievement> metadata)
     {
         Dictionary<AchievementId, EntityAchievement> entities = achievementDbService.GetAchievementMapByArchiveId(archive.InnerId);
 

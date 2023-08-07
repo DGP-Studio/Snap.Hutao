@@ -37,7 +37,7 @@ internal sealed class SkillDepot
     {
         get
         {
-            if (compositeSkills == null)
+            if (compositeSkills is null)
             {
                 compositeSkills = new(Skills.Count + 1 + Inherents.Count);
                 compositeSkills.AddRange(Skills);
@@ -60,7 +60,7 @@ internal sealed class SkillDepot
     /// <returns>天赋列表</returns>
     public List<ProudableSkill> CompositeSkillsNoInherents()
     {
-        if (compositeSkillsNoInherents == null)
+        if (compositeSkillsNoInherents is null)
         {
             compositeSkillsNoInherents = new(Skills.Count + 1);
 

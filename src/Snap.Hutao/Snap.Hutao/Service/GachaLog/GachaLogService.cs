@@ -135,7 +135,7 @@ internal sealed partial class GachaLogService : IGachaLogService
 
         (bool authkeyValid, GachaArchive? result) = await FetchGachaLogsAsync(query, isLazy, progress, token).ConfigureAwait(false);
 
-        if (result != null)
+        if (result is not null)
         {
             CurrentArchive = result;
         }

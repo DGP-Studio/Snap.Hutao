@@ -123,7 +123,7 @@ internal sealed class SummaryAvatarFactory
         WeaponStat? subStat = equip.Flat.WeaponStats?.ElementAtOrDefault(1);
 
         NameDescription subProperty;
-        if (subStat == null)
+        if (subStat is null)
         {
             subProperty = new(string.Empty, string.Empty);
         }
@@ -148,7 +148,7 @@ internal sealed class SummaryAvatarFactory
             // EquipBase
             Level = $"Lv.{equip.Weapon.Level.Value}",
             Quality = weapon.Quality,
-            MainProperty = mainStat != null ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue) : default!,
+            MainProperty = mainStat is not null ? FightPropertyFormat.ToNameValue(mainStat.AppendPropId, mainStat.StatValue) : default!,
 
             // Weapon
             Id = weapon.Id,

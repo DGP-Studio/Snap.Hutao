@@ -97,7 +97,7 @@ internal struct GachaLogFetchContext
     /// <param name="gachaLogDbService">祈愿记录数据库服务</param>
     public void EnsureArchiveAndEndId(GachaLogItem item, ObservableCollection<GachaArchive> archives, IGachaLogDbService gachaLogDbService)
     {
-        if (TargetArchive == null)
+        if (TargetArchive is null)
         {
             GachaArchiveOperation.GetOrAdd(serviceProvider, item.Uid, archives, out TargetArchive);
         }
@@ -146,7 +146,7 @@ internal struct GachaLogFetchContext
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
             // While no item is fetched, archive can be null.
-            if (TargetArchive != null)
+            if (TargetArchive is not null)
             {
                 GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.EndId, appDbContext.GachaItems);
                 TargetArchive.SaveItems(saveContext);

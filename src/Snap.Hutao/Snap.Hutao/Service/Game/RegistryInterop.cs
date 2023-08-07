@@ -35,7 +35,7 @@ internal static class RegistryInterop
     /// <returns>账号是否设置</returns>
     public static bool Set(GameAccount? account)
     {
-        if (account != null)
+        if (account is not null)
         {
             string base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(account.MihoyoSDK));
             string path = $"HKCU:{GenshinKey[@"HKEY_CURRENT_USER\".Length..]}";

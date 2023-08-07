@@ -69,7 +69,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
             return new(false, null);
         }
 
-        if (archive == null)
+        if (archive is null)
         {
             archive = GachaArchive.From(uid);
             await gachaLogDbService.AddGachaArchiveAsync(archive).ConfigureAwait(false);
@@ -121,7 +121,7 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         EndIds endIds = new();
         foreach (GachaConfigType type in GachaLog.QueryTypes)
         {
-            if (archive != null)
+            if (archive is not null)
             {
                 endIds[type] = await gachaLogDbService
                     .GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(archive.InnerId, type, token)

@@ -71,7 +71,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     /// <inheritdoc/>
     public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync()
     {
-        if (entries == null)
+        if (entries is null)
         {
             await RefreshDailyNotesAsync().ConfigureAwait(false);
 

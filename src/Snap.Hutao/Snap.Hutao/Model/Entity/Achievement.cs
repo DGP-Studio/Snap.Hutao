@@ -97,7 +97,7 @@ internal sealed class Achievement
     /// <inheritdoc/>
     public bool Equals(Achievement? other)
     {
-        if (other == null)
+        if (other is null)
         {
             return false;
         }

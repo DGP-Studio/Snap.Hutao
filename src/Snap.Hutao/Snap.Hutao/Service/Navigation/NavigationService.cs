@@ -216,7 +216,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
             : NavHelper.GetNavigateTo(selected);
 
         // ignore item that doesn't have nav type specified
-        if (targetType != null)
+        if (targetType is not null)
         {
             INavigationAwaiter navigationAwaiter = new NavigationExtra(NavHelper.GetExtraData(selected));
             Navigate(targetType, navigationAwaiter, false);

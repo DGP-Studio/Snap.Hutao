@@ -53,7 +53,7 @@ internal sealed partial class HutaoCache : IHutaoCache
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeForDatabaseViewModelAsync()
     {
-        if (databaseViewModelTaskSource != null)
+        if (databaseViewModelTaskSource is not null)
         {
             return await databaseViewModelTaskSource.Task.ConfigureAwait(false);
         }
@@ -84,7 +84,7 @@ internal sealed partial class HutaoCache : IHutaoCache
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeForWikiAvatarViewModelAsync()
     {
-        if (wikiAvatarViewModelTaskSource != null)
+        if (wikiAvatarViewModelTaskSource is not null)
         {
             return await wikiAvatarViewModelTaskSource.Task.ConfigureAwait(false);
         }
@@ -108,7 +108,7 @@ internal sealed partial class HutaoCache : IHutaoCache
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeForWikiWeaponViewModelAsync()
     {
-        if (wikiWeaponViewModelTaskSource != null)
+        if (wikiWeaponViewModelTaskSource is not null)
         {
             return await wikiWeaponViewModelTaskSource.Task.ConfigureAwait(false);
         }
@@ -129,7 +129,7 @@ internal sealed partial class HutaoCache : IHutaoCache
 
     private async ValueTask<Dictionary<AvatarId, Avatar>> GetIdAvatarMapExtendedAsync()
     {
-        if (idAvatarExtendedMap == null)
+        if (idAvatarExtendedMap is null)
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
             idAvatarExtendedMap = AvatarIds.WithPlayers(idAvatarMap);

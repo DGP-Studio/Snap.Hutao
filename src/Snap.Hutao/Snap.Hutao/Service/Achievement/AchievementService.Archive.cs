@@ -27,7 +27,7 @@ internal sealed partial class AchievementService
     {
         get
         {
-            if (archiveCollection == null)
+            if (archiveCollection is null)
             {
                 archiveCollection = achievementDbService.GetAchievementArchiveCollection();
                 CurrentArchive = archiveCollection.SelectedOrDefault();

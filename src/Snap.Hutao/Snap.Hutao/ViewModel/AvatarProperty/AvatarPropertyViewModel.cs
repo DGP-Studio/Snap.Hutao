@@ -22,17 +22,16 @@ using Snap.Hutao.Web.Response;
 using Windows.Graphics.Imaging;
 using Windows.Storage.Streams;
 using Windows.UI;
-using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
-using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
-using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
-using CalcItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
-using CalcItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemHelper;
+using CalculatorAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
+using CalculatorClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
+using CalculatorConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
+using CalculatorItem = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Item;
+using CalculatorItemHelper = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.ItemHelper;
 
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 角色属性视图模型
-/// TODO: support page unload as cancellation
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
@@ -65,51 +64,45 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
         }
     }
 
-    /// <inheritdoc/>
-    protected override Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeUIAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            return RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken);
+            await RefreshCoreAsync(userAndUid, RefreshOption.None, CancellationToken).ConfigureAwait(false);
+            return true;
         }
 
-        return Task.CompletedTask;
+        return false;
     }
 
     [Command("RefreshFromEnkaApiCommand")]
-    private Task RefreshByEnkaApiAsync()
+    private async Task RefreshByEnkaApiAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromEnkaAPI, CancellationToken);
+            await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromEnkaAPI, CancellationToken).ConfigureAwait(false);
         }
-
-        return Task.CompletedTask;
     }
 
     [Command("RefreshFromHoyolabGameRecordCommand")]
-    private Task RefreshByHoyolabGameRecordAsync()
+    private async Task RefreshByHoyolabGameRecordAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken);
+            await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabGameRecord, CancellationToken).ConfigureAwait(false);
         }
-
-        return Task.CompletedTask;
     }
 
     [Command("RefreshFromHoyolabCalculateCommand")]
-    private Task RefreshByHoyolabCalculateAsync()
+    private async Task RefreshByHoyolabCalculateAsync()
     {
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            return RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabCalculate, CancellationToken);
+            await RefreshCoreAsync(userAndUid, RefreshOption.RequestFromHoyolabCalculate, CancellationToken).ConfigureAwait(false);
         }
-
-        return Task.CompletedTask;
     }
 
-    private async Task RefreshCoreAsync(UserAndUid userAndUid, RefreshOption option, CancellationToken token)
+    private async ValueTask RefreshCoreAsync(UserAndUid userAndUid, RefreshOption option, CancellationToken token)
     {
         try
         {
@@ -163,11 +156,11 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("CultivateCommand")]
     private async Task CultivateAsync(AvatarView? avatar)
     {
-        if (avatar != null)
+        if (avatar is not null)
         {
-            if (userService.Current != null)
+            if (userService.Current is not null)
             {
-                if (avatar.Weapon == null)
+                if (avatar.Weapon is null)
                 {
                     infoBarService.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull);
                     return;
@@ -177,21 +170,21 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 await taskContext.SwitchToMainThreadAsync();
                 CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
                 CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(options);
-                (bool isOk, CalcAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+                (bool isOk, CalculatorAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
                 if (isOk)
                 {
-                    Response<CalcConsumption> consumptionResponse = await serviceProvider
-                        .GetRequiredService<CalcClient>()
+                    Response<CalculatorConsumption> consumptionResponse = await serviceProvider
+                        .GetRequiredService<CalculatorClient>()
                         .ComputeAsync(userService.Current.Entity, delta)
                         .ConfigureAwait(false);
 
                     if (consumptionResponse.IsOk())
                     {
                         ICultivationService cultivationService = serviceProvider.GetRequiredService<ICultivationService>();
-                        CalcConsumption consumption = consumptionResponse.Data;
+                        CalculatorConsumption consumption = consumptionResponse.Data;
 
-                        List<CalcItem> items = CalcItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
+                        List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
                         bool avatarSaved = await cultivationService
                             .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
                             .ConfigureAwait(false);
@@ -229,7 +222,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("ExportAsImageCommand")]
     private async Task ExportAsImageAsync(FrameworkElement? element)
     {
-        if (element != null && element.IsLoaded)
+        if (element is { IsLoaded: true })
         {
             RenderTargetBitmap bitmap = new();
             await bitmap.RenderAsync(element);

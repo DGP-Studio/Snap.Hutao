@@ -177,7 +177,7 @@ internal sealed partial class CultivationService : ICultivationService
             .GetCultivateEntryByProjectIdAndItemIdAsync(Current.InnerId, itemId)
             .ConfigureAwait(false);
 
-        if (entry == null)
+        if (entry is null)
         {
             entry = CultivateEntry.From(Current.InnerId, type, itemId);
             await cultivationDbService.InsertCultivateEntryAsync(entry).ConfigureAwait(false);

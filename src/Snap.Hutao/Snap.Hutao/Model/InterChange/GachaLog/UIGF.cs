@@ -53,7 +53,7 @@ internal sealed class UIGF
     {
         foreach (UIGFItem item in List)
         {
-            if (item.ItemType != SH.ModelInterchangeUIGFItemTypeAvatar && item.ItemType != SH.ModelInterchangeUIGFItemTypeWeapon)
+            if (item.ItemType != SH.ModelInterchangeUIGFItemTypeAvatar || item.ItemType != SH.ModelInterchangeUIGFItemTypeWeapon)
             {
                 return false;
             }

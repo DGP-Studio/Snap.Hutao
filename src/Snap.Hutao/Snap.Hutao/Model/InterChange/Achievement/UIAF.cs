@@ -15,7 +15,8 @@ internal sealed class UIAF
     /// </summary>
     public const string CurrentVersion = "v1.1";
 
-    private static readonly List<string> SupportedVersion = new()
+    // TODO use FrozenSet
+    private static readonly HashSet<string> SupportedVersion = new()
     {
         CurrentVersion,
     };

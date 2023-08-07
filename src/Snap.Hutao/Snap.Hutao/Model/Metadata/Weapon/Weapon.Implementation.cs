@@ -32,7 +32,12 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     /// <summary>
     /// 最大等级
     /// </summary>
-    internal uint MaxLevel { get => ((int)Quality) >= 3 ? 90U : 70U; }
+    internal uint MaxLevel { get => GetMaxLevelByQuality(Quality); }
+
+    public static uint GetMaxLevelByQuality(QualityType quality)
+    {
+        return quality >= QualityType.QUALITY_BLUE ? 90U : 70U;
+    }
 
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()

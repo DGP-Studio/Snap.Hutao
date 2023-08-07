@@ -33,11 +33,11 @@ internal sealed partial class AchievementImporter
     /// 从剪贴板导入
     /// </summary>
     /// <returns>是否导入成功</returns>
-    public async Task<bool> FromClipboardAsync()
+    public async ValueTask<bool> FromClipboardAsync()
     {
-        if (achievementService.CurrentArchive is EntityAchievementArchive archive)
+        if (achievementService.CurrentArchive is { } archive)
         {
-            if (await TryCatchGetUIAFFromClipboardAsync().ConfigureAwait(false) is UIAF uiaf)
+            if (await TryCatchGetUIAFFromClipboardAsync().ConfigureAwait(false) is { } uiaf)
             {
                 return await TryImportAsync(archive, uiaf).ConfigureAwait(false);
             }
@@ -58,9 +58,9 @@ internal sealed partial class AchievementImporter
     /// 从文件导入
     /// </summary>
     /// <returns>是否导入成功</returns>
-    public async Task<bool> FromFileAsync()
+    public async ValueTask<bool> FromFileAsync()
     {
-        if (achievementService.CurrentArchive is EntityAchievementArchive archive)
+        if (achievementService.CurrentArchive is { } archive)
         {
             ValueResult<bool, ValueFile> pickerResult = await serviceProvider
                 .GetRequiredService<IPickerFactory>()
@@ -90,7 +90,7 @@ internal sealed partial class AchievementImporter
         return false;
     }
 
-    private async Task<UIAF?> TryCatchGetUIAFFromClipboardAsync()
+    private async ValueTask<UIAF?> TryCatchGetUIAFFromClipboardAsync()
     {
         try
         {
@@ -106,28 +106,30 @@ internal sealed partial class AchievementImporter
         }
     }
 
-    private async Task<bool> TryImportAsync(EntityAchievementArchive archive, UIAF uiaf)
+    private async ValueTask<bool> TryImportAsync(EntityAchievementArchive archive, UIAF uiaf)
     {
         if (uiaf.IsCurrentVersionSupported())
         {
             // ContentDialog must be created by main thread.
             await taskContext.SwitchToMainThreadAsync();
             AchievementImportDialog importDialog = serviceProvider.CreateInstance<AchievementImportDialog>(uiaf);
-            (bool isOk, ImportStrategy strategy) = await importDialog.GetImportStrategyAsync().ConfigureAwait(true);
+            (bool isOk, ImportStrategy strategy) = await importDialog.GetImportStrategyAsync().ConfigureAwait(false);
 
             if (isOk)
             {
-                ImportResult result;
-                ContentDialog dialog = await serviceProvider.GetRequiredService<IContentDialogFactory>()
+                await taskContext.SwitchToMainThreadAsync();
+                ContentDialog dialog = await serviceProvider
+                    .GetRequiredService<IContentDialogFactory>()
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
                     .ConfigureAwait(false);
 
+                ImportResult result;
                 using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                 {
                     result = await achievementService.ImportFromUIAFAsync(archive, uiaf.List, strategy).ConfigureAwait(false);
                 }
 
-                infoBarService.Success(result.ToString());
+                infoBarService.Success($"{result}");
                 return true;
             }
         }

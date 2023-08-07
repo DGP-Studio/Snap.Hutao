@@ -18,7 +18,7 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 {
     private const string AttributeName = "Snap.Hutao.Core.Annotation.ConstructorGeneratedAttribute";
 
-    private static readonly DiagnosticDescriptor genericTypeNotSupportedDescriptor = new("SH102", "Generic type is not supported to generate .ctor", "Type [{0}] is not supported", "Quality", DiagnosticSeverity.Error, true);
+    //private static readonly DiagnosticDescriptor genericTypeNotSupportedDescriptor = new("SH102", "Generic type is not supported to generate .ctor", "Type [{0}] is not supported", "Quality", DiagnosticSeverity.Error, true);
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -61,12 +61,6 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 
     private static void GenerateConstructorImplementation(SourceProductionContext production, GeneratorSyntaxContext2 context2)
     {
-        if (context2.Symbol.IsGenericType)
-        {
-            production.ReportDiagnostic(Diagnostic.Create(genericTypeNotSupportedDescriptor, context2.Context.Node.GetLocation(), context2.Symbol));
-            return;
-        }
-
         AttributeData constructorInfo = context2.SingleAttribute(AttributeName);
 
         bool resolveHttpClient = constructorInfo.HasNamedArgumentWith<bool>("ResolveHttpClient", value => value);
@@ -79,10 +73,9 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
             namespace {{context2.Symbol.ContainingNamespace}};
 
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(ConstructorGenerator)}}", "1.0.0.0")]
-            partial class {{context2.Symbol.Name}}
+            partial class {{context2.Symbol.ToDisplayString(SymbolDisplayFormats.QualifiedNonNullableFormat)}}
             {
-                public {{context2.Symbol.Name}}(System.IServiceProvider serviceProvider{{httpclient}})
-                    {{(options.CallBaseConstructor? ": base(serviceProvider)" : string.Empty)}}
+                public {{context2.Symbol.Name}}(System.IServiceProvider serviceProvider{{httpclient}}){{(options.CallBaseConstructor? " : base(serviceProvider)" : string.Empty)}}
                 {
 
             """);
@@ -93,8 +86,9 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
                 }
             }
             """);
-        
-        production.AddSource($"{context2.Symbol.ToDisplayString()}.ctor.g.cs", sourceBuilder.ToString());
+
+        string normalizedClassName = context2.Symbol.ToDisplayString().Replace('<', '{').Replace('>', '}');
+        production.AddSource($"{normalizedClassName}.ctor.g.cs", sourceBuilder.ToString());
     }
 
     private static void FillUpWithFieldValueAssignment(StringBuilder builder, GeneratorSyntaxContext2 context2, FieldValueAssignmentOptions options)

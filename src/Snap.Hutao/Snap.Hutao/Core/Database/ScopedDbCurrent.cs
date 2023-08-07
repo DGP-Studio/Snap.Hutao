@@ -14,7 +14,8 @@ namespace Snap.Hutao.Core.Database;
 /// </summary>
 /// <typeparam name="TEntity">实体的类型</typeparam>
 /// <typeparam name="TMessage">消息的类型</typeparam>
-internal sealed class ScopedDbCurrent<TEntity, TMessage>
+[ConstructorGenerated]
+internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
     where TEntity : class, ISelectable
     where TMessage : Message.ValueChangedMessage<TEntity>, new()
 {
@@ -22,16 +23,6 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
     private readonly IMessenger messenger;
 
     private TEntity? current;
-
-    /// <summary>
-    /// 构造一个新的数据库当前项
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public ScopedDbCurrent(IServiceProvider serviceProvider)
-    {
-        messenger = serviceProvider.GetRequiredService<IMessenger>();
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 当前选中的项
@@ -54,9 +45,9 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
                 DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
 
                 // only update when not processing a deletion
-                if (value != null)
+                if (value is not null)
                 {
-                    if (current != null)
+                    if (current is not null)
                     {
                         current.IsSelected = false;
                         dbSet.UpdateAndSave(current);
@@ -67,7 +58,7 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
 
                 current = value;
 
-                if (current != null)
+                if (current is not null)
                 {
                     current.IsSelected = true;
                     dbSet.UpdateAndSave(current);
@@ -79,8 +70,8 @@ internal sealed class ScopedDbCurrent<TEntity, TMessage>
     }
 }
 
-[SuppressMessage("", "SA1402")]
-internal sealed class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
+[ConstructorGenerated]
+internal sealed partial class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
     where TEntityOnly : class, IEntityOnly<TEntity>
     where TEntity : class, ISelectable
     where TMessage : Message.ValueChangedMessage<TEntityOnly>, new()
@@ -89,16 +80,6 @@ internal sealed class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
     private readonly IMessenger messenger;
 
     private TEntityOnly? current;
-
-    /// <summary>
-    /// 构造一个新的数据库当前项
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public ScopedDbCurrent(IServiceProvider serviceProvider)
-    {
-        messenger = serviceProvider.GetRequiredService<IMessenger>();
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 当前选中的项
@@ -121,9 +102,9 @@ internal sealed class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
                 DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
 
                 // only update when not processing a deletion
-                if (value != null)
+                if (value is not null)
                 {
-                    if (current != null)
+                    if (current is not null)
                     {
                         current.Entity.IsSelected = false;
                         dbSet.UpdateAndSave(current.Entity);
@@ -134,7 +115,7 @@ internal sealed class ScopedDbCurrent<TEntityOnly, TEntity, TMessage>
 
                 current = value;
 
-                if (current != null)
+                if (current is not null)
                 {
                     current.Entity.IsSelected = true;
                     dbSet.UpdateAndSave(current.Entity);

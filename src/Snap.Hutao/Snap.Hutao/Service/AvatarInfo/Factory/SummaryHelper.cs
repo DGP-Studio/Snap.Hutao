@@ -53,7 +53,7 @@ internal static class SummaryHelper
 
         Dictionary<SkillId, SkillLevel> skillExtraLeveledMap = new(skillLevelMap);
 
-        if (proudSkillExtraLevelMap != null)
+        if (proudSkillExtraLevelMap is not null)
         {
             foreach ((SkillGroupId groupId, SkillLevel extraLevel) in proudSkillExtraLevelMap)
             {

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -92,6 +93,7 @@ internal static partial class EnumerableExtension
     /// <param name="list">列表</param>
     /// <param name="selector">选择器</param>
     /// <returns>新类型的列表</returns>
+    [Pure]
     public static List<TResult> SelectList<TSource, TResult>(this List<TSource> list, Func<TSource, TResult> selector)
     {
         Span<TSource> span = CollectionsMarshal.AsSpan(list);

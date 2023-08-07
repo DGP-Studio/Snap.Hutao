@@ -34,7 +34,7 @@ internal sealed class CommandLineBuilder
     /// <returns>命令行建造器</returns>
     public CommandLineBuilder AppendIfNotNull(string name, object? value = null)
     {
-        return AppendIf(name, value != null, value);
+        return AppendIf(name, value is not null, value);
     }
 
     /// <summary>

@@ -50,7 +50,7 @@ internal sealed class WeaponView : Equip, ICalculableSource<ICalculableWeapon>
     /// <summary>
     /// 最大等级
     /// </summary>
-    internal uint MaxLevel { get => ((int)Quality) >= 3 ? 90U : 70U; }
+    internal uint MaxLevel { get => Model.Metadata.Weapon.Weapon.GetMaxLevelByQuality(Quality); }
 
     /// <inheritdoc/>
     public ICalculableWeapon ToCalculable()

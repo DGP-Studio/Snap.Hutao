@@ -10,18 +10,11 @@ namespace Snap.Hutao.ViewModel.Abstraction;
 /// <summary>
 /// 简化的视图模型抽象类
 /// </summary>
+[ConstructorGenerated]
 internal abstract partial class ViewModelSlim : ObservableObject
 {
+    private readonly IServiceProvider serviceProvider;
     private bool isInitialized;
-
-    /// <summary>
-    /// 构造一个新的简化的视图模型抽象类
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public ViewModelSlim(IServiceProvider serviceProvider)
-    {
-        ServiceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 是否初始化完成
@@ -31,7 +24,7 @@ internal abstract partial class ViewModelSlim : ObservableObject
     /// <summary>
     /// 服务提供器
     /// </summary>
-    protected IServiceProvider ServiceProvider { get; }
+    protected IServiceProvider ServiceProvider { get => serviceProvider; }
 
     /// <summary>
     /// 打开界面执行
@@ -48,19 +41,11 @@ internal abstract partial class ViewModelSlim : ObservableObject
 /// 简化的视图模型抽象类
 /// 可导航
 /// </summary>
-/// <typeparam name="TPage">页面类型</typeparam>
+/// <typeparam name="TPage">要导航到的页面类型</typeparam>
+[ConstructorGenerated(CallBaseConstructor = true)]
 internal abstract partial class ViewModelSlim<TPage> : ViewModelSlim
     where TPage : Page
 {
-    /// <summary>
-    /// 构造一个新的简化的视图模型抽象类
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public ViewModelSlim(IServiceProvider serviceProvider)
-        : base(serviceProvider)
-    {
-    }
-
     /// <summary>
     /// 导航到指定的页面类型
     /// </summary>

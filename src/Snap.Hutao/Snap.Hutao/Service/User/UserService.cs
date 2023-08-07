@@ -60,7 +60,7 @@ internal sealed partial class UserService : IUserService
     public async ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
-        if (userCollection == null)
+        if (userCollection is null)
         {
             List<Model.Entity.User> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
             List<BindingUser> users = await entities.SelectListAsync(BindingUser.ResumeAsync, default).ConfigureAwait(false);
@@ -83,7 +83,7 @@ internal sealed partial class UserService : IUserService
     public async ValueTask<ObservableCollection<UserAndUid>> GetRoleCollectionAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
-        if (userAndUidCollection == null)
+        if (userAndUidCollection is null)
         {
             ObservableCollection<BindingUser> users = await GetUserCollectionAsync().ConfigureAwait(false);
             userAndUidCollection = users
@@ -186,16 +186,16 @@ internal sealed partial class UserService : IUserService
         await taskContext.SwitchToBackgroundAsync();
         BindingUser? newUser = await BindingUser.CreateAsync(cookie, isOversea).ConfigureAwait(false);
 
-        if (newUser != null)
+        if (newUser is not null)
         {
             // Sync cache
-            if (userCollection != null)
+            if (userCollection is not null)
             {
                 await taskContext.SwitchToMainThreadAsync();
                 {
-                    userCollection!.Add(newUser);
+                    userCollection.Add(newUser);
 
-                    if (userAndUidCollection != null)
+                    if (userAndUidCollection is not null)
                     {
                         foreach (UserGameRole role in newUser.UserGameRoles)
                         {

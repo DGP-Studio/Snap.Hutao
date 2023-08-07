@@ -56,7 +56,7 @@ internal class ScopedPage : Page
     /// <returns>任务</returns>
     public async ValueTask NotifyRecipientAsync(INavigationData extra)
     {
-        if (extra.Data != null && DataContext is INavigationRecipient recipient)
+        if (extra.Data is not null && DataContext is INavigationRecipient recipient)
         {
             await recipient.ReceiveAsync(extra).ConfigureAwait(false);
         }

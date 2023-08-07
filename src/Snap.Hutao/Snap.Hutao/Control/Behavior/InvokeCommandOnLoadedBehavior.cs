@@ -17,7 +17,7 @@ internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIEle
     /// <inheritdoc/>
     protected override void OnAssociatedObjectLoaded()
     {
-        if (Command != null && Command.CanExecute(CommandParameter))
+        if (Command is not null && Command.CanExecute(CommandParameter))
         {
             Command.Execute(CommandParameter);
         }

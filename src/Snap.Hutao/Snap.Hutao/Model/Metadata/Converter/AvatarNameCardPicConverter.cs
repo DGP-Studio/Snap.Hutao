@@ -18,7 +18,7 @@ internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?
     /// <returns>名片</returns>
     public static Uri AvatarToUri(Avatar.Avatar? avatar)
     {
-        if (avatar == null)
+        if (avatar is null)
         {
             return null!;
         }

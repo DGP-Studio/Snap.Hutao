@@ -73,8 +73,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        bool metaInitialized = await metadataService.InitializeAsync().ConfigureAwait(false);
-        if (metaInitialized)
+        if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
             ObservableCollection<CultivateProject> projects = cultivationService.ProjectCollection;
             CultivateProject? selected = cultivationService.Current;
@@ -82,9 +81,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             Projects = projects;
             SelectedProject = selected;
+            IsInitialized = true;
         }
-
-        IsInitialized = metaInitialized;
+        else
+        {
+            IsInitialized = false;
+        }
     }
 
     [Command("AddProjectCommand")]
@@ -122,7 +124,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RemoveProjectCommand")]
     private async Task RemoveProjectAsync(CultivateProject? project)
     {
-        if (project != null)
+        if (project is not null)
         {
             await cultivationService.RemoveProjectAsync(project).ConfigureAwait(false);
 
@@ -133,7 +135,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private async Task UpdateEntryCollectionAsync(CultivateProject? project)
     {
-        if (project != null)
+        if (project is not null)
         {
             List<Material> materials = await metadataService.GetMaterialsAsync().ConfigureAwait(false);
             Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync().ConfigureAwait(false);
@@ -154,7 +156,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("RemoveEntryCommand")]
     private async Task RemoveEntryAsync(CultivateEntryView? entry)
     {
-        if (entry != null)
+        if (entry is not null)
         {
             CultivateEntries!.Remove(entry);
             await cultivationService.RemoveCultivateEntryAsync(entry.EntryId).ConfigureAwait(false);
@@ -165,7 +167,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("SaveInventoryItemCommand")]
     private void SaveInventoryItem(InventoryItemView? inventoryItem)
     {
-        if (inventoryItem != null)
+        if (inventoryItem is not null)
         {
             cultivationService.SaveInventoryItem(inventoryItem);
             UpdateStatisticsItemsAsync().SafeForget();
@@ -175,7 +177,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("FinishStateCommand")]
     private void UpdateFinishedState(CultivateItemView? item)
     {
-        if (item != null)
+        if (item is not null)
         {
             item.IsFinished = !item.IsFinished;
             cultivationService.SaveCultivateItem(item);
@@ -185,7 +187,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 
     private async Task UpdateStatisticsItemsAsync()
     {
-        if (SelectedProject != null)
+        if (SelectedProject is not null)
         {
             await taskContext.SwitchToBackgroundAsync();
             CancellationToken token = StatisticsCancellationTokenSource.Register();
@@ -208,7 +210,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("NavigateToPageCommand")]
     private void NavigateToPage(string? typeString)
     {
-        if (typeString != null)
+        if (typeString is not null)
         {
             serviceProvider
                 .GetRequiredService<INavigationService>()

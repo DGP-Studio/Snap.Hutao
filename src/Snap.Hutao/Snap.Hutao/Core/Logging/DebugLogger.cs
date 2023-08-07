@@ -55,7 +55,7 @@ internal sealed class DebugLogger : ILogger
 
         message = $"{logLevel}: {message}";
 
-        if (exception != null)
+        if (exception is not null)
         {
             message += Environment.NewLine + Environment.NewLine + exception;
         }

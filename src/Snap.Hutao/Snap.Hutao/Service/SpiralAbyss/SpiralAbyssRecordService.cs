@@ -60,7 +60,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         {
             Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss webSpiralAbyss = response.Data;
 
-            if (spiralAbysses!.SingleOrDefault(s => s.ScheduleId == webSpiralAbyss.ScheduleId) is SpiralAbyssEntry existEntry)
+            if (spiralAbysses!.SingleOrDefault(s => s.ScheduleId == webSpiralAbyss.ScheduleId) is { } existEntry)
             {
                 await taskContext.SwitchToMainThreadAsync();
                 existEntry.UpdateSpiralAbyss(webSpiralAbyss);

@@ -13,17 +13,18 @@ namespace Snap.Hutao.Service;
 /// 应用程序选项
 /// 存储服务相关的选项
 /// </summary>
+[ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Singleton)]
 internal sealed partial class AppOptions : DbStoreOptions
 {
-    private readonly List<NameValue<BackdropType>> supportedBackdropTypes = new()
+    private static readonly List<NameValue<BackdropType>> SupportedBackdropTypesInner = new()
     {
         new("Acrylic", BackdropType.Acrylic),
         new("Mica", BackdropType.Mica),
         new("MicaAlt", BackdropType.MicaAlt),
     };
 
-    private readonly List<NameValue<string>> supportedCultures = new()
+    private static readonly List<NameValue<string>> SupportedCulturesInner = new()
     {
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hans")),
         ToNameValue(CultureInfo.GetCultureInfo("zh-Hant")),
@@ -37,15 +38,6 @@ internal sealed partial class AppOptions : DbStoreOptions
     private BackdropType? backdropType;
     private CultureInfo? currentCulture;
     private bool? isAdvancedLaunchOptionsEnabled;
-
-    /// <summary>
-    /// 构造一个新的应用程序选项
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public AppOptions(IServiceProvider serviceProvider)
-        : base(serviceProvider)
-    {
-    }
 
     /// <summary>
     /// 游戏路径
@@ -68,7 +60,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     /// <summary>
     /// 所有支持的背景样式
     /// </summary>
-    public List<NameValue<BackdropType>> BackdropTypes { get => supportedBackdropTypes; }
+    public List<NameValue<BackdropType>> BackdropTypes { get => SupportedBackdropTypesInner; }
 
     /// <summary>
     /// 背景类型 默认 Mica
@@ -82,7 +74,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     /// <summary>
     /// 所有支持的语言
     /// </summary>
-    public List<NameValue<string>> Cultures { get => supportedCultures; }
+    public List<NameValue<string>> Cultures { get => SupportedCulturesInner; }
 
     /// <summary>
     /// 初始化前的语言

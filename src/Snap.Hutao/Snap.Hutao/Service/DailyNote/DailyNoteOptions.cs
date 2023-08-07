@@ -55,7 +55,7 @@ internal sealed class DailyNoteOptions : DbStoreOptions
         get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time)), RefreshTimes[1]);
         set
         {
-            if (value != null)
+            if (value is not null)
             {
                 if (scheduleTaskInterop.RegisterForDailyNoteRefresh(value.Value))
                 {

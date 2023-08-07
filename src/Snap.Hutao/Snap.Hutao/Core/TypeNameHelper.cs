@@ -42,7 +42,7 @@ internal static class TypeNameHelper
     [return: NotNullIfNotNull(nameof(item))]
     public static string? GetTypeDisplayName(object? item, bool fullName = true)
     {
-        return item == null ? null : GetTypeDisplayName(item.GetType(), fullName);
+        return item is null ? null : GetTypeDisplayName(item.GetType(), fullName);
     }
 
     /// <summary>

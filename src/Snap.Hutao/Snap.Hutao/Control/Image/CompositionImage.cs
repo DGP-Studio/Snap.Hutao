@@ -126,7 +126,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
     {
         await HideAsync(token).ConfigureAwait(true);
 
-        if (uri != null)
+        if (uri is not null)
         {
             LoadedImageSurface? imageSurface = null;
             Compositor compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
@@ -147,7 +147,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
                 imageCache.Remove(uri);
             }
 
-            if (imageSurface != null)
+            if (imageSurface is not null)
             {
                 using (imageSurface)
                 {
@@ -221,7 +221,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (e.NewSize != e.PreviousSize && spriteVisual != null)
+        if (e.NewSize != e.PreviousSize && spriteVisual is not null)
         {
             UpdateVisual(spriteVisual);
         }

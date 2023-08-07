@@ -42,7 +42,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
                     .FirstOrDefault(p => p.Key == "game_install_path")?.Value;
             }
 
-            if (escapedPath != null)
+            if (escapedPath is not null)
             {
                 string gamePath = Path.Combine(Unescape(escapedPath), GameConstants.YuanShenFileName);
                 return new(true, gamePath);
@@ -56,7 +56,7 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
     {
         using (RegistryKey? uninstallKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\原神"))
         {
-            if (uninstallKey != null)
+            if (uninstallKey is not null)
             {
                 if (uninstallKey.GetValue(key) is string path)
                 {

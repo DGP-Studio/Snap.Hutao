@@ -38,7 +38,7 @@ internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
                     case 'P':
                         return string.Format($"{{0:P0}}", arg);
                     case 'I':
-                        return arg == null ? "0" : ((IConvertible)arg).ToInt32(default).ToString();
+                        return arg is null ? "0" : ((IConvertible)arg).ToInt32(default).ToString();
                 }
 
                 break;

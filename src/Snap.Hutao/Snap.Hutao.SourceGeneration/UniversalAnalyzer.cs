@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Snap.Hutao.SourceGeneration.Primitive;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -18,6 +19,10 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor typeInternalDescriptor = new("SH001", "Type should be internal", "Type [{0}] should be internal", "Quality", DiagnosticSeverity.Info, true);
     private static readonly DiagnosticDescriptor readOnlyStructRefDescriptor = new("SH002", "ReadOnly struct should be passed with ref-like key word", "ReadOnly Struct [{0}] should be passed with ref-like key word", "Quality", DiagnosticSeverity.Info, true);
     private static readonly DiagnosticDescriptor useValueTaskIfPossibleDescriptor = new("SH003", "Use ValueTask instead of Task whenever possible", "Use ValueTask instead of Task", "Quality", DiagnosticSeverity.Info, true);
+    private static readonly DiagnosticDescriptor useIsNotNullPatternMatchingDescriptor = new("SH004", "Use \"is not null\" instead of \"!= null\" whenever possible", "Use \"is not null\" instead of \"!= null\"", "Quality", DiagnosticSeverity.Info, true);
+    private static readonly DiagnosticDescriptor useIsNullPatternMatchingDescriptor = new("SH005", "Use \"is null\" instead of \"== null\" whenever possible", "Use \"is null\" instead of \"== null\"", "Quality", DiagnosticSeverity.Info, true);
+    private static readonly DiagnosticDescriptor useIsPatternRecursiveMatchingDescriptor = new("SH006", "Use \"is { } obj\" whenever possible", "Use \"is {{ }} {0}\"", "Quality", DiagnosticSeverity.Info, true);
+
 
     private static readonly ImmutableHashSet<string> RefLikeKeySkipTypes = new HashSet<string>()
     {
@@ -34,6 +39,9 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
                 typeInternalDescriptor,
                 readOnlyStructRefDescriptor,
                 useValueTaskIfPossibleDescriptor,
+                useIsNotNullPatternMatchingDescriptor,
+                useIsNullPatternMatchingDescriptor,
+                useIsPatternRecursiveMatchingDescriptor
             }.ToImmutableArray();
         }
     }
@@ -48,18 +56,25 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
 
     private static void CompilationStart(CompilationStartAnalysisContext context)
     {
-        SyntaxKind[] types = new SyntaxKind[]
+        SyntaxKind[] types =
         {
             SyntaxKind.ClassDeclaration,
             SyntaxKind.InterfaceDeclaration,
             SyntaxKind.StructDeclaration,
-            SyntaxKind.EnumDeclaration
+            SyntaxKind.EnumDeclaration,
         };
-
         context.RegisterSyntaxNodeAction(HandleTypeShouldBeInternal, types);
         context.RegisterSyntaxNodeAction(HandleMethodParameterShouldUseRefLikeKeyword, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(HandleMethodReturnTypeShouldUseValueTaskInsteadOfTask, SyntaxKind.MethodDeclaration);
         context.RegisterSyntaxNodeAction(HandleConstructorParameterShouldUseRefLikeKeyword, SyntaxKind.ConstructorDeclaration);
+
+        SyntaxKind[] expressions =
+        {
+            SyntaxKind.EqualsExpression,
+            SyntaxKind.NotEqualsExpression,
+        };
+        context.RegisterSyntaxNodeAction(HandleEqualsAndNotEqualsExpressionShouldUsePatternMatching, expressions);
+        context.RegisterSyntaxNodeAction(HandleIsPatternShouldUseRecursivePattern, SyntaxKind.IsPatternExpression);
     }
 
     private static void HandleTypeShouldBeInternal(SyntaxNodeAnalysisContext context)
@@ -207,6 +222,39 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
                     Diagnostic diagnostic = Diagnostic.Create(readOnlyStructRefDescriptor, location, symbol.Type);
                     context.ReportDiagnostic(diagnostic);
                 }
+            }
+        }
+    }
+
+    public static void HandleEqualsAndNotEqualsExpressionShouldUsePatternMatching(SyntaxNodeAnalysisContext context)
+    {
+        BinaryExpressionSyntax syntax = (BinaryExpressionSyntax)context.Node;
+        if (syntax.IsKind(SyntaxKind.NotEqualsExpression) && syntax.Right.IsKind(SyntaxKind.NullLiteralExpression))
+        {
+            Location location = syntax.OperatorToken.GetLocation();
+            Diagnostic diagnostic = Diagnostic.Create(useIsNotNullPatternMatchingDescriptor, location);
+            context.ReportDiagnostic(diagnostic);
+        }
+        else if(syntax.IsKind(SyntaxKind.EqualsExpression) && syntax.Right.IsKind(SyntaxKind.NullLiteralExpression))
+        {
+            Location location = syntax.OperatorToken.GetLocation();
+            Diagnostic diagnostic = Diagnostic.Create(useIsNullPatternMatchingDescriptor, location);
+            context.ReportDiagnostic(diagnostic);
+        }
+    }
+
+    private static void HandleIsPatternShouldUseRecursivePattern(SyntaxNodeAnalysisContext context)
+    {
+        IsPatternExpressionSyntax syntax = (IsPatternExpressionSyntax)context.Node;
+        if (syntax.Pattern is DeclarationPatternSyntax declaration)
+        {
+            ITypeSymbol? leftType = context.SemanticModel.GetTypeInfo(syntax.Expression).ConvertedType;
+            ITypeSymbol? rightType = context.SemanticModel.GetTypeInfo(declaration).ConvertedType;
+            if (SymbolEqualityComparer.Default.Equals(leftType, rightType))
+            {
+                Location location = declaration.GetLocation();
+                Diagnostic diagnostic = Diagnostic.Create(useIsPatternRecursiveMatchingDescriptor, location, declaration.Designation);
+                context.ReportDiagnostic(diagnostic);
             }
         }
     }

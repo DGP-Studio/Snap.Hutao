@@ -294,7 +294,7 @@ internal sealed partial class GameService : IGameService
                 ThrowHelper.UserdataCorrupted(SH.ServiceGameDetectGameAccountMultiMatched, ex);
             }
 
-            if (account == null)
+            if (account is null)
             {
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();

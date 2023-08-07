@@ -30,7 +30,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     {
         get
         {
-            if (fallbackDataFolder == null)
+            if (fallbackDataFolder is null)
             {
                 fallbackDataFolder = Path.Combine(hutaoOptions.DataFolder, "Metadata", "CHS");
                 Directory.CreateDirectory(fallbackDataFolder);
@@ -47,7 +47,7 @@ internal sealed partial class MetadataOptions : IOptions<MetadataOptions>
     {
         get
         {
-            if (localizedDataFolder == null)
+            if (localizedDataFolder is null)
             {
                 localizedDataFolder = Path.Combine(hutaoOptions.DataFolder, "Metadata", LocaleName);
                 Directory.CreateDirectory(localizedDataFolder);

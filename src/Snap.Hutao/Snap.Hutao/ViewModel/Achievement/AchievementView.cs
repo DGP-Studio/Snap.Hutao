@@ -53,19 +53,11 @@ internal sealed class AchievementView : ObservableObject, IEntityWithMetadata<Mo
         {
             if (SetProperty(ref isChecked, value))
             {
-                // Only update state when checked
-                if (value)
-                {
-                    Entity.Status = AchievementStatus.STATUS_REWARD_TAKEN;
-                    Entity.Time = DateTimeOffset.Now;
-                    OnPropertyChanged(nameof(Time));
-                }
-                else
-                {
-                    Entity.Status = AchievementStatus.STATUS_UNFINISHED;
-                    Entity.Time = default;
-                    OnPropertyChanged(nameof(Time));
-                }
+                (Entity.Status, Entity.Time) = value
+                    ? (AchievementStatus.STATUS_REWARD_TAKEN, DateTimeOffset.Now)
+                    : (AchievementStatus.STATUS_FINISHED, default);
+
+                OnPropertyChanged(nameof(Time));
             }
         }
     }

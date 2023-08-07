@@ -44,7 +44,7 @@ internal sealed class DailyNoteNotificationOperation
     /// <returns>任务</returns>
     public async ValueTask SendAsync()
     {
-        if (entry.DailyNote == null)
+        if (entry.DailyNote is null)
         {
             return;
         }

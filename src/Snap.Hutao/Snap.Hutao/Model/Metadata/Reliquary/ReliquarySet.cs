@@ -22,6 +22,11 @@ internal sealed class ReliquarySet
     public EquipAffixId EquipAffixId { get; set; }
 
     /// <summary>
+    /// 装备被动的被动Id
+    /// </summary>
+    public HashSet<ExtendedEquipAffixId> EquipAffixIds { get; set; } = default!;
+
+    /// <summary>
     /// 套装名称
     /// </summary>
     public string Name { get; set; } = default!;
