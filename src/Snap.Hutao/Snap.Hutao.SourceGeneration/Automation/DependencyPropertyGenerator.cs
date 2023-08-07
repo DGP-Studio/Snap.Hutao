@@ -109,7 +109,7 @@ internal sealed class DependencyPropertyGenerator : IIncrementalGenerator
 
                     partial class {{owner}}
                     {
-                        private readonly DependencyProperty {{propertyName}}Property =
+                        private static readonly DependencyProperty {{propertyName}}Property =
                             DependencyProperty.Register(nameof({{propertyName}}), typeof({{propertyType}}), typeof({{owner}}), new PropertyMetadata(({{propertyType}}){{defaultValue}}{{propertyChangedCallback}}));
 
                         public {{propertyType}} {{propertyName}}

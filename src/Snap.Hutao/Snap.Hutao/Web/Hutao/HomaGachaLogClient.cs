@@ -87,7 +87,7 @@ internal sealed class HomaGachaLogClient
     public async ValueTask<Response<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
     {
         Response<List<GachaEntry>>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<List<GachaEntry>>>(HutaoEndpoints.GachaLogUids, options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<List<GachaEntry>>>(HutaoEndpoints.GachaLogEntries, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

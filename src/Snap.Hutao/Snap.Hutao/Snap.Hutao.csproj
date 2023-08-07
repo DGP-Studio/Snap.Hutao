@@ -234,7 +234,12 @@
   <!-- Packages -->
   <ItemGroup>
     <!-- https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -->
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.230802" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.1.230802" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230802" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230802" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230802" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />

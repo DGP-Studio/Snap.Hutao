@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     Width="80"
     Height="80"
     mc:Ignorable="d">
