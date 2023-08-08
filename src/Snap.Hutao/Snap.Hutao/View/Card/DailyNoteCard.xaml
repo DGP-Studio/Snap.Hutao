@@ -9,6 +9,7 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
+    xmlns:shvh="using:Snap.Hutao.View.Helper"
     Padding="0"
     HorizontalAlignment="Stretch"
     VerticalAlignment="Stretch"
@@ -29,44 +30,39 @@
             Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
             <FlipView.ItemTemplate>
                 <DataTemplate>
-                    <Grid
-                        Margin="12"
-                        ColumnSpacing="6"
-                        RowSpacing="6">
-                        <Grid.Resources>
-                            <x:Double x:Key="ProgressBarOpacity">0.2</x:Double>
-                        </Grid.Resources>
+                    <Grid Margin="12" ColumnSpacing="6">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
+
                         <Grid Grid.Column="0" RowSpacing="6">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <TextBlock HorizontalAlignment="Center" Text="{Binding Uid}"/>
-                            <Border Grid.Row="1" Style="{StaticResource BorderCardStyle}">
+                            <TextBlock
+                                Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                Text="{Binding Uid}"/>
+                            <Grid Grid.Row="1" Style="{StaticResource BorderGridStyle}">
                                 <StackPanel VerticalAlignment="Center">
-                                    <Image Width="64" Source="ms-appx:///Resource/Icon/UI_ItemIcon_210.png"/>
+                                    <shci:CachedImage shvh:ControlHelper.SquareLength="64" Source="{StaticResource UI_ItemIcon_210}"/>
                                     <TextBlock
-                                        Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding DailyNote.ResinFormatted}"/>
                                 </StackPanel>
-                            </Border>
-                            <InfoBadge
-                                Grid.Row="1"
-                                Width="8"
-                                Height="8"
-                                Margin="8"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Style="{ThemeResource AttentionDotInfoBadgeStyle}"
-                                Visibility="{Binding ResinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <InfoBadge
+                                    Margin="8"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    shvh:ControlHelper.SquareLength="8"
+                                    Style="{ThemeResource AttentionDotInfoBadgeStyle}"
+                                    Visibility="{Binding ResinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
                         </Grid>
 
                         <Grid Grid.Column="1" RowSpacing="6">
@@ -74,85 +70,85 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <Border Style="{StaticResource BorderCardStyle}">
+
+                            <Grid Grid.Row="0" Style="{StaticResource BorderGridStyle}">
                                 <StackPanel VerticalAlignment="Center">
-                                    <shci:CachedImage Width="32" Source="{StaticResource UI_ItemIcon_204}"/>
+                                    <shci:CachedImage shvh:ControlHelper.SquareLength="32" Source="{StaticResource UI_ItemIcon_204}"/>
                                     <TextBlock
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding DailyNote.HomeCoinFormatted}"/>
                                 </StackPanel>
-                            </Border>
-                            <InfoBadge
-                                Width="8"
-                                Height="8"
-                                Margin="8"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Style="{ThemeResource AttentionDotInfoBadgeStyle}"
-                                Visibility="{Binding HomeCoinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                            <Border Grid.Row="1" Style="{StaticResource BorderCardStyle}">
+                                <InfoBadge
+                                    Margin="8"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    shvh:ControlHelper.SquareLength="8"
+                                    Style="{ThemeResource AttentionDotInfoBadgeStyle}"
+                                    Visibility="{Binding HomeCoinNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
+
+                            <Grid Grid.Row="1" Style="{StaticResource BorderGridStyle}">
                                 <StackPanel VerticalAlignment="Center">
-                                    <Image Width="32" Source="ms-appx:///Resource/Icon/UI_MarkQuest_Events_Proce.png"/>
+                                    <shci:CachedImage shvh:ControlHelper.SquareLength="32" Source="{StaticResource UI_MarkQuest_Events_Proce}"/>
                                     <TextBlock
-                                        Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding DailyNote.TaskFormatted}"/>
                                 </StackPanel>
-                            </Border>
-                            <InfoBadge
-                                Grid.Row="1"
-                                Width="8"
-                                Height="8"
-                                Margin="8"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Style="{ThemeResource AttentionDotInfoBadgeStyle}"
-                                Visibility="{Binding DailyTaskNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <InfoBadge
+                                    Margin="8"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    shvh:ControlHelper.SquareLength="8"
+                                    Style="{ThemeResource AttentionDotInfoBadgeStyle}"
+                                    Visibility="{Binding DailyTaskNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
+
                         </Grid>
                         <Grid Grid.Column="2" RowSpacing="6">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
-                            <Border Style="{StaticResource BorderCardStyle}">
+
+                            <Grid Grid.Row="0" Style="{StaticResource BorderGridStyle}">
                                 <StackPanel VerticalAlignment="Center">
-                                    <Image Width="32" Source="ms-appx:///Resource/Icon/UI_MarkTower.png"/>
+                                    <shci:CachedImage shvh:ControlHelper.SquareLength="32" Source="{StaticResource UI_MarkTower}"/>
                                     <TextBlock
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding DailyNote.ResinDiscountFormatted}"/>
                                 </StackPanel>
-                            </Border>
-                            <Border Grid.Row="1" Style="{StaticResource BorderCardStyle}">
+                            </Grid>
+
+                            <Grid Grid.Row="1" Style="{StaticResource BorderGridStyle}">
                                 <StackPanel VerticalAlignment="Center">
-                                    <Image Width="32" Source="ms-appx:///Resource/Icon/UI_ItemIcon_220021.png"/>
+                                    <shci:CachedImage shvh:ControlHelper.SquareLength="32" Source="{StaticResource UI_ItemIcon_220021}"/>
                                     <TextBlock
-                                        Grid.Column="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
                                         Style="{StaticResource CaptionTextBlockStyle}"
                                         Text="{Binding DailyNote.Transformer.RecoveryTime.TimeLeftFormatted}"/>
                                 </StackPanel>
-                            </Border>
-                            <InfoBadge
-                                Grid.Row="1"
-                                Width="8"
-                                Height="8"
-                                Margin="8"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Style="{ThemeResource AttentionDotInfoBadgeStyle}"
-                                Visibility="{Binding TransformerNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <InfoBadge
+                                    Margin="8"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    shvh:ControlHelper.SquareLength="8"
+                                    Style="{ThemeResource AttentionDotInfoBadgeStyle}"
+                                    Visibility="{Binding TransformerNotifySuppressed, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
+
                         </Grid>
                     </Grid>
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
+        
         <PipsPager
             Height="16"
             HorizontalAlignment="Center"

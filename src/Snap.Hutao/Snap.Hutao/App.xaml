@@ -50,6 +50,9 @@
 
             <x:Double x:Key="HomeAdaptiveCardHeight">180</x:Double>
 
+            <!--  ProgressBar  -->
+            <x:Double x:Key="LargeBackgroundProgressBarOpacity">0.2</x:Double>
+
             <!--  Brushes  -->
             <SolidColorBrush x:Key="AvatarPropertyAddValueBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
             <!--  Settings  -->
@@ -65,6 +68,7 @@
                     <Setter Property="Margin" Value="1,29,0,5"/>
                 </Style.Setters>
             </Style>
+
             <!--  Uris  -->
             <x:String x:Key="DocumentLink_MhyAccountSwitch">https://hut.ao/features/mhy-account-switch.html</x:String>
             <x:String x:Key="DocumentLink_BugReport">https://hut.ao/statements/bug-report.html</x:String>
@@ -73,7 +77,14 @@
             <x:String x:Key="HolographicHat_GetToken_Release">https://github.com/HolographicHat/GetToken/releases/latest</x:String>
             <x:String x:Key="Sponsor_Afadian">https://afdian.net/a/DismissedLight</x:String>
 
+            <!--  Images  -->
             <x:String x:Key="UI_ItemIcon_None">https://static.snapgenshin.com/Bg/UI_ItemIcon_None.png</x:String>
+            <x:String x:Key="UI_MarkTower">https://static.snapgenshin.com/Bg/UI_MarkTower.png</x:String>
+            <x:String x:Key="UI_Icon_Intee_Explore_1">https://static.snapgenshin.com/Bg/UI_Icon_Intee_Explore_1.png</x:String>
+            <x:String x:Key="UI_MarkQuest_Events_Proce">https://static.snapgenshin.com/Bg/UI_MarkQuest_Events_Proce.png</x:String>
+            <x:String x:Key="UI_ItemIcon_204">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_204.png</x:String>
+            <x:String x:Key="UI_ItemIcon_210">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_210.png</x:String>
+            <x:String x:Key="UI_ItemIcon_220021">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_220021.png</x:String>
             <x:String x:Key="UI_ImgSign_ItemIcon">https://static.snapgenshin.com/Bg/UI_ImgSign_ItemIcon.png</x:String>
             <x:String x:Key="UI_AvatarIcon_Costume_Card">https://static.snapgenshin.com/AvatarCard/UI_AvatarIcon_Costume_Card.png</x:String>
             <x:String x:Key="UI_EmotionIcon25">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon25.png</x:String>
@@ -81,12 +92,7 @@
             <x:String x:Key="UI_EmotionIcon250">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon250.png</x:String>
             <x:String x:Key="UI_EmotionIcon272">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon272.png</x:String>
             <x:String x:Key="UI_EmotionIcon293">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon293.png</x:String>
-            <!--  图床 Url  -->
-            <x:String x:Key="UI_ItemIcon_204">https://smms.app/image/x9psnPrcbYoCl6U</x:String>
-            <x:String x:Key="UI_ItemIcon_210">https://smms.app/image/n4gwxlFGPTX2j8p</x:String>
-            <x:String x:Key="UI_ItemIcon_220021">https://smms.app/image/kbh1a2YVXpxWuez</x:String>
-            <x:String x:Key="UI_Icon_Intee_Explore_1">https://smms.app/image/zJ4UYqKiD6uQlLc</x:String>
-            <x:String x:Key="UI_MarkQuest_Events_Proce">https://smms.app/image/DQyTF3rv4aA8MZV</x:String>
+
             <!--  Converters  -->
             <cwuc:BoolNegationConverter x:Key="BoolNegationConverter"/>
             <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -135,6 +141,12 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
             </Style>
             <Style x:Key="BorderCardStyle" TargetType="Border">
+                <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
+                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="CornerRadius" Value="{StaticResource CompatCornerRadius}"/>
+            </Style>
+            <Style x:Key="BorderGridStyle" TargetType="Grid">
                 <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
                 <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
                 <Setter Property="BorderThickness" Value="1"/>

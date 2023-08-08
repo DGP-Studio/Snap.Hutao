@@ -26,7 +26,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Opacity="0"
                             Visibility="Collapsed">
-                            <clw:Shimmer IsActive="{x:Bind IsLoading}" Duration="0:0:0.5"/>
+                            <clw:Shimmer IsActive="{x:Bind IsLoading}" Duration="0:0:1"/>
                             <VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="LoadingIn">

@@ -67,6 +67,7 @@
                 </DataTemplate>
             </FlipView.ItemTemplate>
         </FlipView>
+
         <PipsPager
             Height="16"
             HorizontalAlignment="Center"

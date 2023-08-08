@@ -90,7 +90,7 @@ internal sealed class DependencyPropertyGenerator : IIncrementalGenerator
 
                         public static {{propertyType}} Get{{propertyName}}({{objType}} obj)
                         {
-                            return obj?.GetValue({{propertyName}}Property) as Type;
+                            return ({{propertyType}})obj?.GetValue({{propertyName}}Property);
                         }
 
                         public static void Set{{propertyName}}({{objType}} obj, {{propertyType}} value)

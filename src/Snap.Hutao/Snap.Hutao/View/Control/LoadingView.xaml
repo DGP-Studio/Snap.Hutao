@@ -28,7 +28,7 @@
                             Opacity="0"
                             Visibility="Collapsed">
                             <Grid>
-                                <clw:Shimmer IsActive="{x:Bind IsLoading, Mode=OneWay}" Duration="0:0:1"/>
+                                <clw:Shimmer IsActive="{x:Bind IsLoading, Mode=OneWay}"/>
                                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <shci:CachedImage
                                         Width="120"
