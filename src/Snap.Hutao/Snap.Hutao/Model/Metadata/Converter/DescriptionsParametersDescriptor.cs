@@ -32,7 +32,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     public override List<LevelParameters<string, ParameterDescription>> Convert(DescriptionsParameters from)
     {
         List<LevelParameters<string, ParameterDescription>> parameters = from.Parameters
-            .SelectList(param => new LevelParameters<string, ParameterDescription>($"Lv.{param.Level}", GetParameterDescription(from.Descriptions, param.Parameters)));
+            .SelectList(param => new LevelParameters<string, ParameterDescription>($"Lv.{param.Level.Value}", GetParameterDescription(from.Descriptions, param.Parameters)));
 
         return parameters;
     }

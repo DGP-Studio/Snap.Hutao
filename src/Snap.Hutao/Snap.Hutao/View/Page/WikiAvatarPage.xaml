@@ -300,7 +300,7 @@
                                         <TextBlock
                                             Margin="16,32,0,0"
                                             Style="{StaticResource BaseTextBlockStyle}"
-                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarAscensionMaterialsHeader}"/>
+                                            Text="{shcm:ResourceString Name=ViewPageWiKiAvatarTanlentHeader}"/>
                                         <shvc:SkillPivot
                                             Margin="16,16,0,0"
                                             ItemTemplate="{StaticResource SkillDataTemplate}"

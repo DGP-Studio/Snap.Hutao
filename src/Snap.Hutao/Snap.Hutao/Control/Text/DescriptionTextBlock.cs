@@ -122,7 +122,7 @@ internal sealed partial class DescriptionTextBlock : ContentControl
         else
         {
             // Make lighter in light mode
-            HslColor hsl = color.ToHsl();
+            Hsl32 hsl = color.ToHsl();
             hsl.L *= 0.3;
             targetColor = Rgba32.FromHsl(hsl);
         }

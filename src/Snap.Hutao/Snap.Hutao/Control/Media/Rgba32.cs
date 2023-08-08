@@ -86,7 +86,7 @@ internal struct Rgba32
     /// </summary>
     /// <param name="hsl">HSL 颜色</param>
     /// <returns>RGBA8颜色</returns>
-    public static Rgba32 FromHsl(HslColor hsl)
+    public static Rgba32 FromHsl(Hsl32 hsl)
     {
         double chroma = (1 - Math.Abs((2 * hsl.L) - 1)) * hsl.S;
         double h1 = hsl.H / 60;
@@ -143,7 +143,7 @@ internal struct Rgba32
     /// 转换到 HSL 颜色
     /// </summary>
     /// <returns>HSL 颜色</returns>
-    public readonly HslColor ToHsl()
+    public readonly Hsl32 ToHsl()
     {
         const double toDouble = 1.0 / 255;
         double r = toDouble * R;
@@ -176,7 +176,7 @@ internal struct Rgba32
         double lightness = 0.5 * (max + min);
         double saturation = chroma == 0 ? 0 : chroma / (1 - Math.Abs((2 * lightness) - 1));
 
-        HslColor ret;
+        Hsl32 ret;
         ret.H = 60 * h1;
         ret.S = saturation;
         ret.L = lightness;
