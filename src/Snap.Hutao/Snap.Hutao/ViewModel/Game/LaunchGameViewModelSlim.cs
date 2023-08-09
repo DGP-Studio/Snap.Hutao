@@ -12,6 +12,7 @@ namespace Snap.Hutao.ViewModel.Game;
 /// 简化的启动游戏视图模型
 /// </summary>
 [Injection(InjectAs.Transient)]
+[ConstructorGenerated(CallBaseConstructor = true)]
 internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSlim<View.Page.LaunchGamePage>
 {
     private readonly IGameService gameService;
@@ -19,17 +20,6 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
     private ObservableCollection<GameAccount>? gameAccounts;
     private GameAccount? selectedGameAccount;
-
-    /// <summary>
-    /// 构造一个新的简化的启动游戏视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public LaunchGameViewModelSlim(IServiceProvider serviceProvider)
-        : base(serviceProvider)
-    {
-        gameService = serviceProvider.GetRequiredService<IGameService>();
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-    }
 
     /// <summary>
     /// 游戏账号集合
@@ -59,7 +49,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
 
         try
         {
-            if (SelectedGameAccount != null)
+            if (SelectedGameAccount is not null)
             {
                 if (!gameService.SetGameAccount(SelectedGameAccount))
                 {

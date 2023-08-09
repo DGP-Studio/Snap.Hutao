@@ -73,6 +73,8 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     {
         if (entries is null)
         {
+            // IUserService.GetUserGameRoleByUid only usable after call IUserService.GetRoleCollectionAsync
+            await userService.GetRoleCollectionAsync().ConfigureAwait(false);
             await RefreshDailyNotesAsync().ConfigureAwait(false);
 
             List<DailyNoteEntry> entryList = dailyNoteDbService.GetDailyNoteEntryList();
@@ -119,5 +121,11 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
         await taskContext.SwitchToBackgroundAsync();
         await dailyNoteDbService.DeleteDailyNoteEntryByIdAsync(entry.InnerId).ConfigureAwait(false);
+    }
+
+    public async ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry)
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
     }
 }

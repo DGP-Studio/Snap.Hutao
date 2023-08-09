@@ -29,16 +29,6 @@ internal sealed class CultivateEntryView : Item
     }
 
     /// <summary>
-    /// Id
-    /// </summary>
-    public uint Id { get; set; }
-
-    /// <summary>
-    /// 入口Id
-    /// </summary>
-    public Guid EntryId { get; set; }
-
-    /// <summary>
     /// 实体
     /// </summary>
     public List<CultivateItemView> Items { get; set; } = default!;
@@ -55,4 +45,14 @@ internal sealed class CultivateEntryView : Item
     {
         get => Items.FirstOrDefault(i => i.DaysOfWeek != DaysOfWeek.Any)?.DaysOfWeek ?? DaysOfWeek.Any;
     }
+
+    /// <summary>
+    /// Id
+    /// </summary>
+    internal uint Id { get; set; }
+
+    /// <summary>
+    /// 入口Id
+    /// </summary>
+    internal Guid EntryId { get; set; }
 }

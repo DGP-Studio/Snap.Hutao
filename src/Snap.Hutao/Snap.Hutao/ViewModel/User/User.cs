@@ -17,6 +17,7 @@ namespace Snap.Hutao.ViewModel.User;
 
 /// <summary>
 /// 用于视图绑定的用户
+/// TODO: move initializaion part to service
 /// </summary>
 [HighQuality]
 internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, ISelectable

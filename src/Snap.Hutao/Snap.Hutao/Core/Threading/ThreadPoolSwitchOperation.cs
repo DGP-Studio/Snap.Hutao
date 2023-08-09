@@ -66,6 +66,7 @@ internal readonly struct ThreadPoolSwitchOperation : IAwaitable<ThreadPoolSwitch
         }
     }
 
+    [SuppressMessage("", "SH007")]
     private static void RunAction(object? state)
     {
         ((Action)state!)();

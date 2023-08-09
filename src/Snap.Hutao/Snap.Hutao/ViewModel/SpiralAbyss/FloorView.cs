@@ -21,7 +21,7 @@ internal sealed class FloorView
         Index = string.Format(SH.ModelBindingHutaoComplexRankFloor, floor.Index);
         SettleTime = $"{DateTimeOffset.FromUnixTimeSeconds(floor.SettleTime).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
         Star = floor.Star;
-        Levels = floor.Levels.Select(l => new LevelView(l, idAvatarMap)).ToList();
+        Levels = floor.Levels.SelectList(l => new LevelView(l, idAvatarMap));
     }
 
     /// <summary>

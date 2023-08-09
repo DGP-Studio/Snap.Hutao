@@ -119,8 +119,11 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		RESX_AutoApplyExistingTranslations = False
-		RESX_NeutralResourcesLanguage = zh-CN
+		RESX_Rules = {"EnabledRules":["StringFormat","WhiteSpaceLead","WhiteSpaceTail","PunctuationLead"]}
+		RESX_ShowErrorsInErrorList = False
+		RESX_SortFileContentOnSave = True
 		SolutionGuid = {E4449B1C-0E6A-4D19-955E-1CA491656ABA}
+		RESX_NeutralResourcesLanguage = zh-CN
+		RESX_AutoApplyExistingTranslations = False
 	EndGlobalSection
 EndGlobal

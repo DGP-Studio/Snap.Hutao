@@ -42,6 +42,10 @@ internal abstract partial class ViewModel : ObservableObject, IViewModel
         Initialization.TrySetResult(IsInitialized);
     }
 
+    /// <summary>
+    /// 异步初始化界面数据
+    /// </summary>
+    /// <returns>初始化是否成功</returns>
     protected virtual ValueTask<bool> InitializeUIAsync()
     {
         return ValueTask.FromResult(true);

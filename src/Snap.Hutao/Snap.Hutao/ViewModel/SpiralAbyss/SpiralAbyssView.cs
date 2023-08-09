@@ -21,12 +21,12 @@ internal sealed class SpiralAbyssView
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;
         TotalStar = spiralAbyss.TotalStar;
         MaxFloor = spiralAbyss.MaxFloor;
-        Reveals = spiralAbyss.RevealRank.SelectList(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap));
-        Defeat = spiralAbyss.DefeatRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
-        Damage = spiralAbyss.DamageRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
-        TakeDamage = spiralAbyss.TakeDamageRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
-        NormalSkill = spiralAbyss.NormalSkillRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
-        EnergySkill = spiralAbyss.EnergySkillRank.Select(r => new RankAvatar(r.Value, r.AvatarId, idAvatarMap)).SingleOrDefault();
+        Reveals = spiralAbyss.RevealRank.SelectList(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId]));
+        Defeat = spiralAbyss.DefeatRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
+        Damage = spiralAbyss.DamageRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
+        TakeDamage = spiralAbyss.TakeDamageRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
+        NormalSkill = spiralAbyss.NormalSkillRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
+        EnergySkill = spiralAbyss.EnergySkillRank.Select(r => new RankAvatar(r.Value, idAvatarMap[r.AvatarId])).SingleOrDefault();
         Floors = spiralAbyss.Floors.Select(f => new FloorView(f, idAvatarMap)).Reverse().ToList();
     }
 

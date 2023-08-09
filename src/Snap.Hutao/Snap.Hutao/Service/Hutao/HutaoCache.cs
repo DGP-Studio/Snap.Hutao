@@ -94,7 +94,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         {
             Dictionary<AvatarId, Avatar> idAvatarMap = await GetIdAvatarMapExtendedAsync().ConfigureAwait(false);
             Dictionary<WeaponId, Weapon> idWeaponMap = await metadataService.GetIdToWeaponMapAsync().ConfigureAwait(false);
-            Dictionary<EquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap = await metadataService.GetEquipAffixIdToReliquarySetMapAsync().ConfigureAwait(false);
+            Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap = await metadataService.GetExtendedEquipAffixIdToReliquarySetMapAsync().ConfigureAwait(false);
             await AvatarCollocationsAsync(idAvatarMap, idWeaponMap, idReliquarySetMap).ConfigureAwait(false);
 
             wikiAvatarViewModelTaskSource.TrySetResult(true);
@@ -138,7 +138,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         return idAvatarExtendedMap;
     }
 
-    private async ValueTask AvatarCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap, Dictionary<WeaponId, Weapon> idWeaponMap, Dictionary<EquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
+    private async ValueTask AvatarCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap, Dictionary<WeaponId, Weapon> idWeaponMap, Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
     {
         List<AvatarCollocation> avatarCollocationsRaw;
         using (IServiceScope scope = serviceProvider.CreateScope())

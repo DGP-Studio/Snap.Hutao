@@ -13,18 +13,14 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 /// 简化的实时便笺视图模型
 /// </summary>
 [Injection(InjectAs.Transient)]
-internal sealed class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<View.Page.DailyNotePage>
+[ConstructorGenerated(CallBaseConstructor = true)]
+internal sealed partial class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<View.Page.DailyNotePage>
 {
-    private List<DailyNoteEntry>? dailyNoteEntries;
+    private readonly ITaskContext taskContext;
+    private readonly IInfoBarService infoBarService;
+    private readonly IDailyNoteService dailyNoteService;
 
-    /// <summary>
-    /// 构造一个新的简化的实时便笺视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public DailyNoteViewModelSlim(IServiceProvider serviceProvider)
-        : base(serviceProvider)
-    {
-    }
+    private List<DailyNoteEntry>? dailyNoteEntries;
 
     /// <summary>
     /// 实时便笺集合
@@ -36,20 +32,13 @@ internal sealed class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<View.Pa
     {
         try
         {
-            ITaskContext taskContext = ServiceProvider.GetRequiredService<ITaskContext>();
-
             await taskContext.SwitchToBackgroundAsync();
-            _ = await ServiceProvider
-                .GetRequiredService<IUserService>()
-                .GetRoleCollectionAsync()
-                .ConfigureAwait(false);
-            ObservableCollection<DailyNoteEntry> entries = await ServiceProvider
-                .GetRequiredService<IDailyNoteService>()
+            ObservableCollection<DailyNoteEntry> entries = await dailyNoteService
                 .GetDailyNoteEntryCollectionAsync()
                 .ConfigureAwait(false);
 
-            // We have to create a copy here,
-            // to prevent page add/remove failure.
+            // 此处使用浅拷贝的列表以避免当导航到实时便笺页面后
+            // 由于主页尚未卸载，添加或删除便笺可能会崩溃的问题
             List<DailyNoteEntry> entryList = entries.ToList();
 
             await taskContext.SwitchToMainThreadAsync();
@@ -58,7 +47,7 @@ internal sealed class DailyNoteViewModelSlim : Abstraction.ViewModelSlim<View.Pa
         }
         catch (Core.ExceptionService.UserdataCorruptedException ex)
         {
-            ServiceProvider.GetRequiredService<IInfoBarService>().Error(ex);
+            infoBarService.Error(ex);
             return;
         }
     }

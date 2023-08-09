@@ -19,7 +19,7 @@ internal class AvatarView : INameIconSide
     /// </summary>
     /// <param name="avatar">元数据角色</param>
     /// <param name="rate">率</param>
-    public AvatarView(Avatar avatar, double rate)
+    public AvatarView(Avatar avatar, double rate = 0)
     {
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);

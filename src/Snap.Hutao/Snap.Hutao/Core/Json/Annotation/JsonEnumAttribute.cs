@@ -46,6 +46,8 @@ internal class JsonEnumAttribute : Attribute
     internal JsonConverter CreateConverter(JsonPropertyInfo info)
     {
         Type converterType = UnsafeEnumConverterType.MakeGenericType(info.PropertyType);
-        return (JsonConverter)Activator.CreateInstance(converterType, readAs, writeAs)!;
+        JsonConverter? converter = Activator.CreateInstance(converterType, readAs, writeAs) as JsonConverter;
+        ArgumentNullException.ThrowIfNull(converter);
+        return converter;
     }
 }

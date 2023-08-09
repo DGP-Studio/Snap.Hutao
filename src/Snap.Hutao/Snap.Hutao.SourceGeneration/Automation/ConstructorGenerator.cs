@@ -99,7 +99,26 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 
         foreach (IFieldSymbol fieldSymbol in fields)
         {
-            if(fieldSymbol.Kind == SymbolKind.Field)
+            bool shoudSkip = false;
+            foreach (SyntaxReference syntaxReference in fieldSymbol.DeclaringSyntaxReferences)
+            {
+                if (syntaxReference.GetSyntax() is VariableDeclaratorSyntax declarator)
+                {
+                    if (declarator.Initializer is not null)
+                    {
+                        // Skip field with initializer
+                        builder.Append("        // Skip field with initializer: ").AppendLine(fieldSymbol.Name);
+                        shoudSkip = true;
+                        break;
+                    }
+                }
+            }
+
+            if (shoudSkip)
+            {
+                continue;
+            }
+
             if (fieldSymbol.IsReadOnly && !fieldSymbol.IsStatic)
             {
                 switch (fieldSymbol.Type.ToDisplayString())

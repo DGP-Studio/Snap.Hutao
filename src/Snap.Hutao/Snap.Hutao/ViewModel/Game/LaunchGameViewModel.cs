@@ -34,8 +34,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     public const string DesiredUid = nameof(DesiredUid);
 
     private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly RuntimeOptions hutaoOptions;
+    private readonly IUserService userService;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
     private readonly IMemoryCache memoryCache;
@@ -60,7 +62,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         {
             if (SetProperty(ref selectedScheme, value))
             {
-                if (value != null)
+                if (value is not null)
                 {
                     UpdateGameResourceAsync(value).SafeForget();
                 }
@@ -98,8 +100,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     /// </summary>
     public GameResource? GameResource { get => gameResource; set => SetProperty(ref gameResource, value); }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeUIAsync()
     {
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
@@ -156,9 +157,11 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
         }
+
+        return true;
     }
 
-    private async Task UpdateGameResourceAsync(LaunchScheme scheme)
+    private async ValueTask UpdateGameResourceAsync(LaunchScheme scheme)
     {
         await taskContext.SwitchToBackgroundAsync();
         Web.Response.Response<GameResource> response = await serviceProvider
@@ -178,7 +181,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     {
         IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
-        if (SelectedScheme != null)
+        if (SelectedScheme is not null)
         {
             try
             {
@@ -198,7 +201,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                     }
                 }
 
-                if (SelectedGameAccount != null)
+                if (SelectedGameAccount is not null)
                 {
                     if (!gameService.SetGameAccount(SelectedGameAccount))
                     {
@@ -236,12 +239,9 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [Command("AttachGameAccountCommand")]
     private void AttachGameAccountToCurrentUserGameRole(GameAccount? gameAccount)
     {
-        if (gameAccount != null)
+        if (gameAccount is not null)
         {
-            IUserService userService = serviceProvider.GetRequiredService<IUserService>();
-            IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-
-            if (userService.Current?.SelectedUserGameRole is UserGameRole role)
+            if (userService.Current?.SelectedUserGameRole is { } role)
             {
                 gameService.AttachGameAccountToUid(gameAccount, role.GameUid);
             }
@@ -255,7 +255,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [Command("ModifyGameAccountCommand")]
     private async Task ModifyGameAccountAsync(GameAccount? gameAccount)
     {
-        if (gameAccount != null)
+        if (gameAccount is not null)
         {
             await gameService.ModifyGameAccountAsync(gameAccount).ConfigureAwait(false);
         }
@@ -264,7 +264,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [Command("RemoveGameAccountCommand")]
     private async Task RemoveGameAccountAsync(GameAccount? gameAccount)
     {
-        if (gameAccount != null)
+        if (gameAccount is not null)
         {
             await gameService.RemoveGameAccountAsync(gameAccount).ConfigureAwait(false);
         }
@@ -273,8 +273,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [Command("OpenScreenshotFolderCommand")]
     private async Task OpenScreenshotFolderAsync()
     {
-        string game = serviceProvider.GetRequiredService<AppOptions>().GamePath;
-        string screenshot = Path.Combine(Path.GetDirectoryName(game)!, "ScreenShot");
+        string game = appOptions.GamePath;
+        string? directory = Path.GetDirectoryName(game);
+        ArgumentException.ThrowIfNullOrEmpty(directory);
+        string screenshot = Path.Combine(directory, "ScreenShot");
         if (Directory.Exists(screenshot))
         {
             await Windows.System.Launcher.LaunchFolderPathAsync(screenshot);

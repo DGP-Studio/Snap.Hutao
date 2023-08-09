@@ -21,7 +21,7 @@ namespace Snap.Hutao.ViewModel.Cultivation;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
-    private static readonly ConcurrentCancellationTokenSource StatisticsCancellationTokenSource = new();
+    private readonly ConcurrentCancellationTokenSource statisticsCancellationTokenSource = new();
 
     private readonly ICultivationService cultivationService;
     private readonly ILogger<CultivationViewModel> logger;
@@ -70,8 +70,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     /// </summary>
     public ObservableCollection<StatisticsCultivateItem>? StatisticsItems { get => statisticsItems; set => SetProperty(ref statisticsItems, value); }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -81,12 +80,10 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             Projects = projects;
             SelectedProject = selected;
-            IsInitialized = true;
+            return true;
         }
-        else
-        {
-            IsInitialized = false;
-        }
+
+        return false;
     }
 
     [Command("AddProjectCommand")]
@@ -129,11 +126,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
             await cultivationService.RemoveProjectAsync(project).ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
-            SelectedProject = Projects!.FirstOrDefault();
+            ArgumentNullException.ThrowIfNull(Projects);
+            SelectedProject = Projects.FirstOrDefault();
         }
     }
 
-    private async Task UpdateEntryCollectionAsync(CultivateProject? project)
+    private async ValueTask UpdateEntryCollectionAsync(CultivateProject? project)
     {
         if (project is not null)
         {
@@ -158,39 +156,41 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     {
         if (entry is not null)
         {
-            CultivateEntries!.Remove(entry);
+            ArgumentNullException.ThrowIfNull(CultivateEntries);
+            CultivateEntries.Remove(entry);
             await cultivationService.RemoveCultivateEntryAsync(entry.EntryId).ConfigureAwait(false);
             await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
     }
 
-    [Command("SaveInventoryItemCommand")]
-    private void SaveInventoryItem(InventoryItemView? inventoryItem)
-    {
-        if (inventoryItem is not null)
-        {
-            cultivationService.SaveInventoryItem(inventoryItem);
-            UpdateStatisticsItemsAsync().SafeForget();
-        }
-    }
-
     [Command("FinishStateCommand")]
-    private void UpdateFinishedState(CultivateItemView? item)
+    private async Task UpdateFinishedStateAsync(CultivateItemView? item)
     {
         if (item is not null)
         {
             item.IsFinished = !item.IsFinished;
             cultivationService.SaveCultivateItem(item);
-            UpdateStatisticsItemsAsync().SafeForget();
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
         }
     }
 
-    private async Task UpdateStatisticsItemsAsync()
+    [Command("SaveInventoryItemCommand")]
+    private async Task SaveInventoryItemAsync(InventoryItemView? inventoryItem)
+    {
+        if (inventoryItem is not null)
+        {
+            cultivationService.SaveInventoryItem(inventoryItem);
+            await UpdateStatisticsItemsAsync().ConfigureAwait(false);
+        }
+    }
+
+    private async ValueTask UpdateStatisticsItemsAsync()
     {
         if (SelectedProject is not null)
         {
             await taskContext.SwitchToBackgroundAsync();
-            CancellationToken token = StatisticsCancellationTokenSource.Register();
+
+            CancellationToken token = statisticsCancellationTokenSource.Register();
             ObservableCollection<StatisticsCultivateItem> statistics;
             try
             {
@@ -212,9 +212,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     {
         if (typeString is not null)
         {
+            Type? pageType = Type.GetType(typeString);
+            ArgumentNullException.ThrowIfNull(pageType);
+
             serviceProvider
                 .GetRequiredService<INavigationService>()
-                .Navigate(Type.GetType(typeString)!, INavigationAwaiter.Default, true);
+                .Navigate(pageType, INavigationAwaiter.Default, true);
         }
     }
 }

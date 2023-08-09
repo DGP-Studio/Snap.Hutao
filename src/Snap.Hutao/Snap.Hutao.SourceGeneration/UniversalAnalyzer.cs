@@ -22,6 +22,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor useIsNotNullPatternMatchingDescriptor = new("SH004", "Use \"is not null\" instead of \"!= null\" whenever possible", "Use \"is not null\" instead of \"!= null\"", "Quality", DiagnosticSeverity.Info, true);
     private static readonly DiagnosticDescriptor useIsNullPatternMatchingDescriptor = new("SH005", "Use \"is null\" instead of \"== null\" whenever possible", "Use \"is null\" instead of \"== null\"", "Quality", DiagnosticSeverity.Info, true);
     private static readonly DiagnosticDescriptor useIsPatternRecursiveMatchingDescriptor = new("SH006", "Use \"is { } obj\" whenever possible", "Use \"is {{ }} {0}\"", "Quality", DiagnosticSeverity.Info, true);
+    private static readonly DiagnosticDescriptor useArgumentNullExceptionThrowIfNullDescriptor = new("SH007", "Use \"ArgumentNullException.ThrowIfNull()\" instead of \"!\"", "Use \"ArgumentNullException.ThrowIfNull()\"", "Quality", DiagnosticSeverity.Info, true);
 
 
     private static readonly ImmutableHashSet<string> RefLikeKeySkipTypes = new HashSet<string>()
@@ -41,7 +42,8 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
                 useValueTaskIfPossibleDescriptor,
                 useIsNotNullPatternMatchingDescriptor,
                 useIsNullPatternMatchingDescriptor,
-                useIsPatternRecursiveMatchingDescriptor
+                useIsPatternRecursiveMatchingDescriptor,
+                useArgumentNullExceptionThrowIfNullDescriptor
             }.ToImmutableArray();
         }
     }
@@ -75,6 +77,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         };
         context.RegisterSyntaxNodeAction(HandleEqualsAndNotEqualsExpressionShouldUsePatternMatching, expressions);
         context.RegisterSyntaxNodeAction(HandleIsPatternShouldUseRecursivePattern, SyntaxKind.IsPatternExpression);
+        context.RegisterSyntaxNodeAction(HandleArgumentNullExceptionThrowIfNull, SyntaxKind.SuppressNullableWarningExpression);
     }
 
     private static void HandleTypeShouldBeInternal(SyntaxNodeAnalysisContext context)
@@ -257,6 +260,23 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
                 context.ReportDiagnostic(diagnostic);
             }
         }
+    }
+
+    private static void HandleArgumentNullExceptionThrowIfNull(SyntaxNodeAnalysisContext context)
+    {
+        PostfixUnaryExpressionSyntax syntax = (PostfixUnaryExpressionSyntax)context.Node;
+
+        if (syntax.Operand is LiteralExpressionSyntax literal)
+        {
+            if (literal.IsKind(SyntaxKind.DefaultLiteralExpression))
+            {
+                return;
+            }
+        }
+
+        Location location = syntax.GetLocation();
+        Diagnostic diagnostic = Diagnostic.Create(useArgumentNullExceptionThrowIfNullDescriptor, location);
+        context.ReportDiagnostic(diagnostic);
     }
 
     private static bool IsBuiltInType(ITypeSymbol symbol)

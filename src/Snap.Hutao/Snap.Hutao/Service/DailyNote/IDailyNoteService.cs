@@ -38,4 +38,6 @@ internal interface IDailyNoteService
     /// <param name="entry">指定的实时便笺</param>
     /// <returns>任务</returns>
     ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry);
+
+    ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry);
 }

@@ -92,8 +92,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     /// </summary>
     public HutaoCloudStatisticsViewModel HutaoCloudStatisticsViewModel { get => hutaoCloudStatisticsViewModel; }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeUIAsync()
     {
         try
         {
@@ -101,16 +100,20 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             {
                 ArgumentNullException.ThrowIfNull(gachaLogService.ArchiveCollection);
                 ObservableCollection<GachaArchive> archives = gachaLogService.ArchiveCollection;
+
                 await taskContext.SwitchToMainThreadAsync();
                 Archives = archives;
                 SetSelectedArchiveAndUpdateStatistics(Archives.SelectedOrDefault(), true);
 
                 HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
+                return true;
             }
         }
         catch (OperationCanceledException)
         {
         }
+
+        return false;
     }
 
     private static bool CanImport(UIGFVersion version, UIGF uigf)
@@ -130,22 +133,22 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("RefreshByWebCacheCommand")]
     private Task RefreshByWebCacheAsync()
     {
-        return RefreshInternalAsync(RefreshOption.WebCache);
+        return RefreshInternalAsync(RefreshOption.WebCache).AsTask();
     }
 
     [Command("RefreshBySTokenCommand")]
     private Task RefreshBySTokenAsync()
     {
-        return RefreshInternalAsync(RefreshOption.SToken);
+        return RefreshInternalAsync(RefreshOption.SToken).AsTask();
     }
 
     [Command("RefreshByManualInputCommand")]
     private Task RefreshByManualInputAsync()
     {
-        return RefreshInternalAsync(RefreshOption.ManualInput);
+        return RefreshInternalAsync(RefreshOption.ManualInput).AsTask();
     }
 
-    private async Task RefreshInternalAsync(RefreshOption option)
+    private async ValueTask RefreshInternalAsync(RefreshOption option)
     {
         IGachaLogQueryProvider provider = serviceProvider.GetRequiredService<IGachaLogQueryProviderFactory>().Create(option);
 
@@ -159,7 +162,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
 
             GachaLogRefreshProgressDialog dialog = serviceProvider.CreateInstance<GachaLogRefreshProgressDialog>();
-            IDisposable dialogHider = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
+            ContentDialogHideToken hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
             Progress<GachaLogFetchStatus> progress = new(dialog.OnReport);
             bool authkeyValid;
 
@@ -189,7 +192,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             if (authkeyValid)
             {
                 SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
-                dialogHider.Dispose();
+                await hideToken.DisposeAsync().ConfigureAwait(false);
             }
             else
             {
@@ -214,10 +217,10 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         (bool isPickerOk, ValueFile file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
         if (isPickerOk)
         {
-            (bool isOk, UIGF? uigf) = await file.DeserializeFromJsonAsync<UIGF>(options).ConfigureAwait(false);
-            if (isOk)
+            ValueResult<bool, UIGF?> result = await file.DeserializeFromJsonAsync<UIGF>(options).ConfigureAwait(false);
+            if (result.TryGetValue(out UIGF? uigf))
             {
-                await TryImportUIGFInternalAsync(uigf!).ConfigureAwait(false);
+                await TryImportUIGFInternalAsync(uigf).ConfigureAwait(false);
             }
             else
             {
@@ -229,7 +232,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("ExportToUIGFJsonCommand")]
     private async Task ExportToUIGFJsonAsync()
     {
-        if (SelectedArchive != null)
+        if (SelectedArchive is not null)
         {
             Dictionary<string, IList<string>> fileTypes = new()
             {
@@ -262,7 +265,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("RemoveArchiveCommand")]
     private async Task RemoveArchiveAsync()
     {
-        if (Archives != null && SelectedArchive != null)
+        if (Archives is not null && SelectedArchive is not null)
         {
             ContentDialogResult result = await contentDialogFactory
                 .CreateForConfirmCancelAsync(string.Format(SH.ViewModelGachaLogRemoveArchiveTitle, SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
@@ -285,14 +288,14 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     [Command("RetrieveFromCloudCommand")]
     private async Task RetrieveAsync(string? uid)
     {
-        if (uid != null)
+        if (uid is not null)
         {
-            (bool isOk, GachaArchive? archive) = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
+            ValueResult<bool, GachaArchive?> result = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
 
-            if (isOk)
+            if (result.TryGetValue(out GachaArchive? archive))
             {
                 await taskContext.SwitchToMainThreadAsync();
-                Archives?.AddIfNotContains(archive!);
+                Archives?.AddIfNotContains(archive);
                 SetSelectedArchiveAndUpdateStatistics(archive, true);
             }
         }
@@ -321,7 +324,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
         if (forceUpdate || changed)
         {
-            if (archive == null)
+            if (archive is null)
             {
                 // no gacha log
                 IsInitialized = true;
@@ -333,7 +336,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task UpdateStatisticsAsync(GachaArchive? archive)
+    private async ValueTask UpdateStatisticsAsync(GachaArchive? archive)
     {
         try
         {
@@ -349,7 +352,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task<bool> TryImportUIGFInternalAsync(UIGF uigf)
+    private async ValueTask<bool> TryImportUIGFInternalAsync(UIGF uigf)
     {
         if (uigf.IsCurrentVersionSupported(out UIGFVersion version))
         {

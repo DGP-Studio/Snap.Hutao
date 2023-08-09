@@ -220,13 +220,13 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
     {
         if (cacheFolder is not null)
         {
-            return cacheFolder!;
+            return cacheFolder;
         }
 
         baseFolder ??= serviceProvider.GetRequiredService<RuntimeOptions>().LocalCache;
         DirectoryInfo info = Directory.CreateDirectory(Path.Combine(baseFolder, CacheFolderName));
         cacheFolder = info.FullName;
 
-        return cacheFolder!;
+        return cacheFolder;
     }
 }

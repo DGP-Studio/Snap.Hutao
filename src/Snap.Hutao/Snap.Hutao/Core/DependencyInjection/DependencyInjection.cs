@@ -35,8 +35,6 @@ internal static class DependencyInjection
 
             // Discrete services
             .AddSingleton<IMessenger, WeakReferenceMessenger>()
-            .AddTransient(typeof(TaskCompletionSource))
-            .AddTransient(typeof(TaskCompletionSource<>))
 
             .BuildServiceProvider(true);
 

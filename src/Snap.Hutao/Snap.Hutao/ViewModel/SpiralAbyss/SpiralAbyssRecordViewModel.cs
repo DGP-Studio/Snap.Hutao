@@ -28,6 +28,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
+    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
@@ -51,7 +52,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             // We dont need to check the result here,
             // just refresh the view anyway.
             SetProperty(ref selectedEntry, value);
-            if (value != null && idAvatarMap != null)
+            if (value is not null && idAvatarMap is not null)
             {
                 SpiralAbyssView = new(value.SpiralAbyss, idAvatarMap);
             }
@@ -76,8 +77,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         }
     }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -87,17 +87,18 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
                 await UpdateSpiralAbyssCollectionAsync(userAndUid).ConfigureAwait(false);
-                await taskContext.SwitchToMainThreadAsync();
-                IsInitialized = true;
+                return true;
             }
             else
             {
-                serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
+                infoBarService.Warning(SH.MustSelectUserAndUid);
             }
         }
+
+        return false;
     }
 
-    private async Task UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
+    private async ValueTask UpdateSpiralAbyssCollectionAsync(UserAndUid userAndUid)
     {
         ObservableCollection<SpiralAbyssEntry>? temp = null;
         try
@@ -121,7 +122,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [Command("RefreshCommand")]
     private async Task RefreshAsync()
     {
-        if (SpiralAbyssEntries != null)
+        if (SpiralAbyssEntries is not null)
         {
             if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
             {
@@ -153,7 +154,7 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
             SimpleRecord? record = await homaClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
-            if (record != null)
+            if (record is not null)
             {
                 Web.Response.Response<string> response = await homaClient.UploadRecordAsync(record).ConfigureAwait(false);
 

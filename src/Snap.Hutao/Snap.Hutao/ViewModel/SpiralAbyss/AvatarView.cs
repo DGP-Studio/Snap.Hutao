@@ -1,8 +1,10 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
@@ -11,28 +13,28 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 /// 角色视图
 /// </summary>
 [HighQuality]
-internal class AvatarView : INameIconSide
+internal class AvatarView : INameIconSide, IMappingFrom<AvatarView, Avatar>
 {
-    /// <summary>
-    /// 构造一个新的角色视图
-    /// </summary>
-    /// <param name="metaAvatar">角色</param>
-    public AvatarView(Model.Metadata.Avatar.Avatar metaAvatar)
-    {
-        Name = metaAvatar.Name;
-        Icon = Model.Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.Icon);
-        SideIcon = Model.Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.SideIcon);
-        Quality = metaAvatar.Quality;
-    }
-
     /// <summary>
     /// 构造一个新的角色视图
     /// </summary>
     /// <param name="avatarId">角色Id</param>
     /// <param name="idAvatarMap">Id角色映射</param>
-    public AvatarView(in AvatarId avatarId, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
+    public AvatarView(in AvatarId avatarId, Dictionary<AvatarId, Avatar> idAvatarMap)
         : this(idAvatarMap[avatarId])
     {
+    }
+
+    /// <summary>
+    /// 构造一个新的角色视图
+    /// </summary>
+    /// <param name="metaAvatar">角色</param>
+    protected AvatarView(Avatar metaAvatar)
+    {
+        Name = metaAvatar.Name;
+        Icon = Model.Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.Icon);
+        SideIcon = Model.Metadata.Converter.AvatarIconConverter.IconNameToUri(metaAvatar.SideIcon);
+        Quality = metaAvatar.Quality;
     }
 
     /// <summary>
@@ -54,4 +56,9 @@ internal class AvatarView : INameIconSide
     /// 星级
     /// </summary>
     public QualityType Quality { get; }
+
+    public static AvatarView From(Avatar source)
+    {
+        return new(source);
+    }
 }

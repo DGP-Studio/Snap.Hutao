@@ -38,6 +38,7 @@ internal class AsyncBarrier
     /// that completes when all other participants have also signaled ready.
     /// </summary>
     /// <returns>A Task, which will complete (or may already be completed) when the last participant calls this method.</returns>
+    [SuppressMessage("", "SH007")]
     public ValueTask SignalAndWaitAsync()
     {
         lock (waiters)

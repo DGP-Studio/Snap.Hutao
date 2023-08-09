@@ -20,7 +20,7 @@ internal sealed class LevelView
     {
         Index = string.Format(SH.ModelBindingHutaoComplexRankLevel, level.Index);
         Star = level.Star;
-        Battles = level.Battles.Select(b => new BattleView(b, idAvatarMap)).ToList();
+        Battles = level.Battles.SelectList(b => new BattleView(b, idAvatarMap));
     }
 
     /// <summary>

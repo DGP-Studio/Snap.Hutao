@@ -9,6 +9,7 @@ namespace Snap.Hutao.Core;
 /// 类型名称帮助类
 /// Directly copied from .NET Runtime library
 /// </summary>
+[SuppressMessage("", "SH007")]
 internal static class TypeNameHelper
 {
     private const char DefaultNestedTypeDelimiter = '+';

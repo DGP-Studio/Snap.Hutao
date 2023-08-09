@@ -24,6 +24,24 @@ internal sealed partial class MetadataService
         return FromCacheAsDictionaryAsync<EquipAffixId, ReliquarySet>(FileNameReliquarySet, r => r.EquipAffixId, token);
     }
 
+    public async ValueTask<Dictionary<ExtendedEquipAffixId, ReliquarySet>> GetExtendedEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default)
+    {
+        string cacheKey = $"{nameof(MetadataService)}.Cache.{FileNameReliquarySet}.Map.{nameof(ExtendedEquipAffixId)}";
+
+        if (memoryCache.TryGetValue(cacheKey, out object? value))
+        {
+            ArgumentNullException.ThrowIfNull(value);
+            return (Dictionary<ExtendedEquipAffixId, ReliquarySet>)value;
+        }
+
+        List<ReliquarySet> list = await FromCacheOrFileAsync<List<ReliquarySet>>(FileNameReliquarySet, token).ConfigureAwait(false);
+
+        Dictionary<ExtendedEquipAffixId, ReliquarySet> dict = list
+            .SelectMany(set => set.EquipAffixIds.Select(id => (id, set)))
+            .ToDictionary(tuple => tuple.id, tuple => tuple.set);
+        return memoryCache.Set(cacheKey, dict);
+    }
+
     /// <inheritdoc/>
     public ValueTask<Dictionary<AchievementId, Model.Metadata.Achievement.Achievement>> GetIdToAchievementMapAsync(CancellationToken token = default)
     {
@@ -39,7 +57,7 @@ internal sealed partial class MetadataService
     /// <inheritdoc/>
     public async ValueTask<Dictionary<MaterialId, DisplayItem>> GetIdToDisplayItemAndMaterialMapAsync(CancellationToken token = default)
     {
-        string cacheKey = $"{nameof(MetadataService)}.Cache.DisplayAndMaterial.Map.{typeof(MaterialId).Name}";
+        string cacheKey = $"{nameof(MetadataService)}.Cache.{nameof(DisplayItem)}.Map.{typeof(MaterialId).Name}";
 
         if (memoryCache.TryGetValue(cacheKey, out object? value))
         {

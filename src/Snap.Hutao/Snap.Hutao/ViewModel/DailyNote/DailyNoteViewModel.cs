@@ -23,7 +23,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 {
     private readonly IDailyNoteService dailyNoteService;
     private readonly IServiceProvider serviceProvider;
-    private readonly AppDbContext appDbContext;
+    private readonly IInfoBarService infoBarService;
     private readonly DailyNoteOptions options;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
@@ -46,8 +46,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     /// </summary>
     public ObservableCollection<DailyNoteEntry>? DailyNoteEntries { get => dailyNoteEntries; set => SetProperty(ref dailyNoteEntries, value); }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeUIAsync()
     {
         try
         {
@@ -58,18 +57,19 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             UserAndUids = roles;
             DailyNoteEntries = entries;
+            return true;
         }
         catch (Core.ExceptionService.UserdataCorruptedException ex)
         {
-            serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
-            return;
+            infoBarService.Error(ex);
+            return false;
         }
     }
 
     [Command("TrackRoleCommand")]
     private async Task TrackRoleAsync(UserAndUid? role)
     {
-        if (role != null)
+        if (role is not null)
         {
             await dailyNoteService.AddDailyNoteAsync(role).ConfigureAwait(false);
         }
@@ -84,7 +84,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("RemoveDailyNoteCommand")]
     private async Task RemoveDailyNoteAsync(DailyNoteEntry? entry)
     {
-        if (entry != null)
+        if (entry is not null)
         {
             await dailyNoteService.RemoveDailyNoteAsync(entry).ConfigureAwait(false);
         }
@@ -93,15 +93,16 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     [Command("ModifyNotificationCommand")]
     private async Task ModifyDailyNoteNotificationAsync(DailyNoteEntry? entry)
     {
-        if (entry != null)
+        if (entry is not null)
         {
             using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();
-                DailyNoteNotificationDialog dialog = serviceProvider.CreateInstance<DailyNoteNotificationDialog>(entry);
-                await dialog.ShowAsync();
-                appDbContext.DailyNotes.UpdateAndSave(entry);
+                await serviceProvider.CreateInstance<DailyNoteNotificationDialog>(entry).ShowAsync();
+
+                await taskContext.SwitchToBackgroundAsync();
+                await dailyNoteService.UpdateDailyNoteAsync(entry).ConfigureAwait(false);
             }
         }
     }
@@ -113,17 +114,16 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            // TODO: Add verify support for oversea user
             if (userAndUid.User.IsOversea)
             {
+                // TODO: Add verify support for oversea user
                 infoBarService.Warning(SH.ViewModelDailyNoteHoyolabVerificationUnsupported);
             }
             else
             {
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();
-                DailyNoteVerificationDialog dialog = serviceProvider.CreateInstance<DailyNoteVerificationDialog>(userAndUid);
-                await dialog.ShowAsync();
+                await serviceProvider.CreateInstance<DailyNoteVerificationDialog>(userAndUid).ShowAsync();
             }
         }
         else

@@ -14,7 +14,8 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Singleton, typeof(IHutaoUserService))]
 internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserServiceInitialization
 {
-    private readonly TaskCompletionSource initializeCompletionSource;
+    private readonly TaskCompletionSource initializeCompletionSource = new();
+
     private readonly HomaPassportClient passportClient;
     private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;

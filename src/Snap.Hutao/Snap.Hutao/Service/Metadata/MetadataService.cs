@@ -26,7 +26,8 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 {
     private const string MetaFileName = "Meta.json";
 
-    private readonly TaskCompletionSource initializeCompletionSource;
+    private readonly TaskCompletionSource initializeCompletionSource = new();
+
     private readonly ILogger<MetadataService> logger;
     private readonly MetadataOptions metadataOptions;
     private readonly IInfoBarService infoBarService;

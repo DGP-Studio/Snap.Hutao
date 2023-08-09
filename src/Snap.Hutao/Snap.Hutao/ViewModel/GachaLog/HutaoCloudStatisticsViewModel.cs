@@ -10,30 +10,24 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 /// 胡桃云服务统计视图模型
 /// </summary>
 [Injection(InjectAs.Scoped)]
-internal sealed class HutaoCloudStatisticsViewModel : Abstraction.ViewModelSlim
+[ConstructorGenerated(CallBaseConstructor = true)]
+internal sealed partial class HutaoCloudStatisticsViewModel : Abstraction.ViewModelSlim
 {
+    private readonly IGachaLogHutaoCloudService hutaoCloudService;
+    private readonly HutaoUserOptions hutaoUserOptions;
+    private readonly ITaskContext taskContext;
+
     private HutaoStatistics? statistics;
 
-    /// <summary>
-    /// 构造一个新的胡桃云服务统计视图模型
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public HutaoCloudStatisticsViewModel(IServiceProvider serviceProvider)
-        : base(serviceProvider)
-    {
-        Options = serviceProvider.GetRequiredService<HutaoUserOptions>();
-    }
-
-    public HutaoUserOptions Options { get; }
+    public HutaoUserOptions Options { get => hutaoUserOptions; }
 
     public HutaoStatistics? Statistics { get => statistics; set => SetProperty(ref statistics, value); }
 
     protected override async Task OpenUIAsync()
     {
-        ITaskContext taskContext = ServiceProvider.GetRequiredService<ITaskContext>();
         await taskContext.SwitchToBackgroundAsync();
-        IGachaLogHutaoCloudService hutaoCloudService = ServiceProvider.GetRequiredService<IGachaLogHutaoCloudService>();
         (bool isOk, HutaoStatistics statistics) = await hutaoCloudService.GetCurrentEventStatisticsAsync().ConfigureAwait(false);
+
         if (isOk)
         {
             await taskContext.SwitchToMainThreadAsync();

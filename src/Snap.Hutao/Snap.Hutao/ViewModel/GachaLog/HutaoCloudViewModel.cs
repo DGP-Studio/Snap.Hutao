@@ -24,6 +24,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 {
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGachaLogHutaoCloudService hutaoCloudService;
+    private readonly IHutaoUserService hutaoUserService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -51,7 +52,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>祈愿记录</returns>
-    internal async Task<ValueResult<bool, GachaArchive?>> RetrieveAsync(string uid)
+    internal async ValueTask<ValueResult<bool, GachaArchive?>> RetrieveAsync(string uid)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogRetrieveFromHutaoCloudProgress)
@@ -66,8 +67,9 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     /// <inheritdoc/>
     protected override async Task OpenUIAsync()
     {
-        await serviceProvider.GetRequiredService<IHutaoUserService>().InitializeAsync().ConfigureAwait(false);
+        await hutaoUserService.InitializeAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);
+
         await taskContext.SwitchToMainThreadAsync();
         IsInitialized = true;
     }
@@ -81,7 +83,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("UploadCommand")]
     private async Task UploadAsync(GachaArchive? gachaArchive)
     {
-        if (gachaArchive != null)
+        if (gachaArchive is not null)
         {
             ContentDialog dialog = await contentDialogFactory
                 .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogUploadToHutaoCloudProgress)
@@ -110,7 +112,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("DeleteCommand")]
     private async Task DeleteAsync(string? uid)
     {
-        if (uid != null)
+        if (uid is not null)
         {
             (bool isOk, string message) = await hutaoCloudService.DeleteGachaItemsAsync(uid).ConfigureAwait(false);
 
@@ -134,18 +136,20 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
             .Navigate<View.Page.SpiralAbyssRecordPage>(INavigationAwaiter.Default);
     }
 
-    private async Task RefreshUidCollectionAsync()
+    private async ValueTask RefreshUidCollectionAsync()
     {
         if (Options.IsCloudServiceAllowed)
         {
             Response<List<GachaEntry>> resp = await hutaoCloudService.GetGachaEntriesAsync().ConfigureAwait(false);
 
-            await taskContext.SwitchToMainThreadAsync();
             if (resp.IsOk())
             {
-                UidOperations = resp.Data!
+                ObservableCollection<HutaoCloudEntryOperationViewModel> collcetion = resp.Data
                     .SelectList(entry => new HutaoCloudEntryOperationViewModel(entry, RetrieveCommand, DeleteCommand))
                     .ToObservableCollection();
+
+                await taskContext.SwitchToMainThreadAsync();
+                UidOperations = collcetion;
             }
         }
     }

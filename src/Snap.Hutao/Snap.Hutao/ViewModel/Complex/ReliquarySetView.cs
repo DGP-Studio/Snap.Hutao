@@ -4,6 +4,7 @@
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -19,7 +20,7 @@ internal sealed class ReliquarySetView
     /// </summary>
     /// <param name="reliquarySetRate">圣遗物套装率</param>
     /// <param name="idReliquarySetMap">圣遗物套装映射</param>
-    public ReliquarySetView(ItemRate<ReliquarySets, double> reliquarySetRate, Dictionary<EquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
+    public ReliquarySetView(ItemRate<ReliquarySets, double> reliquarySetRate, Dictionary<ExtendedEquipAffixId, Model.Metadata.Reliquary.ReliquarySet> idReliquarySetMap)
     {
         ReliquarySets sets = reliquarySetRate.Item;
 
@@ -27,11 +28,9 @@ internal sealed class ReliquarySetView
         {
             StringBuilder nameBuilder = new();
             List<Uri> icons = new(2);
-
             foreach (ReliquarySet set in CollectionsMarshal.AsSpan(sets))
             {
-                // TODO use set EquipAffixSetIds
-                Model.Metadata.Reliquary.ReliquarySet metaSet = idReliquarySetMap[set.EquipAffixId / 10];
+                Model.Metadata.Reliquary.ReliquarySet metaSet = idReliquarySetMap[set.EquipAffixId];
 
                 if (nameBuilder.Length > 0)
                 {

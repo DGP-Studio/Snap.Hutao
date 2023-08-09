@@ -44,6 +44,7 @@ internal static class AppInstanceExtension
         // TODO: Release handle
     }
 
+    [SuppressMessage("", "SH007")]
     private static void RunAction(object? state)
     {
         ((Action)state!)();

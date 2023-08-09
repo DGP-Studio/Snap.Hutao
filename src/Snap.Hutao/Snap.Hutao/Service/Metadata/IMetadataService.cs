@@ -137,6 +137,8 @@ internal interface IMetadataService : ICastService
     /// <returns>装备被动Id到圣遗物套装的映射</returns>
     ValueTask<Dictionary<EquipAffixId, ReliquarySet>> GetEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default);
 
+    ValueTask<Dictionary<ExtendedEquipAffixId, ReliquarySet>> GetExtendedEquipAffixIdToReliquarySetMapAsync(CancellationToken token = default);
+
     /// <summary>
     /// 异步获取成就映射
     /// </summary>

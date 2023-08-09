@@ -34,7 +34,7 @@ internal static class PickerExtension
         else
         {
             InfoBarWaringPickerException(exception);
-            return new(false, null!);
+            return new(false, default!);
         }
     }
 
@@ -60,7 +60,7 @@ internal static class PickerExtension
         else
         {
             InfoBarWaringPickerException(exception);
-            return new(false, null!);
+            return new(false, default!);
         }
     }
 
@@ -86,7 +86,7 @@ internal static class PickerExtension
         else
         {
             InfoBarWaringPickerException(exception);
-            return new(false, null!);
+            return new(false, default!);
         }
     }
 
