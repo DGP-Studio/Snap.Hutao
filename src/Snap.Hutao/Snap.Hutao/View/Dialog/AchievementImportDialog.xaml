@@ -2,7 +2,7 @@
     x:Class="Snap.Hutao.View.Dialog.AchievementImportDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
@@ -18,47 +18,47 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <cwuc:UniformGrid
+        <cwc:UniformGrid
             Grid.Row="0"
             ColumnSpacing="16"
             Columns="3"
             RowSpacing="16">
-            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportApp}">
+            <cwc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportApp}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind UIAF.Info.ExportApp, Mode=OneWay, TargetNullValue=Unknown}"/>
-            </cwuc:HeaderedContentControl>
-            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportTime}">
+            </cwc:HeaderedContentControl>
+            <cwc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportTime}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind UIAF.Info.ExportDateTime.LocalDateTime, Mode=OneWay, TargetNullValue=Unknown}"/>
-            </cwuc:HeaderedContentControl>
-            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportAppVersion}">
+            </cwc:HeaderedContentControl>
+            <cwc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportExportAppVersion}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind UIAF.Info.ExportAppVersion, Mode=OneWay, TargetNullValue=Unknown}"/>
-            </cwuc:HeaderedContentControl>
-            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportUIAFExportUIAFVersion}">
+            </cwc:HeaderedContentControl>
+            <cwc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportUIAFExportUIAFVersion}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind UIAF.Info.UIAFVersion, Mode=OneWay, TargetNullValue=Unknown}"/>
-            </cwuc:HeaderedContentControl>
-            <cwuc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportUIAFExportListCount}">
+            </cwc:HeaderedContentControl>
+            <cwc:HeaderedContentControl Header="{shcm:ResourceString Name=ViewDialogImportUIAFExportListCount}">
                 <TextBlock
                     Margin="0,4,0,0"
                     Opacity="0.6"
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="{x:Bind UIAF.List.Count, Mode=OneWay, TargetNullValue=Unknown}"/>
-            </cwuc:HeaderedContentControl>
-        </cwuc:UniformGrid>
+            </cwc:HeaderedContentControl>
+        </cwc:UniformGrid>
         <RadioButtons
             Name="ImportModeSelector"
             Grid.Row="1"

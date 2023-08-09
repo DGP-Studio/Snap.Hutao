@@ -2,7 +2,7 @@
     x:Class="Snap.Hutao.View.Dialog.GachaLogRefreshProgressDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
@@ -23,19 +23,19 @@
     </ContentDialog.Resources>
 
     <StackPanel>
-        <cwucont:HeaderedItemsControl
+        <cwc:HeaderedItemsControl
             x:Name="GachaItemsPresenter"
             Padding="0,8,0,0"
             HorizontalAlignment="Left"
             ItemTemplate="{StaticResource GachaItemDataTemplate}">
-            <cwucont:HeaderedItemsControl.ItemsPanel>
+            <cwc:HeaderedItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <cwucont:UniformGrid
+                    <cwc:UniformGrid
                         ColumnSpacing="4"
                         Columns="5"
                         RowSpacing="4"/>
                 </ItemsPanelTemplate>
-            </cwucont:HeaderedItemsControl.ItemsPanel>
-        </cwucont:HeaderedItemsControl>
+            </cwc:HeaderedItemsControl.ItemsPanel>
+        </cwc:HeaderedItemsControl>
     </StackPanel>
 </ContentDialog>

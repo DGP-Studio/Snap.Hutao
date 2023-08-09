@@ -2,7 +2,7 @@
     x:Class="Snap.Hutao.View.Page.HutaoDatabasePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -72,11 +72,11 @@
                                         <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
                                     </StackPanel.Resources>
                                     <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewDataCollect}"/>
-                                    <clw:SettingsCard Content="{Binding Overview.RefreshTime}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewRefreshTime}"/>
-                                    <clw:SettingsCard Content="{Binding Overview.RecordTotal}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewRecordTotal}"/>
+                                    <cwc:SettingsCard Content="{Binding Overview.RefreshTime}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewRefreshTime}"/>
+                                    <cwc:SettingsCard Content="{Binding Overview.RecordTotal}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewRecordTotal}"/>
                                     <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyss}"/>
-                                    <clw:SettingsCard Content="{Binding Overview.SpiralAbyssTotal}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssTotal}"/>
-                                    <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssPassed}">
+                                    <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssTotal}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssTotal}"/>
+                                    <cwc:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssPassed}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding Overview.SpiralAbyssPassedPercent}"/>
                                             <TextBlock
@@ -85,8 +85,8 @@
                                                 Style="{StaticResource CaptionTextBlockStyle}"
                                                 Text="{Binding Overview.SpiralAbyssPassed}"/>
                                         </StackPanel>
-                                    </clw:SettingsCard>
-                                    <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar}">
+                                    </cwc:SettingsCard>
+                                    <cwc:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssFullStar}">
                                         <StackPanel>
                                             <TextBlock Text="{Binding Overview.SpiralAbyssFullStarPercent}"/>
                                             <TextBlock
@@ -95,9 +95,9 @@
                                                 Style="{StaticResource CaptionTextBlockStyle}"
                                                 Text="{Binding Overview.SpiralAbyssFullStar}"/>
                                         </StackPanel>
-                                    </clw:SettingsCard>
-                                    <clw:SettingsCard Content="{Binding Overview.SpiralAbyssStarAverage}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssStarAverage}"/>
-                                    <clw:SettingsCard Content="{Binding Overview.SpiralAbyssBattleAverage}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage}"/>
+                                    </cwc:SettingsCard>
+                                    <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssStarAverage}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssStarAverage}"/>
+                                    <cwc:SettingsCard Content="{Binding Overview.SpiralAbyssBattleAverage}" Header="{shcm:ResourceString Name=ViewPageHutaoDatabaseOverviewSpiralAbyssBattleAverage}"/>
                                 </StackPanel>
                             </Flyout>
                         </AppBarButton.Flyout>

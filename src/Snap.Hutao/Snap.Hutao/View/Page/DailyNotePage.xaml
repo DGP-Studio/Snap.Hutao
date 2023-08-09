@@ -2,8 +2,8 @@
     x:Class="Snap.Hutao.View.Page.DailyNotePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
-    xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -103,18 +103,18 @@
                                     <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                 </StackPanel.Resources>
                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}"/>
-                                <clw:SettingsCard
+                                <cwc:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
                                     <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
-                                </clw:SettingsCard>
-                                <clw:SettingsCard
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
                                     <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsReminderNotification, Mode=TwoWay}"/>
-                                </clw:SettingsCard>
+                                </cwc:SettingsCard>
                             </StackPanel>
                         </StackPanel>
                     </Flyout>
@@ -125,7 +125,7 @@
         <ScrollViewer Grid.Row="1">
             <cwuc:AdaptiveGridView
                 Margin="16,16,4,-4"
-                cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                cwa:ItemsReorderAnimation.Duration="0:0:0.1"
                 DesiredWidth="280"
                 ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                 ItemsSource="{Binding DailyNoteEntries}"

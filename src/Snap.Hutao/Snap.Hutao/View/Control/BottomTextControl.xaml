@@ -6,11 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Border
-        Background="{StaticResource CardBackgroundFillColorDefault}"
-        BorderBrush="{StaticResource CardStrokeColorDefault}"
-        BorderThickness="1"
-        CornerRadius="{StaticResource CompatCornerRadius}">
+    <Border Style="{StaticResource BorderCardStyle}">
         <StackPanel Name="BackgroundStack">
             <ContentPresenter Name="ContentHost"/>
             <TextBlock

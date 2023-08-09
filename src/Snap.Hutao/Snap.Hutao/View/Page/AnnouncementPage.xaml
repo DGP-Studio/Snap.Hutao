@@ -2,9 +2,9 @@
     x:Class="Snap.Hutao.View.Page.AnnouncementPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
+    xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:cwu="using:CommunityToolkit.WinUI.UI"
-    xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
-    xmlns:cwub="using:CommunityToolkit.WinUI.UI.Behaviors"
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -32,7 +32,7 @@
             <cwucont:AdaptiveGridView
                 Margin="16,16,0,-4"
                 HorizontalAlignment="Stretch"
-                cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                cwa:ItemsReorderAnimation.Duration="0:0:0.1"
                 DesiredWidth="{StaticResource AdaptiveGridViewDesiredWidth}"
                 ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                 ItemsSource="{Binding List}"
@@ -53,14 +53,14 @@
                                         <mxi:Interaction.Behaviors>
                                             <shcb:AutoHeightBehavior TargetHeight="390" TargetWidth="1080"/>
                                         </mxi:Interaction.Behaviors>
-                                        <cwua:Explicit.Animations>
-                                            <cwua:AnimationSet x:Name="ImageZoomInAnimation">
+                                        <cwa:Explicit.Animations>
+                                            <cwa:AnimationSet x:Name="ImageZoomInAnimation">
                                                 <shca:ImageZoomInAnimation/>
-                                            </cwua:AnimationSet>
-                                            <cwua:AnimationSet x:Name="ImageZoomOutAnimation">
+                                            </cwa:AnimationSet>
+                                            <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
                                                 <shca:ImageZoomOutAnimation/>
-                                            </cwua:AnimationSet>
-                                        </cwua:Explicit.Animations>
+                                            </cwa:AnimationSet>
+                                        </cwa:Explicit.Animations>
                                     </Border>
                                 </Border>
                                 <!--  Time Description  -->
@@ -141,10 +141,10 @@
                                     <shcb:OpenAttachedFlyoutAction/>
                                 </mxic:EventTriggerBehavior>
                                 <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                    <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}"/>
+                                    <cwb:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}"/>
                                 </mxic:EventTriggerBehavior>
                                 <mxic:EventTriggerBehavior EventName="PointerExited">
-                                    <cwub:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}"/>
+                                    <cwb:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}"/>
                                 </mxic:EventTriggerBehavior>
                             </mxi:Interaction.Behaviors>
                         </Border>
@@ -165,7 +165,7 @@
                     <cwucont:AdaptiveGridView
                         Margin="16,16,0,0"
                         HorizontalAlignment="Stretch"
-                        cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                        cwa:ItemsReorderAnimation.Duration="0:0:0.1"
                         DesiredWidth="{StaticResource AdaptiveGridViewDesiredWidth}"
                         ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                         SelectionMode="None"

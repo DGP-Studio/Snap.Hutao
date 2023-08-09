@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI.Behaviors;
+using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml;
 
 namespace Snap.Hutao.Control.Behavior;

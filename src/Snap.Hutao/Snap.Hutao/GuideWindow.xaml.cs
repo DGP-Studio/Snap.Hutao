@@ -1,4 +1,4 @@
-// Copyright (c) DGP Studio. All rights reserved.
+ï»¿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
@@ -8,7 +8,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 namespace Snap.Hutao;
 
 /// <summary>
-/// Ö¸Òı´°¿Ú
+/// æŒ‡å¼•çª—å£
 /// </summary>
 [Injection(InjectAs.Singleton)]
 internal sealed partial class GuideWindow : Window, IWindowOptionsSource

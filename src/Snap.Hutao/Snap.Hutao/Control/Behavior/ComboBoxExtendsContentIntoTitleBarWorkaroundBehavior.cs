@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.WinUI.UI.Behaviors;
+using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Snap.Hutao.Control.Behavior;

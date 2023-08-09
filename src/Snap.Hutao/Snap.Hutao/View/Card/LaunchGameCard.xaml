@@ -57,7 +57,7 @@
                 BorderBrush="{x:Null}"
                 BorderThickness="0"
                 Command="{Binding NavigateCommand}"
-                Content="&#xE713;"
+                Content="{StaticResource FontIconContentSetting}"
                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                 ToolTipService.ToolTip="{shcm:ResourceString Name=ViewPageHomeLaunchGameSettingAction}"/>
             <ComboBox

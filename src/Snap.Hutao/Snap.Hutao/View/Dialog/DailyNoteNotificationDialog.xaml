@@ -2,7 +2,7 @@
     x:Class="Snap.Hutao.View.Dialog.DailyNoteNotificationDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
+    xmlns:clw="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
@@ -50,9 +50,6 @@
             </clw:SettingsCard>
             <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationExpeditionNotify}">
                 <ToggleSwitch IsOn="{Binding ExpeditionNotify, Mode=TwoWay}"/>
-            </clw:SettingsCard>
-            <clw:SettingsCard Padding="16,8" Header="{shcm:ResourceString Name=ViewDialogDailyNoteNotificationShowInHomeWidget}">
-                <ToggleSwitch IsOn="{Binding ShowInHomeWidget, Mode=TwoWay}"/>
             </clw:SettingsCard>
         </StackPanel>
     </ScrollViewer>

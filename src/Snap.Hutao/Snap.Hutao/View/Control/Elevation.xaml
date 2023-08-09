@@ -1,22 +1,14 @@
-﻿<UserControl
+﻿<clw:TokenItem
     x:Class="Snap.Hutao.View.Control.Elevation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Snap.Hutao.View.Control"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     VerticalAlignment="Center"
-    mc:Ignorable="d">
-
-    <Border
-        Padding="10,6"
-        Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-        CornerRadius="14"
-        Style="{StaticResource BorderCardStyle}">
-        <TextBlock
-            Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-            Style="{StaticResource CaptionTextBlockStyle}"
-            Text="{shcm:ResourceString Name=ViewControlElevationText}"/>
-    </Border>
-</UserControl>
+    Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+    Content="{shcm:ResourceString Name=ViewControlElevationText}"
+    Foreground="{ThemeResource SystemFillColorCriticalBrush}"
+    Icon="{shcm:FontIcon Glyph=&#xE7BA;}"
+    mc:Ignorable="d"/>

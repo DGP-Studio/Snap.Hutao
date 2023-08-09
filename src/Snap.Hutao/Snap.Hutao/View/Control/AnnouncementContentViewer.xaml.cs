@@ -6,6 +6,8 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using System.Text.RegularExpressions;
+using Windows.Foundation;
 using Windows.System;
 
 namespace Snap.Hutao.View.Control;
@@ -43,17 +45,28 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
         }
         """;
 
+    private readonly RoutedEventHandler loadEventHandler;
+    private readonly RoutedEventHandler unloadEventHandler;
+    private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedHandler;
+
     /// <summary>
     /// 构造一个新的公告窗体
     /// </summary>
     public AnnouncementContentViewer()
     {
         InitializeComponent();
+
+        loadEventHandler = OnLoaded;
+        unloadEventHandler = OnUnloaded;
+        webMessageReceivedHandler = OnWebMessageReceived;
+
+        Loaded += loadEventHandler;
+        Unloaded += unloadEventHandler;
     }
 
     private static string? GenerateHtml(Announcement? announcement, ElementTheme theme)
     {
-        if (announcement == null)
+        if (announcement is null)
         {
             return null;
         }
@@ -65,9 +78,7 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
             return null;
         }
 
-        content = content
-            .Replace(@"style=""vertical-align:middle;""", string.Empty)
-            .Replace(@"style=""border:none;vertical-align:middle;""", string.Empty);
+        content = StyleRegex().Replace(content, string.Empty);
 
         bool isDarkMode = ThemeHelper.IsDarkMode(theme);
 
@@ -114,7 +125,10 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
         return document;
     }
 
-    private async Task LoadAnnouncementAsync()
+    [GeneratedRegex("style=\".*?vertical-align:middle;\"")]
+    private static partial Regex StyleRegex();
+
+    private async ValueTask LoadAnnouncementAsync()
     {
         try
         {
@@ -124,7 +138,7 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
             settings.AreBrowserAcceleratorKeysEnabled = false;
             settings.AreDefaultContextMenusEnabled = false;
             settings.AreDevToolsEnabled = false;
-            WebView.CoreWebView2.WebMessageReceived += OnWebMessageReceived;
+            WebView.CoreWebView2.WebMessageReceived += webMessageReceivedHandler;
 
             await WebView.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(MihoyoSDKDefinition);
         }
@@ -139,6 +153,13 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         LoadAnnouncementAsync().SafeForget();
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        WebView.CoreWebView2.WebMessageReceived -= webMessageReceivedHandler;
+        Loaded -= loadEventHandler;
+        Unloaded -= unloadEventHandler;
     }
 
     private void OnWebMessageReceived(CoreWebView2 coreWebView2, CoreWebView2WebMessageReceivedEventArgs args)

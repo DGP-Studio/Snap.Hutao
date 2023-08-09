@@ -2,7 +2,7 @@
     x:Class="Snap.Hutao.View.Page.TestPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shc="using:Snap.Hutao.Control"
@@ -12,22 +12,22 @@
     mc:Ignorable="d">
     <ScrollViewer>
         <StackPanel Margin="16" Spacing="{StaticResource SettingsCardSpacing}">
-            <clw:SettingsCard
+            <cwc:SettingsCard
                 Command="{Binding DangerousLoginMihoyoBbsCommand}"
                 Header="DangerousLoginMihoyoBbsTest"
                 IsClickEnabled="True"/>
 
-            <clw:SettingsCard
+            <cwc:SettingsCard
                 Command="{Binding ShowCommunityGameRecordDialogCommand}"
                 Header="CommunityGameRecordDialogTest"
                 IsClickEnabled="True"/>
 
-            <clw:SettingsCard
+            <cwc:SettingsCard
                 Command="{Binding ShowAdoptCalculatorDialogCommand}"
                 Header="AdoptCalculatorDialogTest"
                 IsClickEnabled="True"/>
 
-            <clw:SettingsCard Header="RestartTest">
+            <cwc:SettingsCard Header="RestartTest">
                 <StackPanel Orientation="Horizontal">
                     <ToggleSwitch Name="ElevatedSwitch" Style="{StaticResource DefaultToggleSwitchStyle}"/>
                     <Button
@@ -35,7 +35,7 @@
                         CommandParameter="{Binding ElementName=ElevatedSwitch, Path=IsOn}"
                         Content="Restart"/>
                 </StackPanel>
-            </clw:SettingsCard>
+            </cwc:SettingsCard>
         </StackPanel>
     </ScrollViewer>
 </shc:ScopedPage>

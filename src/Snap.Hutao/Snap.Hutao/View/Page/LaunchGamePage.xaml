@@ -2,7 +2,7 @@
     x:Class="Snap.Hutao.View.Page.LaunchGamePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -59,7 +59,7 @@
                                 Message="{shcm:ResourceString Name=ViewPageLaunchGameConfigurationSaveHint}"
                                 Severity="Informational"/>
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameCommonHeader}"/>
-                            <clw:SettingsCard
+                            <cwc:SettingsCard
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameSwitchSchemeHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE8AB;}"
@@ -71,8 +71,8 @@
                                         ItemsSource="{Binding KnownSchemes}"
                                         SelectedItem="{Binding SelectedScheme, Mode=TwoWay}"/>
                                 </StackPanel>
-                            </clw:SettingsCard>
-                            <clw:SettingsCard
+                            </cwc:SettingsCard>
+                            <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDetectAction}"
                                 Command="{Binding DetectGameAccountCommand}"
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameSwitchAccountDescription}"
@@ -162,26 +162,26 @@
                             </Border>
 
                             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceHeader}"/>
-                            <clw:SettingsCard
+                            <cwc:SettingsCard
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceExclusiveHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE740;}">
                                 <ToggleSwitch Width="120" IsOn="{Binding Options.IsExclusive, Mode=TwoWay}"/>
-                            </clw:SettingsCard>
-                            <clw:SettingsCard
+                            </cwc:SettingsCard>
+                            <cwc:SettingsCard
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceFullscreenHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE740;}">
                                 <ToggleSwitch Width="120" IsOn="{Binding Options.IsFullScreen, Mode=TwoWay}"/>
-                            </clw:SettingsCard>
-                            <clw:SettingsCard
+                            </cwc:SettingsCard>
+                            <cwc:SettingsCard
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceBorderlessHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE737;}">
                                 <ToggleSwitch Width="120" IsOn="{Binding Options.IsBorderless, Mode=TwoWay}"/>
-                            </clw:SettingsCard>
+                            </cwc:SettingsCard>
 
-                            <clw:SettingsCard
+                            <cwc:SettingsCard
                                 Margin="0,6,0,0"
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenWidthHeader}"
@@ -190,8 +190,8 @@
                                     Width="156"
                                     Padding="10,6,0,0"
                                     Value="{Binding Options.ScreenWidth, Mode=TwoWay}"/>
-                            </clw:SettingsCard>
-                            <clw:SettingsCard
+                            </cwc:SettingsCard>
+                            <cwc:SettingsCard
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameAppearanceScreenHeightHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE784;}">
@@ -199,9 +199,9 @@
                                     Width="156"
                                     Padding="10,6,0,0"
                                     Value="{Binding Options.ScreenHeight, Mode=TwoWay}"/>
-                            </clw:SettingsCard>
+                            </cwc:SettingsCard>
 
-                            <clw:SettingsCard
+                            <cwc:SettingsCard
                                 Description="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsDescription}"
                                 Header="{shcm:ResourceString Name=ViewPageLaunchGameMonitorsHeader}"
                                 HeaderIcon="{shcm:FontIcon Glyph=&#xE975;}">
@@ -210,11 +210,11 @@
                                     DisplayMemberPath="Name"
                                     ItemsSource="{Binding Options.Monitors}"
                                     SelectedItem="{Binding Options.Monitor, Mode=TwoWay}"/>
-                            </clw:SettingsCard>
+                            </cwc:SettingsCard>
 
                             <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}"/>
-                                <clw:SettingsCard
+                                <cwc:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7C4;}"
@@ -224,8 +224,8 @@
                                         <ToggleSwitch Width="120" IsOn="{Binding Options.MultipleInstances, Mode=TwoWay}"/>
                                     </StackPanel>
 
-                                </clw:SettingsCard>
-                                <clw:SettingsCard
+                                </cwc:SettingsCard>
+                                <cwc:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE785;}"
@@ -245,7 +245,7 @@
                                             OffContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOff}"
                                             OnContent="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsOn}"/>
                                     </StackPanel>
-                                </clw:SettingsCard>
+                                </cwc:SettingsCard>
                             </StackPanel>
                         </StackPanel>
                     </Grid>

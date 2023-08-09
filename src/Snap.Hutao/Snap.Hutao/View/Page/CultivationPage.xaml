@@ -2,8 +2,8 @@
     x:Class="Snap.Hutao.View.Page.CultivationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
-    xmlns:cwua="using:CommunityToolkit.WinUI.UI.Animations"
+    xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:cwuconv="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -90,7 +90,7 @@
                             <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationCultivateEntry}">
                                 <cwucont:AdaptiveGridView
                                     Padding="16,16,4,4"
-                                    cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                                    cwa:ItemsReorderAnimation.Duration="0:0:0.1"
                                     DesiredWidth="320"
                                     ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                     ItemsSource="{Binding CultivateEntries}"
@@ -241,7 +241,7 @@
                             <PivotItem Header="{shcm:ResourceString Name=ViewPageCultivationMaterialStatistics}">
                                 <cwucont:AdaptiveGridView
                                     Padding="16,16,4,4"
-                                    cwua:ItemsReorderAnimation.Duration="0:0:0.1"
+                                    cwa:ItemsReorderAnimation.Duration="0:0:0.1"
                                     DesiredWidth="320"
                                     ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
                                     ItemsSource="{Binding StatisticsItems}"
@@ -293,7 +293,7 @@
                                 <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
                                 <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
                             </StackPanel.Resources>
-                            <clw:SettingsCard
+                            <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="Snap.Hutao.View.Page.WikiAvatarPage"
@@ -301,7 +301,7 @@
                                 Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
                                 HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"
                                 IsClickEnabled="True"/>
-                            <clw:SettingsCard
+                            <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="Snap.Hutao.View.Page.WikiWeaponPage"
@@ -309,7 +309,7 @@
                                 Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
                                 HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}"
                                 IsClickEnabled="True"/>
-                            <clw:SettingsCard
+                            <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
                                 Command="{Binding NavigateToPageCommand}"
                                 CommandParameter="Snap.Hutao.View.Page.AvatarPropertyPage"
@@ -377,7 +377,7 @@
                     Style="{StaticResource SubtitleTextBlockStyle}"
                     Text="{shcm:ResourceString Name=ViewPageCultivationAddProjectContinue}"/>
                 <StackPanel Margin="0,24,0,0" HorizontalAlignment="Center">
-                    <clw:SettingsCard
+                    <cwc:SettingsCard
                         ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationAddProjectAction}"
                         Command="{Binding AddProjectCommand}"
                         Description="{shcm:ResourceString Name=ViewPageCultivationAddProjectDescription}"

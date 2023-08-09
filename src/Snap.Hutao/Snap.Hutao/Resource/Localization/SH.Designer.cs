@@ -2014,11 +2014,20 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 原粹树脂提醒阈值 的本地化字符串。
+        ///   查找类似 洞天宝钱提醒阈值 的本地化字符串。
         /// </summary>
         internal static string ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold {
             get {
                 return ResourceManager.GetString("ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 原粹树脂提醒阈值 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogDailyNoteNotificationResinNotifyThreshold {
+            get {
+                return ResourceManager.GetString("ViewDialogDailyNoteNotificationResinNotifyThreshold", resourceCulture);
             }
         }
         

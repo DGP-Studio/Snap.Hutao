@@ -2,7 +2,7 @@
     x:Class="Snap.Hutao.View.Page.WikiMonsterPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clw="using:CommunityToolkit.Labs.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -148,9 +148,9 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <clw:SettingsCard Header="{Binding Name}">
+                                                    <cwc:SettingsCard Header="{Binding Name}">
                                                         <TextBlock Text="{Binding Value}"/>
-                                                    </clw:SettingsCard>
+                                                    </cwc:SettingsCard>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>

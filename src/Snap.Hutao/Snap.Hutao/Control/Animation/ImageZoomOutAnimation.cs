@@ -1,8 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI;
-using CommunityToolkit.WinUI.UI.Animations;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Animations;
 using Microsoft.UI.Composition;
 using System.Numerics;
 
@@ -21,7 +21,7 @@ internal sealed class ImageZoomOutAnimation : ImplicitAnimation<string, Vector3>
     {
         Duration = AnimationDurations.ImageZoom;
         EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut;
-        EasingType = CommunityToolkit.WinUI.UI.Animations.EasingType.Circle;
+        EasingType = CommunityToolkit.WinUI.Animations.EasingType.Circle;
         To = Core.StringLiterals.One;
     }
 
