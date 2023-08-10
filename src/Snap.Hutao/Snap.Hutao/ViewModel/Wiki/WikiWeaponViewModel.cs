@@ -14,13 +14,12 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
-using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.Web.Response;
 using System.Collections.Immutable;
 using System.Runtime.InteropServices;
-using CalcAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
-using CalcClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
-using CalcConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
+using CalculateAvatarPromotionDelta = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.AvatarPromotionDelta;
+using CalculateClient = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.CalculateClient;
+using CalculateConsumption = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Consumption;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -31,16 +30,12 @@ namespace Snap.Hutao.ViewModel.Wiki;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 {
-    private static readonly List<WeaponId> SkippedWeapons = new()
-    {
-        12304, 14306, 15306, 13304, // 石英大剑, 琥珀玥, 黑檀弓, 「旗杆」
-        11419, 11420, 11421, // 「一心传」名刀
-    };
-
     private readonly ITaskContext taskContext;
     private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IHutaoCache hutaoCache;
+    private readonly IInfoBarService infoBarService;
+    private readonly IUserService userService;
 
     private AdvancedCollectionView? weapons;
     private Weapon? selected;
@@ -88,7 +83,6 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
             List<Weapon> weapons = await metadataService.GetWeaponsAsync().ConfigureAwait(false);
             List<Weapon> sorted = weapons
-                .Where(weapon => !SkippedWeapons.Contains(weapon.Id))
                 .OrderByDescending(weapon => weapon.RankLevel)
                 .ThenBy(weapon => weapon.WeaponType)
                 .ThenByDescending(weapon => weapon.Id.Value)
@@ -103,114 +97,117 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task CombineWithWeaponCollocationsAsync(List<Weapon> weapons)
+    private async ValueTask CombineWithWeaponCollocationsAsync(List<Weapon> weapons)
     {
         if (await hutaoCache.InitializeForWikiWeaponViewModelAsync().ConfigureAwait(false))
         {
-            Dictionary<WeaponId, WeaponCollocationView> idCollocations = hutaoCache.WeaponCollocations!.ToDictionary(a => a.WeaponId);
-            weapons.ForEach(w => w.Collocation = idCollocations.GetValueOrDefault(w.Id));
+            ArgumentNullException.ThrowIfNull(hutaoCache.WeaponCollocations);
+            weapons.ForEach(w => w.Collocation = hutaoCache.WeaponCollocations.GetValueOrDefault(w.Id));
         }
     }
 
     [Command("CultivateCommand")]
     private async Task CultivateAsync(Weapon? weapon)
     {
-        if (weapon != null)
+        if (weapon is null)
         {
-            IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-            IUserService userService = serviceProvider.GetRequiredService<IUserService>();
+            return;
+        }
 
-            if (userService.Current != null)
+        if (userService.Current is null)
+        {
+            infoBarService.Warning(SH.MustSelectUserAndUid);
+            return;
+        }
+
+        // ContentDialog must be created by main thread.
+        await taskContext.SwitchToMainThreadAsync();
+        CalculableOptions options = new(null, weapon.ToCalculable());
+        CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(options);
+        (bool isOk, CalculateAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+
+        if (!isOk)
+        {
+            return;
+        }
+
+        Response<CalculateConsumption> consumptionResponse = await serviceProvider
+            .GetRequiredService<CalculateClient>()
+            .ComputeAsync(userService.Current.Entity, delta)
+            .ConfigureAwait(false);
+
+        if (!consumptionResponse.IsOk())
+        {
+            return;
+        }
+
+        CalculateConsumption consumption = consumptionResponse.Data;
+        try
+        {
+            bool saved = await serviceProvider
+                .GetRequiredService<ICultivationService>()
+                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull())
+                .ConfigureAwait(false);
+
+            if (saved)
             {
-                // ContentDialog must be created by main thread.
-                await taskContext.SwitchToMainThreadAsync();
-                CalculableOptions options = new(null, weapon.ToCalculable());
-                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(options);
-                (bool isOk, CalcAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
-
-                if (isOk)
-                {
-                    Response<CalcConsumption> consumptionResponse = await serviceProvider
-                        .GetRequiredService<CalcClient>()
-                        .ComputeAsync(userService.Current.Entity, delta)
-                        .ConfigureAwait(false);
-
-                    if (consumptionResponse.IsOk())
-                    {
-                        CalcConsumption consumption = consumptionResponse.Data;
-
-                        try
-                        {
-                            bool saved = await serviceProvider
-                                .GetRequiredService<ICultivationService>()
-                                .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull())
-                                .ConfigureAwait(false);
-
-                            if (saved)
-                            {
-                                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-                            }
-                            else
-                            {
-                                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                            }
-                        }
-                        catch (Core.ExceptionService.UserdataCorruptedException ex)
-                        {
-                            infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
-                        }
-                    }
-                }
+                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
             }
             else
             {
-                infoBarService.Warning(SH.MustSelectUserAndUid);
+                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
             }
+        }
+        catch (Core.ExceptionService.UserdataCorruptedException ex)
+        {
+            infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
         }
     }
 
     private void UpdateBaseValueInfo(Weapon? weapon)
     {
-        if (weapon == null)
+        if (weapon is null)
         {
             BaseValueInfo = null;
+            return;
         }
-        else
-        {
-            Dictionary<PromoteLevel, Promote> weaponPromoteMap = promotes!.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
 
-            List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves
-                .Select(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, curveInfo.InitValue))
-                .ToList();
+        ArgumentNullException.ThrowIfNull(promotes);
+        Dictionary<PromoteLevel, Promote> weaponPromoteMap = promotes.Where(p => p.Id == weapon.PromoteId).ToDictionary(p => p.Level);
+        List<PropertyCurveValue> propertyCurveValues = weapon.GrowCurves
+            .SelectList(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, curveInfo.InitValue));
 
-            BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap!, weaponPromoteMap);
-        }
+        ArgumentNullException.ThrowIfNull(levelWeaponCurveMap);
+        BaseValueInfo = new(weapon.MaxLevel, propertyCurveValues, levelWeaponCurveMap, weaponPromoteMap);
     }
 
     [Command("FilterCommand")]
     private void ApplyFilter(string? input)
     {
-        if (Weapons != null)
+        if (Weapons is null)
         {
-            if (!string.IsNullOrWhiteSpace(input))
-            {
-                Weapons.Filter = WeaponFilter.Compile(input);
+            return;
+        }
 
-                if (!Weapons.Contains(Selected))
-                {
-                    try
-                    {
-                        Weapons.MoveCurrentToFirst();
-                    }
-                    catch (COMException)
-                    {
-                    }
-                }
-            }
-            else
-            {
-                Weapons.Filter = null!;
-            }
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            Weapons.Filter = default!;
+            return;
+        }
+
+        Weapons.Filter = WeaponFilter.Compile(input);
+
+        if (Weapons.Contains(Selected))
+        {
+            return;
+        }
+
+        try
+        {
+            Weapons.MoveCurrentToFirst();
+        }
+        catch (COMException)
+        {
         }
     }
 }

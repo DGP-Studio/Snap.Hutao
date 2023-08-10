@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Binding.Hutao;
+using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.Web.Hutao.Model;
 
@@ -41,12 +42,12 @@ internal interface IHutaoCache
     /// <summary>
     /// 角色搭配
     /// </summary>
-    List<AvatarCollocationView>? AvatarCollocations { get; set; }
+    Dictionary<AvatarId, AvatarCollocationView>? AvatarCollocations { get; set; }
 
     /// <summary>
     /// 武器搭配
     /// </summary>
-    List<WeaponCollocationView>? WeaponCollocations { get; set; }
+    Dictionary<WeaponId, WeaponCollocationView>? WeaponCollocations { get; set; }
 
     /// <summary>
     /// 为数据库视图模型初始化

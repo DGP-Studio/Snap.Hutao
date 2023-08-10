@@ -31,7 +31,7 @@ internal sealed class CookBonusView
     /// <returns>新的料理奖励视图</returns>
     public static CookBonusView? Create(CookBonus? cookBonus, Dictionary<MaterialId, Material> idMaterialMap)
     {
-        if (cookBonus == null)
+        if (cookBonus is null)
         {
             return null;
         }

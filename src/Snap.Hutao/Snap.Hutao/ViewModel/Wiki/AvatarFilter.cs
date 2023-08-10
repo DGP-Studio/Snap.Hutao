@@ -26,6 +26,7 @@ internal static class AvatarFilter
     {
         List<bool> matches = new();
 
+        // TODO: use Collection Literals
         foreach (StringSegment segment in new StringTokenizer(input, new char[] { ' ' }))
         {
             string value = segment.ToString();

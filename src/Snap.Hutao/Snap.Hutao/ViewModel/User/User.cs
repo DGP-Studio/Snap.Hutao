@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Model;
@@ -17,34 +18,36 @@ namespace Snap.Hutao.ViewModel.User;
 
 /// <summary>
 /// 用于视图绑定的用户
-/// TODO: move initializaion part to service
 /// </summary>
 [HighQuality]
-internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, ISelectable
+internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, IMappingFrom<User, EntityUser, IServiceProvider>, ISelectable
 {
     private readonly EntityUser inner;
+    private readonly IServiceProvider serviceProvider;
 
     private UserGameRole? selectedUserGameRole;
-    private bool isInitialized;
 
     /// <summary>
     /// 构造一个新的绑定视图用户
     /// </summary>
     /// <param name="user">用户实体</param>
-    private User(EntityUser user)
+    private User(EntityUser user, IServiceProvider serviceProvider)
     {
         inner = user;
+        this.serviceProvider = serviceProvider;
     }
 
-    /// <summary>
-    /// 用户信息
-    /// </summary>
-    public UserInfo? UserInfo { get; private set; }
+    public bool IsInitialized { get; set; }
 
     /// <summary>
     /// 用户信息
     /// </summary>
-    public List<UserGameRole> UserGameRoles { get; private set; } = default!;
+    public UserInfo? UserInfo { get; set; }
+
+    /// <summary>
+    /// 用户信息
+    /// </summary>
+    public List<UserGameRole> UserGameRoles { get; set; } = default!;
 
     /// <summary>
     /// 用户信息, 请勿访问set
@@ -56,9 +59,8 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, ISelecta
         {
             if (SetProperty(ref selectedUserGameRole, value))
             {
-                Ioc.Default
-                    .GetRequiredService<IMessenger>()
-                    .Send(new Message.UserChangedMessage() { OldValue = this, NewValue = this });
+                IMessenger messenger = serviceProvider.GetRequiredService<IMessenger>();
+                messenger.Send(new Message.UserChangedMessage() { OldValue = this, NewValue = this });
             }
         }
     }
@@ -103,178 +105,8 @@ internal sealed class User : ObservableObject, IEntityOnly<EntityUser>, ISelecta
     /// </summary>
     public EntityUser Entity { get => inner; }
 
-    /// <summary>
-    /// 从数据库恢复用户
-    /// </summary>
-    /// <param name="inner">数据库实体</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>用户</returns>
-    internal static async ValueTask<User> ResumeAsync(EntityUser inner, CancellationToken token = default)
+    public static User From(EntityUser user, IServiceProvider provider)
     {
-        User user = new(inner);
-
-        if (!await user.InitializeCoreAsync(token).ConfigureAwait(false))
-        {
-            user.UserInfo = new() { Nickname = SH.ModelBindingUserInitializationFailed };
-            user.UserGameRoles = new();
-        }
-
-        return user;
-    }
-
-    /// <summary>
-    /// 创建并初始化用户
-    /// </summary>
-    /// <param name="cookie">cookie</param>
-    /// <param name="isOversea">是否为国际服</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>用户</returns>
-    internal static async Task<User?> CreateAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
-    {
-        // 这里只负责创建实体用户，稍后在用户服务中保存到数据库
-        EntityUser entity = EntityUser.From(cookie, isOversea);
-
-        entity.Aid = cookie.GetValueOrDefault(Cookie.STUID);
-        entity.Mid = isOversea ? entity.Aid : cookie.GetValueOrDefault(Cookie.MID);
-        entity.IsOversea = isOversea;
-
-        if (entity.Aid != null && entity.Mid != null)
-        {
-            User user = new(entity);
-            bool initialized = await user.InitializeCoreAsync(token).ConfigureAwait(false);
-
-            return initialized ? user : null;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private async Task<bool> InitializeCoreAsync(CancellationToken token = default)
-    {
-        if (isInitialized)
-        {
-            // Prevent multiple initialization.
-            return true;
-        }
-
-        if (SToken == null)
-        {
-            return false;
-        }
-
-        using (IServiceScope scope = Ioc.Default.CreateScope())
-        {
-            bool isOversea = Entity.IsOversea;
-
-            if (!await TrySetLTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
-            {
-                return false;
-            }
-
-            if (!await TrySetCookieTokenAsync(scope.ServiceProvider, token).ConfigureAwait(false))
-            {
-                return false;
-            }
-
-            if (!await TrySetUserInfoAsync(scope.ServiceProvider, token).ConfigureAwait(false))
-            {
-                return false;
-            }
-
-            if (!await TrySetUserGameRolesAsync(scope.ServiceProvider, token).ConfigureAwait(false))
-            {
-                return false;
-            }
-        }
-
-        SelectedUserGameRole = UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
-        return isInitialized = true;
-    }
-
-    private async Task<bool> TrySetLTokenAsync(IServiceProvider provider, CancellationToken token)
-    {
-        if (LToken != null)
-        {
-            return true;
-        }
-
-        Response<LTokenWrapper> lTokenResponse = await provider
-            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-            .Create(Entity.IsOversea)
-            .GetLTokenBySTokenAsync(Entity, token)
-            .ConfigureAwait(false);
-
-        if (lTokenResponse.IsOk())
-        {
-            LToken = Cookie.Parse($"{Cookie.LTUID}={Entity.Aid};{Cookie.LTOKEN}={lTokenResponse.Data.LToken}");
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private async Task<bool> TrySetCookieTokenAsync(IServiceProvider provider, CancellationToken token)
-    {
-        if (CookieToken != null)
-        {
-            return true;
-        }
-
-        Response<UidCookieToken> cookieTokenResponse = await provider
-            .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-            .Create(Entity.IsOversea)
-            .GetCookieAccountInfoBySTokenAsync(Entity, token)
-            .ConfigureAwait(false);
-
-        if (cookieTokenResponse.IsOk())
-        {
-            CookieToken = Cookie.Parse($"{Cookie.ACCOUNT_ID}={Entity.Aid};{Cookie.COOKIE_TOKEN}={cookieTokenResponse.Data.CookieToken}");
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private async Task<bool> TrySetUserInfoAsync(IServiceProvider provider, CancellationToken token)
-    {
-        Response<UserFullInfoWrapper> response = await provider
-            .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
-            .Create(Entity.IsOversea)
-            .GetUserFullInfoAsync(Entity, token)
-            .ConfigureAwait(false);
-
-        if (response.IsOk())
-        {
-            UserInfo = response.Data.UserInfo;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private async Task<bool> TrySetUserGameRolesAsync(IServiceProvider provider, CancellationToken token)
-    {
-        Response<ListWrapper<UserGameRole>> userGameRolesResponse = await provider
-            .GetRequiredService<BindingClient>()
-            .GetUserGameRolesOverseaAwareAsync(Entity, token)
-            .ConfigureAwait(false);
-
-        if (userGameRolesResponse.IsOk())
-        {
-            UserGameRoles = userGameRolesResponse.Data.List;
-            return UserGameRoles.Any();
-        }
-        else
-        {
-            return false;
-        }
+        return new(user, provider);
     }
 }

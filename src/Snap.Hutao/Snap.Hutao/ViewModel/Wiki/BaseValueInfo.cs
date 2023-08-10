@@ -71,7 +71,7 @@ internal sealed class BaseValueInfo : ObservableObject
     /// </summary>
     public string CurrentLevelFormatted
     {
-        get => $"Lv.{CurrentLevel}";
+        get => LevelFormat.Format(CurrentLevel);
     }
 
     /// <summary>
@@ -95,10 +95,10 @@ internal sealed class BaseValueInfo : ObservableObject
         Values = propValues.SelectList(propValue =>
         {
             float value = propValue.Value * growCurveMap[level].GetValueOrDefault(propValue.Type);
-            if (promoteMap != null)
+            if (promoteMap is not null)
             {
                 PromoteLevel promoteLevel = GetPromoteLevel(level, promoted);
-                float addValue = promoteMap[promoteLevel].AddPropertyMap.GetValueOrDefault(propValue.Property, 0F);
+                float addValue = promoteMap[promoteLevel].GetValue(propValue.Property);
 
                 value += addValue;
             }
@@ -109,59 +109,36 @@ internal sealed class BaseValueInfo : ObservableObject
 
     private PromoteLevel GetPromoteLevel(in Level level, bool promoted)
     {
-        if (MaxLevel <= 70)
+        if (MaxLevel <= 70 && level.Value == 70U)
         {
-            if (promoted)
+            return 4;
+        }
+
+        if (promoted)
+        {
+            return level.Value switch
             {
-                return level.Value switch
-                {
-                    >= 60U => 4,
-                    >= 50U => 3,
-                    >= 40U => 2,
-                    >= 20U => 1,
-                    _ => 0,
-                };
-            }
-            else
-            {
-                return level.Value switch
-                {
-                    > 60U => 4,
-                    > 50U => 3,
-                    > 40U => 2,
-                    > 20U => 1,
-                    _ => 0,
-                };
-            }
+                >= 80U => 6,
+                >= 70U => 5,
+                >= 60U => 4,
+                >= 50U => 3,
+                >= 40U => 2,
+                >= 20U => 1,
+                _ => 0,
+            };
         }
         else
         {
-            if (promoted)
+            return level.Value switch
             {
-                return level.Value switch
-                {
-                    >= 80U => 6,
-                    >= 70U => 5,
-                    >= 60U => 4,
-                    >= 50U => 3,
-                    >= 40U => 2,
-                    >= 20U => 1,
-                    _ => 0,
-                };
-            }
-            else
-            {
-                return level.Value switch
-                {
-                    > 80U => 6,
-                    > 70U => 5,
-                    > 60U => 4,
-                    > 50U => 3,
-                    > 40U => 2,
-                    > 20U => 1,
-                    _ => 0,
-                };
-            }
+                > 80U => 6,
+                > 70U => 5,
+                > 60U => 4,
+                > 50U => 3,
+                > 40U => 2,
+                > 20U => 1,
+                _ => 0,
+            };
         }
     }
 }

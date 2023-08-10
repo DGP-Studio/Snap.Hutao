@@ -45,10 +45,10 @@ internal sealed partial class HutaoCache : IHutaoCache
     public Overview? Overview { get; set; }
 
     /// <inheritdoc/>
-    public List<AvatarCollocationView>? AvatarCollocations { get; set; }
+    public Dictionary<AvatarId, AvatarCollocationView>? AvatarCollocations { get; set; }
 
     /// <inheritdoc/>
-    public List<WeaponCollocationView>? WeaponCollocations { get; set; }
+    public Dictionary<WeaponId, WeaponCollocationView>? WeaponCollocations { get; set; }
 
     /// <inheritdoc/>
     public async ValueTask<bool> InitializeForDatabaseViewModelAsync()
@@ -153,7 +153,7 @@ internal sealed partial class HutaoCache : IHutaoCache
             Avatars = co.Avatars.SelectList(a => new AvatarView(idAvatarMap[a.Item], a.Rate)),
             Weapons = co.Weapons.SelectList(w => new WeaponView(idWeaponMap[w.Item], w.Rate)),
             ReliquarySets = co.Reliquaries.SelectList(r => new ReliquarySetView(r, idReliquarySetMap)),
-        });
+        }).ToDictionary(a => a.AvatarId);
     }
 
     private async ValueTask WeaponCollocationsAsync(Dictionary<AvatarId, Avatar> idAvatarMap)
@@ -169,7 +169,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         {
             WeaponId = co.WeaponId,
             Avatars = co.Avatars.SelectList(a => new AvatarView(idAvatarMap[a.Item], a.Rate)),
-        });
+        }).ToDictionary(w => w.WeaponId);
     }
 
     [SuppressMessage("", "SH003")]

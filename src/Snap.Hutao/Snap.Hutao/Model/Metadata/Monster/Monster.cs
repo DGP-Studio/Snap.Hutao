@@ -12,6 +12,8 @@ namespace Snap.Hutao.Model.Metadata.Monster;
 /// </summary>
 internal sealed class Monster
 {
+    internal const uint MaxLevel = 100;
+
     /// <summary>
     /// Id
     /// </summary>

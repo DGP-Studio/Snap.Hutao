@@ -29,11 +29,9 @@ internal sealed class Promote
     /// </summary>
     public List<TypeValue<FightProperty, float>> AddProperties { get; set; } = default!;
 
-    /// <summary>
-    /// 属性映射
-    /// </summary>
-    public Dictionary<FightProperty, float> AddPropertyMap
+    public float GetValue(FightProperty property)
     {
-        get => addPropertyMap ??= AddProperties.ToDictionary(a => a.Type, a => a.Value);
+        addPropertyMap ??= AddProperties.ToDictionary(a => a.Type, a => a.Value);
+        return addPropertyMap.GetValueOrDefault(property);
     }
 }

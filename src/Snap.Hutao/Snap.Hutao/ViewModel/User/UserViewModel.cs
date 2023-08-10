@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Service.Navigation;
@@ -23,9 +24,10 @@ namespace Snap.Hutao.ViewModel.User;
 [Injection(InjectAs.Singleton)]
 internal sealed partial class UserViewModel : ObservableObject
 {
+    private readonly INavigationService navigationService;
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
-    private readonly Core.RuntimeOptions hutaoOptions;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
@@ -44,7 +46,7 @@ internal sealed partial class UserViewModel : ObservableObject
             {
                 userService.Current = value;
 
-                if (value != null)
+                if (value is not null)
                 {
                     value.SelectedUserGameRole = value.UserGameRoles.FirstOrFirstOrDefault(role => role.IsChosen);
                 }
@@ -63,12 +65,13 @@ internal sealed partial class UserViewModel : ObservableObject
     /// <param name="optionResult">操作结果</param>
     /// <param name="uid">uid</param>
     /// <returns>任务</returns>
-    public async Task HandleUserOptionResultAsync(UserOptionResult optionResult, string uid)
+    internal async ValueTask HandleUserOptionResultAsync(UserOptionResult optionResult, string uid)
     {
         switch (optionResult)
         {
             case UserOptionResult.Added:
-                if (Users!.Count == 1)
+                ArgumentNullException.ThrowIfNull(Users);
+                if (Users.Count == 1)
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     SelectedUser = Users.Single();
@@ -107,16 +110,16 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("AddUserCommand")]
     private Task AddUserAsync()
     {
-        return AddUserCoreAsync(false);
+        return AddUserCoreAsync(false).AsTask();
     }
 
     [Command("AddOverseaUserCommand")]
     private Task AddOverseaUserAsync()
     {
-        return AddUserCoreAsync(true);
+        return AddUserCoreAsync(true).AsTask();
     }
 
-    private async Task AddUserCoreAsync(bool isOversea)
+    private async ValueTask AddUserCoreAsync(bool isOversea)
     {
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
@@ -126,9 +129,9 @@ internal sealed partial class UserViewModel : ObservableObject
         ValueResult<bool, string> result = await dialog.GetInputCookieAsync().ConfigureAwait(false);
 
         // User confirms the input
-        if (result.IsOk)
+        if (result.TryGetValue(out string rawCookie))
         {
-            Cookie cookie = Cookie.Parse(result.Value);
+            Cookie cookie = Cookie.Parse(rawCookie);
 
             (UserOptionResult optionResult, string uid) = await userService.ProcessInputCookieAsync(cookie, isOversea).ConfigureAwait(false);
 
@@ -139,11 +142,9 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("LoginMihoyoUserCommand")]
     private void LoginMihoyoUser()
     {
-        if (hutaoOptions.IsWebView2Supported)
+        if (runtimeOptions.IsWebView2Supported)
         {
-            serviceProvider
-                .GetRequiredService<INavigationService>()
-                .Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
+            navigationService.Navigate<LoginMihoyoUserPage>(INavigationAwaiter.Default);
         }
         else
         {
@@ -154,11 +155,9 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("LoginHoyoverseUserCommand")]
     private void LoginHoyoverseUser()
     {
-        if (hutaoOptions.IsWebView2Supported)
+        if (runtimeOptions.IsWebView2Supported)
         {
-            serviceProvider
-                .GetRequiredService<INavigationService>()
-                .Navigate<LoginHoyoverseUserPage>(INavigationAwaiter.Default);
+            navigationService.Navigate<LoginHoyoverseUserPage>(INavigationAwaiter.Default);
         }
         else
         {
@@ -169,11 +168,11 @@ internal sealed partial class UserViewModel : ObservableObject
     [Command("RemoveUserCommand")]
     private async Task RemoveUserAsync(User? user)
     {
-        if (user != null)
+        if (user is not null)
         {
             try
             {
-                await userService.RemoveUserAsync(user!).ConfigureAwait(false);
+                await userService.RemoveUserAsync(user).ConfigureAwait(false);
                 infoBarService.Success(string.Format(SH.ViewModelUserRemoved, user.UserInfo?.Nickname));
             }
             catch (UserdataCorruptedException ex)
@@ -188,26 +187,29 @@ internal sealed partial class UserViewModel : ObservableObject
     {
         try
         {
+            ArgumentNullException.ThrowIfNull(user);
             string cookieString = new StringBuilder()
-                .Append(user!.SToken)
-                .AppendIf(user.SToken != null, ';')
+                .Append(user.SToken)
+                .AppendIf(user.SToken is not null, ';')
                 .Append(user.LToken)
-                .AppendIf(user.LToken != null, ';')
+                .AppendIf(user.LToken is not null, ';')
                 .Append(user.CookieToken)
                 .ToString();
             serviceProvider.GetRequiredService<IClipboardInterop>().SetText(cookieString);
-            infoBarService.Success(string.Format(SH.ViewModelUserCookieCopied, user.UserInfo!.Nickname));
+
+            ArgumentNullException.ThrowIfNull(user.UserInfo);
+            infoBarService.Success(string.Format(SH.ViewModelUserCookieCopied, user.UserInfo.Nickname));
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            infoBarService.Error(e);
+            infoBarService.Error(ex);
         }
     }
 
     [Command("RefreshCookieTokenCommand")]
     private async Task RefreshCookieTokenAsync()
     {
-        if (SelectedUser != null)
+        if (SelectedUser is not null)
         {
             if (await userService.RefreshCookieTokenAsync(SelectedUser).ConfigureAwait(false))
             {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Metadata;
 
 namespace Snap.Hutao.ViewModel.Wiki;
 
@@ -21,6 +22,11 @@ internal sealed class PropertyCurveValue
         Property = property;
         Type = type;
         Value = value;
+    }
+
+    public PropertyCurveValue(FightProperty property, Dictionary<FightProperty, GrowCurveType> growCurve, BaseValue baseValue)
+        : this(property, growCurve.GetValueOrDefault(property), baseValue.GetValue(property))
+    {
     }
 
     /// <summary>

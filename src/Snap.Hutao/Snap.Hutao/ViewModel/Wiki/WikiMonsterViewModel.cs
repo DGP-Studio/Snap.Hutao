@@ -50,8 +50,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
     /// </summary>
     public BaseValueInfo? BaseValueInfo { get => baseValueInfo; set => SetProperty(ref baseValueInfo, value); }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeUIAsync()
     {
         if (await metadataService.InitializeAsync().ConfigureAwait(false))
         {
@@ -61,30 +60,33 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
             Dictionary<MaterialId, DisplayItem> idDisplayMap = await metadataService.GetIdToDisplayItemAndMaterialMapAsync().ConfigureAwait(false);
             foreach (Monster monster in monsters)
             {
-                monster.DropsView ??= monster.Drops?.SelectList(i => idDisplayMap.GetValueOrDefault(i)!);
+                monster.DropsView ??= monster.Drops?.SelectList(i => idDisplayMap.GetValueOrDefault(i, Material.Default));
             }
 
-            List<Monster> ordered = monsters.OrderBy(m => m.Id.Value).ToList();
+            List<Monster> ordered = monsters.SortBy(m => m.Id.Value);
             await taskContext.SwitchToMainThreadAsync();
 
             Monsters = new AdvancedCollectionView(ordered, true);
             Selected = Monsters.Cast<Monster>().FirstOrDefault();
+            return true;
         }
+
+        return false;
     }
 
     private void UpdateBaseValueInfo(Monster? monster)
     {
-        if (monster == null)
+        if (monster is null)
         {
             BaseValueInfo = null;
         }
         else
         {
             List<PropertyCurveValue> propertyCurveValues = monster.GrowCurves
-                .Select(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, monster.BaseValue.GetValue(curveInfo.Type)))
-                .ToList();
+                .SelectList(curveInfo => new PropertyCurveValue(curveInfo.Type, curveInfo.Value, monster.BaseValue.GetValue(curveInfo.Type)));
 
-            BaseValueInfo = new(100, propertyCurveValues, levelMonsterCurveMap!);
+            ArgumentNullException.ThrowIfNull(levelMonsterCurveMap);
+            BaseValueInfo = new(Monster.MaxLevel, propertyCurveValues, levelMonsterCurveMap);
         }
     }
 }

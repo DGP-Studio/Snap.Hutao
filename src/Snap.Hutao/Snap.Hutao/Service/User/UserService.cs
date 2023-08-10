@@ -25,11 +25,12 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserService))]
 internal sealed partial class UserService : IUserService
 {
-    private readonly ITaskContext taskContext;
-    private readonly IUserDbService userDbService;
-    private readonly IServiceProvider serviceProvider;
-    private readonly IMessenger messenger;
     private readonly ScopedDbCurrent<BindingUser, Model.Entity.User, UserChangedMessage> dbCurrent;
+    private readonly IUserInitializationService userInitializationService;
+    private readonly IServiceProvider serviceProvider;
+    private readonly IUserDbService userDbService;
+    private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private ObservableCollection<BindingUser>? userCollection;
     private ObservableCollection<UserAndUid>? userAndUidCollection;
@@ -63,7 +64,7 @@ internal sealed partial class UserService : IUserService
         if (userCollection is null)
         {
             List<Model.Entity.User> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
-            List<BindingUser> users = await entities.SelectListAsync(BindingUser.ResumeAsync, default).ConfigureAwait(false);
+            List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync, default).ConfigureAwait(false);
             userCollection = users.ToObservableCollection();
 
             try
@@ -72,7 +73,7 @@ internal sealed partial class UserService : IUserService
             }
             catch (InvalidOperationException ex)
             {
-                throw new UserdataCorruptedException(SH.ServiceUserCurrentMultiMatched, ex);
+                ThrowHelper.UserdataCorrupted(SH.ServiceUserCurrentMultiMatched, ex);
             }
         }
 
@@ -184,7 +185,7 @@ internal sealed partial class UserService : IUserService
     private async ValueTask<ValueResult<UserOptionResult, string>> TryCreateUserAndAddAsync(Cookie cookie, bool isOversea)
     {
         await taskContext.SwitchToBackgroundAsync();
-        BindingUser? newUser = await BindingUser.CreateAsync(cookie, isOversea).ConfigureAwait(false);
+        BindingUser? newUser = await userInitializationService.CreateOrDefaultUserFromCookieAsync(cookie, isOversea).ConfigureAwait(false);
 
         if (newUser is not null)
         {
