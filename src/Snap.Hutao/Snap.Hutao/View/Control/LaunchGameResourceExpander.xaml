@@ -4,8 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shwhshl="using:Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher"
     HorizontalAlignment="Stretch"
     HorizontalContentAlignment="Stretch"
+    d:DataContext="{d:DesignInstance shwhshl:Package}"
     IsExpanded="True"
     mc:Ignorable="d">
 
@@ -21,20 +23,20 @@
             Grid.Row="1"
             Margin="0,4,0,0"
             Orientation="Horizontal">
-            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xF012;"/>
+            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
             <TextBlock
                 Width="80"
                 Margin="8,0,0,0"
                 HorizontalAlignment="Left"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xE8B7;"/>
+            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
             <TextBlock
                 Width="80"
                 Margin="8,0,0,0"
                 Style="{StaticResource CaptionTextBlockStyle}"
                 Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xEDAD;"/>
+            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
             <TextBlock
                 Margin="8,0,0,0"
                 IsTextSelectionEnabled="True"
@@ -63,20 +65,20 @@
                             Grid.Row="1"
                             Margin="0,4,0,0"
                             Orientation="Horizontal">
-                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xF012;"/>
+                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentZipFolder}"/>
                             <TextBlock
                                 Width="80"
                                 Margin="8,0,0,0"
                                 HorizontalAlignment="Left"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding PackageSize, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xE8B7;"/>
+                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentFolder}"/>
                             <TextBlock
                                 Width="80"
                                 Margin="8,0,0,0"
                                 Style="{StaticResource CaptionTextBlockStyle}"
                                 Text="{Binding Size, Converter={StaticResource FileSizeToFriendlyStringConverter}}"/>
-                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="&#xEDAD;"/>
+                            <FontIcon FontSize="{StaticResource CaptionTextBlockFontSize}" Glyph="{StaticResource FontIconContentAsteriskBadge12}"/>
                             <TextBlock
                                 Margin="8,0,0,0"
                                 IsTextSelectionEnabled="True"

@@ -12,6 +12,11 @@ namespace Snap.Hutao.Extension;
 [HighQuality]
 internal static partial class EnumerableExtension
 {
+    public static TElement? ElementAtOrLastOrDefault<TElement>(this IEnumerable<TElement> source, int index)
+    {
+        return source.ElementAtOrDefault(index) ?? source.LastOrDefault();
+    }
+
     /// <summary>
     /// 如果传入集合不为空则原路返回，
     /// 如果传入集合为空返回一个集合的空集

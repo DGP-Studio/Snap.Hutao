@@ -13,41 +13,37 @@
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
+    xmlns:shvh="using:Snap.Hutao.View.Helper"
     d:DataContext="{d:DesignInstance shvg:TypedWishSummary}"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="BlueBrush" Color="#FF5180CB"/>
-        <SolidColorBrush x:Key="PurpleBrush" Color="#FFA156E0"/>
-        <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
-
         <shvconv:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
-        <shc:BindingProxy x:Key="SummaryProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="OrangeListTemplate" d:DataType="shvg:SummaryItem">
-            <Grid Margin="0,4,0,0" Background="Transparent">
+            <Grid
+                Margin="0,4,0,0"
+                Background="Transparent"
+                Style="{StaticResource BorderGridStyle}">
                 <ToolTipService.ToolTip>
                     <TextBlock Text="{Binding TimeFormatted}"/>
                 </ToolTipService.ToolTip>
 
-                <Border Style="{StaticResource BorderCardStyle}">
-                    <ProgressBar
-                        MinHeight="32"
-                        Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
-                        CornerRadius="{StaticResource CompatCornerRadius}"
-                        Maximum="{Binding GuaranteeOrangeThreshold}"
-                        Opacity="0.2"
-                        Value="{Binding LastPull}">
-                        <ProgressBar.Foreground>
-                            <SolidColorBrush Color="{Binding LastPull, Converter={StaticResource Int32ToGradientColorConverter}}"/>
-                        </ProgressBar.Foreground>
-                    </ProgressBar>
-                </Border>
+                <ProgressBar
+                    MinHeight="32"
+                    Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                    CornerRadius="{StaticResource CompatCornerRadius}"
+                    Maximum="{Binding GuaranteeOrangeThreshold}"
+                    Opacity="{StaticResource LargeBackgroundProgressBarOpacity}"
+                    Value="{Binding LastPull}">
+                    <ProgressBar.Foreground>
+                        <SolidColorBrush Color="{Binding LastPull, Converter={StaticResource Int32ToGradientColorConverter}}"/>
+                    </ProgressBar.Foreground>
+                </ProgressBar>
 
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <shci:CachedImage
-                        Width="32"
-                        Height="32"
+                        shvh:FrameworkElementHelper.SquareLength="32"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         Source="{Binding Icon}"/>
                     <TextBlock

@@ -10,6 +10,7 @@
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
+    xmlns:shvh="using:Snap.Hutao.View.Helper"
     d:DataContext="{d:DesignInstance shvg:HutaoWishSummary}"
     mc:Ignorable="d">
 
@@ -21,8 +22,7 @@
                 Style="{StaticResource BorderCardStyle}">
                 <StackPanel>
                     <shvcont:ItemIcon
-                        Width="40"
-                        Height="40"
+                        shvh:FrameworkElementHelper.SquareLength="40"
                         Icon="{Binding Icon}"
                         Quality="{Binding Quality}"/>
                     <TextBlock
@@ -35,6 +35,7 @@
             </Border>
         </DataTemplate>
     </UserControl.Resources>
+
     <Border Style="{StaticResource BorderCardStyle}">
         <Grid>
             <Grid.RowDefinitions>
@@ -56,64 +57,37 @@
                         Margin="0,16,0,8"
                         Style="{StaticResource BaseTextBlockStyle}"
                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardUpText}"/>
-                    <ItemsControl ItemTemplate="{StaticResource GridTemplate}" ItemsPanel="{StaticResource WrapPanelTemplate}" ItemsSource="{Binding UpItems}">
-                        <ItemsControl.Transitions>
-                            <TransitionCollection>
-                                <ReorderThemeTransition/>
-                            </TransitionCollection>
-                        </ItemsControl.Transitions>
-                    </ItemsControl>
+                    <ItemsControl
+                        ItemTemplate="{StaticResource GridTemplate}"
+                        ItemsPanel="{StaticResource WrapPanelTemplate}"
+                        ItemsSource="{Binding UpItems}"/>
 
                     <TextBlock
                         Margin="0,16,0,8"
                         Style="{StaticResource BaseTextBlockStyle}"
                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeText}"/>
-                    <ItemsControl ItemTemplate="{StaticResource GridTemplate}" ItemsSource="{Binding OrangeItems}">
-                        <ItemsControl.Transitions>
-                            <TransitionCollection>
-                                <ReorderThemeTransition/>
-                            </TransitionCollection>
-                        </ItemsControl.Transitions>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <cwucont:WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                    <ItemsControl
+                        ItemTemplate="{StaticResource GridTemplate}"
+                        ItemsPanel="{StaticResource WrapPanelTemplate}"
+                        ItemsSource="{Binding OrangeItems}"/>
 
                     <TextBlock
                         Margin="0,16,0,8"
                         Style="{StaticResource BaseTextBlockStyle}"
                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardPurpleText}"/>
-                    <ItemsControl ItemTemplate="{StaticResource GridTemplate}" ItemsSource="{Binding PurpleItems}">
-                        <ItemsControl.Transitions>
-                            <TransitionCollection>
-                                <ReorderThemeTransition/>
-                            </TransitionCollection>
-                        </ItemsControl.Transitions>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <cwucont:WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                    <ItemsControl
+                        ItemTemplate="{StaticResource GridTemplate}"
+                        ItemsPanel="{StaticResource WrapPanelTemplate}"
+                        ItemsSource="{Binding PurpleItems}"/>
 
                     <TextBlock
                         Margin="0,16,0,8"
                         Style="{StaticResource BaseTextBlockStyle}"
                         Text="{shcm:ResourceString Name=ViewControlStatisticsCardBlueText}"/>
-                    <ItemsControl ItemTemplate="{StaticResource GridTemplate}" ItemsSource="{Binding BlueItems}">
-                        <ItemsControl.Transitions>
-                            <TransitionCollection>
-                                <ReorderThemeTransition/>
-                            </TransitionCollection>
-                        </ItemsControl.Transitions>
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <cwucont:WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                    <ItemsControl
+                        ItemTemplate="{StaticResource GridTemplate}"
+                        ItemsPanel="{StaticResource WrapPanelTemplate}"
+                        ItemsSource="{Binding BlueItems}"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

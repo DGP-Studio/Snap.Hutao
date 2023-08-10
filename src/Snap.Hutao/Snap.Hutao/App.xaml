@@ -56,6 +56,7 @@
 
             <!--  Brushes  -->
             <SolidColorBrush x:Key="AvatarPropertyAddValueBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
+            <SolidColorBrush x:Key="BlueBrush" Color="#FF5180CB"/>
             <SolidColorBrush x:Key="PurpleBrush" Color="#FFA156E0"/>
             <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
             <!--  Settings  -->
@@ -103,6 +104,9 @@
 
             <!--  FontIcon Content  -->
             <x:String x:Key="FontIconContentSetting">&#xE713;</x:String>
+            <x:String x:Key="FontIconContentFolder">&#xE8B7;</x:String>
+            <x:String x:Key="FontIconContentAsteriskBadge12">&#xEDAD;</x:String>
+            <x:String x:Key="FontIconContentZipFolder">&#xF012;</x:String>
             <!--  Converters  -->
             <cwuc:BoolNegationConverter x:Key="BoolNegationConverter"/>
             <cwuc:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -132,8 +136,8 @@
             <shvc:Int32ToVisibilityConverter x:Key="Int32ToVisibilityConverter"/>
             <shvc:Int32ToVisibilityRevertConverter x:Key="Int32ToVisibilityRevertConverter"/>
             <shvc:StringBoolConverter x:Key="StringBoolConverter"/>
-            <!--  Styles  -->
 
+            <!--  Styles  -->
             <Style
                 x:Key="LargeGridViewItemStyle"
                 BasedOn="{StaticResource DefaultGridViewItemStyle}"
@@ -473,7 +477,6 @@
                                         <VisualState x:Name="AccentColorBorder">
                                             <VisualState.Setters>
                                                 <Setter Target="BackgroundElement.BorderBrush" Value="{ThemeResource SystemControlForegroundAccentBrush}"/>
-
                                             </VisualState.Setters>
                                         </VisualState>
 
@@ -484,6 +487,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
             <!--  ItemsPanelTemplate  -->
             <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">
                 <ItemsStackPanel/>
@@ -494,6 +498,10 @@
             <ItemsPanelTemplate x:Key="HorizontalStackPanelTemplate">
                 <StackPanel Orientation="Horizontal"/>
             </ItemsPanelTemplate>
+            <!--  Transitions  -->
+            <TransitionCollection x:Key="ReorderThemeTransitions">
+                <ReorderThemeTransition/>
+            </TransitionCollection>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -7,13 +7,13 @@
     mc:Ignorable="d">
 
     <Border Style="{StaticResource BorderCardStyle}">
-        <StackPanel Name="BackgroundStack">
-            <ContentPresenter Name="ContentHost"/>
+        <StackPanel Background="{x:Bind Fill}">
+            <ContentPresenter Content="{x:Bind TopContent, Mode=OneWay}"/>
             <TextBlock
-                Name="TextHost"
                 MaxWidth="80"
                 Margin="0,0,0,2"
                 HorizontalAlignment="Center"
+                Text="{x:Bind Text, Mode=OneWay}"
                 TextTrimming="CharacterEllipsis"
                 TextWrapping="NoWrap"/>
         </StackPanel>

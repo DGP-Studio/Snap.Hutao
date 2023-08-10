@@ -16,8 +16,8 @@
         <StackPanel Margin="0,0,0,0" VerticalAlignment="Top">
             <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewControlBaseValueSliderLevel}">
                 <ComboBox
-                    x:Name="ItemHost"
-                    SelectionChanged="ItemHostSelectionChanged"
+                    ItemsSource="{x:Bind Source, Mode=OneWay}"
+                    SelectedItem="{x:Bind SelectedItem, Mode=TwoWay}"
                     Style="{StaticResource SettingsContentComboBoxStyle}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -28,7 +28,7 @@
             </cwc:SettingsCard>
         </StackPanel>
 
-        <ItemsControl x:Name="DetailsHost" VerticalAlignment="Top">
+        <ItemsControl VerticalAlignment="Top" ItemsSource="{x:Bind SelectedItem.Parameters, Mode=OneWay}">
             <ItemsControl.ItemContainerTransitions>
                 <TransitionCollection>
                     <ContentThemeTransition/>

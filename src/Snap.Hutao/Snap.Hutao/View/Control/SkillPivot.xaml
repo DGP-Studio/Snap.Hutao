@@ -6,14 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
+    xmlns:shvh="using:Snap.Hutao.View.Helper"
     mc:Ignorable="d">
 
     <UserControl.Resources>
         <shmmc:SkillIconConverter x:Key="SkillIconConverter"/>
-
         <Thickness x:Key="PivotHeaderItemMargin">0,0,16,0</Thickness>
-        <Thickness x:Key="PivotItemMargin">0</Thickness>
-
         <Style BasedOn="{StaticResource DefaultPivotHeaderItemStyle}" TargetType="PivotHeaderItem">
             <Setter Property="Height" Value="80"/>
         </Style>
@@ -28,10 +26,7 @@
         <Pivot.HeaderTemplate>
             <DataTemplate>
                 <StackPanel>
-                    <shci:MonoChrome
-                        Width="36"
-                        Height="36"
-                        Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
+                    <shci:MonoChrome shvh:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
                     <TextBlock
                         Margin="0,8,0,0"
                         HorizontalAlignment="Center"
