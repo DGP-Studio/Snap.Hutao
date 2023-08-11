@@ -2734,6 +2734,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 请输入正确的邮箱 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelHutaoPassportEmailNotValidHint {
+            get {
+                return ResourceManager.GetString("ViewModelHutaoPassportEmailNotValidHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 剪贴板中的文本格式不正确 的本地化字符串。
         /// </summary>
         internal static string ViewModelImportFromClipboardErrorTitle {

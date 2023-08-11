@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Markup;
+using System.Globalization;
 
 namespace Snap.Hutao.Control.Markup;
 
@@ -20,6 +21,6 @@ internal sealed class ResourceStringExtension : MarkupExtension
     /// <inheritdoc/>
     protected override object ProvideValue()
     {
-        return SH.ResourceManager.GetString(Name ?? string.Empty) ?? Name ?? string.Empty;
+        return SH.ResourceManager.GetString(Name ?? string.Empty, CultureInfo.CurrentCulture) ?? Name ?? string.Empty;
     }
 }

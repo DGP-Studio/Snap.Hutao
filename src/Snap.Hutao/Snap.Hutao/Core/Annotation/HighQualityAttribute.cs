@@ -7,6 +7,6 @@ namespace Snap.Hutao.Core.Annotation;
 /// 高质量代码
 /// </summary>
 [AttributeUsage(AttributeTargets.All, Inherited = false)]
-internal class HighQualityAttribute : Attribute
+internal sealed class HighQualityAttribute : Attribute
 {
 }

@@ -78,6 +78,9 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         context.RegisterSyntaxNodeAction(HandleEqualsAndNotEqualsExpressionShouldUsePatternMatching, expressions);
         context.RegisterSyntaxNodeAction(HandleIsPatternShouldUseRecursivePattern, SyntaxKind.IsPatternExpression);
         context.RegisterSyntaxNodeAction(HandleArgumentNullExceptionThrowIfNull, SyntaxKind.SuppressNullableWarningExpression);
+
+        // TODO add analyzer for unnecessary IServiceProvider registration
+        // TODO add analyzer for Singlton service use Scoped or Transient services
     }
 
     private static void HandleTypeShouldBeInternal(SyntaxNodeAnalysisContext context)

@@ -33,7 +33,7 @@ internal static class XXH64
     /// <returns>摘要</returns>
     public static async ValueTask<string> HashFileAsync(string path, CancellationToken token = default)
     {
-        await using (FileStream stream = File.OpenRead(path))
+        using (FileStream stream = File.OpenRead(path))
         {
             return await HashAsync(stream, token).ConfigureAwait(false);
         }

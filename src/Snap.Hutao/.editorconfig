@@ -57,6 +57,7 @@ dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
 dotnet_style_predefined_type_for_locals_parameters_members = true:silent
 dotnet_style_predefined_type_for_member_access = true:silent
+dotnet_diagnostic.CA1000.severity = suggestion
 [*.cs]
 #### 命名样式 ####
 
@@ -162,7 +163,7 @@ dotnet_diagnostic.CA1309.severity = suggestion
 dotnet_diagnostic.CA1805.severity = suggestion
 
 # VSTHRD111: Use ConfigureAwait(bool)
-dotnet_diagnostic.VSTHRD111.severity = suggestion
+dotnet_diagnostic.VSTHRD111.severity = silent
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_prefer_readonly_struct = true:suggestion
 csharp_style_prefer_utf8_string_literals = true:suggestion
@@ -171,6 +172,156 @@ csharp_style_prefer_utf8_string_literals = true:suggestion
 dotnet_diagnostic.SA1600.severity = none
 dotnet_diagnostic.SA1601.severity = silent
 dotnet_diagnostic.SA1602.severity = silent
+
+# CA1008: 枚举应具有零值
+dotnet_diagnostic.CA1008.severity = suggestion
+
+# CA1010: 还应实现泛型接口
+dotnet_diagnostic.CA1010.severity = suggestion
+
+# CA1012: 抽象类型不应具有公共构造函数
+dotnet_diagnostic.CA1012.severity = suggestion
+
+# CA1024: 在适用处使用属性
+dotnet_diagnostic.CA1024.severity = suggestion
+
+# CA1034: 嵌套类型应不可见
+dotnet_diagnostic.CA1034.severity = suggestion
+
+# CA1036: 重写可比较类型中的方法
+dotnet_diagnostic.CA1036.severity = suggestion
+
+# CA1040: 避免使用空接口
+dotnet_diagnostic.CA1040.severity = suggestion
+
+# CA1044: 属性不应是只写的
+dotnet_diagnostic.CA1044.severity = suggestion
+
+# CA1043: 将整型或字符串参数用于索引器
+dotnet_diagnostic.CA1043.severity = suggestion
+
+# CA1046: 不要对引用类型重载相等运算符
+dotnet_diagnostic.CA1046.severity = suggestion
+
+# CA1051: 不要声明可见实例字段
+dotnet_diagnostic.CA1051.severity = suggestion
+
+# CA1052: 静态容器类型应为 Static 或 NotInheritable
+dotnet_diagnostic.CA1052.severity = suggestion
+
+# CA1058: 类型不应扩展某些基类型
+dotnet_diagnostic.CA1058.severity = suggestion
+
+# CA1063: 正确实现 IDisposable
+dotnet_diagnostic.CA1063.severity = suggestion
+
+# CA1065: 不要在意外的位置引发异常
+dotnet_diagnostic.CA1065.severity = suggestion
+
+# CA1066: 重写 Object.Equals 时实现 IEquatable
+dotnet_diagnostic.CA1066.severity = suggestion
+
+# CA1304: 指定 CultureInfo
+dotnet_diagnostic.CA1304.severity = suggestion
+
+# CA1305: 指定 IFormatProvider
+dotnet_diagnostic.CA1305.severity = suggestion
+
+# CA1307: 为了清晰起见，请指定 StringComparison
+dotnet_diagnostic.CA1307.severity = suggestion
+
+# CA1310: 为了确保正确，请指定 StringComparison
+dotnet_diagnostic.CA1310.severity = suggestion
+
+# CA1308: 将字符串规范化为大写
+dotnet_diagnostic.CA1308.severity = suggestion
+
+# CA1501: 避免过度继承
+dotnet_diagnostic.CA1501.severity = suggestion
+
+# CA1502: 避免过度复杂性
+dotnet_diagnostic.CA1502.severity = suggestion
+
+# CA1505: 避免使用无法维护的代码
+dotnet_diagnostic.CA1505.severity = suggestion
+
+# CA1506: 避免过度的类耦合
+dotnet_diagnostic.CA1506.severity = suggestion
+
+# CA1508: 避免死条件代码
+dotnet_diagnostic.CA1508.severity = suggestion
+
+# CA1810: 以内联方式初始化引用类型的静态字段
+dotnet_diagnostic.CA1810.severity = suggestion
+
+# CA1813: 避免使用非密封特性
+dotnet_diagnostic.CA1813.severity = suggestion
+
+# CA1814: 与多维数组相比，首选使用交错数组
+dotnet_diagnostic.CA1814.severity = suggestion
+
+# CA1819: 属性不应返回数组
+dotnet_diagnostic.CA1819.severity = suggestion
+
+# CA1820: 使用字符串长度测试是否有空字符串
+dotnet_diagnostic.CA1820.severity = suggestion
+
+# CA1823: 避免未使用的私有字段
+dotnet_diagnostic.CA1823.severity = suggestion
+
+# CA1849: 当在异步方法中时，调用异步方法
+dotnet_diagnostic.CA1849.severity = suggestion
+
+# CA1852: 密封内部类型
+dotnet_diagnostic.CA1852.severity = suggestion
+
+# CA2000: 丢失范围之前释放对象
+dotnet_diagnostic.CA2000.severity = suggestion
+
+# CA2002: 不要锁定具有弱标识的对象
+dotnet_diagnostic.CA2002.severity = suggestion
+
+# CA2007: 考虑对等待的任务调用 ConfigureAwait
+dotnet_diagnostic.CA2007.severity = suggestion
+
+# CA2008: 不要在未传递 TaskScheduler 的情况下创建任务
+dotnet_diagnostic.CA2008.severity = suggestion
+
+# CA2100: 检查 SQL 查询是否存在安全漏洞
+dotnet_diagnostic.CA2100.severity = suggestion
+
+# CA2109: 检查可见的事件处理程序
+dotnet_diagnostic.CA2109.severity = suggestion
+
+# CA2119: 密封满足私有接口的方法
+dotnet_diagnostic.CA2119.severity = suggestion
+
+# CA2153: 不要捕获损坏状态异常
+dotnet_diagnostic.CA2153.severity = suggestion
+
+# CA2201: 不要引发保留的异常类型
+dotnet_diagnostic.CA2201.severity = suggestion
+
+# CA2207: 以内联方式初始化值类型的静态字段
+dotnet_diagnostic.CA2207.severity = suggestion
+
+# CA2213: 应释放可释放的字段
+dotnet_diagnostic.CA2213.severity = suggestion
+
+# CA2214: 不要在构造函数中调用可重写的方法
+dotnet_diagnostic.CA2214.severity = suggestion
+
+# CA2215: Dispose 方法应调用基类释放
+dotnet_diagnostic.CA2215.severity = suggestion
+
+# CA2216: 可释放类型应声明终结器
+dotnet_diagnostic.CA2216.severity = suggestion
+
+# CA2227: 集合属性应为只读
+dotnet_diagnostic.CA2227.severity = suggestion
+
+# CA2251: 使用 “string.Equals”
+dotnet_diagnostic.CA2251.severity = suggestion
 
 [*.vb]
 #### 命名样式 ####

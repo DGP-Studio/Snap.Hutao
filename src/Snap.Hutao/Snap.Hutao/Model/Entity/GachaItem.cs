@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
 
 namespace Snap.Hutao.Model.Entity;
 
@@ -119,7 +120,7 @@ internal sealed partial class GachaItem
             ArchiveId = archiveId,
             GachaType = item.GachaType,
             QueryType = item.UIGFGachaType,
-            ItemId = uint.Parse(item.ItemId),
+            ItemId = uint.Parse(item.ItemId, CultureInfo.CurrentCulture),
             Time = item.Time,
             Id = item.Id,
         };

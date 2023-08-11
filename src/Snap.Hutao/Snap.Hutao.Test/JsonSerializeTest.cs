@@ -53,13 +53,13 @@ public class JsonSerializeTest
         Assert.AreEqual(sample[111], "12");
     }
 
-    private class Sample
+    private sealed class Sample
     {
         public int A { get => B; set => B = value; }
         public int B { get; set; }
     }
 
-    private class StringNumberSample
+    private sealed class StringNumberSample
     {
         [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString)]
         public int A { get; set; }

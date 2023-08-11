@@ -1,11 +1,12 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.EntityFrameworkCore;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.IO.DataTransfer;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
@@ -13,7 +14,6 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
-using Snap.Hutao.Service.Game;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
@@ -22,6 +22,7 @@ using Snap.Hutao.View.Dialog;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
+using Windows.System;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -35,13 +36,9 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly AppDbContext appDbContext;
-    private readonly IGameService gameService;
-    private readonly ILogger<SettingViewModel> logger;
     private readonly AppOptions options;
-    private readonly RuntimeOptions hutaoOptions;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly HutaoUserOptions hutaoUserOptions;
-    private readonly ExperimentalFeaturesViewModel experimental;
 
     private NameValue<BackdropType>? selectedBackdropType;
     private NameValue<string>? selectedCulture;
@@ -54,7 +51,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 胡桃选项
     /// </summary>
-    public RuntimeOptions HutaoOptions { get => hutaoOptions; }
+    public RuntimeOptions HutaoOptions { get => runtimeOptions; }
 
     /// <summary>
     /// 胡桃用户选项
@@ -94,11 +91,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             }
         }
     }
-
-    /// <summary>
-    /// 实验性功能
-    /// </summary>
-    public ExperimentalFeaturesViewModel Experimental { get => experimental; }
 
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
@@ -215,5 +207,37 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private void NavigateToHutaoPassport()
     {
         serviceProvider.GetRequiredService<INavigationService>().Navigate<View.Page.HutaoPassportPage>(INavigationAwaiter.Default);
+    }
+
+    [Command("OpenCacheFolderCommand")]
+    private Task OpenCacheFolderAsync()
+    {
+        return Launcher.LaunchFolderPathAsync(runtimeOptions.LocalCache).AsTask();
+    }
+
+    [Command("OpenDataFolderCommand")]
+    private Task OpenDataFolderAsync()
+    {
+        return Launcher.LaunchFolderPathAsync(runtimeOptions.DataFolder).AsTask();
+    }
+
+    [Command("DeleteUsersCommand")]
+    private async Task DangerousDeleteUsersAsync()
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            ContentDialogResult result = await scope.ServiceProvider
+                .GetRequiredService<IContentDialogFactory>()
+                .CreateForConfirmCancelAsync(SH.ViewDialogSettingDeleteUserDataTitle, SH.ViewDialogSettingDeleteUserDataContent)
+                .ConfigureAwait(false);
+
+            if (result == ContentDialogResult.Primary)
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+                await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
+
+                AppInstance.Restart(string.Empty);
+            }
+        }
     }
 }

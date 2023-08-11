@@ -150,7 +150,7 @@
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"
-                    Command="{Binding Experimental.OpenDataFolderCommand}"
+                    Command="{Binding OpenDataFolderCommand}"
                     Description="{shcm:ResourceString Name=ViewPageSettingDataFolderDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDataFolderHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xEC25;}"
@@ -168,7 +168,7 @@
                     Margin="0,4,0,0"
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingStorageOpenAction}"
-                    Command="{Binding Experimental.OpenCacheFolderCommand}"
+                    Command="{Binding OpenCacheFolderCommand}"
                     Description="{shcm:ResourceString Name=ViewPageSettingCacheFolderDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingCacheFolderHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE8B7;}"
@@ -227,7 +227,7 @@
                     Severity="Error"/>
                 <cwc:SettingsCard
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingDangerousAction}"
-                    Command="{Binding Experimental.DeleteUsersCommand}"
+                    Command="{Binding DeleteUsersCommand}"
                     Description="{shcm:ResourceString Name=ViewPageSettingDeleteUserDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDeleteUserHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE756;}"

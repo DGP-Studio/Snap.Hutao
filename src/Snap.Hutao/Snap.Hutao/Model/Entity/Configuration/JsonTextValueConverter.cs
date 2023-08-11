@@ -13,9 +13,7 @@ namespace Snap.Hutao.Model.Entity.Configuration;
 [HighQuality]
 internal sealed class JsonTextValueConverter<TProperty> : ValueConverter<TProperty, string>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="JsonTextValueConverter{TProperty}"/> class.
-    /// </summary>
+    [SuppressMessage("", "SH007")]
     public JsonTextValueConverter()
         : base(
             obj => JsonSerializer.Serialize(obj, JsonOptions.Default),

@@ -17,7 +17,7 @@ internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
     /// <param name="str">字符串</param>
     /// <param name="param">参数</param>
     /// <returns>格式化的字符串</returns>
-    public static string Format(string str, object param)
+    public static string Format(string str, object param, IFormatProvider? formatProvider = default)
     {
         return string.Format(LazyFormat.Value, str, param);
     }
@@ -29,16 +29,16 @@ internal sealed class ParameterFormat : IFormatProvider, ICustomFormatter
         switch (fmtSpan.Length)
         {
             case 3: // FnP
-                return string.Format($"{{0:P{fmtSpan[1]}}}", arg);
+                return string.Format(formatProvider, $"{{0:P{fmtSpan[1]}}}", arg);
             case 2: // Fn
-                return string.Format($"{{0:{fmtSpan}}}", arg);
+                return string.Format(formatProvider, $"{{0:{fmtSpan}}}", arg);
             case 1: // P I
                 switch (fmtSpan[0])
                 {
                     case 'P':
-                        return string.Format($"{{0:P0}}", arg);
+                        return string.Format(formatProvider, $"{{0:P0}}", arg);
                     case 'I':
-                        return arg is null ? "0" : ((IConvertible)arg).ToInt32(default).ToString();
+                        return arg is null ? "0" : ((IConvertible)arg).ToInt32(default).ToString(formatProvider);
                 }
 
                 break;

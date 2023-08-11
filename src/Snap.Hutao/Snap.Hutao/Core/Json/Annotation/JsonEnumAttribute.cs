@@ -10,7 +10,7 @@ namespace Snap.Hutao.Core.Json.Annotation;
 /// Json 枚举类型
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
-internal class JsonEnumAttribute : Attribute
+internal sealed class JsonEnumAttribute : Attribute
 {
     private static readonly Type UnsafeEnumConverterType = typeof(UnsafeEnumConverter<>);
 

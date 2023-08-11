@@ -5,6 +5,7 @@ using Snap.Hutao.Control;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -65,8 +66,8 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
     {
         if (match.Success)
         {
-            int index = int.Parse(match.Groups[1].Value) - 1;
-            return ParameterFormat.Format($"{{0:{match.Groups[2].Value}}}", paramList[index]);
+            int index = int.Parse(match.Groups[1].Value, CultureInfo.CurrentCulture) - 1;
+            return ParameterFormat.Format($"{{0:{match.Groups[2].Value}}}", paramList[index], CultureInfo.CurrentCulture);
         }
         else
         {

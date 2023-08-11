@@ -20,7 +20,7 @@ internal sealed class AvatarNameCardPicConverter : ValueConverter<Avatar.Avatar?
     {
         if (avatar is null)
         {
-            return null!;
+            return default!;
         }
 
         string avatarName = ReplaceSpecialCaseNaming(avatar.Icon["UI_AvatarIcon_".Length..]);

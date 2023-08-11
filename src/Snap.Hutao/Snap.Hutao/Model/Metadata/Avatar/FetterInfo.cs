@@ -47,7 +47,7 @@ internal sealed class FetterInfo
     /// </summary>
     public string BirthFormatted
     {
-        get => string.Format(SH.ModelMetadataFetterInfoBirthdayFormat, BirthMonth, BirthDay);
+        get => SH.ModelMetadataFetterInfoBirthdayFormat.Format(BirthMonth, BirthDay);
     }
 
     /// <summary>

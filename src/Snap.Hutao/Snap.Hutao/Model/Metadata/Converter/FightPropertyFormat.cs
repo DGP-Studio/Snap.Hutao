@@ -114,7 +114,7 @@ internal static class FightPropertyFormat
         {
             FormatMethod.Integer => $"{MathF.Round(value, MidpointRounding.AwayFromZero)}",
             FormatMethod.Percent => $"{value:P1}",
-            _ => value.ToString(),
+            _ => $"{value}",
         };
     }
 }

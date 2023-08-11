@@ -19,7 +19,7 @@ internal static class MD5
     /// <returns>文件 Md5 摘要</returns>
     public static async ValueTask<string> HashFileAsync(string filePath, CancellationToken token = default)
     {
-        await using (FileStream stream = File.OpenRead(filePath))
+        using (FileStream stream = File.OpenRead(filePath))
         {
             return await HashAsync(stream, token).ConfigureAwait(false);
         }
@@ -33,10 +33,7 @@ internal static class MD5
     /// <returns>流 Md5 摘要</returns>
     public static async ValueTask<string> HashAsync(Stream stream, CancellationToken token = default)
     {
-        using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
-        {
-            byte[] bytes = await md5.ComputeHashAsync(stream, token).ConfigureAwait(false);
-            return System.Convert.ToHexString(bytes);
-        }
+        byte[] bytes = await System.Security.Cryptography.MD5.HashDataAsync(stream, token).ConfigureAwait(false);
+        return System.Convert.ToHexString(bytes);
     }
 }

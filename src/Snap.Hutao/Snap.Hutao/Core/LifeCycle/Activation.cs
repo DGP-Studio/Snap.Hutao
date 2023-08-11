@@ -42,10 +42,10 @@ internal sealed class Activation : IActivation
     /// </summary>
     public const string ImportUIAFFromClipboard = nameof(ImportUIAFFromClipboard);
 
-    private const string CategoryAchievement = "achievement";
-    private const string CategoryDailyNote = "dailynote";
-    private const string UrlActionImport = "/import";
-    private const string UrlActionRefresh = "/refresh";
+    private const string CategoryAchievement = "ACHIEVEMENT";
+    private const string CategoryDailyNote = "DAILYNOTE";
+    private const string UrlActionImport = "/IMPORT";
+    private const string UrlActionRefresh = "/REFRESH";
 
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
@@ -187,9 +187,9 @@ internal sealed class Activation : IActivation
     {
         UriBuilder builder = new(uri);
 
-        string category = builder.Host.ToLowerInvariant();
-        string action = builder.Path.ToLowerInvariant();
-        string parameter = builder.Query.ToLowerInvariant();
+        string category = builder.Host.ToUpperInvariant();
+        string action = builder.Path.ToUpperInvariant();
+        string parameter = builder.Query.ToUpperInvariant();
 
         switch (category)
         {

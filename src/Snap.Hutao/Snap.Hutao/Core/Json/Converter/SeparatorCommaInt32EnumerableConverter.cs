@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Primitives;
+using System.Globalization;
 
 namespace Snap.Hutao.Core.Json.Converter;
 
@@ -35,7 +36,7 @@ internal sealed class SeparatorCommaInt32EnumerableConverter : JsonConverter<IEn
         // TODO: Use Collection Literals
         foreach (StringSegment id in new StringTokenizer(source, new[] { Comma }))
         {
-            yield return int.Parse(id.AsSpan());
+            yield return int.Parse(id.AsSpan(), CultureInfo.CurrentCulture);
         }
     }
 }

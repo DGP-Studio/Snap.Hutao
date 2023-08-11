@@ -14,6 +14,7 @@ namespace Snap.Hutao.Model.Entity.Configuration;
 internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {
     /// <inheritdoc/>
+    [SuppressMessage("", "SH007")]
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder.Property(e => e.CookieToken)

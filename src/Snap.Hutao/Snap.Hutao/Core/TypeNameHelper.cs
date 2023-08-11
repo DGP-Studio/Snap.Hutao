@@ -161,7 +161,7 @@ internal static class TypeNameHelper
             }
         }
 
-        int genericPartIndex = type.Name.IndexOf('`');
+        int genericPartIndex = type.Name.AsSpan().IndexOf('`');
         if (genericPartIndex <= 0)
         {
             builder.Append(type.Name);

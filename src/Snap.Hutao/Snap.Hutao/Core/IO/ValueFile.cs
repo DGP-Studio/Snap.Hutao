@@ -80,6 +80,7 @@ internal readonly struct ValueFile
     }
 
     /// <inheritdoc/>
+    [SuppressMessage("", "CA1307")]
     public override int GetHashCode()
     {
         return value.GetHashCode();

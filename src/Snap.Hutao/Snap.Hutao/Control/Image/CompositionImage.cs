@@ -10,6 +10,7 @@ using Snap.Hutao.Control.Animation;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Service.Notification;
+using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -110,7 +111,7 @@ internal abstract partial class CompositionImage : Microsoft.UI.Xaml.Controls.Co
 
         if (exception is HttpRequestException httpRequestException)
         {
-            infoBarService.Error(httpRequestException, string.Format(SH.ControlImageCompositionImageHttpRequest, uri));
+            infoBarService.Error(httpRequestException, SH.ControlImageCompositionImageHttpRequest.Format(uri));
         }
         else
         {

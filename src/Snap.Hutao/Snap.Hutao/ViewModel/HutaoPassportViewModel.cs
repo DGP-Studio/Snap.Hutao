@@ -1,12 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Common;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
+using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -17,9 +19,12 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 {
-    private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
     private readonly HomaPassportClient homaPassportClient;
+    private readonly INavigationService navigationService;
+    private readonly HutaoUserOptions hutaoUserOptions;
+    private readonly IServiceProvider serviceProvider;
+    private readonly IInfoBarService infoBarService;
+    private readonly ITaskContext taskContext;
 
     private string? userName;
     private string? password;
@@ -40,22 +45,16 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     /// </summary>
     public string? VerifyCode { get => verifyCode; set => SetProperty(ref verifyCode, value); }
 
-    /// <inheritdoc/>
-    protected override Task OpenUIAsync()
-    {
-        return Task.CompletedTask;
-    }
-
     [Command("RegisterVerifyCommand")]
     private Task RegisterVerifyAsync()
     {
-        return VerifyAsync(false);
+        return VerifyAsync(false).AsTask();
     }
 
     [Command("RegisterCommand")]
     private async Task RegisterAsync()
     {
-        if (UserName == null || Password == null || VerifyCode == null)
+        if (UserName is null || Password is null || VerifyCode is null)
         {
             return;
         }
@@ -65,13 +64,12 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         if (response.IsOk())
         {
             SaveUserNameAndPassword();
-            serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
+            infoBarService.Information(response.Message);
 
             await taskContext.SwitchToMainThreadAsync();
-            serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
+            hutaoUserOptions.LoginSucceed(UserName, response.Data);
 
-            await serviceProvider
-                .GetRequiredService<INavigationService>()
+            await navigationService
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
         }
@@ -80,13 +78,13 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("ResetPasswordVerifyCommand")]
     private Task ResetPasswordVerifyAsync()
     {
-        return VerifyAsync(true);
+        return VerifyAsync(true).AsTask();
     }
 
     [Command("ResetPasswordCommand")]
     private async Task ResetPasswordAsync()
     {
-        if (UserName == null || Password == null || VerifyCode == null)
+        if (UserName is null || Password is null || VerifyCode is null)
         {
             return;
         }
@@ -96,13 +94,12 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         if (response.IsOk())
         {
             SaveUserNameAndPassword();
-            serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
+            infoBarService.Information(response.Message);
 
             await taskContext.SwitchToMainThreadAsync();
-            serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
+            hutaoUserOptions.LoginSucceed(UserName, response.Data);
 
-            await serviceProvider
-                .GetRequiredService<INavigationService>()
+            await navigationService
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
         }
@@ -111,7 +108,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     [Command("LoginCommand")]
     private async Task LoginAsync()
     {
-        if (UserName == null || Password == null)
+        if (UserName is null || Password is null)
         {
             return;
         }
@@ -121,23 +118,27 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         if (response.IsOk())
         {
             SaveUserNameAndPassword();
-            serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
+            infoBarService.Information(response.Message);
 
             await taskContext.SwitchToMainThreadAsync();
-            serviceProvider.GetRequiredService<HutaoUserOptions>().LoginSucceed(UserName, response.Data);
+            hutaoUserOptions.LoginSucceed(UserName, response.Data);
 
-            await serviceProvider
-                .GetRequiredService<INavigationService>()
+            await navigationService
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
         }
     }
 
-    private async Task VerifyAsync(bool isResetPassword)
+    private async ValueTask VerifyAsync(bool isResetPassword)
     {
-        if (UserName == null)
+        if (string.IsNullOrEmpty(UserName))
         {
             return;
+        }
+
+        if (!UserName.IsEmail())
+        {
+            infoBarService.Warning(SH.ViewModelHutaoPassportEmailNotValidHint);
         }
 
         Response response = await homaPassportClient.VerifyAsync(UserName, isResetPassword).ConfigureAwait(false);
@@ -146,7 +147,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
 
     private void SaveUserNameAndPassword()
     {
-        if (UserName != null && Password != null)
+        if (!string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password))
         {
             LocalSetting.Set(SettingKeys.PassportUserName, UserName);
             LocalSetting.Set(SettingKeys.PassportPassword, Password);

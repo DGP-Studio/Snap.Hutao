@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Extension;
@@ -26,5 +27,17 @@ internal static class StringExtension
     public static string TrimEnd(this string source, string value)
     {
         return source.AsSpan().TrimEnd(value).ToString();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string Format(this string value, object? arg)
+    {
+        return string.Format(CultureInfo.CurrentCulture, value, arg);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string Format(this string value, object? arg0, object? arg1)
+    {
+        return string.Format(CultureInfo.CurrentCulture, value, arg0, arg1);
     }
 }

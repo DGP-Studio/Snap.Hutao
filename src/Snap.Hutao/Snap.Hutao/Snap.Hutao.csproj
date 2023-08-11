@@ -71,6 +71,7 @@
     <None Remove="Assets\Wide310x150Logo.scale-100.png" />
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-400.png" />
+    <None Remove="CodeMetricsConfig.txt" />
     <None Remove="Control\Panel\PanelSelector.xaml" />
     <None Remove="Control\Theme\FontStyle.xaml" />
     <None Remove="GuideWindow.xaml" />
@@ -161,6 +162,7 @@
   
   <!-- Analyzer Files -->
   <ItemGroup>
+    <AdditionalFiles Include="CodeMetricsConfig.txt" />
     <AdditionalFiles Include="IdentityStructs.json" />
     <AdditionalFiles Include="NativeMethods.json" />
     <AdditionalFiles Include="NativeMethods.txt" />

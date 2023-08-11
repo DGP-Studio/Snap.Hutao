@@ -29,7 +29,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
 {
     private readonly TWindow window;
     private readonly IServiceProvider serviceProvider;
-    private readonly WindowSubclass<TWindow>? subclass;
+    private readonly WindowSubclass<TWindow> subclass;
 
     private ExtendedWindow(TWindow window, IServiceProvider serviceProvider)
     {
@@ -63,7 +63,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
         RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
         WindowOptions options = window.WindowOptions;
-        window.AppWindow.Title = string.Format(SH.AppNameAndVersion, hutaoOptions.Version);
+        window.AppWindow.Title = SH.AppNameAndVersion.Format(hutaoOptions.Version);
         window.AppWindow.SetIcon(Path.Combine(hutaoOptions.InstalledLocation, "Assets/Logo.ico"));
         ExtendsContentIntoTitleBar();
 
@@ -79,7 +79,7 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
         UpdateSystemBackdrop(appOptions.BackdropType);
         appOptions.PropertyChanged += OnOptionsPropertyChanged;
 
-        subclass!.Initialize();
+        subclass.Initialize();
 
         serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
@@ -91,7 +91,8 @@ internal sealed class ExtendedWindow<TWindow> : IRecipient<FlyoutStateChangedMes
     {
         if (e.PropertyName == nameof(AppOptions.BackdropType))
         {
-            UpdateSystemBackdrop(((AppOptions)sender!).BackdropType);
+            ArgumentNullException.ThrowIfNull(sender);
+            UpdateSystemBackdrop(((AppOptions)sender).BackdropType);
         }
     }
 

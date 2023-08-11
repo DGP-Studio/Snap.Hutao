@@ -22,25 +22,26 @@ internal static class IniSerializer
         {
             while (reader.ReadLine() is { } line)
             {
-                if (line.Length <= 0)
+                if (string.IsNullOrEmpty(line))
                 {
                     continue;
                 }
 
-                if (line[0] == '[')
+                ReadOnlySpan<char> lineSpan = line;
+
+                if (lineSpan[0] is '[')
                 {
-                    yield return new IniSection(line[1..^1]);
+                    yield return new IniSection(lineSpan[1..^1].ToString());
                 }
 
-                if (line[0] == ';')
+                if (lineSpan[0] is ';')
                 {
-                    yield return new IniComment(line[1..]);
+                    yield return new IniComment(lineSpan[1..].ToString());
                 }
 
-                if (line.IndexOf('=') > 0)
+                if (lineSpan.TrySplitIntoTwo('=', out ReadOnlySpan<char> left, out ReadOnlySpan<char> right))
                 {
-                    string[] parameters = line.Split('=', 2, StringSplitOptions.TrimEntries);
-                    yield return new IniParameter(parameters[0], parameters[1]);
+                    yield return new IniParameter(left.Trim().ToString(), right.Trim().ToString());
                 }
             }
         }

@@ -11,12 +11,7 @@ namespace Snap.Hutao.Core.Setting;
 [HighQuality]
 internal static class LocalSetting
 {
-    private static readonly ApplicationDataContainer Container;
-
-    static LocalSetting()
-    {
-        Container = ApplicationData.Current.LocalSettings;
-    }
+    private static readonly ApplicationDataContainer Container = ApplicationData.Current.LocalSettings;
 
     /// <inheritdoc cref="Get{T}(string, T)"/>
     public static byte Get(string key, byte defaultValue)
