@@ -102,4 +102,11 @@ internal static class ThrowHelper
     {
         throw new RuntimeEnvironmentException(message, inner);
     }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static NotSupportedException NotSupported()
+    {
+        throw new NotSupportedException();
+    }
 }

@@ -67,7 +67,7 @@ internal sealed partial class DescriptionsParametersDescriptor : ValueConverter<
         if (match.Success)
         {
             int index = int.Parse(match.Groups[1].Value, CultureInfo.CurrentCulture) - 1;
-            return ParameterFormat.Format($"{{0:{match.Groups[2].Value}}}", paramList[index], CultureInfo.CurrentCulture);
+            return ParameterFormat.FormatInvariant($"{{0:{match.Groups[2].Value}}}", paramList[index]);
         }
         else
         {

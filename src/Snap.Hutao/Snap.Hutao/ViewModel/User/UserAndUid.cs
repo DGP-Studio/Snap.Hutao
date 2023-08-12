@@ -47,7 +47,7 @@ internal sealed class UserAndUid : IMappingFrom<UserAndUid, EntityUser, PlayerUi
     /// <param name="user">用户</param>
     /// <param name="userAndUid">用户与角色</param>
     /// <returns>是否转换成功</returns>
-    public static bool TryFromUser(User? user, [NotNullWhen(true)] out UserAndUid? userAndUid)
+    public static bool TryFromUser([NotNullWhen(true)] User? user, [NotNullWhen(true)] out UserAndUid? userAndUid)
     {
         if (user is not null && user.SelectedUserGameRole is not null)
         {

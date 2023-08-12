@@ -5,27 +5,58 @@
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
+    xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shv="using:Snap.Hutao.ViewModel"
+    xmlns:shvc="using:Snap.Hutao.View.Control"
     d:DataContext="{d:DesignInstance shv:TestViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <ScrollViewer>
         <StackPanel Margin="16" Spacing="{StaticResource SettingsCardSpacing}">
-            <cwc:SettingsCard
-                Command="{Binding DangerousLoginMihoyoBbsCommand}"
-                Header="DangerousLoginMihoyoBbsTest"
-                IsClickEnabled="True"/>
+            <cwc:SettingsCard Header="AdoptCalculatorDialogTest" IsClickEnabled="True">
+                <mxi:Interaction.Behaviors>
+                    <mxic:EventTriggerBehavior EventName="Click">
+                        <shcb:OpenAttachedFlyoutAction/>
+                    </mxic:EventTriggerBehavior>
+                </mxi:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout LightDismissOverlayMode="On" Placement="Full">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <Grid>
+                            <shvc:Webview2Viewer Source="http://webstatic.mihoyo.com/ys/event/e20200923adopt_calculator/index.html?bbs_presentation_style=fullscreen&amp;bbs_auth_required=true&amp;utm_source=bbs&amp;utm_medium=mys&amp;utm_campaign=GameRecord"/>
+                        </Grid>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </cwc:SettingsCard>
 
-            <cwc:SettingsCard
-                Command="{Binding ShowCommunityGameRecordDialogCommand}"
-                Header="CommunityGameRecordDialogTest"
-                IsClickEnabled="True"/>
-
-            <cwc:SettingsCard
-                Command="{Binding ShowAdoptCalculatorDialogCommand}"
-                Header="AdoptCalculatorDialogTest"
-                IsClickEnabled="True"/>
+            <cwc:SettingsCard Header="CommunityGameRecordDialogTest" IsClickEnabled="True">
+                <mxi:Interaction.Behaviors>
+                    <mxic:EventTriggerBehavior EventName="Click">
+                        <shcb:OpenAttachedFlyoutAction/>
+                    </mxic:EventTriggerBehavior>
+                </mxi:Interaction.Behaviors>
+                <FlyoutBase.AttachedFlyout>
+                    <Flyout LightDismissOverlayMode="On" Placement="Full">
+                        <Flyout.FlyoutPresenterStyle>
+                            <Style TargetType="FlyoutPresenter">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}"/>
+                            </Style>
+                        </Flyout.FlyoutPresenterStyle>
+                        <Grid>
+                            <shvc:Webview2Viewer Source="https://webstatic.mihoyo.com/app/community-game-records/index.html"/>
+                        </Grid>
+                    </Flyout>
+                </FlyoutBase.AttachedFlyout>
+            </cwc:SettingsCard>
 
             <cwc:SettingsCard Header="RestartTest">
                 <StackPanel Orientation="Horizontal">

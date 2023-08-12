@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Control;
+using Snap.Hutao.Control.Panel;
 
 namespace Snap.Hutao.View.Converter;
 
@@ -18,8 +19,8 @@ internal sealed partial class PanelSelectorModeConverter : DependencyValueConver
     {
         return from switch
         {
-            "List" => ListValue,
-            "Grid" => GridValue,
+            PanelSelector.List => ListValue,
+            PanelSelector.Grid => GridValue,
             _ => default!,
         };
     }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
 using Snap.Hutao.Web.Hoyolab;
 
@@ -14,8 +15,8 @@ namespace Snap.Hutao.Web.Bridge;
 internal sealed class SignInJsInterface : MiHoYoJSInterface
 {
     /// <inheritdoc cref="MiHoYoJSInterface(IServiceProvider, CoreWebView2)"/>
-    public SignInJsInterface(CoreWebView2 webView, IServiceProvider serviceProvider)
-        : base(serviceProvider, webView)
+    public SignInJsInterface(CoreWebView2 webView, IServiceProvider serviceProvider, UserAndUid userAndUid)
+        : base(serviceProvider, webView, userAndUid)
     {
     }
 

@@ -23,22 +23,6 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         return Task.CompletedTask;
     }
 
-    [Command("ShowCommunityGameRecordDialogCommand")]
-    private async Task ShowCommunityGameRecordDialogAsync()
-    {
-        // ContentDialog must be created by main thread.
-        await taskContext.SwitchToMainThreadAsync();
-        await serviceProvider.CreateInstance<CommunityGameRecordDialog>().ShowAsync();
-    }
-
-    [Command("ShowAdoptCalculatorDialogCommand")]
-    private async Task ShowAdoptCalculatorDialogAsync()
-    {
-        // ContentDialog must be created by main thread.
-        await taskContext.SwitchToMainThreadAsync();
-        await serviceProvider.CreateInstance<AdoptCalculatorDialog>().ShowAsync();
-    }
-
     [Command("RestartAppCommand")]
     private void RestartApp(bool elevated)
     {

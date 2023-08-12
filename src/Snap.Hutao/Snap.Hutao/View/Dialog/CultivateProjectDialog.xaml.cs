@@ -11,6 +11,8 @@ namespace Snap.Hutao.View.Dialog;
 /// 养成计划对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("Text", typeof(string))]
+[DependencyProperty("IsUidAttached", typeof(bool))]
 internal sealed partial class CultivateProjectDialog : ContentDialog
 {
     private readonly ITaskContext taskContext;
@@ -37,14 +39,13 @@ internal sealed partial class CultivateProjectDialog : ContentDialog
         ContentDialogResult result = await ShowAsync();
         if (result == ContentDialogResult.Primary)
         {
-            string text = InputText.Text;
-            string? uid = AttachUidBox.IsChecked == true
+            string? uid = IsUidAttached
                 ? Ioc.Default.GetRequiredService<IUserService>().Current?.SelectedUserGameRole?.GameUid
                 : null;
 
-            return new(true, CultivateProject.From(text, uid));
+            return new(true, CultivateProject.From(Text, uid));
         }
 
-        return new(false, null!);
+        return new(false, default!);
     }
 }

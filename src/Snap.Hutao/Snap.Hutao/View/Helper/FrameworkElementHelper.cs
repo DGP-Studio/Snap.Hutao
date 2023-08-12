@@ -8,7 +8,7 @@ using Snap.Hutao.Control;
 namespace Snap.Hutao.View.Helper;
 
 [SuppressMessage("", "SH001")]
-[DependencyProperty("SquareLength", typeof(double), 0D, nameof(OnSquareLengthChanged), IsAttached = true, AttachedType = typeof(Microsoft.UI.Xaml.Controls.Control))]
+[DependencyProperty("SquareLength", typeof(double), 0D, nameof(OnSquareLengthChanged), IsAttached = true, AttachedType = typeof(Microsoft.UI.Xaml.FrameworkElement))]
 public sealed partial class FrameworkElementHelper
 {
     private static void OnSquareLengthChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)

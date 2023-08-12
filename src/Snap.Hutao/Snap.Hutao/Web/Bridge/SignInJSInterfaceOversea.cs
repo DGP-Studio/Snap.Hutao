@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
 using Snap.Hutao.Web.Hoyolab;
 
@@ -21,8 +22,8 @@ internal sealed class SignInJSInterfaceOversea : MiHoYoJSInterface
     private readonly ILogger<MiHoYoJSInterface> logger;
 
     /// <inheritdoc cref="MiHoYoJSInterface(IServiceProvider, CoreWebView2)"/>
-    public SignInJSInterfaceOversea(CoreWebView2 webView, IServiceProvider serviceProvider)
-        : base(serviceProvider, webView)
+    public SignInJSInterfaceOversea(CoreWebView2 webView, IServiceProvider serviceProvider, UserAndUid userAndUid)
+        : base(serviceProvider, webView, userAndUid)
     {
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
         webView.DOMContentLoaded += OnDOMContentLoaded;

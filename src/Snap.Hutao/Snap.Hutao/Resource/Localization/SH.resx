@@ -770,6 +770,12 @@
   <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
     <value>四星</value>
   </data>
+  <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
+    <value>距上个五星</value>
+  </data>
+  <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
+    <value>距上个四星</value>
+  </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
     <value>UP 平均抽数</value>
   </data>

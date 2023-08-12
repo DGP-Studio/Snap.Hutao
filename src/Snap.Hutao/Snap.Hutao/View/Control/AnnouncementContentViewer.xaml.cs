@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control;
 using Snap.Hutao.Control.Theme;
@@ -17,7 +18,7 @@ namespace Snap.Hutao.View.Control;
 /// </summary>
 [HighQuality]
 [DependencyProperty("Announcement", typeof(Announcement))]
-internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Controls.UserControl
+internal sealed partial class AnnouncementContentViewer : UserControl
 {
     // apply in dark mode, Dark theme
     private const string LightColor1 = "color:rgba(255,255,255,1)";
@@ -84,14 +85,15 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
 
         if (isDarkMode)
         {
+            // TODO: rewrite with Span IndexOfAny
             content = content
-                .Replace(DarkColor5, LightColor5)
-                .Replace(DarkColor4, LightColor4)
-                .Replace(DarkColor3, LightColor3)
-                .Replace(DarkColor2, LightColor2)
-                .Replace(DarkColor1, LightColor1)
-                .Replace(DarkAccentColor1, LightAccentColor1)
-                .Replace(DarkAccentColor2, LightAccentColor2);
+                .Replace(DarkColor5, LightColor5, StringComparison.Ordinal)
+                .Replace(DarkColor4, LightColor4, StringComparison.Ordinal)
+                .Replace(DarkColor3, LightColor3, StringComparison.Ordinal)
+                .Replace(DarkColor2, LightColor2, StringComparison.Ordinal)
+                .Replace(DarkColor1, LightColor1, StringComparison.Ordinal)
+                .Replace(DarkAccentColor2, LightAccentColor2, StringComparison.Ordinal)
+                .Replace(DarkAccentColor1, LightAccentColor1, StringComparison.Ordinal);
         }
 
         string document = $$"""
@@ -128,6 +130,18 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
     [GeneratedRegex("style=\".*?vertical-align:middle;\"")]
     private static partial Regex StyleRegex();
 
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        LoadAnnouncementAsync().SafeForget();
+    }
+
+    private void OnUnloaded(object sender, RoutedEventArgs e)
+    {
+        WebView.CoreWebView2.WebMessageReceived -= webMessageReceivedHandler;
+        Loaded -= loadEventHandler;
+        Unloaded -= unloadEventHandler;
+    }
+
     private async ValueTask LoadAnnouncementAsync()
     {
         try
@@ -148,18 +162,6 @@ internal sealed partial class AnnouncementContentViewer : Microsoft.UI.Xaml.Cont
         }
 
         WebView.NavigateToString(GenerateHtml(Announcement, ActualTheme));
-    }
-
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        LoadAnnouncementAsync().SafeForget();
-    }
-
-    private void OnUnloaded(object sender, RoutedEventArgs e)
-    {
-        WebView.CoreWebView2.WebMessageReceived -= webMessageReceivedHandler;
-        Loaded -= loadEventHandler;
-        Unloaded -= unloadEventHandler;
     }
 
     private void OnWebMessageReceived(CoreWebView2 coreWebView2, CoreWebView2WebMessageReceivedEventArgs args)

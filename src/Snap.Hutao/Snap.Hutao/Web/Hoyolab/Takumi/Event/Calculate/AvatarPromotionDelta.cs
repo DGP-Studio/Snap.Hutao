@@ -39,7 +39,7 @@ internal sealed class AvatarPromotionDelta
     /// 技能
     /// </summary>
     [JsonPropertyName("skill_list")]
-    public IEnumerable<PromotionDelta>? SkillList { get; set; }
+    public List<PromotionDelta>? SkillList { get; set; }
 
     /// <summary>
     /// 武器

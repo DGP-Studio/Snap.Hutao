@@ -16,9 +16,9 @@ internal interface IDailyNoteService
     /// <summary>
     /// 添加实时便笺
     /// </summary>
-    /// <param name="role">角色</param>
+    /// <param name="userAndUid">角色</param>
     /// <returns>任务</returns>
-    ValueTask AddDailyNoteAsync(UserAndUid role);
+    ValueTask AddDailyNoteAsync(UserAndUid userAndUid);
 
     /// <summary>
     /// 异步获取实时便笺列表

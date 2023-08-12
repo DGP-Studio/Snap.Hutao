@@ -14,12 +14,13 @@
 
     <StackPanel>
         <TextBox
-            x:Name="InputText"
             VerticalAlignment="Top"
-            PlaceholderText="{shcm:ResourceString Name=ViewDialogCultivateProjectInputPlaceholder}"/>
+            PlaceholderText="{shcm:ResourceString Name=ViewDialogCultivateProjectInputPlaceholder}"
+            Text="{x:Bind Text, Mode=TwoWay}"/>
         <CheckBox
-            x:Name="AttachUidBox"
             Margin="0,8,0,0"
-            Content="{shcm:ResourceString Name=ViewDialogCultivateProjectAttachUid}"/>
+            Content="{shcm:ResourceString Name=ViewDialogCultivateProjectAttachUid}"
+            IsChecked="{x:Bind IsUidAttached, Mode=TwoWay}"
+            Visibility="Collapsed"/>
     </StackPanel>
 </ContentDialog>

@@ -1,8 +1,9 @@
-﻿<UserControl
-    x:Class="Snap.Hutao.View.Control.AnnouncementContentViewer"
+<UserControl
+    x:Class="Snap.Hutao.View.Control.Webview2Viewer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Snap.Hutao.View.Control"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <UserControl.Transitions>
@@ -13,6 +14,5 @@
     <WebView2
         x:Name="WebView"
         Margin="0"
-        DefaultBackgroundColor="Transparent"
-        IsRightTapEnabled="False"/>
+        DefaultBackgroundColor="Transparent"/>
 </UserControl>

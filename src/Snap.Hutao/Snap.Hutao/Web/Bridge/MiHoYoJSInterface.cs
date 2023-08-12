@@ -36,23 +36,21 @@ internal class MiHoYoJSInterface
         document.querySelector('body').appendChild(st);
         """;
 
-    private readonly CoreWebView2 webView;
     private readonly IServiceProvider serviceProvider;
+    private readonly CoreWebView2 webView;
+    private readonly UserAndUid userAndUid;
+
     private readonly ITaskContext taskContext;
     private readonly ILogger<MiHoYoJSInterface> logger;
     private readonly SemaphoreSlim webMessageSemaphore = new(1);
 
-    /// <summary>
-    /// 构造一个新的调用桥
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="webView">webview2</param>
-    public MiHoYoJSInterface(IServiceProvider serviceProvider, CoreWebView2 webView)
+    public MiHoYoJSInterface(IServiceProvider serviceProvider, CoreWebView2 webView, UserAndUid userAndUid)
     {
-        this.webView = webView;
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         this.serviceProvider = serviceProvider;
+        this.webView = webView;
+        this.userAndUid = userAndUid;
 
+        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
 
         webView.WebMessageReceived += OnWebMessageReceived;
@@ -69,10 +67,9 @@ internal class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual async Task<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
-        User user = serviceProvider.GetRequiredService<IUserService>().Current!;
         return await serviceProvider
             .GetRequiredService<AuthClient>()
-            .GetActionTicketBySTokenAsync(jsParam.Payload.ActionType, user.Entity)
+            .GetActionTicketBySTokenAsync(jsParam.Payload.ActionType, userAndUid.User)
             .ConfigureAwait(false);
     }
 

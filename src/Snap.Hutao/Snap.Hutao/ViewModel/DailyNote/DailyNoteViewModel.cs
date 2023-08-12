@@ -1,14 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.ViewModel.User;
+using Snap.Hutao.Web.Request.QueryString;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;
@@ -35,6 +34,21 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     /// 选项
     /// </summary>
     public DailyNoteOptions Options { get => options; }
+
+    // TODO: 当切换用户后提醒此属性改变
+    public string VerifyUrl
+    {
+        get
+        {
+            if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
+            {
+                QueryString query = userAndUid.Uid.ToQueryString();
+                return $"https://webstatic.mihoyo.com/app/community-game-records/index.html?bbs_presentation_style=fullscreen#/ys/daily/?{query}";
+            }
+
+            return default!;
+        }
+    }
 
     /// <summary>
     /// 用户与角色集合
@@ -67,11 +81,11 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     }
 
     [Command("TrackRoleCommand")]
-    private async Task TrackRoleAsync(UserAndUid? role)
+    private async Task TrackRoleAsync(UserAndUid? userAndUid)
     {
-        if (role is not null)
+        if (userAndUid is not null)
         {
-            await dailyNoteService.AddDailyNoteAsync(role).ConfigureAwait(false);
+            await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
         }
     }
 
@@ -104,31 +118,6 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
                 await taskContext.SwitchToBackgroundAsync();
                 await dailyNoteService.UpdateDailyNoteAsync(entry).ConfigureAwait(false);
             }
-        }
-    }
-
-    [Command("DailyNoteVerificationCommand")]
-    private async Task VerifyDailyNoteVerificationAsync()
-    {
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-
-        if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
-        {
-            if (userAndUid.User.IsOversea)
-            {
-                // TODO: Add verify support for oversea user
-                infoBarService.Warning(SH.ViewModelDailyNoteHoyolabVerificationUnsupported);
-            }
-            else
-            {
-                // ContentDialog must be created by main thread.
-                await taskContext.SwitchToMainThreadAsync();
-                await serviceProvider.CreateInstance<DailyNoteVerificationDialog>(userAndUid).ShowAsync();
-            }
-        }
-        else
-        {
-            infoBarService.Warning(SH.MustSelectUserAndUid);
         }
     }
 }

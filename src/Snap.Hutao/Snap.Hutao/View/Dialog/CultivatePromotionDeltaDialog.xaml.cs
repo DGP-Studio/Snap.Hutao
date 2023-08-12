@@ -52,13 +52,13 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
                 AvatarId = Avatar?.AvatarId ?? 0,
                 AvatarLevelCurrent = Avatar?.LevelCurrent ?? 0,
                 AvatarLevelTarget = Avatar?.LevelTarget ?? 0,
-                SkillList = Avatar?.Skills.Select(s => new PromotionDelta()
+                SkillList = Avatar?.Skills.SelectList(s => new PromotionDelta()
                 {
                     Id = s.GroupId,
                     LevelCurrent = s.LevelCurrent,
                     LevelTarget = s.LevelTarget,
                 }),
-                Weapon = Weapon == null ? null : new PromotionDelta()
+                Weapon = Weapon is null ? null : new PromotionDelta()
                 {
                     Id = Weapon.WeaponId,
                     LevelCurrent = Weapon.LevelCurrent,
@@ -70,7 +70,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
         }
         else
         {
-            return new(false, null!);
+            return new(false, default!);
         }
     }
 }

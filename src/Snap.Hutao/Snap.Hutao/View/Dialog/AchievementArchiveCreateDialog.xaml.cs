@@ -29,7 +29,7 @@ internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
     /// 获取输入的字符串
     /// </summary>
     /// <returns>输入的结果</returns>
-    public async Task<ValueResult<bool, string>> GetInputAsync()
+    public async ValueTask<ValueResult<bool, string>> GetInputAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();

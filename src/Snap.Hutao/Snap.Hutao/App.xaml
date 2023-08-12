@@ -59,6 +59,8 @@
             <SolidColorBrush x:Key="BlueBrush" Color="#FF5180CB"/>
             <SolidColorBrush x:Key="PurpleBrush" Color="#FFA156E0"/>
             <SolidColorBrush x:Key="OrangeBrush" Color="#FFBC6932"/>
+            <SolidColorBrush x:Key="GuaranteePullBrush" Color="#FF0063FF"/>
+            <SolidColorBrush x:Key="UpPullBrush" Color="#FFFFA400"/>
             <!--  Settings  -->
             <x:Double x:Key="SettingsCardSpacing">3</x:Double>
             <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
@@ -103,8 +105,12 @@
             <x:String x:Key="UI_EmotionIcon293">https://static.snapgenshin.com/EmotionIcon/UI_EmotionIcon293.png</x:String>
 
             <!--  FontIcon Content  -->
+            <x:String x:Key="FontIconContentAdd">&#xE710;</x:String>
             <x:String x:Key="FontIconContentSetting">&#xE713;</x:String>
+            <x:String x:Key="FontIconContentRefresh">&#xE72C;</x:String>
+            <x:String x:Key="FontIconContentDelete">&#xE74D;</x:String>
             <x:String x:Key="FontIconContentFolder">&#xE8B7;</x:String>
+            <x:String x:Key="FontIconContentCheckList">&#xE9D5;</x:String>
             <x:String x:Key="FontIconContentAsteriskBadge12">&#xEDAD;</x:String>
             <x:String x:Key="FontIconContentZipFolder">&#xF012;</x:String>
             <!--  Converters  -->

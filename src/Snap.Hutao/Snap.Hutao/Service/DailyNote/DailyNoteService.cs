@@ -41,18 +41,18 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async ValueTask AddDailyNoteAsync(UserAndUid role)
+    public async ValueTask AddDailyNoteAsync(UserAndUid userAndUid)
     {
-        string roleUid = role.Uid.Value;
+        string roleUid = userAndUid.Uid.Value;
 
         if (!dailyNoteDbService.ContainsUid(roleUid))
         {
-            DailyNoteEntry newEntry = DailyNoteEntry.From(role);
+            DailyNoteEntry newEntry = DailyNoteEntry.From(userAndUid);
 
             Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
                 .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
                 .Create(PlayerUid.IsOversea(roleUid))
-                .GetDailyNoteAsync(role)
+                .GetDailyNoteAsync(userAndUid)
                 .ConfigureAwait(false);
 
             if (dailyNoteResponse.IsOk())
@@ -63,6 +63,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             newEntry.UserGameRole = userService.GetUserGameRoleByUid(roleUid);
             await dailyNoteDbService.AddDailyNoteEntryAsync(newEntry).ConfigureAwait(false);
 
+            newEntry.User = userAndUid.User;
             await taskContext.SwitchToMainThreadAsync();
             entries?.Add(newEntry);
         }
@@ -77,7 +78,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             await userService.GetRoleCollectionAsync().ConfigureAwait(false);
             await RefreshDailyNotesAsync().ConfigureAwait(false);
 
-            List<DailyNoteEntry> entryList = dailyNoteDbService.GetDailyNoteEntryList();
+            List<DailyNoteEntry> entryList = dailyNoteDbService.GetDailyNoteEntryIncludeUserList();
             entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
             entries = new(entryList);
         }
@@ -98,7 +99,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
             if (dailyNoteResponse.IsOk())
             {
-                WebDailyNote dailyNote = dailyNoteResponse.Data!;
+                WebDailyNote dailyNote = dailyNoteResponse.Data;
 
                 // cache
                 await taskContext.SwitchToMainThreadAsync();

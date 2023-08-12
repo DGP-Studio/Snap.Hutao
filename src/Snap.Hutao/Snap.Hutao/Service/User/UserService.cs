@@ -151,6 +151,7 @@ internal sealed partial class UserService : IUserService
     /// <inheritdoc/>
     public async ValueTask<bool> RefreshCookieTokenAsync(BindingUser user)
     {
+        // TODO: 提醒其他组件此用户的Cookie已更改
         Response<UidCookieToken> cookieTokenResponse = await serviceProvider
             .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
             .Create(user.Entity.IsOversea)

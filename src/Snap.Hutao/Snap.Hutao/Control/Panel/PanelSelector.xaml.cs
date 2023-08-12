@@ -13,8 +13,8 @@ namespace Snap.Hutao.Control.Panel;
 [DependencyProperty("Current", typeof(string), List)]
 internal sealed partial class PanelSelector : Segmented
 {
-    private const string List = nameof(List);
-    private const string Grid = nameof(Grid);
+    public const string List = nameof(List);
+    public const string Grid = nameof(Grid);
 
     private static readonly Dictionary<int, string> IndexTypeMap = new()
     {

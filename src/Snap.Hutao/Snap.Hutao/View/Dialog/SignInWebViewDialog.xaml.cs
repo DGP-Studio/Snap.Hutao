@@ -41,23 +41,20 @@ internal sealed partial class SignInWebViewDialog : ContentDialog
         await WebView.EnsureCoreWebView2Async();
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;
         User? user = scope.ServiceProvider.GetRequiredService<IUserService>().Current;
-
-        if (user == null)
+        if (UserAndUid.TryFromUser(user, out UserAndUid? userAndUid))
         {
-            return;
-        }
-
-        if (user.Entity.IsOversea)
-        {
-            coreWebView2.SetCookie(user.CookieToken, user.LToken, null, true).SetMobileOverseaUserAgent();
-            jsInterface = new SignInJSInterfaceOversea(coreWebView2, scope.ServiceProvider);
-            coreWebView2.Navigate("https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481");
-        }
-        else
-        {
-            coreWebView2.SetCookie(user.CookieToken, user.LToken, null, false).SetMobileUserAgent();
-            jsInterface = new SignInJsInterface(coreWebView2, scope.ServiceProvider);
-            coreWebView2.Navigate("https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?act_id=e202009291139501");
+            if (user.Entity.IsOversea)
+            {
+                coreWebView2.SetCookie(user.CookieToken, user.LToken, null, true).SetMobileOverseaUserAgent();
+                jsInterface = new SignInJSInterfaceOversea(coreWebView2, scope.ServiceProvider, userAndUid);
+                coreWebView2.Navigate("https://act.hoyolab.com/ys/event/signin-sea-v3/index.html?act_id=e202102251931481");
+            }
+            else
+            {
+                coreWebView2.SetCookie(user.CookieToken, user.LToken, null, false).SetMobileUserAgent();
+                jsInterface = new SignInJsInterface(coreWebView2, scope.ServiceProvider, userAndUid);
+                coreWebView2.Navigate("https://webstatic.mihoyo.com/bbs/event/signin-ys/index.html?act_id=e202009291139501");
+            }
         }
     }
 

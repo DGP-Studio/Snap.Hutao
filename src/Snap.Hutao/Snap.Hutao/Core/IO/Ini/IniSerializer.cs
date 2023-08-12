@@ -16,8 +16,9 @@ internal static class IniSerializer
     /// </summary>
     /// <param name="fileStream">文件流</param>
     /// <returns>Ini 元素集合</returns>
-    public static IEnumerable<IniElement> Deserialize(FileStream fileStream)
+    public static List<IniElement> Deserialize(FileStream fileStream)
     {
+        List<IniElement> results = new();
         using (StreamReader reader = new(fileStream))
         {
             while (reader.ReadLine() is { } line)
@@ -31,20 +32,22 @@ internal static class IniSerializer
 
                 if (lineSpan[0] is '[')
                 {
-                    yield return new IniSection(lineSpan[1..^1].ToString());
+                    results.Add(new IniSection(lineSpan[1..^1].ToString()));
                 }
 
                 if (lineSpan[0] is ';')
                 {
-                    yield return new IniComment(lineSpan[1..].ToString());
+                    results.Add(new IniComment(lineSpan[1..].ToString()));
                 }
 
                 if (lineSpan.TrySplitIntoTwo('=', out ReadOnlySpan<char> left, out ReadOnlySpan<char> right))
                 {
-                    yield return new IniParameter(left.Trim().ToString(), right.Trim().ToString());
+                    results.Add(new IniParameter(left.Trim().ToString(), right.Trim().ToString()));
                 }
             }
         }
+
+        return results;
     }
 
     /// <summary>

@@ -15,8 +15,8 @@ namespace Snap.Hutao.View.Control;
 [HighQuality]
 [ContentProperty(Name = nameof(TopContent))]
 [DependencyProperty("Text", typeof(string), "")]
-[DependencyProperty("TopContent", typeof(UIElement), default!)]
 [DependencyProperty("Fill", typeof(Brush), default!)]
+[DependencyProperty("TopContent", typeof(UIElement), default!)]
 internal sealed partial class BottomTextControl : ContentControl
 {
     /// <summary>

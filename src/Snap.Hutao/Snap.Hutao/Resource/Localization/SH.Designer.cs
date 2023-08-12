@@ -1852,6 +1852,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 距上个五星 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlStatisticsCardToLastOrangeText {
+            get {
+                return ResourceManager.GetString("ViewControlStatisticsCardToLastOrangeText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 距上个四星 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlStatisticsCardToLastPurpleText {
+            get {
+                return ResourceManager.GetString("ViewControlStatisticsCardToLastPurpleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 UP 平均抽数 的本地化字符串。
         /// </summary>
         internal static string ViewControlStatisticsCardUpAveragePullText {
