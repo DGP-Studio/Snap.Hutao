@@ -66,7 +66,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         get => selectedBackdropType ??= Options.BackdropTypes.Single(t => t.Value == Options.BackdropType);
         set
         {
-            if (SetProperty(ref selectedBackdropType, value) && value != null)
+            if (SetProperty(ref selectedBackdropType, value) && value is not null)
             {
                 Options.BackdropType = value.Value;
             }
@@ -81,21 +81,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         get => selectedCulture ??= Options.Cultures.FirstOrDefault(c => c.Value == Options.CurrentCulture.Name);
         set
         {
-            if (SetProperty(ref selectedCulture, value))
+            if (SetProperty(ref selectedCulture, value) && value is not null)
             {
-                if (value != null)
-                {
-                    Options.CurrentCulture = CultureInfo.GetCultureInfo(value.Value);
-                    AppInstance.Restart(string.Empty);
-                }
+                Options.CurrentCulture = CultureInfo.GetCultureInfo(value.Value);
+                AppInstance.Restart(string.Empty);
             }
         }
-    }
-
-    /// <inheritdoc/>
-    protected override Task OpenUIAsync()
-    {
-        return Task.CompletedTask;
     }
 
     [Command("SetGamePathCommand")]
