@@ -32,8 +32,7 @@ pr:
     
 
 pool:
-  name: Default
-  demands: agent.name -equals Hutao-Server
+  vmImage: 'windows-2022'
 
 variables:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
