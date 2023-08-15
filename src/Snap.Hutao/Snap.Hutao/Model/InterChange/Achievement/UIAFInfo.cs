@@ -10,7 +10,7 @@ namespace Snap.Hutao.Model.InterChange.Achievement;
 /// UIAF格式的信息
 /// </summary>
 [HighQuality]
-internal sealed class UIAFInfo : IMappingFrom<UIAFInfo, IServiceProvider>
+internal sealed class UIAFInfo : IMappingFrom<UIAFInfo, RuntimeOptions>
 {
     /// <summary>
     /// 导出的 App 名称
@@ -45,15 +45,8 @@ internal sealed class UIAFInfo : IMappingFrom<UIAFInfo, IServiceProvider>
     [JsonPropertyName("uiaf_version")]
     public string? UIAFVersion { get; set; }
 
-    /// <summary>
-    /// 构造一个新的专用 UIAF 信息
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <returns>专用 UIAF 信息</returns>
-    public static UIAFInfo From(IServiceProvider serviceProvider)
+    public static UIAFInfo From(RuntimeOptions runtimeOptions)
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-
         return new()
         {
             ExportTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds(),

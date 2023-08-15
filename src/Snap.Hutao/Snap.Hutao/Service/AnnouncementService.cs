@@ -28,7 +28,9 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         // 缓存中存在记录，直接返回
         if (memoryCache.TryGetValue(CacheKey, out object? cache))
         {
-            return (AnnouncementWrapper)cache!;
+            AnnouncementWrapper? wrapper = (AnnouncementWrapper?)cache;
+            ArgumentNullException.ThrowIfNull(wrapper);
+            return wrapper;
         }
 
         await taskContext.SwitchToBackgroundAsync();
@@ -60,7 +62,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             }
         }
 
-        return null!;
+        return default!;
     }
 
     private static void JoinAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)

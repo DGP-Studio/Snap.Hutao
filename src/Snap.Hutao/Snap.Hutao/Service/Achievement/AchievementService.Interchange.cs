@@ -51,19 +51,14 @@ internal sealed partial class AchievementService
     public async ValueTask<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        List<UIAFItem> list = achievementDbService
+            .GetAchievementListByArchiveId(archive.InnerId)
+            .SelectList(UIAFItem.From);
+
+        return new()
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            List<UIAFItem> list = achievementDbService
-                .GetAchievementListByArchiveId(archive.InnerId)
-                .SelectList(UIAFItem.From);
-
-            return new()
-            {
-                Info = UIAFInfo.From(scope.ServiceProvider),
-                List = list,
-            };
-        }
+            Info = UIAFInfo.From(runtimeOptions),
+            List = list,
+        };
     }
 }

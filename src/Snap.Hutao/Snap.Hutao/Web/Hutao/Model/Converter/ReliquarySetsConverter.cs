@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Primitives;
+
 namespace Snap.Hutao.Web.Hutao.Model.Converter;
 
 /// <summary>
@@ -14,10 +16,18 @@ internal sealed class ReliquarySetsConverter : JsonConverter<ReliquarySets>
     /// <inheritdoc/>
     public override ReliquarySets? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        if (reader.GetString() is string source)
+        if (reader.GetString() is { } source)
         {
-            string[] sets = source.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
-            return new(sets.Select(set => new ReliquarySet(set)));
+            List<ReliquarySet> sets = new();
+            foreach (StringSegment segment in new StringTokenizer(source, Separator.ToArray()))
+            {
+                if (segment.HasValue)
+                {
+                    sets.Add(new(segment.Value));
+                }
+            }
+
+            return new(sets);
         }
         else
         {

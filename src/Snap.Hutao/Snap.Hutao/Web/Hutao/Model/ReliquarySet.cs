@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Primitive;
+using System.Globalization;
 
 namespace Snap.Hutao.Web.Hutao.Model;
 
@@ -19,8 +20,8 @@ internal sealed class ReliquarySet
     {
         string[]? deconstructed = set.Split('-');
 
-        EquipAffixId = uint.Parse(deconstructed[0]);
-        Count = int.Parse(deconstructed[1]);
+        EquipAffixId = uint.Parse(deconstructed[0], CultureInfo.InvariantCulture);
+        Count = int.Parse(deconstructed[1], CultureInfo.InvariantCulture);
     }
 
     /// <summary>

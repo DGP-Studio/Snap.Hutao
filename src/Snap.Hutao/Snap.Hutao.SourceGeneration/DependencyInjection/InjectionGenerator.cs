@@ -17,9 +17,9 @@ namespace Snap.Hutao.SourceGeneration.DependencyInjection;
 internal sealed class InjectionGenerator : IIncrementalGenerator
 {
     public const string AttributeName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectionAttribute";
-    private const string InjectAsSingletonName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Singleton";
+    public const string InjectAsSingletonName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Singleton";
     public const string InjectAsTransientName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Transient";
-    private const string InjectAsScopedName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Scoped";
+    public const string InjectAsScopedName = "Snap.Hutao.Core.DependencyInjection.Annotation.InjectAs.Scoped";
 
     private static readonly DiagnosticDescriptor invalidInjectionDescriptor = new("SH101", "无效的 InjectAs 枚举值", "尚未支持生成 {0} 配置", "Quality", DiagnosticSeverity.Error, true);
 

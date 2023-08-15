@@ -72,7 +72,7 @@ internal readonly struct QueryString
         {
             string name;
             string? value;
-            int indexOfEquals = pair.IndexOf('=');
+            int indexOfEquals = pair.IndexOf('=', StringComparison.Ordinal);
             if (indexOfEquals == -1)
             {
                 name = pair;

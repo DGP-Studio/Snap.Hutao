@@ -39,6 +39,6 @@ internal sealed unsafe class IdentityConverter<TWrapper> : JsonConverter<TWrappe
     /// <inheritdoc/>
     public override void WriteAsPropertyName(Utf8JsonWriter writer, TWrapper value, JsonSerializerOptions options)
     {
-        writer.WritePropertyName((*(uint*)&value).ToString());
+        writer.WritePropertyName($"{*(uint*)&value}");
     }
 }

@@ -36,7 +36,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>当前是否上传了数据</returns>
-    public async Task<Response<bool>> CheckRecordUploadedAsync(PlayerUid uid, CancellationToken token = default)
+    public async ValueTask<Response<bool>> CheckRecordUploadedAsync(PlayerUid uid, CancellationToken token = default)
     {
         Response<bool>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<bool>>(HutaoEndpoints.RecordCheck(uid.Value), options, logger, token)
@@ -52,7 +52,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>排行信息</returns>
-    public async Task<Response<RankInfo>> GetRankAsync(PlayerUid uid, CancellationToken token = default)
+    public async ValueTask<Response<RankInfo>> GetRankAsync(PlayerUid uid, CancellationToken token = default)
     {
         Response<RankInfo>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<RankInfo>>(HutaoEndpoints.RecordRank(uid.Value), options, logger, token)
@@ -67,7 +67,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>总览信息</returns>
-    public async Task<Response<Overview>> GetOverviewAsync(CancellationToken token = default)
+    public async ValueTask<Response<Overview>> GetOverviewAsync(CancellationToken token = default)
     {
         Response<Overview>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<Overview>>(HutaoEndpoints.StatisticsOverview, options, logger, token)
@@ -82,7 +82,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色出场率</returns>
-    public async Task<Response<List<AvatarAppearanceRank>>> GetAvatarAttendanceRatesAsync(CancellationToken token = default)
+    public async ValueTask<Response<List<AvatarAppearanceRank>>> GetAvatarAttendanceRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarAppearanceRank>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<AvatarAppearanceRank>>>(HutaoEndpoints.StatisticsAvatarAttendanceRate, options, logger, token)
@@ -97,7 +97,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色出场率</returns>
-    public async Task<Response<List<AvatarUsageRank>>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
+    public async ValueTask<Response<List<AvatarUsageRank>>> GetAvatarUtilizationRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarUsageRank>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<AvatarUsageRank>>>(HutaoEndpoints.StatisticsAvatarUtilizationRate, options, logger, token)
@@ -112,7 +112,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色/武器/圣遗物搭配</returns>
-    public async Task<Response<List<AvatarCollocation>>> GetAvatarCollocationsAsync(CancellationToken token = default)
+    public async ValueTask<Response<List<AvatarCollocation>>> GetAvatarCollocationsAsync(CancellationToken token = default)
     {
         Response<List<AvatarCollocation>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<AvatarCollocation>>>(HutaoEndpoints.StatisticsAvatarAvatarCollocation, options, logger, token)
@@ -127,7 +127,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色/武器/圣遗物搭配</returns>
-    public async Task<Response<List<WeaponCollocation>>> GetWeaponCollocationsAsync(CancellationToken token = default)
+    public async ValueTask<Response<List<WeaponCollocation>>> GetWeaponCollocationsAsync(CancellationToken token = default)
     {
         Response<List<WeaponCollocation>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<WeaponCollocation>>>(HutaoEndpoints.StatisticsWeaponWeaponCollocation, options, logger, token)
@@ -142,7 +142,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>角色图片列表</returns>
-    public async Task<Response<List<AvatarConstellationInfo>>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
+    public async ValueTask<Response<List<AvatarConstellationInfo>>> GetAvatarHoldingRatesAsync(CancellationToken token = default)
     {
         Response<List<AvatarConstellationInfo>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<AvatarConstellationInfo>>>(HutaoEndpoints.StatisticsAvatarHoldingRate, options, logger, token)
@@ -157,7 +157,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>队伍出场列表</returns>
-    public async Task<Response<List<TeamAppearance>>> GetTeamCombinationsAsync(CancellationToken token = default)
+    public async ValueTask<Response<List<TeamAppearance>>> GetTeamCombinationsAsync(CancellationToken token = default)
     {
         Response<List<TeamAppearance>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<TeamAppearance>>>(HutaoEndpoints.StatisticsTeamCombination, options, logger, token)
@@ -172,7 +172,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>玩家记录</returns>
-    public async Task<SimpleRecord?> GetPlayerRecordAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<SimpleRecord?> GetPlayerRecordAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         IGameRecordClient gameRecordClient = serviceProvider
             .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
@@ -212,7 +212,7 @@ internal sealed partial class HomaSpiralAbyssClient
     /// <param name="playerRecord">玩家记录</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public async Task<Response<string>> UploadRecordAsync(SimpleRecord playerRecord, CancellationToken token = default)
+    public async ValueTask<Response<string>> UploadRecordAsync(SimpleRecord playerRecord, CancellationToken token = default)
     {
         Response<string>? resp = await httpClient
             .TryCatchPostAsJsonAsync<SimpleRecord, Response<string>>(HutaoEndpoints.RecordUpload, playerRecord, options, logger, token)

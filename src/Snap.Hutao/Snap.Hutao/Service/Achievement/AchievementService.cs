@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Model.Entity;
@@ -23,7 +24,7 @@ internal sealed partial class AchievementService : IAchievementService
     private readonly ScopedDbCurrent<AchievementArchive, Message.AchievementArchiveChangedMessage> dbCurrent;
     private readonly AchievementDbBulkOperation achievementDbBulkOperation;
     private readonly IAchievementDbService achievementDbService;
-    private readonly IServiceProvider serviceProvider;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>

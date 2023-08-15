@@ -52,7 +52,7 @@ internal sealed class HutaoStatisticsFactory
             {
                 8U => context.IdAvatarMap[item.Item],
                 5U => context.IdWeaponMap[item.Item],
-                _ => throw ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaStatisticsFactoryItemIdInvalid, item.Item), null!),
+                _ => throw ThrowHelper.UserdataCorrupted(SH.ServiceGachaStatisticsFactoryItemIdInvalid.Format(item.Item), default!),
             };
             StatisticsItem statisticsItem = source.ToStatisticsItem(unchecked((int)item.Count));
 

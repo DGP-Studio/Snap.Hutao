@@ -15,7 +15,7 @@ namespace Snap.Hutao.Service.Achievement;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Injection(InjectAs.Singleton)]
 internal sealed partial class AchievementDbBulkOperation
 {
     private readonly IServiceProvider serviceProvider;
@@ -76,7 +76,10 @@ internal sealed partial class AchievementDbBulkOperation
                                 continue;
                             }
 
-                            if (entity!.Id < uiaf!.Id)
+                            ArgumentNullException.ThrowIfNull(entity);
+                            ArgumentNullException.ThrowIfNull(uiaf);
+
+                            if (entity.Id < uiaf.Id)
                             {
                                 moveEntity = true;
                                 moveUIAF = false;
@@ -164,7 +167,10 @@ internal sealed partial class AchievementDbBulkOperation
                                 continue;
                             }
 
-                            if (oldEntity!.Id < newEntity!.Id)
+                            ArgumentNullException.ThrowIfNull(oldEntity);
+                            ArgumentNullException.ThrowIfNull(newEntity);
+
+                            if (oldEntity.Id < newEntity.Id)
                             {
                                 moveOld = true;
                                 moveNew = false;

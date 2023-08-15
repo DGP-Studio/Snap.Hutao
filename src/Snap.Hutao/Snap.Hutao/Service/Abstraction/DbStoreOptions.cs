@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Options;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity.Database;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Abstraction;
@@ -85,7 +86,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             string? value = appDbContext.Settings.SingleOrDefault(e => e.Key == key)?.Value;
-            storage = value is null ? defaultValue : int.Parse(value);
+            storage = value is null ? defaultValue : int.Parse(value, CultureInfo.InvariantCulture);
         }
 
         return storage.Value;
@@ -211,7 +212,7 @@ internal abstract partial class DbStoreOptions : ObservableObject, IOptions<DbSt
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             appDbContext.Settings.ExecuteDeleteWhere(e => e.Key == key);
-            appDbContext.Settings.AddAndSave(new(key, value.ToString()));
+            appDbContext.Settings.AddAndSave(new(key, $"{value}"));
         }
     }
 

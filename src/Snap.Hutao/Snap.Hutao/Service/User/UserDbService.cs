@@ -59,4 +59,13 @@ internal sealed partial class UserDbService : IUserDbService
             await appDbContext.Users.AddAndSaveAsync(user).ConfigureAwait(false);
         }
     }
+
+    public async ValueTask DeleteUsersAsync()
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
+        }
+    }
 }

@@ -9,6 +9,8 @@ internal interface IUserDbService
 
     ValueTask DeleteUserByIdAsync(Guid id);
 
+    ValueTask DeleteUsersAsync();
+
     ValueTask<List<Model.Entity.User>> GetUserListAsync();
 
     ValueTask UpdateUserAsync(Model.Entity.User user);

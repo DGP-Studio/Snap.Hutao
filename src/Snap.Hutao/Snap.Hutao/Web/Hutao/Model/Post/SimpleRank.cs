@@ -38,7 +38,7 @@ internal sealed class SimpleRank
     /// <returns>新的简单数值</returns>
     public static SimpleRank? FromRank(Rank? rank)
     {
-        if (rank == null)
+        if (rank is null)
         {
             return null;
         }

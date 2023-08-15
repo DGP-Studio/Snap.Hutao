@@ -80,23 +80,22 @@ internal class Response
     /// <returns>本体或默认值，当本体为 null 时 返回默认值</returns>
     public static Response<TData> DefaultIfNull<TData, TOther>(Response<TOther>? response, [CallerMemberName] string callerName = default!)
     {
-        if (response != null)
+        if (response is not null)
         {
             Must.Argument(response.ReturnCode != 0, "返回代码必须为0");
-
-            // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
             return new(response.ReturnCode, response.Message, default);
         }
         else
         {
-            return new(0x26F19335, $"[{callerName}] 中的 [{typeof(TData).Name}] 网络请求异常，请稍后再试", default);
+            // Magic number that hashed from "Snap.Hutao"
+            return new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
         }
     }
 
     /// <inheritdoc/>
     public override string ToString()
     {
-        return string.Format(SH.WebResponseFormat, ReturnCode, Message);
+        return SH.WebResponseFormat.Format(ReturnCode, Message);
     }
 }
 
@@ -163,7 +162,8 @@ internal sealed class Response<TData> : Response, IJsResult
     {
         if (ReturnCode == 0)
         {
-            data = Data!;
+            ArgumentNullException.ThrowIfNull(Data);
+            data = Data;
             return true;
         }
         else

@@ -23,7 +23,7 @@ namespace Snap.Hutao.Service.User;
 /// </summary>
 [ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IUserService))]
-internal sealed partial class UserService : IUserService
+internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 {
     private readonly ScopedDbCurrent<BindingUser, Model.Entity.User, UserChangedMessage> dbCurrent;
     private readonly IUserInitializationService userInitializationService;
@@ -55,6 +55,12 @@ internal sealed partial class UserService : IUserService
         await userDbService.DeleteUserByIdAsync(user.Entity.InnerId).ConfigureAwait(false);
 
         messenger.Send(new UserRemovedMessage(user.Entity));
+    }
+
+    public async ValueTask UnsafeRemoveUsersAsync()
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        await userDbService.DeleteUsersAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc/>

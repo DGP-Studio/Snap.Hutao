@@ -5819,5 +5819,14 @@ namespace Snap.Hutao.Resource.Localization {
                 return ResourceManager.GetString("WebResponseFormat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 [{0}] 中的 [{1}] 网络请求异常，请稍后再试 的本地化字符串。
+        /// </summary>
+        internal static string WebResponseRequestExceptionFormat {
+            get {
+                return ResourceManager.GetString("WebResponseRequestExceptionFormat", resourceCulture);
+            }
+        }
     }
 }

@@ -11,14 +11,13 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Service.Game.Locator;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.View.Dialog;
+using Snap.Hutao.Service.User;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -34,7 +33,13 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingViewModel : Abstraction.ViewModel
 {
-    private readonly IServiceProvider serviceProvider;
+    private readonly IGameLocatorFactory gameLocatorFactory;
+    private readonly IClipboardInterop clipboardInterop;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly INavigationService navigationService;
+    private readonly IPickerFactory pickerFactory;
+    private readonly IUserService userService;
+    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly AppOptions options;
     private readonly RuntimeOptions runtimeOptions;
@@ -89,10 +94,17 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("ResetStaticResourceCommand")]
+    private static void ResetStaticResource()
+    {
+        StaticResource.FailAllContracts();
+        AppInstance.Restart(string.Empty);
+    }
+
     [Command("SetGamePathCommand")]
     private async Task SetGamePathAsync()
     {
-        IGameLocator locator = serviceProvider.GetRequiredService<IGameLocatorFactory>().Create(GameLocationSource.Manual);
+        IGameLocator locator = gameLocatorFactory.Create(GameLocationSource.Manual);
 
         (bool isOk, string path) = await locator.LocateGamePathAsync().ConfigureAwait(false);
         if (isOk)
@@ -110,9 +122,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         if (!string.IsNullOrEmpty(gamePath))
         {
             string cacheFilePath = GachaLogQueryWebCacheProvider.GetCacheFile(gamePath);
-            string cacheFolder = Path.GetDirectoryName(cacheFilePath)!;
+            string? cacheFolder = Path.GetDirectoryName(cacheFilePath);
 
-            IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
             if (Directory.Exists(cacheFolder))
             {
                 try
@@ -129,7 +140,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
             }
             else
             {
-                infoBarService.Warning(string.Format(SH.ViewModelSettingClearWebCachePathInvalid, cacheFolder));
+                infoBarService.Warning(SH.ViewModelSettingClearWebCachePathInvalid.Format(cacheFolder));
             }
         }
     }
@@ -139,17 +150,18 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     {
         // ContentDialog must be created by main thread.
         await taskContext.SwitchToMainThreadAsync();
-        SignInWebViewDialog dialog = serviceProvider.CreateInstance<SignInWebViewDialog>();
-        await dialog.ShowAsync();
+
+        // TODO remove this.
+        // SignInWebViewDialog dialog = serviceProvider.CreateInstance<SignInWebViewDialog>();
+        // await dialog.ShowAsync();
     }
 
     [Command("UpdateCheckCommand")]
     private async Task CheckUpdateAsync()
     {
 #if DEBUG
-        await serviceProvider
-            .GetRequiredService<Service.Navigation.INavigationService>()
-            .NavigateAsync<View.Page.TestPage>(Service.Navigation.INavigationAwaiter.Default)
+        await navigationService
+            .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
             .ConfigureAwait(false);
 #else
         await Windows.System.Launcher.LaunchUriAsync(new(@"ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
@@ -159,8 +171,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("SetDataFolderCommand")]
     private async Task SetDataFolderAsync()
     {
-        (bool isOk, string folder) = await serviceProvider
-            .GetRequiredService<IPickerFactory>()
+        (bool isOk, string folder) = await pickerFactory
             .GetFolderPicker()
             .TryPickSingleFolderAsync()
             .ConfigureAwait(false);
@@ -168,24 +179,16 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         if (isOk)
         {
             LocalSetting.Set(SettingKeys.DataFolderPath, folder);
-            serviceProvider.GetRequiredService<IInfoBarService>().Success(SH.ViewModelSettingSetDataFolderSuccess);
+            infoBarService.Success(SH.ViewModelSettingSetDataFolderSuccess);
         }
-    }
-
-    [Command("ResetStaticResourceCommand")]
-    private void ResetStaticResource()
-    {
-        StaticResource.FailAllContracts();
-        AppInstance.Restart(string.Empty);
     }
 
     [Command("CopyDeviceIdCommand")]
     private void CopyDeviceId()
     {
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
         try
         {
-            serviceProvider.GetRequiredService<IClipboardInterop>().SetText(HutaoOptions.DeviceId);
+            clipboardInterop.SetText(HutaoOptions.DeviceId);
             infoBarService.Success(SH.ViewModelSettingCopyDeviceIdSuccess);
         }
         catch (COMException ex)
@@ -197,7 +200,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("NavigateToHutaoPassportCommand")]
     private void NavigateToHutaoPassport()
     {
-        serviceProvider.GetRequiredService<INavigationService>().Navigate<View.Page.HutaoPassportPage>(INavigationAwaiter.Default);
+        navigationService.Navigate<View.Page.HutaoPassportPage>(INavigationAwaiter.Default);
     }
 
     [Command("OpenCacheFolderCommand")]
@@ -215,18 +218,15 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("DeleteUsersCommand")]
     private async Task DangerousDeleteUsersAsync()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        if (userService is IUserServiceUnsafe @unsafe)
         {
-            ContentDialogResult result = await scope.ServiceProvider
-                .GetRequiredService<IContentDialogFactory>()
+            ContentDialogResult result = await contentDialogFactory
                 .CreateForConfirmCancelAsync(SH.ViewDialogSettingDeleteUserDataTitle, SH.ViewDialogSettingDeleteUserDataContent)
                 .ConfigureAwait(false);
 
-            if (result == ContentDialogResult.Primary)
+            if (result is ContentDialogResult.Primary)
             {
-                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                await appDbContext.Users.ExecuteDeleteAsync().ConfigureAwait(false);
-
+                await @unsafe.UnsafeRemoveUsersAsync().ConfigureAwait(false);
                 AppInstance.Restart(string.Empty);
             }
         }

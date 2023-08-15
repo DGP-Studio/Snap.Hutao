@@ -133,7 +133,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 
                 default:
                     // ItemId string length not correct.
-                    ThrowHelper.UserdataCorrupted(string.Format(SH.ServiceGachaStatisticsFactoryItemIdInvalid, item.ItemId), null!);
+                    ThrowHelper.UserdataCorrupted(SH.ServiceGachaStatisticsFactoryItemIdInvalid.Format(item.ItemId), default!);
                     break;
             }
         }

@@ -16,7 +16,7 @@ namespace Snap.Hutao.Service.Achievement;
 /// 成就数据库服务
 /// </summary>
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IAchievementDbService))]
+[Injection(InjectAs.Singleton, typeof(IAchievementDbService))]
 internal sealed partial class AchievementDbService : IAchievementDbService
 {
     private readonly IServiceProvider serviceProvider;
@@ -66,7 +66,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
                 .AsNoTracking()
                 .Where(a => a.ArchiveId == archiveId)
                 .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
-                .OrderByDescending(a => a.Time.ToString())
+                .OrderByDescending(a => a.Time)
                 .Take(take)
                 .ToListAsync()
                 .ConfigureAwait(false);

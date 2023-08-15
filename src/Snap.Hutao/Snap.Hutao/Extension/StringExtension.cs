@@ -40,4 +40,10 @@ internal static class StringExtension
     {
         return string.Format(CultureInfo.CurrentCulture, value, arg0, arg1);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string Format(this string value, object? arg0, object? arg1, object? arg2)
+    {
+        return string.Format(CultureInfo.CurrentCulture, value, arg0, arg1, arg2);
+    }
 }

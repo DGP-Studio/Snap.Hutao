@@ -64,3 +64,8 @@ internal interface IUserService
     /// <returns>任务</returns>
     ValueTask RemoveUserAsync(BindingUser user);
 }
+
+internal interface IUserServiceUnsafe
+{
+    ValueTask UnsafeRemoveUsersAsync();
+}

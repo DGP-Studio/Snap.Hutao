@@ -117,7 +117,8 @@ internal sealed class SummaryAvatarFactory
         MetadataWeapon weapon = metadataContext.IdWeaponMap[equip.ItemId];
 
         // AffixMap can be null when it's a white weapon.
-        uint affixLevel = equip.Weapon!.AffixMap?.SingleOrDefault().Value ?? 0U;
+        ArgumentNullException.ThrowIfNull(equip.Weapon);
+        uint affixLevel = equip.Weapon.AffixMap?.SingleOrDefault().Value ?? 0U;
 
         WeaponStat? mainStat = equip.Flat.WeaponStats?.ElementAtOrDefault(0);
         WeaponStat? subStat = equip.Flat.WeaponStats?.ElementAtOrDefault(1);

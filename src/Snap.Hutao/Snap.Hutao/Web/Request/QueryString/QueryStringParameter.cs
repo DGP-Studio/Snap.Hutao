@@ -31,7 +31,7 @@ internal struct QueryStringParameter
     }
 
     /// <inheritdoc/>
-    public override string ToString()
+    public override readonly string ToString()
     {
         return $"{Name}={Value}";
     }

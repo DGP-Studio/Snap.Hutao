@@ -26,7 +26,7 @@ namespace Snap.Hutao.Service.AvatarInfo;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped)]
+[Injection(InjectAs.Singleton)]
 internal sealed partial class AvatarInfoDbBulkOperation
 {
     private readonly IServiceProvider serviceProvider;

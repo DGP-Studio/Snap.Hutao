@@ -14,9 +14,6 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
-    private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
-
     /// <inheritdoc/>
     protected override Task OpenUIAsync()
     {
@@ -24,7 +21,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     }
 
     [Command("RestartAppCommand")]
-    private void RestartApp(bool elevated)
+    private static void RestartApp(bool elevated)
     {
         AppInstance.Restart(string.Empty);
     }

@@ -15,11 +15,11 @@ internal sealed class Team
     /// 上半
     /// </summary>
     [JsonConverter(typeof(SeparatorCommaInt32EnumerableConverter))]
-    public IEnumerable<int> UpHalf { get; set; } = null!;
+    public IEnumerable<int> UpHalf { get; set; } = default!;
 
     /// <summary>
     /// 下半
     /// </summary>
     [JsonConverter(typeof(SeparatorCommaInt32EnumerableConverter))]
-    public IEnumerable<int> DownHalf { get; set; } = null!;
+    public IEnumerable<int> DownHalf { get; set; } = default!;
 }

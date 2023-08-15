@@ -6,6 +6,7 @@ using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
+using System.Globalization;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -52,14 +53,14 @@ internal sealed class DailyNoteOptions : DbStoreOptions
     /// </summary>
     public NameValue<int>? SelectedRefreshTime
     {
-        get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time)), RefreshTimes[1]);
+        get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
         set
         {
             if (value is not null)
             {
                 if (scheduleTaskInterop.RegisterForDailyNoteRefresh(value.Value))
                 {
-                    SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, value => value.Value.ToString());
+                    SetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, value, value => $"{value.Value}");
                 }
                 else
                 {

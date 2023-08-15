@@ -2093,4 +2093,7 @@
   <data name="WebResponseFormat" xml:space="preserve">
     <value>状态：{0} | 信息：{1}</value>
   </data>
+  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
+    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+  </data>
 </root>

@@ -121,7 +121,8 @@ internal sealed class SummaryReliquaryFactory
             // 从喵插件抓取的圣遗物评分权重
             // 部分复杂的角色暂时使用了默认值
             ReliquaryAffixWeight affixWeight = metadataContext.IdReliquaryAffixWeightMap.GetValueOrDefault(avatarInfo.AvatarId, ReliquaryAffixWeight.Default);
-            ReliquaryMainAffixLevel maxRelicLevel = metadataContext.ReliquaryLevels.Where(r => r.Rank == reliquary.RankLevel).MaxBy(r => r.Level)!;
+            ReliquaryMainAffixLevel? maxRelicLevel = metadataContext.ReliquaryLevels.Where(r => r.Rank == reliquary.RankLevel).MaxBy(r => r.Level);
+            ArgumentNullException.ThrowIfNull(maxRelicLevel);
 
             float percent = relicLevel.PropertyMap[property] / maxRelicLevel.PropertyMap[property];
             float baseScore = 8 * percent * affixWeight[property];
