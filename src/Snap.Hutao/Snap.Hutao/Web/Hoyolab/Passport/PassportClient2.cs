@@ -31,7 +31,7 @@ internal sealed partial class PassportClient2
     /// <param name="token">取消令牌</param>
     /// <returns>验证信息</returns>
     [ApiInformation(Cookie = CookieType.LToken)]
-    public async Task<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token)
+    public async ValueTask<Response<UserInfoWrapper>> VerifyLtokenAsync(User user, CancellationToken token)
     {
         Response<UserInfoWrapper>? response = await httpClient
             .SetUser(user, CookieType.LToken)
@@ -48,7 +48,7 @@ internal sealed partial class PassportClient2
     /// <param name="token">取消令牌</param>
     /// <returns>登录数据</returns>
     [ApiInformation(Salt = SaltType.PROD)]
-    public async Task<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token = default)
+    public async ValueTask<Response<LoginResult>> LoginBySTokenAsync(Cookie stokenV1, CancellationToken token = default)
     {
         HttpResponseMessage message = await httpClient
             .SetHeader("Cookie", stokenV1.ToString())

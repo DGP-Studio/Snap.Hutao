@@ -86,7 +86,7 @@ internal struct GachaLogQueryOptions
     /// 转换到查询字符串
     /// </summary>
     /// <returns>匹配的查询字符串</returns>
-    public string ToQueryString()
+    public readonly string ToQueryString()
     {
         // Make the cached end id into query.
         innerQuery.Set("end_id", EndId);

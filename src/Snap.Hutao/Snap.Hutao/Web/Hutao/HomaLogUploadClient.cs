@@ -33,7 +33,7 @@ internal sealed class HomaLogUploadClient
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="exception">异常</param>
     /// <returns>任务</returns>
-    public async Task<string?> UploadLogAsync(IServiceProvider serviceProvider, Exception exception)
+    public async ValueTask<string?> UploadLogAsync(IServiceProvider serviceProvider, Exception exception)
     {
         HutaoLog log = BuildFromException(serviceProvider, exception);
 

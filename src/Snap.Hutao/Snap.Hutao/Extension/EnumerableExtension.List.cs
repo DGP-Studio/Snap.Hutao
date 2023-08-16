@@ -49,15 +49,14 @@ internal static partial class EnumerableExtension
         return list.GetRange(start, length);
     }
 
-    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)] this List<TSource>? source)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)][MaybeNullWhen(true)] this List<TSource>? source)
     {
-        if (source is { } list)
+        if (source is { Count: > 0 })
         {
-            // empty
-            return list.Count <= 0;
+            return false;
         }
 
-        // null
         return true;
     }
 

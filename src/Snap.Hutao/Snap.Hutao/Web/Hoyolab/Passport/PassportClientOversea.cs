@@ -27,9 +27,12 @@ internal sealed partial class PassportClientOversea : IPassportClient
     /// <param name="token">取消令牌</param>
     /// <returns>cookie token</returns>
     [ApiInformation(Cookie = CookieType.SToken)]
-    public async Task<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
+    public async ValueTask<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
     {
-        STokenWrapper data = new(user.SToken?.GetValueOrDefault(Cookie.STOKEN)!, user.Aid!);
+        string? stoken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
+        ArgumentException.ThrowIfNullOrEmpty(stoken);
+        ArgumentException.ThrowIfNullOrEmpty(user.Aid);
+        STokenWrapper data = new(stoken, user.Aid);
 
         Response<UidCookieToken>? resp = await httpClient
             .SetUser(user, CookieType.SToken)
@@ -46,9 +49,12 @@ internal sealed partial class PassportClientOversea : IPassportClient
     /// <param name="token">取消令牌</param>
     /// <returns>uid 与 cookie token</returns>
     [ApiInformation(Cookie = CookieType.SToken)]
-    public async Task<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default)
+    public async ValueTask<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default)
     {
-        STokenWrapper data = new(user.SToken?.GetValueOrDefault(Cookie.STOKEN)!, user.Aid!);
+        string? stoken = user.SToken?.GetValueOrDefault(Cookie.STOKEN);
+        ArgumentException.ThrowIfNullOrEmpty(stoken);
+        ArgumentException.ThrowIfNullOrEmpty(user.Aid);
+        STokenWrapper data = new(stoken, user.Aid);
 
         Response<LTokenWrapper>? resp = await httpClient
             .SetUser(user, CookieType.SToken)

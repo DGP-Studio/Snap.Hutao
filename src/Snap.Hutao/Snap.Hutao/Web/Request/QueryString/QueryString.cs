@@ -63,7 +63,7 @@ internal readonly struct QueryString
             return new QueryString();
         }
 
-        int questionMarkIndex = queryString.IndexOf('?');
+        int questionMarkIndex = queryString.AsSpan().IndexOf('?');
         queryString = queryString[(questionMarkIndex + 1)..];
 
         string[] pairs = queryString.Split('&', ';');

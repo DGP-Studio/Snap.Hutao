@@ -23,7 +23,7 @@ internal sealed partial class AnnouncementClient
     /// </summary>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>公告列表</returns>
-    public async Task<Response<AnnouncementWrapper>> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
+    public async ValueTask<Response<AnnouncementWrapper>> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
     {
         Response<AnnouncementWrapper>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<AnnouncementWrapper>>(ApiEndpoints.AnnList, jsonSerializerOptions, logger, cancellationToken)
@@ -37,7 +37,7 @@ internal sealed partial class AnnouncementClient
     /// </summary>
     /// <param name="cancellationToken">取消令牌</param>
     /// <returns>公告内容列表</returns>
-    public async Task<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(CancellationToken cancellationToken = default)
+    public async ValueTask<Response<ListWrapper<AnnouncementContent>>> GetAnnouncementContentsAsync(CancellationToken cancellationToken = default)
     {
         Response<ListWrapper<AnnouncementContent>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<ListWrapper<AnnouncementContent>>>(ApiEndpoints.AnnContent, jsonSerializerOptions, logger, cancellationToken)

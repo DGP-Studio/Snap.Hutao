@@ -29,7 +29,7 @@ internal sealed partial class CalculateClient
     /// <param name="token">取消令牌</param>
     /// <returns>消耗结果</returns>
     [ApiInformation(Cookie = CookieType.Cookie)]
-    public async Task<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
+    public async ValueTask<Response<Consumption>> ComputeAsync(Model.Entity.User user, AvatarPromotionDelta delta, CancellationToken token = default)
     {
         string referer = user.IsOversea
             ? ApiOsEndpoints.ActHoyolabReferer
@@ -54,7 +54,7 @@ internal sealed partial class CalculateClient
     /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public async Task<List<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<List<Avatar>> GetAvatarsAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         int currentPage = 1;
         SyncAvatarFilter filter = new() { Uid = userAndUid.Uid.Value, Region = userAndUid.Uid.Region };
@@ -81,7 +81,7 @@ internal sealed partial class CalculateClient
                 .TryCatchPostAsJsonAsync<SyncAvatarFilter, Response<ListWrapper<Avatar>>>(url, filter, options, logger, token)
                 .ConfigureAwait(false);
 
-            if (resp != null && resp.IsOk())
+            if (resp is not null && resp.IsOk())
             {
                 avatars.AddRange(resp.Data.List);
             }
@@ -93,7 +93,7 @@ internal sealed partial class CalculateClient
 
             await Task.Delay(Random.Shared.Next(0, 1000), token).ConfigureAwait(false);
         }
-        while (resp?.Data?.List?.Count == 20);
+        while (resp.Data is { List.Count: 20 });
 
         return avatars;
     }
@@ -105,7 +105,7 @@ internal sealed partial class CalculateClient
     /// <param name="avatar">角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色详情</returns>
-    public async Task<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)
+    public async ValueTask<Response<AvatarDetail>> GetAvatarDetailAsync(UserAndUid userAndUid, Avatar avatar, CancellationToken token = default)
     {
         string url = userAndUid.User.IsOversea
             ? ApiOsEndpoints.CalculateSyncAvatarDetail(avatar.Id, userAndUid.Uid.Value)
@@ -126,7 +126,7 @@ internal sealed partial class CalculateClient
     /// <param name="shareCode">摹本码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>家具列表</returns>
-    public async Task<Response<FurnitureListWrapper>> FurnitureBlueprintAsync(Model.Entity.User user, string shareCode, CancellationToken token)
+    public async ValueTask<Response<FurnitureListWrapper>> FurnitureBlueprintAsync(Model.Entity.User user, string shareCode, CancellationToken token)
     {
         Response<FurnitureListWrapper>? resp = await httpClient
             .SetUser(user, CookieType.CookieToken)
@@ -143,7 +143,7 @@ internal sealed partial class CalculateClient
     /// <param name="items">物品</param>
     /// <param name="token">取消令牌</param>
     /// <returns>消耗</returns>
-    public async Task<Response<ListWrapper<Item>>> FurnitureComputeAsync(Model.Entity.User user, List<Item> items, CancellationToken token)
+    public async ValueTask<Response<ListWrapper<Item>>> FurnitureComputeAsync(Model.Entity.User user, List<Item> items, CancellationToken token)
     {
         ListWrapper<IdCount> data = new() { List = items.Select(i => new IdCount { Id = i.Id, Count = i.Num }).ToList() };
 

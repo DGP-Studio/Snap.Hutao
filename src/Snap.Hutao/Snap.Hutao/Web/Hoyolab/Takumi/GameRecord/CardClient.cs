@@ -15,25 +15,13 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 /// </summary>
 [HighQuality]
 [UseDynamicSecret]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc)]
-internal sealed class CardClient
+internal sealed partial class CardClient
 {
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<CardClient> logger;
-
-    /// <summary>
-    /// 构造一个新的卡片客户端
-    /// </summary>
-    /// <param name="httpClient">http客户端</param>
-    /// <param name="options">选项</param>
-    /// <param name="logger">日志器</param>
-    public CardClient(HttpClient httpClient, JsonSerializerOptions options, ILogger<CardClient> logger)
-    {
-        this.httpClient = httpClient;
-        this.options = options;
-        this.logger = logger;
-    }
 
     /// <summary>
     /// 注册验证码
@@ -41,7 +29,7 @@ internal sealed class CardClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>注册结果</returns>
-    public async Task<Response<VerificationRegistration>> CreateVerificationAsync(User user, CancellationToken token)
+    public async ValueTask<Response<VerificationRegistration>> CreateVerificationAsync(User user, CancellationToken token)
     {
         Response<VerificationRegistration>? resp = await httpClient
             .SetUser(user, CookieType.LToken)
@@ -59,7 +47,7 @@ internal sealed class CardClient
     /// <param name="validate">验证</param>
     /// <param name="token">取消令牌</param>
     /// <returns>验证结果</returns>
-    public async Task<Response<VerificationResult>> VerifyVerificationAsync(string challenge, string validate, CancellationToken token)
+    public async ValueTask<Response<VerificationResult>> VerifyVerificationAsync(string challenge, string validate, CancellationToken token)
     {
         VerificationData data = new(challenge, validate);
 
@@ -77,7 +65,7 @@ internal sealed class CardClient
     /// <param name="token">取消令牌</param>
     /// <returns>桌面小组件数据</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.X6)]
-    public async Task<Response<DailyNote.WidgetDailyNote>> GetWidgetDataAsync(User user, CancellationToken token)
+    public async ValueTask<Response<DailyNote.WidgetDailyNote>> GetWidgetDataAsync(User user, CancellationToken token)
     {
         Response<DailyNote.WidgetDailyNote>? resp = await httpClient
             .SetUser(user, CookieType.SToken)

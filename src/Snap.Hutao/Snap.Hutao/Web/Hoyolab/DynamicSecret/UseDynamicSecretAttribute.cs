@@ -9,6 +9,6 @@ namespace Snap.Hutao.Web.Hoyolab.DynamicSecret;
 /// </summary>
 [HighQuality]
 [AttributeUsage(AttributeTargets.Class)]
-internal class UseDynamicSecretAttribute : Attribute
+internal sealed class UseDynamicSecretAttribute : Attribute
 {
 }

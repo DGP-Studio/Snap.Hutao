@@ -44,7 +44,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="isResetPassword">是否重置账号密码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public async Task<Response.Response> VerifyAsync(string email, bool isResetPassword, CancellationToken token = default)
+    public async ValueTask<Response.Response> VerifyAsync(string email, bool isResetPassword, CancellationToken token = default)
     {
         Dictionary<string, object> data = new()
         {
@@ -67,7 +67,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="verifyCode">验证码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应，包含登录令牌</returns>
-    public async Task<Response<string>> RegisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
+    public async ValueTask<Response<string>> RegisterAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -91,7 +91,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="verifyCode">验证码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应，包含登录令牌</returns>
-    public async Task<Response<string>> ResetPasswordAsync(string email, string password, string verifyCode, CancellationToken token = default)
+    public async ValueTask<Response<string>> ResetPasswordAsync(string email, string password, string verifyCode, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -114,7 +114,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="password">密码</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应，包含登录令牌</returns>
-    public async Task<Response<string>> LoginAsync(string email, string password, CancellationToken token = default)
+    public async ValueTask<Response<string>> LoginAsync(string email, string password, CancellationToken token = default)
     {
         Dictionary<string, string> data = new()
         {
@@ -135,7 +135,7 @@ internal sealed partial class HomaPassportClient
     /// <param name="authToken">验证令牌</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户信息</returns>
-    public async Task<Response<UserInfo>> GetUserInfoAsync(string authToken, CancellationToken token = default)
+    public async ValueTask<Response<UserInfo>> GetUserInfoAsync(string authToken, CancellationToken token = default)
     {
         httpClient.DefaultRequestHeaders.Authorization = new("Bearer", authToken);
 

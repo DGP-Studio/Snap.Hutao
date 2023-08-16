@@ -33,7 +33,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     /// <param name="token">取消令牌</param>
     /// <returns>实时便笺</returns>
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
-    public async Task<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<Response<DailyNote.DailyNote>> GetDailyNoteAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         Response<DailyNote.DailyNote>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.Cookie)
@@ -48,7 +48,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
             resp.Message = SH.WebDailyNoteVerificationFailed;
             CardVerifier cardVerifier = serviceProvider.GetRequiredService<CardVerifier>();
 
-            if (await cardVerifier.TryGetXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is string challenge)
+            if (await cardVerifier.TryGetXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
             {
                 resp = await httpClient
                     .SetUser(userAndUid.User, CookieType.Cookie)
@@ -69,7 +69,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     /// <param name="token">取消令牌</param>
     /// <returns>玩家的基础信息</returns>
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
-    public async Task<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<Response<PlayerInfo>> GetPlayerInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         Response<PlayerInfo>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.LToken)
@@ -88,7 +88,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     /// <param name="token">取消令牌</param>
     /// <returns>深渊信息</returns>
     [ApiInformation(Cookie = CookieType.Cookie, Salt = SaltType.X4)]
-    public async Task<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
+    public async ValueTask<Response<SpiralAbyss.SpiralAbyss>> GetSpiralAbyssAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule, CancellationToken token = default)
     {
         Response<SpiralAbyss.SpiralAbyss>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.Cookie)
@@ -106,7 +106,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     /// <param name="token">取消令牌</param>
     /// <returns>角色基本信息</returns>
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
-    public async Task<Response<BasicRoleInfo>> GetRoleBasicInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
+    public async ValueTask<Response<BasicRoleInfo>> GetRoleBasicInfoAsync(UserAndUid userAndUid, CancellationToken token = default)
     {
         Response<BasicRoleInfo>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.LToken)
@@ -125,7 +125,7 @@ internal sealed partial class GameRecordClient : IGameRecordClient
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.X4)]
-    public async Task<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
+    public async ValueTask<Response<CharacterWrapper>> GetCharactersAsync(UserAndUid userAndUid, PlayerInfo playerInfo, CancellationToken token = default)
     {
         CharacterData data = new(userAndUid.Uid, playerInfo.Avatars.Select(x => x.Id));
 

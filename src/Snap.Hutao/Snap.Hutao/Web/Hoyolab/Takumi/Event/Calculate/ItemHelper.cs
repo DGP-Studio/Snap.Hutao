@@ -22,15 +22,18 @@ internal static class ItemHelper
             return new(0);
         }
 
-        if (right.IsNullOrEmpty())
+        if (left.IsNullOrEmpty() && !right.IsNullOrEmpty())
         {
-            return left!;
+            return right;
         }
 
-        if (left.IsNullOrEmpty())
+        if (right.IsNullOrEmpty() && !left.IsNullOrEmpty())
         {
-            return right!;
+            return left;
         }
+
+        ArgumentNullException.ThrowIfNull(left);
+        ArgumentNullException.ThrowIfNull(right);
 
         List<Item> result = new(left.Count + right.Count);
         result.AddRange(left);

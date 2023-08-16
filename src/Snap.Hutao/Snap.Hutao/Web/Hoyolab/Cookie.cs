@@ -45,7 +45,7 @@ internal sealed partial class Cookie
     public static Cookie Parse(string cookieString)
     {
         SortedDictionary<string, string> cookieMap = new();
-        cookieString = cookieString.Replace(" ", string.Empty);
+        cookieString = cookieString.Replace(" ", string.Empty, StringComparison.Ordinal);
         string[] values = cookieString.Split(';', StringSplitOptions.RemoveEmptyEntries);
         foreach (string[] parts in values.Select(c => c.Split('=', 2)))
         {
@@ -76,7 +76,7 @@ internal sealed partial class Cookie
     /// <returns>Cookie</returns>
     public static Cookie FromLoginResult(LoginResult? loginResult)
     {
-        if (loginResult == null)
+        if (loginResult is null)
         {
             return new();
         }
@@ -115,15 +115,12 @@ internal sealed partial class Cookie
 
     public bool TryGetLToken([NotNullWhen(true)] out Cookie? cookie)
     {
-        bool hasLtoken = TryGetValue(LTOKEN, out string? ltoken);
-        bool hasStuid = TryGetValue(LTUID, out string? ltuid);
-
-        if (hasLtoken && hasStuid)
+        if (TryGetValue(LTOKEN, out string? ltoken) && TryGetValue(LTUID, out string? ltuid))
         {
             cookie = new Cookie(new()
             {
-                [LTOKEN] = ltoken!,
-                [LTUID] = ltuid!,
+                [LTOKEN] = ltoken,
+                [LTUID] = ltuid,
             });
 
             return true;
@@ -135,15 +132,12 @@ internal sealed partial class Cookie
 
     public bool TryGetCookieToken([NotNullWhen(true)] out Cookie? cookie)
     {
-        bool hasAccountId = TryGetValue(ACCOUNT_ID, out string? accountId);
-        bool hasCookieToken = TryGetValue(COOKIE_TOKEN, out string? cookieToken);
-
-        if (hasAccountId && hasCookieToken)
+        if (TryGetValue(ACCOUNT_ID, out string? accountId) && TryGetValue(COOKIE_TOKEN, out string? cookieToken))
         {
             cookie = new Cookie(new()
             {
-                [ACCOUNT_ID] = accountId!,
-                [COOKIE_TOKEN] = cookieToken!,
+                [ACCOUNT_ID] = accountId,
+                [COOKIE_TOKEN] = cookieToken,
             });
 
             return true;
@@ -180,17 +174,13 @@ internal sealed partial class Cookie
 
     private bool TryGetSToken([NotNullWhen(true)] out Cookie? cookie)
     {
-        bool hasMid = TryGetValue(MID, out string? mid);
-        bool hasSToken = TryGetValue(STOKEN, out string? stoken);
-        bool hasSTuid = TryGetValue(STUID, out string? stuid);
-
-        if (hasMid && hasSToken && hasSTuid)
+        if (TryGetValue(MID, out string? mid) && TryGetValue(STOKEN, out string? stoken) && TryGetValue(STUID, out string? stuid))
         {
             cookie = new Cookie(new()
             {
-                [MID] = mid!,
-                [STOKEN] = stoken!,
-                [STUID] = stuid!,
+                [MID] = mid,
+                [STOKEN] = stoken,
+                [STUID] = stuid,
             });
 
             return true;
@@ -202,15 +192,12 @@ internal sealed partial class Cookie
 
     private bool TryGetLegacySToken([NotNullWhen(true)] out Cookie? cookie)
     {
-        bool hasSToken = TryGetValue(STOKEN, out string? stoken);
-        bool hasSTuid = TryGetValue(STUID, out string? stuid);
-
-        if (hasSToken && hasSTuid)
+        if (TryGetValue(STOKEN, out string? stoken) && TryGetValue(STUID, out string? stuid))
         {
             cookie = new Cookie(new()
             {
-                [STOKEN] = stoken!,
-                [STUID] = stuid!,
+                [STOKEN] = stoken,
+                [STUID] = stuid,
             });
 
             return true;

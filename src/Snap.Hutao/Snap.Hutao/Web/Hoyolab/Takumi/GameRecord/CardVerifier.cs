@@ -33,7 +33,7 @@ internal sealed class CardVerifier
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>流水号</returns>
-    public async Task<string?> TryGetXrpcChallengeAsync(User user, CancellationToken token)
+    public async ValueTask<string?> TryGetXrpcChallengeAsync(User user, CancellationToken token)
     {
         Response.Response<VerificationRegistration> registrationResponse = await cardClient.CreateVerificationAsync(user, token).ConfigureAwait(false);
         if (registrationResponse.IsOk())
@@ -43,14 +43,14 @@ internal sealed class CardVerifier
             await geetestClient.GetTypeAsync(registration.Gt).ConfigureAwait(false);
             GeetestResult<GeetestData>? ajax = await geetestClient.GetAjaxAsync(registration).ConfigureAwait(false);
 
-            if (ajax?.Data.Validate is string validate)
+            if (ajax?.Data.Validate is { } validate)
             {
                 Response.Response<VerificationResult> verifyResponse = await cardClient.VerifyVerificationAsync(registration.Challenge, validate, token).ConfigureAwait(false);
                 if (verifyResponse.IsOk())
                 {
                     VerificationResult result = verifyResponse.Data;
 
-                    if (result.Challenge != null)
+                    if (result.Challenge is not null)
                     {
                         return result.Challenge;
                     }
@@ -58,6 +58,6 @@ internal sealed class CardVerifier
             }
         }
 
-        return null;
+        return default;
     }
 }

@@ -31,9 +31,10 @@ internal sealed partial class AuthClient
     /// <param name="user">用户</param>
     /// <returns>操作凭证</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.K2)]
-    public async Task<Response<ActionTicketWrapper>> GetActionTicketBySTokenAsync(string action, User user)
+    public async ValueTask<Response<ActionTicketWrapper>> GetActionTicketBySTokenAsync(string action, User user)
     {
-        string url = ApiEndpoints.AuthActionTicket(action, user.SToken?[Cookie.STOKEN] ?? string.Empty, user.Aid!);
+        ArgumentException.ThrowIfNullOrEmpty(user.Aid);
+        string url = ApiEndpoints.AuthActionTicket(action, user.SToken?[Cookie.STOKEN] ?? string.Empty, user.Aid);
 
         Response<ActionTicketWrapper>? resp = await httpClient
             .SetUser(user, CookieType.SToken)
@@ -51,7 +52,7 @@ internal sealed partial class AuthClient
     /// <param name="isOversea">是否为国际服</param>
     /// <param name="token">取消令牌</param>
     /// <returns>包含token的字典</returns>
-    public async Task<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<NameToken>>> GetMultiTokenByLoginTicketAsync(Cookie cookie, bool isOversea, CancellationToken token = default)
     {
         string loginTicket = cookie[Cookie.LOGIN_TICKET];
         string loginUid = cookie[Cookie.LOGIN_UID];

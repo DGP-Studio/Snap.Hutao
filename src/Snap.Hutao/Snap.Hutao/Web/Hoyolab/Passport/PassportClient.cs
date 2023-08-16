@@ -30,7 +30,7 @@ internal sealed partial class PassportClient : IPassportClient
     /// <param name="token">取消令牌</param>
     /// <returns>cookie token</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.PROD)]
-    public async Task<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
+    public async ValueTask<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default)
     {
         Response<UidCookieToken>? resp = await httpClient
             .SetUser(user, CookieType.SToken)
@@ -48,7 +48,7 @@ internal sealed partial class PassportClient : IPassportClient
     /// <param name="token">取消令牌</param>
     /// <returns>uid 与 cookie token</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.PROD)]
-    public async Task<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default)
+    public async ValueTask<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default)
     {
         Response<LTokenWrapper>? resp = await httpClient
             .SetUser(user, CookieType.SToken)

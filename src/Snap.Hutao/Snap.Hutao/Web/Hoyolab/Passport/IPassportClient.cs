@@ -17,7 +17,7 @@ internal interface IPassportClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>cookie token</returns>
-    Task<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default);
+    ValueTask<Response<UidCookieToken>> GetCookieAccountInfoBySTokenAsync(User user, CancellationToken token = default);
 
     /// <summary>
     /// 异步获取 LToken
@@ -25,5 +25,5 @@ internal interface IPassportClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>uid 与 cookie token</returns>
-    Task<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default);
+    ValueTask<Response<LTokenWrapper>> GetLTokenBySTokenAsync(User user, CancellationToken token = default);
 }

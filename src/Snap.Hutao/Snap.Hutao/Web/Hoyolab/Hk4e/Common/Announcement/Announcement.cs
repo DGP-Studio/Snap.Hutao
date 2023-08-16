@@ -32,20 +32,20 @@ internal sealed class Announcement : AnnouncementContent
                 TimeSpan span = StartTime - now;
                 if (span.TotalDays <= 1)
                 {
-                    return string.Format(SH.WebAnnouncementTimeHoursBeginFormat, (int)span.TotalHours);
+                    return SH.WebAnnouncementTimeHoursBeginFormat.Format((int)span.TotalHours);
                 }
 
-                return string.Format(SH.WebAnnouncementTimeDaysBeginFormat, (int)span.TotalDays);
+                return SH.WebAnnouncementTimeDaysBeginFormat.Format((int)span.TotalDays);
             }
             else
             {
                 TimeSpan span = EndTime - now;
                 if (span.TotalDays <= 1)
                 {
-                    return string.Format(SH.WebAnnouncementTimeHoursEndFormat, (int)span.TotalHours);
+                    return SH.WebAnnouncementTimeHoursEndFormat.Format((int)span.TotalHours);
                 }
 
-                return string.Format(SH.WebAnnouncementTimeDaysEndFormat, (int)span.TotalDays);
+                return SH.WebAnnouncementTimeDaysEndFormat.Format((int)span.TotalDays);
             }
         }
     }

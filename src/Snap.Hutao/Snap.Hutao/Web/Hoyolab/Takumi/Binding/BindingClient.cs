@@ -30,7 +30,7 @@ internal sealed partial class BindingClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
-    public async Task<Response<ListWrapper<UserGameRole>>> GetUserGameRolesOverseaAwareAsync(User user, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesOverseaAwareAsync(User user, CancellationToken token = default)
     {
         if (user.IsOversea)
         {
@@ -63,7 +63,7 @@ internal sealed partial class BindingClient
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
     [ApiInformation(Cookie = CookieType.LToken)]
-    public async Task<Response<ListWrapper<UserGameRole>>> GetUserGameRolesByActionTicketAsync(string actionTicket, User user, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<UserGameRole>>> GetUserGameRolesByActionTicketAsync(string actionTicket, User user, CancellationToken token = default)
     {
         string url = ApiEndpoints.UserGameRolesByActionTicket(actionTicket);
 
@@ -82,7 +82,7 @@ internal sealed partial class BindingClient
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
     [ApiInformation(Cookie = CookieType.LToken)]
-    public async Task<Response<ListWrapper<UserGameRole>>> GetOverseaUserGameRolesByCookieAsync(User user, CancellationToken token = default)
+    public async ValueTask<Response<ListWrapper<UserGameRole>>> GetOverseaUserGameRolesByCookieAsync(User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
             .SetUser(user, CookieType.LToken)

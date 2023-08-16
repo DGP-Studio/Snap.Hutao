@@ -26,7 +26,7 @@ internal sealed partial class ResourceClient
     /// <param name="scheme">方案</param>
     /// <param name="token">取消令牌</param>
     /// <returns>游戏资源</returns>
-    public async Task<Response<GameResource>> GetResourceAsync(LaunchScheme scheme, CancellationToken token = default)
+    public async ValueTask<Response<GameResource>> GetResourceAsync(LaunchScheme scheme, CancellationToken token = default)
     {
         string url = scheme.IsOversea
             ? ApiOsEndpoints.SdkOsStaticLauncherResource(scheme)

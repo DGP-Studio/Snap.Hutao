@@ -40,7 +40,7 @@ internal sealed class HomaGachaLogClient
     /// </summary>
     /// <param name="token">取消令牌</param>
     /// <returns>祈愿统计信息</returns>
-    public async Task<Response<GachaEventStatistics>> GetGachaEventStatisticsAsync(CancellationToken token = default)
+    public async ValueTask<Response<GachaEventStatistics>> GetGachaEventStatisticsAsync(CancellationToken token = default)
     {
         Response<GachaEventStatistics>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<GachaEventStatistics>>(HutaoEndpoints.GachaLogStatisticsCurrentEvents, options, logger, token)
@@ -70,7 +70,7 @@ internal sealed class HomaGachaLogClient
     /// <param name="token">取消令牌</param>
     /// <returns>Uid 列表</returns>
     [Obsolete("Use GetGachaEntriesAsync instead")]
-    public async Task<Response<List<string>>> GetUidsAsync(CancellationToken token = default)
+    public async ValueTask<Response<List<string>>> GetUidsAsync(CancellationToken token = default)
     {
         Response<List<string>>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<string>>>(HutaoEndpoints.GachaLogUids, options, logger, token)
@@ -99,7 +99,7 @@ internal sealed class HomaGachaLogClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>末尾Id</returns>
-    public async Task<Response<EndIds>> GetEndIdsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<Response<EndIds>> GetEndIdsAsync(string uid, CancellationToken token = default)
     {
         Response<EndIds>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<EndIds>>(HutaoEndpoints.GachaLogEndIds(uid), options, logger, token)
@@ -115,7 +115,7 @@ internal sealed class HomaGachaLogClient
     /// <param name="endIds">末尾 Id</param>
     /// <param name="token">取消令牌</param>
     /// <returns>云端祈愿记录</returns>
-    public async Task<Response<List<GachaItem>>> RetrieveGachaItemsAsync(string uid, EndIds endIds, CancellationToken token = default)
+    public async ValueTask<Response<List<GachaItem>>> RetrieveGachaItemsAsync(string uid, EndIds endIds, CancellationToken token = default)
     {
         UidAndEndIds uidAndEndIds = new(uid, endIds);
 
@@ -133,7 +133,7 @@ internal sealed class HomaGachaLogClient
     /// <param name="gachaItems">祈愿记录</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public async Task<Response.Response> UploadGachaItemsAsync(string uid, List<GachaItem> gachaItems, CancellationToken token = default)
+    public async ValueTask<Response.Response> UploadGachaItemsAsync(string uid, List<GachaItem> gachaItems, CancellationToken token = default)
     {
         UidAndItems uidAndItems = new(uid, gachaItems);
 
@@ -150,7 +150,7 @@ internal sealed class HomaGachaLogClient
     /// <param name="uid">uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>响应</returns>
-    public async Task<Response.Response> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
+    public async ValueTask<Response.Response> DeleteGachaItemsAsync(string uid, CancellationToken token = default)
     {
         Response.Response? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<List<GachaItem>>>(HutaoEndpoints.GachaLogDelete(uid), options, logger, token)

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Globalization;
+
 namespace Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 
 /// <summary>
@@ -22,7 +24,7 @@ internal sealed class GenAuthKeyData
     {
         AuthAppId = authAppId;
         GameBiz = gameBiz;
-        GameUid = int.Parse(uid.Value);
+        GameUid = int.Parse(uid.Value, CultureInfo.InvariantCulture);
         Region = uid.Region;
     }
 

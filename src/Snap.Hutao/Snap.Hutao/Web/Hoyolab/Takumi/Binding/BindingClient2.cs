@@ -30,7 +30,7 @@ internal sealed partial class BindingClient2
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.LK2)]
-    public async Task<List<UserGameRole>> GetUserGameRolesBySTokenAsync(User user, CancellationToken token = default)
+    public async ValueTask<List<UserGameRole>> GetUserGameRolesBySTokenAsync(User user, CancellationToken token = default)
     {
         Response<ListWrapper<UserGameRole>>? resp = await httpClient
             .SetUser(user, CookieType.SToken)
@@ -50,7 +50,7 @@ internal sealed partial class BindingClient2
     /// <param name="token">取消令牌</param>
     /// <returns>用户角色信息</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.LK2)]
-    public async Task<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
+    public async ValueTask<Response<GameAuthKey>> GenerateAuthenticationKeyAsync(User user, GenAuthKeyData data, CancellationToken token = default)
     {
         Response<GameAuthKey>? resp = await httpClient
             .SetUser(user, CookieType.SToken)

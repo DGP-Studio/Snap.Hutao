@@ -27,17 +27,17 @@ internal static class HoyolabHttpClientExtension
 
         if (cookie.HasFlag(CookieType.CookieToken))
         {
-            stringBuilder.Append(user.CookieToken).AppendIf(user.CookieToken != null, ';');
+            stringBuilder.Append(user.CookieToken).AppendIf(user.CookieToken is not null, ';');
         }
 
         if (cookie.HasFlag(CookieType.LToken))
         {
-            stringBuilder.Append(user.LToken).AppendIf(user.LToken != null, ';');
+            stringBuilder.Append(user.LToken).AppendIf(user.LToken is not null, ';');
         }
 
         if (cookie.HasFlag(CookieType.SToken))
         {
-            stringBuilder.Append(user.SToken).AppendIf(user.SToken != null, ';');
+            stringBuilder.Append(user.SToken).AppendIf(user.SToken is not null, ';');
         }
 
         string result = stringBuilder.ToString();

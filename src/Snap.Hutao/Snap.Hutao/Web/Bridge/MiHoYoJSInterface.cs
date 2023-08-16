@@ -417,7 +417,8 @@ internal class MiHoYoJSInterface
     private void OnNavigationStarting(CoreWebView2 coreWebView2, CoreWebView2NavigationStartingEventArgs args)
     {
         string uriHost = new Uri(args.Uri).Host;
-        if (uriHost.EndsWith("mihoyo.com") || uriHost.EndsWith("hoyolab.com"))
+        ReadOnlySpan<char> uriHostSpan = uriHost.AsSpan();
+        if (uriHostSpan.EndsWith("mihoyo.com") || uriHostSpan.EndsWith("hoyolab.com"))
         {
             // Execute this solve issue: When open same site second time,there might be no bridge init.
             coreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(InitializeJsInterfaceScript2).AsTask().SafeForget(logger);

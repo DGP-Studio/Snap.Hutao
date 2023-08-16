@@ -34,7 +34,7 @@ internal sealed partial class EnkaClient
     /// <returns>Enka API 响应</returns>
     public ValueTask<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(string.Format(EnkaAPIHutaoForward, playerUid.Value), token);
+        return TryGetEnkaResponseCoreAsync(EnkaAPIHutaoForward.Format(playerUid.Value), token);
     }
 
     /// <summary>

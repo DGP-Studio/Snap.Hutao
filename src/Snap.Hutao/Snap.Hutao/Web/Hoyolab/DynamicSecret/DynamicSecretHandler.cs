@@ -31,7 +31,8 @@ internal sealed class DynamicSecretHandler : DelegatingHandler
         return await base.SendAsync(request, token).ConfigureAwait(false);
     }
 
-    private static async Task ProcessRequestWithOptionsAsync(HttpRequestMessage request, DynamicSecretCreationOptions options, CancellationToken token)
+    [SuppressMessage("", "CA1308")]
+    private static async ValueTask ProcessRequestWithOptionsAsync(HttpRequestMessage request, DynamicSecretCreationOptions options, CancellationToken token)
     {
         string salt = HoyolabOptions.Salts[options.SaltType];
 
@@ -44,11 +45,12 @@ internal sealed class DynamicSecretHandler : DelegatingHandler
         // ds2 b & q process
         if (options.Version == DynamicSecretVersion.Gen2)
         {
-            string b = request.Content != null
+            string b = request.Content is not null
                 ? await request.Content.ReadAsStringAsync(token).ConfigureAwait(false)
                 : options.DefaultBody; // PROD's default value is {}
 
-            string[] queries = Uri.UnescapeDataString(request.RequestUri!.Query).Split('?', 2);
+            ArgumentNullException.ThrowIfNull(request.RequestUri);
+            string[] queries = Uri.UnescapeDataString(request.RequestUri.Query).Split('?', 2);
             string q = queries.Length == 2 ? string.Join('&', queries[1].Split('&').OrderBy(x => x)) : string.Empty;
 
             dsContent = $"{dsContent}&b={b}&q={q}";
