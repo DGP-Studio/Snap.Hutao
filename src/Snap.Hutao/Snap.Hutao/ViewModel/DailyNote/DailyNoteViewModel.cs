@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Notification;
@@ -20,8 +21,8 @@ namespace Snap.Hutao.ViewModel.DailyNote;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IDailyNoteService dailyNoteService;
-    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly DailyNoteOptions options;
     private readonly ITaskContext taskContext;
@@ -113,7 +114,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
             {
                 // ContentDialog must be created by main thread.
                 await taskContext.SwitchToMainThreadAsync();
-                await serviceProvider.CreateInstance<DailyNoteNotificationDialog>(entry).ShowAsync();
+                DailyNoteNotificationDialog dialog = await contentDialogFactory.CreateInstanceAsync<DailyNoteNotificationDialog>(entry).ConfigureAwait(true);
+                await dialog.ShowAsync();
 
                 await taskContext.SwitchToBackgroundAsync();
                 await dailyNoteService.UpdateDailyNoteAsync(entry).ConfigureAwait(false);

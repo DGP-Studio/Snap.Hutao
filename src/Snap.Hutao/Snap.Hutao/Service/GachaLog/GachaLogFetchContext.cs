@@ -49,19 +49,15 @@ internal struct GachaLogFetchContext
     /// </summary>
     public GachaConfigType CurrentType;
 
-    private readonly IServiceProvider serviceProvider;
     private readonly GachaLogServiceMetadataContext serviceContext;
+    private readonly IGachaLogDbService gachaLogDbService;
+    private readonly ITaskContext taskContext;
     private readonly bool isLazy;
 
-    /// <summary>
-    /// 构造一个新的祈愿记录获取上下文
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="serviceContext">祈愿服务上下文</param>
-    /// <param name="isLazy">是否为懒惰模式</param>
-    public GachaLogFetchContext(IServiceProvider serviceProvider, in GachaLogServiceMetadataContext serviceContext, bool isLazy)
+    public GachaLogFetchContext(IGachaLogDbService gachaLogDbService, ITaskContext taskContext, in GachaLogServiceMetadataContext serviceContext, bool isLazy)
     {
-        this.serviceProvider = serviceProvider;
+        this.gachaLogDbService = gachaLogDbService;
+        this.taskContext = taskContext;
         this.serviceContext = serviceContext;
         this.isLazy = isLazy;
     }
@@ -99,7 +95,7 @@ internal struct GachaLogFetchContext
     {
         if (TargetArchive is null)
         {
-            GachaArchiveOperation.GetOrAdd(serviceProvider, item.Uid, archives, out TargetArchive);
+            GachaArchiveOperation.GetOrAdd(gachaLogDbService, taskContext, item.Uid, archives, out TargetArchive);
         }
 
         DbEndId ??= gachaLogDbService.GetNewestGachaItemIdByArchiveIdAndQueryType(TargetArchive.InnerId, CurrentType);
@@ -131,7 +127,8 @@ internal struct GachaLogFetchContext
     /// <param name="item">物品</param>
     public void AddItem(GachaLogItem item)
     {
-        ItemsToAdd.Add(GachaItem.From(TargetArchive!.InnerId, item, serviceContext.GetItemId(item)));
+        ArgumentNullException.ThrowIfNull(TargetArchive);
+        ItemsToAdd.Add(GachaItem.From(TargetArchive.InnerId, item, serviceContext.GetItemId(item)));
         FetchStatus.Items.Add(serviceContext.GetItemByNameAndType(item.Name, item.ItemType));
         QueryOptions.EndId = item.Id;
     }
@@ -141,16 +138,11 @@ internal struct GachaLogFetchContext
     /// </summary>
     public readonly void SaveItems()
     {
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        // While no item is fetched, archive can be null.
+        if (TargetArchive is not null)
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            // While no item is fetched, archive can be null.
-            if (TargetArchive is not null)
-            {
-                GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.EndId, appDbContext.GachaItems);
-                TargetArchive.SaveItems(saveContext);
-            }
+            GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.EndId, gachaLogDbService);
+            saveContext.SaveItems(TargetArchive);
         }
     }
 

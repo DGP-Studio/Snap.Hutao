@@ -35,7 +35,9 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
             ? GameConstants.GenshinImpactData
             : GameConstants.YuanShenData;
 
-        DirectoryInfo webCacheFolder = new(Path.Combine(Path.GetDirectoryName(path)!, dataFolder, "webCaches"));
+        string? directory = Path.GetDirectoryName(path);
+        ArgumentNullException.ThrowIfNull(directory);
+        DirectoryInfo webCacheFolder = new(Path.Combine(directory, dataFolder, "webCaches"));
         Regex versionRegex = VersionRegex();
         DirectoryInfo? lastestVersionCacheFolder = webCacheFolder
             .EnumerateDirectories()
@@ -51,52 +53,44 @@ internal sealed partial class GachaLogQueryWebCacheProvider : IGachaLogQueryProv
     {
         (bool isOk, string path) = await gameService.GetGamePathAsync().ConfigureAwait(false);
 
-        if (isOk && (!string.IsNullOrEmpty(path)))
-        {
-            string cacheFile = GetCacheFile(path);
-
-            using (TempFile? tempFile = TempFile.CopyFrom(cacheFile))
-            {
-                if (tempFile.TryGetValue(out TempFile file))
-                {
-                    using (FileStream fileStream = new(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
-                    {
-                        using (MemoryStream memoryStream = new())
-                        {
-                            await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
-                            string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData));
-
-                            if (!string.IsNullOrEmpty(result))
-                            {
-                                QueryString query = QueryString.Parse(result.TrimEnd("#/log"));
-                                string queryLanguageCode = query["lang"];
-                                if (metadataOptions.IsCurrentLocale(queryLanguageCode))
-                                {
-                                    return new(true, new(result));
-                                }
-                                else
-                                {
-                                    string message = string.Format(
-                                        SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale,
-                                        queryLanguageCode,
-                                        metadataOptions.LanguageCode);
-                                    return new(false, message);
-                                }
-                            }
-                            else
-                            {
-                                return new(false, SH.ServiceGachaLogUrlProviderCacheUrlNotFound);
-                            }
-                        }
-                    }
-                }
-
-                return new(false, string.Format(Regex.Unescape(SH.ServiceGachaLogUrlProviderCachePathNotFound), cacheFile));
-            }
-        }
-        else
+        if (!isOk || string.IsNullOrEmpty(path))
         {
             return new(false, SH.ServiceGachaLogUrlProviderCachePathInvalid);
+        }
+
+        string cacheFile = GetCacheFile(path);
+        using (TempFile? tempFile = TempFile.CopyFrom(cacheFile))
+        {
+            if (!tempFile.TryGetValue(out TempFile file))
+            {
+                return new(false, Regex.Unescape(SH.ServiceGachaLogUrlProviderCachePathNotFound).Format(cacheFile));
+            }
+
+            using (FileStream fileStream = new(file.Path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                using (MemoryStream memoryStream = new())
+                {
+                    await fileStream.CopyToAsync(memoryStream).ConfigureAwait(false);
+                    string? result = Match(memoryStream, cacheFile.Contains(GameConstants.GenshinImpactData, StringComparison.Ordinal));
+
+                    if (string.IsNullOrEmpty(result))
+                    {
+                        return new(false, SH.ServiceGachaLogUrlProviderCacheUrlNotFound);
+                    }
+
+                    QueryString query = QueryString.Parse(result.TrimEnd("#/log"));
+                    string queryLanguageCode = query["lang"];
+
+                    if (metadataOptions.IsCurrentLocale(queryLanguageCode))
+                    {
+                        return new(true, new(result));
+                    }
+
+                    string message = SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale
+                            .Format(queryLanguageCode, metadataOptions.LanguageCode);
+                    return new(false, message);
+                }
+            }
         }
     }
 

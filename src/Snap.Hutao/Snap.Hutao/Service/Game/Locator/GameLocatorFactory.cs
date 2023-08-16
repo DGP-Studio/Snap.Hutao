@@ -7,6 +7,7 @@ namespace Snap.Hutao.Service.Game.Locator;
 [Injection(InjectAs.Transient, typeof(IGameLocatorFactory))]
 internal sealed partial class GameLocatorFactory : IGameLocatorFactory
 {
+    [SuppressMessage("", "SH301")]
     private readonly IServiceProvider serviceProvider;
 
     public IGameLocator Create(GameLocationSource source)

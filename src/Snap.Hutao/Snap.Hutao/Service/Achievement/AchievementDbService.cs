@@ -57,6 +57,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
     }
 
+    [SuppressMessage("", "CA1305")]
     public async ValueTask<List<EntityAchievement>> GetLatestFinishedAchievementListByArchiveIdAsync(Guid archiveId, int take)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -66,7 +67,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
                 .AsNoTracking()
                 .Where(a => a.ArchiveId == archiveId)
                 .Where(a => a.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
-                .OrderByDescending(a => a.Time)
+                .OrderByDescending(a => a.Time.ToString())
                 .Take(take)
                 .ToListAsync()
                 .ConfigureAwait(false);

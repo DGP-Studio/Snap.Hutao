@@ -121,12 +121,12 @@ internal readonly struct GachaLogServiceMetadataContext
     {
         if (item.ItemType == SH.ModelInterchangeUIGFItemTypeAvatar)
         {
-            return NameAvatarMap!.GetValueOrDefault(item.Name)?.Id ?? 0;
+            return NameAvatarMap.GetValueOrDefault(item.Name)?.Id ?? 0;
         }
 
         if (item.ItemType == SH.ModelInterchangeUIGFItemTypeWeapon)
         {
-            return NameWeaponMap!.GetValueOrDefault(item.Name)?.Id ?? 0;
+            return NameWeaponMap.GetValueOrDefault(item.Name)?.Id ?? 0;
         }
 
         return 0U;

@@ -18,7 +18,7 @@ internal sealed class LevelView
     /// <param name="idAvatarMap">Id角色映射</param>
     public LevelView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Level level, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
     {
-        Index = string.Format(SH.ModelBindingHutaoComplexRankLevel, level.Index);
+        Index = SH.ModelBindingHutaoComplexRankLevel.Format(level.Index);
         Star = level.Star;
         Battles = level.Battles.SelectList(b => new BattleView(b, idAvatarMap));
     }

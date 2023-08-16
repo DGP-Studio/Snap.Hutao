@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
@@ -23,10 +24,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
 {
     private readonly ConcurrentCancellationTokenSource statisticsCancellationTokenSource = new();
 
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly ICultivationService cultivationService;
     private readonly ILogger<CultivationViewModel> logger;
-    private readonly IServiceProvider serviceProvider;
+    private readonly INavigationService navigationService;
     private readonly IMetadataService metadataService;
+    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
     private ObservableCollection<CultivateProject>? projects;
@@ -89,15 +92,12 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     [Command("AddProjectCommand")]
     private async Task AddProjectAsync()
     {
-        // ContentDialog must be created by main thread.
-        await taskContext.SwitchToMainThreadAsync();
-        CultivateProjectDialog dialog = serviceProvider.CreateInstance<CultivateProjectDialog>();
+        CultivateProjectDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivateProjectDialog>().ConfigureAwait(false);
         (bool isOk, CultivateProject project) = await dialog.CreateProjectAsync().ConfigureAwait(false);
 
         if (isOk)
         {
             ProjectAddResult result = await cultivationService.TryAddProjectAsync(project).ConfigureAwait(false);
-            IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
 
             switch (result)
             {
@@ -214,10 +214,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
         {
             Type? pageType = Type.GetType(typeString);
             ArgumentNullException.ThrowIfNull(pageType);
-
-            serviceProvider
-                .GetRequiredService<INavigationService>()
-                .Navigate(pageType, INavigationAwaiter.Default, true);
+            navigationService.Navigate(pageType, INavigationAwaiter.Default, true);
         }
     }
 }

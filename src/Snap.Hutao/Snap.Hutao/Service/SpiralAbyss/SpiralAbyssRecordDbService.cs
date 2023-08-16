@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.Service.SpiralAbyss;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordDbService))]
+[Injection(InjectAs.Singleton, typeof(ISpiralAbyssRecordDbService))]
 internal sealed partial class SpiralAbyssRecordDbService : ISpiralAbyssRecordDbService
 {
     private readonly IServiceProvider serviceProvider;

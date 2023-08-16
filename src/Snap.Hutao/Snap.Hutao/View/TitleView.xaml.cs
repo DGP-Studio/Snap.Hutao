@@ -36,7 +36,7 @@ internal sealed partial class TitleView : UserControl
 #else
                 SH.AppNameAndVersion;
 #endif
-            return string.Format(format, hutaoOptions.Version);
+            return format.Format(hutaoOptions.Version);
         }
     }
 

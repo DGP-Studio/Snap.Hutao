@@ -125,7 +125,8 @@ internal sealed class InfoBarService : IInfoBarService
         };
 
         infoBar.Closed += infobarClosedEventHandler;
-        collection!.Add(infoBar);
+        ArgumentNullException.ThrowIfNull(collection);
+        collection.Add(infoBar);
 
         if (delay > 0)
         {
@@ -137,7 +138,8 @@ internal sealed class InfoBarService : IInfoBarService
 
     private void OnInfoBarClosed(InfoBar sender, InfoBarClosedEventArgs args)
     {
-        taskContext.InvokeOnMainThread(() => collection!.Remove(sender));
+        ArgumentNullException.ThrowIfNull(collection);
+        taskContext.InvokeOnMainThread(() => collection.Remove(sender));
         sender.Closed -= infobarClosedEventHandler;
     }
 }

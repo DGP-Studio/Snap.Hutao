@@ -26,7 +26,7 @@ namespace Snap.Hutao.ViewModel.SpiralAbyss;
 internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
     private readonly ISpiralAbyssRecordService spiralAbyssRecordService;
-    private readonly IServiceProvider serviceProvider;
+    private readonly HomaSpiralAbyssClient spiralAbyssClient;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
@@ -148,15 +148,12 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
     [Command("UploadSpiralAbyssRecordCommand")]
     private async Task UploadSpiralAbyssRecordAsync()
     {
-        HomaSpiralAbyssClient homaClient = serviceProvider.GetRequiredService<HomaSpiralAbyssClient>();
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-
         if (UserAndUid.TryFromUser(userService.Current, out UserAndUid? userAndUid))
         {
-            SimpleRecord? record = await homaClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
+            SimpleRecord? record = await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
             if (record is not null)
             {
-                Web.Response.Response<string> response = await homaClient.UploadRecordAsync(record).ConfigureAwait(false);
+                Web.Response.Response<string> response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
 
                 if (response.IsOk())
                 {

@@ -20,7 +20,6 @@ namespace Snap.Hutao.Web.Bridge;
 /// </summary>
 [HighQuality]
 [SuppressMessage("", "CA1001")]
-[SuppressMessage("", "SA1600")]
 internal class MiHoYoJSInterface
 {
     private const string InitializeJsInterfaceScript2 = """
@@ -65,7 +64,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="jsParam">参数</param>
     /// <returns>响应</returns>
-    public virtual async Task<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
+    public virtual async ValueTask<IJsResult?> GetActionTicketAsync(JsParam<ActionTypePayload> jsParam)
     {
         return await serviceProvider
             .GetRequiredService<AuthClient>()
@@ -98,14 +97,13 @@ internal class MiHoYoJSInterface
     /// <returns>响应</returns>
     public virtual JsResult<Dictionary<string, string>> GetCookieInfo(JsParam param)
     {
-        User user = serviceProvider.GetRequiredService<IUserService>().Current!;
-
+        ArgumentNullException.ThrowIfNull(userAndUid.User.LToken);
         return new()
         {
             Data = new()
             {
-                [Cookie.LTUID] = user.LToken![Cookie.LTUID],
-                [Cookie.LTOKEN] = user.LToken[Cookie.LTOKEN],
+                [Cookie.LTUID] = userAndUid.User.LToken[Cookie.LTUID],
+                [Cookie.LTOKEN] = userAndUid.User.LToken[Cookie.LTOKEN],
                 [Cookie.LOGIN_TICKET] = string.Empty,
             },
         };
@@ -116,6 +114,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
+    [SuppressMessage("", "CA1308")]
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
         string salt = HoyolabOptions.Salts[SaltType.LK2];
@@ -146,9 +145,9 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
+    [SuppressMessage("", "CA1308")]
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
-        // TODO: Salt X4 for hoyolab user
         string salt = HoyolabOptions.Salts[SaltType.X4];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         int r = GetRandom();
@@ -193,7 +192,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual async Task<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
+    public virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
         IUserService userService = serviceProvider.GetRequiredService<IUserService>();
         User user = userService.Current!;
@@ -212,7 +211,7 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual async Task<IJsResult?> ClosePageAsync(JsParam param)
+    public virtual async ValueTask<IJsResult?> ClosePageAsync(JsParam param)
     {
         await taskContext.SwitchToMainThreadAsync();
         if (webView.CanGoBack)
@@ -247,7 +246,7 @@ internal class MiHoYoJSInterface
         return new() { Data = new() { ["statusBarHeight"] = 0 } };
     }
 
-    public virtual async Task<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
+    public virtual async ValueTask<IJsResult?> PushPageAsync(JsParam<PushPagePayload> param)
     {
         await taskContext.SwitchToMainThreadAsync();
         webView.Navigate(param.Payload.Page);
@@ -267,15 +266,16 @@ internal class MiHoYoJSInterface
         {
             Data = new()
             {
+                // TODO: replace with metadata options value
                 ["language"] = appOptions.PreviousCulture.Name.ToLowerInvariant(),
                 ["timeZone"] = "GMT+8",
             },
         };
     }
 
-    public virtual Task<IJsResult?> ShowAlertDialogAsync(JsParam param)
+    public virtual ValueTask<IJsResult?> ShowAlertDialogAsync(JsParam param)
     {
-        return Task.FromException<IJsResult?>(new NotImplementedException());
+        return ValueTask.FromException<IJsResult?>(new NotSupportedException());
     }
 
     public virtual IJsResult? StartRealPersonValidation(JsParam param)
@@ -308,7 +308,7 @@ internal class MiHoYoJSInterface
         throw new NotImplementedException();
     }
 
-    public virtual Task<IJsResult?> GetNotificationSettingsAsync(JsParam param)
+    public virtual ValueTask<IJsResult?> GetNotificationSettingsAsync(JsParam param)
     {
         throw new NotImplementedException();
     }
@@ -318,7 +318,7 @@ internal class MiHoYoJSInterface
         throw new NotImplementedException();
     }
 
-    private async Task<string> ExecuteCallbackScriptAsync(string callback, string? payload = null)
+    private async ValueTask<string> ExecuteCallbackScriptAsync(string callback, string? payload = null)
     {
         if (string.IsNullOrEmpty(callback))
         {
@@ -377,7 +377,7 @@ internal class MiHoYoJSInterface
         return default;
     }
 
-    private async Task<IJsResult?> TryGetJsResultFromJsParamAsync(JsParam param)
+    private async ValueTask<IJsResult?> TryGetJsResultFromJsParamAsync(JsParam param)
     {
         try
         {

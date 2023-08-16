@@ -36,7 +36,7 @@ internal sealed partial class SignInWebViewDialog : ContentDialog
         InitializeAsync().SafeForget();
     }
 
-    private async Task InitializeAsync()
+    private async ValueTask InitializeAsync()
     {
         await WebView.EnsureCoreWebView2Async();
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;

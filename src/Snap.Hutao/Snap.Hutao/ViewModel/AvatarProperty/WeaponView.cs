@@ -25,7 +25,7 @@ internal sealed class WeaponView : Equip, ICalculableSource<ICalculableWeapon>
     /// <summary>
     /// 精炼属性
     /// </summary>
-    public string AffixLevel { get => string.Format(SH.ModelBindingAvatarPropertyWeaponAffixFormat, AffixLevelNumber); }
+    public string AffixLevel { get => SH.ModelBindingAvatarPropertyWeaponAffixFormat.Format(AffixLevelNumber); }
 
     /// <summary>
     /// 精炼名称

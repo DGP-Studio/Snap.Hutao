@@ -13,7 +13,7 @@ using System.Collections.ObjectModel;
 namespace Snap.Hutao.Service.GachaLog;
 
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IGachaLogDbService))]
+[Injection(InjectAs.Singleton, typeof(IGachaLogDbService))]
 internal sealed partial class GachaLogDbService : IGachaLogDbService
 {
     private readonly IServiceProvider serviceProvider;
@@ -30,7 +30,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
         catch (SqliteException ex)
         {
-            string message = string.Format(SH.ServiceGachaLogArchiveCollectionUserdataCorruptedMessage, ex.Message);
+            string message = SH.ServiceGachaLogArchiveCollectionUserdataCorruptedMessage.Format(ex.Message);
             throw ThrowHelper.UserdataCorrupted(message, ex);
         }
     }
@@ -200,6 +200,28 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             await appDbContext.GachaItems.AddRangeAndSaveAsync(items).ConfigureAwait(false);
+        }
+    }
+
+    public void AddGachaItems(List<GachaItem> items)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.GachaItems.AddRangeAndSave(items);
+        }
+    }
+
+    public void DeleteNewerGachaItemsByArchiveIdAndEndId(Guid archiveId, long endId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            appDbContext.GachaItems
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId)
+                .Where(i => i.Id >= endId)
+                .ExecuteDelete();
         }
     }
 }

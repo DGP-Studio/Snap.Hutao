@@ -38,10 +38,16 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, IRecipient<UserChangedMessage>
 {
-    private readonly IServiceProvider serviceProvider;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IAppResourceProvider appResourceProvider;
+    private readonly ICultivationService cultivationService;
+    private readonly IAvatarInfoService avatarInfoService;
+    private readonly IClipboardInterop clipboardInterop;
+    private readonly CalculatorClient calculatorClient;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
+
     private Summary? summary;
     private AvatarView? selectedAvatar;
 
@@ -109,15 +115,13 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             ValueResult<RefreshResult, Summary?> summaryResult;
             using (await EnterCriticalExecutionAsync().ConfigureAwait(false))
             {
-                ContentDialog dialog = await serviceProvider
-                    .GetRequiredService<IContentDialogFactory>()
+                ContentDialog dialog = await contentDialogFactory
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyFetch)
                     .ConfigureAwait(false);
 
                 using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                 {
-                    summaryResult = await serviceProvider
-                        .GetRequiredService<IAvatarInfoService>()
+                    summaryResult = await avatarInfoService
                         .GetSummaryAsync(userAndUid, option, token)
                         .ConfigureAwait(false);
                 }
@@ -139,7 +143,8 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                         break;
 
                     case RefreshResult.StatusCodeNotSucceed:
-                        infoBarService.Warning(summary!.Message);
+                        ArgumentNullException.ThrowIfNull(summary);
+                        infoBarService.Warning(summary.Message);
                         break;
 
                     case RefreshResult.ShowcaseNotOpen:
@@ -167,49 +172,50 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                 }
 
                 // ContentDialog must be created by main thread.
-                await taskContext.SwitchToMainThreadAsync();
                 CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
-                CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(options);
+                CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
                 (bool isOk, CalculatorAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
-                if (isOk)
+                if (!isOk)
                 {
-                    Response<CalculatorConsumption> consumptionResponse = await serviceProvider
-                        .GetRequiredService<CalculatorClient>()
-                        .ComputeAsync(userService.Current.Entity, delta)
+                    return;
+                }
+
+                Response<CalculatorConsumption> consumptionResponse = await calculatorClient
+                    .ComputeAsync(userService.Current.Entity, delta)
+                    .ConfigureAwait(false);
+
+                if (!consumptionResponse.IsOk())
+                {
+                    return;
+                }
+
+                CalculatorConsumption consumption = consumptionResponse.Data;
+
+                List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
+                bool avatarSaved = await cultivationService
+                    .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
+                    .ConfigureAwait(false);
+
+                try
+                {
+                    // take a hot path if avatar is not saved.
+                    bool avatarAndWeaponSaved = avatarSaved && await cultivationService
+                        .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
                         .ConfigureAwait(false);
 
-                    if (consumptionResponse.IsOk())
+                    if (avatarAndWeaponSaved)
                     {
-                        ICultivationService cultivationService = serviceProvider.GetRequiredService<ICultivationService>();
-                        CalculatorConsumption consumption = consumptionResponse.Data;
-
-                        List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
-                        bool avatarSaved = await cultivationService
-                            .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
-                            .ConfigureAwait(false);
-
-                        try
-                        {
-                            // take a hot path if avatar is not saved.
-                            bool avatarAndWeaponSaved = avatarSaved && await cultivationService
-                                .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
-                                .ConfigureAwait(false);
-
-                            if (avatarAndWeaponSaved)
-                            {
-                                infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-                            }
-                            else
-                            {
-                                infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                            }
-                        }
-                        catch (Core.ExceptionService.UserdataCorruptedException ex)
-                        {
-                            infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
-                        }
+                        infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
                     }
+                    else
+                    {
+                        infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                    }
+                }
+                catch (Core.ExceptionService.UserdataCorruptedException ex)
+                {
+                    infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
                 }
             }
             else
@@ -231,7 +237,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
             bool clipboardOpened = false;
             using (SoftwareBitmap softwareBitmap = SoftwareBitmap.CreateCopyFromBuffer(buffer, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight))
             {
-                Bgra32 tint = serviceProvider.GetRequiredService<IAppResourceProvider>().GetResource<Color>("CompatBackgroundColor");
+                Bgra32 tint = appResourceProvider.GetResource<Color>("CompatBackgroundColor");
                 softwareBitmap.NormalBlend(tint);
                 using (InMemoryRandomAccessStream memory = new())
                 {
@@ -239,7 +245,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
                     encoder.SetSoftwareBitmap(softwareBitmap);
                     await encoder.FlushAsync();
 
-                    clipboardOpened = serviceProvider.GetRequiredService<IClipboardInterop>().SetBitmap(memory);
+                    clipboardOpened = clipboardInterop.SetBitmap(memory);
                 }
             }
 

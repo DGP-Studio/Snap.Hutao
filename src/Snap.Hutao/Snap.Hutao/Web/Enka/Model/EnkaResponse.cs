@@ -34,7 +34,7 @@ internal sealed class EnkaResponse
     public bool IsValid
     {
         [MemberNotNullWhen(true, nameof(PlayerInfo), nameof(AvatarInfoList))]
-        get => PlayerInfo != null && AvatarInfoList != null;
+        get => PlayerInfo is not null && AvatarInfoList is not null;
     }
 
     /// <summary>

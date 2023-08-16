@@ -18,7 +18,7 @@ internal sealed class FloorView
     /// <param name="idAvatarMap">Id角色映射</param>
     public FloorView(Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.Floor floor, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
     {
-        Index = string.Format(SH.ModelBindingHutaoComplexRankFloor, floor.Index);
+        Index = SH.ModelBindingHutaoComplexRankFloor.Format(floor.Index);
         SettleTime = $"{DateTimeOffset.FromUnixTimeSeconds(floor.SettleTime).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
         Star = floor.Star;
         Levels = floor.Levels.SelectList(l => new LevelView(l, idAvatarMap));

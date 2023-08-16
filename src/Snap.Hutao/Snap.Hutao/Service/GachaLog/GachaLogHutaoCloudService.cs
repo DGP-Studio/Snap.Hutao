@@ -25,9 +25,9 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Scoped, typeof(IGachaLogHutaoCloudService))]
 internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudService
 {
+    private readonly IMetadataService metadataService;
     private readonly HomaGachaLogClient homaGachaLogClient;
     private readonly IGachaLogDbService gachaLogDbService;
-    private readonly IServiceProvider serviceProvider;
 
     /// <inheritdoc/>
     public ValueTask<Response<List<GachaEntry>>> GetGachaEntriesAsync(CancellationToken token = default)
@@ -92,7 +92,6 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
         Response<GachaEventStatistics> response = await homaGachaLogClient.GetGachaEventStatisticsAsync(token).ConfigureAwait(false);
         if (response.IsOk())
         {
-            IMetadataService metadataService = serviceProvider.GetRequiredService<IMetadataService>();
             if (await metadataService.InitializeAsync().ConfigureAwait(false))
             {
                 Dictionary<AvatarId, Avatar> idAvatarMap = await metadataService.GetIdToAvatarMapAsync(token).ConfigureAwait(false);

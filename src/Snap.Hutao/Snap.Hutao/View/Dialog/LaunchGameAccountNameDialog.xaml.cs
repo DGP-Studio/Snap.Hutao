@@ -29,7 +29,7 @@ internal sealed partial class LaunchGameAccountNameDialog : ContentDialog
     /// 获取输入的Cookie
     /// </summary>
     /// <returns>输入的结果</returns>
-    public async Task<ValueResult<bool, string>> GetInputNameAsync()
+    public async ValueTask<ValueResult<bool, string>> GetInputNameAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();

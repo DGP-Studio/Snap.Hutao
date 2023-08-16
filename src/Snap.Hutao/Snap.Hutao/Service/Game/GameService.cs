@@ -82,7 +82,7 @@ internal sealed partial class GameService : IGameService
         }
         else
         {
-            return new(false, null!);
+            return new(false, default!);
         }
     }
 
@@ -112,9 +112,11 @@ internal sealed partial class GameService : IGameService
     public bool SetChannelOptions(LaunchScheme scheme)
     {
         string gamePath = appOptions.GamePath;
-        string configPath = Path.Combine(Path.GetDirectoryName(gamePath)!, ConfigFileName);
+        string? directory = Path.GetDirectoryName(gamePath);
+        ArgumentException.ThrowIfNullOrEmpty(directory);
+        string configPath = Path.Combine(directory, ConfigFileName);
 
-        List<IniElement> elements = null!;
+        List<IniElement> elements = default!;
         try
         {
             using (FileStream readStream = File.OpenRead(configPath))
@@ -124,11 +126,11 @@ internal sealed partial class GameService : IGameService
         }
         catch (FileNotFoundException ex)
         {
-            ThrowHelper.GameFileOperation(string.Format(SH.ServiceGameSetMultiChannelConfigFileNotFound, configPath), ex);
+            ThrowHelper.GameFileOperation(SH.ServiceGameSetMultiChannelConfigFileNotFound.Format(configPath), ex);
         }
         catch (DirectoryNotFoundException ex)
         {
-            ThrowHelper.GameFileOperation(string.Format(SH.ServiceGameSetMultiChannelConfigFileNotFound, configPath), ex);
+            ThrowHelper.GameFileOperation(SH.ServiceGameSetMultiChannelConfigFileNotFound.Format(configPath), ex);
         }
         catch (UnauthorizedAccessException ex)
         {
@@ -168,7 +170,8 @@ internal sealed partial class GameService : IGameService
     public async ValueTask<bool> EnsureGameResourceAsync(LaunchScheme launchScheme, IProgress<PackageReplaceStatus> progress)
     {
         string gamePath = appOptions.GamePath;
-        string gameFolder = Path.GetDirectoryName(gamePath)!;
+        string? gameFolder = Path.GetDirectoryName(gamePath);
+        ArgumentException.ThrowIfNullOrEmpty(gameFolder);
         string gameFileName = Path.GetFileName(gamePath);
 
         progress.Report(new(SH.ServiceGameEnsureGameResourceQueryResourceInformation));
@@ -241,38 +244,35 @@ internal sealed partial class GameService : IGameService
         }
 
         string gamePath = appOptions.GamePath;
-        if (string.IsNullOrWhiteSpace(gamePath))
+        ArgumentNullException.ThrowIfNullOrEmpty(gamePath);
+
+        using (Process game = ProcessInterop.InitializeGameProcess(launchOptions, gamePath))
         {
-            // TODO: throw exception
-            return;
-        }
-
-        Process game = ProcessInterop.InitializeGameProcess(launchOptions, gamePath);
-
-        try
-        {
-            bool isFirstInstance = Interlocked.Increment(ref runningGamesCounter) == 1;
-
-            game.Start();
-
-            bool isAdvancedOptionsAllowed = runtimeOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled;
-            if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isFirstInstance)
+            try
             {
-                ProcessInterop.DisableProtection(game, gamePath);
-            }
+                bool isFirstInstance = Interlocked.Increment(ref runningGamesCounter) == 1;
 
-            if (isAdvancedOptionsAllowed && launchOptions.UnlockFps)
-            {
-                await ProcessInterop.UnlockFpsAsync(serviceProvider, game, default).ConfigureAwait(false);
+                game.Start();
+
+                bool isAdvancedOptionsAllowed = runtimeOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled;
+                if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isFirstInstance)
+                {
+                    ProcessInterop.DisableProtection(game, gamePath);
+                }
+
+                if (isAdvancedOptionsAllowed && launchOptions.UnlockFps)
+                {
+                    await ProcessInterop.UnlockFpsAsync(serviceProvider, game, default).ConfigureAwait(false);
+                }
+                else
+                {
+                    await game.WaitForExitAsync().ConfigureAwait(false);
+                }
             }
-            else
+            finally
             {
-                await game.WaitForExitAsync().ConfigureAwait(false);
+                Interlocked.Decrement(ref runningGamesCounter);
             }
-        }
-        finally
-        {
-            Interlocked.Decrement(ref runningGamesCounter);
         }
     }
 
@@ -373,7 +373,8 @@ internal sealed partial class GameService : IGameService
     public async ValueTask RemoveGameAccountAsync(GameAccount gameAccount)
     {
         await taskContext.SwitchToMainThreadAsync();
-        gameAccounts!.Remove(gameAccount);
+        ArgumentNullException.ThrowIfNull(gameAccounts);
+        gameAccounts.Remove(gameAccount);
 
         await taskContext.SwitchToBackgroundAsync();
         await gameDbService.DeleteGameAccountByIdAsync(gameAccount.InnerId).ConfigureAwait(false);

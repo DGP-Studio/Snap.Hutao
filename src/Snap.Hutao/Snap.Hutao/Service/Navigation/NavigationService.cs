@@ -132,7 +132,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
 
             case NavigationResult.AlreadyNavigatedTo:
                 {
-                    if (frame!.Content is ScopedPage scopedPage)
+                    if (frame is { Content: ScopedPage scopedPage })
                     {
                         await scopedPage.NotifyRecipientAsync((INavigationData)data).ConfigureAwait(false);
                     }
@@ -158,11 +158,9 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
     {
         taskContext.InvokeOnMainThread(() =>
         {
-            bool canGoBack = frame?.CanGoBack ?? false;
-
-            if (canGoBack)
+            if (frame is { CanGoBack: true })
             {
-                frame!.GoBack();
+                frame.GoBack();
                 SyncSelectedNavigationViewItemWith(frame.Content.GetType());
             }
         });
@@ -234,6 +232,7 @@ internal sealed class NavigationService : INavigationService, INavigationInitial
 
     private void OnPaneStateChanged(NavigationView sender, object args)
     {
-        LocalSetting.Set(SettingKeys.IsNavPaneOpen, NavigationView!.IsPaneOpen);
+        ArgumentNullException.ThrowIfNull(NavigationView);
+        LocalSetting.Set(SettingKeys.IsNavPaneOpen, NavigationView.IsPaneOpen);
     }
 }

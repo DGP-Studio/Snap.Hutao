@@ -18,8 +18,8 @@ namespace Snap.Hutao.Service.SpiralAbyss;
 [Injection(InjectAs.Scoped, typeof(ISpiralAbyssRecordService))]
 internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordService
 {
-    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+    private readonly IOverseaSupportFactory<IGameRecordClient> gameRecordClientFactory;
     private readonly ISpiralAbyssRecordDbService spiralAbyssRecordDbService;
 
     private string? uid;
@@ -50,8 +50,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
 
     private async ValueTask RefreshSpiralAbyssCoreAsync(UserAndUid userAndUid, SpiralAbyssSchedule schedule)
     {
-        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+        Response<Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> response = await gameRecordClientFactory
             .Create(userAndUid.User.IsOversea)
             .GetSpiralAbyssAsync(userAndUid, schedule)
             .ConfigureAwait(false);
@@ -60,7 +59,8 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
         {
             Web.Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss webSpiralAbyss = response.Data;
 
-            if (spiralAbysses!.SingleOrDefault(s => s.ScheduleId == webSpiralAbyss.ScheduleId) is { } existEntry)
+            ArgumentNullException.ThrowIfNull(spiralAbysses);
+            if (spiralAbysses.SingleOrDefault(s => s.ScheduleId == webSpiralAbyss.ScheduleId) is { } existEntry)
             {
                 await taskContext.SwitchToMainThreadAsync();
                 existEntry.UpdateSpiralAbyss(webSpiralAbyss);
@@ -73,7 +73,7 @@ internal sealed partial class SpiralAbyssRecordService : ISpiralAbyssRecordServi
                 SpiralAbyssEntry newEntry = SpiralAbyssEntry.From(userAndUid.Uid.Value, webSpiralAbyss);
 
                 await taskContext.SwitchToMainThreadAsync();
-                spiralAbysses!.Insert(0, newEntry);
+                spiralAbysses.Insert(0, newEntry);
 
                 await taskContext.SwitchToBackgroundAsync();
                 await spiralAbyssRecordDbService.AddSpiralAbyssEntryAsync(newEntry).ConfigureAwait(false);

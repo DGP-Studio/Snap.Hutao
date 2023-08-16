@@ -32,7 +32,7 @@ internal sealed partial class EnkaClient
     /// <param name="playerUid">玩家Uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>Enka API 响应</returns>
-    public Task<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
+    public ValueTask<EnkaResponse?> GetForwardDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
         return TryGetEnkaResponseCoreAsync(string.Format(EnkaAPIHutaoForward, playerUid.Value), token);
     }
@@ -43,12 +43,12 @@ internal sealed partial class EnkaClient
     /// <param name="playerUid">玩家Uid</param>
     /// <param name="token">取消令牌</param>
     /// <returns>Enka API 响应</returns>
-    public Task<EnkaResponse?> GetDataAsync(in PlayerUid playerUid, CancellationToken token = default)
+    public ValueTask<EnkaResponse?> GetDataAsync(in PlayerUid playerUid, CancellationToken token = default)
     {
-        return TryGetEnkaResponseCoreAsync(string.Format(EnkaAPI, playerUid.Value), token);
+        return TryGetEnkaResponseCoreAsync(EnkaAPI.Format(playerUid.Value), token);
     }
 
-    private async Task<EnkaResponse?> TryGetEnkaResponseCoreAsync(string url, CancellationToken token = default)
+    private async ValueTask<EnkaResponse?> TryGetEnkaResponseCoreAsync(string url, CancellationToken token = default)
     {
         try
         {

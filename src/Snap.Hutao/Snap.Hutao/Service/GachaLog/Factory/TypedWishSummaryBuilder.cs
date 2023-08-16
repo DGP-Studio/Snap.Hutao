@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
+using Snap.Hutao.Web.Hutao;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 
@@ -30,12 +31,7 @@ internal sealed class TypedWishSummaryBuilder
     /// </summary>
     public static readonly Func<GachaConfigType, bool> IsWeaponEventWish = type => type is GachaConfigType.WeaponEventWish;
 
-    private readonly IServiceProvider serviceProvider;
-    private readonly string name;
-    private readonly int guaranteeOrangeThreshold;
-    private readonly int guaranteePurpleThreshold;
-    private readonly Func<GachaConfigType, bool> typeEvaluator;
-    private readonly Web.Hutao.GachaLog.GachaDistributionType distributionType;
+    private readonly TypedWishSummaryBuilderContext context;
 
     private readonly List<int> averageOrangePullTracker = new();
     private readonly List<int> averageUpOrangePullTracker = new();
@@ -54,20 +50,9 @@ internal sealed class TypedWishSummaryBuilder
     private DateTimeOffset fromTimeTracker = DateTimeOffset.MaxValue;
     private DateTimeOffset toTimeTracker = DateTimeOffset.MinValue;
 
-    public TypedWishSummaryBuilder(
-        IServiceProvider serviceProvider,
-        string name,
-        Func<GachaConfigType, bool> typeEvaluator,
-        Web.Hutao.GachaLog.GachaDistributionType distributionType,
-        int guaranteeOrangeThreshold = 90,
-        int guaranteePurpleThreshold = 10)
+    public TypedWishSummaryBuilder(in TypedWishSummaryBuilderContext context)
     {
-        this.serviceProvider = serviceProvider;
-        this.name = name;
-        this.typeEvaluator = typeEvaluator;
-        this.guaranteeOrangeThreshold = guaranteeOrangeThreshold;
-        this.guaranteePurpleThreshold = guaranteePurpleThreshold;
-        this.distributionType = distributionType;
+        this.context = context;
     }
 
     /// <summary>
@@ -78,7 +63,7 @@ internal sealed class TypedWishSummaryBuilder
     /// <param name="isUp">是否为Up物品</param>
     public void Track(GachaItem item, ISummaryItemSource source, bool isUp)
     {
-        if (typeEvaluator(item.GachaType))
+        if (context.TypeEvaluator(item.GachaType))
         {
             ++lastOrangePullTracker;
             ++lastPurplePullTracker;
@@ -129,13 +114,13 @@ internal sealed class TypedWishSummaryBuilder
 
     public TypedWishSummary ToTypedWishSummary(AsyncBarrier barrier)
     {
-        summaryItems.CompleteAdding(guaranteeOrangeThreshold);
+        summaryItems.CompleteAdding(context.GuaranteeOrangeThreshold);
         double totalCount = totalCountTracker;
 
         TypedWishSummary summary = new()
         {
             // base
-            Name = name,
+            Name = context.Name,
             From = fromTimeTracker,
             To = toTimeTracker,
             TotalCount = totalCountTracker,
@@ -144,9 +129,9 @@ internal sealed class TypedWishSummaryBuilder
             MaxOrangePull = maxOrangePullTracker,
             MinOrangePull = minOrangePullTracker,
             LastOrangePull = lastOrangePullTracker,
-            GuaranteeOrangeThreshold = guaranteeOrangeThreshold,
+            GuaranteeOrangeThreshold = context.GuaranteeOrangeThreshold,
             LastPurplePull = lastPurplePullTracker,
-            GuaranteePurpleThreshold = guaranteePurpleThreshold,
+            GuaranteePurpleThreshold = context.GuaranteePurpleThreshold,
             TotalOrangePull = totalOrangePullTracker,
             TotalPurplePull = totalPurplePullTracker,
             TotalBluePull = totalBluePullTracker,
@@ -158,7 +143,7 @@ internal sealed class TypedWishSummaryBuilder
             OrangeList = summaryItems,
         };
 
-        new PullPrediction(serviceProvider, summary, distributionType).PredictAsync(barrier).SafeForget();
+        new PullPrediction(summary, context).PredictAsync(barrier).SafeForget();
 
         return summary;
     }

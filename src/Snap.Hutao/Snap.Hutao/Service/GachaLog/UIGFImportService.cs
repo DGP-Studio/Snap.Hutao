@@ -18,7 +18,6 @@ internal sealed partial class UIGFImportService : IUIGFImportService
 {
     private readonly ILogger<UIGFImportService> logger;
     private readonly MetadataOptions metadataOptions;
-    private readonly IServiceProvider serviceProvider;
     private readonly IGachaLogDbService gachaLogDbService;
     private readonly ITaskContext taskContext;
 
@@ -29,11 +28,11 @@ internal sealed partial class UIGFImportService : IUIGFImportService
 
         if (!metadataOptions.IsCurrentLocale(uigf.Info.Language))
         {
-            string message = string.Format(SH.ServiceGachaUIGFImportLanguageNotMatch, uigf.Info.Language, metadataOptions.LanguageCode);
+            string message = SH.ServiceGachaUIGFImportLanguageNotMatch.Format(uigf.Info.Language, metadataOptions.LanguageCode);
             ThrowHelper.InvalidOperation(message, null);
         }
 
-        GachaArchiveOperation.GetOrAdd(serviceProvider, uigf.Info.Uid, archives, out GachaArchive? archive);
+        GachaArchiveOperation.GetOrAdd(gachaLogDbService, taskContext, uigf.Info.Uid, archives, out GachaArchive? archive);
         Guid archiveId = archive.InnerId;
 
         long trimId = gachaLogDbService.GetOldestGachaItemIdByArchiveId(archiveId);

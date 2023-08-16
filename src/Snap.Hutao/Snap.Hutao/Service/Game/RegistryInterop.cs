@@ -88,7 +88,8 @@ internal static class RegistryInterop
 
     private static string GetPowerShellLocation()
     {
-        string paths = Environment.GetEnvironmentVariable("Path")!;
+        string? paths = Environment.GetEnvironmentVariable("Path");
+        ArgumentException.ThrowIfNullOrEmpty(paths);
 
         foreach (StringSegment path in new StringTokenizer(paths, ';'.ToArray()))
         {
@@ -101,6 +102,6 @@ internal static class RegistryInterop
             }
         }
 
-        throw ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropPowershellNotFound, null!);
+        throw ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropPowershellNotFound, default!);
     }
 }

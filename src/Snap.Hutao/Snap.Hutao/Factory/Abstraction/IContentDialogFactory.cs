@@ -34,4 +34,10 @@ internal interface IContentDialogFactory
     /// <param name="title">标题</param>
     /// <returns>内容对话框</returns>
     ValueTask<ContentDialog> CreateForIndeterminateProgressAsync(string title);
+
+    TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
+        where TContentDialog : ContentDialog;
+
+    ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
+        where TContentDialog : ContentDialog;
 }

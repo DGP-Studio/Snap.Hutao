@@ -47,17 +47,17 @@ internal static class CoreWebView2Extension
     {
         CoreWebView2CookieManager cookieManager = webView.CookieManager;
 
-        if (cookieToken != null)
+        if (cookieToken is not null)
         {
             cookieManager.AddMihoyoCookie(Cookie.ACCOUNT_ID, cookieToken, isOversea).AddMihoyoCookie(Cookie.COOKIE_TOKEN, cookieToken, isOversea);
         }
 
-        if (lToken != null)
+        if (lToken is not null)
         {
             cookieManager.AddMihoyoCookie(Cookie.LTUID, lToken, isOversea).AddMihoyoCookie(Cookie.LTOKEN, lToken, isOversea);
         }
 
-        if (sToken != null)
+        if (sToken is not null)
         {
             cookieManager.AddMihoyoCookie(Cookie.STUID, sToken, isOversea).AddMihoyoCookie(Cookie.STOKEN, sToken, isOversea);
         }

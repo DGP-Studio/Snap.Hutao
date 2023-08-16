@@ -277,6 +277,12 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
             }
         }
 
+        if (syntax.Operand is DefaultExpressionSyntax expression)
+        {
+            return;
+        }
+
+
         Location location = syntax.GetLocation();
         Diagnostic diagnostic = Diagnostic.Create(useArgumentNullExceptionThrowIfNullDescriptor, location);
         context.ReportDiagnostic(diagnostic);

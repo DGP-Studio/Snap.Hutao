@@ -19,7 +19,7 @@ internal sealed class BattleView
     /// <param name="idAvatarMap">Id角色映射</param>
     public BattleView(Battle battle, Dictionary<AvatarId, Model.Metadata.Avatar.Avatar> idAvatarMap)
     {
-        Time = DateTimeOffset.FromUnixTimeSeconds(battle.Timestamp).ToLocalTime().ToString("yyyy.MM.dd HH:mm:ss");
+        Time = $"{DateTimeOffset.FromUnixTimeSeconds(battle.Timestamp).ToLocalTime():yyyy.MM.dd HH:mm:ss}";
         Avatars = battle.Avatars.SelectList(a => AvatarView.From(idAvatarMap[a.Id]));
     }
 

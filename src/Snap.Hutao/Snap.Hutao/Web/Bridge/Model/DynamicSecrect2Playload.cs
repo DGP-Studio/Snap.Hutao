@@ -25,6 +25,7 @@ internal sealed class DynamicSecrect2Playload
     /// 获取排序后的的查询参数
     /// </summary>
     /// <returns>查询参数</returns>
+    [SuppressMessage("", "CA1308")]
     public string GetQueryParam()
     {
         // TODO : improve here.

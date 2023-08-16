@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.WinUI.UI;
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
@@ -30,8 +31,10 @@ namespace Snap.Hutao.ViewModel.Wiki;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 {
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly CalculateClient calculateClient;
+    private readonly ICultivationService cultivationService;
     private readonly ITaskContext taskContext;
-    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IHutaoCache hutaoCache;
     private readonly IInfoBarService infoBarService;
@@ -120,10 +123,8 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        // ContentDialog must be created by main thread.
-        await taskContext.SwitchToMainThreadAsync();
         CalculableOptions options = new(null, weapon.ToCalculable());
-        CultivatePromotionDeltaDialog dialog = serviceProvider.CreateInstance<CultivatePromotionDeltaDialog>(options);
+        CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
         (bool isOk, CalculateAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
         if (!isOk)
@@ -131,8 +132,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
             return;
         }
 
-        Response<CalculateConsumption> consumptionResponse = await serviceProvider
-            .GetRequiredService<CalculateClient>()
+        Response<CalculateConsumption> consumptionResponse = await calculateClient
             .ComputeAsync(userService.Current.Entity, delta)
             .ConfigureAwait(false);
 
@@ -144,8 +144,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         CalculateConsumption consumption = consumptionResponse.Data;
         try
         {
-            bool saved = await serviceProvider
-                .GetRequiredService<ICultivationService>()
+            bool saved = await cultivationService
                 .SaveConsumptionAsync(CultivateType.Weapon, weapon.Id, consumption.WeaponConsume.EmptyIfNull())
                 .ConfigureAwait(false);
 

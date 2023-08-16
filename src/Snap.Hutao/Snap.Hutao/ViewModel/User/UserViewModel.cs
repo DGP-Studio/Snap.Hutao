@@ -77,7 +77,7 @@ internal sealed partial class UserViewModel : ObservableObject
                     SelectedUser = Users.Single();
                 }
 
-                infoBarService.Success(string.Format(SH.ViewModelUserAdded, uid));
+                infoBarService.Success(SH.ViewModelUserAdded.Format(uid));
                 break;
             case UserOptionResult.Incomplete:
                 infoBarService.Information(SH.ViewModelUserIncomplete);
@@ -86,7 +86,7 @@ internal sealed partial class UserViewModel : ObservableObject
                 infoBarService.Information(SH.ViewModelUserInvalid);
                 break;
             case UserOptionResult.Updated:
-                infoBarService.Success(string.Format(SH.ViewModelUserUpdated, uid));
+                infoBarService.Success(SH.ViewModelUserUpdated.Format(uid));
                 break;
             default:
                 throw Must.NeverHappen();
@@ -173,7 +173,7 @@ internal sealed partial class UserViewModel : ObservableObject
             try
             {
                 await userService.RemoveUserAsync(user).ConfigureAwait(false);
-                infoBarService.Success(string.Format(SH.ViewModelUserRemoved, user.UserInfo?.Nickname));
+                infoBarService.Success(SH.ViewModelUserRemoved.Format(user.UserInfo?.Nickname));
             }
             catch (UserdataCorruptedException ex)
             {
@@ -198,7 +198,7 @@ internal sealed partial class UserViewModel : ObservableObject
             serviceProvider.GetRequiredService<IClipboardInterop>().SetText(cookieString);
 
             ArgumentNullException.ThrowIfNull(user.UserInfo);
-            infoBarService.Success(string.Format(SH.ViewModelUserCookieCopied, user.UserInfo.Nickname));
+            infoBarService.Success(SH.ViewModelUserCookieCopied.Format(user.UserInfo.Nickname));
         }
         catch (Exception ex)
         {

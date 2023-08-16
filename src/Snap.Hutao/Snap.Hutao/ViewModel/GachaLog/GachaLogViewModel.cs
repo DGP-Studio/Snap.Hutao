@@ -26,10 +26,10 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 {
+    private readonly IGachaLogQueryProviderFactory gachaLogQueryProviderFactory;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly HutaoCloudStatisticsViewModel hutaoCloudStatisticsViewModel;
     private readonly HutaoCloudViewModel hutaoCloudViewModel;
-    private readonly IServiceProvider serviceProvider;
     private readonly IGachaLogService gachaLogService;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
@@ -150,7 +150,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private async ValueTask RefreshInternalAsync(RefreshOption option)
     {
-        IGachaLogQueryProvider provider = serviceProvider.GetRequiredService<IGachaLogQueryProviderFactory>().Create(option);
+        IGachaLogQueryProvider provider = gachaLogQueryProviderFactory.Create(option);
 
         (bool isOk, GachaLogQuery query) = await provider.GetQueryAsync().ConfigureAwait(false);
 
@@ -158,10 +158,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         {
             RefreshStrategy strategy = IsAggressiveRefresh ? RefreshStrategy.AggressiveMerge : RefreshStrategy.LazyMerge;
 
-            // ContentDialog must be created by main thread.
-            await taskContext.SwitchToMainThreadAsync();
-
-            GachaLogRefreshProgressDialog dialog = serviceProvider.CreateInstance<GachaLogRefreshProgressDialog>();
+            GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
             ContentDialogHideToken hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
             Progress<GachaLogFetchStatus> progress = new(dialog.OnReport);
             bool authkeyValid;
@@ -268,7 +265,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         if (Archives is not null && SelectedArchive is not null)
         {
             ContentDialogResult result = await contentDialogFactory
-                .CreateForConfirmCancelAsync(string.Format(SH.ViewModelGachaLogRemoveArchiveTitle, SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
+                .CreateForConfirmCancelAsync(SH.ViewModelGachaLogRemoveArchiveTitle.Format(SelectedArchive.Uid), SH.ViewModelGachaLogRemoveArchiveDescription)
                 .ConfigureAwait(false);
 
             if (result == ContentDialogResult.Primary)
@@ -356,9 +353,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     {
         if (uigf.IsCurrentVersionSupported(out UIGFVersion version))
         {
-            // ContentDialog must be created by main thread.
-            await taskContext.SwitchToMainThreadAsync();
-            GachaLogImportDialog importDialog = serviceProvider.CreateInstance<GachaLogImportDialog>(uigf);
+            GachaLogImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<GachaLogImportDialog>(uigf).ConfigureAwait(false);
             if (await importDialog.GetShouldImportAsync().ConfigureAwait(false))
             {
                 if (CanImport(version, uigf))

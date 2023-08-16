@@ -29,7 +29,6 @@ internal sealed partial class GachaLogService : IGachaLogService
     private readonly IGachaStatisticsFactory gachaStatisticsFactory;
     private readonly IUIGFExportService gachaLogExportService;
     private readonly IUIGFImportService gachaLogImportService;
-    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly ILogger<GachaLogService> logger;
     private readonly GachaInfoClient gachaInfoClient;
@@ -160,7 +159,7 @@ internal sealed partial class GachaLogService : IGachaLogService
     private async ValueTask<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(ArchiveCollection);
-        GachaLogFetchContext fetchContext = new(serviceProvider, context, isLazy);
+        GachaLogFetchContext fetchContext = new(gachaLogDbService, taskContext, context, isLazy);
 
         foreach (GachaConfigType configType in GachaLog.QueryTypes)
         {
@@ -172,7 +171,7 @@ internal sealed partial class GachaLogService : IGachaLogService
                     .GetGachaLogPageAsync(fetchContext.QueryOptions, token)
                     .ConfigureAwait(false);
 
-                if (response.TryGetData(out GachaLogPage? page, serviceProvider))
+                if (response.TryGetData(out GachaLogPage? page))
                 {
                     List<GachaLogItem> items = page.List;
                     fetchContext.ResetForProcessingPage();

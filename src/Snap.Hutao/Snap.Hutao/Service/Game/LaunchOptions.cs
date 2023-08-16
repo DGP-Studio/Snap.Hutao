@@ -5,6 +5,7 @@ using Microsoft.UI.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using System.Globalization;
 using Windows.Graphics;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
@@ -140,12 +141,12 @@ internal sealed class LaunchOptions : DbStoreOptions
     [AllowNull]
     public NameValue<int> Monitor
     {
-        get => GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[int.Parse(index) - 1], Monitors[0]);
+        get => GetOption(ref monitor, SettingEntry.LaunchMonitor, index => Monitors[int.Parse(index, CultureInfo.InvariantCulture) - 1], Monitors[0]);
         set
         {
             if (value is not null)
             {
-                SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString());
+                SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString(CultureInfo.InvariantCulture));
             }
         }
     }

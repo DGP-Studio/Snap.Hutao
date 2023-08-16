@@ -22,7 +22,6 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
     private readonly HomaPassportClient homaPassportClient;
     private readonly INavigationService navigationService;
     private readonly HutaoUserOptions hutaoUserOptions;
-    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
 
@@ -142,7 +141,7 @@ internal sealed partial class HutaoPassportViewModel : Abstraction.ViewModel
         }
 
         Response response = await homaPassportClient.VerifyAsync(UserName, isResetPassword).ConfigureAwait(false);
-        serviceProvider.GetRequiredService<IInfoBarService>().Information(response.Message);
+        infoBarService.Information(response.Message);
     }
 
     private void SaveUserNameAndPassword()

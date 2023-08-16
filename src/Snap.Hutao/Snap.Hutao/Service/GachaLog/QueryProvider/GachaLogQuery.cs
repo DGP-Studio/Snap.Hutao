@@ -31,7 +31,7 @@ internal readonly struct GachaLogQuery
     public GachaLogQuery(string query)
     {
         Query = query;
-        IsOversea = query.Contains("hoyoverse.com");
+        IsOversea = query.Contains("hoyoverse.com", StringComparison.OrdinalIgnoreCase);
         Message = string.Empty;
     }
 

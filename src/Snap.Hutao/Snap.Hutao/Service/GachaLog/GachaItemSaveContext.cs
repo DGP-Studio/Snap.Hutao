@@ -29,20 +29,27 @@ internal readonly struct GachaItemSaveContext
     /// <summary>
     /// 数据集
     /// </summary>
-    public readonly DbSet<GachaItem> GachaItems;
+    public readonly IGachaLogDbService GachaLogDbService;
 
-    /// <summary>
-    /// 构造一个新的祈愿物品
-    /// </summary>
-    /// <param name="itemsToAdd">待添加物品</param>
-    /// <param name="isLazy">是否懒惰</param>
-    /// <param name="endId">结尾 Id</param>
-    /// <param name="gachaItems">数据集</param>
-    public GachaItemSaveContext(List<GachaItem> itemsToAdd, bool isLazy, long endId, DbSet<GachaItem> gachaItems)
+    public GachaItemSaveContext(List<GachaItem> itemsToAdd, bool isLazy, long endId, IGachaLogDbService gachaLogDbService)
     {
         ItemsToAdd = itemsToAdd;
         IsLazy = isLazy;
         EndId = endId;
-        GachaItems = gachaItems;
+        GachaLogDbService = gachaLogDbService;
+    }
+
+    public void SaveItems(GachaArchive archive)
+    {
+        if (ItemsToAdd.Count > 0)
+        {
+            // 全量刷新
+            if (!IsLazy)
+            {
+                GachaLogDbService.DeleteNewerGachaItemsByArchiveIdAndEndId(archive.InnerId, EndId);
+            }
+
+            GachaLogDbService.AddGachaItems(ItemsToAdd);
+        }
     }
 }

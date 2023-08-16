@@ -16,6 +16,6 @@ internal sealed partial class BottomTextSmallControl : UserControl
 {
     public BottomTextSmallControl()
     {
-        this.InitializeComponent();
+        InitializeComponent();
     }
 }

@@ -32,7 +32,8 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
         else
         {
             string? path = Path.GetDirectoryName(result.Value);
-            string configPath = Path.Combine(path!, GameConstants.ConfigFileName);
+            ArgumentException.ThrowIfNullOrEmpty(path);
+            string configPath = Path.Combine(path, GameConstants.ConfigFileName);
             string? escapedPath;
             using (FileStream stream = File.OpenRead(configPath))
             {
@@ -64,12 +65,12 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
                 }
                 else
                 {
-                    return new(false, null!);
+                    return new(false, default!);
                 }
             }
             else
             {
-                return new(false, null!);
+                return new(false, default!);
             }
         }
     }
@@ -80,10 +81,10 @@ internal sealed partial class RegistryLauncherLocator : IGameLocator
 
         // 不包含中文
         // Some one's folder might begin with 'u'
-        if (!hex4Result.Contains(@"\u"))
+        if (!hex4Result.Contains(@"\u", StringComparison.Ordinal))
         {
             // fix path with \
-            hex4Result = hex4Result.Replace(@"\", @"\\");
+            hex4Result = hex4Result.Replace(@"\", @"\\", StringComparison.Ordinal);
         }
 
         return Regex.Unescape(hex4Result);

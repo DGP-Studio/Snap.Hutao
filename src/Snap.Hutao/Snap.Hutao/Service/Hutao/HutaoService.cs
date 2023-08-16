@@ -19,9 +19,10 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Scoped, typeof(IHutaoService))]
 internal sealed partial class HutaoService : IHutaoService
 {
-    private static readonly TimeSpan CacheExpireTime = TimeSpan.FromHours(4);
+    private readonly TimeSpan cacheExpireTime = TimeSpan.FromHours(4);
+
+    private readonly IObjectCacheDbService objectCacheDbService;
     private readonly HomaSpiralAbyssClient homaClient;
-    private readonly IServiceProvider serviceProvider;
     private readonly JsonSerializerOptions options;
     private readonly IMemoryCache memoryCache;
 
@@ -67,59 +68,30 @@ internal sealed partial class HutaoService : IHutaoService
         return FromCacheOrWebAsync(nameof(TeamAppearance), homaClient.GetTeamCombinationsAsync);
     }
 
-    private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, Func<CancellationToken, Task<Response<T>>> taskFunc)
-        where T : new()
+    private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, Func<CancellationToken, ValueTask<Response<T>>> taskFunc)
+        where T : class, new()
     {
         string key = $"{nameof(HutaoService)}.Cache.{typeName}";
         if (memoryCache.TryGetValue(key, out object? cache))
         {
-            return (T)cache!;
+            T? t = cache as T;
+            ArgumentNullException.ThrowIfNull(t);
+            return t;
         }
 
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        if (await objectCacheDbService.GetObjectOrDefaultAsync<T>(key).ConfigureAwait(false) is { } value)
         {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-            if (appDbContext.ObjectCache.SingleOrDefault(e => e.Key == key) is { } entry)
-            {
-                if (entry.IsExpired)
-                {
-                    await appDbContext.ObjectCache.RemoveAndSaveAsync(entry).ConfigureAwait(false);
-                }
-                else
-                {
-                    T value = JsonSerializer.Deserialize<T>(entry.Value!, options)!;
-                    return memoryCache.Set(key, value, TimeSpan.FromMinutes(30));
-                }
-            }
+            return memoryCache.Set(key, value, cacheExpireTime);
         }
 
         Response<T> webResponse = await taskFunc(default).ConfigureAwait(false);
         T? data = webResponse.Data;
 
-        try
+        if (data is not null)
         {
-            if (data is not null)
-            {
-                using (IServiceScope scope = serviceProvider.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-
-                    await appDbContext.ObjectCache.AddAndSaveAsync(new()
-                    {
-                        Key = key,
-                        ExpireTime = DateTimeOffset.Now.Add(CacheExpireTime),
-                        Value = JsonSerializer.Serialize(data, options),
-                    }).ConfigureAwait(false);
-                }
-            }
-        }
-        catch (Microsoft.EntityFrameworkCore.DbUpdateException)
-        {
-            // DbUpdateException: An error occurred while saving the entity changes.
-            // TODO: Not ignore it.
+            await objectCacheDbService.AddObjectCacheAsync(key, cacheExpireTime, data).ConfigureAwait(false);
         }
 
-        return memoryCache.Set(key, data ?? new(), CacheExpireTime);
+        return memoryCache.Set(key, data ?? new(), cacheExpireTime);
     }
 }

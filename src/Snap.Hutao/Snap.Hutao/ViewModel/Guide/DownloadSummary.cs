@@ -24,6 +24,7 @@ internal sealed class DownloadSummary : ObservableObject
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+    private readonly IImageCache imageCache;
     private readonly HttpClient httpClient;
     private readonly string fileName;
     private readonly string fileUrl;
@@ -41,6 +42,7 @@ internal sealed class DownloadSummary : ObservableObject
     {
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         httpClient = serviceProvider.GetRequiredService<HttpClient>();
+        imageCache = serviceProvider.GetRequiredService<IImageCache>();
         RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
         httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(hutaoOptions.UserAgent);
 
@@ -72,7 +74,7 @@ internal sealed class DownloadSummary : ObservableObject
     /// 异步下载并解压
     /// </summary>
     /// <returns>任务</returns>
-    public async Task<bool> DownloadAndExtractAsync()
+    public async ValueTask<bool> DownloadAndExtractAsync()
     {
         ILogger<DownloadSummary> logger = serviceProvider.GetRequiredService<ILogger<DownloadSummary>>();
         try
@@ -116,13 +118,14 @@ internal sealed class DownloadSummary : ObservableObject
 
     private void ExtractFiles(Stream stream)
     {
-        IImageCacheFilePathOperation imageCache = serviceProvider.GetRequiredService<IImageCache>().As<IImageCacheFilePathOperation>()!;
+        IImageCacheFilePathOperation? imageCacheFilePathOperation = imageCache.As<IImageCacheFilePathOperation>();
+        ArgumentNullException.ThrowIfNull(imageCacheFilePathOperation);
 
         using (ZipArchive archive = new(stream))
         {
             foreach (ZipArchiveEntry entry in archive.Entries)
             {
-                string destPath = imageCache.GetFileFromCategoryAndName(fileName, entry.FullName);
+                string destPath = imageCacheFilePathOperation.GetFileFromCategoryAndName(fileName, entry.FullName);
                 entry.ExtractToFile(destPath, true);
             }
         }

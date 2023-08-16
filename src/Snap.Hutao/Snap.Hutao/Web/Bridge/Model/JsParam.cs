@@ -61,7 +61,7 @@ internal sealed class JsParam<TPayload>
         return new JsParam<TPayload>()
         {
             Method = jsParam.Method,
-            Payload = jsParam.Payload.HasValue ? jsParam.Payload.Value.Deserialize<TPayload>()! : default!,
+            Payload = JsonSerializer.Deserialize<TPayload>(jsParam.Payload ?? default) ?? default!,
             Callback = jsParam.Callback,
         };
     }

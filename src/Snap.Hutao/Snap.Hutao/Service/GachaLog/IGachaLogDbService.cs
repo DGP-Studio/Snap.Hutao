@@ -13,9 +13,13 @@ internal interface IGachaLogDbService
 
     ValueTask AddGachaArchiveAsync(GachaArchive archive);
 
+    void AddGachaItems(List<GachaItem> items);
+
     ValueTask AddGachaItemsAsync(List<GachaItem> items);
 
     ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId);
+
+    void DeleteNewerGachaItemsByArchiveIdAndEndId(Guid archiveId, long endId);
 
     ValueTask<GachaArchive?> GetGachaArchiveByUidAsync(string uid, CancellationToken token);
 

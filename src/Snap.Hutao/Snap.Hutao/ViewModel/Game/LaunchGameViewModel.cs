@@ -6,6 +6,7 @@ using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.LifeCycle;
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
@@ -33,10 +34,12 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     /// </summary>
     public const string DesiredUid = nameof(DesiredUid);
 
-    private readonly IServiceProvider serviceProvider;
+    private readonly IContentDialogFactory contentDialogFactory;
+    private readonly INavigationService navigationService;
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
     private readonly RuntimeOptions hutaoOptions;
+    private readonly ResourceClient resourceClient;
     private readonly IUserService userService;
     private readonly ITaskContext taskContext;
     private readonly IGameService gameService;
@@ -102,8 +105,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
 
     protected override async ValueTask<bool> InitializeUIAsync()
     {
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-
         if (File.Exists(AppOptions.GamePath))
         {
             try
@@ -127,7 +128,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                     }
                     else
                     {
-                        infoBarService.Warning(string.Format(SH.ViewModelLaunchGameMultiChannelReadFail, options.ConfigFilePath));
+                        infoBarService.Warning(SH.ViewModelLaunchGameMultiChannelReadFail.Format(options.ConfigFilePath));
                     }
 
                     ObservableCollection<GameAccount> accounts = gameService.GameAccountCollection;
@@ -153,7 +154,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         {
             infoBarService.Warning(SH.ViewModelLaunchGamePathInvalid);
             await taskContext.SwitchToMainThreadAsync();
-            await serviceProvider.GetRequiredService<INavigationService>()
+            await navigationService
                 .NavigateAsync<View.Page.SettingPage>(INavigationAwaiter.Default, true)
                 .ConfigureAwait(false);
         }
@@ -164,8 +165,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private async ValueTask UpdateGameResourceAsync(LaunchScheme scheme)
     {
         await taskContext.SwitchToBackgroundAsync();
-        Web.Response.Response<GameResource> response = await serviceProvider
-            .GetRequiredService<ResourceClient>()
+        Web.Response.Response<GameResource> response = await resourceClient
             .GetResourceAsync(scheme)
             .ConfigureAwait(false);
 
@@ -179,8 +179,6 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     [Command("LaunchCommand", AllowConcurrentExecutions = true)]
     private async Task LaunchAsync()
     {
-        IInfoBarService infoBarService = serviceProvider.GetRequiredService<IInfoBarService>();
-
         if (SelectedScheme is not null)
         {
             try
@@ -188,8 +186,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 if (gameService.SetChannelOptions(SelectedScheme))
                 {
                     // Channel changed, we need to change local file.
-                    await taskContext.SwitchToMainThreadAsync();
-                    LaunchGamePackageConvertDialog dialog = serviceProvider.CreateInstance<LaunchGamePackageConvertDialog>();
+                    LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
                     Progress<Service.Game.Package.PackageReplaceStatus> progress = new(state => dialog.State = state.Clone());
                     using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                     {
@@ -232,7 +229,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         }
         catch (UserdataCorruptedException ex)
         {
-            serviceProvider.GetRequiredService<IInfoBarService>().Error(ex);
+            infoBarService.Error(ex);
         }
     }
 

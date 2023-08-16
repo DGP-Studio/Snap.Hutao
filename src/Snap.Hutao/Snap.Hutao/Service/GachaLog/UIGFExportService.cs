@@ -1,9 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
+using Snap.Hutao.Service.Metadata;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -14,8 +16,9 @@ namespace Snap.Hutao.Service.GachaLog;
 [Injection(InjectAs.Scoped, typeof(IUIGFExportService))]
 internal sealed partial class UIGFExportService : IUIGFExportService
 {
-    private readonly IServiceProvider serviceProvider;
     private readonly IGachaLogDbService gachaLogDbService;
+    private readonly RuntimeOptions runtimeOptions;
+    private readonly MetadataOptions metadataOptions;
     private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
@@ -29,7 +32,7 @@ internal sealed partial class UIGFExportService : IUIGFExportService
 
         UIGF uigf = new()
         {
-            Info = UIGFInfo.From(serviceProvider, archive.Uid),
+            Info = UIGFInfo.From(runtimeOptions, metadataOptions, archive.Uid),
             List = list,
         };
 

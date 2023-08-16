@@ -38,7 +38,7 @@ internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
         // TODO: test new binding approach
         GachaItemsPresenter.Header = state.AuthKeyTimeout
             ? SH.ViewDialogGachaLogRefreshProgressAuthkeyTimeout
-            : string.Format(SH.ViewDialogGachaLogRefreshProgressDescription, state.ConfigType.GetLocalizedDescription());
+            : SH.ViewDialogGachaLogRefreshProgressDescription.Format(state.ConfigType.GetLocalizedDescription());
 
         // Binding not working here.
         GachaItemsPresenter.Items.Clear();

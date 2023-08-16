@@ -5,6 +5,7 @@ using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hutao.Model;
+using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Complex;
 
@@ -25,11 +26,11 @@ internal sealed class Team : List<AvatarView>
         // TODO use Collection Literials
         foreach (StringSegment item in new StringTokenizer(team.Item, new char[] { ',' }))
         {
-            uint id = uint.Parse(item.AsSpan());
+            uint id = uint.Parse(item.AsSpan(), CultureInfo.InvariantCulture);
             Add(new(idAvatarMap[id]));
         }
 
-        Rate = string.Format(SH.ModelBindingHutaoTeamUpCountFormat, team.Rate);
+        Rate = SH.ModelBindingHutaoTeamUpCountFormat.Format(team.Rate);
     }
 
     /// <summary>

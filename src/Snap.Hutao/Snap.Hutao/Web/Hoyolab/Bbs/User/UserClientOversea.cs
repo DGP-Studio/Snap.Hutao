@@ -28,11 +28,12 @@ internal sealed partial class UserClientOversea : IUserClient
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
     [ApiInformation(Cookie = CookieType.LToken, Salt = SaltType.None)]
-    public async Task<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
+    public async ValueTask<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
+        ArgumentException.ThrowIfNullOrEmpty(user.Aid);
         Response<UserFullInfoWrapper>? resp = await httpClient
             .SetUser(user, CookieType.LToken)
-            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiOsEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiOsEndpoints.UserFullInfoQuery(user.Aid), options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

@@ -14,38 +14,26 @@ namespace Snap.Hutao.Service.GachaLog.Factory;
 /// </summary>
 internal sealed class PullPrediction
 {
-    private readonly IServiceProvider serviceProvider;
-    private readonly ITaskContext taskContext;
     private readonly TypedWishSummary typedWishSummary;
-    private readonly GachaDistributionType distributionType;
+    private readonly TypedWishSummaryBuilderContext context;
 
-    /// <summary>
-    /// 构造一个新的抽数预计
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="typedWishSummary">类型化祈愿统计信息</param>
-    /// <param name="distributionType">分布类型</param>
-    public PullPrediction(IServiceProvider serviceProvider, TypedWishSummary typedWishSummary, GachaDistributionType distributionType)
+    public PullPrediction(TypedWishSummary typedWishSummary, in TypedWishSummaryBuilderContext context)
     {
-        this.serviceProvider = serviceProvider;
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-
         this.typedWishSummary = typedWishSummary;
-        this.distributionType = distributionType;
+        this.context = context;
     }
 
     public async ValueTask PredictAsync(AsyncBarrier barrier)
     {
-        await taskContext.SwitchToBackgroundAsync();
-        HomaGachaLogClient gachaLogClient = serviceProvider.GetRequiredService<HomaGachaLogClient>();
-        Response<GachaDistribution> response = await gachaLogClient.GetGachaDistributionAsync(distributionType).ConfigureAwait(false);
+        await context.TaskContext.SwitchToBackgroundAsync();
+        Response<GachaDistribution> response = await context.GetGachaDistributionAsync().ConfigureAwait(false);
 
         if (response.IsOk())
         {
             PredictResult result = PredictCore(response.Data.Distribution, typedWishSummary);
             await barrier.SignalAndWaitAsync().ConfigureAwait(false);
 
-            await taskContext.SwitchToMainThreadAsync();
+            await context.TaskContext.SwitchToMainThreadAsync();
             typedWishSummary.ProbabilityOfNextPullIsOrange = result.ProbabilityOfNextPullIsOrange;
             typedWishSummary.ProbabilityOfPredictedPullLeftToOrange = result.ProbabilityOfPredictedPullLeftToOrange;
             typedWishSummary.PredictedPullLeftToOrange = result.PredictedPullLeftToOrange;

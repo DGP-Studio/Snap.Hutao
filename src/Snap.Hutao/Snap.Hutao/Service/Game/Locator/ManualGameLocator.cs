@@ -39,6 +39,6 @@ internal sealed partial class ManualGameLocator : IGameLocator
             }
         }
 
-        return new(false, null!);
+        return new(false, default!);
     }
 }

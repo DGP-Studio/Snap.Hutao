@@ -46,7 +46,7 @@ internal sealed class AvatarProperty : INameIcon
     {
         Name = name;
         Value = value;
-        Icon = PropertyIcons.GetValueOrDefault(property)!;
+        Icon = PropertyIcons.GetValueOrDefault(property);
         AddValue = addValue;
     }
 
@@ -58,6 +58,7 @@ internal sealed class AvatarProperty : INameIcon
     /// <summary>
     /// 图标
     /// </summary>
+    [AllowNull]
     public Uri Icon { get; }
 
     /// <summary>

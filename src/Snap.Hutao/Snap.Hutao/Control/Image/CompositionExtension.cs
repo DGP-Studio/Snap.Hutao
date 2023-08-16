@@ -52,12 +52,15 @@ internal static class CompositionExtension
             Mode = blendEffectMode,
         };
 
-        CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
+        using (effect)
+        {
+            CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
 
-        brush.SetSourceParameter(Background, background);
-        brush.SetSourceParameter(Foreground, foreground);
+            brush.SetSourceParameter(Background, background);
+            brush.SetSourceParameter(Foreground, foreground);
 
-        return brush;
+            return brush;
+        }
     }
 
     /// <summary>
@@ -75,11 +78,14 @@ internal static class CompositionExtension
             Source = new CompositionEffectSourceParameter(Source),
         };
 
-        CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
+        using (effect)
+        {
+            CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
 
-        brush.SetSourceParameter(Source, source);
+            brush.SetSourceParameter(Source, source);
 
-        return brush;
+            return brush;
+        }
     }
 
     /// <summary>
@@ -97,11 +103,14 @@ internal static class CompositionExtension
             Source = new CompositionEffectSourceParameter(Source),
         };
 
-        CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
+        using (effect)
+        {
+            CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
 
-        brush.SetSourceParameter(Source, sourceBrush);
+            brush.SetSourceParameter(Source, sourceBrush);
 
-        return brush;
+            return brush;
+        }
     }
 
     /// <summary>
@@ -116,18 +125,21 @@ internal static class CompositionExtension
         CompositionBrush sourceBrush,
         CompositionBrush alphaMask)
     {
-        AlphaMaskEffect maskEffect = new()
+        AlphaMaskEffect effect = new()
         {
             AlphaMask = new CompositionEffectSourceParameter(AlphaMask),
             Source = new CompositionEffectSourceParameter(Source),
         };
 
-        CompositionEffectBrush brush = compositor.CreateEffectFactory(maskEffect).CreateBrush();
+        using (effect)
+        {
+            CompositionEffectBrush brush = compositor.CreateEffectFactory(effect).CreateBrush();
 
-        brush.SetSourceParameter(AlphaMask, alphaMask);
-        brush.SetSourceParameter(Source, sourceBrush);
+            brush.SetSourceParameter(AlphaMask, alphaMask);
+            brush.SetSourceParameter(Source, sourceBrush);
 
-        return brush;
+            return brush;
+        }
     }
 
     /// <summary>

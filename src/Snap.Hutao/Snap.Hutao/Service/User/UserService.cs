@@ -47,7 +47,8 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     {
         // Sync cache
         await taskContext.SwitchToMainThreadAsync();
-        userCollection!.Remove(user);
+        ArgumentNullException.ThrowIfNull(userCollection);
+        userCollection.Remove(user);
         userAndUidCollection?.RemoveWhere(r => r.User.Mid == user.Entity.Mid);
 
         // Sync database
@@ -132,7 +133,8 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
         }
 
         // 检查 mid 对应用户是否存在
-        if (TryGetUser(userCollection!, mid, out BindingUser? user))
+        ArgumentNullException.ThrowIfNull(userCollection);
+        if (TryGetUser(userCollection, mid, out BindingUser? user))
         {
             if (cookie.TryGetSToken(isOversea, out Cookie? stoken))
             {
@@ -172,7 +174,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
             user.CookieToken ??= new();
 
             // Sync ui and database
-            user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken!;
+            user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken;
             await userDbService.UpdateUserAsync(user.Entity).ConfigureAwait(false);
 
             return true;
@@ -216,7 +218,8 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
             // Sync database
             await taskContext.SwitchToBackgroundAsync();
             await userDbService.AddUserAsync(newUser.Entity).ConfigureAwait(false);
-            return new(UserOptionResult.Added, newUser.UserInfo!.Uid);
+            ArgumentNullException.ThrowIfNull(newUser.UserInfo);
+            return new(UserOptionResult.Added, newUser.UserInfo.Uid);
         }
         else
         {

@@ -23,7 +23,7 @@ internal sealed partial class GeetestClient
     /// </summary>
     /// <param name="gt">gt</param>
     /// <returns>类型</returns>
-    public async Task<GeetestResult<JsonElement>?> GetTypeAsync(string gt)
+    public async ValueTask<GeetestResult<JsonElement>?> GetTypeAsync(string gt)
     {
         string raw = await httpClient.GetStringAsync(ApiEndpoints.GeetestGetType(gt)).ConfigureAwait(false);
         raw = raw[0] == '(' ? raw[1..^1] : raw; // remove surrounded ( )
@@ -37,7 +37,7 @@ internal sealed partial class GeetestClient
     /// <param name="gt">gt</param>
     /// <param name="challenge">验证流水号</param>
     /// <returns>验证方式</returns>
-    public async Task<GeetestResult<GeetestData>?> GetAjaxAsync(string gt, string challenge)
+    public async ValueTask<GeetestResult<GeetestData>?> GetAjaxAsync(string gt, string challenge)
     {
         string raw = await httpClient.GetStringAsync(ApiEndpoints.GeetestAjax(gt, challenge)).ConfigureAwait(false);
         raw = raw[0] == '(' ? raw[1..^1] : raw; // remove surrounded ( )
@@ -50,7 +50,7 @@ internal sealed partial class GeetestClient
     /// </summary>
     /// <param name="registration">验证注册</param>
     /// <returns>验证方式</returns>
-    public async Task<GeetestResult<GeetestData>?> GetAjaxAsync(VerificationRegistration registration)
+    public async ValueTask<GeetestResult<GeetestData>?> GetAjaxAsync(VerificationRegistration registration)
     {
         try
         {

@@ -22,10 +22,10 @@ namespace Snap.Hutao.ViewModel.GachaLog;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
 {
+    private readonly INavigationService navigationService;
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGachaLogHutaoCloudService hutaoCloudService;
     private readonly IHutaoUserService hutaoUserService;
-    private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly HutaoUserOptions options;
@@ -131,9 +131,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     [Command("NavigateToSpiralAbyssRecordCommand")]
     private void NavigateToSpiralAbyssRecord()
     {
-        serviceProvider
-            .GetRequiredService<INavigationService>()
-            .Navigate<View.Page.SpiralAbyssRecordPage>(INavigationAwaiter.Default);
+        navigationService.Navigate<View.Page.SpiralAbyssRecordPage>(INavigationAwaiter.Default);
     }
 
     private async ValueTask RefreshUidCollectionAsync()

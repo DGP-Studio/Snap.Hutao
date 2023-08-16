@@ -36,6 +36,7 @@ internal sealed class UserAndUid : IMappingFrom<UserAndUid, EntityUser, PlayerUi
     /// </summary>
     public PlayerUid Uid { get; private set; }
 
+    [SuppressMessage("", "SH002")]
     public static UserAndUid From(EntityUser user, PlayerUid role)
     {
         return new(user, role);

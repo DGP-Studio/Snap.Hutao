@@ -25,8 +25,8 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
     private readonly IAvatarInfoDbService avatarInfoDbService;
     private readonly ILogger<AvatarInfoService> logger;
     private readonly IMetadataService metadataService;
-    private readonly IServiceProvider serviceProvider;
     private readonly ISummaryFactory summaryFactory;
+    private readonly EnkaClient enkaClient;
 
     /// <inheritdoc/>
     public async ValueTask<ValueResult<RefreshResult, Summary?>> GetSummaryAsync(UserAndUid userAndUid, RefreshOption refreshOption, CancellationToken token = default)
@@ -92,8 +92,6 @@ internal sealed partial class AvatarInfoService : IAvatarInfoService
 
     private async ValueTask<EnkaResponse?> GetEnkaResponseAsync(PlayerUid uid, CancellationToken token = default)
     {
-        EnkaClient enkaClient = serviceProvider.GetRequiredService<EnkaClient>();
-
         return await enkaClient.GetForwardDataAsync(uid, token).ConfigureAwait(false)
             ?? await enkaClient.GetDataAsync(uid, token).ConfigureAwait(false);
     }

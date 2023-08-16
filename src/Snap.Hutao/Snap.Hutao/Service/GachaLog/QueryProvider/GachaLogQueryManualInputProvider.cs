@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Request.QueryString;
@@ -15,34 +16,29 @@ namespace Snap.Hutao.Service.GachaLog.QueryProvider;
 [Injection(InjectAs.Transient)]
 internal sealed partial class GachaLogQueryManualInputProvider : IGachaLogQueryProvider
 {
-    private readonly IServiceProvider serviceProvider;
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly MetadataOptions metadataOptions;
-    private readonly ITaskContext taskContext;
 
     /// <inheritdoc/>
     public async ValueTask<ValueResult<bool, GachaLogQuery>> GetQueryAsync()
     {
-        // ContentDialog must be created by main thread.
-        await taskContext.SwitchToMainThreadAsync();
-        GachaLogUrlDialog dialog = serviceProvider.CreateInstance<GachaLogUrlDialog>();
+        GachaLogUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogUrlDialog>().ConfigureAwait(false);
         (bool isOk, string queryString) = await dialog.GetInputUrlAsync().ConfigureAwait(false);
 
         if (isOk)
         {
             QueryString query = QueryString.Parse(queryString);
-            string queryLanguageCode = query["lang"];
             if (query["auth_appid"] == "webview_gacha")
             {
+                string queryLanguageCode = query["lang"];
                 if (metadataOptions.IsCurrentLocale(queryLanguageCode))
                 {
                     return new(true, new(queryString));
                 }
                 else
                 {
-                    string message = string.Format(
-                        SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale,
-                        queryLanguageCode,
-                        metadataOptions.LanguageCode);
+                    string message = SH.ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale
+                        .Format(queryLanguageCode, metadataOptions.LanguageCode);
                     return new(false, message);
                 }
             }

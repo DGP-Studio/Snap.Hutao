@@ -28,13 +28,13 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INavigationRecipient
 {
-    private static readonly SortDescription UncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
-    private static readonly SortDescription CompletionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
+    private readonly SortDescription uncompletedItemsFirstSortDescription = new(nameof(AchievementView.IsChecked), SortDirection.Ascending);
+    private readonly SortDescription completionTimeSortDescription = new(nameof(AchievementView.Time), SortDirection.Descending);
 
     private readonly IContentDialogFactory contentDialogFactory;
+    private readonly IPickerFactory pickerFactory;
     private readonly AchievementImporter achievementImporter;
     private readonly IAchievementService achievementService;
-    private readonly IServiceProvider serviceProvider;
     private readonly IMetadataService metadataService;
     private readonly IInfoBarService infoBarService;
     private readonly JsonSerializerOptions options;
@@ -189,9 +189,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (Archives is null)
         {
-            // ContentDialog must be created by main thread.
-            await taskContext.SwitchToMainThreadAsync();
-            AchievementArchiveCreateDialog dialog = serviceProvider.CreateInstance<AchievementArchiveCreateDialog>();
+            AchievementArchiveCreateDialog dialog = await contentDialogFactory.CreateInstanceAsync<AchievementArchiveCreateDialog>().ConfigureAwait(false);
             (bool isOk, string name) = await dialog.GetInputAsync().ConfigureAwait(false);
 
             if (isOk)
@@ -203,13 +201,13 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                     case ArchiveAddResult.Added:
                         await taskContext.SwitchToMainThreadAsync();
                         SelectedArchive = achievementService.CurrentArchive;
-                        infoBarService.Success(string.Format(SH.ViewModelAchievementArchiveAdded, name));
+                        infoBarService.Success(SH.ViewModelAchievementArchiveAdded.Format(name));
                         break;
                     case ArchiveAddResult.InvalidName:
                         infoBarService.Warning(SH.ViewModelAchievementArchiveInvalidName);
                         break;
                     case ArchiveAddResult.AlreadyExists:
-                        infoBarService.Warning(string.Format(SH.ViewModelAchievementArchiveAlreadyExists, name));
+                        infoBarService.Warning(SH.ViewModelAchievementArchiveAlreadyExists.Format(name));
                         break;
                     default:
                         throw Must.NeverHappen();
@@ -223,7 +221,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     {
         if (Archives is not null && SelectedArchive is not null)
         {
-            string title = string.Format(SH.ViewModelAchievementRemoveArchiveTitle, SelectedArchive.Name);
+            string title = SH.ViewModelAchievementRemoveArchiveTitle.Format(SelectedArchive.Name);
             string content = SH.ViewModelAchievementRemoveArchiveContent;
             ContentDialogResult result = await contentDialogFactory
                 .CreateForConfirmCancelAsync(title, content)
@@ -260,8 +258,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                 [SH.ViewModelAchievementExportFileType] = ".json".Enumerate().ToList(),
             };
 
-            FileSavePicker picker = serviceProvider
-                .GetRequiredService<IPickerFactory>()
+            FileSavePicker picker = pickerFactory
                 .GetFileSavePicker(PickerLocationId.Desktop, fileName, SH.FilePickerExportCommit, fileTypes);
 
             (bool isPickerOk, ValueFile file) = await picker.TryPickSaveFileAsync().ConfigureAwait(false);
@@ -343,8 +340,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         {
             if (IsUncompletedItemsFirst)
             {
-                Achievements.SortDescriptions.Add(UncompletedItemsFirstSortDescription);
-                Achievements.SortDescriptions.Add(CompletionTimeSortDescription);
+                Achievements.SortDescriptions.Add(uncompletedItemsFirstSortDescription);
+                Achievements.SortDescriptions.Add(completionTimeSortDescription);
             }
             else
             {
@@ -387,7 +384,8 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                     Achievements.Filter = obj =>
                     {
                         AchievementView view = (AchievementView)obj;
-                        return view.Inner.Title.Contains(search) || view.Inner.Description.Contains(search);
+                        return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
+                            || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
                     };
                 }
             }

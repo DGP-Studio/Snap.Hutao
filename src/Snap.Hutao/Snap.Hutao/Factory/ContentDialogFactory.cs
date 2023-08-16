@@ -3,27 +3,19 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.Abstraction;
+using System.Security.Authentication;
 
 namespace Snap.Hutao.Factory;
 
 /// <inheritdoc cref="IContentDialogFactory"/>
 [HighQuality]
-[Injection(InjectAs.Transient, typeof(IContentDialogFactory))]
-internal sealed class ContentDialogFactory : IContentDialogFactory
+[ConstructorGenerated]
+[Injection(InjectAs.Singleton, typeof(IContentDialogFactory))]
+internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
-    private readonly MainWindow mainWindow;
+    private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-
-    /// <summary>
-    /// 构造一个新的内容对话框工厂
-    /// </summary>
-    /// <param name="taskContext">任务上下文</param>
-    /// <param name="mainWindow">主窗体</param>
-    public ContentDialogFactory(ITaskContext taskContext, MainWindow mainWindow)
-    {
-        this.taskContext = taskContext;
-        this.mainWindow = mainWindow;
-    }
+    private readonly MainWindow mainWindow;
 
     /// <inheritdoc/>
     public async ValueTask<ContentDialogResult> CreateForConfirmAsync(string title, string content)
@@ -70,5 +62,18 @@ internal sealed class ContentDialogFactory : IContentDialogFactory
         };
 
         return dialog;
+    }
+
+    public async ValueTask<TContentDialog> CreateInstanceAsync<TContentDialog>(params object[] parameters)
+        where TContentDialog : ContentDialog
+    {
+        await taskContext.SwitchToMainThreadAsync();
+        return serviceProvider.CreateInstance<TContentDialog>();
+    }
+
+    public TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
+        where TContentDialog : ContentDialog
+    {
+        return serviceProvider.CreateInstance<TContentDialog>();
     }
 }

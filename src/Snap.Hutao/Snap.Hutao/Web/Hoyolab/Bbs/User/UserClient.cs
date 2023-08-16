@@ -29,15 +29,16 @@ internal sealed partial class UserClient : IUserClient
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
     [ApiInformation(Cookie = CookieType.SToken, Salt = SaltType.K2)]
-    public async Task<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
+    public async ValueTask<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default)
     {
+        ArgumentException.ThrowIfNullOrEmpty(user.Aid);
         Response<UserFullInfoWrapper>? resp = await httpClient
 
             // .SetUser(user, CookieType.SToken)
             .SetReferer(ApiEndpoints.BbsReferer)
 
             // .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.K2, true)
-            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(user.Aid!), options, logger, token)
+            .TryCatchGetFromJsonAsync<Response<UserFullInfoWrapper>>(ApiEndpoints.UserFullInfoQuery(user.Aid), options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

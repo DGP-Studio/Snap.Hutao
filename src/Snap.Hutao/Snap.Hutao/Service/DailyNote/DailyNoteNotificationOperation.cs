@@ -10,6 +10,7 @@ using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 using Snap.Hutao.Web.Response;
+using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 
 namespace Snap.Hutao.Service.DailyNote;
@@ -18,38 +19,26 @@ namespace Snap.Hutao.Service.DailyNote;
 /// 实时便笺通知器
 /// </summary>
 [HighQuality]
-internal sealed class DailyNoteNotificationOperation
+[ConstructorGenerated]
+[Injection(InjectAs.Singleton)]
+internal sealed partial class DailyNoteNotificationOperation
 {
     private const string ToastHeaderIdArgument = "DAILYNOTE";
     private const string ToastAttributionUnknown = "Unknown";
+
     private readonly ITaskContext taskContext;
-    private readonly IServiceProvider serviceProvider;
-    private readonly DailyNoteEntry entry;
+    private readonly IGameService gameService;
+    private readonly BindingClient bindingClient;
+    private readonly DailyNoteOptions options;
 
-    /// <summary>
-    /// 构造一个新的实时便笺通知器
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="entry">实时便笺入口</param>
-    public DailyNoteNotificationOperation(IServiceProvider serviceProvider, DailyNoteEntry entry)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        this.serviceProvider = serviceProvider;
-        this.entry = entry;
-    }
-
-    /// <summary>
-    /// 异步通知
-    /// </summary>
-    /// <returns>任务</returns>
-    public async ValueTask SendAsync()
+    public async ValueTask SendAsync(DailyNoteEntry entry)
     {
         if (entry.DailyNote is null)
         {
             return;
         }
 
-        List<NotifyInfo> notifyInfos = new();
+        List<DailyNoteNotifyInfo> notifyInfos = new();
 
         CheckNotifySuppressed(entry, notifyInfos);
 
@@ -58,92 +47,95 @@ internal sealed class DailyNoteNotificationOperation
             return;
         }
 
-        using (IServiceScope scope = serviceProvider.CreateScope())
+        string? attribution = SH.ServiceDailyNoteNotifierAttribution;
+
+        Response<ListWrapper<UserGameRole>> rolesResponse = await bindingClient
+            .GetUserGameRolesOverseaAwareAsync(entry.User)
+            .ConfigureAwait(false);
+
+        if (rolesResponse.IsOk())
         {
-            DailyNoteOptions options = scope.ServiceProvider.GetRequiredService<DailyNoteOptions>();
-
-            string? attribution = SH.ServiceDailyNoteNotifierAttribution;
-
-            Response<ListWrapper<UserGameRole>> rolesResponse = await scope.ServiceProvider
-                .GetRequiredService<BindingClient>()
-                .GetUserGameRolesOverseaAwareAsync(entry.User)
-                .ConfigureAwait(false);
-
-            if (rolesResponse.IsOk())
-            {
-                List<UserGameRole> roles = rolesResponse.Data.List;
-                attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
-            }
-
-            ToastContentBuilder builder = new ToastContentBuilder()
-                .AddHeader(ToastHeaderIdArgument, SH.ServiceDailyNoteNotifierTitle, ToastHeaderIdArgument)
-                .AddAttributionText(attribution)
-                .AddButton(new ToastButton()
-                    .SetContent(SH.ServiceDailyNoteNotifierActionLaunchGameButton)
-                    .AddArgument(Activation.Action, Activation.LaunchGame)
-                    .AddArgument(Activation.Uid, entry.Uid))
-                .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
-
-            if (options.IsReminderNotification)
-            {
-                builder.SetToastScenario(ToastScenario.Reminder);
-            }
-
-            if (notifyInfos.Count > 2)
-            {
-                builder.AddText(SH.ServiceDailyNoteNotifierMultiValueReached);
-
-                // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
-                if (UniversalApiContract.IsPresent(WindowsVersion.Windows10AnniversaryUpdate))
-                {
-                    AdaptiveGroup group = new();
-                    foreach (NotifyInfo info in notifyInfos)
-                    {
-                        AdaptiveSubgroup subgroup = new()
-                        {
-                            HintWeight = 1,
-                            Children =
-                            {
-                                new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
-                                new AdaptiveText() { Text = info.AdaptiveHint, HintAlign = AdaptiveTextAlign.Center,  },
-                                new AdaptiveText() { Text = info.Title, HintAlign = AdaptiveTextAlign.Center, HintStyle = AdaptiveTextStyle.CaptionSubtle, },
-                            },
-                        };
-
-                        group.Children.Add(subgroup);
-                    }
-
-                    builder.AddVisualChild(group);
-                }
-            }
-            else
-            {
-                foreach (NotifyInfo info in notifyInfos)
-                {
-                    builder.AddText(info.Hint);
-                }
-            }
-
-            await taskContext.SwitchToMainThreadAsync();
-            builder.Show(toast => toast.SuppressPopup = ShouldSuppressPopup(options));
+            List<UserGameRole> roles = rolesResponse.Data.List;
+            attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
         }
+
+        ToastContentBuilder builder = new ToastContentBuilder()
+            .AddHeader(ToastHeaderIdArgument, SH.ServiceDailyNoteNotifierTitle, ToastHeaderIdArgument)
+            .AddAttributionText(attribution)
+            .AddButton(new ToastButton()
+                .SetContent(SH.ServiceDailyNoteNotifierActionLaunchGameButton)
+                .AddArgument(Activation.Action, Activation.LaunchGame)
+                .AddArgument(Activation.Uid, entry.Uid))
+            .AddButton(new ToastButtonDismiss(SH.ServiceDailyNoteNotifierActionLaunchGameDismiss));
+
+        if (options.IsReminderNotification)
+        {
+            builder.SetToastScenario(ToastScenario.Reminder);
+        }
+
+        if (notifyInfos.Count > 2)
+        {
+            builder.AddText(SH.ServiceDailyNoteNotifierMultiValueReached);
+
+            // Desktop and Mobile started supporting adaptive toasts in API contract 3 (Anniversary Update)
+            if (UniversalApiContract.IsPresent(WindowsVersion.Windows10AnniversaryUpdate))
+            {
+                AdaptiveGroup group = new();
+                foreach (DailyNoteNotifyInfo info in notifyInfos)
+                {
+                    AdaptiveSubgroup subgroup = new()
+                    {
+                        HintWeight = 1,
+                        Children =
+                        {
+                            new AdaptiveImage() { Source = info.AdaptiveIcon, HintRemoveMargin = true, },
+                            new AdaptiveText() { Text = info.AdaptiveHint, HintAlign = AdaptiveTextAlign.Center,  },
+                            new AdaptiveText() { Text = info.Title, HintAlign = AdaptiveTextAlign.Center, HintStyle = AdaptiveTextStyle.CaptionSubtle, },
+                        },
+                    };
+
+                    group.Children.Add(subgroup);
+                }
+
+                builder.AddVisualChild(group);
+            }
+        }
+        else
+        {
+            foreach (DailyNoteNotifyInfo info in notifyInfos)
+            {
+                builder.AddText(info.Hint);
+            }
+        }
+
+        await taskContext.SwitchToMainThreadAsync();
+        builder.Show(toast => toast.SuppressPopup = ShouldSuppressPopup(options));
     }
 
-    private static void CheckNotifySuppressed(DailyNoteEntry entry, List<NotifyInfo> notifyInfos)
+    private static void CheckNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
     {
-        // https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=uwp#adding-images
         // Image limitation.
-
+        // https://learn.microsoft.com/en-us/windows/apps/design/shell/tiles-and-notifications/send-local-toast?tabs=uwp#adding-images
         // NotifySuppressed judge
-        if (entry.DailyNote!.CurrentResin >= entry.ResinNotifyThreshold)
+        ChcekResinNotifySuppressed(entry, notifyInfos);
+        CheckHomeCoinNotifySuppressed(entry, notifyInfos);
+        CheckDailyTaskNotifySuppressed(entry, notifyInfos);
+        CheckTransformerNotifySuppressed(entry, notifyInfos);
+        CheckExpeditionNotifySuppressed(entry, notifyInfos);
+    }
+
+    private static void ChcekResinNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
+    {
+        ArgumentNullException.ThrowIfNull(entry.DailyNote);
+        if (entry.DailyNote.CurrentResin >= entry.ResinNotifyThreshold)
         {
             if (!entry.ResinNotifySuppressed)
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierResin,
-                    Web.Hoyolab.Images.UIItemIcon210,
+                    Web.HutaoEndpoints.StaticFile("ItemIcon", "UI_ItemIcon_210.png"),
                     $"{entry.DailyNote.CurrentResin}",
-                    string.Format(SH.ServiceDailyNoteNotifierResinCurrent, entry.DailyNote.CurrentResin)));
+                    SH.ServiceDailyNoteNotifierResinCurrent.Format(entry.DailyNote.CurrentResin)));
                 entry.ResinNotifySuppressed = true;
             }
         }
@@ -151,16 +143,20 @@ internal sealed class DailyNoteNotificationOperation
         {
             entry.ResinNotifySuppressed = false;
         }
+    }
 
+    private static void CheckHomeCoinNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
+    {
+        ArgumentNullException.ThrowIfNull(entry.DailyNote);
         if (entry.DailyNote.CurrentHomeCoin >= entry.HomeCoinNotifyThreshold)
         {
             if (!entry.HomeCoinNotifySuppressed)
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierHomeCoin,
-                    Web.Hoyolab.Images.UIItemIcon204,
+                    Web.HutaoEndpoints.StaticFile("ItemIcon", "UI_ItemIcon_204.png"),
                     $"{entry.DailyNote.CurrentHomeCoin}",
-                    string.Format(SH.ServiceDailyNoteNotifierHomeCoinCurrent, entry.DailyNote.CurrentHomeCoin)));
+                    SH.ServiceDailyNoteNotifierHomeCoinCurrent.Format(entry.DailyNote.CurrentHomeCoin)));
                 entry.HomeCoinNotifySuppressed = true;
             }
         }
@@ -168,14 +164,17 @@ internal sealed class DailyNoteNotificationOperation
         {
             entry.HomeCoinNotifySuppressed = false;
         }
+    }
 
-        if (entry.DailyTaskNotify && !entry.DailyNote.IsExtraTaskRewardReceived)
+    private static void CheckDailyTaskNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
+    {
+        if (entry is { DailyTaskNotify: true, DailyNote.IsExtraTaskRewardReceived: false })
         {
             if (!entry.DailyTaskNotifySuppressed)
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierDailyTask,
-                    Web.Hoyolab.Images.UIMarkQuestEventsProce,
+                    Web.HutaoEndpoints.StaticFile("Bg", "UI_MarkQuest_Events_Proce.png"),
                     SH.ServiceDailyNoteNotifierDailyTaskHint,
                     entry.DailyNote.ExtraTaskRewardDescription));
                 entry.DailyTaskNotifySuppressed = true;
@@ -185,14 +184,17 @@ internal sealed class DailyNoteNotificationOperation
         {
             entry.DailyTaskNotifySuppressed = false;
         }
+    }
 
-        if (entry.TransformerNotify && entry.DailyNote.Transformer.Obtained && entry.DailyNote.Transformer.RecoveryTime.Reached)
+    private static void CheckTransformerNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
+    {
+        if (entry is { TransformerNotify: true, DailyNote.Transformer: { Obtained: true, RecoveryTime.Reached: true } })
         {
             if (!entry.TransformerNotifySuppressed)
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierTransformer,
-                    Web.Hoyolab.Images.UIItemIcon220021,
+                    Web.HutaoEndpoints.StaticFile("ItemIcon", "UI_ItemIcon_220021.png"),
                     SH.ServiceDailyNoteNotifierTransformerAdaptiveHint,
                     SH.ServiceDailyNoteNotifierTransformerHint));
                 entry.TransformerNotifySuppressed = true;
@@ -202,14 +204,18 @@ internal sealed class DailyNoteNotificationOperation
         {
             entry.TransformerNotifySuppressed = false;
         }
+    }
 
+    private static void CheckExpeditionNotifySuppressed(DailyNoteEntry entry, List<DailyNoteNotifyInfo> notifyInfos)
+    {
+        ArgumentNullException.ThrowIfNull(entry.DailyNote);
         if (entry.ExpeditionNotify && entry.DailyNote.Expeditions.All(e => e.Status == ExpeditionStatus.Finished))
         {
             if (!entry.ExpeditionNotifySuppressed)
             {
                 notifyInfos.Add(new(
                     SH.ServiceDailyNoteNotifierExpedition,
-                    Web.Hoyolab.Images.UIIconInteeExplore1,
+                    Web.HutaoEndpoints.StaticFile("Bg", "UI_Icon_Intee_Explore_1.png"),
                     SH.ServiceDailyNoteNotifierExpeditionAdaptiveHint,
                     SH.ServiceDailyNoteNotifierExpeditionHint));
                 entry.ExpeditionNotifySuppressed = true;
@@ -224,22 +230,6 @@ internal sealed class DailyNoteNotificationOperation
     private bool ShouldSuppressPopup(DailyNoteOptions options)
     {
         // Prevent notify when we are in game && silent mode.
-        return options.IsSilentWhenPlayingGame && serviceProvider.GetRequiredService<IGameService>().IsGameRunning();
-    }
-
-    private readonly struct NotifyInfo
-    {
-        public readonly string Title;
-        public readonly string AdaptiveIcon;
-        public readonly string AdaptiveHint;
-        public readonly string Hint;
-
-        public NotifyInfo(string title, string adaptiveIcon, string adaptiveHint, string hint)
-        {
-            Title = title;
-            AdaptiveIcon = adaptiveIcon;
-            AdaptiveHint = adaptiveHint;
-            Hint = hint;
-        }
+        return options.IsSilentWhenPlayingGame && gameService.IsGameRunning();
     }
 }

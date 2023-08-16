@@ -29,7 +29,7 @@ internal sealed partial class GachaLogUrlDialog : ContentDialog
     /// 获取输入的Url
     /// </summary>
     /// <returns>输入的结果</returns>
-    public async Task<ValueResult<bool, string>> GetInputUrlAsync()
+    public async ValueTask<ValueResult<bool, string>> GetInputUrlAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();

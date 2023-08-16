@@ -26,6 +26,7 @@ namespace Snap.Hutao.Service.DailyNote;
 [Injection(InjectAs.Singleton, typeof(IDailyNoteService))]
 internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<UserRemovedMessage>
 {
+    private readonly DailyNoteNotificationOperation dailyNoteNotificationOperation;
     private readonly IServiceProvider serviceProvider;
     private readonly IDailyNoteDbService dailyNoteDbService;
     private readonly IUserService userService;
@@ -106,7 +107,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
 
                 // database
-                await new DailyNoteNotificationOperation(serviceProvider, entry).SendAsync().ConfigureAwait(false);
+                await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
                 entry.DailyNote = dailyNote;
                 await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
             }

@@ -55,7 +55,7 @@ internal sealed class HomaGachaLogClient
     /// <param name="distributionType">分布类型</param>
     /// <param name="token">取消令牌</param>
     /// <returns>祈愿分布</returns>
-    public async Task<Response<GachaDistribution>> GetGachaDistributionAsync(GachaDistributionType distributionType, CancellationToken token = default)
+    public async ValueTask<Response<GachaDistribution>> GetGachaDistributionAsync(GachaDistributionType distributionType, CancellationToken token = default)
     {
         Response<GachaDistribution>? resp = await httpClient
             .TryCatchGetFromJsonAsync<Response<GachaDistribution>>(HutaoEndpoints.GachaLogStatisticsDistribution(distributionType), options, logger, token)

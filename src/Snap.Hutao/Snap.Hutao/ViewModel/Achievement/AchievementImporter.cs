@@ -23,9 +23,11 @@ namespace Snap.Hutao.ViewModel.Achievement;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AchievementImporter
 {
+    private readonly IContentDialogFactory contentDialogFactory;
     private readonly IAchievementService achievementService;
-    private readonly IServiceProvider serviceProvider;
+    private readonly IClipboardInterop clipboardInterop;
     private readonly IInfoBarService infoBarService;
+    private readonly IPickerFactory pickerFactory;
     private readonly JsonSerializerOptions options;
     private readonly ITaskContext taskContext;
 
@@ -62,8 +64,7 @@ internal sealed partial class AchievementImporter
     {
         if (achievementService.CurrentArchive is { } archive)
         {
-            ValueResult<bool, ValueFile> pickerResult = await serviceProvider
-                .GetRequiredService<IPickerFactory>()
+            ValueResult<bool, ValueFile> pickerResult = await pickerFactory
                 .GetFileOpenPicker(PickerLocationId.Desktop, SH.FilePickerImportCommit, ".json")
                 .TryPickSingleFileAsync()
                 .ConfigureAwait(false);
@@ -94,10 +95,7 @@ internal sealed partial class AchievementImporter
     {
         try
         {
-            return await serviceProvider
-                .GetRequiredService<IClipboardInterop>()
-                .DeserializeFromJsonAsync<UIAF>()
-                .ConfigureAwait(false);
+            return await clipboardInterop.DeserializeFromJsonAsync<UIAF>().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -110,16 +108,13 @@ internal sealed partial class AchievementImporter
     {
         if (uiaf.IsCurrentVersionSupported())
         {
-            // ContentDialog must be created by main thread.
-            await taskContext.SwitchToMainThreadAsync();
-            AchievementImportDialog importDialog = serviceProvider.CreateInstance<AchievementImportDialog>(uiaf);
+            AchievementImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<AchievementImportDialog>(uiaf).ConfigureAwait(false);
             (bool isOk, ImportStrategy strategy) = await importDialog.GetImportStrategyAsync().ConfigureAwait(false);
 
             if (isOk)
             {
                 await taskContext.SwitchToMainThreadAsync();
-                ContentDialog dialog = await serviceProvider
-                    .GetRequiredService<IContentDialogFactory>()
+                ContentDialog dialog = await contentDialogFactory
                     .CreateForIndeterminateProgressAsync(SH.ViewModelAchievementImportProgress)
                     .ConfigureAwait(false);
 

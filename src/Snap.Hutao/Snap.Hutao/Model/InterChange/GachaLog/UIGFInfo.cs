@@ -11,7 +11,7 @@ namespace Snap.Hutao.Model.InterChange.GachaLog;
 /// UIGF格式的信息
 /// </summary>
 [HighQuality]
-internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, IServiceProvider, string>
+internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, RuntimeOptions, MetadataOptions, string>
 {
     /// <summary>
     /// 用户Uid
@@ -58,17 +58,8 @@ internal sealed class UIGFInfo : IMappingFrom<UIGFInfo, IServiceProvider, string
     [JsonPropertyName("uigf_version")]
     public string UIGFVersion { get; set; } = default!;
 
-    /// <summary>
-    /// 构造一个新的专用 UIGF 信息
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="uid">uid</param>
-    /// <returns>专用 UIGF 信息</returns>
-    public static UIGFInfo From(IServiceProvider serviceProvider, string uid)
+    public static UIGFInfo From(RuntimeOptions runtimeOptions, MetadataOptions metadataOptions, string uid)
     {
-        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
-        MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
-
         return new()
         {
             Uid = uid,

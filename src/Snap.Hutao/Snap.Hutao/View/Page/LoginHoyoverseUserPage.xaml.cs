@@ -28,7 +28,7 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         InitializeComponent();
     }
 
-    private static async Task<string> GetUidFromCookieAsync(IServiceProvider serviceProvider, Cookie cookie, CancellationToken token = default)
+    private static async ValueTask<string> GetUidFromCookieAsync(IServiceProvider serviceProvider, Cookie cookie, CancellationToken token = default)
     {
         JsonSerializerOptions options = serviceProvider.GetRequiredService<JsonSerializerOptions>();
         ILogger<LoginHoyoverseUserPage> logger = serviceProvider.GetRequiredService<ILogger<LoginHoyoverseUserPage>>();
@@ -40,9 +40,9 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
             .TryCatchGetFromJsonAsync<WebApiResponse<AccountInfoWrapper>>(ApiOsEndpoints.WebApiOsAccountLoginByCookie, options, logger, token)
             .ConfigureAwait(false);
 
-        if (resp != null)
+        if (resp is not null)
         {
-            return resp.Data.AccountInfo.AccountId.ToString();
+            return $"{resp.Data.AccountInfo.AccountId}";
         }
 
         return string.Empty;

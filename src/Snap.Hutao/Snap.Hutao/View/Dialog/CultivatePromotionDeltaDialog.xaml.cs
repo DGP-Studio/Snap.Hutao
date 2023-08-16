@@ -24,6 +24,7 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// </summary>
     /// <param name="serviceProvider">服务提供器</param>
     /// <param name="options">选项</param>
+    [SuppressMessage("", "SH002")]
     public CultivatePromotionDeltaDialog(IServiceProvider serviceProvider, CalculableOptions options)
     {
         InitializeComponent();
@@ -40,37 +41,35 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
     /// 异步获取提升差异
     /// </summary>
     /// <returns>提升差异</returns>
-    public async Task<ValueResult<bool, AvatarPromotionDelta>> GetPromotionDeltaAsync()
+    public async ValueTask<ValueResult<bool, AvatarPromotionDelta>> GetPromotionDeltaAsync()
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
 
-        if (result == ContentDialogResult.Primary)
-        {
-            AvatarPromotionDelta delta = new()
-            {
-                AvatarId = Avatar?.AvatarId ?? 0,
-                AvatarLevelCurrent = Avatar?.LevelCurrent ?? 0,
-                AvatarLevelTarget = Avatar?.LevelTarget ?? 0,
-                SkillList = Avatar?.Skills.SelectList(s => new PromotionDelta()
-                {
-                    Id = s.GroupId,
-                    LevelCurrent = s.LevelCurrent,
-                    LevelTarget = s.LevelTarget,
-                }),
-                Weapon = Weapon is null ? null : new PromotionDelta()
-                {
-                    Id = Weapon.WeaponId,
-                    LevelCurrent = Weapon.LevelCurrent,
-                    LevelTarget = Weapon.LevelTarget,
-                },
-            };
-
-            return new(true, delta);
-        }
-        else
+        if (result != ContentDialogResult.Primary)
         {
             return new(false, default!);
         }
+
+        AvatarPromotionDelta delta = new()
+        {
+            AvatarId = Avatar?.AvatarId ?? 0,
+            AvatarLevelCurrent = Avatar?.LevelCurrent ?? 0,
+            AvatarLevelTarget = Avatar?.LevelTarget ?? 0,
+            SkillList = Avatar?.Skills.SelectList(s => new PromotionDelta()
+            {
+                Id = s.GroupId,
+                LevelCurrent = s.LevelCurrent,
+                LevelTarget = s.LevelTarget,
+            }),
+            Weapon = Weapon is null ? null : new PromotionDelta()
+            {
+                Id = Weapon.WeaponId,
+                LevelCurrent = Weapon.LevelCurrent,
+                LevelTarget = Weapon.LevelTarget,
+            },
+        };
+
+        return new(true, delta);
     }
 }

@@ -116,7 +116,9 @@ internal sealed partial class PackageConverter
                             if (entry.Length != 0)
                             {
                                 string targetPath = Path.Combine(gameFolder, entry.FullName);
-                                Directory.CreateDirectory(Path.GetDirectoryName(targetPath)!);
+                                string? directory = Path.GetDirectoryName(targetPath);
+                                ArgumentException.ThrowIfNullOrEmpty(directory);
+                                Directory.CreateDirectory(directory);
                                 entry.ExtractToFile(targetPath, true);
                             }
                         }
@@ -180,7 +182,8 @@ internal sealed partial class PackageConverter
             Regex dataFolderRegex = DataFolderRegex();
             while (await reader.ReadLineAsync().ConfigureAwait(false) is { } row && !string.IsNullOrEmpty(row))
             {
-                VersionItem item = JsonSerializer.Deserialize<VersionItem>(row, options)!;
+                VersionItem? item = JsonSerializer.Deserialize<VersionItem>(row, options);
+                ArgumentNullException.ThrowIfNull(item);
                 item.RelativePath = dataFolderRegex.Replace(item.RelativePath, "{0}");
                 results.Add(item.RelativePath, item);
             }
@@ -231,7 +234,7 @@ internal sealed partial class PackageConverter
     private async ValueTask SkipOrDownloadAsync(ItemOperationInfo info, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
     {
         // 还原正确的远程地址
-        string remoteName = string.Format(info.Remote.RelativePath, context.ToDataFolderName);
+        string remoteName = info.Remote.RelativePath.Format(context.ToDataFolderName);
         string cacheFile = context.GetServerCacheTargetFilePath(remoteName);
 
         if (File.Exists(cacheFile))
@@ -276,7 +279,7 @@ internal sealed partial class PackageConverter
                     {
                         // System.IO.IOException: The response ended prematurely.
                         // System.IO.IOException: Received an unexpected EOF or 0 bytes from the transport stream.
-                        ThrowHelper.PackageConvert(string.Format(SH.ServiceGamePackageRequestScatteredFileFailed, remoteName), ex);
+                        ThrowHelper.PackageConvert(SH.ServiceGamePackageRequestScatteredFileFailed.Format(remoteName), ex);
                     }
                 }
             }
@@ -312,17 +315,21 @@ internal sealed partial class PackageConverter
 
             if (backup)
             {
-                string localFileName = string.Format(info.Local.RelativePath, context.FromDataFolder);
+                string localFileName = info.Local.RelativePath.Format(context.FromDataFolder);
                 string localFilePath = context.GetGameFolderFilePath(localFileName);
-                Directory.CreateDirectory(Path.GetDirectoryName(localFilePath)!);
+                string? directory = Path.GetDirectoryName(localFilePath);
+                ArgumentException.ThrowIfNullOrEmpty(directory);
+                Directory.CreateDirectory(directory);
                 File.Move(localFilePath, context.GetServerCacheBackupFilePath(localFileName), true);
             }
 
             if (target)
             {
-                string targetFileName = string.Format(info.Remote.RelativePath, context.ToDataFolder);
+                string targetFileName = info.Remote.RelativePath.Format(context.ToDataFolder);
                 string targetFilePath = context.GetGameFolderFilePath(targetFileName);
-                Directory.CreateDirectory(Path.GetDirectoryName(targetFilePath)!);
+                string? directory = Path.GetDirectoryName(targetFilePath);
+                ArgumentException.ThrowIfNullOrEmpty(directory);
+                Directory.CreateDirectory(directory);
                 File.Move(context.GetServerCacheTargetFilePath(targetFileName), targetFilePath, true);
             }
         }

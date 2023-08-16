@@ -18,3 +18,10 @@ internal interface IMappingFrom<TSelf, T1, T2>
     [Pure]
     static abstract TSelf From(T1 t1, T2 t2);
 }
+
+internal interface IMappingFrom<TSelf, T1, T2, T3>
+    where TSelf : IMappingFrom<TSelf, T1, T2, T3>
+{
+    [Pure]
+    static abstract TSelf From(T1 t1, T2 t2, T3 t3);
+}

@@ -16,5 +16,5 @@ internal interface IUserClient
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>详细信息</returns>
-    Task<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default);
+    ValueTask<Response<UserFullInfoWrapper>> GetUserFullInfoAsync(Model.Entity.User user, CancellationToken token = default);
 }
