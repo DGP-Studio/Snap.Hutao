@@ -11,6 +11,7 @@ trigger:
   branches:
     include:
     - main
+    - develop
   paths:
     exclude:
     - README.md
@@ -125,7 +126,7 @@ steps:
 - task: CmdLine@2
   displayName: Build MSIX
   inputs:
-    script: '"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\makeappx.exe" pack /d $(Build.SourcesDirectory)\src\Snap.Hutao\Snap.Hutao\bin\x64\Release\net7.0-windows10.0.19041.0\win10-x64 /p $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix'
+    script: '"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22000.0\x64\makeappx.exe" pack /d $(Build.SourcesDirectory)\src\Snap.Hutao\Snap.Hutao\bin\x64\Release\net7.0-windows10.0.19041.0\win10-x64 /p $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix'
 
 - task: MsixSigning@1
   name: signMsix
@@ -173,17 +174,16 @@ steps:
     changeLogCompareToRelease: 'lastFullRelease'
     changeLogType: 'commitBased'
 
+- task: DownloadSecureFile@1
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  name: RcloneConfigFile
+  displayName: Download Rclone Config
+  inputs:
+    secureFile: 'rclone.conf'
 
 - task: rclone@1
   displayName: Upload CI via Rclone
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
   inputs:
     arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/Alpha/'
-    configPath: 'C:\agent\_work\_tasks\rclone.conf'
-
-- task: rclone@1
-  displayName: Upload PR CI via Rclone
-  condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
-  inputs:
-    arguments: 'copy $(Build.ArtifactStagingDirectory)/Snap.Hutao.Alpha-$(build_date).$(rev_number).msix downloadDGPCN:/releases/PR/'
-    configPath: 'C:\agent\_work\_tasks\rclone.conf'
+    configPath: '$(RcloneConfigFile.secureFilePath)'
