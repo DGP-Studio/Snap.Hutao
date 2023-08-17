@@ -154,7 +154,7 @@
     <value>List</value>
   </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
-    <value>数据库已损坏：{0}</value>
+    <value>Database is corrupted: {0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
     <value>User data archive is corrupted: {0}</value>
@@ -187,7 +187,7 @@
     <value>Import</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
-    <value>欢迎使用胡桃</value>
+    <value>Welcome to Snap Hutao, Traveler ~</value>
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>Select Account to Launch</value>
@@ -241,13 +241,13 @@
     <value>Schedule {0}</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
-    <value>角色</value>
+    <value>Character</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
-    <value>未知</value>
+    <value>Unknown</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
-    <value>武器</value>
+    <value>Weapon</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
     <value>Fatui</value>
@@ -390,7 +390,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
-    <value>^[\u4e00-\u9fa5]{2}区域特产$</value>
+    <value>^[\u4e00-\u9fa5]{2}Local Specialty$</value>
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
@@ -618,13 +618,13 @@
     <value>SToken refresh does not support HoYoLab account</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Url 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>UIGF file language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target UIGF file language</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>Unsupported Item ID: {0}</value>
   </data>
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>UIGF 文件的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>UIGF file language: {0} does not match Snap Hutao language: {1}, please retry after switching client language to target UIGF file language</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>Multiple matching accounts detected, please delete duplicate accounts</value>
@@ -654,7 +654,7 @@
     <value>Requesting Package Version failed</value>
   </data>
   <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
-    <value>下载客户端文件失败：{0}</value>
+    <value>Failed to download client file: {0}</value>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>Unable to find game path. Edit it in the Setting page.</value>
@@ -690,7 +690,7 @@
     <value>Wish history data backup service will be available until\n{0:yyyy-MM-dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
-    <value>无法找到缓存的元数据文件</value>
+    <value>Unable to find cached metadata file</value>
   </data>
   <data name="ServiceMetadataNotInitialized" xml:space="preserve">
     <value>Metadata service has not been initialized or failed to initialize</value>
@@ -771,10 +771,10 @@
     <value>4 Stars</value>
   </data>
   <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
-    <value>距上个五星</value>
+    <value>Last 5 Stars</value>
   </data>
   <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
-    <value>距上个四星</value>
+    <value>Last 4 Stars</value>
   </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
     <value>Luckiness Avg</value>
@@ -831,7 +831,7 @@
     <value>Expedition Reward Notification</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>洞天宝钱提醒阈值</value>
+    <value>Original Resin Alarm Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
     <value>Realm Currency Alarm Threshold</value>
@@ -927,7 +927,7 @@
     <value>Abyss Stats</value>
   </data>
   <data name="ViewInfoBarToggleTitle" xml:space="preserve">
-    <value>有新的通知</value>
+    <value>New notification</value>
   </data>
   <data name="ViewLaunchGameHeader" xml:space="preserve">
     <value>Game Launcher</value>
@@ -1047,10 +1047,10 @@
     <value>Import Failed</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:00.000%} 概率 {0} 抽后获得五星物品</value>
+    <value>{1:00.000%} chance to get a 5-star item after {0} wishes</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:00.000%} 概率下一抽获得五星物品</value>
+    <value>{0:00.000%} chance to get a 5-star item in the next wish</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>Failed to fetch wish history</value>
@@ -1071,7 +1071,7 @@
     <value>Uploading to Snap Hutao Cloud Service</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>请输入正确的邮箱</value>
+    <value>Please enter correct email address.</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Text format in clipboard is incorrect</value>
@@ -1374,10 +1374,10 @@
     <value>Fetch</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 Url</value>
+    <value>Type in URL manually.</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 Url 刷新祈愿记录</value>
+    <value>We use provided URL to refresh your wish history</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken Refresh</value>
@@ -1416,13 +1416,14 @@
     <value>你已经启动了胡桃 {0} 次</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
-    <value>旅行者，欢迎来到提瓦特大陆！</value>
+    <value>Welcome to Teyvat, Traveler!
+</value>
   </data>
   <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
-    <value>你说的对，但是《胡桃》是由 DGP Studio 自主研发的一款...</value>
+    <value>You're right, but Snap Hutao was developed by DGP Studio...</value>
   </data>
   <data name="ViewPageHomeGreetingTextEpic1" xml:space="preserve">
-    <value>呐，旅行者，这是你来到提瓦特大陆的第 {0} 天哦</value>
+    <value>Well, Traveler, this is your {0}th day in Teyvat.</value>
   </data>
   <data name="ViewPageHomeLaunchGameSettingAction" xml:space="preserve">
     <value>Settings</value>
@@ -1926,7 +1927,7 @@
     <value>MiYouShe</value>
   </data>
   <data name="ViewUserCookieOperation2" xml:space="preserve">
-    <value>HoYoLab</value>
+    <value>HoYoLAB</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
@@ -2067,13 +2068,13 @@
     <value>Request too fast, please try again later</value>
   </data>
   <data name="WebEnkaResponseStatusCode500" xml:space="preserve">
-    <value>服务器偶发错误</value>
+    <value>Occasional Server Errors</value>
   </data>
   <data name="WebEnkaResponseStatusCode503" xml:space="preserve">
-    <value>服务器严重错误</value>
+    <value>Critical Server Error</value>
   </data>
   <data name="WebEnkaResponseStatusCodeUnknown" xml:space="preserve">
-    <value>未知的服务器错误</value>
+    <value>Unknown Server Error</value>
   </data>
   <data name="WebGachaConfigTypeAvatarEventWish" xml:space="preserve">
     <value>Character Event Wish</value>
@@ -2094,6 +2095,6 @@
     <value>Return Code: {0} | Message: {1}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
-    <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+    <value>[{1}] network request exception in [{0}] please try again later</value>
   </data>
 </root>
