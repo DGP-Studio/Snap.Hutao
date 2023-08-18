@@ -7,6 +7,7 @@ using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Control;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.System;
@@ -85,15 +86,15 @@ internal sealed partial class AnnouncementContentViewer : UserControl
 
         if (isDarkMode)
         {
-            // TODO: rewrite with Span IndexOfAny
-            content = content
-                .Replace(DarkColor5, LightColor5, StringComparison.Ordinal)
-                .Replace(DarkColor4, LightColor4, StringComparison.Ordinal)
-                .Replace(DarkColor3, LightColor3, StringComparison.Ordinal)
-                .Replace(DarkColor2, LightColor2, StringComparison.Ordinal)
-                .Replace(DarkColor1, LightColor1, StringComparison.Ordinal)
-                .Replace(DarkAccentColor2, LightAccentColor2, StringComparison.Ordinal)
-                .Replace(DarkAccentColor1, LightAccentColor1, StringComparison.Ordinal);
+            StringBuilder contentBuilder = new StringBuilder(content)
+                .Replace(DarkColor5, LightColor5)
+                .Replace(DarkColor4, LightColor4)
+                .Replace(DarkColor3, LightColor3)
+                .Replace(DarkColor2, LightColor2)
+                .Replace(DarkColor1, LightColor1)
+                .Replace(DarkAccentColor2, LightAccentColor2)
+                .Replace(DarkAccentColor1, LightAccentColor1);
+            content = contentBuilder.ToString();
         }
 
         string document = $$"""
