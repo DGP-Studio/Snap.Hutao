@@ -226,10 +226,10 @@
     <value>上场 {0} 次</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
-    <value>BiliBiliサーバー</value>
+    <value>世界樹サーバー</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeChinese" xml:space="preserve">
-    <value>天空島・世界樹サーバー</value>
+    <value>天空島サーバー</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeOversea" xml:space="preserve">
     <value>グローバルサーバー</value>
@@ -295,7 +295,7 @@
     <value>女性</value>
   </data>
   <data name="ModelIntrinsicBodyTypeLoli" xml:space="preserve">
-    <value>萝莉</value>
+    <value>ロリ</value>
   </data>
   <data name="ModelIntrinsicBodyTypeMale" xml:space="preserve">
     <value>男性</value>
@@ -370,7 +370,7 @@
     <value>{0} 月 {1} 日</value>
   </data>
   <data name="ModelMetadataMaterialCharacterAndWeaponEnhancementMaterial" xml:space="preserve">
-    <value>角色与武器培养素材</value>
+    <value>キャラクターと武器の育成素材</value>
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialCharacterAscensionMaterial" xml:space="preserve">
@@ -390,7 +390,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
-    <value>^[\u4e00-\u9fa5]{2}区域特产$</value>
+    <value>\u4e00\u9fa5{2}地域特産品</value>
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
@@ -801,13 +801,13 @@
     <value>インポートモード</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyAggressive" xml:space="preserve">
-    <value>贪婪（添加新数据，更新已完成项）</value>
+    <value>貪欲（新規項目の追加、達成項目をチェック）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyLazy" xml:space="preserve">
-    <value>懒惰（添加新数据，跳过已完成项）</value>
+    <value>怠惰（新規項目の追加、達成項目をスキップ）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportStrategyOverwrite" xml:space="preserve">
-    <value>覆盖（删除老数据，添加新的数据）</value>
+    <value>置換（現在項目の削除、全項目をインポート）</value>
   </data>
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>アーカイブにアチーブメントをインポート</value>
@@ -1047,10 +1047,10 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:00.000%} 概率 {0} 抽后获得五星物品</value>
+    <value>{1:00.000%} の確率で {0} を回した後に星5アイテムが排出される</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:00.000%} 概率下一抽获得五星物品</value>
+    <value>{0:00.000%} の確率で次回は星5アイテムが排出される</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>祈願履歴を取得できません</value>
@@ -1893,7 +1893,7 @@
     <value>深境螺旋</value>
   </data>
   <data name="ViewSpiralAbyssMaxFloor" xml:space="preserve">
-    <value>最深抵达</value>
+    <value>最深到達</value>
   </data>
   <data name="ViewSpiralAbyssNormalSkill" xml:space="preserve">
     <value>元素スキル</value>
@@ -2037,7 +2037,7 @@
     <value>{0} 日</value>
   </data>
   <data name="WebDailyNoteResinRecoveryCompleted" xml:space="preserve">
-    <value>原粹树脂已完全恢复</value>
+    <value>天然樹脂は完全に回復した</value>
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
     <value>{0} {1:HH:mm} 後ですべて回復</value>
@@ -2110,8 +2110,5 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
-  </data>
-  <data name="活动时间祈愿时间上架时间DD版本更新后D4D2D2D2D2D2LtTClass" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
 </root>
