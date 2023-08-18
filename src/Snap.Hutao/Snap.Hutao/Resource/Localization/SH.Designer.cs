@@ -5479,6 +5479,51 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 (?:〓活动时间〓|〓任务开放时间〓).*?\d\.\d版本更新(?:完成|)后永久开放 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchPermanentActivityTime {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchPermanentActivityTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 〓活动时间〓.*?\d\.\d版本期间持续开放 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchPersistentActivityTime {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchPersistentActivityTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class=&quot;t_(?:gl|lc)&quot;.*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchTransientActivityTime {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchTransientActivityTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 〓更新时间〓.+?&amp;lt;t class=\&quot;t_(?:gl|lc)\&quot;.*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchVersionUpdateTime {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchVersionUpdateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 \d\.\d版本更新说明 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchVersionUpdateTitle {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchVersionUpdateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} 天后开始 的本地化字符串。
         /// </summary>
         internal static string WebAnnouncementTimeDaysBeginFormat {
@@ -5826,6 +5871,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string WebResponseRequestExceptionFormat {
             get {
                 return ResourceManager.GetString("WebResponseRequestExceptionFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class=&quot;t_(?:gl|lc)&quot;.*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; 的本地化字符串。
+        /// </summary>
+        internal static string 活动时间祈愿时间上架时间DD版本更新后D4D2D2D2D2D2LtTClass {
+            get {
+                return ResourceManager.GetString("活动时间祈愿时间上架时间DD版本更新后D4D2D2D2D2D2LtTClass", resourceCulture);
             }
         }
     }
