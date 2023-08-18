@@ -241,7 +241,7 @@
     <value>第 {0} 期</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
-    <value>角色</value>
+    <value>キャラクター</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
     <value>未知</value>
