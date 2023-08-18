@@ -5873,14 +5873,5 @@ namespace Snap.Hutao.Resource.Localization {
                 return ResourceManager.GetString("WebResponseRequestExceptionFormat", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   查找类似 (?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class=&quot;t_(?:gl|lc)&quot;.*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; 的本地化字符串。
-        /// </summary>
-        internal static string 活动时间祈愿时间上架时间DD版本更新后D4D2D2D2D2D2LtTClass {
-            get {
-                return ResourceManager.GetString("活动时间祈愿时间上架时间DD版本更新后D4D2D2D2D2D2LtTClass", resourceCulture);
-            }
-        }
     }
 }
