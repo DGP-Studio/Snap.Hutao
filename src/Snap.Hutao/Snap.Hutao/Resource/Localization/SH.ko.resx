@@ -1979,6 +1979,21 @@
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>무기 자료</value>
   </data>
+  <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
+    <value>(?:〓活动时间〓|〓任务开放时间〓).*?\d\.\d版本更新(?:完成|)后永久开放</value>
+  </data>
+  <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
+    <value>〓活动时间〓.*?\d\.\d版本期间持续开放</value>
+  </data>
+  <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
+    <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
+    <value>\d\.\d版本更新说明</value>
+  </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0}일 후 시작</value>
   </data>
@@ -2095,5 +2110,8 @@
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
+  </data>
+  <data name="活动时间祈愿时间上架时间DD版本更新后D4D2D2D2D2D2LtTClass" xml:space="preserve">
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
 </root>
