@@ -153,11 +153,15 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             SimpleRecord? record = await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
             if (record is not null)
             {
-                Web.Response.Response<string> response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
+                Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
 
-                if (response.IsOk())
+                if (response is { ReturnCode: 0 })
                 {
                     infoBarService.Success(response.Message);
+                }
+                else
+                {
+                    infoBarService.Warning(response.Message);
                 }
             }
         }
