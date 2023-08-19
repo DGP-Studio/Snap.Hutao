@@ -8,6 +8,8 @@ namespace Snap.Hutao.Core.Threading;
 /// </summary>
 internal interface ITaskContext
 {
+    IProgress<T> CreateProgressForMainThread<T>(Action<T> handler);
+
     /// <summary>
     /// 在主线程上同步等待执行操作
     /// </summary>
@@ -26,5 +28,5 @@ internal interface ITaskContext
     /// </summary>
     /// <remarks>使用 <see cref="SwitchToBackgroundAsync"/> 异步切换到 后台线程</remarks>
     /// <returns>等待体</returns>
-    DispatherQueueSwitchOperation SwitchToMainThreadAsync();
+    DispatcherQueueSwitchOperation SwitchToMainThreadAsync();
 }

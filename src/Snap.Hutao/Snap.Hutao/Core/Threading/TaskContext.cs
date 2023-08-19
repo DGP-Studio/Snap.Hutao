@@ -11,6 +11,7 @@ namespace Snap.Hutao.Core.Threading;
 [Injection(InjectAs.Singleton, typeof(ITaskContext))]
 internal sealed class TaskContext : ITaskContext
 {
+    private readonly DispatcherQueueSynchronizationContext dispatcherQueueSynchronizationContext;
     private readonly DispatcherQueue dispatcherQueue;
 
     /// <summary>
@@ -19,8 +20,8 @@ internal sealed class TaskContext : ITaskContext
     public TaskContext()
     {
         dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        DispatcherQueueSynchronizationContext context = new(dispatcherQueue);
-        SynchronizationContext.SetSynchronizationContext(context);
+        dispatcherQueueSynchronizationContext = new(dispatcherQueue);
+        SynchronizationContext.SetSynchronizationContext(dispatcherQueueSynchronizationContext);
     }
 
     /// <inheritdoc/>
@@ -30,7 +31,7 @@ internal sealed class TaskContext : ITaskContext
     }
 
     /// <inheritdoc/>
-    public DispatherQueueSwitchOperation SwitchToMainThreadAsync()
+    public DispatcherQueueSwitchOperation SwitchToMainThreadAsync()
     {
         return new(dispatcherQueue);
     }
@@ -46,5 +47,10 @@ internal sealed class TaskContext : ITaskContext
         {
             dispatcherQueue.Invoke(action);
         }
+    }
+
+    public IProgress<T> CreateProgressForMainThread<T>(Action<T> handler)
+    {
+        return new DispatcherQueueProgress<T>(handler, dispatcherQueueSynchronizationContext);
     }
 }

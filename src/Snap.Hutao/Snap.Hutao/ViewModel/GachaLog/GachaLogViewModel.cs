@@ -160,7 +160,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
             GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
             ContentDialogHideToken hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
-            Progress<GachaLogFetchStatus> progress = new(dialog.OnReport);
+            IProgress<GachaLogFetchStatus> progress = taskContext.CreateProgressForMainThread<GachaLogFetchStatus>(dialog.OnReport);
             bool authkeyValid;
 
             try
