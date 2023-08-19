@@ -38,7 +38,7 @@ internal sealed partial class SummaryFactory : ISummaryFactory
                 .Where(a => !AvatarIds.IsPlayer(a.AvatarId))
                 .Select(a => new SummaryAvatarFactory(metadataContext, a).Create())
                 .OrderByDescending(a => a.LevelNumber)
-                .ThenByDescending(a => a.Name)
+                .ThenBy(a => a.Name)
                 .ToList(),
 
                 // .ThenByDescending(a => a.Quality)
