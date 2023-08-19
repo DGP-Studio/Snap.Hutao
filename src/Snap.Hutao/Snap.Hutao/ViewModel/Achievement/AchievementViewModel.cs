@@ -187,7 +187,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
     [Command("AddArchiveCommand")]
     private async Task AddArchiveAsync()
     {
-        if (Archives is null)
+        if (Archives is not null)
         {
             AchievementArchiveCreateDialog dialog = await contentDialogFactory.CreateInstanceAsync<AchievementArchiveCreateDialog>().ConfigureAwait(false);
             (bool isOk, string name) = await dialog.GetInputAsync().ConfigureAwait(false);
