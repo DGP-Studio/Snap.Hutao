@@ -10,6 +10,7 @@ using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
 using Snap.Hutao.Service.Game;
+using Snap.Hutao.Service.Game.Package;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
@@ -188,7 +189,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 {
                     // Channel changed, we need to change local file.
                     LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-                    Progress<Service.Game.Package.PackageReplaceStatus> progress = new(state => dialog.State = state.Clone());
+                    IProgress<PackageReplaceStatus> progress = taskContext.CreateProgressForMainThread<PackageReplaceStatus>(state => dialog.State = state/*.Clone()*/);
                     using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                     {
                         if (!await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false))
@@ -212,6 +213,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
             }
             catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine(ExceptionFormat.Format(ex));
                 infoBarService.Error(ex);
             }
         }

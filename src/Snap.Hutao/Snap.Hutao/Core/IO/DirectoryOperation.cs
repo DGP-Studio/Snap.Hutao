@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.VisualBasic.FileIO;
 using System.IO;
 
 namespace Snap.Hutao.Core.IO;
@@ -14,7 +15,7 @@ internal static class DirectoryOperation
             return false;
         }
 
-        Directory.Move(sourceDirName, destDirName);
+        FileSystem.MoveDirectory(sourceDirName, destDirName, true);
         return true;
     }
 }

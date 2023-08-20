@@ -18,6 +18,15 @@ internal sealed partial class LaunchScheme
     private const string SdkStaticLauncherBilibiliKey = "KAtdSsoQ";
     private const string SdkStaticLauncherGlobalKey = "gcStgarh";
 
+    private static readonly LaunchScheme ServerChineseChannelOfficialSubChannelDefault = new()
+    {
+        LauncherId = SdkStaticLauncherChineseId,
+        Key = SdkStaticLauncherChineseKey,
+        Channel = ChannelType.Official,
+        SubChannel = SubChannelType.Default,
+        IsOversea = false,
+    };
+
     private static readonly LaunchScheme ServerChineseChannelOfficialSubChannelOfficial = new()
     {
         LauncherId = SdkStaticLauncherChineseId,
@@ -81,6 +90,7 @@ internal sealed partial class LaunchScheme
         return new List<LaunchScheme>()
         {
             // 官服
+            ServerChineseChannelOfficialSubChannelDefault,
             ServerChineseChannelOfficialSubChannelOfficial,
             ServerChineseChannelOfficialSubChannelNoTapTap,
 

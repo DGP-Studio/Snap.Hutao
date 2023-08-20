@@ -1474,6 +1474,33 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 备份：{0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGamePackageConvertMoveFileBackupFormat {
+            get {
+                return ResourceManager.GetString("ServiceGamePackageConvertMoveFileBackupFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重命名：{0} 到：{1} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGamePackageConvertMoveFileRenameFormat {
+            get {
+                return ResourceManager.GetString("ServiceGamePackageConvertMoveFileRenameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 替换：{0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGamePackageConvertMoveFileRestoreFormat {
+            get {
+                return ResourceManager.GetString("ServiceGamePackageConvertMoveFileRestoreFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 重命名数据文件夹名称失败 的本地化字符串。
         /// </summary>
         internal static string ServiceGamePackageRenameDataFolderFailed {

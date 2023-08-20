@@ -163,7 +163,7 @@ internal sealed partial class GameService : IGameService
             }
         }
 
-        return changed;
+        return changed || !LaunchSchemeMatchesExecutable(scheme, Path.GetFileName(gamePath));
     }
 
     /// <inheritdoc/>
@@ -244,7 +244,7 @@ internal sealed partial class GameService : IGameService
         }
 
         string gamePath = appOptions.GamePath;
-        ArgumentNullException.ThrowIfNullOrEmpty(gamePath);
+        ArgumentException.ThrowIfNullOrEmpty(gamePath);
 
         using (Process game = ProcessInterop.InitializeGameProcess(launchOptions, gamePath))
         {

@@ -14,11 +14,11 @@ internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
     /// <summary>
     /// 构造一个新的包更新状态
     /// </summary>
-    /// <param name="description">描述</param>
-    public PackageReplaceStatus(string description)
+    /// <param name="name">描述</param>
+    public PackageReplaceStatus(string name)
     {
-        Name = default!;
-        Description = description;
+        Name = name;
+        Description = default!;
     }
 
     /// <summary>
@@ -34,22 +34,26 @@ internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
         Description = $"{Converters.ToFileSizeString(bytesRead)}/{Converters.ToFileSizeString(totalBytes)}";
     }
 
-    public string Name { get; set; }
+    private PackageReplaceStatus()
+    {
+    }
+
+    public string Name { get; set; } = default!;
 
     /// <summary>
     /// 描述
     /// </summary>
-    public string Description { get; set; }
-
-    /// <summary>
-    /// 是否有进度
-    /// </summary>
-    public bool IsIndeterminate { get => Percent < 0; }
+    public string Description { get; set; } = default!;
 
     /// <summary>
     /// 进度
     /// </summary>
     public double Percent { get; set; } = -1;
+
+    /// <summary>
+    /// 是否有进度
+    /// </summary>
+    public bool IsIndeterminate { get => Percent < 0; }
 
     /// <summary>
     /// 克隆
@@ -58,6 +62,11 @@ internal sealed class PackageReplaceStatus : ICloneable<PackageReplaceStatus>
     public PackageReplaceStatus Clone()
     {
         // 进度需要在主线程上创建
-        return new(Description) { Percent = Percent };
+        return new()
+        {
+            Name = Name,
+            Description = Description,
+            Percent = Percent,
+        };
     }
 }
