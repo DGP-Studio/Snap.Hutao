@@ -131,8 +131,6 @@ internal sealed class RuntimeOptions : IOptions<RuntimeOptions>
 
     private static bool GetElevated()
     {
-        return true;
-
         using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
         {
             WindowsPrincipal principal = new(identity);

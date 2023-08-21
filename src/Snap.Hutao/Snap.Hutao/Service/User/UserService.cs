@@ -25,6 +25,8 @@ namespace Snap.Hutao.Service.User;
 [Injection(InjectAs.Singleton, typeof(IUserService))]
 internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 {
+    private readonly Throttler throttler = new();
+
     private readonly ScopedDbCurrent<BindingUser, Model.Entity.User, UserChangedMessage> dbCurrent;
     private readonly IUserInitializationService userInitializationService;
     private readonly IServiceProvider serviceProvider;
@@ -67,20 +69,22 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     /// <inheritdoc/>
     public async ValueTask<ObservableCollection<BindingUser>> GetUserCollectionAsync()
     {
-        await taskContext.SwitchToBackgroundAsync();
-        if (userCollection is null)
+        using (await throttler.ThrottleAsync().ConfigureAwait(false))
         {
-            List<Model.Entity.User> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
-            List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync, default).ConfigureAwait(false);
-            userCollection = users.ToObservableCollection();
+            if (userCollection is null)
+            {
+                List<Model.Entity.User> entities = await userDbService.GetUserListAsync().ConfigureAwait(false);
+                List<BindingUser> users = await entities.SelectListAsync(userInitializationService.ResumeUserAsync, default).ConfigureAwait(false);
+                userCollection = users.ToObservableCollection();
 
-            try
-            {
-                Current = users.SelectedOrDefault();
-            }
-            catch (InvalidOperationException ex)
-            {
-                ThrowHelper.UserdataCorrupted(SH.ServiceUserCurrentMultiMatched, ex);
+                try
+                {
+                    Current = users.SelectedOrDefault();
+                }
+                catch (InvalidOperationException ex)
+                {
+                    ThrowHelper.UserdataCorrupted(SH.ServiceUserCurrentMultiMatched, ex);
+                }
             }
         }
 

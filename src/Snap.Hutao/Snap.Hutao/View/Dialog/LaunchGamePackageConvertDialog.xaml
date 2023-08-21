@@ -1,7 +1,4 @@
-﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
-<!--  Licensed under the MIT License.  -->
-
-<ContentDialog
+﻿<ContentDialog
     x:Class="Snap.Hutao.View.Dialog.LaunchGamePackageConvertDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

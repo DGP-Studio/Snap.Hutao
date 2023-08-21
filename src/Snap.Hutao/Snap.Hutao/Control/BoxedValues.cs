@@ -10,21 +10,6 @@ namespace Snap.Hutao.Control;
 internal static class BoxedValues
 {
     /// <summary>
-    /// <see cref="double"/> 0
-    /// </summary>
-    public static readonly object DoubleZero = 0D;
-
-    /// <summary>
-    /// <see cref="double"/> 1
-    /// </summary>
-    public static readonly object DoubleOne = 1D;
-
-    /// <summary>
-    /// <see cref="int"/> 0
-    /// </summary>
-    public static readonly object Int32Zero = 0;
-
-    /// <summary>
     /// <see cref="true"/>
     /// </summary>
     public static readonly object True = true;

@@ -151,10 +151,10 @@ internal sealed partial class HomaPassportClient
     private static string Encrypt(string text)
     {
         byte[] plaintextBytes = Encoding.UTF8.GetBytes(text);
-        using (RSACryptoServiceProvider rsa = new(2048))
+        using (RSA rsa = RSA.Create(2048))
         {
             rsa.ImportFromPem(PublicKey);
-            byte[] encryptedBytes = rsa.Encrypt(plaintextBytes, true);
+            byte[] encryptedBytes = rsa.Encrypt(plaintextBytes, RSAEncryptionPadding.OaepSHA1);
             return Convert.ToBase64String(encryptedBytes);
         }
     }
