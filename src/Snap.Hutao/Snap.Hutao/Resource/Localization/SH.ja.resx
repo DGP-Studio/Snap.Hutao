@@ -154,7 +154,7 @@
     <value>リスト</value>
   </data>
   <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
-    <value>数据库已损坏：{0}</value>
+    <value>データベースが破損しています：{0}</value>
   </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
     <value>{0}：ユーザデータが破損しました</value>
@@ -187,7 +187,7 @@
     <value>インポート</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
-    <value>欢迎使用胡桃</value>
+    <value>胡桃へようこそ</value>
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>アカウントを選択して開始します</value>
