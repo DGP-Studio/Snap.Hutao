@@ -13,7 +13,7 @@ internal sealed class Game
     /// 最新客户端
     /// </summary>
     [JsonPropertyName("latest")]
-    public Package Latest { get; set; } = default!;
+    public LatestPackage Latest { get; set; } = default!;
 
     /// <summary>
     /// 相对于当前版本的之前版本的差异文件（非预下载）
