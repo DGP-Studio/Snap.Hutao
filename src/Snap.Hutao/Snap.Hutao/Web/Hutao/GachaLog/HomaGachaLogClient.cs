@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
-namespace Snap.Hutao.Web.Hutao;
+namespace Snap.Hutao.Web.Hutao.GachaLog;
 
 /// <summary>
 /// 胡桃祈愿记录API客户端

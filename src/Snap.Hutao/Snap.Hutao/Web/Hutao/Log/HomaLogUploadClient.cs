@@ -7,7 +7,7 @@ using Snap.Hutao.Web.Hutao.Log;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
-namespace Snap.Hutao.Web.Hutao;
+namespace Snap.Hutao.Web.Hutao.Log;
 
 /// <summary>
 /// 胡桃日志客户端
