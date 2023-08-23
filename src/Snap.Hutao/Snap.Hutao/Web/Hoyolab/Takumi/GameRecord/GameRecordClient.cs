@@ -6,6 +6,7 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab.Annotation;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
@@ -46,9 +47,9 @@ internal sealed partial class GameRecordClient : IGameRecordClient
         {
             // Replace message
             resp.Message = SH.WebDailyNoteVerificationFailed;
-            CardVerifier cardVerifier = serviceProvider.GetRequiredService<CardVerifier>();
+            IGeetestCardVerifier verifier = serviceProvider.GetRequiredService<HomaGeetestCardVerifier>();
 
-            if (await cardVerifier.TryGetXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
+            if (await verifier.TryValidateXrpcChallengeAsync(userAndUid.User, token).ConfigureAwait(false) is { } challenge)
             {
                 resp = await httpClient
                     .SetUser(userAndUid.User, CookieType.Cookie)

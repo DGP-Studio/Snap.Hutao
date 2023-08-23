@@ -3,16 +3,16 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Web.Hutao.Model;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 /// <summary>
-/// 武器搭配
+/// 武器相关构筑
 /// </summary>
 [HighQuality]
-internal sealed class WeaponCollocation : WeaponBuild
+internal abstract class WeaponBuild
 {
     /// <summary>
-    /// 其他角色
+    /// 角色Id
     /// </summary>
-    public List<ItemRate<AvatarId, double>> Avatars { get; set; } = default!;
+    public WeaponId WeaponId { get; set; }
 }

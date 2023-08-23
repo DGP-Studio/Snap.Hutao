@@ -4,14 +4,14 @@
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Web.Geetest;
 
-namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
+namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 
 /// <summary>
 /// CardApi验证器
 /// </summary>
 [HighQuality]
 [Injection(InjectAs.Transient)]
-internal sealed class CardVerifier
+internal sealed class SlientGeetestCardVerifier : IGeetestCardVerifier
 {
     private readonly CardClient cardClient;
     private readonly GeetestClient geetestClient;
@@ -21,7 +21,7 @@ internal sealed class CardVerifier
     /// </summary>
     /// <param name="cardClient">card客户端</param>
     /// <param name="geetestClient">极验客户端</param>
-    public CardVerifier(CardClient cardClient, GeetestClient geetestClient)
+    public SlientGeetestCardVerifier(CardClient cardClient, GeetestClient geetestClient)
     {
         this.cardClient = cardClient;
         this.geetestClient = geetestClient;
@@ -33,7 +33,7 @@ internal sealed class CardVerifier
     /// <param name="user">用户</param>
     /// <param name="token">取消令牌</param>
     /// <returns>流水号</returns>
-    public async ValueTask<string?> TryGetXrpcChallengeAsync(User user, CancellationToken token)
+    public async ValueTask<string?> TryValidateXrpcChallengeAsync(User user, CancellationToken token)
     {
         Response.Response<VerificationRegistration> registrationResponse = await cardClient.CreateVerificationAsync(user, token).ConfigureAwait(false);
         if (registrationResponse.IsOk())

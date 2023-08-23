@@ -3,7 +3,7 @@
 
 using Microsoft.Extensions.Primitives;
 
-namespace Snap.Hutao.Web.Hutao.Model.Converter;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss.Converter;
 
 /// <summary>
 /// 圣遗物套装转换器

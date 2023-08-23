@@ -8,7 +8,7 @@ using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.Complex;
-using Snap.Hutao.Web.Hutao.Model;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.Service.Hutao;
 

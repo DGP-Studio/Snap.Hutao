@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Web.Hutao;
-using Snap.Hutao.Web.Hutao.Model;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.Service.Hutao;
 
@@ -35,7 +35,11 @@ internal sealed partial class HutaoUserService : IHutaoUserService, IHutaoUserSe
         string userName = LocalSetting.Get(SettingKeys.PassportUserName, string.Empty);
         string passport = LocalSetting.Get(SettingKeys.PassportPassword, string.Empty);
 
-        if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(passport))
+        if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(passport))
+        {
+            options.SkipLogin();
+        }
+        else
         {
             Web.Response.Response<string> response = await passportClient.LoginAsync(userName, passport, token).ConfigureAwait(false);
 

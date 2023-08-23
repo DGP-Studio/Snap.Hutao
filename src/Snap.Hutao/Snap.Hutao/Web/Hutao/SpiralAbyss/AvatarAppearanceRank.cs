@@ -3,13 +3,13 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Web.Hutao.Model;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 /// <summary>
-/// 使用率
+/// 出场率
 /// </summary>
 [HighQuality]
-internal sealed class AvatarUsageRank
+internal sealed class AvatarAppearanceRank
 {
     /// <summary>
     /// 楼层

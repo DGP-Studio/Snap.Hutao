@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
+using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Geetest;

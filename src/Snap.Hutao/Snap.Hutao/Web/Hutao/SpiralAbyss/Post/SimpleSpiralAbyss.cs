@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
-namespace Snap.Hutao.Web.Hutao.Model.Post;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 
 /// <summary>
 /// 深渊数据
@@ -15,7 +15,7 @@ internal sealed class SimpleSpiralAbyss
     /// 构造一个新的深渊信息
     /// </summary>
     /// <param name="spiralAbyss">深渊信息</param>
-    public SimpleSpiralAbyss(SpiralAbyss spiralAbyss)
+    public SimpleSpiralAbyss(Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss)
     {
         ScheduleId = spiralAbyss.ScheduleId;
         TotalBattleTimes = spiralAbyss.TotalBattleTimes;

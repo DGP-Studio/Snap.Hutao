@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Binding.Hutao;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.Complex;
-using Snap.Hutao.Web.Hutao.Model;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.Service.Hutao;
 

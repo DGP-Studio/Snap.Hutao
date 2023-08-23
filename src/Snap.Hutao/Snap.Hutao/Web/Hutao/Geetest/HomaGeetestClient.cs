@@ -20,10 +20,10 @@ internal sealed partial class HomaGeetestClient
 
     public async ValueTask<GeetestResponse> VerifyAsync(string gt, string challenge, CancellationToken token)
     {
-        httpClient.DefaultRequestHeaders.Authorization = new("Bearer", hutaoUserOptions.Token);
+        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
 
         GeetestResponse? resp = await httpClient
-            .TryCatchGetFromJsonAsync<GeetestResponse>(HutaoEndpoints.GeetestVerify(gt,challenge), options, logger, token)
+            .TryCatchGetFromJsonAsync<GeetestResponse>(HutaoEndpoints.GeetestVerify(gt, challenge), options, logger, token)
             .ConfigureAwait(false);
 
         ArgumentNullException.ThrowIfNull(resp);

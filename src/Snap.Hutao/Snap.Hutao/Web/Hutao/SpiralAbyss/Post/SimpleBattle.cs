@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
-namespace Snap.Hutao.Web.Hutao.Model.Post;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 
 /// <summary>
 /// 上下半信息

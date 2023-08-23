@@ -4,7 +4,7 @@
 using Snap.Hutao.Model.Primitive;
 using System.Globalization;
 
-namespace Snap.Hutao.Web.Hutao.Model;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 /// <summary>
 /// 圣遗物套装

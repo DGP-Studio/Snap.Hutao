@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Core.Json.Converter;
 
-namespace Snap.Hutao.Web.Hutao.Model;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 /// <summary>
 /// 队伍

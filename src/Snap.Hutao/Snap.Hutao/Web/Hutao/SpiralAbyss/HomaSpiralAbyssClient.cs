@@ -9,12 +9,12 @@ using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
-using Snap.Hutao.Web.Hutao.Model;
-using Snap.Hutao.Web.Hutao.Model.Post;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
-namespace Snap.Hutao.Web.Hutao;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 /// <summary>
 /// 胡桃API客户端
@@ -190,7 +190,7 @@ internal sealed partial class HomaSpiralAbyssClient
 
             if (charactersResponse.IsOk())
             {
-                Response<SpiralAbyss> spiralAbyssResponse = await gameRecordClient
+                Response<Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss> spiralAbyssResponse = await gameRecordClient
                     .GetSpiralAbyssAsync(userAndUid, SpiralAbyssSchedule.Current, token)
                     .ConfigureAwait(false);
 

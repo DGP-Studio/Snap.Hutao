@@ -4,7 +4,7 @@
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
-namespace Snap.Hutao.Web.Hutao.Model.Post;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 
 /// <summary>
 /// 记录
@@ -19,7 +19,7 @@ internal sealed class SimpleRecord
     /// <param name="characters">详细的角色信息</param>
     /// <param name="spiralAbyss">深渊信息</param>
     /// <param name="reservedUserName">用户名</param>
-    public SimpleRecord(string uid, List<Character> characters, SpiralAbyss spiralAbyss, string? reservedUserName)
+    public SimpleRecord(string uid, List<Character> characters, Hoyolab.Takumi.GameRecord.SpiralAbyss.SpiralAbyss spiralAbyss, string? reservedUserName)
     {
         Uid = uid;
         Identity = "Snap Hutao"; // hardcoded Identity name

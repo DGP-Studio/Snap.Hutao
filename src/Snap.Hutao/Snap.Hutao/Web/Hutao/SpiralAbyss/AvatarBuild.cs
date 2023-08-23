@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Model.Primitive;
 
-namespace Snap.Hutao.Web.Hutao.Model;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 /// <summary>
 /// 角色相关构筑

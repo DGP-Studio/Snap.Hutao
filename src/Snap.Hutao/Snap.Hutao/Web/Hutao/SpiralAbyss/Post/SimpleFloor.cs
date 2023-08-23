@@ -3,7 +3,7 @@
 
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
-namespace Snap.Hutao.Web.Hutao.Model.Post;
+namespace Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 
 /// <summary>
 /// 层信息
