@@ -25,8 +25,10 @@ namespace Snap.Hutao.ViewModel.Guide;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WelcomeViewModel : ObservableObject
 {
+    [SuppressMessage("", "SH301")]
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private ObservableCollection<DownloadSummary>? downloadSummaries;
 
@@ -48,22 +50,16 @@ internal sealed partial class WelcomeViewModel : ObservableObject
             {
                 taskContext.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
             }
-        }).ConfigureAwait(true);
+        }).ConfigureAwait(false);
 
-        serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
+        messenger.Send(new Message.WelcomeStateCompleteMessage());
         StaticResource.FulfillAllContracts();
 
-        try
-        {
-            new ToastContentBuilder()
-                .AddText(SH.ViewModelWelcomeDownloadCompleteTitle)
-                .AddText(SH.ViewModelWelcomeDownloadCompleteMessage)
-                .Show();
-        }
-        catch (COMException)
-        {
-            // 0x803E0105
-        }
+        await taskContext.SwitchToMainThreadAsync();
+        new ToastContentBuilder()
+            .AddText(SH.ViewModelWelcomeDownloadCompleteTitle)
+            .AddText(SH.ViewModelWelcomeDownloadCompleteMessage)
+            .Show();
     }
 
     private IEnumerable<DownloadSummary> GenerateStaticResourceDownloadTasks()

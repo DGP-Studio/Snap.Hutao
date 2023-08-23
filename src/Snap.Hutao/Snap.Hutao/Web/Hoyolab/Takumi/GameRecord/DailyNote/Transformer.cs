@@ -22,6 +22,16 @@ internal sealed class Transformer
     [JsonPropertyName("recovery_time")]
     public RecoveryTime? RecoveryTime { get; set; }
 
+    public string ObtainedAndReachedFormatted
+    {
+        get => Obtained ? RecoveryTime.ReachedFormatted : SH.WebDailyNoteTransformerNotObtained;
+    }
+
+    public string ObtainedAndTimeFormatted
+    {
+        get => Obtained ? RecoveryTime.TimeFormatted : SH.WebDailyNoteTransformerNotObtainedDetail;
+    }
+
     /// <summary>
     /// Wiki链接
     /// </summary>

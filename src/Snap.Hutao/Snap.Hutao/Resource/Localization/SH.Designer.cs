@@ -5731,6 +5731,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 尚未获得 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerNotObtained {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerNotObtained", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 尚未获得参量质变仪 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerNotObtainedDetail {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerNotObtainedDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 冷却中 的本地化字符串。
         /// </summary>
         internal static string WebDailyNoteTransformerNotReached {

@@ -161,13 +161,18 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     }
 
     /// <inheritdoc/>
-    public async ValueTask<bool> RefreshCookieTokenAsync(BindingUser user)
+    public ValueTask<bool> RefreshCookieTokenAsync(BindingUser user)
+    {
+        return RefreshCookieTokenAsync(user.Entity);
+    }
+
+    public async ValueTask<bool> RefreshCookieTokenAsync(Model.Entity.User user)
     {
         // TODO: 提醒其他组件此用户的Cookie已更改
         Response<UidCookieToken> cookieTokenResponse = await serviceProvider
             .GetRequiredService<IOverseaSupportFactory<IPassportClient>>()
-            .Create(user.Entity.IsOversea)
-            .GetCookieAccountInfoBySTokenAsync(user.Entity)
+            .Create(user.IsOversea)
+            .GetCookieAccountInfoBySTokenAsync(user)
             .ConfigureAwait(false);
 
         if (cookieTokenResponse.IsOk())
@@ -179,7 +184,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
 
             // Sync ui and database
             user.CookieToken[Cookie.COOKIE_TOKEN] = cookieToken;
-            await userDbService.UpdateUserAsync(user.Entity).ConfigureAwait(false);
+            await userDbService.UpdateUserAsync(user).ConfigureAwait(false);
 
             return true;
         }
