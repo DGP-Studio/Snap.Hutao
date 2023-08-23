@@ -2064,6 +2064,12 @@
   <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
     <value>{0} mins</value>
   </data>
+  <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
+    <value>尚未获得</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
+    <value>尚未获得参量质变仪</value>
+  </data>
   <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
     <value>Cooling down</value>
   </data>
