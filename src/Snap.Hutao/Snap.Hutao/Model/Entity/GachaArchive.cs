@@ -1,13 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Abstraction;
 using Snap.Hutao.Core.Database;
-using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Service.GachaLog;
-using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

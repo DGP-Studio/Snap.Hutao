@@ -3,7 +3,6 @@
 
 using Microsoft.Web.WebView2.Core;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
-using Snap.Hutao.Service;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;

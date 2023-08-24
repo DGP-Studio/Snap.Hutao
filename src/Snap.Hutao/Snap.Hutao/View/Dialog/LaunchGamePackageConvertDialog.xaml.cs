@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control;
 using Snap.Hutao.Service.Game.Package;
 
 namespace Snap.Hutao.View.Dialog;

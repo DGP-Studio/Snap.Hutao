@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Web.Geetest;
 using Snap.Hutao.Web.Hutao.Geetest;
 
 namespace Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Verification;

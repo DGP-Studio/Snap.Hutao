@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -12,7 +10,6 @@ using Snap.Hutao.Service.GachaLog.Factory;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using Snap.Hutao.Web.Response;
 

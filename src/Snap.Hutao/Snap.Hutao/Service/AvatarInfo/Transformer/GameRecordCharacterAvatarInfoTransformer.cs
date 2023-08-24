@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Enka.Model;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 

@@ -6,12 +6,9 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 using Snap.Hutao.Web.Response;
-using System.Runtime.InteropServices;
-using Windows.Foundation.Metadata;
 
 namespace Snap.Hutao.Service.DailyNote;
 

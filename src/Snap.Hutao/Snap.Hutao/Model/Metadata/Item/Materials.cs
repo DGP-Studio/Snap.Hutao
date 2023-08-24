@@ -1,9 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.Immutable;
 
 namespace Snap.Hutao.Model.Metadata.Item;

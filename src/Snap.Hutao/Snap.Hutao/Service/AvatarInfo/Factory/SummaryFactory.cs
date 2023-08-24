@@ -41,8 +41,8 @@ internal sealed partial class SummaryFactory : ISummaryFactory
                 .ThenBy(a => a.Name)
                 .ToList(),
 
-                // .ThenByDescending(a => a.Quality)
-                // .ThenByDescending(a => a.ActivatedConstellationCount)
+            // .ThenByDescending(a => a.Quality)
+            // .ThenByDescending(a => a.ActivatedConstellationCount)
         };
     }
 }

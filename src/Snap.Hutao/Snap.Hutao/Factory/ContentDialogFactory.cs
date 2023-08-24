@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.Abstraction;
-using System.Security.Authentication;
 
 namespace Snap.Hutao.Factory;
 

@@ -8,7 +8,6 @@ using Snap.Hutao.Core.Setting;
 using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Snap.Hutao.Core;

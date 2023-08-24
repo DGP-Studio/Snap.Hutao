@@ -8,7 +8,6 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Web.Hutao;
 using Snap.Hutao.Web.Response;
-using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.ViewModel;
 

@@ -5,7 +5,6 @@ using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service;
@@ -16,7 +15,6 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
-using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using System.Collections.ObjectModel;
 using System.IO;
 

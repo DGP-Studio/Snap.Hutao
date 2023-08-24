@@ -4,7 +4,6 @@
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
 using Snap.Hutao.Service.Notification;
-using Snap.Hutao.Service.User;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.DailyNote;

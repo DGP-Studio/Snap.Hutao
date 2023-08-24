@@ -3,17 +3,12 @@
 
 using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.WinUI.Notifications;
 using Snap.Hutao.Core;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Core.IO;
-using Snap.Hutao.Core.Setting;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Guide;
 

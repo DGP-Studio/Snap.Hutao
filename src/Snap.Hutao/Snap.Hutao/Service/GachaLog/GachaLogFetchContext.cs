@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Service.GachaLog.QueryProvider;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.Collections.ObjectModel;

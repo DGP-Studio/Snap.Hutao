@@ -21,7 +21,7 @@ internal sealed class ReliquarySetsConverter : JsonConverter<ReliquarySets>
             List<ReliquarySet> sets = new();
             foreach (StringSegment segment in new StringTokenizer(source, Separator.ToArray()))
             {
-                if (segment is { HasValue: true, Length: >0 })
+                if (segment is { HasValue: true, Length: > 0 })
                 {
                     sets.Add(new(segment.Value));
                 }

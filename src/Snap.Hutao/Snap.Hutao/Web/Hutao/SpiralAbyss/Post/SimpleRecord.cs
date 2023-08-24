@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
 
 namespace Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 

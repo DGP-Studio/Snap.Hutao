@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI;
 using Snap.Hutao.Model.Primitive;
 using System.Runtime.InteropServices;
 

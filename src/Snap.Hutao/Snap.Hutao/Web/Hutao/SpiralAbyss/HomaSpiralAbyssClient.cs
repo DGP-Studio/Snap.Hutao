@@ -8,8 +8,6 @@ using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
-using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.SpiralAbyss;
-using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;

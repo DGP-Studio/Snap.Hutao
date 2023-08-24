@@ -10,7 +10,6 @@ using Snap.Hutao.Control.Animation;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Caching;
 using Snap.Hutao.Service.Notification;
-using System.Globalization;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.InteropServices;

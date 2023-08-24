@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Core;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.InterChange.GachaLog;
 using Snap.Hutao.Service.Metadata;
 
