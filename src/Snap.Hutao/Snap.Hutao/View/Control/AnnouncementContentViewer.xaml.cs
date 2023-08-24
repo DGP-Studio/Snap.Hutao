@@ -35,8 +35,8 @@ internal sealed partial class AnnouncementContentViewer : UserControl
     private const string DarkColor3 = "color:rgba(51,51,51,1)";
     private const string DarkColor4 = "color:rgba(57,59,64,1)";
     private const string DarkColor5 = "color:rgba(85,85,85,1)";
-    private const string DarkAccentColor1 = "background-color: rgb(255, 215, 185);";
-    private const string DarkAccentColor2 = "background-color: rgb(254, 245, 231);";
+    private const string DarkAccentColor1 = "background-color: rgb(255, 215, 185)";
+    private const string DarkAccentColor2 = "background-color: rgb(254, 245, 231)";
 
     // support click open browser.
     private const string MihoyoSDKDefinition = """
