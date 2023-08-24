@@ -33,7 +33,6 @@ internal sealed partial class AutoWidthBehavior : BehaviorBase<FrameworkElement>
     protected override bool Uninitialize()
     {
         AssociatedObject.SizeChanged -= sizeChangedEventHandler;
-        base.OnDetaching();
         return true;
     }
 

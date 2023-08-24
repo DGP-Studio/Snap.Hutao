@@ -52,7 +52,10 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
     /// </summary>
     public DailyNote? DailyNote { get; set; }
 
-    // TODO: Add RefreshTime
+    /// <summary>
+    /// 刷新时间
+    /// </summary>
+    public DateTimeOffset RefreshTime { get; set; }
 
     /// <summary>
     /// 树脂提醒阈值
@@ -127,6 +130,7 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
     public void UpdateDailyNote(DailyNote? dailyNote)
     {
         DailyNote = dailyNote;
+        RefreshTime = DateTimeOffset.Now;
         OnPropertyChanged(nameof(DailyNote));
     }
 }
