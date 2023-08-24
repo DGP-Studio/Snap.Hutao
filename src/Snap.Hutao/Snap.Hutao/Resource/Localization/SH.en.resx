@@ -237,6 +237,9 @@
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>Network Error</value>
   </data>
+  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
+    <value>刷新于 {0:yyyy/MM/dd HH:mm:ss}</value>
+  </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>Schedule {0}</value>
   </data>
@@ -2033,6 +2036,9 @@
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
     <value>Expected to reach the limit in {0} {1:HH:mm}</value>
+  </data>
+  <data name="WebDailyNoteHomeLocked" xml:space="preserve">
+    <value>尚未解锁洞天</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>Today</value>
