@@ -133,7 +133,9 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
     public void UpdateDailyNote(DailyNote? dailyNote)
     {
         DailyNote = dailyNote;
-        RefreshTime = DateTimeOffset.Now;
         OnPropertyChanged(nameof(DailyNote));
+
+        RefreshTime = DateTimeOffset.Now;
+        OnPropertyChanged(nameof(RefreshTime));
     }
 }
