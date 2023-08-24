@@ -3499,6 +3499,42 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 自动刷新 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteSettingAutoRefresh {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteSettingAutoRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 间隔选定的时间后刷新添加的实时便笺 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteSettingAutoRefreshDescription {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteSettingAutoRefreshDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 这些选项仅允许在非管理员模式下更改 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteSettingRefreshElevatedHint {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteSettingRefreshElevatedHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteSettingRefreshHeader {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteSettingRefreshHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 在我游玩原神时不通知我 的本地化字符串。
         /// </summary>
         internal static string ViewPageDailyNoteSlientModeDescription {

@@ -67,13 +67,13 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync()
+    public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(bool forceRefresh = false)
     {
         if (entries is null)
         {
             // IUserService.GetUserGameRoleByUid only usable after call IUserService.GetRoleCollectionAsync
             await userService.GetRoleCollectionAsync().ConfigureAwait(false);
-            await RefreshDailyNotesAsync().ConfigureAwait(false);
+            await RefreshDailyNotesCoreAsync(forceRefresh).ConfigureAwait(false);
 
             List<DailyNoteEntry> entryList = dailyNoteDbService.GetDailyNoteEntryIncludeUserList();
             entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
@@ -84,15 +84,42 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async ValueTask RefreshDailyNotesAsync()
+    public ValueTask RefreshDailyNotesAsync()
+    {
+        return RefreshDailyNotesCoreAsync(true);
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry)
+    {
+        await taskContext.SwitchToMainThreadAsync();
+        ArgumentNullException.ThrowIfNull(entries);
+        entries.Remove(entry);
+
+        await taskContext.SwitchToBackgroundAsync();
+        await dailyNoteDbService.DeleteDailyNoteEntryByIdAsync(entry.InnerId).ConfigureAwait(false);
+    }
+
+    public async ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry)
+    {
+        await taskContext.SwitchToBackgroundAsync();
+        await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
+    }
+
+    private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh)
     {
         foreach (DailyNoteEntry entry in dailyNoteDbService.GetDailyNoteEntryIncludeUserList())
         {
+            if (!forceRefresh && entry.DailyNote is not null)
+            {
+                continue;
+            }
+
             Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
-                .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
-                .Create(PlayerUid.IsOversea(entry.Uid))
-                .GetDailyNoteAsync(new(entry.User, entry.Uid))
-                .ConfigureAwait(false);
+            .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+            .Create(PlayerUid.IsOversea(entry.Uid))
+            .GetDailyNoteAsync(new(entry.User, entry.Uid))
+            .ConfigureAwait(false);
 
             if (dailyNoteResponse.IsOk())
             {
@@ -111,22 +138,5 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
                 await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
             }
         }
-    }
-
-    /// <inheritdoc/>
-    public async ValueTask RemoveDailyNoteAsync(DailyNoteEntry entry)
-    {
-        await taskContext.SwitchToMainThreadAsync();
-        ArgumentNullException.ThrowIfNull(entries);
-        entries.Remove(entry);
-
-        await taskContext.SwitchToBackgroundAsync();
-        await dailyNoteDbService.DeleteDailyNoteEntryByIdAsync(entry.InnerId).ConfigureAwait(false);
-    }
-
-    public async ValueTask UpdateDailyNoteAsync(DailyNoteEntry entry)
-    {
-        await taskContext.SwitchToBackgroundAsync();
-        await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
     }
 }

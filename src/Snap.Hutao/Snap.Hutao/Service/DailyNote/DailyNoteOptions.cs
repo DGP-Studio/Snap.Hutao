@@ -48,6 +48,27 @@ internal sealed class DailyNoteOptions : DbStoreOptions
         new(SH.ViewModelDailyNoteRefreshTime60, OneMinute * 60),
     };
 
+    public bool IsAutoRefreshEnabled
+    {
+        get => scheduleTaskInterop.IsDailyNoteRefreshEnabled();
+        set
+        {
+            if (value)
+            {
+                if (SelectedRefreshTime is not null)
+                {
+                    scheduleTaskInterop.RegisterForDailyNoteRefresh(SelectedRefreshTime.Value);
+                }
+            }
+            else
+            {
+                scheduleTaskInterop.UnregisterForDailyNoteRefresh();
+            }
+
+            OnPropertyChanged();
+        }
+    }
+
     /// <summary>
     /// 选中的刷新时间
     /// </summary>

@@ -116,38 +116,68 @@
             PaneBackground="{ThemeResource SystemControlAcrylicElementMediumHighBrush}"
             PanePlacement="Right">
             <SplitView.Pane>
-                <ScrollViewer Padding="16">
-                    <StackPanel>
-                        <RadioButtons ItemsSource="{Binding Options.RefreshTimes}" SelectedItem="{Binding Options.SelectedRefreshTime, Mode=TwoWay}">
-                            <RadioButtons.Header>
-                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteRefreshTime}"/>
-                            </RadioButtons.Header>
-                            <RadioButtons.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Margin="0,0,0,0" Text="{Binding Name}"/>
-                                </DataTemplate>
-                            </RadioButtons.ItemTemplate>
-                        </RadioButtons>
-                        <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
-                            <StackPanel.Resources>
-                                <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
-                                <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
-                                <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
-                            </StackPanel.Resources>
-                            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}"/>
-                            <cwc:SettingsCard
-                                Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
-                                Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
-                                HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
-                                <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
-                            </cwc:SettingsCard>
-                            <cwc:SettingsCard
-                                Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
-                                Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
-                                HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
-                                <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsReminderNotification, Mode=TwoWay}"/>
-                            </cwc:SettingsCard>
-                        </StackPanel>
+                <ScrollViewer>
+                    <StackPanel Margin="16" Spacing="{StaticResource SettingsCardSpacing}">
+                        <StackPanel.Resources>
+                            <x:Double x:Key="SettingsCardMinHeight">0</x:Double>
+                            <x:Double x:Key="SettingsCardWrapThreshold">0</x:Double>
+                            <x:Double x:Key="SettingsCardWrapNoIconThreshold">0</x:Double>
+                        </StackPanel.Resources>
+
+                        <cwc:HeaderedContentControl
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            IsEnabled="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolNegationConverter}}">
+                            <cwc:HeaderedContentControl.Header>
+                                <TextBlock
+                                    Margin="1,0,0,5"
+                                    Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
+                                    Text="{shcm:ResourceString Name=ViewPageDailyNoteSettingRefreshHeader}"/>
+                            </cwc:HeaderedContentControl.Header>
+                            <StackPanel Spacing="{StaticResource SettingsCardSpacing}">
+                                <InfoBar
+                                    Title="{shcm:ResourceString Name=ViewPageDailyNoteSettingRefreshElevatedHint}"
+                                    IsClosable="False"
+                                    IsOpen="True"
+                                    Severity="Warning"
+                                    Visibility="{Binding RuntimeOptions.IsElevated, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <cwc:SettingsCard
+                                    Description="{shcm:ResourceString Name=ViewPageDailyNoteSettingAutoRefreshDescription}"
+                                    Header="{shcm:ResourceString Name=ViewPageDailyNoteSettingAutoRefresh}"
+                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE72C;}">
+                                    <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsAutoRefreshEnabled, Mode=TwoWay}"/>
+                                </cwc:SettingsCard>
+                                <RadioButtons
+                                    Margin="1,11,0,5"
+                                    IsEnabled="{Binding Options.IsAutoRefreshEnabled}"
+                                    ItemsSource="{Binding Options.RefreshTimes}"
+                                    SelectedItem="{Binding Options.SelectedRefreshTime, Mode=TwoWay}">
+                                    <RadioButtons.Header>
+                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteRefreshTime}"/>
+                                    </RadioButtons.Header>
+                                    <RadioButtons.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Margin="0,0,0,0" Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </RadioButtons.ItemTemplate>
+                                </RadioButtons>
+                            </StackPanel>
+                        </cwc:HeaderedContentControl>
+
+
+                        <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageDailyNoteNotificationHeader}"/>
+                        <cwc:SettingsCard
+                            Description="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageDailyNoteSlientModeHeader}"
+                            HeaderIcon="{shcm:FontIcon Glyph=&#xE7ED;}">
+                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsSilentWhenPlayingGame, Mode=TwoWay}"/>
+                        </cwc:SettingsCard>
+                        <cwc:SettingsCard
+                            Description="{shcm:ResourceString Name=ViewPageDailyNoteReminderDescription}"
+                            Header="{shcm:ResourceString Name=ViewPageDailyNoteReminderHeader}"
+                            HeaderIcon="{shcm:FontIcon Glyph=&#xEA8F;}">
+                            <ToggleSwitch Margin="24,0,0,0" IsOn="{Binding Options.IsReminderNotification, Mode=TwoWay}"/>
+                        </cwc:SettingsCard>
                     </StackPanel>
                 </ScrollViewer>
             </SplitView.Pane>

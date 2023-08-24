@@ -1319,6 +1319,18 @@
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
     <value>本周已消耗减半次数</value>
   </data>
+  <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
+    <value>自动刷新</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
+    <value>间隔选定的时间后刷新添加的实时便笺</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
+    <value>这些选项仅允许在非管理员模式下更改</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
+    <value>刷新</value>
+  </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>在我游玩原神时不通知我</value>
   </data>
