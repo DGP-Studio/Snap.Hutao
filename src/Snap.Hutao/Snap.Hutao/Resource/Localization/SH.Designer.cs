@@ -421,6 +421,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 刷新于 {0:yyyy/MM/dd HH:mm:ss} 的本地化字符串。
+        /// </summary>
+        internal static string ModelEntityDailyNoteRefreshTimeFormat {
+            get {
+                return ResourceManager.GetString("ModelEntityDailyNoteRefreshTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 第 {0} 期 的本地化字符串。
         /// </summary>
         internal static string ModelEntitySpiralAbyssScheduleFormat {
@@ -5637,6 +5646,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string WebDailyNoteHomeCoinRecoveryFormat {
             get {
                 return ResourceManager.GetString("WebDailyNoteHomeCoinRecoveryFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 尚未解锁洞天 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteHomeLocked {
+            get {
+                return ResourceManager.GetString("WebDailyNoteHomeLocked", resourceCulture);
             }
         }
         

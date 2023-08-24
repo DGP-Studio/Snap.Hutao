@@ -168,6 +168,7 @@
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
 
                                 <Grid.Resources>
@@ -453,6 +454,12 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
+                                <TextBlock
+                                    Grid.Row="4"
+                                    Margin="0,6,0,0"
+                                    Opacity="0.7"
+                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                    Text="{Binding RefreshTimeFormatted}"/>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

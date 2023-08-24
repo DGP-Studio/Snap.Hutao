@@ -57,6 +57,9 @@ internal sealed class DailyNoteEntry : ObservableObject, IMappingFrom<DailyNoteE
     /// </summary>
     public DateTimeOffset RefreshTime { get; set; }
 
+    [NotMapped]
+    public string RefreshTimeFormatted { get => SH.ModelEntityDailyNoteRefreshTimeFormat.Format(RefreshTime); }
+
     /// <summary>
     /// 树脂提醒阈值
     /// </summary>
