@@ -3,7 +3,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Snap.Hutao.SourceGeneration.Primitive;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -129,7 +128,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
         }
 
         // ICommand can only use Task or Task<T>
-        if (methodSymbol.GetAttributes().Any(attr=>attr.AttributeClass!.ToDisplayString() == Automation.CommandGenerator.AttributeName))
+        if (methodSymbol.GetAttributes().Any(attr => attr.AttributeClass!.ToDisplayString() == Automation.CommandGenerator.AttributeName))
         {
             return;
         }
@@ -241,7 +240,7 @@ internal sealed class UniversalAnalyzer : DiagnosticAnalyzer
             Diagnostic diagnostic = Diagnostic.Create(useIsNotNullPatternMatchingDescriptor, location);
             context.ReportDiagnostic(diagnostic);
         }
-        else if(syntax.IsKind(SyntaxKind.EqualsExpression) && syntax.Right.IsKind(SyntaxKind.NullLiteralExpression))
+        else if (syntax.IsKind(SyntaxKind.EqualsExpression) && syntax.Right.IsKind(SyntaxKind.NullLiteralExpression))
         {
             Location location = syntax.OperatorToken.GetLocation();
             Diagnostic diagnostic = Diagnostic.Create(useIsNullPatternMatchingDescriptor, location);
