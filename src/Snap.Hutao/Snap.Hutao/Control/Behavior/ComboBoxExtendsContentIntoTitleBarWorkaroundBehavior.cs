@@ -28,19 +28,19 @@ internal sealed class ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior : Beh
     }
 
     /// <inheritdoc/>
-    protected override void OnAssociatedObjectLoaded()
+    protected override bool Initialize()
     {
         AssociatedObject.DropDownOpened += dropDownOpenedHandler;
         AssociatedObject.DropDownClosed += dropDownClosedHandler;
+        return true;
     }
 
     /// <inheritdoc/>
-    protected override void OnDetaching()
+    protected override bool Uninitialize()
     {
         AssociatedObject.DropDownOpened -= dropDownOpenedHandler;
         AssociatedObject.DropDownClosed -= dropDownClosedHandler;
-
-        base.OnDetaching();
+        return true;
     }
 
     private void OnDropDownOpened(object? sender, object e)

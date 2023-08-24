@@ -94,18 +94,4 @@ internal static partial class EnumerableExtension
         string result = string.Join(separator, collection);
         return result.Length > 0 ? result : string.Empty;
     }
-
-    /// <summary>
-    /// Concatenates each element from the collection into single string.
-    /// </summary>
-    /// <typeparam name="T">Type of array elements.</typeparam>
-    /// <param name="collection">Collection to convert. Cannot be <see langword="null"/>.</param>
-    /// <param name="separator">Delimiter between elements in the final string.</param>
-    /// <param name="defaultValue">A string to be returned if collection has no elements.</param>
-    /// <returns>Converted collection into string.</returns>
-    public static string ToString<T>(this IEnumerable<T> collection, char separator, string defaultValue)
-    {
-        string result = string.Join(separator, collection);
-        return result.Length > 0 ? result : defaultValue;
-    }
 }

@@ -109,7 +109,6 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             {
                 if (AnnouncementRegex.PermanentActivityTimeRegex.Match(announcement.Content) is { Success: true } permanent)
                 {
-
                     announcement.StartTime = versionUpdateTime;
                     continue;
                 }
