@@ -127,7 +127,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
         return document;
     }
 
-    [GeneratedRegex("style=\".*?vertical-align:middle;\"")]
+    [GeneratedRegex(" style=\"(?!\")*?vertical-align:middle;\"")]
     private static partial Regex StyleRegex();
 
     private void OnLoaded(object sender, RoutedEventArgs e)
