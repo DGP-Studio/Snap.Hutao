@@ -369,6 +369,9 @@
     <value>单手剑</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
+    <value>旅行者</value>
+  </data>
   <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
     <value>{0} 月 {1} 日</value>
   </data>

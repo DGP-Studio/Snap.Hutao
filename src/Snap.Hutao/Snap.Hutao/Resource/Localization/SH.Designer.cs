@@ -754,6 +754,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 旅行者 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataAvatarPlayerName {
+            get {
+                return ResourceManager.GetString("ModelMetadataAvatarPlayerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} 月 {1} 日 的本地化字符串。
         /// </summary>
         internal static string ModelMetadataFetterInfoBirthdayFormat {

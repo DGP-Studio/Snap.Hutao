@@ -16,7 +16,7 @@
         <TextBox
             VerticalAlignment="Top"
             PlaceholderText="{shcm:ResourceString Name=ViewDialogCultivateProjectInputPlaceholder}"
-            Text="{x:Bind Text, Mode=TwoWay}"/>
+            Text="{x:Bind Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <CheckBox
             Margin="0,8,0,0"
             Content="{shcm:ResourceString Name=ViewDialogCultivateProjectAttachUid}"
