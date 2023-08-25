@@ -1329,7 +1329,7 @@
     <value>Auto Refresh</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
-    <value>间隔选定的时间后刷新添加的实时便笺</value>
+    <value>Refresh the Realtime Notes added after the selected time</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
     <value>These options are only allowed to modify in non-admin mode</value>
