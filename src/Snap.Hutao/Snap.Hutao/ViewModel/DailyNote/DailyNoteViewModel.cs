@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
@@ -89,7 +91,14 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     {
         if (userAndUid is not null)
         {
-            await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
+            ContentDialog dialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.ViewModelDailyNoteRequestProgressTitle)
+                .ConfigureAwait(false);
+
+            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            {
+                await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
+            }
         }
     }
 

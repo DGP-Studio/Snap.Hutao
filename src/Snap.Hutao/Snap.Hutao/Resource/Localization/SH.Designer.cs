@@ -2644,6 +2644,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 正在获取实时便笺信息，请稍候 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteRequestProgressTitle {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteRequestProgressTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 成功保存到指定位置 的本地化字符串。
         /// </summary>
         internal static string ViewModelExportSuccessMessage {
