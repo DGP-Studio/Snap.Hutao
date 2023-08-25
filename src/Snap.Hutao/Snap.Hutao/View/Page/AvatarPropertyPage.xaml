@@ -660,9 +660,10 @@
                                                                         </ItemsControl.ItemsPanel>
                                                                         <ItemsControl.ItemTemplate>
                                                                             <DataTemplate>
-                                                                                <Grid>
+                                                                                <Grid ColumnSpacing="6">
                                                                                     <Grid.ColumnDefinitions>
                                                                                         <ColumnDefinition/>
+                                                                                        <ColumnDefinition Width="auto"/>
                                                                                         <ColumnDefinition Width="auto"/>
                                                                                     </Grid.ColumnDefinitions>
                                                                                     <TextBlock
@@ -671,6 +672,21 @@
                                                                                         TextTrimming="CharacterEllipsis"
                                                                                         TextWrapping="NoWrap"/>
                                                                                     <TextBlock Grid.Column="1" Text="{Binding Value}"/>
+                                                                                    <Grid Grid.Column="2" Opacity="0.7">
+                                                                                        <Ellipse
+                                                                                            Width="16"
+                                                                                            Height="16"
+                                                                                            Margin="0,0,0,0"
+                                                                                            Stroke="{ThemeResource TextFillColorPrimaryBrush}"
+                                                                                            StrokeThickness="1"/>
+                                                                                        <TextBlock
+                                                                                            Grid.Column="2"
+                                                                                            HorizontalAlignment="Center"
+                                                                                            VerticalAlignment="Center"
+                                                                                            FontSize="{ThemeResource InfoBadgeValueFontSize}"
+                                                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                                                            Text="{Binding EnhancedCount}"/>
+                                                                                    </Grid>
                                                                                 </Grid>
                                                                             </DataTemplate>
                                                                         </ItemsControl.ItemTemplate>

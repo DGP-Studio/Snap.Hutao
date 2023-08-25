@@ -1,23 +1,19 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Intrinsic;
+
 namespace Snap.Hutao.ViewModel.AvatarProperty;
 
 /// <summary>
 /// 圣遗物副词条
 /// </summary>
 [HighQuality]
-internal sealed class ReliquarySubProperty
+internal class ReliquarySubProperty
 {
-    /// <summary>
-    /// 构造副属性
-    /// </summary>
-    /// <param name="name">名称</param>
-    /// <param name="value">值</param>
-    /// <param name="score">评分</param>
-    public ReliquarySubProperty(string name, string value, float score)
+    public ReliquarySubProperty(FightProperty type, string value, float score)
     {
-        Name = name;
+        Name = type.GetLocalizedDescription();
         Value = value;
         Score = score;
 
