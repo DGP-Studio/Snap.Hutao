@@ -1034,6 +1034,9 @@
   <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
     <value>Failed to add Scheduled Task, please try again in administrator mode</value>
   </data>
+  <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
+    <value>正在获取实时便笺信息，请稍候</value>
+  </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>Successfully saved to selected patch</value>
   </data>
