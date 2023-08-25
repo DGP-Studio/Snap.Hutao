@@ -602,6 +602,9 @@
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
     <value>기원 기록 업로드 불가능</value>
   </data>
+  <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
+    <value>数据包含异常物品, Id：{0}</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>인증키 요청 실패</value>
   </data>
