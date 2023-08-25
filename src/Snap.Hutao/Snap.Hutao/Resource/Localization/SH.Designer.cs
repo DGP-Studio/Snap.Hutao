@@ -1348,6 +1348,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 数据包含异常物品, Id：{0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGachaLogUIGFImportItemInvalidFormat {
+            get {
+                return ResourceManager.GetString("ServiceGachaLogUIGFImportItemInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 请求验证密钥失败 的本地化字符串。
         /// </summary>
         internal static string ServiceGachaLogUrlProviderAuthkeyRequestFailed {

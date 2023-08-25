@@ -351,6 +351,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                     }
                     catch (InvalidOperationException ex)
                     {
+                        // 导入物品中存在无效的项
                         infoBarService.Error(ex);
                         return false;
                     }
