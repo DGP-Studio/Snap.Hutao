@@ -602,6 +602,9 @@
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
     <value>Wish history uploading service is not available</value>
   </data>
+  <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
+    <value>数据包含异常物品, Id：{0}</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>Failed to request authkey</value>
   </data>
