@@ -1034,6 +1034,9 @@
   <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
     <value>注冊計劃任務失敗，請以管理員模式重試</value>
   </data>
+  <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
+    <value>正在获取实时便笺信息，请稍候</value>
+  </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>成功保存到指定位置</value>
   </data>
