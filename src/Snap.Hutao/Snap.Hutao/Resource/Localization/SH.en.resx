@@ -723,13 +723,13 @@
     <value>Your Snap Hutao version is too low. Please update as soon as possible.</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>签到失败，{0}</value>
+    <value>Signin failed, {0}</value>
   </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
-    <value>获取奖励列表失败</value>
+    <value>Fetch Signin reward list failed</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
-    <value>签到成功，{0}×{1}</value>
+    <value>Signin successfully, {0} x {1}</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>Multiple users recorded as selected</value>
@@ -1044,7 +1044,7 @@
     <value>Failed to add Scheduled Task, please try again in administrator mode</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
-    <value>正在获取实时便笺信息，请稍候</value>
+    <value>Fetching DailyNote data, please wait</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>Successfully saved to selected patch</value>
@@ -1972,7 +1972,7 @@
     <value>HoYoLAB</value>
   </data>
   <data name="ViewUserCookieOperation3" xml:space="preserve">
-    <value>当前用户</value>
+    <value>Current user</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>Web Login</value>
@@ -1984,7 +1984,7 @@
     <value>Refresh Cookie</value>
   </data>
   <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
-    <value>领取签到奖励</value>
+    <value>Claim signin reward</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
     <value>Copy Cookie</value>
@@ -2167,7 +2167,7 @@
     <value>Return Code: {0} | Message: {1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
-    <value>请刷新 Cookie，原始消息：{0}</value>
+    <value>Please refresh cookie, orginal message: {0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{1}] network request exception in [{0}] please try again later</value>
