@@ -722,6 +722,15 @@
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>胡桃のバージョンが古すぎるため、アップデートを推奨します。</value>
   </data>
+  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
+    <value>签到失败，{0}</value>
+  </data>
+  <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
+    <value>获取奖励列表失败</value>
+  </data>
+  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
+    <value>签到成功，{0}×{1}</value>
+  </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>多个用户记录为选中状态</value>
   </data>
@@ -1961,6 +1970,9 @@
   <data name="ViewUserCookieOperation2" xml:space="preserve">
     <value>HoYoLAB</value>
   </data>
+  <data name="ViewUserCookieOperation3" xml:space="preserve">
+    <value>当前用户</value>
+  </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>ウェブ上でログイン</value>
   </data>
@@ -1969,6 +1981,9 @@
   </data>
   <data name="ViewUserCookieOperationRefreshCookieAction" xml:space="preserve">
     <value>Cookie 再取得</value>
+  </data>
+  <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
+    <value>领取签到奖励</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
     <value>复制 Cookie</value>
@@ -2149,6 +2164,9 @@
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>状态：{0} | 信息：{1}</value>
+  </data>
+  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
+    <value>请刷新 Cookie，原始消息：{0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 网络请求异常，请稍后再试</value>
