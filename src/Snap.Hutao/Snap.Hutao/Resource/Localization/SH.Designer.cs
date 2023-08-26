@@ -5416,7 +5416,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 HoYoLab 的本地化字符串。
+        ///   查找类似 HoYoLAB 的本地化字符串。
         /// </summary>
         internal static string ViewUserCookieOperation2 {
             get {

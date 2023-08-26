@@ -10,18 +10,14 @@ namespace Snap.Hutao.Core.Threading;
 /// 任务扩展
 /// </summary>
 [HighQuality]
-[SuppressMessage("", "VSTHRD003")]
-[SuppressMessage("", "VSTHRD100")]
 internal static class TaskExtension
 {
-    [SuppressMessage("", "VSTHRD200")]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ValueTask AsValueTask(this Task task)
     {
         return new(task);
     }
 
-    [SuppressMessage("", "VSTHRD200")]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ValueTask<T> AsValueTask<T>(this Task<T> task)
     {
