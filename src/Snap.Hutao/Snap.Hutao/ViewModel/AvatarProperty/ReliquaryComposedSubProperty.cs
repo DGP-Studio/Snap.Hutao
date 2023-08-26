@@ -16,7 +16,7 @@ internal class ReliquaryComposedSubProperty : ReliquarySubProperty
     /// <summary>
     /// 强化次数
     /// </summary>
-    public int EnhancedCount { get; set; }
+    public uint EnhancedCount { get; set; }
 
     internal FightProperty Type { get; }
 }

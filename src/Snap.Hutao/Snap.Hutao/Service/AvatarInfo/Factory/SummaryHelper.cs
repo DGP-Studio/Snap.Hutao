@@ -23,10 +23,7 @@ internal static class SummaryHelper
     /// <returns>命之座</returns>
     public static List<ConstellationView> CreateConstellations(List<Skill> talents, List<SkillId>? talentIds)
     {
-        if (talentIds.IsNullOrEmpty())
-        {
-            return new();
-        }
+        talentIds ??= new();
 
         return talents.SelectList(talent => new ConstellationView()
         {

@@ -121,7 +121,7 @@ internal sealed class SummaryReliquaryFactory
         {
             ReliquarySubAffix subAffix = metadataContext.IdReliquarySubAffixMap[subAffixId];
             SummaryReliquarySubPropertyCompositionInfo info = infos.SingleOrAdd(prop => prop.Type == subAffix.Type, () => new(subAffix.Type));
-            info.Count++;
+            info.Count += 1;
             info.Value += subAffix.Value;
         }
 

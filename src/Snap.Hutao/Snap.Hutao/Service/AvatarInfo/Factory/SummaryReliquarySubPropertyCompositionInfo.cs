@@ -29,6 +29,6 @@ internal sealed class SummaryReliquarySubPropertyCompositionInfo
 
     public ReliquaryComposedSubProperty ToReliquaryComposedSubProperty()
     {
-        return new(Type, FightPropertyFormat.FormatValue(Type, Value), 0);
+        return new(Type, FightPropertyFormat.FormatValue(Type, Value), 0) { EnhancedCount = Count };
     }
 }
