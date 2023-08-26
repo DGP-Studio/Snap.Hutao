@@ -27,7 +27,6 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
         InitializeComponent();
     }
 
-    [SuppressMessage("", "VSTHRD100")]
     private async void OnRootLoaded(object sender, RoutedEventArgs e)
     {
         try

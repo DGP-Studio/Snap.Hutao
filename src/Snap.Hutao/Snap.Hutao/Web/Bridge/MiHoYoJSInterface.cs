@@ -375,7 +375,6 @@ internal class MiHoYoJSInterface
         }
     }
 
-    [SuppressMessage("", "VSTHRD100")]
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
     {
         string message = args.TryGetWebMessageAsString();

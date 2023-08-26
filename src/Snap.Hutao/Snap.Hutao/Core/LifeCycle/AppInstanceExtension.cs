@@ -25,7 +25,6 @@ internal static class AppInstanceExtension
     /// </summary>
     /// <param name="appInstance">app实例</param>
     /// <param name="args">参数</param>
-    [SuppressMessage("", "VSTHRD002")]
     public static unsafe void RedirectActivationTo(this AppInstance appInstance, AppActivationArguments args)
     {
         redirectEventHandle = CreateEvent(default(SECURITY_ATTRIBUTES*), true, false, null);

@@ -6,7 +6,7 @@ namespace Snap.Hutao.Web.Hoyolab.Takumi.Event.BbsSignReward;
 /// <summary>
 /// 补签说明
 /// </summary>
-public class SignInRewardReSignInfo
+internal sealed class SignInRewardReSignInfo
 {
     /// <summary>
     /// 当日补签次数

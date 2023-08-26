@@ -21,7 +21,6 @@ internal class DispatcherQueueProgress<T> : IProgress<T>
 
     public event EventHandler<T>? ProgressChanged;
 
-    [SuppressMessage("", "VSTHRD001")]
     public void Report(T value)
     {
         Action<T>? handler = this.handler;

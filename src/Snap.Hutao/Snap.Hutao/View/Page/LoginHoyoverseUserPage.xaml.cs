@@ -48,7 +48,6 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         return string.Empty;
     }
 
-    [SuppressMessage("", "VSTHRD100")]
     private async void OnRootLoaded(object sender, RoutedEventArgs e)
     {
         try
