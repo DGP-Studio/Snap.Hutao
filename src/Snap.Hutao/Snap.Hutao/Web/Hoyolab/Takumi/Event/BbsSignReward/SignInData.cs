@@ -12,7 +12,8 @@ internal sealed class SignInData
     /// 构造一个新的签到提交数据
     /// </summary>
     /// <param name="uid">uid</param>
-    public SignInData(in PlayerUid uid)
+    [SuppressMessage("", "SH002")]
+    public SignInData(PlayerUid uid)
     {
         Region = uid.Region;
         Uid = uid.Value;

@@ -94,11 +94,15 @@
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
                             <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding LoginMihoyoUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xEB41;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
                             <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding AddUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
@@ -110,22 +114,40 @@
                                 Style="{StaticResource BaseTextBlockStyle}"
                                 Text="{shcm:ResourceString Name=ViewUserCookieOperation2}"/>
                             <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding LoginHoyoverseUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xEB41;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
                             <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding AddOverseaUserCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE710;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
                             <MenuFlyoutSeparator Margin="4,0"/>
+                            <TextBlock
+                                Margin="0,4,0,2"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewUserCookieOperation3}"/>
                             <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding ClaimSignInRewardCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xF133;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
+                                Style="{StaticResource DefaultAppBarButtonStyle}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
                                 Margin="2,-4"
                                 Command="{Binding RefreshCookieTokenCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE72C;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>
-
                         </StackPanel>
 
                         <Grid Grid.Column="1" Width="280">

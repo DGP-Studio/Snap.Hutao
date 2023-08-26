@@ -15,7 +15,7 @@ internal sealed class SignInResult
     public string Code { get; set; } = default!;
 
     /// <summary>
-    /// 通常是 ""
+    /// 通常是 0
     /// </summary>
     [JsonPropertyName("risk_code")]
     public int RiskCode { get; set; }

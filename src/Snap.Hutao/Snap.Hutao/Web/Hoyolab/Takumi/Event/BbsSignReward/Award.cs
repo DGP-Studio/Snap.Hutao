@@ -24,5 +24,5 @@ internal sealed class Award
     /// 个数
     /// </summary>
     [JsonPropertyName("cnt")]
-    public string Count { get; set; } = default!;
+    public int Count { get; set; } = default!;
 }

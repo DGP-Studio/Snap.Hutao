@@ -9,13 +9,13 @@ internal sealed class Reward
     /// 月份
     /// </summary>
     [JsonPropertyName("month")]
-    public string? Month { get; set; }
+    public int Month { get; set; }
 
     /// <summary>
     /// 奖励列表
     /// </summary>
     [JsonPropertyName("awards")]
-    public List<Award>? Awards { get; set; }
+    public List<Award> Awards { get; set; } = default!;
 
     /// <summary>
     /// 支持补签
