@@ -116,10 +116,10 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             }
 
             Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
-            .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
-            .Create(PlayerUid.IsOversea(entry.Uid))
-            .GetDailyNoteAsync(new(entry.User, entry.Uid))
-            .ConfigureAwait(false);
+                .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+                .Create(PlayerUid.IsOversea(entry.Uid))
+                .GetDailyNoteAsync(new(entry.User, entry.Uid))
+                .ConfigureAwait(false);
 
             if (dailyNoteResponse.IsOk())
             {
