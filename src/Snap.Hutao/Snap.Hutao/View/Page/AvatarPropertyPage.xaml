@@ -227,7 +227,7 @@
                             Grid.Row="1"
                             DisplayMode="Inline"
                             IsPaneOpen="True"
-                            OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
+                            OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength3}"
                             PaneBackground="Transparent">
                             <SplitView.Pane>
                                 <ListView ItemsSource="{Binding Summary.Avatars}" SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}">
@@ -236,7 +236,8 @@
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="auto"/>
-                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="auto"/>
                                                 </Grid.ColumnDefinitions>
                                                 <shci:CachedImage
                                                     Grid.Column="0"
@@ -245,12 +246,33 @@
                                                     Margin="0,0,12,12"
                                                     Source="{Binding SideIcon, Mode=OneWay}"/>
                                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                    <TextBlock Margin="12,0,0,0" Text="{Binding Name}"/>
+                                                    <TextBlock
+                                                        Margin="12,0,0,0"
+                                                        Text="{Binding Name}"
+                                                        TextTrimming="CharacterEllipsis"
+                                                        TextWrapping="NoWrap"/>
                                                     <TextBlock
                                                         Margin="12,0,0,0"
                                                         Opacity="0.7"
                                                         Style="{StaticResource CaptionTextBlockStyle}"
                                                         Text="{Binding Level}"/>
+                                                </StackPanel>
+                                                <StackPanel
+                                                    Grid.Column="2"
+                                                    VerticalAlignment="Center"
+                                                    Opacity="0.7">
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding ShowcaseRefreshTimeFormat}"/>
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding GameRecordRefreshTimeFormat}"/>
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding CalculatorRefreshTimeFormat}"/>
                                                 </StackPanel>
                                             </Grid>
                                         </DataTemplate>

@@ -421,6 +421,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 尚未刷新 的本地化字符串。
+        /// </summary>
+        internal static string ModelEntityDailyNoteNotRefreshed {
+            get {
+                return ResourceManager.GetString("ModelEntityDailyNoteNotRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 刷新于 {0:yyyy/MM/dd HH:mm:ss} 的本地化字符串。
         /// </summary>
         internal static string ModelEntityDailyNoteRefreshTimeFormat {
@@ -1119,6 +1128,60 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ServiceAvatarInfoPropertyRESWind {
             get {
                 return ResourceManager.GetString("ServiceAvatarInfoPropertyRESWind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 养成计算：尚未刷新 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryCalculatorNotRefreshed {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryCalculatorNotRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 养成计算：{0:MM-dd HH:mm} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我的角色：尚未刷新 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryGameRecordNotRefreshed {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryGameRecordNotRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我的角色：{0:MM-dd HH:mm} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色橱窗：尚未刷新 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryShowcaseNotRefreshed {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryShowcaseNotRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色橱窗：{0:MM-dd HH:mm} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat", resourceCulture);
             }
         }
         

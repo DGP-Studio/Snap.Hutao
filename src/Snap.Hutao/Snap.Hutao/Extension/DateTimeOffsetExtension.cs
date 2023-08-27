@@ -9,6 +9,8 @@ namespace Snap.Hutao.Extension;
 [HighQuality]
 internal static class DateTimeOffsetExtension
 {
+    public static readonly DateTimeOffset DatebaseDefaultTime = new(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0));
+
     /// <summary>
     /// 从Unix时间戳转换
     /// </summary>

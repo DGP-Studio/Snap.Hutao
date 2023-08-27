@@ -17,5 +17,5 @@ internal interface ISummaryFactory
     /// <param name="avatarInfos">角色列表</param>
     /// <param name="token">取消令牌</param>
     /// <returns>简述对象</returns>
-    ValueTask<Summary> CreateAsync(IEnumerable<Web.Enka.Model.AvatarInfo> avatarInfos, CancellationToken token);
+    ValueTask<Summary> CreateAsync(IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token);
 }

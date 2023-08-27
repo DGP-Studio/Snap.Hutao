@@ -40,7 +40,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     /// <param name="webInfos">Enka信息</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public List<EnkaAvatarInfo> UpdateDbAvatarInfosByShowcase(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
+    public List<EntityAvatarInfo> UpdateDbAvatarInfosByShowcase(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
@@ -63,7 +63,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             }
 
             token.ThrowIfCancellationRequested();
-            return avatarInfoDbService.GetAvatarInfoInfoListByUid(uid);
+            return avatarInfoDbService.GetAvatarInfoListByUid(uid);
         }
     }
 
@@ -73,7 +73,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public async ValueTask<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid, CancellationToken token)
+    public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
@@ -121,7 +121,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             }
         }
 
-        return avatarInfoDbService.GetAvatarInfoInfoListByUid(uid);
+        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public async ValueTask<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
+    public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
@@ -173,7 +173,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             }
         }
 
-        return avatarInfoDbService.GetAvatarInfoInfoListByUid(uid);
+        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

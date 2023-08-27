@@ -48,7 +48,7 @@
             <GridLength x:Key="CompatGridLength2">288</GridLength>
             <x:Double x:Key="CompatSplitViewOpenPaneLength">212</x:Double>
             <x:Double x:Key="CompatSplitViewOpenPaneLength2">304</x:Double>
-
+            <x:Double x:Key="CompatSplitViewOpenPaneLength3">320</x:Double>
             <x:Double x:Key="HomeAdaptiveCardHeight">180</x:Double>
             <x:Double x:Key="ContentDialogMinHeight">64</x:Double>
             <x:Double x:Key="LargeAppBarButtonWidth">100</x:Double>

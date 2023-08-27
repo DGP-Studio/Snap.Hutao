@@ -6,6 +6,7 @@ using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
 using Snap.Hutao.Web.Enka.Model;
+using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using MetadataAvatar = Snap.Hutao.Model.Metadata.Avatar.Avatar;
 using MetadataWeapon = Snap.Hutao.Model.Metadata.Weapon.Weapon;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
@@ -21,7 +22,12 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 [HighQuality]
 internal sealed class SummaryAvatarFactory
 {
+    private static readonly DateTimeOffset DefaultRefreshTime = new(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0));
+
     private readonly ModelAvatarInfo avatarInfo;
+    private readonly DateTimeOffset showcaseRefreshTime;
+    private readonly DateTimeOffset gameRecordRefreshTime;
+    private readonly DateTimeOffset calculatorRefreshTime;
     private readonly SummaryMetadataContext metadataContext;
 
     /// <summary>
@@ -29,10 +35,14 @@ internal sealed class SummaryAvatarFactory
     /// </summary>
     /// <param name="metadataContext">元数据上下文</param>
     /// <param name="avatarInfo">角色信息</param>
-    public SummaryAvatarFactory(SummaryMetadataContext metadataContext, ModelAvatarInfo avatarInfo)
+    public SummaryAvatarFactory(SummaryMetadataContext metadataContext, EntityAvatarInfo avatarInfo)
     {
         this.metadataContext = metadataContext;
-        this.avatarInfo = avatarInfo;
+        this.avatarInfo = avatarInfo.Info;
+
+        showcaseRefreshTime = avatarInfo.ShowcaseRefreshTime;
+        gameRecordRefreshTime = avatarInfo.GameRecordRefreshTime;
+        calculatorRefreshTime = avatarInfo.CalculatorRefreshTime;
     }
 
     /// <summary>
@@ -67,6 +77,17 @@ internal sealed class SummaryAvatarFactory
             Weapon = reliquaryAndWeapon.Weapon,
             Reliquaries = reliquaryAndWeapon.Reliquaries,
             Score = $"{reliquaryAndWeapon.Reliquaries.Sum(r => r.Score):F2}",
+
+            // times
+            ShowcaseRefreshTimeFormat = showcaseRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
+                ? SH.ServiceAvatarInfoSummaryShowcaseNotRefreshed
+                : SH.ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat.Format(showcaseRefreshTime),
+            GameRecordRefreshTimeFormat = gameRecordRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
+                ? SH.ServiceAvatarInfoSummaryGameRecordNotRefreshed
+                : SH.ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat.Format(gameRecordRefreshTime),
+            CalculatorRefreshTimeFormat = calculatorRefreshTime == DateTimeOffsetExtension.DatebaseDefaultTime
+                ? SH.ServiceAvatarInfoSummaryCalculatorNotRefreshed
+                : SH.ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat.Format(calculatorRefreshTime),
         };
 
         ApplyCostumeIconOrDefault(ref propertyAvatar, avatar);
