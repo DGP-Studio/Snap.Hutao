@@ -1317,7 +1317,7 @@
     <value>Delete list</value>
   </data>
   <data name="ViewPageCultivationRemoveProject" xml:space="preserve">
-    <value>Delete current plan</value>
+    <value>Delete Current Plan</value>
   </data>
   <data name="ViewPageCultivationWikiAvatarDescription" xml:space="preserve">
     <value>Add any character to Development Plan</value>
@@ -2092,10 +2092,10 @@
     <value>Daily Commission Reward claimed</value>
   </data>
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
-    <value>Expected to reach the limit in {0} {1:HH:mm}</value>
+    <value>Will be full in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
-    <value>Serenitea Pot not unlocked</value>
+    <value>Serenitea Pot not Unlocked</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>Today</value>
@@ -2113,7 +2113,7 @@
     <value>Original Resin is full</value>
   </data>
   <data name="WebDailyNoteResinRecoveryFormat" xml:space="preserve">
-    <value>Fully replenished in {0} {1:HH:mm}</value>
+    <value>Will be replenished in {0} {1:HH:mm}</value>
   </data>
   <data name="WebDailyNoteTransformerAppend" xml:space="preserve">
     <value>Ready for use again after</value>
