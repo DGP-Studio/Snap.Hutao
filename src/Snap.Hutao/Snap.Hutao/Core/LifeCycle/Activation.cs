@@ -243,6 +243,11 @@ internal sealed class Activation : IActivation
                 {
                     try
                     {
+                        if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
+                        {
+                            await hutaoUserServiceInitialization.InitializeInternalAsync().ConfigureAwait(false);
+                        }
+
                         await serviceProvider
                             .GetRequiredService<IDailyNoteService>()
                             .RefreshDailyNotesAsync()

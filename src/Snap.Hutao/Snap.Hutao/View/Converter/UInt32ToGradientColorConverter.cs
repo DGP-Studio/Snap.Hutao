@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Snap.Hutao.Control;
-using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Win32;
 using System.Runtime.CompilerServices;
 using Windows.UI;

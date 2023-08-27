@@ -35,7 +35,6 @@ Snap Hutao is an open-source Genshin Impact toolbox on Windows platform, aim to 
 * [dotnet/runtime](https://github.com/dotnet/runtime)
 * [DotNetAnalyzers/StyleCopAnalyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers)
 * [microsoft/CsWin32](https://github.com/microsoft/CsWin32)
-* [microsoft/vs-threading](https://github.com/microsoft/vs-threading)
 * [microsoft/vs-validation](https://github.com/microsoft/vs-validation)
 * [microsoft/WindowsAppSDK](https://github.com/microsoft/WindowsAppSDK)
 * [microsoft/microsoft-ui-xaml](https://github.com/microsoft/microsoft-ui-xaml)

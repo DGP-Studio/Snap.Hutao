@@ -21,7 +21,7 @@ internal sealed class BitmapIconExtension : MarkupExtension
     /// <summary>
     /// Gets or sets a value indicating whether to display the icon as monochrome.
     /// </summary>
-    public bool ShowAsMonochrome { get; set; } = true;
+    public bool ShowAsMonochrome { get; set; }
 
     /// <inheritdoc/>
     protected override object ProvideValue()
