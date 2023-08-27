@@ -74,6 +74,13 @@ internal class Response
     public static Response<TData> DefaultIfNull<TData>(Response<TData>? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
+        response ??= new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
+
+        if (((KnownReturnCode)response.ReturnCode) is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
+        {
+            response.Message = SH.WebResponseRefreshCookieHintFormat.Format(response.Message);
+        }
+
         return response ?? new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
     }
 
