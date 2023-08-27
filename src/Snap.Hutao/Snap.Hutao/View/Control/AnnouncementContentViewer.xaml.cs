@@ -4,9 +4,9 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Control;
 using Snap.Hutao.Control.Theme;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using System.Text;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.System;
@@ -35,8 +35,8 @@ internal sealed partial class AnnouncementContentViewer : UserControl
     private const string DarkColor3 = "color:rgba(51,51,51,1)";
     private const string DarkColor4 = "color:rgba(57,59,64,1)";
     private const string DarkColor5 = "color:rgba(85,85,85,1)";
-    private const string DarkAccentColor1 = "background-color: rgb(255, 215, 185);";
-    private const string DarkAccentColor2 = "background-color: rgb(254, 245, 231);";
+    private const string DarkAccentColor1 = "background-color: rgb(255, 215, 185)";
+    private const string DarkAccentColor2 = "background-color: rgb(254, 245, 231)";
 
     // support click open browser.
     private const string MihoyoSDKDefinition = """
@@ -85,15 +85,15 @@ internal sealed partial class AnnouncementContentViewer : UserControl
 
         if (isDarkMode)
         {
-            // TODO: rewrite with Span IndexOfAny
-            content = content
-                .Replace(DarkColor5, LightColor5, StringComparison.Ordinal)
-                .Replace(DarkColor4, LightColor4, StringComparison.Ordinal)
-                .Replace(DarkColor3, LightColor3, StringComparison.Ordinal)
-                .Replace(DarkColor2, LightColor2, StringComparison.Ordinal)
-                .Replace(DarkColor1, LightColor1, StringComparison.Ordinal)
-                .Replace(DarkAccentColor2, LightAccentColor2, StringComparison.Ordinal)
-                .Replace(DarkAccentColor1, LightAccentColor1, StringComparison.Ordinal);
+            StringBuilder contentBuilder = new StringBuilder(content)
+                .Replace(DarkColor5, LightColor5)
+                .Replace(DarkColor4, LightColor4)
+                .Replace(DarkColor3, LightColor3)
+                .Replace(DarkColor2, LightColor2)
+                .Replace(DarkColor1, LightColor1)
+                .Replace(DarkAccentColor2, LightAccentColor2)
+                .Replace(DarkAccentColor1, LightAccentColor1);
+            content = contentBuilder.ToString();
         }
 
         string document = $$"""
@@ -127,7 +127,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
         return document;
     }
 
-    [GeneratedRegex("style=\".*?vertical-align:middle;\"")]
+    [GeneratedRegex(" style=\"(?!\")*?vertical-align:middle;\"")]
     private static partial Regex StyleRegex();
 
     private void OnLoaded(object sender, RoutedEventArgs e)

@@ -30,7 +30,7 @@ internal readonly struct PlayerUid
     {
         Must.Argument(value.Length == 9, "uid 应为9位数字");
         Value = value;
-        Region = region ?? EvaluateRegion(value[0]);
+        Region = region ?? EvaluateRegion(value.AsSpan()[0]);
     }
 
     public static implicit operator PlayerUid(string source)

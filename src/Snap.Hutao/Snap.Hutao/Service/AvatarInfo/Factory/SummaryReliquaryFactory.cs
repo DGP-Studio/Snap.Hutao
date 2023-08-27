@@ -1,13 +1,13 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Intrinsic;
-using Snap.Hutao.Model.Intrinsic.Format;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
-using Snap.Hutao.Web.Enka.Model;
+using System.Runtime.InteropServices;
 using MetadataReliquary = Snap.Hutao.Model.Metadata.Reliquary.Reliquary;
 using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 
@@ -57,7 +57,7 @@ internal sealed class SummaryReliquaryFactory
             Description = reliquary.Description,
 
             // EquipBase
-            Level = $"+{equip.Reliquary.Level - 1}",
+            Level = $"+{equip.Reliquary.Level - 1U}",
             Quality = reliquary.RankLevel,
         };
 
@@ -67,7 +67,7 @@ internal sealed class SummaryReliquaryFactory
             result.SecondarySubProperties = subProperty.GetRange(^affixCount..);
 
             ArgumentNullException.ThrowIfNull(equip.Flat.ReliquarySubstats);
-            result.ComposedSubProperties = equip.Flat.ReliquarySubstats.SelectList(CreateComposedSubProperty);
+            result.ComposedSubProperties = CreateComposedSubProperties(equip.Reliquary.AppendPropIdList);
 
             ReliquaryMainAffixLevel relicLevel = metadataContext.ReliquaryLevels.Single(r => r.Level == equip.Reliquary.Level && r.Rank == reliquary.RankLevel);
             FightProperty property = metadataContext.IdReliquaryMainAffixMap[equip.Reliquary.MainPropId];
@@ -112,11 +112,36 @@ internal sealed class SummaryReliquaryFactory
         };
     }
 
+    private List<ReliquaryComposedSubProperty> CreateComposedSubProperties(List<ReliquarySubAffixId> appendProps)
+    {
+        List<SummaryReliquarySubPropertyCompositionInfo> infos = new();
+        foreach (ref readonly ReliquarySubAffixId subAffixId in CollectionsMarshal.AsSpan(appendProps))
+        {
+            ReliquarySubAffix subAffix = metadataContext.IdReliquarySubAffixMap[subAffixId];
+            SummaryReliquarySubPropertyCompositionInfo info = infos.SingleOrAdd(prop => prop.Type == subAffix.Type, () => new(subAffix.Type));
+            info.Count += 1;
+            info.Value += subAffix.Value;
+        }
+
+        if (infos.Count > 4)
+        {
+            ThrowHelper.InvalidOperation("无效的圣遗物数据");
+        }
+
+        List<ReliquaryComposedSubProperty> results = new();
+        foreach (ref readonly SummaryReliquarySubPropertyCompositionInfo info in CollectionsMarshal.AsSpan(infos))
+        {
+            results.Add(info.ToReliquaryComposedSubProperty());
+        }
+
+        return results;
+    }
+
     private float ScoreReliquary(FightProperty property, MetadataReliquary reliquary, ReliquaryMainAffixLevel relicLevel, List<ReliquarySubProperty> subProperties)
     {
         // 沙/杯/头
         // equip.Flat.EquipType is EquipType.EQUIP_SHOES or EquipType.EQUIP_RING or EquipType.EQUIP_DRESS
-        if (equip.Flat.EquipType > EquipType.EQUIP_SHOES)
+        if (equip.Flat.EquipType >= EquipType.EQUIP_SHOES)
         {
             // 从喵插件抓取的圣遗物评分权重
             // 部分复杂的角色暂时使用了默认值
@@ -138,29 +163,13 @@ internal sealed class SummaryReliquaryFactory
         }
     }
 
-    private ReliquarySubProperty CreateComposedSubProperty(ReliquarySubstat substat)
-    {
-        FormatMethod method = substat.AppendPropId.GetFormatMethod();
-        string valueFormatted = method switch
-        {
-            FormatMethod.Integer => $"{MathF.Round(substat.StatValue, MidpointRounding.AwayFromZero)}",
-            FormatMethod.Percent => $"{substat.StatValue}%",
-            _ => $"{substat.StatValue}",
-        };
-
-        return new(substat.AppendPropId.GetLocalizedDescription(), valueFormatted, 0);
-    }
-
     [SuppressMessage("", "SH002")]
     private ReliquarySubProperty CreateSubProperty(ReliquarySubAffixId appendPropId)
     {
         ReliquarySubAffix affix = metadataContext.IdReliquarySubAffixMap[appendPropId];
         FightProperty property = affix.Type;
 
-        return new(
-            property.GetLocalizedDescription(),
-            FightPropertyFormat.FormatValue(property, affix.Value),
-            ScoreSubAffix(appendPropId));
+        return new(property, FightPropertyFormat.FormatValue(property, affix.Value), ScoreSubAffix(appendPropId));
     }
 
     private float ScoreSubAffix(in ReliquarySubAffixId appendId)

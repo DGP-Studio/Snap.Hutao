@@ -73,199 +73,216 @@
                 <Flyout LightDismissOverlayMode="On" Placement="LeftEdgeAlignedBottom">
                     <Flyout.FlyoutPresenterStyle>
                         <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                            <Setter Property="Padding" Value="0,2,0,2"/>
+                            <Setter Property="Padding" Value="0"/>
                         </Style>
                     </Flyout.FlyoutPresenterStyle>
-                    <StackPanel>
-                        <StackPanel Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel
+                            Grid.Column="0"
+                            Margin="0,0"
+                            Padding="0,2"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="0,0,1,0">
                             <TextBlock
-                                Margin="10,6,0,6"
+                                Margin="0,4,0,2"
+                                HorizontalAlignment="Center"
                                 Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewUserRole}"/>
-                            <ListView
-                                Grid.Row="1"
-                                Margin="4"
-                                CanReorderItems="True"
-                                ItemsSource="{Binding SelectedUser.UserGameRoles}"
-                                SelectedItem="{Binding SelectedUser.SelectedUserGameRole, Mode=TwoWay}"
-                                SelectionMode="Single">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Padding="0,6">
-                                            <TextBlock Text="{Binding Nickname}"/>
-                                            <TextBlock
-                                                Margin="0,2,0,0"
-                                                Opacity="0.6"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding Description}"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <MenuFlyoutSeparator/>
-                            <TextBlock
-                                Margin="10,6,0,6"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewUserUser}"/>
-                            <ListView
-                                Grid.Row="1"
-                                MaxHeight="224"
-                                Margin="4"
-                                ItemsSource="{Binding Users}"
-                                SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                                SelectionMode="Single">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Padding="0,12" Background="Transparent">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition Width="auto"/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <PersonPicture
-                                                Height="32"
-                                                Margin="0,0"
-                                                HorizontalAlignment="Left"
-                                                ProfilePicture="{Binding UserInfo.AvatarUrl, Mode=OneWay}"/>
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Margin="12,0,0,0"
-                                                VerticalAlignment="Center"
-                                                Text="{Binding UserInfo.Nickname}"/>
-                                            <TextBlock
-                                                Grid.Column="2"
-                                                VerticalAlignment="Center"
-                                                Text="HoYoLAB"
-                                                Visibility="{Binding IsOversea}"/>
-                                            <StackPanel
-                                                x:Name="ButtonPanel"
-                                                Grid.Column="3"
-                                                Orientation="Horizontal"
-                                                Visibility="Collapsed">
-                                                <Button
-                                                    Margin="12,0,0,0"
-                                                    VerticalAlignment="Stretch"
-                                                    Background="Transparent"
-                                                    Command="{Binding DataContext.CopyCookieCommand, Source={StaticResource ViewModelBindingProxy}}"
-                                                    CommandParameter="{Binding}"
-                                                    Content="&#xE8C8;"
-                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    Style="{StaticResource ButtonRevealStyle}"
-                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserCopyCookieAction}"/>
-                                                <Button
-                                                    Margin="6,0,0,0"
-                                                    HorizontalAlignment="Right"
-                                                    VerticalAlignment="Stretch"
-                                                    Background="Transparent"
-                                                    Command="{Binding DataContext.RemoveUserCommand, Source={StaticResource ViewModelBindingProxy}}"
-                                                    CommandParameter="{Binding}"
-                                                    Content="&#xE74D;"
-                                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                                    Style="{StaticResource ButtonRevealStyle}"
-                                                    ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserRemoveAction}"/>
-                                            </StackPanel>
-
-                                            <Grid.Resources>
-                                                <Storyboard x:Name="ButtonPanelVisibleStoryboard">
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                            <DiscreteObjectKeyFrame.Value>
-                                                                <Visibility>Visible</Visibility>
-                                                            </DiscreteObjectKeyFrame.Value>
-                                                        </DiscreteObjectKeyFrame>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-
-                                                <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
-                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
-                                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                                            <DiscreteObjectKeyFrame.Value>
-                                                                <Visibility>Collapsed</Visibility>
-                                                            </DiscreteObjectKeyFrame.Value>
-                                                        </DiscreteObjectKeyFrame>
-                                                    </ObjectAnimationUsingKeyFrames>
-                                                </Storyboard>
-                                            </Grid.Resources>
-
-                                            <mxi:Interaction.Behaviors>
-                                                <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
-                                                </mxic:EventTriggerBehavior>
-                                                <mxic:EventTriggerBehavior EventName="PointerExited">
-                                                    <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
-                                                </mxic:EventTriggerBehavior>
-                                            </mxi:Interaction.Behaviors>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </StackPanel>
-                        <TextBlock
-                            Margin="10,6,0,6"
-                            Style="{StaticResource SubtitleTextBlockStyle}"
-                            Text="{shcm:ResourceString Name=ViewUserDefaultDescription}"
-                            Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
-                        <Grid Margin="6,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                                Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
                             <AppBarButton
-                                Grid.Row="1"
-                                Grid.Column="0"
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding LoginMihoyoUserCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xEB41;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding AddUserCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xE710;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                            <MenuFlyoutSeparator Margin="4,0"/>
+                            <TextBlock
+                                Margin="0,4,0,2"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewUserCookieOperation2}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding LoginHoyoverseUserCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xEB41;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding AddOverseaUserCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xE710;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                            <MenuFlyoutSeparator Margin="4,0"/>
+                            <TextBlock
+                                Margin="0,4,0,2"
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource BaseTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewUserCookieOperation3}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
+                                Command="{Binding ClaimSignInRewardCommand}"
+                                Icon="{shcm:FontIcon Glyph=&#xF133;}"
+                                Label="{shcm:ResourceString Name=ViewUserCookieOperationSignInRewardAction}"
+                                Style="{StaticResource DefaultAppBarButtonStyle}"/>
+                            <AppBarButton
+                                Width="{StaticResource LargeAppBarButtonWidth}"
+                                MaxWidth="{StaticResource LargeAppBarButtonWidth}"
+                                Margin="2,-4"
                                 Command="{Binding RefreshCookieTokenCommand}"
                                 Icon="{shcm:FontIcon Glyph=&#xE72C;}"
                                 Label="{shcm:ResourceString Name=ViewUserCookieOperationRefreshCookieAction}"/>
-                            <AppBarSeparator Grid.RowSpan="2" Grid.Column="1"/>
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="2"
-                                Margin="4,6,0,0"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewUserCookieOperation}"/>
-                            <StackPanel
-                                Grid.Row="1"
-                                Grid.Column="2"
-                                Orientation="Horizontal">
-                                <AppBarButton
-                                    Command="{Binding LoginMihoyoUserCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xEB41;}"
-                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
-                                <AppBarButton
-                                    Command="{Binding AddUserCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
+                        </StackPanel>
+
+                        <Grid Grid.Column="1" Width="280">
+                            <StackPanel Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                                <TextBlock
+                                    Margin="10,6,0,6"
+                                    Style="{StaticResource BaseTextBlockStyle}"
+                                    Text="{shcm:ResourceString Name=ViewUserRole}"/>
+                                <ListView
+                                    Grid.Row="1"
+                                    Margin="4"
+                                    CanReorderItems="True"
+                                    ItemsSource="{Binding SelectedUser.UserGameRoles}"
+                                    SelectedItem="{Binding SelectedUser.SelectedUserGameRole, Mode=TwoWay}"
+                                    SelectionMode="Single">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Padding="0,6">
+                                                <TextBlock Text="{Binding Nickname}"/>
+                                                <TextBlock
+                                                    Margin="0,2,0,0"
+                                                    Opacity="0.6"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding Description}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                <TextBlock
+                                    Margin="10,6,0,6"
+                                    Style="{StaticResource BaseTextBlockStyle}"
+                                    Text="{shcm:ResourceString Name=ViewUserUser}"/>
+                                <ListView
+                                    Grid.Row="1"
+                                    MaxHeight="224"
+                                    Margin="4"
+                                    ItemsSource="{Binding Users}"
+                                    SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                                    SelectionMode="Single">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="0,12" Background="Transparent">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <PersonPicture
+                                                    Height="32"
+                                                    Margin="0,0"
+                                                    HorizontalAlignment="Left"
+                                                    ProfilePicture="{Binding UserInfo.AvatarUrl, Mode=OneWay}"/>
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="12,0,0,0"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding UserInfo.Nickname}"/>
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    VerticalAlignment="Center"
+                                                    Text="HoYoLAB"
+                                                    Visibility="{Binding IsOversea}"/>
+                                                <StackPanel
+                                                    x:Name="ButtonPanel"
+                                                    Grid.Column="3"
+                                                    Orientation="Horizontal"
+                                                    Visibility="Collapsed">
+                                                    <Button
+                                                        Margin="12,0,0,0"
+                                                        VerticalAlignment="Stretch"
+                                                        Background="Transparent"
+                                                        Command="{Binding DataContext.CopyCookieCommand, Source={StaticResource ViewModelBindingProxy}}"
+                                                        CommandParameter="{Binding}"
+                                                        Content="&#xE8C8;"
+                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                        Style="{StaticResource ButtonRevealStyle}"
+                                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserCopyCookieAction}"/>
+                                                    <Button
+                                                        Margin="6,0,0,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Stretch"
+                                                        Background="Transparent"
+                                                        Command="{Binding DataContext.RemoveUserCommand, Source={StaticResource ViewModelBindingProxy}}"
+                                                        CommandParameter="{Binding}"
+                                                        Content="&#xE74D;"
+                                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                                        Style="{StaticResource ButtonRevealStyle}"
+                                                        ToolTipService.ToolTip="{shcm:ResourceString Name=ViewUserRemoveAction}"/>
+                                                </StackPanel>
+
+                                                <Grid.Resources>
+                                                    <Storyboard x:Name="ButtonPanelVisibleStoryboard">
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                <DiscreteObjectKeyFrame.Value>
+                                                                    <Visibility>Visible</Visibility>
+                                                                </DiscreteObjectKeyFrame.Value>
+                                                            </DiscreteObjectKeyFrame>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+
+                                                    <Storyboard x:Name="ButtonPanelCollapsedStoryboard">
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonPanel" Storyboard.TargetProperty="Visibility">
+                                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                                <DiscreteObjectKeyFrame.Value>
+                                                                    <Visibility>Collapsed</Visibility>
+                                                                </DiscreteObjectKeyFrame.Value>
+                                                            </DiscreteObjectKeyFrame>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </Grid.Resources>
+
+                                                <mxi:Interaction.Behaviors>
+                                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelVisibleStoryboard}"/>
+                                                    </mxic:EventTriggerBehavior>
+                                                    <mxic:EventTriggerBehavior EventName="PointerExited">
+                                                        <mxim:ControlStoryboardAction Storyboard="{StaticResource ButtonPanelCollapsedStoryboard}"/>
+                                                    </mxic:EventTriggerBehavior>
+                                                </mxi:Interaction.Behaviors>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
                             </StackPanel>
-                            <AppBarSeparator Grid.RowSpan="2" Grid.Column="3"/>
                             <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="4"
-                                Margin="4,6,0,0"
-                                Style="{StaticResource BaseTextBlockStyle}"
-                                Text="{shcm:ResourceString Name=ViewUserCookieOperation2}"/>
-                            <StackPanel
-                                Grid.Row="1"
-                                Grid.Column="4"
-                                Orientation="Horizontal">
-                                <AppBarButton
-                                    Command="{Binding LoginHoyoverseUserCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xEB41;}"
-                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationLoginMihoyoUserAction}"/>
-                                <AppBarButton
-                                    Command="{Binding AddOverseaUserCommand}"
-                                    Icon="{shcm:FontIcon Glyph=&#xE710;}"
-                                    Label="{shcm:ResourceString Name=ViewUserCookieOperationManualInputAction}"/>
-                            </StackPanel>
+                                Margin="16"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                Text="{shcm:ResourceString Name=ViewUserDefaultDescription}"
+                                Visibility="{Binding Users.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}"/>
                         </Grid>
-                    </StackPanel>
+                    </Grid>
                 </Flyout>
             </Button.Flyout>
             <Button.Style>

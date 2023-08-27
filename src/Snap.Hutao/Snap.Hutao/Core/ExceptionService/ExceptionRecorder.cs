@@ -34,7 +34,7 @@ internal sealed partial class ExceptionRecorder
 #if RELEASE
 #pragma warning disable VSTHRD002
         serviceProvider
-            .GetRequiredService<Web.Hutao.HomaLogUploadClient>()
+            .GetRequiredService<Web.Hutao.Log.HomaLogUploadClient>()
             .UploadLogAsync(serviceProvider, e.Exception)
             .GetAwaiter()
             .GetResult();

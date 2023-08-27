@@ -56,6 +56,14 @@ internal sealed partial class UIGFImportService : IUIGFImportService
             _ => new(),
         };
 
+        // 越早的记录手工导入的可能性越高
+        // 错误率相对来说会更高
+        // 因此从尾部开始查找
+        if (toAdd.LastOrDefault(item => item.ItemId is 0U) is { } item)
+        {
+            ThrowHelper.InvalidOperation(SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(item.Id));
+        }
+
         await gachaLogDbService.AddGachaItemsAsync(toAdd).ConfigureAwait(false);
         return archive;
     }

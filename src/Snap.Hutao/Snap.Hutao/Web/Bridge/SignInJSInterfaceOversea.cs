@@ -23,7 +23,7 @@ internal sealed class SignInJSInterfaceOversea : MiHoYoJSInterface
 
     /// <inheritdoc cref="MiHoYoJSInterface(IServiceProvider, CoreWebView2)"/>
     public SignInJSInterfaceOversea(CoreWebView2 webView, IServiceProvider serviceProvider, UserAndUid userAndUid)
-        : base(serviceProvider, webView, userAndUid)
+        : base(webView, userAndUid)
     {
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
         webView.DOMContentLoaded += OnDOMContentLoaded;

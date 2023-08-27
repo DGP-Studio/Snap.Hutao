@@ -61,4 +61,9 @@ internal sealed partial class Weapon
     /// 被动信息, 无被动的武器为 <see langword="null"/>
     /// </summary>
     public NameDescriptions? Affix { get; set; } = default!;
+
+    /// <summary>
+    /// 养成物品
+    /// </summary>
+    public List<MaterialId> CultivationItems { get; set; } = default!;
 }

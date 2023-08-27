@@ -7,7 +7,6 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Win32;
 using System.Runtime.CompilerServices;
 using Windows.Graphics;
-using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 using static Windows.Win32.PInvoke;
 

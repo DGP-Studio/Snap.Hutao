@@ -7,6 +7,7 @@ using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.DataTransfer;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
+using Snap.Hutao.Service.SignIn;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
 using Snap.Hutao.View.Page;
@@ -28,6 +29,7 @@ internal sealed partial class UserViewModel : ObservableObject
     private readonly IServiceProvider serviceProvider;
     private readonly IInfoBarService infoBarService;
     private readonly RuntimeOptions runtimeOptions;
+    private readonly ISignInService signInService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
@@ -218,6 +220,31 @@ internal sealed partial class UserViewModel : ObservableObject
             else
             {
                 infoBarService.Warning(SH.ViewUserRefreshCookieTokenWarning);
+            }
+        }
+    }
+
+    [Command("ClaimSignInRewardCommand")]
+    private async Task ClaimSignInRewardAsync()
+    {
+        if (SelectedUser is not null)
+        {
+            if (UserAndUid.TryFromUser(SelectedUser, out UserAndUid? userAndUid))
+            {
+                (bool isOk, string message) = await signInService.ClaimRewardAsync(userAndUid).ConfigureAwait(false);
+
+                if (isOk)
+                {
+                    infoBarService.Success(message);
+                }
+                else
+                {
+                    infoBarService.Warning(message);
+                }
+            }
+            else
+            {
+                infoBarService.Warning(SH.MustSelectUserAndUid);
             }
         }
     }

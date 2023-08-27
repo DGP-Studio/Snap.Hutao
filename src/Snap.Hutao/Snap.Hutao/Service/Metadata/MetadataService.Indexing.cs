@@ -9,7 +9,6 @@ using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Reliquary;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
-using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.Metadata;
 

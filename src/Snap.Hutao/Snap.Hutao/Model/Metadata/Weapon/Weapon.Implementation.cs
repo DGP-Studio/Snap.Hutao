@@ -5,6 +5,7 @@ using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Converter;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.ViewModel.Complex;
 using Snap.Hutao.ViewModel.GachaLog;
 
@@ -21,6 +22,12 @@ internal sealed partial class Weapon : IStatisticsItemSource, ISummaryItemSource
     /// </summary>
     [JsonIgnore]
     public WeaponCollocationView? Collocation { get; set; }
+
+    /// <summary>
+    /// [非元数据] 养成物品视图
+    /// </summary>
+    [JsonIgnore]
+    public List<Material>? CultivationItemsView { get; set; }
 
     /// <inheritdoc cref="INameQuality.Quality" />
     [JsonIgnore]

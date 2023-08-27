@@ -5,6 +5,7 @@
     xmlns:cwcw="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
     xmlns:shvc="using:Snap.Hutao.View.Converter">
     <Application.Resources>
@@ -43,14 +44,14 @@
             <CornerRadius x:Key="CompatCornerRadiusRight">0,6,6,0</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusBottom">0,0,6,6</CornerRadius>
             <CornerRadius x:Key="CompatCornerRadiusSmall">2</CornerRadius>
-            <!--  OpenPaneLength  -->
-            <x:Double x:Key="CompatSplitViewOpenPaneLength">212</x:Double>
-
-            <x:Double x:Key="CompatSplitViewOpenPaneLength2">304</x:Double>
+            <!--  Length  -->
             <GridLength x:Key="CompatGridLength2">288</GridLength>
-
+            <x:Double x:Key="CompatSplitViewOpenPaneLength">212</x:Double>
+            <x:Double x:Key="CompatSplitViewOpenPaneLength2">304</x:Double>
+            <x:Double x:Key="CompatSplitViewOpenPaneLength3">320</x:Double>
             <x:Double x:Key="HomeAdaptiveCardHeight">180</x:Double>
-
+            <x:Double x:Key="ContentDialogMinHeight">64</x:Double>
+            <x:Double x:Key="LargeAppBarButtonWidth">100</x:Double>
             <!--  ProgressBar  -->
             <x:Double x:Key="LargeBackgroundProgressBarOpacity">0.2</x:Double>
 
@@ -493,7 +494,83 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
+            <Style TargetType="shci:CachedImage">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="LazyLoadingThreshold" Value="300"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="shci:CachedImage">
+                            <Grid
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
+                                <Image
+                                    Name="PlaceholderImage"
+                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                    Opacity="1.0"
+                                    Source="{TemplateBinding PlaceholderSource}"
+                                    Stretch="{TemplateBinding PlaceholderStretch}"/>
+                                <Image
+                                    Name="Image"
+                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                    NineGrid="{TemplateBinding NineGrid}"
+                                    Opacity="0.0"
+                                    Stretch="{TemplateBinding Stretch}"/>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Failed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Image" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderImage" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Loading">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Image" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderImage" Storyboard.TargetProperty="Opacity">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Loaded">
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                                    AutoReverse="False"
+                                                    BeginTime="0"
+                                                    Storyboard.TargetName="Image"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    From="0"
+                                                    To="1"
+                                                    Duration="0:0:0.5"/>
+                                                <DoubleAnimation
+                                                    AutoReverse="False"
+                                                    BeginTime="0"
+                                                    Storyboard.TargetName="PlaceholderImage"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    From="1"
+                                                    To="0"
+                                                    Duration="0:0:0.5"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unloaded"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <!--  ItemsPanelTemplate  -->
             <ItemsPanelTemplate x:Key="ItemsStackPanelTemplate">
                 <ItemsStackPanel/>

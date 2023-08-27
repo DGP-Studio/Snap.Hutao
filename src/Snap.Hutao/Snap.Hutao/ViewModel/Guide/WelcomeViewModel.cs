@@ -1,19 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Common;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI.Notifications;
-using Snap.Hutao.Core;
-using Snap.Hutao.Core.Caching;
-using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.Setting;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.IO.Compression;
-using System.Net.Http;
-using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.ViewModel.Guide;
 
@@ -25,8 +17,10 @@ namespace Snap.Hutao.ViewModel.Guide;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class WelcomeViewModel : ObservableObject
 {
+    [SuppressMessage("", "SH301")]
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
+    private readonly IMessenger messenger;
 
     private ObservableCollection<DownloadSummary>? downloadSummaries;
 
@@ -48,22 +42,17 @@ internal sealed partial class WelcomeViewModel : ObservableObject
             {
                 taskContext.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
             }
-        }).ConfigureAwait(true);
+        }).ConfigureAwait(false);
 
-        serviceProvider.GetRequiredService<IMessenger>().Send(new Message.WelcomeStateCompleteMessage());
         StaticResource.FulfillAllContracts();
 
-        try
-        {
-            new ToastContentBuilder()
-                .AddText(SH.ViewModelWelcomeDownloadCompleteTitle)
-                .AddText(SH.ViewModelWelcomeDownloadCompleteMessage)
-                .Show();
-        }
-        catch (COMException)
-        {
-            // 0x803E0105
-        }
+        await taskContext.SwitchToMainThreadAsync();
+        messenger.Send(new Message.WelcomeStateCompleteMessage());
+
+        new ToastContentBuilder()
+            .AddText(SH.ViewModelWelcomeDownloadCompleteTitle)
+            .AddText(SH.ViewModelWelcomeDownloadCompleteMessage)
+            .Show();
     }
 
     private IEnumerable<DownloadSummary> GenerateStaticResourceDownloadTasks()

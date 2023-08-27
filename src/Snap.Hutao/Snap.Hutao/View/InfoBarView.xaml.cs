@@ -4,7 +4,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Snap.Hutao.Control;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using System.Collections.ObjectModel;

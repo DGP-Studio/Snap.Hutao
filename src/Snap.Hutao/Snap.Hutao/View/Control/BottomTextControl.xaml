@@ -2,14 +2,19 @@
     x:Class="Snap.Hutao.View.Control.BottomTextControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CommunityToolkit.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Border Style="{StaticResource BorderCardStyle}">
         <StackPanel Background="{x:Bind Fill}">
-            <ContentPresenter Content="{x:Bind TopContent, Mode=OneWay}"/>
+            <ContentPresenter
+                x:Name="ContentHost"
+                cw:FrameworkElementExtensions.EnableActualSizeBinding="True"
+                Content="{x:Bind TopContent, Mode=OneWay}"/>
             <TextBlock
+                MaxWidth="{x:Bind ContentHost.(cw:FrameworkElementExtensions.ActualWidth), Mode=OneWay}"
                 Margin="0,0,0,2"
                 HorizontalAlignment="Stretch"
                 HorizontalTextAlignment="Center"

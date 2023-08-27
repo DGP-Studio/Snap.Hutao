@@ -3,10 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control;
-using Snap.Hutao.Model;
 using Snap.Hutao.Service.GachaLog;
-using Snap.Hutao.View.Control;
 
 namespace Snap.Hutao.View.Dialog;
 
@@ -30,30 +27,9 @@ internal sealed partial class GachaLogRefreshProgressDialog : ContentDialog
     /// <summary>
     /// 接收进度更新
     /// </summary>
-    /// <param name="state">状态</param>
-    public void OnReport(GachaLogFetchStatus state)
+    /// <param name="status">状态</param>
+    public void OnReport(GachaLogFetchStatus status)
     {
-        Status = state;
-
-        // TODO: test new binding approach
-        GachaItemsPresenter.Header = state.AuthKeyTimeout
-            ? SH.ViewDialogGachaLogRefreshProgressAuthkeyTimeout
-            : SH.ViewDialogGachaLogRefreshProgressDescription.Format(state.ConfigType.GetLocalizedDescription());
-
-        // Binding not working here.
-        GachaItemsPresenter.Items.Clear();
-
-        // System.InvalidOperationException: Collection was modified; enumeration operation may not execute.
-        foreach (Item item in state.Items.ToList())
-        {
-            GachaItemsPresenter.Items.Add(new ItemIcon
-            {
-                Width = 60,
-                Height = 60,
-                Quality = item.Quality,
-                Icon = item.Icon,
-                Badge = item.Badge,
-            });
-        }
+        Status = status;
     }
 }

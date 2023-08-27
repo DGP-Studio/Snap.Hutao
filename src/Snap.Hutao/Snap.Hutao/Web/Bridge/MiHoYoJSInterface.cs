@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 using Microsoft.Web.WebView2.Core;
-using Snap.Hutao.Service;
+using Snap.Hutao.Core.DependencyInjection.Abstraction;
+using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Bridge.Model;
@@ -10,8 +11,10 @@ using Snap.Hutao.Web.Hoyolab;
 using Snap.Hutao.Web.Hoyolab.Bbs.User;
 using Snap.Hutao.Web.Hoyolab.DynamicSecret;
 using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
+using Snap.Hutao.Web.Response;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Foundation;
 
 namespace Snap.Hutao.Web.Bridge;
 
@@ -20,6 +23,7 @@ namespace Snap.Hutao.Web.Bridge;
 /// </summary>
 [HighQuality]
 [SuppressMessage("", "CA1001")]
+[SuppressMessage("", "CA1308")]
 internal class MiHoYoJSInterface
 {
     private const string InitializeJsInterfaceScript2 = """
@@ -43,18 +47,27 @@ internal class MiHoYoJSInterface
     private readonly ILogger<MiHoYoJSInterface> logger;
     private readonly SemaphoreSlim webMessageSemaphore = new(1);
 
-    public MiHoYoJSInterface(IServiceProvider serviceProvider, CoreWebView2 webView, UserAndUid userAndUid)
+    private readonly TypedEventHandler<CoreWebView2, CoreWebView2WebMessageReceivedEventArgs> webMessageReceivedEventHandler;
+    private readonly TypedEventHandler<CoreWebView2, CoreWebView2DOMContentLoadedEventArgs> domContentLoadedEventHandler;
+    private readonly TypedEventHandler<CoreWebView2, CoreWebView2NavigationStartingEventArgs> navigationStartingEventHandler;
+
+    public MiHoYoJSInterface(CoreWebView2 webView, UserAndUid userAndUid)
     {
-        this.serviceProvider = serviceProvider;
+        // 由于Webview2 的作用域特殊性，我们在此处直接使用根服务
+        serviceProvider = Ioc.Default;
         this.webView = webView;
         this.userAndUid = userAndUid;
 
         taskContext = serviceProvider.GetRequiredService<ITaskContext>();
         logger = serviceProvider.GetRequiredService<ILogger<MiHoYoJSInterface>>();
 
-        webView.WebMessageReceived += OnWebMessageReceived;
-        webView.DOMContentLoaded += OnDOMContentLoaded;
-        webView.NavigationStarting += OnNavigationStarting;
+        webMessageReceivedEventHandler = OnWebMessageReceived;
+        domContentLoadedEventHandler = OnDOMContentLoaded;
+        navigationStartingEventHandler = OnNavigationStarting;
+
+        webView.WebMessageReceived += webMessageReceivedEventHandler;
+        webView.DOMContentLoaded += domContentLoadedEventHandler;
+        webView.NavigationStarting += navigationStartingEventHandler;
     }
 
     public event Action? ClosePageRequested;
@@ -98,6 +111,7 @@ internal class MiHoYoJSInterface
     public virtual JsResult<Dictionary<string, string>> GetCookieInfo(JsParam param)
     {
         ArgumentNullException.ThrowIfNull(userAndUid.User.LToken);
+
         return new()
         {
             Data = new()
@@ -114,12 +128,12 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [SuppressMessage("", "CA1308")]
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV1(JsParam param)
     {
         string salt = HoyolabOptions.Salts[SaltType.LK2];
         long t = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         string r = GetRandomString();
+
         string check = Core.Convert.ToMd5HexString($"salt={salt}&t={t}&r={r}").ToLowerInvariant();
 
         return new() { Data = new() { ["DS"] = $"{t},{r},{check}", }, };
@@ -145,7 +159,6 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    [SuppressMessage("", "CA1308")]
     public virtual JsResult<Dictionary<string, string>> GetDynamicSecrectV2(JsParam<DynamicSecrect2Playload> param)
     {
         string salt = HoyolabOptions.Salts[SaltType.X4];
@@ -169,22 +182,33 @@ internal class MiHoYoJSInterface
     /// </summary>
     /// <param name="param">参数</param>
     /// <returns>响应</returns>
-    public virtual JsResult<Dictionary<string, object>> GetUserInfo(JsParam param)
+    public virtual async ValueTask<JsResult<Dictionary<string, object>>> GetUserInfoAsync(JsParam param)
     {
-        User user = serviceProvider.GetRequiredService<IUserService>().Current!;
-        UserInfo info = user.UserInfo!;
+        Response<UserFullInfoWrapper> response = await serviceProvider
+            .GetRequiredService<IOverseaSupportFactory<IUserClient>>()
+            .Create(userAndUid.User.IsOversea)
+            .GetUserFullInfoAsync(userAndUid.User)
+            .ConfigureAwait(false);
 
-        return new()
+        if (response.IsOk())
         {
-            Data = new()
+            UserInfo info = response.Data.UserInfo;
+            return new()
             {
-                ["id"] = info.Uid,
-                ["gender"] = info.Gender,
-                ["nickname"] = info.Nickname,
-                ["introduce"] = info.Introduce,
-                ["avatar_url"] = info.AvatarUrl,
-            },
-        };
+                Data = new()
+                {
+                    ["id"] = info.Uid,
+                    ["gender"] = info.Gender,
+                    ["nickname"] = info.Nickname,
+                    ["introduce"] = info.Introduce,
+                    ["avatar_url"] = info.AvatarUrl,
+                },
+            };
+        }
+        else
+        {
+            return new();
+        }
     }
 
     /// <summary>
@@ -195,15 +219,16 @@ internal class MiHoYoJSInterface
     public virtual async ValueTask<JsResult<Dictionary<string, string>>> GetCookieTokenAsync(JsParam<CookieTokenPayload> param)
     {
         IUserService userService = serviceProvider.GetRequiredService<IUserService>();
-        User user = userService.Current!;
         if (param.Payload.ForceRefresh)
         {
-            await userService.RefreshCookieTokenAsync(user).ConfigureAwait(false);
+            await userService.RefreshCookieTokenAsync(userAndUid.User).ConfigureAwait(false);
         }
 
         await taskContext.SwitchToMainThreadAsync();
-        webView.SetCookie(user.CookieToken, user.LToken);
-        return new() { Data = new() { [Cookie.COOKIE_TOKEN] = user.CookieToken![Cookie.COOKIE_TOKEN] } };
+        webView.SetCookie(userAndUid.User.CookieToken, userAndUid.User.LToken);
+
+        ArgumentNullException.ThrowIfNull(userAndUid.User.CookieToken);
+        return new() { Data = new() { [Cookie.COOKIE_TOKEN] = userAndUid.User.CookieToken[Cookie.COOKIE_TOKEN] } };
     }
 
     /// <summary>
@@ -260,14 +285,13 @@ internal class MiHoYoJSInterface
     /// <returns>语言与时区</returns>
     public virtual JsResult<Dictionary<string, string>> GetCurrentLocale(JsParam<PushPagePayload> param)
     {
-        AppOptions appOptions = serviceProvider.GetRequiredService<AppOptions>();
+        MetadataOptions metadataOptions = serviceProvider.GetRequiredService<MetadataOptions>();
 
         return new()
         {
             Data = new()
             {
-                // TODO: replace with metadata options value
-                ["language"] = appOptions.PreviousCulture.Name.ToLowerInvariant(),
+                ["language"] = metadataOptions.LanguageCode,
                 ["timeZone"] = "GMT+8",
             },
         };
@@ -331,7 +355,7 @@ internal class MiHoYoJSInterface
             .Append('"')
             .Append(callback)
             .Append('"')
-            .AppendIf(payload != null, ',')
+            .AppendIf(!string.IsNullOrEmpty(payload), ',')
             .Append(payload)
             .Append(')')
             .ToString();
@@ -351,19 +375,19 @@ internal class MiHoYoJSInterface
         }
     }
 
-    [SuppressMessage("", "VSTHRD100")]
     private async void OnWebMessageReceived(CoreWebView2 webView2, CoreWebView2WebMessageReceivedEventArgs args)
     {
         string message = args.TryGetWebMessageAsString();
         logger.LogInformation("[OnRawMessage]\n{message}", message);
-        JsParam param = JsonSerializer.Deserialize<JsParam>(message)!;
+        JsParam? param = JsonSerializer.Deserialize<JsParam>(message);
 
+        ArgumentNullException.ThrowIfNull(param);
         logger.LogInformation("[OnMessage]\nMethod  : {method}\nPayload : {payload}\nCallback: {callback}", param.Method, param.Payload, param.Callback);
         using (await webMessageSemaphore.EnterAsync().ConfigureAwait(false))
         {
             IJsResult? result = await TryGetJsResultFromJsParamAsync(param).ConfigureAwait(false);
 
-            if (result != null && param.Callback != null)
+            if (result is not null && param.Callback is not null)
             {
                 await ExecuteCallbackScriptAsync(param.Callback, result.ToJson()).ConfigureAwait(false);
             }
@@ -394,7 +418,7 @@ internal class MiHoYoJSInterface
                 "getDS2" => GetDynamicSecrectV2(param),
                 "getHTTPRequestHeaders" => GetHttpRequestHeader(param),
                 "getStatusBarHeight" => GetStatusBarHeight(param),
-                "getUserInfo" => GetUserInfo(param),
+                "getUserInfo" => await GetUserInfoAsync(param).ConfigureAwait(false),
                 "hideLoading" => null,
                 "login" => null,
                 "pushPage" => await PushPageAsync(param).ConfigureAwait(false),

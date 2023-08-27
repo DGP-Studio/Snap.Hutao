@@ -130,6 +130,19 @@ internal static partial class EnumerableExtension
         return results;
     }
 
+    public static TSource SingleOrAdd<TSource>(this List<TSource> list, Func<TSource, bool> predicate, Func<TSource> valueFactory)
+        where TSource : class
+    {
+        if (list.SingleOrDefault(predicate) is { } source)
+        {
+            return source;
+        }
+
+        TSource value = valueFactory();
+        list.Add(value);
+        return value;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public static List<TSource> SortBy<TSource, TKey>(this List<TSource> list, Func<TSource, TKey> keySelector)
         where TKey : IComparable

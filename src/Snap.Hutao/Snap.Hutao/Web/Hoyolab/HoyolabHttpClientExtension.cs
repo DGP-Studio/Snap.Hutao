@@ -73,6 +73,14 @@ internal static class HoyolabHttpClientExtension
         return httpClient;
     }
 
+    internal static HttpClient SetXrpcChallenge(this HttpClient httpClient, string challenge, string validate)
+    {
+        httpClient.DefaultRequestHeaders.Set("x-rpc-challenge", challenge);
+        httpClient.DefaultRequestHeaders.Set("x-rpc-validate", validate);
+        httpClient.DefaultRequestHeaders.Set("x-rpc-seccode", $"{validate}|jordan");
+        return httpClient;
+    }
+
     /// <summary>
     /// 设置头
     /// </summary>

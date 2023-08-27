@@ -68,15 +68,9 @@
                                 ItemsSource="{Binding Monsters}"
                                 SelectedItem="{Binding Selected, Mode=TwoWay}"
                                 SelectionMode="Single">
-                                <ListView.GroupStyle>
-                                    <GroupStyle>
-                                        <GroupStyle.HeaderTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Key}"/>
-                                            </DataTemplate>
-                                        </GroupStyle.HeaderTemplate>
-                                    </GroupStyle>
-                                </ListView.GroupStyle>
+                                <mxi:Interaction.Behaviors>
+                                    <shcb:SelectedItemInViewBehavior/>
+                                </mxi:Interaction.Behaviors>
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -188,6 +182,9 @@
                         ItemsSource="{Binding Monsters}"
                         SelectedItem="{Binding Selected, Mode=TwoWay}"
                         SelectionMode="Single">
+                        <mxi:Interaction.Behaviors>
+                            <shcb:SelectedItemInViewBehavior/>
+                        </mxi:Interaction.Behaviors>
                         <GridView.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <ItemsWrapGrid Orientation="Horizontal"/>

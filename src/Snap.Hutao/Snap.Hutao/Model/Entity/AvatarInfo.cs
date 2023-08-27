@@ -31,6 +31,12 @@ internal sealed class AvatarInfo : IMappingFrom<AvatarInfo, string, Web.Enka.Mod
     /// </summary>
     public Web.Enka.Model.AvatarInfo Info { get; set; } = default!;
 
+    public DateTimeOffset ShowcaseRefreshTime { get; set; }
+
+    public DateTimeOffset GameRecordRefreshTime { get; set; }
+
+    public DateTimeOffset CalculatorRefreshTime { get; set; }
+
     /// <summary>
     /// 创建一个新的实体角色信息
     /// </summary>

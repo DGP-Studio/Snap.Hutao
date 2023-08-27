@@ -45,8 +45,6 @@ internal class Package : PathMd5
     [JsonPropertyName("decompressed_path")]
     public string DecompressedPath { get; set; } = default!;
 
-    // We don't want to support `segments` downloading
-
     /// <summary>
     /// 包大小 bytes
     /// </summary>

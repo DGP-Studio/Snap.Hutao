@@ -13,9 +13,10 @@ using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar;
 using Snap.Hutao.Web.Response;
 using System.Runtime.CompilerServices;
+using Windows.Perception.Spatial;
 using CalculateAvatar = Snap.Hutao.Web.Hoyolab.Takumi.Event.Calculate.Avatar;
 using EnkaAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
-using ModelAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
+using EntityAvatarInfo = Snap.Hutao.Model.Entity.AvatarInfo;
 using RecordCharacter = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.Avatar.Character;
 using RecordPlayerInfo = Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.PlayerInfo;
 
@@ -39,10 +40,10 @@ internal sealed partial class AvatarInfoDbBulkOperation
     /// <param name="webInfos">Enka信息</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public List<EnkaAvatarInfo> UpdateDbAvatarInfos(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
+    public List<EntityAvatarInfo> UpdateDbAvatarInfosByShowcase(string uid, IEnumerable<EnkaAvatarInfo> webInfos, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
-        List<ModelAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -57,12 +58,12 @@ internal sealed partial class AvatarInfoDbBulkOperation
                 }
 
                 token.ThrowIfCancellationRequested();
-                ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == webInfo.AvatarId);
+                EntityAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == webInfo.AvatarId);
                 AddOrUpdateAvatarInfo(entity, uid, appDbContext, webInfo);
             }
 
             token.ThrowIfCancellationRequested();
-            return avatarInfoDbService.GetAvatarInfoInfoListByUid(uid);
+            return avatarInfoDbService.GetAvatarInfoListByUid(uid);
         }
     }
 
@@ -72,11 +73,11 @@ internal sealed partial class AvatarInfoDbBulkOperation
     /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public async ValueTask<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid, CancellationToken token)
+    public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByGameRecordCharacterAsync(UserAndUid userAndUid, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
-        List<ModelAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -113,14 +114,14 @@ internal sealed partial class AvatarInfoDbBulkOperation
                         }
 
                         token.ThrowIfCancellationRequested();
-                        ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
+                        EntityAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == character.Id);
                         AddOrUpdateAvatarInfo(entity, character.Id, uid, appDbContext, transformer, character);
                     }
                 }
             }
         }
 
-        return avatarInfoDbService.GetAvatarInfoInfoListByUid(uid);
+        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
     }
 
     /// <summary>
@@ -129,11 +130,11 @@ internal sealed partial class AvatarInfoDbBulkOperation
     /// <param name="userAndUid">用户与角色</param>
     /// <param name="token">取消令牌</param>
     /// <returns>角色列表</returns>
-    public async ValueTask<List<EnkaAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
+    public async ValueTask<List<EntityAvatarInfo>> UpdateDbAvatarInfosByCalculateAvatarDetailAsync(UserAndUid userAndUid, CancellationToken token)
     {
         token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
-        List<ModelAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
         EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -167,22 +168,40 @@ internal sealed partial class AvatarInfoDbBulkOperation
                 }
 
                 token.ThrowIfCancellationRequested();
-                ModelAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == avatar.Id);
+                EntityAvatarInfo? entity = dbInfos.SingleOrDefault(i => i.Info.AvatarId == avatar.Id);
                 AddOrUpdateAvatarInfo(entity, avatar.Id, uid, appDbContext, transformer, detailAvatarResponse.Data);
             }
         }
 
-        return avatarInfoDbService.GetAvatarInfoInfoListByUid(uid);
+        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AddOrUpdateAvatarInfo<TSource>(ModelAvatarInfo? entity, in AvatarId avatarId, string uid, AppDbContext appDbContext, IAvatarInfoTransformer<TSource> transformer, TSource source)
+    private static void AddOrUpdateAvatarInfo(EntityAvatarInfo? entity, string uid, AppDbContext appDbContext, EnkaAvatarInfo webInfo)
+    {
+        if (entity is null)
+        {
+            entity = EntityAvatarInfo.From(uid, webInfo);
+            entity.ShowcaseRefreshTime = DateTimeOffset.Now;
+            appDbContext.AvatarInfos.AddAndSave(entity);
+        }
+        else
+        {
+            entity.Info = webInfo;
+            entity.ShowcaseRefreshTime = DateTimeOffset.Now;
+            appDbContext.AvatarInfos.UpdateAndSave(entity);
+        }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static void AddOrUpdateAvatarInfo(EntityAvatarInfo? entity, in AvatarId avatarId, string uid, AppDbContext appDbContext, CalculateAvatarDetailAvatarInfoTransformer transformer, AvatarDetail source)
     {
         if (entity is null)
         {
             EnkaAvatarInfo avatarInfo = new() { AvatarId = avatarId };
             transformer.Transform(ref avatarInfo, source);
-            entity = ModelAvatarInfo.From(uid, avatarInfo);
+            entity = EntityAvatarInfo.From(uid, avatarInfo);
+            entity.CalculatorRefreshTime = DateTimeOffset.Now;
             appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
@@ -190,26 +209,33 @@ internal sealed partial class AvatarInfoDbBulkOperation
             EnkaAvatarInfo avatarInfo = entity.Info;
             transformer.Transform(ref avatarInfo, source);
             entity.Info = avatarInfo;
+            entity.CalculatorRefreshTime = DateTimeOffset.Now;
             appDbContext.AvatarInfos.UpdateAndSave(entity);
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void AddOrUpdateAvatarInfo(ModelAvatarInfo? entity, string uid, AppDbContext appDbContext, EnkaAvatarInfo webInfo)
+    private static void AddOrUpdateAvatarInfo(EntityAvatarInfo? entity, in AvatarId avatarId, string uid, AppDbContext appDbContext, GameRecordCharacterAvatarInfoTransformer transformer, Character source)
     {
         if (entity is null)
         {
-            entity = ModelAvatarInfo.From(uid, webInfo);
+            EnkaAvatarInfo avatarInfo = new() { AvatarId = avatarId };
+            transformer.Transform(ref avatarInfo, source);
+            entity = EntityAvatarInfo.From(uid, avatarInfo);
+            entity.GameRecordRefreshTime = DateTimeOffset.Now;
             appDbContext.AvatarInfos.AddAndSave(entity);
         }
         else
         {
-            entity.Info = webInfo;
+            EnkaAvatarInfo avatarInfo = entity.Info;
+            transformer.Transform(ref avatarInfo, source);
+            entity.Info = avatarInfo;
+            entity.GameRecordRefreshTime = DateTimeOffset.Now;
             appDbContext.AvatarInfos.UpdateAndSave(entity);
         }
     }
 
-    private void EnsureItemsAvatarIdDistinct(ref List<ModelAvatarInfo> dbInfos, string uid)
+    private void EnsureItemsAvatarIdDistinct(ref List<EntityAvatarInfo> dbInfos, string uid)
     {
         int distinctCount = dbInfos.Select(info => info.Info.AvatarId).ToHashSet().Count;
 

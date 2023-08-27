@@ -57,15 +57,12 @@ internal interface IUserService
     /// <returns>是否刷新成功</returns>
     ValueTask<bool> RefreshCookieTokenAsync(BindingUser user);
 
+    ValueTask<bool> RefreshCookieTokenAsync(Model.Entity.User user);
+
     /// <summary>
     /// 异步移除用户
     /// </summary>
     /// <param name="user">待移除的用户</param>
     /// <returns>任务</returns>
     ValueTask RemoveUserAsync(BindingUser user);
-}
-
-internal interface IUserServiceUnsafe
-{
-    ValueTask UnsafeRemoveUsersAsync();
 }

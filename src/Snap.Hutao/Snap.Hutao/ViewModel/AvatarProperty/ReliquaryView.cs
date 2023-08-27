@@ -22,7 +22,7 @@ internal sealed class ReliquaryView : Equip
     /// <summary>
     /// 合成的副属性
     /// </summary>
-    public List<ReliquarySubProperty> ComposedSubProperties { get; set; } = default!;
+    public List<ReliquaryComposedSubProperty> ComposedSubProperties { get; set; } = default!;
 
     /// <summary>
     /// 格式化评分

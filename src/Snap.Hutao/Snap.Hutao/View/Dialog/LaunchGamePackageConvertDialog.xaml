@@ -1,7 +1,4 @@
-﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
-<!--  Licensed under the MIT License.  -->
-
-<ContentDialog
+﻿<ContentDialog
     x:Class="Snap.Hutao.View.Dialog.LaunchGamePackageConvertDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -21,9 +18,22 @@
             IsIndeterminate="{Binding State.IsIndeterminate}"
             Maximum="1"
             Value="{Binding State.Percent}"/>
-        <TextBlock
-            MinWidth="360"
-            Style="{StaticResource CaptionTextBlockStyle}"
-            Text="{Binding State.Description}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{Binding State.Name}"
+                TextTrimming="CharacterEllipsis"
+                TextWrapping="NoWrap"/>
+            <TextBlock
+                Grid.Column="1"
+                Margin="16,0,0,0"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{Binding State.Description}"/>
+        </Grid>
     </StackPanel>
 </ContentDialog>

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.InteropServices;
 using Microsoft.UI.Xaml;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;

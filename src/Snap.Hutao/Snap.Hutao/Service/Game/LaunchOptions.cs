@@ -31,7 +31,6 @@ internal sealed class LaunchOptions : DbStoreOptions
     private bool? unlockFps;
     private int? targetFps;
     private NameValue<int>? monitor;
-    private bool? multipleInstances;
 
     /// <summary>
     /// 构造一个新的启动游戏选项
@@ -149,15 +148,6 @@ internal sealed class LaunchOptions : DbStoreOptions
                 SetOption(ref monitor, SettingEntry.LaunchMonitor, value, selected => selected.Value.ToString(CultureInfo.InvariantCulture));
             }
         }
-    }
-
-    /// <summary>
-    /// 多开启动原神
-    /// </summary>
-    public bool MultipleInstances
-    {
-        get => GetOption(ref multipleInstances, SettingEntry.MultipleInstances);
-        set => SetOption(ref multipleInstances, SettingEntry.MultipleInstances, value);
     }
 
     private static void InitializeMonitors(List<NameValue<int>> monitors)

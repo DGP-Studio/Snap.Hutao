@@ -215,17 +215,6 @@
                             <StackPanel Spacing="{StaticResource SettingsCardSpacing}" Visibility="{Binding AppOptions.IsAdvancedLaunchOptionsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageLaunchGameAdvanceHeader}"/>
                                 <cwc:SettingsCard
-                                    Description="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesDescription}"
-                                    Header="{shcm:ResourceString Name=ViewPageLaunchGameMultipleInstancesHeader}"
-                                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7C4;}"
-                                    IsEnabled="{Binding HutaoOptions.IsElevated}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
-                                        <ToggleSwitch Width="120" IsOn="{Binding Options.MultipleInstances, Mode=TwoWay}"/>
-                                    </StackPanel>
-
-                                </cwc:SettingsCard>
-                                <cwc:SettingsCard
                                     Description="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsDescription}"
                                     Header="{shcm:ResourceString Name=ViewPageLaunchGameUnlockFpsHeader}"
                                     HeaderIcon="{shcm:FontIcon Glyph=&#xE785;}"

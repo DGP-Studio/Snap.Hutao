@@ -4,6 +4,7 @@
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Service.Game;
 using Snap.Hutao.Web.Response;
+using System.IO;
 using System.Net.Http;
 
 namespace Snap.Hutao.Web.Hoyolab.SdkStatic.Hk4e.Launcher;
@@ -35,6 +36,13 @@ internal sealed partial class ResourceClient
         Response<GameResource>? response = await httpClient
             .TryCatchGetFromJsonAsync<Response<GameResource>>(url, options, logger, token)
             .ConfigureAwait(false);
+
+        // 补全缺失的信息
+        if (response is { Data.Game.Latest: LatestPackage latest })
+        {
+            latest.Path = latest.Segments[0].Path[..^4];
+            latest.Name = Path.GetFileName(latest.Path);
+        }
 
         return Response.Response.DefaultIfNull(response);
     }

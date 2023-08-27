@@ -11,8 +11,8 @@ using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.SpiralAbyss;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
-using Snap.Hutao.Web.Hutao;
-using Snap.Hutao.Web.Hutao.Model.Post;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using Snap.Hutao.Web.Hutao.SpiralAbyss.Post;
 using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.SpiralAbyss;
@@ -153,11 +153,15 @@ internal sealed partial class SpiralAbyssRecordViewModel : Abstraction.ViewModel
             SimpleRecord? record = await spiralAbyssClient.GetPlayerRecordAsync(userAndUid).ConfigureAwait(false);
             if (record is not null)
             {
-                Web.Response.Response<string> response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
+                Web.Response.Response response = await spiralAbyssClient.UploadRecordAsync(record).ConfigureAwait(false);
 
-                if (response.IsOk())
+                if (response is { ReturnCode: 0 })
                 {
                     infoBarService.Success(response.Message);
+                }
+                else
+                {
+                    infoBarService.Warning(response.Message);
                 }
             }
         }

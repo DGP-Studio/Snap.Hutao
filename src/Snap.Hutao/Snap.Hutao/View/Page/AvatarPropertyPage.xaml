@@ -28,19 +28,38 @@
     </mxi:Interaction.Behaviors>
 
     <Page.Resources>
-        <cwuconv:BoolToObjectConverter x:Key="BoolToOpacityConverter">
-            <cwuconv:BoolToObjectConverter.TrueValue>
-                <x:Double>1</x:Double>
-            </cwuconv:BoolToObjectConverter.TrueValue>
-            <cwuconv:BoolToObjectConverter.FalseValue>
-                <x:Double>0.5</x:Double>
-            </cwuconv:BoolToObjectConverter.FalseValue>
-        </cwuconv:BoolToObjectConverter>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <shvconv:UInt32ToGradientColorConverter
+                        x:Key="CountToGradientColorConverter"
+                        Maximum="#FFFD0093"
+                        Minimum="#FF4B00D9"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <shvconv:UInt32ToGradientColorConverter
+                        x:Key="CountToGradientColorConverter"
+                        Maximum="#FFFF69BF"
+                        Minimum="#FF9F69FF"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
 
-        <shvconv:PanelSelectorModeConverter
-            x:Key="PanelSelectorModeConverter"
-            GridValue="{x:Bind GridImageExportPanel}"
-            ListValue="{x:Bind ListImageExportPanel}"/>
+            <cwuconv:BoolToObjectConverter x:Key="BoolToOpacityConverter">
+                <cwuconv:BoolToObjectConverter.TrueValue>
+                    <x:Double>1</x:Double>
+                </cwuconv:BoolToObjectConverter.TrueValue>
+                <cwuconv:BoolToObjectConverter.FalseValue>
+                    <x:Double>0.5</x:Double>
+                </cwuconv:BoolToObjectConverter.FalseValue>
+            </cwuconv:BoolToObjectConverter>
+
+            <shvconv:PanelSelectorModeConverter
+                x:Key="PanelSelectorModeConverter"
+                GridValue="{x:Bind GridImageExportPanel}"
+                ListValue="{x:Bind ListImageExportPanel}"/>
+
+
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
@@ -53,7 +72,7 @@
 
                 <CommandBar
                     Grid.Row="0"
-                    Background="{StaticResource CardBackgroundFillColorDefaultBrush}"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     DefaultLabelPosition="Right">
                     <CommandBar.Content>
                         <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
@@ -208,7 +227,7 @@
                             Grid.Row="1"
                             DisplayMode="Inline"
                             IsPaneOpen="True"
-                            OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength}"
+                            OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength3}"
                             PaneBackground="Transparent">
                             <SplitView.Pane>
                                 <ListView ItemsSource="{Binding Summary.Avatars}" SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}">
@@ -217,7 +236,8 @@
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="auto"/>
-                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="auto"/>
                                                 </Grid.ColumnDefinitions>
                                                 <shci:CachedImage
                                                     Grid.Column="0"
@@ -226,12 +246,33 @@
                                                     Margin="0,0,12,12"
                                                     Source="{Binding SideIcon, Mode=OneWay}"/>
                                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                                    <TextBlock Margin="12,0,0,0" Text="{Binding Name}"/>
+                                                    <TextBlock
+                                                        Margin="12,0,0,0"
+                                                        Text="{Binding Name}"
+                                                        TextTrimming="CharacterEllipsis"
+                                                        TextWrapping="NoWrap"/>
                                                     <TextBlock
                                                         Margin="12,0,0,0"
                                                         Opacity="0.7"
                                                         Style="{StaticResource CaptionTextBlockStyle}"
                                                         Text="{Binding Level}"/>
+                                                </StackPanel>
+                                                <StackPanel
+                                                    Grid.Column="2"
+                                                    VerticalAlignment="Center"
+                                                    Opacity="0.7">
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding ShowcaseRefreshTimeFormat}"/>
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding GameRecordRefreshTimeFormat}"/>
+                                                    <TextBlock
+                                                        FontSize="11"
+                                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                                        Text="{Binding CalculatorRefreshTimeFormat}"/>
                                                 </StackPanel>
                                             </Grid>
                                         </DataTemplate>
@@ -660,9 +701,10 @@
                                                                         </ItemsControl.ItemsPanel>
                                                                         <ItemsControl.ItemTemplate>
                                                                             <DataTemplate>
-                                                                                <Grid>
+                                                                                <Grid ColumnSpacing="6">
                                                                                     <Grid.ColumnDefinitions>
                                                                                         <ColumnDefinition/>
+                                                                                        <ColumnDefinition Width="auto"/>
                                                                                         <ColumnDefinition Width="auto"/>
                                                                                     </Grid.ColumnDefinitions>
                                                                                     <TextBlock
@@ -671,6 +713,30 @@
                                                                                         TextTrimming="CharacterEllipsis"
                                                                                         TextWrapping="NoWrap"/>
                                                                                     <TextBlock Grid.Column="1" Text="{Binding Value}"/>
+                                                                                    <Grid Grid.Column="2" Opacity="1">
+                                                                                        <Ellipse
+                                                                                            Width="16"
+                                                                                            Height="16"
+                                                                                            Margin="0,0,0,0"
+                                                                                            Opacity="0.8"
+                                                                                            StrokeThickness="1">
+                                                                                            <Ellipse.Stroke>
+                                                                                                <SolidColorBrush Color="{Binding EnhancedCount, Converter={ThemeResource CountToGradientColorConverter}}"/>
+                                                                                            </Ellipse.Stroke>
+                                                                                        </Ellipse>
+                                                                                        <TextBlock
+                                                                                            Grid.Column="2"
+                                                                                            Margin="0,0,0,1"
+                                                                                            HorizontalAlignment="Center"
+                                                                                            VerticalAlignment="Center"
+                                                                                            FontSize="{ThemeResource InfoBadgeValueFontSize}"
+                                                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                                                            Text="{Binding EnhancedCount}">
+                                                                                            <TextBlock.Foreground>
+                                                                                                <SolidColorBrush Color="{Binding EnhancedCount, Converter={ThemeResource CountToGradientColorConverter}}"/>
+                                                                                            </TextBlock.Foreground>
+                                                                                        </TextBlock>
+                                                                                    </Grid>
                                                                                 </Grid>
                                                                             </DataTemplate>
                                                                         </ItemsControl.ItemTemplate>

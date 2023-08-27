@@ -34,4 +34,14 @@ internal sealed class GachaLogFetchStatus
     /// 当前获取的物品
     /// </summary>
     public List<Item> Items { get; set; } = new(20);
+
+    public string Header
+    {
+        get
+        {
+            return AuthKeyTimeout
+                ? SH.ViewDialogGachaLogRefreshProgressAuthkeyTimeout
+                : SH.ViewDialogGachaLogRefreshProgressDescription.Format(ConfigType.GetLocalizedDescription());
+        }
+    }
 }

@@ -54,7 +54,14 @@ internal class Response
     public static Response DefaultIfNull(Response? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        return response ?? new(0x26F19335, $"[{callerName}] 中的网络请求异常，请稍后再试");
+        response ??= new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, null));
+
+        if (((KnownReturnCode)response.ReturnCode) is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
+        {
+            response.Message = SH.WebResponseRefreshCookieHintFormat.Format(response.Message);
+        }
+
+        return response;
     }
 
     /// <summary>
@@ -67,7 +74,14 @@ internal class Response
     public static Response<TData> DefaultIfNull<TData>(Response<TData>? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        return response ?? new(0x26F19335, $"[{callerName}] 中的 [{typeof(TData).Name}] 网络请求异常，请稍后再试", default);
+        response ??= new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
+
+        if (((KnownReturnCode)response.ReturnCode) is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
+        {
+            response.Message = SH.WebResponseRefreshCookieHintFormat.Format(response.Message);
+        }
+
+        return response ?? new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
     }
 
     /// <summary>
@@ -82,7 +96,7 @@ internal class Response
     {
         if (response is not null)
         {
-            Must.Argument(response.ReturnCode != 0, "返回代码必须为0");
+            Must.Argument(response.ReturnCode != 0, "RetCode has to be 0");
             return new(response.ReturnCode, response.Message, default);
         }
         else

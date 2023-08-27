@@ -27,6 +27,7 @@ internal sealed partial class PackageConverter
     private readonly JsonSerializerOptions options;
     private readonly RuntimeOptions runtimeOptions;
     private readonly HttpClient httpClient;
+    private readonly ILogger<PackageConverter> logger;
 
     /// <summary>
     /// 异步检查替换游戏资源
@@ -253,7 +254,9 @@ internal sealed partial class PackageConverter
         }
 
         // Cache no matching item, download
-        Directory.CreateDirectory(context.ServerCacheTargetFolder);
+        string? directory = Path.GetDirectoryName(cacheFile);
+        ArgumentException.ThrowIfNullOrEmpty(directory);
+        Directory.CreateDirectory(directory);
         using (FileStream fileStream = File.Create(cacheFile))
         {
             string remoteUrl = context.GetScatteredFilesUrl(remoteName);
@@ -288,24 +291,10 @@ internal sealed partial class PackageConverter
 
     private async ValueTask<bool> ReplaceGameResourceAsync(List<ItemOperationInfo> operations, PackageConvertContext context, IProgress<PackageReplaceStatus> progress)
     {
-        // 重命名 _Data 目录
-        try
-        {
-            DirectoryOperation.Move(context.FromDataFolder, context.ToDataFolder);
-        }
-        catch (IOException ex)
-        {
-            // Access to the path is denied.
-            // When user install the game in special folder like 'Program Files'
-            throw ThrowHelper.GameFileOperation(SH.ServiceGamePackageRenameDataFolderFailed, ex);
-        }
-
         // 执行下载与移动操作
         foreach (ItemOperationInfo info in operations)
         {
-            progress.Report(new($"{info.Remote}"));
-
-            (bool backup, bool target) = info.Type switch
+            (bool moveToBackup, bool moveToTarget) = info.Type switch
             {
                 ItemOperationType.Backup => (true, false),
                 ItemOperationType.Replace => (true, true),
@@ -313,25 +302,50 @@ internal sealed partial class PackageConverter
                 _ => (false, false),
             };
 
-            if (backup)
+            // 先备份
+            if (moveToBackup)
             {
-                string localFileName = info.Local.RelativePath.Format(context.FromDataFolder);
+                string localFileName = info.Local.RelativePath.Format(context.FromDataFolderName);
+                progress.Report(new(SH.ServiceGamePackageConvertMoveFileBackupFormat.Format(localFileName)));
+
                 string localFilePath = context.GetGameFolderFilePath(localFileName);
-                string? directory = Path.GetDirectoryName(localFilePath);
-                ArgumentException.ThrowIfNullOrEmpty(directory);
-                Directory.CreateDirectory(directory);
-                File.Move(localFilePath, context.GetServerCacheBackupFilePath(localFileName), true);
+                string cacheFilePath = context.GetServerCacheBackupFilePath(localFileName);
+                string? cacheFileDirectory = Path.GetDirectoryName(cacheFilePath);
+                ArgumentException.ThrowIfNullOrEmpty(cacheFileDirectory);
+                Directory.CreateDirectory(cacheFileDirectory);
+
+                logger.LogInformation("Backing file from:{Src} to:{Dst}", localFilePath, cacheFilePath);
+                FileOperation.Move(localFilePath, cacheFilePath, true);
             }
 
-            if (target)
+            // 后替换
+            if (moveToTarget)
             {
-                string targetFileName = info.Remote.RelativePath.Format(context.ToDataFolder);
+                string targetFileName = info.Remote.RelativePath.Format(context.ToDataFolderName);
+                progress.Report(new(SH.ServiceGamePackageConvertMoveFileRestoreFormat.Format(targetFileName)));
+
                 string targetFilePath = context.GetGameFolderFilePath(targetFileName);
-                string? directory = Path.GetDirectoryName(targetFilePath);
-                ArgumentException.ThrowIfNullOrEmpty(directory);
-                Directory.CreateDirectory(directory);
-                File.Move(context.GetServerCacheTargetFilePath(targetFileName), targetFilePath, true);
+                string? targetFileDirectory = Path.GetDirectoryName(targetFilePath);
+                string cacheFilePath = context.GetServerCacheTargetFilePath(targetFileName);
+                ArgumentException.ThrowIfNullOrEmpty(targetFileDirectory);
+                Directory.CreateDirectory(targetFileDirectory);
+
+                logger.LogInformation("Restoring file from:{Src} to:{Dst}", cacheFilePath, targetFilePath);
+                FileOperation.Move(cacheFilePath, targetFilePath, true);
             }
+        }
+
+        // 重命名 _Data 目录
+        try
+        {
+            progress.Report(new(SH.ServiceGamePackageConvertMoveFileRenameFormat.Format(context.FromDataFolderName, context.ToDataFolderName)));
+            DirectoryOperation.Move(context.FromDataFolder, context.ToDataFolder);
+        }
+        catch (IOException ex)
+        {
+            // Access to the path is denied.
+            // When user install the game in special folder like 'Program Files'
+            throw ThrowHelper.GameFileOperation(SH.ServiceGamePackageRenameDataFolderFailed, ex);
         }
 
         // 重新下载所有 *pkg_version 文件

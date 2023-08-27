@@ -2,6 +2,7 @@
     x:Class="Snap.Hutao.View.Control.StatisticsCard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:clws="using:CommunityToolkit.Labs.WinUI"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -276,8 +277,11 @@
                                 </Grid>
                             </StackPanel>
                         </FlipViewItem>
-                        <FlipViewItem Visibility="{Binding IsPredictPullAvailable, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <StackPanel Margin="16,12" Spacing="2">
+                        <FlipViewItem>
+                            <StackPanel
+                                Margin="16,12"
+                                Spacing="2"
+                                Visibility="{Binding IsPredictPullAvailable, Converter={StaticResource BoolToVisibilityConverter}}">
                                 <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PredictedPullLeftToOrangeFormatted}"/>
                                 <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding ProbabilityOfNextPullIsOrangeFormatted}"/>
                             </StackPanel>

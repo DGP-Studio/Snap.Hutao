@@ -20,11 +20,7 @@ internal interface IDailyNoteService
     /// <returns>任务</returns>
     ValueTask AddDailyNoteAsync(UserAndUid userAndUid);
 
-    /// <summary>
-    /// 异步获取实时便笺列表
-    /// </summary>
-    /// <returns>实时便笺列表</returns>
-    ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync();
+    ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(bool forceRefresh = false);
 
     /// <summary>
     /// 异步刷新实时便笺

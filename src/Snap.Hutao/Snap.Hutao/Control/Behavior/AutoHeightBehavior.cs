@@ -22,17 +22,18 @@ internal sealed partial class AutoHeightBehavior : BehaviorBase<FrameworkElement
     }
 
     /// <inheritdoc/>
-    protected override void OnAssociatedObjectLoaded()
+    protected override bool Initialize()
     {
         UpdateElement();
         AssociatedObject.SizeChanged += sizeChangedEventHandler;
+        return true;
     }
 
     /// <inheritdoc/>
-    protected override void OnDetaching()
+    protected override bool Uninitialize()
     {
         AssociatedObject.SizeChanged -= sizeChangedEventHandler;
-        base.OnDetaching();
+        return true;
     }
 
     private void OnSizeChanged(object sender, SizeChangedEventArgs e)

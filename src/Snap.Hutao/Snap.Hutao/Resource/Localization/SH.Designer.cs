@@ -421,6 +421,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 尚未刷新 的本地化字符串。
+        /// </summary>
+        internal static string ModelEntityDailyNoteNotRefreshed {
+            get {
+                return ResourceManager.GetString("ModelEntityDailyNoteNotRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新于 {0:yyyy/MM/dd HH:mm:ss} 的本地化字符串。
+        /// </summary>
+        internal static string ModelEntityDailyNoteRefreshTimeFormat {
+            get {
+                return ResourceManager.GetString("ModelEntityDailyNoteRefreshTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 第 {0} 期 的本地化字符串。
         /// </summary>
         internal static string ModelEntitySpiralAbyssScheduleFormat {
@@ -741,6 +759,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ModelIntrinsicWeaponTypeSwordOneHand {
             get {
                 return ResourceManager.GetString("ModelIntrinsicWeaponTypeSwordOneHand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 旅行者 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataAvatarPlayerName {
+            get {
+                return ResourceManager.GetString("ModelMetadataAvatarPlayerName", resourceCulture);
             }
         }
         
@@ -1105,6 +1132,60 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 养成计算：尚未刷新 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryCalculatorNotRefreshed {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryCalculatorNotRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 养成计算：{0:MM-dd HH:mm} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我的角色：尚未刷新 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryGameRecordNotRefreshed {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryGameRecordNotRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我的角色：{0:MM-dd HH:mm} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色橱窗：尚未刷新 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryShowcaseNotRefreshed {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryShowcaseNotRefreshed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 角色橱窗：{0:MM-dd HH:mm} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat {
+            get {
+                return ResourceManager.GetString("ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 保存养成计划状态失败 的本地化字符串。
         /// </summary>
         internal static string ServiceCultivationProjectCurrentUserdataCourrpted {
@@ -1339,6 +1420,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 数据包含异常物品, Id：{0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGachaLogUIGFImportItemInvalidFormat {
+            get {
+                return ResourceManager.GetString("ServiceGachaLogUIGFImportItemInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 请求验证密钥失败 的本地化字符串。
         /// </summary>
         internal static string ServiceGachaLogUrlProviderAuthkeyRequestFailed {
@@ -1470,6 +1560,33 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ServiceGameLocatorUnityLogGamePathNotFound {
             get {
                 return ResourceManager.GetString("ServiceGameLocatorUnityLogGamePathNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 备份：{0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGamePackageConvertMoveFileBackupFormat {
+            get {
+                return ResourceManager.GetString("ServiceGamePackageConvertMoveFileBackupFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重命名：{0} 到：{1} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGamePackageConvertMoveFileRenameFormat {
+            get {
+                return ResourceManager.GetString("ServiceGamePackageConvertMoveFileRenameFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 替换：{0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGamePackageConvertMoveFileRestoreFormat {
+            get {
+                return ResourceManager.GetString("ServiceGamePackageConvertMoveFileRestoreFormat", resourceCulture);
             }
         }
         
@@ -1650,6 +1767,33 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ServiceMetadataVersionNotSupported {
             get {
                 return ResourceManager.GetString("ServiceMetadataVersionNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 签到失败，{0} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceSignInClaimRewardFailedFormat {
+            get {
+                return ResourceManager.GetString("ServiceSignInClaimRewardFailedFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 获取奖励列表失败 的本地化字符串。
+        /// </summary>
+        internal static string ServiceSignInRewardListRequestFailed {
+            get {
+                return ResourceManager.GetString("ServiceSignInRewardListRequestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 签到成功，{0}×{1} 的本地化字符串。
+        /// </summary>
+        internal static string ServiceSignInSuccessRewardFormat {
+            get {
+                return ResourceManager.GetString("ServiceSignInSuccessRewardFormat", resourceCulture);
             }
         }
         
@@ -2590,6 +2734,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 正在获取实时便笺信息，请稍候 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelDailyNoteRequestProgressTitle {
+            get {
+                return ResourceManager.GetString("ViewModelDailyNoteRequestProgressTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 成功保存到指定位置 的本地化字符串。
         /// </summary>
         internal static string ViewModelExportSuccessMessage {
@@ -3459,6 +3612,42 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageDailyNoteResinDiscountUsed {
             get {
                 return ResourceManager.GetString("ViewPageDailyNoteResinDiscountUsed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 自动刷新 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteSettingAutoRefresh {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteSettingAutoRefresh", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 间隔选定的时间后刷新添加的实时便笺 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteSettingAutoRefreshDescription {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteSettingAutoRefreshDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 这些选项仅允许在非管理员模式下更改 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteSettingRefreshElevatedHint {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteSettingRefreshElevatedHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 刷新 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageDailyNoteSettingRefreshHeader {
+            get {
+                return ResourceManager.GetString("ViewPageDailyNoteSettingRefreshHeader", resourceCulture);
             }
         }
         
@@ -5317,11 +5506,20 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 HoYoLab 的本地化字符串。
+        ///   查找类似 HoYoLAB 的本地化字符串。
         /// </summary>
         internal static string ViewUserCookieOperation2 {
             get {
                 return ResourceManager.GetString("ViewUserCookieOperation2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 当前用户 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserCookieOperation3 {
+            get {
+                return ResourceManager.GetString("ViewUserCookieOperation3", resourceCulture);
             }
         }
         
@@ -5349,6 +5547,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewUserCookieOperationRefreshCookieAction {
             get {
                 return ResourceManager.GetString("ViewUserCookieOperationRefreshCookieAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 领取签到奖励 的本地化字符串。
+        /// </summary>
+        internal static string ViewUserCookieOperationSignInRewardAction {
+            get {
+                return ResourceManager.GetString("ViewUserCookieOperationSignInRewardAction", resourceCulture);
             }
         }
         
@@ -5479,6 +5686,51 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 (?:〓活动时间〓|〓任务开放时间〓).*?\d\.\d版本更新(?:完成|)后永久开放 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchPermanentActivityTime {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchPermanentActivityTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 〓活动时间〓.*?\d\.\d版本期间持续开放 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchPersistentActivityTime {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchPersistentActivityTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 (?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class=&quot;t_(?:gl|lc)&quot;.*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchTransientActivityTime {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchTransientActivityTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 〓更新时间〓.+?&amp;lt;t class=\&quot;t_(?:gl|lc)\&quot;.*?&amp;gt;(.*?)&amp;lt;/t&amp;gt; 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchVersionUpdateTime {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchVersionUpdateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 \d\.\d版本更新说明 的本地化字符串。
+        /// </summary>
+        internal static string WebAnnouncementMatchVersionUpdateTitle {
+            get {
+                return ResourceManager.GetString("WebAnnouncementMatchVersionUpdateTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} 天后开始 的本地化字符串。
         /// </summary>
         internal static string WebAnnouncementTimeDaysBeginFormat {
@@ -5569,6 +5821,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 尚未解锁洞天 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteHomeLocked {
+            get {
+                return ResourceManager.GetString("WebDailyNoteHomeLocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 今天 的本地化字符串。
         /// </summary>
         internal static string WebDailyNoteRecoveryTimeDay0 {
@@ -5655,6 +5916,24 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string WebDailyNoteTransformerMinutesFormat {
             get {
                 return ResourceManager.GetString("WebDailyNoteTransformerMinutesFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 尚未获得 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerNotObtained {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerNotObtained", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 尚未获得参量质变仪 的本地化字符串。
+        /// </summary>
+        internal static string WebDailyNoteTransformerNotObtainedDetail {
+            get {
+                return ResourceManager.GetString("WebDailyNoteTransformerNotObtainedDetail", resourceCulture);
             }
         }
         
@@ -5817,6 +6096,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string WebResponseFormat {
             get {
                 return ResourceManager.GetString("WebResponseFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 请刷新 Cookie，原始消息：{0} 的本地化字符串。
+        /// </summary>
+        internal static string WebResponseRefreshCookieHintFormat {
+            get {
+                return ResourceManager.GetString("WebResponseRefreshCookieHintFormat", resourceCulture);
             }
         }
         

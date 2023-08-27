@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Snap.Hutao.Control;
 
 namespace Snap.Hutao.View.Helper;
 

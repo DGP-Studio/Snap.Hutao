@@ -16,7 +16,7 @@ internal sealed class SignInJsInterface : MiHoYoJSInterface
 {
     /// <inheritdoc cref="MiHoYoJSInterface(IServiceProvider, CoreWebView2)"/>
     public SignInJsInterface(CoreWebView2 webView, IServiceProvider serviceProvider, UserAndUid userAndUid)
-        : base(serviceProvider, webView, userAndUid)
+        : base(webView, userAndUid)
     {
     }
 

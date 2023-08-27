@@ -111,7 +111,7 @@ internal sealed class DailyNote : DailyNoteCommon
     [JsonIgnore]
     public string HomeCoinFormatted
     {
-        get => $"{CurrentHomeCoin}/{MaxHomeCoin}";
+        get => MaxHomeCoin == 0 ? SH.WebDailyNoteHomeLocked : $"{CurrentHomeCoin}/{MaxHomeCoin}";
     }
 
     /// <summary>

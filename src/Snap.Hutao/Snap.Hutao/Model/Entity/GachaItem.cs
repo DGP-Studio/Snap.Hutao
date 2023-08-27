@@ -3,7 +3,6 @@
 
 using Snap.Hutao.Model.Entity.Abstraction;
 using Snap.Hutao.Model.InterChange.GachaLog;
-using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

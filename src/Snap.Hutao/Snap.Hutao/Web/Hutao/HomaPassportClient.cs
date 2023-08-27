@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Web.Hutao.Model;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 using System.Security.Cryptography;
@@ -151,10 +151,10 @@ internal sealed partial class HomaPassportClient
     private static string Encrypt(string text)
     {
         byte[] plaintextBytes = Encoding.UTF8.GetBytes(text);
-        using (RSACryptoServiceProvider rsa = new(2048))
+        using (RSA rsa = RSA.Create(2048))
         {
             rsa.ImportFromPem(PublicKey);
-            byte[] encryptedBytes = rsa.Encrypt(plaintextBytes, true);
+            byte[] encryptedBytes = rsa.Encrypt(plaintextBytes, RSAEncryptionPadding.OaepSHA1);
             return Convert.ToBase64String(encryptedBytes);
         }
     }

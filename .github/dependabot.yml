@@ -7,9 +7,10 @@ version: 2
 updates:
   - package-ecosystem: "nuget"
     directory: "/src/Snap.Hutao" # Snap.Hutao.csproj
+    target-branch: "develop"
     schedule:
       interval: "weekly"
     groups:
-      main-dependencies:
+      packages:
         patterns:
           - "*"

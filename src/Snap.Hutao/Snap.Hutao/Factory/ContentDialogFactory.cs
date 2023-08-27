@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Factory.Abstraction;
-using System.Security.Authentication;
 
 namespace Snap.Hutao.Factory;
 
@@ -68,12 +67,12 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         where TContentDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
-        return serviceProvider.CreateInstance<TContentDialog>();
+        return serviceProvider.CreateInstance<TContentDialog>(parameters);
     }
 
     public TContentDialog CreateInstance<TContentDialog>(params object[] parameters)
         where TContentDialog : ContentDialog
     {
-        return serviceProvider.CreateInstance<TContentDialog>();
+        return serviceProvider.CreateInstance<TContentDialog>(parameters);
     }
 }

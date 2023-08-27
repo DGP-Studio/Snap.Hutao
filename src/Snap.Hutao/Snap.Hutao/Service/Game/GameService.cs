@@ -163,7 +163,7 @@ internal sealed partial class GameService : IGameService
             }
         }
 
-        return changed;
+        return changed || !LaunchSchemeMatchesExecutable(scheme, Path.GetFileName(gamePath));
     }
 
     /// <inheritdoc/>
@@ -225,14 +225,8 @@ internal sealed partial class GameService : IGameService
             return false;
         }
 
-        if (launchOptions.MultipleInstances)
-        {
-            // If multiple instances is enabled, always treat as not running.
-            return false;
-        }
-
-        return Process.GetProcessesByName(YuanShenProcessName).Any()
-            || Process.GetProcessesByName(GenshinImpactProcessName).Any();
+        return Process.GetProcessesByName(YuanShenProcessName) is [_, ..]
+            || Process.GetProcessesByName(GenshinImpactProcessName) is [_, ..];
     }
 
     /// <inheritdoc/>
@@ -244,7 +238,7 @@ internal sealed partial class GameService : IGameService
         }
 
         string gamePath = appOptions.GamePath;
-        ArgumentNullException.ThrowIfNullOrEmpty(gamePath);
+        ArgumentException.ThrowIfNullOrEmpty(gamePath);
 
         using (Process game = ProcessInterop.InitializeGameProcess(launchOptions, gamePath))
         {
@@ -254,13 +248,7 @@ internal sealed partial class GameService : IGameService
 
                 game.Start();
 
-                bool isAdvancedOptionsAllowed = runtimeOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled;
-                if (isAdvancedOptionsAllowed && launchOptions.MultipleInstances && !isFirstInstance)
-                {
-                    ProcessInterop.DisableProtection(game, gamePath);
-                }
-
-                if (isAdvancedOptionsAllowed && launchOptions.UnlockFps)
+                if (runtimeOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled && launchOptions.UnlockFps)
                 {
                     await ProcessInterop.UnlockFpsAsync(serviceProvider, game, default).ConfigureAwait(false);
                 }

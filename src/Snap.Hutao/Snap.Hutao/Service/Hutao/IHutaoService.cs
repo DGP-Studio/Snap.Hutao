@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Web.Hutao.Model;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
 
 namespace Snap.Hutao.Service.Hutao;
 

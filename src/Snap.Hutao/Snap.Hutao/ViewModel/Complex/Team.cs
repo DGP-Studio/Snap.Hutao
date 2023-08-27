@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Primitives;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Primitive;
-using Snap.Hutao.Web.Hutao.Model;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Complex;

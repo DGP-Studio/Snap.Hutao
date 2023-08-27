@@ -1,6 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Control.Extension;
+using Snap.Hutao.Core;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.DailyNote;
@@ -25,6 +28,7 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     private readonly IDailyNoteService dailyNoteService;
     private readonly IInfoBarService infoBarService;
     private readonly DailyNoteOptions options;
+    private readonly RuntimeOptions runtimeOptions;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
 
@@ -36,7 +40,8 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     /// </summary>
     public DailyNoteOptions Options { get => options; }
 
-    // TODO: 当切换用户后提醒此属性改变
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
+
     public string VerifyUrl
     {
         get
@@ -86,7 +91,14 @@ internal sealed partial class DailyNoteViewModel : Abstraction.ViewModel
     {
         if (userAndUid is not null)
         {
-            await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
+            ContentDialog dialog = await contentDialogFactory
+                .CreateForIndeterminateProgressAsync(SH.ViewModelDailyNoteRequestProgressTitle)
+                .ConfigureAwait(false);
+
+            using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+            {
+                await dailyNoteService.AddDailyNoteAsync(userAndUid).ConfigureAwait(false);
+            }
         }
     }
 

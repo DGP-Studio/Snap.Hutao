@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.ExceptionService;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.GachaLog;
-using Snap.Hutao.Web.Hutao;
+using Snap.Hutao.Web.Hutao.GachaLog;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
@@ -28,7 +27,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     private readonly AppOptions options;
 
     /// <inheritdoc/>
-    public async ValueTask<GachaStatistics> CreateAsync(List<GachaItem> items, GachaLogServiceMetadataContext context)
+    public async ValueTask<GachaStatistics> CreateAsync(List<Model.Entity.GachaItem> items, GachaLogServiceMetadataContext context)
     {
         await taskContext.SwitchToBackgroundAsync();
         List<GachaEvent> gachaEvents = await metadataService.GetGachaEventsAsync().ConfigureAwait(false);
@@ -40,7 +39,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
     private static GachaStatistics CreateCore(
         ITaskContext taskContext,
         HomaGachaLogClient gachaLogClient,
-        List<GachaItem> items,
+        List<Model.Entity.GachaItem> items,
         List<HistoryWishBuilder> historyWishBuilders,
         in GachaLogServiceMetadataContext context,
         bool isEmptyHistoryWishVisible)
@@ -62,7 +61,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
 
         // Items are ordered by precise time, first is oldest
         // 'ref' is not allowed here because we have lambda below
-        foreach (GachaItem item in CollectionsMarshal.AsSpan(items))
+        foreach (Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(items))
         {
             // Find target history wish to operate.
             HistoryWishBuilder? targetHistoryWishBuilder = historyWishBuilders

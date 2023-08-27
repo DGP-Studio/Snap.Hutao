@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Snap.Hutao.SourceGeneration.Primitive;
 using System.Collections.Generic;
@@ -75,7 +74,7 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("{{nameof(ConstructorGenerator)}}", "1.0.0.0")]
             partial class {{context2.Symbol.ToDisplayString(SymbolDisplayFormats.QualifiedNonNullableFormat)}}
             {
-                public {{context2.Symbol.Name}}(System.IServiceProvider serviceProvider{{httpclient}}){{(options.CallBaseConstructor? " : base(serviceProvider)" : string.Empty)}}
+                public {{context2.Symbol.Name}}(System.IServiceProvider serviceProvider{{httpclient}}){{(options.CallBaseConstructor ? " : base(serviceProvider)" : string.Empty)}}
                 {
 
             """);
@@ -180,7 +179,7 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 
         public FieldValueAssignmentOptions(bool resolveHttpClient, bool callBaseConstructor)
         {
-            ResolveHttpClient  = resolveHttpClient;
+            ResolveHttpClient = resolveHttpClient;
             CallBaseConstructor = callBaseConstructor;
         }
     }

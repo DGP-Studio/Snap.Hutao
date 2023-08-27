@@ -5,6 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using Snap.Hutao.Web.Response;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
@@ -55,8 +56,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
                 // 将活动公告置于前方
                 wrapper.List.Reverse();
 
-                // 将公告内容联入公告列表
-                JoinAnnouncements(contentMap, wrapper.List);
+                PreprocessAnnouncements(contentMap, wrapper.List);
 
                 return memoryCache.Set(CacheKey, wrapper, TimeSpan.FromMinutes(30));
             }
@@ -65,29 +65,92 @@ internal sealed partial class AnnouncementService : IAnnouncementService
         return default!;
     }
 
-    private static void JoinAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
+    private static void PreprocessAnnouncements(Dictionary<int, string> contentMap, List<AnnouncementListWrapper> announcementListWrappers)
     {
-        Regex timeTagRegex = XmlTagRegex();
+        // 将公告内容联入公告列表
+        foreach (ref AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
+        {
+            foreach (ref Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
+            {
+                contentMap.TryGetValue(item.AnnId, out string? rawContent);
+                item.Content = rawContent ?? string.Empty;
+            }
+        }
+
+        AdjustAnnouncementTime(announcementListWrappers);
 
         foreach (ref AnnouncementListWrapper listWrapper in CollectionsMarshal.AsSpan(announcementListWrappers))
         {
             foreach (ref Announcement item in CollectionsMarshal.AsSpan(listWrapper.List))
             {
-                if (contentMap.TryGetValue(item.AnnId, out string? rawContent))
-                {
-                    // remove <t/> tag
-                    rawContent = timeTagRegex.Replace(rawContent, x => x.Groups[1].Value);
-                }
-
-                item.Content = rawContent ?? string.Empty;
+                item.Content = AnnouncementRegex.XmlTimeTagRegex.Replace(item.Content, x => x.Groups[1].Value);
             }
         }
     }
 
-    /// <summary>
-    /// 匹配特殊的时间格式: <t.*?>(.*?)</t>
-    /// </summary>
-    /// <returns>正则</returns>
-    [GeneratedRegex("&lt;t class=\"t_(?:gl|lc)\".*?&gt;(.*?)&lt;/t&gt;", RegexOptions.Multiline)]
-    private static partial Regex XmlTagRegex();
+    private static void AdjustAnnouncementTime(List<AnnouncementListWrapper> announcementListWrappers)
+    {
+        // 活动公告
+        List<Announcement> activities = announcementListWrappers
+            .Single(wrapper => wrapper.TypeId == 1)
+            .List;
+
+        // 更新公告
+        Announcement versionUpdate = announcementListWrappers
+            .Single(wrapper => wrapper.TypeId == 2)
+            .List
+            .Single(ann => AnnouncementRegex.VersionUpdateTitleRegex.IsMatch(ann.Title));
+
+        if (AnnouncementRegex.VersionUpdateTimeRegex.Match(versionUpdate.Content) is { Success: true } match)
+        {
+            DateTimeOffset versionUpdateTime = DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture);
+            _ = 1;
+            foreach (ref readonly Announcement announcement in CollectionsMarshal.AsSpan(activities))
+            {
+                if (AnnouncementRegex.PermanentActivityTimeRegex.Match(announcement.Content) is { Success: true } permanent)
+                {
+                    announcement.StartTime = versionUpdateTime;
+                    continue;
+                }
+
+                if (AnnouncementRegex.PersistentActivityTimeRegex.Match(announcement.Content) is { Success: true } persistent)
+                {
+                    announcement.StartTime = versionUpdateTime;
+                    announcement.EndTime = versionUpdateTime + TimeSpan.FromDays(42);
+                    continue;
+                }
+
+                if (AnnouncementRegex.TransientActivityTimeRegex.Match(announcement.Content) is { Success: true } transient)
+                {
+                    announcement.StartTime = versionUpdateTime;
+                    announcement.EndTime = DateTimeOffset.Parse(transient.Groups[2].ValueSpan, CultureInfo.InvariantCulture);
+                    continue;
+                }
+
+                MatchCollection matches = AnnouncementRegex.XmlTimeTagRegex.Matches(announcement.Content);
+                if (matches.Count >= 2)
+                {
+                    List<DateTimeOffset> dateTimes = matches.Select(match => DateTimeOffset.Parse(match.Groups[1].ValueSpan, CultureInfo.InvariantCulture)).ToList();
+                    DateTimeOffset min = DateTimeOffset.MaxValue;
+                    DateTimeOffset max = DateTimeOffset.MinValue;
+
+                    foreach (DateTimeOffset time in dateTimes)
+                    {
+                        if (time < min)
+                        {
+                            min = time;
+                        }
+
+                        if (time > max)
+                        {
+                            max = time;
+                        }
+                    }
+
+                    announcement.StartTime = min;
+                    announcement.EndTime = max;
+                }
+            }
+        }
+    }
 }

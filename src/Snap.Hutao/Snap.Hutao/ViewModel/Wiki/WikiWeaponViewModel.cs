@@ -7,6 +7,7 @@ using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata;
+using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Service.Cultivation;
@@ -83,6 +84,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         {
             levelWeaponCurveMap = await metadataService.GetLevelToWeaponCurveMapAsync().ConfigureAwait(false);
             promotes = await metadataService.GetWeaponPromotesAsync().ConfigureAwait(false);
+            Dictionary<MaterialId, Material> idMaterialMap = await metadataService.GetIdToMaterialMapAsync().ConfigureAwait(false);
 
             List<Weapon> weapons = await metadataService.GetWeaponsAsync().ConfigureAwait(false);
             List<Weapon> sorted = weapons
@@ -91,7 +93,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
                 .ThenByDescending(weapon => weapon.Id.Value)
                 .ToList();
 
-            await CombineWithWeaponCollocationsAsync(sorted).ConfigureAwait(false);
+            await CombineComplexDataAsync(sorted, idMaterialMap).ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
 
@@ -100,12 +102,17 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
         }
     }
 
-    private async ValueTask CombineWithWeaponCollocationsAsync(List<Weapon> weapons)
+    private async ValueTask CombineComplexDataAsync(List<Weapon> weapons, Dictionary<MaterialId, Material> idMaterialMap)
     {
         if (await hutaoCache.InitializeForWikiWeaponViewModelAsync().ConfigureAwait(false))
         {
             ArgumentNullException.ThrowIfNull(hutaoCache.WeaponCollocations);
-            weapons.ForEach(w => w.Collocation = hutaoCache.WeaponCollocations.GetValueOrDefault(w.Id));
+
+            foreach (Weapon weapon in weapons)
+            {
+                weapon.Collocation = hutaoCache.WeaponCollocations.GetValueOrDefault(weapon.Id);
+                weapon.CultivationItemsView ??= weapon.CultivationItems.SelectList(i => idMaterialMap.GetValueOrDefault(i, Material.Default));
+            }
         }
     }
 

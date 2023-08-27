@@ -54,7 +54,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     public GachaArchive? SelectedArchive
     {
         get => selectedArchive;
-        set => SetSelectedArchiveAndUpdateStatistics(value);
+        set => SetSelectedArchiveAndUpdateStatisticsAsync(value).SafeForget();
     }
 
     /// <summary>
@@ -103,9 +103,8 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
                 await taskContext.SwitchToMainThreadAsync();
                 Archives = archives;
-                SetSelectedArchiveAndUpdateStatistics(Archives.SelectedOrDefault(), true);
-
                 HutaoCloudViewModel.RetrieveCommand = RetrieveFromCloudCommand;
+                await SetSelectedArchiveAndUpdateStatisticsAsync(Archives.SelectedOrDefault(), true).ConfigureAwait(false);
                 return true;
             }
         }
@@ -160,7 +159,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
             GachaLogRefreshProgressDialog dialog = await contentDialogFactory.CreateInstanceAsync<GachaLogRefreshProgressDialog>().ConfigureAwait(false);
             ContentDialogHideToken hideToken = await dialog.BlockAsync(taskContext).ConfigureAwait(false);
-            Progress<GachaLogFetchStatus> progress = new(dialog.OnReport);
+            IProgress<GachaLogFetchStatus> progress = taskContext.CreateProgressForMainThread<GachaLogFetchStatus>(dialog.OnReport);
             bool authkeyValid;
 
             try
@@ -188,7 +187,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             await taskContext.SwitchToMainThreadAsync();
             if (authkeyValid)
             {
-                SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
+                await SetSelectedArchiveAndUpdateStatisticsAsync(gachaLogService.CurrentArchive, true).ConfigureAwait(false);
                 await hideToken.DisposeAsync().ConfigureAwait(false);
             }
             else
@@ -276,7 +275,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
                     // reselect first archive
                     await taskContext.SwitchToMainThreadAsync();
-                    SelectedArchive = Archives.FirstOrDefault();
+                    await SetSelectedArchiveAndUpdateStatisticsAsync(Archives.FirstOrDefault(), false).ConfigureAwait(false);
                 }
             }
         }
@@ -293,42 +292,25 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             {
                 await taskContext.SwitchToMainThreadAsync();
                 Archives?.AddIfNotContains(archive);
-                SetSelectedArchiveAndUpdateStatistics(archive, true);
+                await SetSelectedArchiveAndUpdateStatisticsAsync(archive, true).ConfigureAwait(false);
             }
         }
     }
 
-    /// <summary>
-    /// 设置当前的祈愿存档
-    /// 需要从主线程调用
-    /// </summary>
-    /// <param name="archive">存档</param>
-    /// <param name="forceUpdate">强制刷新，即使Uid相同也刷新该 Uid 的记录</param>
-    private void SetSelectedArchiveAndUpdateStatistics(GachaArchive? archive, bool forceUpdate = false)
+    private async ValueTask SetSelectedArchiveAndUpdateStatisticsAsync(GachaArchive? archive, bool forceUpdate = false)
     {
-        bool changed = false;
-        if (selectedArchive != archive)
-        {
-            selectedArchive = archive;
-            changed = true;
-        }
+        bool changed = SetProperty(ref selectedArchive, archive, nameof(SelectedArchive));
 
         if (changed)
         {
             gachaLogService.CurrentArchive = archive;
-            OnPropertyChanged(nameof(SelectedArchive));
         }
 
         if (forceUpdate || changed)
         {
-            if (archive is null)
+            if (archive is not null)
             {
-                // no gacha log
-                IsInitialized = true;
-            }
-            else
-            {
-                UpdateStatisticsAsync(archive).SafeForget();
+                await UpdateStatisticsAsync(archive).ConfigureAwait(false);
             }
         }
     }
@@ -337,10 +319,10 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     {
         try
         {
-            GachaStatistics? temp = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
+            GachaStatistics? statistics = await gachaLogService.GetStatisticsAsync(archive).ConfigureAwait(false);
 
             await taskContext.SwitchToMainThreadAsync();
-            Statistics = temp;
+            Statistics = statistics;
             IsInitialized = true;
         }
         catch (UserdataCorruptedException ex)
@@ -369,13 +351,14 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                     }
                     catch (InvalidOperationException ex)
                     {
+                        // 导入物品中存在无效的项
                         infoBarService.Error(ex);
                         return false;
                     }
 
                     infoBarService.Success(SH.ViewModelGachaLogImportComplete);
                     await taskContext.SwitchToMainThreadAsync();
-                    SetSelectedArchiveAndUpdateStatistics(gachaLogService.CurrentArchive, true);
+                    await SetSelectedArchiveAndUpdateStatisticsAsync(gachaLogService.CurrentArchive, true).ConfigureAwait(false);
                     return true;
                 }
                 else

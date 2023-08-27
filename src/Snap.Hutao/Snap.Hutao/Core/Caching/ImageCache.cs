@@ -196,13 +196,13 @@ internal sealed class ImageCache : IImageCache, IImageCacheFilePathOperation
                         retryCount += 3;
                         break;
                     case HttpStatusCode.TooManyRequests:
-                    {
-                        retryCount++;
-                        TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
-                        logger.LogInformation("Retry {Uri} after {Delay}.", uri, delay);
-                        await Task.Delay(delay).ConfigureAwait(false);
-                        break;
-                    }
+                        {
+                            retryCount++;
+                            TimeSpan delay = message.Headers.RetryAfter?.Delta ?? RetryCountToDelay[retryCount];
+                            logger.LogInformation("Retry {Uri} after {Delay}.", uri, delay);
+                            await Task.Delay(delay).ConfigureAwait(false);
+                            break;
+                        }
 
                     default:
                         return;

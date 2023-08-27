@@ -2,13 +2,11 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model;
-using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.GachaLog;
 

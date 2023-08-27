@@ -3,7 +3,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Snap.Hutao.SourceGeneration.Primitive;
-using System;
 using System.Collections.Immutable;
 using System.Linq;
 
@@ -15,11 +14,14 @@ internal class ServiceAnalyzer : DiagnosticAnalyzer
     private static readonly DiagnosticDescriptor NonSingletonUseServiceProviderDescriptor = new("SH301", "Non Singleton service should avoid direct use of IServiceProvider", "Non Singleton service should avoid direct use of IServiceProvider", "Quality", DiagnosticSeverity.Info, true);
     private static readonly DiagnosticDescriptor SingletonServiceCaptureNonSingletonServiceDescriptor = new("SH302", "Singleton service should avoid keep reference of non singleton service", "Singleton service should avoid keep reference of non singleton service", "Quality", DiagnosticSeverity.Info, true);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get => new DiagnosticDescriptor[]
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics
+    {
+        get => new DiagnosticDescriptor[]
     {
         NonSingletonUseServiceProviderDescriptor,
         SingletonServiceCaptureNonSingletonServiceDescriptor,
-    }.ToImmutableArray(); }
+    }.ToImmutableArray();
+    }
 
     public override void Initialize(AnalysisContext context)
     {

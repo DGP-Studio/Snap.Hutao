@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 using Microsoft.Windows.AppLifecycle;
-using Snap.Hutao.View.Dialog;
 
 namespace Snap.Hutao.ViewModel;
 

@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Options;
-using Snap.Hutao.Web.Hutao.Model;
+using Snap.Hutao.Web.Hutao.SpiralAbyss;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -14,6 +14,7 @@ namespace Snap.Hutao.Service.Hutao;
 [Injection(InjectAs.Singleton)]
 internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOptions>
 {
+    private readonly TaskCompletionSource initializedTaskCompletionSource = new();
     private string? userName = SH.ViewServiceHutaoUserLoginOrRegisterHint;
     private string? token;
     private bool isLoggedIn;
@@ -30,11 +31,6 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// 真正的用户名
     /// </summary>
     public string? ActualUserName { get => IsLoggedIn ? UserName : null; }
-
-    /// <summary>
-    /// 访问令牌
-    /// </summary>
-    public string? Token { get => token; set => SetProperty(ref token, value); }
 
     /// <summary>
     /// 是否已登录
@@ -67,8 +63,9 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     public void LoginSucceed(string userName, string? token)
     {
         UserName = userName;
-        Token = token;
+        this.token = token;
         IsLoggedIn = true;
+        initializedTaskCompletionSource.TrySetResult();
     }
 
     /// <summary>
@@ -77,6 +74,12 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     public void LoginFailed()
     {
         UserName = SH.ViewServiceHutaoUserLoginFailHint;
+        initializedTaskCompletionSource.TrySetResult();
+    }
+
+    public void SkipLogin()
+    {
+        initializedTaskCompletionSource.TrySetResult();
     }
 
     /// <summary>
@@ -88,5 +91,11 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
         IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
         GachaLogExpireAt = Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt).Format(userInfo.GachaLogExpireAt);
         IsCloudServiceAllowed = IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
+    }
+
+    public async ValueTask<string?> GetTokenAsync()
+    {
+        await initializedTaskCompletionSource.Task.ConfigureAwait(false);
+        return token;
     }
 }

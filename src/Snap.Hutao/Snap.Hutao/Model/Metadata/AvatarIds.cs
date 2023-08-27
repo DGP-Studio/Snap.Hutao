@@ -89,6 +89,8 @@ internal static class AvatarIds
     public static readonly AvatarId Lynette = 10000083;
     public static readonly AvatarId Lyney = 10000084;
     public static readonly AvatarId Freminet = 10000085;
+    public static readonly AvatarId Wriothesley = 10000086;
+    public static readonly AvatarId Neuvillette = 10000087;
 
     /// <summary>
     /// 检查该角色是否为主角
@@ -111,7 +113,7 @@ internal static class AvatarIds
         {
             [PlayerBoy] = new()
             {
-                Name = "旅行者",
+                Name = SH.ModelMetadataAvatarPlayerName,
                 Icon = "UI_AvatarIcon_PlayerBoy",
                 SideIcon = "UI_AvatarIcon_Side_PlayerBoy",
                 Quality = Intrinsic.QualityType.QUALITY_ORANGE,
@@ -119,7 +121,7 @@ internal static class AvatarIds
 
             [PlayerGirl] = new()
             {
-                Name = "旅行者",
+                Name = SH.ModelMetadataAvatarPlayerName,
                 Icon = "UI_AvatarIcon_PlayerGirl",
                 SideIcon = "UI_AvatarIcon_Side_PlayerGirl",
                 Quality = Intrinsic.QualityType.QUALITY_ORANGE,

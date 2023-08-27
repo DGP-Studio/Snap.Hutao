@@ -182,21 +182,6 @@
                     HeaderIcon="{shcm:FontIcon Glyph=&#xEBC4;}"
                     IsClickEnabled="True"/>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="测试功能"/>
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="True"
-                    Message="测试功能是尚未完善，仅用于 Pollyfill 的功能，未来可能会存在更合理的位置放置这些功能"
-                    Severity="Warning"/>
-                <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
-                    ActionIconToolTip="打开签到对话框"
-                    Command="{Binding ShowSignInWebViewDialogCommand}"
-                    Description="对当前选中的账号进行签到"
-                    Header="米游社每日签到"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE9D5;}"
-                    IsClickEnabled="True"/>
-
                 <TextBlock
                     Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                     Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
@@ -216,9 +201,7 @@
                         <shvc:Elevation Visibility="{Binding HutaoOptions.IsElevated, Converter={StaticResource BoolToVisibilityRevertConverter}}"/>
                         <ToggleSwitch Width="120" IsOn="{Binding Options.IsAdvancedLaunchOptionsEnabled, Mode=TwoWay}"/>
                     </StackPanel>
-
                 </cwc:SettingsCard>
-
                 <InfoBar
                     Margin="0,4,0,0"
                     IsClosable="False"

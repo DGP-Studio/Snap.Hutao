@@ -30,22 +30,38 @@
             Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
             <FlipView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="12" ColumnSpacing="6">
+                    <Grid
+                        Margin="12"
+                        ColumnSpacing="6"
+                        RowSpacing="6">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Grid Grid.Column="0" RowSpacing="6">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="auto"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <TextBlock
-                                Grid.Row="0"
-                                HorizontalAlignment="Center"
-                                Text="{Binding Uid}"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding Uid}"/>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Grid.ColumnSpan="2"
+                            HorizontalAlignment="Center"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{Binding RefreshTimeFormatted}"/>
+
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            RowSpacing="6">
+
                             <Grid Grid.Row="1" Style="{StaticResource BorderGridStyle}">
                                 <StackPanel VerticalAlignment="Center">
                                     <shci:CachedImage shvh:FrameworkElementHelper.SquareLength="64" Source="{StaticResource UI_ItemIcon_210}"/>
@@ -65,7 +81,10 @@
                             </Grid>
                         </Grid>
 
-                        <Grid Grid.Column="1" RowSpacing="6">
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            RowSpacing="6">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -108,7 +127,10 @@
                             </Grid>
 
                         </Grid>
-                        <Grid Grid.Column="2" RowSpacing="6">
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            RowSpacing="6">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>

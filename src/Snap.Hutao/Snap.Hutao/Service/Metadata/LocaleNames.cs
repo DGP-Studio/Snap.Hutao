@@ -1,11 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Options;
-using Snap.Hutao.Core;
 using System.Collections.Immutable;
-using System.Globalization;
-using System.IO;
 
 namespace Snap.Hutao.Service.Metadata;
 

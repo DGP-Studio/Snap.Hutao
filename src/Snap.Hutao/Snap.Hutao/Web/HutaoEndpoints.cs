@@ -18,6 +18,13 @@ internal static class HutaoEndpoints
     /// </summary>
     public const string StaticHutao = "static.hut.ao";
 
+    #region
+    public static string GeetestVerify(string gt, string challenge)
+    {
+        return $"{HomaSnapGenshinApi}/Geetest/Verify?gt={gt}&challenge={challenge}";
+    }
+    #endregion
+
     #region GachaLog
 
     /// <summary>

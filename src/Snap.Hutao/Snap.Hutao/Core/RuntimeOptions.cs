@@ -8,7 +8,6 @@ using Snap.Hutao.Core.Setting;
 using System.IO;
 using System.Security.Principal;
 using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 
 namespace Snap.Hutao.Core;
@@ -131,15 +130,11 @@ internal sealed class RuntimeOptions : IOptions<RuntimeOptions>
 
     private static bool GetElevated()
     {
-#if DEBUG_AS_FAKE_ELEVATED
-        return true;
-#else
         using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
         {
             WindowsPrincipal principal = new(identity);
             return principal.IsInRole(WindowsBuiltInRole.Administrator);
         }
-#endif
     }
 
     private void DetectWebView2Environment(ref string webView2Version, ref bool isWebView2Supported)

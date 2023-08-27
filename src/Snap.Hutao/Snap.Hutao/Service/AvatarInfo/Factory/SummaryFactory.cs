@@ -4,7 +4,6 @@
 using Snap.Hutao.Model.Metadata;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.AvatarProperty;
-using ModelAvatarInfo = Snap.Hutao.Web.Enka.Model.AvatarInfo;
 
 namespace Snap.Hutao.Service.AvatarInfo.Factory;
 
@@ -19,7 +18,7 @@ internal sealed partial class SummaryFactory : ISummaryFactory
     private readonly IMetadataService metadataService;
 
     /// <inheritdoc/>
-    public async ValueTask<Summary> CreateAsync(IEnumerable<ModelAvatarInfo> avatarInfos, CancellationToken token)
+    public async ValueTask<Summary> CreateAsync(IEnumerable<Model.Entity.AvatarInfo> avatarInfos, CancellationToken token)
     {
         SummaryMetadataContext metadataContext = new()
         {
@@ -35,14 +34,14 @@ internal sealed partial class SummaryFactory : ISummaryFactory
         return new()
         {
             Avatars = avatarInfos
-                .Where(a => !AvatarIds.IsPlayer(a.AvatarId))
+                .Where(a => !AvatarIds.IsPlayer(a.Info.AvatarId))
                 .Select(a => new SummaryAvatarFactory(metadataContext, a).Create())
                 .OrderByDescending(a => a.LevelNumber)
-                .ThenByDescending(a => a.Name)
+                .ThenBy(a => a.Name)
                 .ToList(),
 
-                // .ThenByDescending(a => a.Quality)
-                // .ThenByDescending(a => a.ActivatedConstellationCount)
+            // .ThenByDescending(a => a.Quality)
+            // .ThenByDescending(a => a.ActivatedConstellationCount)
         };
     }
 }

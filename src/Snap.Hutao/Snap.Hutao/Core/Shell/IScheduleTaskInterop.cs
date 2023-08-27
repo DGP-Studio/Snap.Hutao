@@ -8,6 +8,8 @@ namespace Snap.Hutao.Core.Shell;
 /// </summary>
 internal interface IScheduleTaskInterop
 {
+    bool IsDailyNoteRefreshEnabled();
+
     /// <summary>
     /// 注册实时便笺刷新任务
     /// </summary>
@@ -20,4 +22,6 @@ internal interface IScheduleTaskInterop
     /// </summary>
     /// <returns>是否卸载成功</returns>
     bool UnregisterAllTasks();
+
+    bool UnregisterForDailyNoteRefresh();
 }

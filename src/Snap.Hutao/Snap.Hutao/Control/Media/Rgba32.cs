@@ -3,9 +3,7 @@
 // Some part of this file came from:
 // https://github.com/xunkong/desktop/tree/main/src/Desktop/Desktop/Pages/CharacterInfoPage.xaml.cs
 
-using CommunityToolkit.WinUI;
 using System.Buffers.Binary;
-using System.Runtime.InteropServices;
 using Windows.UI;
 
 namespace Snap.Hutao.Control.Media;

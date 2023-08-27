@@ -2,13 +2,9 @@
 // Licensed under the MIT license.
 
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.EntityFrameworkCore;
-using Snap.Hutao.Core.Database;
 using Snap.Hutao.Core.DependencyInjection.Abstraction;
 using Snap.Hutao.Message;
 using Snap.Hutao.Model.Entity;
-using Snap.Hutao.Model.Entity.Database;
-using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
 using Snap.Hutao.Web.Hoyolab;
@@ -71,13 +67,13 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync()
+    public async ValueTask<ObservableCollection<DailyNoteEntry>> GetDailyNoteEntryCollectionAsync(bool forceRefresh = false)
     {
         if (entries is null)
         {
             // IUserService.GetUserGameRoleByUid only usable after call IUserService.GetRoleCollectionAsync
             await userService.GetRoleCollectionAsync().ConfigureAwait(false);
-            await RefreshDailyNotesAsync().ConfigureAwait(false);
+            await RefreshDailyNotesCoreAsync(forceRefresh).ConfigureAwait(false);
 
             List<DailyNoteEntry> entryList = dailyNoteDbService.GetDailyNoteEntryIncludeUserList();
             entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
@@ -88,30 +84,9 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     }
 
     /// <inheritdoc/>
-    public async ValueTask RefreshDailyNotesAsync()
+    public ValueTask RefreshDailyNotesAsync()
     {
-        foreach (DailyNoteEntry entry in dailyNoteDbService.GetDailyNoteEntryIncludeUserList())
-        {
-            Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
-                .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
-                .Create(PlayerUid.IsOversea(entry.Uid))
-                .GetDailyNoteAsync(new(entry.User, entry.Uid))
-                .ConfigureAwait(false);
-
-            if (dailyNoteResponse.IsOk())
-            {
-                WebDailyNote dailyNote = dailyNoteResponse.Data;
-
-                // cache
-                await taskContext.SwitchToMainThreadAsync();
-                entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
-
-                // database
-                await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
-                entry.DailyNote = dailyNote;
-                await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
-            }
-        }
+        return RefreshDailyNotesCoreAsync(true);
     }
 
     /// <inheritdoc/>
@@ -129,5 +104,39 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     {
         await taskContext.SwitchToBackgroundAsync();
         await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
+    }
+
+    private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh)
+    {
+        foreach (DailyNoteEntry entry in dailyNoteDbService.GetDailyNoteEntryIncludeUserList())
+        {
+            if (!forceRefresh && entry.DailyNote is not null)
+            {
+                continue;
+            }
+
+            Web.Response.Response<WebDailyNote> dailyNoteResponse = await serviceProvider
+                .GetRequiredService<IOverseaSupportFactory<IGameRecordClient>>()
+                .Create(PlayerUid.IsOversea(entry.Uid))
+                .GetDailyNoteAsync(new(entry.User, entry.Uid))
+                .ConfigureAwait(false);
+
+            if (dailyNoteResponse.IsOk())
+            {
+                WebDailyNote dailyNote = dailyNoteResponse.Data;
+
+                // 集合内的实时便笺与数据库取出的非同一个对象，需要分别更新
+                // cache
+                await taskContext.SwitchToMainThreadAsync();
+                entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
+
+                // 发送通知
+                await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
+
+                // database
+                entry.UpdateDailyNote(dailyNote);
+                await dailyNoteDbService.UpdateDailyNoteEntryAsync(entry).ConfigureAwait(false);
+            }
+        }
     }
 }

@@ -6,7 +6,6 @@ using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Abstraction;
 using Snap.Hutao.ViewModel.GachaLog;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
-using Snap.Hutao.Web.Hutao;
 
 namespace Snap.Hutao.Service.GachaLog.Factory;
 

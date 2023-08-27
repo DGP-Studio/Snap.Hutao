@@ -48,7 +48,6 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
         return string.Empty;
     }
 
-    [SuppressMessage("", "VSTHRD100")]
     private async void OnRootLoaded(object sender, RoutedEventArgs e)
     {
         try
@@ -62,7 +61,10 @@ internal sealed partial class LoginHoyoverseUserPage : Microsoft.UI.Xaml.Control
                 manager.DeleteCookie(item);
             }
 
-            WebView.CoreWebView2.Navigate("https://account.hoyoverse.com/#/login");
+            CoreWebView2 coreWebView2 = WebView.CoreWebView2;
+            coreWebView2.Settings.IsGeneralAutofillEnabled = false;
+            coreWebView2.Settings.IsPasswordAutosaveEnabled = false;
+            coreWebView2.Navigate("https://account.hoyoverse.com/#/login");
         }
         catch (Exception ex)
         {

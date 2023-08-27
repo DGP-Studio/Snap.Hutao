@@ -11,6 +11,7 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="NavigationViewContentMargin">0,44,0,0</Thickness>
+        <x:Double x:Key="NavigationViewItemOnLeftIconBoxHeight">24</x:Double>
     </UserControl.Resources>
     <Grid>
         <NavigationView
@@ -19,79 +20,82 @@
             IsBackEnabled="{Binding ElementName=ContentFrame, Path=CanGoBack}"
             IsPaneOpen="True"
             OpenPaneLength="188"
-            PaneDisplayMode="Left">
+            PaneDisplayMode="Left"
+            UseLayoutRounding="False">
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AnnouncementPage"
                     Content="{shcm:ResourceString Name=ViewAnnouncementHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_ActivityEntry.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Announcement.png}"/>
 
                 <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewToolHeader}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:LaunchGamePage"
                     Content="{shcm:ResourceString Name=ViewLaunchGameHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_GuideIcon_PlayMethod.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/LaunchGame.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:GachaLogPage"
                     Content="{shcm:ResourceString Name=ViewGachaLogHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BtnIcon_Gacha.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/GachaLog.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AchievementPage"
                     Content="{shcm:ResourceString Name=ViewAchievementHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_Achievement.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Achievement.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:DailyNotePage"
                     Content="{shcm:ResourceString Name=ViewDailyNoteHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ItemIcon_210.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/DailyNote.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:AvatarPropertyPage"
                     Content="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/AvatarProperty.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:SpiralAbyssRecordPage"
                     Content="{shcm:ResourceString Name=ViewSpiralAbyssHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_MarkTower_Tower.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/SpiralAbyss.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:CultivationPage"
                     Content="{shcm:ResourceString Name=ViewCultivationHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_HomeWorldTabIcon_2_Team.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"/>
 
                 <NavigationViewItemHeader Content="{shcm:ResourceString Name=ViewDataHeader}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:HutaoDatabasePage"
                     Content="{shcm:ResourceString Name=ViewHutaoDatabaseHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_ChapterIcon_Hutao.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Database.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiAvatarPage"
                     Content="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"/>
 
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiWeaponPage"
                     Content="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"/>
                 <NavigationViewItem
                     shvh:NavHelper.NavigateTo="shvp:WikiMonsterPage"
                     Content="{shcm:ResourceString Name=ViewWikiMonsterHeader}"
-                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_MarkCustom_TagMonster.png}"/>
+                    Icon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiMonster.png}"/>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
                 <shv:UserView/>
             </NavigationView.PaneFooter>
 
-            <Frame x:Name="ContentFrame">
+            <Frame x:Name="ContentFrame" UseLayoutRounding="True">
                 <Frame.ContentTransitions>
-                    <NavigationThemeTransition/>
+                    <TransitionCollection>
+                        <NavigationThemeTransition/>
+                    </TransitionCollection>
                 </Frame.ContentTransitions>
             </Frame>
         </NavigationView>

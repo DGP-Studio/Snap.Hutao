@@ -241,10 +241,21 @@ internal sealed class Activation : IActivation
         {
             case UrlActionRefresh:
                 {
-                    await serviceProvider
-                        .GetRequiredService<IDailyNoteService>()
-                        .RefreshDailyNotesAsync()
-                        .ConfigureAwait(false);
+                    try
+                    {
+                        if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
+                        {
+                            await hutaoUserServiceInitialization.InitializeInternalAsync().ConfigureAwait(false);
+                        }
+
+                        await serviceProvider
+                            .GetRequiredService<IDailyNoteService>()
+                            .RefreshDailyNotesAsync()
+                            .ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                    }
 
                     // Check if it's redirected.
                     if (!isRedirected)

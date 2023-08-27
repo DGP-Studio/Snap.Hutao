@@ -116,7 +116,7 @@ internal class LocalizedEnumGenerator : IIncrementalGenerator
             .Where(m => m.Kind == SymbolKind.Field)
             .Cast<IFieldSymbol>();
 
-        foreach(IFieldSymbol fieldSymbol in fields)
+        foreach (IFieldSymbol fieldSymbol in fields)
         {
             AttributeData? localizationKeyInfo = fieldSymbol.GetAttributes()
                 .SingleOrDefault(data => data.AttributeClass!.ToDisplayString() == LocalizationKeyName);

@@ -6,12 +6,9 @@ using Snap.Hutao.Core;
 using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Game;
-using Snap.Hutao.Web.Hoyolab.Takumi.Auth;
 using Snap.Hutao.Web.Hoyolab.Takumi.Binding;
 using Snap.Hutao.Web.Hoyolab.Takumi.GameRecord.DailyNote;
 using Snap.Hutao.Web.Response;
-using System.Runtime.InteropServices;
-using Windows.Foundation.Metadata;
 
 namespace Snap.Hutao.Service.DailyNote;
 
@@ -49,14 +46,21 @@ internal sealed partial class DailyNoteNotificationOperation
 
         string? attribution = SH.ServiceDailyNoteNotifierAttribution;
 
-        Response<ListWrapper<UserGameRole>> rolesResponse = await bindingClient
-            .GetUserGameRolesOverseaAwareAsync(entry.User)
-            .ConfigureAwait(false);
-
-        if (rolesResponse.IsOk())
+        if (entry.UserGameRole is not null)
         {
-            List<UserGameRole> roles = rolesResponse.Data.List;
-            attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
+            attribution = entry.UserGameRole.ToString();
+        }
+        else
+        {
+            Response<ListWrapper<UserGameRole>> rolesResponse = await bindingClient
+                .GetUserGameRolesOverseaAwareAsync(entry.User)
+                .ConfigureAwait(false);
+
+            if (rolesResponse.IsOk())
+            {
+                List<UserGameRole> roles = rolesResponse.Data.List;
+                attribution = roles.SingleOrDefault(r => r.GameUid == entry.Uid)?.ToString() ?? ToastAttributionUnknown;
+            }
         }
 
         ToastContentBuilder builder = new ToastContentBuilder()
