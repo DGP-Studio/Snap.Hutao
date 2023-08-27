@@ -915,28 +915,28 @@
     <value>请输入请求接口的 Url 复合模板</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
-    <value>接口需要返回形如上方所示的 Json 数据，多余的数据会被忽略</value>
+    <value>The interface requires a return of Json data as shown above. Extra data will be ignored</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
-    <value>"code" 为 0 时，指示验证成功，其他的值均视为验证失败</value>
+    <value>If "code" is 0, the authentication is successful, otherwise the authentication is failed</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
-    <value>返回数据</value>
+    <value>Returned data</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
-    <value>{0} 将在实际请求时替换为 gt</value>
+    <value>{0} will be replaced with gt during a request</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
-    <value>{1} 将在实际请求时替换为 challenge</value>
+    <value>{1} will be replaced with challenge during a request</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
-    <value>将会通过 GET 方式对接口发送请求</value>
+    <value>Requests will be sent to interfaces via GET</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
-    <value>示例</value>
+    <value>Example</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
-    <value>配置无感验证接口</value>
+    <value>Configure no authentication interface</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Export App</value>
@@ -1819,7 +1819,7 @@
     <value>Game</value>
   </data>
   <data name="ViewPageSettingGeetestCustomUrlAction" xml:space="preserve">
-    <value>配置</value>
+    <value>Configuration</value>
   </data>
   <data name="ViewPageSettingGeetestCustomUrlDescription" xml:space="preserve">
     <value>配置当请求触发人机验证时使用的验证接口</value>
