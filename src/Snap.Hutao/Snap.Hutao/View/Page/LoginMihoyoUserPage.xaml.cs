@@ -40,7 +40,10 @@ internal sealed partial class LoginMihoyoUserPage : Microsoft.UI.Xaml.Controls.P
                 manager.DeleteCookie(item);
             }
 
-            WebView.CoreWebView2.Navigate("https://user.mihoyo.com/#/login/password");
+            CoreWebView2 coreWebView2 = WebView.CoreWebView2;
+            coreWebView2.Settings.IsGeneralAutofillEnabled = false;
+            coreWebView2.Settings.IsPasswordAutosaveEnabled = false;
+            coreWebView2.Navigate("https://user.mihoyo.com/#/login/password");
         }
         catch (Exception ex)
         {
