@@ -237,6 +237,9 @@
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>네트워크 오류</value>
   </data>
+  <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
+    <value>尚未刷新</value>
+  </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
     <value>刷新于 {0:yyyy/MM/dd HH:mm:ss}</value>
   </data>
@@ -526,6 +529,24 @@
   <data name="ServiceAvatarInfoPropertyRESWind" xml:space="preserve">
     <value>바람 원소 저항</value>
     <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
+    <value>养成计算：尚未刷新</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
+    <value>养成计算：{0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
+    <value>我的角色：尚未刷新</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
+    <value>我的角色：{0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
+    <value>角色橱窗：尚未刷新</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
+    <value>角色橱窗：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>육성 계획 상태를 저장하지 못했습니다</value>
