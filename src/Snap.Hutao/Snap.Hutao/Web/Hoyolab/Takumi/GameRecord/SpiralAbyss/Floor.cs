@@ -31,6 +31,7 @@ internal sealed class Floor
     /// 结束时间
     /// </summary>
     [JsonPropertyName("settle_time")]
+    [JsonNumberHandling(JsonNumberHandling.AllowReadingFromString)]
     public long SettleTime { get; set; } = default!;
 
     /// <summary>
@@ -50,4 +51,10 @@ internal sealed class Floor
     /// </summary>
     [JsonPropertyName("levels")]
     public List<Level> Levels { get; set; } = default!;
+
+    [JsonPropertyName("settle_date_time")]
+    public SettleDateTime? SettleDateTime { get; set; }
+
+    [JsonPropertyName("ley_line_disorder")]
+    public List<string> LeyLineDisorder { get; set; } = default!;
 }
