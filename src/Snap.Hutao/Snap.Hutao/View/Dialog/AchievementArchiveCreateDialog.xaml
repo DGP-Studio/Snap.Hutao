@@ -14,9 +14,9 @@
 
     <Grid>
         <TextBox
-            x:Name="InputText"
             Margin="0,0,0,8"
             VerticalAlignment="Top"
-            PlaceholderText="{shcm:ResourceString Name=ViewDialogAchievementArchiveCreateInputPlaceholder}"/>
+            PlaceholderText="{shcm:ResourceString Name=ViewDialogAchievementArchiveCreateInputPlaceholder}"
+            Text="{x:Bind Text, Mode=TwoWay}"/>
     </Grid>
 </ContentDialog>

@@ -142,6 +142,7 @@
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
+    <None Remove="View\Dialog\GeetestCustomUrlDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
     <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
@@ -323,6 +324,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Dialog\GeetestCustomUrlDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

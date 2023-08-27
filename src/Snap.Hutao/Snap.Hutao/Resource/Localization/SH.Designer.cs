@@ -2275,6 +2275,87 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 请输入请求接口的 Url 复合模板 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlCompositInputHint {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlCompositInputHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 接口需要返回形如上方所示的 Json 数据，多余的数据会被忽略 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlReturnDataDescription1 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlReturnDataDescription1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &quot;code&quot; 为 0 时，指示验证成功，其他的值均视为验证失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlReturnDataDescription2 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlReturnDataDescription2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 返回数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlReturnDataHeader {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlReturnDataHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 将在实际请求时替换为 gt 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlSampleDescription1 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlSampleDescription1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {1} 将在实际请求时替换为 challenge 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlSampleDescription2 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlSampleDescription2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 将会通过 GET 方式对接口发送请求 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlSampleDescription3 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlSampleDescription3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 示例 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlSampleHeader {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlSampleHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置无感验证接口 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 导出 App 的本地化字符串。
         /// </summary>
         internal static string ViewDialogImportExportApp {
@@ -4908,6 +4989,33 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingGameHeader {
             get {
                 return ResourceManager.GetString("ViewPageSettingGameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGeetestCustomUrlAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGeetestCustomUrlAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置当请求触发人机验证时使用的验证接口 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGeetestCustomUrlDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGeetestCustomUrlDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置验证请求接口 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGeetestCustomUrlHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGeetestCustomUrlHeader", resourceCulture);
             }
         }
         
