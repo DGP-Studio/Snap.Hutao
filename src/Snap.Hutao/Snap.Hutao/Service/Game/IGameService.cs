@@ -50,11 +50,7 @@ internal interface IGameService
     /// <returns>是否正在运行</returns>
     bool IsGameRunning();
 
-    /// <summary>
-    /// 异步启动
-    /// </summary>
-    /// <returns>任务</returns>
-    ValueTask LaunchAsync();
+    ValueTask LaunchAsync(IProgress<LaunchStatus> progress);
 
     /// <summary>
     /// 异步修改游戏账号名称

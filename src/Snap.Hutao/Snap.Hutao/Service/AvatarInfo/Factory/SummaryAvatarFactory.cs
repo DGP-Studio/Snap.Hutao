@@ -22,8 +22,6 @@ namespace Snap.Hutao.Service.AvatarInfo.Factory;
 [HighQuality]
 internal sealed class SummaryAvatarFactory
 {
-    private static readonly DateTimeOffset DefaultRefreshTime = new(new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0));
-
     private readonly ModelAvatarInfo avatarInfo;
     private readonly DateTimeOffset showcaseRefreshTime;
     private readonly DateTimeOffset gameRecordRefreshTime;

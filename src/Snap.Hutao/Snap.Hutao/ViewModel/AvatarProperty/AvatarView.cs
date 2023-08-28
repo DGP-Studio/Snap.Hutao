@@ -93,11 +93,11 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// </summary>
     public uint FetterLevel { get; set; }
 
-    public string ShowcaseRefreshTimeFormat { get; set; }
+    public string ShowcaseRefreshTimeFormat { get; set; } = default!;
 
-    public string GameRecordRefreshTimeFormat { get; set; }
+    public string GameRecordRefreshTimeFormat { get; set; } = default!;
 
-    public string CalculatorRefreshTimeFormat { get; set; }
+    public string CalculatorRefreshTimeFormat { get; set; } = default!;
 
     /// <summary>
     /// Id
