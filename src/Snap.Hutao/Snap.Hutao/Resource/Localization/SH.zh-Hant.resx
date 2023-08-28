@@ -60,45 +60,45 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -153,6 +153,9 @@
   <data name="ControlPanelPanelSelectorDropdownListName" xml:space="preserve">
     <value>列表</value>
   </data>
+  <data name="CoreExceptionServiceDatabaseCorruptedMessage" xml:space="preserve">
+    <value>資料庫已損壞：{0}</value>
+  </data>
   <data name="CoreExceptionServiceUserdataCorruptedMessage" xml:space="preserve">
     <value>用户數據已損壞：{0}</value>
   </data>
@@ -182,6 +185,9 @@
   </data>
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>匯入</value>
+  </data>
+  <data name="GuideWindowTitle" xml:space="preserve">
+    <value>歡迎使用胡桃</value>
   </data>
   <data name="LaunchGameTitle" xml:space="preserve">
     <value>選擇賬號並啓動</value>
@@ -231,8 +237,23 @@
   <data name="ModelBindingUserInitializationFailed" xml:space="preserve">
     <value>網路連線錯誤</value>
   </data>
+  <data name="ModelEntityDailyNoteNotRefreshed" xml:space="preserve">
+    <value>尚未刷新</value>
+  </data>
+  <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
+    <value>刷新于 {0:yyyy/MM/dd HH:mm:ss}</value>
+  </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>第 {0} 期</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeAvatar" xml:space="preserve">
+    <value>角色</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
+    <value>武器</value>
   </data>
   <data name="ModelIntrinsicAssociationTypeFatui" xml:space="preserve">
     <value>愚人眾</value>
@@ -351,6 +372,9 @@
     <value>單手劍</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ModelMetadataAvatarPlayerName" xml:space="preserve">
+    <value>旅行者</value>
+  </data>
   <data name="ModelMetadataFetterInfoBirthdayFormat" xml:space="preserve">
     <value>{0} 月 {1} 日</value>
   </data>
@@ -375,7 +399,7 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataMaterialLocalSpecialtyRegex" xml:space="preserve">
-    <value>^[\u4e00-\u9fa5]{2}区域特产$</value>
+    <value>^[\u4e00-\u9fa5]{2}區域特產$</value>
     <comment>If you don't know what is regex, DO NOT TRANSLATE THIS!</comment>
   </data>
   <data name="ModelMetadataMaterialWeaponAscensionMaterial" xml:space="preserve">
@@ -506,6 +530,24 @@
     <value>風元素抗性</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
+    <value>养成计算：尚未刷新</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
+    <value>养成计算：{0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
+    <value>我的角色：尚未刷新</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
+    <value>我的角色：{0:MM-dd HH:mm}</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
+    <value>角色橱窗：尚未刷新</value>
+  </data>
+  <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
+    <value>角色橱窗：{0:MM-dd HH:mm}</value>
+  </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>保存養成計劃狀態失敗</value>
   </data>
@@ -584,6 +626,9 @@
   <data name="ServiceGachaLogHutaoCloudServiceNotAllowed" xml:space="preserve">
     <value>祈願記錄上傳服務不可用</value>
   </data>
+  <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
+    <value>数据包含异常物品, Id：{0}</value>
+  </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>請求驗證密鑰失敗</value>
   </data>
@@ -602,8 +647,14 @@
   <data name="ServiceGachaLogUrlProviderStokenUnsupported" xml:space="preserve">
     <value>HoYoLAB 賬號不支持使用 SToken 刷新祈願記錄</value>
   </data>
+  <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
+    <value>Url 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+  </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>不支持的 Item Id: {0}</value>
+  </data>
+  <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
+    <value>UIGF 文件的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多個匹配賬號，請刪除重複的賬號</value>
@@ -623,6 +674,15 @@
   <data name="ServiceGameLocatorUnityLogGamePathNotFound" xml:space="preserve">
     <value>在 Unity 日誌文件中無法找到遊戲路徑</value>
   </data>
+  <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
+    <value>備份：{0}</value>
+  </data>
+  <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
+    <value>重命名：{0} 到：{1}</value>
+  </data>
+  <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
+    <value>替換：{0}</value>
+  </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>重新命名資料文件夾名稱失敗</value>
   </data>
@@ -631,6 +691,9 @@
   </data>
   <data name="ServiceGamePackageRequestPackageVerionFailed" xml:space="preserve">
     <value>獲取 Package Version 失敗</value>
+  </data>
+  <data name="ServiceGamePackageRequestScatteredFileFailed" xml:space="preserve">
+    <value>下载客户端文件失败：{0}</value>
   </data>
   <data name="ServiceGamePathLocateFailed" xml:space="preserve">
     <value>無法找到遊戲本體路徑，請前往設定修改</value>
@@ -679,6 +742,15 @@
   </data>
   <data name="ServiceMetadataVersionNotSupported" xml:space="preserve">
     <value>你的胡桃版本過低，請盡快升級</value>
+  </data>
+  <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
+    <value>签到失败，{0}</value>
+  </data>
+  <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
+    <value>获取奖励列表失败</value>
+  </data>
+  <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
+    <value>签到成功，{0}×{1}</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>已选中多条用户记录</value>
@@ -746,6 +818,12 @@
   <data name="ViewControlStatisticsCardPurpleText" xml:space="preserve">
     <value>四星</value>
   </data>
+  <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
+    <value>距上个五星</value>
+  </data>
+  <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
+    <value>距上个四星</value>
+  </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
     <value>UP 平均抽數</value>
   </data>
@@ -800,6 +878,9 @@
   <data name="ViewDialogDailyNoteNotificationExpeditionNotify" xml:space="preserve">
     <value>探索派遣完成提醒</value>
   </data>
+  <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
+    <value>洞天宝钱提醒阈值</value>
+  </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
     <value>洞天寶錢提醒閾值</value>
   </data>
@@ -829,6 +910,33 @@
   </data>
   <data name="ViewDialogGachaLogUrlTitle" xml:space="preserve">
     <value>手動輸入祈願記錄 Url</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlCompositInputHint" xml:space="preserve">
+    <value>请输入请求接口的 Url 复合模板</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataDescription1" xml:space="preserve">
+    <value>接口需要返回形如上方所示的 Json 数据，多余的数据会被忽略</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataDescription2" xml:space="preserve">
+    <value>"code" 为 0 时，指示验证成功，其他的值均视为验证失败</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlReturnDataHeader" xml:space="preserve">
+    <value>返回数据</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription1" xml:space="preserve">
+    <value>{0} 将在实际请求时替换为 gt</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription2" xml:space="preserve">
+    <value>{1} 将在实际请求时替换为 challenge</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleDescription3" xml:space="preserve">
+    <value>将会通过 GET 方式对接口发送请求</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
+    <value>示例</value>
+  </data>
+  <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
+    <value>配置无感验证接口</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>匯出 App</value>
@@ -983,6 +1091,9 @@
   <data name="ViewModelDailyNoteRegisterTaskFail" xml:space="preserve">
     <value>注冊計劃任務失敗，請以管理員模式重試</value>
   </data>
+  <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
+    <value>正在获取实时便笺信息，请稍候</value>
+  </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>成功保存到指定位置</value>
   </data>
@@ -1036,6 +1147,9 @@
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>正在上傳到胡桃雲服務</value>
+  </data>
+  <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
+    <value>请输入正确的邮箱</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>剪貼板中的文本格式不正塙</value>
@@ -1271,6 +1385,18 @@
   <data name="ViewPageDailyNoteResinDiscountUsed" xml:space="preserve">
     <value>本周已消耗減半次數</value>
   </data>
+  <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
+    <value>自动刷新</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
+    <value>间隔选定的时间后刷新添加的实时便笺</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
+    <value>这些选项仅允许在非管理员模式下更改</value>
+  </data>
+  <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
+    <value>刷新</value>
+  </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>在我游玩原神時不通知我</value>
   </data>
@@ -1337,6 +1463,12 @@
   <data name="ViewPageGachaLogRefreshAction" xml:space="preserve">
     <value>獲取</value>
   </data>
+  <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
+    <value>手动输入 Url</value>
+  </data>
+  <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
+    <value>使用由你提供的 Url 刷新祈愿记录</value>
+  </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken 刷新</value>
   </data>
@@ -1356,7 +1488,7 @@
     <value>角色</value>
   </data>
   <data name="ViewPageGahcaLogPivotHistory" xml:space="preserve">
-    <value>历史</value>
+    <value>歷史</value>
   </data>
   <data name="ViewPageGahcaLogPivotOverview" xml:space="preserve">
     <value>總覽</value>
@@ -1656,7 +1788,7 @@
     <value>直接刪除用戶表的所有記錄，用於修復特定的賬號衝突問題</value>
   </data>
   <data name="ViewPageSettingDeleteUserHeader" xml:space="preserve">
-    <value>删除所有用户</value>
+    <value>刪除所有用戶</value>
   </data>
   <data name="ViewPageSettingDeviceIdHeader" xml:space="preserve">
     <value>裝置 ID</value>
@@ -1684,6 +1816,15 @@
   </data>
   <data name="ViewPageSettingGameHeader" xml:space="preserve">
     <value>游戲</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlAction" xml:space="preserve">
+    <value>配置</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlDescription" xml:space="preserve">
+    <value>配置当请求触发人机验证时使用的验证接口</value>
+  </data>
+  <data name="ViewPageSettingGeetestCustomUrlHeader" xml:space="preserve">
+    <value>配置验证请求接口</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao 賬號</value>
@@ -1776,7 +1917,7 @@
     <value>韓語 CV</value>
   </data>
   <data name="ViewPageWiKiAvatarMiscHeader" xml:space="preserve">
-    <value>其它</value>
+    <value>其他</value>
   </data>
   <data name="ViewPageWiKiAvatarOccupationNameTitle" xml:space="preserve">
     <value>所屬</value>
@@ -1886,6 +2027,9 @@
   <data name="ViewUserCookieOperation2" xml:space="preserve">
     <value>HoYoLAB</value>
   </data>
+  <data name="ViewUserCookieOperation3" xml:space="preserve">
+    <value>当前用户</value>
+  </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>網頁登陸</value>
   </data>
@@ -1894,6 +2038,9 @@
   </data>
   <data name="ViewUserCookieOperationRefreshCookieAction" xml:space="preserve">
     <value>刷新 Cookie</value>
+  </data>
+  <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
+    <value>领取签到奖励</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
     <value>拷貝 Cookie</value>
@@ -1937,6 +2084,21 @@
   <data name="ViewWikiWeaponHeader" xml:space="preserve">
     <value>武器資料</value>
   </data>
+  <data name="WebAnnouncementMatchPermanentActivityTime" xml:space="preserve">
+    <value>(?:〓活動時間〓|〓任務開放時間〓).*?\d\.\d版本更新(?:完成|)後永久開放</value>
+  </data>
+  <data name="WebAnnouncementMatchPersistentActivityTime" xml:space="preserve">
+    <value>〓活動時間〓.*?\d\.\d版本期間持續開放</value>
+  </data>
+  <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
+    <value>(?:〓活動時間〓|祈願時間|【上架時間】).*?(\d\.\d版本更新後|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
+    <value>〓更新時間〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+  </data>
+  <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
+    <value>\d\.\d版本更新說明</value>
+  </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>{0} 天後開始</value>
   </data>
@@ -1967,6 +2129,9 @@
   <data name="WebDailyNoteHomeCoinRecoveryFormat" xml:space="preserve">
     <value>預計 {0} {1:HH:mm} 達到存儲上限</value>
   </data>
+  <data name="WebDailyNoteHomeLocked" xml:space="preserve">
+    <value>尚未解锁洞天</value>
+  </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>今天</value>
   </data>
@@ -1996,6 +2161,12 @@
   </data>
   <data name="WebDailyNoteTransformerMinutesFormat" xml:space="preserve">
     <value>{0} 分</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
+    <value>尚未获得</value>
+  </data>
+  <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
+    <value>尚未获得参量质变仪</value>
   </data>
   <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
     <value>冷卻中</value>
@@ -2050,5 +2221,11 @@
   </data>
   <data name="WebResponseFormat" xml:space="preserve">
     <value>狀態：{0} | 信息：{1}</value>
+  </data>
+  <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
+    <value>请刷新 Cookie，原始消息：{0}</value>
+  </data>
+  <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
+    <value>[{0}] 中的 [{1}] 網路請求異常，請稍後再試</value>
   </data>
 </root>
