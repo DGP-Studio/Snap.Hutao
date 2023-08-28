@@ -146,7 +146,7 @@
                         OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="无感验证"/>
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlAction}"

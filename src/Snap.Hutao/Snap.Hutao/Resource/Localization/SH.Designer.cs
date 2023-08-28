@@ -5083,6 +5083,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 无感验证 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGeetestVerificationHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGeetestVerificationHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 胡桃账号 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingHutaoPassportHeader {
