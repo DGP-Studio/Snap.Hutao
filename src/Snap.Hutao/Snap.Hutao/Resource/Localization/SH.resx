@@ -1886,6 +1886,9 @@
   <data name="ViewPageSettingGeetestCustomUrlHeader" xml:space="preserve">
     <value>配置验证请求接口</value>
   </data>
+  <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
+    <value>无感验证</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃账号</value>
   </data>
