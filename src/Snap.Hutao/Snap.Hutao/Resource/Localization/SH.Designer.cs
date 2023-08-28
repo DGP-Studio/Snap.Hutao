@@ -2536,6 +2536,87 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 我已阅读 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementIHaveReadText {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementIHaveReadText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 问题报告方式与流程 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementIssueReport {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementIssueReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Snap Hutao 开源许可 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementOpenSourceLicense {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementOpenSourceLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户数据与隐私权益 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementPrivacyPolicy {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementPrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户使用协议与法律声明 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementTermOfService {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementTermOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文档 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepDocument {
+            get {
+                return ResourceManager.GetString("ViewGuideStepDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 环境 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironment {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 语言 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepLanguage {
+            get {
+                return ResourceManager.GetString("ViewGuideStepLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 资源 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepStaticResource {
+            get {
+                return ResourceManager.GetString("ViewGuideStepStaticResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 深渊统计 的本地化字符串。
         /// </summary>
         internal static string ViewHutaoDatabaseHeader {
@@ -2982,6 +3063,42 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewModelGachaLogUploadToHutaoCloudProgress {
             get {
                 return ResourceManager.GetString("ViewModelGachaLogUploadToHutaoCloudProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我已阅读并同意上方的条款 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGuideActionAgreement {
+            get {
+                return ResourceManager.GetString("ViewModelGuideActionAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完成 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGuideActionComplete {
+            get {
+                return ResourceManager.GetString("ViewModelGuideActionComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下一步 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGuideActionNext {
+            get {
+                return ResourceManager.GetString("ViewModelGuideActionNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载资源文件中，请稍后 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGuideActionStaticResourceBegin {
+            get {
+                return ResourceManager.GetString("ViewModelGuideActionStaticResourceBegin", resourceCulture);
             }
         }
         
