@@ -299,7 +299,7 @@
                                 CommandParameter="Snap.Hutao.View.Page.WikiAvatarPage"
                                 Description="{shcm:ResourceString Name=ViewPageCultivationWikiAvatarDescription}"
                                 Header="{shcm:ResourceString Name=ViewWikiAvatarHeader}"
-                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Avatar.png}"
+                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiAvatar.png}"
                                 IsClickEnabled="True"/>
                             <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
@@ -307,7 +307,7 @@
                                 CommandParameter="Snap.Hutao.View.Page.WikiWeaponPage"
                                 Description="{shcm:ResourceString Name=ViewPageCultivationWikiWeaponDescription}"
                                 Header="{shcm:ResourceString Name=ViewWikiWeaponHeader}"
-                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_BagTabIcon_Weapon.png}"
+                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/WikiWeapon.png}"
                                 IsClickEnabled="True"/>
                             <cwc:SettingsCard
                                 ActionIconToolTip="{shcm:ResourceString Name=ViewPageCultivationNavigateAction}"
@@ -315,7 +315,7 @@
                                 CommandParameter="Snap.Hutao.View.Page.AvatarPropertyPage"
                                 Description="{shcm:ResourceString Name=ViewPageCultivationAvatarPropertyDescription}"
                                 Header="{shcm:ResourceString Name=ViewAvatarPropertyHeader}"
-                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Icon/UI_Icon_BoostUp.png}"
+                                HeaderIcon="{shcm:BitmapIcon Source=ms-appx:///Resource/Navigation/Cultivation.png}"
                                 IsClickEnabled="True"/>
                         </StackPanel>
                     </Grid>
