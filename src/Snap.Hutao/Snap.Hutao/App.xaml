@@ -94,6 +94,7 @@
             <x:String x:Key="UI_MarkTower">https://static.snapgenshin.com/Bg/UI_MarkTower.png</x:String>
             <x:String x:Key="UI_Icon_Intee_Explore_1">https://static.snapgenshin.com/Bg/UI_Icon_Intee_Explore_1.png</x:String>
             <x:String x:Key="UI_MarkQuest_Events_Proce">https://static.snapgenshin.com/Bg/UI_MarkQuest_Events_Proce.png</x:String>
+            <x:String x:Key="UI_ItemIcon_201">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_201.png</x:String>
             <x:String x:Key="UI_ItemIcon_204">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_204.png</x:String>
             <x:String x:Key="UI_ItemIcon_210">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_210.png</x:String>
             <x:String x:Key="UI_ItemIcon_220021">https://static.snapgenshin.com/ItemIcon/UI_ItemIcon_220021.png</x:String>
