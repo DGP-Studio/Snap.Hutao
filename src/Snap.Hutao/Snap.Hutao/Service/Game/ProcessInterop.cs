@@ -49,19 +49,12 @@ internal static class ProcessInterop
         };
     }
 
-    /// <summary>
-    /// 解锁帧率
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    /// <param name="game">游戏进程</param>
-    /// <param name="token">取消令牌</param>
-    /// <returns>任务</returns>
-    public static ValueTask UnlockFpsAsync(IServiceProvider serviceProvider, Process game, CancellationToken token)
+    public static ValueTask UnlockFpsAsync(IServiceProvider serviceProvider, Process game, IProgress<LaunchStatus> progress, CancellationToken token = default)
     {
         IGameFpsUnlocker unlocker = serviceProvider.CreateInstance<GameFpsUnlocker>(game);
         UnlockTimingOptions options = new(100, 20000, 3000);
-        Progress<UnlockerStatus> progress = new(); // TODO: do something.
-        return unlocker.UnlockAsync(options, progress, token);
+        Progress<UnlockerStatus> lockerProgress = new(unlockStatus => progress.Report(FromUnlockStatus(unlockStatus)));
+        return unlocker.UnlockAsync(options, lockerProgress, token);
     }
 
     /// <summary>
@@ -92,8 +85,7 @@ internal static class ProcessInterop
     /// </summary>
     /// <param name="hProcess">进程句柄</param>
     /// <param name="libraryPathu8">库的路径，不包含'\0'</param>
-    [SuppressMessage("", "SH002")]
-    public static unsafe void LoadLibraryAndInject(HANDLE hProcess, ReadOnlySpan<byte> libraryPathu8)
+    public static unsafe void LoadLibraryAndInject(in HANDLE hProcess, in ReadOnlySpan<byte> libraryPathu8)
     {
         HINSTANCE hKernelDll = GetModuleHandle("kernel32.dll");
         Marshal.ThrowExceptionForHR(Marshal.GetLastPInvokeError());
@@ -132,8 +124,7 @@ internal static class ProcessInterop
         }
     }
 
-    [SuppressMessage("", "SH002")]
-    private static unsafe FARPROC GetProcAddress(HINSTANCE hModule, ReadOnlySpan<byte> lpProcName)
+    private static unsafe FARPROC GetProcAddress(in HINSTANCE hModule, in ReadOnlySpan<byte> lpProcName)
     {
         fixed (byte* lpProcNameLocal = lpProcName)
         {
@@ -141,12 +132,23 @@ internal static class ProcessInterop
         }
     }
 
-    [SuppressMessage("", "SH002")]
-    private static unsafe BOOL WriteProcessMemory(HANDLE hProcess, void* lpBaseAddress, ReadOnlySpan<byte> buffer)
+    private static unsafe BOOL WriteProcessMemory(in HANDLE hProcess, void* lpBaseAddress, in ReadOnlySpan<byte> buffer)
     {
         fixed (void* lpBuffer = buffer)
         {
             return Windows.Win32.PInvoke.WriteProcessMemory(hProcess, lpBaseAddress, lpBuffer, unchecked((uint)buffer.Length));
+        }
+    }
+
+    private static LaunchStatus FromUnlockStatus(UnlockerStatus unlockerStatus)
+    {
+        if (unlockerStatus.FindModuleState == FindModuleResult.Ok)
+        {
+            return new(LaunchPhase.UnlockFpsSucceed, SH.ServiceGameLaunchPhaseUnlockFpsSucceed);
+        }
+        else
+        {
+            return new(LaunchPhase.UnlockFpsFailed, SH.ServiceGameLaunchPhaseUnlockFpsFailed);
         }
     }
 }

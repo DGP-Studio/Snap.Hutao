@@ -58,7 +58,7 @@ internal sealed partial class LaunchGameViewModelSlim : Abstraction.ViewModelSli
                 }
             }
 
-            await gameService.LaunchAsync().ConfigureAwait(false);
+            await gameService.LaunchAsync(new Progress<LaunchStatus>()).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

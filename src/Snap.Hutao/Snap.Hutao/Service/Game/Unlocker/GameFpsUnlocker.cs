@@ -50,6 +50,7 @@ internal sealed class GameFpsUnlocker : IGameFpsUnlocker
 
         // Read UnityPlayer.dll
         UnsafeFindFpsAddress(moduleEntryInfo);
+        progress.Report(status);
 
         // When player switch between scenes, we have to re adjust the fps
         // So we keep a loop here

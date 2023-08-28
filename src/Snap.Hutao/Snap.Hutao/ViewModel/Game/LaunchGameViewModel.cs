@@ -37,6 +37,7 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     private readonly INavigationService navigationService;
     private readonly IInfoBarService infoBarService;
     private readonly LaunchOptions launchOptions;
+    private readonly LaunchStatusOptions launchStatusOptions;
     private readonly RuntimeOptions hutaoOptions;
     private readonly ResourceClient resourceClient;
     private readonly IUserService userService;
@@ -87,6 +88,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
     /// 启动选项
     /// </summary>
     public LaunchOptions Options { get => launchOptions; }
+
+    public LaunchStatusOptions LaunchStatusOptions { get => launchStatusOptions; }
 
     /// <summary>
     /// 胡桃选项
@@ -187,10 +190,10 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                 {
                     // Channel changed, we need to change local file.
                     LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-                    IProgress<PackageReplaceStatus> progress = taskContext.CreateProgressForMainThread<PackageReplaceStatus>(state => dialog.State = state/*.Clone()*/);
+                    IProgress<PackageReplaceStatus> convertProgress = taskContext.CreateProgressForMainThread<PackageReplaceStatus>(state => dialog.State = state);
                     using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                     {
-                        if (!await gameService.EnsureGameResourceAsync(SelectedScheme, progress).ConfigureAwait(false))
+                        if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
                         {
                             infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
                             return;
@@ -207,7 +210,8 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
                     }
                 }
 
-                await gameService.LaunchAsync().ConfigureAwait(false);
+                IProgress<LaunchStatus> launchProgress = taskContext.CreateProgressForMainThread<LaunchStatus>(status => launchStatusOptions.LaunchStatus = status);
+                await gameService.LaunchAsync(launchProgress).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

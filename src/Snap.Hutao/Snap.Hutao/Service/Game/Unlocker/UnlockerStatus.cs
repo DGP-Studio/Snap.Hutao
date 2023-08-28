@@ -8,7 +8,7 @@ namespace Snap.Hutao.Service.Game.Unlocker;
 /// <summary>
 /// 解锁状态
 /// </summary>
-internal sealed class UnlockerStatus : ICloneable<UnlockerStatus>
+internal sealed class UnlockerStatus
 {
     /// <summary>
     /// 状态描述
@@ -29,9 +29,4 @@ internal sealed class UnlockerStatus : ICloneable<UnlockerStatus>
     /// FPS 字节地址
     /// </summary>
     public nuint FpsAddress { get; set; }
-
-    public UnlockerStatus Clone()
-    {
-        throw new NotImplementedException();
-    }
 }

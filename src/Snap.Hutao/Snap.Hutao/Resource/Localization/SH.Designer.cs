@@ -1537,6 +1537,69 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 游戏进程已退出 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseProcessExited {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseProcessExited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在初始化游戏进程 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseProcessInitializing {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseProcessInitializing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 游戏进程已启动 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseProcessStarted {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseProcessStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 解锁帧率上限失败，正在结束游戏进程 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseUnlockFpsFailed {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseUnlockFpsFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 解锁帧率上限成功 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseUnlockFpsSucceed {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseUnlockFpsSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在尝试解锁帧率上限 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseUnlockingFps {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseUnlockingFps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待游戏进程退出 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseWaitingProcessExit {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseWaitingProcessExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 选择游戏本体 的本地化字符串。
         /// </summary>
         internal static string ServiceGameLocatorFileOpenPickerCommitText {

@@ -230,7 +230,7 @@ internal sealed partial class GameService : IGameService
     }
 
     /// <inheritdoc/>
-    public async ValueTask LaunchAsync()
+    public async ValueTask LaunchAsync(IProgress<LaunchStatus> progress)
     {
         if (IsGameRunning())
         {
@@ -240,21 +240,37 @@ internal sealed partial class GameService : IGameService
         string gamePath = appOptions.GamePath;
         ArgumentException.ThrowIfNullOrEmpty(gamePath);
 
+        progress.Report(new(LaunchPhase.ProcessInitializing, SH.ServiceGameLaunchPhaseProcessInitializing));
         using (Process game = ProcessInterop.InitializeGameProcess(launchOptions, gamePath))
         {
             try
             {
-                bool isFirstInstance = Interlocked.Increment(ref runningGamesCounter) == 1;
-
                 game.Start();
+                progress.Report(new(LaunchPhase.ProcessStarted, SH.ServiceGameLaunchPhaseProcessStarted));
 
                 if (runtimeOptions.IsElevated && appOptions.IsAdvancedLaunchOptionsEnabled && launchOptions.UnlockFps)
                 {
-                    await ProcessInterop.UnlockFpsAsync(serviceProvider, game, default).ConfigureAwait(false);
+                    progress.Report(new(LaunchPhase.UnlockingFps, SH.ServiceGameLaunchPhaseUnlockingFps));
+                    try
+                    {
+                        await ProcessInterop.UnlockFpsAsync(serviceProvider, game, progress).ConfigureAwait(false);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // The Unlocker can't unlock the process
+                        game.Kill();
+                        throw;
+                    }
+                    finally
+                    {
+                        progress.Report(new(LaunchPhase.ProcessExited, SH.ServiceGameLaunchPhaseProcessExited));
+                    }
                 }
                 else
                 {
+                    progress.Report(new(LaunchPhase.WaitingForExit, SH.ServiceGameLaunchPhaseWaitingProcessExit));
                     await game.WaitForExitAsync().ConfigureAwait(false);
+                    progress.Report(new(LaunchPhase.ProcessExited, SH.ServiceGameLaunchPhaseProcessExited));
                 }
             }
             finally
