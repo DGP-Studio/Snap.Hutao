@@ -137,6 +137,9 @@
                                 ItemsSource="{Binding AchievementGoals}"
                                 SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
                                 SelectionMode="Single">
+                                <mxi:Interaction.Behaviors>
+                                    <shcb:SelectedItemInViewBehavior/>
+                                </mxi:Interaction.Behaviors>
                                 <ListView.ItemContainerStyle>
                                     <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
                                         <Setter Property="Margin" Value="0,0,6,0"/>
@@ -259,6 +262,9 @@
                         ItemsSource="{Binding AchievementGoals}"
                         SelectedItem="{Binding SelectedAchievementGoal, Mode=TwoWay}"
                         SelectionMode="Single">
+                        <mxi:Interaction.Behaviors>
+                            <shcb:SelectedItemInViewBehavior/>
+                        </mxi:Interaction.Behaviors>
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <Border MinWidth="180" Style="{StaticResource BorderCardStyle}">

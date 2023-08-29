@@ -1020,7 +1020,7 @@
     <value>祈愿记录</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>我已阅读</value>
+    <value>我已阅读并同意</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
     <value>问题报告方式与流程</value>

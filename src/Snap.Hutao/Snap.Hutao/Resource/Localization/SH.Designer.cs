@@ -2599,7 +2599,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 我已阅读 的本地化字符串。
+        ///   查找类似 我已阅读并同意 的本地化字符串。
         /// </summary>
         internal static string ViewGuideStepAgreementIHaveReadText {
             get {
