@@ -1020,46 +1020,46 @@
     <value>祈願記錄</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>我已阅读</value>
+    <value>我已閱讀</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
-    <value>问题报告方式与流程</value>
+    <value>問題報告方式與流程</value>
   </data>
   <data name="ViewGuideStepAgreementOpenSourceLicense" xml:space="preserve">
-    <value>Snap Hutao 开源许可</value>
+    <value>Snap Hutao 開源許可</value>
   </data>
   <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
-    <value>用户数据与隐私权益</value>
+    <value>用戶數據與隱私權益</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
-    <value>用户使用协议与法律声明</value>
+    <value>用戶使用協議與法律聲明</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
-    <value>文档</value>
+    <value>文檔</value>
   </data>
   <data name="ViewGuideStepEnvironment" xml:space="preserve">
-    <value>环境</value>
+    <value>環境</value>
   </data>
   <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
-    <value>安装完成后重启胡桃以查看是否正常生效</value>
+    <value>安裝完成後重啟胡桃以查看是否正常生效</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
-    <value>如果上方的图标中存在乱码，请前往</value>
+    <value>如果上方的圖標中存在亂碼，請前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
-    <value>下载并自行安装图标字体</value>
+    <value>下載並自行安裝圖標字體</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>若未检测到 WebView2 运行时信息，可以前往</value>
+    <value>若未檢測到 WebView2 Runtime信息，可以前往</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下载并自行安装运行时</value>
+    <value>下載並自行安裝Runtime</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
-    <value>语言</value>
+    <value>語言</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
-    <value>资源</value>
+    <value>資源</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深淵統計</value>
@@ -1188,10 +1188,10 @@
     <value>匯入失敗</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:00.000%} 概率 {0} 抽后获得五星物品</value>
+    <value>{1:00.000%} 概率 {0} 抽後獲得五星物品</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:00.000%} 概率下一抽获得五星物品</value>
+    <value>{0:00.000%} 概率下一抽獲得五星物品</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>獲取祈願紀錄失敗</value>
@@ -1212,7 +1212,7 @@
     <value>正在上傳到胡桃雲服務</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
-    <value>我已阅读并同意上方的条款</value>
+    <value>我已閱讀並同意上方的條款</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>完成</value>
@@ -1221,10 +1221,10 @@
     <value>下一步</value>
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
-    <value>下载资源文件中，请稍候</value>
+    <value>下載資源文件中，請稍候</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>请输入正确的邮箱</value>
+    <value>請輸入正確的郵箱</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>剪貼板中的文本格式不正塙</value>
@@ -1377,7 +1377,7 @@
     <value>同步角色天賦外的大部分信息</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
-    <value>刷新时间</value>
+    <value>刷新時間</value>
   </data>
   <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
     <value>評分</value>
@@ -1464,13 +1464,13 @@
     <value>本周已消耗減半次數</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
-    <value>自动刷新</value>
+    <value>自動刷新</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
-    <value>间隔选定的时间后刷新添加的实时便笺</value>
+    <value>間隔選定的時間後刷新添加的實時便箋</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
-    <value>这些选项仅允许在非管理员模式下更改</value>
+    <value>這些選項僅允許在非管理員模式下更改</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
     <value>刷新</value>
@@ -1542,10 +1542,10 @@
     <value>獲取</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 Url</value>
+    <value>手動輸入 Url</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 Url 刷新祈愿记录</value>
+    <value>使用由你提供的 Url 刷新祈願記錄</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken 刷新</value>
@@ -1899,10 +1899,10 @@
     <value>配置</value>
   </data>
   <data name="ViewPageSettingGeetestCustomUrlDescription" xml:space="preserve">
-    <value>配置当请求触发人机验证时使用的验证接口</value>
+    <value>配置當請求觸發人機驗證時使用的驗證接口</value>
   </data>
   <data name="ViewPageSettingGeetestCustomUrlHeader" xml:space="preserve">
-    <value>配置验证请求接口</value>
+    <value>配置驗證請求接口</value>
   </data>
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
     <value>無感驗證</value>
@@ -2109,7 +2109,7 @@
     <value>HoYoLAB</value>
   </data>
   <data name="ViewUserCookieOperation3" xml:space="preserve">
-    <value>当前用户</value>
+    <value>當前用戶</value>
   </data>
   <data name="ViewUserCookieOperationLoginMihoyoUserAction" xml:space="preserve">
     <value>網頁登陸</value>
@@ -2121,7 +2121,7 @@
     <value>刷新 Cookie</value>
   </data>
   <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
-    <value>领取签到奖励</value>
+    <value>領取簽到獎勵</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
     <value>拷貝 Cookie</value>
@@ -2211,7 +2211,7 @@
     <value>預計 {0} {1:HH:mm} 達到存儲上限</value>
   </data>
   <data name="WebDailyNoteHomeLocked" xml:space="preserve">
-    <value>尚未解锁洞天</value>
+    <value>尚未解鎖洞天</value>
   </data>
   <data name="WebDailyNoteRecoveryTimeDay0" xml:space="preserve">
     <value>今天</value>
@@ -2244,10 +2244,10 @@
     <value>{0} 分</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtained" xml:space="preserve">
-    <value>尚未获得</value>
+    <value>尚未獲得</value>
   </data>
   <data name="WebDailyNoteTransformerNotObtainedDetail" xml:space="preserve">
-    <value>尚未获得参量质变仪</value>
+    <value>尚未獲得參量質變儀</value>
   </data>
   <data name="WebDailyNoteTransformerNotReached" xml:space="preserve">
     <value>冷卻中</value>
@@ -2304,7 +2304,7 @@
     <value>狀態：{0} | 信息：{1}</value>
   </data>
   <data name="WebResponseRefreshCookieHintFormat" xml:space="preserve">
-    <value>请刷新 Cookie，原始消息：{0}</value>
+    <value>請刷新 Cookie，原始消息：{0}</value>
   </data>
   <data name="WebResponseRequestExceptionFormat" xml:space="preserve">
     <value>[{0}] 中的 [{1}] 網路請求異常，請稍後再試</value>
