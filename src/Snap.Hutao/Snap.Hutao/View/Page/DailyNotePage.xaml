@@ -307,11 +307,17 @@
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.ResinFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.ResinFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding DailyNote.ResinRecoveryTargetTime, Mode=OneWay}"/>
+                                                Text="{Binding DailyNote.ResinRecoveryTargetTime, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Style="{ThemeResource BorderGridStyle}">
@@ -338,11 +344,17 @@
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.HomeCoinFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.HomeCoinFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding DailyNote.HomeCoinRecoveryTargetTimeFormatted, Mode=OneWay}"/>
+                                                Text="{Binding DailyNote.HomeCoinRecoveryTargetTimeFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Style="{ThemeResource BorderGridStyle}">
@@ -369,11 +381,17 @@
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.TaskFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.TaskFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding DailyNote.ExtraTaskRewardDescription, Mode=OneWay}"/>
+                                                Text="{Binding DailyNote.ExtraTaskRewardDescription, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Style="{ThemeResource BorderGridStyle}">
@@ -400,11 +418,17 @@
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.ResinDiscountFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.ResinDiscountFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{shcm:ResourceString Name=ViewPageDailyNoteResinDiscountUsed}"/>
+                                                Text="{shcm:ResourceString Name=ViewPageDailyNoteResinDiscountUsed}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Style="{ThemeResource BorderGridStyle}">
@@ -431,11 +455,17 @@
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding DailyNote.Transformer.ObtainedAndTimeFormatted, Mode=OneWay}"/>
+                                                Text="{Binding DailyNote.Transformer.ObtainedAndTimeFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>
@@ -489,7 +519,9 @@
                                     Margin="0,6,0,0"
                                     Opacity="0.7"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding RefreshTimeFormatted}"/>
+                                    Text="{Binding RefreshTimeFormatted}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap"/>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
