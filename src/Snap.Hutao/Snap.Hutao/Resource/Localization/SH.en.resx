@@ -1020,7 +1020,7 @@
     <value>Wish History</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>我已阅读并同意</value>
+    <value>I've read and agreed to</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
     <value>Issue Reporting Approach and Process</value>
@@ -1032,7 +1032,7 @@
     <value>User Data and Privacy Notice</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
-    <value>User Agreement and Legal Disclaime</value>
+    <value>User Agreement and Legal Notices</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Documentation</value>
@@ -1515,7 +1515,7 @@
     <value>Download the Cloud Archive of This Uid</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
-    <value>每期深渊首次上传可免费获得 3 天时长</value>
+    <value>Free 3-day license after uploading current schedule Abyss record</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
     <value>Upload Abyss Records</value>
