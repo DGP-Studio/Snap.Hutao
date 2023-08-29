@@ -24,5 +24,5 @@ internal class PathMd5
     /// <summary>
     /// 显示名称
     /// </summary>
-    public string DisplayName { get => System.IO.Path.GetFileName(Path.ToUri().LocalPath); }
+    public string DisplayName { get => System.IO.Path.GetFileName(Path); }
 }
