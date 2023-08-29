@@ -1,7 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core.Setting;
+using Snap.Hutao.ViewModel.Guide;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -19,9 +20,10 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         return Task.CompletedTask;
     }
 
-    [Command("RestartAppCommand")]
-    private static void RestartApp(bool elevated)
+    [Command("ResetGuideStateCommand")]
+    private static void ResetGuideState()
     {
-        AppInstance.Restart(string.Empty);
+        LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Language);
+
     }
 }

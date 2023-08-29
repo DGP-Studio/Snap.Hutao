@@ -19,6 +19,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.View.Dialog;
+using Snap.Hutao.ViewModel.Guide;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -99,6 +100,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private static void ResetStaticResource()
     {
         StaticResource.FailAllContracts();
+        LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.StaticResourceBegin);
         AppInstance.Restart(string.Empty);
     }
 

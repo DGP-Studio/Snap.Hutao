@@ -1040,6 +1040,21 @@
   <data name="ViewGuideStepEnvironment" xml:space="preserve">
     <value>环境</value>
   </data>
+  <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
+    <value>安装完成后重启胡桃以查看是否正常生效</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
+    <value>如果上方的图标中存在乱码，请前往</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
+    <value>下载并自行安装图标字体</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
+    <value>若未检测到 WebView2 运行时信息，可以前往</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
+    <value>下载并自行安装运行时</value>
+  </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>语言</value>
   </data>

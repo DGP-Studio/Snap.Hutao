@@ -2662,6 +2662,51 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 安装完成后重启胡桃以查看是否正常生效 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentAfterInstallDescription {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentAfterInstallDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 如果上方的图标中存在乱码，请前往 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentFontDescription1 {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentFontDescription1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载并自行安装图标字体 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentFontDescription2 {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentFontDescription2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 若未检测到 WebView2 运行时信息，可以前往 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentWebView2Description1 {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentWebView2Description1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载并自行安装运行时 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentWebView2Description2 {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentWebView2Description2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 语言 的本地化字符串。
         /// </summary>
         internal static string ViewGuideStepLanguage {

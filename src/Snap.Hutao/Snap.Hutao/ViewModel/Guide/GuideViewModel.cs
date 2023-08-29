@@ -1,10 +1,14 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Windows.AppLifecycle;
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model;
 using Snap.Hutao.Service;
+using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace Snap.Hutao.ViewModel.Guide;
@@ -13,10 +17,14 @@ namespace Snap.Hutao.ViewModel.Guide;
 /// 指引视图模型
 /// </summary>
 [ConstructorGenerated]
-[Injection(InjectAs.Transient)]
+[Injection(InjectAs.Singleton)]
 internal sealed partial class GuideViewModel : Abstraction.ViewModel
 {
+    private readonly IServiceProvider serviceProvider;
+    private readonly ITaskContext taskContext;
     private readonly AppOptions appOptions;
+    private readonly RuntimeOptions runtimeOptions;
+
     private string nextOrCompleteButtonText = SH.ViewModelGuideActionNext;
     private bool isNextOrCompleteButtonEnabled = true;
     private NameValue<string>? selectedCulture;
@@ -24,6 +32,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     private bool isPrivacyPolicyAgreed;
     private bool isIssueReportAgreed;
     private bool isOpenSourceLicenseAgreed;
+    private ObservableCollection<DownloadSummary>? downloadSummaries;
 
     public uint State
     {
@@ -43,6 +52,7 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
             else if (state is GuideState.StaticResourceBegin)
             {
                 (NextOrCompleteButtonText, IsNextOrCompleteButtonEnabled) = (SH.ViewModelGuideActionStaticResourceBegin, false);
+                DownloadStaticResourceAsync().SafeForget();
             }
             else if (state is GuideState.Completed)
             {
@@ -68,6 +78,8 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     public bool IsNextOrCompleteButtonEnabled { get => isNextOrCompleteButtonEnabled; set => SetProperty(ref isNextOrCompleteButtonEnabled, value); }
 
     public AppOptions AppOptions { get => appOptions; }
+
+    public RuntimeOptions RuntimeOptions { get => runtimeOptions; }
 
     public NameValue<string>? SelectedCulture
     {
@@ -127,6 +139,11 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
         }
     }
 
+    /// <summary>
+    /// 下载信息
+    /// </summary>
+    public ObservableCollection<DownloadSummary>? DownloadSummaries { get => downloadSummaries; set => SetProperty(ref downloadSummaries, value); }
+
     protected override ValueTask<bool> InitializeUIAsync()
     {
         return ValueTask.FromResult(true);
@@ -135,12 +152,75 @@ internal sealed partial class GuideViewModel : Abstraction.ViewModel
     [Command("NextOrCompleteCommand")]
     private void NextOrComplete()
     {
-        GuideState previousState = (GuideState)State;
         ++State;
     }
 
     private void OnAgreeSateChanged()
     {
         IsNextOrCompleteButtonEnabled = IsTermOfServiceAgreed && IsPrivacyPolicyAgreed && IsIssueReportAgreed && IsOpenSourceLicenseAgreed;
+    }
+
+    private async ValueTask DownloadStaticResourceAsync()
+    {
+        IEnumerable<DownloadSummary> downloadSummaries = GenerateStaticResourceDownloadTasks();
+
+        DownloadSummaries = downloadSummaries.ToObservableCollection();
+
+        await Parallel.ForEachAsync(downloadSummaries, async (summary, token) =>
+        {
+            if (await summary.DownloadAndExtractAsync().ConfigureAwait(false))
+            {
+                taskContext.InvokeOnMainThread(() => DownloadSummaries.Remove(summary));
+            }
+        }).ConfigureAwait(false);
+
+        StaticResource.FulfillAllContracts();
+
+        LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Completed);
+        AppInstance.Restart(string.Empty);
+    }
+
+    private IEnumerable<DownloadSummary> GenerateStaticResourceDownloadTasks()
+    {
+        Dictionary<string, DownloadSummary> downloadSummaries = new();
+
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V1Contract))
+        {
+            downloadSummaries.TryAdd("Bg", new(serviceProvider, "Bg"));
+            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
+            downloadSummaries.TryAdd("GachaAvatarIcon", new(serviceProvider, "GachaAvatarIcon"));
+            downloadSummaries.TryAdd("GachaAvatarImg", new(serviceProvider, "GachaAvatarImg"));
+            downloadSummaries.TryAdd("EquipIcon", new(serviceProvider, "EquipIcon"));
+            downloadSummaries.TryAdd("GachaEquipIcon", new(serviceProvider, "GachaEquipIcon"));
+            downloadSummaries.TryAdd("NameCardPic", new(serviceProvider, "NameCardPic"));
+            downloadSummaries.TryAdd("Skill", new(serviceProvider, "Skill"));
+            downloadSummaries.TryAdd("Talent", new(serviceProvider, "Talent"));
+        }
+
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V2Contract))
+        {
+            downloadSummaries.TryAdd("AchievementIcon", new(serviceProvider, "AchievementIcon"));
+            downloadSummaries.TryAdd("ItemIcon", new(serviceProvider, "ItemIcon"));
+            downloadSummaries.TryAdd("IconElement", new(serviceProvider, "IconElement"));
+            downloadSummaries.TryAdd("RelicIcon", new(serviceProvider, "RelicIcon"));
+        }
+
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V3Contract))
+        {
+            downloadSummaries.TryAdd("Skill", new(serviceProvider, "Skill"));
+            downloadSummaries.TryAdd("Talent", new(serviceProvider, "Talent"));
+        }
+
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V4Contract))
+        {
+            downloadSummaries.TryAdd("AvatarIcon", new(serviceProvider, "AvatarIcon"));
+        }
+
+        if (StaticResource.IsContractUnfulfilled(StaticResource.V5Contract))
+        {
+            downloadSummaries.TryAdd("MonsterIcon", new(serviceProvider, "MonsterIcon"));
+        }
+
+        return downloadSummaries.Select(x => x.Value);
     }
 }
