@@ -3202,7 +3202,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 下载资源文件中，请稍后 的本地化字符串。
+        ///   查找类似 下载资源文件中，请稍候 的本地化字符串。
         /// </summary>
         internal static string ViewModelGuideActionStaticResourceBegin {
             get {

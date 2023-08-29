@@ -1221,7 +1221,7 @@
     <value>下一步</value>
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
-    <value>下载资源文件中，请稍后</value>
+    <value>下载资源文件中，请稍候</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>请输入正确的邮箱</value>
