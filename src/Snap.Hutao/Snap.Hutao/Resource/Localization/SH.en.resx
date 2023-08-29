@@ -531,22 +531,22 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorNotRefreshed" xml:space="preserve">
-    <value>Avatar Calculator: Not refreshed</value>
+    <value>Dev Plan: N/A</value>
   </data>
   <data name="ServiceAvatarInfoSummaryCalculatorRefreshTimeFormat" xml:space="preserve">
     <value>Avatar Calculator: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordNotRefreshed" xml:space="preserve">
-    <value>My Characters: Not refreshed</value>
+    <value>My Characters: N/A</value>
   </data>
   <data name="ServiceAvatarInfoSummaryGameRecordRefreshTimeFormat" xml:space="preserve">
     <value>My Characters: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
-    <value>Charactor Showcase: Not refreshed</value>
+    <value>Enka: N/A</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
-    <value>Enka API: {0:MM-dd HH:mm}</value>
+    <value>Character Showcase: {0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>Failed to save development plan status</value>
@@ -675,13 +675,13 @@
     <value>Game process started</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsFailed" xml:space="preserve">
-    <value>Failed to unlock frame limit, closing game process…</value>
+    <value>Failed to unlock frame rate limit, closing game process…</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
-    <value>Successfully unlocked frame limit</value>
+    <value>Successfully unlocked frame rate limit</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>Trying to unlock frame limit…</value>
+    <value>Trying to unlock frame rate limit…</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>Waiting for the game process to close…</value>
@@ -891,7 +891,7 @@
     <value>Create new plan</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>Add to current plan</value>
+    <value>Add to Current Dev Plan</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>Daily Commission Availability Notification</value>
@@ -1019,6 +1019,48 @@
   <data name="ViewGachaLogHeader" xml:space="preserve">
     <value>Wish History</value>
   </data>
+  <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
+    <value>我已阅读</value>
+  </data>
+  <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
+    <value>问题报告方式与流程</value>
+  </data>
+  <data name="ViewGuideStepAgreementOpenSourceLicense" xml:space="preserve">
+    <value>Snap Hutao 开源许可</value>
+  </data>
+  <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
+    <value>用户数据与隐私权益</value>
+  </data>
+  <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
+    <value>用户使用协议与法律声明</value>
+  </data>
+  <data name="ViewGuideStepDocument" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="ViewGuideStepEnvironment" xml:space="preserve">
+    <value>环境</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
+    <value>安装完成后重启胡桃以查看是否正常生效</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
+    <value>如果上方的图标中存在乱码，请前往</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
+    <value>下载并自行安装图标字体</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
+    <value>若未检测到 WebView2 运行时信息，可以前往</value>
+  </data>
+  <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
+    <value>下载并自行安装运行时</value>
+  </data>
+  <data name="ViewGuideStepLanguage" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="ViewGuideStepStaticResource" xml:space="preserve">
+    <value>资源</value>
+  </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>Abyss Stats</value>
   </data>
@@ -1113,7 +1155,7 @@
     <value>Failed to add Scheduled Task, please try again in administrator mode</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
-    <value>Fetching DailyNote data, please wait</value>
+    <value>Fetching Realtime Notes data, please wait</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>Successfully saved to selected patch</value>
@@ -1168,6 +1210,18 @@
   </data>
   <data name="ViewModelGachaLogUploadToHutaoCloudProgress" xml:space="preserve">
     <value>Uploading to Snap Hutao Cloud Service</value>
+  </data>
+  <data name="ViewModelGuideActionAgreement" xml:space="preserve">
+    <value>我已阅读并同意上方的条款</value>
+  </data>
+  <data name="ViewModelGuideActionComplete" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="ViewModelGuideActionNext" xml:space="preserve">
+    <value>下一步</value>
+  </data>
+  <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
+    <value>下载资源文件中，请稍候</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Please enter correct email address.</value>
@@ -1269,7 +1323,7 @@
     <value>Import</value>
   </data>
   <data name="ViewPageAchievementRemoveArchive" xml:space="preserve">
-    <value>Delete current archive</value>
+    <value>Delete Current Archive</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
     <value>Search achievement name, description or ID</value>
@@ -1293,7 +1347,7 @@
     <value>No character data fetched</value>
   </data>
   <data name="ViewPageAvatarPropertyExportAsImage" xml:space="preserve">
-    <value>Export as image</value>
+    <value>Export as Image</value>
   </data>
   <data name="ViewPageAvatarPropertyHeader" xml:space="preserve">
     <value>Character Attributes</value>
@@ -1321,6 +1375,9 @@
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>Sync most data other than character talent</value>
+  </data>
+  <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
+    <value>刷新时间</value>
   </data>
   <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
     <value>Rating</value>
@@ -1422,7 +1479,7 @@
     <value>Do not disturb during Genshin gaming</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
-    <value>Do not disturb</value>
+    <value>Do Not Disturb</value>
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>Verify Current User and Role</value>
@@ -1503,7 +1560,7 @@
     <value>Use embedded browser cache to refresh wish history</value>
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
-    <value>Delete current archive</value>
+    <value>Delete Current Archive</value>
   </data>
   <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
     <value>Character</value>
@@ -1726,7 +1783,7 @@
     <value>Rename</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeDescription" xml:space="preserve">
-    <value>Switch game server (CN/BiliBili/OS)</value>
+    <value>Switch game server (CN/BiliBili/Global)</value>
   </data>
   <data name="ViewPageLaunchGameSwitchSchemeHeader" xml:space="preserve">
     <value>Server</value>
@@ -1849,7 +1906,7 @@
     <value>Config Geetest Verification Endpoint</value>
   </data>
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
-    <value>无感验证</value>
+    <value>Geetest Verification</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao Account</value>
