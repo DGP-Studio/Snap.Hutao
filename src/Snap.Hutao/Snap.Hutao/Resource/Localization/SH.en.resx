@@ -1020,7 +1020,7 @@
     <value>Wish History</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>I've read</value>
+    <value>我已阅读并同意</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
     <value>Issue Reporting Approach and Process</value>
