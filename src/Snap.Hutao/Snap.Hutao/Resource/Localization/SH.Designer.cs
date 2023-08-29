@@ -4084,7 +4084,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 每期深渊首次上传可免费获得5天时长 的本地化字符串。
+        ///   查找类似 每期深渊首次上传可免费获得 3 天时长 的本地化字符串。
         /// </summary>
         internal static string ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription {
             get {
