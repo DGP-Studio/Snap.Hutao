@@ -14,24 +14,6 @@
             Height="44"
             Margin="48,0,0,0"/>
 
-        <cwuc:SwitchPresenter x:Name="ContentSwitchPresenter">
-            <cwuc:SwitchPresenter.ContentTransitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition/>
-                </TransitionCollection>
-            </cwuc:SwitchPresenter.ContentTransitions>
-            <cwuc:Case>
-                <cwuc:Case.Value>
-                    <x:Boolean>True</x:Boolean>
-                </cwuc:Case.Value>
-                <shv:WelcomeView/>
-            </cwuc:Case>
-            <cwuc:Case>
-                <cwuc:Case.Value>
-                    <x:Boolean>False</x:Boolean>
-                </cwuc:Case.Value>
-                <shv:MainView/>
-            </cwuc:Case>
-        </cwuc:SwitchPresenter>
+        <shv:MainView/>
     </Grid>
 </Window>

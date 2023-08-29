@@ -148,7 +148,7 @@
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
                 <cwc:SettingsCard
-                    ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
+                    ActionIcon="{shcm:FontIcon Glyph=&#xF32A;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlAction}"
                     Command="{Binding ConfigureGeetestUrlCommand}"
                     Description="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlDescription}"

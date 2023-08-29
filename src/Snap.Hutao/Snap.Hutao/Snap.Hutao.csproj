@@ -155,7 +155,6 @@
     <None Remove="View\Page\WikiWeaponPage.xaml" />
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
-    <None Remove="View\WelcomeView.xaml" />
   </ItemGroup>
   
   <!-- Analyzer Files -->
@@ -373,11 +372,6 @@
   <!-- Pages -->
   <ItemGroup>
     <Page Update="View\Dialog\LaunchGamePackageConvertDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\WelcomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
