@@ -1376,6 +1376,9 @@
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
     <value>同步角色天赋外的大部分信息</value>
   </data>
+  <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
+    <value>刷新时间</value>
+  </data>
   <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
     <value>评分</value>
   </data>

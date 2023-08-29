@@ -195,7 +195,10 @@
         </cwc:SwitchPresenter>
         <Grid Grid.Row="1">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <cwc:Segmented Margin="16" SelectedIndex="{Binding State, Mode=TwoWay}">
+                <cwc:Segmented
+                    Margin="16"
+                    IsHitTestVisible="False"
+                    SelectedIndex="{Binding State, Mode=TwoWay}">
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepLanguage}" Icon="{shcm:FontIcon Glyph=&#xF2B7;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepDocument}" Icon="{shcm:FontIcon Glyph=&#xF28B;}"/>
                     <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewGuideStepEnvironment}" Icon="{shcm:FontIcon Glyph=&#xE81E;}"/>

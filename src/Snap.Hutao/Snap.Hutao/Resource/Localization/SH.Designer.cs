@@ -3670,6 +3670,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 刷新时间 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshTimeToggle {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshTimeToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 评分 的本地化字符串。
         /// </summary>
         internal static string ViewPageAvatarPropertyScore {

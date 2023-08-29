@@ -75,7 +75,13 @@
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     DefaultLabelPosition="Right">
                     <CommandBar.Content>
-                        <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <shcp:PanelSelector x:Name="ItemsPanelSelector" Margin="6,8,0,0"/>
+                            <ToggleButton
+                                x:Name="RefreshTimeToggle"
+                                Margin="8,8,0,0"
+                                Content="{shcm:ResourceString Name=ViewPageAvatarPropertyRefreshTimeToggle}"/>
+                        </StackPanel>
                     </CommandBar.Content>
                     <AppBarButton
                         Command="{Binding ExportAsImageCommand}"
@@ -99,7 +105,7 @@
                     </AppBarButton>
                 </CommandBar>
 
-                <cwucont:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                <cwucont:SwitchPresenter Grid.Row="1" Value="{Binding ElementName=ItemsPanelSelector, Path=Current, Mode=OneWay}">
                     <cwucont:SwitchPresenter.ContentTransitions>
                         <TransitionCollection>
                             <ContentThemeTransition/>
@@ -227,7 +233,7 @@
                             Grid.Row="1"
                             DisplayMode="Inline"
                             IsPaneOpen="True"
-                            OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength3}"
+                            OpenPaneLength="{StaticResource CompatSplitViewOpenPaneLength2}"
                             PaneBackground="Transparent">
                             <SplitView.Pane>
                                 <ListView ItemsSource="{Binding Summary.Avatars}" SelectedItem="{Binding SelectedAvatar, Mode=TwoWay}">
@@ -255,24 +261,36 @@
                                                         Margin="12,0,0,0"
                                                         Opacity="0.7"
                                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding Level}"/>
+                                                        Text="{Binding Level}"
+                                                        TextTrimming="CharacterEllipsis"
+                                                        TextWrapping="NoWrap"/>
                                                 </StackPanel>
                                                 <StackPanel
                                                     Grid.Column="2"
                                                     VerticalAlignment="Center"
-                                                    Opacity="0.7">
+                                                    Opacity="0.7"
+                                                    Visibility="{Binding ElementName=RefreshTimeToggle, Path=IsChecked, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                                                     <TextBlock
+                                                        HorizontalAlignment="Right"
                                                         FontSize="11"
                                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding ShowcaseRefreshTimeFormat}"/>
+                                                        Text="{Binding ShowcaseRefreshTimeFormat}"
+                                                        TextTrimming="CharacterEllipsis"
+                                                        TextWrapping="NoWrap"/>
                                                     <TextBlock
+                                                        HorizontalAlignment="Right"
                                                         FontSize="11"
                                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding GameRecordRefreshTimeFormat}"/>
+                                                        Text="{Binding GameRecordRefreshTimeFormat}"
+                                                        TextTrimming="CharacterEllipsis"
+                                                        TextWrapping="NoWrap"/>
                                                     <TextBlock
+                                                        HorizontalAlignment="Right"
                                                         FontSize="11"
                                                         Style="{StaticResource CaptionTextBlockStyle}"
-                                                        Text="{Binding CalculatorRefreshTimeFormat}"/>
+                                                        Text="{Binding CalculatorRefreshTimeFormat}"
+                                                        TextTrimming="CharacterEllipsis"
+                                                        TextWrapping="NoWrap"/>
                                                 </StackPanel>
                                             </Grid>
                                         </DataTemplate>

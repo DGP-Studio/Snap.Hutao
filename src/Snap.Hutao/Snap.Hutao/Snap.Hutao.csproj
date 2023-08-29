@@ -231,10 +231,11 @@
   <!-- Packages -->
   <ItemGroup>
     <!-- https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -->
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.230802" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230802" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230802" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230802" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.230809" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.MarqueeText" Version="0.1.230809" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230809" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230809" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230809" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2-build.1" />
     <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230828-rc" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230828-rc" />
