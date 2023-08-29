@@ -31,10 +31,9 @@
                         SelectionMode="Single">
                         <GridView.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock
-                                    Margin="16"
-                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                    Text="{Binding Name}"/>
+                                <Border MinWidth="240" Margin="16">
+                                    <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding Name}"/>
+                                </Border>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>

@@ -17,6 +17,7 @@ internal sealed class EnkaResponse
 
     /// <summary>
     /// 展示的角色详细信息列表
+    /// 如果为 null 说明未打开角色橱窗
     /// </summary>
     [JsonPropertyName("avatarInfoList")]
     public List<AvatarInfo>? AvatarInfoList { get; set; } = default!;
