@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Snap.Hutao.Core.Database;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Model.Entity.Database;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -151,6 +152,15 @@ internal sealed partial class CultivationDbService : ICultivationDbService
             await appDbContext.CultivateProjects
                 .ExecuteDeleteWhereAsync(p => p.InnerId == projectId)
                 .ConfigureAwait(false);
+        }
+    }
+
+    public ObservableCollection<CultivateProject> GetCultivateProjectCollection()
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return appDbContext.CultivateProjects.AsNoTracking().ToObservableCollection();
         }
     }
 }

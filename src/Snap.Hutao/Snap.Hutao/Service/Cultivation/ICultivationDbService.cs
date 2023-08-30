@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.Service.Cultivation;
 
@@ -20,6 +21,8 @@ internal interface ICultivationDbService
     ValueTask<List<CultivateEntry>> GetCultivateEntryListByProjectIdAsync(Guid projectId);
 
     ValueTask<List<CultivateItem>> GetCultivateItemListByEntryIdAsync(Guid entryId);
+
+    ObservableCollection<CultivateProject> GetCultivateProjectCollection();
 
     List<InventoryItem> GetInventoryItemListByProjectId(Guid projectId);
 

@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shmmc="using:Snap.Hutao.Model.Metadata.Converter"
-    xmlns:shvh="using:Snap.Hutao.View.Helper"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -26,7 +26,7 @@
         <Pivot.HeaderTemplate>
             <DataTemplate>
                 <StackPanel>
-                    <shci:MonoChrome shvh:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
+                    <shci:MonoChrome shch:FrameworkElementHelper.SquareLength="36" Source="{Binding Icon, Converter={StaticResource SkillIconConverter}}"/>
                     <TextBlock
                         Margin="0,8,0,0"
                         HorizontalAlignment="Center"

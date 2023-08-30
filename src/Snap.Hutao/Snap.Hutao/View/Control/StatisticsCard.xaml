@@ -6,13 +6,13 @@
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
-    xmlns:shvh="using:Snap.Hutao.View.Helper"
     d:DataContext="{d:DesignInstance shvg:TypedWishSummary}"
     mc:Ignorable="d">
 
@@ -39,7 +39,7 @@
 
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <shci:CachedImage
-                        shvh:FrameworkElementHelper.SquareLength="40"
+                        shch:FrameworkElementHelper.SquareLength="40"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         Source="{Binding Icon}"/>
                     <TextBlock
@@ -94,7 +94,7 @@
                         <SolidColorBrush Color="{Binding Color}"/>
                     </shvcont:BottomTextSmallControl.Foreground>
                     <shvcont:ItemIcon
-                        shvh:FrameworkElementHelper.SquareLength="40"
+                        shch:FrameworkElementHelper.SquareLength="40"
                         Icon="{Binding Icon}"
                         Quality="{Binding Quality}"/>
                 </shvcont:BottomTextSmallControl>
@@ -236,10 +236,10 @@
                     </StackPanel>
                     <MenuFlyoutSeparator Margin="-12,0"/>
                     <shvcont:StatisticsSegmented
-                        IsPredictPullAvailable="{Binding IsPredictPullAvailable}"
                         x:Name="StatisticsSegmented"
-                        Margin="0,16,0,0"
+                        Margin="0,12,0,0"
                         HorizontalAlignment="Stretch"
+                        IsPredictPullAvailable="{Binding IsPredictPullAvailable}"
                         SelectedIndex="0"/>
                     <cwc:SwitchPresenter
                         Height="85"

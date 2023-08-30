@@ -8,14 +8,16 @@ using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.DailyNote;
 
 /// <summary>
 /// 实时便笺选项
 /// </summary>
+[ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Singleton)]
-internal sealed class DailyNoteOptions : DbStoreOptions
+internal sealed partial class DailyNoteOptions : DbStoreOptions
 {
     private const int OneMinute = 60;
 
@@ -26,17 +28,6 @@ internal sealed class DailyNoteOptions : DbStoreOptions
     private NameValue<int>? selectedRefreshTime;
     private bool? isReminderNotification;
     private bool? isSilentWhenPlayingGame;
-
-    /// <summary>
-    /// 构造一个新的实时便笺选项
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public DailyNoteOptions(IServiceProvider serviceProvider)
-        : base(serviceProvider)
-    {
-        scheduleTaskInterop = serviceProvider.GetRequiredService<IScheduleTaskInterop>();
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 刷新时间
