@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Graphics.Canvas.Svg;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Control.Extension;
 using Snap.Hutao.Core.Database;
@@ -299,6 +300,11 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
 
     private async ValueTask SetSelectedArchiveAndUpdateStatisticsAsync(GachaArchive? archive, bool forceUpdate = false)
     {
+        if (IsViewDisposed)
+        {
+            return;
+        }
+
         bool changed = SetProperty(ref selectedArchive, archive, nameof(SelectedArchive));
 
         if (changed)

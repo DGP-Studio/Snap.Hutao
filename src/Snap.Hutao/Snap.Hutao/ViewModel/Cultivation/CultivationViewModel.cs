@@ -50,7 +50,7 @@ internal sealed partial class CultivationViewModel : Abstraction.ViewModel
     {
         get => selectedProject; set
         {
-            if (SetProperty(ref selectedProject, value))
+            if (SetProperty(ref selectedProject, value) && !IsViewDisposed)
             {
                 cultivationService.Current = value;
                 UpdateEntryCollectionAsync(value).SafeForget(logger);

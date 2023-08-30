@@ -5,10 +5,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
+using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control;
 
-[DependencyProperty("Source", typeof(GradientStopCollection))]
+[DependencyProperty("Source", typeof(List<ColorSegment>), default!, nameof(OnSourceChanged))]
 internal sealed partial class SegmentedBar : ContentControl
 {
     private readonly LinearGradientBrush brush = new();
@@ -19,5 +20,20 @@ internal sealed partial class SegmentedBar : ContentControl
         {
             Fill = brush,
         };
+    }
+
+    private static void OnSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+    {
+        SegmentedBar segmentedBar = (SegmentedBar)obj;
+
+        segmentedBar.brush.GradientStops.Clear();
+
+        if (args.NewValue as List<ColorSegment> is [_, ..] list)
+        {
+            foreach (ref readonly ColorSegment segment in CollectionsMarshal.AsSpan(list))
+            {
+
+            }
+        }
     }
 }
