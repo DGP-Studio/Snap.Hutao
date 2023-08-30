@@ -9,10 +9,10 @@ using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Control;
 
-[DependencyProperty("Source", typeof(List<ColorSegment>), default!, nameof(OnSourceChanged))]
+[DependencyProperty("Source", typeof(List<IColorSegment>), default!, nameof(OnSourceChanged))]
 internal sealed partial class SegmentedBar : ContentControl
 {
-    private readonly LinearGradientBrush brush = new();
+    private readonly LinearGradientBrush brush = new() { StartPoint = new(0, 0), EndPoint = new(1, 0), };
 
     public SegmentedBar()
     {
@@ -26,13 +26,18 @@ internal sealed partial class SegmentedBar : ContentControl
     {
         SegmentedBar segmentedBar = (SegmentedBar)obj;
 
-        segmentedBar.brush.GradientStops.Clear();
+        GradientStopCollection collection = segmentedBar.brush.GradientStops;
+        collection.Clear();
 
-        if (args.NewValue as List<ColorSegment> is [_, ..] list)
+        if (args.NewValue as List<IColorSegment> is [_, ..] list)
         {
-            foreach (ref readonly ColorSegment segment in CollectionsMarshal.AsSpan(list))
+            double total = list.Sum(seg => seg.Value);
+            double offset = 0;
+            foreach (ref readonly IColorSegment segment in CollectionsMarshal.AsSpan(list))
             {
-
+                collection.Add(new GradientStop() { Color = segment.Color, Offset = offset, });
+                offset += segment.Value / total;
+                collection.Add(new GradientStop() { Color = segment.Color, Offset = offset, });
             }
         }
     }
