@@ -2095,6 +2095,33 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 预测 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlStatisticsSegmentedItemContentPrediction {
+            get {
+                return ResourceManager.GetString("ViewControlStatisticsSegmentedItemContentPrediction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 比例 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlStatisticsSegmentedItemContentProportion {
+            get {
+                return ResourceManager.GetString("ViewControlStatisticsSegmentedItemContentProportion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 统计 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlStatisticsSegmentedItemContentStatistics {
+            get {
+                return ResourceManager.GetString("ViewControlStatisticsSegmentedItemContentStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 养成计划 的本地化字符串。
         /// </summary>
         internal static string ViewCultivationHeader {
@@ -3103,7 +3130,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {1:00.000%} 概率 {0} 抽后获得五星物品 的本地化字符串。
+        ///   查找类似 {1:P3} 概率 {0} 抽后获得五星物品 的本地化字符串。
         /// </summary>
         internal static string ViewModelGachaLogPredictedPullLeftToOrange {
             get {
@@ -3112,7 +3139,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0:00.000%} 概率下一抽获得五星物品 的本地化字符串。
+        ///   查找类似 {0:P3} 概率下一抽获得五星物品 的本地化字符串。
         /// </summary>
         internal static string ViewModelGachaLogProbabilityOfNextPullIsOrange {
             get {

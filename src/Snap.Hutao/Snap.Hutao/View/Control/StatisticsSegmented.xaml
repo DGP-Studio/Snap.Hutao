@@ -1,0 +1,13 @@
+﻿<cwc:Segmented
+    x:Class="Snap.Hutao.View.Control.StatisticsSegmented"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shcm="using:Snap.Hutao.Control.Markup"
+    mc:Ignorable="d">
+    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewControlStatisticsSegmentedItemContentStatistics}" Icon="{shcm:FontIcon Glyph=&#xE9D2;}"/>
+    <cwc:SegmentedItem Content="{shcm:ResourceString Name=ViewControlStatisticsSegmentedItemContentProportion}" Icon="{shcm:FontIcon Glyph=&#xEB05;}"/>
+</cwc:Segmented>
+

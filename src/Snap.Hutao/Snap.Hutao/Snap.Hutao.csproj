@@ -119,6 +119,7 @@
     <None Remove="View\Control\LoadingViewSlim.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
     <None Remove="View\Control\StatisticsCard.xaml" />
+    <None Remove="View\Control\StatisticsSegmented.xaml" />
     <None Remove="View\Control\Webview2Viewer.xaml" />
     <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
@@ -296,6 +297,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Control\StatisticsSegmented.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
