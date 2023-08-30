@@ -852,13 +852,13 @@
     <value>UP</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
-    <value>预测</value>
+    <value>Prediction</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
-    <value>比例</value>
+    <value>Proportion</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
-    <value>统计</value>
+    <value>Statistics</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>Dev Plan</value>
@@ -1197,10 +1197,10 @@
     <value>Import Failed</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:P3} 概率 {0} 抽后获得五星物品</value>
+    <value>{1:P3} chance to get a 5-star item after {0} wishes</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:P3} 概率下一抽获得五星物品</value>
+    <value>{0:P3} chance to get a 5-star item in the next wish</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>Failed to fetch wish history</value>
