@@ -851,6 +851,15 @@
   <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
     <value>UP</value>
   </data>
+  <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
+    <value>Prediction</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
+    <value>Proportion</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>Dev Plan</value>
   </data>
@@ -1020,7 +1029,7 @@
     <value>Wish History</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>I've read</value>
+    <value>I've read and agreed to</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
     <value>Issue Reporting Approach and Process</value>
@@ -1032,7 +1041,7 @@
     <value>User Data and Privacy Notice</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
-    <value>User Agreement and Legal Disclaime</value>
+    <value>User Agreement and Legal Notices</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>Documentation</value>
@@ -1041,7 +1050,7 @@
     <value>Environments</value>
   </data>
   <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
-    <value>Restart Snap Hutao after the font installation to check if it takes effect</value>
+    <value>Restart Snap Hutao after the installation to check if it takes effect</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
     <value>If icons above are mojibake or unable to load, please visit</value>
@@ -1188,10 +1197,10 @@
     <value>Import Failed</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:00.000%} chance to get a 5-star item after {0} wishes</value>
+    <value>{1:P3} chance to get a 5-star item after {0} wishes</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:00.000%} chance to get a 5-star item in the next wish</value>
+    <value>{0:P3} chance to get a 5-star item in the next wish</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>Failed to fetch wish history</value>
@@ -1221,7 +1230,7 @@
     <value>Next</value>
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
-    <value>Please wait for assets download</value>
+    <value>Dowloading Assets</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>Please enter correct email address.</value>
@@ -1515,7 +1524,7 @@
     <value>Download the Cloud Archive of This Uid</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
-    <value>Free 5 days after uploading current schedule abyss record</value>
+    <value>Free 3-day license after uploading current schedule Abyss record</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityHeader" xml:space="preserve">
     <value>Upload Abyss Records</value>
