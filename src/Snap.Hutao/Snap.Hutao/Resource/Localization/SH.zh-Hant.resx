@@ -852,13 +852,13 @@
     <value>UP</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
-    <value>预测</value>
+    <value>預測</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
     <value>比例</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
-    <value>统计</value>
+    <value>統計</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>養成計劃</value>
@@ -1197,10 +1197,10 @@
     <value>匯入失敗</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:P3} 概率 {0} 抽后获得五星物品</value>
+    <value>{1:P3} 概率 {0} 抽後獲得五星物品</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:P3} 概率下一抽获得五星物品</value>
+    <value>{0:P3} 概率下一抽獲得五星物品</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>獲取祈願紀錄失敗</value>
