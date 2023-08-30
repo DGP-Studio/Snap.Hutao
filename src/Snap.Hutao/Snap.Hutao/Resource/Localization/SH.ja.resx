@@ -851,6 +851,15 @@
   <data name="ViewControlStatisticsCardUpText" xml:space="preserve">
     <value>ピックアップ</value>
   </data>
+  <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
+    <value>预测</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
+    <value>比例</value>
+  </data>
+  <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
+    <value>统计</value>
+  </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>育成計画</value>
   </data>
@@ -1188,10 +1197,10 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:00.000%} の確率で {0} を回した後に星5アイテムが排出される</value>
+    <value>{1:P3} 概率 {0} 抽后获得五星物品</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:00.000%} の確率で次回は星5アイテムが排出される</value>
+    <value>{0:P3} 概率下一抽获得五星物品</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>祈願履歴を取得できません</value>
