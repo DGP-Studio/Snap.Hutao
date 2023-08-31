@@ -21,60 +21,74 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <Grid>
-        <FlipView
-            x:Name="RootFlipView"
-            Background="{x:Null}"
-            ItemsSource="{Binding StatisticsList}"
-            Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
-            <FlipView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="12">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="{shcm:ResourceString Name=ViewCardAchievementStatisticsTitle}"/>
-                        <TextBlock
-                            Grid.Row="0"
-                            HorizontalAlignment="Right"
-                            Text="{Binding DisplayName}"/>
-                        <TextBlock
-                            Grid.Row="1"
-                            Margin="0,4,0,0"
-                            Style="{StaticResource TitleTextBlockStyle}"
-                            Text="{Binding FinishDescription}"/>
-                        <ItemsControl Grid.Row="2" ItemsSource="{Binding Achievements}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="0,4,0,0">
-                                        <TextBlock
-                                            Opacity="0.8"
-                                            Style="{StaticResource SubtitleTextBlockStyle}"
-                                            Text="{Binding Inner.Title}"
-                                            TextTrimming="CharacterEllipsis"
-                                            TextWrapping="NoWrap"/>
-                                        <TextBlock
-                                            Opacity="0.6"
-                                            Style="{StaticResource CaptionTextBlockStyle}"
-                                            Text="{Binding Time}"
-                                            TextWrapping="NoWrap"/>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </Grid>
-                </DataTemplate>
-            </FlipView.ItemTemplate>
-        </FlipView>
+        <Grid Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid Visibility="{Binding StatisticsList.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                <FlipView
+                    x:Name="RootFlipView"
+                    Background="{x:Null}"
+                    ItemsSource="{Binding StatisticsList}">
+                    <FlipView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="12">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="{shcm:ResourceString Name=ViewCardAchievementStatisticsTitle}"/>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    HorizontalAlignment="Right"
+                                    Text="{Binding DisplayName}"/>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Margin="0,4,0,0"
+                                    Style="{StaticResource TitleTextBlockStyle}"
+                                    Text="{Binding FinishDescription}"/>
+                                <ItemsControl Grid.Row="2" ItemsSource="{Binding Achievements}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Margin="0,4,0,0">
+                                                <TextBlock
+                                                    Opacity="0.8"
+                                                    Style="{StaticResource SubtitleTextBlockStyle}"
+                                                    Text="{Binding Inner.Title}"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    TextWrapping="NoWrap"/>
+                                                <TextBlock
+                                                    Opacity="0.6"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding Time}"
+                                                    TextWrapping="NoWrap"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </DataTemplate>
+                    </FlipView.ItemTemplate>
+                </FlipView>
 
-        <PipsPager
-            Height="16"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Bottom"
-            NumberOfPages="{Binding StatisticsList.Count}"
-            SelectedPageIndex="{x:Bind Path=RootFlipView.SelectedIndex, Mode=TwoWay}"
-            Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <PipsPager
+                    Height="16"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    NumberOfPages="{Binding StatisticsList.Count}"
+                    SelectedPageIndex="{x:Bind Path=RootFlipView.SelectedIndex, Mode=TwoWay}"/>
+            </Grid>
+
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Visibility="{Binding StatisticsList.Count, Converter={StaticResource Int32ToVisibilityRevertConverter}}">
+                <Image
+                    Width="80"
+                    Height="80"
+                    Source="ms-appx:///Resource/Navigation/Achievement.png"/>
+                <TextBlock HorizontalAlignment="Center" Text="{shcm:ResourceString Name=ViewAchievementHeader}"/>
+            </StackPanel>
+        </Grid>
+
         <shvc:LoadingViewSlim IsLoading="{Binding IsInitialized, Converter={StaticResource BoolNegationConverter}}"/>
     </Grid>
 </Button>

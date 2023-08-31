@@ -190,7 +190,7 @@
                     ItemsSource="{Binding DailyNoteEntries}"
                     SelectionMode="None"
                     StretchContentForSingleRow="False">
-                    <ItemsControl.ItemTemplate>
+                    <cwuc:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
                             <Grid Padding="8" Style="{StaticResource BorderGridStyle}">
                                 <Grid.RowDefinitions>
@@ -524,7 +524,7 @@
                                     TextWrapping="NoWrap"/>
                             </Grid>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                    </cwuc:AdaptiveGridView.ItemTemplate>
                 </cwuc:AdaptiveGridView>
             </ScrollViewer>
         </SplitView>

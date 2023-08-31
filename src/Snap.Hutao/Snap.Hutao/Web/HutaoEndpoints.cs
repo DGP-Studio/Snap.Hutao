@@ -18,10 +18,22 @@ internal static class HutaoEndpoints
     /// </summary>
     public const string StaticHutao = "static.hut.ao";
 
-    #region
-    public static string GeetestVerify(string gt, string challenge)
+    #region Hutao as a Service
+    public static string Announcement(string locale)
     {
-        return $"{HomaSnapGenshinApi}/Geetest/Verify?gt={gt}&challenge={challenge}";
+        return $"{HomaSnapGenshinApi}/Announcement/List?locale={locale}";
+    }
+
+    public static string AnnouncementUpload= $"{HomaSnapGenshinApi}/Service/Announcement/Upload";
+
+    public static string GachaLogCompensation(int days)
+    {
+        return $"{HomaSnapGenshinApi}/Service/GachaLog/Compensation?days={days}";
+    }
+
+    public static string GachaLogDesignation(string userName, int days)
+    {
+        return $"{HomaSnapGenshinApi}/Service/GachaLog/Designation?userName={userName}&days={days}";
     }
     #endregion
 
@@ -111,12 +123,15 @@ internal static class HutaoEndpoints
     public const string PassportUserInfo = $"{HomaSnapGenshinApi}/Passport/UserInfo";
     #endregion
 
-    #region HutaoAPI
+    #region LogUpload
 
     /// <summary>
     /// 上传日志
     /// </summary>
     public const string HutaoLogUpload = $"{HomaSnapGenshinApi}/HutaoLog/Upload";
+    #endregion
+
+    #region SpiralAbyss
 
     /// <summary>
     /// 检查 uid 是否上传记录

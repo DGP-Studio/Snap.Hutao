@@ -162,13 +162,16 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("UpdateCheckCommand")]
     private async Task CheckUpdateAsync()
     {
-#if DEBUG
-        await navigationService
-            .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
-            .ConfigureAwait(false);
-#else
-        await Windows.System.Launcher.LaunchUriAsync(new(@"ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
-#endif
+        if (hutaoUserOptions.IsMaintainer)
+        {
+            await navigationService
+                .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
+        }
     }
 
     [Command("SetDataFolderCommand")]

@@ -162,6 +162,7 @@
                         Style="{StaticResource TitleTextBlockStyle}"
                         Text="{Binding GreetingText}"/>
                     <TextBlock Margin="16,0,16,0" Text="{Binding UserOptions.UserName}"/>
+                    
                     <cwucont:AdaptiveGridView
                         Margin="16,16,0,0"
                         HorizontalAlignment="Stretch"

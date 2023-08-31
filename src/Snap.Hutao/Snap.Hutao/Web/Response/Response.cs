@@ -106,6 +106,24 @@ internal class Response
         }
     }
 
+    public virtual bool IsOk(bool showInfoBar = true, IServiceProvider? serviceProvider = null)
+    {
+        if (ReturnCode == 0)
+        {
+            return true;
+        }
+        else
+        {
+            if (showInfoBar)
+            {
+                serviceProvider ??= Ioc.Default;
+                serviceProvider.GetRequiredService<IInfoBarService>().Error(ToString());
+            }
+
+            return false;
+        }
+    }
+
     /// <inheritdoc/>
     public override string ToString()
     {
@@ -147,7 +165,7 @@ internal sealed class Response<TData> : Response, IJsResult
     /// <param name="serviceProvider">服务提供器</param>
     /// <returns>是否Ok</returns>
     [MemberNotNullWhen(true, nameof(Data))]
-    public bool IsOk(bool showInfoBar = true, IServiceProvider? serviceProvider = null)
+    public override bool IsOk(bool showInfoBar = true, IServiceProvider? serviceProvider = null)
     {
         if (ReturnCode == 0)
         {
