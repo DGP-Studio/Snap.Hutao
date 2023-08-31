@@ -1593,8 +1593,7 @@
     <value>You have launched Snap Hutao {0} times</value>
   </data>
   <data name="ViewPageHomeGreetingTextDefault" xml:space="preserve">
-    <value>Welcome to Teyvat, Traveler!
-</value>
+    <value>Welcome to Teyvat, Traveler!</value>
   </data>
   <data name="ViewPageHomeGreetingTextEasterEgg" xml:space="preserve">
     <value>You're right, but Snap Hutao was developed by DGP Studio...</value>
