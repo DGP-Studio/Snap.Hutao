@@ -143,7 +143,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         List<AvatarCollocation> avatarCollocationsRaw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
             avatarCollocationsRaw = await hutaoService.GetAvatarCollocationsAsync().ConfigureAwait(false);
         }
 
@@ -161,7 +161,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         List<WeaponCollocation> weaponCollocationsRaw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
             weaponCollocationsRaw = await hutaoService.GetWeaponCollocationsAsync().ConfigureAwait(false);
         }
 
@@ -178,7 +178,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         List<AvatarAppearanceRank> avatarAppearanceRanksRaw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
             avatarAppearanceRanksRaw = await hutaoService.GetAvatarAppearanceRanksAsync().ConfigureAwait(false);
         }
 
@@ -195,7 +195,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         List<AvatarUsageRank> avatarUsageRanksRaw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
             avatarUsageRanksRaw = await hutaoService.GetAvatarUsageRanksAsync().ConfigureAwait(false);
         }
 
@@ -212,7 +212,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         List<AvatarConstellationInfo> avatarConstellationInfosRaw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
             avatarConstellationInfosRaw = await hutaoService.GetAvatarConstellationInfosAsync().ConfigureAwait(false);
         }
 
@@ -228,7 +228,7 @@ internal sealed partial class HutaoCache : IHutaoCache
         List<TeamAppearance> teamAppearancesRaw;
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
             teamAppearancesRaw = await hutaoService.GetTeamAppearancesAsync().ConfigureAwait(false);
         }
 
@@ -240,7 +240,7 @@ internal sealed partial class HutaoCache : IHutaoCache
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
-            IHutaoService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoService>();
+            IHutaoSpiralAbyssService hutaoService = scope.ServiceProvider.GetRequiredService<IHutaoSpiralAbyssService>();
             Overview = await hutaoService.GetOverviewAsync().ConfigureAwait(false);
         }
     }

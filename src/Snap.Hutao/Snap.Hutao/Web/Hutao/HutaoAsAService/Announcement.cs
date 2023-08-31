@@ -1,11 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
-using Snap.Hutao.Web.Response;
-using System.Net.Http;
-
-namespace Snap.Hutao.Web.Hutao.Announcement;
+namespace Snap.Hutao.Web.Hutao.HutaoAsAService;
 
 /// <summary>
 /// 胡桃公告
@@ -26,4 +22,8 @@ internal sealed class Announcement : UploadAnnouncement
     /// 最后更新日期
     /// </summary>
     public long LastUpdateTime { get; set; }
+
+    public string UpdateTimeFormatted { get => $"{DateTimeOffset.FromUnixTimeSeconds(LastUpdateTime):yyyy-MM-dd HH:mm:ss}"; }
+
+    public ICommand? DismissCommand { get; set; }
 }

@@ -4,7 +4,7 @@
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.ViewModel.Guide;
-using Snap.Hutao.Web.Hutao.Announcement;
+using Snap.Hutao.Web.Hutao.HutaoAsAService;
 
 namespace Snap.Hutao.ViewModel;
 
@@ -18,7 +18,7 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 {
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
-    private readonly HomaAsAServiceClient homaAsAServiceClient;
+    private readonly HutaoAsAServiceClient homaAsAServiceClient;
 
     private UploadAnnouncement announcement = new();
 

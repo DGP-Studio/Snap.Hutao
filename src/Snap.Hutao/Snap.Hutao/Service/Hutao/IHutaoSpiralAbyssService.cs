@@ -9,7 +9,7 @@ namespace Snap.Hutao.Service.Hutao;
 /// 胡桃 API 服务
 /// </summary>
 [HighQuality]
-internal interface IHutaoService
+internal interface IHutaoSpiralAbyssService
 {
     /// <summary>
     /// 异步获取角色上场率

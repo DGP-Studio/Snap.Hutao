@@ -7,25 +7,25 @@ using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.Web.Response;
 using System.Net.Http;
 
-namespace Snap.Hutao.Web.Hutao.Announcement;
+namespace Snap.Hutao.Web.Hutao.HutaoAsAService;
 
 /// <summary>
 /// HaaS Client
 /// </summary>
 [ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.Default)]
-internal sealed partial class HomaAsAServiceClient
+internal sealed partial class HutaoAsAServiceClient
 {
     private readonly MetadataOptions metadataOptions;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
-    private readonly ILogger<HomaAsAServiceClient> logger;
+    private readonly ILogger<HutaoAsAServiceClient> logger;
 
-    public async ValueTask<Response<List<Announcement>>> GetAnnouncementListAsync(string gt, string challenge, CancellationToken token = default)
+    public async ValueTask<Response<List<Announcement>>> GetAnnouncementListAsync(List<long> excluedeIds, CancellationToken token = default)
     {
         Response<List<Announcement>>? resp = await httpClient
-            .TryCatchGetFromJsonAsync<Response<List<Announcement>>>(HutaoEndpoints.Announcement(metadataOptions.LocaleName), options, logger, token)
+            .TryCatchPostAsJsonAsync<List<long>, Response<List<Announcement>>>(HutaoEndpoints.Announcement(metadataOptions.LocaleName), excluedeIds, options, logger, token)
             .ConfigureAwait(false);
 
         return Response.Response.DefaultIfNull(resp);

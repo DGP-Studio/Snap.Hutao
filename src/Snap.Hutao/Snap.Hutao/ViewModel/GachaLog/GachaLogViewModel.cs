@@ -361,6 +361,11 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                         infoBarService.Error(ex);
                         return false;
                     }
+                    catch (FormatException ex)
+                    {
+                        infoBarService.Error(ex);
+                        return false;
+                    }
 
                     infoBarService.Success(SH.ViewModelGachaLogImportComplete);
                     await taskContext.SwitchToMainThreadAsync();

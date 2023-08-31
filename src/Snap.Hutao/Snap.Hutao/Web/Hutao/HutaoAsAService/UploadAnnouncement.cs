@@ -3,7 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace Snap.Hutao.Web.Hutao.Announcement;
+namespace Snap.Hutao.Web.Hutao.HutaoAsAService;
 
 internal class UploadAnnouncement
 {

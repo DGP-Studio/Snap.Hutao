@@ -48,4 +48,9 @@ internal static class SettingKeys
     /// 1.7.0 版本指引状态
     /// </summary>
     public const string Major1Minor7Revision0GuideState = "Major1Minor7Revision0GuideState";
+
+    /// <summary>
+    /// 排除的系统公告
+    /// </summary>
+    public const string ExcludedAnnouncementIds = "ExcludedAnnouncementIds";
 }
