@@ -164,7 +164,10 @@
                         Text="{Binding GreetingText}"/>
                     <TextBlock Margin="16,0,16,0" Text="{Binding UserOptions.UserName}"/>
 
-                    <ItemsControl Margin="16,16,16,0" ItemsSource="{Binding HutaoAnnouncements}">
+                    <ItemsControl
+                        Margin="16,16,16,0"
+                        ItemsSource="{Binding HutaoAnnouncements}"
+                        Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <InfoBar
