@@ -1065,7 +1065,7 @@
     <value>下载并自行安装运行时</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
-    <value>语言</value>
+    <value>言語設定</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
     <value>资源</value>
