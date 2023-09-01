@@ -765,13 +765,13 @@
     <value>Your Snap Hutao version is too low. Please update as soon as possible.</value>
   </data>
   <data name="ServiceSignInClaimRewardFailedFormat" xml:space="preserve">
-    <value>Signin failed, {0}</value>
+    <value>Check-in failed, {0}</value>
   </data>
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>Fetch Signin reward list failed</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
-    <value>Signin successfully, {0} x {1}</value>
+    <value>Check-in successfully, {0} x {1}</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>Multiple users recorded as selected</value>
@@ -2130,7 +2130,7 @@
     <value>Refresh Cookie</value>
   </data>
   <data name="ViewUserCookieOperationSignInRewardAction" xml:space="preserve">
-    <value>Claim signin reward</value>
+    <value>Claim Check-In Reward</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
     <value>Copy Cookie</value>
