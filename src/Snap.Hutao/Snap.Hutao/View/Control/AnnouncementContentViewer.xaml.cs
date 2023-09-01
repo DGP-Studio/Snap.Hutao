@@ -116,7 +116,7 @@ internal sealed partial class AnnouncementContentViewer : UserControl
 
             <body style="{{(isDarkMode ? LightColor1 : DarkColor1)}}; background-color: transparent;">
                 <h3>{{announcement.Title}}</h3>
-                <img src="{{announcement.Banner}}" />
+                <img src="{{announcement.Banner}}"/>
                 <br>
                 {{content}}
             </body>

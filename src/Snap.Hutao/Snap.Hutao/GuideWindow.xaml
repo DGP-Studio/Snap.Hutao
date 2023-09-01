@@ -4,17 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:mxi="using:Microsoft.Xaml.Interactivity"
-    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvg="using:Snap.Hutao.View.Guide"
     mc:Ignorable="d">
 
     <Grid x:Name="RootGrid">
-        <mxi:Interaction.Behaviors>
-            <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
-        </mxi:Interaction.Behaviors>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition/>

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
+    xmlns:cwh="using:CommunityToolkit.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -16,7 +17,7 @@
     mc:Ignorable="d">
     <ScrollViewer>
         <StackPanel Margin="16" Spacing="{StaticResource SettingsCardSpacing}">
-            <cwc:SettingsCard Header="AdoptCalculatorDialogTest" IsClickEnabled="True">
+            <cwc:SettingsCard Header="Adopt Calculator" IsClickEnabled="True">
                 <mxi:Interaction.Behaviors>
                     <mxic:EventTriggerBehavior EventName="Click">
                         <shcb:OpenAttachedFlyoutAction/>
@@ -37,7 +38,7 @@
                 </FlyoutBase.AttachedFlyout>
             </cwc:SettingsCard>
 
-            <cwc:SettingsCard Header="CommunityGameRecordDialogTest" IsClickEnabled="True">
+            <cwc:SettingsCard Header="Community Game Record" IsClickEnabled="True">
                 <mxi:Interaction.Behaviors>
                     <mxic:EventTriggerBehavior EventName="Click">
                         <shcb:OpenAttachedFlyoutAction/>
@@ -58,15 +59,37 @@
                 </FlyoutBase.AttachedFlyout>
             </cwc:SettingsCard>
 
-            <cwc:SettingsCard Header="RestartTest">
+            <cwc:SettingsCard Header="Reset Guide State">
                 <StackPanel Orientation="Horizontal">
-                    <ToggleSwitch Name="ElevatedSwitch" Style="{StaticResource DefaultToggleSwitchStyle}"/>
-                    <Button
-                        Command="{Binding RestartAppCommand}"
-                        CommandParameter="{Binding ElementName=ElevatedSwitch, Path=IsOn}"
-                        Content="Restart"/>
+                    <Button Command="{Binding ResetGuideStateCommand}" Content="Reset (No restart)"/>
                 </StackPanel>
             </cwc:SettingsCard>
+
+            <Expander
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
+                Header="Upload Announcement">
+                <StackPanel Spacing="8">
+                    <TextBox
+                        Header="Title"
+                        PlaceholderText="Please input title"
+                        Text="{Binding Announcement.Title, Mode=TwoWay}"/>
+                    <TextBox
+                        Header="Link"
+                        PlaceholderText="Please input link"
+                        Text="{Binding Announcement.Link, Mode=TwoWay}"/>
+                    <TextBox
+                        AcceptsReturn="True"
+                        Header="Content"
+                        PlaceholderText="Please input content"
+                        Text="{Binding Announcement.Content, Mode=TwoWay}"/>
+                    <ComboBox
+                        Header="Severity"
+                        ItemsSource="{cwh:EnumValues Type=InfoBarSeverity}"
+                        SelectedItem="{Binding Announcement.Severity, Mode=TwoWay}"/>
+                    <Button Command="{Binding UploadAnnouncementCommand}" Content="Upload"/>
+                </StackPanel>
+            </Expander>
         </StackPanel>
     </ScrollViewer>
 </shc:ScopedPage>

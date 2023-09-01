@@ -34,6 +34,12 @@
         <Pivot>
             <Pivot.RightHeader>
                 <CommandBar DefaultLabelPosition="Right">
+                    <CommandBar.Content>
+                        <TextBlock
+                            Margin="12,14,12,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding LaunchStatusOptions.LaunchStatus.Description}"/>
+                    </CommandBar.Content>
                     <AppBarButton
                         Command="{Binding OpenScreenshotFolderCommand}"
                         Icon="{shcm:FontIcon Glyph=&#xED25;}"

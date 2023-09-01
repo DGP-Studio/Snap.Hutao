@@ -1,40 +1,33 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Core;
 using Snap.Hutao.Core.Shell;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Notification;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Service.DailyNote;
 
 /// <summary>
 /// 实时便笺选项
 /// </summary>
+[ConstructorGenerated(CallBaseConstructor = true)]
 [Injection(InjectAs.Singleton)]
-internal sealed class DailyNoteOptions : DbStoreOptions
+internal sealed partial class DailyNoteOptions : DbStoreOptions
 {
     private const int OneMinute = 60;
 
+    private readonly RuntimeOptions runtimeOptions;
     private readonly IServiceProvider serviceProvider;
     private readonly IScheduleTaskInterop scheduleTaskInterop;
 
     private NameValue<int>? selectedRefreshTime;
     private bool? isReminderNotification;
     private bool? isSilentWhenPlayingGame;
-
-    /// <summary>
-    /// 构造一个新的实时便笺选项
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public DailyNoteOptions(IServiceProvider serviceProvider)
-        : base(serviceProvider)
-    {
-        scheduleTaskInterop = serviceProvider.GetRequiredService<IScheduleTaskInterop>();
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <summary>
     /// 刷新时间
@@ -53,6 +46,12 @@ internal sealed class DailyNoteOptions : DbStoreOptions
         get => scheduleTaskInterop.IsDailyNoteRefreshEnabled();
         set
         {
+            if (runtimeOptions.IsElevated)
+            {
+                // leave below untouched if we are running in elevated privilege
+                return;
+            }
+
             if (value)
             {
                 if (SelectedRefreshTime is not null)
@@ -74,9 +73,25 @@ internal sealed class DailyNoteOptions : DbStoreOptions
     /// </summary>
     public NameValue<int>? SelectedRefreshTime
     {
-        get => GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
+        get
+        {
+            if (runtimeOptions.IsElevated)
+            {
+                // leave below untouched if we are running in elevated privilege
+                return null;
+            }
+
+            return GetOption(ref selectedRefreshTime, SettingEntry.DailyNoteRefreshSeconds, time => RefreshTimes.Single(t => t.Value == int.Parse(time, CultureInfo.InvariantCulture)), RefreshTimes[1]);
+        }
+
         set
         {
+            if (runtimeOptions.IsElevated)
+            {
+                // leave below untouched if we are running in elevated privilege
+                return;
+            }
+
             if (value is not null)
             {
                 if (scheduleTaskInterop.RegisterForDailyNoteRefresh(value.Value))

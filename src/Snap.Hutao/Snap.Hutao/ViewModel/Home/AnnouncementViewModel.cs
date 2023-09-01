@@ -5,6 +5,7 @@ using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
+using System.Collections.ObjectModel;
 
 namespace Snap.Hutao.ViewModel.Home;
 
@@ -16,17 +17,21 @@ namespace Snap.Hutao.ViewModel.Home;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
 {
+    private readonly IHutaoAsAService hutaoAsAService;
     private readonly IAnnouncementService announcementService;
     private readonly HutaoUserOptions hutaoUserOptions;
     private readonly ITaskContext taskContext;
 
     private AnnouncementWrapper? announcement;
     private string greetingText = SH.ViewPageHomeGreetingTextDefault;
+    private ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? hutaoAnnouncements;
 
     /// <summary>
     /// 公告
     /// </summary>
     public AnnouncementWrapper? Announcement { get => announcement; set => SetProperty(ref announcement, value); }
+
+    public ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? HutaoAnnouncements { get => hutaoAnnouncements; set => SetProperty(ref hutaoAnnouncements, value); }
 
     /// <summary>
     /// 用户选项
@@ -38,15 +43,34 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     /// </summary>
     public string GreetingText { get => greetingText; set => SetProperty(ref greetingText, value); }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override ValueTask<bool> InitializeUIAsync()
+    {
+        InitializeInGameAnnouncementAsync().SafeForget();
+        InitializeHutaoAnnouncementAsync().SafeForget();
+        UpdateGreetingText();
+        return ValueTask.FromResult(true);
+    }
+
+    private async ValueTask InitializeInGameAnnouncementAsync()
     {
         try
         {
-            AnnouncementWrapper announcement = await announcementService.GetAnnouncementsAsync(CancellationToken).ConfigureAwait(false);
+            AnnouncementWrapper announcementWrapper = await announcementService.GetAnnouncementWrapperAsync(CancellationToken).ConfigureAwait(false);
             await taskContext.SwitchToMainThreadAsync();
-            Announcement = announcement;
-            UpdateGreetingText();
+            Announcement = announcementWrapper;
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    private async Task InitializeHutaoAnnouncementAsync()
+    {
+        try
+        {
+            ObservableCollection<Web.Hutao.HutaoAsAService.Announcement> hutaoAnnouncements = await hutaoAsAService.GetHutaoAnnouncementCollectionAsync().ConfigureAwait(false);
+            await taskContext.SwitchToMainThreadAsync();
+            HutaoAnnouncements = hutaoAnnouncements;
         }
         catch (OperationCanceledException)
         {

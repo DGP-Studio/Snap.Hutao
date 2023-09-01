@@ -115,6 +115,11 @@ internal static class LocalSetting
         return Get<Windows.Foundation.Rect>(key, defaultValue);
     }
 
+    public static ApplicationDataCompositeValue Get(string key,  ApplicationDataCompositeValue defaultValue)
+    {
+        return Get<ApplicationDataCompositeValue>(key, defaultValue);
+    }
+
     /// <inheritdoc cref="Set{T}(string, T)"/>
     public static void Set(string key, byte value)
     {
@@ -215,6 +220,11 @@ internal static class LocalSetting
     public static void Set(string key, Windows.Foundation.Rect value)
     {
         Set<Windows.Foundation.Rect>(key, value);
+    }
+
+    public static void Set(string key, ApplicationDataCompositeValue value)
+    {
+        Set<ApplicationDataCompositeValue>(key, value);
     }
 
     /// <summary>

@@ -1,11 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
-using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Core.Windowing;
-using Snap.Hutao.Message;
 using Windows.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -17,7 +14,7 @@ namespace Snap.Hutao;
 [HighQuality]
 [Injection(InjectAs.Singleton)]
 [SuppressMessage("", "CA1001")]
-internal sealed partial class MainWindow : Window, IWindowOptionsSource, IRecipient<WelcomeStateCompleteMessage>
+internal sealed partial class MainWindow : Window, IWindowOptionsSource
 {
     private const int MinWidth = 848;
     private const int MinHeight = 524;
@@ -35,11 +32,8 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IRecipi
         InitializeComponent();
         windowOptions = new(this, TitleBarView.DragArea, new(1200, 741), true);
         ExtendedWindow<MainWindow>.Initialize(this, serviceProvider);
-        serviceProvider.GetRequiredService<IMessenger>().Register(this);
         logger = serviceProvider.GetRequiredService<ILogger<MainWindow>>();
 
-        // If not complete we should present the welcome view.
-        ContentSwitchPresenter.Value = StaticResource.IsAnyUnfulfilledContractPresent();
         closedEventHander = OnClosed;
         Closed += closedEventHander;
     }
@@ -52,12 +46,6 @@ internal sealed partial class MainWindow : Window, IWindowOptionsSource, IRecipi
     {
         pInfo->ptMinTrackSize.X = (int)Math.Max(MinWidth * scalingFactor, pInfo->ptMinTrackSize.X);
         pInfo->ptMinTrackSize.Y = (int)Math.Max(MinHeight * scalingFactor, pInfo->ptMinTrackSize.Y);
-    }
-
-    /// <inheritdoc/>
-    public void Receive(WelcomeStateCompleteMessage message)
-    {
-        ContentSwitchPresenter.Value = false;
     }
 
     private void OnClosed(object sender, WindowEventArgs args)

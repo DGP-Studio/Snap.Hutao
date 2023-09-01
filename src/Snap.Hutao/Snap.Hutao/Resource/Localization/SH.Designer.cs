@@ -1537,6 +1537,69 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 游戏进程已退出 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseProcessExited {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseProcessExited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在初始化游戏进程 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseProcessInitializing {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseProcessInitializing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 游戏进程已启动 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseProcessStarted {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseProcessStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 解锁帧率上限失败，正在结束游戏进程 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseUnlockFpsFailed {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseUnlockFpsFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 解锁帧率上限成功 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseUnlockFpsSucceed {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseUnlockFpsSucceed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正在尝试解锁帧率上限 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseUnlockingFps {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseUnlockingFps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待游戏进程退出 的本地化字符串。
+        /// </summary>
+        internal static string ServiceGameLaunchPhaseWaitingProcessExit {
+            get {
+                return ResourceManager.GetString("ServiceGameLaunchPhaseWaitingProcessExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 选择游戏本体 的本地化字符串。
         /// </summary>
         internal static string ServiceGameLocatorFileOpenPickerCommitText {
@@ -2032,6 +2095,33 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 预测 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlStatisticsSegmentedItemContentPrediction {
+            get {
+                return ResourceManager.GetString("ViewControlStatisticsSegmentedItemContentPrediction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 比例 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlStatisticsSegmentedItemContentProportion {
+            get {
+                return ResourceManager.GetString("ViewControlStatisticsSegmentedItemContentProportion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 统计 的本地化字符串。
+        /// </summary>
+        internal static string ViewControlStatisticsSegmentedItemContentStatistics {
+            get {
+                return ResourceManager.GetString("ViewControlStatisticsSegmentedItemContentStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 养成计划 的本地化字符串。
         /// </summary>
         internal static string ViewCultivationHeader {
@@ -2275,6 +2365,87 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 请输入请求接口的 Url 复合模板 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlCompositInputHint {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlCompositInputHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 接口需要返回形如上方所示的 Json 数据，多余的数据会被忽略 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlReturnDataDescription1 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlReturnDataDescription1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 &quot;code&quot; 为 0 时，指示验证成功，其他的值均视为验证失败 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlReturnDataDescription2 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlReturnDataDescription2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 返回数据 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlReturnDataHeader {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlReturnDataHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {0} 将在实际请求时替换为 gt 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlSampleDescription1 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlSampleDescription1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 {1} 将在实际请求时替换为 challenge 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlSampleDescription2 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlSampleDescription2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 将会通过 GET 方式对接口发送请求 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlSampleDescription3 {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlSampleDescription3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 示例 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlSampleHeader {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlSampleHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置无感验证接口 的本地化字符串。
+        /// </summary>
+        internal static string ViewDialogGeetestCustomUrlTitle {
+            get {
+                return ResourceManager.GetString("ViewDialogGeetestCustomUrlTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 导出 App 的本地化字符串。
         /// </summary>
         internal static string ViewDialogImportExportApp {
@@ -2451,6 +2622,132 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewGachaLogHeader {
             get {
                 return ResourceManager.GetString("ViewGachaLogHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我已阅读并同意 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementIHaveReadText {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementIHaveReadText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 问题报告方式与流程 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementIssueReport {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementIssueReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Snap Hutao 开源许可 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementOpenSourceLicense {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementOpenSourceLicense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户数据与隐私权益 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementPrivacyPolicy {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementPrivacyPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用户使用协议与法律声明 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepAgreementTermOfService {
+            get {
+                return ResourceManager.GetString("ViewGuideStepAgreementTermOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 文档 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepDocument {
+            get {
+                return ResourceManager.GetString("ViewGuideStepDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 环境 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironment {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 安装完成后重启胡桃以查看是否正常生效 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentAfterInstallDescription {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentAfterInstallDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 如果上方的图标中存在乱码，请前往 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentFontDescription1 {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentFontDescription1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载并自行安装图标字体 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentFontDescription2 {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentFontDescription2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 若未检测到 WebView2 运行时信息，可以前往 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentWebView2Description1 {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentWebView2Description1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载并自行安装运行时 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepEnvironmentWebView2Description2 {
+            get {
+                return ResourceManager.GetString("ViewGuideStepEnvironmentWebView2Description2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 语言 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepLanguage {
+            get {
+                return ResourceManager.GetString("ViewGuideStepLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 资源 的本地化字符串。
+        /// </summary>
+        internal static string ViewGuideStepStaticResource {
+            get {
+                return ResourceManager.GetString("ViewGuideStepStaticResource", resourceCulture);
             }
         }
         
@@ -2833,7 +3130,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {1:00.000%} 概率 {0} 抽后获得五星物品 的本地化字符串。
+        ///   查找类似 {1:P3} 概率 {0} 抽后获得五星物品 的本地化字符串。
         /// </summary>
         internal static string ViewModelGachaLogPredictedPullLeftToOrange {
             get {
@@ -2842,7 +3139,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 {0:00.000%} 概率下一抽获得五星物品 的本地化字符串。
+        ///   查找类似 {0:P3} 概率下一抽获得五星物品 的本地化字符串。
         /// </summary>
         internal static string ViewModelGachaLogProbabilityOfNextPullIsOrange {
             get {
@@ -2901,6 +3198,42 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewModelGachaLogUploadToHutaoCloudProgress {
             get {
                 return ResourceManager.GetString("ViewModelGachaLogUploadToHutaoCloudProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 我已阅读并同意上方的条款 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGuideActionAgreement {
+            get {
+                return ResourceManager.GetString("ViewModelGuideActionAgreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 完成 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGuideActionComplete {
+            get {
+                return ResourceManager.GetString("ViewModelGuideActionComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下一步 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGuideActionNext {
+            get {
+                return ResourceManager.GetString("ViewModelGuideActionNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 下载资源文件中，请稍候 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelGuideActionStaticResourceBegin {
+            get {
+                return ResourceManager.GetString("ViewModelGuideActionStaticResourceBegin", resourceCulture);
             }
         }
         
@@ -3364,6 +3697,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 刷新时间 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageAvatarPropertyRefreshTimeToggle {
+            get {
+                return ResourceManager.GetString("ViewPageAvatarPropertyRefreshTimeToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 评分 的本地化字符串。
         /// </summary>
         internal static string ViewPageAvatarPropertyScore {
@@ -3769,7 +4111,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 每期深渊首次上传可免费获得5天时长 的本地化字符串。
+        ///   查找类似 每期深渊首次上传可免费获得 3 天时长 的本地化字符串。
         /// </summary>
         internal static string ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription {
             get {
@@ -4908,6 +5250,42 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingGameHeader {
             get {
                 return ResourceManager.GetString("ViewPageSettingGameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGeetestCustomUrlAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGeetestCustomUrlAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置当请求触发人机验证时使用的验证接口 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGeetestCustomUrlDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGeetestCustomUrlDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置验证请求接口 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGeetestCustomUrlHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGeetestCustomUrlHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无感验证 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingGeetestVerificationHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingGeetestVerificationHeader", resourceCulture);
             }
         }
         

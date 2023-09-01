@@ -4,6 +4,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Snap.Hutao.SourceGeneration.Primitive;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace Snap.Hutao.SourceGeneration.Automation;
 internal sealed class ConstructorGenerator : IIncrementalGenerator
 {
     private const string AttributeName = "Snap.Hutao.Core.Annotation.ConstructorGeneratedAttribute";
+    private const string CompilerGenerated = "System.Runtime.CompilerServices.CompilerGeneratedAttribute";
 
     //private static readonly DiagnosticDescriptor genericTypeNotSupportedDescriptor = new("SH102", "Generic type is not supported to generate .ctor", "Type [{0}] is not supported", "Quality", DiagnosticSeverity.Error, true);
 
@@ -98,6 +100,11 @@ internal sealed class ConstructorGenerator : IIncrementalGenerator
 
         foreach (IFieldSymbol fieldSymbol in fields)
         {
+            if (fieldSymbol.Name.AsSpan()[0] is '<')
+            {
+                continue;
+            }
+
             bool shoudSkip = false;
             foreach (SyntaxReference syntaxReference in fieldSymbol.DeclaringSyntaxReferences)
             {

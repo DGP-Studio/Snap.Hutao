@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Options;
-using Snap.Hutao.Web.Hutao.SpiralAbyss;
+using Snap.Hutao.Web.Hutao;
 using System.Text.RegularExpressions;
 
 namespace Snap.Hutao.Service.Hutao;
@@ -21,6 +21,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     private bool isHutaoCloudServiceAllowed;
     private bool isLicensedDeveloper;
     private string? gachaLogExpireAt;
+    private bool isMaintainer;
 
     /// <summary>
     /// 用户名
@@ -46,6 +47,8 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     /// 是否为开发者
     /// </summary>
     public bool IsLicensedDeveloper { get => isLicensedDeveloper; set => SetProperty(ref isLicensedDeveloper, value); }
+
+    public bool IsMaintainer { get => isMaintainer; set => SetProperty(ref isMaintainer, value); }
 
     /// <summary>
     /// 祈愿记录服务到期时间
@@ -89,6 +92,7 @@ internal sealed class HutaoUserOptions : ObservableObject, IOptions<HutaoUserOpt
     public void UpdateUserInfo(UserInfo userInfo)
     {
         IsLicensedDeveloper = userInfo.IsLicensedDeveloper;
+        IsMaintainer = userInfo.IsMaintainer;
         GachaLogExpireAt = Regex.Unescape(SH.ServiceHutaoUserGachaLogExpiredAt).Format(userInfo.GachaLogExpireAt);
         IsCloudServiceAllowed = IsLicensedDeveloper || userInfo.GachaLogExpireAt > DateTimeOffset.Now;
     }

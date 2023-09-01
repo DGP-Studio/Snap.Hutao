@@ -150,7 +150,7 @@ internal sealed class Activation : IActivation
         // Increase launch times
         LocalSetting.Set(SettingKeys.LaunchTimes, LocalSetting.Get(SettingKeys.LaunchTimes, 0) + 1);
 
-        if (false && LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.None) < (uint)GuideState.Completed)
+        if (LocalSetting.Get(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.Language) < (uint)GuideState.Completed)
         {
             await taskContext.SwitchToMainThreadAsync();
             serviceProvider.GetRequiredService<GuideWindow>();
@@ -243,11 +243,6 @@ internal sealed class Activation : IActivation
                 {
                     try
                     {
-                        if (serviceProvider.GetRequiredService<IHutaoUserService>() is IHutaoUserServiceInitialization hutaoUserServiceInitialization)
-                        {
-                            await hutaoUserServiceInitialization.InitializeInternalAsync().ConfigureAwait(false);
-                        }
-
                         await serviceProvider
                             .GetRequiredService<IDailyNoteService>()
                             .RefreshDailyNotesAsync()

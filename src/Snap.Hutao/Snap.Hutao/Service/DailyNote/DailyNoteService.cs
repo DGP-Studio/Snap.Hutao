@@ -125,13 +125,21 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             {
                 WebDailyNote dailyNote = dailyNoteResponse.Data;
 
+                // 发送通知
+                await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
+
                 // 集合内的实时便笺与数据库取出的非同一个对象，需要分别更新
                 // cache
                 await taskContext.SwitchToMainThreadAsync();
-                entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid)?.UpdateDailyNote(dailyNote);
-
-                // 发送通知
-                await dailyNoteNotificationOperation.SendAsync(entry).ConfigureAwait(false);
+                if (entries?.SingleOrDefault(e => e.UserId == entry.UserId && e.Uid == entry.Uid) is { } cachedEntry)
+                {
+                    cachedEntry.UpdateDailyNote(dailyNote);
+                    cachedEntry.ResinNotifySuppressed = entry.ResinNotifySuppressed;
+                    cachedEntry.HomeCoinNotifySuppressed = entry.HomeCoinNotifySuppressed;
+                    cachedEntry.TransformerNotifySuppressed = entry.TransformerNotifySuppressed;
+                    cachedEntry.DailyTaskNotifySuppressed = entry.DailyTaskNotifySuppressed;
+                    cachedEntry.ExpeditionNotifySuppressed = entry.ExpeditionNotifySuppressed;
+                }
 
                 // database
                 entry.UpdateDailyNote(dailyNote);

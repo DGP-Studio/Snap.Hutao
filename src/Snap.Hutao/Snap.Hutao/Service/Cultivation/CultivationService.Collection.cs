@@ -29,12 +29,7 @@ internal sealed partial class CultivationService
         {
             if (projects is null)
             {
-                using (IServiceScope scope = serviceProvider.CreateScope())
-                {
-                    AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-                    projects = appDbContext.CultivateProjects.ToObservableCollection();
-                }
-
+                projects = cultivationDbService.GetCultivateProjectCollection();
                 Current ??= projects.SelectedOrDefault();
             }
 

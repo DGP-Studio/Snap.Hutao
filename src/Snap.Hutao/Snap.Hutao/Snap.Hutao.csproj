@@ -83,25 +83,11 @@
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
     <None Remove="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
     <None Remove="Resource\Icon\UI_AchievementIcon_3_3.png" />
-    <None Remove="Resource\Icon\UI_BagTabIcon_Avatar.png" />
-    <None Remove="Resource\Icon\UI_BagTabIcon_Weapon.png" />
-    <None Remove="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
-    <None Remove="Resource\Icon\UI_BtnIcon_Gacha.png" />
-    <None Remove="Resource\Icon\UI_ChapterIcon_Hutao.png" />
     <None Remove="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
-    <None Remove="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
-    <None Remove="Resource\Icon\UI_HomeWorldTabIcon_2_Team.png" />
-    <None Remove="Resource\Icon\UI_Icon_Achievement.png" />
-    <None Remove="Resource\Icon\UI_Icon_BoostUp.png" />
     <None Remove="Resource\Icon\UI_Icon_Fetter.png" />
     <None Remove="Resource\Icon\UI_Icon_Locked.png" />
-    <None Remove="Resource\Icon\UI_Icon_None.png" />
     <None Remove="Resource\Icon\UI_Icon_Tower_Star.png" />
     <None Remove="Resource\Icon\UI_ItemIcon_201.png" />
-    <None Remove="Resource\Icon\UI_ItemIcon_210.png" />
-    <None Remove="Resource\Icon\UI_MarkCustom_TagMonster.png" />
-    <None Remove="Resource\Icon\UI_MarkTower.png" />
-    <None Remove="Resource\Icon\UI_MarkTower_Tower.png" />
     <None Remove="Resource\Navigation\Achievement.png" />
     <None Remove="Resource\Navigation\Announcement.png" />
     <None Remove="Resource\Navigation\AvatarProperty.png" />
@@ -133,6 +119,7 @@
     <None Remove="View\Control\LoadingViewSlim.xaml" />
     <None Remove="View\Control\SkillPivot.xaml" />
     <None Remove="View\Control\StatisticsCard.xaml" />
+    <None Remove="View\Control\StatisticsSegmented.xaml" />
     <None Remove="View\Control\Webview2Viewer.xaml" />
     <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
@@ -142,6 +129,7 @@
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
     <None Remove="View\Dialog\GachaLogRefreshProgressDialog.xaml" />
     <None Remove="View\Dialog\GachaLogUrlDialog.xaml" />
+    <None Remove="View\Dialog\GeetestCustomUrlDialog.xaml" />
     <None Remove="View\Dialog\LaunchGameAccountNameDialog.xaml" />
     <None Remove="View\Dialog\LaunchGamePackageConvertDialog.xaml" />
     <None Remove="View\Dialog\SignInWebViewDialog.xaml" />
@@ -168,7 +156,6 @@
     <None Remove="View\Page\WikiWeaponPage.xaml" />
     <None Remove="View\TitleView.xaml" />
     <None Remove="View\UserView.xaml" />
-    <None Remove="View\WelcomeView.xaml" />
   </ItemGroup>
   
   <!-- Analyzer Files -->
@@ -222,25 +209,11 @@
     <Content Include="Resource\Font\MiSans-Regular.ttf" />
     <Content Include="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
     <Content Include="Resource\Icon\UI_AchievementIcon_3_3.png" />
-    <Content Include="Resource\Icon\UI_BagTabIcon_Avatar.png" />
-    <Content Include="Resource\Icon\UI_BagTabIcon_Weapon.png" />
-    <Content Include="Resource\Icon\UI_BtnIcon_ActivityEntry.png" />
-    <Content Include="Resource\Icon\UI_BtnIcon_Gacha.png" />
-    <Content Include="Resource\Icon\UI_ChapterIcon_Hutao.png" />
     <Content Include="Resource\Icon\UI_GachaShowPanel_Bg_Weapon.png" />
-    <Content Include="Resource\Icon\UI_GuideIcon_PlayMethod.png" />
-    <Content Include="Resource\Icon\UI_HomeWorldTabIcon_2_Team.png" />
-    <Content Include="Resource\Icon\UI_Icon_Achievement.png" />
-    <Content Include="Resource\Icon\UI_Icon_BoostUp.png" />
     <Content Include="Resource\Icon\UI_Icon_Fetter.png" />
     <Content Include="Resource\Icon\UI_Icon_Locked.png" />
-    <Content Include="Resource\Icon\UI_Icon_None.png" />
     <Content Include="Resource\Icon\UI_Icon_Tower_Star.png" />
     <Content Include="Resource\Icon\UI_ItemIcon_201.png" />
-    <Content Include="Resource\Icon\UI_ItemIcon_210.png" />
-    <Content Include="Resource\Icon\UI_MarkCustom_TagMonster.png" />
-    <Content Include="Resource\Icon\UI_MarkTower.png" />
-    <Content Include="Resource\Icon\UI_MarkTower_Tower.png" />
     <Content Include="Resource\Navigation\Achievement.png" />
     <Content Include="Resource\Navigation\Announcement.png" />
     <Content Include="Resource\Navigation\AvatarProperty.png" />
@@ -259,17 +232,18 @@
   <!-- Packages -->
   <ItemGroup>
     <!-- https://pkgs.dev.azure.com/dotnet/CommunityToolkit/_packaging/CommunityToolkit-Labs/nuget/v3/index.json -->
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.230802" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230802" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230802" />
-    <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230802" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.DataTable" Version="0.1.230809" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.MarqueeText" Version="0.1.230809" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.230809" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230809" />
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230809" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2-build.1" />
-    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230809-preview" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230809-preview" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.230809-preview" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.230809-preview" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230809-preview" />
-    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230809-preview" />
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230828-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230828-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.230828-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.230828-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230828-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230828-rc" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />
@@ -323,6 +297,18 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Control\StatisticsSegmented.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Dialog\GeetestCustomUrlDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>
@@ -394,11 +380,6 @@
   <!-- Pages -->
   <ItemGroup>
     <Page Update="View\Dialog\LaunchGamePackageConvertDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="View\WelcomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

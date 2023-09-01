@@ -119,7 +119,7 @@ internal sealed partial class GachaItem
             ArchiveId = archiveId,
             GachaType = item.GachaType,
             QueryType = item.UIGFGachaType,
-            ItemId = uint.Parse(item.ItemId, CultureInfo.CurrentCulture),
+            ItemId = uint.Parse(item.ItemId, CultureInfo.CurrentCulture), // TODO: catch the FormatException and throw v2.3 incompat exception
             Time = item.Time,
             Id = item.Id,
         };

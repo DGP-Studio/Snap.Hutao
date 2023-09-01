@@ -24,7 +24,7 @@ internal sealed partial class AnnouncementService : IAnnouncementService
     private readonly IMemoryCache memoryCache;
 
     /// <inheritdoc/>
-    public async ValueTask<AnnouncementWrapper> GetAnnouncementsAsync(CancellationToken cancellationToken = default)
+    public async ValueTask<AnnouncementWrapper> GetAnnouncementWrapperAsync(CancellationToken cancellationToken = default)
     {
         // 缓存中存在记录，直接返回
         if (memoryCache.TryGetValue(CacheKey, out object? cache))

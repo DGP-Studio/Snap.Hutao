@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
+using Snap.Hutao.Service;
 using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using System.Net.Http;
@@ -15,14 +16,19 @@ internal sealed partial class HomaGeetestClient
     private readonly HttpClient httpClient;
     private readonly JsonSerializerOptions options;
     private readonly ILogger<HomaGeetestClient> logger;
-    private readonly HutaoUserOptions hutaoUserOptions;
+    private readonly AppOptions appOptions;
 
     public async ValueTask<GeetestResponse> VerifyAsync(string gt, string challenge, CancellationToken token)
     {
-        await httpClient.TrySetTokenAsync(hutaoUserOptions).ConfigureAwait(false);
+        string template = appOptions.GeetestCustomCompositeUrl;
+
+        if (string.IsNullOrEmpty(template))
+        {
+            return new() { Code = -1 };
+        }
 
         GeetestResponse? resp = await httpClient
-            .TryCatchGetFromJsonAsync<GeetestResponse>(HutaoEndpoints.GeetestVerify(gt, challenge), options, logger, token)
+            .TryCatchGetFromJsonAsync<GeetestResponse>(template.Format(gt, challenge), options, logger, token)
             .ConfigureAwait(false);
 
         ArgumentNullException.ThrowIfNull(resp);

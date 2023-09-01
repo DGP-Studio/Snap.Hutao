@@ -1,6 +1,8 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using System.Runtime.Versioning;
+
 namespace Snap.Hutao.Model.Entity;
 
 /// <summary>
@@ -86,10 +88,16 @@ internal sealed partial class SettingEntry
     /// <summary>
     /// 启动游戏 多倍启动
     /// </summary>
+    [Obsolete("不再支持多开")]
     public const string MultipleInstances = "Launch.MultipleInstances";
 
     /// <summary>
     /// 语言
     /// </summary>
     public const string Culture = "Culture";
+
+    /// <summary>
+    /// 自定义极验接口
+    /// </summary>
+    public const string GeetestCustomCompositeUrl = "GeetestCustomCompositeUrl";
 }

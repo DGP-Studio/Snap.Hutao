@@ -87,6 +87,9 @@
                                 ItemsSource="{Binding Weapons}"
                                 SelectedItem="{Binding Selected, Mode=TwoWay}"
                                 SelectionMode="Single">
+                                <mxi:Interaction.Behaviors>
+                                    <shcb:SelectedItemInViewBehavior/>
+                                </mxi:Interaction.Behaviors>
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -113,7 +116,6 @@
                         </SplitView.Pane>
                         <SplitView.Content>
                             <ScrollViewer>
-
                                 <StackPanel
                                     MaxWidth="800"
                                     Margin="0,0,16,0"
@@ -134,7 +136,10 @@
                                             <mxi:Interaction.Behaviors>
                                                 <shcb:AutoHeightBehavior TargetHeight="1024" TargetWidth="2048"/>
                                             </mxi:Interaction.Behaviors>
-                                            <ScrollViewer Grid.Column="0" Margin="16">
+                                            <ScrollViewer
+                                                Grid.Column="0"
+                                                Margin="16"
+                                                VerticalScrollBarVisibility="Hidden">
                                                 <StackPanel>
                                                     <shvc:BottomTextControl
                                                         MaxWidth="80"
@@ -189,13 +194,13 @@
                                         Margin="16,16,0,0"
                                         ItemsSource="{Binding Selected.CultivationItemsView}"
                                         SelectionMode="None">
-                                        <ItemsControl.ItemTemplate>
+                                        <GridView.ItemTemplate>
                                             <DataTemplate>
                                                 <shvc:BottomTextControl Text="{Binding Name}">
                                                     <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
                                                 </shvc:BottomTextControl>
                                             </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
+                                        </GridView.ItemTemplate>
                                     </GridView>
                                     <StackPanel Visibility="{Binding Selected.Affix, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
                                         <TextBlock
@@ -255,6 +260,9 @@
                         ItemsSource="{Binding Weapons}"
                         SelectedItem="{Binding Selected, Mode=TwoWay}"
                         SelectionMode="Single">
+                        <mxi:Interaction.Behaviors>
+                            <shcb:SelectedItemInViewBehavior/>
+                        </mxi:Interaction.Behaviors>
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <shvc:BottomTextControl Text="{Binding Name}">

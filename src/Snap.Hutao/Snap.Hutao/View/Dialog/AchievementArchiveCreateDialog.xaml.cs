@@ -9,6 +9,7 @@ namespace Snap.Hutao.View.Dialog;
 /// 成就存档创建对话框
 /// </summary>
 [HighQuality]
+[DependencyProperty("Text", typeof(string))]
 internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
 {
     private readonly ITaskContext taskContext;
@@ -33,8 +34,6 @@ internal sealed partial class AchievementArchiveCreateDialog : ContentDialog
     {
         await taskContext.SwitchToMainThreadAsync();
         ContentDialogResult result = await ShowAsync();
-        string text = InputText.Text ?? string.Empty;
-
-        return new(result == ContentDialogResult.Primary, text);
+        return new(result == ContentDialogResult.Primary, Text ?? string.Empty);
     }
 }

@@ -26,4 +26,7 @@ internal sealed class Battle
     /// </summary>
     [JsonPropertyName("avatars")]
     public List<Avatar> Avatars { get; set; } = default!;
+
+    [JsonPropertyName("settle_date_time")]
+    public SettleDateTime SettleDateTime { get; set; } = default!;
 }

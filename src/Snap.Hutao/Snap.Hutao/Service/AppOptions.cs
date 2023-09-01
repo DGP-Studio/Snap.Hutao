@@ -38,6 +38,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     private BackdropType? backdropType;
     private CultureInfo? currentCulture;
     private bool? isAdvancedLaunchOptionsEnabled;
+    private string? geetestCustomCompositeUrl;
 
     /// <summary>
     /// 游戏路径
@@ -98,6 +99,12 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled);
         set => SetOption(ref isAdvancedLaunchOptionsEnabled, SettingEntry.IsAdvancedLaunchOptionsEnabled, value);
+    }
+
+    public string GeetestCustomCompositeUrl
+    {
+        get => GetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl);
+        set => SetOption(ref geetestCustomCompositeUrl, SettingEntry.GeetestCustomCompositeUrl, value);
     }
 
     private static NameValue<string> ToNameValue(CultureInfo info)

@@ -2,19 +2,17 @@
     x:Class="Snap.Hutao.View.Control.StatisticsCard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:clws="using:CommunityToolkit.Labs.WinUI"
+    xmlns:cwc="using:CommunityToolkit.WinUI.Controls"
     xmlns:cwuc="using:CommunityToolkit.WinUI.UI.Converters"
-    xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvconv="using:Snap.Hutao.View.Converter"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
-    xmlns:shvh="using:Snap.Hutao.View.Helper"
     d:DataContext="{d:DesignInstance shvg:TypedWishSummary}"
     mc:Ignorable="d">
 
@@ -22,7 +20,7 @@
         <shvconv:Int32ToGradientColorConverter x:Key="Int32ToGradientColorConverter" MaximumValue="{Binding GuaranteeOrangeThreshold}"/>
 
         <DataTemplate x:Key="OrangeListTemplate" d:DataType="shvg:SummaryItem">
-            <Grid Margin="0,4,0,0" Style="{StaticResource BorderGridStyle}">
+            <Grid Margin="0" Style="{StaticResource BorderGridStyle}">
                 <ToolTipService.ToolTip>
                     <TextBlock Text="{Binding TimeFormatted}"/>
                 </ToolTipService.ToolTip>
@@ -41,7 +39,7 @@
 
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <shci:CachedImage
-                        shvh:FrameworkElementHelper.SquareLength="40"
+                        shch:FrameworkElementHelper.SquareLength="40"
                         CornerRadius="{ThemeResource ControlCornerRadius}"
                         Source="{Binding Icon}"/>
                     <TextBlock
@@ -86,21 +84,18 @@
             TrueValue="{ThemeResource CardBackgroundFillColorDefaultBrush}"/>
 
         <DataTemplate x:Key="OrangeGridTemplate" d:DataType="shvg:SummaryItem">
-            <Border
-                Margin="0,4,4,0"
+            <shvcont:BottomTextSmallControl
                 Background="{Binding IsUp, Converter={StaticResource BoolToBrushConverter}}"
-                Style="{StaticResource BorderCardStyle}"
+                Text="{Binding LastPull}"
                 ToolTipService.ToolTip="{Binding TimeFormatted}">
-                <shvcont:BottomTextSmallControl Text="{Binding LastPull}">
-                    <shvcont:BottomTextSmallControl.Foreground>
-                        <SolidColorBrush Color="{Binding Color}"/>
-                    </shvcont:BottomTextSmallControl.Foreground>
-                    <shvcont:ItemIcon
-                        shvh:FrameworkElementHelper.SquareLength="40"
-                        Icon="{Binding Icon}"
-                        Quality="{Binding Quality}"/>
-                </shvcont:BottomTextSmallControl>
-            </Border>
+                <shvcont:BottomTextSmallControl.Foreground>
+                    <SolidColorBrush Color="{Binding Color}"/>
+                </shvcont:BottomTextSmallControl.Foreground>
+                <shvcont:ItemIcon
+                    shch:FrameworkElementHelper.SquareLength="40"
+                    Icon="{Binding Icon}"
+                    Quality="{Binding Quality}"/>
+            </shvcont:BottomTextSmallControl>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -237,15 +232,18 @@
                         </Grid>
                     </StackPanel>
                     <MenuFlyoutSeparator Margin="-12,0"/>
-                    <FlipView
-                        Name="StatisticsFilpView"
-                        Height="74"
-                        Margin="-16,0"
-                        VerticalAlignment="Top"
-                        Background="Transparent">
-
-                        <FlipViewItem>
-                            <StackPanel Padding="16,12" Spacing="2">
+                    <shvcont:StatisticsSegmented
+                        x:Name="StatisticsSegmented"
+                        Margin="0,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        IsPredictPullAvailable="{Binding IsPredictPullAvailable}"
+                        SelectedIndex="0"/>
+                    <cwc:SwitchPresenter
+                        Height="85"
+                        Padding="0,12"
+                        Value="{x:Bind StatisticsSegmented.SelectedIndex, Mode=OneWay}">
+                        <cwc:Case Value="{shcm:Int32 Value=0}">
+                            <StackPanel Spacing="2">
                                 <Grid>
                                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{shcm:ResourceString Name=ViewControlStatisticsCardOrangeAveragePullText}"/>
                                     <TextBlock
@@ -276,18 +274,9 @@
                                         Text="{Binding MinOrangePullFormatted}"/>
                                 </Grid>
                             </StackPanel>
-                        </FlipViewItem>
-                        <FlipViewItem>
-                            <StackPanel
-                                Margin="16,12"
-                                Spacing="2"
-                                Visibility="{Binding IsPredictPullAvailable, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PredictedPullLeftToOrangeFormatted}"/>
-                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding ProbabilityOfNextPullIsOrangeFormatted}"/>
-                            </StackPanel>
-                        </FlipViewItem>
-                        <FlipViewItem>
-                            <StackPanel Padding="16,12" Spacing="2">
+                        </cwc:Case>
+                        <cwc:Case Value="{shcm:Int32 Value=1}">
+                            <StackPanel Spacing="2">
                                 <Grid>
                                     <TextBlock
                                         Foreground="{StaticResource OrangeBrush}"
@@ -325,40 +314,57 @@
                                         Text="{Binding TotalBlueFormatted}"/>
                                 </Grid>
                             </StackPanel>
-                        </FlipViewItem>
-                    </FlipView>
-                    <PipsPager
-                        Height="16"
-                        Margin="0,-4,0,0"
-                        HorizontalAlignment="Center"
-                        NumberOfPages="{x:Bind StatisticsFilpView.Items.Count}"
-                        SelectedPageIndex="{x:Bind StatisticsFilpView.SelectedIndex, Mode=TwoWay}"/>
+                        </cwc:Case>
+                        <cwc:Case Value="{shcm:Int32 Value=2}">
+                            <StackPanel Spacing="2">
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding PredictedPullLeftToOrangeFormatted}"/>
+                                <TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{Binding ProbabilityOfNextPullIsOrangeFormatted}"/>
+                            </StackPanel>
+                        </cwc:Case>
+                    </cwc:SwitchPresenter>
                     <MenuFlyoutSeparator Margin="-12,0,-12,0"/>
                 </StackPanel>
 
             </Expander>
-            <ScrollViewer
+            <cwc:SwitchPresenter
                 Grid.Row="2"
                 Margin="12,6,12,12"
-                VerticalScrollBarVisibility="Hidden">
-                <cwucont:SwitchPresenter Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
-                    <cwucont:SwitchPresenter.ContentTransitions>
-                        <TransitionCollection>
-                            <ContentThemeTransition/>
-                        </TransitionCollection>
-                    </cwucont:SwitchPresenter.ContentTransitions>
-                    <cwucont:Case Value="List">
-                        <ItemsControl ItemTemplate="{StaticResource OrangeListTemplate}" ItemsSource="{Binding OrangeList}"/>
-                    </cwucont:Case>
-                    <cwucont:Case Value="Grid">
-                        <ItemsControl
-                            Margin="0,0,-4,0"
-                            ItemTemplate="{StaticResource OrangeGridTemplate}"
-                            ItemsPanel="{StaticResource WrapPanelTemplate}"
-                            ItemsSource="{Binding OrangeList}"/>
-                    </cwucont:Case>
-                </cwucont:SwitchPresenter>
-            </ScrollViewer>
+                Value="{Binding ElementName=ItemsPanelSelector, Path=Current}">
+                <cwc:SwitchPresenter.ContentTransitions>
+                    <TransitionCollection>
+                        <ContentThemeTransition/>
+                    </TransitionCollection>
+                </cwc:SwitchPresenter.ContentTransitions>
+                <cwc:Case Value="List">
+                    <ListView
+                        ItemTemplate="{StaticResource OrangeListTemplate}"
+                        ItemsSource="{Binding OrangeList}"
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                        SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,4,0,0"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </cwc:Case>
+                <cwc:Case Value="Grid">
+                    <GridView
+                        Margin="0,0,-4,0"
+                        ItemTemplate="{StaticResource OrangeGridTemplate}"
+                        ItemsSource="{Binding OrangeList}"
+                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                        SelectionMode="None">
+                        <GridView.ItemContainerStyle>
+                            <Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,0,2,4"/>
+                            </Style>
+                        </GridView.ItemContainerStyle>
+                    </GridView>
+                </cwc:Case>
+            </cwc:SwitchPresenter>
         </Grid>
     </Border>
 </UserControl>

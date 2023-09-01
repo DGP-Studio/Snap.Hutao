@@ -8,14 +8,13 @@
     xmlns:mxic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvu="using:Snap.Hutao.ViewModel.User"
     d:DataContext="{d:DesignInstance shvu:UserViewModel}"
     mc:Ignorable="d">
     <mxi:Interaction.Behaviors>
-        <mxic:EventTriggerBehavior EventName="Loaded">
-            <mxic:InvokeCommandAction Command="{Binding OpenUICommand}"/>
-        </mxic:EventTriggerBehavior>
+        <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <StackPanel>
         <Button

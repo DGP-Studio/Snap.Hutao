@@ -32,4 +32,10 @@ internal sealed class Level
     /// </summary>
     [JsonPropertyName("battles")]
     public List<Battle> Battles { get; set; } = default!;
+
+    [JsonPropertyName("top_half_floor_monster")]
+    public List<Monster> TopHalfFloorMonster { get; set; } = default!;
+
+    [JsonPropertyName("bottom_half_floor_monster")]
+    public List<Monster> BottomHalfFloorMonster { get; set; } = default!;
 }

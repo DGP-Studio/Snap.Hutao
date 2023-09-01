@@ -156,12 +156,40 @@
     <Grid>
         <ScrollViewer Padding="0,0,4,0">
             <StackPanel>
+
                 <StackPanel>
                     <TextBlock
                         Margin="16,16,16,0"
                         Style="{StaticResource TitleTextBlockStyle}"
                         Text="{Binding GreetingText}"/>
                     <TextBlock Margin="16,0,16,0" Text="{Binding UserOptions.UserName}"/>
+
+                    <ItemsControl
+                        Margin="16,16,16,0"
+                        ItemsSource="{Binding HutaoAnnouncements}"
+                        Visibility="{Binding HutaoAnnouncements.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <InfoBar
+                                    Title="{Binding Title}"
+                                    CloseButtonCommand="{Binding DismissCommand}"
+                                    CloseButtonCommandParameter="{Binding}"
+                                    IsOpen="True"
+                                    Message="{Binding Content}"
+                                    Severity="{Binding Severity}">
+                                    <StackPanel Margin="0,0,0,8" Orientation="Horizontal">
+                                        <HyperlinkButton Content="查看详情" NavigateUri="{Binding Link}"/>
+                                        <TextBlock
+                                            Margin="8,0,0,2"
+                                            VerticalAlignment="Center"
+                                            Opacity="0.7"
+                                            Text="{Binding UpdateTimeFormatted}"/>
+                                    </StackPanel>
+                                </InfoBar>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
                     <cwucont:AdaptiveGridView
                         Margin="16,16,0,0"
                         HorizontalAlignment="Stretch"

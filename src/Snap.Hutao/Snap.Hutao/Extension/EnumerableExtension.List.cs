@@ -84,6 +84,11 @@ internal static partial class EnumerableExtension
         return false;
     }
 
+    public static void RemoveLast<T>(this IList<T> collection)
+    {
+        collection.RemoveAt(collection.Count - 1);
+    }
+
     /// <summary>
     /// 转换到新类型的列表
     /// </summary>

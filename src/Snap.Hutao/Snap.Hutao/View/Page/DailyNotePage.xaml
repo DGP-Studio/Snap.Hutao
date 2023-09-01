@@ -12,11 +12,11 @@
     xmlns:mxim="using:Microsoft.Xaml.Interactions.Media"
     xmlns:shc="using:Snap.Hutao.Control"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
     xmlns:shvd="using:Snap.Hutao.ViewModel.DailyNote"
-    xmlns:shvh="using:Snap.Hutao.View.Helper"
     d:DataContext="{d:DesignInstance shvd:DailyNoteViewModel}"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -190,7 +190,7 @@
                     ItemsSource="{Binding DailyNoteEntries}"
                     SelectionMode="None"
                     StretchContentForSingleRow="False">
-                    <ItemsControl.ItemTemplate>
+                    <cwuc:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
                             <Grid Padding="8" Style="{StaticResource BorderGridStyle}">
                                 <Grid.RowDefinitions>
@@ -255,7 +255,7 @@
                                             Margin="8,0,0,0"
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Stretch"
-                                            shvh:FrameworkElementHelper.SquareLength="40"
+                                            shch:FrameworkElementHelper.SquareLength="40"
                                             Background="Transparent"
                                             BorderBrush="{x:Null}"
                                             BorderThickness="0"
@@ -267,7 +267,7 @@
                                         <Button
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Stretch"
-                                            shvh:FrameworkElementHelper.SquareLength="40"
+                                            shch:FrameworkElementHelper.SquareLength="40"
                                             Background="Transparent"
                                             BorderBrush="{x:Null}"
                                             BorderThickness="0"
@@ -301,17 +301,23 @@
                                             Grid.Column="0"
                                             Margin="4"
                                             VerticalAlignment="Center"
-                                            shvh:FrameworkElementHelper.SquareLength="32"
+                                            shch:FrameworkElementHelper.SquareLength="32"
                                             Source="{StaticResource UI_ItemIcon_210}"/>
                                         <StackPanel
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.ResinFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.ResinFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding DailyNote.ResinRecoveryTargetTime, Mode=OneWay}"/>
+                                                Text="{Binding DailyNote.ResinRecoveryTargetTime, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Style="{ThemeResource BorderGridStyle}">
@@ -332,17 +338,23 @@
                                             Grid.Column="0"
                                             Margin="4"
                                             VerticalAlignment="Center"
-                                            shvh:FrameworkElementHelper.SquareLength="32"
+                                            shch:FrameworkElementHelper.SquareLength="32"
                                             Source="{StaticResource UI_ItemIcon_204}"/>
                                         <StackPanel
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.HomeCoinFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.HomeCoinFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding DailyNote.HomeCoinRecoveryTargetTimeFormatted, Mode=OneWay}"/>
+                                                Text="{Binding DailyNote.HomeCoinRecoveryTargetTimeFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Style="{ThemeResource BorderGridStyle}">
@@ -363,17 +375,23 @@
                                             Grid.Column="0"
                                             Margin="4"
                                             VerticalAlignment="Center"
-                                            shvh:FrameworkElementHelper.SquareLength="32"
+                                            shch:FrameworkElementHelper.SquareLength="32"
                                             Source="{StaticResource UI_MarkQuest_Events_Proce}"/>
                                         <StackPanel
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.TaskFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.TaskFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding DailyNote.ExtraTaskRewardDescription, Mode=OneWay}"/>
+                                                Text="{Binding DailyNote.ExtraTaskRewardDescription, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Style="{ThemeResource BorderGridStyle}">
@@ -394,17 +412,23 @@
                                             Grid.Column="0"
                                             Margin="4"
                                             VerticalAlignment="Center"
-                                            shvh:FrameworkElementHelper.SquareLength="32"
+                                            shch:FrameworkElementHelper.SquareLength="32"
                                             Source="{StaticResource UI_MarkTower}"/>
                                         <StackPanel
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.ResinDiscountFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.ResinDiscountFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{shcm:ResourceString Name=ViewPageDailyNoteResinDiscountUsed}"/>
+                                                Text="{shcm:ResourceString Name=ViewPageDailyNoteResinDiscountUsed}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                     <Grid Style="{ThemeResource BorderGridStyle}">
@@ -425,17 +449,23 @@
                                             Grid.Column="0"
                                             Margin="4"
                                             VerticalAlignment="Center"
-                                            shvh:FrameworkElementHelper.SquareLength="32"
+                                            shch:FrameworkElementHelper.SquareLength="32"
                                             Source="{StaticResource UI_ItemIcon_220021}"/>
                                         <StackPanel
                                             Grid.Column="1"
                                             Margin="8,0,0,0"
                                             VerticalAlignment="Center">
-                                            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted, Mode=OneWay}"/>
+                                            <TextBlock
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding DailyNote.Transformer.ObtainedAndReachedFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                             <TextBlock
                                                 Opacity="0.6"
                                                 Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding DailyNote.Transformer.ObtainedAndTimeFormatted, Mode=OneWay}"/>
+                                                Text="{Binding DailyNote.Transformer.ObtainedAndTimeFormatted, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis"
+                                                TextWrapping="NoWrap"/>
                                         </StackPanel>
                                     </Grid>
                                 </StackPanel>
@@ -472,7 +502,7 @@
                                                     Value="{Binding PassedTime, Mode=OneWay}"/>
                                                 <shci:CachedImage
                                                     Margin="0,0,0,8"
-                                                    shvh:FrameworkElementHelper.SquareLength="32"
+                                                    shch:FrameworkElementHelper.SquareLength="32"
                                                     Source="{Binding AvatarSideIcon, Mode=OneWay}"/>
                                                 <TextBlock
                                                     Grid.Column="1"
@@ -489,10 +519,12 @@
                                     Margin="0,6,0,0"
                                     Opacity="0.7"
                                     Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{Binding RefreshTimeFormatted}"/>
+                                    Text="{Binding RefreshTimeFormatted}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap"/>
                             </Grid>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
+                    </cwuc:AdaptiveGridView.ItemTemplate>
                 </cwuc:AdaptiveGridView>
             </ScrollViewer>
         </SplitView>

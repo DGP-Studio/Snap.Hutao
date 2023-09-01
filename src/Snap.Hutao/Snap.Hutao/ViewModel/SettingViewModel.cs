@@ -18,6 +18,8 @@ using Snap.Hutao.Service.Hutao;
 using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
+using Snap.Hutao.View.Dialog;
+using Snap.Hutao.ViewModel.Guide;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -41,7 +43,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private readonly IUserService userService;
     private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
-    private readonly AppOptions options;
+    private readonly AppOptions appOptions;
     private readonly RuntimeOptions runtimeOptions;
     private readonly HutaoUserOptions hutaoUserOptions;
 
@@ -51,7 +53,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     /// <summary>
     /// 应用程序设置
     /// </summary>
-    public AppOptions Options { get => options; }
+    public AppOptions Options { get => appOptions; }
 
     /// <summary>
     /// 胡桃选项
@@ -98,6 +100,7 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     private static void ResetStaticResource()
     {
         StaticResource.FailAllContracts();
+        LocalSetting.Set(SettingKeys.Major1Minor7Revision0GuideState, (uint)GuideState.StaticResourceBegin);
         AppInstance.Restart(string.Empty);
     }
 
@@ -159,13 +162,16 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     [Command("UpdateCheckCommand")]
     private async Task CheckUpdateAsync()
     {
-#if DEBUG
-        await navigationService
-            .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
-            .ConfigureAwait(false);
-#else
-        await Windows.System.Launcher.LaunchUriAsync(new(@"ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
-#endif
+        if (hutaoUserOptions.IsMaintainer)
+        {
+            await navigationService
+                .NavigateAsync<View.Page.TestPage>(INavigationAwaiter.Default)
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await Launcher.LaunchUriAsync(new("ms-windows-store://pdp/?productid=9PH4NXJ2JN52"));
+        }
     }
 
     [Command("SetDataFolderCommand")]
@@ -229,6 +235,20 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                 await @unsafe.UnsafeRemoveUsersAsync().ConfigureAwait(false);
                 AppInstance.Restart(string.Empty);
             }
+        }
+    }
+
+    [Command("ConfigureGeetestUrlCommand")]
+    private async Task ConfigureGeetestUrlAsync()
+    {
+        GeetestCustomUrlDialog dialog = await contentDialogFactory.CreateInstanceAsync<GeetestCustomUrlDialog>().ConfigureAwait(false);
+        (bool isOk, string template) = await dialog.GetUrlAsync().ConfigureAwait(false);
+
+        if (isOk)
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            appOptions.GeetestCustomCompositeUrl = template;
+            infoBarService.Success("无感验证复合 Url 配置成功");
         }
     }
 }

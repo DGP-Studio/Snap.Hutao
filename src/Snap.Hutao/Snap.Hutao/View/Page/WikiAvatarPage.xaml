@@ -118,6 +118,9 @@
                                 ItemsSource="{Binding Avatars}"
                                 SelectedItem="{Binding Selected, Mode=TwoWay}"
                                 SelectionMode="Single">
+                                <mxi:Interaction.Behaviors>
+                                    <shcb:SelectedItemInViewBehavior/>
+                                </mxi:Interaction.Behaviors>
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
@@ -288,13 +291,13 @@
                                             Margin="16,16,0,0"
                                             ItemsSource="{Binding Selected.CultivationItemsView}"
                                             SelectionMode="None">
-                                            <ItemsControl.ItemTemplate>
+                                            <GridView.ItemTemplate>
                                                 <DataTemplate>
                                                     <shvc:BottomTextControl Text="{Binding Name}">
                                                         <shvc:ItemIcon Icon="{Binding Icon, Converter={StaticResource ItemIconConverter}}" Quality="{Binding RankLevel}"/>
                                                     </shvc:BottomTextControl>
                                                 </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
+                                            </GridView.ItemTemplate>
                                         </GridView>
 
                                         <TextBlock
@@ -592,6 +595,9 @@
                         ItemsSource="{Binding Avatars}"
                         SelectedItem="{Binding Selected, Mode=TwoWay}"
                         SelectionMode="Single">
+                        <mxi:Interaction.Behaviors>
+                            <shcb:SelectedItemInViewBehavior/>
+                        </mxi:Interaction.Behaviors>
                         <GridView.ItemTemplate>
                             <DataTemplate>
                                 <shvc:BottomTextControl Text="{Binding Name}">

@@ -112,17 +112,6 @@
                         SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGachaLogHeader}"/>
-                <cwc:SettingsCard
-                    Description="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleDescription}"
-                    Header="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleHeader}"
-                    HeaderIcon="{shcm:FontIcon Glyph=&#xE81C;}">
-                    <ToggleSwitch
-                        IsOn="{Binding Options.IsEmptyHistoryWishVisible, Mode=TwoWay}"
-                        OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
-                        OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
-                </cwc:SettingsCard>
-
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGameHeader}"/>
                 <InfoBar
                     IsClosable="False"
@@ -144,6 +133,27 @@
                     Description="{shcm:ResourceString Name=ViewPageSettingDeleteCacheDescription}"
                     Header="{shcm:ResourceString Name=ViewPageSettingDeleteCacheHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE74D;}"
+                    IsClickEnabled="True"/>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGachaLogHeader}"/>
+                <cwc:SettingsCard
+                    Description="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleDescription}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE81C;}">
+                    <ToggleSwitch
+                        IsOn="{Binding Options.IsEmptyHistoryWishVisible, Mode=TwoWay}"
+                        OffContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOff}"
+                        OnContent="{shcm:ResourceString Name=ViewPageSettingEmptyHistoryVisibleOn}"/>
+                </cwc:SettingsCard>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGeetestVerificationHeader}"/>
+                <cwc:SettingsCard
+                    ActionIcon="{shcm:FontIcon Glyph=&#xF32A;}"
+                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlAction}"
+                    Command="{Binding ConfigureGeetestUrlCommand}"
+                    Description="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlDescription}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingGeetestCustomUrlHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE776;}"
                     IsClickEnabled="True"/>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingStorageHeader}"/>

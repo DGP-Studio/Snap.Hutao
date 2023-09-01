@@ -2,15 +2,14 @@
     x:Class="Snap.Hutao.View.Control.HutaoStatisticsCard"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
     xmlns:shvcont="using:Snap.Hutao.View.Control"
     xmlns:shvg="using:Snap.Hutao.ViewModel.GachaLog"
-    xmlns:shvh="using:Snap.Hutao.View.Helper"
     d:DataContext="{d:DesignInstance shvg:HutaoWishSummary}"
     mc:Ignorable="d">
 
@@ -22,7 +21,7 @@
                 Style="{StaticResource BorderCardStyle}">
                 <StackPanel>
                     <shvcont:ItemIcon
-                        shvh:FrameworkElementHelper.SquareLength="40"
+                        shch:FrameworkElementHelper.SquareLength="40"
                         Icon="{Binding Icon}"
                         Quality="{Binding Quality}"/>
                     <TextBlock

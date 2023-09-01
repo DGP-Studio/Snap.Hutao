@@ -9,9 +9,24 @@ namespace Snap.Hutao.ViewModel.Guide;
 internal enum GuideState : uint
 {
     /// <summary>
-    /// 尚未开始
+    /// 正在选择语言
     /// </summary>
-    None,
+    Language,
+
+    /// <summary>
+    /// 正在查看文档与隐私政策
+    /// </summary>
+    Document,
+
+    /// <summary>
+    /// 正在查看环境配置
+    /// </summary>
+    Environment,
+
+    /// <summary>
+    /// 开始下载资源
+    /// </summary>
+    StaticResourceBegin,
 
     /// <summary>
     /// 完成

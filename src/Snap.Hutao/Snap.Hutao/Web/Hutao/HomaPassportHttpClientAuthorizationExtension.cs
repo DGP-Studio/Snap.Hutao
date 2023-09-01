@@ -4,7 +4,7 @@
 using Snap.Hutao.Service.Hutao;
 using System.Net.Http;
 
-namespace Snap.Hutao.Web.Hutao.GachaLog;
+namespace Snap.Hutao.Web.Hutao;
 
 internal static class HomaPassportHttpClientAuthorizationExtension
 {

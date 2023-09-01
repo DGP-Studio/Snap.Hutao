@@ -12,8 +12,8 @@ namespace Snap.Hutao.Service.Hutao;
 /// </summary>
 [HighQuality]
 [ConstructorGenerated]
-[Injection(InjectAs.Scoped, typeof(IHutaoService))]
-internal sealed partial class HutaoService : IHutaoService
+[Injection(InjectAs.Scoped, typeof(IHutaoSpiralAbyssService))]
+internal sealed partial class HutaoSpiralAbyssService : IHutaoSpiralAbyssService
 {
     private readonly TimeSpan cacheExpireTime = TimeSpan.FromHours(4);
 
@@ -67,7 +67,7 @@ internal sealed partial class HutaoService : IHutaoService
     private async ValueTask<T> FromCacheOrWebAsync<T>(string typeName, Func<CancellationToken, ValueTask<Response<T>>> taskFunc)
         where T : class, new()
     {
-        string key = $"{nameof(HutaoService)}.Cache.{typeName}";
+        string key = $"{nameof(HutaoSpiralAbyssService)}.Cache.{typeName}";
         if (memoryCache.TryGetValue(key, out object? cache))
         {
             T? t = cache as T;
