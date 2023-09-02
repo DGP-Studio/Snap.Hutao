@@ -773,6 +773,9 @@
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>遷到成功，{0}×{1}</value>
   </data>
+  <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
+    <value>不支持的 UIGF 版本</value>
+  </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>已选中多条用户记录</value>
   </data>
