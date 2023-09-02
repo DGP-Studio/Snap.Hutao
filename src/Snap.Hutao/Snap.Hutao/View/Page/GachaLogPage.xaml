@@ -61,7 +61,7 @@
                                         Text="{shcm:ResourceString Name=ViewPageGachaLogRefreshByManualInput}"/>
                                     <ToggleMenuFlyoutItem
                                         Icon="{shcm:FontIcon Glyph=&#xE1CD;}"
-                                        IsChecked="{Binding IsAggressiveRefresh}"
+                                        IsChecked="{Binding IsAggressiveRefresh, Mode=TwoWay}"
                                         Text="{shcm:ResourceString Name=ViewPageGachaLogAggressiveRefresh}"/>
                                 </MenuFlyout>
                             </AppBarButton.Flyout>

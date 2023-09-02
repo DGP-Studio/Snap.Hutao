@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Entity;
+using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 
 namespace Snap.Hutao.Service.GachaLog;
 
@@ -20,6 +21,8 @@ internal readonly struct GachaItemSaveContext
     /// </summary>
     public readonly bool IsLazy;
 
+    public readonly GachaConfigType QueryType;
+
     /// <summary>
     /// 结尾 Id
     /// </summary>
@@ -30,10 +33,11 @@ internal readonly struct GachaItemSaveContext
     /// </summary>
     public readonly IGachaLogDbService GachaLogDbService;
 
-    public GachaItemSaveContext(List<GachaItem> itemsToAdd, bool isLazy, long endId, IGachaLogDbService gachaLogDbService)
+    public GachaItemSaveContext(List<GachaItem> itemsToAdd, bool isLazy, GachaConfigType queryType, long endId, IGachaLogDbService gachaLogDbService)
     {
         ItemsToAdd = itemsToAdd;
         IsLazy = isLazy;
+        QueryType = queryType;
         EndId = endId;
         GachaLogDbService = gachaLogDbService;
     }
@@ -45,7 +49,7 @@ internal readonly struct GachaItemSaveContext
             // 全量刷新
             if (!IsLazy)
             {
-                GachaLogDbService.DeleteNewerGachaItemsByArchiveIdAndEndId(archive.InnerId, EndId);
+                 GachaLogDbService.DeleteNewerGachaItemsByArchiveIdQueryTypeAndEndId(archive.InnerId, QueryType, EndId);
             }
 
             GachaLogDbService.AddGachaItems(ItemsToAdd);

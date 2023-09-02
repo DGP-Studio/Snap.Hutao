@@ -19,7 +19,7 @@ internal interface IGachaLogDbService
 
     ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId);
 
-    void DeleteNewerGachaItemsByArchiveIdAndEndId(Guid archiveId, long endId);
+    void DeleteNewerGachaItemsByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaConfigType queryType, long endId);
 
     ValueTask<GachaArchive?> GetGachaArchiveByUidAsync(string uid, CancellationToken token);
 
@@ -34,4 +34,6 @@ internal interface IGachaLogDbService
     ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType, CancellationToken token);
 
     long GetOldestGachaItemIdByArchiveId(Guid archiveId);
+
+    long GetOldestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaConfigType queryType);
 }

@@ -140,7 +140,7 @@ internal struct GachaLogFetchContext
         // While no item is fetched, archive can be null.
         if (TargetArchive is not null)
         {
-            GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.EndId, gachaLogDbService);
+            GachaItemSaveContext saveContext = new(ItemsToAdd, isLazy, QueryOptions.Type, QueryOptions.EndId, gachaLogDbService);
             saveContext.SaveItems(TargetArchive);
         }
     }

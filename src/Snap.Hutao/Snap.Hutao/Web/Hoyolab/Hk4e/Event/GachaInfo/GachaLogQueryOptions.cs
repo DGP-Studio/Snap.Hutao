@@ -31,6 +31,8 @@ internal struct GachaLogQueryOptions
     /// </summary>
     public long EndId;
 
+    public GachaConfigType Type;
+
     /// <summary>
     /// Keys required:
     /// authkey_ver
@@ -49,18 +51,20 @@ internal struct GachaLogQueryOptions
     /// 构造一个新的祈愿记录请求配置
     /// </summary>
     /// <param name="query">原始查询字符串</param>
-    /// <param name="type">祈愿类型</param>
+    /// <param name="queryType">祈愿类型</param>
     /// <param name="endId">终止Id</param>
-    public GachaLogQueryOptions(in GachaLogQuery query, GachaConfigType type, long endId = 0L)
+    public GachaLogQueryOptions(in GachaLogQuery query, GachaConfigType queryType)
     {
         IsOversea = query.IsOversea;
+
+        // 对于每个类型我们需要单独创建
+        // 对应类型的 GachaLogQueryOptions
+        Type = queryType;
         innerQuery = QueryString.Parse(query.Query);
 
         // innerQuery.Set("lang", "zh-cn");
-        innerQuery.Set("gacha_type", (int)type);
+        innerQuery.Set("gacha_type", (int)queryType);
         innerQuery.Set("size", Size);
-
-        EndId = endId;
     }
 
     /// <summary>
@@ -82,10 +86,6 @@ internal struct GachaLogQueryOptions
         return queryString.ToString();
     }
 
-    /// <summary>
-    /// 转换到查询字符串
-    /// </summary>
-    /// <returns>匹配的查询字符串</returns>
     public readonly string ToQueryString()
     {
         // Make the cached end id into query.

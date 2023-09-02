@@ -139,6 +139,27 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         return item?.Id ?? long.MaxValue;
     }
 
+    public long GetOldestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaConfigType queryType)
+    {
+        GachaItem? item = null;
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // TODO: replace with MaxBy
+            // https://github.com/dotnet/efcore/issues/25566
+            // .MaxBy(i => i.Id);
+            item = appDbContext.GachaItems
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId && i.QueryType == queryType)
+                .OrderBy(i => i.Id)
+                .FirstOrDefault();
+        }
+
+        return item?.Id ?? long.MaxValue;
+    }
+
     public async ValueTask AddGachaArchiveAsync(GachaArchive archive)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -212,14 +233,14 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public void DeleteNewerGachaItemsByArchiveIdAndEndId(Guid archiveId, long endId)
+    public void DeleteNewerGachaItemsByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaConfigType queryType, long endId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             appDbContext.GachaItems
                 .AsNoTracking()
-                .Where(i => i.ArchiveId == archiveId)
+                .Where(i => i.ArchiveId == archiveId && i.QueryType == queryType)
                 .Where(i => i.Id >= endId)
                 .ExecuteDelete();
         }

@@ -1861,6 +1861,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 不支持的 UIGF 版本 的本地化字符串。
+        /// </summary>
+        internal static string ServiceUIGFImportUnsupportedVersion {
+            get {
+                return ResourceManager.GetString("ServiceUIGFImportUnsupportedVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 多个用户记录为选中状态 的本地化字符串。
         /// </summary>
         internal static string ServiceUserCurrentMultiMatched {

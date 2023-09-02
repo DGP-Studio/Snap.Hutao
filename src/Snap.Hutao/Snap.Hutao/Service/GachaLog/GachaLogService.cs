@@ -214,6 +214,7 @@ internal sealed partial class GachaLogService : IGachaLogService
                 break;
             }
 
+            // save items for each queryType
             token.ThrowIfCancellationRequested();
             fetchContext.SaveItems();
             await Delay.Random(1000, 2000).ConfigureAwait(false);
