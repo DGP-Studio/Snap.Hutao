@@ -24,6 +24,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
 
     public UploadAnnouncement Announcement { get => announcement; set => SetProperty(ref announcement, value); }
 
+    [SuppressMessage("", "CA1822")]
+    public bool SuppressMetadataInitialization
+    {
+        get => LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false);
+        set => LocalSetting.Set(SettingKeys.SuppressMetadataInitialization, value);
+    }
+
     protected override ValueTask<bool> InitializeUIAsync()
     {
         return ValueTask.FromResult(true);
@@ -39,6 +46,18 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
     private async void UploadAnnouncementAsync()
     {
         Web.Response.Response response = await homaAsAServiceClient.UploadAnnouncementAsync(Announcement).ConfigureAwait(false);
+        if (response.IsOk())
+        {
+            infoBarService.Success(response.Message);
+            await taskContext.SwitchToMainThreadAsync();
+            Announcement = new();
+        }
+    }
+
+    [Command("CompensationGachaLogServiceTimeCommand")]
+    private async void CompensationGachaLogServiceTimeAsync()
+    {
+        Web.Response.Response response = await homaAsAServiceClient.GachaLogCompensationAsync(15).ConfigureAwait(false);
         if (response.IsOk())
         {
             infoBarService.Success(response.Message);

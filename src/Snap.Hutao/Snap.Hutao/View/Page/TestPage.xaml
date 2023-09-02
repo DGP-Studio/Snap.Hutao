@@ -65,6 +65,15 @@
                 </StackPanel>
             </cwc:SettingsCard>
 
+            <cwc:SettingsCard Header="Suppress Metadata Initialization">
+                <ToggleSwitch IsOn="{Binding SuppressMetadataInitialization, Mode=TwoWay}"/>
+            </cwc:SettingsCard>
+
+            <cwc:SettingsCard
+                Command="{Binding CompensationGachaLogServiceTimeCommand}"
+                Header="Compensation GachaLog Service Time For 15 Days"
+                IsClickEnabled="True"/>
+
             <Expander
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"

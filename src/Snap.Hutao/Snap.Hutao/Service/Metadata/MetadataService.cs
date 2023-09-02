@@ -7,6 +7,7 @@ using Snap.Hutao.Core.DependencyInjection.Annotation.HttpClient;
 using Snap.Hutao.Core.Diagnostics;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.IO.Hashing;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Notification;
 using System.IO;
 using System.Net;
@@ -61,6 +62,11 @@ internal sealed partial class MetadataService : IMetadataService, IMetadataServi
 
     private async ValueTask<bool> TryUpdateMetadataAsync(CancellationToken token)
     {
+        if (LocalSetting.Get(SettingKeys.SuppressMetadataInitialization, false))
+        {
+            return true;
+        }
+
         Dictionary<string, string>? metaXXH64Map;
         try
         {

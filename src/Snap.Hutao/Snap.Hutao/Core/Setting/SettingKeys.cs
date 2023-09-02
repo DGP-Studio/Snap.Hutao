@@ -53,4 +53,9 @@ internal static class SettingKeys
     /// 排除的系统公告
     /// </summary>
     public const string ExcludedAnnouncementIds = "ExcludedAnnouncementIds";
+
+    /// <summary>
+    /// 禁用元数据更新检查
+    /// </summary>
+    public const string SuppressMetadataInitialization = "SuppressMetadataInitialization";
 }
