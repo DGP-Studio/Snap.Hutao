@@ -11,7 +11,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
     xmlns:shc="using:Snap.Hutao.Control"
+    xmlns:shca="using:Snap.Hutao.Control.Alternating"
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
+    xmlns:shch="using:Snap.Hutao.Control.Helper"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shcp="using:Snap.Hutao.Control.Panel"
@@ -57,7 +59,6 @@
                 x:Key="PanelSelectorModeConverter"
                 GridValue="{x:Bind GridImageExportPanel}"
                 ListValue="{x:Bind ListImageExportPanel}"/>
-
 
         </ResourceDictionary>
     </Page.Resources>
@@ -601,52 +602,49 @@
                                             Background="{x:Null}"
                                             Header="{shcm:ResourceString Name=ViewPageAvatarPropertyHeader}">
                                             <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" CornerRadius="0,0,4,4">
-                                                <ItemsControl Margin="0,0,0,-2" ItemsSource="{Binding SelectedAvatar.Properties}">
-                                                    <ItemsControl.ItemTemplate>
+                                                <shca:AlternatingItemsControl
+                                                    Margin="0,0,0,-2"
+                                                    ItemAlternateBackground="{ThemeResource CardBackgroundFillColorSecondaryBrush}"
+                                                    ItemsSource="{Binding SelectedAvatar.Properties}">
+                                                    <shca:AlternatingItemsControl.ItemTemplate>
                                                         <DataTemplate>
-                                                            <Border Margin="16,8,16,0">
-                                                                <Grid>
-                                                                    <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="auto"/>
-                                                                        <ColumnDefinition/>
-                                                                        <ColumnDefinition Width="auto"/>
-                                                                        <ColumnDefinition Width="108"/>
-                                                                    </Grid.ColumnDefinitions>
-                                                                    <Grid.RowDefinitions>
-                                                                        <RowDefinition/>
-                                                                        <RowDefinition Height="auto"/>
-                                                                    </Grid.RowDefinitions>
-                                                                    <shci:MonoChrome
-                                                                        Width="16"
-                                                                        Height="16"
-                                                                        Source="{Binding Icon}"/>
-                                                                    <TextBlock
-                                                                        Grid.Row="0"
-                                                                        Grid.Column="1"
-                                                                        Margin="16,0,0,0"
-                                                                        HorizontalAlignment="Left"
-                                                                        Text="{Binding Name}"/>
-                                                                    <TextBlock
-                                                                        Grid.Row="0"
-                                                                        Grid.Column="2"
-                                                                        HorizontalAlignment="Right"
-                                                                        Text="{Binding Value}"/>
-                                                                    <TextBlock
-                                                                        Grid.Row="0"
-                                                                        Grid.Column="3"
-                                                                        Margin="8,0,0,0"
-                                                                        HorizontalAlignment="Left"
-                                                                        Foreground="{StaticResource AvatarPropertyAddValueBrush}"
-                                                                        Text="{Binding AddValue}"/>
-                                                                    <MenuFlyoutSeparator
-                                                                        Grid.Row="1"
-                                                                        Grid.ColumnSpan="4"
-                                                                        Margin="4,8,4,0"/>
-                                                                </Grid>
-                                                            </Border>
+                                                            <Grid Padding="16,8" Background="{Binding Background, Mode=OneWay}">
+                                                                <Grid.ColumnDefinitions>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition/>
+                                                                    <ColumnDefinition Width="auto"/>
+                                                                    <ColumnDefinition Width="108"/>
+                                                                </Grid.ColumnDefinitions>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition/>
+                                                                    <RowDefinition Height="auto"/>
+                                                                </Grid.RowDefinitions>
+                                                                <shci:MonoChrome
+                                                                    Width="16"
+                                                                    Height="16"
+                                                                    Source="{Binding Icon}"/>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="1"
+                                                                    Margin="16,0,0,0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Text="{Binding Name}"/>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="2"
+                                                                    HorizontalAlignment="Right"
+                                                                    Text="{Binding Value}"/>
+                                                                <TextBlock
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="3"
+                                                                    Margin="8,0,0,0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Foreground="{StaticResource AvatarPropertyAddValueBrush}"
+                                                                    Text="{Binding AddValue}"/>
+                                                            </Grid>
                                                         </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
+                                                    </shca:AlternatingItemsControl.ItemTemplate>
+                                                </shca:AlternatingItemsControl>
                                             </Border>
                                         </Expander>
                                         <!--  圣遗物  -->

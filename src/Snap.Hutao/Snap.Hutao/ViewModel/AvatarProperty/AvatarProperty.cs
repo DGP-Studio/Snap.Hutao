@@ -1,6 +1,9 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Media;
+using Snap.Hutao.Control.Alternating;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
 using System.Collections.Immutable;
@@ -11,7 +14,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 /// 角色属性值
 /// </summary>
 [HighQuality]
-internal sealed class AvatarProperty : INameIcon
+internal sealed class AvatarProperty : ObservableObject, INameIcon, IAlternatingItem
 {
     // TODO: use FrozenDictionary
     private static readonly ImmutableDictionary<FightProperty, Uri> PropertyIcons = new Dictionary<FightProperty, Uri>()
@@ -34,6 +37,7 @@ internal sealed class AvatarProperty : INameIcon
         [FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_PhysicalAttackUp.png").ToUri(),
         [FightProperty.FIGHT_PROP_SHIELD_COST_MINUS_RATIO] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_ShieldCostMinus.png").ToUri(),
     }.ToImmutableDictionary();
+    private Brush? background;
 
     /// <summary>
     /// 构造一个新的角色属性值
@@ -70,4 +74,6 @@ internal sealed class AvatarProperty : INameIcon
     /// 绿字
     /// </summary>
     public string? AddValue { get; }
+
+    public Brush? Background { get => background; set => SetProperty(ref background, value); }
 }
