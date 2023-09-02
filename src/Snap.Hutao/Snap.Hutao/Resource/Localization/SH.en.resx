@@ -774,7 +774,7 @@
     <value>Check-in successfully, {0} x {1}</value>
   </data>
   <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
-    <value>不支持的 UIGF 版本</value>
+    <value>Unsupported UIGF version</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>Multiple users recorded as selected</value>
@@ -2190,7 +2190,7 @@
     <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>\d\.\d版本更新说明</value>
+    <value>Version \d\.\d Update Maintenance Preview</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Start in {0} days</value>
