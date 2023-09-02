@@ -773,6 +773,9 @@
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>签到成功，{0}×{1}</value>
   </data>
+  <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
+    <value>不支持的 UIGF 版本</value>
+  </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>여러 사용자가 선택되었습니다</value>
   </data>
