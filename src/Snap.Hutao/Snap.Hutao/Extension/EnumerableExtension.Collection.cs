@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace Snap.Hutao.Extension;
 
@@ -22,6 +23,17 @@ internal static partial class EnumerableExtension
         {
             collection.Add(item);
         }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsNullOrEmpty<TSource>([NotNullWhen(false)][MaybeNullWhen(true)] this Collection<TSource>? source)
+    {
+        if (source is { Count: > 0 })
+        {
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>

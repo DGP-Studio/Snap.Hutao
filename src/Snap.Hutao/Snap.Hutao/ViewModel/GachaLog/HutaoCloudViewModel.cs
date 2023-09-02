@@ -52,7 +52,7 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
     /// </summary>
     /// <param name="uid">uid</param>
     /// <returns>祈愿记录</returns>
-    internal async ValueTask<ValueResult<bool, GachaArchive?>> RetrieveAsync(string uid)
+    internal async ValueTask<ValueResult<bool, Guid>> RetrieveAsync(string uid)
     {
         ContentDialog dialog = await contentDialogFactory
             .CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogRetrieveFromHutaoCloudProgress)
@@ -64,14 +64,11 @@ internal sealed partial class HutaoCloudViewModel : Abstraction.ViewModel
         }
     }
 
-    /// <inheritdoc/>
-    protected override async Task OpenUIAsync()
+    protected override async ValueTask<bool> InitializeUIAsync()
     {
         await hutaoUserService.InitializeAsync().ConfigureAwait(false);
         await RefreshUidCollectionAsync().ConfigureAwait(false);
-
-        await taskContext.SwitchToMainThreadAsync();
-        IsInitialized = true;
+        return true;
     }
 
     [Command("NavigateToAfdianSkuCommand")]

@@ -82,6 +82,7 @@ internal sealed partial class GachaLogService : IGachaLogService
     public async ValueTask<GachaStatistics> GetStatisticsAsync(GachaArchive? archive)
     {
         archive ??= CurrentArchive;
+        archive ??= ArchiveCollection?.FirstOrDefault();
         ArgumentNullException.ThrowIfNull(archive);
 
         // Return statistics
@@ -147,13 +148,33 @@ internal sealed partial class GachaLogService : IGachaLogService
     {
         ArgumentNullException.ThrowIfNull(archiveCollection);
 
-        // Sync cache
-        await taskContext.SwitchToMainThreadAsync();
-        archiveCollection.Remove(archive);
-
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
         await gachaLogDbService.DeleteGachaArchiveByIdAsync(archive.InnerId).ConfigureAwait(false);
+
+        // Sync cache
+        await taskContext.SwitchToMainThreadAsync();
+        archiveCollection.Remove(archive);
+    }
+
+    public async ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default)
+    {
+        ArgumentNullException.ThrowIfNull(ArchiveCollection);
+
+        if (ArchiveCollection.SingleOrDefault(a => a.InnerId == archiveId) is { } archive)
+        {
+            return archive;
+        }
+        else
+        {
+            // sync cache
+            GachaArchive? newArchive = await gachaLogDbService.GetGachaArchiveByIdAsync(archiveId, token).ConfigureAwait(false);
+            ArgumentNullException.ThrowIfNull(newArchive);
+
+            await taskContext.SwitchToMainThreadAsync();
+            ArchiveCollection.Add(newArchive);
+            return newArchive;
+        }
     }
 
     private async ValueTask<ValueResult<bool, GachaArchive?>> FetchGachaLogsAsync(GachaLogQuery query, bool isLazy, IProgress<GachaLogFetchStatus> progress, CancellationToken token)

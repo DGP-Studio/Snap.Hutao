@@ -21,6 +21,8 @@ internal interface IGachaLogDbService
 
     void DeleteNewerGachaItemsByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaConfigType queryType, long endId);
 
+    ValueTask<GachaArchive?> GetGachaArchiveByIdAsync(Guid archiveId, CancellationToken token);
+
     ValueTask<GachaArchive?> GetGachaArchiveByUidAsync(string uid, CancellationToken token);
 
     ObservableCollection<GachaArchive> GetGachaArchiveCollection();
@@ -36,4 +38,6 @@ internal interface IGachaLogDbService
     long GetOldestGachaItemIdByArchiveId(Guid archiveId);
 
     long GetOldestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaConfigType queryType);
+
+    ValueTask<long> GetOldestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType, CancellationToken token);
 }

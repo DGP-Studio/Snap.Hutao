@@ -45,13 +45,10 @@ internal sealed partial class ScopedDbCurrent<TEntity, TMessage>
                 DbSet<TEntity> dbSet = appDbContext.Set<TEntity>();
 
                 // only update when not processing a deletion
-                if (value is not null)
+                if (value is not null && current is not null)
                 {
-                    if (current is not null)
-                    {
-                        current.IsSelected = false;
-                        dbSet.UpdateAndSave(current);
-                    }
+                    current.IsSelected = false;
+                    dbSet.UpdateAndSave(current);
                 }
 
                 TMessage message = new() { OldValue = current, NewValue = value };

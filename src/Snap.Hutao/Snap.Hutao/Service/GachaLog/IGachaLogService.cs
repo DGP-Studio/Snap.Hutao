@@ -25,6 +25,8 @@ internal interface IGachaLogService
     /// </summary>
     ObservableCollection<GachaArchive>? ArchiveCollection { get; }
 
+    ValueTask<GachaArchive> EnsureArchiveInCollectionAsync(Guid archiveId, CancellationToken token = default(CancellationToken));
+
     /// <summary>
     /// 导出为一个新的UIGF对象
     /// </summary>

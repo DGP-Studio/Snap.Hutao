@@ -287,12 +287,13 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
     {
         if (uid is not null)
         {
-            ValueResult<bool, GachaArchive?> result = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
+            ValueResult<bool, Guid> result = await HutaoCloudViewModel.RetrieveAsync(uid).ConfigureAwait(false);
 
-            if (result.TryGetValue(out GachaArchive? archive))
+            if (result.TryGetValue(out Guid archiveId))
             {
+                GachaArchive archive = await gachaLogService.EnsureArchiveInCollectionAsync(archiveId).ConfigureAwait(false);
+
                 await taskContext.SwitchToMainThreadAsync();
-                Archives?.AddIfNotContains(archive);
                 await SetSelectedArchiveAndUpdateStatisticsAsync(archive, true).ConfigureAwait(false);
             }
         }
@@ -317,6 +318,15 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             if (archive is not null)
             {
                 await UpdateStatisticsAsync(archive).ConfigureAwait(false);
+            }
+            else
+            {
+                // 删光了存档或使用 Ctrl 取消了存档选择时触发
+                // 因此我们在这里额外判断一次是否删光了存档
+                if (Archives.IsNullOrEmpty())
+                {
+                    Statistics = null;
+                }
             }
         }
     }

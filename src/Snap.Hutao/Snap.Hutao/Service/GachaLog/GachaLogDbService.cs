@@ -160,6 +160,28 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         return item?.Id ?? long.MaxValue;
     }
 
+    public async ValueTask<long> GetOldestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType, CancellationToken token)
+    {
+        GachaItem? item = null;
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // TODO: replace with MaxBy
+            // https://github.com/dotnet/efcore/issues/25566
+            // .MaxBy(i => i.Id);
+            item = await appDbContext.GachaItems
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId && i.QueryType == queryType)
+                .OrderBy(i => i.Id)
+                .FirstOrDefaultAsync(token)
+                .ConfigureAwait(false);
+        }
+
+        return item?.Id ?? long.MaxValue;
+    }
+
     public async ValueTask AddGachaArchiveAsync(GachaArchive archive)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -200,6 +222,18 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
                     Id = i.Id,
                 })
                 .ToList();
+        }
+    }
+
+    public async ValueTask<GachaArchive?> GetGachaArchiveByIdAsync(Guid archiveId, CancellationToken token)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.GachaArchives
+                .AsNoTracking()
+                .SingleOrDefaultAsync(a => a.InnerId == archiveId, token)
+                .ConfigureAwait(false);
         }
     }
 

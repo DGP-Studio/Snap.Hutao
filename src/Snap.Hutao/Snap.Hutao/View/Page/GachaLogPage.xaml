@@ -108,11 +108,14 @@
                                                                         <ColumnDefinition/>
                                                                         <ColumnDefinition Width="auto"/>
                                                                     </Grid.ColumnDefinitions>
-                                                                    <TextBlock
-                                                                        Grid.Column="0"
-                                                                        VerticalAlignment="Center"
-                                                                        Style="{StaticResource BaseTextBlockStyle}"
-                                                                        Text="{Binding Uid}"/>
+                                                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                                                        <TextBlock Style="{StaticResource BaseTextBlockStyle}" Text="{Binding Uid}"/>
+                                                                        <TextBlock
+                                                                            Opacity="0.7"
+                                                                            Style="{StaticResource CaptionTextBlockStyle}"
+                                                                            Text="{Binding ItemCount}"/>
+                                                                    </StackPanel>
+
                                                                     <StackPanel
                                                                         Grid.Column="1"
                                                                         Margin="6,0,0,0"
