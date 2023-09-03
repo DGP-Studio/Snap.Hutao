@@ -12,7 +12,7 @@ namespace Snap.Hutao.Web.Hoyolab.Passport;
 /// <summary>
 /// 通行证客户端 XRPC 版
 /// </summary>
-[ConstructorGenerated]
+[ConstructorGenerated(ResolveHttpClient = true)]
 [HttpClient(HttpClientConfiguration.XRpc3)]
 internal sealed partial class PassportClientOversea : IPassportClient
 {
