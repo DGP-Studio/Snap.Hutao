@@ -48,17 +48,20 @@ internal sealed class UIGF
     /// <summary>
     /// 列表物品是否正常
     /// </summary>
+    /// <param name="itemId">首个出错的Id</param>
     /// <returns>是否正常</returns>
-    public bool IsMajor2Minor2OrLowerListValid()
+    public bool IsMajor2Minor2OrLowerListValid([NotNullWhen(false)] out long itemId)
     {
         foreach (UIGFItem item in List)
         {
             if (item.ItemType != SH.ModelInterchangeUIGFItemTypeAvatar || item.ItemType != SH.ModelInterchangeUIGFItemTypeWeapon)
             {
+                itemId = item.Id;
                 return false;
             }
         }
 
+        itemId = 0;
         return true;
     }
 }
