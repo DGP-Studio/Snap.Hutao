@@ -116,13 +116,14 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
         return false;
     }
 
-    private static bool CanImport(UIGFVersion version, UIGF uigf)
+    private static bool CanImport(UIGFVersion version, UIGF uigf, out long id)
     {
+        id = 0;
         if (version == UIGFVersion.Major2Minor3OrHigher)
         {
             return true;
         }
-        else if (version == UIGFVersion.Major2Minor2OrLower && uigf.IsMajor2Minor2OrLowerListValid())
+        else if (version == UIGFVersion.Major2Minor2OrLower && uigf.IsMajor2Minor2OrLowerListValid(out id))
         {
             return true;
         }
@@ -354,7 +355,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
             GachaLogImportDialog importDialog = await contentDialogFactory.CreateInstanceAsync<GachaLogImportDialog>(uigf).ConfigureAwait(false);
             if (await importDialog.GetShouldImportAsync().ConfigureAwait(false))
             {
-                if (CanImport(version, uigf))
+                if (CanImport(version, uigf, out long itemId))
                 {
                     await taskContext.SwitchToMainThreadAsync();
                     ContentDialog dialog = await contentDialogFactory.CreateForIndeterminateProgressAsync(SH.ViewModelGachaLogImportProgress).ConfigureAwait(true);
@@ -384,7 +385,7 @@ internal sealed partial class GachaLogViewModel : Abstraction.ViewModel
                 }
                 else
                 {
-                    infoBarService.Warning(SH.ViewModelGachaLogImportWarningTitle, SH.ViewModelGachaLogImportWarningMessage2);
+                    infoBarService.Warning(SH.ViewModelGachaLogImportWarningTitle, SH.ServiceGachaLogUIGFImportItemInvalidFormat.Format(itemId));
                 }
             }
         }
