@@ -770,6 +770,9 @@
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>获取奖励列表失败</value>
   </data>
+  <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
+    <value>验证失败，请前往米游社原神签到页面自行领取奖励</value>
+  </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>签到成功，{0}×{1}</value>
   </data>
