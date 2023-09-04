@@ -69,6 +69,10 @@
                 <ToggleSwitch IsOn="{Binding SuppressMetadataInitialization, Mode=TwoWay}"/>
             </cwc:SettingsCard>
 
+            <cwc:SettingsCard Header="Override Elevation Requirement">
+                <ToggleSwitch IsOn="{Binding OverrideElevationRequirement, Mode=TwoWay}"/>
+            </cwc:SettingsCard>
+
             <cwc:SettingsCard
                 Command="{Binding CompensationGachaLogServiceTimeCommand}"
                 Header="Compensation GachaLog Service Time For 15 Days"
