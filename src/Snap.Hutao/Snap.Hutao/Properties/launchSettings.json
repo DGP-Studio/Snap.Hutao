@@ -3,7 +3,7 @@
     "Snap.Hutao": {
       "commandName": "MsixPackage",
       "nativeDebugging": false,
-      "doNotLaunchApp": false,
+      "doNotLaunchApp": true,
       "allowLocalNetworkLoopbackProperty": true
     },
     "[Unpackaged] Snap.Hutao": {

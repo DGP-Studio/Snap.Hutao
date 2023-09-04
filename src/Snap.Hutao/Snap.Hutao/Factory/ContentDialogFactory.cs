@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Microsoft.UI.Xaml.Controls;
+using Snap.Hutao.Core.LifeCycle;
 using Snap.Hutao.Factory.Abstraction;
 
 namespace Snap.Hutao.Factory;
@@ -14,7 +15,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
 {
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
-    private readonly MainWindow mainWindow;
+    private readonly ICurrentWindowReference currentWindowReference;
 
     /// <inheritdoc/>
     public async ValueTask<ContentDialogResult> CreateForConfirmAsync(string title, string content)
@@ -22,7 +23,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = mainWindow.Content.XamlRoot,
+            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
             Title = title,
             Content = content,
             DefaultButton = ContentDialogButton.Primary,
@@ -38,7 +39,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = mainWindow.Content.XamlRoot,
+            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
             Title = title,
             Content = content,
             DefaultButton = defaultButton,
@@ -55,7 +56,7 @@ internal sealed partial class ContentDialogFactory : IContentDialogFactory
         await taskContext.SwitchToMainThreadAsync();
         ContentDialog dialog = new()
         {
-            XamlRoot = mainWindow.Content.XamlRoot,
+            XamlRoot = currentWindowReference.Window.Content.XamlRoot,
             Title = title,
             Content = new ProgressBar() { IsIndeterminate = true },
         };
