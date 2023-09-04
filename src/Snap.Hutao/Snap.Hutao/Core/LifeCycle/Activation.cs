@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI.Notifications;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.DailyNote;
@@ -18,9 +19,10 @@ namespace Snap.Hutao.Core.LifeCycle;
 /// 激活
 /// </summary>
 [HighQuality]
+[ConstructorGenerated]
 [Injection(InjectAs.Singleton, typeof(IActivation))]
 [SuppressMessage("", "CA1001")]
-internal sealed class Activation : IActivation
+internal sealed partial class Activation : IActivation
 {
     /// <summary>
     /// 操作
@@ -48,19 +50,10 @@ internal sealed class Activation : IActivation
     private const string UrlActionRefresh = "/REFRESH";
 
     private readonly IServiceProvider serviceProvider;
+    private readonly ICurrentWindowReference currentWindowReference;
     private readonly ITaskContext taskContext;
-    private readonly WeakReference<MainWindow> mainWindowReference = new(default!);
+    //private readonly WeakReference<MainWindow> mainWindowReference = new(default!);
     private readonly SemaphoreSlim activateSemaphore = new(1);
-
-    /// <summary>
-    /// 构造一个新的激活
-    /// </summary>
-    /// <param name="serviceProvider">服务提供器</param>
-    public Activation(IServiceProvider serviceProvider)
-    {
-        taskContext = serviceProvider.GetRequiredService<ITaskContext>();
-        this.serviceProvider = serviceProvider;
-    }
 
     /// <inheritdoc/>
     public void Activate(object? sender, AppActivationArguments args)
@@ -163,11 +156,11 @@ internal sealed class Activation : IActivation
 
     private async ValueTask WaitMainWindowAsync()
     {
-        if (!mainWindowReference.TryGetTarget(out _))
+        if (currentWindowReference.Window is null)
         {
             await taskContext.SwitchToMainThreadAsync();
 
-            mainWindowReference.SetTarget(serviceProvider.GetRequiredService<MainWindow>());
+            currentWindowReference.Window = serviceProvider.GetRequiredService<MainWindow>();
 
             serviceProvider
                 .GetRequiredService<IMetadataService>()
@@ -272,9 +265,9 @@ internal sealed class Activation : IActivation
 
         await taskContext.SwitchToMainThreadAsync();
 
-        if (!mainWindowReference.TryGetTarget(out _))
+        if (currentWindowReference.Window is null)
         {
-            _ = serviceProvider.GetRequiredService<LaunchGameWindow>();
+            currentWindowReference.Window = serviceProvider.GetRequiredService<LaunchGameWindow>();
         }
         else
         {
