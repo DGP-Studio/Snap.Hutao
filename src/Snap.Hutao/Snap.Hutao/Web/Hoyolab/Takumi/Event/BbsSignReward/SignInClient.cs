@@ -90,6 +90,11 @@ internal sealed partial class SignInClient
                     .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new SignInData(userAndUid.Uid), options, logger, token)
                     .ConfigureAwait(false);
             }
+            else
+            {
+                resp.ReturnCode = resp.Data.RiskCode;
+                resp.Message = SH.ServiceSignInRiskVerificationFailed;
+            }
         }
 
         return Response.Response.DefaultIfNull(resp);

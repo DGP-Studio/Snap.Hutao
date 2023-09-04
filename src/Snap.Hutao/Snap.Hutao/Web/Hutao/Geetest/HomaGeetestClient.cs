@@ -24,7 +24,7 @@ internal sealed partial class HomaGeetestClient
 
         if (string.IsNullOrEmpty(template))
         {
-            return new() { Code = -1 };
+            return new() { Code = Response.Response.InternalFailure };
         }
 
         GeetestResponse? resp = await httpClient

@@ -1852,6 +1852,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 验证失败，请前往米游社原神签到页面自行领取奖励 的本地化字符串。
+        /// </summary>
+        internal static string ServiceSignInRiskVerificationFailed {
+            get {
+                return ResourceManager.GetString("ServiceSignInRiskVerificationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 签到成功，{0}×{1} 的本地化字符串。
         /// </summary>
         internal static string ServiceSignInSuccessRewardFormat {

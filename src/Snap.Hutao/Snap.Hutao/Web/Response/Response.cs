@@ -13,6 +13,8 @@ namespace Snap.Hutao.Web.Response;
 [HighQuality]
 internal class Response
 {
+    public const int InternalFailure = 0x26F19335;
+
     /// <summary>
     /// 构造一个新的响应
     /// </summary>
@@ -54,7 +56,7 @@ internal class Response
     public static Response DefaultIfNull(Response? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        response ??= new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, null));
+        response ??= new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, null));
 
         if (((KnownReturnCode)response.ReturnCode) is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
         {
@@ -74,14 +76,14 @@ internal class Response
     public static Response<TData> DefaultIfNull<TData>(Response<TData>? response, [CallerMemberName] string callerName = default!)
     {
         // 0x26F19335 is a magic number that hashed from "Snap.Hutao"
-        response ??= new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
+        response ??= new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
 
         if (((KnownReturnCode)response.ReturnCode) is KnownReturnCode.PleaseLogin or KnownReturnCode.RET_TOKEN_INVALID)
         {
             response.Message = SH.WebResponseRefreshCookieHintFormat.Format(response.Message);
         }
 
-        return response ?? new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
+        return response ?? new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
     }
 
     /// <summary>
@@ -102,7 +104,7 @@ internal class Response
         else
         {
             // Magic number that hashed from "Snap.Hutao"
-            return new(0x26F19335, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
+            return new(InternalFailure, SH.WebResponseRequestExceptionFormat.Format(callerName, typeof(TData).Name), default);
         }
     }
 
