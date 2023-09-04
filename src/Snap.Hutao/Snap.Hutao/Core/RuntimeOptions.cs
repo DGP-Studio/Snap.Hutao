@@ -130,6 +130,11 @@ internal sealed class RuntimeOptions : IOptions<RuntimeOptions>
 
     private static bool GetElevated()
     {
+        if (LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false))
+        {
+            return true;
+        }
+
         using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
         {
             WindowsPrincipal principal = new(identity);

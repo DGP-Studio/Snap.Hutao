@@ -58,4 +58,9 @@ internal static class SettingKeys
     /// 禁用元数据更新检查
     /// </summary>
     public const string SuppressMetadataInitialization = "SuppressMetadataInitialization";
+
+    /// <summary>
+    /// 覆盖管理员权限执行命令
+    /// </summary>
+    public const string OverrideElevationRequirement = "OverrideElevationRequirement";
 }

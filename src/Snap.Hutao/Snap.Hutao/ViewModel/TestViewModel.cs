@@ -31,6 +31,13 @@ internal sealed partial class TestViewModel : Abstraction.ViewModel
         set => LocalSetting.Set(SettingKeys.SuppressMetadataInitialization, value);
     }
 
+    [SuppressMessage("", "CA1822")]
+    public bool OverrideElevationRequirement
+    {
+        get => LocalSetting.Get(SettingKeys.OverrideElevationRequirement, false);
+        set => LocalSetting.Set(SettingKeys.OverrideElevationRequirement, value);
+    }
+
     protected override ValueTask<bool> InitializeUIAsync()
     {
         return ValueTask.FromResult(true);
