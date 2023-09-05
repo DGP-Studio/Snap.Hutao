@@ -1,4 +1,4 @@
-![](https://repository-images.githubusercontent.com/482734649/c47a0a8e-868d-4d07-a66f-6d4473abfe46)
+![](res/HutaoRepoBanner2.png)
 
 胡桃工具箱是一个 Windows 平台的开源的原神工具箱，旨在帮助玩家获得更好的游戏体验； 它是对官方移动端工具的一种非破坏性功能扩展，为不习惯在移动端进行原神游戏的 PC 玩家提供一个在 Windows 平台下获得接近移动端功能权利的途径
 
