@@ -1,8 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using System.Runtime.Versioning;
-
 namespace Snap.Hutao.Model.Entity;
 
 /// <summary>
@@ -14,6 +12,11 @@ internal sealed partial class SettingEntry
     /// 游戏路径
     /// </summary>
     public const string GamePath = "GamePath";
+
+    /// <summary>
+    /// PowerShell 路径
+    /// </summary>
+    public const string PowerShellPath = "PowerShellPath";
 
     /// <summary>
     /// 空的历史记录卡池是否可见

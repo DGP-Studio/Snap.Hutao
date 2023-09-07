@@ -23,6 +23,7 @@ using Snap.Hutao.ViewModel.Guide;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
+using Windows.Storage.Pickers;
 using Windows.System;
 
 namespace Snap.Hutao.ViewModel;
@@ -117,6 +118,19 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("SetPowerShellPathCommand")]
+    private async Task SetPowerShellPathAsync()
+    {
+        FileOpenPicker picker = pickerFactory.GetFileOpenPicker(PickerLocationId.DocumentsLibrary, SH.FilePickerPowerShellCommit, ".exe");
+        (bool isOk, ValueFile file) = await picker.TryPickSingleFileAsync().ConfigureAwait(false);
+
+        if (isOk && Path.GetFileNameWithoutExtension(file).Equals("POWERSHELL", StringComparison.OrdinalIgnoreCase))
+        {
+            await taskContext.SwitchToMainThreadAsync();
+            Options.PowerShellPath = file;
+        }
+    }
+
     [Command("DeleteGameWebCacheCommand")]
     private void DeleteGameWebCache()
     {
@@ -146,17 +160,6 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
                 infoBarService.Warning(SH.ViewModelSettingClearWebCachePathInvalid.Format(cacheFolder));
             }
         }
-    }
-
-    [Command("ShowSignInWebViewDialogCommand")]
-    private async Task ShowSignInWebViewDialogAsync()
-    {
-        // ContentDialog must be created by main thread.
-        await taskContext.SwitchToMainThreadAsync();
-
-        // TODO remove this.
-        // SignInWebViewDialog dialog = serviceProvider.CreateInstance<SignInWebViewDialog>();
-        // await dialog.ShowAsync();
     }
 
     [Command("UpdateCheckCommand")]

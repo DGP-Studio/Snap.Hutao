@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.Extensions.Primitives;
 using Microsoft.Win32;
 using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Model.Entity;
@@ -16,15 +15,9 @@ namespace Snap.Hutao.Service.Game;
 /// </summary>
 internal static class RegistryInterop
 {
-    private const string GenshinKey = @"HKEY_CURRENT_USER\Software\miHoYo\原神";
-    private const string SdkKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
-
-    private static string? psExecutablePath;
-
-    private static string PsExecutablePath
-    {
-        get => psExecutablePath ??= GetPowerShellLocation();
-    }
+    private const string GenshinPath = @"Software\miHoYo\原神";
+    private const string GenshinKey = $@"HKEY_CURRENT_USER\{GenshinPath}";
+    private const string SdkChineseKey = "MIHOYOSDK_ADL_PROD_CN_h3123967166";
 
     /// <summary>
     /// 设置键值
@@ -32,8 +25,9 @@ internal static class RegistryInterop
     /// https://learn.microsoft.com/zh-cn/windows/win32/fileio/maximum-file-path-limitation
     /// </summary>
     /// <param name="account">账户</param>
+    /// <param name="powerShellPath">PowerShell 路径</param>
     /// <returns>账号是否设置</returns>
-    public static bool Set(GameAccount? account)
+    public static bool Set(GameAccount? account, string powerShellPath)
     {
         if (account is not null)
         {
@@ -41,15 +35,15 @@ internal static class RegistryInterop
             string path = $"HKCU:{GenshinKey[@"HKEY_CURRENT_USER\".Length..]}";
             string command = $"""
                 $value = [Convert]::FromBase64String('{base64}');
-                Set-ItemProperty -Path '{path}' -Name '{SdkKey}' -Value $value -Force;
+                Set-ItemProperty -Path '{path}' -Name '{SdkChineseKey}' -Value $value -Force;
                 """;
 
             ProcessStartInfo startInfo = new()
             {
                 Arguments = command,
-                WorkingDirectory = Path.GetDirectoryName(PsExecutablePath),
+                WorkingDirectory = Path.GetDirectoryName(powerShellPath),
                 CreateNoWindow = true,
-                FileName = PsExecutablePath,
+                FileName = powerShellPath,
             };
 
             try
@@ -76,7 +70,7 @@ internal static class RegistryInterop
     /// <returns>当前注册表中的信息</returns>
     public static string? Get()
     {
-        object? sdk = Registry.GetValue(GenshinKey, SdkKey, Array.Empty<byte>());
+        object? sdk = Registry.GetValue(GenshinKey, SdkChineseKey, Array.Empty<byte>());
 
         if (sdk is byte[] bytes)
         {
@@ -84,24 +78,5 @@ internal static class RegistryInterop
         }
 
         return null;
-    }
-
-    private static string GetPowerShellLocation()
-    {
-        string? paths = Environment.GetEnvironmentVariable("Path");
-        ArgumentException.ThrowIfNullOrEmpty(paths);
-
-        foreach (StringSegment path in new StringTokenizer(paths, ';'.ToArray()))
-        {
-            if (path is { HasValue: true, Length: > 0 })
-            {
-                if (path.Value.Contains("WindowsPowerShell", StringComparison.OrdinalIgnoreCase))
-                {
-                    return Path.Combine(path.Value, "powershell.exe");
-                }
-            }
-        }
-
-        throw ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropPowershellNotFound, default!);
     }
 }

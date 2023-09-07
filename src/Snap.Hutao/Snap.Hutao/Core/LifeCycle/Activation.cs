@@ -52,7 +52,6 @@ internal sealed partial class Activation : IActivation
     private readonly IServiceProvider serviceProvider;
     private readonly ICurrentWindowReference currentWindowReference;
     private readonly ITaskContext taskContext;
-    //private readonly WeakReference<MainWindow> mainWindowReference = new(default!);
     private readonly SemaphoreSlim activateSemaphore = new(1);
 
     /// <inheritdoc/>

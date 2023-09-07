@@ -1,11 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.Extensions.Primitives;
+using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
+using Snap.Hutao.Service.Game;
 using System.Globalization;
+using System.IO;
 
 namespace Snap.Hutao.Service;
 
@@ -34,6 +38,7 @@ internal sealed partial class AppOptions : DbStoreOptions
     };
 
     private string? gamePath;
+    private string? powerShellPath;
     private bool? isEmptyHistoryWishVisible;
     private BackdropType? backdropType;
     private CultureInfo? currentCulture;
@@ -47,6 +52,15 @@ internal sealed partial class AppOptions : DbStoreOptions
     {
         get => GetOption(ref gamePath, SettingEntry.GamePath);
         set => SetOption(ref gamePath, SettingEntry.GamePath, value);
+    }
+
+    /// <summary>
+    /// PowerShell 路径
+    /// </summary>
+    public string PowerShellPath
+    {
+        get => GetOption(ref powerShellPath, SettingEntry.PowerShellPath, GetPowerShellLocationOrEmpty());
+        set => SetOption(ref powerShellPath, SettingEntry.PowerShellPath, value);
     }
 
     /// <summary>
@@ -110,5 +124,25 @@ internal sealed partial class AppOptions : DbStoreOptions
     private static NameValue<string> ToNameValue(CultureInfo info)
     {
         return new(info.NativeName, info.Name);
+    }
+
+    private static string GetPowerShellLocationOrEmpty()
+    {
+        string? paths = Environment.GetEnvironmentVariable("Path");
+        if (!string.IsNullOrEmpty(paths))
+        {
+            foreach (StringSegment path in new StringTokenizer(paths, ';'.ToArray()))
+            {
+                if (path is { HasValue: true, Length: > 0 })
+                {
+                    if (path.Value.Contains("WindowsPowerShell", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return Path.Combine(path.Value, "powershell.exe");
+                    }
+                }
+            }
+        }
+
+        return string.Empty;
     }
 }

@@ -268,6 +268,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 选择 PowerShell 的本地化字符串。
+        /// </summary>
+        internal static string FilePickerPowerShellCommit {
+            get {
+                return ResourceManager.GetString("FilePickerPowerShellCommit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 欢迎使用胡桃 的本地化字符串。
         /// </summary>
         internal static string GuideWindowTitle {
@@ -5412,6 +5421,15 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingSetGamePathHint {
             get {
                 return ResourceManager.GetString("ViewPageSettingSetGamePathHint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 PowerShell 路径 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetPowerShellPathHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetPowerShellPathHeader", resourceCulture);
             }
         }
         
