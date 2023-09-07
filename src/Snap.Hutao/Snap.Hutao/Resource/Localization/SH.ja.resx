@@ -186,6 +186,9 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>インポート</value>
   </data>
+  <data name="FilePickerPowerShellCommit" xml:space="preserve">
+    <value>选择 PowerShell</value>
+  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>胡桃へようこそ</value>
   </data>
@@ -1957,6 +1960,9 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>ゲームのパスを設定する際、本体（YuanShen.exe または GenshinImpact.exe）を選んでください。ランチャー（launcher.exe）ではありません</value>
+  </data>
+  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
+    <value>PowerShell 路径</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>スポンサーになる</value>
