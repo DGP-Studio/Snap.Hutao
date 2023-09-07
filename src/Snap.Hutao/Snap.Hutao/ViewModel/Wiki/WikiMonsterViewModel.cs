@@ -63,7 +63,7 @@ internal sealed partial class WikiMonsterViewModel : Abstraction.ViewModel
                 monster.DropsView ??= monster.Drops?.SelectList(i => idDisplayMap.GetValueOrDefault(i, Material.Default));
             }
 
-            List<Monster> ordered = monsters.SortBy(m => m.Id.Value);
+            List<Monster> ordered = monsters.SortBy(m => m.RelationshipId.Value);
             await taskContext.SwitchToMainThreadAsync();
 
             Monsters = new AdvancedCollectionView(ordered, true);

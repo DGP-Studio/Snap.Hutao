@@ -1,6 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.Intrinsic;
 using System.Runtime.InteropServices;
 
 namespace Snap.Hutao.Model.Metadata.Avatar;
@@ -13,6 +14,11 @@ internal sealed class SkillDepot
 {
     private List<ProudableSkill>? compositeSkills;
     private List<ProudableSkill>? compositeSkillsNoInherents;
+
+    /// <summary>
+    /// 始基力
+    /// </summary>
+    public Arkhe Arkhe { get; set; }
 
     /// <summary>
     /// 技能天赋

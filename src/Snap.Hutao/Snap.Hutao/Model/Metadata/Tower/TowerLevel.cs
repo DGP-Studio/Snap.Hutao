@@ -33,10 +33,10 @@ internal sealed class TowerLevel
     /// <summary>
     /// 上半怪物预览
     /// </summary>
-    public List<MonsterId> FirstMonsters { get; set; } = default!;
+    public List<MonsterRelationshipId> FirstMonsters { get; set; } = default!;
 
     /// <summary>
     /// 下半怪物预览
     /// </summary>
-    public List<MonsterId> SecondMonsters { get; set; } = default!;
+    public List<MonsterRelationshipId> SecondMonsters { get; set; } = default!;
 }
