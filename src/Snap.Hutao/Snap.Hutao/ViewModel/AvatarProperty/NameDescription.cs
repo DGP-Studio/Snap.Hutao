@@ -8,6 +8,8 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 /// </summary>
 internal class NameDescription
 {
+    private static readonly NameDescription DefaultValue = new(SH.ModelNameValueDefaultName, SH.ModelNameValueDefaultDescription);
+
     /// <summary>
     /// 构造一个空的名称与描述
     /// </summary>
@@ -25,6 +27,8 @@ internal class NameDescription
         Name = name;
         Description = description;
     }
+
+    public static NameDescription Default => DefaultValue;
 
     /// <summary>
     /// 名称
