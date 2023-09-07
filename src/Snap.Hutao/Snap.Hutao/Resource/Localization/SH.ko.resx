@@ -1271,6 +1271,9 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>계정 전환 살패</value>
   </data>
+  <data name="ViewModelSettingActionComplete" xml:space="preserve">
+    <value>操作完成</value>
+  </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>권한이 부족해 지우지 못했습니다. 관리자 모드로 실행해주세요</value>
   </data>
@@ -1855,6 +1858,15 @@
   </data>
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>복사</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
+    <value>在桌面上创建默认以管理员方式启动的快捷方式，更新后需要重新创建</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
+    <value>创建快捷方式</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>실행</value>
