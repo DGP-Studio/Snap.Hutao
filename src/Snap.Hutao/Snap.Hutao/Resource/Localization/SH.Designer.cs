@@ -862,6 +862,24 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 请更新角色橱窗数据 的本地化字符串。
+        /// </summary>
+        internal static string ModelNameValueDefaultDescription {
+            get {
+                return ResourceManager.GetString("ModelNameValueDefaultDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 暂无数据 的本地化字符串。
+        /// </summary>
+        internal static string ModelNameValueDefaultName {
+            get {
+                return ResourceManager.GetString("ModelNameValueDefaultName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 精炼 {0} 阶 的本地化字符串。
         /// </summary>
         internal static string ModelWeaponAffixFormat {

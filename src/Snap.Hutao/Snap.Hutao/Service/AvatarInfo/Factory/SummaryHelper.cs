@@ -113,24 +113,15 @@ internal static class SummaryHelper
 
         return (maxId / 100000, delta) switch
         {
-            (5, 0) => 100F,
-            (5, 1) => 90F,
-            (5, 2) => 80F,
-            (5, 3) => 70F,
-
-            (4, 0) => 100F,
-            (4, 1) => 90F,
-            (4, 2) => 80F,
-            (4, 3) => 70F,
-
-            (3, 0) => 100F,
-            (3, 1) => 85F,
-            (3, 2) => 70F,
+            (5 or 4 or 3, 0) => 100F,
+            (5 or 4 or 3, 1) => 90F,
+            (5 or 4 or 3, 2) => 80F,
+            (5 or 4 or 3, 3) => 70F,
 
             (2, 0) => 100F,
             (2, 1) => 80F,
 
-            _ => throw Must.NeverHappen($"Unexpected AppendId: {appendId} Delta: {delta}"),
+            _ => throw Must.NeverHappen($"Unexpected AppendId: {appendId.Value} Delta: {delta}"),
         };
     }
 
