@@ -187,7 +187,7 @@
     <value>Import</value>
   </data>
   <data name="FilePickerPowerShellCommit" xml:space="preserve">
-    <value>选择 PowerShell</value>
+    <value>Select PowerShell</value>
   </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Welcome to Snap Hutao, Traveler ~</value>
@@ -774,7 +774,7 @@
     <value>Fetch Signin reward list failed</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>验证失败，请前往米游社原神签到页面自行领取奖励</value>
+    <value>Verification failed, please visit MiYouShe checkin page to manually claim reward</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>Check-in successfully, {0} x {1}</value>
@@ -1272,7 +1272,7 @@
     <value>Switch game account failed</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
-    <value>操作完成</value>
+    <value>Operation completed</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>Clear failed. No permission in the file directory. Retry it in administrator mode.</value>
@@ -1860,13 +1860,13 @@
     <value>Copy</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
-    <value>创建</value>
+    <value>Create</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>在桌面上创建默认以管理员方式启动的快捷方式，更新后需要重新创建</value>
+    <value>Crearte shortcut with admin privilege on desktop, requires re-create after updates</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
-    <value>创建快捷方式</value>
+    <value>Create Desktop Shortcut</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>Execute</value>
@@ -1974,7 +1974,7 @@
     <value>When setting the game path, please select the game program (Yuanshen.exe or GenshinImpact.exe) instead of the game launcher (launcher.exe)</value>
   </data>
   <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>PowerShell 路径</value>
+    <value>PowerShell Path</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Sponsor Us</value>
