@@ -417,7 +417,7 @@
     <value>请更新角色橱窗数据</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>暂无数据</value>
+    <value>No data yet</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>Refinement {0}</value>
