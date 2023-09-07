@@ -2,12 +2,10 @@
 // Licensed under the MIT license.
 
 using Microsoft.Extensions.Primitives;
-using Snap.Hutao.Core.ExceptionService;
 using Snap.Hutao.Core.Windowing;
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Entity;
 using Snap.Hutao.Service.Abstraction;
-using Snap.Hutao.Service.Game;
 using System.Globalization;
 using System.IO;
 

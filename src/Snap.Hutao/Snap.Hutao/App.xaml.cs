@@ -74,10 +74,10 @@ public sealed partial class App : Application
 
     private void LogDiagnosticInformation()
     {
-        RuntimeOptions hutaoOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
+        RuntimeOptions runtimeOptions = serviceProvider.GetRequiredService<RuntimeOptions>();
 
-        logger.LogInformation("FamilyName: {name}", hutaoOptions.FamilyName);
-        logger.LogInformation("Version: {version}", hutaoOptions.Version);
-        logger.LogInformation("LocalCache: {folder}", hutaoOptions.LocalCache);
+        logger.LogInformation("FamilyName: {name}", runtimeOptions.FamilyName);
+        logger.LogInformation("Version: {version}", runtimeOptions.Version);
+        logger.LogInformation("LocalCache: {folder}", runtimeOptions.LocalCache);
     }
 }
