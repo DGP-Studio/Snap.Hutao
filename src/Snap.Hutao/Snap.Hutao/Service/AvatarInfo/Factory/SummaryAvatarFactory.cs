@@ -3,6 +3,7 @@
 
 using Snap.Hutao.Model;
 using Snap.Hutao.Model.Intrinsic;
+using Snap.Hutao.Model.Intrinsic.Format;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Primitive;
 using Snap.Hutao.ViewModel.AvatarProperty;
@@ -150,8 +151,7 @@ internal sealed class SummaryAvatarFactory
         }
         else
         {
-            // 是否为整数
-            float statValue = subStat.StatValue == MathF.Truncate(subStat.StatValue)
+            float statValue = subStat.AppendPropId.GetFormatMethod() is FormatMethod.Percent
                 ? subStat.StatValue / 100F
                 : subStat.StatValue;
             subProperty = FightPropertyFormat.ToNameDescription(subStat.AppendPropId, statValue);
