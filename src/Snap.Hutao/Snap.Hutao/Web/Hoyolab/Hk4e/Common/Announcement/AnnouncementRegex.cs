@@ -11,11 +11,11 @@ internal static partial class AnnouncementRegex
 
     public static readonly Regex VersionUpdateTimeRegex = new(SH.WebAnnouncementMatchVersionUpdateTime, RegexOptions.Compiled);
 
-    public static readonly Regex TransientActivityTimeRegex = new(SH.WebAnnouncementMatchTransientActivityTime, RegexOptions.Compiled);
+    public static readonly Regex TransientActivityAfterUpdateTimeRegex = new(SH.WebAnnouncementMatchTransientActivityTime, RegexOptions.Compiled);
 
-    public static readonly Regex PersistentActivityTimeRegex = new(SH.WebAnnouncementMatchPersistentActivityTime, RegexOptions.Compiled);
+    public static readonly Regex PersistentActivityAfterUpdateTimeRegex = new(SH.WebAnnouncementMatchPersistentActivityTime, RegexOptions.Compiled);
 
-    public static readonly Regex PermanentActivityTimeRegex = new(SH.WebAnnouncementMatchPermanentActivityTime, RegexOptions.Compiled);
+    public static readonly Regex PermanentActivityAfterUpdateTimeRegex = new(SH.WebAnnouncementMatchPermanentActivityTime, RegexOptions.Compiled);
 
     public static readonly Regex XmlTimeTagRegex = XmlTimeTagRegexInner ??= XmlTagRegex();
 

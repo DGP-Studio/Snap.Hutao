@@ -55,7 +55,7 @@
             <!--  ProgressBar  -->
             <x:Double x:Key="LargeBackgroundProgressBarOpacity">0.2</x:Double>
 
-            <ThemeShadow x:Key="CompatShadow" />
+            <ThemeShadow x:Key="CompatShadow"/>
             <!--  Brushes  -->
             <SolidColorBrush x:Key="AvatarPropertyAddValueBrush" Color="{ThemeResource AvatarPropertyAddValueColor}"/>
             <SolidColorBrush x:Key="BlueBrush" Color="#FF5180CB"/>
