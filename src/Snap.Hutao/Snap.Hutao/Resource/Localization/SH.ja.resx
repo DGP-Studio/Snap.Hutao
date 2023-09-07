@@ -253,7 +253,7 @@
     <value>キャラクター</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeUnknown" xml:space="preserve">
-    <value>未知</value>
+    <value>不明</value>
   </data>
   <data name="ModelInterchangeUIGFItemTypeWeapon" xml:space="preserve">
     <value>武器</value>
@@ -546,10 +546,10 @@
     <value>我的角色：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseNotRefreshed" xml:space="preserve">
-    <value>角色橱窗：尚未刷新</value>
+    <value>キャラクターラインナップ：未更新</value>
   </data>
   <data name="ServiceAvatarInfoSummaryShowcaseRefreshTimeFormat" xml:space="preserve">
-    <value>角色橱窗：{0:MM-dd HH:mm}</value>
+    <value>キャラクターラインナップ：{0:MM-dd HH:mm}</value>
   </data>
   <data name="ServiceCultivationProjectCurrentUserdataCourrpted" xml:space="preserve">
     <value>保存养成计划状态失败</value>
@@ -681,10 +681,10 @@
     <value>解锁帧率上限失败，正在结束游戏进程</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockFpsSucceed" xml:space="preserve">
-    <value>解锁帧率上限成功</value>
+    <value>FPS上限解除成功</value>
   </data>
   <data name="ServiceGameLaunchPhaseUnlockingFps" xml:space="preserve">
-    <value>正在尝试解锁帧率上限</value>
+    <value>FPS上限解除を試みる</value>
   </data>
   <data name="ServiceGameLaunchPhaseWaitingProcessExit" xml:space="preserve">
     <value>等待游戏进程退出</value>
@@ -750,7 +750,7 @@
     <value>在读取游戏进程内存时遇到问题：无法读取到指定地址的有效值</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>祈愿记录上传服务有效期至\n{0:yyyy-MM-dd HH:mm:ss}</value>
+    <value>祈願履歴のアップロード期限は\n{0:yyyy-MM-dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>キャッシュされたメタデータファイルが見つかりませんでした</value>
@@ -780,7 +780,7 @@
     <value>签到成功，{0}×{1}</value>
   </data>
   <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
-    <value>不支持的 UIGF 版本</value>
+    <value>サポートされていないUIGFバージョン</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>多个用户记录为选中状态</value>
@@ -849,10 +849,10 @@
     <value>星4</value>
   </data>
   <data name="ViewControlStatisticsCardToLastOrangeText" xml:space="preserve">
-    <value>距上个五星</value>
+    <value>前回までの星5</value>
   </data>
   <data name="ViewControlStatisticsCardToLastPurpleText" xml:space="preserve">
-    <value>距上个四星</value>
+    <value>前回までの星4</value>
   </data>
   <data name="ViewControlStatisticsCardUpAveragePullText" xml:space="preserve">
     <value>ピックアップ獲得平均数</value>
@@ -861,7 +861,7 @@
     <value>ピックアップ</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentPrediction" xml:space="preserve">
-    <value>预测</value>
+    <value>予測</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
     <value>比例</value>
@@ -1053,10 +1053,10 @@
     <value>用户使用协议与法律声明</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
-    <value>文档</value>
+    <value>ドキュメント</value>
   </data>
   <data name="ViewGuideStepEnvironment" xml:space="preserve">
-    <value>环境</value>
+    <value>実行環境</value>
   </data>
   <data name="ViewGuideStepEnvironmentAfterInstallDescription" xml:space="preserve">
     <value>安装完成后重启胡桃以查看是否正常生效</value>
@@ -1077,7 +1077,7 @@
     <value>言語設定</value>
   </data>
   <data name="ViewGuideStepStaticResource" xml:space="preserve">
-    <value>资源</value>
+    <value>リソース</value>
   </data>
   <data name="ViewHutaoDatabaseHeader" xml:space="preserve">
     <value>深境螺旋集計</value>
@@ -1104,7 +1104,7 @@
     <value>アチーブメントをインポート</value>
   </data>
   <data name="ViewModelAchievementImportWarningMessage" xml:space="preserve">
-    <value>数据的 UIAF 版本过低，无法导入</value>
+    <value>UIAF バージョンが古いため、インポートできません</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
     <value>该操作是不可逆的，该存档和其内的所有成就状态会丢失</value>
@@ -1197,7 +1197,7 @@
     <value>祈願履歴をインポート中</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage" xml:space="preserve">
-    <value>数据的 UIGF 版本过低，无法导入</value>
+    <value>UIGF バージョンが古いため、インポートできません</value>
   </data>
   <data name="ViewModelGachaLogImportWarningMessage2" xml:space="preserve">
     <value>导入数据中包含了不支持的物品</value>
@@ -1206,10 +1206,10 @@
     <value>インポート失敗</value>
   </data>
   <data name="ViewModelGachaLogPredictedPullLeftToOrange" xml:space="preserve">
-    <value>{1:P3} 概率 {0} 抽后获得五星物品</value>
+    <value>{1:P3} の確率で {0} 回後に星5アイテムが排出される</value>
   </data>
   <data name="ViewModelGachaLogProbabilityOfNextPullIsOrange" xml:space="preserve">
-    <value>{0:P3} 概率下一抽获得五星物品</value>
+    <value>{0:P3} の確率で次回は星5アイテムが排出される</value>
   </data>
   <data name="ViewModelGachaLogRefreshFail" xml:space="preserve">
     <value>祈願履歴を取得できません</value>
@@ -1233,16 +1233,16 @@
     <value>我已阅读并同意上方的条款</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
-    <value>完成</value>
+    <value>OK</value>
   </data>
   <data name="ViewModelGuideActionNext" xml:space="preserve">
-    <value>下一步</value>
+    <value>次へ</value>
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
     <value>下载资源文件中，请稍候</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>请输入正确的邮箱</value>
+    <value>メールが正しい形式ではありません</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>クリップボードのテキスト形式が正しくありません</value>
@@ -1383,7 +1383,7 @@
     <value>Enka APIから同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromEnkaApiDescription" xml:space="preserve">
-    <value>同步游戏内角色展柜中的信息</value>
+    <value>キャラクターラインナップの情報を同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabCalculate" xml:space="preserve">
     <value>MiYouShe育成ツールから同期</value>
@@ -1395,7 +1395,7 @@
     <value>MiYouSheから所持キャラを同期する</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshFromHoyolabGameRecordDescription" xml:space="preserve">
-    <value>同步角色天赋外的大部分信息</value>
+    <value>キャラ天賦以外の情報を概ね同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
     <value>刷新时间</value>
@@ -1824,7 +1824,7 @@
     <value>HoYo Lab UIDを入力してください</value>
   </data>
   <data name="ViewPageLoginMihoyoUserLoggedInAction" xml:space="preserve">
-    <value>我已登录</value>
+    <value>ログインしました</value>
   </data>
   <data name="ViewPageLoginMihoyoUserTitle" xml:space="preserve">
     <value>Hoyoverse通行証をログイン</value>
@@ -1866,7 +1866,7 @@
     <value>在桌面上创建默认以管理员方式启动的快捷方式，更新后需要重新创建</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
-    <value>创建快捷方式</value>
+    <value>ショートカットを作成する</value>
   </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>実行</value>
