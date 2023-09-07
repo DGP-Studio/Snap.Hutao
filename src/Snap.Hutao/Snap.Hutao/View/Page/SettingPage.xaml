@@ -91,6 +91,13 @@
                     Description="{Binding HutaoOptions.WebView2Version}"
                     Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
+                <cwc:SettingsCard
+                    ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
+                    Command="{Binding CreateDesktopShortcutCommand}"
+                    Description="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutDescription}"
+                    Header="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xE7EF;}"
+                    IsClickEnabled="True"/>
 
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingApperanceHeader}"/>
                 <cwc:SettingsCard

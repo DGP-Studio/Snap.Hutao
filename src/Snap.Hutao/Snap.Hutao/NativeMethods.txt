@@ -41,6 +41,12 @@ GetWindowThreadProcessId
 ReleaseDC
 SetForegroundWindow
 
+// COM
+IPersistFile
+IShellLinkW
+ShellLink
+SHELL_LINK_DATA_FLAGS
+
 // WinRT
 IMemoryBufferByteAccess
 
@@ -61,5 +67,3 @@ MINMAXINFO
 
 // System.Com
 CWMO_FLAGS
-
-//IShellLinkW

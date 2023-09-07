@@ -3355,6 +3355,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 操作完成 的本地化字符串。
+        /// </summary>
+        internal static string ViewModelSettingActionComplete {
+            get {
+                return ResourceManager.GetString("ViewModelSettingActionComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 清除失败，文件目录权限不足，请使用管理员模式重试 的本地化字符串。
         /// </summary>
         internal static string ViewModelSettingClearWebCacheFail {
@@ -5106,6 +5115,33 @@ namespace Snap.Hutao.Resource.Localization {
         internal static string ViewPageSettingCopyDeviceIdAction {
             get {
                 return ResourceManager.GetString("ViewPageSettingCopyDeviceIdAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 创建 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingCreateDesktopShortcutAction {
+            get {
+                return ResourceManager.GetString("ViewPageSettingCreateDesktopShortcutAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 在桌面上创建默认以管理员方式启动的快捷方式，更新后需要重新创建 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingCreateDesktopShortcutDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingCreateDesktopShortcutDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 创建快捷方式 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingCreateDesktopShortcutHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingCreateDesktopShortcutHeader", resourceCulture);
             }
         }
         
