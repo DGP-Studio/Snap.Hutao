@@ -107,20 +107,20 @@ internal sealed partial class AnnouncementService : IAnnouncementService
             _ = 1;
             foreach (ref readonly Announcement announcement in CollectionsMarshal.AsSpan(activities))
             {
-                if (AnnouncementRegex.PermanentActivityTimeRegex.Match(announcement.Content) is { Success: true } permanent)
+                if (AnnouncementRegex.PermanentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } permanent)
                 {
                     announcement.StartTime = versionUpdateTime;
                     continue;
                 }
 
-                if (AnnouncementRegex.PersistentActivityTimeRegex.Match(announcement.Content) is { Success: true } persistent)
+                if (AnnouncementRegex.PersistentActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } persistent)
                 {
                     announcement.StartTime = versionUpdateTime;
                     announcement.EndTime = versionUpdateTime + TimeSpan.FromDays(42);
                     continue;
                 }
 
-                if (AnnouncementRegex.TransientActivityTimeRegex.Match(announcement.Content) is { Success: true } transient)
+                if (AnnouncementRegex.TransientActivityAfterUpdateTimeRegex.Match(announcement.Content) is { Success: true } transient)
                 {
                     announcement.StartTime = versionUpdateTime;
                     announcement.EndTime = DateTimeOffset.Parse(transient.Groups[2].ValueSpan, CultureInfo.InvariantCulture);
