@@ -37,6 +37,7 @@ internal sealed class AvatarProperty : ObservableObject, INameIcon, IAlternating
         [FightProperty.FIGHT_PROP_PHYSICAL_ADD_HURT] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_PhysicalAttackUp.png").ToUri(),
         [FightProperty.FIGHT_PROP_SHIELD_COST_MINUS_RATIO] = Web.HutaoEndpoints.StaticFile("Property", "UI_Icon_ShieldCostMinus.png").ToUri(),
     }.ToImmutableDictionary();
+
     private Brush? background;
 
     /// <summary>

@@ -64,7 +64,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
         }
     }
 
-    private async Task InitializeHutaoAnnouncementAsync()
+    private async ValueTask InitializeHutaoAnnouncementAsync()
     {
         try
         {

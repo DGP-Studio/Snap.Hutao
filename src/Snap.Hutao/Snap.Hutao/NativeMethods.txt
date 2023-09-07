@@ -61,3 +61,5 @@ MINMAXINFO
 
 // System.Com
 CWMO_FLAGS
+
+//IShellLinkW

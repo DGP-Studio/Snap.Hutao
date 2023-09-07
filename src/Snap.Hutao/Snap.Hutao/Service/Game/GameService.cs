@@ -346,7 +346,12 @@ internal sealed partial class GameService : IGameService
     /// <inheritdoc/>
     public bool SetGameAccount(GameAccount account)
     {
-        return RegistryInterop.Set(account);
+        if (string.IsNullOrEmpty(appOptions.PowerShellPath))
+        {
+            ThrowHelper.RuntimeEnvironment(SH.ServiceGameRegisteryInteropPowershellNotFound, default!);
+        }
+
+        return RegistryInterop.Set(account, appOptions.PowerShellPath);
     }
 
     /// <inheritdoc/>

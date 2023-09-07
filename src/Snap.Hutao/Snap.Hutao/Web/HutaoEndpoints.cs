@@ -24,7 +24,7 @@ internal static class HutaoEndpoints
         return $"{HomaSnapGenshinApi}/Announcement/List?locale={locale}";
     }
 
-    public static string AnnouncementUpload= $"{HomaSnapGenshinApi}/Service/Announcement/Upload";
+    public const string AnnouncementUpload = $"{HomaSnapGenshinApi}/Service/Announcement/Upload";
 
     public static string GachaLogCompensation(int days)
     {
