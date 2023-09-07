@@ -36,8 +36,7 @@ internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTran
             Flat = new() { ItemType = ItemType.ITEM_RELIQUARY, EquipType = r.Position, },
         });
 
-        Equip? equipTest = avatarInfo.EquipList.LastOrDefault();
-        if (equipTest?.Weapon is null)
+        if (avatarInfo.EquipList.LastOrDefault() is null or { Weapon: null })
         {
             // 不存在武器则添加
             avatarInfo.EquipList.Add(new());
@@ -45,17 +44,21 @@ internal sealed class GameRecordCharacterAvatarInfoTransformer : IAvatarInfoTran
 
         Equip equip = avatarInfo.EquipList.Last();
 
-        equip.ItemId = source.Weapon.Id;
-        equip.Weapon = new()
+        if (equip.ItemId != source.Weapon.Id)
         {
-            Level = source.Weapon.Level,
-            AffixMap = new()
+            // 切换了武器
+            equip.ItemId = source.Weapon.Id;
+            equip.Weapon = new()
             {
-                [100000 + source.Weapon.Id] = source.Weapon.AffixLevel - 1,
-            },
-        };
+                Level = source.Weapon.Level,
+                AffixMap = new()
+                {
+                    [100000 + source.Weapon.Id] = source.Weapon.AffixLevel - 1,
+                },
+            };
 
-        // Special case here, don't set EQUIP_WEAPON
-        equip.Flat = new() { ItemType = ItemType.ITEM_WEAPON, };
+            // Special case here, don't set EQUIP_WEAPON
+            equip.Flat = new() { ItemType = ItemType.ITEM_WEAPON, };
+        }
     }
 }
