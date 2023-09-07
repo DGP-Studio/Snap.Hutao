@@ -413,6 +413,12 @@
     <value>武器強化素材</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ModelNameValueDefaultName" xml:space="preserve">
+    <value>暂无数据</value>
+  </data>
+  <data name="ModelNameValueDefaultDescription" xml:space="preserve">
+    <value>请更新角色橱窗数据</value>
+  </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>精錬ランク{0}</value>
   </data>
