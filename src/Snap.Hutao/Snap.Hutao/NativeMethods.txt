@@ -61,5 +61,3 @@ MINMAXINFO
 
 // System.Com
 CWMO_FLAGS
-
-D3D12CreateDevice

@@ -25,6 +25,11 @@ internal sealed class Monster
     public MonsterDescribeId DescribeId { get; set; }
 
     /// <summary>
+    /// 关系 Id
+    /// </summary>
+    public MonsterRelationshipId RelationshipId { get; set; }
+
+    /// <summary>
     /// 内部代号
     /// </summary>
     public string MonsterName { get; set; } = default!;
@@ -48,6 +53,11 @@ internal sealed class Monster
     /// 怪物种类
     /// </summary>
     public MonsterType Type { get; set; }
+
+    /// <summary>
+    /// 始基力
+    /// </summary>
+    public Arkhe Arkhe { get; set; }
 
     /// <summary>
     /// 强化标签
