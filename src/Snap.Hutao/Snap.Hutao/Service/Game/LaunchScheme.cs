@@ -75,19 +75,4 @@ internal sealed partial class LaunchScheme
             _ => false,
         };
     }
-
-    public bool SdkLibraryMatches(string gameFolder)
-    {
-        if (IsOversea)
-        {
-            return false;
-        }
-
-        if (LauncherId is SdkStaticLauncherBilibiliId)
-        {
-
-        }
-
-        string sdkDll = Path.Combine(gameFolder, GameConstants.YuanShenData, "Plugins\\PCGameSDK.dll");
-    }
 }
