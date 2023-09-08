@@ -1146,7 +1146,7 @@
     <value>現在の育成計画は正常に追加された</value>
   </data>
   <data name="ViewModelCultivationEntryAddWarning" xml:space="preserve">
-    <value>请先前往养成计划页面创建计划并选中</value>
+    <value>育成計画で新規作成及びセットしてから続けてください</value>
   </data>
   <data name="ViewModelCultivationProjectAdded" xml:space="preserve">
     <value>追加完了</value>
@@ -1245,7 +1245,7 @@
     <value>次へ</value>
   </data>
   <data name="ViewModelGuideActionStaticResourceBegin" xml:space="preserve">
-    <value>下载资源文件中，请稍候</value>
+    <value>アセットをダウンロード中、しばらくお待ちください</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
     <value>メールが正しい形式ではありません</value>
@@ -1293,7 +1293,7 @@
     <value>コピーしました</value>
   </data>
   <data name="ViewModelSettingSetDataFolderSuccess" xml:space="preserve">
-    <value>设置数据目录成功，重启以应用更改</value>
+    <value>データディレクトリセット完了、再起動して適用する</value>
   </data>
   <data name="ViewModelUserAdded" xml:space="preserve">
     <value>ユーザー [{0}] を正常に追加しました</value>
@@ -1302,7 +1302,7 @@
     <value>ユーザー [{0}] の Cookie をコピーしました</value>
   </data>
   <data name="ViewModelUserIncomplete" xml:space="preserve">
-    <value>此 Cookie 不完整，操作失败</value>
+    <value>このCookieが不完全のため、操作できません</value>
   </data>
   <data name="ViewModelUserInvalid" xml:space="preserve">
     <value>このCookieが無効のため、操作できません</value>
@@ -1404,7 +1404,7 @@
     <value>キャラ天賦以外の情報を概ね同期</value>
   </data>
   <data name="ViewPageAvatarPropertyRefreshTimeToggle" xml:space="preserve">
-    <value>刷新时间</value>
+    <value>更新日時</value>
   </data>
   <data name="ViewPageAvatarPropertyScore" xml:space="preserve">
     <value>評価する</value>
@@ -1482,7 +1482,7 @@
     <value>防止通知自动收入操作中心</value>
   </data>
   <data name="ViewPageDailyNoteReminderHeader" xml:space="preserve">
-    <value>提醒通知</value>
+    <value>リマインド通知</value>
   </data>
   <data name="ViewPageDailyNoteRemoveToolTip" xml:space="preserve">
     <value>カードを削除</value>
@@ -1491,7 +1491,7 @@
     <value>今週の消費半減回数は消化済</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefresh" xml:space="preserve">
-    <value>自动刷新</value>
+    <value>自動更新</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
     <value>间隔选定的时间后刷新添加的实时便笺</value>
@@ -1500,13 +1500,13 @@
     <value>这些选项仅允许在非管理员模式下更改</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshHeader" xml:space="preserve">
-    <value>刷新</value>
+    <value>更新</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeDescription" xml:space="preserve">
     <value>プレイ中に通知をオフ</value>
   </data>
   <data name="ViewPageDailyNoteSlientModeHeader" xml:space="preserve">
-    <value>免打扰模式</value>
+    <value>おやすみモード</value>
   </data>
   <data name="ViewPageDailyNoteVerify" xml:space="preserve">
     <value>验证当前用户与角色</value>
@@ -1569,7 +1569,7 @@
     <value>フェッチ</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>手动输入 Url</value>
+    <value>Urlを入力する</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
     <value>使用由你提供的 Url 刷新祈愿记录</value>
@@ -1581,7 +1581,7 @@
     <value>現在のユーザーのCookieで祈願履歴を表示する</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCache" xml:space="preserve">
-    <value>网页缓存刷新</value>
+    <value>キャッシュの再読み込み</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
     <value>使用游戏内浏览器的网页缓存刷新祈愿记录</value>
@@ -1797,10 +1797,10 @@
     <value>在游戏内切换账号，网络环境发生变化后需要重新手动检测</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountDetectAction" xml:space="preserve">
-    <value>检测</value>
+    <value>検出</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountHeader" xml:space="preserve">
-    <value>检测账号</value>
+    <value>アカウントを検出</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
     <value>删除</value>
