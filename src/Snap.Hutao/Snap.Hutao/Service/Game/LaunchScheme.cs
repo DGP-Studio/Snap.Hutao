@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 using Snap.Hutao.Model.Intrinsic;
+using System.IO;
 
 namespace Snap.Hutao.Service.Game;
 
@@ -63,5 +64,30 @@ internal sealed partial class LaunchScheme
     public bool MultiChannelEqual(in ChannelOptions multiChannel)
     {
         return Channel == multiChannel.Channel && SubChannel == multiChannel.SubChannel;
+    }
+
+    public bool ExecutableMatches(string gameFileName)
+    {
+        return (IsOversea, gameFileName) switch
+        {
+            (true, GameConstants.GenshinImpactFileName) => true,
+            (false, GameConstants.YuanShenFileName) => true,
+            _ => false,
+        };
+    }
+
+    public bool SdkLibraryMatches(string gameFolder)
+    {
+        if (IsOversea)
+        {
+            return false;
+        }
+
+        if (LauncherId is SdkStaticLauncherBilibiliId)
+        {
+
+        }
+
+        string sdkDll = Path.Combine(gameFolder, GameConstants.YuanShenData, "Plugins\\PCGameSDK.dll");
     }
 }
