@@ -184,7 +184,7 @@ internal sealed partial class GameService : IGameService
         {
             GameResource resource = response.Data;
 
-            if (!LaunchSchemeMatchesExecutable(launchScheme, gameFileName))
+            if (!launchScheme.ExecutableMatches(gameFileName))
             {
                 bool replaced = await packageConverter
                     .EnsureGameResourceAsync(launchScheme, resource, gameFolder, progress)
@@ -398,6 +398,4 @@ internal sealed partial class GameService : IGameService
             _ => false,
         };
     }
-
-    private static bool LaunchScheme
 }

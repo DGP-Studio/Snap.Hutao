@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Weapon;
 using Snap.Hutao.Service.Metadata;
 using Snap.Hutao.ViewModel.GachaLog;
+using Snap.Hutao.Web.Hoyolab.Hk4e.Event.GachaInfo;
 using Snap.Hutao.Web.Hutao.GachaLog;
 using System.Runtime.InteropServices;
 
@@ -59,14 +60,19 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         Dictionary<Weapon, int> purpleWeaponCounter = new();
         Dictionary<Weapon, int> blueWeaponCounter = new();
 
+        // Pre group builders
+        Dictionary<GachaConfigType, List<HistoryWishBuilder>> historyWishBuilderMap = historyWishBuilders
+            .GroupBy(b => b.ConfigType)
+            .ToDictionary(g => g.Key, g => g.ToList().SortBy(b => b.From));
+
         // Items are ordered by precise time, first is oldest
         // 'ref' is not allowed here because we have lambda below
         foreach (Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(items))
         {
             // Find target history wish to operate.
-            HistoryWishBuilder? targetHistoryWishBuilder = historyWishBuilders
-                .Where(w => w.ConfigType == item.GachaType)
-                .SingleOrDefault(w => w.From <= item.Time && w.To >= item.Time);
+            HistoryWishBuilder? targetHistoryWishBuilder = item.GachaType is not GachaConfigType.StandardWish
+                ? historyWishBuilderMap[item.GachaType].FirstOrDefault(w => w.From <= item.Time && w.To >= item.Time)
+                : default;
 
             switch (item.ItemId.StringLength())
             {
