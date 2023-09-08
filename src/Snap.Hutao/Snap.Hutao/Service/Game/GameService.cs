@@ -163,7 +163,7 @@ internal sealed partial class GameService : IGameService
             }
         }
 
-        return changed || !LaunchSchemeMatchesExecutable(scheme, Path.GetFileName(gamePath));
+        return changed;
     }
 
     /// <inheritdoc/>
@@ -398,4 +398,6 @@ internal sealed partial class GameService : IGameService
             _ => false,
         };
     }
+
+    private static bool LaunchScheme
 }

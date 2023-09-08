@@ -186,18 +186,17 @@ internal sealed partial class LaunchGameViewModel : Abstraction.ViewModel
         {
             try
             {
-                if (gameService.SetChannelOptions(SelectedScheme))
+                gameService.SetChannelOptions(SelectedScheme);
+
+                // Whether or not the channel options changed, we always ensure game resouces
+                LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
+                IProgress<PackageReplaceStatus> convertProgress = taskContext.CreateProgressForMainThread<PackageReplaceStatus>(state => dialog.State = state);
+                using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
                 {
-                    // Channel changed, we need to change local file.
-                    LaunchGamePackageConvertDialog dialog = await contentDialogFactory.CreateInstanceAsync<LaunchGamePackageConvertDialog>().ConfigureAwait(false);
-                    IProgress<PackageReplaceStatus> convertProgress = taskContext.CreateProgressForMainThread<PackageReplaceStatus>(state => dialog.State = state);
-                    using (await dialog.BlockAsync(taskContext).ConfigureAwait(false))
+                    if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
                     {
-                        if (!await gameService.EnsureGameResourceAsync(SelectedScheme, convertProgress).ConfigureAwait(false))
-                        {
-                            infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
-                            return;
-                        }
+                        infoBarService.Warning(SH.ViewModelLaunchGameEnsureGameResourceFail);
+                        return;
                     }
                 }
 
