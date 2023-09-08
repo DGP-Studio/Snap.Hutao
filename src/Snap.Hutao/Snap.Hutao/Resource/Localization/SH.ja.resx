@@ -978,19 +978,19 @@
     <value>将会通过 GET 方式对接口发送请求</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlSampleHeader" xml:space="preserve">
-    <value>示例</value>
+    <value>例</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
     <value>配置无感验证接口</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
-    <value>导出 App</value>
+    <value>Appをエクスポート</value>
   </data>
   <data name="ViewDialogImportExportAppVersion" xml:space="preserve">
-    <value>导出 App 版本</value>
+    <value>Appのバージョンをエクスポート</value>
   </data>
   <data name="ViewDialogImportExportTime" xml:space="preserve">
-    <value>导出时间</value>
+    <value>エクスポート時間</value>
   </data>
   <data name="ViewDialogImportUIAFExportListCount" xml:space="preserve">
     <value>アチーブメント</value>
@@ -1014,7 +1014,7 @@
     <value>名前を変更</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertHint" xml:space="preserve">
-    <value>转换可能需要花费一段时间，请勿关闭胡桃</value>
+    <value>変換に時間がかかる場合があります、アプリを閉じないでください</value>
   </data>
   <data name="ViewDialogLaunchGamePackageConvertTitle" xml:space="preserve">
     <value>ゲームランチャー切り替え中</value>
@@ -1032,7 +1032,7 @@
     <value>进入文档页面并按指示操作</value>
   </data>
   <data name="ViewDialogUserDocumentHeader" xml:space="preserve">
-    <value>操作文档</value>
+    <value>ドキュメント</value>
   </data>
   <data name="ViewDialogUserInputPlaceholder" xml:space="preserve">
     <value>STokenが含めているCookieを入力してください</value>
@@ -1047,7 +1047,7 @@
     <value>我已阅读并同意</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
-    <value>问题报告方式与流程</value>
+    <value>フィードバックの書き方と流れ</value>
   </data>
   <data name="ViewGuideStepAgreementOpenSourceLicense" xml:space="preserve">
     <value>Snap Hutao 开源许可</value>
@@ -1068,16 +1068,16 @@
     <value>安装完成后重启胡桃以查看是否正常生效</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription1" xml:space="preserve">
-    <value>如果上方的图标中存在乱码，请前往</value>
+    <value>アイコンが文字化けが起きた場合は、ここに</value>
   </data>
   <data name="ViewGuideStepEnvironmentFontDescription2" xml:space="preserve">
-    <value>下载并自行安装图标字体</value>
+    <value>フォントを自動的にダウンロード、インストールします</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description1" xml:space="preserve">
-    <value>若未检测到 WebView2 运行时信息，可以前往</value>
+    <value>WebView2 ランタイムが検出されませんのアラートが出た場合は、ここに</value>
   </data>
   <data name="ViewGuideStepEnvironmentWebView2Description2" xml:space="preserve">
-    <value>下载并自行安装运行时</value>
+    <value>ランタイムを自動的にダウンロード、インストールします</value>
   </data>
   <data name="ViewGuideStepLanguage" xml:space="preserve">
     <value>言語設定</value>
