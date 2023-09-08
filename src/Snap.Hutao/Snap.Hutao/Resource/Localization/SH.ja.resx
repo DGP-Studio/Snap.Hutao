@@ -414,10 +414,10 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
-    <value>请更新角色橱窗数据</value>
+    <value>キャラクターラインナップを更新する</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>暂无数据</value>
+    <value>データありません</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>精錬ランク{0}</value>
@@ -705,13 +705,13 @@
     <value>Unity ログファイル内にはゲームパスが見つかりません</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileBackupFormat" xml:space="preserve">
-    <value>备份：{0}</value>
+    <value>バックアップ：{0}</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRenameFormat" xml:space="preserve">
-    <value>重命名：{0} 到：{1}</value>
+    <value>リネーム：{0} を：{1} に</value>
   </data>
   <data name="ServiceGamePackageConvertMoveFileRestoreFormat" xml:space="preserve">
-    <value>替换：{0}</value>
+    <value>復元する：{0}</value>
   </data>
   <data name="ServiceGamePackageRenameDataFolderFailed" xml:space="preserve">
     <value>データフォルダの名前を変更できませんでした</value>
@@ -822,7 +822,7 @@
     <value>天井までの回数</value>
   </data>
   <data name="ViewCardLaunchGameSelectAccountPlaceholder" xml:space="preserve">
-    <value>选择账号或直接启动</value>
+    <value>スタート、又はアカウント切替</value>
   </data>
   <data name="ViewControlBaseValueSliderLevel" xml:space="preserve">
     <value>レベル</value>
@@ -924,10 +924,10 @@
     <value>探検派遣完了のお知らせ</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>洞天宝钱提醒阈值</value>
+    <value>洞天宝銭の保存もうすぐ上限に到達</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
-    <value>洞天宝銭まもなく満タン</value>
+    <value>天然樹脂がもうすぐ上限に到達</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationShowInHomeWidget" xml:space="preserve">
     <value>ホームページに表示</value>
