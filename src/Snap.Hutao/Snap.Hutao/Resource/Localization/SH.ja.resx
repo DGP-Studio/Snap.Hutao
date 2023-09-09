@@ -905,6 +905,21 @@
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>アーカイブにアチーブメントをインポート</value>
   </data>
+  <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
+    <value>角色目标等级</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
+    <value>普通攻击目标等级</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillETarget" xml:space="preserve">
+    <value>元素战技目标等级</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillQTarget" xml:space="preserve">
+    <value>元素爆发目标等级</value>
+  </data>
+  <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
+    <value>武器目标等级</value>
+  </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
     <value>绑定当前用户与角色</value>
   </data>
@@ -914,8 +929,11 @@
   <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
     <value>新規育成計画</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
+    <value>批量添加或更新到当前养成计划</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>現在の育成計画に追加</value>
+    <value>添加或更新到当前养成计划</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>デイリー依頼まだ完了していません</value>
@@ -1118,6 +1136,9 @@
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>确定要删除存档 {0} 吗？</value>
   </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
+    <value>获取培养材料中，请稍候...</value>
+  </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
     <value>当前角色无法计算，请同步信息后再试</value>
   </data>
@@ -1141,6 +1162,12 @@
   </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>育成計画の追加に失敗しました</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+    <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+    <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>現在の育成計画は正常に追加された</value>
@@ -1366,6 +1393,12 @@
   </data>
   <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
     <value>聖遺物スコア</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
+    <value>所有角色与武器</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
+    <value>当前角色与武器</value>
   </data>
   <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
     <value>会心スコア</value>
