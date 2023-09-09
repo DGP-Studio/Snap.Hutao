@@ -942,7 +942,7 @@
     <value>Expedition Reward Notification</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>Original Resin Alarm Threshold</value>
+    <value>Realm Currency Alarm Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
     <value>Realm Currency Alarm Threshold</value>
@@ -1275,7 +1275,7 @@
     <value>Dowloading Assets</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>Please enter correct email address.</value>
+    <value>Please enter correct email address</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Text format in clipboard is incorrect</value>
@@ -1602,7 +1602,7 @@
     <value>Fetch</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>Type in URL manually.</value>
+    <value>Input URL Manually</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
     <value>We use provided URL to refresh your wish history</value>
