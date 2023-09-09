@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Converter;
 using Snap.Hutao.Model.Metadata.Weapon;
@@ -77,10 +78,18 @@ internal sealed class CalculableWeapon
     public QualityType Quality { get; }
 
     /// <inheritdoc/>
-    public uint LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
+    public uint LevelCurrent
+    {
+        get => LocalSetting.Get(SettingKeyCurrentFromQualityType(Quality), LevelMin);
+        set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromQualityType(Quality), v));
+    }
 
     /// <inheritdoc/>
-    public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
+    public uint LevelTarget
+    {
+        get => LocalSetting.Get(SettingKeyTargetFromQualityType(Quality), LevelMax);
+        set => SetProperty(LevelTarget, value, v => LocalSetting.Set(SettingKeyTargetFromQualityType(Quality), v));
+    }
 
     public static CalculableWeapon From(Weapon source)
     {
@@ -90,5 +99,19 @@ internal sealed class CalculableWeapon
     public static CalculableWeapon From(WeaponView source)
     {
         return new(source);
+    }
+
+    public static string SettingKeyCurrentFromQualityType(QualityType quality)
+    {
+        return quality >= QualityType.QUALITY_BLUE
+            ? SettingKeys.CultivationWeapon90LevelCurrent
+            : SettingKeys.CultivationWeapon70LevelCurrent;
+    }
+
+    public static string SettingKeyTargetFromQualityType(QualityType quality)
+    {
+        return quality >= QualityType.QUALITY_BLUE
+            ? SettingKeys.CultivationWeapon90LevelTarget
+            : SettingKeys.CultivationWeapon70LevelTarget;
     }
 }

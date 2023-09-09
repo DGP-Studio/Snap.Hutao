@@ -51,7 +51,7 @@ internal sealed class AvatarView : INameIconSide, ICalculableSource<ICalculableA
     /// <summary>
     /// 武器
     /// </summary>
-    public WeaponView? Weapon { get; set; } = default!;
+    public WeaponView? Weapon { get; set; }
 
     /// <summary>
     /// 圣遗物列表

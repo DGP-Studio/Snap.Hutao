@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -21,9 +22,6 @@ internal sealed class CalculableAvatar
     IMappingFrom<CalculableAvatar, Avatar>,
     IMappingFrom<CalculableAvatar, AvatarView>
 {
-    private uint levelCurrent;
-    private uint levelTarget;
-
     /// <summary>
     /// 构造一个新的可计算角色
     /// </summary>
@@ -32,14 +30,11 @@ internal sealed class CalculableAvatar
     {
         AvatarId = avatar.Id;
         LevelMin = 1;
-        LevelMax = 90;
-        Skills = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList(p => p.ToCalculable());
+        LevelMax = avatar.MaxLevel;
+        Skills = avatar.SkillDepot.CompositeSkillsNoInherents().SelectList((p, i) => p.ToCalculable((SkillType)i));
         Name = avatar.Name;
         Icon = AvatarIconConverter.IconNameToUri(avatar.Icon);
         Quality = avatar.Quality;
-
-        LevelCurrent = LevelMin;
-        LevelTarget = LevelMax;
     }
 
     /// <summary>
@@ -50,14 +45,11 @@ internal sealed class CalculableAvatar
     {
         AvatarId = avatar.Id;
         LevelMin = avatar.LevelNumber;
-        LevelMax = 90; // hard coded 90
-        Skills = avatar.Skills.SelectList(s => s.ToCalculable());
+        LevelMax = Avatar.GetMaxLevel();
+        Skills = avatar.Skills.SelectList((s, i) => s.ToCalculable((SkillType)i));
         Name = avatar.Name;
         Icon = avatar.Icon;
         Quality = avatar.Quality;
-
-        LevelCurrent = LevelMin;
-        LevelTarget = LevelMax;
     }
 
     /// <inheritdoc/>
@@ -82,10 +74,18 @@ internal sealed class CalculableAvatar
     public QualityType Quality { get; }
 
     /// <inheritdoc/>
-    public uint LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
+    public uint LevelCurrent
+    {
+        get => LocalSetting.Get(SettingKeys.CultivationAvatarLevelCurrent, LevelMin);
+        set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelCurrent, v));
+    }
 
     /// <inheritdoc/>
-    public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
+    public uint LevelTarget
+    {
+        get => LocalSetting.Get(SettingKeys.CultivationAvatarLevelTarget, LevelMax);
+        set => SetProperty(LevelTarget, value, v => LocalSetting.Set(SettingKeys.CultivationAvatarLevelTarget, v));
+    }
 
     public static CalculableAvatar From(Avatar source)
     {

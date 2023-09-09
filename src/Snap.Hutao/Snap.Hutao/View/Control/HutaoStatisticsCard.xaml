@@ -51,7 +51,7 @@
             </Grid>
 
             <ScrollViewer Grid.Row="1">
-                <StackPanel Margin="16,0,16,16">
+                <StackPanel Margin="16,0,12,16">
                     <TextBlock
                         Margin="0,16,0,8"
                         Style="{StaticResource BaseTextBlockStyle}"

@@ -63,4 +63,17 @@ internal static class SettingKeys
     /// 覆盖管理员权限执行命令
     /// </summary>
     public const string OverrideElevationRequirement = "OverrideElevationRequirement";
+
+    public const string CultivationAvatarLevelCurrent = "CultivationAvatarLevelCurrent";
+    public const string CultivationAvatarLevelTarget = "CultivationAvatarLevelTarget";
+    public const string CultivationAvatarSkillACurrent = "CultivationAvatarSkillACurrent";
+    public const string CultivationAvatarSkillATarget = "CultivationAvatarSkillATarget";
+    public const string CultivationAvatarSkillECurrent = "CultivationAvatarSkillECurrent";
+    public const string CultivationAvatarSkillETarget = "CultivationAvatarSkillETarget";
+    public const string CultivationAvatarSkillQCurrent = "CultivationAvatarSkillQCurrent";
+    public const string CultivationAvatarSkillQTarget = "CultivationAvatarSkillQTarget";
+    public const string CultivationWeapon90LevelCurrent = "CultivationWeapon90LevelCurrent";
+    public const string CultivationWeapon90LevelTarget = "CultivationWeapon90LevelTarget";
+    public const string CultivationWeapon70LevelCurrent = "CultivationWeapon70LevelCurrent";
+    public const string CultivationWeapon70LevelTarget = "CultivationWeapon70LevelTarget";
 }

@@ -7,9 +7,7 @@
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
     xmlns:shvc="using:Snap.Hutao.View.Control"
-    xmlns:shvd="using:Snap.Hutao.View.Dialog"
     Title="{shcm:ResourceString Name=ViewDialogCultivatePromotionDeltaTitle}"
-    d:DataContext="{d:DesignInstance shvd:CultivatePromotionDeltaDialog}"
     CloseButtonText="{shcm:ResourceString Name=ContentDialogCancelCloseButtonText}"
     DefaultButton="Primary"
     PrimaryButtonText="{shcm:ResourceString Name=ContentDialogConfirmPrimaryButtonText}"
@@ -27,9 +25,9 @@
         <StackPanel
             Grid.Row="0"
             Margin="0,8,0,0"
-            Visibility="{Binding Avatar, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+            Visibility="{x:Bind Avatar, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Border Style="{StaticResource BorderCardStyle}">
-                <Grid Margin="8" DataContext="{Binding Avatar}">
+                <Grid Margin="8" DataContext="{x:Bind Avatar}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="160"/>
@@ -73,7 +71,7 @@
                 </Grid>
             </Border>
 
-            <ItemsControl ItemsSource="{Binding Avatar.Skills}">
+            <ItemsControl ItemsSource="{x:Bind Avatar.Skills}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Margin="0,2,0,0" Style="{StaticResource BorderCardStyle}">
@@ -128,7 +126,7 @@
             Margin="0,8,0,0"
             Visibility="{Binding Weapon, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Border Style="{StaticResource BorderCardStyle}">
-                <Grid Margin="8" DataContext="{Binding Weapon}">
+                <Grid Margin="8" DataContext="{x:Bind Weapon}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                         <ColumnDefinition Width="160"/>

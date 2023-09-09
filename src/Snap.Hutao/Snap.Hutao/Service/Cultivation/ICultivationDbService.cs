@@ -28,9 +28,9 @@ internal interface ICultivationDbService
 
     ValueTask<List<InventoryItem>> GetInventoryItemListByProjectIdAsync(Guid projectId);
 
-    ValueTask InsertCultivateEntryAsync(CultivateEntry entry);
+    ValueTask AddCultivateEntryAsync(CultivateEntry entry);
 
-    ValueTask InsertCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd);
+    ValueTask AddCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd);
 
     void UpdateCultivateItem(CultivateItem item);
 

@@ -124,6 +124,7 @@
     <None Remove="View\Dialog\AchievementArchiveCreateDialog.xaml" />
     <None Remove="View\Dialog\AchievementImportDialog.xaml" />
     <None Remove="View\Dialog\CultivateProjectDialog.xaml" />
+    <None Remove="View\Dialog\CultivatePromotionDeltaBatchDialog.xaml" />
     <None Remove="View\Dialog\CultivatePromotionDeltaDialog.xaml" />
     <None Remove="View\Dialog\DailyNoteNotificationDialog.xaml" />
     <None Remove="View\Dialog\GachaLogImportDialog.xaml" />
@@ -297,6 +298,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SH.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Dialog\CultivatePromotionDeltaBatchDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup>

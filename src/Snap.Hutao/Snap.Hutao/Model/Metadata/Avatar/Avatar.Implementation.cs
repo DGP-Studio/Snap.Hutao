@@ -39,7 +39,12 @@ internal partial class Avatar : IStatisticsItemSource, ISummaryItemSource, IItem
     /// 最大等级
     /// </summary>
     [SuppressMessage("", "CA1822")]
-    public uint MaxLevel { get => 90U; }
+    public uint MaxLevel { get => GetMaxLevel(); }
+
+    public static uint GetMaxLevel()
+    {
+        return 90U;
+    }
 
     /// <inheritdoc/>
     public ICalculableAvatar ToCalculable()

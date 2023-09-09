@@ -106,7 +106,7 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         }
     }
 
-    public async ValueTask InsertCultivateEntryAsync(CultivateEntry entry)
+    public async ValueTask AddCultivateEntryAsync(CultivateEntry entry)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -126,7 +126,7 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         }
     }
 
-    public async ValueTask InsertCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd)
+    public async ValueTask AddCultivateItemRangeAsync(IEnumerable<CultivateItem> toAdd)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
