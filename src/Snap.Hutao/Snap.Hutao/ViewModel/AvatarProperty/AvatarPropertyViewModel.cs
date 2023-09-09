@@ -44,9 +44,9 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     private readonly IAvatarInfoService avatarInfoService;
     private readonly IClipboardInterop clipboardInterop;
     private readonly CalculatorClient calculatorClient;
+    private readonly IInfoBarService infoBarService;
     private readonly ITaskContext taskContext;
     private readonly IUserService userService;
-    private readonly IInfoBarService infoBarService;
 
     private Summary? summary;
     private AvatarView? selectedAvatar;
@@ -161,66 +161,168 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
     [Command("CultivateCommand")]
     private async Task CultivateAsync(AvatarView? avatar)
     {
-        if (avatar is not null)
+        if (avatar is null)
         {
-            if (userService.Current is not null)
+            return;
+        }
+
+        if (userService.Current is null)
+        {
+            infoBarService.Warning(SH.MustSelectUserAndUid);
+        }
+        else
+        {
+            if (avatar.Weapon is null)
             {
-                if (avatar.Weapon is null)
-                {
-                    infoBarService.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull);
-                    return;
-                }
+                infoBarService.Warning(SH.ViewModelAvatarPropertyCalculateWeaponNull);
+                return;
+            }
 
-                // ContentDialog must be created by main thread.
-                CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
-                CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
-                (bool isOk, CalculatorAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
+            CalculableOptions options = new(avatar.ToCalculable(), avatar.Weapon.ToCalculable());
+            CultivatePromotionDeltaDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaDialog>(options).ConfigureAwait(false);
+            (bool isOk, CalculatorAvatarPromotionDelta delta) = await dialog.GetPromotionDeltaAsync().ConfigureAwait(false);
 
-                if (!isOk)
-                {
-                    return;
-                }
+            if (!isOk)
+            {
+                return;
+            }
 
-                Response<CalculatorConsumption> consumptionResponse = await calculatorClient
-                    .ComputeAsync(userService.Current.Entity, delta)
+            Response<CalculatorConsumption> consumptionResponse = await calculatorClient
+                .ComputeAsync(userService.Current.Entity, delta)
+                .ConfigureAwait(false);
+
+            if (!consumptionResponse.IsOk())
+            {
+                return;
+            }
+
+            CalculatorConsumption consumption = consumptionResponse.Data;
+
+            List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
+            bool avatarSaved = await cultivationService
+                .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
+                .ConfigureAwait(false);
+
+            try
+            {
+                // take a hot path if avatar is not saved.
+                bool avatarAndWeaponSaved = avatarSaved && await cultivationService
+                    .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
                     .ConfigureAwait(false);
 
-                if (!consumptionResponse.IsOk())
+                if (avatarAndWeaponSaved)
                 {
-                    return;
+                    infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
                 }
-
-                CalculatorConsumption consumption = consumptionResponse.Data;
-
-                List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
-                bool avatarSaved = await cultivationService
-                    .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
-                    .ConfigureAwait(false);
-
-                try
+                else
                 {
-                    // take a hot path if avatar is not saved.
-                    bool avatarAndWeaponSaved = avatarSaved && await cultivationService
-                        .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
-                        .ConfigureAwait(false);
+                    infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
+                }
+            }
+            catch (Core.ExceptionService.UserdataCorruptedException ex)
+            {
+                infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
+            }
+        }
+    }
 
-                    if (avatarAndWeaponSaved)
-                    {
-                        infoBarService.Success(SH.ViewModelCultivationEntryAddSuccess);
-                    }
-                    else
-                    {
-                        infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
-                    }
-                }
-                catch (Core.ExceptionService.UserdataCorruptedException ex)
-                {
-                    infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
-                }
+    [Command("BatchCultivateCommand")]
+    private async Task BatchCultivateAsync()
+    {
+        if (summary is { Avatars: { } avatars })
+        {
+            if (userService.Current is null)
+            {
+                infoBarService.Warning(SH.MustSelectUserAndUid);
             }
             else
             {
-                infoBarService.Warning(SH.MustSelectUserAndUid);
+                CultivatePromotionDeltaBatchDialog dialog = await contentDialogFactory.CreateInstanceAsync<CultivatePromotionDeltaBatchDialog>().ConfigureAwait(false);
+                (bool isOk, CalculatorAvatarPromotionDelta baseline) = await dialog.GetPromotionDeltaBaselineAsync().ConfigureAwait(false);
+
+                if (isOk)
+                {
+                    ArgumentNullException.ThrowIfNull(baseline.SkillList);
+                    ArgumentNullException.ThrowIfNull(baseline.Weapon);
+
+                    ContentDialog progressDialog = await contentDialogFactory
+                        .CreateForIndeterminateProgressAsync(SH.ViewModelAvatarPropertyBatchCultivateProgressTitle)
+                        .ConfigureAwait(false);
+                    using (await progressDialog.BlockAsync(taskContext).ConfigureAwait(false))
+                    {
+                        BatchCultivateResult result = default;
+                        foreach (AvatarView avatar in avatars)
+                        {
+                            baseline.AvatarId = avatar.Id;
+                            baseline.AvatarLevelCurrent = Math.Min(avatar.LevelNumber, baseline.AvatarLevelTarget);
+                            baseline.SkillList[0].Id = avatar.Skills[0].GroupId;
+                            baseline.SkillList[0].LevelCurrent = Math.Min(avatar.Skills[0].LevelNumber, baseline.SkillList[0].LevelTarget);
+                            baseline.SkillList[1].Id = avatar.Skills[1].GroupId;
+                            baseline.SkillList[1].LevelCurrent = Math.Min(avatar.Skills[1].LevelNumber, baseline.SkillList[1].LevelTarget);
+                            baseline.SkillList[2].Id = avatar.Skills[2].GroupId;
+                            baseline.SkillList[2].LevelCurrent = Math.Min(avatar.Skills[2].LevelNumber, baseline.SkillList[2].LevelTarget);
+
+                            if (avatar.Weapon is null)
+                            {
+                                result.SkippedCount++;
+                                continue;
+                            }
+
+                            baseline.Weapon.Id = avatar.Weapon.Id;
+                            baseline.Weapon.LevelCurrent = Math.Min(avatar.Weapon.LevelNumber, baseline.Weapon.LevelTarget);
+
+                            Response<CalculatorConsumption> consumptionResponse = await calculatorClient
+                                .ComputeAsync(userService.Current.Entity, baseline)
+                                .ConfigureAwait(false);
+
+                            if (!consumptionResponse.IsOk())
+                            {
+                                result.Interrupted = true;
+                                break;
+                            }
+                            else
+                            {
+                                CalculatorConsumption consumption = consumptionResponse.Data;
+
+                                List<CalculatorItem> items = CalculatorItemHelper.Merge(consumption.AvatarConsume, consumption.AvatarSkillConsume);
+                                bool avatarSaved = await cultivationService
+                                    .SaveConsumptionAsync(CultivateType.AvatarAndSkill, avatar.Id, items)
+                                    .ConfigureAwait(false);
+
+                                try
+                                {
+                                    // take a hot path if avatar is not saved.
+                                    bool avatarAndWeaponSaved = avatarSaved && await cultivationService
+                                        .SaveConsumptionAsync(CultivateType.Weapon, avatar.Weapon.Id, consumption.WeaponConsume.EmptyIfNull())
+                                        .ConfigureAwait(false);
+
+                                    if (avatarAndWeaponSaved)
+                                    {
+                                        result.SucceedCount++;
+                                    }
+                                    else
+                                    {
+                                        result.Interrupted = true;
+                                        break;
+                                    }
+                                }
+                                catch (Core.ExceptionService.UserdataCorruptedException ex)
+                                {
+                                    infoBarService.Error(ex, SH.ViewModelCultivationAddWarning);
+                                }
+                            }
+                        }
+
+                        if (result.Interrupted)
+                        {
+                            infoBarService.Warning(SH.ViewModelCultivationBatchAddIncompletedFormat.Format(result.SucceedCount, result.SkippedCount));
+                        }
+                        else
+                        {
+                            infoBarService.Success(SH.ViewModelCultivationBatchAddCompletedFormat.Format(result.SucceedCount, result.SkippedCount));
+                        }
+                    }
+                }
             }
         }
     }

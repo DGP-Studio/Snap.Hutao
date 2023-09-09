@@ -3,6 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using Snap.Hutao.Core.Abstraction;
+using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Model.Intrinsic;
 using Snap.Hutao.Model.Metadata.Avatar;
 using Snap.Hutao.Model.Metadata.Converter;
@@ -18,44 +19,33 @@ namespace Snap.Hutao.Model.Calculable;
 internal sealed class CalculableSkill
     : ObservableObject,
     ICalculableSkill,
-    IMappingFrom<CalculableSkill, ProudableSkill>,
-    IMappingFrom<CalculableSkill, SkillView>
+    IMappingFrom<CalculableSkill, ProudableSkill, SkillType>,
+    IMappingFrom<CalculableSkill, SkillView, SkillType>
 {
-    private uint levelCurrent;
-    private uint levelTarget;
+    private readonly SkillType type;
 
-    /// <summary>
-    /// 构造一个新的可计算的技能
-    /// </summary>
-    /// <param name="skill">技能</param>
-    private CalculableSkill(ProudableSkill skill)
+    private CalculableSkill(ProudableSkill skill, SkillType type)
     {
+        this.type = type;
+
         GroupId = skill.GroupId;
         LevelMin = 1;
-        LevelMax = 10; // hard coded 10 here
+        LevelMax = ProudableSkill.GetMaxLevel();
         Name = skill.Name;
         Icon = SkillIconConverter.IconNameToUri(skill.Icon);
         Quality = QualityType.QUALITY_NONE;
-
-        LevelCurrent = LevelMin;
-        LevelTarget = LevelMax;
     }
 
-    /// <summary>
-    /// 构造一个新的可计算的技能
-    /// </summary>
-    /// <param name="skill">技能</param>
-    private CalculableSkill(SkillView skill)
+    private CalculableSkill(SkillView skill, SkillType type)
     {
+        this.type = type;
+
         GroupId = skill.GroupId;
         LevelMin = skill.LevelNumber;
-        LevelMax = 10; // hard coded 10 here
+        LevelMax = ProudableSkill.GetMaxLevel();
         Name = skill.Name;
         Icon = skill.Icon;
         Quality = QualityType.QUALITY_NONE;
-
-        LevelCurrent = LevelMin;
-        LevelTarget = LevelMax;
     }
 
     /// <inheritdoc/>
@@ -77,18 +67,48 @@ internal sealed class CalculableSkill
     public QualityType Quality { get; }
 
     /// <inheritdoc/>
-    public uint LevelCurrent { get => levelCurrent; set => SetProperty(ref levelCurrent, value); }
-
-    /// <inheritdoc/>
-    public uint LevelTarget { get => levelTarget; set => SetProperty(ref levelTarget, value); }
-
-    public static CalculableSkill From(ProudableSkill source)
+    public uint LevelCurrent
     {
-        return new(source);
+        get => LocalSetting.Get(SettingKeyCurrentFromSkillType(type), LevelMin);
+        set => SetProperty(LevelCurrent, value, v => LocalSetting.Set(SettingKeyCurrentFromSkillType(type), v));
     }
 
-    public static CalculableSkill From(SkillView source)
+    /// <inheritdoc/>
+    public uint LevelTarget
     {
-        return new(source);
+        get => LocalSetting.Get(SettingKeyTargetFromSkillType(type), LevelMax);
+        set => SetProperty(LevelTarget, value, v => LocalSetting.Set(SettingKeyTargetFromSkillType(type), v));
+    }
+
+    public static CalculableSkill From(ProudableSkill source, SkillType type)
+    {
+        return new(source, type);
+    }
+
+    public static CalculableSkill From(SkillView source, SkillType type)
+    {
+        return new(source, type);
+    }
+
+    public static string SettingKeyCurrentFromSkillType(SkillType type)
+    {
+        return type switch
+        {
+            SkillType.A => SettingKeys.CultivationAvatarSkillACurrent,
+            SkillType.E => SettingKeys.CultivationAvatarSkillECurrent,
+            SkillType.Q => SettingKeys.CultivationAvatarSkillQCurrent,
+            _ => throw Must.NeverHappen(),
+        };
+    }
+
+    public static string SettingKeyTargetFromSkillType(SkillType type)
+    {
+        return type switch
+        {
+            SkillType.A => SettingKeys.CultivationAvatarSkillATarget,
+            SkillType.E => SettingKeys.CultivationAvatarSkillETarget,
+            SkillType.Q => SettingKeys.CultivationAvatarSkillQTarget,
+            _ => throw Must.NeverHappen(),
+        };
     }
 }

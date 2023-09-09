@@ -177,14 +177,14 @@ internal sealed partial class CultivationService : ICultivationService
         if (entry is null)
         {
             entry = CultivateEntry.From(Current.InnerId, type, itemId);
-            await cultivationDbService.InsertCultivateEntryAsync(entry).ConfigureAwait(false);
+            await cultivationDbService.AddCultivateEntryAsync(entry).ConfigureAwait(false);
         }
 
         Guid entryId = entry.InnerId;
         await cultivationDbService.DeleteCultivateItemRangeByEntryIdAsync(entryId).ConfigureAwait(false);
 
         IEnumerable<CultivateItem> toAdd = items.Select(item => CultivateItem.From(entryId, item));
-        await cultivationDbService.InsertCultivateItemRangeAsync(toAdd).ConfigureAwait(false);
+        await cultivationDbService.AddCultivateItemRangeAsync(toAdd).ConfigureAwait(false);
 
         return true;
     }

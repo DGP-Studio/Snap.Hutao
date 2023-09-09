@@ -8,11 +8,16 @@ namespace Snap.Hutao.Model.Metadata.Avatar;
 /// <summary>
 /// 技能信息的接口实现
 /// </summary>
-internal sealed partial class ProudableSkill : ICalculableSource<ICalculableSkill>
+internal sealed partial class ProudableSkill : ITypedCalculableSource<ICalculableSkill, SkillType>
 {
-    /// <inheritdoc/>
-    public ICalculableSkill ToCalculable()
+    public static uint GetMaxLevel()
     {
-        return CalculableSkill.From(this);
+        return 10U;
+    }
+
+    /// <inheritdoc/>
+    public ICalculableSkill ToCalculable(SkillType type)
+    {
+        return CalculableSkill.From(this, type);
     }
 }

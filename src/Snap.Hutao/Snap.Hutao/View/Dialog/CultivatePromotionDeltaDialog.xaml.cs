@@ -33,7 +33,6 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
 
         Avatar = options.Avatar;
         Weapon = options.Weapon;
-        DataContext = this;
     }
 
     /// <summary>
@@ -53,19 +52,19 @@ internal sealed partial class CultivatePromotionDeltaDialog : ContentDialog
         AvatarPromotionDelta delta = new()
         {
             AvatarId = Avatar?.AvatarId ?? 0,
-            AvatarLevelCurrent = Avatar?.LevelCurrent ?? 0,
-            AvatarLevelTarget = Avatar?.LevelTarget ?? 0,
-            SkillList = Avatar?.Skills.SelectList(s => new PromotionDelta()
+            AvatarLevelCurrent = Avatar is not null ? Math.Clamp(Avatar.LevelCurrent, Avatar.LevelMin, Avatar.LevelMax) : 0,
+            AvatarLevelTarget = Avatar is not null ? Math.Clamp(Avatar.LevelTarget, Avatar.LevelMin, Avatar.LevelMax) : 0,
+            SkillList = Avatar?.Skills.SelectList(skill => new PromotionDelta()
             {
-                Id = s.GroupId,
-                LevelCurrent = s.LevelCurrent,
-                LevelTarget = s.LevelTarget,
+                Id = skill.GroupId,
+                LevelCurrent = Math.Clamp(skill.LevelCurrent, skill.LevelMin, skill.LevelMax),
+                LevelTarget = Math.Clamp(skill.LevelTarget, skill.LevelMin, skill.LevelMax),
             }),
             Weapon = Weapon is null ? null : new PromotionDelta()
             {
                 Id = Weapon.WeaponId,
-                LevelCurrent = Weapon.LevelCurrent,
-                LevelTarget = Weapon.LevelTarget,
+                LevelCurrent = Math.Clamp(Weapon.LevelCurrent, Weapon.LevelMin, Weapon.LevelMax),
+                LevelTarget = Math.Clamp(Weapon.LevelTarget, Weapon.LevelMin, Weapon.LevelMax),
             },
         };
 

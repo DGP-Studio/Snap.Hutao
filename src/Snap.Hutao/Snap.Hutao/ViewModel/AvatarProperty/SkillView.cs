@@ -11,7 +11,7 @@ namespace Snap.Hutao.ViewModel.AvatarProperty;
 /// 天赋
 /// </summary>
 [HighQuality]
-internal sealed class SkillView : NameIconDescription, ICalculableSource<ICalculableSkill>
+internal sealed class SkillView : NameIconDescription, ITypedCalculableSource<ICalculableSkill, SkillType>
 {
     /// <summary>
     /// 技能属性
@@ -34,8 +34,8 @@ internal sealed class SkillView : NameIconDescription, ICalculableSource<ICalcul
     internal SkillGroupId GroupId { get; set; }
 
     /// <inheritdoc/>
-    public ICalculableSkill ToCalculable()
+    public ICalculableSkill ToCalculable(SkillType type)
     {
-        return CalculableSkill.From(this);
+        return CalculableSkill.From(this, type);
     }
 }
