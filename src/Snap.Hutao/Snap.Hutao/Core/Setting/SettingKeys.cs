@@ -76,4 +76,9 @@ internal static class SettingKeys
     public const string CultivationWeapon90LevelTarget = "CultivationWeapon90LevelTarget";
     public const string CultivationWeapon70LevelCurrent = "CultivationWeapon70LevelCurrent";
     public const string CultivationWeapon70LevelTarget = "CultivationWeapon70LevelTarget";
+
+    public const string IsHomeCardLaunchGamePresented = "IsHomeCardLaunchGamePresented";
+    public const string IsHomeCardGachaStatisticsPresented = "IsHomeCardGachaStatisticsPresented";
+    public const string IsHomeCardAchievementPresented = "IsHomeCardAchievementPresented";
+    public const string IsHomeCardDailyNotePresented = "IsHomeCardDailyNotePresented";
 }

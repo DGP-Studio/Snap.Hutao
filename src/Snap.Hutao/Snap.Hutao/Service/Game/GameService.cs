@@ -386,16 +386,6 @@ internal sealed partial class GameService : IGameService
         gameAccounts.Remove(gameAccount);
 
         await taskContext.SwitchToBackgroundAsync();
-        await gameDbService.DeleteGameAccountByIdAsync(gameAccount.InnerId).ConfigureAwait(false);
-    }
-
-    private static bool LaunchSchemeMatchesExecutable(LaunchScheme launchScheme, string gameFileName)
-    {
-        return (launchScheme.IsOversea, gameFileName) switch
-        {
-            (true, GenshinImpactFileName) => true,
-            (false, YuanShenFileName) => true,
-            _ => false,
-        };
+        await gameDbService.RemoveGameAccountByIdAsync(gameAccount.InnerId).ConfigureAwait(false);
     }
 }

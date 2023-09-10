@@ -41,7 +41,9 @@ internal sealed partial class GachaLogHutaoCloudService : IGachaLogHutaoCloudSer
             List<Web.Hutao.GachaLog.GachaItem> items = new();
             foreach ((GachaConfigType type, long endId) in endIds)
             {
-                List<Web.Hutao.GachaLog.GachaItem> part = gachaLogDbService.GetHutaoGachaItemList(gachaArchive.InnerId, type, endId);
+                List<Web.Hutao.GachaLog.GachaItem> part = await gachaLogDbService
+                    .GetHutaoGachaItemListAsync(gachaArchive.InnerId, type, endId)
+                    .ConfigureAwait(false);
                 items.AddRange(part);
             }
 

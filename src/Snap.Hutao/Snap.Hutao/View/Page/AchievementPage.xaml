@@ -76,11 +76,7 @@
                             Margin="2,6,3,6"
                             DisplayMemberPath="Name"
                             ItemsSource="{Binding Archives, Mode=OneWay}"
-                            SelectedItem="{Binding SelectedArchive, Mode=TwoWay}">
-                            <mxi:Interaction.Behaviors>
-                                <shcb:ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior/>
-                            </mxi:Interaction.Behaviors>
-                        </ComboBox>
+                            SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"/>
                     </AppBarElementContainer>
                     <AppBarButton
                         Command="{Binding AddArchiveCommand}"

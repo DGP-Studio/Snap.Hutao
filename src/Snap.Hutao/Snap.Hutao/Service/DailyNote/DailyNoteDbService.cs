@@ -23,6 +23,15 @@ internal sealed partial class DailyNoteDbService : IDailyNoteDbService
         }
     }
 
+    public async ValueTask<bool> ContainsUidAsync(string uid)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.DailyNotes.AsNoTracking().AnyAsync(n => n.Uid == uid).ConfigureAwait(false);
+        }
+    }
+
     public async ValueTask AddDailyNoteEntryAsync(DailyNoteEntry entry)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -50,21 +59,21 @@ internal sealed partial class DailyNoteDbService : IDailyNoteDbService
         }
     }
 
-    public List<DailyNoteEntry> GetDailyNoteEntryList()
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            return appDbContext.DailyNotes.AsNoTracking().ToList();
-        }
-    }
-
     public List<DailyNoteEntry> GetDailyNoteEntryIncludeUserList()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             return appDbContext.DailyNotes.AsNoTracking().Include(n => n.User).ToList();
+        }
+    }
+
+    public async ValueTask<List<DailyNoteEntry>> GetDailyNoteEntryIncludeUserListAsync()
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.DailyNotes.AsNoTracking().Include(n => n.User).ToListAsync().ConfigureAwait(false);
         }
     }
 }

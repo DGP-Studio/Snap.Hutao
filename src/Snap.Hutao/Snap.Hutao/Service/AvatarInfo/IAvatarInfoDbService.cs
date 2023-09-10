@@ -7,7 +7,11 @@ namespace Snap.Hutao.Service.AvatarInfo;
 
 internal interface IAvatarInfoDbService
 {
-    void DeleteAvatarInfoRangeByUid(string uid);
+    void RemoveAvatarInfoRangeByUid(string uid);
 
     List<EntityAvatarInfo> GetAvatarInfoListByUid(string uid);
+
+    ValueTask<List<EntityAvatarInfo>> GetAvatarInfoListByUidAsync(string uid);
+
+    ValueTask RemoveAvatarInfoRangeByUidAsync(string uid);
 }

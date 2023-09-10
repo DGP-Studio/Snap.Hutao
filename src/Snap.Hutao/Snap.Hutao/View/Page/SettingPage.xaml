@@ -23,9 +23,9 @@
                     <Grid>
                         <Image
                             VerticalAlignment="Center"
-                            Source="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"
-                            Stretch="UniformToFill"/>
-                        <Grid Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}">
+                            Source="ms-appx:///Resource/BlurBackground.png"
+                            Stretch="Fill"/>
+                        <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition Height="auto"/>
@@ -91,6 +91,8 @@
                     Description="{Binding HutaoOptions.WebView2Version}"
                     Header="{shcm:ResourceString Name=ViewPageSettingWebview2Header}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xECAA;}"/>
+
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingShellExperienceHeader}"/>
                 <cwc:SettingsCard
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingCreateDesktopShortcutAction}"
                     Command="{Binding CreateDesktopShortcutCommand}"
@@ -119,28 +121,68 @@
                         SelectedItem="{Binding SelectedBackdropType, Mode=TwoWay}"/>
                 </cwc:SettingsCard>
 
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewpageSettingHomeHeader}"/>
+                <cwc:SettingsExpander
+                    Description="{shcm:ResourceString Name=ViewpageSettingHomeCardDescription}"
+                    Header="{shcm:ResourceString Name=ViewpageSettingHomeCardHeader}"
+                    HeaderIcon="{shcm:FontIcon Glyph=&#xEE40;}">
+                    <cwc:SettingsExpander.Items>
+                        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewpageSettingHomeCardItemLaunchGameHeader}">
+                            <ToggleSwitch
+                                IsOn="{Binding HomeCardOptions.IsHomeCardLaunchGamePresented, Mode=TwoWay}"
+                                OffContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOff}"
+                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                        </cwc:SettingsCard>
+                        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewpageSettingHomeCardItemgachaStatisticsHeader}">
+                            <ToggleSwitch
+                                IsOn="{Binding HomeCardOptions.IsHomeCardGachaStatisticsPresented, Mode=TwoWay}"
+                                OffContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOff}"
+                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                        </cwc:SettingsCard>
+                        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewpageSettingHomeCardItemAchievementHeader}">
+                            <ToggleSwitch
+                                IsOn="{Binding HomeCardOptions.IsHomeCardAchievementPresented, Mode=TwoWay}"
+                                OffContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOff}"
+                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                        </cwc:SettingsCard>
+                        <cwc:SettingsCard Header="{shcm:ResourceString Name=ViewpageSettingHomeCardItemDailyNoteHeader}">
+                            <ToggleSwitch
+                                IsOn="{Binding HomeCardOptions.IsHomeCardDailyNotePresented, Mode=TwoWay}"
+                                OffContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOff}"
+                                OnContent="{shcm:ResourceString Name=ViewPageSettingHomeCardOn}"/>
+                        </cwc:SettingsCard>
+                    </cwc:SettingsExpander.Items>
+                </cwc:SettingsExpander>
+
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{shcm:ResourceString Name=ViewPageSettingGameHeader}"/>
-                <InfoBar
-                    IsClosable="False"
-                    IsOpen="True"
-                    Message="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"
-                    Severity="Informational"/>
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
                     Command="{Binding SetGamePathCommand}"
-                    Description="{Binding Options.GamePath}"
                     Header="{shcm:ResourceString Name=ViewPageSettingSetGamePathHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE7FC;}"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True">
+                    <cwc:SettingsCard.Description>
+                        <StackPanel>
+                            <TextBlock Foreground="{ThemeResource SystemErrorTextColor}" Text="{shcm:ResourceString Name=ViewPageSettingSetGamePathHint}"/>
+                            <TextBlock Text="{Binding Options.GamePath}"/>
+                        </StackPanel>
+                    </cwc:SettingsCard.Description>
+                </cwc:SettingsCard>
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingSetGamePathAction}"
                     Command="{Binding SetPowerShellPathCommand}"
-                    Description="{Binding Options.PowerShellPath}"
                     Header="{shcm:ResourceString Name=ViewPageSettingSetPowerShellPathHeader}"
                     HeaderIcon="{shcm:FontIcon Glyph=&#xE756;}"
-                    IsClickEnabled="True"/>
+                    IsClickEnabled="True">
+                    <cwc:SettingsCard.Description>
+                        <StackPanel>
+                            <TextBlock Text="{shcm:ResourceString Name=ViewPageSettingSetPowerShellDescription}"/>
+                            <TextBlock Text="{Binding Options.PowerShellPath}"/>
+                        </StackPanel>
+                    </cwc:SettingsCard.Description>
+                </cwc:SettingsCard>
                 <cwc:SettingsCard
                     ActionIcon="{shcm:FontIcon Glyph=&#xE76C;}"
                     ActionIconToolTip="{shcm:ResourceString Name=ViewPageSettingDeleteCacheAction}"

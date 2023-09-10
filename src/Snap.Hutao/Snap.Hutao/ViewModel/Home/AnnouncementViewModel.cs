@@ -1,9 +1,11 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Hutao;
+using Snap.Hutao.View.Card;
 using Snap.Hutao.Web.Hoyolab.Hk4e.Common.Announcement;
 using System.Collections.ObjectModel;
 
@@ -25,6 +27,7 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     private AnnouncementWrapper? announcement;
     private string greetingText = SH.ViewPageHomeGreetingTextDefault;
     private ObservableCollection<Web.Hutao.HutaoAsAService.Announcement>? hutaoAnnouncements;
+    private List<CardReference>? cards;
 
     /// <summary>
     /// 公告
@@ -43,8 +46,11 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
     /// </summary>
     public string GreetingText { get => greetingText; set => SetProperty(ref greetingText, value); }
 
+    public List<CardReference>? Cards { get => cards; set => SetProperty(ref cards, value); }
+
     protected override ValueTask<bool> InitializeUIAsync()
     {
+        InitializeDashboard();
         InitializeInGameAnnouncementAsync().SafeForget();
         InitializeHutaoAnnouncementAsync().SafeForget();
         UpdateGreetingText();
@@ -104,5 +110,32 @@ internal sealed partial class AnnouncementViewModel : Abstraction.ViewModel
                 GreetingText = SH.ViewPageHomeGreetingTextCommon2.Format(LocalSetting.Get(SettingKeys.LaunchTimes, 0));
             }
         }
+    }
+
+    private void InitializeDashboard()
+    {
+        List<CardReference> result = new();
+
+        if (LocalSetting.Get(SettingKeys.IsHomeCardLaunchGamePresented, true))
+        {
+            result.Add(new() { Card = new LaunchGameCard() });
+        }
+
+        if (LocalSetting.Get(SettingKeys.IsHomeCardGachaStatisticsPresented, true))
+        {
+            result.Add(new() { Card = new GachaStatisticsCard() });
+        }
+
+        if (LocalSetting.Get(SettingKeys.IsHomeCardAchievementPresented, true))
+        {
+            result.Add(new() { Card = new AchievementCard() });
+        }
+
+        if (LocalSetting.Get(SettingKeys.IsHomeCardDailyNotePresented, true))
+        {
+            result.Add(new() { Card = new DailyNoteCard() });
+        }
+
+        Cards = result;
     }
 }

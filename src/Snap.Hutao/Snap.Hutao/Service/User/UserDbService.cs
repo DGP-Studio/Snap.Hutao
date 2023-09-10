@@ -49,7 +49,7 @@ internal sealed partial class UserDbService : IUserDbService
         }
     }
 
-    public async ValueTask DeleteUsersAsync()
+    public async ValueTask RemoveUsersAsync()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

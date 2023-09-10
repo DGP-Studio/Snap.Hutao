@@ -24,10 +24,10 @@ internal sealed partial class UIGFExportService : IUIGFExportService
     public async ValueTask<UIGF> ExportAsync(GachaLogServiceMetadataContext context, GachaArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-
-        List<UIGFItem> list = gachaLogDbService
-            .GetGachaItemListByArchiveId(archive.InnerId)
-            .SelectList(i => UIGFItem.From(i, context.GetNameQualityByItemId(i.ItemId)));
+        List<GachaItem> entities = await gachaLogDbService
+            .GetGachaItemListByArchiveIdAsync(archive.InnerId)
+            .ConfigureAwait(false);
+        List<UIGFItem> list = entities.SelectList(i => UIGFItem.From(i, context.GetNameQualityByItemId(i.ItemId)));
 
         UIGF uigf = new()
         {

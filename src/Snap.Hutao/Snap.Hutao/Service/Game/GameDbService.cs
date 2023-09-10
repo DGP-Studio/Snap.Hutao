@@ -33,15 +33,6 @@ internal sealed partial class GameDbService : IGameDbService
         }
     }
 
-    public async ValueTask UpdateGameAccountAsync(GameAccount gameAccount)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GameAccounts.UpdateAndSaveAsync(gameAccount).ConfigureAwait(false);
-        }
-    }
-
     public void UpdateGameAccount(GameAccount gameAccount)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -51,7 +42,16 @@ internal sealed partial class GameDbService : IGameDbService
         }
     }
 
-    public async ValueTask DeleteGameAccountByIdAsync(Guid id)
+    public async ValueTask UpdateGameAccountAsync(GameAccount gameAccount)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.GameAccounts.UpdateAndSaveAsync(gameAccount).ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask RemoveGameAccountByIdAsync(Guid id)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

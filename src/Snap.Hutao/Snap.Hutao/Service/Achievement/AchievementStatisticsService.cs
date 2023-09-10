@@ -22,7 +22,7 @@ internal sealed partial class AchievementStatisticsService : IAchievementStatist
         await taskContext.SwitchToBackgroundAsync();
 
         List<AchievementStatistics> results = new();
-        foreach (AchievementArchive archive in achievementDbService.GetAchievementArchiveList())
+        foreach (AchievementArchive archive in await achievementDbService.GetAchievementArchiveListAsync().ConfigureAwait(false))
         {
             int finishedCount = await achievementDbService
                 .GetFinishedAchievementCountByArchiveIdAsync(archive.InnerId)

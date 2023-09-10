@@ -10,7 +10,7 @@ internal interface IGameDbService
 {
     ValueTask AddGameAccountAsync(GameAccount gameAccount);
 
-    ValueTask DeleteGameAccountByIdAsync(Guid id);
+    ValueTask RemoveGameAccountByIdAsync(Guid id);
 
     ObservableCollection<GameAccount> GetGameAccountCollection();
 

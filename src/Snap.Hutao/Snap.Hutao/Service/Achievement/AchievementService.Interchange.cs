@@ -50,9 +50,10 @@ internal sealed partial class AchievementService
     public async ValueTask<UIAF> ExportToUIAFAsync(AchievementArchive archive)
     {
         await taskContext.SwitchToBackgroundAsync();
-        List<UIAFItem> list = achievementDbService
-            .GetAchievementListByArchiveId(archive.InnerId)
-            .SelectList(UIAFItem.From);
+        List<EntityAchievement> entities = await achievementDbService
+            .GetAchievementListByArchiveIdAsync(archive.InnerId)
+            .ConfigureAwait(false);
+        List<UIAFItem> list = entities.SelectList(UIAFItem.From);
 
         return new()
         {

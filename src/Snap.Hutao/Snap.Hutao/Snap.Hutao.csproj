@@ -79,6 +79,7 @@
     <None Remove="LaunchGameWindow.xaml" />
     <None Remove="NativeMethods.json" />
     <None Remove="NativeMethods.txt" />
+    <None Remove="Resource\BlurBackground.png" />
     <None Remove="Resource\Font\CascadiaMono.ttf" />
     <None Remove="Resource\Font\MiSans-Regular.ttf" />
     <None Remove="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
@@ -206,6 +207,7 @@
 
   <!-- Resources Files -->
   <ItemGroup>
+    <Content Include="Resource\BlurBackground.png" />
     <Content Include="Resource\Font\CascadiaMono.ttf" />
     <Content Include="Resource\Font\MiSans-Regular.ttf" />
     <Content Include="Resource\HutaoIconSourceTransparentBackgroundGradient1.png" />
@@ -239,12 +241,12 @@
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.1.230809" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TransitionHelper" Version="0.1.230809" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2-build.1" />
-    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230828-rc" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230828-rc" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.230828-rc" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.230828-rc" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230828-rc" />
-    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230828-rc" />
+    <PackageReference Include="CommunityToolkit.WinUI.Behaviors" Version="8.0.230907" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.HeaderedControls" Version="8.0.230907" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.0.230907" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.0.230907" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.0.230907" />
+    <PackageReference Include="CommunityToolkit.WinUI.Media" Version="8.0.230907" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Core" Version="7.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.10" />

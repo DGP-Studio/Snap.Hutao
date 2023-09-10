@@ -8,6 +8,7 @@ using Snap.Hutao.Model.Entity.Database;
 using Snap.Hutao.Model.Entity.Primitive;
 using Snap.Hutao.Model.Metadata.Item;
 using Snap.Hutao.Model.Primitive;
+using Snap.Hutao.Service.Inventroy;
 using Snap.Hutao.ViewModel.Cultivation;
 using System.Collections.ObjectModel;
 
@@ -23,6 +24,7 @@ internal sealed partial class CultivationService : ICultivationService
 {
     private readonly ScopedDbCurrent<CultivateProject, Message.CultivateProjectChangedMessage> dbCurrent;
     private readonly ICultivationDbService cultivationDbService;
+    private readonly IInventoryDbService inventoryDbService;
     private readonly IServiceProvider serviceProvider;
     private readonly ITaskContext taskContext;
 
@@ -140,13 +142,13 @@ internal sealed partial class CultivationService : ICultivationService
     public async ValueTask RemoveCultivateEntryAsync(Guid entryId)
     {
         await taskContext.SwitchToBackgroundAsync();
-        await cultivationDbService.DeleteCultivateEntryByIdAsync(entryId).ConfigureAwait(false);
+        await cultivationDbService.RemoveCultivateEntryByIdAsync(entryId).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
     public void SaveInventoryItem(InventoryItemView item)
     {
-        cultivationDbService.UpdateInventoryItem(item.Entity);
+        inventoryDbService.UpdateInventoryItem(item.Entity);
     }
 
     /// <inheritdoc/>
@@ -181,7 +183,7 @@ internal sealed partial class CultivationService : ICultivationService
         }
 
         Guid entryId = entry.InnerId;
-        await cultivationDbService.DeleteCultivateItemRangeByEntryIdAsync(entryId).ConfigureAwait(false);
+        await cultivationDbService.RemoveCultivateItemRangeByEntryIdAsync(entryId).ConfigureAwait(false);
 
         IEnumerable<CultivateItem> toAdd = items.Select(item => CultivateItem.From(entryId, item));
         await cultivationDbService.AddCultivateItemRangeAsync(toAdd).ConfigureAwait(false);

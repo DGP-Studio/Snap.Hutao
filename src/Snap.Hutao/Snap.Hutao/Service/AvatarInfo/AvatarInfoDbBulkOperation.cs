@@ -77,7 +77,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     {
         token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
         EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -121,7 +121,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             }
         }
 
-        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -134,7 +134,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
     {
         token.ThrowIfCancellationRequested();
         string uid = userAndUid.Uid.Value;
-        List<EntityAvatarInfo> dbInfos = avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        List<EntityAvatarInfo> dbInfos = await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
         EnsureItemsAvatarIdDistinct(ref dbInfos, uid);
 
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -173,7 +173,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
             }
         }
 
-        return avatarInfoDbService.GetAvatarInfoListByUid(uid);
+        return await avatarInfoDbService.GetAvatarInfoListByUidAsync(uid).ConfigureAwait(false);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -243,7 +243,7 @@ internal sealed partial class AvatarInfoDbBulkOperation
         // This means that there are duplicate items.
         if (distinctCount < dbInfos.Count)
         {
-            avatarInfoDbService.DeleteAvatarInfoRangeByUid(uid);
+            avatarInfoDbService.RemoveAvatarInfoRangeByUid(uid);
             dbInfos = new();
         }
     }
