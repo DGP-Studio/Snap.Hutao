@@ -169,6 +169,11 @@ internal sealed partial class CultivationService : ICultivationService
 
         if (Current is null)
         {
+            _ = ProjectCollection;
+        }
+
+        if (Current is null)
+        {
             return false;
         }
 
