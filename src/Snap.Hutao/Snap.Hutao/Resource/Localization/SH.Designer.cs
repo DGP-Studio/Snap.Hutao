@@ -5245,7 +5245,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 在桌面上创建默认以管理员方式启动的快捷方式，更新后需要重新创建 的本地化字符串。
+        ///   查找类似 在桌面上创建默认以管理员方式启动的快捷方式 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingCreateDesktopShortcutDescription {
             get {
@@ -5470,6 +5470,87 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 管理主页仪表板中的卡片 的本地化字符串。
+        /// </summary>
+        internal static string ViewpageSettingHomeCardDescription {
+            get {
+                return ResourceManager.GetString("ViewpageSettingHomeCardDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主页卡片 的本地化字符串。
+        /// </summary>
+        internal static string ViewpageSettingHomeCardHeader {
+            get {
+                return ResourceManager.GetString("ViewpageSettingHomeCardHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成就管理 的本地化字符串。
+        /// </summary>
+        internal static string ViewpageSettingHomeCardItemAchievementHeader {
+            get {
+                return ResourceManager.GetString("ViewpageSettingHomeCardItemAchievementHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 实时便笺 的本地化字符串。
+        /// </summary>
+        internal static string ViewpageSettingHomeCardItemDailyNoteHeader {
+            get {
+                return ResourceManager.GetString("ViewpageSettingHomeCardItemDailyNoteHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 祈愿记录 的本地化字符串。
+        /// </summary>
+        internal static string ViewpageSettingHomeCardItemgachaStatisticsHeader {
+            get {
+                return ResourceManager.GetString("ViewpageSettingHomeCardItemgachaStatisticsHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启动游戏 的本地化字符串。
+        /// </summary>
+        internal static string ViewpageSettingHomeCardItemLaunchGameHeader {
+            get {
+                return ResourceManager.GetString("ViewpageSettingHomeCardItemLaunchGameHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 隐藏 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingHomeCardOff {
+            get {
+                return ResourceManager.GetString("ViewPageSettingHomeCardOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingHomeCardOn {
+            get {
+                return ResourceManager.GetString("ViewPageSettingHomeCardOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 主页 的本地化字符串。
+        /// </summary>
+        internal static string ViewpageSettingHomeHeader {
+            get {
+                return ResourceManager.GetString("ViewpageSettingHomeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 胡桃账号 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingHutaoPassportHeader {
@@ -5578,11 +5659,29 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 胡桃使用 PowerShell 更改注册表中的信息以修改游戏内账号 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingSetPowerShellDescription {
+            get {
+                return ResourceManager.GetString("ViewPageSettingSetPowerShellDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 PowerShell 路径 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingSetPowerShellPathHeader {
             get {
                 return ResourceManager.GetString("ViewPageSettingSetPowerShellPathHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Shell 体验 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingShellExperienceHeader {
+            get {
+                return ResourceManager.GetString("ViewPageSettingShellExperienceHeader", resourceCulture);
             }
         }
         

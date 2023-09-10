@@ -10,11 +10,11 @@ internal interface ICultivationDbService
 {
     ValueTask AddCultivateProjectAsync(CultivateProject project);
 
-    ValueTask DeleteCultivateEntryByIdAsync(Guid entryId);
+    ValueTask RemoveCultivateEntryByIdAsync(Guid entryId);
 
-    ValueTask DeleteCultivateItemRangeByEntryIdAsync(Guid entryId);
+    ValueTask RemoveCultivateItemRangeByEntryIdAsync(Guid entryId);
 
-    ValueTask DeleteCultivateProjectByIdAsync(Guid projectId);
+    ValueTask RemoveCultivateProjectByIdAsync(Guid projectId);
 
     ValueTask<CultivateEntry?> GetCultivateEntryByProjectIdAndItemIdAsync(Guid projectId, uint itemId);
 
@@ -34,5 +34,5 @@ internal interface ICultivationDbService
 
     void UpdateCultivateItem(CultivateItem item);
 
-    void UpdateInventoryItem(InventoryItem item);
+    ValueTask UpdateCultivateItemAsync(CultivateItem item);
 }

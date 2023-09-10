@@ -124,7 +124,7 @@
         <StackPanel
             Grid.Row="1"
             Margin="0,8,0,0"
-            Visibility="{Binding Weapon, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
+            Visibility="{x:Bind Weapon, Converter={StaticResource EmptyObjectToVisibilityConverter}}">
             <Border Style="{StaticResource BorderCardStyle}">
                 <Grid Margin="8" DataContext="{x:Bind Weapon}">
                     <Grid.ColumnDefinitions>

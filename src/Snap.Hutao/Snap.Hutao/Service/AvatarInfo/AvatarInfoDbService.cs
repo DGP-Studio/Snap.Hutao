@@ -24,12 +24,34 @@ internal sealed partial class AvatarInfoDbService : IAvatarInfoDbService
         }
     }
 
-    public void DeleteAvatarInfoRangeByUid(string uid)
+    public async ValueTask<List<EntityAvatarInfo>> GetAvatarInfoListByUidAsync(string uid)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.AvatarInfos
+                .AsNoTracking()
+                .Where(i => i.Uid == uid)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+    }
+
+    public void RemoveAvatarInfoRangeByUid(string uid)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             appDbContext.AvatarInfos.ExecuteDeleteWhere(i => i.Uid == uid);
+        }
+    }
+
+    public async ValueTask RemoveAvatarInfoRangeByUidAsync(string uid)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.AvatarInfos.ExecuteDeleteWhereAsync(i => i.Uid == uid).ConfigureAwait(false);
         }
     }
 }

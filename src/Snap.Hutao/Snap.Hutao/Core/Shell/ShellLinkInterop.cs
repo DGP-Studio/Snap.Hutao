@@ -17,6 +17,10 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
 
     public void CreateDesktopShoutcutForElevatedLaunch()
     {
+        string sourceLogoPath = Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico");
+        string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
+        File.Copy(sourceLogoPath, targetLogoPath);
+
         IShellLinkW shellLink = (IShellLinkW)new ShellLink();
         shellLink.SetPath("powershell");
         shellLink.SetArguments($"""
@@ -24,8 +28,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
             """);
         shellLink.SetShowCmd(SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE);
 
-        string iconPath = Path.Combine(runtimeOptions.InstalledLocation, "Snap.Hutao.exe");
-        shellLink.SetIconLocation(iconPath, 0);
+        shellLink.SetIconLocation(targetLogoPath, 0);
         string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         string target = Path.Combine(desktop, $"{SH.AppNameAndVersion.Format(runtimeOptions.Version)}.lnk");
 

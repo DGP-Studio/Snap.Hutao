@@ -89,6 +89,21 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
     }
 
+    public async ValueTask OverwriteAchievementAsync(EntityAchievement achievement)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // Delete exists one.
+            await appDbContext.Achievements.ExecuteDeleteWhereAsync(e => e.InnerId == achievement.InnerId).ConfigureAwait(false);
+            if (achievement.Status >= Model.Intrinsic.AchievementStatus.STATUS_FINISHED)
+            {
+                await appDbContext.Achievements.AddAndSaveAsync(achievement).ConfigureAwait(false);
+            }
+        }
+    }
+
     public ObservableCollection<AchievementArchive> GetAchievementArchiveCollection()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
@@ -98,7 +113,7 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
     }
 
-    public async ValueTask DeleteAchievementArchiveAsync(AchievementArchive archive)
+    public async ValueTask RemoveAchievementArchiveAsync(AchievementArchive archive)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -121,12 +136,34 @@ internal sealed partial class AchievementDbService : IAchievementDbService
         }
     }
 
+    public async ValueTask<List<EntityAchievement>> GetAchievementListByArchiveIdAsync(Guid archiveId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.Achievements
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+    }
+
     public List<AchievementArchive> GetAchievementArchiveList()
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             return appDbContext.AchievementArchives.AsNoTracking().ToList();
+        }
+    }
+
+    public async ValueTask<List<AchievementArchive>> GetAchievementArchiveListAsync()
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.AchievementArchives.AsNoTracking().ToListAsync().ConfigureAwait(false);
         }
     }
 }

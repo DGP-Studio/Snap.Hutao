@@ -36,11 +36,7 @@
                         Margin="16,6,0,6"
                         DisplayMemberPath="Uid"
                         ItemsSource="{Binding Archives}"
-                        SelectedItem="{Binding SelectedArchive, Mode=TwoWay}">
-                        <mxi:Interaction.Behaviors>
-                            <shcb:ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior/>
-                        </mxi:Interaction.Behaviors>
-                    </ComboBox>
+                        SelectedItem="{Binding SelectedArchive, Mode=TwoWay}"/>
                 </Pivot.LeftHeader>
                 <Pivot.RightHeader>
                     <CommandBar DefaultLabelPosition="Right">

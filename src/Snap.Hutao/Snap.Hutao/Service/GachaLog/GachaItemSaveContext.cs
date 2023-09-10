@@ -49,10 +49,10 @@ internal readonly struct GachaItemSaveContext
             // 全量刷新
             if (!IsLazy)
             {
-                 GachaLogDbService.DeleteNewerGachaItemsByArchiveIdQueryTypeAndEndId(archive.InnerId, QueryType, EndId);
+                 GachaLogDbService.RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(archive.InnerId, QueryType, EndId);
             }
 
-            GachaLogDbService.AddGachaItems(ItemsToAdd);
+            GachaLogDbService.AddGachaItemRange(ItemsToAdd);
         }
     }
 }

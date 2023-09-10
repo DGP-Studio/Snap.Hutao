@@ -9,13 +9,17 @@ namespace Snap.Hutao.Service.Achievement;
 
 internal interface IAchievementDbService
 {
-    ValueTask DeleteAchievementArchiveAsync(Model.Entity.AchievementArchive archive);
+    ValueTask RemoveAchievementArchiveAsync(Model.Entity.AchievementArchive archive);
 
     ObservableCollection<Model.Entity.AchievementArchive> GetAchievementArchiveCollection();
 
     List<Model.Entity.AchievementArchive> GetAchievementArchiveList();
 
+    ValueTask<List<Model.Entity.AchievementArchive>> GetAchievementArchiveListAsync();
+
     List<EntityAchievement> GetAchievementListByArchiveId(Guid archiveId);
+
+    ValueTask<List<EntityAchievement>> GetAchievementListByArchiveIdAsync(Guid archiveId);
 
     Dictionary<AchievementId, EntityAchievement> GetAchievementMapByArchiveId(Guid archiveId);
 
@@ -24,4 +28,6 @@ internal interface IAchievementDbService
     ValueTask<List<EntityAchievement>> GetLatestFinishedAchievementListByArchiveIdAsync(Guid archiveId, int take);
 
     void OverwriteAchievement(EntityAchievement achievement);
+
+    ValueTask OverwriteAchievementAsync(EntityAchievement achievement);
 }

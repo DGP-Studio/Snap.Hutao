@@ -61,7 +61,7 @@ internal sealed partial class UserService : IUserService, IUserServiceUnsafe
     public async ValueTask UnsafeRemoveUsersAsync()
     {
         await taskContext.SwitchToBackgroundAsync();
-        await userDbService.DeleteUsersAsync().ConfigureAwait(false);
+        await userDbService.RemoveUsersAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc/>

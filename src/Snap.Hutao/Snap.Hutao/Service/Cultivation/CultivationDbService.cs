@@ -66,7 +66,7 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         }
     }
 
-    public async ValueTask DeleteCultivateEntryByIdAsync(Guid entryId)
+    public async ValueTask RemoveCultivateEntryByIdAsync(Guid entryId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -77,21 +77,21 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         }
     }
 
-    public void UpdateInventoryItem(InventoryItem item)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            appDbContext.InventoryItems.UpdateAndSave(item);
-        }
-    }
-
     public void UpdateCultivateItem(CultivateItem item)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             appDbContext.CultivateItems.UpdateAndSave(item);
+        }
+    }
+
+    public async ValueTask UpdateCultivateItemAsync(CultivateItem item)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.CultivateItems.UpdateAndSaveAsync(item).ConfigureAwait(false);
         }
     }
 
@@ -115,7 +115,7 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         }
     }
 
-    public async ValueTask DeleteCultivateItemRangeByEntryIdAsync(Guid entryId)
+    public async ValueTask RemoveCultivateItemRangeByEntryIdAsync(Guid entryId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -144,7 +144,7 @@ internal sealed partial class CultivationDbService : ICultivationDbService
         }
     }
 
-    public async ValueTask DeleteCultivateProjectByIdAsync(Guid projectId)
+    public async ValueTask RemoveCultivateProjectByIdAsync(Guid projectId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {

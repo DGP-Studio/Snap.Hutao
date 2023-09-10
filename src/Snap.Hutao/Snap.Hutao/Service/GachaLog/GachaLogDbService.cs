@@ -48,7 +48,21 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public async ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId)
+    public async ValueTask<List<GachaItem>> GetGachaItemListByArchiveIdAsync(Guid archiveId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.GachaItems
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId)
+                .OrderBy(i => i.Id)
+                .ToListAsync()
+                .ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask RemoveGachaArchiveByIdAsync(Guid archiveId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -118,6 +132,36 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         return item?.Id ?? 0L;
     }
 
+    public async ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType)
+    {
+        GachaItem? item = null;
+
+        try
+        {
+            using (IServiceScope scope = serviceProvider.CreateScope())
+            {
+                AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+                // TODO: replace with MaxBy
+                // https://github.com/dotnet/efcore/issues/25566
+                // .MaxBy(i => i.Id);
+                item = await appDbContext.GachaItems
+                    .AsNoTracking()
+                    .Where(i => i.ArchiveId == archiveId)
+                    .Where(i => i.QueryType == queryType)
+                    .OrderByDescending(i => i.Id)
+                    .FirstOrDefaultAsync()
+                    .ConfigureAwait(false);
+            }
+        }
+        catch (SqliteException ex)
+        {
+            ThrowHelper.UserdataCorrupted(SH.ServiceGachaLogEndIdUserdataCorruptedMessage, ex);
+        }
+
+        return item?.Id ?? 0L;
+    }
+
     public long GetOldestGachaItemIdByArchiveId(Guid archiveId)
     {
         GachaItem? item = null;
@@ -134,6 +178,28 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
                 .Where(i => i.ArchiveId == archiveId)
                 .OrderBy(i => i.Id)
                 .FirstOrDefault();
+        }
+
+        return item?.Id ?? long.MaxValue;
+    }
+
+    public async ValueTask<long> GetOldestGachaItemIdByArchiveIdAsync(Guid archiveId)
+    {
+        GachaItem? item = null;
+
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+            // TODO: replace with MaxBy
+            // https://github.com/dotnet/efcore/issues/25566
+            // .MaxBy(i => i.Id);
+            item = await appDbContext.GachaItems
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId)
+                .OrderBy(i => i.Id)
+                .FirstOrDefaultAsync()
+                .ConfigureAwait(false);
         }
 
         return item?.Id ?? long.MaxValue;
@@ -182,21 +248,21 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         return item?.Id ?? long.MaxValue;
     }
 
-    public async ValueTask AddGachaArchiveAsync(GachaArchive archive)
-    {
-        using (IServiceScope scope = serviceProvider.CreateScope())
-        {
-            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            await appDbContext.GachaArchives.AddAndSaveAsync(archive).ConfigureAwait(false);
-        }
-    }
-
     public void AddGachaArchive(GachaArchive archive)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
             AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             appDbContext.GachaArchives.AddAndSave(archive);
+        }
+    }
+
+    public async ValueTask AddGachaArchiveAsync(GachaArchive archive)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.GachaArchives.AddAndSaveAsync(archive).ConfigureAwait(false);
         }
     }
 
@@ -222,6 +288,32 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
                     Id = i.Id,
                 })
                 .ToList();
+        }
+    }
+
+    public async ValueTask<List<Web.Hutao.GachaLog.GachaItem>> GetHutaoGachaItemListAsync(Guid archiveId, GachaConfigType queryType, long endId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            return await appDbContext.GachaItems
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId)
+                .Where(i => i.QueryType == queryType)
+                .OrderByDescending(i => i.Id)
+                .Where(i => i.Id > endId)
+
+                // Keep this to make SQL generates correctly
+                .Select(i => new Web.Hutao.GachaLog.GachaItem()
+                {
+                    GachaType = i.GachaType,
+                    QueryType = i.QueryType,
+                    ItemId = i.ItemId,
+                    Time = i.Time,
+                    Id = i.Id,
+                })
+                .ToListAsync()
+                .ConfigureAwait(false);
         }
     }
 
@@ -258,7 +350,7 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public void AddGachaItems(List<GachaItem> items)
+    public void AddGachaItemRange(List<GachaItem> items)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -267,7 +359,16 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
         }
     }
 
-    public void DeleteNewerGachaItemsByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaConfigType queryType, long endId)
+    public async ValueTask AddGachaItemRangeAsync(List<GachaItem> items)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.GachaItems.AddRangeAndSaveAsync(items).ConfigureAwait(false);
+        }
+    }
+
+    public void RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaConfigType queryType, long endId)
     {
         using (IServiceScope scope = serviceProvider.CreateScope())
         {
@@ -277,6 +378,20 @@ internal sealed partial class GachaLogDbService : IGachaLogDbService
                 .Where(i => i.ArchiveId == archiveId && i.QueryType == queryType)
                 .Where(i => i.Id >= endId)
                 .ExecuteDelete();
+        }
+    }
+
+    public async ValueTask RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndIdAsync(Guid archiveId, GachaConfigType queryType, long endId)
+    {
+        using (IServiceScope scope = serviceProvider.CreateScope())
+        {
+            AppDbContext appDbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+            await appDbContext.GachaItems
+                .AsNoTracking()
+                .Where(i => i.ArchiveId == archiveId && i.QueryType == queryType)
+                .Where(i => i.Id >= endId)
+                .ExecuteDeleteAsync()
+                .ConfigureAwait(false);
         }
     }
 }

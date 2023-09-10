@@ -13,13 +13,13 @@ internal interface IGachaLogDbService
 
     ValueTask AddGachaArchiveAsync(GachaArchive archive);
 
-    void AddGachaItems(List<GachaItem> items);
+    void AddGachaItemRange(List<GachaItem> items);
 
     ValueTask AddGachaItemsAsync(List<GachaItem> items);
 
-    ValueTask DeleteGachaArchiveByIdAsync(Guid archiveId);
+    ValueTask RemoveGachaArchiveByIdAsync(Guid archiveId);
 
-    void DeleteNewerGachaItemsByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaConfigType queryType, long endId);
+    void RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndId(Guid archiveId, GachaConfigType queryType, long endId);
 
     ValueTask<GachaArchive?> GetGachaArchiveByIdAsync(Guid archiveId, CancellationToken token);
 
@@ -28,6 +28,8 @@ internal interface IGachaLogDbService
     ObservableCollection<GachaArchive> GetGachaArchiveCollection();
 
     List<GachaItem> GetGachaItemListByArchiveId(Guid archiveId);
+
+    ValueTask<List<GachaItem>> GetGachaItemListByArchiveIdAsync(Guid archiveId);
 
     List<Web.Hutao.GachaLog.GachaItem> GetHutaoGachaItemList(Guid archiveId, GachaConfigType queryType, long endId);
 
@@ -40,4 +42,14 @@ internal interface IGachaLogDbService
     long GetOldestGachaItemIdByArchiveIdAndQueryType(Guid archiveId, GachaConfigType queryType);
 
     ValueTask<long> GetOldestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType, CancellationToken token);
+
+    ValueTask<long> GetNewestGachaItemIdByArchiveIdAndQueryTypeAsync(Guid archiveId, GachaConfigType queryType);
+
+    ValueTask<long> GetOldestGachaItemIdByArchiveIdAsync(Guid archiveId);
+
+    ValueTask<List<Web.Hutao.GachaLog.GachaItem>> GetHutaoGachaItemListAsync(Guid archiveId, GachaConfigType queryType, long endId);
+
+    ValueTask AddGachaItemRangeAsync(List<GachaItem> items);
+
+    ValueTask RemoveNewerGachaItemRangeByArchiveIdQueryTypeAndEndIdAsync(Guid archiveId, GachaConfigType queryType, long endId);
 }

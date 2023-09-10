@@ -22,9 +22,6 @@ internal sealed class CalculableWeapon
     IMappingFrom<CalculableWeapon, Weapon>,
     IMappingFrom<CalculableWeapon, WeaponView>
 {
-    private uint levelCurrent;
-    private uint levelTarget;
-
     /// <summary>
     /// 构造一个新的可计算武器
     /// </summary>

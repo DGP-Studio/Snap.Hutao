@@ -11,11 +11,13 @@ internal interface IDailyNoteDbService
 
     bool ContainsUid(string uid);
 
+    ValueTask<bool> ContainsUidAsync(string uid);
+
     ValueTask DeleteDailyNoteEntryByIdAsync(Guid entryId);
 
     List<DailyNoteEntry> GetDailyNoteEntryIncludeUserList();
 
-    List<DailyNoteEntry> GetDailyNoteEntryList();
+    ValueTask<List<DailyNoteEntry>> GetDailyNoteEntryIncludeUserListAsync();
 
     ValueTask UpdateDailyNoteEntryAsync(DailyNoteEntry entry);
 }

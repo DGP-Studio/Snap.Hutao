@@ -75,6 +75,6 @@ internal sealed partial class CultivationService
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        await cultivationDbService.DeleteCultivateProjectByIdAsync(project.InnerId).ConfigureAwait(false);
+        await cultivationDbService.RemoveCultivateProjectByIdAsync(project.InnerId).ConfigureAwait(false);
     }
 }

@@ -42,7 +42,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
     {
         string roleUid = userAndUid.Uid.Value;
 
-        if (!dailyNoteDbService.ContainsUid(roleUid))
+        if (!await dailyNoteDbService.ContainsUidAsync(roleUid).ConfigureAwait(false))
         {
             DailyNoteEntry newEntry = DailyNoteEntry.From(userAndUid);
 
@@ -75,7 +75,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
             await userService.GetRoleCollectionAsync().ConfigureAwait(false);
             await RefreshDailyNotesCoreAsync(forceRefresh).ConfigureAwait(false);
 
-            List<DailyNoteEntry> entryList = dailyNoteDbService.GetDailyNoteEntryIncludeUserList();
+            List<DailyNoteEntry> entryList = await dailyNoteDbService.GetDailyNoteEntryIncludeUserListAsync().ConfigureAwait(false);
             entryList.ForEach(entry => { entry.UserGameRole = userService.GetUserGameRoleByUid(entry.Uid); });
             entries = new(entryList);
         }
@@ -108,7 +108,7 @@ internal sealed partial class DailyNoteService : IDailyNoteService, IRecipient<U
 
     private async ValueTask RefreshDailyNotesCoreAsync(bool forceRefresh)
     {
-        foreach (DailyNoteEntry entry in dailyNoteDbService.GetDailyNoteEntryIncludeUserList())
+        foreach (DailyNoteEntry entry in await dailyNoteDbService.GetDailyNoteEntryIncludeUserListAsync().ConfigureAwait(false))
         {
             if (!forceRefresh && entry.DailyNote is not null)
             {

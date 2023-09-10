@@ -37,6 +37,8 @@ namespace Snap.Hutao.ViewModel;
 [Injection(InjectAs.Scoped)]
 internal sealed partial class SettingViewModel : Abstraction.ViewModel
 {
+    private readonly HomeCardOptions homeCardOptions = new();
+
     private readonly IContentDialogFactory contentDialogFactory;
     private readonly IGameLocatorFactory gameLocatorFactory;
     private readonly INavigationService navigationService;
@@ -67,6 +69,8 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
     /// 胡桃用户选项
     /// </summary>
     public HutaoUserOptions UserOptions { get => hutaoUserOptions; }
+
+    public HomeCardOptions HomeCardOptions { get => homeCardOptions; }
 
     /// <summary>
     /// 选中的背景类型

@@ -5,7 +5,6 @@
     xmlns:cwa="using:CommunityToolkit.WinUI.Animations"
     xmlns:cwb="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:cwu="using:CommunityToolkit.WinUI.UI"
-    xmlns:cwucont="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:mxi="using:Microsoft.Xaml.Interactivity"
@@ -15,7 +14,6 @@
     xmlns:shcb="using:Snap.Hutao.Control.Behavior"
     xmlns:shci="using:Snap.Hutao.Control.Image"
     xmlns:shcm="using:Snap.Hutao.Control.Markup"
-    xmlns:shvca="using:Snap.Hutao.View.Card"
     xmlns:shvco="using:Snap.Hutao.View.Control"
     xmlns:shvh="using:Snap.Hutao.ViewModel.Home"
     d:DataContext="{d:DesignInstance shvh:AnnouncementViewModel}"
@@ -29,140 +27,147 @@
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="AnnouncementTemplate">
-            <cwucont:AdaptiveGridView
-                Margin="16,16,0,-4"
+            <ItemsView
+                Margin="16"
                 HorizontalAlignment="Stretch"
-                cwa:ItemsReorderAnimation.Duration="0:0:0.1"
-                DesiredWidth="{StaticResource AdaptiveGridViewDesiredWidth}"
-                ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                IsItemInvokedEnabled="False"
                 ItemsSource="{Binding List}"
                 SelectionMode="None">
-                <cwucont:AdaptiveGridView.ItemTemplate>
+                <ItemsView.Layout>
+                    <UniformGridLayout
+                        ItemsJustification="Start"
+                        ItemsStretch="Fill"
+                        MinColumnSpacing="12"
+                        MinItemWidth="300"
+                        MinRowSpacing="12"/>
+                </ItemsView.Layout>
+                <ItemsView.ItemTemplate>
                     <DataTemplate>
-                        <Border cwu:UIElementExtensions.ClipToBounds="True" Style="{StaticResource BorderCardStyle}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
-                                <!--  Image Layer  -->
-                                <Border cwu:UIElementExtensions.ClipToBounds="True">
-                                    <Border VerticalAlignment="Top" cwu:VisualExtensions.NormalizedCenterPoint="0.5">
-                                        <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
+                        <ItemContainer>
+                            <Border Style="{StaticResource BorderCardStyle}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <!--  Image Layer  -->
+                                    <Border cwu:UIElementExtensions.ClipToBounds="True">
+                                        <Border VerticalAlignment="Top" cwu:VisualExtensions.NormalizedCenterPoint="0.5">
+                                            <shci:CachedImage Source="{Binding Banner}" Stretch="UniformToFill"/>
 
-                                        <mxi:Interaction.Behaviors>
-                                            <shcb:AutoHeightBehavior TargetHeight="390" TargetWidth="1080"/>
-                                        </mxi:Interaction.Behaviors>
-                                        <cwa:Explicit.Animations>
-                                            <cwa:AnimationSet x:Name="ImageZoomInAnimation">
-                                                <shca:ImageZoomInAnimation/>
-                                            </cwa:AnimationSet>
-                                            <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
-                                                <shca:ImageZoomOutAnimation/>
-                                            </cwa:AnimationSet>
-                                        </cwa:Explicit.Animations>
+                                            <mxi:Interaction.Behaviors>
+                                                <shcb:AutoHeightBehavior TargetHeight="390" TargetWidth="1080"/>
+                                            </mxi:Interaction.Behaviors>
+                                            <cwa:Explicit.Animations>
+                                                <cwa:AnimationSet x:Name="ImageZoomInAnimation">
+                                                    <shca:ImageZoomInAnimation/>
+                                                </cwa:AnimationSet>
+                                                <cwa:AnimationSet x:Name="ImageZoomOutAnimation">
+                                                    <shca:ImageZoomOutAnimation/>
+                                                </cwa:AnimationSet>
+                                            </cwa:Explicit.Animations>
+                                        </Border>
                                     </Border>
-                                </Border>
-                                <!--  Time Description  -->
-                                <Grid Grid.Row="0">
-                                    <Border
-                                        Height="24"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Bottom"
-                                        Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <ProgressBar
-                                            MinHeight="2"
+                                    <!--  Time Description  -->
+                                    <Grid Grid.Row="0">
+                                        <Border
+                                            HorizontalAlignment="Stretch"
                                             VerticalAlignment="Bottom"
-                                            Background="Transparent"
-                                            CornerRadius="0"
-                                            Maximum="1"
-                                            Value="{Binding TimePercent, Mode=OneWay}"/>
+                                            Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <ProgressBar
+                                                MinHeight="2"
+                                                VerticalAlignment="Bottom"
+                                                Background="Transparent"
+                                                CornerRadius="0"
+                                                Maximum="1"
+                                                Value="{Binding TimePercent, Mode=OneWay}"/>
+                                        </Border>
+                                    </Grid>
+                                    <!--  General Description  -->
+                                    <Border Grid.Row="1" CornerRadius="{StaticResource CompatCornerRadiusBottom}">
+                                        <StackPanel Margin="4" VerticalAlignment="Bottom">
+                                            <TextBlock
+                                                Margin="4,6,0,0"
+                                                HorizontalAlignment="Stretch"
+                                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                                Text="{Binding Subtitle}"
+                                                TextTrimming="WordEllipsis"
+                                                TextWrapping="NoWrap"/>
+
+                                            <TextBlock
+                                                Margin="4,6,0,0"
+                                                Opacity="0.6"
+                                                Style="{StaticResource BodyTextBlockStyle}"
+                                                Text="{Binding Title}"
+                                                TextTrimming="WordEllipsis"
+                                                TextWrapping="NoWrap"/>
+
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition Width="auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock
+                                                    Margin="4,4,0,4"
+                                                    FontSize="10"
+                                                    Opacity="0.4"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding TimeFormatted}"
+                                                    TextWrapping="NoWrap"/>
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    Margin="4,4,4,4"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Bottom"
+                                                    FontSize="10"
+                                                    Opacity="0.8"
+                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                    Text="{Binding TimeDescription}"
+                                                    Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                            </Grid>
+                                        </StackPanel>
                                     </Border>
                                 </Grid>
-                                <!--  General Description  -->
-                                <Border Grid.Row="1" CornerRadius="{StaticResource CompatCornerRadiusBottom}">
-                                    <StackPanel Margin="4" VerticalAlignment="Bottom">
-                                        <TextBlock
-                                            Margin="4,6,0,0"
-                                            HorizontalAlignment="Stretch"
-                                            Style="{StaticResource SubtitleTextBlockStyle}"
-                                            Text="{Binding Subtitle}"
-                                            TextTrimming="WordEllipsis"
-                                            TextWrapping="NoWrap"/>
-
-                                        <TextBlock
-                                            Margin="4,6,0,0"
-                                            Opacity="0.6"
-                                            Style="{StaticResource BodyTextBlockStyle}"
-                                            Text="{Binding Title}"
-                                            TextTrimming="WordEllipsis"
-                                            TextWrapping="NoWrap"/>
-
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition Width="auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock
-                                                Margin="4,4,0,4"
-                                                FontSize="10"
-                                                Opacity="0.4"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding TimeFormatted}"
-                                                TextWrapping="NoWrap"/>
-                                            <TextBlock
-                                                Grid.Column="1"
-                                                Margin="4,4,4,4"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Bottom"
-                                                FontSize="10"
-                                                Opacity="0.8"
-                                                Style="{StaticResource CaptionTextBlockStyle}"
-                                                Text="{Binding TimeDescription}"
-                                                Visibility="{Binding ShouldShowTimeDescription, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                        </Grid>
-                                    </StackPanel>
-                                </Border>
-                            </Grid>
-                            <FlyoutBase.AttachedFlyout>
-                                <Flyout LightDismissOverlayMode="On" Placement="Full">
-                                    <Flyout.FlyoutPresenterStyle>
-                                        <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
-                                            <Setter Property="Padding" Value="0"/>
-                                            <Setter Property="CornerRadius" Value="0"/>
-                                            <Setter Property="MaxWidth" Value="640"/>
-                                        </Style>
-                                    </Flyout.FlyoutPresenterStyle>
-                                    <shvco:AnnouncementContentViewer Announcement="{Binding}"/>
-                                </Flyout>
-                            </FlyoutBase.AttachedFlyout>
-                            <mxi:Interaction.Behaviors>
-                                <mxic:EventTriggerBehavior EventName="Tapped">
-                                    <shcb:OpenAttachedFlyoutAction/>
-                                </mxic:EventTriggerBehavior>
-                                <mxic:EventTriggerBehavior EventName="PointerEntered">
-                                    <cwb:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}"/>
-                                </mxic:EventTriggerBehavior>
-                                <mxic:EventTriggerBehavior EventName="PointerExited">
-                                    <cwb:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}"/>
-                                </mxic:EventTriggerBehavior>
-                            </mxi:Interaction.Behaviors>
-                        </Border>
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout LightDismissOverlayMode="On" Placement="Full">
+                                        <Flyout.FlyoutPresenterStyle>
+                                            <Style BasedOn="{StaticResource DefaultFlyoutPresenterStyle}" TargetType="FlyoutPresenter">
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="CornerRadius" Value="0"/>
+                                                <Setter Property="MaxWidth" Value="640"/>
+                                            </Style>
+                                        </Flyout.FlyoutPresenterStyle>
+                                        <shvco:AnnouncementContentViewer Announcement="{Binding}"/>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                                <mxi:Interaction.Behaviors>
+                                    <mxic:EventTriggerBehavior EventName="Tapped">
+                                        <shcb:OpenAttachedFlyoutAction/>
+                                    </mxic:EventTriggerBehavior>
+                                    <mxic:EventTriggerBehavior EventName="PointerEntered">
+                                        <cwb:StartAnimationAction Animation="{Binding ElementName=ImageZoomInAnimation}"/>
+                                    </mxic:EventTriggerBehavior>
+                                    <mxic:EventTriggerBehavior EventName="PointerExited">
+                                        <cwb:StartAnimationAction Animation="{Binding ElementName=ImageZoomOutAnimation}"/>
+                                    </mxic:EventTriggerBehavior>
+                                </mxi:Interaction.Behaviors>
+                            </Border>
+                        </ItemContainer>
                     </DataTemplate>
-                </cwucont:AdaptiveGridView.ItemTemplate>
-            </cwucont:AdaptiveGridView>
+                </ItemsView.ItemTemplate>
+            </ItemsView>
         </DataTemplate>
     </shc:ScopedPage.Resources>
     <Grid>
-        <ScrollViewer Padding="0,0,4,0">
+        <ScrollViewer Padding="0,0,0,0">
             <StackPanel>
 
                 <StackPanel>
                     <TextBlock
-                        Margin="16,16,12,0"
+                        Margin="16,16,16,0"
                         Style="{StaticResource TitleTextBlockStyle}"
                         Text="{Binding GreetingText}"/>
-                    <TextBlock Margin="16,0,16,0" Text="{Binding UserOptions.UserName}"/>
+                    <TextBlock Margin="16,0" Text="{Binding UserOptions.UserName}"/>
 
                     <ItemsControl
                         Margin="16,16,12,0"
@@ -190,26 +195,33 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
-                    <cwucont:AdaptiveGridView
-                        Margin="16,16,0,0"
+                    <ItemsView
+                        Margin="16"
                         HorizontalAlignment="Stretch"
-                        cwa:ItemsReorderAnimation.Duration="0:0:0.1"
-                        DesiredWidth="{StaticResource AdaptiveGridViewDesiredWidth}"
-                        ItemContainerStyle="{StaticResource LargeGridViewItemStyle}"
+                        IsItemInvokedEnabled="False"
+                        ItemsSource="{Binding Cards, Mode=OneWay}"
                         SelectionMode="None"
-                        StretchContentForSingleRow="False">
-                        <shvca:LaunchGameCard Height="{StaticResource HomeAdaptiveCardHeight}"/>
-                        <shvca:GachaStatisticsCard/>
-                        <shvca:AchievementCard/>
-                        <shvca:DailyNoteCard/>
-
-                        <!--<Border Style="{StaticResource BorderCardStyle}">
-                            <TextBlock Text="养成计划"/>
-                        </Border>
-                        <Border Style="{StaticResource BorderCardStyle}">
-                            <TextBlock Text="深渊"/>
-                        </Border>-->
-                    </cwucont:AdaptiveGridView>
+                        Visibility="{Binding Cards.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
+                        <ItemsView.Layout>
+                            <UniformGridLayout
+                                ItemsJustification="Start"
+                                ItemsStretch="Fill"
+                                MinColumnSpacing="12"
+                                MinItemHeight="180"
+                                MinItemWidth="300"
+                                MinRowSpacing="12"/>
+                        </ItemsView.Layout>
+                        <ItemsView.ItemTemplate>
+                            <DataTemplate>
+                                <ItemContainer>
+                                    <ItemContainer.Resources>
+                                        <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
+                                    </ItemContainer.Resources>
+                                    <ContentControl HorizontalContentAlignment="Stretch" Content="{Binding Card}"/>
+                                </ItemContainer>
+                            </DataTemplate>
+                        </ItemsView.ItemTemplate>
+                    </ItemsView>
                 </StackPanel>
 
                 <Pivot Style="{StaticResource DefaultPivotStyle}">

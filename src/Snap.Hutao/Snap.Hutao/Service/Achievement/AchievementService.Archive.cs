@@ -74,6 +74,6 @@ internal sealed partial class AchievementService
 
         // Sync database
         await taskContext.SwitchToBackgroundAsync();
-        await achievementDbService.DeleteAchievementArchiveAsync(archive).ConfigureAwait(false);
+        await achievementDbService.RemoveAchievementArchiveAsync(archive).ConfigureAwait(false);
     }
 }

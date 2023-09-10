@@ -66,11 +66,7 @@
                                 Margin="6,6,6,6"
                                 DisplayMemberPath="Name"
                                 ItemsSource="{Binding Projects}"
-                                SelectedItem="{Binding SelectedProject, Mode=TwoWay}">
-                                <mxi:Interaction.Behaviors>
-                                    <shcb:ComboBoxExtendsContentIntoTitleBarWorkaroundBehavior/>
-                                </mxi:Interaction.Behaviors>
-                            </ComboBox>
+                                SelectedItem="{Binding SelectedProject, Mode=TwoWay}"/>
                         </AppBarElementContainer>
                         <AppBarButton
                             Command="{Binding AddProjectCommand}"

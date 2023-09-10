@@ -315,6 +315,7 @@ internal sealed partial class AvatarPropertyViewModel : Abstraction.ViewModel, I
 
                         if (result.Interrupted)
                         {
+                            infoBarService.Warning(SH.ViewModelCultivationEntryAddWarning);
                             infoBarService.Warning(SH.ViewModelCultivationBatchAddIncompletedFormat.Format(result.SucceedCount, result.SkippedCount));
                         }
                         else
