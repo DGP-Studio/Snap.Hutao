@@ -70,7 +70,7 @@ internal sealed partial class GachaStatisticsFactory : IGachaStatisticsFactory
         foreach (Model.Entity.GachaItem item in CollectionsMarshal.AsSpan(items))
         {
             // Find target history wish to operate.
-            HistoryWishBuilder? targetHistoryWishBuilder = item.GachaType is not GachaConfigType.StandardWish
+            HistoryWishBuilder? targetHistoryWishBuilder = item.GachaType is not (GachaConfigType.StandardWish or GachaConfigType.NoviceWish)
                 ? historyWishBuilderMap[item.GachaType].FirstOrDefault(w => w.From <= item.Time && w.To >= item.Time)
                 : default;
 
