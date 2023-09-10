@@ -1902,7 +1902,7 @@
     <value>Create</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>Crearte shortcut with admin privilege on desktop, requires re-create after updates</value>
+    <value>在桌面上创建默认以管理员方式启动的快捷方式</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
     <value>Create Desktop Shortcut</value>
@@ -1976,6 +1976,33 @@
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
     <value>Geetest Verification</value>
   </data>
+  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+    <value>管理主页仪表板中的卡片</value>
+  </data>
+  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+    <value>主页卡片</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+    <value>成就管理</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+    <value>实时便笺</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+    <value>祈愿记录</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+    <value>启动游戏</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+    <value>主页</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao Account</value>
   </data>
@@ -2012,8 +2039,14 @@
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>When setting the game path, please select the game program (Yuanshen.exe or GenshinImpact.exe) instead of the game launcher (launcher.exe)</value>
   </data>
+  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
+    <value>胡桃使用 PowerShell 更改注册表中的信息以修改游戏内账号</value>
+  </data>
   <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
     <value>PowerShell Path</value>
+  </data>
+  <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
+    <value>Shell 体验</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Sponsor Us</value>
