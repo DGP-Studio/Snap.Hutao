@@ -417,7 +417,7 @@
     <value>Please update showcase data</value>
   </data>
   <data name="ModelNameValueDefaultName" xml:space="preserve">
-    <value>No data yet</value>
+    <value>No data</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>Refinement {0}</value>
@@ -999,7 +999,7 @@
     <value>Example</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
-    <value>Configure no authentication interface</value>
+    <value>Configure Geetest CAPTCHA Verficaition API</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Export App</value>
@@ -1974,7 +1974,7 @@
     <value>Config Geetest Verification Endpoint</value>
   </data>
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
-    <value>Geetest Verification</value>
+    <value>CAPTCHA</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
     <value>Manage cards on home dashboard</value>
