@@ -1,13 +1,15 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using Snap.Hutao.Model.InterChange.Inventory;
+
 namespace Snap.Hutao.Web.Enka.Model;
 
 /// <summary>
 /// 装备
 /// </summary>
 [HighQuality]
-internal sealed class Equip
+internal sealed class Equip : UIIFEquip
 {
     /// <summary>
     /// 物品Id
@@ -15,20 +17,6 @@ internal sealed class Equip
     /// </summary>
     [JsonPropertyName("itemId")]
     public uint ItemId { get; set; }
-
-    /// <summary>
-    /// 圣遗物
-    /// Artifact Base Info
-    /// </summary>
-    [JsonPropertyName("reliquary")]
-    public Reliquary? Reliquary { get; set; }
-
-    /// <summary>
-    /// 武器
-    /// Weapon Base Info
-    /// </summary>
-    [JsonPropertyName("weapon")]
-    public Weapon? Weapon { get; set; }
 
     /// <summary>
     /// Detailed Info of Equipment

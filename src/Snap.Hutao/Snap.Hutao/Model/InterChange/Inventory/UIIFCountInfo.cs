@@ -3,7 +3,7 @@
 
 namespace Snap.Hutao.Model.InterChange.Inventory;
 
-internal sealed class UIIFMaterial
+internal sealed class UIIFCountInfo
 {
     public uint Count { get; set; }
 }
