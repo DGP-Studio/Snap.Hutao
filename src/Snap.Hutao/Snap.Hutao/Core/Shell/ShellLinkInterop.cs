@@ -19,7 +19,7 @@ internal sealed partial class ShellLinkInterop : IShellLinkInterop
     {
         string sourceLogoPath = Path.Combine(runtimeOptions.InstalledLocation, "Assets/Logo.ico");
         string targetLogoPath = Path.Combine(runtimeOptions.DataFolder, "ShellLinkLogo.ico");
-        File.Copy(sourceLogoPath, targetLogoPath);
+        File.Copy(sourceLogoPath, targetLogoPath, true);
 
         IShellLinkW shellLink = (IShellLinkW)new ShellLink();
         shellLink.SetPath("powershell");
