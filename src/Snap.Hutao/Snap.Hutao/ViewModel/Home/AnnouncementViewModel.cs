@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.Setting;
 using Snap.Hutao.Service.Abstraction;
 using Snap.Hutao.Service.Hutao;
