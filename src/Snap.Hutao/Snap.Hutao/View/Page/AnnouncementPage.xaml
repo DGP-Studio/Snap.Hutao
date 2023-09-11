@@ -23,25 +23,22 @@
         <shcb:InvokeCommandOnLoadedBehavior Command="{Binding OpenUICommand}"/>
     </mxi:Interaction.Behaviors>
     <shc:ScopedPage.Resources>
-        <x:Double x:Key="AdaptiveGridViewDesiredWidth">300</x:Double>
         <shc:BindingProxy x:Key="BindingProxy" DataContext="{Binding}"/>
 
         <DataTemplate x:Key="AnnouncementTemplate">
-            <ItemsView
-                Margin="16"
+            <ItemsRepeater
+                Margin="16,0,16,16"
                 HorizontalAlignment="Stretch"
-                IsItemInvokedEnabled="False"
-                ItemsSource="{Binding List}"
-                SelectionMode="None">
-                <ItemsView.Layout>
+                ItemsSource="{Binding List}">
+                <ItemsRepeater.Layout>
                     <UniformGridLayout
                         ItemsJustification="Start"
                         ItemsStretch="Fill"
                         MinColumnSpacing="12"
                         MinItemWidth="300"
                         MinRowSpacing="12"/>
-                </ItemsView.Layout>
-                <ItemsView.ItemTemplate>
+                </ItemsRepeater.Layout>
+                <ItemsRepeater.ItemTemplate>
                     <DataTemplate>
                         <ItemContainer>
                             <Border Style="{StaticResource BorderCardStyle}">
@@ -154,8 +151,8 @@
                             </Border>
                         </ItemContainer>
                     </DataTemplate>
-                </ItemsView.ItemTemplate>
-            </ItemsView>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
         </DataTemplate>
     </shc:ScopedPage.Resources>
     <Grid>
@@ -194,34 +191,31 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-
-                    <ItemsView
+                    <ItemsRepeater
                         Margin="16"
                         HorizontalAlignment="Stretch"
-                        IsItemInvokedEnabled="False"
-                        ItemsSource="{Binding Cards, Mode=OneWay}"
-                        SelectionMode="None"
-                        Visibility="{Binding Cards.Count, Converter={StaticResource Int32ToVisibilityConverter}}">
-                        <ItemsView.Layout>
+                        ItemsSource="{Binding Cards, Mode=OneWay}">
+                        <ItemsRepeater.Layout>
                             <UniformGridLayout
                                 ItemsJustification="Start"
                                 ItemsStretch="Fill"
                                 MinColumnSpacing="12"
                                 MinItemHeight="180"
                                 MinItemWidth="300"
-                                MinRowSpacing="12"/>
-                        </ItemsView.Layout>
-                        <ItemsView.ItemTemplate>
+                                MinRowSpacing="12"
+                                Orientation="Horizontal"/>
+                        </ItemsRepeater.Layout>
+                        <ItemsRepeater.ItemTemplate>
                             <DataTemplate>
-                                <ItemContainer>
+                                <ItemContainer Child="{Binding Card}">
                                     <ItemContainer.Resources>
                                         <SolidColorBrush x:Key="ItemContainerPointerOverBackground" Color="Transparent"/>
                                     </ItemContainer.Resources>
-                                    <ContentControl HorizontalContentAlignment="Stretch" Content="{Binding Card}"/>
+                                    <!--<ContentPresenter HorizontalContentAlignment="Stretch" Content="{Binding Card}"/>-->
                                 </ItemContainer>
                             </DataTemplate>
-                        </ItemsView.ItemTemplate>
-                    </ItemsView>
+                        </ItemsRepeater.ItemTemplate>
+                    </ItemsRepeater>
                 </StackPanel>
 
                 <Pivot Style="{StaticResource DefaultPivotStyle}">
