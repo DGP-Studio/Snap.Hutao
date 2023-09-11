@@ -16,5 +16,11 @@ internal sealed class UIIFItem
     public uint ItemId { get; set; }
 
     [JsonPropertyName("material")]
-    public UIIFMaterial Material { get; set; } = default!;
+    public UIIFCountInfo? Material { get; set; } = default!;
+
+    [JsonPropertyName("furniture")]
+    public UIIFCountInfo? Furniture { get; set; } = default!;
+
+    [JsonPropertyName("equip")]
+    public UIIFEquip? Equip { get; set; } = default!;
 }
