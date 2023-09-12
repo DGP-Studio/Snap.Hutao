@@ -1380,7 +1380,7 @@
     <value>Delete Current Archive</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>Search achievement name, description or ID</value>
+    <value>搜索成就名称，描述，版本或编号</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
     <value>Prefer incomplete</value>
