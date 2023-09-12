@@ -74,7 +74,7 @@ internal sealed partial class SignInClient
         Response<SignInResult>? resp = await httpClient
             .SetUser(userAndUid.User, CookieType.CookieToken)
             .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, false)
-            .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new SignInData(userAndUid.Uid), options, logger, token)
+            .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new(userAndUid.Uid), options, logger, token)
             .ConfigureAwait(false);
 
         if (resp is { Data: { Success: 1, Gt: string gt, Challenge: string originChallenge } })
@@ -87,7 +87,7 @@ internal sealed partial class SignInClient
                     .SetUser(userAndUid.User, CookieType.CookieToken)
                     .SetXrpcChallenge(challenge, validate)
                     .UseDynamicSecret(DynamicSecretVersion.Gen1, SaltType.LK2, false)
-                    .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new SignInData(userAndUid.Uid), options, logger, token)
+                    .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new(userAndUid.Uid), options, logger, token)
                     .ConfigureAwait(false);
             }
             else
