@@ -77,11 +77,11 @@ internal sealed partial class SignInClient
             .TryCatchPostAsJsonAsync<SignInData, Response<SignInResult>>(ApiEndpoints.SignInRewardSign, new SignInData(userAndUid.Uid), options, logger, token)
             .ConfigureAwait(false);
 
-        if (resp is { Data: { Success: 1, Gt: string gt, Challenge: string challenge } })
+        if (resp is { Data: { Success: 1, Gt: string gt, Challenge: string originChallenge } })
         {
-            GeetestResponse verifyResponse = await homaGeetestClient.VerifyAsync(gt, challenge, token).ConfigureAwait(false);
+            GeetestResponse verifyResponse = await homaGeetestClient.VerifyAsync(gt, originChallenge, token).ConfigureAwait(false);
 
-            if (verifyResponse is { Code: 0, Data.Validate: string validate })
+            if (verifyResponse is { Code: 0, Data: { Validate: string validate, Challenge: string challenge } })
             {
                 resp = await httpClient
                     .SetUser(userAndUid.User, CookieType.CookieToken)
