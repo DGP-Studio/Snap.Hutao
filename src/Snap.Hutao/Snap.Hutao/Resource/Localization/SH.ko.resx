@@ -1380,7 +1380,7 @@
     <value>현재 아카이브 삭제</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>업적 이름,  설명 또는 번호 검색</value>
+    <value>搜索成就名称，描述，版本或编号</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
     <value>미완성 우선</value>
