@@ -13,6 +13,7 @@ using Snap.Hutao.Service.Navigation;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.View.Dialog;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using Windows.Storage.Pickers;
 using EntityAchievementArchive = Snap.Hutao.Model.Entity.AchievementArchive;
 using MetadataAchievement = Snap.Hutao.Model.Metadata.Achievement.Achievement;
@@ -378,16 +379,21 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
                 if (uint.TryParse(search, out uint achievementId))
                 {
                     Achievements.Filter = obj => ((AchievementView)obj).Inner.Id == achievementId;
+                    return;
                 }
-                else
+
+                if (VersionRegex().IsMatch(search))
                 {
-                    Achievements.Filter = obj =>
-                    {
-                        AchievementView view = (AchievementView)obj;
-                        return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
-                            || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
-                    };
+                    Achievements.Filter = obj => ((AchievementView)obj).Inner.Version == search;
+                    return;
                 }
+
+                Achievements.Filter = obj =>
+                {
+                    AchievementView view = (AchievementView)obj;
+                    return view.Inner.Title.Contains(search, StringComparison.CurrentCultureIgnoreCase)
+                        || view.Inner.Description.Contains(search, StringComparison.CurrentCultureIgnoreCase);
+                };
             }
         }
     }
@@ -407,4 +413,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             UpdateAchievementsFinishPercent();
         }
     }
+
+    [GeneratedRegex("\\d\\.\\d")]
+    private static partial Regex VersionRegex();
 }

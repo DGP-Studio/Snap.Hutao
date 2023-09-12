@@ -50,4 +50,9 @@ internal sealed class Achievement
     /// 图标
     /// </summary>
     public string? Icon { get; set; }
+
+    /// <summary>
+    /// 版本
+    /// </summary>
+    public string Version { get; set; } = default!;
 }

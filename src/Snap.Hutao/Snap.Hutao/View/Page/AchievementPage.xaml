@@ -32,7 +32,10 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
+            <Grid
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="0,0,0,1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{StaticResource CompatGridLength2}"/>
                     <ColumnDefinition/>
@@ -53,7 +56,7 @@
                     DefaultLabelPosition="Right">
                     <CommandBar.Content>
                         <AutoSuggestBox
-                            Width="240"
+                            Width="300"
                             Height="36"
                             Margin="3,6,6,0"
                             HorizontalAlignment="Stretch"
@@ -218,7 +221,24 @@
                                                         <ColumnDefinition Width="32"/>
                                                     </Grid.ColumnDefinitions>
                                                     <StackPanel>
-                                                        <TextBlock Text="{Binding Inner.Title}"/>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Inner.Title}"/>
+                                                            <Border
+                                                                Margin="4,0,0,0"
+                                                                Padding="4,1"
+                                                                VerticalAlignment="Center"
+                                                                CornerRadius="2">
+                                                                <Border.Background>
+                                                                    <SolidColorBrush Opacity="0.6" Color="{ThemeResource SystemAccentColor}"/>
+                                                                </Border.Background>
+                                                                <TextBlock
+                                                                    FontSize="10"
+                                                                    Style="{StaticResource CaptionTextBlockStyle}"
+                                                                    Text="{Binding Inner.Version}"/>
+                                                            </Border>
+
+                                                        </StackPanel>
+
                                                         <TextBlock
                                                             Margin="0,2,0,0"
                                                             Style="{StaticResource SecondaryTextStyle}"

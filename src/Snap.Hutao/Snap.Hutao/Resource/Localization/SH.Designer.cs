@@ -3679,7 +3679,7 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
-        ///   查找类似 搜索成就名称，描述或编号 的本地化字符串。
+        ///   查找类似 搜索成就名称，描述，版本或编号 的本地化字符串。
         /// </summary>
         internal static string ViewPageAchievementSearchPlaceholder {
             get {
