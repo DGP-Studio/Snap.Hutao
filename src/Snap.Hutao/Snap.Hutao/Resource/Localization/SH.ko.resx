@@ -186,6 +186,9 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>가져오기</value>
   </data>
+  <data name="FilePickerPowerShellCommit" xml:space="preserve">
+    <value>选择 PowerShell</value>
+  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>欢迎使用胡桃</value>
   </data>
@@ -409,6 +412,12 @@
   <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
     <value>武器强化素材</value>
     <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelNameValueDefaultDescription" xml:space="preserve">
+    <value>请更新角色橱窗数据</value>
+  </data>
+  <data name="ModelNameValueDefaultName" xml:space="preserve">
+    <value>暂无数据</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>재련 {0}단계</value>
@@ -770,8 +779,14 @@
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>获取奖励列表失败</value>
   </data>
+  <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
+    <value>验证失败，请前往米游社原神签到页面自行领取奖励</value>
+  </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>签到成功，{0}×{1}</value>
+  </data>
+  <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
+    <value>不支持的 UIGF 版本</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>여러 사용자가 선택되었습니다</value>
@@ -890,6 +905,21 @@
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>현재 아카이브 업적 가져오기</value>
   </data>
+  <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
+    <value>角色目标等级</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
+    <value>普通攻击目标等级</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillETarget" xml:space="preserve">
+    <value>元素战技目标等级</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillQTarget" xml:space="preserve">
+    <value>元素爆发目标等级</value>
+  </data>
+  <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
+    <value>武器目标等级</value>
+  </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
     <value>현재 사용자와 UID 연결</value>
   </data>
@@ -899,8 +929,11 @@
   <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
     <value>새로운 육성 계획 만들기</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
+    <value>批量添加或更新到当前养成计划</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>현재 육성 계획에 추가</value>
+    <value>添加或更新到当前养成计划</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>일일 의뢰 가능 알림</value>
@@ -1103,6 +1136,9 @@
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>아카이브 {0}를 삭제하시겠습니까?</value>
   </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
+    <value>获取培养材料中，请稍候...</value>
+  </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
     <value>현재 캐릭터를 계산할 수 없습니다. 정보 동기화 후 다시 시도하세요</value>
   </data>
@@ -1126,6 +1162,12 @@
   </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>육성 계획을 추가하지 못했습니다</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+    <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+    <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>현재 육성 계획 추가에 성공했습니다</value>
@@ -1262,6 +1304,9 @@
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>계정 전환 살패</value>
   </data>
+  <data name="ViewModelSettingActionComplete" xml:space="preserve">
+    <value>操作完成</value>
+  </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>권한이 부족해 지우지 못했습니다. 관리자 모드로 실행해주세요</value>
   </data>
@@ -1348,6 +1393,12 @@
   </data>
   <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
     <value>성유물 점수</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
+    <value>所有角色与武器</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
+    <value>当前角色与武器</value>
   </data>
   <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
     <value>치명타 점수</value>
@@ -1847,6 +1898,15 @@
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>복사</value>
   </data>
+  <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
+    <value>在桌面上创建默认以管理员方式启动的快捷方式</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
+    <value>创建快捷方式</value>
+  </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>실행</value>
   </data>
@@ -1916,6 +1976,33 @@
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
     <value>无感验证</value>
   </data>
+  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+    <value>管理主页仪表板中的卡片</value>
+  </data>
+  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+    <value>主页卡片</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+    <value>成就管理</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+    <value>实时便笺</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+    <value>祈愿记录</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+    <value>启动游戏</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+    <value>主页</value>
+  </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>호두 계정</value>
   </data>
@@ -1951,6 +2038,15 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>게임 경로를 설정할 때 런쳐(launcher.exe) 대신 게임(YuanShen.exe 또는 GenshinImpact.exe)를 선택하세요</value>
+  </data>
+  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
+    <value>胡桃使用 PowerShell 更改注册表中的信息以修改游戏内账号</value>
+  </data>
+  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
+    <value>PowerShell 路径</value>
+  </data>
+  <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
+    <value>Shell 体验</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>우리에게 후원하세요!</value>
@@ -2181,7 +2277,7 @@
     <value>〓活动时间〓.*?\d\.\d版本期间持续开放</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>

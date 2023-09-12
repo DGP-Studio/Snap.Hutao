@@ -186,6 +186,9 @@
   <data name="FilePickerImportCommit" xml:space="preserve">
     <value>Import</value>
   </data>
+  <data name="FilePickerPowerShellCommit" xml:space="preserve">
+    <value>Select PowerShell</value>
+  </data>
   <data name="GuideWindowTitle" xml:space="preserve">
     <value>Welcome to Snap Hutao, Traveler ~</value>
   </data>
@@ -409,6 +412,12 @@
   <data name="ModelMetadataMaterialWeaponEnhancementMaterial" xml:space="preserve">
     <value>Weapon Enhancement Materials</value>
     <comment>Need EXACT same string in game</comment>
+  </data>
+  <data name="ModelNameValueDefaultDescription" xml:space="preserve">
+    <value>Please update showcase data</value>
+  </data>
+  <data name="ModelNameValueDefaultName" xml:space="preserve">
+    <value>No data</value>
   </data>
   <data name="ModelWeaponAffixFormat" xml:space="preserve">
     <value>Refinement {0}</value>
@@ -669,7 +678,7 @@
     <value>Game process closed</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessInitializing" xml:space="preserve">
-    <value>Initializing game process…</value>
+    <value>Initializing game process</value>
   </data>
   <data name="ServiceGameLaunchPhaseProcessStarted" xml:space="preserve">
     <value>Game process started</value>
@@ -770,8 +779,14 @@
   <data name="ServiceSignInRewardListRequestFailed" xml:space="preserve">
     <value>Fetch Signin reward list failed</value>
   </data>
+  <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
+    <value>Verification failed, please visit MiYouShe checkin page to manually claim reward</value>
+  </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>Check-in successfully, {0} x {1}</value>
+  </data>
+  <data name="ServiceUIGFImportUnsupportedVersion" xml:space="preserve">
+    <value>Unsupported UIGF version</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
     <value>Multiple users recorded as selected</value>
@@ -890,6 +905,21 @@
   <data name="ViewDialogAchievementArchiveImportTitle" xml:space="preserve">
     <value>Import achievements data for current archive</value>
   </data>
+  <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
+    <value>Character Target Level</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
+    <value>Attack Target Level</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillETarget" xml:space="preserve">
+    <value>Elemental Skill Target Level</value>
+  </data>
+  <data name="ViewDialogCultivateBatchSkillQTarget" xml:space="preserve">
+    <value>Elemental Burst Target Level</value>
+  </data>
+  <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
+    <value>Weapon Target Level</value>
+  </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
     <value>Bind current user and role</value>
   </data>
@@ -899,8 +929,11 @@
   <data name="ViewDialogCultivateProjectTitle" xml:space="preserve">
     <value>Create new plan</value>
   </data>
+  <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
+    <value>Batch add or update to current Dev Plan</value>
+  </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>Add to Current Dev Plan</value>
+    <value>Add or update to current Dev Plan</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>Daily Commission Availability Notification</value>
@@ -909,7 +942,7 @@
     <value>Expedition Reward Notification</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationHomeCoinNotifyThreshold" xml:space="preserve">
-    <value>Original Resin Alarm Threshold</value>
+    <value>Realm Currency Alarm Threshold</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationResinNotifyThreshold" xml:space="preserve">
     <value>Realm Currency Alarm Threshold</value>
@@ -966,7 +999,7 @@
     <value>Example</value>
   </data>
   <data name="ViewDialogGeetestCustomUrlTitle" xml:space="preserve">
-    <value>Configure no authentication interface</value>
+    <value>Configure Geetest CAPTCHA Verficaition API</value>
   </data>
   <data name="ViewDialogImportExportApp" xml:space="preserve">
     <value>Export App</value>
@@ -1103,6 +1136,9 @@
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
     <value>Are you sure you want to delete archive {0}?</value>
   </data>
+  <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
+    <value>Fetching ascension materials...</value>
+  </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
     <value>Can't calculate current character. Please try again after syncing data.</value>
   </data>
@@ -1126,6 +1162,12 @@
   </data>
   <data name="ViewModelCultivationAddWarning" xml:space="preserve">
     <value>Failed to add development plan</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
+    <value>Operation completed: added/updated {0}, skipped {1}</value>
+  </data>
+  <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
+    <value>Operation not fully completed, added/updated {0}, skipped {1}</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>Successfully added to current plan</value>
@@ -1233,7 +1275,7 @@
     <value>Dowloading Assets</value>
   </data>
   <data name="ViewModelHutaoPassportEmailNotValidHint" xml:space="preserve">
-    <value>Please enter correct email address.</value>
+    <value>Please enter correct email address</value>
   </data>
   <data name="ViewModelImportFromClipboardErrorTitle" xml:space="preserve">
     <value>Text format in clipboard is incorrect</value>
@@ -1261,6 +1303,9 @@
   </data>
   <data name="ViewModelLaunchGameSwitchGameAccountFail" xml:space="preserve">
     <value>Switch game account failed</value>
+  </data>
+  <data name="ViewModelSettingActionComplete" xml:space="preserve">
+    <value>Operation completed</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>Clear failed. No permission in the file directory. Retry it in administrator mode.</value>
@@ -1348,6 +1393,12 @@
   </data>
   <data name="ViewPageAvatarPropertyArtifactScore" xml:space="preserve">
     <value>Artifacts Rating</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
+    <value>All characters and weapons</value>
+  </data>
+  <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
+    <value>Current character and weapon</value>
   </data>
   <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
     <value>CRIT Rating</value>
@@ -1551,7 +1602,7 @@
     <value>Fetch</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInput" xml:space="preserve">
-    <value>Type in URL manually.</value>
+    <value>Input URL Manually</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
     <value>We use provided URL to refresh your wish history</value>
@@ -1847,6 +1898,15 @@
   <data name="ViewPageSettingCopyDeviceIdAction" xml:space="preserve">
     <value>Copy</value>
   </data>
+  <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
+    <value>Create desktop shortcut with administrator privilege</value>
+  </data>
+  <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
+    <value>Create Desktop Shortcut</value>
+  </data>
   <data name="ViewPageSettingDangerousAction" xml:space="preserve">
     <value>Execute</value>
   </data>
@@ -1914,7 +1974,34 @@
     <value>Config Geetest Verification Endpoint</value>
   </data>
   <data name="ViewPageSettingGeetestVerificationHeader" xml:space="preserve">
-    <value>Geetest Verification</value>
+    <value>CAPTCHA</value>
+  </data>
+  <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
+    <value>Manage cards on home dashboard</value>
+  </data>
+  <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
+    <value>Dashboard card</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
+    <value>Achievements</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
+    <value>Realtime Notes</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
+    <value>Wish History</value>
+  </data>
+  <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
+    <value>Game Launcher</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
+    <value>Hide</value>
+  </data>
+  <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="ViewpageSettingHomeHeader" xml:space="preserve">
+    <value>Home</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao Account</value>
@@ -1951,6 +2038,15 @@
   </data>
   <data name="ViewPageSettingSetGamePathHint" xml:space="preserve">
     <value>When setting the game path, please select the game program (Yuanshen.exe or GenshinImpact.exe) instead of the game launcher (launcher.exe)</value>
+  </data>
+  <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
+    <value>Snap Hutao uses PowerShell to modify information in registry to change game accounts</value>
+  </data>
+  <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
+    <value>PowerShell Path</value>
+  </data>
+  <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
+    <value>Shell Experience</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>Sponsor Us</value>
@@ -2181,13 +2277,13 @@
     <value>〓活动时间〓.*?\d\.\d版本期间持续开放</value>
   </data>
   <data name="WebAnnouncementMatchTransientActivityTime" xml:space="preserve">
-    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后|\d{4}/\d{2}/\d{2} \d{2}:\d{2}:\d{2}).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
+    <value>(?:〓活动时间〓|祈愿时间|【上架时间】).*?(\d\.\d版本更新后).*?~.*?&amp;lt;t class="t_(?:gl|lc)".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTime" xml:space="preserve">
     <value>〓更新时间〓.+?&amp;lt;t class=\"t_(?:gl|lc)\".*?&amp;gt;(.*?)&amp;lt;/t&amp;gt;</value>
   </data>
   <data name="WebAnnouncementMatchVersionUpdateTitle" xml:space="preserve">
-    <value>\d\.\d版本更新说明</value>
+    <value>Version \d\.\d Update Maintenance Preview</value>
   </data>
   <data name="WebAnnouncementTimeDaysBeginFormat" xml:space="preserve">
     <value>Start in {0} days</value>
