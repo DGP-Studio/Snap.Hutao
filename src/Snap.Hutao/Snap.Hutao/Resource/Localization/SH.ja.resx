@@ -636,7 +636,7 @@
     <value>祈願履歴のアップロードサービスが利用できません</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
-    <value>数据包含异常物品, Id：{0}</value>
+    <value>無効なアイテムが含まれてる、Id：{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>请求验证密钥失败</value>
@@ -789,7 +789,7 @@
     <value>サポートされていないUIGFバージョン</value>
   </data>
   <data name="ServiceUserCurrentMultiMatched" xml:space="preserve">
-    <value>多个用户记录为选中状态</value>
+    <value>ユーザー情報が複数セレクトしています</value>
   </data>
   <data name="ServiceUserCurrentUpdateAndSaveFailed" xml:space="preserve">
     <value>ユーザー {0} のステータスを保存できません</value>
@@ -870,10 +870,10 @@
     <value>予測</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentProportion" xml:space="preserve">
-    <value>比例</value>
+    <value>割合</value>
   </data>
   <data name="ViewControlStatisticsSegmentedItemContentStatistics" xml:space="preserve">
-    <value>统计</value>
+    <value>統計</value>
   </data>
   <data name="ViewCultivationHeader" xml:space="preserve">
     <value>育成計画</value>
@@ -906,7 +906,7 @@
     <value>アーカイブにアチーブメントをインポート</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
-    <value>角色目标等级</value>
+    <value>キャラクター目標レベル</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
     <value>普通攻击目标等级</value>
@@ -918,7 +918,7 @@
     <value>元素爆发目标等级</value>
   </data>
   <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
-    <value>武器目标等级</value>
+    <value>武器目標レベル</value>
   </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
     <value>绑定当前用户与角色</value>
@@ -1164,10 +1164,10 @@
     <value>育成計画の追加に失敗しました</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
+    <value>完了した：追加／更新：{0}、スキップ{1}</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
+    <value>一部完了した：追加／更新：{0}、スキップ{1}</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>現在の育成計画は正常に追加された</value>
@@ -1305,7 +1305,7 @@
     <value>アカウントの切り替えができませんでした</value>
   </data>
   <data name="ViewModelSettingActionComplete" xml:space="preserve">
-    <value>操作完成</value>
+    <value>完了した</value>
   </data>
   <data name="ViewModelSettingClearWebCacheFail" xml:space="preserve">
     <value>清除失败，文件目录权限不足，请使用管理员模式重试</value>
@@ -1581,7 +1581,7 @@
     <value>螺旋の記録をアップロード</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudUpload" xml:space="preserve">
-    <value>上传当前的祈愿存档</value>
+    <value>現在の祈願履歴をアップロード</value>
   </data>
   <data name="ViewPageGachaLogImportAction" xml:space="preserve">
     <value>インポート</value>
@@ -1836,7 +1836,7 @@
     <value>アカウントを検出</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRemoveToolTip" xml:space="preserve">
-    <value>删除</value>
+    <value>削除</value>
   </data>
   <data name="ViewPageLaunchGameSwitchAccountRenameToolTip" xml:space="preserve">
     <value>リネーム</value>
@@ -1854,10 +1854,10 @@
     <value>フレームレート上限解除</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOff" xml:space="preserve">
-    <value>禁用</value>
+    <value>無効</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsOn" xml:space="preserve">
-    <value>启用</value>
+    <value>有効</value>
   </data>
   <data name="ViewPageLoginHoyoverseUserHint" xml:space="preserve">
     <value>HoYo Lab UIDを入力してください</value>
@@ -1983,13 +1983,13 @@
     <value>主页卡片</value>
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
-    <value>成就管理</value>
+    <value>アチーブメント</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>实时便笺</value>
+    <value>リアタイノート</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>祈愿记录</value>
+    <value>祈願履歴</value>
   </data>
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
     <value>启动游戏</value>
@@ -2001,7 +2001,7 @@
     <value>显示</value>
   </data>
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
-    <value>主页</value>
+    <value>ホーム</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>胡桃アカウント</value>
@@ -2187,7 +2187,7 @@
     <value>データを再読み込み</value>
   </data>
   <data name="ViewSpiralAbyssRefreshDescription" xml:space="preserve">
-    <value>同步米游社的深渊挑战记录</value>
+    <value>MiYouSheから深境螺旋の記録を同期</value>
   </data>
   <data name="ViewSpiralAbyssReveal" xml:space="preserve">
     <value>出撃回数</value>
