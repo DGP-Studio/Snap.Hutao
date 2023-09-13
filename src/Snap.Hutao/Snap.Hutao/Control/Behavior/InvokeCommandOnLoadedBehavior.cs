@@ -21,7 +21,7 @@ internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIEle
         base.OnAttached();
 
         // FrameworkElement in a ItemsRepeater gets attached twice
-        if (!executed && AssociatedObject is FrameworkElement { IsLoaded: true })
+        if (AssociatedObject is FrameworkElement { IsLoaded: true })
         {
             TryExecuteCommand();
         }
@@ -35,6 +35,11 @@ internal sealed partial class InvokeCommandOnLoadedBehavior : BehaviorBase<UIEle
 
     private void TryExecuteCommand()
     {
+        if (executed)
+        {
+            return;
+        }
+
         if (Command is not null && Command.CanExecute(CommandParameter))
         {
             Command.Execute(CommandParameter);
