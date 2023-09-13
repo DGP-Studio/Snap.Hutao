@@ -636,7 +636,7 @@
     <value>祈願履歴のアップロードサービスが利用できません</value>
   </data>
   <data name="ServiceGachaLogUIGFImportItemInvalidFormat" xml:space="preserve">
-    <value>無効なアイテムが含まれてる、Id：{0}</value>
+    <value>無効なアイテムが含まれてます、Id：{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderAuthkeyRequestFailed" xml:space="preserve">
     <value>请求验证密钥失败</value>
@@ -2043,7 +2043,7 @@
     <value>胡桃使用 PowerShell 更改注册表中的信息以修改游戏内账号</value>
   </data>
   <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
-    <value>PowerShell 路径</value>
+    <value>PowerShell パス</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
     <value>Shell 体验</value>
