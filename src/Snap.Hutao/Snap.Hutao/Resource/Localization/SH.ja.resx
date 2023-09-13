@@ -1992,13 +1992,13 @@
     <value>祈願履歴</value>
   </data>
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>ゲームランチャー</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
-    <value>隐藏</value>
+    <value>非表示</value>
   </data>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
-    <value>显示</value>
+    <value>表示</value>
   </data>
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
     <value>ホーム</value>
@@ -2010,7 +2010,7 @@
     <value>在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
-    <value>启动高级功能</value>
+    <value>アドバンスト機能を有効にする</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>公式サイト</value>
@@ -2028,10 +2028,10 @@
     <value>更改目录后需要手动移动目录内的数据，否则会重新创建用户数据</value>
   </data>
   <data name="ViewPageSettingSetDataFolderHeader" xml:space="preserve">
-    <value>更改数据目录</value>
+    <value>データディレクトリを変更</value>
   </data>
   <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
-    <value>设置路径</value>
+    <value>パスを設定</value>
   </data>
   <data name="ViewPageSettingSetGamePathHeader" xml:space="preserve">
     <value>ゲーム本体の場所を開く</value>
@@ -2229,7 +2229,7 @@
     <value>领取签到奖励</value>
   </data>
   <data name="ViewUserCopyCookieAction" xml:space="preserve">
-    <value>复制 Cookie</value>
+    <value>Cookieをコピーする</value>
   </data>
   <data name="ViewUserDefaultDescription" xml:space="preserve">
     <value>ログインしてください</value>
