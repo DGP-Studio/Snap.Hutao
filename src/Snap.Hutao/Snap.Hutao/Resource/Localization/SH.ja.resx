@@ -429,7 +429,7 @@
     <value>{0} つのアチーブメントを追加 | {1} つのアチーブメントを更新 |{2} つのアチーブメントを削除</value>
   </data>
   <data name="ServiceAchievementUserdataCorruptedInnerIdNotUnique" xml:space="preserve">
-    <value>单个成就存档内发现多个相同的成就 Id</value>
+    <value>複数の同一アチーブメント Idがアーカイブに混在しています</value>
   </data>
   <data name="ServiceAvatarInfoPropertyAtk" xml:space="preserve">
     <value>攻撃力</value>
@@ -663,7 +663,7 @@
     <value>Item Id：{0} はサポートしていません</value>
   </data>
   <data name="ServiceGachaUIGFImportLanguageNotMatch" xml:space="preserve">
-    <value>UIGF 文件的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>UIGF ファイルの言語：{0} と胡桃の設定言語：{1} とマッチングしません。言語を切り替えて再度試してください</value>
   </data>
   <data name="ServiceGameDetectGameAccountMultiMatched" xml:space="preserve">
     <value>存在多个匹配账号，请删除重复的账号</value>
@@ -780,7 +780,7 @@
     <value>获取奖励列表失败</value>
   </data>
   <data name="ServiceSignInRiskVerificationFailed" xml:space="preserve">
-    <value>验证失败，请前往米游社原神签到页面自行领取奖励</value>
+    <value>認証に失敗した、MiYouSheの原神コーナーでログインボーナスを獲得してください</value>
   </data>
   <data name="ServiceSignInSuccessRewardFormat" xml:space="preserve">
     <value>ログインボーナスを獲得した、{0}×{1}</value>
@@ -1113,13 +1113,13 @@
     <value>ゲームランチャー</value>
   </data>
   <data name="ViewModelAchievementArchiveAdded" xml:space="preserve">
-    <value>存档 [{0}] 添加成功</value>
+    <value>アーカイブ [{0}] を作成されました</value>
   </data>
   <data name="ViewModelAchievementArchiveAlreadyExists" xml:space="preserve">
-    <value>不能添加名称重复的存档 [{0}]</value>
+    <value>アーカイブ [{0}] はすでに使用されています。別の名前で作成してください</value>
   </data>
   <data name="ViewModelAchievementArchiveInvalidName" xml:space="preserve">
-    <value>不能添加名称无效的存档</value>
+    <value>無効な文字が含むアーカイブを作成できません</value>
   </data>
   <data name="ViewModelAchievementExportFileType" xml:space="preserve">
     <value>UIAF ファイル</value>
@@ -1131,10 +1131,10 @@
     <value>UIAF バージョンが古いため、インポートできません</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveContent" xml:space="preserve">
-    <value>该操作是不可逆的，该存档和其内的所有成就状态会丢失</value>
+    <value>この操作は取り消せません。アーカイブおよびアチーブメントの達成ログが削除されます。</value>
   </data>
   <data name="ViewModelAchievementRemoveArchiveTitle" xml:space="preserve">
-    <value>确定要删除存档 {0} 吗？</value>
+    <value>{0} を削除してもよろしいでしょうか？</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
     <value>获取培养材料中，请稍候...</value>
@@ -1377,7 +1377,7 @@
     <value>インポート</value>
   </data>
   <data name="ViewPageAchievementRemoveArchive" xml:space="preserve">
-    <value>删除当前存档</value>
+    <value>このアーカイブを削除する</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
     <value>搜索成就名称，描述，版本或编号</value>
@@ -1563,7 +1563,7 @@
     <value>クラウドサービスの購入/更新</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDelete" xml:space="preserve">
-    <value>删除此 Uid 的云端存档</value>
+    <value>このUidのクラウドバックアップを削除する</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
     <value>开发者账号无视服务到期时间</value>
@@ -1572,7 +1572,7 @@
     <value>胡桃云服务时长不足</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudRetrieve" xml:space="preserve">
-    <value>下载此 Uid 的云端存档</value>
+    <value>このUidのクラウドバックアップをダウンロードする</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudSpiralAbyssActivityDescription" xml:space="preserve">
     <value>每期深渊首次上传可免费获得 3 天时长</value>
@@ -1620,7 +1620,7 @@
     <value>使用游戏内浏览器的网页缓存刷新祈愿记录</value>
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
-    <value>删除当前存档</value>
+    <value>このアーカイブを削除する</value>
   </data>
   <data name="ViewPageGahcaLogPivotAvatar" xml:space="preserve">
     <value>キャラクター</value>
