@@ -226,7 +226,7 @@
     <value>第 {0} 間</value>
   </data>
   <data name="ModelBindingHutaoTeamUpCountFormat" xml:space="preserve">
-    <value>上场 {0} 次</value>
+    <value>出場回数{0}</value>
   </data>
   <data name="ModelBindingLaunchGameLaunchSchemeBilibili" xml:space="preserve">
     <value>世界樹サーバー</value>
@@ -657,7 +657,7 @@
     <value>HoYoLabユーザーのSToken 更新はサポートしていません。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderUrlLanguageNotMatchCurrentLocale" xml:space="preserve">
-    <value>Url 中的语言：{0} 与胡桃的语言：{1} 不匹配，请切换到对应语言重试</value>
+    <value>Url の言語：{0} と胡桃の設定言語：{1} とマッチングしません。言語を切り替えて再度試してください</value>
   </data>
   <data name="ServiceGachaStatisticsFactoryItemIdInvalid" xml:space="preserve">
     <value>Item Id：{0} はサポートしていません</value>
