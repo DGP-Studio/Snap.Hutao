@@ -1341,7 +1341,7 @@
     <value>ユーザー [{0}] の Cookie が更新されました。</value>
   </data>
   <data name="ViewModelViewDisposedOperationCancel" xml:space="preserve">
-    <value>页面资源已经被释放，操作取消</value>
+    <value>ビューリソースが解放され、操作がキャンセルされました</value>
   </data>
   <data name="ViewModelWelcomeDownloadCompleteMessage" xml:space="preserve">
     <value>胡桃を利用できるようになりました</value>
@@ -1395,10 +1395,10 @@
     <value>聖遺物スコア</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
-    <value>所有角色与武器</value>
+    <value>すべてのキャラクターと武器</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
-    <value>当前角色与武器</value>
+    <value>現在のキャラクターと武器</value>
   </data>
   <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
     <value>会心スコア</value>
@@ -1848,7 +1848,7 @@
     <value>サーバー</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsDescription" xml:space="preserve">
-    <value>请在游戏内关闭垂直同步选项，需要高性能的显卡以支持更高的帧率</value>
+    <value>ゲーム内のグラフィック設定で垂直同期を無効にしてください。フレームレートを上げるにはもっと高性能のグラフィックボードが必要となります。</value>
   </data>
   <data name="ViewPageLaunchGameUnlockFpsHeader" xml:space="preserve">
     <value>フレームレート上限解除</value>
