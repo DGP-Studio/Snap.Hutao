@@ -172,7 +172,7 @@
     <value>ゲームスタート</value>
   </data>
   <data name="CoreScheduleTaskHelperDailyNoteRefreshTaskDescription" xml:space="preserve">
-    <value>胡桃实时便笺刷新任务 | 请勿编辑或删除。</value>
+    <value>胡桃がリアルタイムノートを更新しています | 編集や削除をしないでください</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
     <value>セマフォが解放され、操作がキャンセルされました</value>
@@ -603,7 +603,7 @@
     <value>現在の天然樹脂：{0}</value>
   </data>
   <data name="ServiceDailyNoteNotifierTitle" xml:space="preserve">
-    <value>实时便笺提醒</value>
+    <value>リアルタイムノート通知</value>
   </data>
   <data name="ServiceDailyNoteNotifierTransformer" xml:space="preserve">
     <value>参量物質変化器</value>
@@ -642,10 +642,10 @@
     <value>请求验证密钥失败</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathInvalid" xml:space="preserve">
-    <value>未正确提供原神路径，或当前设置的路径不正确</value>
+    <value>原神のパスの書き方に誤りがあるか、またはパスを正しく設定されていません。</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCachePathNotFound" xml:space="preserve">
-    <value>找不到原神内置浏览器缓存路径：\n{0}</value>
+    <value>原神ゲーム内ブラウザのキャッシュの保存場所が見つかりません：\n{0}</value>
   </data>
   <data name="ServiceGachaLogUrlProviderCacheUrlNotFound" xml:space="preserve">
     <value>利用可能なUrlが見つかりません</value>
@@ -951,7 +951,7 @@
     <value>ホームページに表示</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTitle" xml:space="preserve">
-    <value>实时便笺通知设置</value>
+    <value>リアルタイムノートの通知設定</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationTransformerNotify" xml:space="preserve">
     <value>参量物質変化器は使えるようになりました</value>
@@ -1206,7 +1206,7 @@
     <value>注册计划任务失败，请使用管理员模式重试</value>
   </data>
   <data name="ViewModelDailyNoteRequestProgressTitle" xml:space="preserve">
-    <value>正在获取实时便笺信息，请稍候</value>
+    <value>リアルタイムノートの情報を取得中、しばらくお待ちください</value>
   </data>
   <data name="ViewModelExportSuccessMessage" xml:space="preserve">
     <value>成功保存到指定位置</value>
@@ -1527,7 +1527,7 @@
     <value>自動更新</value>
   </data>
   <data name="ViewPageDailyNoteSettingAutoRefreshDescription" xml:space="preserve">
-    <value>间隔选定的时间后刷新添加的实时便笺</value>
+    <value>指定間隔でリアルタイムノートの更新を設定する</value>
   </data>
   <data name="ViewPageDailyNoteSettingRefreshElevatedHint" xml:space="preserve">
     <value>这些选项仅允许在非管理员模式下更改</value>
@@ -2031,7 +2031,7 @@
     <value>データディレクトリを変更</value>
   </data>
   <data name="ViewPageSettingSetGamePathAction" xml:space="preserve">
-    <value>パスを設定</value>
+    <value>パスを設定する</value>
   </data>
   <data name="ViewPageSettingSetGamePathHeader" xml:space="preserve">
     <value>ゲーム本体の場所を開く</value>
@@ -2367,7 +2367,7 @@
     <value>{0} 秒</value>
   </data>
   <data name="WebDailyNoteVerificationFailed" xml:space="preserve">
-    <value>验证失败，请手动验证或前往「米游社-我的角色-实时便笺」页面查看</value>
+    <value>認証に失敗しました。「MiYouShe - 戦績ツール - リアルタイムノート」で確認し、認証を行ってください</value>
   </data>
   <data name="WebEnkaResponseStatusCode400" xml:space="preserve">
     <value>UIDは正しくありません</value>
