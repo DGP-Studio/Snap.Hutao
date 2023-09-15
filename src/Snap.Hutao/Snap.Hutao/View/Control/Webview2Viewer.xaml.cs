@@ -1,9 +1,11 @@
 // Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Web.WebView2.Core;
+using Snap.Hutao.Message;
 using Snap.Hutao.Service.Notification;
 using Snap.Hutao.Service.User;
 using Snap.Hutao.ViewModel.User;
@@ -11,21 +13,21 @@ using Snap.Hutao.Web.Bridge;
 
 namespace Snap.Hutao.View.Control;
 
-[DependencyProperty("Source", typeof(string), default(string)!, nameof(OnSourceChanged))]
-[DependencyProperty("User", typeof(User))]
-internal partial class Webview2Viewer : UserControl
+[DependencyProperty("SourceProvider", typeof(IWebview2ViewerSource))]
+internal partial class Webview2Viewer : UserControl, IRecipient<UserChangedMessage>
 {
     private readonly IServiceProvider serviceProvider;
     private readonly RoutedEventHandler loadEventHandler;
     private readonly RoutedEventHandler unloadEventHandler;
 
     private MiHoYoJSInterface? jsInterface;
-    private bool isInitialized;
+    private bool isFirstNavigate = true;
 
     public Webview2Viewer()
     {
         InitializeComponent();
         serviceProvider = Ioc.Default;
+        serviceProvider.GetRequiredService<IMessenger>().Register(this);
 
         loadEventHandler = OnLoaded;
         unloadEventHandler = OnUnloaded;
@@ -34,13 +36,15 @@ internal partial class Webview2Viewer : UserControl
         Unloaded += unloadEventHandler;
     }
 
-    private static void OnSourceChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
+    public void Receive(UserChangedMessage message)
     {
-        Webview2Viewer viewer = (Webview2Viewer)dp;
-        if (viewer.isInitialized)
+        if (message.NewValue?.SelectedUserGameRole is null)
         {
-            viewer.RefreshWebview2Content();
+            return;
         }
+
+        ITaskContext taskContext = serviceProvider.GetRequiredService<ITaskContext>();
+        taskContext.InvokeOnMainThread(RefreshWebview2Content);
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -61,30 +65,43 @@ internal partial class Webview2Viewer : UserControl
         RefreshWebview2Content();
     }
 
-    private void RefreshWebview2Content()
+    private async void RefreshWebview2Content()
     {
-        if (User is null)
+        User? user = serviceProvider.GetRequiredService<IUserService>().Current;
+        if (user is null)
         {
-            IUserService userService = serviceProvider.GetRequiredService<IUserService>();
-            User ??= userService.Current;
-            if (User is null)
-            {
-                return;
-            }
+            return;
         }
 
         CoreWebView2 coreWebView2 = WebView.CoreWebView2;
-        if (UserAndUid.TryFromUser(User, out UserAndUid? userAndUid) && !string.IsNullOrEmpty(Source))
-        {
-            coreWebView2.SetCookie(User.CookieToken, User.LToken, User.SToken).SetMobileUserAgent();
-            jsInterface = serviceProvider.CreateInstance<MiHoYoJSInterface>(coreWebView2, userAndUid);
-            coreWebView2.Navigate(Source);
-        }
-        else
-        {
-            serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
-        }
 
-        isInitialized = true;
+        if (SourceProvider is not null)
+        {
+            if (UserAndUid.TryFromUser(user, out UserAndUid? userAndUid))
+            {
+                string source = SourceProvider.GetSource(userAndUid);
+                if (!string.IsNullOrEmpty(source))
+                {
+                    foreach (CoreWebView2Cookie cookie in await coreWebView2.CookieManager.GetCookiesAsync(".mihoyo.com"))
+                    {
+                        coreWebView2.CookieManager.DeleteCookie(cookie);
+                    }
+
+                    coreWebView2.SetCookie(user.CookieToken, user.LToken, user.SToken).SetMobileUserAgent();
+                    jsInterface = serviceProvider.CreateInstance<MiHoYoJSInterface>(coreWebView2, userAndUid);
+                    if (!isFirstNavigate)
+                    {
+                        coreWebView2.Reload();
+                    }
+
+                    coreWebView2.Navigate(source);
+                    isFirstNavigate = false;
+                }
+            }
+            else
+            {
+                serviceProvider.GetRequiredService<IInfoBarService>().Warning(SH.MustSelectUserAndUid);
+            }
+        }
     }
 }
