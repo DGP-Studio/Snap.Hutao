@@ -933,7 +933,7 @@
     <value>批量添加或更新到当前养成计划</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>添加或更新到当前养成计划</value>
+    <value>現在の育成計画に追加または更新する</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>デイリー依頼まだ完了していません</value>
@@ -1062,7 +1062,7 @@
     <value>祈願履歴</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>我已阅读并同意</value>
+    <value>内容を読んだ上、同意します</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
     <value>フィードバックの書き方と流れ</value>
@@ -1071,10 +1071,10 @@
     <value>Snap Hutao 开源许可</value>
   </data>
   <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
-    <value>用户数据与隐私权益</value>
+    <value>プライバシーポリシー</value>
   </data>
   <data name="ViewGuideStepAgreementTermOfService" xml:space="preserve">
-    <value>用户使用协议与法律声明</value>
+    <value>利用規約</value>
   </data>
   <data name="ViewGuideStepDocument" xml:space="preserve">
     <value>ドキュメント</value>
@@ -1566,7 +1566,7 @@
     <value>このUidのクラウドバックアップを削除する</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudDeveloperHint" xml:space="preserve">
-    <value>开发者账号无视服务到期时间</value>
+    <value>デベロッパーアカウントは利用期限ありません</value>
   </data>
   <data name="ViewPageGachaLogHutaoCloudNotAllowed" xml:space="preserve">
     <value>胡桃云服务时长不足</value>
@@ -1605,7 +1605,7 @@
     <value>Urlを入力する</value>
   </data>
   <data name="ViewPageGachaLogRefreshByManualInputDescription" xml:space="preserve">
-    <value>使用由你提供的 Url 刷新祈愿记录</value>
+    <value>旅人が用意したUrlで祈願履歴を更新</value>
   </data>
   <data name="ViewPageGachaLogRefreshBySToken" xml:space="preserve">
     <value>SToken 更新</value>
@@ -1617,7 +1617,7 @@
     <value>キャッシュの再読み込み</value>
   </data>
   <data name="ViewPageGachaLogRefreshByWebCacheDescription" xml:space="preserve">
-    <value>使用游戏内浏览器的网页缓存刷新祈愿记录</value>
+    <value>ゲーム内ブラウザのキャッシュで祈願履歴を更新</value>
   </data>
   <data name="ViewPageGachaLogRemoveArchiveAction" xml:space="preserve">
     <value>このアーカイブを削除する</value>
@@ -1902,7 +1902,7 @@
     <value>创建</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>在桌面上创建默认以管理员方式启动的快捷方式</value>
+    <value>デスクトップで常に「管理者として実行」のエイリアスを作成する</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
     <value>ショートカットを作成する</value>
@@ -1953,7 +1953,7 @@
     <value>表示</value>
   </data>
   <data name="ViewPageSettingFeaturesDangerousHint" xml:space="preserve">
-    <value>您解锁了含有违反原神服务条款风险的「启动游戏-高级功能」，将自行承担任何不良后果。</value>
+    <value>利用規則に違反する可能性のある機能『ゲームランチャー - 上級者向け設定』を有効にしました。ユーザーご自身がそれによって生じる結果について、一切の責任を負うものとなります。</value>
   </data>
   <data name="ViewPageSettingFeedbackNavigate" xml:space="preserve">
     <value>フィードバック</value>
@@ -1977,10 +1977,10 @@
     <value>无感验证</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片</value>
+    <value>ダッシュボードを整理する</value>
   </data>
   <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
-    <value>主页卡片</value>
+    <value>ダッシュボード</value>
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>アチーブメント</value>
@@ -2007,10 +2007,10 @@
     <value>胡桃アカウント</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledDescription" xml:space="preserve">
-    <value>在完整阅读原神和胡桃工具箱用户协议后，我选择启用「启动游戏-高级功能」</value>
+    <value>原神およびSnap Hutaoの利用規約を全て熟読し、その後で『ゲームランチャー - 上級者向け設定』を有効にします。</value>
   </data>
   <data name="ViewPageSettingIsAdvancedLaunchOptionsEnabledHeader" xml:space="preserve">
-    <value>アドバンスト機能を有効にする</value>
+    <value>上級者向け設定を有効にする</value>
   </data>
   <data name="ViewPageSettingOfficialSiteNavigate" xml:space="preserve">
     <value>公式サイト</value>
@@ -2046,7 +2046,7 @@
     <value>PowerShell パス</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
-    <value>Shell 体验</value>
+    <value>Shell エクスペリエンス</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>スポンサーになる</value>
@@ -2055,10 +2055,13 @@
     <value>ストレージ</value>
   </data>
   <data name="ViewPageSettingStorageOpenAction" xml:space="preserve">
-    <value>打开</value>
+    <value>開く</value>
   </data>
   <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
-    <value>更改</value>
+    <value>変更する</value>
+  </data>
+  <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
+    <value>评价软件</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>和訳を提供</value>
@@ -2163,7 +2166,7 @@
     <value>最大ダメージ</value>
   </data>
   <data name="ViewSpiralAbyssDefaultDescription" xml:space="preserve">
-    <value>尚未获取任何挑战记录</value>
+    <value>挑戦履歴はありません</value>
   </data>
   <data name="ViewSpiralAbyssDefeat" xml:space="preserve">
     <value>最多撃破数</value>
@@ -2253,7 +2256,7 @@
     <value>画像リソースをダウンロード中</value>
   </data>
   <data name="ViewWelcomeBody" xml:space="preserve">
-    <value>你可以继续使用电脑，丝毫不受影响</value>
+    <value>処理に影響されず、引き続きパソコンを使えます</value>
   </data>
   <data name="ViewWelcomeSubtitle" xml:space="preserve">
     <value>アプリを閉じないでください</value>
