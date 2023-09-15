@@ -175,7 +175,7 @@
     <value>胡桃实时便笺刷新任务 | 请勿编辑或删除。</value>
   </data>
   <data name="CoreThreadingSemaphoreSlimDisposed" xml:space="preserve">
-    <value>信号量已经被释放，操作取消</value>
+    <value>セマフォが解放され、操作がキャンセルされました</value>
   </data>
   <data name="CoreWebView2HelperVersionUndetected" xml:space="preserve">
     <value>WebView2 ランタイムが検出されませんでした</value>
@@ -1986,7 +1986,7 @@
     <value>アチーブメント</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>リアタイノート</value>
+    <value>リアルタイムノート</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
     <value>祈願履歴</value>
