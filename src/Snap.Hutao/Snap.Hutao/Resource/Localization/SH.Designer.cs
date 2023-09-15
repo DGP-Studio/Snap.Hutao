@@ -5722,6 +5722,15 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 评价软件 的本地化字符串。
+        /// </summary>
+        internal static string ViewPageSettingStoreReviewNavigate {
+            get {
+                return ResourceManager.GetString("ViewPageSettingStoreReviewNavigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 贡献翻译 的本地化字符串。
         /// </summary>
         internal static string ViewPageSettingTranslateNavigate {

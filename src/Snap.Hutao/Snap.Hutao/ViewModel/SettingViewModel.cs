@@ -183,6 +183,12 @@ internal sealed partial class SettingViewModel : Abstraction.ViewModel
         }
     }
 
+    [Command("StoreReviewCommand")]
+    private async Task StoreReviewAsync()
+    {
+        await Launcher.LaunchUriAsync(new("ms-windows-store://review/?ProductId=9PH4NXJ2JN52"));
+    }
+
     [Command("SetDataFolderCommand")]
     private async Task SetDataFolderAsync()
     {

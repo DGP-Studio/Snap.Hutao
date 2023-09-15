@@ -45,6 +45,10 @@
                                     Content="{shcm:ResourceString Name=ViewPageSettingUpdateCheckAction}"/>
                                 <HyperlinkButton
                                     Margin="12,0,0,0"
+                                    Command="{Binding StoreReviewCommand}"
+                                    Content="{shcm:ResourceString Name=ViewPageSettingStoreReviewNavigate}"/>
+                                <HyperlinkButton
+                                    Margin="12,0,0,0"
                                     Content="{shcm:ResourceString Name=ViewPageSettingOfficialSiteNavigate}"
                                     NavigateUri="{StaticResource DocumentLink_Home}"/>
                                 <HyperlinkButton
