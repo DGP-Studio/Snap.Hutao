@@ -930,7 +930,7 @@
     <value>新規育成計画</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
-    <value>批量添加或更新到当前养成计划</value>
+    <value>現在の育成計画に一括追加または更新する</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
     <value>現在の育成計画に追加または更新する</value>
@@ -1062,13 +1062,13 @@
     <value>祈願履歴</value>
   </data>
   <data name="ViewGuideStepAgreementIHaveReadText" xml:space="preserve">
-    <value>内容を読んだ上、同意します</value>
+    <value>規約を熟読し、それに同意します</value>
   </data>
   <data name="ViewGuideStepAgreementIssueReport" xml:space="preserve">
     <value>フィードバックの書き方と流れ</value>
   </data>
   <data name="ViewGuideStepAgreementOpenSourceLicense" xml:space="preserve">
-    <value>Snap Hutao 开源许可</value>
+    <value>Snap Hutao オープンソースライセンス</value>
   </data>
   <data name="ViewGuideStepAgreementPrivacyPolicy" xml:space="preserve">
     <value>プライバシーポリシー</value>
@@ -1263,7 +1263,7 @@
     <value>胡桃クラウドにアップロード中</value>
   </data>
   <data name="ViewModelGuideActionAgreement" xml:space="preserve">
-    <value>我已阅读并同意上方的条款</value>
+    <value>上記の規約を熟読し、それに同意します</value>
   </data>
   <data name="ViewModelGuideActionComplete" xml:space="preserve">
     <value>OK</value>
@@ -1380,7 +1380,7 @@
     <value>このアーカイブを削除する</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>搜索成就名称，描述，版本或编号</value>
+    <value>アチーブメント、キャプション、バージョンまたは番号で検索</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
     <value>优先未完成</value>
@@ -1899,7 +1899,7 @@
     <value>コピー</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutAction" xml:space="preserve">
-    <value>创建</value>
+    <value>新規作成</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
     <value>デスクトップで常に「管理者として実行」のエイリアスを作成する</value>
@@ -1914,7 +1914,7 @@
     <value>潜在的に危険な機能</value>
   </data>
   <data name="ViewPageSettingDangerousHint" xml:space="preserve">
-    <value>除非开发人员明确要求你这么做，否则不应尝试执行下方的操作！</value>
+    <value>デベロッパーが明確に指示しない限り、以下の機能を有効にすべきではありません。</value>
   </data>
   <data name="ViewPageSettingDataFolderDescription" xml:space="preserve">
     <value>ユーザーデータ／メタデータはここに格納</value>
@@ -2061,7 +2061,7 @@
     <value>変更する</value>
   </data>
   <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
-    <value>评价软件</value>
+    <value>レビューや感想</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>和訳を提供</value>
