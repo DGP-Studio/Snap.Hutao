@@ -1380,7 +1380,7 @@
     <value>Delete Current Archive</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>搜索成就名称，描述，版本或编号</value>
+    <value>Name, description, version or ID</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
     <value>Prefer incomplete</value>
@@ -2061,7 +2061,7 @@
     <value>Set</value>
   </data>
   <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
-    <value>评价软件</value>
+    <value>Rate Snap Hutao</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>Contribute Translations</value>
