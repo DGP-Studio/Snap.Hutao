@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.Collections;
 using Microsoft.UI.Xaml.Controls;
 using Snap.Hutao.Core.IO;
 using Snap.Hutao.Core.LifeCycle;
@@ -185,6 +185,9 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         return false;
     }
 
+    [GeneratedRegex("\\d\\.\\d")]
+    private static partial Regex VersionRegex();
+
     [Command("AddArchiveCommand")]
     private async Task AddArchiveAsync()
     {
@@ -319,7 +322,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         }
     }
 
-    private bool TryGetAchievements(EntityAchievementArchive archive, List<MetadataAchievement> achievements, out List<AchievementView>? combined)
+    private bool TryGetAchievements(EntityAchievementArchive archive, List<MetadataAchievement> achievements, [NotNullWhen(true)] out List<AchievementView>? combined)
     {
         try
         {
@@ -357,7 +360,7 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
         {
             if (goal is null)
             {
-                Achievements.Filter = null;
+                Achievements.Filter = default!;
             }
             else
             {
@@ -413,7 +416,4 @@ internal sealed partial class AchievementViewModel : Abstraction.ViewModel, INav
             UpdateAchievementsFinishPercent();
         }
     }
-
-    [GeneratedRegex("\\d\\.\\d")]
-    private static partial Regex VersionRegex();
 }

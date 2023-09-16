@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI.Controls;
+using Snap.Hutao.Control;
 
 namespace Snap.Hutao.View.Control;
 

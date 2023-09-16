@@ -1,7 +1,6 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Snap.Hutao.Core.Caching;
@@ -13,7 +12,7 @@ namespace Snap.Hutao.Control.Image;
 /// 缓存图像
 /// </summary>
 [HighQuality]
-internal sealed class CachedImage : ImageEx
+internal sealed class CachedImage : Implementation.ImageEx
 {
     /// <summary>
     /// 构造一个新的缓存图像

@@ -1,7 +1,7 @@
 ﻿// Copyright (c) DGP Studio. All rights reserved.
 // Licensed under the MIT license.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI.Collections;
 using Snap.Hutao.Factory.Abstraction;
 using Snap.Hutao.Model.Calculable;
 using Snap.Hutao.Model.Entity.Primitive;
@@ -203,7 +203,7 @@ internal sealed partial class WikiWeaponViewModel : Abstraction.ViewModel
 
         Weapons.Filter = WeaponFilter.Compile(input);
 
-        if (Weapons.Contains(Selected))
+        if (Selected is not null && Weapons.Contains(Selected))
         {
             return;
         }
