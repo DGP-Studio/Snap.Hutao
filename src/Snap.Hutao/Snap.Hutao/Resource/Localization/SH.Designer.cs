@@ -862,6 +862,240 @@ namespace Snap.Hutao.Resource.Localization {
         }
         
         /// <summary>
+        ///   查找类似 打怪 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerGoalTypeDefeatMonsters {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerGoalTypeDefeatMonsters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 守塔 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerGoalTypeDefendTarget {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerGoalTypeDefendTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 附加 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeAdditional {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeAdditional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A组：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupA {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A组第一波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupAWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupAWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A组第二波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupAWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupAWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 A组第三波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupAWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupAWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B组：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupB {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B组第一波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupBWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupBWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B组第二波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupBWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupBWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 B组第三波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupBWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupBWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 C组：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupC {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 C组第一波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupCWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupCWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 C组第二波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupCWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupCWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 C组第三波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupCWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupCWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D组：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupD {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D组第一波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupDWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupDWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D组第二波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupDWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupDWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 D组第三波：不同的组同时在场，各自分波独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeGroupDWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeGroupDWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 与其他怪物独立 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeIndependent {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeIndependent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 暂时没有分波信息 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeSuppressed {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeSuppressed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第一波：击败所有怪物，下一波才会出现 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave1 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第一波附加：为第一波补充怪物 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave1Additional {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave1Additional", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第二波：击败所有怪物，下一波才会出现 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave2 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第三波：击败所有怪物，下一波才会出现 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave3 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 第四波：击败所有怪物，下一波才会出现 的本地化字符串。
+        /// </summary>
+        internal static string ModelMetadataTowerWaveTypeWave4 {
+            get {
+                return ResourceManager.GetString("ModelMetadataTowerWaveTypeWave4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 请更新角色橱窗数据 的本地化字符串。
         /// </summary>
         internal static string ModelNameValueDefaultDescription {
