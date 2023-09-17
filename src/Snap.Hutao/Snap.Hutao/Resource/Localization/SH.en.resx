@@ -414,82 +414,82 @@
     <comment>Need EXACT same string in game</comment>
   </data>
   <data name="ModelMetadataTowerGoalTypeDefeatMonsters" xml:space="preserve">
-    <value>击败怪物</value>
+    <value>Eliminate Monsters</value>
   </data>
   <data name="ModelMetadataTowerGoalTypeDefendTarget" xml:space="preserve">
-    <value>守护目标</value>
+    <value>Protect Ley Line Monolith</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
-    <value>附加：增援怪物</value>
+    <value>Addition: Monster Reinforce</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
     <value>Group A: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave1" xml:space="preserve">
-    <value>A组第一波：不同的组同时在场，各自分波独立</value>
+    <value>Group A Wave 1: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave2" xml:space="preserve">
-    <value>A组第二波：不同的组同时在场，各自分波独立</value>
+    <value>Group A Wave 2: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupAWave3" xml:space="preserve">
-    <value>A组第三波：不同的组同时在场，各自分波独立</value>
+    <value>Group A Wave 3: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupB" xml:space="preserve">
-    <value>B组：不同的组同时在场，各自分波独立</value>
+    <value>Group B: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave1" xml:space="preserve">
-    <value>B组第一波：不同的组同时在场，各自分波独立</value>
+    <value>Group B Wave 1: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave2" xml:space="preserve">
-    <value>B组第二波：不同的组同时在场，各自分波独立</value>
+    <value>Group B Wave 2: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupBWave3" xml:space="preserve">
-    <value>B组第三波：不同的组同时在场，各自分波独立</value>
+    <value>Group B Wave 3: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupC" xml:space="preserve">
-    <value>C组：不同的组同时在场，各自分波独立</value>
+    <value>Group C: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave1" xml:space="preserve">
-    <value>C组第一波：不同的组同时在场，各自分波独立</value>
+    <value>Group C Wave 1: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave2" xml:space="preserve">
-    <value>C组第二波：不同的组同时在场，各自分波独立</value>
+    <value>Group C Wave 2: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
-    <value>C组第三波：不同的组同时在场，各自分波独立</value>
+    <value>Group C Wave 3: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
-    <value>D组：不同的组同时在场，各自分波独立</value>
+    <value>Group D: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
-    <value>D组第一波：不同的组同时在场，各自分波独立</value>
+    <value>Group D Wave 1: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
-    <value>D组第二波：不同的组同时在场，各自分波独立</value>
+    <value>Group D Wave 2: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
-    <value>D组第三波：不同的组同时在场，各自分波独立</value>
+    <value>Group D Wave 3: Different groups coexist and have independent waves</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
-    <value>与其他怪物独立</value>
+    <value>Independent from other monsters</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeSuppressed" xml:space="preserve">
-    <value>暂时没有分波信息</value>
+    <value>No wave data</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1" xml:space="preserve">
-    <value>第一波：击败所有怪物，下一波才会出现</value>
+    <value>Wave 1: A wave will spawn only after killing all enemies in the previous wave</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
-    <value>第一波附加：增援第一波怪物</value>
+    <value>Wave 1 Addition: First wave of monster reinforce</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
-    <value>第二波：击败所有怪物，下一波才会出现</value>
+    <value>Wave 2: A wave will spawn only after killing all enemies in the previous wave</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave3" xml:space="preserve">
-    <value>第三波：击败所有怪物，下一波才会出现</value>
+    <value>Wave 3: A wave will spawn only after killing all enemies in the previous wave</value>
   </data>
   <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
-    <value>第四波：击败所有怪物，下一波才会出现</value>
+    <value>Wave 4: A wave will spawn only after killing all enemies in the previous wave</value>
   </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>Please update showcase data</value>
