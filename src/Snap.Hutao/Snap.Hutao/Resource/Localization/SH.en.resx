@@ -244,7 +244,7 @@
     <value>Not refreshed</value>
   </data>
   <data name="ModelEntityDailyNoteRefreshTimeFormat" xml:space="preserve">
-    <value>Refresh at {0:yyyy/MM/dd HH:mm:ss}</value>
+    <value>Refresh at {0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ModelEntitySpiralAbyssScheduleFormat" xml:space="preserve">
     <value>Schedule {0}</value>
@@ -834,7 +834,7 @@
     <value>Error reading process modules' memory: could not read valid value in given address</value>
   </data>
   <data name="ServiceHutaoUserGachaLogExpiredAt" xml:space="preserve">
-    <value>Wish history data backup service will be available until\n{0:yyyy-MM-dd HH:mm:ss}</value>
+    <value>Wish history data backup service will expire at \n{0:yyyy.MM.dd HH:mm:ss}</value>
   </data>
   <data name="ServiceMetadataFileNotFound" xml:space="preserve">
     <value>Unable to find cached metadata file</value>
