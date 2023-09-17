@@ -413,6 +413,84 @@
     <value>武器強化素材</value>
     <comment>Need EXACT same string in game</comment>
   </data>
+  <data name="ModelMetadataTowerGoalTypeDefeatMonsters" xml:space="preserve">
+    <value>击败怪物</value>
+  </data>
+  <data name="ModelMetadataTowerGoalTypeDefendTarget" xml:space="preserve">
+    <value>守护目标</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeAdditional" xml:space="preserve">
+    <value>附加：增援怪物</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupA" xml:space="preserve">
+    <value>A组：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave1" xml:space="preserve">
+    <value>A组第一波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave2" xml:space="preserve">
+    <value>A组第二波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupAWave3" xml:space="preserve">
+    <value>A组第三波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupB" xml:space="preserve">
+    <value>B组：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave1" xml:space="preserve">
+    <value>B组第一波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave2" xml:space="preserve">
+    <value>B组第二波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupBWave3" xml:space="preserve">
+    <value>B组第三波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupC" xml:space="preserve">
+    <value>C组：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave1" xml:space="preserve">
+    <value>C组第一波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave2" xml:space="preserve">
+    <value>C组第二波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupCWave3" xml:space="preserve">
+    <value>C组第三波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupD" xml:space="preserve">
+    <value>D组：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave1" xml:space="preserve">
+    <value>D组第一波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave2" xml:space="preserve">
+    <value>D组第二波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeGroupDWave3" xml:space="preserve">
+    <value>D组第三波：不同的组同时在场，各自分波独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeIndependent" xml:space="preserve">
+    <value>与其他怪物独立</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeSuppressed" xml:space="preserve">
+    <value>暂时没有分波信息</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1" xml:space="preserve">
+    <value>第一波：击败所有怪物，下一波才会出现</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave1Additional" xml:space="preserve">
+    <value>第一波附加：增援第一波怪物</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave2" xml:space="preserve">
+    <value>第二波：击败所有怪物，下一波才会出现</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave3" xml:space="preserve">
+    <value>第三波：击败所有怪物，下一波才会出现</value>
+  </data>
+  <data name="ModelMetadataTowerWaveTypeWave4" xml:space="preserve">
+    <value>第四波：击败所有怪物，下一波才会出现</value>
+  </data>
   <data name="ModelNameValueDefaultDescription" xml:space="preserve">
     <value>請更新角色櫥窗數據</value>
   </data>
@@ -906,19 +984,19 @@
     <value>為當前存檔導入成就</value>
   </data>
   <data name="ViewDialogCultivateBatchAvatarLevelTarget" xml:space="preserve">
-    <value>角色目标等级</value>
+    <value>角色目標等級</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillATarget" xml:space="preserve">
-    <value>普通攻击目标等级</value>
+    <value>普通攻擊目標等級</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillETarget" xml:space="preserve">
-    <value>元素战技目标等级</value>
+    <value>元素戰技目標等級</value>
   </data>
   <data name="ViewDialogCultivateBatchSkillQTarget" xml:space="preserve">
-    <value>元素爆发目标等级</value>
+    <value>元素爆發目標等級</value>
   </data>
   <data name="ViewDialogCultivateBatchWeaponLevelTarget" xml:space="preserve">
-    <value>武器目标等级</value>
+    <value>武器目標等級</value>
   </data>
   <data name="ViewDialogCultivateProjectAttachUid" xml:space="preserve">
     <value>綁定當前用戶與角色</value>
@@ -930,10 +1008,10 @@
     <value>創建新的養成計劃</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaBatchTitle" xml:space="preserve">
-    <value>批量添加或更新到当前养成计划</value>
+    <value>批量添加或更新到當前養成計畫</value>
   </data>
   <data name="ViewDialogCultivatePromotionDeltaTitle" xml:space="preserve">
-    <value>添加或更新到当前养成计划</value>
+    <value>添加或更新到當前養成計畫</value>
   </data>
   <data name="ViewDialogDailyNoteNotificationDailyTaskNotify" xml:space="preserve">
     <value>每日委託上線提醒</value>
@@ -1137,7 +1215,7 @@
     <value>確定要刪除存檔 {0} 嗎？</value>
   </data>
   <data name="ViewModelAvatarPropertyBatchCultivateProgressTitle" xml:space="preserve">
-    <value>获取培养材料中，请稍候...</value>
+    <value>獲取培養材料中，請稍後...</value>
   </data>
   <data name="ViewModelAvatarPropertyCalculateWeaponNull" xml:space="preserve">
     <value>當前角色無法計算，請同步信息後再試</value>
@@ -1164,10 +1242,10 @@
     <value>養成計劃添加失敗</value>
   </data>
   <data name="ViewModelCultivationBatchAddCompletedFormat" xml:space="preserve">
-    <value>操作完成：添加/更新：{0} 个，跳过 {1} 个</value>
+    <value>操作完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationBatchAddIncompletedFormat" xml:space="preserve">
-    <value>操作未全部完成：添加/更新：{0} 个，跳过 {1} 个</value>
+    <value>操作未全部完成：添加/更新：{0} 個，跳過 {1} 個</value>
   </data>
   <data name="ViewModelCultivationEntryAddSuccess" xml:space="preserve">
     <value>已成功新增至目前養成計劃</value>
@@ -1380,7 +1458,7 @@
     <value>刪除當前存檔</value>
   </data>
   <data name="ViewPageAchievementSearchPlaceholder" xml:space="preserve">
-    <value>搜索成就名稱，描述或編號</value>
+    <value>搜索成就名稱，描述，版本或編號</value>
   </data>
   <data name="ViewPageAchievementSortIncompletedItemsFirst" xml:space="preserve">
     <value>優先未完成</value>
@@ -1395,10 +1473,10 @@
     <value>聖遺物評分</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculateAll" xml:space="preserve">
-    <value>所有角色与武器</value>
+    <value>所有角色與武器</value>
   </data>
   <data name="ViewPageAvatarPropertyCalculateCurrent" xml:space="preserve">
-    <value>当前角色与武器</value>
+    <value>當前角色與武器</value>
   </data>
   <data name="ViewPageAvatarPropertyCritScore" xml:space="preserve">
     <value>雙暴評分</value>
@@ -1902,7 +1980,7 @@
     <value>創建</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutDescription" xml:space="preserve">
-    <value>在桌面上创建默认以管理员方式启动的快捷方式</value>
+    <value>在桌面上創建預設以管理員方式啟動的快捷方式</value>
   </data>
   <data name="ViewPageSettingCreateDesktopShortcutHeader" xml:space="preserve">
     <value>創建快捷方式</value>
@@ -1977,31 +2055,31 @@
     <value>無感驗證</value>
   </data>
   <data name="ViewpageSettingHomeCardDescription" xml:space="preserve">
-    <value>管理主页仪表板中的卡片</value>
+    <value>管理主頁儀表板中的卡片</value>
   </data>
   <data name="ViewpageSettingHomeCardHeader" xml:space="preserve">
-    <value>主页卡片</value>
+    <value>主頁卡片</value>
   </data>
   <data name="ViewpageSettingHomeCardItemAchievementHeader" xml:space="preserve">
     <value>成就管理</value>
   </data>
   <data name="ViewpageSettingHomeCardItemDailyNoteHeader" xml:space="preserve">
-    <value>实时便笺</value>
+    <value>實時便籤</value>
   </data>
   <data name="ViewpageSettingHomeCardItemgachaStatisticsHeader" xml:space="preserve">
-    <value>祈愿记录</value>
+    <value>祈願紀錄</value>
   </data>
   <data name="ViewpageSettingHomeCardItemLaunchGameHeader" xml:space="preserve">
-    <value>启动游戏</value>
+    <value>啟動遊戲</value>
   </data>
   <data name="ViewPageSettingHomeCardOff" xml:space="preserve">
-    <value>隐藏</value>
+    <value>隱藏</value>
   </data>
   <data name="ViewPageSettingHomeCardOn" xml:space="preserve">
-    <value>显示</value>
+    <value>顯示</value>
   </data>
   <data name="ViewpageSettingHomeHeader" xml:space="preserve">
-    <value>主页</value>
+    <value>主頁</value>
   </data>
   <data name="ViewPageSettingHutaoPassportHeader" xml:space="preserve">
     <value>Snap Hutao 賬號</value>
@@ -2040,13 +2118,13 @@
     <value>設置游戲路徑時，請選擇游戲本體（YuanShen.exe 或 GenshinImpact.exe） 而不是啓動器（launcher.exe）</value>
   </data>
   <data name="ViewPageSettingSetPowerShellDescription" xml:space="preserve">
-    <value>胡桃使用 PowerShell 更改注册表中的信息以修改游戏内账号</value>
+    <value>胡桃使用 PowerShell 更改註冊表中的信息以修改遊戲內賬號</value>
   </data>
   <data name="ViewPageSettingSetPowerShellPathHeader" xml:space="preserve">
     <value>PowerShell 路徑</value>
   </data>
   <data name="ViewPageSettingShellExperienceHeader" xml:space="preserve">
-    <value>Shell 体验</value>
+    <value>Shell 體驗</value>
   </data>
   <data name="ViewPageSettingSponsorNavigate" xml:space="preserve">
     <value>贊助我們</value>
@@ -2059,6 +2137,9 @@
   </data>
   <data name="ViewPageSettingStorageSetAction" xml:space="preserve">
     <value>更改</value>
+  </data>
+  <data name="ViewPageSettingStoreReviewNavigate" xml:space="preserve">
+    <value>评价软件</value>
   </data>
   <data name="ViewPageSettingTranslateNavigate" xml:space="preserve">
     <value>貢獻翻譯</value>
